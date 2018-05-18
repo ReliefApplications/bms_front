@@ -20,4 +20,9 @@ export class AppComponent {
     })
   }
 
+  getLapin() {
+	  this.http.get("http://bms-api.eu-central-1.elasticbeanstalk.com/lapin").subscribe(res => {
+        this.users = res;
+      })
+  }
 }

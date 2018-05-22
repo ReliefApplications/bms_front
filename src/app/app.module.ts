@@ -6,19 +6,32 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor';
 
 import { AppComponent } from './app.component';
+import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { ForbiddenComponent } from './components/error-pages/forbidden/forbidden.component';
+import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
+import { LoginComponent } from './modules/public/login.component';
+
+import { AppRouting } from './app.routing';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-	FormsModule,
-    HttpClientModule
-  ],
-  providers: [
-  	{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-  ],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		DashboardComponent,
+		ForbiddenComponent,
+		NotFoundComponent,
+		LoginComponent
+	],
+	imports: [
+		// Modules
+		BrowserModule,
+		FormsModule,
+		HttpClientModule,
+		// Routing
+		AppRouting
+	],
+	providers: [
+		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }

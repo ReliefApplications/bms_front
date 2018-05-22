@@ -43,10 +43,9 @@ export class WsseService {
 	// Get headers for HTTP request
 	getHeaderValue() {
 		let cachedUser = this.cache.get(CacheService.USER);
-
 		if (cachedUser) {
 			this.username = cachedUser.username;
-			this.salted = cachedUser.saltedPassword;
+			this.salted = cachedUser.password;
 		}
 
 		let nonce = this.generateNonce(16);

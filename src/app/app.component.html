@@ -4,9 +4,13 @@
     Welcome to {{ title }}!
   </h1>
 </div>
+<label for="username">Username: </label>
+<input id="username" type="text" [(ngModel)]="username" />
+<label for="password">Password: </label>
+<input id="password" type="password" [(ngModel)]="password" />
+<button (click)="login()">Login</button>
 
 <button (click)="getUsers()">Get users</button>
-<button (click)="getLapin()">Get lapin users</button>
 <h2>Users: </h2>
 <ul>
 	<li *ngFor="let user of users">

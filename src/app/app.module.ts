@@ -19,7 +19,7 @@ import { AppRouting } from './app.routing';
 		DashboardComponent,
 		ForbiddenComponent,
 		NotFoundComponent,
-		LoginComponent
+		LoginComponent,
 	],
 	imports: [
 		// Modules

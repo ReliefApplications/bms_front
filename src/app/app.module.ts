@@ -11,6 +11,7 @@ import { ForbiddenComponent } from './components/error-pages/forbidden/forbidden
 import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
 import { LoginComponent } from './modules/public/login.component';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRouting } from './app.routing';
 
 @NgModule({
@@ -27,7 +28,8 @@ import { AppRouting } from './app.routing';
 		FormsModule,
 		HttpClientModule,
 		// Routing
-		AppRouting
+		AppRouting,
+		NgbModule.forRoot()
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

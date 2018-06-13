@@ -6,15 +6,17 @@ import { WsseService } from './wsse.service';
 import { CacheService } from '../storage/cache.service';
 
 import { URL_BMS_API } from '../../../environments/environment';
+import { UserInterface, ErrorInterface } from '../../model/interfaces';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class AuthenticationService {
 
+	private user : UserInterface;
 	constructor(
 		public _wsseService: WsseService,
-		public cache: CacheService,
+		public _cacheService: CacheService,
 		public http: HttpClient,
 		public router: Router
 	) { }
@@ -29,24 +31,66 @@ export class AuthenticationService {
 		return this.http.get<any>(URL_BMS_API + '/check');
 	}
 
-	login(username, password) {
-		this.requestSalt(username).subscribe(
-			success => {
-				let saltedPassword = this._wsseService.saltPassword(success, password);
-				this.checkCredentials().subscribe(
-					success => {
-						this.cache.set('user', success);
+	login(user: UserInterface) {
+        return new Promise<UserInterface | ErrorInterface | null>((resolve, reject) => {
+            this.requestSalt(user.username).subscribe(success => {
+                user.salted_password = this._wsseService.saltPassword(success, user.password);
+                this.checkCredentials().subscribe(success => {
+                    let data = success.json();
+
+                    if (!data.error) {
 						console.log("Successfully logged in", success);
-						this.router.navigate(['/']);
-					},
-					error => {
-						console.log("Wrong password", error);
-					}
-				);
-			},
-			error => {
-				console.log("Wrong email", error);
-			}
-		);
+
+                        this.user = data as UserInterface;
+                        this.user.loggedIn = true;
+
+						let voters = this.rightAccessDefinition(this.user);
+						// add with voters definition
+                        // if (Object.keys(voters).length == 0) {
+                        //     reject({ message: 'Pas assez de droits' });
+                        // }
+
+                        this.user.voters = voters;
+						this.setUser(user);
+
+                        resolve(this.user)
+                    } else {
+                        reject({ message: 'Bad credentials' })
+                    }
+                }, error => {
+                    reject({ message: 'Bad credentials' })
+                });
+            }, error => {
+                reject({ message: 'User not found' })
+            });
+        });
 	}
+
+	logout() {
+        this.resetUser();
+        this.user.loggedIn = false;
+        this._cacheService.clear();
+    }
+
+    getUser(): UserInterface {
+        return this._cacheService.get(CacheService.USER) || new UserInterface();
+    }
+
+    setUser(user: UserInterface) {
+        this.user = user;
+        this._cacheService.set(CacheService.USER, user);
+    }
+
+    resetUser() {
+        this.user = new UserInterface();
+        this._cacheService.remove(CacheService.USER);
+    }
+	
+	rightAccessDefinition(user: UserInterface) {
+        let voters: any = {};
+        user.role.forEach((item: string, index: number, array) => {
+        	//add voters 
+        })
+        return voters;
+    }
 }

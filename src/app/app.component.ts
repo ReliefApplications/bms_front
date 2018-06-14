@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { UserInterface } from './model/interfaces';
+import { AuthenticationService } from './core/authentication/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +9,21 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  constructor() { }
+  user: UserInterface = new UserInterface();
+
+  constructor(
+    private _authenticationService: AuthenticationService
+  ) { }
+
+  ngOnInit(){
+    this.getUser();
+  }
+
+  getUser(): UserInterface {
+    if (this.user.user_id) {
+        return this.user;
+    }
+    this.user = this._authenticationService.getUser();
+    return this.user;
+  }
 }

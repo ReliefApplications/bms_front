@@ -1,0 +1,43 @@
+import { NgModule                                               } from '@angular/core';
+import { RouterModule, Routes                                   } from '@angular/router';
+import { CommonModule                                           } from '@angular/common';
+import { FormsModule, ReactiveFormsModule                       } from '@angular/forms';
+import { FormControl, FormGroup, Validators                     } from '@angular/forms';
+import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule                     } from '@angular/material';
+import { MatTooltipModule                                       } from '@angular/material/tooltip'
+import { BrowserAnimationsModule                                } from '@angular/platform-browser/animations'
+import { NgbModule                                              } from '@ng-bootstrap/ng-bootstrap';
+
+import { LoginComponent                                         } from '../modules/public/login.component';
+import { DashboardComponent                                     } from '../modules/dashboard/dashboard.component';
+import { MenuComponent                                          } from '../modules/menu/menu.component';
+
+@NgModule({
+    imports: [
+        RouterModule,
+        CommonModule, // to use instead of BrowserModule if you are using lazyloaded module  like Malnutrition
+        FormsModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatCheckboxModule, 
+        MatTooltipModule,
+        MatSelectModule,
+        MatOptionModule,
+        BrowserAnimationsModule,
+        NgbModule.forRoot()
+    ],
+    declarations: [
+        //Shared Components
+        LoginComponent,
+        DashboardComponent, 
+        MenuComponent           
+    ],
+    exports: [
+        //Shared Components
+        LoginComponent, 
+		DashboardComponent,                 
+        MenuComponent           
+    ],
+    providers: []
+})
+export class SharedModule { }

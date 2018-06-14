@@ -1,3 +1,9 @@
-<div id="app-component">
-	<router-outlet></router-outlet>
+<div class="app-component">
+	<div class="page-menu-wrapper" >
+			<!-- <div class="page-menu-wrapper" [class.hideMenu]="!user.loggedIn"> -->
+		<app-menu></app-menu>
+	</div>
+	<div class="page-content-wrapper">
+		<router-outlet></router-outlet>
+	</div>
 </div>

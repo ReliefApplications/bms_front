@@ -24,7 +24,7 @@ export class AuthenticationService {
 	// Request to the API to get the salt corresponding to a username
 	requestSalt(username) {
 		this._wsseService.setUsername(username);
-		return this.http.get(URL_BMS_API + '/salt?username=' + username);
+		return this.http.get(URL_BMS_API + '/salt/' + username);
 	}
 
 	checkCredentials() {

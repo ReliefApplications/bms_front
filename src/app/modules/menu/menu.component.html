@@ -1,3 +1,29 @@
 <div class="menu-container">
-      
+  <div class = "container-title">
+    <img src="assets/images/bms_logo.png" >
+  </div>
+  <div class = "container-icons">
+    <button>
+      <i class="fas fa-boxes icon"></i>
+      <h3 *ngIf="menuHover">DISTRIBUTION</h3>
+    </button>
+  </div>
+  <div class = "container-icons">
+    <button>
+      <i class="fas fa-users icon"></i>
+      <h3 *ngIf="menuHover">HOUSEHOLDS</h3>
+    </button>
+  </div>
+  <div class = "container-icons">
+    <button>
+      <i class="fas fa-chart-line icon"></i>
+      <h3 *ngIf="menuHover">REPORTS</h3>
+    </button>
+  </div>
+  <div class = "container-icons">
+    <button>
+      <i class="fas fa-cogs icon icon-last"></i>
+      <h3 *ngIf="menuHover">SETTINGS</h3>
+    </button>
+  </div>
 </div>

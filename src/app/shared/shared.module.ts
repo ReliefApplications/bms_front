@@ -3,7 +3,8 @@ import { RouterModule, Routes                                   } from '@angular
 import { CommonModule                                           } from '@angular/common';
 import { FormsModule, ReactiveFormsModule                       } from '@angular/forms';
 import { FormControl, FormGroup, Validators                     } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule                     } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule                    } from '@angular/material';
+import { MatIconModule                                          } from '@angular/material/icon';
 import { MatTooltipModule                                       } from '@angular/material/tooltip'
 import { BrowserAnimationsModule                                } from '@angular/platform-browser/animations'
 import { NgbModule                                              } from '@ng-bootstrap/ng-bootstrap';
@@ -23,6 +24,7 @@ import { MenuComponent                                          } from '../modul
         MatTooltipModule,
         MatSelectModule,
         MatOptionModule,
+        MatIconModule,
         BrowserAnimationsModule,
         NgbModule.forRoot()
     ],
@@ -36,7 +38,7 @@ import { MenuComponent                                          } from '../modul
         //Shared Components
         LoginComponent, 
 		DashboardComponent,                 
-        MenuComponent           
+        MenuComponent,
     ],
     providers: []
 })

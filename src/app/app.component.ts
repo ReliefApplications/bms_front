@@ -10,6 +10,7 @@ import { AuthenticationService } from './core/authentication/authentication.serv
 export class AppComponent {
 
   user: UserInterface = new UserInterface();
+  public menuHover = false;
 
   constructor(
     private _authenticationService: AuthenticationService
@@ -25,5 +26,13 @@ export class AppComponent {
     }
     this.user = this._authenticationService.getUser();
     return this.user;
+  }
+
+  hoverMenu(){
+    this.menuHover = true;
+  }
+
+  outMenu(){
+    this.menuHover = false;
   }
 }

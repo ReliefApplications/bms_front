@@ -14,6 +14,7 @@ import { LoginComponent 														} from './modules/public/login.component';
 import { NgbModule 																} from '@ng-bootstrap/ng-bootstrap';
 import { AppRouting 															} from './app.routing';
 import { SharedModule 															} from './shared/shared.module';
+import { HeaderComponent } from './modules/header/header.component';
 
 @NgModule({
 	declarations: [

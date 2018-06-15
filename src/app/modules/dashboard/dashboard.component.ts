@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { URL_BMS_API } from '../../../environments/environment';
+import { AuthenticationService } from '../../core/authentication/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,16 +15,16 @@ export class DashboardComponent implements OnInit {
   users: any;
 
   constructor(
-	    private http: HttpClient
+      private http: HttpClient,
+      private _authenticationService: AuthenticationService,
+      private router : Router     
   ) { }
 
   ngOnInit() {
-  }
-
-  getUsers() {
-    this.http.get(URL_BMS_API + '/users').subscribe(res => {
-      this.users = res;
-    })
+    let user = this._authenticationService.getUser();
+    if (!user.loggedIn) {
+      this.router.navigate(['/login']);
+    }
   }
 
 }

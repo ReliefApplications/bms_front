@@ -25,7 +25,11 @@ export class AuthenticationService {
 	requestSalt(username) {
 		this._wsseService.setUsername(username);
 		return this.http.get(URL_BMS_API + '/salt/' + username);
-	}
+    }
+    
+    logUser(user){
+		return this.http.post(URL_BMS_API + '/login', user);        
+    }
 
 	checkCredentials() {
 		return this.http.get<any>(URL_BMS_API + '/check');
@@ -35,23 +39,22 @@ export class AuthenticationService {
         return new Promise<UserInterface | ErrorInterface | null>((resolve, reject) => {
             this.requestSalt(user.username).subscribe(success => {
                 user.salted_password = this._wsseService.saltPassword(success, user.password);
-                this.checkCredentials().subscribe(success => {
-                    let data = success.json();
+                this.logUser(user).subscribe(success => {
+                    let data = success;
 
-                    if (!data.error) {
+                    if (data) {
 						console.log("Successfully logged in", success);
-
+                        
                         this.user = data as UserInterface;
                         this.user.loggedIn = true;
-
 						let voters = this.rightAccessDefinition(this.user);
-						// add with voters definition
+						//add with voters definition
                         // if (Object.keys(voters).length == 0) {
                         //     reject({ message: 'Pas assez de droits' });
                         // }
 
                         this.user.voters = voters;
-						this.setUser(user);
+						this.setUser(this.user);
 
                         resolve(this.user)
                     } else {
@@ -88,9 +91,9 @@ export class AuthenticationService {
 	
 	rightAccessDefinition(user: UserInterface) {
         let voters: any = {};
-        user.role.forEach((item: string, index: number, array) => {
+        // user.role.forEach((item: string, index: number, array) => {
         	//add voters 
-        })
+        // })
         return voters;
     }
 }

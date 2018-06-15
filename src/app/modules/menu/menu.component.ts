@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
@@ -9,6 +9,7 @@ import { Router, NavigationEnd } from '@angular/router';
 export class MenuComponent implements OnInit {
   @Input() menuHover;
   public activeTitle = "";
+  @Output() emitCurrentRoute = new EventEmitter<string>();
 
   constructor(
     private router : Router
@@ -18,6 +19,7 @@ export class MenuComponent implements OnInit {
     this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
         this.activeTitle = e.url;
+        this.emitCurrentRoute.emit(this.activeTitle);
       }
     })
   }

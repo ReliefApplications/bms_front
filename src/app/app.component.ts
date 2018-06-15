@@ -10,6 +10,7 @@ import { AuthenticationService } from './core/authentication/authentication.serv
 export class AppComponent {
 
   user: UserInterface = new UserInterface();
+  public currentRoute = "";
   public menuHover = false;
 
   constructor(
@@ -34,5 +35,9 @@ export class AppComponent {
 
   outMenu(){
     this.menuHover = false;
+  }
+
+  setCurrentRoute(currentRoute){
+    this.currentRoute = currentRoute;
   }
 }

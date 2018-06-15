@@ -24,20 +24,22 @@ export class LoginComponent implements OnInit {
 		this.user = this._authService.getUser();
         this.user.username = "tester";
         this.user.password = "tester";
-        if(this.user.loggedIn){
-            this.router.navigate(['/']);
-        }
+        // if(this.user.loggedIn){
+        //     this.router.navigate(['/']);
+        // }
 	}
 
 	login() {
 		this._authService.login(this.user)
 		  .then( (user:UserInterface) => {
+			  console.log("saluut", user);
 			  if( user.loggedIn ){
 				  //redirect
 				  this.router.navigate(['/']);
 			  }
 		  })
 		  .catch( (error:ErrorInterface) => {
+			  console.log(error);
 			  this.forgotMessage = true;
 		  });
 	}

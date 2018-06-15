@@ -1,8 +1,11 @@
 <div class="app-component">
 	<div class="page-menu-wrapper" (mouseout)="outMenu()" (mouseover)="hoverMenu()" [class.hideMenu]="!user.loggedIn">
-		<app-menu [menuHover]="menuHover"></app-menu>
+		<app-menu (emitCurrentRoute)="setCurrentRoute($event)" [menuHover]="menuHover"></app-menu>
 	</div>
 	<div class="page-content-wrapper" [class.hideMenu]="!user.loggedIn">
+		<div class="wrapper-header" [class.hideMenu]="!user.loggedIn">
+			<app-header [currentRoute]="currentRoute" ></app-header>
+		</div>
 		<router-outlet></router-outlet>
 	</div>
 </div>

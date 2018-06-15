@@ -21,8 +21,24 @@
         width : 100%;
         height: 100%;
 
+        router-ouler{
+            padding: 10px;
+        }
+
         &.hideMenu{
             width : 85%;            	
+        }
+
+        .wrapper-header{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            width : 100%;
+            height: 5%;
+
+            &.hideMenu{
+                height : 0% !important; 
+                opacity: 0;           	
+            }
         }
     }
 

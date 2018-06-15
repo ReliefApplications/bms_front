@@ -12,6 +12,7 @@ import { NgbModule                                              } from '@ng-boot
 import { LoginComponent                                         } from '../modules/public/login.component';
 import { DashboardComponent                                     } from '../modules/dashboard/dashboard.component';
 import { MenuComponent                                          } from '../modules/menu/menu.component';
+import { MenuItemBoxComponent                                   } from '../components/menu-item-box/menu-item-box.component';
 
 @NgModule({
     imports: [
@@ -32,13 +33,15 @@ import { MenuComponent                                          } from '../modul
         //Shared Components
         LoginComponent,
         DashboardComponent, 
-        MenuComponent           
+        MenuComponent,
+		MenuItemBoxComponent             
     ],
     exports: [
         //Shared Components
         LoginComponent, 
 		DashboardComponent,                 
         MenuComponent,
+        MenuItemBoxComponent
     ],
     providers: []
 })

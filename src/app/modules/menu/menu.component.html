@@ -2,28 +2,8 @@
   <div class = "container-title">
     <img src="assets/images/bms_logo.png" >
   </div>
-  <div class = "container-icons">
-    <button>
-      <i class="fas fa-boxes icon"></i>
-      <h3 *ngIf="menuHover">DISTRIBUTION</h3>
-    </button>
-  </div>
-  <div class = "container-icons">
-    <button>
-      <i class="fas fa-users icon"></i>
-      <h3 *ngIf="menuHover">HOUSEHOLDS</h3>
-    </button>
-  </div>
-  <div class = "container-icons">
-    <button>
-      <i class="fas fa-chart-line icon"></i>
-      <h3 *ngIf="menuHover">REPORTS</h3>
-    </button>
-  </div>
-  <div class = "container-icons">
-    <button>
-      <i class="fas fa-cogs icon icon-last"></i>
-      <h3 *ngIf="menuHover">SETTINGS</h3>
-    </button>
-  </div>
+    <menu-item-box [info]='{icon: "boxes", title:"distribution", menuHover:menuHover}'></menu-item-box>    
+    <menu-item-box [info]='{icon: "users", title:"households", menuHover:menuHover}'></menu-item-box>    
+    <menu-item-box [info]='{icon: "chart-line", title:"reports", menuHover:menuHover}'></menu-item-box>    
+    <menu-item-box [info]='{icon: "cogs", title:"settings", menuHover:menuHover, isLast:"true"}'></menu-item-box>    
 </div>

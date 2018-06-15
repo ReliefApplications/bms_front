@@ -19,7 +19,7 @@ import { SharedModule 															} from './shared/shared.module';
 	declarations: [
 		AppComponent,
 		ForbiddenComponent,
-		NotFoundComponent
+		NotFoundComponent,
 	],
 	imports: [
 		// Modules

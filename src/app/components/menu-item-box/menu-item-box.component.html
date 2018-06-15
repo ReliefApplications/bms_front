@@ -1,5 +1,5 @@
 <div class="container-icons">
-  <button (click)="changeRoot(info.title)">
+  <button (click)="changeRoot(info.title)" [class.active-button]="activeTitle == '/'+info.title">
     <i class="fas fa-{{info.icon}} icon" [class.icon-last]="info.isLast"></i>
     <h3 *ngIf="info.menuHover">{{info.title | uppercase}}</h3>
   </button>

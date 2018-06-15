@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 export class MenuItemBoxComponent implements OnInit {
 
   @Input() info: any;
+  @Input() activeTitle;
+  @Output() emitActive = new EventEmitter<string>();
 
   constructor(
     public router: Router    
@@ -19,6 +21,7 @@ export class MenuItemBoxComponent implements OnInit {
 
   changeRoot(route){
     this.router.navigate(['/'+route]);
+    this.emitActive.emit(route);
   }
 
 }

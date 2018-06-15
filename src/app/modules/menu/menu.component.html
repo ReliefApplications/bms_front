@@ -1,9 +1,11 @@
 <div class="menu-container">
-  <div class = "container-title">
-    <img src="assets/images/bms_logo.png" >
+  <div class="container-title">
+    <a routerLink="/dashboard" (click)="setCurrentRoute('')">
+      <img src="assets/images/bms_logo.png">
+    </a>
   </div>
-    <menu-item-box [info]='{icon: "boxes", title:"distribution", menuHover:menuHover}'></menu-item-box>    
-    <menu-item-box [info]='{icon: "users", title:"households", menuHover:menuHover}'></menu-item-box>    
-    <menu-item-box [info]='{icon: "chart-line", title:"reports", menuHover:menuHover}'></menu-item-box>    
-    <menu-item-box [info]='{icon: "cogs", title:"settings", menuHover:menuHover, isLast:"true"}'></menu-item-box>    
+  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "boxes", title:"distribution", menuHover:menuHover}'></menu-item-box>
+  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "users", title:"households", menuHover:menuHover}'></menu-item-box>
+  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "chart-line", title:"reports", menuHover:menuHover}'></menu-item-box>
+  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "cogs", title:"settings", menuHover:menuHover, isLast:"true"}'></menu-item-box>
 </div>

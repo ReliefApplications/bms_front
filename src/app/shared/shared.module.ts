@@ -9,10 +9,15 @@ import { MatTooltipModule                                       } from '@angular
 import { BrowserAnimationsModule                                } from '@angular/platform-browser/animations'
 import { NgbModule                                              } from '@ng-bootstrap/ng-bootstrap';
 
+import { MenuItemBoxComponent                                   } from '../components/menu-item-box/menu-item-box.component';
+
 import { LoginComponent                                         } from '../modules/public/login.component';
 import { DashboardComponent                                     } from '../modules/dashboard/dashboard.component';
 import { MenuComponent                                          } from '../modules/menu/menu.component';
-import { MenuItemBoxComponent                                   } from '../components/menu-item-box/menu-item-box.component';
+import { HouseholdsComponent                                    } from '../modules/households/households.component';
+import { DistributionComponent                                  } from '../modules/distribution/distribution.component';
+import { SettingsComponent                                      } from '../modules/settings/settings.component';
+import { ReportsComponent                                       } from '../modules/reports/reports.component';
 
 @NgModule({
     imports: [
@@ -34,14 +39,22 @@ import { MenuItemBoxComponent                                   } from '../compo
         LoginComponent,
         DashboardComponent, 
         MenuComponent,
-		MenuItemBoxComponent             
+        MenuItemBoxComponent,
+		HouseholdsComponent,
+		DistributionComponent,
+		SettingsComponent,
+		ReportsComponent,           
     ],
     exports: [
         //Shared Components
         LoginComponent, 
 		DashboardComponent,                 
         MenuComponent,
-        MenuItemBoxComponent
+        MenuItemBoxComponent,
+		HouseholdsComponent,
+		DistributionComponent,
+		SettingsComponent,
+		ReportsComponent,    
     ],
     providers: []
 })

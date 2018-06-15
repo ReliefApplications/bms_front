@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   @Input() currentRoute = "";
+  @Output() emitLogOut = new EventEmitter();
   public oldRoute = "";
   public home = "Home";
   public routeParsed : Array<string> = [this.home];
@@ -21,6 +22,9 @@ export class HeaderComponent implements OnInit {
     if(this.currentRoute != this.oldRoute){
       this.parseRoute(this.currentRoute);
       this.oldRoute = this.currentRoute;
+      if(this.currentRoute == "/login"){
+        this.adminMenuOpen =false;
+      }
     }
   }
 
@@ -31,5 +35,9 @@ export class HeaderComponent implements OnInit {
 
   openAdminMenu(){
     this.adminMenuOpen = !this.adminMenuOpen;
+  }
+
+  logOut(){
+    this.emitLogOut.emit();
   }
 }

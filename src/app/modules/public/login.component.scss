@@ -1,10 +1,8 @@
 @import '/var/www/html/pin/bms_front/src/assets/css/variable.scss'; 
 
 .container-box{
-    padding-left: 100px !important;
-    padding-right: 100px !important;
-    flex: 1 0 100%;
     height:100%;
+    width: 100%;
     
     .box-image{
         background-image: url('../../../assets/images/login_page.jpg');        

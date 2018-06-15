@@ -12,6 +12,7 @@ export class AppComponent {
   user: UserInterface = new UserInterface();
   public currentRoute = "";
   public menuHover = false;
+  public logOut = false;
 
   constructor(
     private _authenticationService: AuthenticationService
@@ -19,6 +20,7 @@ export class AppComponent {
 
   ngOnInit(){
     this.getUser();
+    
   }
 
   getUser(): UserInterface {
@@ -26,6 +28,11 @@ export class AppComponent {
         return this.user;
     }
     this.user = this._authenticationService.getUser();
+    if(!this.user.loggedIn){
+      this.logOut = true;
+    }else{
+      this.logOut = false;      
+    }
     return this.user;
   }
 
@@ -39,5 +46,17 @@ export class AppComponent {
 
   setCurrentRoute(currentRoute){
     this.currentRoute = currentRoute;
+  }
+
+  onLogOut(e) {
+    this.user.loggedIn = false;
+    this._authenticationService.logout();
+    this.getUser();
+  }
+
+  ngDoCheck(){
+    if(this.logOut){
+      this.getUser();
+    }
   }
 }

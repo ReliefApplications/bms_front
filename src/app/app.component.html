@@ -4,7 +4,7 @@
 	</div>
 	<div class="page-content-wrapper" [class.hideMenu]="!user.loggedIn">
 		<div class="wrapper-header" [class.hideMenu]="!user.loggedIn">
-			<app-header [currentRoute]="currentRoute" ></app-header>
+			<app-header (emitLogOut)="onLogOut($event)" [currentRoute]="currentRoute" ></app-header>
 		</div>
 		<router-outlet></router-outlet>
 	</div>

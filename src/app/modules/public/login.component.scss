@@ -1,13 +1,25 @@
 @import '/var/www/html/pin/bms_front/src/assets/css/variable.scss'; 
 
+// :host{
+//     background-image: url('../../../assets/images/login_page.jpg');        
+//     background-repeat: no-repeat;
+//     background-size: cover;
+//     height: 900px;
+//     display: block;
+//     overflow: hidden;
+//     padding: 50px;
+//     margin: 0px;
+// }
+
 .container-box{
     height:100%;
     width: 100%;
-    
+
     .box-image{
         background-image: url('../../../assets/images/login_page.jpg');        
         background-repeat: no-repeat;
         background-size: cover;
+        overflow: hidden;
         display: flex;
         flex: 1 0 100%;
         height:100%;
@@ -36,7 +48,6 @@
                     background-color: $bms_white;
                     border-radius : 100px;
                 }
-
             }
 
             .login-title{
@@ -95,7 +106,7 @@
                     background-color: $bms_green;
                     color: $bms_white;
                     border-radius: 5px;
-                    border: solid 1px #00000033;
+                    border:none;
 
                     &:hover{
                         background-color: $bms_dark_grey;

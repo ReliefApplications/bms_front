@@ -13,15 +13,24 @@
         padding: 10px;
         display: flex;
         background: none;
-    
+
         .icon{
-            color: #f0fff090;
-            font-size: 45px;
             height: 100px;
             width: 100px;  
             display:inline-block;
             border-bottom: solid 2px #f0fff090;
+            align-self: center !important; 
+            padding-bottom: 10px;
         }
+
+        .small-icon{
+            height: 80px;
+            width: 80px;  
+        }
+
+        .icon-title{
+            align-self: center;
+        } 
     
         .icon-last{
             border-bottom: 0 !important;                
@@ -31,26 +40,27 @@
             color: #f0fff090;
             padding-left: 15px;                
             padding-right: 15px;  
-            font-family: $bms_font_header;              
+            font-family: $bms_font_header;  
+            align-self: center;           
+            padding-bottom: 10px;
         }
-    
+       
         &:hover{
             cursor: pointer;
-            .icon{
-                color: white !important;
-            }
+            
             h3{
                 color: white !important;
             }
         }
     
         &.active-button{
-            .icon{
-                color: $bms_red !important;
-            }
             h3{
                 color: $bms_red !important;
             }
         }
     }
+}
+
+.menuHover{
+    border-bottom: solid 0px #f0fff090 !important;    
 }

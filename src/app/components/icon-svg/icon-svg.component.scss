@@ -1,0 +1,113 @@
+@import '/var/www/html/pin/bms_front/src/assets/css/variable.scss'; 
+
+.icon-rect-stroke{
+    rect{
+        stroke:#f0fff090;
+    }
+
+    &.hover-icon{
+        rect{
+            stroke: white !important;
+        }
+    }
+
+    &.clicked-icon{
+        rect{
+            stroke: $bms_red !important;
+        }
+    }
+}
+
+.icon-rect-fill{
+    rect{
+        fill:#f0fff090;
+    }
+
+    &.hover-icon{
+        rect{
+            fill: white !important;
+        }
+    }
+
+    &.clicked-icon{
+        rect{
+            fill: $bms_red !important;
+        }
+    }
+}
+
+.icon-path-stroke{
+    path{
+        stroke:#f0fff090;
+    }
+
+    &.hover-icon{
+        path{
+            stroke: white !important;
+        }
+    }
+
+    &.clicked-icon{
+        path{
+            stroke: $bms_red !important;
+        }
+    }
+}
+
+.icon-path-fill{
+    path{
+        fill:#f0fff090;
+    }
+
+    &.hover-icon{
+        path{
+            fill: white !important;
+        }
+    }
+
+    &.clicked-icon{
+        path{
+            fill: $bms_red !important;
+        }
+    }
+}
+
+.icon-polygon-stroke{
+    polygon{
+        stroke:#f0fff090;
+    }
+
+    &.hover-icon{
+        polygon{
+            stroke: white !important;
+        }
+    }
+
+    &.clicked-icon{
+        polygon{
+            stroke: $bms_red !important;
+        }
+    }
+}
+
+.icon-polygon-fill{
+    polygon{
+        fill:#f0fff090;
+    }
+
+    &.hover-icon{
+        polygon{
+            fill: white !important;
+        }
+    }
+
+    &.clicked-icon{
+        polygon{
+            fill: $bms_red !important;
+        }
+    }
+}
+
+.small-width{
+    width: 80px;
+}

@@ -10,6 +10,7 @@ import { BrowserAnimationsModule                                } from '@angular
 import { NgbModule                                              } from '@ng-bootstrap/ng-bootstrap';
 
 import { MenuItemBoxComponent                                   } from '../components/menu-item-box/menu-item-box.component';
+import { IconSvgComponent                                       } from '../components/icon-svg/icon-svg.component';
 
 import { LoginComponent                                         } from '../modules/public/login.component';
 import { DashboardComponent                                     } from '../modules/dashboard/dashboard.component';
@@ -45,7 +46,8 @@ import { HeaderComponent                                        } from '../modul
 		DistributionComponent,
 		SettingsComponent,
         ReportsComponent,   
-		HeaderComponent                
+		HeaderComponent,     
+		IconSvgComponent,
     ],
     exports: [
         //Shared Components
@@ -57,7 +59,8 @@ import { HeaderComponent                                        } from '../modul
 		DistributionComponent,
 		SettingsComponent,
 		ReportsComponent,    
-		HeaderComponent                
+		HeaderComponent,                
+		IconSvgComponent,
     ],
     providers: []
 })

@@ -20,15 +20,14 @@
     .container-buttons{
         display: flex;
         width: 50%;
-        justify-content: end;
+        justify-content: flex-end;
         text-align: end;            
         padding: 10px;
         z-index: 50;
-        
+
         .button-admin{
             border:none;
             background: none;
-            justify-content: end;
 
             i{
             font-size: 30px;
@@ -55,13 +54,11 @@
                 text-decoration: none;
                 display: flex;
                 font-family: $bms_font_text;
-        
+                justify-content: space-between !important;
                 i{
                     display: flex;
-                    width: 50%;
                     padding-top: 10px;
                     padding-bottom: 10px;
-                    justify-content: right;
                 }
                 span{
                     display: flex;

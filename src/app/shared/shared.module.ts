@@ -3,7 +3,7 @@ import { RouterModule, Routes                                   } from '@angular
 import { CommonModule                                           } from '@angular/common';
 import { FormsModule, ReactiveFormsModule                       } from '@angular/forms';
 import { FormControl, FormGroup, Validators                     } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule                    } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule,MatInputModule,MatPaginatorModule,MatSortModule,MatProgressSpinnerModule } from '@angular/material';
 import { MatIconModule                                          } from '@angular/material/icon';
 import { MatTooltipModule                                       } from '@angular/material/tooltip'
 import { MatTableModule                                         } from '@angular/material/table';
@@ -38,6 +38,10 @@ import { HeaderComponent                                        } from '../modul
         MatTableModule,
         MatOptionModule,
         MatIconModule,
+        MatInputModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatProgressSpinnerModule,
         BrowserAnimationsModule,
         NgbModule.forRoot()
     ],

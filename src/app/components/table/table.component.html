@@ -1,0 +1,18 @@
+<!-- TABLE -->
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th *ngFor="let p of properties">{{mapperService.mapTitle(p)}}</th>
+      <th class="last-th">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data">
+      <td *ngFor="let p of properties">
+        <span>{{mapperService.mapValue(row, p)}}</span>
+      </td>
+      <td>
+      </td>
+    </tr>
+  </tbody>
+</table>

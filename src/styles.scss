@@ -1,1 +1,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "../node_modules/leaflet/dist/leaflet.css";
+
+.leaflet-control-attribution.leaflet-control {
+    display: none !important;   // To remove the credits
+  }

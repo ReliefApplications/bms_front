@@ -7,8 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class IconSvgComponent implements OnInit {
   @Input() name = "";
-  @Input() menuHover =false;
-  @Input() isClicked =false;
+  @Input() menuHover = false;
+  @Input() isClicked = false;
 
   constructor() { }
 

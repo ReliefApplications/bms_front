@@ -6,11 +6,15 @@ import { FormControl, FormGroup, Validators                     } from '@angular
 import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule                    } from '@angular/material';
 import { MatIconModule                                          } from '@angular/material/icon';
 import { MatTooltipModule                                       } from '@angular/material/tooltip'
+import { MatTableModule                                         } from '@angular/material/table';
 import { BrowserAnimationsModule                                } from '@angular/platform-browser/animations'
+
 import { NgbModule                                              } from '@ng-bootstrap/ng-bootstrap';
 
 import { MenuItemBoxComponent                                   } from '../components/menu-item-box/menu-item-box.component';
 import { IconSvgComponent                                       } from '../components/icon-svg/icon-svg.component';
+import { BoxDashboardComponent                                  } from '../components/box-dashboard/box-dashboard.component';
+import { TableComponent                                         } from '../components/table/table.component';
 
 import { LoginComponent                                         } from '../modules/public/login.component';
 import { DashboardComponent                                     } from '../modules/dashboard/dashboard.component';
@@ -31,6 +35,7 @@ import { HeaderComponent                                        } from '../modul
         MatCheckboxModule, 
         MatTooltipModule,
         MatSelectModule,
+        MatTableModule,
         MatOptionModule,
         MatIconModule,
         BrowserAnimationsModule,
@@ -47,7 +52,9 @@ import { HeaderComponent                                        } from '../modul
 		SettingsComponent,
         ReportsComponent,   
 		HeaderComponent,     
-		IconSvgComponent,
+        IconSvgComponent,
+		BoxDashboardComponent,        
+		TableComponent,
     ],
     exports: [
         //Shared Components
@@ -61,6 +68,8 @@ import { HeaderComponent                                        } from '../modul
 		ReportsComponent,    
 		HeaderComponent,                
 		IconSvgComponent,
+		BoxDashboardComponent,        
+		TableComponent,
     ],
     providers: []
 })

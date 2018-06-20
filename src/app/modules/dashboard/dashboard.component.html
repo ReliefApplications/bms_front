@@ -1,0 +1,28 @@
+<div class="dashboard-container">
+    <div class="container-boxes">
+        <div class="boxes-map">
+            <h1 class="map-title">DISTRIBUTION MAP</h1>
+            <div class="map-content">
+                <div id="map"></div>
+                <div class="content-text">
+                    <h2>CAMBODIA PROGRAMS</h2>
+                </div>
+            </div>
+        </div>
+        <div class="boxes-summary">
+            <h1 class="summary-title">SUMMARY</h1>
+            <div class="summary-content">
+                <app-box-dashboard [info]='{icon: "home", color: "green", title:"total beneficiaires", subtitle:"10,250", ref:""}'></app-box-dashboard>
+                <app-box-dashboard [info]='{icon: "project", color: "red", title:"active projects", subtitle:"12", undersubtitle:"",ref:""}'></app-box-dashboard>
+                <app-box-dashboard [info]='{icon: "enrol", color: "green", title:"enrolled beneficiaries", subtitle:"9,750", undersubtitle:"",ref:""}'></app-box-dashboard>
+                <app-box-dashboard [info]='{icon: "dollar", color: "red", title:"total value transactions", subtitle:"$360,000", undersubtitle:"",ref:""}'></app-box-dashboard>
+            </div>
+        </div>
+    </div>
+    <div class="container-distribution">
+        <!-- <h1 class="distribution-title">UPCOMING DISTRIBUTIONS</h1>
+        <div class="distribution-content">
+            <app-table [entity]="referedClassToken" [data]=""></app-table>
+        </div> -->
+    </div>
+</div>

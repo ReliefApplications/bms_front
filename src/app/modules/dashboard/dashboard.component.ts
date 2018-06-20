@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit                  } from '@angular/core';
+import { HttpClient                         } from '@angular/common/http';
+import { Router                             } from '@angular/router';
 
-import { URL_BMS_API } from '../../../environments/environment';
-import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { Router } from '@angular/router';
+import { URL_BMS_API                        } from '../../../environments/environment';
+import { AuthenticationService              } from '../../core/authentication/authentication.service';
+import { LeafletService                     } from '../../core/external/leaflet.service';
+
+import { DistributionData                   } from '../../model/distribution-data';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,11 +16,13 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
 
   users: any;
+  referedClassToken = DistributionData;
 
   constructor(
       private http: HttpClient,
       private _authenticationService: AuthenticationService,
-      private router : Router     
+      private router : Router,
+      private serviceMap: LeafletService     
   ) { }
 
   ngOnInit() {
@@ -25,6 +30,8 @@ export class DashboardComponent implements OnInit {
     if (!user.loggedIn) {
       this.router.navigate(['/login']);
     }
+    this.serviceMap.createMap('map');
+    this.serviceMap.addTileLayer();
   }
 
 }

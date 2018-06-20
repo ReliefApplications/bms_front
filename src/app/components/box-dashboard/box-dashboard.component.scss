@@ -19,7 +19,7 @@ $box-content: 80px;
 .box-content-content{
     display: flex;
     justify-content: left;
-    // height: $box-content;
+
     .content-info{
         justify-content: right;
         align-content: center;
@@ -56,7 +56,6 @@ $box-content: 80px;
             vertical-align: bottom;
             -webkit-filter: invert(1);
             height: 5vh;
-            // height: 50px;
         }
     }
 }

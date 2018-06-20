@@ -11,7 +11,6 @@ import { ForbiddenComponent 													} from './components/error-pages/forbid
 import { NotFoundComponent 														} from './components/error-pages/not-found/not-found.component';
 import { LoginComponent 														} from './modules/public/login.component';
 
-import { NgbModule 																} from '@ng-bootstrap/ng-bootstrap';
 import { AppRouting 															} from './app.routing';
 import { SharedModule 															} from './shared/shared.module';
 
@@ -30,7 +29,6 @@ import { SharedModule 															} from './shared/shared.module';
 		
 		// Routing
 		AppRouting,
-		NgbModule.forRoot()
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

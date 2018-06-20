@@ -3,13 +3,12 @@ import { RouterModule, Routes                                   } from '@angular
 import { CommonModule                                           } from '@angular/common';
 import { FormsModule, ReactiveFormsModule                       } from '@angular/forms';
 import { FormControl, FormGroup, Validators                     } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule                    } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule                } from '@angular/material';
+import { MatProgressSpinnerModule                               } from '@angular/material/progress-spinner';
 import { MatIconModule                                          } from '@angular/material/icon';
 import { MatTooltipModule                                       } from '@angular/material/tooltip'
 import { MatTableModule                                         } from '@angular/material/table';
 import { BrowserAnimationsModule                                } from '@angular/platform-browser/animations'
-
-import { NgbModule                                              } from '@ng-bootstrap/ng-bootstrap';
 
 import { MenuItemBoxComponent                                   } from '../components/menu-item-box/menu-item-box.component';
 import { IconSvgComponent                                       } from '../components/icon-svg/icon-svg.component';
@@ -37,9 +36,9 @@ import { HeaderComponent                                        } from '../modul
         MatSelectModule,
         MatTableModule,
         MatOptionModule,
+        MatProgressSpinnerModule,
         MatIconModule,
-        BrowserAnimationsModule,
-        NgbModule.forRoot()
+        BrowserAnimationsModule
     ],
     declarations: [
         //Shared Components

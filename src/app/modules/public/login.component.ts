@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { UserInterface, ErrorInterface } from '../../model/interfaces';

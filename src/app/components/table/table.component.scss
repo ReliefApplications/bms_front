@@ -1,3 +1,20 @@
-.table{
+@import '../../../assets/css/variable.scss'; 
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
   width: 100%;
+  max-height: 300px;
+}
+.mat-elevation-z8{
+  border:0 !important;
+
+}
+.mat-table {
+  overflow: auto;
+
+  .mat-header-row{
+    background-color: $bms_green;
+  }
 }

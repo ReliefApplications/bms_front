@@ -28,7 +28,7 @@ import { SharedModule 															} from './shared/shared.module';
 		SharedModule,
 		
 		// Routing
-		AppRouting,
+		AppRouting
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

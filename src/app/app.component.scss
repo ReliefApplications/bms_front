@@ -4,33 +4,27 @@
     position: fixed;
     top: 0px !important;
     left: 0px !important;
+    background-color: rosybrown;
 }
 
 .app-component {
     display: flex;
-    flex-grow: 1;
+    height: 100%;
     position: relative;
 	padding-left: 0;
-    width :100%;
-    height: 100%;
-    display: flex;
     margin: 0 !important;
-    overflow: hidden;
+    flex-direction: row;
+    flex-wrap: wrap;
 
     .page-content-wrapper{
         -webkit-transition: all 0.5s ease;
         -moz-transition: all 0.5s ease;
         -o-transition: all 0.5s ease;
         transition: all 0.5s ease;
-        width : 100%;
-        height: 100%;
+        overflow-y: scroll !important;
         margin: 0 !important;
-    
-        router-outler{
-            display: flex;
-            flex:0 1 100%;
-        }
-
+        flex-grow: 1;
+        background-color: darkviolet;
         .wrapper-header{
             width : 100%;
             height: 5%;
@@ -45,7 +39,6 @@
 
     .page-menu-wrapper{
         width: 150px;
-        height: 100%;	
         -webkit-transition: all 0.5s ease;
         -moz-transition: all 0.5s ease;
         -o-transition: all 0.5s ease;
@@ -61,5 +54,20 @@
             width: 0px !important;
             padding: 0px;
         }
+    }
+}
+
+@media (max-height: 700px) {
+    .page-menu-wrapper {
+        display: flex;
+        width: 100% !important;
+        app-menu {
+            width: 100% !important;
+        }
+    }
+
+    .page-content-wrapper{
+        display: flex;
+        flex-grow: 1 !important;
     }
 }

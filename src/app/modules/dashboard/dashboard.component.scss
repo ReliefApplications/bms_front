@@ -2,19 +2,22 @@
 
 .dashboard-container{
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
+
     .container-boxes{
         display: flex;
         flex-direction:row;
-        height: 55%;
-        
+        flex-wrap: wrap;
+
         .boxes-map{
             display: flex;
-            width: 65%;
+            flex-grow: 3;
             flex-direction:column;
             padding : 20px;
+            min-width: 600px;
+            min-height: 420px;
+
             .map-title{
                 display: flex;
                 font-family: $bms_font_header;
@@ -50,6 +53,7 @@
             flex-grow: 1;
             flex-direction:column;
             padding : 20px;
+            min-width: 200px;
 
             .summary-title{
                 display: flex;
@@ -62,7 +66,6 @@
                 height: 90%;
                 display: flex;
                 flex-direction: column;
-                padding: 5px;
                 justify-content: space-between;
 
                 app-box-dashboard{
@@ -79,7 +82,6 @@
         flex-grow: 1;
 
         .distribution-title{
-            background-color: gold;    
             display: flex;
             font-family: $bms_font_header;
             font-size: 30px;
@@ -87,10 +89,14 @@
         }
 
         .distribution-content{
-            background-color: green;    
-            height: 90%;
+            flex-grow: 1;
             display: flex;
-            padding: 5px;
+            margin-bottom: 50px;
+
+            app-table{
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 }

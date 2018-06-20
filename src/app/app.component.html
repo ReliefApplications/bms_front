@@ -3,9 +3,9 @@
 		<app-menu (emitCurrentRoute)="setCurrentRoute($event)" [menuHover]="menuHover"></app-menu>
 	</div>
 	<div class="page-content-wrapper" [class.hideMenu]="!user.loggedIn">
-		<div class="wrapper-header" [class.hideMenu]="!user.loggedIn">
+		<!-- <div class="wrapper-header" [class.hideMenu]="!user.loggedIn">
 			<app-header (emitLogOut)="onLogOut($event)" [currentRoute]="currentRoute" ></app-header>
 		</div>
-		<router-outlet></router-outlet>
+		<router-outlet></router-outlet> -->
 	</div>
 </div>

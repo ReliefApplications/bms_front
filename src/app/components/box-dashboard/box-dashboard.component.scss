@@ -19,23 +19,23 @@ $box-content: 80px;
 .box-content-content{
     display: flex;
     justify-content: left;
-    height: $box-content;
+    // height: $box-content;
     .content-info{
         justify-content: right;
         align-content: center;
         text-align: right;
         font-family: $bms_font_text;
         width :100%;
-        padding:10px;
+        padding:15px;
 
         .info-title{
-            font-size : 15px;
+            font-size : 1.5vh;
             margin: 0 !important;
         }
 
         .info-subtitle{
             font-weight: bold;
-            font-size : 20px;
+            font-size : 2.5vh;
             margin: 0 !important;
             padding-top:10px;
         }
@@ -55,8 +55,8 @@ $box-content: 80px;
             text-align: center;
             vertical-align: bottom;
             -webkit-filter: invert(1);
-            width: 50px;
-            height: 50px;
+            height: 5vh;
+            // height: 50px;
         }
     }
 }

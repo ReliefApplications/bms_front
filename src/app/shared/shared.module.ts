@@ -17,12 +17,14 @@ import { TableComponent                                         } from '../compo
 
 import { LoginComponent                                         } from '../modules/public/login.component';
 import { DashboardComponent                                     } from '../modules/dashboard/dashboard.component';
-import { MenuComponent                                          } from '../modules/menu/menu.component';
+import { MenuComponent                                          } from '../modules/menus/menu/menu.component';
 import { HouseholdsComponent                                    } from '../modules/households/households.component';
 import { DistributionComponent                                  } from '../modules/distribution/distribution.component';
 import { SettingsComponent                                      } from '../modules/settings/settings.component';
 import { ReportsComponent                                       } from '../modules/reports/reports.component';
 import { HeaderComponent                                        } from '../modules/header/header.component';
+import { MenuTopComponent                                       } from '../modules/menus/menu-top/menu-top.component';
+import { HeaderMenuTopComponent                                 } from '../modules/menus/header-menu-top/header-menu-top.component';
 
 @NgModule({
     imports: [
@@ -54,6 +56,8 @@ import { HeaderComponent                                        } from '../modul
         IconSvgComponent,
 		BoxDashboardComponent,        
 		TableComponent,
+		MenuTopComponent,
+		HeaderMenuTopComponent,
     ],
     exports: [
         //Shared Components
@@ -69,6 +73,8 @@ import { HeaderComponent                                        } from '../modul
 		IconSvgComponent,
 		BoxDashboardComponent,        
 		TableComponent,
+		MenuTopComponent,
+		HeaderMenuTopComponent,
     ],
     providers: []
 })

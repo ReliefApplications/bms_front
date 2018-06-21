@@ -1,7 +1,14 @@
 <div class="app-component">
+	<div class="page-menu-wrapper" (mouseout)="outMenu()" (mouseover)="hoverMenu()" [class.hideMenu]="!user.loggedIn" *ngIf="!smallScreenMode">
+		<app-menu (emitCurrentRoute)="setCurrentRoute($event)" [menuHover]="menuHover"></app-menu>
+	</div>
 	<div class="page-content-wrapper" [class.hideMenu]="!user.loggedIn">
-		<div class="wrapper-header" [class.hideMenu]="!user.loggedIn">
-			<app-header (emitLogOut)="onLogOut($event)" [currentRoute]="currentRoute" ></app-header>
+		<div class="page-menu-top-wrapper" [class.hideMenu]="!user.loggedIn" [class.open-menu-top-wrapper]="openTopMenu" *ngIf="smallScreenMode">
+			<app-header-menu-top (emitOpenMenu)="clickOnTopMenu($event)" *ngIf ="!openTopMenu"></app-header-menu-top>
+			<app-menu-top (emitCurrentRoute)="setCurrentRoute($event)" (emitCloseMenu)="clickOnTopMenu($event)" [openMenu]="openTopMenu"></app-menu-top>
+		</div>
+		<div class="wrapper-header" [class.hideMenu]="!user.loggedIn" [class.small-screen]="smallScreenMode&&user.loggedIn">
+			<app-header (emitLogOut)="onLogOut($event)" [currentRoute]="currentRoute"></app-header>
 		</div>
 		<router-outlet></router-outlet>
 	</div>

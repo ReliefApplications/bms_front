@@ -1,0 +1,40 @@
+@import '../../../../assets/css/variable.scss'; 
+
+.header-container{
+    width: 100%;
+    height: 100%;
+    background-color: $bms_menu !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button{
+        padding-right:10px;
+        display: flex;
+        border:0;
+        background: none;
+        color: white;
+        height: 100%;
+        justify-content: flex-end;
+
+        i{
+            font-size: 3vh;
+        }
+
+        &:hover{
+            cursor: pointer;
+            color: $bms_red;
+        }
+    }
+
+    a{
+        border:none;
+        outline: none;
+        padding-left: 10px;
+
+        img{
+            height: 5vh;
+            width: 5vh;
+        }
+    }
+}

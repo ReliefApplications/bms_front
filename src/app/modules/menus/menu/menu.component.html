@@ -1,7 +1,7 @@
 <div class="menu-container">
   <div class="container-title">
     <a routerLink="/" (click)="setCurrentRoute('')">
-      <img src="assets/images/bms_logo.png">
+      <img src="assets/images/bms_logo_with_title.png">
     </a>
   </div>
   <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "distribution", title:"distribution", menuHover:menuHover}'></menu-item-box>

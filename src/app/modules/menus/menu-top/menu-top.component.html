@@ -5,9 +5,9 @@
         </button>
     </div>
     <div class="container-content" >
-        <menu-item-box [activeTitle]="activeTitle" [info]='{icon: "distribution", title:"distribution", menuHover:"true"}' *ngIf="openMenu"></menu-item-box>
-        <menu-item-box [activeTitle]="activeTitle" [info]='{icon: "households", title:"households", menuHover:"true"}' *ngIf="openMenu"></menu-item-box>
-        <menu-item-box [activeTitle]="activeTitle" [info]='{icon: "reports", title:"reports", menuHover:"true"}' *ngIf="openMenu"></menu-item-box>
-        <menu-item-box class="isLast" [activeTitle]="activeTitle" [info]='{icon: "settings", title:"settings", menuHover:"true", isLast:"true"}' *ngIf="openMenu"></menu-item-box>
+        <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "distribution", title:"distribution", menuHover:"true"}' *ngIf="openMenu"></menu-item-box>
+        <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "households", title:"households", menuHover:"true"}' *ngIf="openMenu"></menu-item-box>
+        <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "reports", title:"reports", menuHover:"true"}' *ngIf="openMenu"></menu-item-box>
+        <menu-item-box (emitActive)='setCurrentRoute($event)' class="isLast" [activeTitle]="activeTitle" [info]='{icon: "settings", title:"settings", menuHover:"true", isLast:"true"}' *ngIf="openMenu"></menu-item-box>
     </div>
 </div>

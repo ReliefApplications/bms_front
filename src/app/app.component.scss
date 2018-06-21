@@ -10,19 +10,22 @@
 
 .app-component {
     display: flex;
-    height: 100%;
+    flex-grow: 1;
     position: relative;
 	padding-left: 0;
+    width :100%;
+    height: 100%;
+    display: flex;
     margin: 0 !important;
-    flex-direction: row;
-    flex-wrap: wrap;
+    overflow: hidden;
 
     .page-content-wrapper{
         -webkit-transition: all 0.5s ease;
         -moz-transition: all 0.5s ease;
         -o-transition: all 0.5s ease;
         transition: all 0.5s ease;
-        overflow-y: scroll !important;
+        width : 100%;
+        height: 100%;
         margin: 0 !important;
 
         router-outler{

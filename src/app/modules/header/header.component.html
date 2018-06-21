@@ -1,0 +1,21 @@
+<div class="header-container">
+  <div class="container-routes">
+    <span *ngFor="let item of routeParsed">
+      <span *ngIf="(item != '')&&(item != home)"> > </span> {{item}} </span>
+  </div>
+  <div class="container-buttons">
+    <div>
+      <button (click)="openAdminMenu()" class="button-admin">
+        <i class="fas fa-user-circle "></i>
+      </button>
+      <div class="button-menu" [class.open-menu]="adminMenuOpen">
+        <a routerLink="/"><span>PROFILE</span>
+          <i class="fas fa-user "></i>
+        </a>
+        <a (click)="logOut()" routerLink="/login"><span>DISCONNECT</span>
+          <i class="fas fa-sign-out-alt "></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

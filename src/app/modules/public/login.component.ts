@@ -2,16 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../../core/authentication/authentication.service';
+import { UserInterface, ErrorInterface } from '../../model/interfaces';
 
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
-	styleUrls: ['./login.component.css']
+	styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
 
-	username: string;
-	password: string;
+	public user:UserInterface;
+	public forgotMessage :boolean = false;
 
 	constructor(
 		public _authService: AuthenticationService,
@@ -19,11 +20,26 @@ export class LoginComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		this.user = this._authService.getUser();
+        this.user.username = "tester";
+        this.user.password = "tester";
+        if(this.user.loggedIn){
+            this.router.navigate(['/']);
+        }
 	}
 
 	login() {
-		this._authService.login(this.username, this.password);
-		this.router.navigate(['/']);
+		this._authService.login(this.user)
+		  .then( (user:UserInterface) => {
+			  if( user.loggedIn ){
+				  //redirect
+				  this.router.navigate(['/']);
+			  }
+		  })
+		  .catch( (error:ErrorInterface) => {
+			  console.log(error);
+			  this.forgotMessage = true;
+		  });
 	}
 
 }

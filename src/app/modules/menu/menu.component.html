@@ -1,0 +1,11 @@
+<div class="menu-container">
+  <div class="container-title">
+    <a routerLink="/" (click)="setCurrentRoute('')">
+      <img src="assets/images/bms_logo.png">
+    </a>
+  </div>
+  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "distribution", title:"distribution", menuHover:menuHover}'></menu-item-box>
+  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "households", title:"households", menuHover:menuHover}'></menu-item-box>
+  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "reports", title:"reports", menuHover:menuHover}'></menu-item-box>
+  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "settings", title:"settings", menuHover:menuHover, isLast:"true"}'></menu-item-box>
+</div>

@@ -8,17 +8,28 @@ import { NotFoundComponent } from './components/error-pages/not-found/not-found.
 
 // Services
 import { AuthGuard } from './core/guards/auth.guard';
+import { DistributionComponent } from './modules/distribution/distribution.component';
+import { HouseholdsComponent } from './modules/households/households.component';
+import { ReportsComponent } from './modules/reports/reports.component';
+import { SettingsComponent } from './modules/settings/settings.component';
 
 // Do not change the order of the routes, it matters
 export const routes: Routes = [
 	{ path: 'login', component: LoginComponent },
 
+	{ path: 'distribution', component: DistributionComponent },
+
+	{ path: 'households', component: HouseholdsComponent },
+
+	{ path: 'reports', component: ReportsComponent },
+
+	{ path: 'settings', component: SettingsComponent },
+
 	// home route protected by auth guard
 	{ path: '', component: DashboardComponent, canActivate: [AuthGuard] },
 
 	// otherwise redirect to home
-	{ path: '**', component: NotFoundComponent }
-
+	{ path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

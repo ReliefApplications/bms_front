@@ -1,0 +1,108 @@
+@import '../../../assets/css/variable.scss'; 
+
+.container-box{
+    height:100%;
+    width: 100%;
+
+    .box-image{
+        background-image: url('../../../assets/images/login_page.jpg');        
+        background-repeat: no-repeat;
+        background-size: cover;
+        overflow: hidden;
+        display: flex;
+        flex: 1 0 100%;
+        height:100%;
+        justify-content: center;
+        align-items: center;
+
+        .box-login{
+            display: flex;
+            background-color: rgba(161, 160, 160, 0.6);
+            height: 500px;
+            width: 500px;
+            flex-wrap: wrap;
+            flex-direction: column;
+            border-radius : 5px;
+
+            .login-logo{
+                flex-grow: 1;
+                display: flex;
+                justify-content: center;
+                padding:10px;
+                border-radius : 5px;
+
+                .logo-image{
+                    width: 150px;
+                    height: 150px;
+                    background-color: $bms_white;
+                    border-radius : 100px;
+                }
+            }
+
+            .login-title{
+                flex-grow: 1;
+                display: flex;
+                text-align: center;
+                justify-content: center;
+                .title-text{
+                        display: flex;
+                        font-family: $bms_font_header;
+                        color : $bms_white;
+                        font-weight: bold;
+                        font-size: 20px;
+                        text-align: center;
+                    }
+            }
+
+            .login-user{
+                flex-grow: 10;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                .user-input{
+                    width: 55%;
+                    height : 35px;
+                    margin : 5px;
+                    padding : 10px;
+                    font-weight: 200;
+                    font-size: 20px;
+                    align-items: baseline;
+                    border-radius: 5px;
+                    border: solid 1px #00000033;
+                }
+
+                .user-forgot-password{
+                    width: 55%;
+                    font-size: 10px;
+                    margin : 0;
+                    font-family: $bms_font_text;
+                    color : #00000050;
+                }
+            }
+
+            .login-button{
+                flex-grow: 1;
+                display: flex;
+                border-radius : 5px;
+                justify-content: center;
+                padding: 5px;
+
+                .button-login{
+                    width: 25%;
+                    height : 40px;
+                    background-color: $bms_green;
+                    color: $bms_white;
+                    border-radius: 5px;
+                    border:none;
+
+                    &:hover{
+                        background-color: $bms_dark_grey;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}

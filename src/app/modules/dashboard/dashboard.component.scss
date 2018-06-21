@@ -1,0 +1,96 @@
+@import '../../../assets/css/variable.scss'; 
+
+.dashboard-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .container-boxes{
+        display: flex;
+        flex-direction:row;
+        height: 55%;
+        
+        .boxes-map{
+            display: flex;
+            width: 65%;
+            flex-direction:column;
+            padding : 20px;
+            .map-title{
+                display: flex;
+                font-family: $bms_font_header;
+                font-size: 30px;
+                margin: 0 !important;
+            }
+            .map-content{
+                background-color: $bms_light_grey;
+                height: 90%;
+                display: flex;
+                padding: 5px;
+                box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);    
+
+                #map {
+                    width:70% !important;
+                  }
+                .content-text{
+                    display: flex;
+                    flex-grow: 1;
+                    padding: 5px;
+                    justify-content: center;
+                    margin: 0 !important;
+
+                    h2{
+                        font-family: $bms_font_header;
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+        .boxes-summary{
+            display: flex;
+            flex-grow: 1;
+            flex-direction:column;
+            padding : 20px;
+
+            .summary-title{
+                display: flex;
+                font-family: $bms_font_header;
+                font-size: 30px;
+                margin: 0 !important;
+            }
+
+            .summary-content{
+                height: 90%;
+                display: flex;
+                flex-direction: column;
+                padding: 5px;
+                justify-content: space-between;
+
+                app-box-dashboard{
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .container-distribution{
+        display: flex;
+        flex-direction:column;
+        padding : 20px;
+        flex-grow: 1;
+
+        .distribution-title{
+            background-color: gold;    
+            display: flex;
+            font-family: $bms_font_header;
+            font-size: 30px;
+            margin: 0 !important;
+        }
+
+        .distribution-content{
+            background-color: green;    
+            height: 90%;
+            display: flex;
+            padding: 5px;
+        }
+    }
+}

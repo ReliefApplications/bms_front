@@ -1,4 +1,4 @@
-@import '../../../assets/css/variable.scss'; 
+@import '../../../../assets/css/variable.scss'; 
 
 .menu-container{
     // background-color: #3d3d3d;
@@ -7,7 +7,6 @@
     align-content: flex-start;
     display: flex;
     flex-wrap: wrap;
-    overflow-y: scroll;
 
     .container-title{
         top:0px !important;

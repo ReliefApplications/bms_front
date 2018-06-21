@@ -12,11 +12,11 @@
 
         .boxes-map{
             display: flex;
-            flex-grow: 3;
+            flex-grow: 5;
             flex-direction:column;
             padding : 20px;
-            min-width: 600px;
-            min-height: 420px;
+            min-width: 500px;
+            min-height: 350px;
 
             .map-title{
                 display: flex;
@@ -53,7 +53,7 @@
             flex-grow: 1;
             flex-direction:column;
             padding : 20px;
-            min-width: 200px;
+            min-height: 350px;
 
             .summary-title{
                 display: flex;
@@ -70,6 +70,7 @@
 
                 app-box-dashboard{
                     width: 100%;
+                    margin-bottom :5px;
                 }
             }
         }

@@ -1,0 +1,71 @@
+@import '../../../../assets/css/variable.scss'; 
+
+.menu-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+
+    .container-button{
+        display: flex;
+        width: 50px;
+        align-items: flex-start;
+        background: none !important;
+
+        a{
+            color: white;
+        }
+        button{
+            border:0;
+            padding: 20px;
+            color: white;
+            background-color: $bms_menu !important;
+    
+            &:hover{
+                cursor: pointer;
+                color: $bms_red;
+            }
+        }
+    }
+
+    .container-content{
+        display: flex;
+        flex-grow: 1;   
+        background-color: #000000;
+        opacity: 0.9;
+        flex-direction: column;
+        padding: 10px;
+
+        menu-item-box{
+            display: flex;
+            flex-grow: 1;  
+            height: 15%;
+            max-height: 150px;
+            width: 100%;
+            border-bottom: solid 1px #f0fff090;
+        }
+
+        .isLast{
+            border-bottom: solid 0px #f0fff090 !important;            
+        }
+    }
+
+    &.close-menu-top{
+        height : 0px !important;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    &.open-menu-top{
+        width : 100%;
+        height: 100%;
+    }
+}
+
+
+    

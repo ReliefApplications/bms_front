@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { UserInterface } from './model/interfaces';
 import { AuthenticationService } from './core/authentication/authentication.service';
 
@@ -13,15 +13,33 @@ export class AppComponent {
   public currentRoute = "";
   public menuHover = false;
   public logOut = false;
-  public openTopMenu = true;
+  public openTopMenu = false;
+  public smallScreenMode;
+  public maxHeight = 750;
+  public maxWidth = 750;
 
   constructor(
     private _authenticationService: AuthenticationService
   ) { }
 
   ngOnInit(){
+    this.checkSize();
     this.getUser();
-    
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.checkSize();
+  }
+
+  checkSize(){
+    if((window.innerHeight < this.maxHeight)||(window.innerWidth < this.maxWidth))
+    {
+      this.smallScreenMode = true;
+    } 
+    else{
+      this.smallScreenMode = false;
+    }
   }
 
   getUser(): UserInterface {

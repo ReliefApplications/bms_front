@@ -1,3 +1,5 @@
+@import '../assets/css/variable.scss'; 
+
 :host{
     width: 100%;
     height: 100vh;
@@ -25,7 +27,7 @@
         width : 100%;
         height: 100%;
         margin: 0 !important;
-    
+
         router-outler{
             display: flex;
             flex:0 1 100%;
@@ -61,5 +63,19 @@
             width: 0px !important;
             padding: 0px;
         }
+    }
+}
+
+.page-menu-top-wrapper{
+    width : 100%;
+    height: 6%;
+    position: fixed;
+    z-index: 10000 !important;
+    background: none;
+
+    &.open-menu-top-wrapper{
+        width : 100%;
+        height: 100% !important;
+        background: none !important;
     }
 }

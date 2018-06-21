@@ -13,6 +13,7 @@ export class AppComponent {
   public currentRoute = "";
   public menuHover = false;
   public logOut = false;
+  public openTopMenu = true;
 
   constructor(
     private _authenticationService: AuthenticationService
@@ -58,5 +59,9 @@ export class AppComponent {
     if(this.logOut){
       this.getUser();
     }
+  }
+
+  clickOnTopMenu(e){
+    this.openTopMenu = !this.openTopMenu;
   }
 }

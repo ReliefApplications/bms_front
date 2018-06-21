@@ -1,0 +1,34 @@
+@import '../../../../assets/css/variable.scss'; 
+
+.header-container{
+    width: 100%;
+    height: 100%;
+    background-color: $bms_menu !important;
+    display: flex;
+    justify-content: space-between;
+    padding: 2px;
+
+    button{
+        display: flex;
+        border:0;
+        background: none;
+        color: white;
+        height: 100%;
+        justify-content: flex-end;
+
+        &:hover{
+            cursor: pointer;
+            color: $bms_red;
+        }
+    }
+
+    a{
+        border:none;
+        outline: none;
+
+        img{
+            height: 5vh;
+            width: 5vh;
+        }
+    }
+}

@@ -45,12 +45,16 @@
         h3{
             margin-left: 10vh;
             color: #f0fff090;
-            padding-left: 1.5vh;                
+            padding-left: 1.5vh;    
             padding-right: 1.5vh;  
             font-family: $bms_font_header;  
             font-size : 2vh;
             align-self: center;           
             padding-bottom: 10px;
+
+            &.menuHoverTitle{
+                opacity: 0;
+            }
         }
        
         &:hover{

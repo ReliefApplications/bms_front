@@ -7,15 +7,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2px;
 
     button{
+        padding-right:10px;
         display: flex;
         border:0;
         background: none;
         color: white;
         height: 100%;
         justify-content: flex-end;
+
+        i{
+            font-size: 3vh;
+        }
 
         &:hover{
             cursor: pointer;
@@ -26,6 +30,7 @@
     a{
         border:none;
         outline: none;
+        padding-left: 10px;
 
         img{
             height: 5vh;

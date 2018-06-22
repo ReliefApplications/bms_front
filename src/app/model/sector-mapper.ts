@@ -1,13 +1,5 @@
-import { Injectable             } from '@angular/core';
-
-import { FieldMapper            } from '../../model/mapper';
-import { Mapper                 } from './mapper.service';
-
-@Injectable({
-	providedIn: 'root'
-})
-export class MapperBms extends Mapper{
-
+export class SectorMapper{
+    
     public static mapSector(name){
 
         switch(name.toLowerCase()){

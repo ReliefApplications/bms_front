@@ -1,6 +1,6 @@
 import { Project             } from "./project"
 import { Location            } from "./location"
-import { MapperBms           } from "../core/utils/mapper-bms.service";
+import { SectorMapper        } from "./sector-mapper";
 
 export class DistributionData {
     static __classname__ = 'DistributionData';
@@ -50,7 +50,7 @@ export class DistributionData {
             name: selfinstance.name,
             location: allLocation,
             numberBeneficiaries: selfinstance.numberBeneficiaries,
-            sector: MapperBms.mapSector(allSector),
+            sector: SectorMapper.mapSector(allSector),
         }
     }
 

@@ -1,6 +1,6 @@
 import { Injectable             } from '@angular/core';
 
-import { FieldMapper            } from '../../model/mapper';
+import { FieldMapper            } from '../../model/field-mapper';
 
 @Injectable({
 	providedIn: 'root'

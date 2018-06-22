@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild               } from '@angular/core';
 import { MatSort, MatTableDataSource, Sort                 } from '@angular/material';
 
-import { MapperBms                                         } from '../../core/utils/mapper-bms.service';
+import { Mapper                                            } from '../../core/utils/mapper.service';
 
 @Component({
   selector: 'app-table',
@@ -21,7 +21,7 @@ export class TableComponent implements OnInit {
   entityInstance = null;
   
   constructor(
-    public mapperService: MapperBms,
+    public mapperService: Mapper,
   ) {
 
   }

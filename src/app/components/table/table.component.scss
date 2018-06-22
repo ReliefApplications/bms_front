@@ -16,6 +16,11 @@
   }
   .mat-cell{
     justify-content: center;
+
+    app-icon-svg{
+      width: 4.5vh;
+      height: 4.5vh;
+    }
   }
 }
 

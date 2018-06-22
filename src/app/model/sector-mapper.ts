@@ -4,7 +4,7 @@ export class SectorMapper{
 
         switch(name.toLowerCase()){
             case 'camp coordination and management':
-            name = "coordination_management"; break;
+            name = "cccm"; break;
 
             case 'early recovery':
             name = "early_recovery"; break;
@@ -20,6 +20,21 @@ export class SectorMapper{
 
             case 'health':
             name = "health"; break;
+
+            case 'logistics':
+            name = "logistics"; break;
+
+            case 'nutrition':
+            name = "nutrition"; break;
+
+            case 'protection':
+            name = "protection"; break;
+
+            case 'shelter':
+            name = "shelter"; break;
+
+            case 'water sanitation':
+            name = "water_sanitation"; break;
 
         default: return name; 
         }

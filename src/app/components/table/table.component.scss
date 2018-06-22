@@ -13,6 +13,7 @@
 
   .mat-header-cell{
     justify-content: center;    
+    width: 5vh; 
   }
   .mat-cell{
     justify-content: center;
@@ -27,6 +28,14 @@
     }
   }
 }
+
+.action-column{
+  display: flex;
+  justify-items: flex-end;
+  background-color: $bms_green !important; 
+  
+}
+
 
 .green{
   color: $bms_green;

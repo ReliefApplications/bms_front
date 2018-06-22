@@ -13,7 +13,6 @@
 
   .mat-header-cell{
     justify-content: center;    
-    width: 5vh; 
   }
   .mat-cell{
     justify-content: center;
@@ -29,22 +28,20 @@
   }
 }
 
-.action-column{
-  display: flex;
-  justify-items: flex-end;
-  background-color: $bms_green !important; 
-  
-}
-
-
 .green{
-  color: $bms_green;
+  background-color: $bms_green;
+  color: $bms_white;
+  margin: 0.5vh
 }
 
 .red{
-  color: $bms_red;
+  background-color: $bms_red;
+  color: $bms_white;
+  margin: 0.5vh
 }
 
 .light-red{
-  color: $bms_light_red;
+  background-color: $bms_light_red;
+  color: $bms_white;
+  margin: 0.5vh
 }

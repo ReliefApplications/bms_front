@@ -3,9 +3,9 @@
 .table-container {
   display: flex;
   flex-direction: column;
-  min-width: 300px;
+  min-width: 30vh;
   width: 100%;
-  max-height: 300px;
+  max-height: 30vh;
 }
 
 .mat-table {
@@ -16,6 +16,9 @@
   }
   .mat-cell{
     justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
 
     app-icon-svg{
       width: 4.5vh;

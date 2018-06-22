@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule                               } from '@angular
 import { MatIconModule                                          } from '@angular/material/icon';
 import { MatTooltipModule                                       } from '@angular/material/tooltip'
 import { MatTableModule                                         } from '@angular/material/table';
+import { MatSortModule                                          } from '@angular/material/sort';
 import { BrowserAnimationsModule                                } from '@angular/platform-browser/animations'
 
 import { MenuItemBoxComponent                                   } from '../components/menu-item-box/menu-item-box.component';
@@ -39,6 +40,7 @@ import { HeaderMenuTopComponent                                 } from '../modul
         MatTableModule,
         MatOptionModule,
         MatButtonModule,
+        MatSortModule,
         MatProgressSpinnerModule,
         MatIconModule,
         BrowserAnimationsModule

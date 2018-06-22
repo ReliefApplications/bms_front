@@ -1,0 +1,17 @@
+<div class="modal-container">
+  <h4 class="modal-title">Update</h4>
+  <table class="modal-table">
+    <tr *ngFor="let p of properties" class="modal-row">
+      <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
+      <th class="table-value">
+        <mat-form-field>
+          <input matInput value="{{data.mapper.mapValueDetails(data.data, p)}}" [type]="'text'">
+        </mat-form-field>
+      </th>
+    </tr>
+  </table>
+  <div class="modal-button">
+      <button mat-icon-button class="button-save">Cancel</button>
+      <button mat-icon-button class="button-cancel">Save</button>
+    </div>
+</div>

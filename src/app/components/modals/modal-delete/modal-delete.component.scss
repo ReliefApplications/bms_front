@@ -1,0 +1,62 @@
+@import '../../../../assets/css/variable.scss'; 
+
+.modal-container{
+    width: 40vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .modal-title{
+        display: flex;
+        flex-grow: 1;
+        padding: 5px;
+        font-family: $bms_font_header;
+        border-bottom: solid 1px $bms_green;
+    }
+
+    .modal-table{
+        display: flex;
+        flex-wrap: wrap;
+        width: 100% !important;
+        padding: 5px;
+        font-family: $bms_font_text;
+        flex-direction: column;
+
+        .modal-row{
+            display: flex;
+            width: 100%;
+            align-items: baseline;
+
+            .table-title{
+                text-align: left;
+                display: flex;
+                width: 100%;
+                font-weight: bold;
+            }
+
+            .table-value{
+                text-align: left;
+                display: flex;
+                width: 100%;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .modal-button{
+        display: flex;
+        flex-wrap: wrap;
+        width: 100% !important;
+        padding-top: 20px;
+        justify-content: flex-end;
+
+        .button-cancel{
+            color: $bms_green;
+            width: 7vh;
+        }
+        .button-delete{
+            color: $bms_green;
+            width: 7vh;
+        }
+    }
+}

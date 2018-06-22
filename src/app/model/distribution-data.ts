@@ -54,6 +54,26 @@ export class DistributionData {
         }
     }
 
+    getMapperDetails(selfinstance){
+        let allSector="";
+        let project = selfinstance.project;
+        if(project && project.sector)
+            allSector = project.sector.name;
+        let allLocation="";
+        let location = selfinstance.location;
+        if(location && location.adm1){
+            allLocation = location.adm1;
+            if (location.adm2)
+                allLocation += ", "+location.adm2;
+        }
+        return {
+            name: selfinstance.name,
+            location: allLocation,
+            numberBeneficiaries: selfinstance.numberBeneficiaries,
+            sector: SectorMapper.mapSector(allSector),
+        }  
+    }
+
     getTypeProperties(selfinstance){
         return {
             name: "text",

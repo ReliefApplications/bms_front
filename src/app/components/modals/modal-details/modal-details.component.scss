@@ -1,0 +1,40 @@
+@import '../../../../assets/css/variable.scss'; 
+
+.modal-container{
+    width: 40vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .modal-title{
+        display: flex;
+        flex-grow: 1;
+        padding: 5px;
+        font-family: $bms_font_header;
+        border-bottom: solid 1px $bms_red;
+    }
+
+    .modal-table{
+        display: flex;
+        flex-wrap: wrap;
+        width: 100% !important;
+        padding: 5px;
+        font-family: $bms_font_text;
+        flex-direction: column;
+
+        .modal-row{
+            display: flex;
+            width: 100%;
+            
+            th{
+                text-align: left;
+                display: flex;
+                width: 100%;
+
+                .table-title{
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}

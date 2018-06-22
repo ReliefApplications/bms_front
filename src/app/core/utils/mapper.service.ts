@@ -42,4 +42,8 @@ export class Mapper{
     mapValue(value, p){
         return this.entityInstance.getMapper(value)[p];
     }
+
+    mapValueDetails(value, p){
+        return this.entityInstance.getMapperDetails(value)[p];
+    }
 }

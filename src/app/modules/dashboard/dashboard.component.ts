@@ -27,7 +27,8 @@ export class DashboardComponent implements OnInit {
       private router : Router,
       private serviceMap: LeafletService, 
       private cacheService: CacheService,
-      private distributionService: DistributionService  
+      public referedClassService: DistributionService,
+
   ) { }
 
   ngOnInit() {
@@ -44,11 +45,9 @@ export class DashboardComponent implements OnInit {
   
   checkDistributions(){
     // let distributions = this.cacheService.get(CacheService.DISTRIBUTIONS);
-    console.log(this.distributionService);
 
     // if(!distributions){
-    if(this.distributionService != null){  
-    this.distributionService.get().subscribe( response => {
+      this.referedClassService.get().subscribe( response => {
         this.distributions = response;
         console.log(this.distributions);
         this.cacheService.set(CacheService.DISTRIBUTIONS, this.distributions);

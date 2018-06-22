@@ -38,6 +38,7 @@ import { HeaderMenuTopComponent                                 } from '../modul
         MatSelectModule,
         MatTableModule,
         MatOptionModule,
+        MatButtonModule,
         MatProgressSpinnerModule,
         MatIconModule,
         BrowserAnimationsModule

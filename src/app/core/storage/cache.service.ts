@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable 							} from '@angular/core';
+import { HttpClient 							} from '@angular/common/http';
 
-import { CachedItemInterface } from './cached-item.interface';
+import { CachedItemInterface 					} from './cached-item.interface';
 
 @Injectable({
 	providedIn: 'root'
@@ -9,12 +9,13 @@ import { CachedItemInterface } from './cached-item.interface';
 
 export class CacheService {
 
-	readonly PREFIX = 'bms';
-	readonly TIMEOUT = 2592000; // 30 day in seconds
+	readonly PREFIX 							= 'bms';
+	readonly TIMEOUT 							= 2592000; // 30 day in seconds
 	private defaultStorage: any;
 
 	// KEYS
-	static readonly USER = 'user';
+	static readonly USER 						= 'user';
+	static readonly DISTRIBUTIONS              	= 'distributions';
 
 	constructor() {
 		this.defaultStorage = localStorage;

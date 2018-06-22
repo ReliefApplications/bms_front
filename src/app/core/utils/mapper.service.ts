@@ -42,4 +42,15 @@ export class Mapper{
     mapValue(value, p){
         return this.entityInstance.getMapper(value)[p];
     }
+
+    //to do: for each project sector, return the right name to print the icon image 
+    public static mapSector(name){
+        switch(name){
+            case 'hhh' :
+            name = "salut"; break;
+
+        default: return name; 
+        }
+        return name; 
+    }
 }

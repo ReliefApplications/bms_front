@@ -1,6 +1,6 @@
 <div class="container-icons">
   <button (click)="changeRoot(info.title)" (mouseover)="isMouseHover()" (mouseout)="isMouseOut()" [class.active-button]="activeTitle == '/'+info.title">
     <app-icon-svg class="icon" [class.menuHover]="info.menuHover" [class.icon-last]="info.isLast" [menuHover]="isHover" [isClicked]="activeTitle == '/'+info.title" [name]="info.icon"></app-icon-svg>
-    <h3 class="icon-title" *ngIf="info.menuHover">{{info.title | uppercase}}</h3>
+    <h3 class="icon-title" [class.menuHoverTitle]="!info.menuHover">{{info.title | uppercase}}</h3>
   </button>
 </div>

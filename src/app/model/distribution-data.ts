@@ -1,5 +1,6 @@
 import { Project             } from "./project"
 import { Location            } from "./location"
+import { Mapper              } from "../core/utils/mapper.service"
 
 export class DistributionData {
     static __classname__ = 'DistributionData';
@@ -24,7 +25,7 @@ export class DistributionData {
      */
     numberBeneficiaries: Int16Array;
 
-    constructor(instance){
+    constructor(instance?){
         if(instance !== undefined){
             this.name = instance.name;
             this.project = Object.assign({},instance.project);
@@ -37,12 +38,19 @@ export class DistributionData {
         let allSector="";
         let project = selfinstance.project;
         if(project && project.sector)
-            allSector = project.sector;
+            allSector = project.sector.name;
+        let allLocation="";
+        let location = selfinstance.location;
+        if(location && location.adm1){
+            allLocation = location.adm1;
+            if (location.adm2)
+                allLocation += ", "+location.adm2;
+        }
         return {
             name: selfinstance.name,
-            location: selfinstance.location,
+            location: allLocation,
             numberBeneficiaries: selfinstance.numberBeneficiaries,
-            sector: allSector,
+            sector: Mapper.mapSector(allSector),
         }
     }
 

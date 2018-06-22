@@ -1,46 +1,22 @@
 <!-- TABLE -->
-<!-- <table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th *ngFor="let p of properties">{{mapperService.mapTitle(p)}}</th>
-      <th class="last-th">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let row of data">
-      <td *ngFor="let p of properties">
-        <span>{{mapperService.mapValue(row, p)}}</span>
-      </td>
-      <td>
-      </td>
-    </tr>
-  </tbody>
-</table> -->
-<div class="example-container mat-elevation-z8">
-    <mat-table #table [dataSource]="dataSource">
-  
-      <ng-container matColumnDef="position">
-        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
-      </ng-container>
-  
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-      </ng-container>
-  
-      <ng-container matColumnDef="weight">
-        <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
-      </ng-container>
-  
-      <ng-container matColumnDef="symbol">
-        <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
-      </ng-container>
-  
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-  </div>
-  
+<div class="table-container">
+  <mat-table #table [dataSource]="data">
+
+    <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
+      <mat-header-cell *matHeaderCellDef> {{mapperService.mapTitle(property)}} </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{mapperService.mapValue(element, property)}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-button class="red"><i class="fas fa-search"></i></button>
+        <button mat-button class="light-red"><i class="fas fa-edit"></i></button>
+        <button mat-button class="green"><i class="fas fa-times"></i></button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="propertiesActions"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: propertiesActions;"></mat-row>
+  </mat-table>
+</div>

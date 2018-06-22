@@ -13,7 +13,7 @@ export class Project {
     sector: Sector;
 
 
-    constructor(instance){
+    constructor(instance?){
         if(instance !== undefined){
             this.name = instance.name;
             this.sector = Object.assign({},instance.sector);

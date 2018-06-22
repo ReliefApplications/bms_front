@@ -1,16 +1,37 @@
-// import { Injectable             } from '@angular/core';
-// import { URL_BMS_API } from '../../../environments/environment';
+import { Injectable                                 } from '@angular/core';
+import { of                                         } from 'rxjs';
 
-// @Injectable({
-// 	providedIn: 'root'
-// })
-// export class DistributionService{
-//     readonly api = URL_BMS_API;
+import { URL_BMS_API                                } from '../../../environments/environment';
 
-//     constructor(){}
+import { HttpService                                } from './http.service';
 
-//     public get() {
-//         let url = this.api + "/distribution";
-//         return this.http.get(url);
-//     }
-// }
+import { DistributionData                           } from '../../model/distribution-data';
+import { Project                                    } from '../../model/project';
+import { Location                                   } from '../../model/location';
+import { Sector                                     } from '../../model/sector';
+
+@Injectable({
+	providedIn: 'root'
+})
+export class DistributionService{
+    readonly api = URL_BMS_API;
+
+    constructor(
+        private http : HttpService
+    ){}
+
+    public get() {
+        let url = this.api + "/distribution";
+        return of(DISTRIBUTIONS);
+        //return this.http.get(url);
+    }
+}
+
+//en attendant d'avoir la route pour getter les distributions
+const DISTRIBUTIONS: DistributionData[] = [
+    new DistributionData({name: 'Distribution1', project: new Project({sector: new Sector({name: 'hhh'})}) , location:new Location({adm1:"Phnom Penh"})}),
+    new DistributionData({name: 'Distribution2', project: new Project({sector: new Sector({name: 'cchhh'})}) , location:new Location({adm1:"Udong"})}),
+    new DistributionData({name: 'Distribution3', project: new Project({sector: new Sector({name: 'cchhh'})}) , location:new Location({adm1:"Kompong Luong"})}),
+    new DistributionData({name: 'Distribution4', project: new Project({sector: new Sector({name: 'cchhh'})}) , location:new Location({adm1:"Kratie"})}),
+    new DistributionData({name: 'Distribution5', project: new Project({sector: new Sector({name: 'cchhh'})}) , location:new Location({adm1:"Battambang"})})
+  ];

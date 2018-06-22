@@ -15,7 +15,7 @@ export class AppComponent {
   public logOut = false;
   public openTopMenu = false;
   public smallScreenMode;
-  public maxHeight = 750;
+  public maxHeight = 700;
   public maxWidth = 750;
 
   constructor(

@@ -40,7 +40,7 @@
             &.hideMenu{
                 height : 0% !important; 
                 opacity: 0;  
-                margin : 0 !important;         	
+                margin : 0 !important;    
             }
 
             &.small-screen{
@@ -50,7 +50,7 @@
     }
 
     .page-menu-wrapper{
-        width: 12vh;
+        width: 14vh;
         height: 100%;	
         -webkit-transition: all 0.5s ease;
         -moz-transition: all 0.5s ease;
@@ -76,6 +76,12 @@
     position: fixed;
     z-index: 10000 !important;
     background: none;
+
+    &.hideMenu{
+        height : 0% !important; 
+        opacity: 0;  
+        margin : 0 !important;         	
+    }
 
     &.open-menu-top-wrapper{
         width : 100%;

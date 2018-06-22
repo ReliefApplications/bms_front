@@ -6,9 +6,9 @@ import { URL_BMS_API                        } from '../../../environments/enviro
 import { AuthenticationService              } from '../../core/authentication/authentication.service';
 import { LeafletService                     } from '../../core/external/leaflet.service';
 import { CacheService                       } from '../../core/storage/cache.service';
+import { DistributionService                } from '../../core/api/distribution.service';
 
 import { DistributionData                   } from '../../model/distribution-data';
-import { DistributionService } from '../../core/api/distribution.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,12 +44,16 @@ export class DashboardComponent implements OnInit {
   
   checkDistributions(){
     // let distributions = this.cacheService.get(CacheService.DISTRIBUTIONS);
+    console.log(this.distributionService);
 
     // if(!distributions){
-      this.distributionService.get().subscribe( response => {
+    if(this.distributionService != null){  
+    this.distributionService.get().subscribe( response => {
         this.distributions = response;
+        console.log(this.distributions);
         this.cacheService.set(CacheService.DISTRIBUTIONS, this.distributions);
       })
+    }
     // } else {
       // this.distributions = distributions;
     // }

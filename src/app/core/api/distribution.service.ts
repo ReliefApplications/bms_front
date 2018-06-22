@@ -18,7 +18,8 @@ export class DistributionService{
 
     constructor(
         private http : HttpService
-    ){}
+    ){
+    }
 
     public get() {
         let url = this.api + "/distribution";

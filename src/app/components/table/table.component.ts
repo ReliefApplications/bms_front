@@ -27,6 +27,9 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(!this.data)
+      this.data = [];
+      
     this.data.sort = this.sort;
     this.sortedData = this.data.slice();
     if(this.entity){

@@ -3,7 +3,12 @@
   <table class="modal-table">
     <tr *ngFor="let p of properties" class="modal-row">
       <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
-      <th class="table-value">{{data.mapper.mapValueDetails(data.data, p)}}</th>
+      <mat-form-field>
+        <input matInput disabled value="{{data.mapper.mapValueDetails(data.data, p)}}">
+      </mat-form-field>
     </tr>
   </table>
+  <div class="modal-button">
+    <button mat-icon-button (click)="closeDialog()" class="button-close">Close</button>
+  </div>
 </div>

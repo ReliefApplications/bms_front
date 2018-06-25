@@ -49,10 +49,10 @@ export class DashboardComponent implements OnInit {
     // if(!distributions){
       this.referedClassService.get().subscribe( response => {
         this.distributions = response;
-        console.log(this.distributions);
+        // console.log(this.distributions);
         this.cacheService.set(CacheService.DISTRIBUTIONS, this.distributions);
       })
-    }
+    // }
     // } else {
       // this.distributions = distributions;
     // }

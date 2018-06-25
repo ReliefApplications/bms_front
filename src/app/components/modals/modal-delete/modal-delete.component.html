@@ -4,7 +4,7 @@
     You are about to delete : {{data.data.name}}
   </div>
   <div class="modal-button">
-    <button mat-icon-button class="button-cancel">Cancel</button>
+    <button mat-icon-button (click)="closeDialog()" class="button-cancel">Cancel</button>
     <button mat-icon-button class="button-delete">Delete</button>
   </div>
 </div>

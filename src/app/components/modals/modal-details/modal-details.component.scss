@@ -1,7 +1,7 @@
 @import '../../../../assets/css/variable.scss'; 
 
 .modal-container{
-    width: 40vh;
+    width: 50vh;    
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -20,11 +20,13 @@
         width: 100% !important;
         padding: 5px;
         font-family: $bms_font_text;
+        font-weight: 1 !important;
         flex-direction: column;
 
         .modal-row{
             display: flex;
             width: 100%;
+            align-items: baseline;
             
             th{
                 text-align: left;
@@ -35,6 +37,19 @@
                     font-weight: bold;
                 }
             }
+        }
+    }
+
+    .modal-button{
+        display: flex;
+        flex-wrap: wrap;
+        width: 100% !important;
+        padding-top: 20px;
+        justify-content: flex-end;
+
+        .button-close{
+            color: $bms_red;
+            width: 7vh;
         }
     }
 }

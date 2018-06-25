@@ -14,5 +14,4 @@ export class ModalUpdateComponent extends ModalComponent {
     this.entityInstance = this.data.mapper.instantiate(this.data.entity);
     this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapperDetails(this.entityInstance));
   }
-
 }

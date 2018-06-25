@@ -13,19 +13,17 @@
 
     button{
         width:100%;
+        height: 10vh;
         border:0;
         border-radius: 0;
         padding: 1vh;
         display: flex;
+        flex-wrap: wrap;
         background: none;
-
+        align-items: center;
         .icon{
-            height: 10vh;
             width: 10vh;  
-            display:inline-block;
             border-bottom: solid 0.2vh #f0fff090;
-            align-self: center !important; 
-            padding-bottom: 1vh;
             position: fixed;
         }
 
@@ -35,27 +33,19 @@
         }
 
         .icon-title{
-            align-self: center;
-        } 
-    
-        .icon-last{
-            border-bottom: 0 !important;                
-        }
-    
-        h3{
-            position: fixed;
+            padding-left: 1vh; 
             margin-left: 10vh;
             color: #f0fff090;
-            padding-left: 1.5vh;    
-            padding-right: 1.5vh;  
             font-family: $bms_font_header;  
-            font-size : 2vh;
-            align-self: center;           
-            padding-bottom: 10px;
+            font-size : 20px;
 
             &.menuHoverTitle{
                 opacity: 0;
             }
+        } 
+    
+        .icon-last{
+            border-bottom: 0 !important;                
         }
        
         &:hover{

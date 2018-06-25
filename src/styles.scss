@@ -1,6 +1,17 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "../node_modules/leaflet/dist/leaflet.css";
 
 .leaflet-control-attribution.leaflet-control {
-    display: none !important;   // To remove the credits
-  }
+  display: none !important;  
+}
+
+// THEME
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$candy-app-primary: mat-palette($mat-grey, 700);
+$candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
+
+@include angular-material-theme($candy-app-theme);

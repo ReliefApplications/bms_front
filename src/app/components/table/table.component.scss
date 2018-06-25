@@ -19,7 +19,9 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-
+    align-content: center;
+    align-items: center;
+    
     app-icon-svg{
       display: flex;
       width: 4.5vh;

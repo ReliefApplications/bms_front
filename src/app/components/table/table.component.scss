@@ -28,17 +28,19 @@
   }
 }
 
-.green{
-  color: $bms_green;
+button{
+  color: $bms_white;
   margin: 0.5vh
+}
+
+.green{
+  background-color: $bms_green;
 }
 
 .red{
-  color: $bms_red;
-  margin: 0.5vh
+  background-color: $bms_red;
 }
 
 .light-red{
-  color: $bms_light_red;
-  margin: 0.5vh
+  background-color: $bms_light_red;
 }

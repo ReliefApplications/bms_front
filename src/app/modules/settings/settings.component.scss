@@ -1,7 +1,6 @@
 @import '../../../assets/css/variable.scss'; 
 
 .settings-container{
-    background-color: aqua;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -12,14 +11,12 @@
         padding: 20px;
         font-family: $bms_font_header;
         font-size: 3vh;       
-        background-color: lawngreen;
     }
 
     .container-boxes{
         display: flex;
         width: 100%;
         padding: 20px;
-        background-color: indianred;
         justify-content: space-between;
 
         app-box-setting{
@@ -32,6 +29,5 @@
         display: flex;
         width: 100%;
         padding: 20px;
-        background-color: lightcoral;
     }
 }

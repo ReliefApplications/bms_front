@@ -2,11 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-box-dashboard',
-  templateUrl: './box-dashboard.component.html',
-  styleUrls: ['./box-dashboard.component.scss']
+  selector: 'app-box',
+  templateUrl: './box.component.html',
+  styleUrls: ['./box.component.scss']
 })
-export class BoxDashboardComponent implements OnInit {
+export class BoxComponent implements OnInit {
 
   @Input() info: any;
 

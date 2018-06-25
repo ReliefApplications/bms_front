@@ -16,7 +16,9 @@ import { BrowserAnimationsModule                                } from '@angular
 
 import { MenuItemBoxComponent                                   } from '../components/menu-item-box/menu-item-box.component';
 import { IconSvgComponent                                       } from '../components/icon-svg/icon-svg.component';
-import { BoxDashboardComponent                                  } from '../components/box-dashboard/box-dashboard.component';
+import { BoxDashboardComponent                                  } from '../components/box/box-dashboard/box-dashboard.component';
+import { BoxSettingComponent                                    } from '../components/box/box-setting/box-setting.component';
+import { BoxComponent                                           } from '../components/box/box.component';
 import { TableComponent                                         } from '../components/table/table.component';
 import { ModalComponent                                         } from '../components/modals/modal.component';
 import { ModalDeleteComponent                                   } from '../components/modals/modal-delete/modal-delete.component';
@@ -75,6 +77,8 @@ import { HeaderComponent                                        } from '../modul
         ModalDeleteComponent,
 		ModalUpdateComponent,
 		ModalDetailsComponent,
+		BoxSettingComponent,
+		BoxComponent,
     ],
     entryComponents: [
         ModalComponent,
@@ -102,6 +106,8 @@ import { HeaderComponent                                        } from '../modul
         ModalDeleteComponent,
 		ModalUpdateComponent,
 		ModalDetailsComponent,
+		BoxSettingComponent,
+		BoxComponent,
     ],
     providers: []
 })

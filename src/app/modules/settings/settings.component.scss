@@ -1,0 +1,37 @@
+@import '../../../assets/css/variable.scss'; 
+
+.settings-container{
+    background-color: aqua;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    .container-title{
+        width: 100%;
+        padding: 20px;
+        font-family: $bms_font_header;
+        font-size: 3vh;       
+        background-color: lawngreen;
+    }
+
+    .container-boxes{
+        display: flex;
+        width: 100%;
+        padding: 20px;
+        background-color: indianred;
+        justify-content: space-between;
+
+        app-box-setting{
+            width: 100%;
+            margin-right: 10px;
+        }
+    }
+
+    .container-content{
+        display: flex;
+        width: 100%;
+        padding: 20px;
+        background-color: lightcoral;
+    }
+}

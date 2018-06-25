@@ -3,10 +3,10 @@
       <h1>SETTINGS</h1>
   </div>
   <div class="container-boxes">
-      <app-box-setting [info]='{icon: "home", color: "red", title:"users", subtitle:"", ref:""}'></app-box-setting>
-      <app-box-setting [info]='{icon: "home", color: "green", title:"country specific options", subtitle:"", ref:""}'></app-box-setting>
-      <app-box-setting [info]='{icon: "home", color: "red", title:"donors", subtitle:"", ref:""}'></app-box-setting>
-      <app-box-setting [info]='{icon: "home", color: "green", title:"projects", subtitle:"", ref:""}'></app-box-setting>
+      <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "home", color: "red", title:"users", subtitle:"", ref:""}'></app-box-setting>
+      <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "home", color: "green", title:"country specific options", subtitle:"", ref:""}'></app-box-setting>
+      <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "home", color: "red", title:"donors", subtitle:"", ref:""}'></app-box-setting>
+      <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "home", color: "green", title:"projects", subtitle:"", ref:""}'></app-box-setting>
   </div>
   <div class="container-content"></div>
 </div>

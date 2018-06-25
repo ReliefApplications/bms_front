@@ -1,5 +1,5 @@
 <div class="box-content">
-  <button (click)="changeRoot(info.ref)" style="text-decoration: none;">
+  <button (click)="emitTitle(info.title)" style="text-decoration: none;" [class.selected]="!(info.title == selectedTitle)">
     <div class="box-content-content">
       <div class="content-icon box-{{info.color}}">
         <img src="assets/images/{{info.icon}}.png">

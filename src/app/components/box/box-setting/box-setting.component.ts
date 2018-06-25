@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { BoxComponent } from '../box.component';
 
 @Component({
@@ -7,8 +7,9 @@ import { BoxComponent } from '../box.component';
   styleUrls: ['./box-setting.component.scss']
 })
 export class BoxSettingComponent extends BoxComponent {
+  @Input() selectedTitle;
 
   ngOnInit() {
+    this.selectedTitle = this.info.title;
   }
-
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,8 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./box.component.scss']
 })
 export class BoxComponent implements OnInit {
-
+  @Input() selectedTitle;
   @Input() info: any;
+  @Output() emitClickedTitle = new EventEmitter<string>();
 
   constructor(
     private router: Router,
@@ -19,5 +20,9 @@ export class BoxComponent implements OnInit {
 
   changeRoot(route): void{
     this.router.navigate([route]);
+  }
+
+  emitTitle(title){
+    this.emitClickedTitle.emit(title);
   }
 }

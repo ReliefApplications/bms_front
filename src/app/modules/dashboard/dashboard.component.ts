@@ -42,14 +42,16 @@ export class DashboardComponent implements OnInit {
     this.checkDistributions();
   }
 
-  
-  checkDistributions(){
+  /**
+  * get the distributions list to display on dashboard
+  * check if it is cached, otherwise get it from the api
+  */
+  checkDistributions(): void{
     // let distributions = this.cacheService.get(CacheService.DISTRIBUTIONS);
 
     // if(!distributions){
       this.referedClassService.get().subscribe( response => {
         this.distributions = response;
-        // console.log(this.distributions);
         this.cacheService.set(CacheService.DISTRIBUTIONS, this.distributions);
       })
     // }

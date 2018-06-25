@@ -24,7 +24,7 @@ export class MenuComponent implements OnInit {
     })
   }
 
-  setCurrentRoute(route){
+  setCurrentRoute(route): void{
     this.activeTitle = "/"+route;
   }
 }

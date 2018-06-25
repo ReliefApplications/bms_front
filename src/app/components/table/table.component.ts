@@ -51,7 +51,12 @@ export class TableComponent implements OnInit {
     }
   }
 
-  sortData(sort: Sort) {
+  /**
+  * sort data displayed by the table
+  * sort.active represents the column to sort
+  * sort.direction can be Asc or Desc
+  */
+  sortData(sort: Sort): void {
     const data = this.data.slice();
     if (!sort.active || sort.direction == '') {
       this.sortedData = data;
@@ -64,10 +69,13 @@ export class TableComponent implements OnInit {
     });
   }
 
-  compare(a, b, isAsc) {
+  compare(a, b, isAsc): number {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
   
+  /**
+  * open each modal dialog
+  */
   openDialog(user_action, element): void {
     let dialogRef;
 

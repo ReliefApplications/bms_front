@@ -25,12 +25,12 @@ export class MenuTopComponent implements OnInit {
     })
   }
 
- setCurrentRoute(route){
+ setCurrentRoute(route): void{
     this.activeTitle = "/"+route;
     this.emitCloseMenu.emit(true);
   }
   
-  closeTopMenu(){
+  closeTopMenu(): void{
     this.emitCloseMenu.emit(true);
   }
 }

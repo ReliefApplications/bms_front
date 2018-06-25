@@ -32,7 +32,7 @@ export class AppComponent {
     this.checkSize();
   }
 
-  checkSize(){
+  checkSize(): void{
     if((window.innerHeight < this.maxHeight)||(window.innerWidth < this.maxWidth))
     {
       this.smallScreenMode = true;
@@ -55,31 +55,31 @@ export class AppComponent {
     return this.user;
   }
 
-  hoverMenu(){
+  hoverMenu(): void{
     this.menuHover = true;
   }
 
-  outMenu(){
+  outMenu(): void{
     this.menuHover = false;
   }
 
-  setCurrentRoute(currentRoute){
+  setCurrentRoute(currentRoute): void{
     this.currentRoute = currentRoute;
   }
 
-  onLogOut(e) {
+  onLogOut(e): void{
     this.user.loggedIn = false;
     this._authenticationService.logout();
     this.getUser();
   }
 
-  ngDoCheck(){
+  ngDoCheck(): void{
     if(this.logOut){
       this.getUser();
     }
   }
 
-  clickOnTopMenu(e){
+  clickOnTopMenu(e): void{
     this.openTopMenu = !this.openTopMenu;
   }
 }

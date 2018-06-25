@@ -22,17 +22,17 @@ export class MenuItemBoxComponent implements OnInit {
   ngOnInit() {
   }
 
-  changeRoot(route){
+  changeRoot(route): void{
     this.router.navigate(['/'+route]);
     this.emitActive.emit(route);
     this.isClicked = true;
   }
 
-  isMouseHover(){
+  isMouseHover(): void{
     this.isHover = true;
   }
 
-  isMouseOut(){
+  isMouseOut(): void{
     this.isHover = false;
   }
 

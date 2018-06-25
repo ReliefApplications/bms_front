@@ -34,7 +34,10 @@ export class DistributionData {
         }
     }
 
-    getMapper(selfinstance) {
+    /**
+    * return a DistributionData after formatting its properties
+    */
+    getMapper(selfinstance): Object {
         let allSector="";
         let project = selfinstance.project;
         if(project && project.sector)
@@ -54,7 +57,10 @@ export class DistributionData {
         }
     }
 
-    getMapperDetails(selfinstance){
+    /**
+    * return a DistributionData after formatting its properties for the modal details
+    */
+    getMapperDetails(selfinstance): Object{
         let allSector="";
         let project = selfinstance.project;
         if(project && project.sector)
@@ -74,7 +80,10 @@ export class DistributionData {
         }  
     }
 
-    getTypeProperties(selfinstance){
+    /**
+    * return the type of DistributionData properties
+    */
+    getTypeProperties(selfinstance): Object{
         return {
             name: "text",
             location:"text",
@@ -84,7 +93,10 @@ export class DistributionData {
         }
     }
 
-    static translator() {
+    /**
+    * return DistributionData properties name displayed
+    */
+    static translator(): Object {
         return {
             name: "Distribution",
             location:"Location",

@@ -13,7 +13,7 @@ export class HeaderMenuTopComponent implements OnInit {
   ngOnInit() {
   }
 
-  openTopMenu(){
+  openTopMenu(): void{
     this.emitOpenMenu.emit(true);
   }
 }

@@ -28,7 +28,7 @@ export class DistributionService{
     }
 }
 
-//en attendant d'avoir la route pour getter les distributions
+//fake distributions en attendant d'avoir la route pour getter les distributions
 const DISTRIBUTIONS: DistributionData[] = [
     new DistributionData({name: 'Distribution1', project: new Project({sector: new Sector({name: 'logistics'})}) , location:new Location({adm1:"Phnom Penh"})}),
     new DistributionData({name: 'Distribution2', project: new Project({sector: new Sector({name: 'protection'})}) , location:new Location({adm1:"Udong"})}),

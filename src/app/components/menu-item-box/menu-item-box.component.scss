@@ -21,7 +21,6 @@
         flex-wrap: wrap;
         background: none;
         align-items: center;
-
         .icon{
             width: 10vh;  
             border-bottom: solid 0.2vh #f0fff090;
@@ -38,7 +37,7 @@
             margin-left: 10vh;
             color: #f0fff090;
             font-family: $bms_font_header;  
-            font-size : 2vh;
+            font-size : 20px;
 
             &.menuHoverTitle{
                 opacity: 0;

@@ -5,7 +5,7 @@ export class Sector {
      */
     name: string = '';
     
-    constructor(instance){
+    constructor(instance?){
         if(instance !== undefined){
             this.name = instance.name;
         }

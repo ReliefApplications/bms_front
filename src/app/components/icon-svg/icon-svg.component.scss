@@ -1,5 +1,9 @@
 @import '../../../assets/css/variable.scss'; 
 
+svg{
+    align-self: stretch;
+}
+
 .icon-rect-stroke{
     rect{
         stroke:#f0fff090;

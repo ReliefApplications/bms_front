@@ -1,0 +1,43 @@
+export class SectorMapper{
+    
+    public static mapSector(name){
+
+        switch(name.toLowerCase()){
+            case 'camp coordination and management':
+            name = "cccm"; break;
+
+            case 'early recovery':
+            name = "early_recovery"; break;
+
+            case 'education':
+            name = "education"; break;
+
+            case 'emergency telecommunications':
+            name = "emergency_telecommunications"; break;
+
+            case 'food security':
+            name = "food_security"; break;
+
+            case 'health':
+            name = "health"; break;
+
+            case 'logistics':
+            name = "logistics"; break;
+
+            case 'nutrition':
+            name = "nutrition"; break;
+
+            case 'protection':
+            name = "protection"; break;
+
+            case 'shelter':
+            name = "shelter"; break;
+
+            case 'water sanitation':
+            name = "water_sanitation"; break;
+
+        default: return name; 
+        }
+        return name; 
+    }
+}

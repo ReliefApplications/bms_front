@@ -2,6 +2,7 @@ import { NgModule 																} from '@angular/core';
 import { BrowserModule 															} from '@angular/platform-browser';
 import { FormsModule 															} from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS 									} from '@angular/common/http';
+import { HttpModule 															} from '@angular/http';
 
 import { AuthInterceptor 														} from './core/interceptors/auth-interceptor';
 
@@ -26,9 +27,10 @@ import { SharedModule 															} from './shared/shared.module';
 		FormsModule,
 		HttpClientModule,
 		SharedModule,
+		HttpModule,
 		
 		// Routing
-		AppRouting,
+		AppRouting
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

@@ -1,7 +1,13 @@
+
 import { Component, OnInit, Input, ViewChild               } from '@angular/core';
-import { MatSort, MatTableDataSource, Sort                 } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort} from '@angular/material';
 
 import { Mapper                                            } from '../../core/utils/mapper.service';
+
+import { ModalDetailsComponent                  } from '../modals/modal-details/modal-details.component';
+import { ModalComponent                         } from '../modals/modal.component';
+import { ModalUpdateComponent                   } from '../modals/modal-update/modal-update.component';
+import { ModalDeleteComponent                   } from '../modals/modal-delete/modal-delete.component';
 
 @Component({
   selector: 'app-table',
@@ -14,14 +20,17 @@ export class TableComponent implements OnInit {
 
   @Input() entity;
   @Input() data: any = [];
+  @Input() service;
   sortedData: any;
   properties: any;
   propertiesTypes: any;
   propertiesActions: any;
   entityInstance = null;
-  
+  public user_action: string = '';
+
   constructor(
     public mapperService: Mapper,
+    public dialog: MatDialog
   ) {
 
   }
@@ -42,7 +51,12 @@ export class TableComponent implements OnInit {
     }
   }
 
-  sortData(sort: Sort) {
+  /**
+  * sort data displayed by the table
+  * sort.active represents the column to sort
+  * sort.direction can be Asc or Desc
+  */
+  sortData(sort: Sort): void {
     const data = this.data.slice();
     if (!sort.active || sort.direction == '') {
       this.sortedData = data;
@@ -55,7 +69,31 @@ export class TableComponent implements OnInit {
     });
   }
 
-  compare(a, b, isAsc) {
+  compare(a, b, isAsc): number {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  
+  /**
+  * open each modal dialog
+  */
+  openDialog(user_action, element): void {
+    let dialogRef;
+
+    if(user_action == 'details'){
+      dialogRef = this.dialog.open(ModalDetailsComponent, {
+        data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService}
+      });
+    }else if (user_action == 'update'){
+      dialogRef = this.dialog.open(ModalUpdateComponent, {
+        data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService}
+      });
+    } else {
+      dialogRef = this.dialog.open(ModalDeleteComponent, {
+        data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService}
+      });
+    }
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

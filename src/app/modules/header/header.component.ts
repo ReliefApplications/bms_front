@@ -18,6 +18,10 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+  * check if the current page has changed
+  * and update the new path displayed in the header
+  */
   ngDoCheck(){
     if(this.currentRoute != this.oldRoute){
       this.parseRoute(this.currentRoute);
@@ -28,16 +32,16 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  parseRoute(currentRoute){
+  parseRoute(currentRoute): void{
     this.routeParsed = currentRoute.split('/');
     this.routeParsed[0]= this.home;
   }
 
-  openAdminMenu(){
+  openAdminMenu(): void{
     this.adminMenuOpen = !this.adminMenuOpen;
   }
 
-  logOut(){
+  logOut(): void{
     this.emitLogOut.emit();
   }
 }

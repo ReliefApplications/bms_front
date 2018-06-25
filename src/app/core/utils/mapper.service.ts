@@ -20,7 +20,10 @@ export class Mapper{
         return this.entityInstance = instance;
     }
 
-    setMapperObject(entity){
+    /**
+    * set mapperObject with its properties set with the entity translator
+    */
+    setMapperObject(entity): Object{
         switch(entity.__classname__){
             case 'DistributionData' :
             this.mapperObject = this.mapper.distribution_data; break;
@@ -30,16 +33,30 @@ export class Mapper{
         return this;
     }
 
-    getMapperObject(){
+    getMapperObject(): Object{
         return this.mapperObject;
     }
 
-    mapTitle(column){
+    /**
+    * return the displayed name of a mapperObject's property if the property exists
+    */
+    mapTitle(column): Object{
         let mapperObject = this.getMapperObject();
         return mapperObject ? mapperObject[column] : '';
     }
 
-    mapValue(value, p){
-        return this.entityInstance.getMapper(value)[p];
+    /**
+    * return the formmatted value of a property p of the object element
+    */
+    mapValue(element, p){
+        return this.entityInstance.getMapper(element)[p];
+    }
+
+    /**
+    * return the formmatted value of a property p of the object element 
+    * the formatting is for modal details
+    */
+    mapValueDetails(element, p){
+        return this.entityInstance.getMapperDetails(element)[p];
     }
 }

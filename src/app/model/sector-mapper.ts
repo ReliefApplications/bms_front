@@ -1,6 +1,9 @@
 export class SectorMapper{
     
-    public static mapSector(name){
+    /**
+    * mapping between sectors names and svg names
+    */
+    public static mapSector(name): string{
 
         switch(name.toLowerCase()){
             case 'camp coordination and management':

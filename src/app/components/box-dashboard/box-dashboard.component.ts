@@ -17,7 +17,7 @@ export class BoxDashboardComponent implements OnInit {
   ngOnInit() {
   }
 
-  changeRoot(route){
+  changeRoot(route): void{
     this.router.navigate([route]);
   }
 }

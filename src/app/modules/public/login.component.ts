@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
         }
 	}
 
-	login() {
+	login(): void {
 		this._authService.login(this.user)
 		  .then( (user:UserInterface) => {
 			  if( user.loggedIn ){

@@ -3,7 +3,7 @@ import { RouterModule, Routes                                   } from '@angular
 import { CommonModule                                           } from '@angular/common';
 import { FormsModule, ReactiveFormsModule                       } from '@angular/forms';
 import { FormControl, FormGroup, Validators                     } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule                } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule} from '@angular/material';
 import { MatProgressSpinnerModule                               } from '@angular/material/progress-spinner';
 import { MatIconModule                                          } from '@angular/material/icon';
 import { MatTooltipModule                                       } from '@angular/material/tooltip'
@@ -20,6 +20,7 @@ import { BoxDashboardComponent                                  } from '../compo
 import { BoxSettingComponent                                    } from '../components/box/box-setting/box-setting.component';
 import { BoxComponent                                           } from '../components/box/box.component';
 import { TableComponent                                         } from '../components/table/table.component';
+import { TableSearchComponent                                   } from '../components/table/table-search/table-search.component';
 import { ModalComponent                                         } from '../components/modals/modal.component';
 import { ModalDeleteComponent                                   } from '../components/modals/modal-delete/modal-delete.component';
 import { ModalUpdateComponent                                   } from '../components/modals/modal-update/modal-update.component';
@@ -55,6 +56,7 @@ import { HeaderComponent                                        } from '../modul
         MatIconModule,
         MatFormFieldModule,
         MatInputModule,
+        MatPaginatorModule,
         BrowserAnimationsModule
     ],
     declarations: [
@@ -71,6 +73,7 @@ import { HeaderComponent                                        } from '../modul
         IconSvgComponent,
 		BoxDashboardComponent,        
 		TableComponent,
+		TableSearchComponent,
 		MenuTopComponent,
 		HeaderMenuTopComponent,
         ModalComponent,
@@ -100,6 +103,7 @@ import { HeaderComponent                                        } from '../modul
 		IconSvgComponent,
 		BoxDashboardComponent,        
 		TableComponent,
+		TableSearchComponent,
 		MenuTopComponent,
 		HeaderMenuTopComponent,
         ModalComponent,

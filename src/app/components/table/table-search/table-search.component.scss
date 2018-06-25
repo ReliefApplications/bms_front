@@ -1,0 +1,53 @@
+@import '../../../../assets/css/variable.scss'; 
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 30vh;
+  width: 100%;
+  max-height: 38vh;
+
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+}
+
+.mat-table {
+  overflow: auto;
+
+  .mat-header-cell{
+    justify-content: center;    
+  }
+  .mat-cell{
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    
+    app-icon-svg{
+      display: flex;
+      width: 4.5vh;
+      height: 4.5vh;
+    }
+  }
+}
+
+button{
+  color: $bms_white;
+  margin: 0.5vh
+}
+
+.green{
+  background-color: $bms_green;
+}
+
+.red{
+  background-color: $bms_red;
+}
+
+.light-red{
+  background-color: $bms_light_red;
+}

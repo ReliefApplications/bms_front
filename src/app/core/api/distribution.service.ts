@@ -33,5 +33,14 @@ const DISTRIBUTIONS: DistributionData[] = [
     new DistributionData({name: 'Distribution1', project: new Project({sector: new Sector({name: 'logistics'})}) , location:new Location({adm1:"Phnom Penh"})}),
     new DistributionData({name: 'Distribution2', project: new Project({sector: new Sector({name: 'protection'})}) , location:new Location({adm1:"Udong"})}),
     new DistributionData({name: 'Distribution3', project: new Project({sector: new Sector({name: 'shelter'})}) , location:new Location({adm1:"Kompong Luong"})}),
-    new DistributionData({name: 'Distribution4', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})})
+    new DistributionData({name: 'Distribution4', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
+    new DistributionData({name: 'Distribution4', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
+    new DistributionData({name: 'Distribution4', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
+    new DistributionData({name: 'Distribution4', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
+    new DistributionData({name: 'Distribution4', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
+    new DistributionData({name: 'Distribution4', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
+    new DistributionData({name: 'Distribution4', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
+    new DistributionData({name: 'Distribution4', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
+    new DistributionData({name: 'Distribution4', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
+    new DistributionData({name: 'Distribution4', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
   ];

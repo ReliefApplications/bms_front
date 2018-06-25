@@ -1,12 +1,28 @@
 <div class="settings-container">
   <div class="container-title">
-      <h2>SETTINGS</h2>
+    <h2>SETTINGS</h2>
   </div>
   <div class="container-boxes">
-      <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/users", color: "red", title:"users", subtitle:"", ref:""}'></app-box-setting>
-      <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/country_specific", color: "green", title:"country specific options", subtitle:"", ref:""}'></app-box-setting>
-      <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/donors", color: "red", title:"donors", subtitle:"", ref:""}'></app-box-setting>
-      <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "green", title:"projects", subtitle:"", ref:""}'></app-box-setting>
+    <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/users", color: "green", title:"users", subtitle:"", ref:""}'></app-box-setting>
+    <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/country_specific", color: "green", title:"country specific options", subtitle:"", ref:""}'></app-box-setting>
+    <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/donors", color: "green", title:"donors", subtitle:"", ref:""}'></app-box-setting>
+    <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "green", title:"projects", subtitle:"", ref:""}'></app-box-setting>
   </div>
-  <div class="container-content"></div>
+  <div class="container-table">
+    <div class="container-content">
+      <div class="content-table">
+        <app-table-search [entity]="referedClassToken" [service]="referedClassService" [data]="distributions"></app-table-search>
+      </div>
+      <div class="content-buttons">
+        <button mat-button>
+          <i class="fas fa-upload">
+            <span>EXPORT</span>
+          </i>
+        </button>
+        <button mat-button>
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

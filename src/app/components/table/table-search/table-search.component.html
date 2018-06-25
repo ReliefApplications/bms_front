@@ -2,11 +2,10 @@
 <div class="table-container">
   <div class="container-header">
     <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by name">
     </mat-form-field>
   </div>
-
-  <mat-table #table [dataSource]="sortedData" matSort (matSortChange)="sortData($event)">
+  <mat-table #table [dataSource]="data" matSort (matSortChange)="sortData($event)">
 
     <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
       <mat-header-cell *matHeaderCellDef mat-sort-header> {{mapperService.mapTitle(property)}} </mat-header-cell>

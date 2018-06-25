@@ -1,6 +1,6 @@
 
 import { Component, OnInit, Input, ViewChild               } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource} from '@angular/material';
 
 import { Mapper                                            } from '../../core/utils/mapper.service';
 
@@ -22,6 +22,7 @@ export class TableComponent implements OnInit {
   @Input() data: any = [];
   @Input() service;
   sortedData: any;
+  allData: any;
   properties: any;
   propertiesTypes: any;
   propertiesActions: any;
@@ -41,7 +42,7 @@ export class TableComponent implements OnInit {
       
     this.data.sort = this.sort;
     this.sortedData = this.data.slice();
-    console.log(this.properties);    
+    this.allData = this.data.slice();
     if(this.entity){
       this.entityInstance = this.mapperService.instantiate(this.entity);
       this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
@@ -49,7 +50,6 @@ export class TableComponent implements OnInit {
       this.propertiesActions = Object.create(this.properties);
       this.propertiesActions.push("actions");
       this.mapperService.setMapperObject(this.entity);
-      console.log(this.properties);
     }
   }
 

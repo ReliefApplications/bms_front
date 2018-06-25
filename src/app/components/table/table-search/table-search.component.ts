@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild                          } from '@angular/core';
-import { MatTableDataSource, MatPaginator                      } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
-import { TableComponent                                        } from '../table.component';
+import { TableComponent } from '../table.component';
 
 @Component({
   selector: 'app-table-search',
@@ -17,8 +17,18 @@ export class TableSearchComponent extends TableComponent {
   }
 
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.sortedData.filter = filterValue;
+    this.data= this.allData;
+    if(!filterValue)
+      return;
+    let filterData = this.allData.slice();
+    let index = -1;
+    for (let data of this.allData) {
+      if (!data.name.toLowerCase().includes(filterValue)) {
+        index = filterData.indexOf(data);
+        if (index !== -1)
+          filterData.splice(index, 1);
+        }
+    }
+    this.data = filterData.slice();
   }
 }

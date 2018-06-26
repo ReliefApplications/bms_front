@@ -18,7 +18,7 @@ export class BoxComponent implements OnInit {
   ngOnInit() {
   }
 
-  changeRoot(route): void{
+  changeRoute(route): void{
     this.router.navigate([route]);
   }
 

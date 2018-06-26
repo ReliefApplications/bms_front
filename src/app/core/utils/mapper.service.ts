@@ -49,7 +49,10 @@ export class Mapper{
     * return the formmatted value of a property p of the object element
     */
     mapValue(element, p){
-        return this.entityInstance.getMapper(element)[p];
+        let elementObject = this.entityInstance.getMapper(element);
+        if(!elementObject)
+            return p;
+        return elementObject[p];
     }
 
     /**

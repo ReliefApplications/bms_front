@@ -9,7 +9,7 @@
     <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "green", title:"projects", subtitle:"", ref:""}'></app-box-setting>
   </div>
   <div class="container-table">
-    <div class="container-content">
+    <div class="container-content" *ngIf="isBoxClicked">
       <div class="content-table">
         <app-table-search [entity]="referedClassToken" [service]="referedClassService" [data]="distributions"></app-table-search>
       </div>

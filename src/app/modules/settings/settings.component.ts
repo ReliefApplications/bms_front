@@ -12,6 +12,7 @@ export class SettingsComponent implements OnInit {
   selectedTitle = "";
   referedClassToken = DistributionData;
   distributions: DistributionData[];
+  isBoxClicked = false;
 
   constructor(
     public referedClassService: DistributionService,    
@@ -22,14 +23,14 @@ export class SettingsComponent implements OnInit {
     this.checkDistributions();
   }
 
-  selectTitle(title){
+  selectTitle(title): void{
+    this.isBoxClicked = true;
     this.selectedTitle = title;
   }
 
   checkDistributions(): void{
       this.referedClassService.get().subscribe( response => {
         this.distributions = response;
-        console.log(this.distributions);
         this.cacheService.set(CacheService.DISTRIBUTIONS, this.distributions);
       })
   }

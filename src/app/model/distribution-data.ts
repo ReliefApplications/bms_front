@@ -38,6 +38,9 @@ export class DistributionData {
     * return a DistributionData after formatting its properties
     */
     getMapper(selfinstance): Object {
+        if(!selfinstance)
+            return selfinstance;
+
         let allSector="";
         let project = selfinstance.project;
         if(project && project.sector)
@@ -61,6 +64,9 @@ export class DistributionData {
     * return a DistributionData after formatting its properties for the modal details
     */
     getMapperDetails(selfinstance): Object{
+        if(!selfinstance)
+            return selfinstance;
+
         let allSector="";
         let project = selfinstance.project;
         if(project && project.sector)

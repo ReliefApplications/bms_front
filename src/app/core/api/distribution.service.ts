@@ -36,11 +36,4 @@ const DISTRIBUTIONS: DistributionData[] = [
     new DistributionData({name: 'Distribution4', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
     new DistributionData({name: 'Distribution5', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
     new DistributionData({name: 'Distribution6', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
-    new DistributionData({name: 'Distribution7', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
-    new DistributionData({name: 'Distribution8', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
-    new DistributionData({name: 'Distribution9', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
-    new DistributionData({name: 'Distribution10', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
-    new DistributionData({name: 'Distribution11', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
-    new DistributionData({name: 'Distribution12', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
-    new DistributionData({name: 'Distribution13', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
-  ];
+   ];

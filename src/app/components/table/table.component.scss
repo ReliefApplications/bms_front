@@ -3,24 +3,16 @@
 .table-container {
   display: flex;
   flex-direction: column;
-  min-width: 30vh;
   width: 100%;
-  max-height: 30vh;
 }
 
-.mat-table {
+table {
   overflow: auto;
+  width: 100%;
+  border:0;
 
-  .mat-header-cell{
-    justify-content: center;    
-  }
-  .mat-cell{
-    justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
+  td{
+    width: 300px;
     
     app-icon-svg{
       display: flex;

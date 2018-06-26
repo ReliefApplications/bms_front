@@ -3,9 +3,7 @@
 .table-container {
   display: flex;
   flex-direction: column;
-  min-width: 30vh;
   width: 100%;
-//   max-height: 38vh;
 
   .mat-form-field {
     font-size: 14px;
@@ -13,17 +11,14 @@
   }
 }
 
-.mat-table {
+table {
   overflow: auto;
+  width: 100%;
+  border:0;
 
-  .mat-header-cell{
-    justify-content: center;    
-  }
-  .mat-cell{
+  td{
     justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
+    width: 300px;
     align-content: center;
     align-items: center;
     

@@ -12,7 +12,7 @@ export class AppComponent {
   user: UserInterface = new UserInterface();
   public currentRoute = "";
   public menuHover = false;
-  public logOut = false;
+  public logOut = true;
   public openTopMenu = false;
   public smallScreenMode;
   public maxHeight = 700;
@@ -44,7 +44,12 @@ export class AppComponent {
 
   getUser(): UserInterface {
     if (this.user.user_id) {
-        return this.user;
+      if(!this.user.loggedIn){
+        this.logOut = true;
+      }else{
+        this.logOut = false;      
+      }
+      return this.user;
     }
     this.user = this._authenticationService.getUser();
     if(!this.user.loggedIn){

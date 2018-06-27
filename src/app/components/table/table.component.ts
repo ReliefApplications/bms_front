@@ -36,7 +36,12 @@ export class TableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.checkData();
+  }
+  
+  checkData(){
     if(!this.data)
+    
       this.data = new MatTableDataSource([]);
       this.data.sort = this.sort;
       this.data.paginator = this.paginator;
@@ -44,12 +49,15 @@ export class TableComponent implements OnInit {
         this.entityInstance = this.mapperService.instantiate(this.entity);
         this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
         this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
-        this.propertiesActions = Object.create(this.properties);
+        this.propertiesActions = new Array();
+        this.properties.forEach(element => {
+          this.propertiesActions.push(element);
+        });
         this.propertiesActions.push("actions");
         this.mapperService.setMapperObject(this.entity);
-    }
+      }
   }
-  
+
   /**
   * open each modal dialog
   */

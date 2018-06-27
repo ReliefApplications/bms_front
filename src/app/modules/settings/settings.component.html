@@ -21,8 +21,8 @@
           </button>
       </div>
       <div class="content-table">
-        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="distributions"></app-table-search>
-        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="distributions"></app-table-mobile-search>
+        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data"></app-table-search>
+        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data"></app-table-mobile-search>
       </div>
     </div>
   </div>

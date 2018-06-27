@@ -27,6 +27,8 @@ export class Mapper{
         switch(entity.__classname__){
             case 'DistributionData' :
             this.mapperObject = this.mapper.distribution_data; break;
+            case 'Donor' :
+            this.mapperObject = this.mapper.donor; break;
 
         default: return;
         }

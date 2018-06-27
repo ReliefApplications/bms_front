@@ -4,8 +4,8 @@
   </div>
   <div class="container-boxes">
     <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/users", color: "green", title:"users", subtitle:"", ref:""}'></app-box-setting>
-    <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/country_specific", color: "red", title:"country specific options", subtitle:"", ref:""}'></app-box-setting>
-    <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/donors", color: "green", title:"donors", subtitle:"", ref:""}'></app-box-setting>
+    <app-box-setting [class.isLast]="widthScreen<maxWidthSecondRow && widthScreen>maxWidthMobile" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/country_specific", color: "red", title:"country specific options", subtitle:"", ref:""}'></app-box-setting>
+    <app-box-setting [class.isLast]="widthScreen<maxWidthFirstRow && widthScreen>maxWidthSecondRow" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/donors", color: "green", title:"donors", subtitle:"", ref:""}'></app-box-setting>
     <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "red", title:"projects", subtitle:"", ref:""}'></app-box-setting>
   </div>
   <div class="container-table">

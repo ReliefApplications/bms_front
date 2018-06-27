@@ -33,6 +33,7 @@ export class AppComponent {
   }
 
   checkSize(): void{
+    console.log(window.innerWidth);
     if((window.innerHeight < this.maxHeight)||(window.innerWidth < this.maxWidth))
     {
       this.smallScreenMode = true;

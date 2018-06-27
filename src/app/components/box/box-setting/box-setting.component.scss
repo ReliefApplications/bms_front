@@ -3,7 +3,6 @@
 $box-content: 80px;
 
 .box-content{
-    position: relative;
     width :100%;
     background-color: $bms_light_grey;
     height: $box-content;
@@ -30,11 +29,14 @@ $box-content: 80px;
         justify-content: right;
         align-content: center;
         text-align: right;
+        display: flex;
+        flex-wrap: wrap;
         font-family: $bms_font_text;
         width :100%;
         padding:15px;
 
         .info-title{
+            display: flex;
             font-size : 1.5vh;
             margin: 0 !important;
         }

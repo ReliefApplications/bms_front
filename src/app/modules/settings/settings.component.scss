@@ -18,15 +18,20 @@
         flex-wrap: wrap;
         flex-direction: row;
         width: 100%;
+        padding: 20px;
         justify-content: space-between;
 
         app-box-setting{
             display: flex;
-            margin: 20px;
             margin-right: 10px;
+            margin-bottom: 10px;
             flex-grow: 1;
             width : 200px;
             height : 80px;
+            min-width: 150px;
+            &.isLast{
+                margin-right: 0px !important;
+            }
         }
     }
 
@@ -64,7 +69,6 @@
                 align-items: center;
                 
                 button{
-                    margin-left: 10px;
                     color: $bms_white;
                     background-color: $bms_red;
                    
@@ -88,5 +92,14 @@
             }
         }
    
+    }
+}
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+    .container-boxes{
+        flex-wrap: nowrap !important;
+        overflow-x: scroll;
+
     }
 }

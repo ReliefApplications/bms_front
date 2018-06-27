@@ -85,3 +85,10 @@ $box-content: 80px;
     background-color: $bms_dark_grey !important;
     color: $bms_white;
 }
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+    .info-title{
+        font-size : 2.5vh !important;
+    }
+}

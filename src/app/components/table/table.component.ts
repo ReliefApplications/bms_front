@@ -38,16 +38,15 @@ export class TableComponent implements OnInit {
   ngOnInit() {
     if(!this.data)
       this.data = new MatTableDataSource([]);
-      
-    this.data.sort = this.sort;
-    this.data.paginator = this.paginator;
-    if(this.entity){
-      this.entityInstance = this.mapperService.instantiate(this.entity);
-      this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
-      this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
-      this.propertiesActions = Object.create(this.properties);
-      this.propertiesActions.push("actions");
-      this.mapperService.setMapperObject(this.entity);
+      this.data.sort = this.sort;
+      this.data.paginator = this.paginator;
+      if(this.entity){
+        this.entityInstance = this.mapperService.instantiate(this.entity);
+        this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
+        this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
+        this.propertiesActions = Object.create(this.properties);
+        this.propertiesActions.push("actions");
+        this.mapperService.setMapperObject(this.entity);
     }
   }
   
@@ -73,5 +72,11 @@ export class TableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+  applyFilter(filterValue: string): void {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.data.filter = filterValue;
   }
 }

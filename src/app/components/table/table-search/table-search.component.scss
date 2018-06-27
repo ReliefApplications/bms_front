@@ -40,7 +40,6 @@ table {
   }
 }
 
-
 button{
   color: $bms_white;
   margin: 0.5vh
@@ -56,12 +55,4 @@ button{
 
 .light-red{
   background-color: $bms_light_red;
-}
-
-//for mobile screen
-@media only screen and (max-width: 750px){
-  .table-container {
-      // visibility: hidden;
-
-  }
 }

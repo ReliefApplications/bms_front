@@ -3,9 +3,9 @@ import { Component, OnInit, ViewChild                         } from '@angular/c
 import { TableComponent                                       } from '../table.component';
 
 @Component({
-  selector: 'app-table-search',
-  templateUrl: './table-search.component.html',
-  styleUrls: ['./table-search.component.scss']
+  selector: 'app-table-mobile',
+  templateUrl: './table-mobile.component.html',
+  styleUrls: ['./table-mobile.component.scss']
 })
-export class TableSearchComponent extends TableComponent {
+export class TableMobileComponent extends TableComponent {
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit                  } from '@angular/core';
+import { Component, OnInit, HostListener                  } from '@angular/core';
 import { HttpClient                         } from '@angular/common/http';
 import { Router                             } from '@angular/router';
 import { MatTableDataSource                 } from '@angular/material';
@@ -21,6 +21,9 @@ export class DashboardComponent implements OnInit {
   users: any;
   referedClassToken = DistributionData;
   distributions : MatTableDataSource<DistributionData>;
+  public maxWidthMobile = 750;
+  public heightScreen;
+  public widthScreen;
 
   constructor(
       private http: HttpClient,
@@ -41,6 +44,17 @@ export class DashboardComponent implements OnInit {
     this.serviceMap.addTileLayer();
 
     this.checkDistributions();
+    this.checkSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.checkSize();
+  }
+
+  checkSize(): void{
+    this.heightScreen = window.innerHeight;
+    this.widthScreen = window.innerWidth;
   }
 
   /**

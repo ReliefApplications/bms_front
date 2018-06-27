@@ -21,6 +21,8 @@ import { BoxSettingComponent                                    } from '../compo
 import { BoxComponent                                           } from '../components/box/box.component';
 import { TableComponent                                         } from '../components/table/table.component';
 import { TableSearchComponent                                   } from '../components/table/table-search/table-search.component';
+import { TableMobileComponent                                   } from '../components/table/table-mobile/table-mobile.component';
+import { TableMobileSearchComponent                             } from '../components/table/table-mobile-search/table-mobile-search.component';
 import { ModalComponent                                         } from '../components/modals/modal.component';
 import { ModalDeleteComponent                                   } from '../components/modals/modal-delete/modal-delete.component';
 import { ModalUpdateComponent                                   } from '../components/modals/modal-update/modal-update.component';
@@ -74,6 +76,8 @@ import { HeaderComponent                                        } from '../modul
 		BoxDashboardComponent,        
 		TableComponent,
 		TableSearchComponent,
+		TableMobileComponent,
+		TableMobileSearchComponent,
 		MenuTopComponent,
 		HeaderMenuTopComponent,
         ModalComponent,
@@ -104,6 +108,8 @@ import { HeaderComponent                                        } from '../modul
 		BoxDashboardComponent,        
 		TableComponent,
 		TableSearchComponent,
+		TableMobileComponent,
+		TableMobileSearchComponent,
 		MenuTopComponent,
 		HeaderMenuTopComponent,
         ModalComponent,

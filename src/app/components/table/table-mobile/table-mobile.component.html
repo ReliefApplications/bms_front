@@ -1,0 +1,27 @@
+<!-- TABLE -->
+<div class="table-container">
+  <table *ngFor="let element of data.filteredData" class="box-element">
+    <tbody>
+      <tr *ngFor="let property of properties">
+        <td class="element-value">
+          <span> {{mapperService.mapTitle(property)}}</span>
+        </td>
+        <td>
+          <app-icon-svg *ngIf="propertiesTypes[property]=='image'" class="icon" [name]="mapperService.mapValue(element, property)"></app-icon-svg>
+          <span *ngIf="propertiesTypes[property]!='image'">{{mapperService.mapValue(element, property)}}</span>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+        <button mat-button (click)="openDialog('details', element)" class="red">
+            <i class="fas fa-search"></i>
+          </button>
+          <button mat-button (click)="openDialog('update', element)" class="light-red">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button mat-button (click)="openDialog('delete', element)" class="green">
+            <i class="fas fa-times"></i>
+          </button>
+    </tfoot>
+  </table>
+</div>

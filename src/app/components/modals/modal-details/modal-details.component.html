@@ -3,9 +3,11 @@
   <table class="modal-table">
     <tr *ngFor="let p of properties" class="modal-row">
       <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
-      <mat-form-field>
-        <input matInput cdkFocusRegionstart disabled value="{{data.mapper.mapValueDetails(data.data, p)}}">
-      </mat-form-field>
+      <th class="table-value">
+        <mat-form-field>
+          <input matInput cdkFocusRegionstart disabled value="{{data.mapper.mapValueDetails(data.data, p)}}">
+        </mat-form-field>
+      </th>
     </tr>
   </table>
   <div class="modal-button">

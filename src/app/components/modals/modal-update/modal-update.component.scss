@@ -11,6 +11,7 @@
         flex-grow: 1;
         padding: 5px;
         font-family: $bms_font_header;
+        font-size: 3vh;
         border-bottom: solid 1px $bms_light_red;
     }
 
@@ -31,6 +32,7 @@
                 text-align: left;
                 display: flex;
                 width: 100%;
+                font-size: 2vh;                
                 font-weight: bold;
             }
 
@@ -38,6 +40,7 @@
                 text-align: left;
                 display: flex;
                 width: 100%;
+                font-size: 2vh;
                 font-weight: bold;
             }
         }
@@ -59,5 +62,22 @@
             color: $bms_light_red;
             width: 7vh;
         }
+    }
+}
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+    .modal-container{
+        width: 45vh;  
+        height: 350px;
+    }
+
+    .modal-table{
+        flex-direction: row;
+
+    .modal-row{
+        flex-wrap: wrap;
+    }
+        
     }
 }

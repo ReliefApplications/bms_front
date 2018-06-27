@@ -11,6 +11,7 @@
         flex-grow: 1;
         padding: 5px;
         font-family: $bms_font_header;
+        font-size: 3vh;                
         border-bottom: solid 1px $bms_green;
     }
 
@@ -31,12 +32,14 @@
                 text-align: left;
                 display: flex;
                 width: 100%;
+                font-size: 2vh;                
                 font-weight: bold;
             }
 
             .table-value{
                 text-align: left;
                 display: flex;
+                font-size: 2vh;                
                 width: 100%;
                 font-weight: bold;
             }
@@ -58,5 +61,12 @@
             color: $bms_green;
             width: 7vh;
         }
+    }
+}
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+    .modal-container{
+        width: 45vh;  
     }
 }

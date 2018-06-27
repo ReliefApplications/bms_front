@@ -10,6 +10,7 @@
         display: flex;
         flex-grow: 1;
         padding: 5px;
+        font-size: 3vh;                
         font-family: $bms_font_header;
         border-bottom: solid 1px $bms_red;
     }
@@ -28,14 +29,13 @@
             width: 100%;
             align-items: baseline;
             
-            th{
-                text-align: left;
-                display: flex;
-                width: 100%;
+            .table-title{
+                font-weight: bold;
+                font-size: 2vh;                
+            }
 
-                .table-title{
-                    font-weight: bold;
-                }
+            .table-value{
+                font-size: 2vh;                                
             }
         }
     }
@@ -51,5 +51,22 @@
             color: $bms_red;
             width: 7vh;
         }
+    }
+}
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+    .modal-container{
+        width: 45vh;  
+        height: 350px;
+    }
+
+    .modal-table{
+        flex-direction: row;
+
+    .modal-row{
+        flex-wrap: wrap;
+    }
+        
     }
 }

@@ -28,7 +28,18 @@ table {
       height: 4.5vh;
     }
   }
+
+  .header-cell{
+    text-align: center;
+    width: 200px;
+  }
+
+  .content-cell{
+    text-align: center;
+    width: 200px;
+  }
 }
+
 
 button{
   color: $bms_white;

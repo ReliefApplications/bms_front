@@ -12,13 +12,26 @@ table {
   border:0;
 
   td{
+    justify-content: center;
     width: 300px;
+    align-content: center;
+    align-items: center;
     
     app-icon-svg{
       display: flex;
       width: 4.5vh;
       height: 4.5vh;
     }
+  }
+
+  .header-cell{
+    text-align: center;
+    width: 200px;
+  }
+
+  .content-cell{
+    text-align: center;
+    width: 200px;
   }
 }
 

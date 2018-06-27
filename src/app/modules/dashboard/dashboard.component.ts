@@ -1,6 +1,7 @@
 import { Component, OnInit                  } from '@angular/core';
 import { HttpClient                         } from '@angular/common/http';
 import { Router                             } from '@angular/router';
+import { MatTableDataSource                 } from '@angular/material';
 
 import { URL_BMS_API                        } from '../../../environments/environment';
 import { AuthenticationService              } from '../../core/authentication/authentication.service';
@@ -19,7 +20,7 @@ export class DashboardComponent implements OnInit {
 
   users: any;
   referedClassToken = DistributionData;
-  distributions: DistributionData[];
+  distributions : MatTableDataSource<DistributionData>;
 
   constructor(
       private http: HttpClient,
@@ -46,18 +47,11 @@ export class DashboardComponent implements OnInit {
   * get the distributions list to display on dashboard
   * check if it is cached, otherwise get it from the api
   */
-  checkDistributions(): void{
-    // let distributions = this.cacheService.get(CacheService.DISTRIBUTIONS);
-
-    // if(!distributions){
-      this.referedClassService.get().subscribe( response => {
-        this.distributions = response;
-        this.cacheService.set(CacheService.DISTRIBUTIONS, this.distributions);
-      })
-    // }
-    // } else {
-      // this.distributions = distributions;
-    // }
-  }
+ checkDistributions(): void{
+  this.referedClassService.get().subscribe( response => {
+    this.distributions = new MatTableDataSource(response);
+    this.cacheService.set(CacheService.DISTRIBUTIONS, response);
+  })
+}
 
 }

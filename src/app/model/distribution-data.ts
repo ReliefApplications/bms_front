@@ -1,5 +1,3 @@
-import { Project             } from "./project"
-import { Location            } from "./location"
 import { SectorMapper        } from "./sector-mapper";
 
 export class DistributionData {
@@ -9,16 +7,16 @@ export class DistributionData {
      * @type {string}
      */
     name: string = '';
-    /**
-     * DistributionData's project
-     * @type {Project}
+     /**
+     * DistributionData's sector
+     * @type {string}
      */
-    project: Project;
+    sector: string = '';
     /**
      * DistributionData's location
-     * @type {Location}
+     * @type {string}
      */
-    location: Location;
+    location: string;
     /**
      * DistributionData's numberBeneficiaries
      * @type {Int16Array}
@@ -28,8 +26,8 @@ export class DistributionData {
     constructor(instance?){
         if(instance !== undefined){
             this.name = instance.name;
-            this.project = Object.assign({},instance.project);
-            this.location = Object.assign({},instance.location);
+            this.sector = instance.sector;
+            this.location = instance.location;
             this.numberBeneficiaries = instance.numberBeneficiaries;
         }
     }
@@ -41,22 +39,11 @@ export class DistributionData {
         if(!selfinstance)
             return selfinstance;
 
-        let allSector="";
-        let project = selfinstance.project;
-        if(project && project.sector)
-            allSector = project.sector.name;
-        let allLocation="";
-        let location = selfinstance.location;
-        if(location && location.adm1){
-            allLocation = location.adm1;
-            if (location.adm2)
-                allLocation += ", "+location.adm2;
-        }
         return {
             name: selfinstance.name,
-            location: allLocation,
+            location: selfinstance.location,
             numberBeneficiaries: selfinstance.numberBeneficiaries,
-            sector: SectorMapper.mapSector(allSector),
+            sector: selfinstance.sector,
         }
     }
 
@@ -67,22 +54,11 @@ export class DistributionData {
         if(!selfinstance)
             return selfinstance;
 
-        let allSector="";
-        let project = selfinstance.project;
-        if(project && project.sector)
-            allSector = project.sector.name;
-        let allLocation="";
-        let location = selfinstance.location;
-        if(location && location.adm1){
-            allLocation = location.adm1;
-            if (location.adm2)
-                allLocation += ", "+location.adm2;
-        }
         return {
             name: selfinstance.name,
-            location: allLocation,
+            location: selfinstance.location,
             numberBeneficiaries: selfinstance.numberBeneficiaries,
-            sector: SectorMapper.mapSector(allSector),
+            sector: selfinstance.sector,
         }  
     }
 
@@ -95,7 +71,6 @@ export class DistributionData {
             location:"text",
             numberBeneficiaries:"number",
             sector: "image",
-            project:"text",
         }
     }
 
@@ -108,7 +83,6 @@ export class DistributionData {
             location:"Location",
             numberBeneficiaries:"n° Beneficiaries",
             sector: "Sector",
-            project:"Project",
         }
     }
 }

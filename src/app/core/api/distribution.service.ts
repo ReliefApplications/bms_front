@@ -30,10 +30,10 @@ export class DistributionService{
 
 //fake distributions en attendant d'avoir la route pour getter les distributions
 const DISTRIBUTIONS: DistributionData[] = [
-    new DistributionData({name: 'Distribution1', project: new Project({sector: new Sector({name: 'logistics'})}) , location:new Location({adm1:"Phnom Penh"})}),
-    new DistributionData({name: 'Distribution2', project: new Project({sector: new Sector({name: 'protection'})}) , location:new Location({adm1:"Udong"})}),
-    new DistributionData({name: 'Distribution3', project: new Project({sector: new Sector({name: 'shelter'})}) , location:new Location({adm1:"Kompong Luong"})}),
-    new DistributionData({name: 'Distribution4', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
-    new DistributionData({name: 'Distribution5', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
-    new DistributionData({name: 'Distribution6', project: new Project({sector: new Sector({name: 'water sanitation'})}) , location:new Location({adm1:"Kratie"})}),
+    new DistributionData({name: 'Distribution1', sector: 'logistics' , location:"Phnom Penh"}),
+    new DistributionData({name: 'Distribution2', sector: 'protection' , location:"Udong"}),
+    new DistributionData({name: 'Distribution3', sector: 'shelter', location:"Kompong Luong"}),
+    new DistributionData({name: 'Distribution4',  sector: 'logistics' , location:"Kratie"}),
+    new DistributionData({name: 'Distribution5', sector: 'shelter', location:"Kratie"}),
+    new DistributionData({name: 'Distribution6', sector: 'shelter' , location:"Kratie"}),
    ];

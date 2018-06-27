@@ -55,17 +55,30 @@
                 }
             }
 
-            .content-buttons{
+            .content-button{
                 display: flex;
                 width: 100%;
                 padding : 20px;
-                justify-content: flex-end;
-
+                padding-bottom: 0px !important;
+                justify-content: space-between;
+                align-items: center;
+                
                 button{
                     margin-left: 10px;
                     color: $bms_white;
-                    background-color: $bms_green;
-                    
+                    background-color: $bms_red;
+                   
+
+                    &.export-button{
+                        background-color: $bms_red !important;
+                        height: 40px;
+                    }
+
+                    &.add-button{
+                        width: 50px;
+                        height: 50px;
+                    }
+
                     span{
                         font-family: $bms_font_text;
                         padding-left:20px;

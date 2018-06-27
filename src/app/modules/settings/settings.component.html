@@ -10,20 +10,18 @@
   </div>
   <div class="container-table">
     <div class="container-content" *ngIf="isBoxClicked">
-      <div class="content-buttons">
-        <button mat-button>
-          <i class="fas fa-upload">
-            <span>EXPORT</span>
-          </i>
+      <div class="content-button">
+        <button mat-icon-button class="add-button">
+          <i class="fas fa-plus"></i>
         </button>
+        <button mat-button class="export-button">
+            <i class="fas fa-upload">
+              <span>EXPORT</span>
+            </i>
+          </button>
       </div>
       <div class="content-table">
         <app-table-search [entity]="referedClassToken" [service]="referedClassService" [data]="distributions"></app-table-search>
-      </div>
-      <div class="content-buttons">
-        <button mat-icon-button>
-          <i class="fas fa-plus"></i>
-        </button>
       </div>
     </div>
   </div>

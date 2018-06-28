@@ -29,9 +29,14 @@
             width: 100%;
             align-items: baseline;
             
+            th{
+                display: flex;
+                width: 50%;    
+            }
+
             .table-title{
                 font-weight: bold;
-                font-size: 2vh;                
+                font-size: 2vh; 
             }
 
             .table-value{

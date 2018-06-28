@@ -16,7 +16,7 @@ export class CountrySpecificService{
     }
 
     public get() {
-        let url = this.api + "/donors";
+        let url = this.api + "/country_specifics";
         return this.http.get(url);
     }
 }

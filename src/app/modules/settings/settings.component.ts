@@ -1,10 +1,14 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { DistributionData } from '../../model/distribution-data';
-import { DistributionService } from '../../core/api/distribution.service';
-import { CacheService } from '../../core/storage/cache.service';
-import { MatTableDataSource } from '@angular/material';
-import { Donor } from '../../model/donor';
-import { DonorService } from '../../core/api/donor.service';
+import { Component, OnInit, HostListener                                  } from '@angular/core';
+import { MatTableDataSource                                               } from '@angular/material';
+
+import { DistributionService                                              } from '../../core/api/distribution.service';
+import { CacheService                                                     } from '../../core/storage/cache.service';
+import { DonorService                                                     } from '../../core/api/donor.service';
+
+import { DistributionData                                                 } from '../../model/distribution-data';
+import { Donor                                                            } from '../../model/donor';
+import { Project                                                          } from '../../model/project';
+import { ProjectService } from '../../core/api/project.service';
 
 @Component({
   selector: 'app-settings',
@@ -30,6 +34,7 @@ export class SettingsComponent implements OnInit {
   constructor(
     public distributionService: DistributionService,    
     public donorService: DonorService,    
+    public projectService: ProjectService,    
     private cacheService: CacheService,
   ) { }
 
@@ -53,8 +58,6 @@ export class SettingsComponent implements OnInit {
     this.selectedTitle = title;
   }
 
- 
-
   getData(title){
     switch(title){
       case 'users':
@@ -66,9 +69,13 @@ export class SettingsComponent implements OnInit {
         this.referedClassToken = Donor;
         this.referedClassService = this.donorService;
         break;
+      case 'projects':
+        this.referedClassToken = Project;
+        this.referedClassService = this.projectService;
+        break;
       default: break;
     }
-      this.load(title);
+    this.load(title);
   }
 
   load(title): void{

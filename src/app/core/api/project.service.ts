@@ -7,7 +7,7 @@ import { HttpService                                } from './http.service';
 @Injectable({
 	providedIn: 'root'
 })
-export class DonorService{
+export class ProjectService{
     readonly api = URL_BMS_API;
 
     constructor(
@@ -16,7 +16,7 @@ export class DonorService{
     }
 
     public get() {
-        let url = this.api + "/donors";
+        let url = this.api + "/projects";
         return this.http.get(url);
     }
 }

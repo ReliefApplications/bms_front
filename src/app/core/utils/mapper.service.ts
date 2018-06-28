@@ -29,6 +29,8 @@ export class Mapper{
             this.mapperObject = this.mapper.distribution_data; break;
             case 'Donor' :
             this.mapperObject = this.mapper.donor; break;
+            case 'Project' :
+            this.mapperObject = this.mapper.project; break;
 
         default: return;
         }

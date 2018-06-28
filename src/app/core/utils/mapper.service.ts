@@ -33,8 +33,9 @@ export class Mapper{
             this.mapperObject = this.mapper.project; break;
             case 'UserInterface' :
             this.mapperObject = this.mapper.user; break;
-
-        default: return;
+            case 'CountrySpecific' :
+            this.mapperObject = this.mapper.country_specific; break;
+            default: return;
         }
         return this;
     }

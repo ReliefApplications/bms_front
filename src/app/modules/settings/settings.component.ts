@@ -6,11 +6,13 @@ import { CacheService                                                     } from
 import { DonorService                                                     } from '../../core/api/donor.service';
 import { ProjectService                                                   } from '../../core/api/project.service';
 import { UserService                                                      } from '../../core/api/user.service';
+import { CountrySpecificService                                           } from '../../core/api/country-specific.service';
 
 import { DistributionData                                                 } from '../../model/distribution-data';
 import { Donor                                                            } from '../../model/donor';
 import { Project                                                          } from '../../model/project';
 import { UserInterface                                                    } from '../../model/interfaces';
+import { CountrySpecific                                                  } from '../../model/country-specific';
 
 @Component({
   selector: 'app-settings',
@@ -38,6 +40,7 @@ export class SettingsComponent implements OnInit {
     public donorService: DonorService,    
     public projectService: ProjectService,    
     public userService: UserService,    
+    public countrySpecificService: CountrySpecificService,    
     private cacheService: CacheService,
   ) { }
 
@@ -74,6 +77,10 @@ export class SettingsComponent implements OnInit {
       case 'projects':
         this.referedClassToken = Project;
         this.referedClassService = this.projectService;
+        break;
+      case 'country specific options':
+        this.referedClassToken = CountrySpecific;
+        this.referedClassService = this.countrySpecificService;
         break;
       default: break;
     }

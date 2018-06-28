@@ -8,10 +8,10 @@
   <table *ngFor="let element of data.filteredData" class="box-element">
     <tbody>
       <tr *ngFor="let property of properties">
-        <td class="element-value">
+        <td class="element-title">
           <span> {{mapperService.mapTitle(property)}}</span>
         </td>
-        <td>
+        <td class="element-value">
           <app-icon-svg *ngIf="propertiesTypes[property]=='image'" class="icon" [name]="mapperService.mapValue(element, property)"></app-icon-svg>
           <span *ngIf="propertiesTypes[property]!='image'">{{mapperService.mapValue(element, property)}}</span>
         </td>

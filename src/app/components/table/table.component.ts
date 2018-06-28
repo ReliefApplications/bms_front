@@ -20,6 +20,7 @@ export class TableComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() entity;
+  public oldEntity;
   @Input() data: any = [];
   @Input() service;
   sortedData: any;
@@ -38,24 +39,32 @@ export class TableComponent implements OnInit {
   ngOnInit() {
     this.checkData();
   }
+
+  ngDoCheck(){
+    if(this.entity != this.oldEntity){
+      this.checkData();
+    }
+  }
   
   checkData(){
-    if(!this.data)
-    
+    if(!this.data){
       this.data = new MatTableDataSource([]);
-      this.data.sort = this.sort;
-      this.data.paginator = this.paginator;
-      if(this.entity){
-        this.entityInstance = this.mapperService.instantiate(this.entity);
-        this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
-        this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
-        this.propertiesActions = new Array();
-        this.properties.forEach(element => {
-          this.propertiesActions.push(element);
-        });
-        this.propertiesActions.push("actions");
-        this.mapperService.setMapperObject(this.entity);
-      }
+    }
+    this.data.sort = this.sort;
+    this.data.paginator = this.paginator;
+    if(this.entity){
+      this.entityInstance = this.mapperService.instantiate(this.entity);
+      
+      this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
+      this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
+      this.propertiesActions = new Array();
+      this.properties.forEach(element => {
+        this.propertiesActions.push(element);
+      });
+      this.propertiesActions.push("actions");
+      this.mapperService.setMapperObject(this.entity);
+    }    
+    this.oldEntity = this.entity;
   }
 
   /**

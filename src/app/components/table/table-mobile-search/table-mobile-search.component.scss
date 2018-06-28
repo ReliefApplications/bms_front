@@ -14,6 +14,8 @@
 table {
   overflow: auto;
   width: 100%;
+  max-width: 300px;
+  
 }
 
 .box-element{
@@ -35,9 +37,20 @@ table {
         font-family: $bms_font_header;       
       }
 
-      &.element-value{
+      &.element-title{
+        padding :3px;
         font-weight: bold;
         justify-content: space-between !important;
+      }
+
+
+      &.element-value{
+        flex-grow: 1;
+        max-width: 160px;
+        font-family: $bms_font_header;       
+        word-wrap:break-word;
+        border: none;
+        display:inline-block;
       }
 
       app-icon-svg{

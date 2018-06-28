@@ -10,7 +10,7 @@
         width: 100%;
         padding: 20px;
         font-family: $bms_font_header;
-        font-size: 3vh;       
+        font-size: 2vh;       
     }
 
     .container-boxes{
@@ -105,6 +105,20 @@
     .container-boxes{
         flex-wrap: nowrap !important;
         overflow-x: scroll;
+    }
+    .container-table{
+        padding: 5px !important;
 
+        .content-button{
+            justify-content: flex-end !important; 
+            button{
+                &.add-button{
+                    position: absolute;
+                    bottom: 10px;
+                    left: 80%;
+                    z-index: 1000;
+                }
+            }           
+        }
     }
 }

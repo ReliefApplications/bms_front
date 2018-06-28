@@ -4,11 +4,13 @@ import { MatTableDataSource                                               } from
 import { DistributionService                                              } from '../../core/api/distribution.service';
 import { CacheService                                                     } from '../../core/storage/cache.service';
 import { DonorService                                                     } from '../../core/api/donor.service';
+import { ProjectService                                                   } from '../../core/api/project.service';
+import { UserService                                                      } from '../../core/api/user.service';
 
 import { DistributionData                                                 } from '../../model/distribution-data';
 import { Donor                                                            } from '../../model/donor';
 import { Project                                                          } from '../../model/project';
-import { ProjectService } from '../../core/api/project.service';
+import { UserInterface                                                    } from '../../model/interfaces';
 
 @Component({
   selector: 'app-settings',
@@ -35,6 +37,7 @@ export class SettingsComponent implements OnInit {
     public distributionService: DistributionService,    
     public donorService: DonorService,    
     public projectService: ProjectService,    
+    public userService: UserService,    
     private cacheService: CacheService,
   ) { }
 
@@ -61,10 +64,9 @@ export class SettingsComponent implements OnInit {
   getData(title){
     switch(title){
       case 'users':
-        // this.referedClassToken = User;
-        // this.referedClassService = userService;
-        // this.checkUsers();
-        // break;
+        this.referedClassToken = UserInterface;
+        this.referedClassService = this.userService;
+        break;
       case 'donors':
         this.referedClassToken = Donor;
         this.referedClassService = this.donorService;

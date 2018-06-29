@@ -3,6 +3,11 @@ import { Sector             } from "./sector"
 export class Project {
     static __classname__ = 'Project';
     /**
+     * Project's id
+     * @type {number}
+     */
+    id: number;
+    /**
      * Project's name
      * @type {string}
      */
@@ -35,6 +40,7 @@ export class Project {
 
     constructor(instance?){
         if(instance !== undefined){
+            this.id = instance.id;
             this.name = instance.name;
             this.sector = instance.sector;
             this.start_date = instance.start_date;
@@ -116,6 +122,7 @@ export class Project {
 
     public static formatDonor(element: any): Project{
         let project = new Project();
+        project.id = element.id;
         project.name = element.name;
         element.sectors.forEach(element => {
             element.sectors = " "+element+" ";

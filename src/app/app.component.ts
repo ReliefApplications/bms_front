@@ -43,7 +43,7 @@ export class AppComponent {
   }
 
   getUser(): UserInterface {
-    if (this.user.user_id) {
+    if (this.user.id) {
       if(!this.user.loggedIn){
         this.logOut = true;
       }else{

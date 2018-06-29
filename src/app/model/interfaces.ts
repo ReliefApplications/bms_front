@@ -8,7 +8,7 @@ export class UserInterface {
      * User id
      * @type {string}
      */
-    user_id: string = '';
+    id: string = '';
     /**
      * Username
      * @type {string}
@@ -44,7 +44,7 @@ export class UserInterface {
 
     constructor(instance?){
         if(instance !== undefined){
-            this.user_id = instance.user_id;
+            this.id = instance.id;
             this.username = instance.username;
             this.email = instance.email;
             this.salted_password = instance.salted_password;
@@ -112,7 +112,7 @@ export class UserInterface {
 
     public static formatDonor(element: any): UserInterface{
         let user = new UserInterface();
-        user.user_id = element.id;
+        user.id = element.id;
         user.email = element.email;
         user.username = element.username;
         element.roles.forEach(element => {

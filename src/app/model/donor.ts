@@ -2,7 +2,12 @@ import { SectorMapper        } from "./sector-mapper";
 
 export class Donor {
     static __classname__ = 'Donor';
-     /**
+    /**
+     * Donor's id
+     * @type {number}
+     */
+    id: number;
+    /**
      * Donor's name
      * @type {string}
      */
@@ -30,6 +35,7 @@ export class Donor {
 
     constructor(instance?){
         if(instance !== undefined){
+            this.id = instance.id;
             this.name = instance.name;
             this.notes = instance.notes;
             this.projects = instance.projects;
@@ -98,6 +104,7 @@ export class Donor {
 
     public static formatDonor(element: any): Donor{
         let donor = new Donor();
+        donor.id = element.id;
         donor.name = element.fullname;
         if(element.shortname)
             donor.name += " "+element.shortname;

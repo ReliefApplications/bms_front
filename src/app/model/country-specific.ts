@@ -2,7 +2,12 @@ import { SectorMapper        } from "./sector-mapper";
 
 export class CountrySpecific {
     static __classname__ = 'CountrySpecific';
-     /**
+    /**
+     * CountrySpecific's id
+     * @type {number}
+     */
+    id: number;
+    /**
      * CountrySpecific's field
      * @type {string}
      */
@@ -20,6 +25,7 @@ export class CountrySpecific {
 
     constructor(instance?){
         if(instance !== undefined){
+            this.id = instance.id;
             this.field = instance.field;
             this.type = instance.type;
             this.countryIso3 = instance.countryIso3;
@@ -83,6 +89,7 @@ export class CountrySpecific {
 
     public static formatCountrySpecific(element: any): CountrySpecific{
         let countrySpecific = new CountrySpecific();
+        countrySpecific.id = element.id;
         countrySpecific.field = element.field;
         countrySpecific.type = element.type;
         countrySpecific.countryIso3 = element.countryIso3;

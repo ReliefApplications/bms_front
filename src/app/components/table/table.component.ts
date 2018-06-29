@@ -1,6 +1,6 @@
 
 import { Component, OnInit, Input, ViewChild               } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource, MatPaginator} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource, MatPaginator, PageEvent} from '@angular/material';
 
 import { Mapper                                            } from '../../core/utils/mapper.service';
 
@@ -29,13 +29,14 @@ export class TableComponent implements OnInit {
   propertiesActions: any;
   entityInstance = null;
   public user_action: string = '';
-
-  constructor(
+  
+   constructor(
     public mapperService: Mapper,
     public dialog: MatDialog
   ) {}
 
   ngOnInit() {
+    console.log(this.data);
     if(!this.data)
       this.data = new MatTableDataSource([]);
       this.data.sort = this.sort;

@@ -3,6 +3,11 @@ import { SectorMapper        } from "./sector-mapper";
 export class DistributionData {
     static __classname__ = 'DistributionData';
     /**
+     * DistributionData's id
+     * @type {number}
+     */
+    id: number;
+    /**
      * DistributionData's name
      * @type {string}
      */
@@ -25,6 +30,7 @@ export class DistributionData {
 
     constructor(instance?){
         if(instance !== undefined){
+            this.id = instance.id;
             this.name = instance.name;
             this.sector = instance.sector;
             this.location = instance.location;

@@ -6,9 +6,9 @@
     </mat-form-field>
   </div>
   <table *ngFor="let element of data.filteredData" class="box-element">
-    <tbody>
+    <tbody *ngIf="isInDataRender(element)">
       <tr *ngFor="let property of properties">
-        <td class="element-value">
+        <td class="element-value"> 
           <span> {{mapperService.mapTitle(property)}}</span>
         </td>
         <td>

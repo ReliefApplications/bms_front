@@ -22,7 +22,8 @@
     <div class="container-distribution">
         <h1 class="distribution-title">RECENT DISTRIBUTIONS</h1>
         <div class="distribution-content">
-            <app-table [entity]="referedClassToken" [service]="referedClassService" [data]="distributions"></app-table>
+            <app-table *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="distributions"></app-table>
+            <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="distributions"></app-table-mobile>
         </div>
     </div>
 </div>

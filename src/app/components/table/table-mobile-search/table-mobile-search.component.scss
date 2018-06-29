@@ -1,0 +1,89 @@
+@import '../../../../assets/css/variable.scss'; 
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 40px;
+
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+}
+
+table {
+  overflow: auto;
+  width: 100%;
+}
+
+.box-element{
+  margin-bottom :20px;
+  padding: 0px !important;
+  tbody{
+    background-color: $bms_white;
+  }
+  tr{
+    display: flex;
+    padding :5px;
+    td{
+      display: flex;
+      width:100%;
+      justify-content: center;
+      
+      span{
+        font-size : 3vh; 
+        font-family: $bms_font_header;       
+      }
+
+      &.element-value{
+        font-weight: bold;
+        justify-content: space-between !important;
+      }
+
+      app-icon-svg{
+        display: flex;
+        width: 4.5vh;
+        height: 4.5vh;
+      }
+    }
+  }
+
+  tfoot{
+      display:flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      button{
+        display:flex;   
+        flex-wrap: wrap;
+        flex-grow: 1;
+        justify-content: center;
+        align-self: center;
+        height: 20px;  
+        font-size:2vh;    
+        margin: 0 !important ;
+        border-radius: 0 !important;
+        i{
+            display:flex;   
+        }
+      }
+  }
+  
+}
+
+button{
+  color: $bms_white;
+  margin: 0.5vh
+}
+
+.green{
+  background-color: $bms_green;
+}
+
+.red{
+  background-color: $bms_red;
+}
+
+.light-red{
+  background-color: $bms_light_red;
+}

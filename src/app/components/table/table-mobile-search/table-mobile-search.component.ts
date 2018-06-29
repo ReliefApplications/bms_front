@@ -8,10 +8,6 @@ import { TableComponent                             } from '../table.component';
 })
 export class TableMobileSearchComponent extends TableComponent {
 
-  ngDoCheck(){
-    console.log(this.data._renderData._value[4]);
-    console.log(this.data._renderData._value[5]);
-  }
   isInDataRender(element: any):boolean{
     let idx = this.data._renderData._value.findIndex(elem => {
       return elem.id === element.id

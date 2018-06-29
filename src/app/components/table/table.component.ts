@@ -36,7 +36,6 @@ export class TableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.data);
     if(!this.data)
       this.data = new MatTableDataSource([]);
       this.data.sort = this.sort;
@@ -50,7 +49,7 @@ export class TableComponent implements OnInit {
         this.mapperService.setMapperObject(this.entity);
     }
   }
-  
+
   /**
   * open each modal dialog
   */

@@ -3,7 +3,19 @@ export class SectorMapper{
     /**
     * mapping between sectors names and svg names
     */
-    public static mapSector(name): string{
+    public static mapSectors(names: string[]): string[]{
+       let svg_name = [];
+        names.forEach(name => {
+            svg_name.push(this.mapSector(name));
+        });
+        
+        return svg_name;
+    }
+
+    /**
+    * mapping for one sector
+    */
+    public static mapSector(name: string): string{
 
         switch(name.toLowerCase()){
             case 'camp coordination and management':

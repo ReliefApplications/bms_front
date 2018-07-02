@@ -8,6 +8,7 @@ import { ModalDetailsComponent                  } from '../modals/modal-details/
 import { ModalComponent                         } from '../modals/modal.component';
 import { ModalUpdateComponent                   } from '../modals/modal-update/modal-update.component';
 import { ModalDeleteComponent                   } from '../modals/modal-delete/modal-delete.component';
+import { CacheService } from '../../core/storage/cache.service';
 
 @Component({
   selector: 'app-table',
@@ -33,7 +34,8 @@ export class TableComponent implements OnInit {
   
    constructor(
     public mapperService: Mapper,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public _cacheService: CacheService
   ) {}
 
   ngOnInit() {
@@ -46,12 +48,28 @@ export class TableComponent implements OnInit {
     }
   }
   
+  updateData(){
+    this.service.get().subscribe(response => {
+      this.data = new MatTableDataSource(response.json());
+      //update cache associated variable
+      this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + "S"], response.json());
+
+      this.setDataTableProperties();
+    }, error => {
+      console.log("error", error);
+    });
+  }
+
+  setDataTableProperties(){
+    this.data.sort = this.sort;
+    this.data.paginator = this.paginator;
+  }
+
   checkData(){
     if(!this.data){
       this.data = new MatTableDataSource([]);
     }
-    this.data.sort = this.sort;
-    this.data.paginator = this.paginator;
+    this.setDataTableProperties();
     if(this.entity){
       this.entityInstance = this.mapperService.instantiate(this.entity);
       
@@ -86,7 +104,12 @@ export class TableComponent implements OnInit {
         data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService}
       });
     }
+    const update = dialogRef.componentInstance.onUpdate.subscribe((data) => {
+      this.updateElement(data);
+    });
+
     dialogRef.afterClosed().subscribe(result => {
+      update.unsubscribe();
       console.log('The dialog was closed');
     });
   }
@@ -95,5 +118,12 @@ export class TableComponent implements OnInit {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.data.filter = filterValue;
+  }
+
+  updateElement(updateElement: Object){
+    updateElement = this.entity.formatForApi(updateElement);
+    this.service.update(updateElement['id'], updateElement).subscribe(response => {
+      this.updateData();
+    })
   }
 }

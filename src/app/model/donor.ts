@@ -18,17 +18,22 @@ export class Donor {
      */
     fullname: string = '';
     /**
+     * Donor's date_added
+     * @type {Date}
+     */
+    date_added: Date;
+    /**
      * Donor's shortname
      * @type {string}
      */
     shortname: string = '';
-     /**
+    /**
      * Donor's notes
      * @type {string}
      */
     notes: string = '';
     /**
-     * Donor's proojects
+     * Donor's projects
      * @type {string}
      */
     projects: string;
@@ -36,9 +41,25 @@ export class Donor {
     constructor(instance?){
         if(instance !== undefined){
             this.id = instance.id;
-            this.name = instance.name;
+            this.fullname = instance.fullname;
+            this.shortname = instance.shortname;
             this.notes = instance.notes;
-            this.projects = instance.projects;
+            this.date_added = instance.date_added;
+        }
+    }
+
+    mapAllProperties(selfinstance): Object {
+        if(!selfinstance)
+            return selfinstance;
+
+        return {
+            id : selfinstance.id,
+            name : selfinstance.name,
+            fullname : selfinstance.fullname,
+            shortname : selfinstance.shortname,
+            date_added : selfinstance.date_added,
+            notes : selfinstance.notes,
+            projects : selfinstance.projects,
         }
     }
 
@@ -50,7 +71,7 @@ export class Donor {
             return selfinstance;
     
         return {
-            name : selfinstance.name,
+            fullname : selfinstance.fullname,
             notes : selfinstance.notes,
             projects : selfinstance.projects
         }
@@ -64,7 +85,7 @@ export class Donor {
             return selfinstance;
 
         return {
-            name : selfinstance.name,
+            fullname : selfinstance.fullname,
             notes : selfinstance.notes,
             projects : selfinstance.projects
         } 
@@ -88,7 +109,7 @@ export class Donor {
     */
     static translator(): Object {
         return {
-            name: "Donor",
+            fullname: "Donor",
             notes:"Notes",
             projects: "Projects",
         }
@@ -97,21 +118,26 @@ export class Donor {
     public static formatArray(instance): Donor[]{
         let donors : Donor[] = [];
         instance.forEach(element => {
-            donors.push(this.formatDonor(element));
+            donors.push(this.formatFromApi(element));
         });
         return donors;
     }
 
-    public static formatDonor(element: any): Donor{
+    public static formatFromApi(element: any): Donor{
         let donor = new Donor();
         donor.id = element.id;
-        donor.name = element.fullname;
-        if(element.shortname)
-            donor.name += " "+element.shortname;
+        donor.fullname = element.fullname;
+        donor.shortname = element.shortname;
         donor.notes = element.notes;
+        donor.date_added = element.date_added;
         element.projects.forEach(element => {
             donor.projects = " "+element+" ";
         });
+        
         return donor;
+    }
+
+    public static formatForApi(element: Donor): any{
+        return new Donor(element);
     }
 }

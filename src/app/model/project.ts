@@ -16,7 +16,7 @@ export class Project {
      * Project's string
      * @type {string}
      */
-    sector: string;
+    sectors: string;
     /**
      * Project's start_date
      * @type {Date}
@@ -28,41 +28,73 @@ export class Project {
      */
     end_date: Date;
     /**
-     * Project's numberOfHouseholds
+     * Project's number_of_households
      * @type {number}
      */
-    numberOfHouseholds: number;
+    number_of_households: number;
      /**
      * Project's donors
      * @type {string}
      */
     donors: string;
+    /**
+     * Project's iso3
+     * @type {string}
+     */
+    iso3: string;
+    /**
+     * Project's value
+     * @type {Float32Array}
+     */
+    value: Float32Array;
+    /**
+     * Project's notes
+     * @type {string}
+     */
+    notes: string;
 
     constructor(instance?){
         if(instance !== undefined){
             this.id = instance.id;
             this.name = instance.name;
-            this.sector = instance.sector;
             this.start_date = instance.start_date;
             this.end_date = instance.end_date;
-            this.numberOfHouseholds = instance.numberOfHouseholds;
-            this.donors = instance.donors;
+            this.number_of_households = instance.number_of_households;
+            this.iso3 = instance.iso3;
+            this.value = instance.value;
+            this.notes = instance.notes;
+        }
+    }
+
+    mapAllProperties(selfinstance): Object {
+        if(!selfinstance)
+            return selfinstance;
+
+        return {
+            id : selfinstance.id,
+            name : selfinstance.name,
+            start_date : selfinstance.start_date,
+            end_date : selfinstance.end_date,
+            number_of_households : selfinstance.number_of_households,
+            iso3 : selfinstance.iso3,
+            notes : selfinstance.notes,
+            value : selfinstance.value,
         }
     }
 
     /**
     * return a Project after formatting its properties
     */
-   getMapper(selfinstance): Object {
+    getMapper(selfinstance): Object {
         if(!selfinstance)
             return selfinstance;
 
         return {
             name : selfinstance.name,
-            sector : selfinstance.sector,
+            sectors : selfinstance.sectors,
             start_date : selfinstance.start_date,
             end_date : selfinstance.end_date,
-            numberOfHouseholds : selfinstance.numberOfHouseholds,
+            number_of_households : selfinstance.number_of_households,
             donors : selfinstance.donors
         }
     }
@@ -76,10 +108,10 @@ export class Project {
 
         return {
             name : selfinstance.name,
-            sector : selfinstance.sector,
+            sectors : selfinstance.sectors,
             start_date : selfinstance.start_date,
             end_date : selfinstance.end_date,
-            numberOfHouseholds : selfinstance.numberOfHouseholds,
+            number_of_households : selfinstance.number_of_households,
             donors : selfinstance.donors            
         } 
     }
@@ -90,10 +122,10 @@ export class Project {
     getTypeProperties(selfinstance): Object{
         return {
             name : "text",
-            sector : "text",
+            sectors : "text",
             start_date : "date",
             end_date : "date",
-            numberOfHouseholds : "number",
+            number_of_households : "number",
             donors : "text",
         }
     }
@@ -107,7 +139,7 @@ export class Project {
             sectors:"Sectors",
             start_date:"Start Date",
             end_date:"End Date",
-            numberOfHouseholds:"Number of Households",
+            number_of_households:"Number of Households",
             donors : "Donors",
         }
     }
@@ -115,24 +147,23 @@ export class Project {
     public static formatArray(instance): Project[]{
         let projects : Project[] = [];
         instance.forEach(element => {
-            projects.push(this.formatDonor(element));
+            projects.push(this.formatProject(element));
         });
         return projects;
     }
 
-    public static formatDonor(element: any): Project{
-        let project = new Project();
-        project.id = element.id;
-        project.name = element.name;
+    public static formatProject(element: any): Project{
+        let project = new Project(element);
         element.sectors.forEach(element => {
-            element.sectors = " "+element+" ";
+            project.sectors = " "+element+" ";
         });
-        project.start_date = element.start_date;
-        project.end_date = element.end_date;
-        project.numberOfHouseholds = element.numberOfHouseholds;
         element.donors.forEach(element => {
-            element.donors = " "+element+" ";
+            project.donors = " "+element+" ";
         });
         return project;
+    }
+
+    public static formatForApi(element: Project): any{
+        return new Project(element);
     }
 }

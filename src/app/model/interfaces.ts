@@ -48,7 +48,19 @@ export class UserInterface {
             this.username = instance.username;
             this.email = instance.email;
             this.salted_password = instance.salted_password;
-            this.rights = instance.rights;
+        }
+    }
+
+    mapAllProperties(selfinstance): Object {
+        if(!selfinstance)
+            return selfinstance;
+
+        return {
+            id : selfinstance.id,
+            username : selfinstance.username,
+            email : selfinstance.email,
+            salted_password : selfinstance.salted_password,
+            rights : selfinstance.rights,
         }
     }
 
@@ -105,19 +117,20 @@ export class UserInterface {
     public static formatArray(instance): UserInterface[]{
         let users : UserInterface[] = [];
         instance.forEach(element => {
-            users.push(this.formatDonor(element));
+            users.push(this.formatFromApi(element));
         });
         return users;
     }
 
-    public static formatDonor(element: any): UserInterface{
-        let user = new UserInterface();
-        user.id = element.id;
-        user.email = element.email;
-        user.username = element.username;
+    public static formatFromApi(element: any): UserInterface{
+        let user = new UserInterface(element);
         element.roles.forEach(element => {
             user.rights = " "+element+" ";
         });
         return user;
+    }
+
+    public static formatForApi(element: UserInterface): any{
+        return new UserInterface(element);
     }
 }

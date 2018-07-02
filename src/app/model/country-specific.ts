@@ -55,7 +55,6 @@ export class CountrySpecific {
         return {
             field : selfinstance.field,
             type : selfinstance.type,
-            countryIso3 : selfinstance.countryIso3
         } 
     }
 
@@ -82,12 +81,12 @@ export class CountrySpecific {
     public static formatArray(instance): CountrySpecific[]{
         let countrySpecific : CountrySpecific[] = [];
         instance.forEach(element => {
-            countrySpecific.push(this.formatCountrySpecific(element));
+            countrySpecific.push(this.formatFromApiCountrySpecific(element));
         });
         return countrySpecific;
     }
 
-    public static formatCountrySpecific(element: any): CountrySpecific{
+    public static formatFromApiCountrySpecific(element: any): CountrySpecific{
         let countrySpecific = new CountrySpecific();
         countrySpecific.id = element.id;
         countrySpecific.field = element.field;
@@ -95,5 +94,9 @@ export class CountrySpecific {
         countrySpecific.countryIso3 = element.countryIso3;
 
         return countrySpecific;
+    }
+
+    public static formatForApi(element: CountrySpecific): any{
+        return new CountrySpecific(element);
     }
 }

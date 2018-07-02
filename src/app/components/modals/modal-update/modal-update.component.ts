@@ -1,5 +1,6 @@
-import { Component, OnInit, Input                          } from '@angular/core';
-import { ModalComponent                                    } from '../modal.component';
+import { Component, OnInit, Input, EventEmitter, Output                          } from '@angular/core';
+import { ModalComponent                                                          } from '../modal.component';
+import { Donor } from '../../../model/donor';
 
 @Component({
   selector: 'modal-update',
@@ -9,9 +10,22 @@ import { ModalComponent                                    } from '../modal.comp
 export class ModalUpdateComponent extends ModalComponent {
 
   @Input() data:    any;
+  @Output() onUpdate = new EventEmitter();
+  updateObject: any;
 
   ngOnInit() {
     this.entityInstance = this.data.mapper.instantiate(this.data.entity);
     this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapperDetails(this.entityInstance));
+    try{
+      this.updateObject = this.entityInstance.mapAllProperties(this.data.data);
+    } catch (e) {
+      console.error("the function mapAllProperties is not defined for the entity ", this.entityInstance);
+    }
+  }
+
+  //emit the object updated
+  save():any {
+    this.onUpdate.emit(this.updateObject);
+    this.closeDialog();
   }
 }

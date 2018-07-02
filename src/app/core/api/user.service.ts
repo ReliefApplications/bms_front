@@ -19,4 +19,9 @@ export class UserService{
         let url = this.api + "/users";
         return this.http.get(url);
     }
+
+    public update(id: number, body: any) {
+        let url = this.api + "/users/"+id;
+        return this.http.post(url, body);
+    }
 }

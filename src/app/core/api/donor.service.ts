@@ -19,4 +19,9 @@ export class DonorService{
         let url = this.api + "/donors";
         return this.http.get(url);
     }
+
+    public update(id: number, body: any) {
+        let url = this.api + "/donors/"+id;
+        return this.http.post(url, body);
+    }
 }

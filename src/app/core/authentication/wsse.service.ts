@@ -45,7 +45,7 @@ export class WsseService {
 		let cachedUser = this.cache.get(CacheService.USER);
 		if (cachedUser) {
 			this.username = cachedUser.username;
-			this.salted = cachedUser.password;
+			this.salted = cachedUser.salted_password;
 		}
 
 		let nonce = this.generateNonce(16);

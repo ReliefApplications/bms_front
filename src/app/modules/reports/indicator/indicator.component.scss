@@ -1,10 +1,10 @@
-// @import "../assets/css/variables.scss";
+@import "../../../../assets/css/variable.scss";
 
 .indicatorChart{
     flex-basis: fit-content;
     display: flex;
     justify-content: center;
-    // background-color: $white;
+    background-color: $bms_white;
     margin: 15px;
     min-width: 500px;
     min-height: 420px;
@@ -15,7 +15,7 @@
       flex-basis: fit-content;
       display: flex;
       justify-content: center;
-      // background-color: $white;
+      background-color: $bms_white;
       margin: 15px;
       min-width: 0;
       min-height: 150px;

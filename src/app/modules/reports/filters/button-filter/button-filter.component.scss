@@ -1,4 +1,4 @@
-// @import "../../assets/css/variables.scss";
+@import "../../../../../assets/css/variable.scss";
  
 $button-height : 30px;
 
@@ -11,7 +11,7 @@ $button-height : 30px;
     .bouttonBox{
         display: flex;
         flex-grow: 3;
-        // height: $button-height;
+        height: $button-height;
         width: 400px;       
         justify-content: center;
 
@@ -30,12 +30,12 @@ $button-height : 30px;
             }
 
             &:hover{
-                 color: red;
-                 background-color: white !important;
+                 color: $bms_red;
+                 background-color: $bms_white !important;
             }
 
             &.clicked{
-                 background-color: red;
+                 background-color: $bms_red;
             }
         }
     }

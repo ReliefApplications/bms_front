@@ -1,4 +1,4 @@
-// @import "../assets/css/variables.scss";
+  @import "../../../../assets/css/variable.scss";
  
 .container{
   display: flex;
@@ -21,17 +21,17 @@
 }
 
 .subtitle{
-  // color: $dark_blue ;
+  color: $bms_dark_red ;
   text-transform: uppercase;
 }
 
 .text {
   flex-grow: 2;
-  // color: $dark_blue;
+  color: $bms_dark_red;
   font-size:18px;
   width: 100%;
   &:hover{
-    // color: $blue;
+    color: $bms_green;
   }
 }
 
@@ -51,7 +51,7 @@
   font-size: 14px;
   font-family: Lato,Helvetica,Arial,sans-serif;
   visibility: hidden;
-  // background-color: $red;
+  background-color: $bms_red;
   color: #fff;
   padding: 5px;
   border-radius: 3px;
@@ -118,6 +118,6 @@
 }
 
 .no-data-text{
-  color: green;
+  color: $bms_green;
   font-style: italic;
 }

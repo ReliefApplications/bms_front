@@ -55,7 +55,7 @@ export class IndicatorPageComponent implements OnInit {
         this.indicators = response as any;
         this.indicatorsLoading = false
       }).catch(e => {
-        this.indicatorsLoading = false;
+         this.indicatorsLoading = false;
       }); 
     }
   }

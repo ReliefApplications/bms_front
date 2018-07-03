@@ -153,15 +153,15 @@ export class ChartComponent implements OnInit, ChartInterface {
         // }; 
         this.data = [
               {
-                "name": "Janvier",
+                "name": "Value1",
                 "value": Math.random()*1000
               },
               {
-                "name": "Février",
+                "name": "Value2",
                 "value": Math.random()*1000
               },
               {
-                "name": "Mars",
+                "name": "Value3",
                 "value": Math.random()*1000
               }
         ];

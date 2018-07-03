@@ -52,8 +52,8 @@ export class LineChartComponent extends ChartComponent {
     this.axis.showYAxisLabel  = true;
     this.axis.xAxisLabel      = 'X Axis';
     this.axis.yAxisLabel      = 'Y Axis';
-    this.title.main           = "Taux de guérison";
-    this.title.sub            =  ""; //"Taux de guérison";
+    this.title.main           = "";
+    this.title.sub            =  "";
     this.modalConfig.modalId  = 'a';
     this.autoScale            = false;
   }

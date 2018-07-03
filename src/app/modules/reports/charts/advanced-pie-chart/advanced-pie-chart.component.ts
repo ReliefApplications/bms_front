@@ -38,7 +38,7 @@ export class AdvancedPieChartComponent extends ChartComponent {
     this.legend.show            = true;
     this.scheme.gradient        = false;
     this.scheme.domain          = ['#92CB53', '#20C8C0', '#FC4F1E'];
-    this.title.main             = "Taux de guérison";
+    this.title.main             = "";
     this.title.sub              =  "";
     this.modalConfig.modalId    = 'a';
   }

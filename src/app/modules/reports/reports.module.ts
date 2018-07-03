@@ -4,10 +4,6 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule   } from '../../shared/shared.module';
 
-
-// // Routing
-// import { ReportsRouting } from './reports.routing';
-
 // Components
 import { ReportsComponent } from './reports.component';
 import { DataTableComponent } from './data-table/data-table.component';
@@ -37,8 +33,6 @@ import { ReportingModalDetailsComponent } from './modals/modal-details/modal-det
 @NgModule({
 
     imports: [
-      // Routing
-    //   ReportsRouting,
       // Angular Modules
       CommonModule,
       // Feature Modules

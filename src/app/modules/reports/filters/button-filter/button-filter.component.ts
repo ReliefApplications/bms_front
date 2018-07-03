@@ -5,9 +5,10 @@ import { FilterService } from '../../services/filter.service';
 export interface ButtonFilterData {
   label:string
   value: string
-  style?: string
-  class?: string
   active: boolean
+  color: string
+  icon?: string
+  level: string
 }
 
 @Component({
@@ -29,6 +30,7 @@ export class ButtonFilterComponent extends AbstractFilter {
  
   ngOnInit() {
     this.filterService.subscribe(this);
+    console.log(this.data);
   }
 
   /**

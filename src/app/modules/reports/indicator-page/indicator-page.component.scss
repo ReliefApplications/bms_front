@@ -1,6 +1,44 @@
   @import "../../../../assets/css/variable.scss";
  
-.container{
+
+.reporting-container{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+
+  .container-title{
+      width: 100%;
+      padding: 20px;
+      font-family: $bms_font_header;
+      font-size: 2vh;       
+  }
+
+  .container-boxes{
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      width: 100%;
+      padding: 20px;
+      justify-content: space-between;
+
+    button-filter{
+      justify-content: end;
+      display: flex;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      flex-grow: 1;
+      width : 100%;
+      height : 80px;
+      min-width: 150px;
+      &.isLast{
+        margin-right: 0px !important;
+      }
+    }
+  }
+}
+
+.container-indicator{
   display: flex;
   flex-direction: row ;
   flex-wrap: wrap;
@@ -12,7 +50,6 @@
     margin: 2em;
   }
 }
-
 
 .chartLoader{
   background-color: black;
@@ -106,8 +143,9 @@
   text-align: center;
   justify-content: center;
   padding: 3%;
-  margin : 3%;
+  margin: 10em 6em auto 6em;
   display: flex;
+  width: 100%;
 
   .box-title{
     display: flex;
@@ -120,4 +158,12 @@
 .no-data-text{
   color: $bms_green;
   font-style: italic;
+}
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+  .container-boxes{
+      flex-wrap: nowrap !important;
+      overflow-x: scroll;
+  }
 }

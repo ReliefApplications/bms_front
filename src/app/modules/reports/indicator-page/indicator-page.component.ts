@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, SimpleChanges, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChild, SimpleChanges, ElementRef, ViewChildren, QueryList, HostListener } from '@angular/core';
 import { IndicatorService } from '../services/indicator.service';
 import { FilterEvent, FilterInterface, AbstractFilter } from '../model/filter';
 import { Indicator } from '../model/indicator';
@@ -25,17 +25,25 @@ export class IndicatorPageComponent implements OnInit {
   public indicators: any[] = [];
   public filtersButton;
 
-  //Data Button Declaration
+  public maxHeight = 700;
+  public maxWidthMobile = 750;
+  public maxWidthFirstRow = 1000;
+  public maxWidthSecondRow = 800;
+  public maxWidth = 750;
+  public heightScreen;
+  public widthScreen;
+
+  // Data Button Declaration
   public dataFilter1: Array<ButtonFilterData> = [
-    { label: 'By year', value: 'year', active: true },
-    { label: 'By trimester', value: 'quarter', active: false },
-    { label: 'By month', value: 'month', active: false },
+    { level: '1', color: 'green', label: 'By year', value: 'year', active: true },
+    { level: '1', color: 'red', label: 'By trimester', value: 'quarter', active: false },
+    { level: '1', color: 'green', label: 'By month', value: 'month', active: false },
   ]
 
   public dataFilter2: Array<ButtonFilterData> = [
-    { label: 'View Country', value: 'Country', active: true },
-    { label: 'View Project', value: 'Project', active: false },
-    { label: 'View Distribution', value: 'Distribution', active: false },
+    { level: '0', icon: 'settings/api', color: 'green', label: 'View Country', value: 'Country', active: true },
+    { level: '0', icon: 'reporting/Projects', color: 'red', label: 'View Project', value: 'Project', active: false },
+    { level: '0', icon: 'reporting/Distribution', color: 'green', label: 'View Distribution', value: 'Distribution', active: false },
   ]
 
   public chartDimensions: number[];
@@ -49,6 +57,7 @@ export class IndicatorPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkSize();
     if (!this.indicatorsLoading) {
       this.indicatorsLoading = true;
         this.referedClassService.getIndicators().toPromise().then(response => {
@@ -119,6 +128,16 @@ export class IndicatorPageComponent implements OnInit {
       return this.updateFilters(filters);
     }
     return filters;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.checkSize();
+  }
+
+  checkSize(): void{
+    this.heightScreen = window.innerHeight;
+    this.widthScreen = window.innerWidth;
   }
 
 }

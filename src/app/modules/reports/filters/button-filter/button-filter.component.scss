@@ -1,0 +1,42 @@
+// @import "../../assets/css/variables.scss";
+ 
+$button-height : 30px;
+
+.filter-box{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px;
+
+    .bouttonBox{
+        display: flex;
+        flex-grow: 3;
+        // height: $button-height;
+        width: 400px;       
+        justify-content: center;
+
+        .button-filter{
+            display:flex;
+            margin-left: 5px;
+            background-color: silver;
+            color:  white;
+            border: 0;
+            font-size: 14px;
+            box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3);
+
+            &.glyphicon{
+            display: flex;
+            height: 100%;font-size: 14px;
+            }
+
+            &:hover{
+                 color: red;
+                 background-color: white !important;
+            }
+
+            &.clicked{
+                 background-color: red;
+            }
+        }
+    }
+}   

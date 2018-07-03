@@ -1,0 +1,17 @@
+<div class="filter-box">
+
+    <div class="bouttonBox">
+        <!-- <span class="button-temporal"> -->
+          <button 
+            [class]="item.class || 'btn btn-primary button-filter'" 
+            [style]="item.style"
+            type="button" 
+            [class.clicked]="item.active"
+            (click)="filter(item.value)"
+            *ngFor="let item of data"
+          >{{ item.label }}</button>
+        <!-- </span> -->
+      </div>
+
+      
+</div>

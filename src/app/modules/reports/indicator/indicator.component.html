@@ -1,0 +1,50 @@
+
+<div #chart class="indicatorChart shadow" >
+  <pie-chart style="width: 100%" *ngIf="indicator.type_graphique == 'camembert'" 
+    [view]="chartDimensions" 
+    [filters]="filters"
+    [title]="indicator.full_name"
+    [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graphique, computedMethod: computedMethod }" >
+  </pie-chart>
+
+  <pie-grid style="width: 100%" *ngIf="indicator.type_graphique == 'cible'" 
+    [view]="chartDimensions" 
+    [filters]="filters"
+    [title]="indicator.full_name"
+    [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graphique, computedMethod: computedMethod }" >
+  </pie-grid>
+
+  <bar-chart style="width: 100%" *ngIf="indicator.type_graphique == 'bar'" 
+    [view]="chartDimensions"
+    [filters]="filters" 
+    [title]="indicator.full_name" 
+    [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graphique, computedMethod: computedMethod }" >
+  </bar-chart>
+
+  <line-chart style="width: 100%" *ngIf="indicator.type_graphique == 'courbe'" 
+    [view]="chartDimensions" 
+    [filters]="filters"
+    [title]="indicator.full_name" 
+    [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graphique, computedMethod: computedMethod }">
+  </line-chart>
+  
+  <number-card-chart style="width: 100%" *ngIf="indicator.type_graphique == 'nombre'" 
+    [view]="chartDimensions" 
+    [filters]="filters"
+    [title]="indicator.full_name" 
+    [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Nombre' }"
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graphique, computedMethod: computedMethod }" >
+  </number-card-chart>
+
+  <stacked-vertical-bar-chart style="width: 100%" *ngIf="(indicator.type_graphique == 'histogramme')||(indicator.type_graphique == '')" 
+  [view]="chartDimensions"
+  [filters]="filters" 
+  [title]="indicator.full_name" 
+  [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
+  [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graphique, computedMethod: computedMethod }" >
+</stacked-vertical-bar-chart>
+</div>

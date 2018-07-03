@@ -1,0 +1,123 @@
+// @import "../assets/css/variables.scss";
+ 
+.container{
+  display: flex;
+  flex-direction: row ;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 9em;
+  max-width: 100%;
+
+  app-indicator{
+    margin: 2em;
+  }
+}
+
+
+.chartLoader{
+  background-color: black;
+  opacity: 0.2;
+  animation: wave 2s ease-in-out 0s infinite;
+}
+
+.subtitle{
+  // color: $dark_blue ;
+  text-transform: uppercase;
+}
+
+.text {
+  flex-grow: 2;
+  // color: $dark_blue;
+  font-size:18px;
+  width: 100%;
+  &:hover{
+    // color: $blue;
+  }
+}
+
+.textTitle{
+  text-align: left;
+  width:100%;
+}
+
+.button{
+  width:100%;
+  padding: 15px;
+}
+
+/* Tooltip text */
+.tooltip-container .tooltip-text {
+  margin-top: 20px;
+  font-size: 14px;
+  font-family: Lato,Helvetica,Arial,sans-serif;
+  visibility: hidden;
+  // background-color: $red;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+}
+
+@keyframes wave {
+  0%   {opacity: 0.2;}
+  50%  {opacity: 0.6;}
+  100% {opacity: 0.2;}
+}
+
+.loader-title{
+  display: flex;
+  justify-content: center;
+
+  h1{
+    display: flex;
+    background-color: black;
+    color: black;
+    opacity: 0.2;
+    width: 30%;
+    font-weight: bold;
+    height: 100%;
+    animation: wave 2s ease-in-out 0s infinite;
+  }
+
+  h2{
+    display: flex;
+    background-color: black;
+    color: black;
+    opacity: 0.2;
+    width: 20%;
+    font-weight: bold;
+    height: 100%;
+    animation: wave 2s ease-in-out 0s infinite;
+    margin-bottom: 50px;
+  }
+}
+
+.no-data-box{
+  border: solid 2px black;
+  border-radius: 80px;
+  text-align: center;
+  justify-content: center;
+  padding: 3%;
+  margin : 3%;
+  display: flex;
+
+  .box-title{
+    display: flex;
+    font-style: bold;
+    font-size: 50px;
+    font-family: Lato,Helvetica,Arial,sans-serif;
+  }
+}
+
+.no-data-text{
+  color: green;
+  font-style: italic;
+}

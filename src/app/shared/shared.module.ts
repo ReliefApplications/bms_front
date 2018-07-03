@@ -36,7 +36,6 @@ import { HeaderMenuTopComponent                                 } from '../modul
 import { HouseholdsComponent                                    } from '../modules/households/households.component';
 import { DistributionComponent                                  } from '../modules/distribution/distribution.component';
 import { SettingsComponent                                      } from '../modules/settings/settings.component';
-import { ReportsComponent                                       } from '../modules/reports/reports.component';
 import { HeaderComponent                                        } from '../modules/header/header.component';
 
 @NgModule({
@@ -70,7 +69,6 @@ import { HeaderComponent                                        } from '../modul
 		HouseholdsComponent,
 		DistributionComponent,
 		SettingsComponent,
-        ReportsComponent,   
 		HeaderComponent,     
         IconSvgComponent,
 		BoxDashboardComponent,        
@@ -102,7 +100,6 @@ import { HeaderComponent                                        } from '../modul
 		HouseholdsComponent,
 		DistributionComponent,
 		SettingsComponent,
-		ReportsComponent,    
 		HeaderComponent,                
 		IconSvgComponent,
 		BoxDashboardComponent,        

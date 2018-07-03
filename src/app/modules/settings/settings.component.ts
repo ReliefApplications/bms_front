@@ -1,8 +1,18 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { DistributionData } from '../../model/distribution-data';
-import { DistributionService } from '../../core/api/distribution.service';
-import { CacheService } from '../../core/storage/cache.service';
-import { MatTableDataSource } from '@angular/material';
+import { Component, OnInit, HostListener                                  } from '@angular/core';
+import { MatTableDataSource                                               } from '@angular/material';
+
+import { DistributionService                                              } from '../../core/api/distribution.service';
+import { CacheService                                                     } from '../../core/storage/cache.service';
+import { DonorService                                                     } from '../../core/api/donor.service';
+import { ProjectService                                                   } from '../../core/api/project.service';
+import { UserService                                                      } from '../../core/api/user.service';
+import { CountrySpecificService                                           } from '../../core/api/country-specific.service';
+
+import { DistributionData                                                 } from '../../model/distribution-data';
+import { Donor                                                            } from '../../model/donor';
+import { Project                                                          } from '../../model/project';
+import { UserInterface                                                    } from '../../model/interfaces';
+import { CountrySpecific                                                  } from '../../model/country-specific';
 
 @Component({
   selector: 'app-settings',
@@ -11,9 +21,12 @@ import { MatTableDataSource } from '@angular/material';
 })
 export class SettingsComponent implements OnInit {
   selectedTitle = "";
-  referedClassToken = DistributionData;
-  distributions : MatTableDataSource<DistributionData>;
   isBoxClicked = false;
+
+  public referedClassService; 
+  referedClassToken;
+  data : MatTableDataSource<any>;
+  
   public maxHeight = 700;
   public maxWidthMobile = 750;
   public maxWidthFirstRow = 1000;
@@ -23,12 +36,15 @@ export class SettingsComponent implements OnInit {
   public widthScreen;
 
   constructor(
-    public referedClassService: DistributionService,    
+    public distributionService: DistributionService,    
+    public donorService: DonorService,    
+    public projectService: ProjectService,    
+    public userService: UserService,    
+    public countrySpecificService: CountrySpecificService,    
     private cacheService: CacheService,
   ) { }
 
   ngOnInit() {
-    this.checkDistributions();
     this.checkSize();
   }
 
@@ -43,14 +59,39 @@ export class SettingsComponent implements OnInit {
   }
 
   selectTitle(title): void{
+    this.getData(title);
     this.isBoxClicked = true;
     this.selectedTitle = title;
   }
 
-  checkDistributions(): void{
-      this.referedClassService.get().subscribe( response => {
-        this.distributions = new MatTableDataSource(response);
-        this.cacheService.set(CacheService.DISTRIBUTIONS, response);
-      })
+  getData(title){
+    switch(title){
+      case 'users':
+        this.referedClassToken = UserInterface;
+        this.referedClassService = this.userService;
+        break;
+      case 'donors':
+        this.referedClassToken = Donor;
+        this.referedClassService = this.donorService;
+        break;
+      case 'projects':
+        this.referedClassToken = Project;
+        this.referedClassService = this.projectService;
+        break;
+      case 'country specific options':
+        this.referedClassToken = CountrySpecific;
+        this.referedClassService = this.countrySpecificService;
+        break;
+      default: break;
+    }
+    this.load(title);
+  }
+
+  load(title): void{
+    this.referedClassService.get().subscribe( response => {
+      response = this.referedClassToken.formatArray(response.json());
+      this.cacheService.set((<typeof CacheService>this.cacheService.constructor)[this.referedClassToken.__classname__.toUpperCase() + "S"], response);
+      this.data = new MatTableDataSource(response);        
+    })
   }
 }

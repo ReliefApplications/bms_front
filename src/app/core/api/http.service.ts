@@ -49,6 +49,7 @@ export class HttpService {
 
         if( useXWsse )
             headers['x-wsse'] = this._wsseService.getHeaderValue();
+            
 
         this.lastRequestUri = this.buildUri(parameters);
 

@@ -6,7 +6,7 @@ export interface ButtonFilterData {
   label:string
   value: string
   active: boolean
-  color: string
+  color?: string
   icon?: string
   level: string
 }

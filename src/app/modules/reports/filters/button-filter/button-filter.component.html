@@ -19,14 +19,8 @@
 
 <div *ngFor="let item of data">
   <div *ngIf="item.level == '1'">
-    <div class="filter-box">
-      <div class="bouttonBox">
-          <button class = "level1" style="text-decoration: none;" [class.clicked]="!item.active" (click)="filter(item.value)">
+          <button mat-button class="level1" style="text-decoration: none;" [class.clicked]="!item.active" (click)="filter(item.value)">
             {{ item.label }}
         </button>
-      </div>
-    </div>
   </div>
 </div>
-
-

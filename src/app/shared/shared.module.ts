@@ -44,7 +44,6 @@ import { HeaderComponent                                        } from '../modul
         CommonModule, // to use instead of BrowserModule if you are using lazyloaded module  like Malnutrition
         FormsModule,
         ReactiveFormsModule,
-        MatButtonModule,
         MatCheckboxModule, 
         MatTooltipModule,
         MatSelectModule,
@@ -83,7 +82,7 @@ import { HeaderComponent                                        } from '../modul
 		ModalUpdateComponent,
 		ModalDetailsComponent,
 		BoxSettingComponent,
-		BoxComponent,
+        BoxComponent,
     ],
     entryComponents: [
         ModalComponent,
@@ -114,7 +113,15 @@ import { HeaderComponent                                        } from '../modul
 		ModalUpdateComponent,
 		ModalDetailsComponent,
 		BoxSettingComponent,
-		BoxComponent,
+        BoxComponent,
+        MatCheckboxModule, 
+        MatTooltipModule,
+        MatSelectModule,
+        MatTableModule,
+        MatOptionModule,
+        MatButtonModule,
+        MatSortModule,
+        MatDialogModule,
     ],
     providers: []
 })

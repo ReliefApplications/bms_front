@@ -5,8 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule   } from '../../shared/shared.module';
 
 
-// Routing
-import { ReportsRouting } from './reports.routing';
+// // Routing
+// import { ReportsRouting } from './reports.routing';
 
 // Components
 import { ReportsComponent } from './reports.component';
@@ -38,7 +38,7 @@ import { ReportingModalDetailsComponent } from './modals/modal-details/modal-det
 
     imports: [
       // Routing
-      ReportsRouting,
+    //   ReportsRouting,
       // Angular Modules
       CommonModule,
       // Feature Modules

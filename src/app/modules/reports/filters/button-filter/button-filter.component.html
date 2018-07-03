@@ -1,18 +1,4 @@
-<!-- <div class="filter-box">
-
-    <div class="bouttonBox">
-          <button 
-            [class]="item.class || 'btn btn-primary button-filter'" 
-            [style]="item.style"
-            type="button" 
-            [class.clicked]="item.active"
-            (click)="filter(item.value)"
-            *ngFor="let item of data"
-          >{{ item.label }}</button>
-      </div>
-</div> -->
-
-<div  *ngFor="let item of data" >
+<div class="box" *ngFor="let item of data" >
   <div *ngIf="item.level == '0'">
     <div class="box-content" >
       <button class="level0" style="text-decoration: none;" (click)="filter(item.value)" [class.clicked]="!item.active" >

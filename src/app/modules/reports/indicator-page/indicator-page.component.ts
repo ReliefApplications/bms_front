@@ -41,9 +41,9 @@ export class IndicatorPageComponent implements OnInit {
   ]
 
   public dataFilter2: Array<ButtonFilterData> = [
-    { level: '0', icon: 'settings/api', color: 'green', label: 'View Country', value: 'Country', active: true },
-    { level: '0', icon: 'reporting/Projects', color: 'red', label: 'View Project', value: 'Project', active: false },
-    { level: '0', icon: 'reporting/Distribution', color: 'green', label: 'View Distribution', value: 'Distribution', active: false },
+    { level: '0', icon: 'settings/api', color: 'green', label: 'COUNTRY REPORT', value: 'Country', active: true },
+    { level: '0', icon: 'reporting/Projects', color: 'red', label: 'PROJECT REPORT', value: 'Project', active: false },
+    { level: '0', icon: 'reporting/Distribution', color: 'green', label: 'DISTRIBUTION REPORT', value: 'Distribution', active: false },
   ]
 
   public chartDimensions: number[];

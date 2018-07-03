@@ -1,13 +1,15 @@
 @import "../../../../../assets/css/variable.scss";
  
 $box-content: 80px;
+.box {
+    width: 100%;
+}
 
 .box-content{
     width :95%;
-    // background-color: $bms_light_grey;
+    background-color: $bms_light_grey;
     height: $box-content;
     display: flex;
-    margin-right: 100%;
     flex-grow: 1;
     &.isLast{
     margin-right: 0px !important;

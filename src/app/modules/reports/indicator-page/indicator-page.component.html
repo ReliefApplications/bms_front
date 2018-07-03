@@ -1,17 +1,19 @@
 <div class="reporting-container">
+  <div class="container-title">
+      <h2>REPORTS</h2>
+  </div>
   <div class="container-boxes">
     <button-filter [id]="'bms'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter2" [referenceKey]="'bms_search'"></button-filter>
-  </div>
-  <div class="container-title">
-    <h2>REPORTS</h2>
   </div>
 
   <div class="container-table">
     <div class="container-content">
       <div class="content-button">
-        <button mat-button><i class="fas fa-upload"></i></button>
-        <button-filter [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1" [referenceKey]="'frequency'"></button-filter>
-        <button mat-button>CHOOSE A PERIOD</button>
+        <div class="frequency">
+          <button-filter [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1" [referenceKey]="'frequency'"></button-filter>
+          <button mat-button>CHOOSE A PERIOD</button>
+        </div>
+        <button mat-button><i class="fas fa-upload"></i><span>EXPORT</span></button>
       </div>
       <div class="content-table">
           <div *ngIf="indicators.length" class="container-indicator">

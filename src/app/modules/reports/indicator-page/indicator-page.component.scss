@@ -72,15 +72,21 @@
         width: 100%;
         padding : 20px;
         padding-bottom: 0px !important;
-        justify-content: flex-end;
         align-items: center;
         flex-wrap: wrap;
         flex-direction: row;
+        justify-content: space-between;
+
+        .frequency {
+          display: flex;
+        }
 
         button {
           background-color: $bms_green !important;
           margin-right: 10px;
           color: $bms_white;
+          
+
 
           span{
               font-family: $bms_font_text;

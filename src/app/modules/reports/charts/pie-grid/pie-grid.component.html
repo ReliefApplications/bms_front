@@ -1,13 +1,3 @@
-<!-- <app-chart #chartDiv (user_action) = "actionClicked($event)"
-  [title]           = "title"
-  [modalConfig]     = "modalConfig"
-  [axis]            = "axis"
-  [indicatorConfig] = "indicatorConfig"
-  [noData]          = "noData"
-  [loader]          = "loader"
-  [menuOpen]        = "menuOpen">
-</app-chart> -->
-
 <chart-header
 [title]           = "title"
 [loader]          = "loader"
@@ -26,10 +16,7 @@
     </ngx-charts-pie-grid>
 </div>
 <div *ngIf="!loader && noData" class="no-data">
-  <!-- <p> Aucune donnée encore enregistrée. </p> -->
-  <!-- <img class="no-data" src="../../assets/images/no_data.jpg" /> -->
   <h1>NO DATA</h1>
-
 </div>
 
 <div *ngIf="loader" class="boxLoader"></div>

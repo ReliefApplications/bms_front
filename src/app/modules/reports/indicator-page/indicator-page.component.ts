@@ -19,7 +19,7 @@ export class IndicatorPageComponent implements OnInit {
 
   @ViewChildren(ButtonFilterComponent) buttonFilters: QueryList<ButtonFilterComponent>;
 
-  public type = "Organisation";
+  public type = "Country";
   public filters: Map<string, FilterInterface> = new Map<string, FilterInterface>();
   public body: any = [];
   public indicators: any[] = [];
@@ -33,13 +33,12 @@ export class IndicatorPageComponent implements OnInit {
   ]
 
   public dataFilter2: Array<ButtonFilterData> = [
-    { label: 'View organisation', value: 'Organisation', active: true },
-    { label: 'View roster', value: 'Roster', active: false },
-    { label: 'View event', value: 'Event', active: false },
+    { label: 'View Country', value: 'Country', active: true },
+    { label: 'View Project', value: 'Project', active: false },
+    { label: 'View Distribution', value: 'Distribution', active: false },
   ]
 
   public chartDimensions: number[];
-  public organisationManager: boolean = false;
   public indicatorsLoading = false;
 
   constructor(
@@ -82,7 +81,7 @@ export class IndicatorPageComponent implements OnInit {
         }
       });
 
-    //Verify the type (here : roster, organisation, event) to display the good charts
+    //Verify the type (here : Country, Project, Distribution) to display the good charts
     this.dataFilter2.forEach(filter => {
       if (filter['active']) {
         this.type = filter['value'];

@@ -30,7 +30,6 @@ export class DataTableComponent {
           break;
         }
         case 'line': {
-          //TODO: temporary, define how the indicator's data are formatted in the API
           this.data = this.dataTable[0].series;
           break;
         }

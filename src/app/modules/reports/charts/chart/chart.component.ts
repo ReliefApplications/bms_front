@@ -94,42 +94,6 @@ export class ChartComponent implements OnInit, ChartInterface {
       this.chartRegistrationService.registerFilter(this, filter);
     })
 
-
-    //Set Body with  and roster
-    //Get organisation and roster associate with the current user like manager and get the current organisation
-    let cachedUser = this._cacheService.get(CacheService.USER);
-    // let cachedOrganisation = this._cacheService.get(CacheService.CURRENT_ORGANISATION);
-    let cachedOrganisation = [];
-
-    let organisations = [];
-    let rosters = [];
-
-    if (cachedUser && cachedOrganisation) {
-      let organisationManager = cachedUser.organisation_managers;
-
-      //search organisationManager link to the user current
-      organisationManager.forEach(element => {
-        organisations.push(element.organisation.id);
-      });
-
-      //get the current organisation if the user is manager of its
-      // organisations.forEach(element => {
-      //   if (element === cachedOrganisation.id) {
-      //     this.body['organisationManagers'] = element;
-      //   }
-      // });
-      
-      //get all rosters if the user is manager of its
-      let rosterManager = cachedUser.roster_managers;
-      rosterManager.forEach(element => {
-        rosters.push(element.roster.id);
-      });
-    }
-
-    //get the current organisation
-    // this.body['currentOrganisation'] = cachedOrganisation.id;
-    this.body['roster'] = rosters;
-
     //Call data from the back
     let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
     if (promise) {
@@ -179,7 +143,7 @@ export class ChartComponent implements OnInit, ChartInterface {
         })
 
 
-      if (Object.keys(this.body).length > 3) {
+      if (Object.keys(this.body).length > 1) {
 
         // let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
         // if (promise) {

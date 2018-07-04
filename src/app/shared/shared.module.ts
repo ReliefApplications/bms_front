@@ -61,6 +61,7 @@ import { HeaderComponent                                        } from '../modul
         MatDatepickerModule,
         MatNativeDateModule,
         MatCardModule,
+        MatSelectModule,
         BrowserAnimationsModule
     ],
     declarations: [
@@ -135,6 +136,7 @@ import { HeaderComponent                                        } from '../modul
         MatDatepickerModule,
         MatCardModule,
         MatNativeDateModule,
+        MatSelectModule,
     ],
     providers: []
 })

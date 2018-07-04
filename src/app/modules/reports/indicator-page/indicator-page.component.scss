@@ -244,7 +244,19 @@
             color: $bms_white;
           }
         }
-
+      }
+      .content-select{
+        width: 100%;
+        padding: 20px;
+        .mat-card {
+          justify-content: space-between;
+          display: flex;
+          align-items: baseline;
+          padding: 15px;
+        }
+        .mat-form-field {
+          margin-right: 5%;;
+        }
       }
 
     }
@@ -332,6 +344,13 @@
     }
     .content-select-period {
       display: none;
+    }
+
+
+    .content-select {
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 0px !important;
     }
 
     .content-table {

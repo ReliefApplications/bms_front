@@ -7,6 +7,7 @@ import { ButtonFilterData, ButtonFilterComponent } from '../filters/button-filte
 import { ChartRegistration, RegisteredItem } from '../services/chart-registration.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class IndicatorPageComponent implements OnInit {
   public indicatorsLoading = false;
   public period: boolean = false;
   public selectPeriodDisplay;
-  
+
   //for responsive design
   public maxHeight = 700;
   public maxWidthMobile = 750;
@@ -48,10 +49,18 @@ export class IndicatorPageComponent implements OnInit {
   ]
 
   public dataFilter2: Array<ButtonFilterData> = [
-    { level: '0', icon: 'settings/api', color: 'red', label: 'COUNTRY REPORT', value: 'Country', active: true },
-    { level: '0', icon: 'reporting/Projects', color: 'green', label: 'PROJECT REPORT', value: 'Project', active: false },
-    { level: '0', icon: 'reporting/Distribution', color: 'red', label: 'DISTRIBUTION REPORT', value: 'Distribution', active: false },
+    { level: '0', icon: 'settings/api', color: 'red', label: 'COUNTRY REPORT', value: 'country', active: true },
+    { level: '0', icon: 'reporting/Projects', color: 'green', label: 'PROJECT REPORT', value: 'project', active: false },
+    { level: '0', icon: 'reporting/Distribution', color: 'red', label: 'DISTRIBUTION REPORT', value: 'distribution', active: false },
   ]
+
+  //static variable
+  // TODO: Replace par data from back
+  projects = new FormControl();
+  projectList: string[] = ['a', 'b', 'c', 'd', 'e', 'f'];
+
+  distributions = new FormControl();
+  distributionList: string[] = ['0', '1', '2', '3', '4', '5'];
 
   constructor(
     public referedClassService: IndicatorService,
@@ -98,6 +107,7 @@ export class IndicatorPageComponent implements OnInit {
     this.dataFilter2.forEach(filter => {
       if (filter['active']) {
         this.type = filter['value'];
+        console.log(this.type);
       }
 
     });

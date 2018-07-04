@@ -3,7 +3,7 @@ import { RouterModule, Routes                                   } from '@angular
 import { CommonModule                                           } from '@angular/common';
 import { FormsModule, ReactiveFormsModule                       } from '@angular/forms';
 import { FormControl, FormGroup, Validators                     } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule} from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule, MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule} from '@angular/material';
 import { MatProgressSpinnerModule                               } from '@angular/material/progress-spinner';
 import { MatIconModule                                          } from '@angular/material/icon';
 import { MatTooltipModule                                       } from '@angular/material/tooltip'
@@ -57,6 +57,10 @@ import { HeaderComponent                                        } from '../modul
         MatFormFieldModule,
         MatInputModule,
         MatPaginatorModule,
+        MatExpansionModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatCardModule,
         BrowserAnimationsModule
     ],
     declarations: [
@@ -122,6 +126,15 @@ import { HeaderComponent                                        } from '../modul
         MatButtonModule,
         MatSortModule,
         MatDialogModule,
+        MatProgressSpinnerModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatPaginatorModule,
+        MatExpansionModule,
+        MatDatepickerModule,
+        MatCardModule,
+        MatNativeDateModule,
     ],
     providers: []
 })

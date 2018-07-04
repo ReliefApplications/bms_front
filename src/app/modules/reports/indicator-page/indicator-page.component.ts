@@ -6,6 +6,7 @@ import { CacheService } from '../../../core/storage/cache.service';
 import { ButtonFilterData, ButtonFilterComponent } from '../filters/button-filter/button-filter.component';
 import { ChartRegistration, RegisteredItem } from '../services/chart-registration.service';
 import { forEach } from '@angular/router/src/utils/collection';
+import { MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material';
 
 
 @Component({
@@ -24,7 +25,13 @@ export class IndicatorPageComponent implements OnInit {
   public body: any = [];
   public indicators: any[] = [];
   public filtersButton;
-
+  public frequency = "year";
+  public chartDimensions: number[];
+  public indicatorsLoading = false;
+  public period: boolean = false;
+  public selectPeriodDisplay;
+  
+  //for responsive design
   public maxHeight = 700;
   public maxWidthMobile = 750;
   public maxWidthFirstRow = 1000;
@@ -45,9 +52,6 @@ export class IndicatorPageComponent implements OnInit {
     { level: '0', icon: 'reporting/Projects', color: 'green', label: 'PROJECT REPORT', value: 'Project', active: false },
     { level: '0', icon: 'reporting/Distribution', color: 'red', label: 'DISTRIBUTION REPORT', value: 'Distribution', active: false },
   ]
-
-  public chartDimensions: number[];
-  public indicatorsLoading = false;
 
   constructor(
     public referedClassService: IndicatorService,
@@ -97,6 +101,16 @@ export class IndicatorPageComponent implements OnInit {
       }
 
     });
+
+    //Verify the frequency selected
+      this.dataFilter1.forEach(filter => {
+        if (filter['active']) {
+          this.frequency = filter['value'];
+          this.period = false;
+        }
+      });
+   
+ 
   }
 
   /**
@@ -138,6 +152,19 @@ export class IndicatorPageComponent implements OnInit {
   checkSize(): void{
     this.heightScreen = window.innerHeight;
     this.widthScreen = window.innerWidth;
+  }
+
+  selectPeriod(): void{
+    this.period = !this.period;
+    if (this.period) {
+      this.frequency = "Period selected";
+      this.dataFilter1.forEach(filter => {
+        if (filter['active']) {
+          filter['active'] = false;
+          
+        }
+      });
+    }
   }
 
 }

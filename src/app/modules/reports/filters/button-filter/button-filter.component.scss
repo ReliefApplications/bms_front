@@ -97,13 +97,21 @@ button.level1 {
         font-size : 2.5vh !important;
     }
 
+    .filter {
+        width: 90%;
+        align-self: center;
+        height: 100%;
+    }
+
     .mat-button{
         font-size: 3vw;
+        min-width: 100%;
     }
       
     button.level1 {
         margin-bottom: 5%;
         margin-right: 0px !important;
+        width: 50% !important;
         
     }
 }

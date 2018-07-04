@@ -85,6 +85,10 @@ $box-content: 80px;
     color: $bms_white;
 }
 
+button.level1 {
+    background-color: $bms_green !important;
+    margin-right: 20px;
+}
 
 
 //for mobile screen
@@ -92,11 +96,16 @@ $box-content: 80px;
     .info-title{
         font-size : 2.5vh !important;
     }
+
+    .mat-button{
+        font-size: 3vw;
+    }
+      
+    button.level1 {
+        margin-bottom: 5%;
+        margin-right: 0px !important;
+        
+    }
 }
 
-button.level1 {
-    width: 95%;
-    background-color: $bms_green !important;
-    margin-right: 20px;
-    // height: 100%;
-}
+

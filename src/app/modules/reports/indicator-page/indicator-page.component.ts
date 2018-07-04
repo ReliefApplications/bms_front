@@ -36,7 +36,7 @@ export class IndicatorPageComponent implements OnInit {
   // Data Button Declaration
   public dataFilter1: Array<ButtonFilterData> = [
     { level: '1', label: 'PER YEAR', value: 'year', active: true },
-    { level: '1', label: 'PER TRIMESTER', value: 'quarter', active: false },
+    { level: '1', label: 'PER QUARTER', value: 'quarter', active: false },
     { level: '1', label: 'PER MONTH', value: 'month', active: false },
   ]
 

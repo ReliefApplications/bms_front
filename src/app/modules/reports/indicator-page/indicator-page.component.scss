@@ -184,13 +184,14 @@ button-filter-date{
   width: 100%;
   padding: 20px;
   .mat-card {
-    justify-content: space-between;
+    // justify-content: space-between;
     display: flex;
-    align-items: baseline;
+    // align-items: baseline;
     padding: 15px;
   }
   .mat-form-field {
-    margin-right: 5%;;
+    margin-right: 5%;
+    flex-grow: 1
   }
 }
 
@@ -212,6 +213,10 @@ button-filter-date{
     width: 97% !important;
   }
 
+  .content-button {
+    order: -1;
+  }
+
   .frequency {
     display: none !important;;
   }
@@ -220,6 +225,7 @@ button-filter-date{
     display: inline-block !important;
     width: 100%;
     margin: 1em;
+    order: -1;
     .mat-expansion-panel-header {
       font-size: 4vw;
     }
@@ -280,7 +286,16 @@ button-filter-date{
   .content-select {
     display: flex;
     flex-direction: column;
-    padding-bottom: 0px !important;
+    padding: 0px !important;
+    margin: 1.25em;
+    font-size: 4vw;
+    .mat-card {
+      padding: 11px !important;
+      flex-direction: column;
+      .mat-form-field {
+        margin: 0px 12px !important;
+      }
+    }
   }
 
   .no-data-box{
@@ -296,3 +311,4 @@ button-filter-date{
   }
 
 }
+

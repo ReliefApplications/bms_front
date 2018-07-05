@@ -15,7 +15,7 @@
         <!-- button to filter data by frequency -->
         <div class="frequency">
           <button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1" [referenceKey]="'frequency'"></button-filter-date>
-          <button mat-button class="button-period" (click)="selectPeriod()" [class.clicked]="!this.period" >CHOOSE A PERIOD</button>
+          <button mat-button class="button-period" (click)="selectPeriod()" [class.clicked]="!this.period" >CHOOSE PERIOD</button>
         </div>
         <button mat-button class="button-export"><i class="fas fa-upload"></i><span>EXPORT</span></button>
       </div>

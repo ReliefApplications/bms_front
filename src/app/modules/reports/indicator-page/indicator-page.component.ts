@@ -76,6 +76,7 @@ export class IndicatorPageComponent implements OnInit {
         this.referedClassService.getIndicators().toPromise().then(response => {
         this.indicators = response as any;
         this.indicatorsLoading = false
+        console.log(this.indicators);
       }).catch(e => {
          this.indicatorsLoading = false;
       }); 
@@ -107,7 +108,6 @@ export class IndicatorPageComponent implements OnInit {
     this.dataFilter2.forEach(filter => {
       if (filter['active']) {
         this.type = filter['value'];
-        console.log(this.type);
       }
 
     });
@@ -154,16 +154,28 @@ export class IndicatorPageComponent implements OnInit {
     return filters;
   }
 
+  /**
+   * For responsive design
+   * @param event 
+   */
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.checkSize();
   }
 
+  /**
+   * For responsive design
+   */
   checkSize(): void{
     this.heightScreen = window.innerHeight;
     this.widthScreen = window.innerWidth;
   }
 
+
+  /**
+   * For the button "choose period", 
+   * Allow to now when the button is active or not
+   */
   selectPeriod(): void{
     this.period = !this.period;
     if (this.period) {

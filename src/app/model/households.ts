@@ -1,7 +1,7 @@
 import { SectorMapper        } from "./sector-mapper";
 
 export class Households {
-    static __classname__ = 'Donor';
+    static __classname__ = 'Households';
     /**
      * Households' id
      * @type {number}
@@ -86,7 +86,7 @@ export class Households {
             firstName : "text",
             location : "text",
             dependents : "number",
-            vulnerabilities : "png"
+            vulnerabilities : "png",
         }
     }
 
@@ -99,7 +99,7 @@ export class Households {
             firstName: "First name",
             location: "Location",
             dependents : "Dependents",
-            vulnerabilities : "Vulnerabilities"
+            vulnerabilities : "Vulnerabilities",
         }
     }
 }

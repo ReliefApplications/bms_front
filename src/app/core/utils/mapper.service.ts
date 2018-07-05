@@ -35,6 +35,8 @@ export class Mapper{
             this.mapperObject = this.mapper.user; break;
             case 'CountrySpecific' :
             this.mapperObject = this.mapper.country_specific; break;
+            case 'Households' :
+            this.mapperObject = this.mapper.households; break;
             default: return;
         }
         return this;

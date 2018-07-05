@@ -50,8 +50,6 @@
             padding : 20px;
             padding-bottom: 0px !important;
             align-items: center;
-            flex-wrap: wrap;
-            flex-direction: row;
             justify-content: space-between;
 
             .mat-button {
@@ -71,11 +69,9 @@
     .container-boxes{
         flex-wrap: nowrap !important;
         overflow-x: scroll;
-        display: grid !important;
     }
     .container-table{
-      padding: 5px !important;
-      width: 97% !important;
+        padding: 5px 5px 20px 5px !important;
 
         .content-button {
             justify-content: flex-end !important;

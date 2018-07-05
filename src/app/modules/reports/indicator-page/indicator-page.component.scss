@@ -194,11 +194,24 @@ button-filter-date{
   }
 }
 
+.content-button {
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
 
 
 
 //for mobile screen
 @media only screen and (max-width: 750px){
+  .container-boxes {
+    display: grid !important;
+  }
+
+  .container-table {
+    width: 97% !important;
+  }
+
   .frequency {
     display: none !important;;
   }

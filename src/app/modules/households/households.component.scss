@@ -1,0 +1,65 @@
+@import '../../../assets/css/variable.scss'; 
+
+    
+app-table-search{
+    width: 100%;
+    height: 100%;
+}
+
+app-table-mobile{
+    width: 100%;
+    height: 100%;
+}
+
+button{
+    color: $bms_white;
+    background-color: $bms_red;
+
+    &.export-button{
+        background-color: $bms_green !important;
+        height: 40px;
+        margin-right: 10px;
+    }
+
+    &.import-button{
+        background-color: $bms_green !important;
+        height: 40px;
+    }
+
+    &.add-button{
+        width: 50px;
+        height: 50px;
+    }
+
+    span{
+        font-family: $bms_font_text;
+        padding-left:20px;
+    }
+}
+
+.import-export {
+    margin-right: 10px;
+    justify-content: space-between;
+    display: flex;
+}
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+    button{
+        &.add-button{
+            position: absolute;
+            bottom: 20px;
+            left: 80%;
+            z-index: 1000;
+        }
+
+        &.export-button{
+            margin-right: 0px !important;
+        }
+    }
+    
+    .import-export {
+        width: 100%;
+        padding-bottom: 20px;
+    }
+}

@@ -1,3 +1,31 @@
-<p>
-  households works!
-</p>
+<div class="page-container">
+    <div class="container-title">
+      <h2>HOUSEHOLDS</h2>
+    </div>
+    <div class="container-table">
+      <div class="container-content">
+        <div class="content-button">
+          <button mat-icon-button class="add-button">
+            <i class="fas fa-plus"></i>
+          </button>
+
+          <div class="import-export">
+            <button mat-button class="export-button">
+              <i class="fas fa-upload">
+                <span>EXPORT</span>
+              </i>
+            </button>
+            <button mat-button class="import-button">
+                <i class="fas fa-download">
+                  <span>IMPORT</span>
+                </i>
+            </button>
+          </div>
+        </div>
+        <div class="content-table">
+          <app-table *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="households"></app-table>
+          <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="households"></app-table-mobile>
+        </div>
+      </div>
+    </div>
+  </div>

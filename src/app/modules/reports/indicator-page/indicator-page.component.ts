@@ -26,7 +26,7 @@ export class IndicatorPageComponent implements OnInit {
   public body: any = [];
   public indicators: any[] = [];
   public filtersButton;
-  public frequency = "year";
+  public frequency = "Year";
   public chartDimensions: number[];
   public indicatorsLoading = false;
   public period: boolean = false;
@@ -43,15 +43,15 @@ export class IndicatorPageComponent implements OnInit {
 
   // Data Button Declaration
   public dataFilter1: Array<ButtonFilterData> = [
-    { level: '1', label: 'PER YEAR', value: 'year', active: true },
-    { level: '1', label: 'PER QUARTER', value: 'quarter', active: false },
-    { level: '1', label: 'PER MONTH', value: 'month', active: false },
+    { level: '1', label: 'PER YEAR', value: 'Year', active: true },
+    { level: '1', label: 'PER QUARTER', value: 'Quarter', active: false },
+    { level: '1', label: 'PER MONTH', value: 'Month', active: false },
   ]
 
   public dataFilter2: Array<ButtonFilterData> = [
-    { level: '0', icon: 'settings/api', color: 'red', label: 'COUNTRY REPORT', value: 'country', active: true },
-    { level: '0', icon: 'reporting/Projects', color: 'green', label: 'PROJECT REPORT', value: 'project', active: false },
-    { level: '0', icon: 'reporting/Distribution', color: 'red', label: 'DISTRIBUTION REPORT', value: 'distribution', active: false },
+    { level: '0', icon: 'settings/api', color: 'red', label: 'COUNTRY REPORT', value: 'Country', active: true },
+    { level: '0', icon: 'reporting/projects', color: 'green', label: 'PROJECT REPORT', value: 'Project', active: false },
+    { level: '0', icon: 'reporting/distribution', color: 'red', label: 'DISTRIBUTION REPORT', value: 'Distribution', active: false },
   ]
 
   //static variable

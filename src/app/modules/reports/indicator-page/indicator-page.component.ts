@@ -26,7 +26,7 @@ export class IndicatorPageComponent implements OnInit {
   public body: any = [];
   public indicators: any[] = [];
   public filtersButton;
-  public frequency = "year";
+  public frequency = "Year";
   public chartDimensions: number[];
   public indicatorsLoading = false;
   public period: boolean = false;
@@ -43,15 +43,15 @@ export class IndicatorPageComponent implements OnInit {
 
   // Data Button Declaration
   public dataFilter1: Array<ButtonFilterData> = [
-    { level: '1', label: 'PER YEAR', value: 'year', active: true },
-    { level: '1', label: 'PER QUARTER', value: 'quarter', active: false },
-    { level: '1', label: 'PER MONTH', value: 'month', active: false },
+    { level: '1', label: 'PER YEAR', value: 'Year', active: true },
+    { level: '1', label: 'PER QUARTER', value: 'Quarter', active: false },
+    { level: '1', label: 'PER MONTH', value: 'Month', active: false },
   ]
 
   public dataFilter2: Array<ButtonFilterData> = [
     { level: '0', icon: 'settings/api', color: 'red', label: 'COUNTRY REPORT', value: 'country', active: true },
-    { level: '0', icon: 'reporting/Projects', color: 'green', label: 'PROJECT REPORT', value: 'project', active: false },
-    { level: '0', icon: 'reporting/Distribution', color: 'red', label: 'DISTRIBUTION REPORT', value: 'distribution', active: false },
+    { level: '0', icon: 'reporting/projects', color: 'green', label: 'PROJECT REPORT', value: 'project', active: false },
+    { level: '0', icon: 'reporting/distribution', color: 'red', label: 'DISTRIBUTION REPORT', value: 'distribution', active: false },
   ]
 
   //static variable
@@ -76,6 +76,7 @@ export class IndicatorPageComponent implements OnInit {
         this.referedClassService.getIndicators().toPromise().then(response => {
         this.indicators = response as any;
         this.indicatorsLoading = false
+        console.log(this.indicators);
       }).catch(e => {
          this.indicatorsLoading = false;
       }); 
@@ -107,7 +108,6 @@ export class IndicatorPageComponent implements OnInit {
     this.dataFilter2.forEach(filter => {
       if (filter['active']) {
         this.type = filter['value'];
-        console.log(this.type);
       }
 
     });
@@ -154,16 +154,28 @@ export class IndicatorPageComponent implements OnInit {
     return filters;
   }
 
+  /**
+   * For responsive design
+   * @param event 
+   */
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.checkSize();
   }
 
+  /**
+   * For responsive design
+   */
   checkSize(): void{
     this.heightScreen = window.innerHeight;
     this.widthScreen = window.innerWidth;
   }
 
+
+  /**
+   * For the button "choose period", 
+   * Allow to now when the button is active or not
+   */
   selectPeriod(): void{
     this.period = !this.period;
     if (this.period) {

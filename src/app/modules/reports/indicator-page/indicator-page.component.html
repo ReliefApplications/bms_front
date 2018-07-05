@@ -15,7 +15,7 @@
         <!-- button to filter data by frequency -->
         <div class="frequency">
           <button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1" [referenceKey]="'frequency'"></button-filter-date>
-          <button mat-button class="button-period" (click)="selectPeriod()" [class.clicked]="!this.period" >CHOOSE A PERIOD</button>
+          <button mat-button class="button-period" (click)="selectPeriod()" [class.clicked]="!this.period" >CHOOSE PERIOD</button>
         </div>
         <button mat-button class="button-export"><i class="fas fa-upload"></i><span>EXPORT</span></button>
       </div>
@@ -39,25 +39,29 @@
 
       <!-- selector for project when we click on button "project report" -->
       <div class="content-select" *ngIf="type == 'project'">
-        <mat-form-field>
+        <mat-card>
+          <mat-form-field>
             <mat-select placeholder="Projects" [formControl]="projects" multiple>
               <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
             </mat-select>
-          </mat-form-field>                       
+          </mat-form-field> 
+        </mat-card>                      
       </div>
 
       <!-- selector for distribution and project when we click on button "distribution report" -->
       <div class="content-select" *ngIf="type == 'distribution'">
-          <mat-form-field>
-              <mat-select placeholder="Projects" [formControl]="projects">
-                <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-              </mat-select>
+          <mat-card>
+            <mat-form-field>
+                <mat-select placeholder="Projects" [formControl]="projects">
+                  <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+                </mat-select>
             </mat-form-field> 
             <mat-form-field *ngIf="type == 'distribution'">
                 <mat-select placeholder="Distributions" [formControl]="distributions" multiple>
                   <mat-option *ngFor="let distribution of distributionList" [value]="distribution">{{distribution}}</mat-option>
                 </mat-select>
-              </mat-form-field>                      
+            </mat-form-field>  
+          </mat-card>                    
         </div>
   
 

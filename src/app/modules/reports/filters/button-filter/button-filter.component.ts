@@ -30,7 +30,6 @@ export class ButtonFilterComponent extends AbstractFilter {
  
   ngOnInit() {
     this.filterService.subscribe(this);
-    console.log(this.data);
   }
 
   /**

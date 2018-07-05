@@ -15,6 +15,12 @@
         span{
             padding: 3px;
             font-family: $bms_font_text;
+            text-decoration: none;
+
+            a {
+                text-decoration: none;
+                color: black;
+            }
         }
     }
 
@@ -78,5 +84,12 @@
                 display: block !important;
             }
         }
+    }
+}
+
+@media only screen and (max-width: 750px){
+    &.open-menu{
+        margin-left: -40vw !important;
+        margin-top: 10px !important;
     }
 }

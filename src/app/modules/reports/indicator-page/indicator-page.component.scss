@@ -1,265 +1,196 @@
   @import "../../../../assets/css/variable.scss";
  
 
-.reporting-container{
-  width: 100%;
+button-filter-items{
+  justify-content: end;
   display: flex;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  flex-grow: 1;
+  width : 100%;
+  height : 80px;
+  min-width: 150px;
+  &.isLast{
+    margin-right: 0px !important;
+  }
+}
+
+
+.container-indicator{
+  display: flex;
+  flex-direction: row ;
   flex-wrap: wrap;
-  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 9em;
+  max-width: 100%;
 
-  .container-title{
-      width: 100%;
-      padding-left: 20px;
-      font-family: $bms_font_header;
-      font-size: 2vh;       
+  app-indicator{
+    margin: 2em;
   }
+}
+    
+.chartLoader{
+  background-color: black;
+  opacity: 0.2;
+  animation: wave 2s ease-in-out 0s infinite;
+}
 
-  .container-boxes{
-      display: flex;
-      flex-wrap: wrap;
-      flex-direction: row;
-      width: 100%;
-      padding: 20px;
-      justify-content: space-between;
+.subtitle{
+  color: $bms_dark_red ;
+  text-transform: uppercase;
+}
 
-    button-filter-items{
-      justify-content: end;
-      display: flex;
-      margin-right: 10px;
-      margin-bottom: 10px;
-      flex-grow: 1;
-      width : 100%;
-      height : 80px;
-      min-width: 150px;
-      &.isLast{
-        margin-right: 0px !important;
-      }
-    }
+.text {
+  flex-grow: 2;
+  color: $bms_dark_red;
+  font-size:18px;
+  width: 100%;
+  &:hover{
+    color: $bms_green;
   }
+}
 
-  .container-table{
+.textTitle{
+  text-align: left;
+  width:100%;
+}
+    
+.button{
+  width:100%;
+  padding: 15px;
+}
+
+/* Tooltip text */
+.tooltip-container .tooltip-text {
+  margin-top: 20px;
+  font-size: 14px;
+  font-family: Lato,Helvetica,Arial,sans-serif;
+  visibility: hidden;
+  background-color: $bms_red;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+    
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+}
+
+@keyframes wave {
+  0%   {opacity: 0.2;}
+  50%  {opacity: 0.6;}
+  100% {opacity: 0.2;}
+}
+
+.loader-title{
+  display: flex;
+  justify-content: center;
+
+  h1{
     display: flex;
-    width: 100%;
-    padding: 20px;
+    background-color: black;
+    color: black;
+    opacity: 0.2;
+    width: 30%;
+    font-weight: bold;
+    height: 100%;
+    animation: wave 2s ease-in-out 0s infinite;
+  }
 
-    .container-content{
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
-        background-color: $bms_light_grey;
-        box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);    
-        border-top: solid 12px $bms_green;
-        border-radius: 3px;
+  h2{
+    display: flex;
+    background-color: black;
+    color: black;
+    opacity: 0.2;
+    width: 20%;
+    font-weight: bold;
+    height: 100%;
+    animation: wave 2s ease-in-out 0s infinite;
+    margin-bottom: 50px;
+  }
+}
 
-      .content-table{
-          display: flex;
-          width: 100%;
-          padding : 20px;
+.no-data-box{
+  border: solid 2px black;
+  border-radius: 80px;
+  text-align: center;
+  justify-content: center;
+  padding: 3%;
+  margin: 5em 6em 5em 6em;
+  display: flex;
+  width: 100%;
 
-          .container-indicator{
-            display: flex;
-            flex-direction: row ;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 9em;
-            max-width: 100%;
-          
-            app-indicator{
-              margin: 2em;
-            }
-          }
-          
-          .chartLoader{
-            background-color: black;
-            opacity: 0.2;
-            animation: wave 2s ease-in-out 0s infinite;
-          }
-          
-          .subtitle{
-            color: $bms_dark_red ;
-            text-transform: uppercase;
-          }
-          
-          .text {
-            flex-grow: 2;
-            color: $bms_dark_red;
-            font-size:18px;
-            width: 100%;
-            &:hover{
-              color: $bms_green;
-            }
-          }
-          
-          .textTitle{
-            text-align: left;
-            width:100%;
-          }
-          
-          .button{
-            width:100%;
-            padding: 15px;
-          }
-          
-          /* Tooltip text */
-          .tooltip-container .tooltip-text {
-            margin-top: 20px;
-            font-size: 14px;
-            font-family: Lato,Helvetica,Arial,sans-serif;
-            visibility: hidden;
-            background-color: $bms_red;
-            color: #fff;
-            padding: 5px;
-            border-radius: 3px;
-          
-            /* Position the tooltip text - see examples below! */
-            position: absolute;
-            z-index: 1;
-          }
-          
-          /* Show the tooltip text when you mouse over the tooltip container */
-          .tooltip-container:hover .tooltip-text {
-            visibility: visible;
-          }
-          
-          @keyframes wave {
-            0%   {opacity: 0.2;}
-            50%  {opacity: 0.6;}
-            100% {opacity: 0.2;}
-          }
-          
-          .loader-title{
-            display: flex;
-            justify-content: center;
-          
-            h1{
-              display: flex;
-              background-color: black;
-              color: black;
-              opacity: 0.2;
-              width: 30%;
-              font-weight: bold;
-              height: 100%;
-              animation: wave 2s ease-in-out 0s infinite;
-            }
-          
-            h2{
-              display: flex;
-              background-color: black;
-              color: black;
-              opacity: 0.2;
-              width: 20%;
-              font-weight: bold;
-              height: 100%;
-              animation: wave 2s ease-in-out 0s infinite;
-              margin-bottom: 50px;
-            }
-          }
-          
-          .no-data-box{
-            border: solid 2px black;
-            border-radius: 80px;
-            text-align: center;
-            justify-content: center;
-            padding: 3%;
-            margin: 5em 6em 5em 6em;
-            display: flex;
-            width: 100%;
-          
-            .box-title{
-              display: flex;
-              font-style: bold;
-              font-size: 50px;
-              font-family: Lato,Helvetica,Arial,sans-serif;
-            }
-          }
-          
-          .no-data-text{
-            color: $bms_green;
-            font-style: italic;
-          } 
+  .box-title{
+    display: flex;
+    font-style: bold;
+    font-size: 50px;
+    font-family: Lato,Helvetica,Arial,sans-serif;
+  }
+}
 
+.no-data-text{
+  color: $bms_green;
+  font-style: italic;
+} 
 
-      }
+.frequency {
+  display: flex;
+}
 
-      .content-button{
-        display: flex;
-        width: 100%;
-        padding : 20px;
-        padding-bottom: 0px !important;
-        align-items: center;
-        flex-wrap: wrap;
-        flex-direction: row;
-        justify-content: space-between;
+.button-export {
+  color: $bms_white;
+}
 
-        .frequency {
-          display: flex;
-        }
+button-filter-date{
+  display: flex;
+  
+}
 
-        button {
-          background-color: $bms_green !important;
+.clicked {
+  background-color: $bms_dark_grey !important;
+  color: $bms_white;
+}
 
+.panel-frequency{
+  display: none;
+  .content-select-period-mobile {
+    display: none;
+  }
+}
 
-
-          span{
-              font-family: $bms_font_text;
-              padding-left:10px;
-            }
-        }
-
-        .button-export {
-          color: $bms_white;
-        }
-
-        button-filter-date{
-          display: flex;
-          
-        }
-      }
-
-      .clicked {
-        background-color: $bms_dark_grey !important;
-        color: $bms_white;
-      }
-
-      .panel-frequency{
-        display: none;
-        .content-select-period-mobile {
-          display: none;
-        }
-      }
-
-      .content-select-period {
-        width: 100%;
-        padding: 20px;
-        .mat-card {
-          justify-content: space-between;
-          display: flex;
-          align-items: baseline;
-          padding: 15px;
-          .mat-form-field {
-            width: 40%;
-          }
-          .apply-period {
-            background-color: $bms_green !important;
-            color: $bms_white;
-          }
-        }
-      }
-      .content-select{
-        width: 100%;
-        padding: 20px;
-        .mat-card {
-          justify-content: space-between;
-          display: flex;
-          align-items: baseline;
-          padding: 15px;
-        }
-        .mat-form-field {
-          margin-right: 5%;;
-        }
-      }
-
+.content-select-period {
+  width: 100%;
+  padding: 20px;
+  .mat-card {
+    justify-content: space-between;
+    display: flex;
+    align-items: baseline;
+    padding: 15px;
+    .mat-form-field {
+      width: 40%;
     }
+    .apply-period {
+      background-color: $bms_green !important;
+      color: $bms_white;
+    }
+  }
+}
+.content-select{
+  width: 100%;
+  padding: 20px;
+  .mat-card {
+    justify-content: space-between;
+    display: flex;
+    align-items: baseline;
+    padding: 15px;
+  }
+  .mat-form-field {
+    margin-right: 5%;;
   }
 }
 
@@ -268,103 +199,84 @@
 
 //for mobile screen
 @media only screen and (max-width: 750px){
-  .container-boxes{
-      flex-wrap: nowrap !important;
-      overflow-x: scroll;
-      display: grid !important;
+  .frequency {
+    display: none !important;;
   }
-  .container-table{
-    padding: 5px !important;
-    width: 97% !important;
 
-    .content-button {
-      justify-content: flex-end !important;
-      .frequency {
-        display: none !important;;
-      }
-      
-      .mat-button{
-        margin-right: 0px !important;
-      }
+  .panel-frequency{
+    display: inline-block !important;
+    width: 100%;
+    margin: 1em;
+    .mat-expansion-panel-header {
+      font-size: 4vw;
     }
-
-    .panel-frequency{
-      display: inline-block !important;
+    .panel-body {
       width: 100%;
-      margin: 1em;
-      .mat-expansion-panel-header {
-        font-size: 4vw;
-      }
-      .panel-body {
-        width: 100%;
-        display: flex;
-        min-height: 23vh;
-        button-filter-date {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          width: 50%;
-          justify-content: space-between !important;
-        }
-        .panel-selectPeriod {
-          display: flex;
-          align-items: center;
-          width: 50%;
-          flex-direction: column;
-        }
-        .button-period {
-          background-color: $bms_green !important;
-          font-size: 3vw;
-          min-width: 70px;
-          width: 90% !important;
-          margin-bottom: 2vh;
-        }
-      }
-      .content-select-period-mobile {
-        font-size: 3vw;
-        display: flex !important;
-
-        width: 30vw;
-        flex-direction: column;
-        .datepicker {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-           .mat-form-field {
-            width: 100%;
-          }
-        }
-        .apply-period-mobile {
-          background-color: $bms_green !important;
-          color: $bms_white;
-          font-size: 3vw;
-          min-width: 70px;
-          width: 50% !important;
-          padding: 0px !important;
-        }
-      }
-    }
-    .content-select-period {
-      display: none;
-    }
-
-
-    .content-select {
       display: flex;
-      flex-direction: column;
-      padding-bottom: 0px !important;
+      min-height: 23vh;
+      button-filter-date {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50%;
+        justify-content: space-between !important;
+      }
+      .panel-selectPeriod {
+        display: flex;
+        align-items: center;
+        width: 50%;
+        flex-direction: column;
+      }
+      .button-period {
+        background-color: $bms_green !important;
+        font-size: 3vw;
+        min-width: 70px;
+        width: 90% !important;
+        margin-bottom: 2vh;
+      }
     }
+    .content-select-period-mobile {
+      font-size: 3vw;
+      display: flex !important;
 
-    .content-table {
-      padding: 0px !important;
-      .no-data-box{
-        margin: 5em 1em 5em 1em !important;
-        .box-title {
-          font-size: 10vw !important;
+      width: 30vw;
+      flex-direction: column;
+      .datepicker {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+          .mat-form-field {
+          width: 100%;
         }
+      }
+      .apply-period-mobile {
+        background-color: $bms_green !important;
+        color: $bms_white;
+        font-size: 3vw;
+        min-width: 70px;
+        width: 50% !important;
+        padding: 0px !important;
       }
     }
   }
+  .content-select-period {
+    display: none;
+  }
+
+
+  .content-select {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0px !important;
+  }
+
+  .no-data-box{
+    margin: 5em 1em 5em 1em !important;
+    .box-title {
+      font-size: 10vw !important;
+    }
+  }
+
 
   div.mat-expansion-panel-body {
     padding: 0 !important;

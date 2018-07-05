@@ -3,7 +3,7 @@ import { RouterModule, Routes                                   } from '@angular
 import { CommonModule                                           } from '@angular/common';
 import { FormsModule, ReactiveFormsModule                       } from '@angular/forms';
 import { FormControl, FormGroup, Validators                     } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule} from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule, MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule} from '@angular/material';
 import { MatProgressSpinnerModule                               } from '@angular/material/progress-spinner';
 import { MatIconModule                                          } from '@angular/material/icon';
 import { MatTooltipModule                                       } from '@angular/material/tooltip'
@@ -36,7 +36,6 @@ import { HeaderMenuTopComponent                                 } from '../modul
 import { HouseholdsComponent                                    } from '../modules/households/households.component';
 import { DistributionComponent                                  } from '../modules/distribution/distribution.component';
 import { SettingsComponent                                      } from '../modules/settings/settings.component';
-import { ReportsComponent                                       } from '../modules/reports/reports.component';
 import { HeaderComponent                                        } from '../modules/header/header.component';
 
 @NgModule({
@@ -45,7 +44,6 @@ import { HeaderComponent                                        } from '../modul
         CommonModule, // to use instead of BrowserModule if you are using lazyloaded module  like Malnutrition
         FormsModule,
         ReactiveFormsModule,
-        MatButtonModule,
         MatCheckboxModule, 
         MatTooltipModule,
         MatSelectModule,
@@ -59,6 +57,11 @@ import { HeaderComponent                                        } from '../modul
         MatFormFieldModule,
         MatInputModule,
         MatPaginatorModule,
+        MatExpansionModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatCardModule,
+        MatSelectModule,
         BrowserAnimationsModule
     ],
     declarations: [
@@ -70,7 +73,6 @@ import { HeaderComponent                                        } from '../modul
 		HouseholdsComponent,
 		DistributionComponent,
 		SettingsComponent,
-        ReportsComponent,   
 		HeaderComponent,     
         IconSvgComponent,
 		BoxDashboardComponent,        
@@ -85,7 +87,7 @@ import { HeaderComponent                                        } from '../modul
 		ModalUpdateComponent,
 		ModalDetailsComponent,
 		BoxSettingComponent,
-		BoxComponent,
+        BoxComponent,
     ],
     entryComponents: [
         ModalComponent,
@@ -102,7 +104,6 @@ import { HeaderComponent                                        } from '../modul
 		HouseholdsComponent,
 		DistributionComponent,
 		SettingsComponent,
-		ReportsComponent,    
 		HeaderComponent,                
 		IconSvgComponent,
 		BoxDashboardComponent,        
@@ -117,7 +118,25 @@ import { HeaderComponent                                        } from '../modul
 		ModalUpdateComponent,
 		ModalDetailsComponent,
 		BoxSettingComponent,
-		BoxComponent,
+        BoxComponent,
+        MatCheckboxModule, 
+        MatTooltipModule,
+        MatSelectModule,
+        MatTableModule,
+        MatOptionModule,
+        MatButtonModule,
+        MatSortModule,
+        MatDialogModule,
+        MatProgressSpinnerModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatPaginatorModule,
+        MatExpansionModule,
+        MatDatepickerModule,
+        MatCardModule,
+        MatNativeDateModule,
+        MatSelectModule,
     ],
     providers: []
 })

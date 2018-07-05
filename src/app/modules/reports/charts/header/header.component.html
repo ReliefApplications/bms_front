@@ -1,0 +1,25 @@
+<div class="header" *ngIf="!loader" id="header" #header>
+  <div class="title">
+    {{ title }}
+  </div>
+  
+  <!-- <div class="actions">
+    <div *ngIf="!noData" class="tooltip-container">
+      <span (click)="toggleChartMenu()" class="glyphicon glyphicon-menu-hamburger pull-right" aria-hidden="true"></span>
+      <ul *ngIf="menuOpen" class="icon pull-right" [class.closed]="!menuOpen"> -->
+        <!-- <button style="float:right;" data-toggle="modal" [attr.data-target]="'#' + modalConfig.modalId + 'data'" (click)="setAction('donnees')">Données</button><br> -->
+        <!-- <button data-toggle="modal" [attr.data-target]="'#' + modalConfig.modalId + 'details'" (click)="setAction('details')">Détails</button>
+      </ul>
+    </div>
+    <br *ngIf="!noData">
+    <div class="tooltip-container glyphicon glyphicon-question-sign" aria-hidden="true">
+      <span class="tooltip-text"> Description du calcul </span>
+    </div>
+  </div>
+</div> -->
+<br/>
+
+<div class="headerLoader" *ngIf="loader">
+  <h5 class="titleLoader1 titleLoader">Load</h5>
+  <h5 class="titleLoader2 titleLoader">Load</h5>
+</div>

@@ -22,7 +22,7 @@
       padding: 20px;
       justify-content: space-between;
 
-    button-filter{
+    button-filter-items{
       justify-content: end;
       display: flex;
       margin-right: 10px;
@@ -210,7 +210,7 @@
           color: $bms_white;
         }
 
-        button-filter{
+        button-filter-date{
           display: flex;
           
         }
@@ -298,11 +298,13 @@
       .panel-body {
         width: 100%;
         display: flex;
-        button-filter {
+        min-height: 23vh;
+        button-filter-date {
           display: flex;
           flex-direction: column;
           align-items: center;
           width: 50%;
+          justify-content: space-between !important;
         }
         .panel-selectPeriod {
           display: flex;

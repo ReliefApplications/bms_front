@@ -9,10 +9,12 @@ import { ReportsComponent } from './reports.component';
 import { DataTableComponent } from './data-table/data-table.component';
 import { IndicatorComponent } from './indicator/indicator.component';
 import { IndicatorPageComponent } from './indicator-page/indicator-page.component';
+import { HeaderComponent } from './charts/header/header.component';
 
 //filter
 import { ButtonFilterComponent } from './filters/button-filter/button-filter.component';
-import { HeaderComponent } from './charts/header/header.component';
+import { ButtonFilterDateComponent } from './filters/button-filter/button-filter-data/button-filter-date.component';
+import { ButtonFilterItemsComponent } from './filters/button-filter/button-filter-items/button-filter-items.component';
 
 //charts
 import { ChartComponent } from './charts/chart/chart.component';
@@ -59,7 +61,9 @@ import { ReportingModalDetailsComponent } from './modals/modal-details/modal-det
         HeaderComponent,
         ModalComponent,
         ModalDataComponent,
-        ReportingModalDetailsComponent        
+        ReportingModalDetailsComponent,
+        ButtonFilterDateComponent,
+        ButtonFilterItemsComponent      
     ]
     })
     export class ReportsModule {}

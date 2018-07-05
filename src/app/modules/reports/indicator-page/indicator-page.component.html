@@ -5,7 +5,7 @@
   <div class="container-boxes">
 
     <!-- button to change view (viewcountry, project or distribution) -->
-    <button-filter [id]="'bms'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter2" [referenceKey]="'bms_search'"></button-filter>
+    <button-filter-items [id]="'bms'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter2" [referenceKey]="'bms_search'"></button-filter-items>
   </div>
 
   <div class="container-table">
@@ -14,7 +14,7 @@
 
         <!-- button to filter data by frequency -->
         <div class="frequency">
-          <button-filter [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1" [referenceKey]="'frequency'"></button-filter>
+          <button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1" [referenceKey]="'frequency'"></button-filter-date>
           <button mat-button class="button-period" (click)="selectPeriod()" [class.clicked]="!this.period" >CHOOSE A PERIOD</button>
         </div>
         <button mat-button class="button-export"><i class="fas fa-upload"></i><span>EXPORT</span></button>
@@ -73,9 +73,9 @@
               </mat-panel-description>
             </mat-expansion-panel-header>
             <div class="panel-body">
-              <button-filter [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1" [referenceKey]="'frequency'"></button-filter>
+              <button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1" [referenceKey]="'frequency'"></button-filter-date>
               <div class="panel-selectPeriod">
-              <button mat-button class="button-period" (click)="selectPeriod()" [class.clicked]="!this.period" >CHOOSE A PERIOD</button>
+              <button mat-button class="button-period" (click)="selectPeriod()" [class.clicked]="!this.period" >CHOOSE PERIOD</button>
               <div class="content-select-period-mobile" *ngIf="period == true">
                 <div class="datepicker">
                     <mat-form-field>

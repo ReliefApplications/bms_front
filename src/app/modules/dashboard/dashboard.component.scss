@@ -1,118 +1,111 @@
 @import '../../../assets/css/variable.scss'; 
 
-.dashboard-container{
-    width: 100%;
+.boxes-map{
     display: flex;
-    flex-direction: column;
+    flex-grow: 5;
+    flex-direction:column;
+    padding : 20px;
+    min-height: 350px;
 
-    .container-boxes{
+    .map-title{
         display: flex;
-        flex-direction:row;
-        flex-wrap: wrap;
-
-        .boxes-map{
-            display: flex;
-            flex-grow: 5;
-            flex-direction:column;
-            padding : 20px;
-            min-height: 350px;
-
-            .map-title{
-                display: flex;
-                font-family: $bms_font_header;
-                font-size: 25px;
-                margin: 0;
-                margin-bottom: 0.5vh !important;
-            }
-            .map-content{
-                background-color: $bms_light_grey;
-                height: 90%;
-                display: flex;
-                padding: 5px;
-                box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);    
-                z-index: 0;
-                #map {
-                    width:70% !important;
-                  }
-                .content-text{
-                    display: flex;
-                    flex-grow: 1;
-                    padding: 5px;
-                    justify-content: center;
-                    margin: 0 !important;
-
-                    h2{
-                        font-family: $bms_font_header;
-                        font-size: 20px;
-                    }
-                }
-            }
-        }
-        .boxes-summary{
-            display: flex;
-            flex-grow: 1;
-            flex-direction:column;
-            padding : 20px;
-            min-height: 350px;
-
-            .summary-title{
-                display: flex;
-                font-family: $bms_font_header;
-                font-size: 25px;
-                margin: 0;
-                margin-bottom: 0.5vh !important;
-            }
-
-            .summary-content{
-                height: 90%;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-
-                app-box-dashboard{
-                    width: 100%;
-                    margin-bottom :5px;
-                }
-            }
-        }
+        font-family: $bms_font_header;
+        font-size: 25px;
+        margin: 0;
+        margin-bottom: 0.5vh !important;
     }
-
-    .container-distribution{
+    .map-content{
+        background-color: $bms_light_grey;
+        height: 90%;
         display: flex;
-        flex-direction:column;
-        padding : 20px;
-        flex-grow: 1;
-
-        .distribution-title{
-            display: flex;
-            font-family: $bms_font_header;
-            font-size: 25px;
-            margin: 0;
-            margin-bottom: 0.5vh !important;
-        }
-
-        .distribution-content{
-            flex-grow: 1;
-            display: flex;
-            margin-bottom: 50px;
-            padding: 5px;
-            background-color: $bms_light_grey;
-            box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);    
-
-            app-table{
-                width: 100%;
-                height: 100%;
+        padding: 5px;
+        box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);    
+        z-index: 0;
+        #map {
+            width:70% !important;
             }
+        .content-text{
+            display: flex;
+            flex-grow: 1;
+            padding: 5px;
+            justify-content: center;
+            margin: 0 !important;
 
-            app-table-mobile{
-                width: 100%;
-                height: 100%;
+            h2{
+                font-family: $bms_font_header;
+                font-size: 20px;
             }
         }
     }
 }
+.boxes-summary{
+    display: flex;
+    flex-grow: 1;
+    flex-direction:column;
+    padding : 20px;
+    min-height: 350px;
+
+    .summary-title{
+        display: flex;
+        font-family: $bms_font_header;
+        font-size: 25px;
+        margin: 0;
+        margin-bottom: 0.5vh !important;
+    }
+
+    .summary-content{
+        height: 90%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        app-box-dashboard{
+            width: 100%;
+            margin-bottom :5px;
+        }
+    }
+}
+    
+
+.container-distribution{
+    display: flex;
+    flex-direction:column;
+    padding : 20px;
+    flex-grow: 1;
+
+    .distribution-title{
+        display: flex;
+        font-family: $bms_font_header;
+        font-size: 25px;
+        margin: 0;
+        margin-bottom: 0.5vh !important;
+    }
+
+    .distribution-content{
+        flex-grow: 1;
+        display: flex;
+        margin-bottom: 50px;
+        padding: 5px;
+        background-color: $bms_light_grey;
+        box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);    
+
+        app-table{
+            width: 100%;
+            height: 100%;
+        }
+
+        app-table-mobile{
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
 
 @media only screen and (max-width: 750px),(max-height: 700px){
+    .container-boxes {
+        flex-wrap: wrap !important;
+    }
     .map-content{
         flex-direction: row;
 

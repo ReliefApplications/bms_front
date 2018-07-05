@@ -37,6 +37,7 @@ import { HouseholdsComponent                                    } from '../modul
 import { DistributionComponent                                  } from '../modules/distribution/distribution.component';
 import { SettingsComponent                                      } from '../modules/settings/settings.component';
 import { HeaderComponent                                        } from '../modules/header/header.component';
+import { HouseholdsImportComponent                              } from '../modules/households/households-import/households-import.component';
 
 @NgModule({
     imports: [
@@ -70,7 +71,8 @@ import { HeaderComponent                                        } from '../modul
         DashboardComponent, 
         MenuComponent,
         MenuItemBoxComponent,
-		HouseholdsComponent,
+        HouseholdsComponent,
+        HouseholdsImportComponent,
 		DistributionComponent,
 		SettingsComponent,
 		HeaderComponent,     
@@ -101,7 +103,8 @@ import { HeaderComponent                                        } from '../modul
 		DashboardComponent,                 
         MenuComponent,
         MenuItemBoxComponent,
-		HouseholdsComponent,
+        HouseholdsComponent,
+        HouseholdsImportComponent,
 		DistributionComponent,
 		SettingsComponent,
 		HeaderComponent,                

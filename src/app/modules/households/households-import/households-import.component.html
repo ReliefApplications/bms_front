@@ -1,0 +1,30 @@
+<div class="page-container">
+    <div class="container-title">
+      <h2>IMPORT HOUSEHOLDS DATA</h2>
+    </div>
+    <div class="container-table">
+        <div class="container-content">
+
+            <div class="content-button">
+                    <mat-form-field>
+                    <mat-select placeholder="Projects" [formControl]="projects">
+                        <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+                    </mat-select>
+                    </mat-form-field>                      
+            </div>
+            <div class="content-table">
+                <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
+                        <mat-card class="card-drag-and-drop">
+                            <div>
+                                <img class='img-folder' src="assets/images/folder.png">
+                            </div>
+                            <div>
+                                <h3>ADD FILE</h3>
+                            </div>
+                        
+                        </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -41,7 +41,7 @@ export class AuthenticationService {
                 user.salted_password = this._wsseService.saltPassword(success, user.password);
                 this.logUser(user).subscribe(success => {
                     let data = success;
-
+                    
                     if (data) {
 						console.log("Successfully logged in", success);
                         

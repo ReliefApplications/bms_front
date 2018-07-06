@@ -41,11 +41,15 @@ export class WsseService {
 	}
 
 	// Get headers for HTTP request
-	getHeaderValue() {
+	getHeaderValue(user?) {
 		let cachedUser = this.cache.get(CacheService.USER);
+		console.log("wesh", cachedUser);
 		if (cachedUser) {
 			this.username = cachedUser.username;
 			this.salted = cachedUser.salted_password;
+		} else {
+			this.username = user.username;
+			this.salted = user.salted_password;
 		}
 
 		let nonce = this.generateNonce(16);
@@ -54,6 +58,7 @@ export class WsseService {
 		let digest = this.getDigest(nonce, created, this.salted);
 
 		let header = 'UsernameToken Username=\"' + this.username + '\", PasswordDigest=\"' + digest + '\", Nonce=\"' + nonce64 + '\", Created=\"' + created + '\"';
+		console.log(header);
 		return header;
 	}
 

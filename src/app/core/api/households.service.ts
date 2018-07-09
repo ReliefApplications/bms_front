@@ -32,6 +32,11 @@ export class HouseholdsService{
         let url = this.api + "/csv/households/export";
         return this.http.get(url);
     }
+
+    public sendCSVToValidation(body: any) {
+        let url = this.api + "/csv/households";
+        return this.http.post(url, body);
+    }
 }
 
 //fake distributions en attendant d'avoir la route pour getter les distributions

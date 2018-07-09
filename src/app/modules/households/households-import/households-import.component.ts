@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { HouseholdsService } from '../../../core/api/households.service';
 
@@ -21,12 +21,15 @@ export class HouseholdsImportComponent implements OnInit {
 
   //upload
   response = "";
-  public csv: Array<any> = [];
+  public csv = null;
 
   dragAreaClass: string = 'dragarea';
 
+  public selectedProject: string = null;
+  @Output() onClickAddHouseholds = new EventEmitter<any>();
+
   constructor(
-    public referedClassService: HouseholdsService
+    public referedClassService: HouseholdsService,
   ) { }
 
   ngOnInit() {
@@ -43,10 +46,9 @@ export class HouseholdsImportComponent implements OnInit {
     }
 
     if (fileList.length > 0) {
-      this.csv.push(fileList[0]);
+      this.csv = fileList[0];
 
     }
-    console.log(this.csv);
     
   }
 
@@ -61,7 +63,6 @@ export class HouseholdsImportComponent implements OnInit {
       .then(response => {
         let arrExport = [];
         let reponse = response.json();
-        console.log(response);
         if (!(reponse instanceof Array)) {
           console.log("Auncune donnée à exporter");
         } else {
@@ -78,28 +79,22 @@ export class HouseholdsImportComponent implements OnInit {
 
   @HostListener('dragover', ['$event']) onDragOver(event) {
     this.dragAreaClass = "dragarea-hover";
-    console.log(this.dragAreaClass);
     event.preventDefault();
   }
   @HostListener('dragenter', ['$event']) onDragEnter(event) {
     this.dragAreaClass = "dragarea-hover";
-    console.log(this.dragAreaClass);
     event.preventDefault();
   }
   @HostListener('dragend', ['$event']) onDragEnd(event) {
     this.dragAreaClass = "dragarea";
-    console.log(this.dragAreaClass);
     event.preventDefault();
   }
   @HostListener('dragleave', ['$event']) onDragLeave(event) {
     this.dragAreaClass = "dragarea";
-    console.log(this.dragAreaClass);
     event.preventDefault();
   }
   @HostListener('drop', ['$event']) onDrop(event) {
-    console.log(event.target.id);
     this.dragAreaClass = "dragarea";
-    console.log(this.dragAreaClass);
 
     // setting the data is required by firefox
     event.dataTransfer.setData("text", 'aa');
@@ -108,5 +103,22 @@ export class HouseholdsImportComponent implements OnInit {
     event.stopPropagation();
 
     this.fileChange(event, 'dataTransfer');
+  }
+
+  getProjectSelected(event) {
+    this.selectedProject = event.value;
+    console.log(this.selectedProject);
+     
+  }
+
+  addHouseholds() {
+    var data = new FormData();
+    console.log(this.csv);
+    data.append('project', this.selectedProject);
+    data.append('file', this.csv);
+    this.referedClassService.sendCSVToValidation(data).subscribe(res => {
+      this.onClickAddHouseholds.emit(res);
+    });
+    console.log('data', data);
   }
 }

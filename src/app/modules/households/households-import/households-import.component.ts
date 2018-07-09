@@ -114,8 +114,8 @@ export class HouseholdsImportComponent implements OnInit {
     var data = new FormData();
     data.append('project', this.selectedProject);
     data.append('file', this.csv);
-    // this.referedClassService.sendCSVToValidation(data).subscribe(res => {
-    //   this.onClickAddHouseholds.emit(res);
-    // });
+    this.referedClassService.sendCSVToValidation(data).subscribe(res => {
+      this.onClickAddHouseholds.emit(res);
+    });
   }
 }

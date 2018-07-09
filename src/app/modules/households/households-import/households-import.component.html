@@ -59,7 +59,7 @@
             </div>
             <div class="content-button content-button-footer">
                 <a routerLink="/households/data-validation">
-                    <button mat-button class="upload-button" (click)="addHouseholds()">
+                    <button mat-button class="upload-button" (click)="addHouseholds()" [disabled]="!(csv && selectedProject)">
                         <i class="fas fa-upload">
                             <span>UPLOAD</span>
                         </i>

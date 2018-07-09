@@ -37,3 +37,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
     - jquery
     - leaflet
     - @ngx-translate/core
+
+## Compatibilities
+
+ - Drag and drop don't work in Mozilla

@@ -50,7 +50,7 @@ export class HttpService {
         if( useXWsse )
             headers['x-wsse'] = this._wsseService.getHeaderValue();
             
-
+        headers['__country'] = this.getCountry();
         this.lastRequestUri = this.buildUri(parameters);
 
         let _headers = new Headers(headers);
@@ -82,6 +82,10 @@ export class HttpService {
         url += this.lastRequestUri;
 
         return this.http.delete(url, options);
+    }
+
+    getCountry() {
+        return 'KHM';
     }
 
 }

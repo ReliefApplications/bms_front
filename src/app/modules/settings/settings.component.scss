@@ -44,6 +44,10 @@ button{
     }
 }
 
+.container-content {
+    border-top: solid 12px $bms_green;
+}
+
 //for mobile screen
 @media only screen and (max-width: 750px){
     button{

@@ -2,8 +2,14 @@
     <div class="container-title">
         <h2>IMPORT HOUSEHOLDS DATA</h2>
     </div>
-    <div class="container-table">
-        <div class="container-content">
+
+    <div class="container-boxes">
+        <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "folder", color: "green", title:"file import", subtitle:"", ref:""}'></app-box-setting>
+        <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "red", title:"api import", subtitle:"", ref:""}'></app-box-setting>
+    </div>
+
+    <div class="container-table" *ngIf="selectedTitle == 'file import'">
+        <div class="container-content box-green">
 
             <div class="content-button">
                 <mat-form-field>
@@ -21,20 +27,58 @@
                         <div>
                             <h3>ADD FILE</h3>
                         </div>
+                        <div class="select-file">
+                            <a class="fenetre-selection" href="javascript:void(0)" (click)="file.click()">
+                                Ouvrir la fenêtre de sélection
+                            </a>
+                            Ou Glisser-Déposer vos fichiers
+                            <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
+                        </div>
 
                     </mat-card>
                 </div>
                 <span class="template" (click)="exportTemplate()">
-                     CSV file to upload : ( See template )
+                    CSV file to upload : ( See template )
                 </span>
-
+                <table class="list-file" *ngIf="csv.length > 0">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Size</th>
+                            <th>Last modified date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of csv; let i=index">
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.size }} bytes</td>
+                            <td>{{ item.lastModifiedDate | date: ddMMyyyy}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="content-button">
+            <div class="content-button content-button-footer">
                 <button mat-button class="upload-button">
                     <i class="fas fa-upload">
                         <span>UPLOAD</span>
                     </i>
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-table" *ngIf="selectedTitle == 'api import'">
+        <div class="container-content box-red">
+
+            <div class="content-button">
+
+            </div>
+            <div class="content-table">
+
+
+            </div>
+            <div class="content-button content-button-footer">
+
             </div>
         </div>
     </div>

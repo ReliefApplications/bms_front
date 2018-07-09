@@ -11,6 +11,10 @@ app-table-mobile{
     height: 100%;
 }
 
+.container-content {
+    border-top: solid 12px $bms_green;
+}
+
 button{
     color: $bms_white;
     background-color: $bms_red;

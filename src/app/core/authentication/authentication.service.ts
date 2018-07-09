@@ -38,7 +38,7 @@ export class AuthenticationService {
 	login(user: UserInterface) {
         return new Promise<UserInterface | ErrorInterface | null>((resolve, reject) => {
             this.requestSalt(user.username).subscribe(success => {
-                user.salted_password = this._wsseService.saltPassword(success, user.password);
+                user.salted_password = this._wsseService.saltPassword(success.salt, user.password);
                 this.logUser(user).subscribe(success => {
                     let data = success;
                     

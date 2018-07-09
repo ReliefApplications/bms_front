@@ -34,7 +34,7 @@ export class WsseService {
 		for (let i = 1; i < 5000; i++) {
 			digest = CryptoJS.SHA512(digest.concat(CryptoJS.enc.Utf8.parse(salted)));
 		}
-
+		
 		let saltedPassword = CryptoJS.enc.Base64.stringify(digest);
 		this.setSalted(saltedPassword);
 		return saltedPassword;

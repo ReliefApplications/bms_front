@@ -1,5 +1,12 @@
 @import '../../../../assets/css/variable.scss'; 
 
+.content-table{
+    flex-direction: column;
+}
+
+.content-button {
+    justify-content: end !important;
+}
 .upload-zone {
     width: 100%;
 }
@@ -20,4 +27,27 @@
 .img-folder {
     height: 11vh;
     padding: 5%;
+}
+
+.template {
+    font-family: $bms_font_text;
+    margin-top: 2vh;
+    &:hover{
+        cursor: pointer;
+        font-weight: bold;
+    }
+}
+
+button{
+    color: $bms_white;
+    background-color: $bms_green;
+
+    &.upload-button{
+        height: 40px;
+        margin-bottom: 2vh;
+    }
+    span{
+        font-family: $bms_font_text;
+        padding-left:20px;
+    }
 }

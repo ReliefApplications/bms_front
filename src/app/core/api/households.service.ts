@@ -22,10 +22,15 @@ export class HouseholdsService{
     ){
     }
 
-    public get() {
-        let url = this.api + "/households";
+    public get(body?: any) {
+        let url = this.api + "/households/get/all";
         return of(HOUSEHOLDS);
-        //return this.http.get(url);
+        // return this.http.post(url, body);
+    }
+
+    public getTemplate() {
+        let url = this.api + "/csv/households/export";
+        return this.http.get(url);
     }
 }
 

@@ -47,9 +47,7 @@ export class HouseholdsImportComponent implements OnInit {
 
     if (fileList.length > 0) {
       this.csv = fileList[0];
-
     }
-    
   }
 
 
@@ -112,13 +110,12 @@ export class HouseholdsImportComponent implements OnInit {
   }
 
   addHouseholds() {
+    console.log("csv",this.csv);
     var data = new FormData();
-    console.log(this.csv);
     data.append('project', this.selectedProject);
     data.append('file', this.csv);
-    this.referedClassService.sendCSVToValidation(data).subscribe(res => {
-      this.onClickAddHouseholds.emit(res);
-    });
-    console.log('data', data);
+    // this.referedClassService.sendCSVToValidation(data).subscribe(res => {
+    //   this.onClickAddHouseholds.emit(res);
+    // });
   }
 }

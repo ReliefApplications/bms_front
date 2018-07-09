@@ -1,0 +1,35 @@
+<div class="page-container">
+    <div class="container-title">
+        <h2>DATA VERIFICATION AND VALIDATION</h2>
+    </div>
+
+    <div class="content-button">
+        <button mat-button (click)="selectAll()" [style.clicked]="selectedButton != 'selectAll'">SELECT ALL</button>
+        <button mat-button (click)="validate()" [style.clicked]="selectedButton != 'validate'">VALIDATE</button>
+        <button mat-button (click)="keepExisting()" [style.clicked]="selectedButton != 'keepExisting'">KEEP EXISTING</button>
+        <button mat-button (click)="replaceWithNew()" [style.clicked]="selectedButton != 'replaceWithNew'">REPLACE WITH NEW</button>
+    </div>
+
+    <div class="container-table">
+        <div class="container-content box-green">
+            <div class="content-table">
+                <mat-checkbox>
+                </mat-checkbox>
+                <div class="content-validation">
+                    <div class="select selectOld">
+                        <span>nom</span>
+                        <span>prenom</span>
+                        <span>adresse</span>
+                        <button mat-button class="select-button">Select old</button>
+                    </div>
+                    <div class="select">
+                        <span>nom</span>
+                        <span>prenom</span>
+                        <span>adresse</span>
+                        <button mat-button class="select-button">Select new </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

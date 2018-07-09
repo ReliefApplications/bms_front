@@ -38,6 +38,7 @@ import { DistributionComponent                                  } from '../modul
 import { SettingsComponent                                      } from '../modules/settings/settings.component';
 import { HeaderComponent                                        } from '../modules/header/header.component';
 import { HouseholdsImportComponent                              } from '../modules/households/households-import/households-import.component';
+import { DataValidationComponent                                } from '../modules/households/data-validation/data-validation.component';
 
 @NgModule({
     imports: [
@@ -90,6 +91,7 @@ import { HouseholdsImportComponent                              } from '../modul
 		ModalDetailsComponent,
 		BoxSettingComponent,
         BoxComponent,
+        DataValidationComponent
     ],
     entryComponents: [
         ModalComponent,
@@ -140,6 +142,8 @@ import { HouseholdsImportComponent                              } from '../modul
         MatCardModule,
         MatNativeDateModule,
         MatSelectModule,
+        DataValidationComponent
+
     ],
     providers: []
 })

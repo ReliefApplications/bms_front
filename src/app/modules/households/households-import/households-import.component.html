@@ -58,11 +58,13 @@
                 </table>
             </div>
             <div class="content-button content-button-footer">
-                <button mat-button class="upload-button" (click)="addHouseholds()">
-                    <i class="fas fa-upload">
-                        <span>UPLOAD</span>
-                    </i>
-                </button>
+                <a routerLink="/households/data-validation">
+                    <button mat-button class="upload-button" (click)="addHouseholds()">
+                        <i class="fas fa-upload">
+                            <span>UPLOAD</span>
+                        </i>
+                    </button>
+                </a>
             </div>
         </div>
     </div>

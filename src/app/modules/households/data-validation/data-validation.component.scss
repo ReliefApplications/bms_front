@@ -1,0 +1,48 @@
+@import '../../../../assets/css/variable.scss'; 
+
+.content-button {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+button {
+    color: $bms_white;
+    background-color: $bms_green;
+    .clicked {
+        background-color: $bms_dark_grey !important;
+    }
+}
+
+.box-green{
+    border-left: solid 12px $bms_green;
+}
+
+.content-validation {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.selectOld {
+    margin-bottom: 2vh;
+}
+
+.mat-checkbox {
+    margin: 0 4vw 0 0;
+}
+
+.select {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    .select-button {
+        width: 7vw;
+    }
+}
+
+.mat-checkbox {
+    display: flex;
+}
+
+

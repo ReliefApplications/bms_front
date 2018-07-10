@@ -2,6 +2,7 @@
 
 TARGET=$1 # ex: project/subproject
 
+# Commands to cleanup docker environment 
 # # echo "Delete running containers"
 # sudo docker rm $(sudo docker ps -a -q) --force
 # # echo "Delete images"

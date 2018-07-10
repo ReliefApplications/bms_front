@@ -6,7 +6,6 @@ export const environment = {
   production: false
 };
 
-// export const URL_BMS_API    = 'http://bms-api.eu-central-1.elasticbeanstalk.com/api/wsse';
 export const URL_BMS_API    = 'http://bms-api.humanitarian.ra/app_dev.php/api/wsse';
 
 /*

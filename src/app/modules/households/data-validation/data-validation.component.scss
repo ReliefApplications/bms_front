@@ -25,7 +25,11 @@ button {
 }
 
 .selectOld {
-    margin-bottom: 2vh;
+    margin-bottom: 1vh;
+}
+
+.selectNew {
+    margin-top: 1vh;
 }
 
 .mat-checkbox {
@@ -44,5 +48,31 @@ button {
 .mat-checkbox {
     display: flex;
 }
+
+.mat-divider {
+    width: 90%;
+}
+
+.dataToCompare {
+    flex-grow: 1;
+}
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+
+   .content-button {
+       width: 100%;
+       display: flex;
+       flex-grow: 1;
+       flex-wrap: wrap;
+   }
+
+   button {
+       font-size: 3vw;
+       width: 40%;
+       margin-bottom: 10%;
+   }
+}
+
 
 

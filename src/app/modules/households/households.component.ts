@@ -11,13 +11,13 @@ import { HouseholdsService } from '../../core/api/households.service';
 })
 export class HouseholdsComponent implements OnInit {
 
-
+  public referedClassService;
   referedClassToken = Households;
   households : MatTableDataSource<Households>;
 
   constructor(
     private cacheService: CacheService,
-    public referedClassService: HouseholdsService,
+    public householdsService: HouseholdsService,
   ) { }
 
   
@@ -45,10 +45,14 @@ export class HouseholdsComponent implements OnInit {
   }
 
   checkHouseholds(): void{
+    this.referedClassService = this.householdsService;
     this.referedClassService.get().subscribe( response => {
+      response = this.referedClassToken.formatArray(response.json());
       this.households = new MatTableDataSource(response);
-      this.cacheService.set(CacheService.HOUSEHOLDS, response);
+      this.cacheService.set('HOUSEHOLDS', response);
     })
+
+  
   }
 
 

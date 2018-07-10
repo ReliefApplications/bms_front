@@ -1,8 +1,12 @@
-import { Component, OnInit, ViewChild, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { HouseholdsService } from '../../../core/api/households.service';
 
 import { saveAs } from 'file-saver/FileSaver';
+import { ImportService } from '../../../core/utils/import.service';
+import { ProjectService } from '../../../core/api/project.service';
+import { Project } from '../../../model/project';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'households-import',
@@ -17,7 +21,7 @@ export class HouseholdsImportComponent implements OnInit {
   //Fake data for selector
   //TODO : delete when projects getsin back
   projects = new FormControl();
-  projectList: string[] = ['a', 'b', 'c', 'd', 'e', 'f'];
+  projectList: string[] = [];
 
   //upload
   response = "";
@@ -26,14 +30,29 @@ export class HouseholdsImportComponent implements OnInit {
   dragAreaClass: string = 'dragarea';
 
   public selectedProject: string = null;
-  @Output() onClickAddHouseholds = new EventEmitter<any>();
+  referedClassToken = Project;
+  public referedClassService;
+  public project;
 
   constructor(
-    public referedClassService: HouseholdsService,
+    public _householdsService: HouseholdsService,
+    public _importService: ImportService,
+    public _projectService: ProjectService
   ) { }
 
   ngOnInit() {
-    
+    this.getProjects();
+  }
+
+  getProjects() {
+    this.referedClassService = this._projectService;
+    this.referedClassService.get().subscribe( response => {
+      response = this.referedClassToken.formatArray(response.json());
+      response.forEach(element => {
+        var concat = element.id + " - " + element.name;
+        this.projectList.push(concat);
+      });
+    });    
   }
 
   fileChange(event, typeEvent) {
@@ -57,7 +76,7 @@ export class HouseholdsImportComponent implements OnInit {
   }
 
   exportTemplate() {
-    this.referedClassService.getTemplate().toPromise()
+    this._householdsService.getTemplate().toPromise()
       .then(response => {
         let arrExport = [];
         let reponse = response.json();
@@ -110,12 +129,11 @@ export class HouseholdsImportComponent implements OnInit {
   }
 
   addHouseholds() {
-    console.log("csv",this.csv);
     var data = new FormData();
-    data.append('project', this.selectedProject);
+    var project = this.selectedProject.split(" - ");
+    data.append('project', project[0]);
     data.append('file', this.csv);
-    this.referedClassService.sendCSVToValidation(data).subscribe(res => {
-      this.onClickAddHouseholds.emit(res);
-    });
+   
+    this._importService.sendData(data);
   }
 }

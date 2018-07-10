@@ -1,5 +1,3 @@
-import { SectorMapper        } from "./sector-mapper";
-
 export class Households {
     static __classname__ = 'Households';
     /**
@@ -24,9 +22,9 @@ export class Households {
     location: string = '';
         /**
      * Households' dependents
-     * @type {Int16Array}
+     * @type {Number}
      */
-    dependents: Int16Array;
+    dependents: Number;
      /**
      * Households' vulnerabilities
      * @type {string}
@@ -101,5 +99,34 @@ export class Households {
             dependents : "Dependents",
             vulnerabilities : "Vulnerabilities",
         }
+    }
+
+    public static formatArray(instance): Households[]{
+        let households : Households[] = [];
+        instance.forEach(element => {
+            households.push(this.formatElement(element));
+        });
+        return households;
+    }
+
+    public static formatElement(element: any): Households {
+        let household = new Households();
+        let dependents = 0;
+        household.id = element.id;
+        element.beneficiaries.forEach(beneficiary => {
+            if(beneficiary.status) {
+                household.familyName = beneficiary.family_name;
+                household.firstName = beneficiary.given_name;
+            }
+            else {
+                dependents = dependents + 1;
+            }
+        });
+        household.location = element.location.adm4 + " " + element.location.adm3 + " " +
+                             element.location.adm2 + " " +  element.location.adm1 + " "  ;
+        household.dependents = dependents;
+        household.vulnerabilities = '';
+
+        return household;
     }
 }

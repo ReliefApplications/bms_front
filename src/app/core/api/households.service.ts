@@ -24,8 +24,8 @@ export class HouseholdsService{
 
     public get(body?: any) {
         let url = this.api + "/households/get/all";
-        return of(HOUSEHOLDS);
-        // return this.http.post(url, body);
+        // return of(HOUSEHOLDS);
+        return this.http.post(url, body);
     }
 
     public getTemplate() {
@@ -36,6 +36,11 @@ export class HouseholdsService{
     public sendCSVToValidation(body: any) {
         let url = this.api + "/csv/households";
         return this.http.post(url, body);
+    }
+
+    public addHouseholds(body: any) {
+        let url = this.api + "/households";
+        return this.http.put(url, body);
     }
 }
 

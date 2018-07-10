@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { ImportService } from '../../../core/utils/import.service';
 
 @Component({
     selector: 'app-data-validation',
@@ -7,28 +8,42 @@ import { Component, OnInit, HostListener } from '@angular/core';
 })
 export class DataValidationComponent implements OnInit {
 
-    public selectedButton: string = "";
-    ngOnInit(){
+    public check = false;
 
+    public keepingData: Array<any> = [];
+    public datas: Array<any> = [];
+
+    constructor(
+        public _importService: ImportService
+    ) {
+
+    }
+
+    ngOnInit(){
+        this.getData();
+    }
+
+    getData() {
+        this.datas = this._importService.getData();
+        console.log("DATAS", this.datas);
     }
 
     selectAll() {
-        this.selectedButton = "selectAll";
-        console.log(this.selectedButton);
+        this.check = !this.check;
     }
 
-    validate() {
-        this.selectedButton = "validate";
-        console.log(this.selectedButton);
+    allChecked(e) {
+        console.log(e);
+
+    }
+
+    validate() { 
+
     }
 
     keepExisting() {
-        this.selectedButton = "keepExisting";
-        console.log(this.selectedButton);
     }
 
     replaceWithNew() {
-        this.selectedButton = "replaceWithNew";
-        console.log(this.selectedButton);
     }
 }

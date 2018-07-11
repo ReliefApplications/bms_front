@@ -1,114 +1,69 @@
 @import '../../../../assets/css/variable.scss'; 
 
-.content-button {
-    width: 100%;
-    display: flex !important;
-    justify-content: space-around !important;
-    padding: 0px
-}
-
-button {
-    color: $bms_white;
-    background-color: $bms_green;
-}
-
-.clicked {
-    background-color: $bms_dark_grey !important;
-}
 
 .box-green{
     border-top: solid 12px $bms_green;
 }
 
-.content-validation {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.selectOld {
-    margin-bottom: 1vh;
-}
-
-.selectNew {
-    margin-top: 1vh;
-}
-
-.mat-checkbox {
-    margin: 0 4vw 0 0;
-}
-
-.content-data {
-    display: flex;
-    flex-direction: row;
-}
-
-.select {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    min-height: 23vh;
-    .select-button {
-        width: 9vw;
-    }
-}
-
-.mat-checkbox {
+.mat-card {
     display: flex;
 }
 
-.mat-divider {
-    width: 85%;
-}
-
-.dataToCompare {
-    flex-grow: 1;
+.oldData {
+    padding-right: 1vw;
+    border-right: 1px solid black;
     width: 50%;
 }
 
-.mat-radio-group{
-    display: flex;
-    align-items: center;
+.newData {
+    padding-left: 1vw;
+    width: 50%;
 }
 
-.container-table {
-    flex-grow: 1;
-    width: auto;
+.content-table {
+    justify-content: space-between;
 }
 
 .mat-card {
-    flex-grow: 1;
-    background-color: $bms_light_grey;
+    width: 26%;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 26px 5px 26px 5px !important;
 }
 
-.page-container {
-    width: auto
+.title {
+    font-size: 1.5vh;
 }
 
-.mat-accordion {
-    width: 80%;
+.dataToCompare {
+    font-size: 1.2vh;
 }
 
-.mat-card-button {
-    margin-bottom: 3vh;
+button{
+    color: $bms_white;
+    background-color: $bms_green;
 }
+.mat-card-content {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0px;
+}
+
+.mat-card-actions {
+    display: flex;
+    justify-content: space-around;
+}
+
+.select-button {
+    font-size: 1vh;
+}
+
 
 //for mobile screen
 @media only screen and (max-width: 750px){
 
-   .content-button {
-       width: 100%;
-       display: flex;
-       flex-grow: 1;
-       flex-wrap: wrap;
-   }
 
-   button {
-       font-size: 3vw;
-       width: 40%;
-       margin-bottom: 10%;
-   }
+
 }
 
 

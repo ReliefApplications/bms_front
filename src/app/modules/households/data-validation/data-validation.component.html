@@ -1,78 +1,40 @@
-<div class="page-container">
+<!-- <div class="page-container">
     <div class="container-title">
         <h2>DATA VERIFICATION AND VALIDATION</h2>
     </div>
-
-    <!-- <div class="content-button">
-        <button mat-button (click)="selectAll()" *ngIf="check == false">SELECT ALL</button>
-        <button mat-button (click)="selectAll()" *ngIf="check == true">DESELECT ALL</button>
-        <mat-radio-group *ngIf="check == true" (change)="selectRadioButton($event)">
-            <mat-radio-button [checked]="keep" style="margin-right: 20%" color="primary" value="keepExisting">UPDATE EXISTING</mat-radio-button>
-            <mat-radio-button [checked]="replace" color="primary" value="replace ">CREATE NEW</mat-radio-button>
-        </mat-radio-group>
-
-        <button mat-button (click)="validate()" *ngIf="check == true">VALIDATE</button>
-    </div> -->
-
-    <!-- <div class="container-table" *ngFor="let data of datas">
-        <div class="container-content box-green">
-            <div class="content-table">
-                <mat-checkbox [checked]="check" color="primary" (change)="allChecked($event)">
-                </mat-checkbox>
-                <div class="content-validation" >
-                    <div class="select selectOld" #selectOld>
-                        <div class="dataToCompare">{{data.old.name}}</div>
-                        <div class="dataToCompare">{{data.old.address}}</div>
-                        <div class="dataToCompare">{{data.old.location}}</div>
-                        <button mat-button  (click)="update(data.old)" class="select-button">UPDATE OLD</button>
-                    </div>
-                    <mat-divider></mat-divider>
-                    <div class="select selectNew">
-                        <div class="dataToCompare">{{data.new.name}}</div>
-                        <div class="dataToCompare">{{data.new.address}}</div>
-                        <div class="dataToCompare">{{data.new.location}}</div>
-                        <button mat-button (click)="create(data.new)" class="select-button">CREATE NEW</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-
     <div class="container-table" *ngFor="let data of datas">
 
         <div class="container-content box-green">
             <mat-card>
                 <div class="content-button mat-card-button">
-                    <button mat-button (click)="update()" class="select-button" *ngIf="buttonUpdate == false" >UPDATE OLD</button>
+                    <button mat-button (click)="update()" class="select-button" *ngIf="buttonUpdate == false">UPDATE OLD</button>
                     <button mat-button (click)="create(data.new)" class="select-button" *ngIf="buttonUpdate == false">CREATE NEW</button>
 
-                    <button mat-button (click)="return()" class="select-button" *ngIf="buttonUpdate == true" >RETURN</button>
+                    <button mat-button (click)="return()" class="select-button" *ngIf="buttonUpdate == true">RETURN</button>
                     <button mat-button (click)="validate(data.old)" class="select-button" *ngIf="buttonUpdate == true">VALIDATE</button>
-                    <!-- <button mat-button (click)="validate()" class="select-button">CREATE NEW</button> -->
                 </div>
                 <div class="content-validation">
                     <div class="content-data">
                         <div class="select selectOld">
-                                <div class="dataToCompare">{{data.old.name}}</div>
-                                <div class="dataToCompare">{{data.old.address}}</div>
-                                <div class="dataToCompare">{{data.old.adm1}}</div>
-                                <div class="dataToCompare">{{data.old.adm2}}</div>
-                                <div class="dataToCompare">{{data.old.adm3}}</div>
-                                <div class="dataToCompare">{{data.old.adm4}}</div>
+                            <div class="dataToCompare">{{data.old.name}}</div>
+                            <div class="dataToCompare">{{data.old.address}}</div>
+                            <div class="dataToCompare">{{data.old.location.adm1}}</div>
+                            <div class="dataToCompare">{{data.old.location.adm2}}</div>
+                            <div class="dataToCompare">{{data.old.location.adm3}}</div>
+                            <div class="dataToCompare">{{data.old.location.adm4}}</div>
                         </div>
                         <mat-divider [vertical]="true"></mat-divider>
                         <div class="select selectNew">
                             <div class="dataToCompare">{{data.new.name}}</div>
                             <div class="dataToCompare">{{data.new.address}}</div>
-                            <div class="dataToCompare">{{data.new.adm1}}</div>
-                            <div class="dataToCompare">{{data.new.adm2}}</div>
-                            <div class="dataToCompare">{{data.new.adm3}}</div>
-                            <div class="dataToCompare">{{data.new.adm4}}</div>
+                            <div class="dataToCompare">{{data.new.location.adm1}}</div>
+                            <div class="dataToCompare">{{data.new.location.adm2}}</div>
+                            <div class="dataToCompare">{{data.new.location.adm3}}</div>
+                            <div class="dataToCompare">{{data.new.location.adm4}}</div>
                         </div>
                     </div>
 
-                    <div class="content-data" *ngIf="buttonUpdate == false">
+                    <div class="content-data">
                         <mat-accordion class="panel-beneficiary">
                             <mat-expansion-panel>
                                 <mat-expansion-panel-header>
@@ -85,46 +47,9 @@
                                 </mat-expansion-panel-header>
                                 <div class="panel-body">
                                     <div class="dataToCompare" *ngFor="let beneficiary of data.old.beneficiary">
-                                        {{beneficiary}}
-                                    </div>
-                                </div>
-                            </mat-expansion-panel>
-                        </mat-accordion>
-                        <mat-accordion class="panel-beneficiary">
-                            <mat-expansion-panel>
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        Beneficiary
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        {{data.new.dependent}} beneficiaries
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                                <div class="panel-body">
-                                    <div class="dataToCompare" *ngFor="let beneficiary of data.new.beneficiary">
-                                        {{beneficiary}}
-                                    </div>
-                                </div>
-                            </mat-expansion-panel>
-                        </mat-accordion>
-                    </div>
-
-
-                    <div class="content-data" *ngIf="buttonUpdate == true">
-                        <mat-accordion class="panel-beneficiary">
-                            <mat-expansion-panel>
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        Beneficiary
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        {{data.old.dependent}} beneficiaries
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                                <div class="panel-body">
-                                    <div class="dataToCompare" *ngFor="let beneficiary of data.old.beneficiary">
-                                        <mat-checkbox (change)="selectBeneficiary($event, beneficiary)" color="primary">
-                                            {{beneficiary}}
+                                        <span *ngIf="buttonUpdate == false">{{beneficiary.given_name}} {{beneficiary.family_name}}</span>
+                                        <mat-checkbox (change)="selectBeneficiary($event, beneficiary)" color="primary" *ngIf="buttonUpdate == true">
+                                            {{beneficiary.given_name}} {{beneficiary.family_name}}
                                         </mat-checkbox>
                                     </div>
                                 </div>
@@ -142,8 +67,9 @@
                                 </mat-expansion-panel-header>
                                 <div class="panel-body">
                                     <div class="dataToCompare" *ngFor="let beneficiary of data.new.beneficiary">
-                                        <mat-checkbox color="primary">
-                                            {{beneficiary}}
+                                        <span *ngIf="buttonUpdate == false">{{beneficiary.given_name}} {{beneficiary.family_name}}</span>
+                                        <mat-checkbox (change)="selectBeneficiary($event, beneficiary)" color="primary" *ngIf="buttonUpdate == true">
+                                            {{beneficiary.given_name}} {{beneficiary.family_name}}
                                         </mat-checkbox>
                                     </div>
                                 </div>
@@ -157,8 +83,70 @@
         </div>
 
     </div>
+</div> -->
 
 
+<div class="page-container">
+    <div class="container-title">
+        <h2>DATA VERIFICATION AND VALIDATION</h2>
+    </div>
 
+    <div class="container-boxes">
+    </div>
+
+    <div class="container-table">
+        <div class="container-content box-green">
+
+            <div class="content-button">
+            </div>
+
+            <div class="content-table">
+                <mat-card *ngFor="let data of datas" >
+                    <mat-card-content>
+                        <div class="oldData">
+                            <mat-chip>Existing data : </mat-chip>
+                            <div class="dataToCompare">{{data.old.nameHead}}</div>
+                            <div class="dataToCompare">{{data.old.households.address_number}} {{data.old.households.address_street}}</div>
+                            <div class="dataToCompare" *ngIf="data.old.households.location.adm4 != ''">{{data.old.households.address_postcode}} {{data.old.households.location.adm4}}</div>
+                            <div class="dataToCompare" *ngIf="data.old.households.location.adm4 == ''">{{data.old.households.address_postcode}} {{data.old.households.location.adm3}}</div>
+                            <div class="dataToCompare" *ngIf="data.old.households.location.adm4 != ''">{{data.old.households.location.adm3}}</div>
+                            <div class="dataToCompare">{{data.old.households.location.adm2}}</div>
+                            <div class="dataToCompare">{{data.old.households.location.adm1}}</div>
+                            <div class="dataToCompare" *ngIf="data.old.households.beneficiaries.length > 1">
+                                <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
+                                    <div class="dataToCompare" *ngIf="beneficiary.status == 0">
+                                        {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="newData">
+                            <mat-chip>New data : </mat-chip>
+                            <div class="dataToCompare">{{data.new.nameHead}}</div>
+                            <div class="dataToCompare">{{data.new.households.address_number}} {{data.new.households.address_street}}</div>
+                            <div class="dataToCompare"  *ngIf="data.new.households.location.adm4 != ''">{{data.new.households.address_postcode}} {{data.new.households.location.adm4}}</div>
+                            <div class="dataToCompare"  *ngIf="data.new.households.location.adm4 == ''">{{data.new.households.address_postcode}} {{data.new.households.location.adm3}}</div>
+                            <div class="dataToCompare"*ngIf="data.new.households.location.adm4 != ''">{{data.new.households.location.adm3}}</div>
+                            <div class="dataToCompare">{{data.new.households.location.adm2}}</div>
+                            <div class="dataToCompare">{{data.new.households.location.adm1}}</div>
+                            <div class="dataToCompare" *ngIf="data.new.households.beneficiaries.length > 1">
+                                <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
+                                    <div class="dataToCompare" *ngIf="beneficiary.status == 0">
+                                        {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+
+                    <mat-card-actions>
+                        <button mat-button [disabled]="data.conflictMerged" class="select-button" (click)="saveBoth(data)">SAVE BOTH</button>
+                        <button mat-button [disabled]="data.conflictMerged" class="select-button">OVERWRITE</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+
+    </div>
 
 </div>

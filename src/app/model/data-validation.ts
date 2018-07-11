@@ -2,6 +2,11 @@ export class Data {
 
     static __classname__ = 'data';
     /**
+     * Households' id to compare
+     * @type {number}
+     */
+    id: number;
+    /**
      * Households' familyName and first name to compare
      * @type {string}
      */
@@ -12,16 +17,47 @@ export class Data {
      */
     address: string = '';
     /**
-     * Households' location to compra
+     * Households' adm1 to compra
      * @type {string}
      */
-    location: string = '';
+    adm1: string = '';
+        /**
+     * Households' adm2 to compra
+     * @type {string}
+     */
+    adm2: string = '';
+        /**
+     * Households' adm3 to compra
+     * @type {string}
+     */
+    adm3: string = '';
+        /**
+     * Households' adm4 to compra
+     * @type {string}
+     */
+    adm4: string = '';
+    /**
+     * Households' beneficiary to compare
+     * @type {Array}
+     */
+    beneficiary: Array<any> = [];
+    /**
+     * Number of dependents in household to compare
+     * @type {number}
+     */
+    dependent: number = 0;
 
     constructor(instance?){
         if(instance !== undefined){
+            this.id = instance.id;
             this.name = instance.name;
             this.address = instance.address;
-            this.location = instance.location;
+            this.adm1 = instance.adm1;
+            this.adm2 = instance.adm2;
+            this.adm3 = instance.adm3;
+            this.adm4 = instance.adm4;
+            this.beneficiary = instance.beneficiary;
+            this.dependent = instance.dependent;
 
         }
     }
@@ -61,25 +97,38 @@ export class DataValidation {
         
         //to format information of new households
         element.new.beneficiaries.forEach(beneficiary => {
-            if(beneficiary.status) {
+            if(beneficiary.status == '1') {
                 data.new.name = beneficiary.family_name + " " + beneficiary.given_name;
+            } else{
+                data.new.beneficiary.push(beneficiary.family_name + " " + beneficiary.given_name);
+                data.new.dependent = data.new.dependent + 1;
             }
         });
+        data.old.id = element.id;
         data.new.address = element.new.address_number + " " + element.new.address_street;
-        data.new.location = element.new.location.adm4 + " " + element.new.location.adm3 + " " +
-                                element.new.location.adm2 + " " +  element.new.location.adm1 + " "  ;
-
+        data.new.adm1 =  element.new.location.adm1 ;
+        data.new.adm2 =  element.new.location.adm2 ;
+        data.new.adm3 =  element.new.location.adm3 ;
+        data.new.adm4 =  element.new.location.adm4 ;
 
         //to format information of old households
         element.old.forEach(oldElement => {
             oldElement.beneficiaries.forEach(beneficiary => {
-                if(beneficiary.status) {
+                if(beneficiary.status == '1') {
                     data.old.name = beneficiary.family_name + " " + beneficiary.given_name;
                 }
+                else {
+                    data.old.beneficiary.push(beneficiary.family_name + " " + beneficiary.given_name);
+                    data.old.dependent = data.old.dependent + 1;
+
+                }
             });
+            data.old.id = oldElement.id;
             data.old.address = oldElement.address_number + " " + oldElement.address_street;
-            data.old.location = oldElement.location.adm4 + " " + oldElement.location.adm3 + " " +
-                                    oldElement.location.adm2 + " " +  oldElement.location.adm1 + " "  ;
+            data.old.adm1 =  oldElement.location.adm1 ;
+            data.old.adm2 =  oldElement.location.adm2 ;
+            data.old.adm3 =  oldElement.location.adm3 ;
+            data.old.adm4 =  oldElement.location.adm4 ;
         });
         
 

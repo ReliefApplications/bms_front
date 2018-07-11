@@ -8,7 +8,7 @@ import { DataValidation } from '../../model/data-validation';
 })
 export class ImportService{
 
-    public data = [];
+    public dataFormat;
     referedClassToken = DataValidation;
     public referedClassService;
 
@@ -20,20 +20,20 @@ export class ImportService{
     }
 
     sendData(data){
-        let newData, oldData;
+        this.dataFormat = [];
         this.referedClassService = this._householdsService
         this.referedClassService.sendCSVToValidation(data).subscribe(response => {
         response = this.referedClassToken.formatArray(response.json());
 
             for(let i=0; i<response.length; i++){
-                this.data.push(response[i]);
+                this.dataFormat.push(response[i]);
             }
  
         });
     }
 
     getData() {
-        return this.data;
+        return this.dataFormat;
     }
 
 }

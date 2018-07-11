@@ -3,7 +3,7 @@ import { RouterModule, Routes                                   } from '@angular
 import { CommonModule                                           } from '@angular/common';
 import { FormsModule, ReactiveFormsModule                       } from '@angular/forms';
 import { FormControl, FormGroup, Validators                     } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule, MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatDividerModule, MAT_CHECKBOX_CLICK_ACTION} from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule, MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatDividerModule, MAT_CHECKBOX_CLICK_ACTION, MatRadioModule} from '@angular/material';
 import { MatProgressSpinnerModule                               } from '@angular/material/progress-spinner';
 import { MatIconModule                                          } from '@angular/material/icon';
 import { MatTooltipModule                                       } from '@angular/material/tooltip'
@@ -65,7 +65,8 @@ import { DataValidationComponent                                } from '../modul
         MatCardModule,
         MatSelectModule,
         BrowserAnimationsModule,
-        MatDividerModule
+        MatDividerModule,
+        MatRadioModule
     ],
     declarations: [
         //Shared Components
@@ -144,7 +145,8 @@ import { DataValidationComponent                                } from '../modul
         MatNativeDateModule,
         MatSelectModule,
         DataValidationComponent,
-        MatDividerModule
+        MatDividerModule,
+        MatRadioModule
 
     ],
     providers: [

@@ -2,20 +2,22 @@
 
 .content-button {
     width: 100%;
-    display: flex;
-    justify-content: space-around;
+    display: flex !important;
+    justify-content: space-around !important;
+    padding: 0px
 }
 
 button {
     color: $bms_white;
     background-color: $bms_green;
-    .clicked {
-        background-color: $bms_dark_grey !important;
-    }
+}
+
+.clicked {
+    background-color: $bms_dark_grey !important;
 }
 
 .box-green{
-    border-left: solid 12px $bms_green;
+    border-top: solid 12px $bms_green;
 }
 
 .content-validation {
@@ -36,12 +38,19 @@ button {
     margin: 0 4vw 0 0;
 }
 
+.content-data {
+    display: flex;
+    flex-direction: row;
+}
+
 .select {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
+    min-height: 23vh;
     .select-button {
-        width: 7vw;
+        width: 9vw;
     }
 }
 
@@ -50,11 +59,39 @@ button {
 }
 
 .mat-divider {
-    width: 90%;
+    width: 85%;
 }
 
 .dataToCompare {
     flex-grow: 1;
+    width: 50%;
+}
+
+.mat-radio-group{
+    display: flex;
+    align-items: center;
+}
+
+.container-table {
+    flex-grow: 1;
+    width: auto;
+}
+
+.mat-card {
+    flex-grow: 1;
+    background-color: $bms_light_grey;
+}
+
+.page-container {
+    width: auto
+}
+
+.mat-accordion {
+    width: 80%;
+}
+
+.mat-card-button {
+    margin-bottom: 3vh;
 }
 
 //for mobile screen

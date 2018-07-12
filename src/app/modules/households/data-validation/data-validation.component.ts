@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ImportService } from '../../../core/utils/import.service';
 import { HouseholdsService } from '../../../core/api/households.service';
+import { MatSnackBar } from '@angular/material';
 
 
 
@@ -24,7 +25,8 @@ export class DataValidationComponent implements OnInit {
 
     constructor(
         public _importService: ImportService,
-        public _householdsService: HouseholdsService
+        public _householdsService: HouseholdsService,
+        public snackBar: MatSnackBar
     ) {
 
     }
@@ -38,10 +40,14 @@ export class DataValidationComponent implements OnInit {
         console.log("DATAS", this.datas);
     }
 
+
     saveBoth(data) {
         data.conflictMerged = true;
-        this._householdsService.addHouseholds(data.new);
-        console.log("DATA NEW", data.new)
+        data.new.households['project'] = this._importService.getProject();
+        this._householdsService.addHouseholds(data.new.households).subscribe(response => {
+            this.snackBar.open('Household created', '', {duration:500});
+        });
+        console.log("DATA NEW", data.new.households);
 
     }
 

@@ -10,25 +10,29 @@
 }
 
 .oldData {
-    padding-right: 1vw;
-    border-right: 1px solid black;
+    border-right: 1px solid $bms_dark_grey;
     width: 50%;
+    text-align: center;
 }
 
 .newData {
-    padding-left: 1vw;
     width: 50%;
+    text-align: center;
 }
 
 .content-table {
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 .mat-card {
-    width: 26%;
+    width: 23%;
     flex-direction: column;
     justify-content: space-between;
-    padding: 26px 5px 26px 5px !important;
+    padding: 26px 14px 26px 0px !important;
+    margin-left: 0.5vw;
+    margin-right: 0.5vw;
+    margin-bottom: 2vw;
 }
 
 .title {
@@ -56,6 +60,20 @@ button{
 
 .select-button {
     font-size: 1vh;
+}
+
+.mat-chip {
+    font-size: 1vh;
+    padding: 1px 8px;
+}
+
+.mat-chip-list {
+    width: 100%;
+    display: flex;
+}
+
+.chipNew {
+    justify-content: end;
 }
 
 

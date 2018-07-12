@@ -9,6 +9,7 @@ import { DataValidation } from '../../model/data-validation';
 export class ImportService{
 
     public dataFormat;
+    public project;
     referedClassToken = DataValidation;
     public referedClassService;
 
@@ -19,7 +20,7 @@ export class ImportService{
 
     }
 
-    sendData(data){
+    sendData(data, project){
         this.dataFormat = [];
         this.referedClassService = this._householdsService
         this.referedClassService.sendCSVToValidation(data).subscribe(response => {
@@ -28,12 +29,16 @@ export class ImportService{
             for(let i=0; i<response.length; i++){
                 this.dataFormat.push(response[i]);
             }
- 
         });
+        this.project = project;
     }
 
     getData() {
         return this.dataFormat;
+    }
+
+    getProject() {
+        return this.project;
     }
 
 }

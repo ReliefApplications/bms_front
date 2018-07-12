@@ -134,6 +134,6 @@ export class HouseholdsImportComponent implements OnInit {
     data.append('project', project[0]);
     data.append('file', this.csv);
    
-    this._importService.sendData(data);
+    this._importService.sendData(data, project[0]);
   }
 }

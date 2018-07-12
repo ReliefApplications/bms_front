@@ -28,7 +28,7 @@
 
                     <mat-card-content>
                         <div class="oldData">
-                            <mat-radio-button class="radioButtonOld" color="primary" *ngIf="data.update == true" (change)="selectData(data, 'old')"> </mat-radio-button>
+                            <mat-radio-button [checked]="true" class="radioButtonOld" color="primary" *ngIf="data.update == true" (change)="selectData(data, 'old')"> </mat-radio-button>
                             <div class="dataToCompare">{{data.old.nameHead}}</div>
                             <div class="dataToCompare">{{data.old.households.address_number}} {{data.old.households.address_street}}</div>
                             <div class="dataToCompare" *ngIf="data.old.households.location.adm4 != ''">{{data.old.households.address_postcode}} {{data.old.households.location.adm4}}</div>
@@ -42,7 +42,7 @@
                                         {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                     </div>
                                     <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == true">
-                                        <mat-checkbox [checked]="check" color="primary" (change)="allChecked($event)">
+                                        <mat-checkbox [checked]="check" color="primary" (change)="selectBeneficiary(beneficiary)">
                                             {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                         </mat-checkbox>
                                     </div>
@@ -59,12 +59,12 @@
                             <div class="dataToCompare">{{data.new.households.location.adm2}}</div>
                             <div class="dataToCompare">{{data.new.households.location.adm1}}</div>
                             <div class="dataToCompare" *ngIf="data.new.households.beneficiaries.length > 1">
-                                <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
+                                <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
                                     <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == false">
                                         {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                     </div>
                                     <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == true">
-                                        <mat-checkbox [checked]="check" color="primary" (change)="allChecked($event)">
+                                        <mat-checkbox [checked]="!check" color="primary" (change)="selectBeneficiary(beneficiary)">
                                             {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                         </mat-checkbox>
                                     </div>

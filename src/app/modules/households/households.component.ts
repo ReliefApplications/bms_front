@@ -20,7 +20,7 @@ export class HouseholdsComponent implements OnInit {
     public householdsService: HouseholdsService,
   ) { }
 
-  
+  //For windows size
   public maxHeight = 700;
   public maxWidthMobile = 750;
   public maxWidthFirstRow = 1000;
@@ -34,6 +34,22 @@ export class HouseholdsComponent implements OnInit {
     this.checkHouseholds();
   }
 
+  /**
+   * Get list of all households and display it
+   */
+  checkHouseholds(): void{
+    this.referedClassService = this.householdsService;
+    this.referedClassService.get().subscribe( response => {
+      response = this.referedClassToken.formatArray(response.json());
+      this.households = new MatTableDataSource(response);
+      this.cacheService.set('HOUSEHOLDS', response);
+    })
+  }
+
+  /**
+   * Listener and function use in case where windows is resize
+   * @param event 
+   */
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.checkSize();
@@ -42,17 +58,6 @@ export class HouseholdsComponent implements OnInit {
   checkSize(): void{
     this.heightScreen = window.innerHeight;
     this.widthScreen = window.innerWidth;
-  }
-
-  checkHouseholds(): void{
-    this.referedClassService = this.householdsService;
-    this.referedClassService.get().subscribe( response => {
-      response = this.referedClassToken.formatArray(response.json());
-      this.households = new MatTableDataSource(response);
-      this.cacheService.set('HOUSEHOLDS', response);
-    })
-
-  
   }
 
 

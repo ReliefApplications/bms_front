@@ -18,10 +18,10 @@ export class HouseholdsImportComponent implements OnInit {
   selectedTitle = "";
   isBoxClicked = false;
 
-  //Fake data for selector
-  //TODO : delete when projects getsin back
+  //for the selector
   projects = new FormControl();
   projectList: string[] = [];
+  public selectedProject: string = null;
 
   //upload
   response = "";
@@ -29,7 +29,7 @@ export class HouseholdsImportComponent implements OnInit {
 
   dragAreaClass: string = 'dragarea';
 
-  public selectedProject: string = null;
+  
   referedClassToken = Project;
   public referedClassService;
   public project;
@@ -44,6 +44,9 @@ export class HouseholdsImportComponent implements OnInit {
     this.getProjects();
   }
 
+  /**
+   * Get list of all project and put it in the project selector
+   */
   getProjects() {
     this.referedClassService = this._projectService;
     this.referedClassService.get().subscribe( response => {
@@ -55,6 +58,11 @@ export class HouseholdsImportComponent implements OnInit {
     });    
   }
 
+  /**
+   * Detect when the file change with the file browse or with the drag and drop
+   * @param event 
+   * @param typeEvent 
+   */
   fileChange(event, typeEvent) {
     let fileList: FileList
 
@@ -69,12 +77,19 @@ export class HouseholdsImportComponent implements OnInit {
     }
   }
 
-
+  /**
+   * Detect which button item (file import or api import) is selected
+   * @param title 
+   */
   selectTitle(title): void {
     this.isBoxClicked = true;
     this.selectedTitle = title;
   }
 
+  /**
+   * Get the csv template to import new household and ask 
+   * to save it or just to open it in the computer
+   */
   exportTemplate() {
     this._householdsService.getTemplate().toPromise()
       .then(response => {
@@ -93,7 +108,33 @@ export class HouseholdsImportComponent implements OnInit {
       });
   }
 
+  /**
+   * Get the project selected in the projectList selector
+   * @param event 
+   */
+  getProjectSelected(event) {
+    this.selectedProject = event.value;
+    console.log(this.selectedProject);
+     
+  }
 
+  /**
+   * Send csv file and project to import new households
+   */
+  addHouseholds() {
+    var data = new FormData();
+    var project = this.selectedProject.split(" - ");
+    data.append('project', project[0]);
+    data.append('file', this.csv);
+   
+    this._importService.sendData(data, project[0]);
+  }
+
+
+  /**
+   * All listener for the drag and drop
+   * @param event 
+   */
   @HostListener('dragover', ['$event']) onDragOver(event) {
     this.dragAreaClass = "dragarea-hover";
     event.preventDefault();
@@ -114,26 +155,11 @@ export class HouseholdsImportComponent implements OnInit {
     this.dragAreaClass = "dragarea";
 
     // setting the data is required by firefox
-    event.dataTransfer.setData("text", 'aa');
+    event.dataTransfer.setData("text", 'firefox');
     
     event.preventDefault();
     event.stopPropagation();
 
     this.fileChange(event, 'dataTransfer');
-  }
-
-  getProjectSelected(event) {
-    this.selectedProject = event.value;
-    console.log(this.selectedProject);
-     
-  }
-
-  addHouseholds() {
-    var data = new FormData();
-    var project = this.selectedProject.split(" - ");
-    data.append('project', project[0]);
-    data.append('file', this.csv);
-   
-    this._importService.sendData(data, project[0]);
   }
 }

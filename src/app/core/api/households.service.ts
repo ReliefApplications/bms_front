@@ -22,34 +22,46 @@ export class HouseholdsService{
     ){
     }
 
+    /**
+     * Get all households
+     * @param body 
+     */
     public get(body?: any) {
         let url = this.api + "/households/get/all";
         // return of(HOUSEHOLDS);
         return this.http.post(url, body);
     }
 
+    /**
+     * Get the csv template to import household
+     */
     public getTemplate() {
         let url = this.api + "/csv/households/export";
         return this.http.get(url);
     }
 
+    /**
+     * Upload CSV to import new household
+     * @param body 
+     */
     public sendCSVToValidation(body: any) {
         let url = this.api + "/csv/households";
         return this.http.post(url, body);
     }
 
-    public addHouseholds(body: any) {
-        let url = this.api + "/households";
+    /**
+     * Create new household in the database
+     * @param body 
+     * @param idProject 
+     */
+    public add(body: any, idProject:number) {
+        let url = this.api + "/households" + idProject;
         return this.http.put(url, body);
+    }
+
+    public update(body: any, idHousehold:number, idProject:number) {
+        let url = this.api + "/households/" + idHousehold + "/project/" + idProject;
+        return this.http.post(url, body);
     }
 }
 
-//fake distributions en attendant d'avoir la route pour getter les distributions
-const HOUSEHOLDS: Households[] = [
-    new Households({id: '1', familyName: 'familyName1', firstName: 'firstName1', location: 'location1', dependents: 4, vulnerabilities: 'assets/images/households/lactating.png'}),
-    new Households({id: '2', familyName: 'familyName2', firstName: 'firstName2', location: 'location2', dependents: 3, vulnerabilities: 'assets/images/households/disabled.png'}),
-    new Households({id: '3', familyName: 'familyName3', firstName: 'firstName3', location: 'location3', dependents: 3, vulnerabilities: 'assets/images/households/solo-parent.png'}),
-    new Households({id: '4', familyName: 'familyName4', firstName: 'firstName4', location: 'location4', dependents: 7, vulnerabilities: 'assets/images/households/pregnant.png'}),
-    new Households({id: '5', familyName: 'familyName5', firstName: 'firstName5', location: 'location5', dependents: 1, vulnerabilities: 'assets/images/households/nutritional-issues.png'}),
-
-   ];

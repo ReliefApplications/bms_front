@@ -12,16 +12,12 @@ import { MatSnackBar } from '@angular/material';
 })
 export class DataValidationComponent implements OnInit {
 
-    public check = false;
-    public keep = true;
-    public replace = false;
-    public beneficiaries: Array<any> = [];
-    public buttonUpdate = false;
-    public conflictMerged: Array<number> = [];
 
-    public createData: Array<any> = [];
-    public updateData: Array<any> = [];
     public datas: Array<any> = [];
+    public check: boolean = true;
+    public buttonUpdate: boolean = false;
+    public conflictMerged: Array<number> = [];
+    public DataToOverwrite;
 
     constructor(
         public _importService: ImportService,
@@ -43,12 +39,36 @@ export class DataValidationComponent implements OnInit {
 
     saveBoth(data) {
         data.conflictMerged = true;
-        data.new.households['project'] = this._importService.getProject();
-        this._householdsService.addHouseholds(data.new.households).subscribe(response => {
+        this._householdsService.add(data.new.households, this._importService.getProject()).subscribe(response => {
             this.snackBar.open('Household created', '', {duration:500});
         });
         console.log("DATA NEW", data.new.households);
 
+    }
+
+    overwrite(data) {
+        data.update = true;
+        console.log("DATE UPDATE", data, data.update);
+    }
+
+    validateOverwriting(data) {
+        data.conflictMerged = true;
+        this._householdsService.update(this.DataToOverwrite, this.DataToOverwrite.id, this._importService.getProject()).subscribe(response => {
+            this.snackBar.open('Household updated', '', {duration:500});
+        });
+        console.log("DATA  OVERWRITNG", this.DataToOverwrite);
+    }
+
+    selectData(data, type){
+        if(type === 'new'){
+            data.new.households['id'] = data.old.households.id;
+            this.DataToOverwrite = data.new.households;
+        }
+        else if (type === 'old'){
+            this.DataToOverwrite = data.old.households;
+        }
+        
+        console.log("TO OVERWRITE", this.DataToOverwrite);
     }
 
 

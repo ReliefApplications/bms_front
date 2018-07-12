@@ -47,6 +47,11 @@ export class DataValidation {
      * @type {boolean}
      */
     conflictMerged: boolean = false;
+    /**
+     * To know if we want update this data
+     * @type {boolean}
+     */
+    update: boolean = false;
 
     constructor(instance?){
         if(instance !== undefined){

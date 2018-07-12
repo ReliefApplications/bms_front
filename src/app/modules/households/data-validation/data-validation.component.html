@@ -15,6 +15,7 @@
             <div class="content-table">
 
                 <mat-card *ngFor="let data of datas">
+
                     <mat-card-header>
                         <mat-chip-list>
                             <mat-chip>Old</mat-chip>
@@ -27,6 +28,7 @@
 
                     <mat-card-content>
                         <div class="oldData">
+                            <mat-radio-button class="radioButtonOld" color="primary" *ngIf="data.update == true" (change)="selectData(data, 'old')"> </mat-radio-button>
                             <div class="dataToCompare">{{data.old.nameHead}}</div>
                             <div class="dataToCompare">{{data.old.households.address_number}} {{data.old.households.address_street}}</div>
                             <div class="dataToCompare" *ngIf="data.old.households.location.adm4 != ''">{{data.old.households.address_postcode}} {{data.old.households.location.adm4}}</div>
@@ -36,13 +38,19 @@
                             <div class="dataToCompare">{{data.old.households.location.adm1}}</div>
                             <div class="dataToCompare" *ngIf="data.old.households.beneficiaries.length > 1">
                                 <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
-                                    <div class="dataToCompare" *ngIf="beneficiary.status == 0">
+                                    <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == false">
                                         {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
+                                    </div>
+                                    <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == true">
+                                        <mat-checkbox [checked]="check" color="primary" (change)="allChecked($event)">
+                                            {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
+                                        </mat-checkbox>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="newData">
+                            <mat-radio-button class="radioButtonNew" color="primary" *ngIf="data.update == true" (change)="selectData(data, 'new')"> </mat-radio-button>
                             <div class="dataToCompare">{{data.new.nameHead}}</div>
                             <div class="dataToCompare">{{data.new.households.address_number}} {{data.new.households.address_street}}</div>
                             <div class="dataToCompare" *ngIf="data.new.households.location.adm4 != ''">{{data.new.households.address_postcode}} {{data.new.households.location.adm4}}</div>
@@ -51,9 +59,14 @@
                             <div class="dataToCompare">{{data.new.households.location.adm2}}</div>
                             <div class="dataToCompare">{{data.new.households.location.adm1}}</div>
                             <div class="dataToCompare" *ngIf="data.new.households.beneficiaries.length > 1">
-                                <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
-                                    <div class="dataToCompare" *ngIf="beneficiary.status == 0">
+                                <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
+                                    <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == false">
                                         {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
+                                    </div>
+                                    <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == true">
+                                        <mat-checkbox [checked]="check" color="primary" (change)="allChecked($event)">
+                                            {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
+                                        </mat-checkbox>
                                     </div>
                                 </div>
                             </div>
@@ -61,8 +74,10 @@
                     </mat-card-content>
 
                     <mat-card-actions>
-                        <button mat-button [disabled]="data.conflictMerged" class="select-button" (click)="saveBoth(data)">SAVE BOTH</button>
-                        <button mat-button [disabled]="data.conflictMerged" class="select-button">OVERWRITE</button>
+                        <button mat-button [disabled]="data.conflictMerged" class="action-button" (click)="saveBoth(data)" *ngIf="data.update == false">SAVE BOTH</button>
+                        <button mat-button [disabled]="data.conflictMerged" class="action-button" (click)="overwrite(data)" *ngIf="data.update == false">OVERWRITE</button>
+                        <button mat-button [disabled]="data.conflictMerged" class="action-button" (click)="validateOverwriting(data)" *ngIf="data.update == true">VALIDATE</button>
+
                     </mat-card-actions>
 
                 </mat-card>

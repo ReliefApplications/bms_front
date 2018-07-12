@@ -58,7 +58,7 @@ button{
     justify-content: space-around;
 }
 
-.select-button {
+.action-button {
     font-size: 1vh;
 }
 
@@ -76,6 +76,16 @@ button{
     justify-content: end;
 }
 
+.radioButtonOld {
+    display: flex;
+    justify-content: end;
+}
+
+.radioButtonNew {
+    display: flex;
+    justify-content: start;
+    padding-left: 8px;
+}
 
 //for mobile screen
 @media only screen and (max-width: 750px){

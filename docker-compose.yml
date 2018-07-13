@@ -1,0 +1,11 @@
+version: '2'
+services:
+
+    devapp:
+        image: bms/front
+        build: .
+        ports:
+            - '4200:4200' # default port
+        volumes:
+            - './:/usr/dockers/devapp/'
+        entrypoint: Docker/docker-entrypoint.sh

@@ -124,8 +124,8 @@ export class HouseholdsImportComponent implements OnInit {
   addHouseholds() {
     var data = new FormData();
     var project = this.selectedProject.split(" - ");
-    data.append('project', project[0]);
     data.append('file', this.csv);
+    data.append('step', '1');
    
     this._importService.sendData(data, project[0]);
   }

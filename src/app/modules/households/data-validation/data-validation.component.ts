@@ -30,6 +30,9 @@ export class DataValidationComponent implements OnInit {
     public moreDone: boolean = false;
     public lessDone: boolean = false;
 
+    
+    public step:number = 1;
+
     constructor(
         public _importService: ImportService,
         public _householdsService: HouseholdsService,
@@ -68,7 +71,7 @@ export class DataValidationComponent implements OnInit {
     }
 
     selectHousehold(data, i) {
-        
+        console.log("select", data , "index", i);
     }
     
 

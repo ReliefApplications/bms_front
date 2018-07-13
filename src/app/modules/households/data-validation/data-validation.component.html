@@ -12,7 +12,7 @@
 
 
         <!-- <mat-step [editable]="false" [completed]="isDone"> -->
-        <mat-step>
+        <mat-step [editable]="false">
             <ng-template class="step" matStepLabel>Typo issues </ng-template>
             <div class="container-table">
                 <div class="container-content box-green">
@@ -53,7 +53,7 @@
                                     <mat-chip>New</mat-chip>
                                 </mat-chip-list>
                                 <div class="householdData">
-                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectBeneficiary(beneficiary)">
+                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectHousehold(data, i)">
                                     </mat-checkbox>
                                     <div class="content-householdData">
                                         <div class="dataToCompare">{{data.new.nameHead}}</div>

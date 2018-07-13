@@ -44,8 +44,8 @@ export class HouseholdsService{
      * Upload CSV to import new household
      * @param body 
      */
-    public sendCSVToValidation(body: any) {
-        let url = this.api + "/csv/households";
+    public sendCSVToValidation(body: any, idProject: number) {
+        let url = this.api + "/csv/households/project/" + idProject;
         return this.http.post(url, body);
     }
 

@@ -23,7 +23,7 @@ export class ImportService{
     sendData(data, project){
         this.dataFormat = [];
         this.referedClassService = this._householdsService
-        this.referedClassService.sendCSVToValidation(data).subscribe(response => {
+        this.referedClassService.sendCSVToValidation(data, project).subscribe(response => {
         response = this.referedClassToken.formatArray(response.json());
 
             for(let i=0; i<response.length; i++){

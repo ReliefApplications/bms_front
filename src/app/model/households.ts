@@ -27,9 +27,9 @@ export class Households {
     dependents: Number;
      /**
      * Households' vulnerabilities
-     * @type {string}
+     * @type {Array}
      */
-    vulnerabilities: string = '';
+    vulnerabilities: Array<string> = [];
 
 
     constructor(instance?){
@@ -114,18 +114,18 @@ export class Households {
         let dependents = 0;
         household.id = element.id;
         element.beneficiaries.forEach(beneficiary => {
-            if(beneficiary.status) {
                 household.familyName = beneficiary.family_name;
                 household.firstName = beneficiary.given_name;
-            }
-            else {
-                dependents = dependents + 1;
-            }
+                beneficiary.vulnerability_criteria.forEach(vulnerability => {
+                    household.vulnerabilities.push(vulnerability);
+                });
+                
         });
+           
         household.location = element.location.adm4 + " " + element.location.adm3 + " " +
                              element.location.adm2 + " " +  element.location.adm1 + " "  ;
         household.dependents = dependents;
-        household.vulnerabilities = '';
+        
 
         return household;
     }

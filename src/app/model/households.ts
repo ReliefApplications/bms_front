@@ -118,10 +118,6 @@ export class Households {
                 household.firstName = beneficiary.given_name;
                 beneficiary.vulnerability_criteria.forEach(vulnerability => {
                     console.log("vulnerability", vulnerability);
-                    // switch(vulnerability){
-                    //     case "Pregnant": 
-
-                    }
                     household.vulnerabilities.push(vulnerability);
                 });
                 

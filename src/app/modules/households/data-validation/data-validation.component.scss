@@ -81,6 +81,24 @@
     }
 }
 
+.no-data-box{
+    border: solid 2px black;
+    border-radius: 80px;
+    text-align: center;
+    justify-content: center;
+    padding: 3%;
+    margin: 5em 6em 5em 6em;
+    display: flex;
+    width: 100%;
+  
+    .box-title{
+      display: flex;
+      font-style: bold;
+      font-size: 50px;
+      font-family: Lato,Helvetica,Arial,sans-serif;
+    }
+  }
+
 
 //for mobile screen
 @media only screen and (max-width: 750px){

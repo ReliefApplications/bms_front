@@ -13,12 +13,22 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 })
 export class DataValidationComponent implements OnInit {
 
-    public datas: Array<any> = [];
+    //variable to manage all issues
+    public typoIssues: Array<any> = [];
+    public duplicate: Array<any> = [];
+    public more: Array<any> = [];
+    public less: Array<any> = [];
+
+
     public check: boolean = true;
     public buttonUpdate: boolean = false;
-    public conflictMerged: Array<number> = [];
     public dataToOverwrite: any = {};
-    isDone: boolean = false;
+
+    //boolean to know if a step is completed
+    public typoDone: boolean = false;
+    public duplicateDone: boolean = false;
+    public moreDone: boolean = false;
+    public lessDone: boolean = false;
 
     constructor(
         public _importService: ImportService,
@@ -31,23 +41,30 @@ export class DataValidationComponent implements OnInit {
     ngOnInit() {
         this.getData();
 
+        console.log('typo', this.typoIssues, this.typoDone, this.typoIssues.length);
+        console.log('duplicate', this.duplicate, this.duplicateDone, this.duplicate.length);
+        console.log('more', this.more, this.moreDone);
+        console.log('less', this.less, this.lessDone);
+
     }
 
     /**
      * Get data which need verification and valisation after import csv
      */
     getData() {
-        this.datas = this._importService.getData();
-        console.log("DATAS", this.datas);
+        this.typoIssues = this._importService.getTypoIssues();
+        this.duplicate = this._importService.getDuplicates();
+        this.more = this._importService.getAddedBeneficiaries();
+        this.less = this._importService.getRemovedBeneficiaries();
     }
 
     /**
      * Check if all verification is done to can go to the next step
      */
     verificationDone() {
-        if (this.datas.length === this.dataToOverwrite.length) {
-            this.isDone = true;
-        }
+        // if (this.datas.length === this.dataToOverwrite.length) {
+        //     this.isDone = true;
+        // }
     }
 
     selectHousehold(data, i) {

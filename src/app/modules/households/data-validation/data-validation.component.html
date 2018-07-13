@@ -11,7 +11,8 @@
         </ng-template>
 
 
-        <mat-step [editable]="false" [completed]="isDone">
+        <!-- <mat-step [editable]="false" [completed]="isDone"> -->
+        <mat-step>
             <ng-template class="step" matStepLabel>Typo issues </ng-template>
             <div class="container-table">
                 <div class="container-content box-green">
@@ -21,8 +22,8 @@
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
-                    <div class="content-table">
-                        <mat-card *ngFor="let data of datas, index as i">
+                    <div class="content-table" *ngIf="typoIssues.length > 0">
+                        <mat-card *ngFor="let data of typoIssues, index as i">
                             <mat-chip-list>
                                 <mat-chip>Old</mat-chip>
                             </mat-chip-list>
@@ -74,11 +75,14 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
+                    <div *ngIf="typoIssues.length == 0" class="no-data-box">
+                        <h1 class="box-title"> No typo issues</h1>
+                    </div>
                 </div>
             </div>
         </mat-step>
 
-        <mat-step [editable]="false" [completed]="isDone">
+        <mat-step>
             <ng-template matStepLabel>Duplicates </ng-template>
             <div class="container-table">
                 <div class="container-content box-green">
@@ -88,8 +92,8 @@
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
-                    <div class="content-table">
-                        <mat-card *ngFor="let data of datas">
+                    <div class="content-table" *ngIf="duplicate.length > 0">
+                        <mat-card *ngFor="let data of duplicate">
                             <mat-chip-list>
                                 <mat-chip>Old</mat-chip>
                             </mat-chip-list>
@@ -127,11 +131,15 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
+                    <div *ngIf="duplicate.length == 0" class="no-data-box">
+                        <h1 class="box-title"> No duplicate issues</h1>
+                    </div>
                 </div>
             </div>
+
         </mat-step>
 
-        <mat-step [editable]="false" [completed]="isDone">
+        <mat-step>
             <ng-template matStepLabel>Added beneficiaries </ng-template>
             <div class="container-table">
                 <div class="container-content box-green">
@@ -141,8 +149,8 @@
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
-                    <div class="content-table">
-                        <mat-card *ngFor="let data of datas">
+                    <div class="content-table" *ngIf="more.length > 0">
+                        <mat-card *ngFor="let data of more">
                             <mat-card-content>
                                 <div class="householdData">
                                     <div class="content-householdData">
@@ -155,18 +163,19 @@
                                         <div class="dataToCompare">{{data.old.households.location.adm1}}</div>
                                     </div>
                                 </div>
-                                <mat-divider></mat-divider>
-                                <mat-chip-list>
-                                    <mat-chip>existing beneficiaries</mat-chip>
-                                </mat-chip-list>
-                                <div class="householdData">
-                                    <div class="content-householdData">
-                                        <div class="dataToCompare" *ngIf="data.old.households.beneficiaries.length > 1">
+                                <div *ngIf="data.old.households.beneficiaries.length > 1">
+                                    <mat-divider></mat-divider>
+                                    <mat-chip-list>
+                                        <mat-chip>existing beneficiaries</mat-chip>
+                                    </mat-chip-list>
+                                    <div class="householdData">
+                                        <div class="content-householdData">
                                             <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
                                                 <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == false">
                                                     {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -190,11 +199,14 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
+                    <div *ngIf="more.length == 0" class="no-data-box">
+                        <h1 class="box-title"> No beneficiaries to add</h1>
+                    </div>
                 </div>
             </div>
         </mat-step>
 
-        <mat-step [editable]="false" [completed]="isDone">
+        <mat-step>
             <ng-template matStepLabel>Removed beneficiaries </ng-template>
             <div class="container-table">
                 <div class="container-content box-green">
@@ -204,8 +216,8 @@
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
-                    <div class="content-table">
-                        <mat-card *ngFor="let data of datas">
+                    <div class="content-table" *ngIf="less.length > 0">
+                        <mat-card *ngFor="let data of less">
                             <mat-card-content>
                                 <div class="householdData">
                                     <div class="content-householdData">
@@ -219,13 +231,13 @@
                                     </div>
                                 </div>
                                 <mat-divider></mat-divider>
-                                <mat-chip-list>
-                                    <mat-chip>existing beneficiaries</mat-chip>
-                                </mat-chip-list>
-                                <div class="householdData">
-                                    <div class="content-householdData">
-                                        <div class="dataToCompare" *ngIf="data.old.households.beneficiaries.length > 1">
-                                            <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
+                                <div *ngIf="data.new.households.beneficiaries.length > 1">
+                                    <mat-chip-list>
+                                        <mat-chip>existing beneficiaries</mat-chip>
+                                    </mat-chip-list>
+                                    <div class="householdData">
+                                        <div class="content-householdData">
+                                            <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
                                                 <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == false">
                                                     {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                 </div>
@@ -239,8 +251,8 @@
                                 </mat-chip-list>
                                 <div class="householdData">
                                     <div class="content-beneficiariesData">
-                                        <div class="dataToCompare" *ngIf="data.new.households.beneficiaries.length > 1">
-                                            <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
+                                        <div class="dataToCompare" *ngIf="data.old.households.beneficiaries.length > 1">
+                                            <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
                                                 <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == false">
                                                     <mat-checkbox [checked]="!check" color="primary" (change)="selectBeneficiary(beneficiary)">
                                                         {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
@@ -252,6 +264,9 @@
                                 </div>
                             </mat-card-content>
                         </mat-card>
+                    </div>
+                    <div *ngIf="less.length == 0" class="no-data-box">
+                        <h1 class="box-title"> No beneficiaries to remove</h1>
                     </div>
                 </div>
             </div>

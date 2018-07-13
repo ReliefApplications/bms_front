@@ -19,12 +19,12 @@ export class Data {
      */
     dependent: number = 0;
 
-    constructor(instance?){
-        if(instance !== undefined){
+    constructor(instance?) {
+        if (instance !== undefined) {
             this.nameHead = instance.nameHead;
             this.households = instance.households;
             this.dependent = instance.dependent;
-            
+
 
         }
     }
@@ -53,17 +53,16 @@ export class DataValidation {
      */
     update: boolean = false;
 
-    constructor(instance?){
-        if(instance !== undefined){
+    constructor(instance?) {
+        if (instance !== undefined) {
             this.old = instance.old;
             this.new = instance.new;
             this.conflictMerged = instance.conflictMerged;
         }
     }
 
-    public static formatArray(instance): DataValidation[]{
-        let dataValidation : DataValidation[] = [];
-        console.log("instance", instance);
+    public static formatArray(instance): DataValidation[] {
+        let dataValidation: DataValidation[] = [];
         instance.forEach(element => {
             dataValidation.push(this.formatElement(element));
         });
@@ -73,31 +72,26 @@ export class DataValidation {
     public static formatElement(element: any): DataValidation {
         let data = new DataValidation();
         data.new.households = element.new;
-        
+
         //to format information of new households
         element.new.beneficiaries.forEach(beneficiary => {
-            if(beneficiary.status == '1') {
+            if (beneficiary.status == '1') {
                 data.new.nameHead = beneficiary.family_name + " " + beneficiary.given_name;
-            } else{
+            } else {
                 data.new.dependent = data.new.dependent + 1;
             }
         });
-
         //to format information of old households
-        element.old.forEach(oldElement => {
-            data.old.households = oldElement;
-            oldElement.beneficiaries.forEach(beneficiary => {
-                if(beneficiary.status == '1') {
-                    data.old.nameHead = beneficiary.family_name + " " + beneficiary.given_name;
-                }
-                else {
-                    data.old.dependent = data.old.dependent + 1;
+        data.old.households = element.old;
+        element.old.beneficiaries.forEach(beneficiary => {
+            if (beneficiary.status == '1') {
+                data.old.nameHead = beneficiary.family_name + " " + beneficiary.given_name;
+            }
+            else {
+                data.old.dependent = data.old.dependent + 1;
 
-                }
-            });
+            }
         });
-        
-
         return data;
     }
 }

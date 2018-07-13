@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { ImportService } from '../../../core/utils/import.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { MatSnackBar } from '@angular/material';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 
 
@@ -17,17 +18,19 @@ export class DataValidationComponent implements OnInit {
     public buttonUpdate: boolean = false;
     public conflictMerged: Array<number> = [];
     public dataToOverwrite: any = {};
+    isDone: boolean = false;
 
     constructor(
         public _importService: ImportService,
         public _householdsService: HouseholdsService,
-        public snackBar: MatSnackBar
+        public snackBar: MatSnackBar,
     ) {
 
     }
 
     ngOnInit() {
         this.getData();
+
     }
 
     /**
@@ -37,6 +40,39 @@ export class DataValidationComponent implements OnInit {
         this.datas = this._importService.getData();
         console.log("DATAS", this.datas);
     }
+
+    /**
+     * Check if all verification is done to can go to the next step
+     */
+    verificationDone() {
+        if (this.datas.length === this.dataToOverwrite.length) {
+            this.isDone = true;
+        }
+    }
+
+    selectHousehold(data, i) {
+        
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Save new Household and keep the old Household
@@ -104,5 +140,8 @@ export class DataValidationComponent implements OnInit {
 
     }
 
+
+
+    
 
 }

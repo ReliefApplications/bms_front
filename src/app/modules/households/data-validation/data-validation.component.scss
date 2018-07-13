@@ -1,91 +1,86 @@
 @import '../../../../assets/css/variable.scss'; 
 
 
-.box-green{
-    border-top: solid 12px $bms_green;
-}
-
-.mat-card {
-    display: flex;
-}
-
-.oldData {
-    border-right: 1px solid $bms_dark_grey;
-    width: 50%;
-    text-align: center;
-}
-
-.newData {
-    width: 50%;
-    text-align: center;
-}
-
-.content-table {
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-}
-
-.mat-card {
-    width: 23%;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 26px 14px 26px 0px !important;
-    margin-left: 0.5vw;
-    margin-right: 0.5vw;
-    margin-bottom: 2vw;
-}
-
-.title {
-    font-size: 1.5vh;
-}
-
-.dataToCompare {
-    font-size: 1.2vh;
-}
-
-button{
-    color: $bms_white;
-    background-color: $bms_green;
-}
-.mat-card-content {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 0px;
-}
-
-.mat-card-actions {
-    display: flex;
-    justify-content: space-around;
-}
-
-.action-button {
-    font-size: 1vh;
-}
-
-.mat-chip {
-    font-size: 1vh;
-    padding: 1px 8px;
-}
-
-.mat-chip-list {
+.mat-stepper-horizontal {
+    display: block;
     width: 100%;
-    display: flex;
+    .fas {
+        color: white;
+    }
+    .container-table {
+        padding: 0px;
+        .box-green{
+            border-top: solid 12px $bms_green;
+            .content-button{
+                justify-content: end !important;
+                .next{
+                    font-weight: 900;
+                    margin-right: 0.8vw;
+                 }
+            } 
+            .content-table {
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+                .mat-card {
+                    display: flex;
+                    width: 15%;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    margin-left: 0.5vw;
+                    margin-right: 0.5vw;
+                    margin-bottom: 2vw;
+                    .mat-chip-list {
+                        width: 100%;
+                        display: flex;
+                        justify-content: end;
+                        .mat-chip {
+                            font-size: 1vh;
+                            padding: 1px 8px;
+                            margin: 4px 4px 13px 4px;
+                        }
+                    }
+                    .mat-card-content {
+                        display: flex;
+                        flex-direction: column;
+                        height: 100%;
+                        .mat-divider {
+                            position: relative !important;
+                            margin: 10px 0px 10px 0px;
+                        }                
+                        .householdData {
+                            width: 100%;
+                            text-align: center;
+                            flex-grow: 1;
+                            height: 50%;
+                            display: flex;
+                            flex-direction: row;
+                            .content-householdData {
+                                width: 100%
+                            }
+                            .content-beneficiariesData{
+                                display: flex;
+                                justify-content: center;
+                                width: 100%;
+                            }
+                            .dataToCompare {
+                                font-size: 1.2vh;
+                            }
+                            .mat-checkbox {
+                                display: flex;
+                            }
+                        }
+                    }
+                }
+            }
+        }  
+    }
+    button{
+        color: $bms_white;
+        background-color: $bms_green;
+       
+    }
 }
 
-.chipNew {
-    justify-content: end;
-}
-
-.radioButtonOld {
-    display: flex;
-    justify-content: end;
-}
-
-.radioButtonNew {
-    display: flex;
-    justify-content: start;
-    padding-left: 8px;
-}
 
 //for mobile screen
 @media only screen and (max-width: 750px){

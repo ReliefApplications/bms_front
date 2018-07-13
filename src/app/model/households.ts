@@ -27,9 +27,9 @@ export class Households {
     dependents: Number;
      /**
      * Households' vulnerabilities
-     * @type {Array}
+     * @type {string}
      */
-    vulnerabilities: Array<string> = [];
+    vulnerabilities: string = '';
 
 
     constructor(instance?){
@@ -112,14 +112,23 @@ export class Households {
     public static formatElement(element: any): Households {
         let household = new Households();
         let dependents = 0;
+        console.log("head", element);
         household.id = element.id;
         element.beneficiaries.forEach(beneficiary => {
                 household.familyName = beneficiary.family_name;
                 household.firstName = beneficiary.given_name;
                 beneficiary.vulnerability_criteria.forEach(vulnerability => {
-                    console.log("vulnerability", vulnerability);
-                    household.vulnerabilities.push(vulnerability);
+                    switch(vulnerability.value) {
+                        case "Pregnant": household.vulnerabilities = 'assets/images/households/pregnant.png'; break;
+                        case "Disabled": household.vulnerabilities = 'assets/images/households/disabled.png'; break;
+                        case "Lactating": household.vulnerabilities = 'assets/images/households/lactating.png'; break;
+                        case "Solo parent": household.vulnerabilities = 'assets/images/households/solo-parent.png'; break;
+                        case "Nutritional issues": household.vulnerabilities = 'assets/images/households/nutritional-issues.png'; break;
+                    }
+                    console.log('vulnerability', vulnerability);                    
                 });
+                console.log(household.vulnerabilities);
+               
                 
         });
            

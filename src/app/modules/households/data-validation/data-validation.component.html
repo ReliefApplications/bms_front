@@ -16,12 +16,6 @@
             <ng-template class="step" matStepLabel>Typo issues </ng-template>
             <div class="container-table">
                 <div class="container-content box-green">
-                    <div class="content-button">
-                        <button mat-button class="next-button" (click)="stepper.next()">
-                            <span class="next">NEXT</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
                     <div class="content-table" *ngIf="typoIssues.length > 0">
                         <mat-card *ngFor="let data of typoIssues, index as i">
                             <mat-chip-list>
@@ -41,7 +35,7 @@
                                         <div class="dataToCompare">{{data.old.households.location.adm1}}</div>
                                         <div class="dataToCompare" *ngIf="data.old.households.beneficiaries.length > 1">
                                             <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
-                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == false">
+                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0">
                                                     {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                 </div>
                                             </div>
@@ -65,7 +59,7 @@
                                         <div class="dataToCompare">{{data.new.households.location.adm1}}</div>
                                         <div class="dataToCompare" *ngIf="data.new.households.beneficiaries.length > 1">
                                             <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
-                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == false">
+                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0">
                                                     {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                 </div>
                                             </div>
@@ -78,20 +72,22 @@
                     <div *ngIf="typoIssues.length == 0" class="no-data-box">
                         <h1 class="box-title"> No typo issues</h1>
                     </div>
-                </div>
-            </div>
-        </mat-step>
+                    <div class="content-button-footer">
+                        <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
 
-        <mat-step>
-            <ng-template matStepLabel>Duplicates </ng-template>
-            <div class="container-table">
-                <div class="container-content box-green">
-                    <div class="content-button">
                         <button mat-button class="next-button" (click)="stepper.next()">
                             <span class="next">NEXT</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
+                </div>
+            </div>
+        </mat-step>
+
+        <mat-step [editable]="false">
+            <ng-template matStepLabel>Duplicates </ng-template>
+            <div class="container-table">
+                <div class="container-content box-green">
                     <div class="content-table" *ngIf="duplicate.length > 0">
                         <mat-card *ngFor="let data of duplicate">
                             <mat-chip-list>
@@ -134,21 +130,22 @@
                     <div *ngIf="duplicate.length == 0" class="no-data-box">
                         <h1 class="box-title"> No duplicate issues</h1>
                     </div>
-                </div>
-            </div>
-
-        </mat-step>
-
-        <mat-step>
-            <ng-template matStepLabel>Added beneficiaries </ng-template>
-            <div class="container-table">
-                <div class="container-content box-green">
-                    <div class="content-button">
+                    <div class="content-button-footer">
+                            <mat-progress-bar mode="determinate" value="25"></mat-progress-bar>
                         <button mat-button class="next-button" (click)="stepper.next()">
                             <span class="next">NEXT</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
+                </div>
+            </div>
+
+        </mat-step>
+
+        <mat-step [editable]="false">
+            <ng-template matStepLabel>Added beneficiaries </ng-template>
+            <div class="container-table">
+                <div class="container-content box-green">
                     <div class="content-table" *ngIf="more.length > 0">
                         <mat-card *ngFor="let data of more">
                             <mat-card-content>
@@ -171,7 +168,7 @@
                                     <div class="householdData">
                                         <div class="content-householdData">
                                             <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
-                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == false">
+                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0">
                                                     {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                 </div>
                                             </div>
@@ -187,7 +184,7 @@
                                     <div class="content-beneficiariesData">
                                         <div class="dataToCompare" *ngIf="data.new.households.beneficiaries.length > 1">
                                             <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
-                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == false">
+                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0">
                                                     <mat-checkbox [checked]="!check" color="primary" (change)="selectBeneficiary(beneficiary)">
                                                         {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                     </mat-checkbox>
@@ -202,20 +199,21 @@
                     <div *ngIf="more.length == 0" class="no-data-box">
                         <h1 class="box-title"> No beneficiaries to add</h1>
                     </div>
+                    <div class="content-button-footer">
+                            <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
+                            <button mat-button class="next-button" (click)="stepper.next()">
+                                <span class="next">NEXT</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
                 </div>
             </div>
         </mat-step>
 
-        <mat-step>
+        <mat-step [editable]="false">
             <ng-template matStepLabel>Removed beneficiaries </ng-template>
             <div class="container-table">
                 <div class="container-content box-green">
-                    <div class="content-button">
-                        <button mat-button class="next-button" (click)="stepper.next()">
-                            <span class="next">NEXT</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
                     <div class="content-table" *ngIf="less.length > 0">
                         <mat-card *ngFor="let data of less">
                             <mat-card-content>
@@ -238,7 +236,7 @@
                                     <div class="householdData">
                                         <div class="content-householdData">
                                             <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
-                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == false">
+                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0">
                                                     {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                 </div>
                                             </div>
@@ -253,7 +251,7 @@
                                     <div class="content-beneficiariesData">
                                         <div class="dataToCompare" *ngIf="data.old.households.beneficiaries.length > 1">
                                             <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
-                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0 && data.update == false">
+                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0">
                                                     <mat-checkbox [checked]="!check" color="primary" (change)="selectBeneficiary(beneficiary)">
                                                         {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                     </mat-checkbox>
@@ -268,19 +266,37 @@
                     <div *ngIf="less.length == 0" class="no-data-box">
                         <h1 class="box-title"> No beneficiaries to remove</h1>
                     </div>
+                    <div class="content-button-footer">
+                            <mat-progress-bar mode="determinate" value="75"></mat-progress-bar>
+                            <button mat-button class="next-button" (click)="stepper.next()">
+                                <span class="next">NEXT</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
                 </div>
             </div>
         </mat-step>
 
-        <mat-step>
+        <mat-step [editable]="true" [completed]="isDone">
             <ng-template matStepLabel>Done</ng-template>
-            You are now done all verification.
-            <div>
-                <button mat-button (click)="stepper.reset()">Send</button>
+            <div class="container-table">
+                <div class="container-content box-green">
+                    <div class="content-table">
+                        <div class="done">
+                            You are now done all verification.
+                            <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+                            <button mat-button class="buttonSend" (click)="stepper.reset()">Send</button>
+                        </div>
+
+
+                    </div>
+                </div>
             </div>
+
         </mat-step>
 
     </mat-horizontal-stepper>
+
 
 
 </div>

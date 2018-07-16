@@ -103,7 +103,7 @@ export class VerifiedData {
      * boolean to now which action is necessary : update, add, delete
      * @type {boolean}
      */
-    old: boolean = false;
+    state: boolean = false;
     /**
      * household's id 
      * @type {number}
@@ -117,7 +117,7 @@ export class VerifiedData {
 
     constructor(instance?) {
         if (instance !== undefined) {
-            this.old = instance.old;
+            this.state = instance.state;
             this.new = instance.new;
             this.idHousehold = instance.idHousehold;
         }

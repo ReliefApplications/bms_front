@@ -16,3 +16,12 @@ $candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
 $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
 
 @include angular-material-theme($candy-app-theme);
+
+@media only screen and (max-width: 750px){
+  .mat-horizontal-stepper-header-container {
+    display: none !important;
+  }
+  .mat-horizontal-content-container {
+    padding: 0 5px 0 0 !important;
+  }
+}

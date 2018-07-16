@@ -80,7 +80,7 @@ export class DataValidationComponent implements OnInit {
             if (element.index === index) {
                 indexFound = true;
                 if (type === 'old') {
-                    element.old = !element.old;
+                    element.state = !element.state;
                 }
                 else {
                     if (element.new) {
@@ -96,7 +96,7 @@ export class DataValidationComponent implements OnInit {
         if (indexFound === false) {
             if (type === 'old') {
                 verification.idHousehold = data.old.households.id;
-                verification.old = true;
+                verification.state = true;
                 verification.index = index;
             }
             else if (type === 'new') {
@@ -107,95 +107,6 @@ export class DataValidationComponent implements OnInit {
             this.correctedData.push(verification);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Save new Household and keep the old Household
-     * @param data
-     */
-    // saveBoth(data) {
-    //     data.conflictMerged = true;
-    //     this._householdsService.add(data.new.households, this._importService.getProject()).subscribe(response => {
-    //         this.snackBar.open('Household created', '', { duration: 500 });
-    //     });
-    // }
-
-    /**
-     * Triggers the possibility to update old Household
-     * @param data 
-     */
-    // overwrite(data) {
-    //     data.update = true;
-    // }
-
-    /**
-     * Validate change and update old household in the database
-     * @param data 
-     */
-    // validateOverwriting(data) {
-    //  data.conflictMerged = true;
-    //get the id to old household to update it with newData
-    //  let householdId = data.old.households.id;
-    //  let newData;
-    // if (Object.keys(this.correctedData).length > 0 ) {
-    //     newData = this.correctedData;
-    // }
-    // else {
-    //    newData = data.old.households
-    // }
-    // console.log("newData", newData);
-    // this._householdsService.update(this.correctedData, householdId, this._importService.getProject()).subscribe(response => {
-    //     this.snackBar.open('Household updated', '', { duration: 500 });
-    // });
-
-    // }
-
-    /**
-     * Select old or new households' data (name, adresse) to update old household in the database
-     * @param data 
-     * @param type 
-     */
-    // selectData(data, type) {
-
-    //     if (type === 'new') {
-    //         this.correctedData = data.new.households;
-    //     }
-    //     else if (type === 'old') {
-    //         this.correctedData = data.old.households;
-    //     }
-    //     console.log("TO OVERWRITE", this.correctedData, this.correctedData.length);
-    // }
-
-    /**
-     * Select or deselect beneficiaries to update old household
-     * If there is new beneficary or if an old beneficiary don't be in this household anymore
-     * @param beneficiary 
-     */
-    // selectBeneficiary(beneficiary) {
-
-    // }
-
-
-
 
 
 }

@@ -15,6 +15,8 @@ import { LoginComponent 														} from './modules/public/login.component';
 import { AppRouting 															} from './app.routing';
 import { SharedModule 															} from './shared/shared.module';
 
+import { ReportsModule										 					} from './modules/reports/reports.module';
+
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -28,6 +30,9 @@ import { SharedModule 															} from './shared/shared.module';
 		HttpClientModule,
 		SharedModule,
 		HttpModule,
+
+		// Reporting
+		ReportsModule,
 		
 		// Routing
 		AppRouting

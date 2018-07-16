@@ -1,0 +1,10 @@
+<table class="table text-center table-bordered table-hover">
+  <tr>
+    <th>{{ this.dataAxis.x }}</th>
+    <th>{{ this.dataAxis.y }}</th>
+  </tr>
+  <tr *ngFor="let subData of this.data">
+    <td>{{ subData.name }}</td>
+    <td>{{ subData.value }}</td>
+  </tr>
+</table>

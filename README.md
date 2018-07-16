@@ -28,3 +28,29 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Dependencies
+
+    - @swimlane/ngx-charts
+    - crypto-js
+    - hammerjs
+    - jquery
+    - leaflet
+    - @ngx-translate/core
+
+
+## Docker
+
+This project works with Docker.
+Pay attention to the @angular/cli version in your package.json file and make sure it corresponds to the one in the Dockerfile.
+
+To start coding in a safe environment, please launch the docker container with the following command:
+
+```bash
+sudo docker-compose up devapp
+```
+
+If it's the first time, please run 
+```bash
+sudo ./docker-build.sh bms/front
+```

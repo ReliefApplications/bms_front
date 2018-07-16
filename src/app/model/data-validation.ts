@@ -30,8 +30,8 @@ export class Data {
     }
 }
 
-export class DataValidation {
-    static __classname__ = 'DataValidation';
+export class DataToValidate {
+    static __classname__ = 'DataToValidate';
     /**
      * new data to compare
      * @type {Data}
@@ -47,11 +47,6 @@ export class DataValidation {
      * @type {boolean}
      */
     conflictMerged: boolean = false;
-    /**
-     * To know if we want update this data
-     * @type {boolean}
-     */
-    update: boolean = false;
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -61,16 +56,16 @@ export class DataValidation {
         }
     }
 
-    public static formatArray(instance): DataValidation[] {
-        let dataValidation: DataValidation[] = [];
+    public static formatArray(instance): DataToValidate[] {
+        let dataValidation: DataToValidate[] = [];
         instance.forEach(element => {
             dataValidation.push(this.formatElement(element));
         });
         return dataValidation;
     }
 
-    public static formatElement(element: any): DataValidation {
-        let data = new DataValidation();
+    public static formatElement(element: any): DataToValidate {
+        let data = new DataToValidate();
         data.new.households = element.new;
 
         //to format information of new households
@@ -94,5 +89,39 @@ export class DataValidation {
         });
         return data;
     }
+}
+
+export class VerifiedData {
+
+    static __classname__ = 'VerifiedData';
+    /**
+     * new data to create
+     * @type {Data}
+     */
+    new?: Data;
+    /**
+     * boolean to now which action is necessary : update, add, delete
+     * @type {boolean}
+     */
+    old: boolean = false;
+    /**
+     * household's id 
+     * @type {number}
+     */
+    idHousehold: number;
+    /**
+     * index link to the data to find them more easily 
+     * @type {number}
+     */
+    index: number;
+
+    constructor(instance?) {
+        if (instance !== undefined) {
+            this.old = instance.old;
+            this.new = instance.new;
+            this.idHousehold = instance.idHousehold;
+        }
+    }
+
 }
 

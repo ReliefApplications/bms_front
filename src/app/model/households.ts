@@ -112,7 +112,6 @@ export class Households {
     public static formatElement(element: any): Households {
         let household = new Households();
         let dependents = 0;
-        console.log("head", element);
         household.id = element.id;
         element.beneficiaries.forEach(beneficiary => {
                 household.familyName = beneficiary.family_name;
@@ -124,10 +123,8 @@ export class Households {
                         case "Lactating": household.vulnerabilities = 'assets/images/households/lactating.png'; break;
                         case "Solo parent": household.vulnerabilities = 'assets/images/households/solo-parent.png'; break;
                         case "Nutritional issues": household.vulnerabilities = 'assets/images/households/nutritional-issues.png'; break;
-                    }
-                    console.log('vulnerability', vulnerability);                    
+                    }                 
                 });
-                console.log(household.vulnerabilities);
                
                 
         });

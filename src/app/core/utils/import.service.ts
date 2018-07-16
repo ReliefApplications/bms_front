@@ -1,6 +1,6 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HouseholdsService } from '../api/households.service';
-import { DataValidation } from '../../model/data-validation';
+import { DataToValidate } from '../../model/data-validation';
 
 
 @Injectable({
@@ -13,7 +13,7 @@ export class ImportService {
     public dataMore;
     public dataLess;
     public project;
-    referedClassToken = DataValidation;
+    referedClassToken = DataToValidate;
     public referedClassService;
 
 
@@ -30,7 +30,6 @@ export class ImportService {
         this.dataLess = [];
         this.referedClassService = this._householdsService
         this.referedClassService.sendCSVToValidation(data, project).subscribe(response => {
-            console.log(response.json());
 
             let responseTypo = this.referedClassToken.formatArray(response.json().typo);
             for (let i = 0; i < responseTypo.length; i++) {

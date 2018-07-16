@@ -29,7 +29,7 @@
                             </mat-chip-list>
                             <mat-card-content>
                                 <div class="householdData">
-                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectHousehold(data, i)">
+                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectHousehold(data, 'old', i)">
                                     </mat-checkbox>
                                     <div class="content-householdData">
                                         <div class="dataToCompare">{{data.old.nameHead}}</div>
@@ -53,7 +53,7 @@
                                     <mat-chip>New</mat-chip>
                                 </mat-chip-list>
                                 <div class="householdData">
-                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectHousehold(data, i)">
+                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectHousehold(data, 'new', i)">
                                     </mat-checkbox>
                                     <div class="content-householdData">
                                         <div class="dataToCompare">{{data.new.nameHead}}</div>

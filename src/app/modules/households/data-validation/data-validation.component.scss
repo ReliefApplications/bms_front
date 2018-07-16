@@ -130,13 +130,18 @@
       font-size: 50px;
       font-family: Lato,Helvetica,Arial,sans-serif;
     }
-  }
+}
+
+.stepInMobile {
+    display : none;
+}
 
 
 //for mobile screen
 @media only screen and (max-width: 750px){
     .container-table{
         width: 99% !important;
+        flex-direction: column;
     }
     .next {
         padding-left: 0 !important;
@@ -167,6 +172,23 @@
     .content-button-footer {
         justify-content: space-between !important;
     }
+
+    .stepInMobile {
+        display: flex !important;
+        margin-bottom: 3vh;
+        justify-content: center;
+    }
+    .dot {
+        height: 24px;
+        width: 24px;
+        background-color: #6CA6A8;
+        border-radius: 50%;
+        display: flex;
+        color: white;
+        justify-content: center;
+        align-items: center;
+        margin-right: 4vw;
+      }
 }
 
 

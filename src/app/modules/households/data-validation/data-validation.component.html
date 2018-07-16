@@ -3,6 +3,8 @@
         <h2>DATA VERIFICATION AND VALIDATION</h2>
     </div>
 
+
+
     <mat-horizontal-stepper linear #stepper>
         <ng-template matStepperIcon="done">
             <mat-icon>
@@ -15,7 +17,12 @@
         <mat-step [editable]="false">
             <ng-template class="step" matStepLabel>Typo issues </ng-template>
             <div class="container-table">
+                <div class="stepInMobile">
+                    <span class="dot">1</span>
+                    <span>Typo issues</span>
+                </div>
                 <div class="container-content box-green">
+
                     <div class="content-table" *ngIf="typoIssues.length > 0">
                         <mat-card *ngFor="let data of typoIssues, index as i">
                             <mat-chip-list>
@@ -87,7 +94,12 @@
         <mat-step [editable]="false">
             <ng-template matStepLabel>Duplicates </ng-template>
             <div class="container-table">
+                <div class="stepInMobile">
+                    <span class="dot">2</span>
+                    <span>Duplicates</span>
+                </div>
                 <div class="container-content box-green">
+
                     <div class="content-table" *ngIf="duplicate.length > 0">
                         <mat-card *ngFor="let data of duplicate">
                             <mat-chip-list>
@@ -131,7 +143,7 @@
                         <h1 class="box-title"> No duplicate issues</h1>
                     </div>
                     <div class="content-button-footer">
-                            <mat-progress-bar mode="determinate" value="25"></mat-progress-bar>
+                        <mat-progress-bar mode="determinate" value="25"></mat-progress-bar>
                         <button mat-button class="next-button" (click)="stepper.next()">
                             <span class="next">NEXT</span>
                             <i class="fas fa-arrow-right"></i>
@@ -145,6 +157,10 @@
         <mat-step [editable]="false">
             <ng-template matStepLabel>Added beneficiaries </ng-template>
             <div class="container-table">
+                <div class="stepInMobile">
+                    <span class="dot">3</span>
+                    <span>Added beneficiaries</span>
+                </div>
                 <div class="container-content box-green">
                     <div class="content-table" *ngIf="more.length > 0">
                         <mat-card *ngFor="let data of more">
@@ -200,12 +216,12 @@
                         <h1 class="box-title"> No beneficiaries to add</h1>
                     </div>
                     <div class="content-button-footer">
-                            <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
-                            <button mat-button class="next-button" (click)="stepper.next()">
-                                <span class="next">NEXT</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
+                        <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
+                        <button mat-button class="next-button" (click)="stepper.next()">
+                            <span class="next">NEXT</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </mat-step>
@@ -213,6 +229,10 @@
         <mat-step [editable]="false">
             <ng-template matStepLabel>Removed beneficiaries </ng-template>
             <div class="container-table">
+                <div class="stepInMobile">
+                    <span class="dot">4</span>
+                    <span>Removed beneficiaries</span>
+                </div>
                 <div class="container-content box-green">
                     <div class="content-table" *ngIf="less.length > 0">
                         <mat-card *ngFor="let data of less">
@@ -267,12 +287,12 @@
                         <h1 class="box-title"> No beneficiaries to remove</h1>
                     </div>
                     <div class="content-button-footer">
-                            <mat-progress-bar mode="determinate" value="75"></mat-progress-bar>
-                            <button mat-button class="next-button" (click)="stepper.next()">
-                                <span class="next">NEXT</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
+                        <mat-progress-bar mode="determinate" value="75"></mat-progress-bar>
+                        <button mat-button class="next-button" (click)="stepper.next()">
+                            <span class="next">NEXT</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </mat-step>
@@ -280,6 +300,10 @@
         <mat-step [editable]="true" [completed]="isDone">
             <ng-template matStepLabel>Done</ng-template>
             <div class="container-table">
+                <div class="stepInMobile">
+                    <span class="dot">5</span>
+                    <span>Done</span>
+                </div>
                 <div class="container-content box-green">
                     <div class="content-table">
                         <div class="done">

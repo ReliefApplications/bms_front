@@ -17,6 +17,16 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
 
 @include angular-material-theme($candy-app-theme);
 
+
+//To overwrite CSS of MatStepper
+.mat-step-icon{
+  color: white !important
+}
+
+.mat-step-icon-not-touched{
+  color: white !important
+}
+
 @media only screen and (max-width: 750px){
   .mat-horizontal-stepper-header-container {
     display: none !important;

@@ -31,8 +31,6 @@ export class DataValidationComponent implements OnInit {
     public moreDone: boolean = false;
     public lessDone: boolean = false;
 
-    public
-
     public step: number = 1;
 
     constructor(
@@ -107,6 +105,4 @@ export class DataValidationComponent implements OnInit {
             this.correctedData.push(verification);
         }
     }
-
-
 }

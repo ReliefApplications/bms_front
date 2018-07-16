@@ -25,8 +25,8 @@
           </div>
         </div>
         <div class="content-table">
-          <app-table *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="households"></app-table>
-          <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="households"></app-table-mobile>
+          <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="households"></app-table-search>
+          <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="households"></app-table-mobile-search>
         </div>
       </div>
     </div>

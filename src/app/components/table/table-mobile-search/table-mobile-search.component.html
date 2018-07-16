@@ -1,33 +1,36 @@
 <!-- TABLE -->
-<div class="table-container" >
+<div class="table-container">
   <div class="container-header">
     <mat-form-field>
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
     </mat-form-field>
   </div>
   <table *ngFor="let element of data._renderData._value" class="box-element">
-      <tbody>
-        <tr *ngFor="let property of properties">
-          <td class="element-value">
-            <span> {{mapperService.mapTitle(property)}}</span>
-          </td>
-          <td>
-            <app-icon-svg *ngIf="propertiesTypes[property]=='image'" class="icon" [name]="mapperService.mapValue(element, property)"></app-icon-svg>
-            <span *ngIf="propertiesTypes[property]!='image'">{{mapperService.mapValue(element, property)}}</span>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <button mat-button (click)="openDialog('details', element)" class="red">
-          <i class="fas fa-search"></i>
-        </button>
-        <button mat-button (click)="openDialog('update', element)" class="light-red">
-          <i class="fas fa-edit"></i>
-        </button>
-        <button mat-button (click)="openDialog('delete', element)" class="green">
-          <i class="fas fa-times"></i>
-        </button>
-      </tfoot>
+    <tbody>
+      <tr *ngFor="let property of properties">
+        <td class="element-value">
+          <span> {{mapperService.mapTitle(property)}}</span>
+        </td>
+        <td>
+          <app-icon-svg *ngIf="propertiesTypes[property]=='image'" class="icon" [name]="mapperService.mapValue(element, property)"></app-icon-svg>
+          <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element, property)}}</span>
+        </td>
+        <td *ngIf="propertiesTypes[property]=='png'">
+          <img class="png" src={{mapperService.mapValue(element,property)}}>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <button mat-button (click)="openDialog('details', element)" class="red">
+        <i class="fas fa-search"></i>
+      </button>
+      <button mat-button (click)="openDialog('update', element)" class="light-red">
+        <i class="fas fa-edit"></i>
+      </button>
+      <button mat-button (click)="openDialog('delete', element)" class="green">
+        <i class="fas fa-times"></i>
+      </button>
+    </tfoot>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>

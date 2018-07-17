@@ -4,7 +4,7 @@ import * as CryptoJS from 'crypto-js';
 
 import { CacheService } from '../storage/cache.service';
 
-import { SaltInterface } from '../../model/salt'
+
 @Injectable({
 	providedIn: 'root'
 })

@@ -4,25 +4,27 @@
   </div>
   <div class="container-boxes">
     <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/users", color: "green", title:"users", subtitle:"", ref:""}'></app-box-setting>
-    <app-box-setting [class.isLast]="widthScreen<maxWidthSecondRow && widthScreen>maxWidthMobile" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/country_specific", color: "red", title:"country specific options", subtitle:"", ref:""}'></app-box-setting>
-    <app-box-setting [class.isLast]="widthScreen<maxWidthFirstRow && widthScreen>maxWidthSecondRow" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/donors", color: "green", title:"donors", subtitle:"", ref:""}'></app-box-setting>
+    <app-box-setting [class.isLast]="widthScreen<maxWidthSecondRow && widthScreen>maxWidthMobile" (emitClickedTitle)="selectTitle($event)"
+      [selectedTitle]="selectedTitle" [info]='{icon: "settings/country_specific", color: "red", title:"country specific options", subtitle:"", ref:""}'></app-box-setting>
+    <app-box-setting [class.isLast]="widthScreen<maxWidthFirstRow && widthScreen>maxWidthSecondRow" (emitClickedTitle)="selectTitle($event)"
+      [selectedTitle]="selectedTitle" [info]='{icon: "settings/donors", color: "green", title:"donors", subtitle:"", ref:""}'></app-box-setting>
     <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "red", title:"projects", subtitle:"", ref:""}'></app-box-setting>
   </div>
   <div class="container-table">
     <div class="container-content" *ngIf="isBoxClicked">
       <div class="content-button">
         <button mat-icon-button (click)="openDialog('add')" class="add-button">
-          <i class="fas fa-plus"></i>
+          <mat-icon>add</mat-icon>
         </button>
-        <button mat-button class="export-button">
-            <i class="fas fa-upload">
-              <span>EXPORT</span>
-            </i>
-          </button>
+        <button mat-raised-button class="export-button">
+          <mat-icon>get_app</mat-icon>
+          <span>EXPORT</span>
+        </button>
       </div>
       <div class="content-table">
         <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data"></app-table-search>
-        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data"></app-table-mobile-search>
+        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
+          [data]="data"></app-table-mobile-search>
       </div>
     </div>
   </div>

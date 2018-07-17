@@ -1,0 +1,120 @@
+@import '../../../../assets/css/variable.scss'; 
+
+.content-table{
+    flex-direction: column;
+}
+
+.content-button-footer{
+    justify-content: flex-end !important;
+}
+
+.upload-zone {
+    width: 100%;
+}
+
+.content-drag-and-drop {
+    display: flex;
+    width: 100%;
+}
+
+.card-drag-and-drop {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.img-folder {
+    height: 11vh;
+    padding: 5%;
+}
+
+.upload-button{
+    height: 40px;
+    margin-bottom: 2vh;
+    
+}
+span{
+    font-family: $bms_font_text;
+    padding-left:20px;
+}
+
+
+app-box-setting {
+    justify-content: end;
+    display: flex;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    flex-grow: 1;
+    height : 80px;
+    min-width: 150px;
+    &.isLast{
+      margin-right: 0px !important;
+    }
+}
+
+.box-green{
+    border-top: solid 12px $bms_green;
+}
+
+.box-red{
+    border-top: solid 12px $bms_red;
+}
+
+.list-file {
+    width: 100%;
+    margin-top: 2vh;
+    border-collapse: collapse;
+    font-family: $bms_font_text;
+    
+    td, th {
+        border: 1px dotted black;
+        text-align: left;
+        padding: 8px;
+        border-radius: 3px;
+    }
+}
+
+.button-add-file {
+    background-color: white;
+}
+
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+
+    .mat-form-field {
+        width: 100%;
+    }
+
+    .select-file {
+        font-size: 4vw;
+        text-align: center;
+    }
+
+    .template {
+        font-size: 4vw;
+        text-align: center;
+    }
+
+    .list-file {
+        font-size: 3vw;
+    }
+
+    .content-button {
+        flex-direction: column;
+    }
+
+    .template {
+        margin-bottom: 3vh;
+    }
+
+    .text {
+        font-size: 2.5 vh;
+    }
+
+    .mat-raised-button{
+        font-size: 2vh;
+    }
+}

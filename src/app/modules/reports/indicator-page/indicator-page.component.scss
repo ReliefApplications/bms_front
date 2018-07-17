@@ -15,6 +15,10 @@ button-filter-items{
   }
 }
 
+.container-content {
+  border-top: solid 12px $bms_green;
+}
+
 
 .container-indicator{
   display: flex;
@@ -309,6 +313,10 @@ button-filter-date{
 
   div.mat-expansion-panel-body {
     padding: 0 !important;
+  }
+
+  .button-filter {
+    min-height: 26vh;
   }
 
 }

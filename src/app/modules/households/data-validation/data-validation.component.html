@@ -303,7 +303,9 @@
                         <div class="done">
                             Your data has been verified.
                             <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
-                            <button mat-raised-button class="buttonSend" (click)="stepper.reset()">Send</button>
+                            <a routerLink="/households">
+                                <button mat-raised-button class="buttonSend" (click)="stepper.reset()">Send</button>
+                            </a>
                         </div>
 
 

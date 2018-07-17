@@ -7,9 +7,7 @@
 
     <mat-horizontal-stepper linear #stepper>
         <ng-template matStepperIcon="done">
-            <mat-icon>
-                <i class="fas fa-check"></i>
-            </mat-icon>
+            <mat-icon>done</mat-icon>
         </ng-template>
 
 
@@ -82,9 +80,8 @@
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
 
-                        <button mat-button class="next-button" (click)="stepper.next()">
-                            <span class="next">NEXT</span>
-                            <i class="fas fa-arrow-right"></i>
+                        <button mat-raised-button class="next-button" (click)="stepper.next()">
+                            <span>NEXT</span>
                         </button>
                     </div>
                 </div>
@@ -144,9 +141,8 @@
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="25"></mat-progress-bar>
-                        <button mat-button class="next-button" (click)="stepper.next()">
-                            <span class="next">NEXT</span>
-                            <i class="fas fa-arrow-right"></i>
+                        <button mat-raised-button class="next-button" (click)="stepper.next()">
+                            <span>NEXT</span>
                         </button>
                     </div>
                 </div>
@@ -179,7 +175,7 @@
                                 <div *ngIf="data.old.households.beneficiaries.length > 1">
                                     <mat-divider></mat-divider>
                                     <mat-chip-list>
-                                        <mat-chip>existing beneficiaries</mat-chip>
+                                        <mat-chip>existing</mat-chip>
                                     </mat-chip-list>
                                     <div class="householdData">
                                         <div class="content-householdData">
@@ -194,7 +190,7 @@
                                 </div>
                                 <mat-divider></mat-divider>
                                 <mat-chip-list>
-                                    <mat-chip>beneficiaries to add</mat-chip>
+                                    <mat-chip>To add</mat-chip>
                                 </mat-chip-list>
                                 <div class="householdData">
                                     <div class="content-beneficiariesData">
@@ -217,9 +213,8 @@
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
-                        <button mat-button class="next-button" (click)="stepper.next()">
-                            <span class="next">NEXT</span>
-                            <i class="fas fa-arrow-right"></i>
+                        <button mat-raised-button class="next-button" (click)="stepper.next()">
+                            <span>NEXT</span>
                         </button>
                     </div>
                 </div>
@@ -251,7 +246,7 @@
                                 <mat-divider></mat-divider>
                                 <div *ngIf="data.new.households.beneficiaries.length > 1">
                                     <mat-chip-list>
-                                        <mat-chip>existing beneficiaries</mat-chip>
+                                        <mat-chip>existing</mat-chip>
                                     </mat-chip-list>
                                     <div class="householdData">
                                         <div class="content-householdData">
@@ -265,7 +260,7 @@
                                 </div>
                                 <mat-divider></mat-divider>
                                 <mat-chip-list>
-                                    <mat-chip>beneficiaries to remove</mat-chip>
+                                    <mat-chip>To remove</mat-chip>
                                 </mat-chip-list>
                                 <div class="householdData">
                                     <div class="content-beneficiariesData">
@@ -288,9 +283,8 @@
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="75"></mat-progress-bar>
-                        <button mat-button class="next-button" (click)="stepper.next()">
-                            <span class="next">NEXT</span>
-                            <i class="fas fa-arrow-right"></i>
+                        <button mat-raised-button class="next-button" (click)="stepper.next()">
+                            <span>NEXT</span>
                         </button>
                     </div>
                 </div>
@@ -307,9 +301,9 @@
                 <div class="container-content box-green">
                     <div class="content-table">
                         <div class="done">
-                            You are now done all verification.
+                            Your data has been verified.
                             <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
-                            <button mat-button class="buttonSend" (click)="stepper.reset()">Send</button>
+                            <button mat-raised-button class="buttonSend" (click)="stepper.reset()">Send</button>
                         </div>
 
 

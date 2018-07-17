@@ -118,11 +118,11 @@ export class Households {
                 household.firstName = beneficiary.given_name;
                 beneficiary.vulnerability_criteria.forEach(vulnerability => {
                     switch(vulnerability.value) {
-                        case "Pregnant": household.vulnerabilities = 'assets/images/households/pregnant.png'; break;
-                        case "Disabled": household.vulnerabilities = 'assets/images/households/disabled.png'; break;
-                        case "Lactating": household.vulnerabilities = 'assets/images/households/lactating.png'; break;
-                        case "Solo parent": household.vulnerabilities = 'assets/images/households/solo-parent.png'; break;
-                        case "Nutritional issues": household.vulnerabilities = 'assets/images/households/nutritional-issues.png'; break;
+                        case "pregnant": household.vulnerabilities = 'assets/images/households/pregnant.png'; break;
+                        case "disabled": household.vulnerabilities = 'assets/images/households/disabled.png'; break;
+                        case "lactating": household.vulnerabilities = 'assets/images/households/lactating.png'; break;
+                        case "solo parent": household.vulnerabilities = 'assets/images/households/solo-parent.png'; break;
+                        case "nutritional issues": household.vulnerabilities = 'assets/images/households/nutritional-issues.png'; break;
                     }                 
                 });
                

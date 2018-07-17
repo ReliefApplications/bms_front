@@ -85,15 +85,14 @@
             .content-button-footer{
                 display: flex;
                 width: 100%;
-                padding : 0px 20px 20px 20px;
+                padding : 10px 20px 20px 20px;
                 align-items: center;
                 justify-content: end;
     
-                .mat-button {
+                .mat-raised-button {
                     background-color: $bms_green;
                     span{
                         font-family: $bms_font_text;
-                        padding-left:10px;
                     }
                 }
             }
@@ -167,6 +166,7 @@
     .mat-progress-bar {
         display: block;
         width: 63%;
+        margin: 2vh;
     }
 
     .content-button-footer {
@@ -181,7 +181,7 @@
     .dot {
         height: 24px;
         width: 24px;
-        background-color: #6CA6A8;
+        background-color: #424242;
         border-radius: 50%;
         display: flex;
         color: white;

@@ -6,20 +6,18 @@
       <div class="container-content">
         <div class="content-button">
           <button mat-icon-button class="add-button">
-            <i class="fas fa-plus"></i>
+            <mat-icon>add</mat-icon>
           </button>
 
           <div class="import-export">
-            <button mat-button class="export-button">
-              <i class="fas fa-upload">
-                <span>EXPORT</span>
-              </i>
+            <button mat-raised-button class="export-button">
+              <mat-icon>get_app</mat-icon>
+              <span>EXPORT</span>
             </button>
             <a routerLink="/households/import">
-              <button mat-button class="import-button">
-                  <i class="fas fa-download">
-                    <span>IMPORT</span>
-                  </i>
+              <button mat-raised-button class="import-button">
+                <mat-icon>publish</mat-icon>
+                <span>IMPORT</span>
               </button>
             </a>
           </div>

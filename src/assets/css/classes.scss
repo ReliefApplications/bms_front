@@ -54,17 +54,24 @@
             align-items: center;
             justify-content: space-between;
 
-            .mat-button {
+            .mat-raised-button {
+                color: $bms_white;
                 background-color: $bms_green;
                 span{
+                    font-weight: bold;
                     font-family: $bms_font_text;
-                    padding-left:10px;
                 }
             }
         }
     
     }
 }
+
+// button {
+//     color: $bms_white;
+//     background-color: $bms_green;
+    
+// }
 
 //for mobile screen
 @media only screen and (max-width: 750px){
@@ -78,7 +85,7 @@
         .content-button {
             justify-content: flex-end !important;
             
-            .mat-button{
+            .mat-raised-button{
             margin-right: 0px !important;
             }
         }

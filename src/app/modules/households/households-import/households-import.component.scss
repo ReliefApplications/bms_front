@@ -5,7 +5,7 @@
 }
 
 .content-button-footer{
-    justify-content: end !important;
+    justify-content: flex-end !important;
 }
 
 .upload-zone {
@@ -30,29 +30,18 @@
     padding: 5%;
 }
 
-.template {
+.upload-button{
+    height: 40px;
+    margin-bottom: 2vh;
+    // color: $bms_white;
+    // background-color: $bms_green;
+    
+}
+span{
     font-family: $bms_font_text;
-    margin-top: 2vh;
-    &:hover{
-        cursor: pointer;
-        font-weight: bold;
-    }
+    padding-left:20px;
 }
 
-button{
-    color: $bms_white;
-    background-color: $bms_green;
-
-    &.upload-button{
-        height: 40px;
-        margin-bottom: 2vh;
-        
-    }
-    span{
-        font-family: $bms_font_text;
-        padding-left:20px;
-    }
-}
 
 app-box-setting {
     justify-content: end;
@@ -89,6 +78,10 @@ app-box-setting {
     }
 }
 
+.button-add-file {
+    background-color: white;
+}
+
 
 //for mobile screen
 @media only screen and (max-width: 750px){
@@ -109,5 +102,17 @@ app-box-setting {
 
     .list-file {
         font-size: 3vw;
+    }
+
+    .content-button {
+        flex-direction: column;
+    }
+
+    .template {
+        margin-bottom: 3vh;
+    }
+
+    .text {
+        font-size: 2.5 vh;
     }
 }

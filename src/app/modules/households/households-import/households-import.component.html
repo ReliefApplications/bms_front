@@ -14,9 +14,10 @@
             <div class="content-button">
                 <mat-form-field>
                     <mat-select placeholder="Projects" [formControl]="projects" (selectionChange)="getProjectSelected($event)">
-                        <mat-option *ngFor="let project of projectList" [value]="project" >{{project}}</mat-option>
+                        <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                     </mat-select>
                 </mat-form-field>
+                <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()">DOWNLOAD CSV TEMPLATE</button>
             </div>
             <div class="content-table">
                 <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
@@ -24,45 +25,29 @@
                         <div>
                             <img class='img-folder' src="assets/images/folder.png">
                         </div>
-                        <div>
-                            <h3>ADD FILE</h3>
-                        </div>
                         <div class="select-file">
                             <a class="fenetre-selection" href="javascript:void(0)" (click)="file.click()">
-                                Browse file
+                                <button mat-stroked-button color="primary" class="button-add-file">ADD FILE OR DRAG AND DROP</button>
                             </a>
-                            Or drag and drop
                             <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
                         </div>
 
                     </mat-card>
                 </div>
-                <span class="template" (click)="exportTemplate()">
-                    CSV file to upload : ( See template )
-                </span>
-                <table class="list-file" *ngIf="csv != null">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Size</th>
-                            <th>Last modified date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{ csv.name }}</td>
-                            <td>{{ csv.size }} bytes</td>
-                            <td>{{ csv.lastModifiedDate | date: ddMMyyyy}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <mat-list *ngIf="csv != null">
+                    <mat-list-item>
+                        <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+                        <h4 mat-line class="text">{{ csv.name }} bytes</h4>
+                        <p mat-line class="text" >{{ csv.size }}, {{ csv.lastModifiedDate | date: ddMMyyyy}} </p>
+                    </mat-list-item>
+                </mat-list>
+
             </div>
             <div class="content-button content-button-footer">
-                <a routerLink="/households/data-validation">
-                    <button mat-button class="upload-button" (click)="addHouseholds()" [disabled]="!(csv && selectedProject)">
-                        <i class="fas fa-upload">
-                            <span>UPLOAD</span>
-                        </i>
+                <a routerLink="/households/data-validation" *ngIf="csv && selectedProject">
+                    <button mat-raised-button class="upload-button" (click)="addHouseholds()">
+                        <mat-icon>publish</mat-icon>
+                        <span>UPLOAD</span>
                     </button>
                 </a>
             </div>

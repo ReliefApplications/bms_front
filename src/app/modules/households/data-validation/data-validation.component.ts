@@ -50,9 +50,10 @@ export class DataValidationComponent implements OnInit {
      */
     getData() {
         this.typoIssues = this._importService.getTypoIssues();
-        this.duplicate = this._importService.getDuplicates();
-        this.more = this._importService.getAddedBeneficiaries();
-        this.less = this._importService.getRemovedBeneficiaries();
+        console.log("typo", this.typoIssues);
+        // this.duplicate = this._importService.getDuplicates();
+        // this.more = this._importService.getAddedBeneficiaries();
+        // this.less = this._importService.getRemovedBeneficiaries();
     }
 
     /**

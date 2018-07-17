@@ -8,10 +8,7 @@ import { DataToValidate } from '../../model/data-validation';
 })
 export class ImportService {
 
-    public dataTypo;
-    public dataDuplicate;
-    public dataMore;
-    public dataLess;
+    public data
     public project;
     referedClassToken = DataToValidate;
     public referedClassService;
@@ -23,53 +20,49 @@ export class ImportService {
 
     }
 
-    sendData(data, project) {
-        this.dataTypo = [];
-        this.dataDuplicate = [];
-        this.dataMore = [];
-        this.dataLess = [];
+    sendData(data, project, step, token) {
+        this.data = [];
         this.referedClassService = this._householdsService
-        this.referedClassService.sendCSVToValidation(data, project).subscribe(response => {
-
-            let responseTypo = this.referedClassToken.formatArray(response.json().typo);
-            for (let i = 0; i < responseTypo.length; i++) {
-                this.dataTypo.push(responseTypo[i]);
+        this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
+            response = this.referedClassToken.formatArray(response.json(), step);
+            for (let i = 0; i < response.length; i++) {
+                this.data.push(response[i]);
             }
 
-            let responseDuplicate = this.referedClassToken.formatArray(response.json().duplicate);
-            for (let i = 0; i < responseDuplicate.length; i++) {
-                this.dataDuplicate.push(responseDuplicate[i]);
-            }
+            // let responseDuplicate = this.referedClassToken.formatArray(response.json().duplicate);
+            // for (let i = 0; i < responseDuplicate.length; i++) {
+            //     this.dataDuplicate.push(responseDuplicate[i]);
+            // }
 
-            let responseMoreBeneficiaries = this.referedClassToken.formatArray(response.json().more);
-            for (let i = 0; i < responseMoreBeneficiaries.length; i++) {
-                this.dataMore.push(responseMoreBeneficiaries[i]);
-            }
+            // let responseMoreBeneficiaries = this.referedClassToken.formatArray(response.json().more);
+            // for (let i = 0; i < responseMoreBeneficiaries.length; i++) {
+            //     this.dataMore.push(responseMoreBeneficiaries[i]);
+            // }
 
-            let responseLessBeneficiaries = this.referedClassToken.formatArray(response.json().less);
-            for (let i = 0; i < responseLessBeneficiaries.length; i++) {
-                this.dataLess.push(responseLessBeneficiaries[i]);
-            }
+            // let responseLessBeneficiaries = this.referedClassToken.formatArray(response.json().less);
+            // for (let i = 0; i < responseLessBeneficiaries.length; i++) {
+            //     this.dataLess.push(responseLessBeneficiaries[i]);
+            // }
             this.project = project;
         });
     }
 
     getTypoIssues() {
-        return this.dataTypo;
+        return this.data;
     }
 
-    getDuplicates() {
-        return this.dataDuplicate;
-    }
-    getAddedBeneficiaries() {
-        return this.dataMore;
-    }
-    getRemovedBeneficiaries() {
-        return this.dataLess;
-    }
+    // getDuplicates() {
+    //     return this.dataDuplicate;
+    // }
+    // getAddedBeneficiaries() {
+    //     return this.dataMore;
+    // }
+    // getRemovedBeneficiaries() {
+    //     return this.dataLess;
+    // }
 
-    getProject() {
-        return this.project;
-    }
+    // getProject() {
+    //     return this.project;
+    // }
 
 }

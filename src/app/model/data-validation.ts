@@ -56,15 +56,17 @@ export class DataToValidate {
         }
     }
 
-    public static formatArray(instance): DataToValidate[] {
+    public static formatArray(instance:any, step:number): DataToValidate[] {
         let dataValidation: DataToValidate[] = [];
-        instance.forEach(element => {
-            dataValidation.push(this.formatElement(element));
-        });
+        if(step === 1) {
+            instance.data.forEach(element => {
+                dataValidation.push(this.formatTypoIssues(element));
+            });
+        }
         return dataValidation;
     }
 
-    public static formatElement(element: any): DataToValidate {
+    public static formatTypoIssues(element: any): DataToValidate {
         let data = new DataToValidate();
         data.new.households = element.new;
 

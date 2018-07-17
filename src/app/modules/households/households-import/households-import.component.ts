@@ -113,9 +113,7 @@ export class HouseholdsImportComponent implements OnInit {
    * @param event 
    */
   getProjectSelected(event) {
-    this.selectedProject = event.value;
-    console.log(this.selectedProject);
-     
+    this.selectedProject = event.value;     
   }
 
   /**
@@ -125,9 +123,10 @@ export class HouseholdsImportComponent implements OnInit {
     var data = new FormData();
     var project = this.selectedProject.split(" - ");
     data.append('file', this.csv);
-    data.append('step', '1');
+    let step = 1;
+    let token = '';
    
-    this._importService.sendData(data, project[0]);
+    this._importService.sendData(data, project[0], step, token);
   }
 
 

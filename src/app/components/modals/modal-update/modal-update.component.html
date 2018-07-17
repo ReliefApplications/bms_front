@@ -4,14 +4,27 @@
     <tr *ngFor="let p of properties" class="modal-row">
       <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
       <th class="table-value">
-        <mat-form-field>
-          <input matInput [(ngModel)]="updateObject[p]" [type]="'text'">
+        <mat-form-field *ngIf="propertiesTypes[p]!='email'">
+          <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="updateObject[p]" [type]="propertiesTypes[p]">
+          <mat-select *ngIf="propertiesTypes[p]=='select'" placeholder="{{data.mapper.mapTitle(p)}}" [formControl]="controls" multiple>
+            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.name">{{singleData.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="propertiesTypes[p]=='email'">
+          <input [(ngModel)]="updateObject[p]" matInput placeholder="Email" [formControl]="emailFormControl" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="emailFormControl.hasError('required')">
+            Email is
+            <strong>required</strong>
+          </mat-error>
         </mat-form-field>
       </th>
     </tr>
   </table>
   <div class="modal-button">
-      <button mat-button (click)="closeDialog()" class="button-save">Cancel</button>
-      <button mat-button (click)="save()" class="button-cancel">Save</button>
-    </div>
+    <button mat-button (click)="closeDialog()" class="button-save">Cancel</button>
+    <button mat-button (click)="save()" class="button-cancel">Save</button>
+  </div>
 </div>

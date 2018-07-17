@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 
 import { DistributionService } from '../../core/api/distribution.service';
 import { CacheService } from '../../core/storage/cache.service';
@@ -101,8 +101,8 @@ export class SettingsComponent implements OnInit {
   }
 
   /**
- * open each modal dialog
- */
+  * open each modal dialog
+  */
   openDialog(user_action): void {
     let dialogRef;
 

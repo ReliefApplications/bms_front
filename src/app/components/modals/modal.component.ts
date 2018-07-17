@@ -1,5 +1,10 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Component, OnInit, Input, Inject                                       } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, ErrorStateMatcher                       } from '@angular/material';
+import { FormControl , FormGroupDirective, NgForm, Validators                   } from '@angular/forms';
+
+import { CacheService                                                           } from '../../core/storage/cache.service';
+import { ProjectService                                                         } from '../../core/api/project.service';
+import { SectorService                                                          } from '../../core/api/sector.service';
 
 @Component({
   selector: 'modal',
@@ -10,8 +15,20 @@ export class ModalComponent implements OnInit {
 
   public entityInstance = null;
   public properties: any;
+  propertiesTypes: any;
+  public loadedData: any = [];
+  public controls = new FormControl();
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
+
+  matcher = new MyErrorStateMatcher();
 
   constructor(public dialogRef: MatDialogRef<ModalComponent>,
+    public _cacheService : CacheService,    
+    public sectorService : SectorService,    
+    public projectService : ProjectService,    
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
@@ -19,5 +36,36 @@ export class ModalComponent implements OnInit {
 
   public closeDialog(): void {
     this.dialogRef.close(true);
+  }
+
+  /**
+   * load data for selects
+   */
+  loadData(){
+    if(this.data.data.sectors){
+      this.loadedData.sectors_name = this._cacheService.get(CacheService.SECTORS);
+      if(!this.loadedData.sectors)
+      this.sectorService.get().subscribe(response => {
+        this.loadedData.sectors_name = response.json();
+        this._cacheService.set(CacheService.SECTORS, this.loadedData.sectors_name);
+      });
+    }
+    if(this.data.data.projects){
+      this.loadedData.projects_name = this._cacheService.get(CacheService.PROJECTS);
+      if(!this.loadedData.projects)
+      this.projectService.get().subscribe(response => {
+        this.loadedData.projects_name = response.json();
+        this._cacheService.set(CacheService.PROJECTS, this.loadedData.projects_name);
+      });
+    }
+  }
+ 
+}
+
+ /** Error when invalid control is dirty, touched, or submitted. */
+ export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
 }

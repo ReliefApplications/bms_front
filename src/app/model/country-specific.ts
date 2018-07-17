@@ -1,4 +1,4 @@
-import { SectorMapper        } from "./sector-mapper";
+import { SectorMapper } from "./sector-mapper";
 
 export class CountrySpecific {
     static __classname__ = 'CountrySpecific';
@@ -28,8 +28,8 @@ export class CountrySpecific {
      */
     countryIso3: string = '';
 
-    constructor(instance?){
-        if(instance !== undefined){
+    constructor(instance?) {
+        if (instance !== undefined) {
             this.id = instance.id;
             this.field = instance.field;
             this.type = instance.type;
@@ -39,15 +39,15 @@ export class CountrySpecific {
     }
 
     mapAllProperties(selfinstance): Object {
-        if(!selfinstance)
+        if (!selfinstance)
             return selfinstance;
 
         return {
-            id : selfinstance.id,
-            field : selfinstance.field,
-            type : selfinstance.type,
-            countryIso3 : selfinstance.countryIso3,
-            name : selfinstance.name,
+            id: selfinstance.id,
+            field: selfinstance.field,
+            type: selfinstance.type,
+            countryIso3: selfinstance.countryIso3,
+            name: selfinstance.name,
         }
     }
 
@@ -55,49 +55,59 @@ export class CountrySpecific {
     * return a CountrySpecific after formatting its properties
     */
     getMapper(selfinstance): Object {
-        if(!selfinstance)
+        if (!selfinstance)
             return selfinstance;
-    
+
         return {
-            field : selfinstance.field,
-            type : selfinstance.type,
+            field: selfinstance.field,
+            type: selfinstance.type,
         }
     }
 
     /**
     * return a CountrySpecific after formatting its properties for the modal details
     */
-    getMapperDetails(selfinstance): Object{
-        if(!selfinstance)
+    getMapperDetails(selfinstance): Object {
+        if (!selfinstance)
             return selfinstance;
 
         return {
-            field : selfinstance.field,
-            type : selfinstance.type,
-        } 
+            field: selfinstance.field,
+            type: selfinstance.type,
+        }
     }
 
     /**
      * return a CountrySpecific after formatting its properties for the modal add
      */
-    getMapperAdd(selfinstance): Object{
-        if(!selfinstance)
+    getMapperAdd(selfinstance): Object {
+        if (!selfinstance)
             return selfinstance;
 
         return {
-            countryIso3 : selfinstance.countryIso3,
-            field : selfinstance.field,
-            type : selfinstance.type,
-        } 
+            countryIso3: selfinstance.countryIso3,
+            field: selfinstance.field,
+            type: selfinstance.type,
+        }
     }
 
     /**
     * return the type of CountrySpecific properties
     */
-    getTypeProperties(selfinstance): Object{
+    getTypeProperties(selfinstance): Object {
         return {
-            field : "text",
-            type : "text",
+            field: "text",
+            type: "text",
+        }
+    }
+
+    /**
+    * return the type of CountrySpecific properties for modals
+    */
+    getModalTypeProperties(selfinstance): Object {
+        return {
+            field: "text",
+            type: "text",
         }
     }
 
@@ -106,32 +116,32 @@ export class CountrySpecific {
     */
     static translator(): Object {
         return {
-            field : "Field",
-            type : "Type",
-            countryIso3 : "Country",
+            field: "Field",
+            type: "Type",
+            countryIso3: "Country",
         }
     }
 
-    public static formatArray(instance): CountrySpecific[]{
-        let countrySpecific : CountrySpecific[] = [];
+    public static formatArray(instance): CountrySpecific[] {
+        let countrySpecific: CountrySpecific[] = [];
         instance.forEach(element => {
             countrySpecific.push(this.formatFromApiCountrySpecific(element));
         });
         return countrySpecific;
     }
 
-    public static formatFromApiCountrySpecific(element: any): CountrySpecific{
+    public static formatFromApiCountrySpecific(element: any): CountrySpecific {
         let countrySpecific = new CountrySpecific();
         countrySpecific.id = element.id;
         countrySpecific.field = element.field;
         countrySpecific.type = element.type;
         countrySpecific.countryIso3 = element.countryIso3;
-        countrySpecific.name = element.countryIso3; 
+        countrySpecific.name = element.field;
 
         return countrySpecific;
     }
 
-    public static formatForApi(element: CountrySpecific): any{
+    public static formatForApi(element: CountrySpecific): any {
         return new CountrySpecific(element);
     }
 }

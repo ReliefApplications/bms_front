@@ -129,5 +129,5 @@ export class TableComponent implements OnInit {
     this.service.update(updateElement['id'], updateElement).subscribe(response => {
       this.updateData();
     })
-  }
+  } 
 }

@@ -41,7 +41,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Compatibilities
 
- - Drag and drop don't work in Mozilla
+ - Drag and drop doesn't work in Mozilla
 
 
 ## Docker

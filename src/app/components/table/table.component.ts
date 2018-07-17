@@ -50,7 +50,7 @@ export class TableComponent implements OnInit {
   
   updateData(){
     this.service.get().subscribe(response => {
-      this.data = new MatTableDataSource(response.json());
+      this.data = new MatTableDataSource(this.entity.formatArray(response.json()));
       //update cache associated variable
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + "S"], response.json());
 

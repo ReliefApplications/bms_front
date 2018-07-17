@@ -1,8 +1,8 @@
-import { SectorMapper                                                   } from "./sector-mapper";
-import { Location                                                       } from "./location";
-import { Project                                                        } from "./project";
-import { SelectionCriteria                                              } from "./selection-criteria";
-import { Sector                                                         } from "./sector";
+import { SectorMapper } from "./sector-mapper";
+import { Location } from "./location";
+import { Project } from "./project";
+import { SelectionCriteria } from "./selection-criteria";
+import { Sector } from "./sector";
 
 export class DistributionData {
     static __classname__ = 'DistributionData';
@@ -36,10 +36,10 @@ export class DistributionData {
      * @type {SelectionCriteria}
      */
     selection_criteria: SelectionCriteria;
-     /**
-     * DistributionData's sector
-     * @type {string[]}
-     */
+    /**
+    * DistributionData's sector
+    * @type {string[]}
+    */
     sectors_name: string[] = [];
     /**
      * DistributionData's sector
@@ -57,8 +57,8 @@ export class DistributionData {
      */
     number_beneficiaries: Int16Array;
 
-    constructor(instance?){
-        if(instance !== undefined){
+    constructor(instance?) {
+        if (instance !== undefined) {
             this.id = instance.id;
             this.name = instance.name;
             this.updated_on = instance.updated_on;
@@ -67,20 +67,20 @@ export class DistributionData {
     }
 
     mapAllProperties(selfinstance): Object {
-        if(!selfinstance)
+        if (!selfinstance)
             return selfinstance;
 
         return {
-            id : selfinstance.id,
-            name : selfinstance.name,
-            updated_on : selfinstance.updated_on,
-            location : Object.assign({},selfinstance.location),
-            project : Object.assign({},selfinstance.project),
-            selection_criteria : Object.assign({},selfinstance.selection_criteria),
-            sectors_name : selfinstance.sectors_name,
-            sectors : Object.assign({},selfinstance.sectors),
-            location_name : selfinstance.location_name,
-            number_beneficiaries : selfinstance.number_beneficiaries,
+            id: selfinstance.id,
+            name: selfinstance.name,
+            updated_on: selfinstance.updated_on,
+            location: Object.assign({}, selfinstance.location),
+            project: Object.assign({}, selfinstance.project),
+            selection_criteria: Object.assign({}, selfinstance.selection_criteria),
+            sectors_name: selfinstance.sectors_name,
+            sectors: Object.assign({}, selfinstance.sectors),
+            location_name: selfinstance.location_name,
+            number_beneficiaries: selfinstance.number_beneficiaries,
         }
     }
 
@@ -88,7 +88,7 @@ export class DistributionData {
     * return a DistributionData after formatting its properties
     */
     getMapper(selfinstance): Object {
-        if(!selfinstance)
+        if (!selfinstance)
             return selfinstance;
 
         return {
@@ -102,8 +102,8 @@ export class DistributionData {
     /**
     * return a DistributionData after formatting its properties for the modal details
     */
-    getMapperDetails(selfinstance): Object{
-        if(!selfinstance)
+    getMapperDetails(selfinstance): Object {
+        if (!selfinstance)
             return selfinstance;
 
         return {
@@ -111,18 +111,30 @@ export class DistributionData {
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
             sectors_name: selfinstance.sectors_name,
-        }  
+        }
     }
 
     /**
     * return the type of DistributionData properties
     */
-    getTypeProperties(selfinstance): Object{
+    getTypeProperties(selfinstance): Object {
         return {
             name: "text",
-            location_name:"text",
-            number_beneficiaries:"number",
+            location_name: "text",
+            number_beneficiaries: "number",
             sectors_name: "image",
+        }
+    }
+
+    /**
+    * return the type of DistributionData properties for modals
+    */
+    getModalTypeProperties(selfinstance): Object {
+        return {
+            name: "text",
+            location_name: "text",
+            number_beneficiaries: "number",
+            sectors_name: "select",
         }
     }
 
@@ -132,21 +144,21 @@ export class DistributionData {
     static translator(): Object {
         return {
             name: "Distribution",
-            location_name:"Location",
-            number_beneficiaries:"n° Beneficiaries",
+            location_name: "Location",
+            number_beneficiaries: "n° Beneficiaries",
             sectors_name: "Sectors",
         }
     }
 
-    public static formatArray(instance): DistributionData[]{
-        let distributionDatas : DistributionData[] = [];
+    public static formatArray(instance): DistributionData[] {
+        let distributionDatas: DistributionData[] = [];
         instance.forEach(element => {
             distributionDatas.push(this.formatFromApi(element));
         });
         return distributionDatas;
     }
 
-    public static formatFromApi(element: any): DistributionData{
+    public static formatFromApi(element: any): DistributionData {
         let distributionDatas = new DistributionData(element);
         distributionDatas.location = new Location(element.location);
         distributionDatas.location_name = element.location.adm1;
@@ -159,7 +171,7 @@ export class DistributionData {
         return distributionDatas;
     }
 
-    public static formatForApi(element: DistributionData): any{
+    public static formatForApi(element: DistributionData): any {
         let distributionDatas = new DistributionData(element);
     }
 }

@@ -11,6 +11,5 @@ export class ModalDeleteComponent extends ModalComponent {
   @Input() data:    any;
 
   ngOnInit() {
-    console.log(this.data);
   }
 }

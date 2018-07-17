@@ -14,7 +14,6 @@ export class ModalAddComponent extends ModalComponent {
 
   ngOnInit() {
     this.newObject = this.data.mapper.instantiate(this.data.entity);
-    console.log(this.data.entity);
     this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
   }
 

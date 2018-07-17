@@ -65,6 +65,7 @@ export class Donor {
             shortname: selfinstance.shortname,
             date_added: selfinstance.date_added,
             notes: selfinstance.notes,
+            projects_name: selfinstance.projects_name,
         }
     }
 
@@ -173,6 +174,16 @@ export class Donor {
     }
 
     public static formatForApi(element: Donor): any {
-        return new Donor(element);
+        let donor = new Donor(element);
+        if(element.projects_name){
+            element.projects_name.forEach(sector => {
+                let newSector = new Project();
+                newSector.id = parseInt(sector, 10);
+                donor.projects.push(new Project(newSector));
+            });
+        }else{
+            donor.projects = [];
+        }
+        return donor;
     }
 }

@@ -203,6 +203,16 @@ export class Project {
     }
 
     public static formatForApi(element: Project): any {
-        return new Project(element);
+        let project = new Project(element);
+        if(element.sectors_name){
+            element.sectors_name.forEach(sector => {
+                let newSector = new Sector();
+                newSector.id = parseInt(sector, 10);
+                project.sectors.push(new Sector(newSector));
+            });
+        }else{
+            project.sectors = [];
+        }
+        return project;
     }
 }

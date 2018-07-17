@@ -17,6 +17,7 @@ export class CacheService {
 	static readonly USER 						= 'user';
 	static readonly DISTRIBUTIONS              	= 'distributions';
 	static readonly DONORS		              	= 'donors';
+	static readonly HOUSEHOLDS		            = 'households';
 
 	constructor() {
 		this.defaultStorage = localStorage;

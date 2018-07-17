@@ -7,6 +7,7 @@ import { CacheService } from '../storage/cache.service';
 
 import { URL_BMS_API } from '../../../environments/environment';
 import { UserInterface, ErrorInterface } from '../../model/interfaces';
+import { SaltInterface } from '../../model/salt';
 
 @Injectable({
 	providedIn: 'root'
@@ -38,10 +39,11 @@ export class AuthenticationService {
 	login(user: UserInterface) {
         return new Promise<UserInterface | ErrorInterface | null>((resolve, reject) => {
             this.requestSalt(user.username).subscribe(success => {
-                user.salted_password = this._wsseService.saltPassword(success, user.password);
+                let getSalt  = success as SaltInterface;
+                user.salted_password = this._wsseService.saltPassword(getSalt.salt, user.password);
                 this.logUser(user).subscribe(success => {
                     let data = success;
-
+                    
                     if (data) {
 						console.log("Successfully logged in", success);
                         

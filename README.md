@@ -39,6 +39,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
     - @ngx-translate/core
 
 
+## Compatibilities
+
+ - Drag and drop doesn't work in Mozilla
+
+
 ## Docker
 
 This project works with Docker.
@@ -54,3 +59,4 @@ If it's the first time, please run
 ```bash
 sudo ./docker-build.sh bms/front
 ```
+

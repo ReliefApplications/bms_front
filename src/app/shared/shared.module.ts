@@ -3,7 +3,7 @@ import { RouterModule, Routes                                   } from '@angular
 import { CommonModule                                           } from '@angular/common';
 import { FormsModule, ReactiveFormsModule                       } from '@angular/forms';
 import { FormControl, FormGroup, Validators                     } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule, MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule} from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule, MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatDividerModule, MAT_CHECKBOX_CLICK_ACTION, MatRadioModule, MatChipsModule,  MatSnackBarModule, MatStepperModule, MatProgressBarModule, MatListModule} from '@angular/material';
 import { MatProgressSpinnerModule                               } from '@angular/material/progress-spinner';
 import { MatIconModule                                          } from '@angular/material/icon';
 import { MatTooltipModule                                       } from '@angular/material/tooltip'
@@ -37,6 +37,8 @@ import { HouseholdsComponent                                    } from '../modul
 import { DistributionComponent                                  } from '../modules/distribution/distribution.component';
 import { SettingsComponent                                      } from '../modules/settings/settings.component';
 import { HeaderComponent                                        } from '../modules/header/header.component';
+import { HouseholdsImportComponent                              } from '../modules/households/households-import/households-import.component';
+import { DataValidationComponent                                } from '../modules/households/data-validation/data-validation.component';
 
 @NgModule({
     imports: [
@@ -62,7 +64,14 @@ import { HeaderComponent                                        } from '../modul
         MatNativeDateModule,
         MatCardModule,
         MatSelectModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatDividerModule,
+        MatRadioModule,
+        MatChipsModule,
+        MatSnackBarModule,
+        MatStepperModule,
+        MatProgressBarModule,
+        MatListModule
     ],
     declarations: [
         //Shared Components
@@ -70,7 +79,8 @@ import { HeaderComponent                                        } from '../modul
         DashboardComponent, 
         MenuComponent,
         MenuItemBoxComponent,
-		HouseholdsComponent,
+        HouseholdsComponent,
+        HouseholdsImportComponent,
 		DistributionComponent,
 		SettingsComponent,
 		HeaderComponent,     
@@ -88,6 +98,7 @@ import { HeaderComponent                                        } from '../modul
 		ModalDetailsComponent,
 		BoxSettingComponent,
         BoxComponent,
+        DataValidationComponent
     ],
     entryComponents: [
         ModalComponent,
@@ -101,7 +112,8 @@ import { HeaderComponent                                        } from '../modul
 		DashboardComponent,                 
         MenuComponent,
         MenuItemBoxComponent,
-		HouseholdsComponent,
+        HouseholdsComponent,
+        HouseholdsImportComponent,
 		DistributionComponent,
 		SettingsComponent,
 		HeaderComponent,                
@@ -137,7 +149,18 @@ import { HeaderComponent                                        } from '../modul
         MatCardModule,
         MatNativeDateModule,
         MatSelectModule,
+        DataValidationComponent,
+        MatDividerModule,
+        MatRadioModule,
+        MatChipsModule,
+        MatSnackBarModule,
+        MatStepperModule,
+        MatProgressBarModule,
+        MatListModule
+
     ],
-    providers: []
+    providers: [
+        {provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check'}
+    ]
 })
 export class SharedModule { }

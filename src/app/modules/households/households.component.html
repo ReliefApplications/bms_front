@@ -1,3 +1,31 @@
-<p>
-  households works!
-</p>
+<div class="page-container">
+    <div class="container-title">
+      <h2>HOUSEHOLDS</h2>
+    </div>
+    <div class="container-table">
+      <div class="container-content">
+        <div class="content-button">
+          <button mat-icon-button class="add-button">
+            <mat-icon>add</mat-icon>
+          </button>
+
+          <div class="import-export">
+            <button mat-raised-button class="export-button">
+              <mat-icon>get_app</mat-icon>
+              <span>EXPORT</span>
+            </button>
+            <a routerLink="/households/import">
+              <button mat-raised-button class="import-button">
+                <mat-icon>publish</mat-icon>
+                <span>IMPORT</span>
+              </button>
+            </a>
+          </div>
+        </div>
+        <div class="content-table">
+          <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="households"></app-table-search>
+          <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="households"></app-table-mobile-search>
+        </div>
+      </div>
+    </div>
+  </div>

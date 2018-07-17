@@ -4,6 +4,7 @@ import * as CryptoJS from 'crypto-js';
 
 import { CacheService } from '../storage/cache.service';
 
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -34,18 +35,21 @@ export class WsseService {
 		for (let i = 1; i < 5000; i++) {
 			digest = CryptoJS.SHA512(digest.concat(CryptoJS.enc.Utf8.parse(salted)));
 		}
-
+		
 		let saltedPassword = CryptoJS.enc.Base64.stringify(digest);
 		this.setSalted(saltedPassword);
 		return saltedPassword;
 	}
 
 	// Get headers for HTTP request
-	getHeaderValue() {
+	getHeaderValue(user?) {
 		let cachedUser = this.cache.get(CacheService.USER);
 		if (cachedUser) {
 			this.username = cachedUser.username;
 			this.salted = cachedUser.salted_password;
+		} else {
+			this.username = user.username;
+			this.salted = user.salted_password;
 		}
 
 		let nonce = this.generateNonce(16);

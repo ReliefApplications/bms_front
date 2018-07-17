@@ -12,6 +12,8 @@ import { DistributionComponent } from './modules/distribution/distribution.compo
 import { HouseholdsComponent } from './modules/households/households.component';
 import { ReportsComponent } from './modules/reports/reports.component';
 import { SettingsComponent } from './modules/settings/settings.component';
+import { HouseholdsImportComponent } from './modules/households/households-import/households-import.component';
+import { DataValidationComponent } from './modules/households/data-validation/data-validation.component';
 
 // Do not change the order of the routes, it matters
 export const routes: Routes = [
@@ -24,6 +26,10 @@ export const routes: Routes = [
 	{ path: 'reports', component: ReportsComponent },
 
 	{ path: 'settings', component: SettingsComponent },
+
+	{ path: 'households/import', component: HouseholdsImportComponent },
+
+	{ path: 'households/data-validation', component: DataValidationComponent },
 
 	// home route protected by auth guard
 	{ path: '', component: DashboardComponent, canActivate: [AuthGuard] },

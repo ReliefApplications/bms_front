@@ -93,6 +93,20 @@ export class UserInterface {
     }
 
     /**
+     * return a UserInterface after formatting its properties for the modal add
+     */
+    getMapperAdd(selfinstance): Object{
+        if(!selfinstance)
+            return selfinstance;
+
+        return {
+            username : selfinstance.username,
+            email : selfinstance.email,
+            rights : selfinstance.rights
+        } 
+    }
+
+    /**
     * return the type of UserInterface properties
     */
     getTypeProperties(selfinstance): Object{

@@ -27,6 +27,7 @@ import { ModalComponent                                         } from '../compo
 import { ModalDeleteComponent                                   } from '../components/modals/modal-delete/modal-delete.component';
 import { ModalUpdateComponent                                   } from '../components/modals/modal-update/modal-update.component';
 import { ModalDetailsComponent                                  } from '../components/modals/modal-details/modal-details.component';
+import { ModalAddComponent                                      } from '../components/modals/modal-add/modal-add.component';
 
 import { LoginComponent                                         } from '../modules/public/login.component';
 import { DashboardComponent                                     } from '../modules/dashboard/dashboard.component';
@@ -93,7 +94,8 @@ import { HeaderComponent                                        } from '../modul
         ModalComponent,
         ModalDeleteComponent,
 		ModalUpdateComponent,
-		ModalDetailsComponent,
+        ModalDetailsComponent,
+        ModalAddComponent
     ],
     exports: [
         //Shared Components

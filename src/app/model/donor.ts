@@ -91,6 +91,21 @@ export class Donor {
         } 
     }
 
+     /**
+     * return a Donor after formatting its properties for the modal add
+     */
+    getMapperAdd(selfinstance): Object{
+        if(!selfinstance)
+            return selfinstance;
+
+        return {
+            fullname : selfinstance.fullname,
+            shortname : selfinstance.shortname,
+            notes : selfinstance.notes,
+            projects : selfinstance.projects
+        } 
+    }
+
     /**
     * return the type of Donor properties
     */
@@ -109,7 +124,8 @@ export class Donor {
     */
     static translator(): Object {
         return {
-            fullname: "Donor",
+            fullname: "Donor's name",
+            shortname:"Shortname",
             notes:"Notes",
             projects: "Projects",
         }

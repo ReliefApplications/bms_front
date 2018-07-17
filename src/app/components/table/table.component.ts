@@ -8,7 +8,7 @@ import { ModalDetailsComponent                  } from '../modals/modal-details/
 import { ModalComponent                         } from '../modals/modal.component';
 import { ModalUpdateComponent                   } from '../modals/modal-update/modal-update.component';
 import { ModalDeleteComponent                   } from '../modals/modal-delete/modal-delete.component';
-import { CacheService } from '../../core/storage/cache.service';
+import { CacheService                           } from '../../core/storage/cache.service';
 
 @Component({
   selector: 'app-table',
@@ -99,17 +99,21 @@ export class TableComponent implements OnInit {
       dialogRef = this.dialog.open(ModalUpdateComponent, {
         data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService}
       });
-    } else {
+     } else {
       dialogRef = this.dialog.open(ModalDeleteComponent, {
         data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService}
       });
     }
-    const update = dialogRef.componentInstance.onUpdate.subscribe((data) => {
-      this.updateElement(data);
-    });
+    let update = null;
+    if(dialogRef.componentInstance.onUpdate){
+      update = dialogRef.componentInstance.onUpdate.subscribe((data) => {
+        this.updateElement(data);
+      });
+    }
 
     dialogRef.afterClosed().subscribe(result => {
-      update.unsubscribe();
+      if(update)
+        update.unsubscribe();
       console.log('The dialog was closed');
     });
   }

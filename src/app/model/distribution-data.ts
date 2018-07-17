@@ -134,7 +134,7 @@ export class DistributionData {
             name: "Distribution",
             location_name:"Location",
             number_beneficiaries:"n° Beneficiaries",
-            sectors_name: "Sector",
+            sectors_name: "Sectors",
         }
     }
 

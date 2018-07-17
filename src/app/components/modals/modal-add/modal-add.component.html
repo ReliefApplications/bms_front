@@ -1,0 +1,17 @@
+<div class="modal-container">
+  <h4 class="modal-title">Add a new {{data.entity.__classname__ | lowercase}}</h4>
+  <table class="modal-table">
+    <tr *ngFor="let p of properties" class="modal-row">
+      <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
+      <th class="table-value">
+        <mat-form-field>
+          <input matInput [(ngModel)]="newObject[p]" [type]="'text'">
+        </mat-form-field>
+      </th>
+    </tr>
+  </table>
+  <div class="modal-button">
+    <button mat-button (click)="closeDialog()" class="button-cancel">Cancel</button>
+    <button mat-button class="button-delete">Create</button>
+  </div>
+</div>

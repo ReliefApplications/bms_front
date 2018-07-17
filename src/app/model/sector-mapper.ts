@@ -16,7 +16,9 @@ export class SectorMapper{
     * mapping for one sector
     */
     public static mapSector(name: string): string{
-
+        if(!name){
+            return "";
+        }
         switch(name.toLowerCase()){
             case 'camp coordination and management':
             name = "cccm"; break;

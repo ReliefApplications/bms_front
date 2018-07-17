@@ -8,6 +8,11 @@ export class CountrySpecific {
      */
     id: number;
     /**
+     * CountrySpecific's name
+     * @type {string}
+     */
+    name: string = '';
+    /**
      * CountrySpecific's field
      * @type {string}
      */
@@ -29,6 +34,20 @@ export class CountrySpecific {
             this.field = instance.field;
             this.type = instance.type;
             this.countryIso3 = instance.countryIso3;
+            this.name = instance.name;
+        }
+    }
+
+    mapAllProperties(selfinstance): Object {
+        if(!selfinstance)
+            return selfinstance;
+
+        return {
+            id : selfinstance.id,
+            field : selfinstance.field,
+            type : selfinstance.type,
+            countryIso3 : selfinstance.countryIso3,
+            name : selfinstance.name,
         }
     }
 
@@ -59,6 +78,20 @@ export class CountrySpecific {
     }
 
     /**
+     * return a CountrySpecific after formatting its properties for the modal add
+     */
+    getMapperAdd(selfinstance): Object{
+        if(!selfinstance)
+            return selfinstance;
+
+        return {
+            countryIso3 : selfinstance.countryIso3,
+            field : selfinstance.field,
+            type : selfinstance.type,
+        } 
+    }
+
+    /**
     * return the type of CountrySpecific properties
     */
     getTypeProperties(selfinstance): Object{
@@ -74,7 +107,8 @@ export class CountrySpecific {
     static translator(): Object {
         return {
             field : "Field",
-            type : "Type"
+            type : "Type",
+            countryIso3 : "Country",
         }
     }
 
@@ -92,6 +126,7 @@ export class CountrySpecific {
         countrySpecific.field = element.field;
         countrySpecific.type = element.type;
         countrySpecific.countryIso3 = element.countryIso3;
+        countrySpecific.name = element.countryIso3; 
 
         return countrySpecific;
     }

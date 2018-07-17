@@ -22,13 +22,13 @@
         <th mat-header-cell class="header-cell" *matHeaderCellDef> Actions </th>
         <td mat-cell class="content-cell" *matCellDef="let element">
           <button mat-icon-button (click)="openDialog('details', element)" class="red">
-            <i class="fas fa-search"></i>
+            <mat-icon>search</mat-icon>
           </button>
           <button mat-icon-button (click)="openDialog('update', element)" class="light-red">
-            <i class="fas fa-edit"></i>
+            <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button (click)="openDialog('delete', element)" class="green">
-            <i class="fas fa-times"></i>
+            <mat-icon>close</mat-icon>
           </button>
         </td>
       </ng-container>

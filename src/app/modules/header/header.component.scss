@@ -37,6 +37,7 @@
         .button-admin{
             border:none;
             background: none;
+            font-size: 4vh;
 
             i{
             font-size: 30px;
@@ -59,11 +60,12 @@
             
             a {
                 color: $bms_white;
-                padding: 12px 16px;
+                padding: 17px 16px;
                 text-decoration: none;
                 display: flex;
                 font-family: $bms_font_text;
                 justify-content: space-between !important;
+                align-items: center;
                 i{
                     display: flex;
                     padding-top: 10px;
@@ -72,8 +74,7 @@
                 span{
                     display: flex;
                     width: 50%;
-                    padding-top: 10px;
-                    padding-bottom: 10px;
+                    
                 }
 
                 &:hover{
@@ -93,5 +94,9 @@
     &.open-menu{
         margin-left: -40vw !important;
         margin-top: 10px !important;
+    }
+
+    .button-admin {
+        font-size : 5vh !important;
     }
 }

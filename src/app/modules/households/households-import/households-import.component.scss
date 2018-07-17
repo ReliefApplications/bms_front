@@ -33,8 +33,6 @@
 .upload-button{
     height: 40px;
     margin-bottom: 2vh;
-    // color: $bms_white;
-    // background-color: $bms_green;
     
 }
 span{
@@ -114,5 +112,9 @@ app-box-setting {
 
     .text {
         font-size: 2.5 vh;
+    }
+
+    .mat-raised-button{
+        font-size: 2vh;
     }
 }

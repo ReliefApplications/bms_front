@@ -14,9 +14,7 @@
 
 table {
   overflow: auto;
-  width: 100%;
-  max-width: 300px;
-  
+  width: 100%;  
 }
 
 .box-element{
@@ -72,8 +70,7 @@ table {
         flex-grow: 1;
         justify-content: center;
         align-self: center;
-        height: 20px;  
-        font-size:2vh;    
+        height: 20px;     
         margin: 0 !important ;
         border-radius: 0 !important;
         i{
@@ -113,4 +110,8 @@ button{
 .png {
   display: flex;
   height: 5vh;
+}
+
+.mat-button {
+  line-height: normal;
 }

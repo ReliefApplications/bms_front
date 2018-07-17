@@ -9,7 +9,7 @@
         .box-green{
             border-top: solid 12px $bms_green;
             .content-button{
-                justify-content: end !important;
+                justify-content: flex-end !important;
                 .next{
                     font-weight: 900;
                     margin-right: 0.8vw;
@@ -29,7 +29,7 @@
                     .mat-chip-list {
                         width: 100%;
                         display: flex;
-                        justify-content: end;
+                        justify-content: flex-end;
                         .mat-chip {
                             font-size: 1vh;
                             padding: 1px 8px;
@@ -84,7 +84,7 @@
                 width: 100%;
                 padding : 10px 20px 20px 20px;
                 align-items: center;
-                justify-content: end;
+                justify-content: flex-end;
     
                 .mat-raised-button {
                     background-color: $bms_green;

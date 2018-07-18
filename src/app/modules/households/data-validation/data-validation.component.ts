@@ -3,7 +3,7 @@ import { ImportService } from '../../../core/utils/import.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { MatSnackBar, MatStepper } from '@angular/material';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { VerifiedData } from '../../../model/data-validation';
+import { VerifiedTypo } from '../../../model/data-validation';
 
 
 
@@ -53,7 +53,7 @@ export class DataValidationComponent implements OnInit {
      * @param index 
      */
     selectHousehold(data, type, index) {
-        let verification = new VerifiedData;
+        let verification = new VerifiedTypo;
         let indexFound: boolean = false;
         this.correctedData.forEach(element => {
             if (element.index === index) {

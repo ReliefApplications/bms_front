@@ -1,7 +1,9 @@
 import { Households } from "./households";
 
+/**
+ * Data contained in new and old after treatment
+ */
 export class Data {
-
     static __classname__ = 'data';
     /**
      * Households' familyName and first name to compare
@@ -13,25 +15,13 @@ export class Data {
      * @type {Households}
      */
     households: Households = new Households;
-    /**
-     * Number of dependents in household to compare
-     * @type {number}
-     */
-    dependent: number = 0;
-
-    constructor(instance?) {
-        if (instance !== undefined) {
-            this.nameHead = instance.nameHead;
-            this.households = instance.households;
-            this.dependent = instance.dependent;
-
-
-        }
-    }
 }
 
-export class DataToValidate {
-    static __classname__ = 'DataToValidate';
+/**
+ * Format data with fields new and old of type Data
+ */
+export class FormatDataNewOld {
+    static __classname__ = 'FormatDataNewOld';
     /**
      * new data to compare
      * @type {Data}
@@ -50,26 +40,27 @@ export class DataToValidate {
         }
     }
 
-    public static formatArray(instance:any, step:number): DataToValidate[] {
-        let dataValidation: DataToValidate[] = [];
-        if(step === 1) {
-            instance.data.forEach(element => {
-                dataValidation.push(this.formatTypoIssues(element));
-            });
-        }
-        return dataValidation;
+    /**
+     * Array containing an array of old and new household
+     * Used at step 1 : typo issues
+     * @param instance 
+     */
+    public static formatTypo(instance: any): FormatDataNewOld[] {
+        let dataFormatted: FormatDataNewOld[] = [];
+        instance.data.forEach(element => {
+            dataFormatted.push(this.formatDataOldNew(element));
+        });
+        return dataFormatted;
     }
 
-    public static formatTypoIssues(element: any): DataToValidate {
-        let data = new DataToValidate();
+    public static formatDataOldNew(element: any): FormatDataNewOld {
+        let data = new FormatDataNewOld();
         data.new.households = element.new;
 
         //to format information of new households
         element.new.beneficiaries.forEach(beneficiary => {
             if (beneficiary.status == '1') {
                 data.new.nameHead = beneficiary.family_name + " " + beneficiary.given_name;
-            } else {
-                data.new.dependent = data.new.dependent + 1;
             }
         });
         //to format information of old households
@@ -78,18 +69,17 @@ export class DataToValidate {
             if (beneficiary.status == '1') {
                 data.old.nameHead = beneficiary.family_name + " " + beneficiary.given_name;
             }
-            else {
-                data.old.dependent = data.old.dependent + 1;
-
-            }
         });
         return data;
     }
 }
 
-export class VerifiedData {
+/**
+ * Model to return typo issues after correction
+ */
+export class VerifiedTypo {
 
-    static __classname__ = 'VerifiedData';
+    static __classname__ = 'VerifiedTypo';
     /**
      * new data to create
      * @type {Data}
@@ -119,5 +109,41 @@ export class VerifiedData {
         }
     }
 
+}
+
+export class FormatDuplicatesData {
+    static __classname__ = 'FormatDuplicatesData';
+    /**
+     * array of new and old household
+     * @type {Array}
+     */
+    data: Array<FormatDataNewOld>;
+    /**
+     * new_household to return to back without modification
+     * @type {Households}
+     */
+    new_households: Households = new Households;
+
+
+    constructor(instance?) {
+        if (instance !== undefined) {
+            this.data = instance.data;
+            this.new_households = instance.new_households;
+        }
+    }
+
+    public static formatDuplicates(instance: any): FormatDuplicatesData[] {
+        let formatDuplicates: FormatDuplicatesData[] = [];
+        let duplicates = new FormatDuplicatesData;
+        instance.data.forEach(data => {
+            duplicates.data =  [];
+            data.data.forEach(element => {
+                duplicates.data.push(FormatDataNewOld.formatDataOldNew(element));
+            });
+            duplicates.new_households = instance.new_household;
+
+        });
+        return formatDuplicates;
+    }
 }
 

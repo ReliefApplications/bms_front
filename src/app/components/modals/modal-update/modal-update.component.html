@@ -7,7 +7,7 @@
         <mat-form-field *ngIf="propertiesTypes[p]!='email'">
           <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="updateObject[p]" [type]="propertiesTypes[p]">
           <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="updateObject[p]" placeholder="{{data.mapper.mapTitle(p)}}" [formControl]="controls" multiple>
-            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</mat-option>
+            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field *ngIf="propertiesTypes[p]=='email'">

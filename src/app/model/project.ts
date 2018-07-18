@@ -204,7 +204,7 @@ export class Project {
         });
         element.donors.forEach(donor => {
             project.donors.push(new Donor(donor));
-            project.donors_name.push(donor.name);
+            project.donors_name.push(donor.fullname);
         });
         return project;
     }

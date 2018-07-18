@@ -29,4 +29,9 @@ export class DonorService{
         let url = this.api + "/donors";
         return this.http.put(url, body);
     }
+
+    public delete(id: number, body: any) {
+        let url = this.api + "/donors/"+id;
+        return this.http.delete(url, body);
+    }
 }

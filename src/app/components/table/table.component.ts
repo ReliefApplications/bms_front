@@ -104,16 +104,25 @@ export class TableComponent implements OnInit {
         data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService}
       });
     }
-    let update = null;
+    let deleteElement = null;
+    if(dialogRef.componentInstance.onDelete){
+      deleteElement = dialogRef.componentInstance.onDelete.subscribe((data) => {
+        this.deleteElement(data);
+      });
+    }
+    let updateElement = null;
     if(dialogRef.componentInstance.onUpdate){
-      update = dialogRef.componentInstance.onUpdate.subscribe((data) => {
+      updateElement = dialogRef.componentInstance.onUpdate.subscribe((data) => {
         this.updateElement(data);
       });
     }
+    
 
     dialogRef.afterClosed().subscribe(result => {
-      if(update)
-        update.unsubscribe();
+      if(updateElement)
+        updateElement.unsubscribe();
+      if(deleteElement)
+        deleteElement.unsubscribe();
       console.log('The dialog was closed');
     });
   }
@@ -127,6 +136,13 @@ export class TableComponent implements OnInit {
   updateElement(updateElement: Object){
     updateElement = this.entity.formatForApi(updateElement);
     this.service.update(updateElement['id'], updateElement).subscribe(response => {
+      this.updateData();
+    })
+  } 
+
+  deleteElement(deleteElement: Object){
+    deleteElement = this.entity.formatForApi(deleteElement);
+    this.service.delete(deleteElement['id'], deleteElement).subscribe(response => {
       this.updateData();
     })
   } 

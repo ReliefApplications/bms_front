@@ -28,4 +28,9 @@ export class ProjectService{
         let url = this.api + "/projects";
         return this.http.put(url, body);
     }
+
+    public delete(id: number, body: any) {
+        let url = this.api + "/projects/"+id;
+        return this.http.delete(url, body);
+    }
 }

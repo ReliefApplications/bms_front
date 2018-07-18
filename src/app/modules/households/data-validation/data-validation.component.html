@@ -5,15 +5,15 @@
 
 
 
-    <mat-horizontal-stepper linear #stepper>
-        <ng-template matStepperIcon="done">
+    <mat-horizontal-stepper linear #stepper >
+        <ng-template matStepperIcon="done" >
             <mat-icon>done</mat-icon>
         </ng-template>
 
 
         <!-- <mat-step [editable]="false" [completed]="isDone"> -->
         <mat-step [editable]="false">
-            <ng-template class="step" matStepLabel>Typo issues </ng-template>
+            <ng-template class="step" matStepLabel >Typo issues </ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">1</span>
@@ -21,8 +21,8 @@
                 </div>
                 <div class="container-content box-green">
 
-                    <div class="content-table" *ngIf="typoIssues.length > 0">
-                        <mat-card *ngFor="let data of typoIssues, index as i">
+                    <div class="content-table" *ngIf="datas.length > 0">
+                        <mat-card *ngFor="let data of datas, index as i">
                             <mat-chip-list>
                                 <mat-chip>Old</mat-chip>
                             </mat-chip-list>
@@ -74,13 +74,13 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
-                    <div *ngIf="typoIssues.length == 0" class="no-data-box">
+                    <div *ngIf="datas.length == 0" class="no-data-box">
                         <h1 class="box-title"> No typo issues</h1>
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
 
-                        <button mat-raised-button class="next-button" (click)="stepper.next()">
+                        <button mat-raised-button class="next-button" (click)=" sendCorrectedData()">
                             <span>NEXT</span>
                         </button>
                     </div>
@@ -97,8 +97,8 @@
                 </div>
                 <div class="container-content box-green">
 
-                    <div class="content-table" *ngIf="duplicate.length > 0">
-                        <mat-card *ngFor="let data of duplicate">
+                    <div class="content-table" *ngIf="datas.length > 0">
+                        <mat-card *ngFor="let data of datas">
                             <mat-chip-list>
                                 <mat-chip>Old</mat-chip>
                             </mat-chip-list>
@@ -136,7 +136,7 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
-                    <div *ngIf="duplicate.length == 0" class="no-data-box">
+                    <div *ngIf="datas.length == 0" class="no-data-box">
                         <h1 class="box-title"> No duplicate issues</h1>
                     </div>
                     <div class="content-button-footer">
@@ -158,8 +158,8 @@
                     <span>Added beneficiaries</span>
                 </div>
                 <div class="container-content box-green">
-                    <div class="content-table" *ngIf="more.length > 0">
-                        <mat-card *ngFor="let data of more">
+                    <div class="content-table" *ngIf="datas.length > 0">
+                        <mat-card *ngFor="let data of datas">
                             <mat-card-content>
                                 <div class="householdData">
                                     <div class="content-householdData">
@@ -208,7 +208,7 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
-                    <div *ngIf="more.length == 0" class="no-data-box">
+                    <div *ngIf="datas.length == 0" class="no-data-box">
                         <h1 class="box-title"> No beneficiaries to add</h1>
                     </div>
                     <div class="content-button-footer">
@@ -229,8 +229,8 @@
                     <span>Removed beneficiaries</span>
                 </div>
                 <div class="container-content box-green">
-                    <div class="content-table" *ngIf="less.length > 0">
-                        <mat-card *ngFor="let data of less">
+                    <div class="content-table" *ngIf="datas.length > 0">
+                        <mat-card *ngFor="let data of datas">
                             <mat-card-content>
                                 <div class="householdData">
                                     <div class="content-householdData">
@@ -278,7 +278,7 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
-                    <div *ngIf="less.length == 0" class="no-data-box">
+                    <div *ngIf="datas.length == 0" class="no-data-box">
                         <h1 class="box-title"> No beneficiaries to remove</h1>
                     </div>
                     <div class="content-button-footer">

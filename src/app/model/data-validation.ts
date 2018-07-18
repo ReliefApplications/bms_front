@@ -42,17 +42,11 @@ export class DataToValidate {
      * @type {Data}
      */
     old: Data = new Data;
-    /**
-     * To know if conflict is resolve
-     * @type {boolean}
-     */
-    conflictMerged: boolean = false;
 
     constructor(instance?) {
         if (instance !== undefined) {
             this.old = instance.old;
             this.new = instance.new;
-            this.conflictMerged = instance.conflictMerged;
         }
     }
 
@@ -110,7 +104,7 @@ export class VerifiedData {
      * household's id 
      * @type {number}
      */
-    idHousehold: number;
+    id_old: number;
     /**
      * index link to the data to find them more easily 
      * @type {number}
@@ -121,7 +115,7 @@ export class VerifiedData {
         if (instance !== undefined) {
             this.state = instance.state;
             this.new = instance.new;
-            this.idHousehold = instance.idHousehold;
+            this.id_old = instance.id_old;
         }
     }
 

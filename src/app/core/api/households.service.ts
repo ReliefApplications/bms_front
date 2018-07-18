@@ -1,25 +1,25 @@
-import { Injectable                                 } from '@angular/core';
-import { of                                         } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { of } from 'rxjs';
 
-import { URL_BMS_API                                } from '../../../environments/environment';
+import { URL_BMS_API } from '../../../environments/environment';
 
-import { HttpService                                } from './http.service';
+import { HttpService } from './http.service';
 
-import { Households                                 } from '../../model/households';
-import { Project                                    } from '../../model/project';
-import { Location                                   } from '../../model/location';
-import { Sector                                     } from '../../model/sector';
+import { Households } from '../../model/households';
+import { Project } from '../../model/project';
+import { Location } from '../../model/location';
+import { Sector } from '../../model/sector';
 
 
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
-export class HouseholdsService{
+export class HouseholdsService {
     readonly api = URL_BMS_API;
 
     constructor(
-        private http : HttpService
-    ){
+        private http: HttpService
+    ) {
     }
 
     /**
@@ -44,24 +44,17 @@ export class HouseholdsService{
      * Upload CSV to import new household
      * @param body 
      */
-    public sendDataToValidation(body: any, idProject: number, step: number, token: string) {
-        let url = this.api + "/import/households/project/" + idProject + "?step=" + step + "&token=" + token;
+    public sendDataToValidation(body: any, idProject: number, step: number, token?: string) {
+        let url;
+        if (token) {
+            url = this.api + "/import/households/project/" + idProject + "?step=" + step + "&token=" + token;
+        }
+        else {
+            url = this.api + "/import/households/project/" + idProject + "?step=" + step;
+
+        }
         return this.http.post(url, body);
     }
 
-    /**
-     * Create new household in the database
-     * @param body 
-     * @param idProject 
-     */
-    public add(body: any, idProject:number) {
-        let url = this.api + "/households" + idProject;
-        return this.http.put(url, body);
-    }
-
-    public update(body: any, idHousehold:number, idProject:number) {
-        let url = this.api + "/households/" + idHousehold + "/project/" + idProject;
-        return this.http.post(url, body);
-    }
 }
 

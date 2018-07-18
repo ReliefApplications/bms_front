@@ -8,8 +8,9 @@ import { DataToValidate } from '../../model/data-validation';
 })
 export class ImportService {
 
-    public data
+    public data;
     public project;
+    public token;
     referedClassToken = DataToValidate;
     public referedClassService;
 
@@ -20,14 +21,33 @@ export class ImportService {
 
     }
 
-    sendData(data, project, step, token) {
+    sendData(data, project, step, token?) {
         this.data = [];
         this.referedClassService = this._householdsService
-        this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
-            response = this.referedClassToken.formatArray(response.json(), step);
-            for (let i = 0; i < response.length; i++) {
-                this.data.push(response[i]);
-            }
+        if (!token) {
+            this.referedClassService.sendDataToValidation(data, project, step).subscribe(response => {
+                let responseFormatted = this.referedClassToken.formatArray(response.json(), step);
+                for (let i = 0; i < responseFormatted.length; i++) {
+                    this.data.push(responseFormatted[i]);
+                }
+                this.token = response.json().token;
+                this.project = project;
+            });
+        }
+        else {
+            this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
+                console.log('token', response.json().token );
+                console.log('step', step);
+                // let responseFormatted = this.referedClassToken.formatArray(response.json(), step);
+                // for (let i = 0; i < responseFormatted.length; i++) {
+                //     this.data.push(responseFormatted[i]);
+                // }
+                this.token = response.json().token;
+                this.project = project;
+            });
+            
+        }
+       
 
             // let responseDuplicate = this.referedClassToken.formatArray(response.json().duplicate);
             // for (let i = 0; i < responseDuplicate.length; i++) {
@@ -43,11 +63,10 @@ export class ImportService {
             // for (let i = 0; i < responseLessBeneficiaries.length; i++) {
             //     this.dataLess.push(responseLessBeneficiaries[i]);
             // }
-            this.project = project;
-        });
+       
     }
 
-    getTypoIssues() {
+    getData() {
         return this.data;
     }
 
@@ -61,8 +80,12 @@ export class ImportService {
     //     return this.dataLess;
     // }
 
-    // getProject() {
-    //     return this.project;
-    // }
+    getProject() {
+        return this.project;
+    }
+
+    getToken() {
+        return this.token;
+    }
 
 }

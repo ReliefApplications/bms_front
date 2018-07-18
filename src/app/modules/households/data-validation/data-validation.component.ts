@@ -1,7 +1,7 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { ImportService } from '../../../core/utils/import.service';
 import { HouseholdsService } from '../../../core/api/households.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatStepper } from '@angular/material';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { VerifiedData } from '../../../model/data-validation';
 
@@ -15,22 +15,14 @@ import { VerifiedData } from '../../../model/data-validation';
 })
 export class DataValidationComponent implements OnInit {
 
+    @ViewChild('stepper') stepper: MatStepper;
+
     //variable to manage all issues
-    public typoIssues: Array<any> = [];
-    public duplicate: Array<any> = [];
-    public more: Array<any> = [];
-    public less: Array<any> = [];
+    public datas: Array<any> = [];
 
 
     public check: boolean = true;
     public correctedData: Array<any> = [];
-
-    //boolean to know if a step is completed
-    public typoDone: boolean = false;
-    public duplicateDone: boolean = false;
-    public moreDone: boolean = false;
-    public lessDone: boolean = false;
-
     public step: number = 1;
 
     constructor(
@@ -49,20 +41,8 @@ export class DataValidationComponent implements OnInit {
      * Get data which need verification and valisation after import csv
      */
     getData() {
-        this.typoIssues = this._importService.getTypoIssues();
-        console.log("typo", this.typoIssues);
-        // this.duplicate = this._importService.getDuplicates();
-        // this.more = this._importService.getAddedBeneficiaries();
-        // this.less = this._importService.getRemovedBeneficiaries();
-    }
-
-    /**
-     * Check if all verification is done to can go to the next step
-     */
-    verificationDone() {
-        // if (this.datas.length === this.correctedData.length) {
-        //     this.isDone = true;
-        // }
+        this.datas = this._importService.getData();
+        console.log("DATAS", this.datas);
     }
 
 
@@ -86,7 +66,7 @@ export class DataValidationComponent implements OnInit {
                         delete element.new;
                     }
                     else {
-                        element.new = data.new;
+                        element.new = data.new.households;
 
                     }
                 }
@@ -94,16 +74,40 @@ export class DataValidationComponent implements OnInit {
         });
         if (indexFound === false) {
             if (type === 'old') {
-                verification.idHousehold = data.old.households.id;
+                verification.id_old = data.old.households.id;
                 verification.state = true;
                 verification.index = index;
             }
             else if (type === 'new') {
-                verification.new = data.new;
-                verification.idHousehold = data.old.households.id;
+                verification.new = data.new.households;
+                verification.id_old = data.old.households.id;
                 verification.index = index;
             }
             this.correctedData.push(verification);
         }
+        console.log('correctData', this.correctedData);
+    }
+
+    /**
+     * used to send data to back with correction after every step
+     * Data could be send only if all data is verify
+     */
+    sendCorrectedData() {
+        let length = this.correctedData.length;
+        this.correctedData.forEach(element => {
+            if (!element.state && !element.new) {
+                length = length - 1;
+            }
+        });
+        if (this.datas.length != length) {
+            this.snackBar.open('All data aren\'t corrected', '', { duration: 500 });
+        } else {
+            this.step = this.step + 1;
+            this._importService.sendData(this.correctedData, this._importService.getProject(), this.step, this._importService.getToken());
+            this.snackBar.open('Typo issues corrected', '', { duration: 500 });
+            this.stepper.next();
+        }
+
+        console.log("to send", this.correctedData);
     }
 }

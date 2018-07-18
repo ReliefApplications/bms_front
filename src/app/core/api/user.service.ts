@@ -27,20 +27,6 @@ export class UserService{
         return this.http.post(url, body);
     }
 
-    public createStepSalt(id: number, parameters: any) {
-        let url = this.api + "/salt/"+parameters.username;
-        return this.http.get(url, parameters);
-    }
-
-    public createStepCreate(id: number, body: any, salt: any) {
-        let saltedPassword = this._wsseService.saltPassword(salt, body.password);
-        this._wsseService.setSalted(saltedPassword);
-        body.password = saltedPassword;
-
-        let url = this.api + "/users";
-        return this.http.put(url, body);
-    }
-
     public delete(id: number, body: any) {
         let url = this.api + "/users/"+id;
         return this.http.delete(url, body);

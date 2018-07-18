@@ -98,4 +98,13 @@ export class AuthenticationService {
         // })
         return voters;
     }
+
+
+    public createUser(id: number, body: any, salt: any) {
+        let saltedPassword = this._wsseService.saltPassword(salt, body.password);
+        this._wsseService.setSalted(saltedPassword);
+        body.password = saltedPassword;
+
+        return this.http.put(URL_BMS_API + "/users", body);
+    }
 }

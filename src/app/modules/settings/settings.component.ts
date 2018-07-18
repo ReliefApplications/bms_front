@@ -15,6 +15,7 @@ import { UserInterface } from '../../model/interfaces';
 import { CountrySpecific } from '../../model/country-specific';
 import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
 import { Mapper } from '../../core/utils/mapper.service';
+import { AuthenticationService } from '../../core/authentication/authentication.service';
 
 @Component({
   selector: 'app-settings',
@@ -41,6 +42,7 @@ export class SettingsComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public mapperService: Mapper,
+    public authenticationService: AuthenticationService, 
     public distributionService: DistributionService,
     public donorService: DonorService,
     public projectService: ProjectService,
@@ -129,10 +131,9 @@ export class SettingsComponent implements OnInit {
       })
     else {
       // for users, there are two step (one to get the salt and one to create the user)
-      this.referedClassService.createStepSalt(createElement['id'], createElement).subscribe(response => {
-        response = response.json();
+      this.authenticationService.requestSalt(createElement['username']).subscribe(response => {
         if (response) {
-          this.referedClassService.createStepCreate(createElement['id'], createElement, response.salt).subscribe(response => { 
+          this.authenticationService.createUser(createElement['id'], createElement, response).subscribe(response => { 
             this.selectTitle(this.selectedTitle);
           })
         }

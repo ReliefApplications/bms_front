@@ -3,7 +3,7 @@ import { ImportService } from '../../../core/utils/import.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { MatSnackBar, MatStepper } from '@angular/material';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { VerifiedTypo } from '../../../model/data-validation';
+import { VerifiedData } from '../../../model/data-validation';
 
 
 
@@ -18,13 +18,15 @@ export class DataValidationComponent implements OnInit {
     @ViewChild('stepper') stepper: MatStepper;
 
     //variable to manage all issues
-    public datas: Array<any> = [];
+    public typoIssues: Array<any> = [];
+    public duplicates: Array<any> = [];
 
 
     public check: boolean = true;
     public correctedData: Array<any> = [];
     public step: number = 1;
 
+    public test = 'tttttt';
     constructor(
         public _importService: ImportService,
         public _householdsService: HouseholdsService,
@@ -37,12 +39,19 @@ export class DataValidationComponent implements OnInit {
         this.getData();
     }
 
+
     /**
      * Get data which need verification and valisation after import csv
      */
     getData() {
-        this.datas = this._importService.getData();
-        console.log("DATAS", this.datas);
+        if (this.step === 1) {
+            this.typoIssues = this._importService.getData();
+            console.log("typoIssues", this.typoIssues);
+        }
+         else if (this.step === 2) {
+             this.duplicates = this._importService.getData();
+         }
+        
     }
 
 
@@ -53,7 +62,7 @@ export class DataValidationComponent implements OnInit {
      * @param index 
      */
     selectHousehold(data, type, index) {
-        let verification = new VerifiedTypo;
+        let verification = new VerifiedData;
         let indexFound: boolean = false;
         this.correctedData.forEach(element => {
             if (element.index === index) {
@@ -85,7 +94,6 @@ export class DataValidationComponent implements OnInit {
             }
             this.correctedData.push(verification);
         }
-        console.log('correctData', this.correctedData);
     }
 
     /**
@@ -99,15 +107,14 @@ export class DataValidationComponent implements OnInit {
                 length = length - 1;
             }
         });
-        if (this.datas.length != length) {
+        if (this.typoIssues.length != length) {
             this.snackBar.open('All data aren\'t corrected', '', { duration: 500 });
         } else {
             this.step = this.step + 1;
             this._importService.sendData(this.correctedData, this._importService.getProject(), this.step, this._importService.getToken());
             this.snackBar.open('Typo issues corrected', '', { duration: 500 });
             this.stepper.next();
+            this.getData();
         }
-
-        console.log("to send", this.correctedData);
     }
 }

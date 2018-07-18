@@ -5,15 +5,15 @@
 
 
 
-    <mat-horizontal-stepper linear #stepper >
-        <ng-template matStepperIcon="done" >
+    <mat-horizontal-stepper linear #stepper>
+        <ng-template matStepperIcon="done">
             <mat-icon>done</mat-icon>
         </ng-template>
 
 
         <!-- <mat-step [editable]="false" [completed]="isDone"> -->
         <mat-step [editable]="false">
-            <ng-template class="step" matStepLabel >Typo issues </ng-template>
+            <ng-template class="step" matStepLabel>Typo issues </ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">1</span>
@@ -21,25 +21,25 @@
                 </div>
                 <div class="container-content box-green">
 
-                    <div class="content-table" *ngIf="datas.length > 0">
-                        <mat-card *ngFor="let data of datas, index as i">
+                    <div class="content-table" *ngIf="typoIssues.length > 0">
+                        <mat-card class="issues" *ngFor="let typoIssue of typoIssues, index as i">
                             <mat-chip-list>
                                 <mat-chip>Old</mat-chip>
                             </mat-chip-list>
                             <mat-card-content>
                                 <div class="householdData">
-                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectHousehold(data, 'old', i)">
+                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectHousehold(typoIssue, 'old', i)">
                                     </mat-checkbox>
                                     <div class="content-householdData">
-                                        <div class="dataToCompare">{{data.old.nameHead}}</div>
-                                        <div class="dataToCompare">{{data.old.households.address_number}} {{data.old.households.address_street}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm4 != ''">{{data.old.households.address_postcode}} {{data.old.households.location.adm4}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm4 == ''">{{data.old.households.address_postcode}} {{data.old.households.location.adm3}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm4 != ''">{{data.old.households.location.adm3}}</div>
-                                        <div class="dataToCompare">{{data.old.households.location.adm2}}</div>
-                                        <div class="dataToCompare">{{data.old.households.location.adm1}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.beneficiaries.length > 1">
-                                            <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
+                                        <div class="dataToCompare">{{typoIssue.old.nameHead}}</div>
+                                        <div class="dataToCompare">{{typoIssue.old.households.address_number}} {{typoIssue.old.households.address_street}}</div>
+                                        <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm4 != ''">{{typoIssue.old.households.address_postcode}} {{typoIssue.old.households.location.adm4}}</div>
+                                        <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm4 == ''">{{typoIssue.old.households.address_postcode}} {{typoIssue.old.households.location.adm3}}</div>
+                                        <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm4 != ''">{{typoIssue.old.households.location.adm3}}</div>
+                                        <div class="dataToCompare">{{typoIssue.old.households.location.adm2}}</div>
+                                        <div class="dataToCompare">{{typoIssue.old.households.location.adm1}}</div>
+                                        <div class="dataToCompare" *ngIf="typoIssue.old.households.beneficiaries.length > 1">
+                                            <div class="dataToCompare" *ngFor="let beneficiary of typoIssue.old.households.beneficiaries">
                                                 <div class="dataToCompare" *ngIf="beneficiary.status == 0">
                                                     {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                 </div>
@@ -52,18 +52,18 @@
                                     <mat-chip>New</mat-chip>
                                 </mat-chip-list>
                                 <div class="householdData">
-                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectHousehold(data, 'new', i)">
+                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectHousehold(typoIssue, 'new', i)">
                                     </mat-checkbox>
                                     <div class="content-householdData">
-                                        <div class="dataToCompare">{{data.new.nameHead}}</div>
-                                        <div class="dataToCompare">{{data.new.households.address_number}} {{data.new.households.address_street}}</div>
-                                        <div class="dataToCompare" *ngIf="data.new.households.location.adm4 != ''">{{data.new.households.address_postcode}} {{data.new.households.location.adm4}}</div>
-                                        <div class="dataToCompare" *ngIf="data.new.households.location.adm4 == ''">{{data.new.households.address_postcode}} {{data.new.households.location.adm3}}</div>
-                                        <div class="dataToCompare" *ngIf="data.new.households.location.adm4 != ''">{{data.new.households.location.adm3}}</div>
-                                        <div class="dataToCompare">{{data.new.households.location.adm2}}</div>
-                                        <div class="dataToCompare">{{data.new.households.location.adm1}}</div>
-                                        <div class="dataToCompare" *ngIf="data.new.households.beneficiaries.length > 1">
-                                            <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
+                                        <div class="dataToCompare">{{typoIssue.new.nameHead}}</div>
+                                        <div class="dataToCompare">{{typoIssue.new.households.address_number}} {{typoIssue.new.households.address_street}}</div>
+                                        <div class="dataToCompare" *ngIf="typoIssue.new.households.location.adm4 != ''">{{typoIssue.new.households.address_postcode}} {{typoIssue.new.households.location.adm4}}</div>
+                                        <div class="dataToCompare" *ngIf="typoIssue.new.households.location.adm4 == ''">{{typoIssue.new.households.address_postcode}} {{typoIssue.new.households.location.adm3}}</div>
+                                        <div class="dataToCompare" *ngIf="typoIssue.new.households.location.adm4 != ''">{{typoIssue.new.households.location.adm3}}</div>
+                                        <div class="dataToCompare">{{typoIssue.new.households.location.adm2}}</div>
+                                        <div class="dataToCompare">{{typoIssue.new.households.location.adm1}}</div>
+                                        <div class="dataToCompare" *ngIf="typoIssue.new.households.beneficiaries.length > 1">
+                                            <div class="dataToCompare" *ngFor="let beneficiary of typoIssue.new.households.beneficiaries">
                                                 <div class="dataToCompare" *ngIf="beneficiary.status == 0">
                                                     {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                 </div>
@@ -74,7 +74,7 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
-                    <div *ngIf="datas.length == 0" class="no-data-box">
+                    <div *ngIf="typoIssues.length == 0" class="no-data-box">
                         <h1 class="box-title"> No typo issues</h1>
                     </div>
                     <div class="content-button-footer">
@@ -89,7 +89,7 @@
         </mat-step>
 
         <mat-step [editable]="false">
-            <ng-template matStepLabel>Duplicates </ng-template>
+            <ng-template class="step" matStepLabel>Duplicates </ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">2</span>
@@ -97,46 +97,48 @@
                 </div>
                 <div class="container-content box-green">
 
-                    <div class="content-table" *ngIf="datas.length > 0">
-                        <mat-card *ngFor="let data of datas">
-                            <mat-chip-list>
-                                <mat-chip>Old</mat-chip>
-                            </mat-chip-list>
-                            <mat-card-content>
-                                <div class="householdData">
-                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectBeneficiary(beneficiary)">
-                                    </mat-checkbox>
-                                    <div class="content-householdData">
-                                        <div class="dataToCompare">{{data.old.nameHead}}</div>
-                                        <div class="dataToCompare">{{data.old.households.address_number}} {{data.old.households.address_street}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm4 != ''">{{data.old.households.address_postcode}} {{data.old.households.location.adm4}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm4 == ''">{{data.old.households.address_postcode}} {{data.old.households.location.adm3}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm4 != ''">{{data.old.households.location.adm3}}</div>
-                                        <div class="dataToCompare">{{data.old.households.location.adm2}}</div>
-                                        <div class="dataToCompare">{{data.old.households.location.adm1}}</div>
-                                    </div>
-                                </div>
-                                <mat-divider></mat-divider>
+                    <div class="content-table" *ngIf="duplicates.length > 0">
+                        <div class="issues" *ngFor="let duplicate of duplicates">
+                            <mat-card class="content-issue" *ngFor="let isDuplicate of duplicate.data">
                                 <mat-chip-list>
-                                    <mat-chip>New</mat-chip>
+                                    <mat-chip>Old</mat-chip>
                                 </mat-chip-list>
-                                <div class="householdData">
-                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectBeneficiary(beneficiary)">
+                                <mat-card-content>
+                                    <div class="householdData">
+                                        <mat-checkbox [checked]="!check" color="primary" (change)="selectBeneficiary(beneficiary)">
                                     </mat-checkbox>
-                                    <div class="content-householdData">
-                                        <div class="dataToCompare">{{data.new.nameHead}}</div>
-                                        <div class="dataToCompare">{{data.new.households.address_number}} {{data.new.households.address_street}}</div>
-                                        <div class="dataToCompare" *ngIf="data.new.households.location.adm4 != ''">{{data.new.households.address_postcode}} {{data.new.households.location.adm4}}</div>
-                                        <div class="dataToCompare" *ngIf="data.new.households.location.adm4 == ''">{{data.new.households.address_postcode}} {{data.new.households.location.adm3}}</div>
-                                        <div class="dataToCompare" *ngIf="data.new.households.location.adm4 != ''">{{data.new.households.location.adm3}}</div>
-                                        <div class="dataToCompare">{{data.new.households.location.adm2}}</div>
-                                        <div class="dataToCompare">{{data.new.households.location.adm1}}</div>
+                                        <div class="content-householdData">
+                                            <div class="dataToCompare">{{isDuplicate.old.households.beneficiaries[0].family_name}} {{isDuplicate.old.households.beneficiaries[0].given_name}}</div>
+                                            <div class="dataToCompare">{{isDuplicate.old.households.address_number}} {{isDuplicate.old.households.address_street}}</div>
+                                            <div class="dataToCompare" *ngIf="isDuplicate.old.households.location.adm4 != ''">{{isDuplicate.old.households.address_postcode}} {{isDuplicate.old.households.location.adm4}}</div>
+                                            <div class="dataToCompare" *ngIf="isDuplicate.old.households.location.adm4 == ''">{{isDuplicate.old.households.address_postcode}} {{isDuplicate.old.households.location.adm3}}</div>
+                                            <div class="dataToCompare" *ngIf="isDuplicate.old.households.location.adm4 != ''">{{isDuplicate.old.households.location.adm3}}</div>
+                                            <div class="dataToCompare">{{isDuplicate.old.households.location.adm2}}</div>
+                                            <div class="dataToCompare">{{isDuplicate.old.households.location.adm1}}</div>
+                                        </div>
                                     </div>
-                                </div>
-                            </mat-card-content>
-                        </mat-card>
+                                    <mat-divider></mat-divider>
+                                    <mat-chip-list>
+                                        <mat-chip>New</mat-chip>
+                                    </mat-chip-list>
+                                    <div class="householdData">
+                                        <mat-checkbox [checked]="!check" color="primary" (change)="selectBeneficiary(beneficiary)">
+                                        </mat-checkbox>
+                                        <div class="content-householdData">
+                                            <div class="dataToCompare">{{isDuplicate.new.households.beneficiaries[0].family_name}} {{isDuplicate.new.households.beneficiaries[0].given_name}}</div>
+                                            <div class="dataToCompare">{{isDuplicate.new.households.address_number}} {{isDuplicate.new.households.address_street}}</div>
+                                            <div class="dataToCompare" *ngIf="isDuplicate.new.households.location.adm4 != ''">{{isDuplicate.new.households.address_postcode}} {{isDuplicate.new.households.location.adm4}}</div>
+                                            <div class="dataToCompare" *ngIf="isDuplicate.new.households.location.adm4 == ''">{{isDuplicate.new.households.address_postcode}} {{isDuplicate.new.households.location.adm3}}</div>
+                                            <div class="dataToCompare" *ngIf="isDuplicate.new.households.location.adm4 != ''">{{isDuplicate.new.households.location.adm3}}</div>
+                                            <div class="dataToCompare">{{isDuplicate.new.households.location.adm2}}</div>
+                                            <div class="dataToCompare">{{isDuplicate.new.households.location.adm1}}</div>
+                                        </div>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
                     </div>
-                    <div *ngIf="datas.length == 0" class="no-data-box">
+                    <div *ngIf="duplicates.length == 0" class="no-data-box">
                         <h1 class="box-title"> No duplicate issues</h1>
                     </div>
                     <div class="content-button-footer">
@@ -147,12 +149,11 @@
                     </div>
                 </div>
             </div>
-
         </mat-step>
 
         <mat-step [editable]="false">
             <ng-template matStepLabel>Added beneficiaries </ng-template>
-            <div class="container-table">
+            <!-- <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">3</span>
                     <span>Added beneficiaries</span>
@@ -218,12 +219,12 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </mat-step>
 
         <mat-step [editable]="false">
             <ng-template matStepLabel>Removed beneficiaries </ng-template>
-            <div class="container-table">
+            <!-- <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">4</span>
                     <span>Removed beneficiaries</span>
@@ -288,7 +289,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </mat-step>
 
         <mat-step [editable]="true">

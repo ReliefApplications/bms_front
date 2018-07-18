@@ -69,6 +69,7 @@ export class FormatDataNewOld {
                 data.new.nameHead = beneficiary.family_name + " " + beneficiary.given_name;
             }
         });
+
         //to format information of old households
         data.old.households = element.old;
         element.old.beneficiaries.forEach(beneficiary => {
@@ -81,11 +82,11 @@ export class FormatDataNewOld {
 }
 
 /**
- * Model to return typo issues after correction
+ * Model to return data after correction
  */
-export class VerifiedTypo {
+export class VerifiedData {
 
-    static __classname__ = 'VerifiedTypo';
+    static __classname__ = 'VerifiedData';
     /**
      * new data to create
      * @type {Data}
@@ -126,7 +127,7 @@ export class FormatDuplicatesData {
      * array of new and old household
      * @type {Array}
      */
-    data: Array<FormatDataNewOld>;
+    data: Array<any>;
     /**
      * new_household to return to back without modification
      * @type {Households}
@@ -151,14 +152,15 @@ export class FormatDuplicatesData {
      */
     public static formatDuplicates(instance: any): FormatDuplicatesData[] {
         let formatDuplicates: FormatDuplicatesData[] = [];
-        let duplicates = new FormatDuplicatesData;
         instance.data.forEach(data => {
+            let duplicates = new FormatDuplicatesData;
             duplicates.data =  [];
+            duplicates.new_households = data.new_household;
             data.data.forEach(element => {
                 duplicates.data.push(FormatDataNewOld.formatDataOldNew(element));
             });
-            duplicates.new_households = instance.new_household;
-
+            
+            formatDuplicates.push(duplicates);
         });
         return formatDuplicates;
     }

@@ -73,7 +73,6 @@ export class UserInterface {
 
         return {
             username: selfinstance.username,
-            email: selfinstance.email,
             rights: selfinstance.rights
         }
     }
@@ -87,7 +86,6 @@ export class UserInterface {
 
         return {
             username: selfinstance.username,
-            email: selfinstance.email,
             rights: selfinstance.rights
         }
     }
@@ -101,7 +99,18 @@ export class UserInterface {
 
         return {
             username: selfinstance.username,
-            email: selfinstance.email,
+            rights: selfinstance.rights
+        }
+    }
+
+    /**
+     * return a UserInterface after formatting its properties for the modal update
+     */
+    getMapperUpdate(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
             rights: selfinstance.rights
         }
     }
@@ -112,7 +121,6 @@ export class UserInterface {
     getTypeProperties(selfinstance): Object {
         return {
             username: "text",
-            email: "text",
             rights: "text"
         }
     }
@@ -122,8 +130,7 @@ export class UserInterface {
     */
     getModalTypeProperties(selfinstance): Object {
         return {
-            username: "text",
-            email: "email",
+            username: "email",
             rights: "text"
         }
     }
@@ -133,8 +140,7 @@ export class UserInterface {
     */
     static translator(): Object {
         return {
-            username: "Username",
-            email: "Email",
+            username: "Email",
             rights: "Rights"
         }
     }
@@ -149,9 +155,11 @@ export class UserInterface {
 
     public static formatFromApi(element: any): UserInterface {
         let user = new UserInterface(element);
-        element.roles.forEach(element => {
-            user.rights = " " + element + " ";
-        });
+        if (element.roles) {
+            element.roles.forEach(element => {
+                user.rights = " " + element + " ";
+            });
+        }
         return user;
     }
 

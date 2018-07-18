@@ -1,6 +1,6 @@
-import { Sector                                                                 } from "./sector"
-import { SectorMapper                                                           } from "./sector-mapper";
-import { Donor                                                                  } from "./donor";
+import { Sector } from "./sector"
+import { SectorMapper } from "./sector-mapper";
+import { Donor } from "./donor";
 
 export class Project {
     static __classname__ = 'Project';
@@ -142,6 +142,23 @@ export class Project {
             end_date: selfinstance.end_date,
             donors_name: selfinstance.donors_name,
             notes: selfinstance.notes
+        }
+    }
+
+    /**
+    * return a Project after formatting its properties for the modal update
+    */
+    getMapperUpdate(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            name: selfinstance.name,
+            sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
+            start_date: selfinstance.start_date,
+            end_date: selfinstance.end_date,
+            number_of_households: selfinstance.number_of_households,
+            donors_name: selfinstance.donors_name
         }
     }
 

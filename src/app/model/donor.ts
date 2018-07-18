@@ -1,4 +1,4 @@
-import { SectorMapper                                                   } from "./sector-mapper";
+import { SectorMapper } from "./sector-mapper";
 
 export class Donor {
     static __classname__ = 'Donor';
@@ -95,6 +95,20 @@ export class Donor {
     * return a Donor after formatting its properties for the modal add
     */
     getMapperAdd(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            fullname: selfinstance.fullname,
+            shortname: selfinstance.shortname,
+            notes: selfinstance.notes,
+        }
+    }
+
+    /**
+    * return a cDonor after formatting its properties for the modal update
+    */
+    getMapperUpdate(selfinstance): Object {
         if (!selfinstance)
             return selfinstance;
 

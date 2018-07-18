@@ -91,6 +91,19 @@ export class CountrySpecific {
     }
 
     /**
+    * return a CountrySpecific after formatting its properties for the modal update
+    */
+    getMapperUpdate(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            field: selfinstance.field,
+            type: selfinstance.type,
+        }
+    }
+
+    /**
     * return the type of CountrySpecific properties
     */
     getTypeProperties(selfinstance): Object {

@@ -115,6 +115,21 @@ export class DistributionData {
     }
 
     /**
+    * return a DistributionData after formatting its properties for the modal update
+    */
+    getMapperUpdate(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            name: selfinstance.name,
+            location_name: selfinstance.location_name,
+            number_beneficiaries: selfinstance.number_beneficiaries,
+            sectors_name: selfinstance.sectors_name,
+        }
+    }
+
+    /**
     * return the type of DistributionData properties
     */
     getTypeProperties(selfinstance): Object {

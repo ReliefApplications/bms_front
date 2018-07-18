@@ -108,7 +108,7 @@ export class SettingsComponent implements OnInit {
 
     if (user_action == 'add') {
       dialogRef = this.dialog.open(ModalAddComponent, {
-        data: {  data: [], entity: this.referedClassToken, service: this.referedClassService, mapper: this.mapperService }
+        data: { data: [], entity: this.referedClassToken, service: this.referedClassService, mapper: this.mapperService }
       });
     }
     const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
@@ -121,10 +121,22 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  createElement(createElement: Object){
+  createElement(createElement: Object) {
     createElement = this.referedClassToken.formatForApi(createElement);
-    this.referedClassService.create(createElement['id'], createElement).subscribe(response => {
-      this.selectTitle(this.selectedTitle);
-    })
-  } 
+    if (this.referedClassToken.__classname__ !== 'UserInterface')
+      this.referedClassService.create(createElement['id'], createElement).subscribe(response => {
+        this.selectTitle(this.selectedTitle);
+      })
+    else {
+      // for users, there are two step (one to get the salt and one to create the user)
+      this.referedClassService.createStepSalt(createElement['id'], createElement).subscribe(response => {
+        response = response.json();
+        if (response) {
+          this.referedClassService.createStepCreate(createElement['id'], createElement, response.salt).subscribe(response => { 
+            this.selectTitle(this.selectedTitle);
+          })
+        }
+      })
+    }
+  }
 }

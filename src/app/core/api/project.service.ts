@@ -14,7 +14,6 @@ export class ProjectService{
         private http : HttpService
     ){
     }
-
     public get() {
         let url = this.api + "/projects";
         return this.http.get(url);
@@ -23,5 +22,10 @@ export class ProjectService{
     public update(id: number, body: any) {
         let url = this.api + "/projects/"+id;
         return this.http.post(url, body);
+    }
+
+    public create(id: number, body: any) {
+        let url = this.api + "/projects";
+        return this.http.put(url, body);
     }
 }

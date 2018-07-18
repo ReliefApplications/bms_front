@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output                          } from '@angular/core';
 import { ModalComponent                                                          } from '../modal.component';
-import { Donor } from '../../../model/donor';
+import { Donor                                                                   } from '../../../model/donor';
 
 @Component({
   selector: 'modal-update',

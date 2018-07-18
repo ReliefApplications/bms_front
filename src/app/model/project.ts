@@ -1,5 +1,6 @@
-import { Sector } from "./sector"
-import { SectorMapper } from "./sector-mapper";
+import { Sector                                                                 } from "./sector"
+import { SectorMapper                                                           } from "./sector-mapper";
+import { Donor                                                                  } from "./donor";
 
 export class Project {
     static __classname__ = 'Project';
@@ -40,9 +41,14 @@ export class Project {
     number_of_households: number;
     /**
     * Project's donors
-    * @type {string}
+    * @type {string[]}
     */
-    donors: string;
+    donors_name: string[] = [];
+    /**
+     * Project's donors
+     * @type {Donor[]}
+     */
+    donors: Donor[] = [];
     /**
      * Project's iso3
      * @type {string}
@@ -101,7 +107,7 @@ export class Project {
             start_date: selfinstance.start_date,
             end_date: selfinstance.end_date,
             number_of_households: selfinstance.number_of_households,
-            donors: selfinstance.donors
+            donors_name: selfinstance.donors_name
         }
     }
 
@@ -118,7 +124,7 @@ export class Project {
             start_date: selfinstance.start_date,
             end_date: selfinstance.end_date,
             number_of_households: selfinstance.number_of_households,
-            donors: selfinstance.donors
+            donors_name: selfinstance.donors_name
         }
     }
 
@@ -134,7 +140,7 @@ export class Project {
             sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
             start_date: selfinstance.start_date,
             end_date: selfinstance.end_date,
-            donors: selfinstance.donors,
+            donors_name: selfinstance.donors_name,
             notes: selfinstance.notes
         }
     }
@@ -149,7 +155,7 @@ export class Project {
             start_date: "date",
             end_date: "date",
             number_of_households: "number",
-            donors: "text",
+            donors_name: "text",
         }
     }
 
@@ -163,7 +169,7 @@ export class Project {
             start_date: "date",
             end_date: "date",
             number_of_households: "number",
-            donors: "text",
+            donors_name: "select",
         }
     }
 
@@ -172,12 +178,12 @@ export class Project {
     */
     static translator(): Object {
         return {
-            name: "Project",
+            name: "Project's name",
             sectors_name: "Sectors",
             start_date: "Start Date",
             end_date: "End Date",
             number_of_households: "Number of Households",
-            donors: "Donors",
+            donors_name: "Donors",
             notes: "Notes",
         }
     }
@@ -196,22 +202,32 @@ export class Project {
             project.sectors.push(new Sector(sector));
             project.sectors_name.push(sector.name);
         });
-        element.donors.forEach(element => {
-            project.donors = " " + element + " ";
+        element.donors.forEach(donor => {
+            project.donors.push(new Donor(donor));
+            project.donors_name.push(donor.name);
         });
         return project;
     }
 
     public static formatForApi(element: Project): any {
         let project = new Project(element);
-        if(element.sectors_name){
+        if (element.sectors_name) {
             element.sectors_name.forEach(sector => {
                 let newSector = new Sector();
                 newSector.id = parseInt(sector, 10);
                 project.sectors.push(new Sector(newSector));
             });
-        }else{
+        } else {
             project.sectors = [];
+        }
+        if (element.donors_name) {
+            element.donors_name.forEach(donor => {
+                let newDonor = new Donor();
+                newDonor.id = parseInt(donor, 10);
+                project.donors.push(new Donor(newDonor));
+            });
+        } else {
+            project.donors = [];
         }
         return project;
     }

@@ -1,5 +1,4 @@
-import { SectorMapper } from "./sector-mapper";
-import { Project } from "./project";
+import { SectorMapper                                                   } from "./sector-mapper";
 
 export class Donor {
     static __classname__ = 'Donor';
@@ -38,11 +37,6 @@ export class Donor {
     * @type {string[]}
     */
     projects_name: string[] = [];
-    /**
-     * Donor's projects
-     * @type {Project[]}
-     */
-    projects: Project[] = [];
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -108,7 +102,6 @@ export class Donor {
             fullname: selfinstance.fullname,
             shortname: selfinstance.shortname,
             notes: selfinstance.notes,
-            projects_name: selfinstance.projects_name
         }
     }
 
@@ -166,7 +159,6 @@ export class Donor {
         donor.notes = element.notes;
         donor.date_added = element.date_added;
         element.projects.forEach(element => {
-            donor.projects.push(new Project(element));
             donor.projects_name.push(element.name);
         });
 
@@ -174,16 +166,6 @@ export class Donor {
     }
 
     public static formatForApi(element: Donor): any {
-        let donor = new Donor(element);
-        if(element.projects_name){
-            element.projects_name.forEach(sector => {
-                let newSector = new Project();
-                newSector.id = parseInt(sector, 10);
-                donor.projects.push(new Project(newSector));
-            });
-        }else{
-            donor.projects = [];
-        }
-        return donor;
+        return new Donor(element);
     }
 }

@@ -16,14 +16,12 @@ import { AppRouting 															} from './app.routing';
 import { SharedModule 															} from './shared/shared.module';
 
 import { ReportsModule										 					} from './modules/reports/reports.module';
-import { ModalAddComponent } from './components/modals/modal-add/modal-add.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		ForbiddenComponent,
 		NotFoundComponent,
-		ModalAddComponent,
 	],
 	imports: [
 		// Modules

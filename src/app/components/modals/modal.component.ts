@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, ErrorStateMatcher                       
 import { FormControl , FormGroupDirective, NgForm, Validators                   } from '@angular/forms';
 
 import { CacheService                                                           } from '../../core/storage/cache.service';
+import { DonorService                                                           } from '../../core/api/donor.service';
 import { ProjectService                                                         } from '../../core/api/project.service';
 import { SectorService                                                          } from '../../core/api/sector.service';
 
@@ -17,6 +18,7 @@ export class ModalComponent implements OnInit {
   public properties: any;
   propertiesTypes: any;
   public loadedData: any = [];
+  newObject: any;
   public controls = new FormControl();
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -27,6 +29,7 @@ export class ModalComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<ModalComponent>,
     public _cacheService : CacheService,    
+    public donorService : DonorService,    
     public sectorService : SectorService,    
     public projectService : ProjectService,    
     @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -42,7 +45,7 @@ export class ModalComponent implements OnInit {
    * load data for selects
    */
   loadData(){
-    if(this.data.data.sectors){
+    if((this.newObject && this.newObject.sectors) || (this.data.data && this.data.data.sectors)){
       this.loadedData.sectors_name = this._cacheService.get(CacheService.SECTORS);
       if(!this.loadedData.sectors)
       this.sectorService.get().subscribe(response => {
@@ -50,7 +53,15 @@ export class ModalComponent implements OnInit {
         this._cacheService.set(CacheService.SECTORS, this.loadedData.sectors_name);
       });
     }
-    if(this.data.data.projects){
+    if((this.newObject && this.newObject.donors) || (this.data.data && this.data.data.donors)){
+      this.loadedData.donors_name = this._cacheService.get(CacheService.DONORS);
+      if(!this.loadedData.donors_name)
+      this.donorService.get().subscribe(response => {
+        this.loadedData.donors_name = response.json();
+        this._cacheService.set(CacheService.DONORS, this.loadedData.donors_name);
+      });
+    }
+    if((this.data.data && this.data.data.projects)){
       this.loadedData.projects_name = this._cacheService.get(CacheService.PROJECTS);
       if(!this.loadedData.projects)
       this.projectService.get().subscribe(response => {

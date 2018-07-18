@@ -46,7 +46,7 @@ export class SettingsComponent implements OnInit {
     public projectService: ProjectService,
     public userService: UserService,
     public countrySpecificService: CountrySpecificService,
-    private cacheService: CacheService,
+    private _cacheService: CacheService,
   ) { }
 
   ngOnInit() {
@@ -95,7 +95,7 @@ export class SettingsComponent implements OnInit {
   load(title): void {
     this.referedClassService.get().subscribe(response => {
       response = this.referedClassToken.formatArray(response.json());
-      this.cacheService.set((<typeof CacheService>this.cacheService.constructor)[this.referedClassToken.__classname__.toUpperCase() + "S"], response);
+      this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.referedClassToken.__classname__.toUpperCase() + "S"], response);
       this.data = new MatTableDataSource(response);
     })
   }
@@ -108,16 +108,23 @@ export class SettingsComponent implements OnInit {
 
     if (user_action == 'add') {
       dialogRef = this.dialog.open(ModalAddComponent, {
-        data: { entity: this.referedClassToken, service: this.referedClassService, mapper: this.mapperService }
+        data: {  data: [], entity: this.referedClassToken, service: this.referedClassService, mapper: this.mapperService }
       });
     }
-    // const update = dialogRef.componentInstance.onUpdate.subscribe((data) => {
-    //   this.updateElement(data);
-    // });
+    const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
+      this.createElement(data);
+    });
 
     dialogRef.afterClosed().subscribe(result => {
-      // update.unsubscribe();
+      create.unsubscribe();
       console.log('The dialog was closed');
     });
   }
+
+  createElement(createElement: Object){
+    createElement = this.referedClassToken.formatForApi(createElement);
+    this.referedClassService.create(createElement['id'], createElement).subscribe(response => {
+      this.selectTitle(this.selectedTitle);
+    })
+  } 
 }

@@ -41,8 +41,9 @@ export class FormatDataNewOld {
     }
 
     /**
-     * Array containing an array of old and new household
+     * Array containing an object of old and new household
      * Used at step 1 : typo issues
+     * Get the received instance after send the csv in parameter
      * @param instance 
      */
     public static formatTypo(instance: any): FormatDataNewOld[] {
@@ -53,6 +54,10 @@ export class FormatDataNewOld {
         return dataFormatted;
     }
 
+    /**
+     * Used to format and type old and new data household
+     * @param element 
+     */
     public static formatDataOldNew(element: any): FormatDataNewOld {
         let data = new FormatDataNewOld();
         data.new.households = element.new;
@@ -132,6 +137,14 @@ export class FormatDuplicatesData {
         }
     }
 
+    /**
+     * Array containing an array with data and new_household keys
+     * Key data : array containing an object with old and new household which are one of their beneficiaries identitical
+     * Key new_households : data to return to back without modification
+     * Used at step 2 : duplicates
+     * Get the received instance after send corrected typo issues in parameter
+     * @param instance 
+     */
     public static formatDuplicates(instance: any): FormatDuplicatesData[] {
         let formatDuplicates: FormatDuplicatesData[] = [];
         let duplicates = new FormatDuplicatesData;

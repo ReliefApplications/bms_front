@@ -19,6 +19,7 @@ export class Data {
 
 /**
  * Format data with fields new and old of type Data
+ * Typo issues are directly formatted here
  */
 export class FormatDataNewOld {
     static __classname__ = 'FormatDataNewOld';
@@ -116,6 +117,9 @@ export class VerifiedTypo {
 
 }
 
+/**
+ * Model to format duplicates data before display and verify them
+ */
 export class FormatDuplicatesData {
     static __classname__ = 'FormatDuplicatesData';
     /**

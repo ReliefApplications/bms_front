@@ -85,7 +85,6 @@ export class CountrySpecific {
             return selfinstance;
 
         return {
-            countryIso3: selfinstance.countryIso3,
             field: selfinstance.field,
             type: selfinstance.type,
         }

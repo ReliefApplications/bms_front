@@ -29,4 +29,9 @@ export class CountrySpecificService{
         let url = this.api + "/country_specifics";
         return this.http.put(url, body);
     }
+
+    public delete(id: number, body: any) {
+        let url = this.api + "/country_specifics/"+id;
+        return this.http.delete(url, body);
+    }
 }

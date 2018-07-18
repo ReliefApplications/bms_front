@@ -28,7 +28,7 @@
                             </mat-chip-list>
                             <mat-card-content>
                                 <div class="householdData">
-                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectHousehold(typoIssue, 'old', i)">
+                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectCorrectedData(typoIssue, 'old', i)">
                                     </mat-checkbox>
                                     <div class="content-householdData">
                                         <div class="dataToCompare">{{typoIssue.old.nameHead}}</div>
@@ -52,7 +52,7 @@
                                     <mat-chip>New</mat-chip>
                                 </mat-chip-list>
                                 <div class="householdData">
-                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectHousehold(typoIssue, 'new', i)">
+                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectCorrectedData(typoIssue, 'new', i)">
                                     </mat-checkbox>
                                     <div class="content-householdData">
                                         <div class="dataToCompare">{{typoIssue.new.nameHead}}</div>
@@ -105,7 +105,7 @@
                                 </mat-chip-list>
                                 <mat-card-content>
                                     <div class="householdData">
-                                        <mat-checkbox [checked]="!check" color="primary" (change)="selectBeneficiary(beneficiary)">
+                                        <mat-checkbox [checked]="!check" color="primary" (change)="selectCorrectedData(isDuplicate, 'old', i, duplicate.new_household, id_tmp_cache)">
                                     </mat-checkbox>
                                         <div class="content-householdData">
                                             <div class="dataToCompare">{{isDuplicate.old.households.beneficiaries[0].family_name}} {{isDuplicate.old.households.beneficiaries[0].given_name}}</div>
@@ -122,7 +122,7 @@
                                         <mat-chip>New</mat-chip>
                                     </mat-chip-list>
                                     <div class="householdData">
-                                        <mat-checkbox [checked]="!check" color="primary" (change)="selectBeneficiary(beneficiary)">
+                                        <mat-checkbox [checked]="!check" color="primary" (change)="selectCorrectedData(isDuplicate, 'new', i)">
                                         </mat-checkbox>
                                         <div class="content-householdData">
                                             <div class="dataToCompare">{{isDuplicate.new.households.beneficiaries[0].family_name}} {{isDuplicate.new.households.beneficiaries[0].given_name}}</div>

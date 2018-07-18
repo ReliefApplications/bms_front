@@ -107,12 +107,18 @@ export class VerifiedData {
      * @type {number}
      */
     index: number;
+    /**
+     * object containing given_name and family_name of beneficiary to remove in case of duplicate 
+     * @type {any}
+     */
+    to_delete?: any;
 
     constructor(instance?) {
         if (instance !== undefined) {
             this.state = instance.state;
             this.new = instance.new;
             this.id_old = instance.id_old;
+            this.to_delete = instance.to_delete
         }
     }
 
@@ -133,12 +139,18 @@ export class FormatDuplicatesData {
      * @type {Households}
      */
     new_households: Households = new Households;
+    /**
+     * id uses by the back
+     * @type {number}
+     */
+    id_tmp_cache?: number;
 
 
     constructor(instance?) {
         if (instance !== undefined) {
             this.data = instance.data;
             this.new_households = instance.new_households;
+            this.id_tmp_cache = instance.id_tmp_cache;
         }
     }
 
@@ -156,6 +168,9 @@ export class FormatDuplicatesData {
             let duplicates = new FormatDuplicatesData;
             duplicates.data =  [];
             duplicates.new_households = data.new_household;
+            if (data.id_tmp_cache){
+                duplicates.id_tmp_cache = data.id_tmp_cache
+            }
             data.data.forEach(element => {
                 duplicates.data.push(FormatDataNewOld.formatDataOldNew(element));
             });

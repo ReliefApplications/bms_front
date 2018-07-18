@@ -26,7 +26,6 @@ export class DataValidationComponent implements OnInit {
     public correctedData: Array<any> = [];
     public step: number = 1;
 
-    public test = 'tttttt';
     constructor(
         public _importService: ImportService,
         public _householdsService: HouseholdsService,
@@ -50,6 +49,7 @@ export class DataValidationComponent implements OnInit {
         }
          else if (this.step === 2) {
              this.duplicates = this._importService.getData();
+             console.log("duplicates", this.duplicates);
          }
         
     }
@@ -61,7 +61,10 @@ export class DataValidationComponent implements OnInit {
      * @param type (old or new to find out which object put in corrected data)
      * @param index 
      */
-    selectHousehold(data, type, index) {
+    selectCorrectedData(data, type, index, newHousehold?, idCache?) {
+        console.log('data', data);
+        console.log('new', newHousehold);
+        console.log('cache', idCache);
         let verification = new VerifiedData;
         let indexFound: boolean = false;
         this.correctedData.forEach(element => {
@@ -115,6 +118,7 @@ export class DataValidationComponent implements OnInit {
             this.snackBar.open('Typo issues corrected', '', { duration: 500 });
             this.stepper.next();
             this.getData();
+            this.correctedData = [];
         }
     }
 }

@@ -36,8 +36,13 @@ export class UserService{
         let saltedPassword = this._wsseService.saltPassword(salt, body.password);
         this._wsseService.setSalted(saltedPassword);
         body.password = saltedPassword;
-        
+
         let url = this.api + "/users";
         return this.http.put(url, body);
+    }
+
+    public delete(id: number, body: any) {
+        let url = this.api + "/users/"+id;
+        return this.http.delete(url, body);
     }
 }

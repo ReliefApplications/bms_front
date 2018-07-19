@@ -155,10 +155,10 @@ export class Donor {
     */
     static translator(): Object {
         return {
-            fullname: "Donor's name",
-            shortname: "Shortname",
-            notes: "Notes",
-            projects_name: "Projects",
+            fullname: GlobalText.TEXTS.model_donor_fullname,
+            shortname: GlobalText.TEXTS.model_donor_shortname,
+            notes: GlobalText.TEXTS.model_donor_notes,
+            projects_name: GlobalText.TEXTS.model_donor_projects_name,
         }
     }
 

@@ -146,8 +146,8 @@ export class UserInterface {
     */
     static translator(): Object {
         return {
-            username: "Email",
-            rights: "Rights"
+            username: GlobalText.TEXTS.model_user_username,
+            rights: GlobalText.TEXTS.model_user_rights
         }
     }
 

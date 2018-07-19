@@ -133,9 +133,9 @@ export class CountrySpecific {
     */
     static translator(): Object {
         return {
-            field: "Field",
-            type: "Type",
-            countryIso3: "Country",
+            field: GlobalText.TEXTS.model_country_specific_field,
+            type: GlobalText.TEXTS.model_country_specific_type,
+            countryIso3: GlobalText.TEXTS.model_country_specific_countryIso3,
         }
     }
 

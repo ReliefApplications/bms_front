@@ -163,10 +163,10 @@ export class DistributionData {
     */
     static translator(): Object {
         return {
-            name: "Distribution",
-            location_name: "Location",
-            number_beneficiaries: "n° Beneficiaries",
-            sectors_name: "Sectors",
+            name: GlobalText.TEXTS.model_distribution_name,
+            location_name: GlobalText.TEXTS.model_distribution_location_name,
+            number_beneficiaries: GlobalText.TEXTS.model_distribution_number_beneficiaries,
+            sectors_name: GlobalText.TEXTS.model_distribution_sectors_name,
         }
     }
 

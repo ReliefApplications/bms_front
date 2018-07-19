@@ -52,6 +52,7 @@ export class TableComponent implements OnInit {
     if (this.table != GlobalText.TEXTS) {
       this.table = GlobalText.TEXTS;
       this.setDataTableProperties();
+      this.mapperService.setMapperObject(this.entity);
     }
   }
 

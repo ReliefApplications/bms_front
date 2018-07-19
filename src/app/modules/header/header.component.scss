@@ -42,10 +42,10 @@
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            width: 22vh;
+            width: 220px;
             text-align: end;  
             align-content: end;          
-            height: 5vh;
+            height: 50px;
             z-index: 50;
             
         }
@@ -55,9 +55,9 @@
             display: flex;
             align-items: center;
             background: none; 
-            height: 4vh;
+            height: 40px;
             img{
-                width: 4vh;
+                width: 40px;
                 height: 100%;
                 border-radius: 20px;  
             } 
@@ -72,14 +72,15 @@
             display: flex;
             align-items: center;
             background: none; 
-            height: 4vh;
-            padding: 0.4vh;
-            margin-left: 1vh;
+            height: 38px;
+            padding: 3px;
+            margin-left: 10px;
             img{
-                width: 3.2vh;
+                width: 34px;
                 height: 100%;
                 border-radius: 15px;  
             } 
+            
             &:hover{
                 cursor: pointer;
             }
@@ -136,6 +137,27 @@
 
         .menu {
             padding-top : 15vh !important;
+        }
+
+        .buttons{
+            width: 22vh !important;
+            height: 5vh !important;
+        }
+        .button-admin{
+            height: 4.3vh !important;
+            img{
+                width: 4vh !important;
+                border-radius: 15px !important;  
+            } 
+        }
+        .button-language{
+            height: 4vh !important;
+            padding: 0.4vh !important;
+            margin-left: 1vh !important;
+            img{
+                width: 3.2vh !important;
+                border-radius: 15px !important;  
+            } 
         }
     }
 

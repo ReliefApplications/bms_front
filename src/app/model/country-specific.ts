@@ -1,7 +1,9 @@
 import { SectorMapper } from "./sector-mapper";
+import { GlobalText } from "../../texts/global";
 
 export class CountrySpecific {
-    static __classname__ = 'CountrySpecific';
+	static _classnameDisplayed__ = GlobalText.translate('en').model_country_specific;
+    static __classname__ = "CountrySpecific";
     /**
      * CountrySpecific's id
      * @type {number}

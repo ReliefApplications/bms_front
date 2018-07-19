@@ -1,5 +1,7 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit, Output, EventEmitter, Input             } from '@angular/core';
+import { Router, NavigationEnd                                      } from '@angular/router';
+
+import { GlobalText                                                       } from '../../../../texts/global';
 
 @Component({
   selector: 'app-menu-top',
@@ -7,6 +9,8 @@ import { Router, NavigationEnd } from '@angular/router';
   styleUrls: ['./menu-top.component.scss']
 })
 export class MenuTopComponent implements OnInit {
+  public menu = GlobalText.translate('en');
+
   @Input() openMenu;
   @Output() emitCloseMenu = new EventEmitter<boolean>();
   @Output() emitCurrentRoute = new EventEmitter<string>();

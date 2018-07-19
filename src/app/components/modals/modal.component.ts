@@ -7,12 +7,15 @@ import { DonorService                                                           
 import { ProjectService                                                         } from '../../core/api/project.service';
 import { SectorService                                                          } from '../../core/api/sector.service';
 
+import { GlobalText                                                                  } from '../../../texts/global';
+
 @Component({
   selector: 'modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit {
+  public modal = GlobalText.translate('en');
 
   public entityInstance = null;
   public properties: any;

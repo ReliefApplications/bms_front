@@ -1,4 +1,7 @@
+import { GlobalText } from "../../texts/global";
+
 export class Sector {
+	static _classnameDisplayed__ = GlobalText.translate('en').model_sector;
     static __classname__ = 'Sector';
     /**
      * Sector's id

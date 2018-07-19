@@ -1,11 +1,15 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+import { GlobalText                                         } from '../../../texts/global';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  public header = GlobalText.translate('en');
+  
   @Input() currentRoute = "";
   @Output() emitLogOut = new EventEmitter();
   public oldRoute = "";

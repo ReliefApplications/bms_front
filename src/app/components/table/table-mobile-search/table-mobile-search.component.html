@@ -2,7 +2,7 @@
 <div class="table-container">
   <div class="container-header">
     <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
     </mat-form-field>
   </div>
   <table *ngFor="let element of data._renderData._value" class="box-element">

@@ -11,12 +11,16 @@ import { DistributionService                } from '../../core/api/distribution.
 
 import { DistributionData                   } from '../../model/distribution-data';
 
+import { GlobalText                          } from '../../../texts/global';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+
+  public dashboard = GlobalText.translate('en');
 
   users: any;
   referedClassToken = DistributionData;
@@ -54,7 +58,7 @@ export class DashboardComponent implements OnInit {
 
   checkSize(): void{
     this.heightScreen = window.innerHeight;
-    this.widthScreen = window.innerWidth;
+    this.widthScreen = window.innerWidth; 
   }
 
   /**

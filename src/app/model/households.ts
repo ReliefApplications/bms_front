@@ -1,4 +1,7 @@
+import { GlobalText } from "../../texts/global";
+
 export class Households {
+	static _classnameDisplayed__ = GlobalText.translate('en').model_households;
     static __classname__ = 'Households';
     /**
      * Households' id

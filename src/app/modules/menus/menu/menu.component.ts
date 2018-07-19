@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit, Input, Output, EventEmitter       } from '@angular/core';
+import { Router, NavigationEnd                                } from '@angular/router';
+
+import { GlobalText                                                 } from '../../../../texts/global';
 
 @Component({
   selector: 'app-menu',
@@ -7,6 +9,8 @@ import { Router, NavigationEnd } from '@angular/router';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+  public menu = GlobalText.translate('en');
+
   @Input() menuHover;
   public activeTitle = "";
   @Output() emitCurrentRoute = new EventEmitter<string>();

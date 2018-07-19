@@ -1,21 +1,25 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
+import { Component, OnInit, HostListener                                              } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource                 } from '@angular/material';
 
-import { DistributionService } from '../../core/api/distribution.service';
-import { CacheService } from '../../core/storage/cache.service';
-import { DonorService } from '../../core/api/donor.service';
-import { ProjectService } from '../../core/api/project.service';
-import { UserService } from '../../core/api/user.service';
-import { CountrySpecificService } from '../../core/api/country-specific.service';
+import { AuthenticationService                                                        } from '../../core/authentication/authentication.service';
+import { DistributionService                                                          } from '../../core/api/distribution.service';
+import { CacheService                                                                 } from '../../core/storage/cache.service';
+import { DonorService                                                                 } from '../../core/api/donor.service';
+import { ProjectService                                                               } from '../../core/api/project.service';
+import { UserService                                                                  } from '../../core/api/user.service';
+import { CountrySpecificService                                                       } from '../../core/api/country-specific.service';
 
-import { DistributionData } from '../../model/distribution-data';
-import { Donor } from '../../model/donor';
-import { Project } from '../../model/project';
-import { UserInterface } from '../../model/interfaces';
-import { CountrySpecific } from '../../model/country-specific';
-import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
-import { Mapper } from '../../core/utils/mapper.service';
-import { AuthenticationService } from '../../core/authentication/authentication.service';
+import { Mapper                                                                       } from '../../core/utils/mapper.service';
+
+import { DistributionData                                                             } from '../../model/distribution-data';
+import { Donor                                                                        } from '../../model/donor';
+import { Project                                                                      } from '../../model/project';
+import { UserInterface                                                                } from '../../model/interfaces';
+import { CountrySpecific                                                              } from '../../model/country-specific';
+
+import { ModalAddComponent                                                            } from '../../components/modals/modal-add/modal-add.component';
+
+import { GlobalText                                                                     } from '../../../texts/global';
 
 @Component({
   selector: 'app-settings',
@@ -23,6 +27,8 @@ import { AuthenticationService } from '../../core/authentication/authentication.
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+	public settings = GlobalText.translate('en');
+
   selectedTitle = "";
   isBoxClicked = false;
 

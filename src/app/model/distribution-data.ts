@@ -3,8 +3,10 @@ import { Location } from "./location";
 import { Project } from "./project";
 import { SelectionCriteria } from "./selection-criteria";
 import { Sector } from "./sector";
+import { GlobalText } from "../../texts/global";
 
 export class DistributionData {
+	static _classnameDisplayed__ = GlobalText.translate('en').model_distribution;
     static __classname__ = 'DistributionData';
     /**
      * DistributionData's id

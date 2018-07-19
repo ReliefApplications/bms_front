@@ -1,5 +1,5 @@
 <div class="modal-container">
-  <h4 class="modal-title">Update</h4>
+  <h4 class="modal-title">{{modal.modal_update_title}}</h4>
   <table class="modal-table">
     <tr *ngFor="let p of properties" class="modal-row">
       <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
@@ -11,13 +11,13 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field *ngIf="propertiesTypes[p]=='email'">
-          <input [(ngModel)]="updateObject[p]" matInput placeholder="Email" [formControl]="emailFormControl" [errorStateMatcher]="matcher">
+          <input [(ngModel)]="updateObject[p]" matInput placeholder="{{modal.modal_email}}" [formControl]="emailFormControl" [errorStateMatcher]="matcher">
           <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-            Please enter a valid email address
+            {{modal.modal_valid_email}}
           </mat-error>
           <mat-error *ngIf="emailFormControl.hasError('required')">
-            Email is
-            <strong>required</strong>
+            {{modal.modal_email_is}}
+            <strong>{{modal.modal_required}}</strong>
           </mat-error>
         </mat-form-field>
       </th>

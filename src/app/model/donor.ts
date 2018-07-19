@@ -1,6 +1,8 @@
 import { SectorMapper } from "./sector-mapper";
+import { GlobalText } from "../../texts/global";
 
 export class Donor {
+	static _classnameDisplayed__ = GlobalText.translate('en').model_donor;
     static __classname__ = 'Donor';
     /**
      * Donor's id

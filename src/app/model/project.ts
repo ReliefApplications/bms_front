@@ -1,8 +1,10 @@
 import { Sector } from "./sector"
 import { SectorMapper } from "./sector-mapper";
 import { Donor } from "./donor";
+import { GlobalText } from "../../texts/global";
 
 export class Project {
+	static _classnameDisplayed__ = GlobalText.translate('en').model_project;
     static __classname__ = 'Project';
     /**
      * Project's id

@@ -2,7 +2,7 @@
 <div class="table-container">
   <div class="container-header">
     <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
     </mat-form-field>
   </div>
   <table mat-table [dataSource]="data" matSort >
@@ -17,7 +17,7 @@
     </ng-container>
 
     <ng-container matColumnDef="actions">
-        <th mat-header-cell class="header-cell" *matHeaderCellDef> Actions </th>
+        <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
         <td mat-cell class="content-cell" *matCellDef="let element">
           <button mat-icon-button (click)="openDialog('details', element)" class="red">
             <mat-icon>search</mat-icon>

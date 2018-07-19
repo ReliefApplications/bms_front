@@ -1,8 +1,11 @@
+import { GlobalText } from "../../texts/global";
+
 export class ErrorInterface {
     message: string;
 }
 
 export class UserInterface {
+	static _classnameDisplayed__ = GlobalText.translate('en').model_user;
     static __classname__ = 'UserInterface';
     /**
      * User id

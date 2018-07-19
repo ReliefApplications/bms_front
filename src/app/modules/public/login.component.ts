@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit 															} from '@angular/core';
+import { Router 																	} from '@angular/router';
 
-import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { UserInterface, ErrorInterface } from '../../model/interfaces';
+import { AuthenticationService 														} from '../../core/authentication/authentication.service';
+import { UserInterface, ErrorInterface 												} from '../../model/interfaces';
+
+import { GlobalText 																		} from '../../../texts/global';
 
 @Component({
 	selector: 'app-login',
@@ -10,6 +12,7 @@ import { UserInterface, ErrorInterface } from '../../model/interfaces';
 	styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+	public login = GlobalText.translate('en');
 
 	public user:UserInterface;
 	public forgotMessage :boolean = false;
@@ -28,7 +31,7 @@ export class LoginComponent implements OnInit {
         }
 	}
 
-	login(): void {
+	loginAction(): void {
 		this._authService.login(this.user)
 		  .then( (user:UserInterface) => {
 			  if( user.loggedIn ){

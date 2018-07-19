@@ -19,10 +19,10 @@
         </button>
         <div class="button-menu" [class.open-menu]="adminMenuOpen">
           <a routerLink="/">
-            <span>PROFILE</span>
+            <span>{{header.header_profile | uppercase}}</span>
             <mat-icon>person_outline</mat-icon>
           </a>
-          <a (click)="logOut()" routerLink="/login"><span>DISCONNECT</span>
+          <a (click)="logOut()" routerLink="/login"><span>{{header.header_disconnect | uppercase}}</span>
             <mat-icon>exit_to_app</mat-icon>
           </a>
         </div>

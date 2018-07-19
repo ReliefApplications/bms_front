@@ -18,9 +18,12 @@ export class HeaderComponent implements OnInit {
   public routeParsed : Array<string> = [this.header.header_home];
   public adminMenuOpen = false;
 
-  constructor() { }
+  constructor(
+    private activatedRoute : ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    console.log(this.activatedRoute);
   }
 
   /**

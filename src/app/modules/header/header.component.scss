@@ -22,6 +22,10 @@
             a {
                 text-decoration: none;
                 color: black;
+                &:hover{
+                    color : $bms_red;
+                    cursor: pointer;
+                }
             }
         }
     }

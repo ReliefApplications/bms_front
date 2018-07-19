@@ -8,7 +8,7 @@ export class GlobalText {
     public static changeLanguage(language : string){
        GlobalText.language = language;
        switch(language){
-        case 'en':  GlobalText.TEXTS =TEXT_EN; break;
+        case 'en':  GlobalText.TEXTS = TEXT_EN; break;
         case 'fr': GlobalText.TEXTS = TEXT_FR; break;
         default: GlobalText.TEXTS =TEXT_EN; break;
         }

@@ -2,6 +2,10 @@ export const TEXT = {
     dashboard_distribution_map : "distribution map",
     dashboard_country_program : "cambodia programs",
     dashboard_summary : "summary",
+    dashboard_summary_1 : "total beneficiaries",
+    dashboard_summary_2 : "active projects",
+    dashboard_summary_3 : "enrolled beneficiaries",
+    dashboard_summary_4 : "total value transactions",
     dashboard_recent_distributions : "recent distributions",
 
     menu_distributions : "distributions", 

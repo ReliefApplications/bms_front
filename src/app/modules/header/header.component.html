@@ -1,35 +1,40 @@
 <div class="header-container">
-    <div class="container-routes">
-      <span *ngFor="let item of routeParsed"> 
-        <span *ngIf="(item != '')&&(item != header.header_home)"> 
-          > 
-        </span>
-        <a  *ngIf="item == 'Home'" routerLink="/">
-            {{item.charAt(0).toUpperCase() + item.slice(1)}}
-        </a>
-        <a  *ngIf="item != 'Home'" [routerLink]="[item]">
-          {{item.charAt(0).toUpperCase() + item.slice(1)}}
-        </a>
-      </span> 
-    </div>
-    <div class="container-buttons">
-      <div class ="buttons">
-          <button class="button-language"><img src="assets/images/cambodia.png"></button>
-          <button class="button-language" (click)="changeLanguage()"><img src="assets/images/{{language}}.jpg"></button>
+  <div class="container-routes">
+    <span *ngFor="let item of routeParsed">
+      <span *ngIf="(item != '')&&(item != header.header_home)">
+        >
+      </span>
+      <a *ngIf="item == 'Home'" routerLink="/">
+        {{item.charAt(0).toUpperCase() + item.slice(1)}}
+      </a>
+      <a *ngIf="item != 'Home'" [routerLink]="[item]">
+        {{item.charAt(0).toUpperCase() + item.slice(1)}}
+      </a>
+    </span>
+  </div>
+  <div class="container-buttons">
+    <div class="buttons">
+      <button class="button-language">
+        <img src="assets/images/cambodia.png">
+      </button>
+      <button class="button-language" (click)="changeLanguage()">
+        <img src="assets/images/{{language}}.jpg">
+      </button>
       <button (click)="openAdminMenu()" class="button-admin">
-          <img src="assets/images/profile.png">
-        </button>
-        <!-- <div class="button-menu" [class.open-menu]="adminMenuOpen">
-          <a routerLink="/">
-            <span>{{header.header_profile | uppercase}}</span>
-            <mat-icon>person_outline</mat-icon>
-          </a>
-          <a (click)="logOut()" routerLink="/login"><span>{{header.header_disconnect | uppercase}}</span>
-            <mat-icon>exit_to_app</mat-icon>
-          </a>
-        </div> -->
+        <img src="assets/images/profile.png">
+      </button>
+    </div>
+    <div class="menu">
+      <div class="button-menu" [class.open-menu]="adminMenuOpen">
+        <a routerLink="/">
+          <span>{{header.header_profile | uppercase}}</span>
+          <mat-icon>person_outline</mat-icon>
+        </a>
+        <a (click)="logOut()" routerLink="/login">
+          <span>{{header.header_disconnect | uppercase}}</span>
+          <mat-icon>exit_to_app</mat-icon>
+        </a>
       </div>
     </div>
   </div>
-  
-  
+</div>

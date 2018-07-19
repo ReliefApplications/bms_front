@@ -28,7 +28,7 @@
                             </mat-chip-list>
                             <mat-card-content>
                                 <div class="householdData">
-                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectCorrectedData(typoIssue, 'old', i)">
+                                    <mat-checkbox  color="primary" (change)="step1TypoIssues(typoIssue, 'old', i)">
                                     </mat-checkbox>
                                     <div class="content-householdData">
                                         <div class="dataToCompare">{{typoIssue.old.nameHead}}</div>
@@ -52,7 +52,7 @@
                                     <mat-chip>New</mat-chip>
                                 </mat-chip-list>
                                 <div class="householdData">
-                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectCorrectedData(typoIssue, 'new', i)">
+                                    <mat-checkbox  color="primary" (change)="step1TypoIssues(typoIssue, 'new', i)">
                                     </mat-checkbox>
                                     <div class="content-householdData">
                                         <div class="dataToCompare">{{typoIssue.new.nameHead}}</div>
@@ -98,14 +98,14 @@
                 <div class="container-content box-green">
 
                     <div class="content-table" *ngIf="duplicates.length > 0">
-                        <div class="issues" *ngFor="let duplicate of duplicates">
-                            <mat-card class="content-issue" *ngFor="let isDuplicate of duplicate.data">
+                        <div class="issues" *ngFor="let duplicate of duplicates, index as i">
+                            <mat-card class="content-issue" *ngFor="let isDuplicate of duplicate.data, index as j">
                                 <mat-chip-list>
                                     <mat-chip>Old</mat-chip>
                                 </mat-chip-list>
                                 <mat-card-content>
                                     <div class="householdData">
-                                        <mat-checkbox [checked]="!check" color="primary" (change)="selectCorrectedData(isDuplicate, 'old', i, duplicate.new_household, id_tmp_cache)">
+                                        <mat-checkbox [checked]="isDuplicate.old.isHead" [disabled]='isDuplicate.old.isHead' color="primary" (change)="step2Duplicates(isDuplicate, 'old', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
                                     </mat-checkbox>
                                         <div class="content-householdData">
                                             <div class="dataToCompare">{{isDuplicate.old.households.beneficiaries[0].family_name}} {{isDuplicate.old.households.beneficiaries[0].given_name}}</div>
@@ -122,7 +122,7 @@
                                         <mat-chip>New</mat-chip>
                                     </mat-chip-list>
                                     <div class="householdData">
-                                        <mat-checkbox [checked]="!check" color="primary" (change)="selectCorrectedData(isDuplicate, 'new', i)">
+                                        <mat-checkbox color="primary" (change)="step2Duplicates(isDuplicate, 'new', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
                                         </mat-checkbox>
                                         <div class="content-householdData">
                                             <div class="dataToCompare">{{isDuplicate.new.households.beneficiaries[0].family_name}} {{isDuplicate.new.households.beneficiaries[0].given_name}}</div>
@@ -143,7 +143,7 @@
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="25"></mat-progress-bar>
-                        <button mat-raised-button class="next-button" (click)="stepper.next()">
+                        <button mat-raised-button class="next-button" (click)="sendCorrectedData()">
                             <span>NEXT</span>
                         </button>
                     </div>
@@ -198,7 +198,7 @@
                                         <div class="dataToCompare" *ngIf="data.new.households.beneficiaries.length > 1">
                                             <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
                                                 <div class="dataToCompare" *ngIf="beneficiary.status == 0">
-                                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectBeneficiary(beneficiary)">
+                                                    <mat-checkbox [checked]="!headHousehold" color="primary" (change)="selectBeneficiary(beneficiary)">
                                                         {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                     </mat-checkbox>
                                                 </div>
@@ -268,7 +268,7 @@
                                         <div class="dataToCompare" *ngIf="data.old.households.beneficiaries.length > 1">
                                             <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
                                                 <div class="dataToCompare" *ngIf="beneficiary.status == 0">
-                                                    <mat-checkbox [checked]="!check" color="primary" (change)="selectBeneficiary(beneficiary)">
+                                                    <mat-checkbox [checked]="!headHousehold" color="primary" (change)="selectBeneficiary(beneficiary)">
                                                         {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                     </mat-checkbox>
                                                 </div>

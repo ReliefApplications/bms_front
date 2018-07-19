@@ -18,7 +18,7 @@ import { GlobalText } from '../../../texts/global';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
-  public table = GlobalText.translate('en');
+  public table = GlobalText.TEXTS;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -48,6 +48,10 @@ export class TableComponent implements OnInit {
   ngDoCheck() {
     if (this.entity != this.oldEntity) {
       this.checkData();
+    }
+    if (this.table != GlobalText.TEXTS) {
+      this.table = GlobalText.TEXTS;
+      this.setDataTableProperties();
     }
   }
 
@@ -160,7 +164,7 @@ export class TableComponent implements OnInit {
 }
 
 const rangeLabel = (page: number, pageSize: number, length: number) => {
-  let table = GlobalText.translate('en');
+  let table = GlobalText.TEXTS;
  
   if (length == 0 || pageSize == 0) { return `0 ` + table.table_of_page + ` ${length}`; }
 

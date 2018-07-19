@@ -4,7 +4,6 @@ import { Donor } from "./donor";
 import { GlobalText } from "../../texts/global";
 
 export class Project {
-	static _classnameDisplayed__ = GlobalText.translate('en').model_project;
     static __classname__ = 'Project';
     /**
      * Project's id
@@ -78,6 +77,10 @@ export class Project {
             this.value = instance.value;
             this.notes = instance.notes;
         }
+    }
+
+    public static getDisplayedName(){
+        return GlobalText.TEXTS.model_project;
     }
 
     mapAllProperties(selfinstance): Object {

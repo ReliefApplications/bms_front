@@ -2,7 +2,6 @@ import { SectorMapper } from "./sector-mapper";
 import { GlobalText } from "../../texts/global";
 
 export class Donor {
-	static _classnameDisplayed__ = GlobalText.translate('en').model_donor;
     static __classname__ = 'Donor';
     /**
      * Donor's id
@@ -48,6 +47,10 @@ export class Donor {
             this.notes = instance.notes;
             this.date_added = instance.date_added;
         }
+    }
+
+    public static getDisplayedName(){
+        return GlobalText.TEXTS.model_donor;
     }
 
     mapAllProperties(selfinstance): Object {

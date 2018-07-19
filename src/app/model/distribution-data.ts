@@ -6,7 +6,6 @@ import { Sector } from "./sector";
 import { GlobalText } from "../../texts/global";
 
 export class DistributionData {
-	static _classnameDisplayed__ = GlobalText.translate('en').model_distribution;
     static __classname__ = 'DistributionData';
     /**
      * DistributionData's id
@@ -66,6 +65,10 @@ export class DistributionData {
             this.updated_on = instance.updated_on;
             this.number_beneficiaries = instance.number_beneficiaries;
         }
+    }
+
+    public static getDisplayedName(){
+        return GlobalText.TEXTS.model_distribution;
     }
 
     mapAllProperties(selfinstance): Object {

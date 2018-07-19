@@ -9,7 +9,7 @@ import { GlobalText                                                 } from '../.
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-  public menu = GlobalText.translate('en');
+  public menu = GlobalText.TEXTS;
 
   @Input() menuHover;
   public activeTitle = "";
@@ -27,7 +27,16 @@ export class MenuComponent implements OnInit {
       }
     })
   }
-
+  
+  /**
+   * check if the langage has changed
+   */
+  ngDoCheck() {
+    if (this.menu != GlobalText.TEXTS) {
+      this.menu = GlobalText.TEXTS;
+    }
+  }
+  
   setCurrentRoute(route): void{
     this.activeTitle = "/"+route;
   }

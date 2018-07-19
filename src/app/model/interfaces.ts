@@ -5,7 +5,6 @@ export class ErrorInterface {
 }
 
 export class UserInterface {
-	static _classnameDisplayed__ = GlobalText.translate('en').model_user;
     static __classname__ = 'UserInterface';
     /**
      * User id
@@ -52,6 +51,10 @@ export class UserInterface {
             this.email = instance.email;
             this.salted_password = instance.salted_password;
         }
+    }
+
+    public static getDisplayedName(){
+        return GlobalText.TEXTS.model_user;
     }
 
     mapAllProperties(selfinstance): Object {

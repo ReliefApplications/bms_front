@@ -8,13 +8,13 @@ import { GlobalText                                         } from '../../../tex
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  public header = GlobalText.translate('en');
-  
+  public header = GlobalText.TEXTS;
+  public language = "english";
+
   @Input() currentRoute = "";
   @Output() emitLogOut = new EventEmitter();
   public oldRoute = "";
-  public home = "Home";
-  public routeParsed : Array<string> = [this.home];
+  public routeParsed : Array<string> = [this.header.header_home];
   public adminMenuOpen = false;
 
   constructor() { }
@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit {
   /**
   * check if the current page has changed
   * and update the new path displayed in the header
+  * and check if the langage has changed
   */
   ngDoCheck(){
     if(this.currentRoute != this.oldRoute){
@@ -34,11 +35,15 @@ export class HeaderComponent implements OnInit {
         this.adminMenuOpen =false;
       }
     }
+    if (this.header != GlobalText.TEXTS) {
+      this.header = GlobalText.TEXTS;
+      this.parseRoute(this.currentRoute);
+    }
   }
 
   parseRoute(currentRoute): void{
     this.routeParsed = currentRoute.split('/');
-    this.routeParsed[0]= this.home;
+    this.routeParsed[0]= this.header.header_home;
   }
 
   openAdminMenu(): void{
@@ -47,5 +52,13 @@ export class HeaderComponent implements OnInit {
 
   logOut(): void{
     this.emitLogOut.emit();
+  }
+
+  //TO DO : handle multiple languages
+  changeLanguage(){
+    switch(this.language){
+      case "francais" : this.language = "english"; GlobalText.changeLanguage('en'); break;
+      case "english" : this.language = "francais"; GlobalText.changeLanguage('fr'); break;
+    }
   }
 }

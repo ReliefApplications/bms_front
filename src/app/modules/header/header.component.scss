@@ -30,34 +30,59 @@
         display: flex;
         width: 50%;
         justify-content: flex-end;
+        align-items: center;
         text-align: end;            
         padding: 10px;
         z-index: 50;
 
+        .buttons{
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 22vh;
+            text-align: end;  
+            align-content: end;          
+            height: 5vh;
+        }
         .button-admin{
             border:none;
-            background: none;
-            font-size: 4vh;
-
-            i{
-            font-size: 30px;
-            color: $bms_menu;
-            }
+            display: flex;
+            align-items: center;
+            background: none; 
+            height: 4vh;
+            img{
+                width: 4vh;
+                height: 100%;
+            } 
             &:hover{
                 cursor: pointer;
-                i{
-                    color: $bms_dark_grey !important;
-                }
+            }
+        }
+
+        .button-language{
+            border:none;
+            display: flex;
+            align-items: center;
+            background: none; 
+            height: 4vh;
+            padding: 0.4vh;
+            img{
+                width: 3.2vh;
+                height: 100%;
+                border-radius: 15px;  
+                border:solid 1px $bms_menu;
+            } 
+            &:hover{
+                cursor: pointer;
             }
         }
 
         .button-menu {
-            margin :10px;
             display: none;
             background-color: #3d3d3d;
             min-width: 160px;
+            width: 20vh;
             box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.2);
-            
             a {
                 color: $bms_white;
                 padding: 17px 16px;
@@ -85,6 +110,7 @@
 
             &.open-menu{
                 display: block !important;
+                margin :10px;
             }
         }
     }

@@ -1,7 +1,6 @@
 import { GlobalText } from "../../texts/global";
 
 export class Households {
-	static _classnameDisplayed__ = GlobalText.translate('en').model_households;
     static __classname__ = 'Households';
     /**
      * Households' id
@@ -44,6 +43,10 @@ export class Households {
             this.dependents = instance.dependents;
             this.vulnerabilities = instance.vulnerabilities;
         }
+    }
+
+    public static getDisplayedName(){
+        return GlobalText.TEXTS.model_households;
     }
 
     /**

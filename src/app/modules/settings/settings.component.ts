@@ -1,25 +1,25 @@
-import { Component, OnInit, HostListener                                              } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource                 } from '@angular/material';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 
-import { AuthenticationService                                                        } from '../../core/authentication/authentication.service';
-import { DistributionService                                                          } from '../../core/api/distribution.service';
-import { CacheService                                                                 } from '../../core/storage/cache.service';
-import { DonorService                                                                 } from '../../core/api/donor.service';
-import { ProjectService                                                               } from '../../core/api/project.service';
-import { UserService                                                                  } from '../../core/api/user.service';
-import { CountrySpecificService                                                       } from '../../core/api/country-specific.service';
+import { AuthenticationService } from '../../core/authentication/authentication.service';
+import { DistributionService } from '../../core/api/distribution.service';
+import { CacheService } from '../../core/storage/cache.service';
+import { DonorService } from '../../core/api/donor.service';
+import { ProjectService } from '../../core/api/project.service';
+import { UserService } from '../../core/api/user.service';
+import { CountrySpecificService } from '../../core/api/country-specific.service';
 
-import { Mapper                                                                       } from '../../core/utils/mapper.service';
+import { Mapper } from '../../core/utils/mapper.service';
 
-import { DistributionData                                                             } from '../../model/distribution-data';
-import { Donor                                                                        } from '../../model/donor';
-import { Project                                                                      } from '../../model/project';
-import { UserInterface                                                                } from '../../model/interfaces';
-import { CountrySpecific                                                              } from '../../model/country-specific';
+import { DistributionData } from '../../model/distribution-data';
+import { Donor } from '../../model/donor';
+import { Project } from '../../model/project';
+import { UserInterface } from '../../model/interfaces';
+import { CountrySpecific } from '../../model/country-specific';
 
-import { ModalAddComponent                                                            } from '../../components/modals/modal-add/modal-add.component';
+import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
 
-import { GlobalText                                                                     } from '../../../texts/global';
+import { GlobalText } from '../../../texts/global';
 
 @Component({
   selector: 'app-settings',
@@ -27,7 +27,7 @@ import { GlobalText                                                             
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-	public settings = GlobalText.translate('en');
+  public settings = GlobalText.TEXTS;
 
   selectedTitle = "";
   isBoxClicked = false;
@@ -48,7 +48,7 @@ export class SettingsComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public mapperService: Mapper,
-    public authenticationService: AuthenticationService, 
+    public authenticationService: AuthenticationService,
     public distributionService: DistributionService,
     public donorService: DonorService,
     public projectService: ProjectService,
@@ -59,6 +59,15 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.checkSize();
+  }
+
+  /**
+   * check if the langage has changed
+   */
+  ngDoCheck() {
+    if (this.settings != GlobalText.TEXTS) {
+      this.settings = GlobalText.TEXTS;
+    }
   }
 
   @HostListener('window:resize', ['$event'])
@@ -139,7 +148,7 @@ export class SettingsComponent implements OnInit {
       // for users, there are two step (one to get the salt and one to create the user)
       this.authenticationService.requestSalt(createElement['username']).subscribe(response => {
         if (response) {
-          this.authenticationService.createUser(createElement['id'], createElement, response).subscribe(response => { 
+          this.authenticationService.createUser(createElement['id'], createElement, response).subscribe(response => {
             this.selectTitle(this.selectedTitle);
           })
         }

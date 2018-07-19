@@ -10,6 +10,6 @@
 		<div class="wrapper-header" [class.hideMenu]="!user.loggedIn" [class.small-screen]="smallScreenMode&&user.loggedIn">
 			<app-header (emitLogOut)="onLogOut($event)" [currentRoute]="currentRoute"></app-header>
 		</div>
-		<router-outlet></router-outlet> 
+		<router-outlet (activate)="currentComponent = $event"></router-outlet> 
 	</div>
 </div>

@@ -19,11 +19,10 @@ export class HeaderComponent implements OnInit {
   public adminMenuOpen = false;
 
   constructor(
-    private activatedRoute : ActivatedRoute
   ) { }
 
   ngOnInit() {
-    console.log(this.activatedRoute);
+    console.log(this.constructor.name.toLowerCase());
   }
 
   /**

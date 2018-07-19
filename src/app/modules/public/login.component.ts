@@ -12,6 +12,7 @@ import { GlobalText } from '../../../texts/global';
 	styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+	public nameComponent = GlobalText.TEXTS.login_title;
 	public login = GlobalText.TEXTS;
 
 	public user: UserInterface;

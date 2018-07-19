@@ -19,7 +19,6 @@ import { GlobalText } from '../../../texts/global';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
   public dashboard = GlobalText.TEXTS;
 
   users: any;

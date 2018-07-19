@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material';
 import { CacheService } from '../../core/storage/cache.service';
 import { Households } from '../../model/households';
 import { HouseholdsService } from '../../core/api/households.service';
+import { GlobalText } from '../../../texts/global';
 
 @Component({
   selector: 'app-households',
@@ -10,6 +11,7 @@ import { HouseholdsService } from '../../core/api/households.service';
   styleUrls: ['./households.component.scss']
 })
 export class HouseholdsComponent implements OnInit {
+	public nameComponent = "household_title";
 
   public referedClassService;
   referedClassToken = Households;

@@ -17,6 +17,7 @@ export const TEXT = {
     header_profile : "profile", 
     header_disconnect : "disconnect",
 
+    login_title : "login",
     login_bms : "Beneficiary management system",
     login_username : "username",
     login_password : "*********",
@@ -29,6 +30,10 @@ export const TEXT = {
     settings_donors : "donors",
     settings_projects : "projects",
     settings_export : "export",
+
+    report_title : "reports",
+    household_title : "households",
+    distribution_title : "distributions",
 
     table_filter : "Filter",
     table_actions : "Actions",

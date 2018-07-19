@@ -12,9 +12,11 @@ export class HeaderComponent implements OnInit {
   public header = GlobalText.TEXTS;
   public language = "english";
 
+  @Input() currentComponent;
   @Input() currentRoute = "";
   @Output() emitLogOut = new EventEmitter();
   public oldRoute = "";
+  public oldComponent;
   public routeParsed : Array<string> = [this.header.header_home];
   public adminMenuOpen = false;
 
@@ -31,22 +33,30 @@ export class HeaderComponent implements OnInit {
   * and check if the langage has changed
   */
   ngDoCheck(){
-    if(this.currentRoute != this.oldRoute){
-      this.parseRoute(this.currentRoute);
-      this.oldRoute = this.currentRoute;
-      if(this.currentRoute == "/login"){
+    if(this.currentComponent != this.oldComponent){
+      this.createRoute(this.currentComponent);
+      this.oldComponent = this.currentComponent;
+      if((this.currentComponent in GlobalText.TEXTS) && (GlobalText.TEXTS[this.currentComponent] == GlobalText.TEXTS.login_title)){
         this.adminMenuOpen =false;
       }
     }
     if (this.header != GlobalText.TEXTS) {
       this.header = GlobalText.TEXTS;
-      this.parseRoute(this.currentRoute);
+      this.createRoute(this.currentComponent);
     }
   }
 
-  parseRoute(currentRoute): void{
-    this.routeParsed = currentRoute.split('/');
-    this.routeParsed[0]= this.header.header_home;
+  /**
+   * get the name of the current in the right language
+   * using the key 'currentComponent'
+   * @param currentComponent 
+   */
+  createRoute(currentComponent): void{
+    this.routeParsed = []
+    this.routeParsed.push(this.header.header_home);
+    if(this.currentComponent in GlobalText.TEXTS){
+      this.routeParsed.push(GlobalText.TEXTS[this.currentComponent]);
+    }
   }
 
   openAdminMenu(): void{

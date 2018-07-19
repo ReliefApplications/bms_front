@@ -27,6 +27,7 @@ import { GlobalText } from '../../../texts/global';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+  public nameComponent = "settings_title";
   public settings = GlobalText.TEXTS;
 
   selectedTitle = "";
@@ -67,6 +68,7 @@ export class SettingsComponent implements OnInit {
   ngDoCheck() {
     if (this.settings != GlobalText.TEXTS) {
       this.settings = GlobalText.TEXTS;
+      this.nameComponent = GlobalText.TEXTS.settings_title;
     }
   }
 

@@ -73,7 +73,6 @@ export class DataValidationComponent implements OnInit {
      * @param index 
      */
     step1TypoIssues(data, type, index) {
-        console.log('index', index);
         let verification = new VerifiedData;
         let indexFound: boolean = false;
 
@@ -106,7 +105,6 @@ export class DataValidationComponent implements OnInit {
             }
             this.correctedData.push(verification);
         }
-        console.log('corrected data', this.correctedData);
     }
 
     /**
@@ -126,7 +124,6 @@ export class DataValidationComponent implements OnInit {
 
         this.correctedData.forEach(duplicateVerified => {
             duplicateVerified.data.forEach(element => {
-                console.log('equal?', element.id_duplicate, idDuplicate)
                 if (element.id_duplicate === idDuplicate) {
                     indexFound = true;
                     if (type === 'old') {

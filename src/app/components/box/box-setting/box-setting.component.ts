@@ -10,6 +10,6 @@ export class BoxSettingComponent extends BoxComponent {
   @Input() selectedTitle;
 
   ngOnInit() {
-    this.selectedTitle = this.info.title;
+    this.selectedTitle = this.info.ref;
   }
 }

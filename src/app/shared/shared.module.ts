@@ -12,6 +12,7 @@ import { MatSortModule                                          } from '@angular
 import { MatDialogModule                                        } from '@angular/material/dialog';
 import { MatFormFieldModule                                     } from '@angular/material/form-field';
 import { MatInputModule                                         } from '@angular/material';
+import { MatMenuModule                                          } from '@angular/material/menu';
 import { BrowserAnimationsModule                                } from '@angular/platform-browser/animations'
 
 import { MenuItemBoxComponent                                   } from '../components/menu-item-box/menu-item-box.component';
@@ -46,7 +47,7 @@ import { DataValidationComponent                                } from '../modul
         RouterModule,
         CommonModule, // to use instead of BrowserModule if you are using lazyloaded module  like Malnutrition
         FormsModule,
-        MatCheckboxModule, 
+        MatCheckboxModule,
         MatTooltipModule,
         MatSelectModule,
         MatTableModule,
@@ -72,21 +73,22 @@ import { DataValidationComponent                                } from '../modul
         MatStepperModule,
         MatProgressBarModule,
         MatListModule,
+		MatMenuModule,
         ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
     ],
     declarations: [
         //Shared Components
         LoginComponent,
-        DashboardComponent, 
+        DashboardComponent,
         MenuComponent,
         MenuItemBoxComponent,
         HouseholdsComponent,
         HouseholdsImportComponent,
 		DistributionComponent,
 		SettingsComponent,
-		HeaderComponent,     
+		HeaderComponent,
         IconSvgComponent,
-		BoxDashboardComponent,        
+		BoxDashboardComponent,
 		TableComponent,
 		TableSearchComponent,
 		TableMobileComponent,
@@ -111,17 +113,17 @@ import { DataValidationComponent                                } from '../modul
     ],
     exports: [
         //Shared Components
-        LoginComponent, 
-		DashboardComponent,                 
+        LoginComponent,
+		DashboardComponent,
         MenuComponent,
         MenuItemBoxComponent,
         HouseholdsComponent,
         HouseholdsImportComponent,
 		DistributionComponent,
 		SettingsComponent,
-		HeaderComponent,                
+		HeaderComponent,
 		IconSvgComponent,
-		BoxDashboardComponent,        
+		BoxDashboardComponent,
 		TableComponent,
 		TableSearchComponent,
 		TableMobileComponent,
@@ -135,7 +137,7 @@ import { DataValidationComponent                                } from '../modul
         ModalAddComponent,
 		BoxSettingComponent,
         BoxComponent,
-        MatCheckboxModule, 
+        MatCheckboxModule,
         MatTooltipModule,
         MatSelectModule,
         MatTableModule,

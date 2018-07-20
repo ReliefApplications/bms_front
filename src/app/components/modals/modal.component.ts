@@ -7,13 +7,16 @@ import { DonorService                                                           
 import { ProjectService                                                         } from '../../core/api/project.service';
 import { SectorService                                                          } from '../../core/api/sector.service';
 
+import { GlobalText                                                                  } from '../../../texts/global';
+
 @Component({
   selector: 'modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit {
-
+  public modal = GlobalText.TEXTS;
+  
   public entityInstance = null;
   public properties: any;
   propertiesTypes: any;
@@ -35,6 +38,15 @@ export class ModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
+  }
+
+  /**
+   * check if the langage has changed
+   */
+  ngDoCheck() {
+    if (this.modal != GlobalText.TEXTS) {
+      this.modal = GlobalText.TEXTS;
+    }
   }
 
   public closeDialog(): void {

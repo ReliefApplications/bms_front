@@ -1,4 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter     } from '@angular/core';
+import { ActivatedRoute                                     } from '@angular/router';
+
+import { GlobalText                                         } from '../../../texts/global';
 
 @Component({
   selector: 'app-header',
@@ -6,14 +9,18 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  public header = GlobalText.TEXTS;
+  public language = "english";
+
+  @Input() currentComponent;
   @Input() currentRoute = "";
   @Output() emitLogOut = new EventEmitter();
   public oldRoute = "";
-  public home = "Home";
-  public routeParsed : Array<string> = [this.home];
-  public adminMenuOpen = false;
+  public oldComponent;
+  public routeParsed : Array<string> = [this.header.header_home];
 
-  constructor() { }
+  constructor(
+  ) { }
 
   ngOnInit() {
   }
@@ -21,27 +28,41 @@ export class HeaderComponent implements OnInit {
   /**
   * check if the current page has changed
   * and update the new path displayed in the header
+  * and check if the langage has changed
   */
   ngDoCheck(){
-    if(this.currentRoute != this.oldRoute){
-      this.parseRoute(this.currentRoute);
-      this.oldRoute = this.currentRoute;
-      if(this.currentRoute == "/login"){
-        this.adminMenuOpen =false;
-      }
+    if(this.currentComponent != this.oldComponent){
+      this.createRoute(this.currentComponent);
+      this.oldComponent = this.currentComponent;
+    }
+    if (this.header != GlobalText.TEXTS) {
+      this.header = GlobalText.TEXTS;
+      this.createRoute(this.currentComponent);
     }
   }
 
-  parseRoute(currentRoute): void{
-    this.routeParsed = currentRoute.split('/');
-    this.routeParsed[0]= this.home;
-  }
-
-  openAdminMenu(): void{
-    this.adminMenuOpen = !this.adminMenuOpen;
+  /**
+   * get the name of the current in the right language
+   * using the key 'currentComponent'
+   * @param currentComponent
+   */
+  createRoute(currentComponent): void{
+    this.routeParsed = []
+    this.routeParsed.push(this.header.header_home);
+    if(this.currentComponent in GlobalText.TEXTS){
+      this.routeParsed.push(GlobalText.TEXTS[this.currentComponent]);
+    }
   }
 
   logOut(): void{
     this.emitLogOut.emit();
+  }
+
+  //TO DO : handle multiple languages
+  changeLanguage(){
+    switch(this.language){
+      case "francais" : this.language = "english"; GlobalText.changeLanguage('en'); break;
+      case "english" : this.language = "francais"; GlobalText.changeLanguage('fr'); break;
+    }
   }
 }

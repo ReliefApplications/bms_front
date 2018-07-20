@@ -1,7 +1,8 @@
 import { SectorMapper } from "./sector-mapper";
+import { GlobalText } from "../../texts/global";
 
 export class CountrySpecific {
-    static __classname__ = 'CountrySpecific';
+    static __classname__ = "CountrySpecific";
     /**
      * CountrySpecific's id
      * @type {number}
@@ -36,6 +37,10 @@ export class CountrySpecific {
             this.countryIso3 = instance.countryIso3;
             this.name = instance.name;
         }
+    }
+
+    public static getDisplayedName(){
+        return GlobalText.TEXTS.model_country_specific;
     }
 
     mapAllProperties(selfinstance): Object {
@@ -128,9 +133,9 @@ export class CountrySpecific {
     */
     static translator(): Object {
         return {
-            field: "Field",
-            type: "Type",
-            countryIso3: "Country",
+            field: GlobalText.TEXTS.model_country_specific_field,
+            type: GlobalText.TEXTS.model_country_specific_type,
+            countryIso3: GlobalText.TEXTS.model_country_specific_countryIso3,
         }
     }
 

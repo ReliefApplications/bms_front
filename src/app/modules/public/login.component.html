@@ -5,15 +5,15 @@
                 <img class="logo-image" src="../../../assets/images/bms_logo_with_title.png" />
             </div>
             <div class="login-title">
-                <h1 class="title-text">BENEFICIARY MANAGEMENT SYSTEM</h1>
+                <h1 class="title-text">{{login.login_bms | uppercase}}</h1>
             </div>
             <div class="login-user">
-                <input type="text" class="user-input" aria-describedby="basic-addon1" placeholder="USERNAME" [(ngModel)]="user.username">
-                <input type="password" class="user-input" aria-describedby="basic-addon1" placeholder="*********" [(ngModel)]="user.password">
-                <h5 *ngIf="forgotMessage" class="user-forgot-password">Forgot password ?</h5>
+                <input type="text" class="user-input" aria-describedby="basic-addon1" placeholder="{{login.login_username | uppercase}}" [(ngModel)]="user.username">
+                <input type="password" class="user-input" aria-describedby="basic-addon1" placeholder="{{login.login_password | uppercase}}" [(ngModel)]="user.password">
+                <h5 *ngIf="forgotMessage" class="user-forgot-password">{{login.login_forgot_password}}</h5>
             </div>
             <div class="login-button">
-                <button (click)="login()" class="button-login">LOGIN</button>
+                <button (click)="loginAction()" class="button-login">{{login.login_login | uppercase}}</button>
             </div>
         </div>
     </div>

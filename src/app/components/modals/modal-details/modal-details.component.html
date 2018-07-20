@@ -1,5 +1,5 @@
 <div class="modal-container">
-  <h4 class="modal-title">Details</h4>
+  <h4 class="modal-title">{{modal.modal_details_title}}</h4>
   <table class="modal-table">
     <tr *ngFor="let p of properties" class="modal-row">
       <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
@@ -13,6 +13,6 @@
     </tr>
   </table>
   <div class="modal-button">
-    <button mat-button (click)="closeDialog()" class="button-close">Close</button>
+    <button mat-button (click)="closeDialog()" class="button-close">{{modal.modal_close}}</button>
   </div>
 </div>

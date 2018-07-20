@@ -1,9 +1,9 @@
-import { Component, Input         } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AbstractFilter, FilterInterface } from '../../model/filter';
 import { FilterService } from '../../services/filter.service';
 
 export interface ButtonFilterData {
-  label:string
+  label: string
   value: string
   active: boolean
   color?: string
@@ -12,9 +12,9 @@ export interface ButtonFilterData {
 }
 
 @Component({
-  selector   : 'button-filter',
+  selector: 'button-filter',
   templateUrl: './button-filter.component.html',
-  styleUrls  : ['./button-filter.component.scss']
+  styleUrls: ['./button-filter.component.scss']
 })
 
 
@@ -27,7 +27,7 @@ export class ButtonFilterComponent extends AbstractFilter {
   ) {
     super();
   }
- 
+
   ngOnInit() {
     this.filterService.subscribe(this);
   }
@@ -37,13 +37,12 @@ export class ButtonFilterComponent extends AbstractFilter {
    * @param newFilter 
    */
   filter(newFilter: any) {
-    this.active = ! this.active;
-
+    this.active = !this.active;
     this.data.forEach((item: ButtonFilterData) => {
-      if(item.value === newFilter || item.value !== newFilter && item.active) {
+      if (item.value === newFilter || item.value !== newFilter && item.active) {
         item.active = !item.active;
       }
-    })   
+    })
     super.filter(newFilter)
   }
 

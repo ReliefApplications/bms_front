@@ -1,26 +1,26 @@
 <div class="page-container">
     <div class="container-boxes">
         <div class="boxes-map">
-            <h1 class="map-title">DISTRIBUTION MAP</h1>
+            <h1 class="map-title">{{dashboard.dashboard_distribution_map | uppercase}}</h1>
             <div class="map-content">
                 <div id="map"></div>
                 <div class="content-text">
-                    <h2>CAMBODIA PROGRAMS</h2>
+                    <h2>{{dashboard.dashboard_country_program | uppercase}}</h2>
                 </div>
             </div>
         </div>
         <div class="boxes-summary">
-            <h1 class="summary-title">SUMMARY</h1>
+            <h1 class="summary-title">{{dashboard.dashboard_summary | uppercase}}</h1>
             <div class="summary-content">
-                <app-box-dashboard [info]='{icon: "home", color: "green", title:"total beneficiaires", subtitle:"10,250", ref:""}'></app-box-dashboard>
-                <app-box-dashboard [info]='{icon: "project", color: "red", title:"active projects", subtitle:"12", undersubtitle:"",ref:""}'></app-box-dashboard>
-                <app-box-dashboard [info]='{icon: "enrol", color: "green", title:"enrolled beneficiaries", subtitle:"9,750", undersubtitle:"",ref:""}'></app-box-dashboard>
-                <app-box-dashboard [info]='{icon: "dollar", color: "red", title:"total value transactions", subtitle:"$360,000", undersubtitle:"",ref:""}'></app-box-dashboard>
+                <app-box-dashboard [info]='{icon: "home", color: "green", title:dashboard.dashboard_summary_1, subtitle:"10,250", ref:""}'></app-box-dashboard>
+                <app-box-dashboard [info]='{icon: "project", color: "red", title:dashboard.dashboard_summary_2, subtitle:"12", undersubtitle:"",ref:""}'></app-box-dashboard>
+                <app-box-dashboard [info]='{icon: "enrol", color: "green", title:dashboard.dashboard_summary_3, subtitle:"9,750", undersubtitle:"",ref:""}'></app-box-dashboard>
+                <app-box-dashboard [info]='{icon: "dollar", color: "red", title:dashboard.dashboard_summary_4, subtitle:"$360,000", undersubtitle:"",ref:""}'></app-box-dashboard>
             </div>
         </div>
     </div>
     <div class="container-distribution">
-        <h1 class="distribution-title">RECENT DISTRIBUTIONS</h1>
+        <h1 class="distribution-title">{{dashboard.dashboard_recent_distributions | uppercase}}</h1>
         <div class="distribution-content">
             <app-table *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="distributions"></app-table>
             <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="distributions"></app-table-mobile>

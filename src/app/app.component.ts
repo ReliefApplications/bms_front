@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { UserInterface } from './model/interfaces';
 import { AuthenticationService } from './core/authentication/authentication.service';
+import { GlobalText } from '../texts/global';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ export class AppComponent {
 
   user: UserInterface = new UserInterface();
   public currentRoute = "";
+  public currentComponent;
   public menuHover = false;
   public logOut = true;
   public openTopMenu = false;
@@ -86,5 +88,13 @@ export class AppComponent {
 
   clickOnTopMenu(e): void{
     this.openTopMenu = !this.openTopMenu;
+  }
+
+  /**
+   * get the name of the current page component (if it exists)
+   * @param e 
+   */
+  onActivate(e){
+    this.currentComponent = e.nameComponent;
   }
 }

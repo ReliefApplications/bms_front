@@ -1,33 +1,38 @@
 <div class="header-container">
-    <div class="container-routes">
-      <span *ngFor="let item of routeParsed"> 
-        <span *ngIf="(item != '')&&(item != home)"> 
-          > 
-        </span>
-        <a  *ngIf="item == 'Home'" routerLink="/">
-            {{item.charAt(0).toUpperCase() + item.slice(1)}}
-        </a>
-        <a  *ngIf="item != 'Home'" [routerLink]="[item]">
-          {{item.charAt(0).toUpperCase() + item.slice(1)}}
-        </a>
-      </span> 
-    </div>
-    <div class="container-buttons">
-      <div>
-        <button (click)="openAdminMenu()" class="button-admin">
-          <mat-icon inline=true>account_circle</mat-icon>
-        </button>
-        <div class="button-menu" [class.open-menu]="adminMenuOpen">
-          <a routerLink="/">
-            <span>PROFILE</span>
-            <mat-icon>person_outline</mat-icon>
-          </a>
-          <a (click)="logOut()" routerLink="/login"><span>DISCONNECT</span>
-            <mat-icon>exit_to_app</mat-icon>
-          </a>
-        </div>
-      </div>
+  <div class="container-routes">
+    <span *ngFor="let item of routeParsed">
+      <span *ngIf="(item != '')&&(item != header.header_home)">
+        >
+      </span>
+      <a *ngIf="item == 'Home'" routerLink="/">
+        {{item.charAt(0).toUpperCase() + item.slice(1)}}
+      </a>
+      <a *ngIf="item != 'Home'" [routerLink]="[item]">
+        {{item.charAt(0).toUpperCase() + item.slice(1)}}
+      </a>
+    </span>
+  </div>
+  <div class="container-buttons">
+    <div class="buttons">
+	  <button mat-button (click)="changeLanguage()" color="primary">
+		  {{language | uppercase}}
+	  </button>
+      <button class="button-language">
+        <img src="assets/images/cambodia.png">
+      </button>
+	  <button [matMenuTriggerFor]="menu" class="button-admin">
+		<img src="assets/images/profile.png">
+	  </button>
+	  <mat-menu #menu="matMenu" overlapTrigger=false>
+	    <button mat-menu-item  routerLink="/">
+	      <mat-icon>person_outline</mat-icon>
+		  <span>{{header.header_profile | uppercase}}</span>
+	    </button>
+	    <button mat-menu-item (click)="logOut()" routerLink="/login">
+	     <mat-icon>exit_to_app</mat-icon>
+	       <span>{{header.header_disconnect | uppercase}}</span>
+	    </button>
+	  </mat-menu>
     </div>
   </div>
-  
-  
+</div>

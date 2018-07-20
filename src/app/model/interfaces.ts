@@ -1,3 +1,5 @@
+import { GlobalText } from "../../texts/global";
+
 export class ErrorInterface {
     message: string;
 }
@@ -49,6 +51,10 @@ export class UserInterface {
             this.email = instance.email;
             this.salted_password = instance.salted_password;
         }
+    }
+
+    public static getDisplayedName(){
+        return GlobalText.TEXTS.model_user;
     }
 
     mapAllProperties(selfinstance): Object {
@@ -140,8 +146,8 @@ export class UserInterface {
     */
     static translator(): Object {
         return {
-            username: "Email",
-            rights: "Rights"
+            username: GlobalText.TEXTS.model_user_username,
+            rights: GlobalText.TEXTS.model_user_rights
         }
     }
 

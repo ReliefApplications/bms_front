@@ -3,6 +3,7 @@ import { Location } from "./location";
 import { Project } from "./project";
 import { SelectionCriteria } from "./selection-criteria";
 import { Sector } from "./sector";
+import { GlobalText } from "../../texts/global";
 
 export class DistributionData {
     static __classname__ = 'DistributionData';
@@ -64,6 +65,10 @@ export class DistributionData {
             this.updated_on = instance.updated_on;
             this.number_beneficiaries = instance.number_beneficiaries;
         }
+    }
+
+    public static getDisplayedName(){
+        return GlobalText.TEXTS.model_distribution;
     }
 
     mapAllProperties(selfinstance): Object {
@@ -158,10 +163,10 @@ export class DistributionData {
     */
     static translator(): Object {
         return {
-            name: "Distribution",
-            location_name: "Location",
-            number_beneficiaries: "n° Beneficiaries",
-            sectors_name: "Sectors",
+            name: GlobalText.TEXTS.model_distribution_name,
+            location_name: GlobalText.TEXTS.model_distribution_location_name,
+            number_beneficiaries: GlobalText.TEXTS.model_distribution_number_beneficiaries,
+            sectors_name: GlobalText.TEXTS.model_distribution_sectors_name,
         }
     }
 

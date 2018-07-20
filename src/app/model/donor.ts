@@ -1,4 +1,5 @@
 import { SectorMapper } from "./sector-mapper";
+import { GlobalText } from "../../texts/global";
 
 export class Donor {
     static __classname__ = 'Donor';
@@ -46,6 +47,10 @@ export class Donor {
             this.notes = instance.notes;
             this.date_added = instance.date_added;
         }
+    }
+
+    public static getDisplayedName(){
+        return GlobalText.TEXTS.model_donor;
     }
 
     mapAllProperties(selfinstance): Object {
@@ -150,10 +155,10 @@ export class Donor {
     */
     static translator(): Object {
         return {
-            fullname: "Donor's name",
-            shortname: "Shortname",
-            notes: "Notes",
-            projects_name: "Projects",
+            fullname: GlobalText.TEXTS.model_donor_fullname,
+            shortname: GlobalText.TEXTS.model_donor_shortname,
+            notes: GlobalText.TEXTS.model_donor_notes,
+            projects_name: GlobalText.TEXTS.model_donor_projects_name,
         }
     }
 

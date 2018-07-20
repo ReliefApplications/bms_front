@@ -11,12 +11,14 @@
         <td class="element-value">
           <span> {{mapperService.mapTitle(property)}}</span>
         </td>
-        <td>
-          <app-icon-svg *ngIf="propertiesTypes[property]=='image'" class="icon" [name]="mapperService.mapValue(element, property)"></app-icon-svg>
-          <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element, property)}}</span>
+        <td *ngIf="propertiesTypes[property]=='image'">
+          <app-icon-svg  class="icon" [name]="mapperService.mapValue(element, property)"></app-icon-svg>
         </td>
         <td *ngIf="propertiesTypes[property]=='png'">
           <img *ngFor="let image of mapperService.mapValue(element, property)" class="png" [src]=image>
+        </td>
+        <td *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">
+          <span>{{mapperService.mapValue(element, property)}}</span>
         </td>
       </tr>
     </tbody>

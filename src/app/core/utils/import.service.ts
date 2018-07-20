@@ -24,6 +24,7 @@ export class ImportService {
     }
 
     sendData(data, project, step, token?) {
+        console.log('import');
         return new Promise<any[]>((resolve, reject) => {
             this.data = [];
             this.referedClassService = this._householdsService
@@ -31,7 +32,7 @@ export class ImportService {
                 this.referedClassToken = FormatDataNewOld;
                 this.referedClassService.sendDataToValidation(data, project, step).subscribe(response => {
 
-                    let responseFormatted = this.referedClassToken.formatTypo(response.json(), step);
+                    let responseFormatted = this.referedClassToken.formatIssues(response.json(), step);
                     for (let i = 0; i < responseFormatted.length; i++) {
                         this.data.push(responseFormatted[i]);
                     }
@@ -43,18 +44,43 @@ export class ImportService {
                 });
             }
             else {
-                this.referedClassToken = FormatDuplicatesData;
-                this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
-                    let responseFormatted = this.referedClassToken.formatDuplicates(response.json(), step);
-                    for (let i = 0; i < responseFormatted.length; i++) {
-                        this.data.push(responseFormatted[i]);
-                    }
-                    this.token = response.json().token;
-                    this.project = project;
-                    resolve(this.data);
-                }, error => {
-                    reject();
-                });
+                if (step === 2) {
+                    this.referedClassToken = FormatDuplicatesData;
+                    this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
+                        let responseFormatted = this.referedClassToken.formatDuplicates(response.json(), step);
+                        for (let i = 0; i < responseFormatted.length; i++) {
+                            this.data.push(responseFormatted[i]);
+                        }
+                        this.token = response.json().token;
+                        this.project = project;
+                        resolve(this.data);
+                    }, error => {
+                        reject();
+                    });
+                } else if (step === 3 || step === 4) {
+                    this.referedClassToken = FormatDataNewOld;
+                    this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
+
+                        let responseFormatted = this.referedClassToken.formatIssues(response.json(), step);
+                        for (let i = 0; i < responseFormatted.length; i++) {
+                            this.data.push(responseFormatted[i]);
+                        }
+                        this.token = response.json().token;
+                        this.project = project;
+                        resolve(this.data);
+                    }, error => {
+                        reject();
+                    });
+                } else if (step === 5) {
+                    this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
+
+                       console.log('fini',response);
+                        resolve(this.data);
+                    }, error => {
+                        reject();
+                    });
+                }
+
 
             }
         })

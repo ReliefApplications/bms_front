@@ -153,14 +153,14 @@
 
         <mat-step [editable]="false">
             <ng-template matStepLabel>Added beneficiaries </ng-template>
-            <!-- <div class="container-table">
+            <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">3</span>
                     <span>Added beneficiaries</span>
                 </div>
                 <div class="container-content box-green">
-                    <div class="content-table" *ngIf="datas.length > 0">
-                        <mat-card *ngFor="let data of datas">
+                    <div class="content-table" *ngIf="more.length > 0">
+                        <mat-card class="issues" *ngFor="let data of more">
                             <mat-card-content>
                                 <div class="householdData">
                                     <div class="content-householdData">
@@ -198,7 +198,7 @@
                                         <div class="dataToCompare" *ngIf="data.new.households.beneficiaries.length > 1">
                                             <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
                                                 <div class="dataToCompare" *ngIf="beneficiary.status == 0">
-                                                    <mat-checkbox [checked]="!headHousehold" color="primary" (change)="selectBeneficiary(beneficiary)">
+                                                    <mat-checkbox color="primary" (change)="step3More(beneficiary, data.old.households.id)">
                                                         {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                     </mat-checkbox>
                                                 </div>
@@ -209,29 +209,29 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
-                    <div *ngIf="datas.length == 0" class="no-data-box">
+                    <div *ngIf="more.length == 0" class="no-data-box">
                         <h1 class="box-title"> No beneficiaries to add</h1>
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
-                        <button mat-raised-button class="next-button" (click)="stepper.next()">
+                        <button mat-raised-button class="next-button" (click)="sendCorrectedData()">
                             <span>NEXT</span>
                         </button>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </mat-step>
 
         <mat-step [editable]="false">
             <ng-template matStepLabel>Removed beneficiaries </ng-template>
-            <!-- <div class="container-table">
+            <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">4</span>
                     <span>Removed beneficiaries</span>
                 </div>
                 <div class="container-content box-green">
-                    <div class="content-table" *ngIf="datas.length > 0">
-                        <mat-card *ngFor="let data of datas">
+                    <div class="content-table" *ngIf="less.length > 0">
+                        <mat-card class="issues" *ngFor="let data of less">
                             <mat-card-content>
                                 <div class="householdData">
                                     <div class="content-householdData">
@@ -244,10 +244,11 @@
                                         <div class="dataToCompare">{{data.old.households.location.adm1}}</div>
                                     </div>
                                 </div>
-                                <mat-divider></mat-divider>
+                               
                                 <div *ngIf="data.new.households.beneficiaries.length > 1">
+                                    <mat-divider></mat-divider>
                                     <mat-chip-list>
-                                        <mat-chip>existing</mat-chip>
+                                        <mat-chip>In csv</mat-chip>
                                     </mat-chip-list>
                                     <div class="householdData">
                                         <div class="content-householdData">
@@ -268,7 +269,7 @@
                                         <div class="dataToCompare" *ngIf="data.old.households.beneficiaries.length > 1">
                                             <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
                                                 <div class="dataToCompare" *ngIf="beneficiary.status == 0">
-                                                    <mat-checkbox [checked]="!headHousehold" color="primary" (change)="selectBeneficiary(beneficiary)">
+                                                    <mat-checkbox color="primary" (change)="step4Less(beneficiary.id, data.old.households.id)">
                                                         {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                     </mat-checkbox>
                                                 </div>
@@ -279,17 +280,17 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
-                    <div *ngIf="datas.length == 0" class="no-data-box">
+                    <div *ngIf="less.length == 0" class="no-data-box">
                         <h1 class="box-title"> No beneficiaries to remove</h1>
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="75"></mat-progress-bar>
-                        <button mat-raised-button class="next-button" (click)="stepper.next()">
+                        <button mat-raised-button class="next-button" (click)="sendCorrectedData()">
                             <span>NEXT</span>
                         </button>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </mat-step>
 
         <mat-step [editable]="true">

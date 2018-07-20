@@ -3,7 +3,7 @@ import { ImportService } from '../../../core/utils/import.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { MatSnackBar, MatStepper } from '@angular/material';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { VerifiedData, FormatDuplicatesData } from '../../../model/data-validation';
+import { VerifiedData, FormatDuplicatesData, FormatMore, FormatLess } from '../../../model/data-validation';
 
 
 
@@ -21,6 +21,8 @@ export class DataValidationComponent implements OnInit {
     //variable to manage all issues
     public typoIssues: Array<any> = [];
     public duplicates: Array<any> = [];
+    public more: Array<any> = [];
+    public less: Array<any> = [];
     public correctedData: Array<any> = [];
     public step: number = 1;
 
@@ -58,6 +60,18 @@ export class DataValidationComponent implements OnInit {
                 })
 
             })
+        } else if (this.step === 3) {
+            this.correctedData = [];
+            this.more = this._importService.getData();
+            console.log('more', this.more);
+            console.log('correct data length', this.correctedData.length);
+        } else if (this.step === 4) {
+            this.correctedData = [];
+            this.less = this._importService.getData();
+            console.log('less', this.less);
+            console.log('correct data length', this.correctedData.length);
+        } else if (this.step === 5) {
+            console.log('aaaaaa')
         }
 
 
@@ -164,7 +178,7 @@ export class DataValidationComponent implements OnInit {
                 } else {
                     verification.state = false;
                 }
-                
+
             }
             else if (type === 'new') {
                 verification.new = data.new.households;
@@ -195,6 +209,86 @@ export class DataValidationComponent implements OnInit {
 
         }
         console.log('corrected data', this.correctedData);
+    }
+
+    /**
+     * 
+     * @param beneficiary 
+     * @param idOld 
+     */
+    step3More(beneficiary, idOld) {
+        let beneficiaryToAdd = new FormatMore;
+        let householdFind: boolean = false;
+        let beneficiaryFind: boolean = false;
+        if (this.correctedData.length != 0) {
+            for (let j = 0; j < this.correctedData.length; j++) {
+                if (this.correctedData[j].id_old === idOld) {
+                    householdFind = true;
+                    for (let i = 0; i < this.correctedData[j].data.length; i++) {
+                        if (this.correctedData[j].data[i].id_tmp === beneficiary.id_tmp) {
+                            this.correctedData[j].data.splice(beneficiary.id_tmp, 1);
+                            beneficiaryFind = true;
+                            break;
+                        }
+                    }
+                    if (!beneficiaryFind) {
+                        this.correctedData[j].data.push(beneficiary);
+                    }
+
+                   
+                }
+            }
+            if (!householdFind) {
+                beneficiaryToAdd.id_old = idOld;
+                beneficiaryToAdd.data.push(beneficiary);
+                this.correctedData.push(beneficiaryToAdd);
+            }
+        } else {
+            beneficiaryToAdd.id_old = idOld;
+            beneficiaryToAdd.data.push(beneficiary);
+            this.correctedData.push(beneficiaryToAdd);
+        }
+    }
+
+    /**
+     * 
+     * @param idBeneficiary 
+     * @param idOld 
+     */
+    step4Less(idBeneficiary, idOld) {
+        console.log('id benef', idBeneficiary);
+        console.log('id HH', idOld);
+        let beneficiaryToAdd = new FormatLess;
+        let householdFind: boolean = false;
+        let beneficiaryFind: boolean = false;
+        if (this.correctedData.length != 0) {
+            for (let j = 0; j < this.correctedData.length; j++) {
+                if (this.correctedData[j].id_old === idOld) {
+                    householdFind = true;
+                    for (let i = 0; i < this.correctedData[j].data.length; i++) {
+                        if (this.correctedData[j].data[i] === idBeneficiary) {
+                            this.correctedData[j].data.splice(this.correctedData[j].data.indexOf(idBeneficiary), 1);
+                            console.log('after remove', this.correctedData);
+                            beneficiaryFind = true;
+                            break;
+                        }
+                    }
+                    if (!beneficiaryFind) {
+                        this.correctedData[j].data.push(idBeneficiary);
+                    }
+                }
+            }
+            if (!householdFind) {
+                beneficiaryToAdd.id_old = idOld;
+                beneficiaryToAdd.data.push(idBeneficiary);
+                this.correctedData.push(beneficiaryToAdd);
+            }
+        } else {
+            beneficiaryToAdd.id_old = idOld;
+            beneficiaryToAdd.data.push(idBeneficiary);
+            this.correctedData.push(beneficiaryToAdd);
+        }
+        console.log('correct', this.correctedData);
     }
 
     /**
@@ -229,8 +323,13 @@ export class DataValidationComponent implements OnInit {
                 this.snackBar.open('Typo issues corrected', '', { duration: 500 });
             } else if (this.step === 2) {
                 this.snackBar.open('Duplicate issues corrected', '', { duration: 500 });
+            } else if (this.step === 3) {
+                this.snackBar.open('Beneficiaries added in household', '', { duration: 500 });
+            } else if (this.step === 4) {
+                this.snackBar.open('Beneficiaries removed in household', '', { duration: 500 });
             }
             this.step = this.step + 1;
+            console.log('step', this.step);
             this._importService.sendData(this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
                 this.stepper.next();
                 this.getData();

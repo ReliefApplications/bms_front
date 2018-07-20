@@ -9,7 +9,7 @@ export class Data {
      * Households' familyName and first name to compare
      * @type {string}
      */
-    nameHead?: string = '';
+    nameHead?: string;
     /**
      * Households
      * @type {Households}
@@ -42,7 +42,7 @@ export class FormatDataNewOld {
      * id to find pair of new old
      * @type {string}
      */
-    id_tmp_beneficiary: string = "";    
+    id_tmp_beneficiary?: string;
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -58,7 +58,7 @@ export class FormatDataNewOld {
      * Get the received instance after send the csv in parameter
      * @param instance 
      */
-    public static formatTypo(instance: any, step: number): FormatDataNewOld[] {
+    public static formatIssues(instance: any, step: number): FormatDataNewOld[] {
         let dataFormatted: FormatDataNewOld[] = [];
         instance.data.forEach(element => {
             dataFormatted.push(this.formatDataOldNew(element, step));
@@ -77,29 +77,33 @@ export class FormatDataNewOld {
         let oldBeneficiary;
         let newBeneficiary;
 
-        if (step === 1) {
-            element.new.beneficiaries.forEach(beneficiary => {
-                if (beneficiary.status == '1') {
-                    data.new.nameHead = beneficiary.family_name + " " + beneficiary.given_name;
-                }
-            });
-            element.old.beneficiaries.forEach(beneficiary => {
-                if (beneficiary.status == '1') {
-                    data.old.nameHead = beneficiary.family_name + " " + beneficiary.given_name;
-                }
-            });
-        }
-        else if (step === 2) {
+        if (step === 2) {
             element.old.beneficiaries.forEach(beneficiary => {
                 if (beneficiary.status) {
                     data.old.isHead = true;
+                    oldBeneficiary = element.old.id + beneficiary.family_name + beneficiary.given_name;
                 }
-                oldBeneficiary = element.old.id + beneficiary.family_name + beneficiary.given_name;
+                
             });
             element.new.beneficiaries.forEach(beneficiary => {
                 newBeneficiary = beneficiary.family_name + beneficiary.given_name;
             });
             data.id_tmp_beneficiary = oldBeneficiary + "/" + newBeneficiary;
+        } else {
+            element.new.beneficiaries.forEach(beneficiary => {
+                if (beneficiary.status == '1') {
+                    data.new.nameHead = beneficiary.family_name + " " + beneficiary.given_name;
+                }
+                beneficiary.id_tmp = element.old.id + beneficiary.family_name + beneficiary.given_name;
+            });
+            element.old.beneficiaries.forEach(beneficiary => {
+                if (beneficiary.status == '1') {
+                    data.old.nameHead = beneficiary.family_name + " " + beneficiary.given_name;
+                }
+                beneficiary.id_tmp = element.old.id + beneficiary.family_name + beneficiary.given_name;
+            });
+            
+
         }
 
         return data;
@@ -121,7 +125,7 @@ export class VerifiedData {
      * boolean to now which action is necessary : update, add, delete
      * @type {boolean}
      */
-    state: boolean = false;
+    state?: boolean = false;
     /**
      * household's id 
      * @type {number}
@@ -194,7 +198,8 @@ export class FormatDuplicatesData {
      * Get the received instance after send corrected typo issues in parameter
      * @param instance 
      */
-    public static formatDuplicates(instance: any, step:number): FormatDuplicatesData[] {
+    public static formatDuplicates(instance: any, step: number): FormatDuplicatesData[] {
+        console.log("instance", instance)
         let formatDuplicates: FormatDuplicatesData[] = [];
         instance.data.forEach(data => {
             let duplicates = new FormatDuplicatesData;
@@ -203,6 +208,7 @@ export class FormatDuplicatesData {
             if (data.id_tmp_cache) {
                 duplicates.id_tmp_cache = data.id_tmp_cache
             }
+
             data.data.forEach(element => {
                 duplicates.data.push(FormatDataNewOld.formatDataOldNew(element, step));
             });
@@ -211,5 +217,48 @@ export class FormatDuplicatesData {
         });
         return formatDuplicates;
     }
+
+}
+
+export class FormatMore {
+    /**
+     * id to identify household
+     * @type {number}
+     */
+    id_old: number;
+    /**
+     * array of beneficiaries to add in the household
+     * @type {Array}
+     */
+    data: Array<any> = [];
+
+    constructor(instance?) {
+        if (instance !== undefined) {
+            this.id_old = instance.id_old;
+            this.data = instance.data;
+        }
+    }
+
+}
+
+export class FormatLess {
+    /**
+     * id to identify household
+     * @type {number}
+     */
+    id_old: number;
+    /**
+     * array of id beneficiaries to delete in the database
+     * @type {Array}
+     */
+    data: Array<number> = [];
+
+    constructor(instance?) {
+        if (instance !== undefined) {
+            this.id_old = instance.id_old;
+            this.data = instance.data;
+        }
+    }
+
 }
 

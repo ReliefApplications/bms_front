@@ -2,25 +2,28 @@
   <h4 class="modal-title">{{modal.modal_add_title}} {{entityDisplayedName | lowercase}}</h4>
   <table class="modal-table">
     <tr *ngFor="let p of properties" class="modal-row">
+      {{newObject[p]}}
       <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
       <th class="table-value">
-        <mat-form-field *ngIf="propertiesTypes[p]!='email'">
-          <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="newObject[p]" [type]="propertiesTypes[p]">
-          <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{data.mapper.mapTitle(p)}}"
-            [formControl]="controls" multiple>
-            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field *ngIf="propertiesTypes[p]=='email'">
-          <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.modal_email}}" [formControl]="emailFormControl" [errorStateMatcher]="matcher">
-          <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+        <form class="form">
+          <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
+            <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
+            <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{data.mapper.mapTitle(p)}}" [formControl]="controls"
+              multiple>
+              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">
+            <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.modal_email}}" [formControl]="emailFormControl" [errorStateMatcher]="matcher">
+            <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
               {{modal.modal_valid_email}}
-          </mat-error>
-          <mat-error *ngIf="emailFormControl.hasError('required')">
+            </mat-error>
+            <mat-error *ngIf="emailFormControl.hasError('required')">
               {{modal.modal_email_is}}
-            <strong>{{modal.modal_required}}</strong>
-          </mat-error>
-        </mat-form-field>
+              <strong>{{modal.modal_required}}</strong>
+            </mat-error>
+          </mat-form-field>
+        </form>
       </th>
     </tr>
   </table>

@@ -4,22 +4,26 @@
     <tr *ngFor="let p of properties" class="modal-row">
       <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
       <th class="table-value">
-        <mat-form-field *ngIf="propertiesTypes[p]!='email'">
-          <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="updateObject[p]" [type]="propertiesTypes[p]">
-          <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="updateObject[p]" placeholder="{{data.mapper.mapTitle(p)}}" [formControl]="controls" multiple>
-            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field *ngIf="propertiesTypes[p]=='email'">
-          <input [(ngModel)]="updateObject[p]" matInput placeholder="{{modal.modal_email}}" [formControl]="emailFormControl" [errorStateMatcher]="matcher">
-          <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-            {{modal.modal_valid_email}}
-          </mat-error>
-          <mat-error *ngIf="emailFormControl.hasError('required')">
-            {{modal.modal_email_is}}
-            <strong>{{modal.modal_required}}</strong>
-          </mat-error>
-        </mat-form-field>
+        <form class="form">
+          <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
+            <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}"
+              [type]="propertiesTypes[p]">
+            <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="updateObject[p]" placeholder="{{data.mapper.mapTitle(p)}}"
+              [formControl]="controls" multiple>
+              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">
+            <input [(ngModel)]="updateObject[p]" matInput placeholder="{{modal.modal_email}}" [formControl]="emailFormControl" [errorStateMatcher]="matcher">
+            <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+              {{modal.modal_valid_email}}
+            </mat-error>
+            <mat-error *ngIf="emailFormControl.hasError('required')">
+              {{modal.modal_email_is}}
+              <strong>{{modal.modal_required}}</strong>
+            </mat-error>
+          </mat-form-field>
+        </form>
       </th>
     </tr>
   </table>

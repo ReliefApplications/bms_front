@@ -1,6 +1,6 @@
 <div class="page-container">
     <div class="container-title">
-      <h2>HOUSEHOLDS</h2>
+      <h2>{{household.households_title | uppercase}}</h2>
     </div>
     <div class="container-table">
       <div class="container-content">
@@ -12,12 +12,12 @@
           <div class="import-export">
             <button mat-raised-button class="export-button">
               <mat-icon>get_app</mat-icon>
-              <span>EXPORT</span>
+              <span>{{household.households_export | uppercase}}</span>
             </button>
             <a routerLink="/households/import">
               <button mat-raised-button class="import-button">
                 <mat-icon>publish</mat-icon>
-                <span>IMPORT</span>
+                <span>{{household.households_import | uppercase}}</span>
               </button>
             </a>
           </div>

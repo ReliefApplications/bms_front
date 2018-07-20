@@ -11,7 +11,8 @@ import { GlobalText } from '../../../texts/global';
   styleUrls: ['./households.component.scss']
 })
 export class HouseholdsComponent implements OnInit {
-	public nameComponent = "household_title";
+  public household = GlobalText.TEXTS;
+	public nameComponent = "households_title";
 
   public referedClassService;
   referedClassToken = Households;
@@ -34,6 +35,15 @@ export class HouseholdsComponent implements OnInit {
   ngOnInit() {
     this.checkSize();
     this.checkHouseholds();
+  }
+
+  /**
+   * check if the langage has changed
+   */
+  ngDoCheck() {
+    if (this.household != GlobalText.TEXTS) {
+      this.household = GlobalText.TEXTS;
+    }
   }
 
   /**

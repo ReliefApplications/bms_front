@@ -54,7 +54,10 @@ export const TEXT = {
     report_upcoming_reporting : "Graphiques à venir",
     report_loader : "Chargement",
 
-    household_title : "ménages",
+    households_title : "ménages",
+    households_export : "export",
+    households_import : "import",
+
     distribution_title : "distributions",
     
     table_filter : "Filtre",

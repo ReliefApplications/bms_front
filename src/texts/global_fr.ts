@@ -15,13 +15,13 @@ export const TEXT = {
 
     header_home : "Accueil",
     header_profile : "profil", 
-    header_disconnect : "se connecter",
+    header_disconnect : "déconnexion",
 
     login_title : "login",
     login_bms : "Beneficiary management system",
     login_username : "identifiant",
     login_password : "*********",
-    login_login : "se connecter",
+    login_login : "connexion",
     login_forgot_password : "Mot de passe oublié ?",
 
     settings_title : "paramètres",

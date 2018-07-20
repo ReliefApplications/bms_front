@@ -1,4 +1,7 @@
-import { Sector             } from "./sector"
+import { Sector } from "./sector"
+import { SectorMapper } from "./sector-mapper";
+import { Donor } from "./donor";
+import { GlobalText } from "../../texts/global";
 
 export class Project {
     static __classname__ = 'Project';
@@ -13,10 +16,15 @@ export class Project {
      */
     name: string = '';
     /**
-     * Project's string
-     * @type {string}
+    * Project's sector
+    * @type {string[]}
+    */
+    sectors_name: string[] = [];
+    /**
+     * Project's sector
+     * @type {Sector[]}
      */
-    sector: string;
+    sectors: Sector[] = [];
     /**
      * Project's start_date
      * @type {Date}
@@ -28,73 +36,162 @@ export class Project {
      */
     end_date: Date;
     /**
-     * Project's numberOfHouseholds
+     * Project's number_of_households
      * @type {number}
      */
-    numberOfHouseholds: number;
-     /**
+    number_of_households: number;
+    /**
+    * Project's donors
+    * @type {string[]}
+    */
+    donors_name: string[] = [];
+    /**
      * Project's donors
+     * @type {Donor[]}
+     */
+    donors: Donor[] = [];
+    /**
+     * Project's iso3
      * @type {string}
      */
-    donors: string;
+    iso3: string;
+    /**
+     * Project's value
+     * @type {Float32Array}
+     */
+    value: Float32Array;
+    /**
+     * Project's notes
+     * @type {string}
+     */
+    notes: string;
 
-    constructor(instance?){
-        if(instance !== undefined){
+    constructor(instance?) {
+        if (instance !== undefined) {
             this.id = instance.id;
             this.name = instance.name;
-            this.sector = instance.sector;
             this.start_date = instance.start_date;
             this.end_date = instance.end_date;
-            this.numberOfHouseholds = instance.numberOfHouseholds;
-            this.donors = instance.donors;
+            this.number_of_households = instance.number_of_households;
+            this.iso3 = instance.iso3;
+            this.value = instance.value;
+            this.notes = instance.notes;
+        }
+    }
+
+    public static getDisplayedName(){
+        return GlobalText.TEXTS.model_project;
+    }
+
+    mapAllProperties(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            id: selfinstance.id,
+            name: selfinstance.name,
+            start_date: selfinstance.start_date,
+            end_date: selfinstance.end_date,
+            number_of_households: selfinstance.number_of_households,
+            iso3: selfinstance.iso3,
+            notes: selfinstance.notes,
+            value: selfinstance.value,
         }
     }
 
     /**
     * return a Project after formatting its properties
     */
-   getMapper(selfinstance): Object {
-        if(!selfinstance)
+    getMapper(selfinstance): Object {
+        if (!selfinstance)
             return selfinstance;
 
         return {
-            name : selfinstance.name,
-            sector : selfinstance.sector,
-            start_date : selfinstance.start_date,
-            end_date : selfinstance.end_date,
-            numberOfHouseholds : selfinstance.numberOfHouseholds,
-            donors : selfinstance.donors
+            name: selfinstance.name,
+            sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
+            start_date: selfinstance.start_date,
+            end_date: selfinstance.end_date,
+            number_of_households: selfinstance.number_of_households,
+            donors_name: selfinstance.donors_name
         }
     }
 
     /**
     * return a Project after formatting its properties for the modal details
     */
-    getMapperDetails(selfinstance): Object{
-        if(!selfinstance)
+    getMapperDetails(selfinstance): Object {
+        if (!selfinstance)
             return selfinstance;
 
         return {
-            name : selfinstance.name,
-            sector : selfinstance.sector,
-            start_date : selfinstance.start_date,
-            end_date : selfinstance.end_date,
-            numberOfHouseholds : selfinstance.numberOfHouseholds,
-            donors : selfinstance.donors            
-        } 
+            name: selfinstance.name,
+            sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
+            start_date: selfinstance.start_date,
+            end_date: selfinstance.end_date,
+            number_of_households: selfinstance.number_of_households,
+            donors_name: selfinstance.donors_name
+        }
+    }
+
+    /**
+     * return a Project after formatting its properties for the modal add
+     */
+    getMapperAdd(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            name: selfinstance.name,
+            sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
+            start_date: selfinstance.start_date,
+            end_date: selfinstance.end_date,
+            donors_name: selfinstance.donors_name,
+            notes: selfinstance.notes
+        }
+    }
+
+    /**
+    * return a Project after formatting its properties for the modal update
+    */
+    getMapperUpdate(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            name: selfinstance.name,
+            sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
+            start_date: selfinstance.start_date,
+            end_date: selfinstance.end_date,
+            number_of_households: selfinstance.number_of_households,
+            donors_name: selfinstance.donors_name
+        }
     }
 
     /**
     * return the type of Project properties
     */
-    getTypeProperties(selfinstance): Object{
+    getTypeProperties(selfinstance): Object {
         return {
-            name : "text",
-            sector : "text",
-            start_date : "date",
-            end_date : "date",
-            numberOfHouseholds : "number",
-            donors : "text",
+            name: "text",
+            sectors_name: "image",
+            start_date: "date",
+            end_date: "date",
+            number_of_households: "number",
+            donors_name: "text",
+        }
+    }
+
+    /**
+    * return the type of Project properties for modals
+    */
+    getModalTypeProperties(selfinstance): Object {
+        return {
+            name: "text",
+            sectors_name: "select",
+            start_date: "date",
+            end_date: "date",
+            number_of_households: "number",
+            donors_name: "select",
         }
     }
 
@@ -103,36 +200,57 @@ export class Project {
     */
     static translator(): Object {
         return {
-            name: "Project",
-            sectors:"Sectors",
-            start_date:"Start Date",
-            end_date:"End Date",
-            numberOfHouseholds:"Number of Households",
-            donors : "Donors",
+            name: GlobalText.TEXTS.model_project_name,
+            sectors_name: GlobalText.TEXTS.model_project_sectors_name,
+            start_date: GlobalText.TEXTS.model_project_start_date,
+            end_date: GlobalText.TEXTS.model_project_end_date,
+            number_of_households: GlobalText.TEXTS.model_project_number_of_households,
+            donors_name: GlobalText.TEXTS.model_project_donors_name,
+            notes: GlobalText.TEXTS.model_project_notes,
         }
     }
 
-    public static formatArray(instance): Project[]{
-        let projects : Project[] = [];
+    public static formatArray(instance): Project[] {
+        let projects: Project[] = [];
         instance.forEach(element => {
-            projects.push(this.formatDonor(element));
+            projects.push(this.formatProject(element));
         });
         return projects;
     }
 
-    public static formatDonor(element: any): Project{
-        let project = new Project();
-        project.id = element.id;
-        project.name = element.name;
-        element.sectors.forEach(element => {
-            element.sectors = " "+element+" ";
+    public static formatProject(element: any): Project {
+        let project = new Project(element);
+        element.sectors.forEach(sector => {
+            project.sectors.push(new Sector(sector));
+            project.sectors_name.push(sector.name);
         });
-        project.start_date = element.start_date;
-        project.end_date = element.end_date;
-        project.numberOfHouseholds = element.numberOfHouseholds;
-        element.donors.forEach(element => {
-            element.donors = " "+element+" ";
+        element.donors.forEach(donor => {
+            project.donors.push(new Donor(donor));
+            project.donors_name.push(donor.fullname);
         });
+        return project;
+    }
+
+    public static formatForApi(element: Project): any {
+        let project = new Project(element);
+        if (element.sectors_name) {
+            element.sectors_name.forEach(sector => {
+                let newSector = new Sector();
+                newSector.id = parseInt(sector, 10);
+                project.sectors.push(new Sector(newSector));
+            });
+        } else {
+            project.sectors = [];
+        }
+        if (element.donors_name) {
+            element.donors_name.forEach(donor => {
+                let newDonor = new Donor();
+                newDonor.id = parseInt(donor, 10);
+                project.donors.push(new Donor(newDonor));
+            });
+        } else {
+            project.donors = [];
+        }
         return project;
     }
 }

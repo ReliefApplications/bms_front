@@ -26,17 +26,17 @@ export class Mapper{
     setMapperObject(entity): Object{
         switch(entity.__classname__){
             case 'DistributionData' :
-            this.mapperObject = this.mapper.distribution_data; break;
+            this.mapperObject = this.mapper.getEntityTranslator("distribution_data"); break;
             case 'Donor' :
-            this.mapperObject = this.mapper.donor; break;
+            this.mapperObject = this.mapper.getEntityTranslator("donor"); break;
             case 'Project' :
-            this.mapperObject = this.mapper.project; break;
+            this.mapperObject = this.mapper.getEntityTranslator("project"); break;
             case 'UserInterface' :
-            this.mapperObject = this.mapper.user; break;
+            this.mapperObject = this.mapper.getEntityTranslator("user"); break;
             case 'CountrySpecific' :
-            this.mapperObject = this.mapper.country_specific; break;
+            this.mapperObject = this.mapper.getEntityTranslator("country_specific"); break;
             case 'Households' :
-            this.mapperObject = this.mapper.households; break;
+            this.mapperObject = this.mapper.getEntityTranslator("households"); break;
             default: return;
         }
         return this;

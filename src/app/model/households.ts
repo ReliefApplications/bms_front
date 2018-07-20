@@ -1,3 +1,5 @@
+import { GlobalText } from "../../texts/global";
+
 export class Households {
     static __classname__ = 'Households';
     /**
@@ -41,6 +43,10 @@ export class Households {
             this.dependents = instance.dependents;
             this.vulnerabilities = instance.vulnerabilities;
         }
+    }
+
+    public static getDisplayedName(){
+        return GlobalText.TEXTS.model_households;
     }
 
     /**
@@ -93,11 +99,11 @@ export class Households {
     */
     static translator(): Object {
         return {
-            familyName: "Family name",
-            firstName: "First name",
-            location: "Location",
-            dependents : "Dependents",
-            vulnerabilities : "Vulnerabilities",
+            familyName: GlobalText.TEXTS.model_households_familyName,
+            firstName: GlobalText.TEXTS.model_households_firstName,
+            location: GlobalText.TEXTS.model_households_location,
+            dependents : GlobalText.TEXTS.model_households_dependents,
+            vulnerabilities : GlobalText.TEXTS.model_households_vulnerabilities,
         }
     }
 

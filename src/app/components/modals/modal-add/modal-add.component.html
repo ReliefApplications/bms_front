@@ -1,20 +1,20 @@
 <div class="modal-container">
-  <h4 class="modal-title">{{modal.modal_update_title}}</h4>
+  <h4 class="modal-title">{{modal.modal_add_title}} {{entityDisplayedName | lowercase}}</h4>
   <table class="modal-table">
     <tr *ngFor="let p of properties" class="modal-row">
+      {{newObject[p]}}
       <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
       <th class="table-value">
         <form class="form">
           <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
-            <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}"
-              [type]="propertiesTypes[p]">
-            <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="updateObject[p]" placeholder="{{data.mapper.mapTitle(p)}}"
-              [formControl]="controls" multiple>
+            <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
+            <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{data.mapper.mapTitle(p)}}" [formControl]="controls"
+              multiple>
               <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">
-            <input [(ngModel)]="updateObject[p]" matInput placeholder="{{modal.modal_email}}" [formControl]="emailFormControl" [errorStateMatcher]="matcher">
+            <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.modal_email}}" [formControl]="emailFormControl" [errorStateMatcher]="matcher">
             <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
               {{modal.modal_valid_email}}
             </mat-error>
@@ -28,7 +28,7 @@
     </tr>
   </table>
   <div class="modal-button">
-    <button mat-button (click)="closeDialog()" class="button-save">Cancel</button>
-    <button mat-button (click)="save()" class="button-cancel">Save</button>
+    <button mat-button (click)="closeDialog()" class="button-cancel">{{modal.modal_cancel}}</button>
+    <button mat-button (click)="add()" class="button-delete">{{modal.modal_create}}</button>
   </div>
 </div>

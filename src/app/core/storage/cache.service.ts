@@ -17,6 +17,8 @@ export class CacheService {
 	static readonly USER 						= 'user';
 	static readonly DISTRIBUTIONS              	= 'distributions';
 	static readonly DONORS		              	= 'donors';
+	static readonly PROJECTS		            = 'projects';
+	static readonly SECTORS		              	= 'sectors';
 	static readonly HOUSEHOLDS		            = 'households';
 
 	constructor() {

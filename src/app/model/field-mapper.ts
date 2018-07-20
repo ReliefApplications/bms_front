@@ -6,10 +6,15 @@ import { CountrySpecific                                   } from "./country-spe
 import { Households                                        } from "./households";
 
 export class FieldMapper{
-    distribution_data         = DistributionData.translator()
-    donor                     = Donor.translator()
-    project                   = Project.translator()
-    user                      = UserInterface.translator()
-    country_specific          = CountrySpecific.translator()
-    households                = Households.translator()
+
+    public getEntityTranslator(entityName : string){
+        switch(entityName){
+            case 'distribution_data': return DistributionData.translator();
+            case 'donor' : return Donor.translator();
+            case 'project' : return Project.translator();
+            case 'user' : return UserInterface.translator();
+            case 'country_specific' : return CountrySpecific.translator();
+            case 'households' : return Households.translator();
+        }
+    }
 }

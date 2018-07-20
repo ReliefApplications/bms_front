@@ -4,8 +4,8 @@
       <img src="assets/images/bms_logo_with_title.png">
     </a>
   </div>
-  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "distribution", title:"distributions", menuHover:menuHover}'></menu-item-box>
-  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "households", title:"households", menuHover:menuHover}'></menu-item-box>
-  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "reports", title:"reports", menuHover:menuHover}'></menu-item-box>
-  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "settings", title:"settings", menuHover:menuHover, isLast:"true"}'></menu-item-box>
+  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "distribution", title:menu.menu_distributions, menuHover:menuHover}'></menu-item-box>
+  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "households", title:menu.menu_households, menuHover:menuHover}'></menu-item-box>
+  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "reports", title:menu.menu_reports, menuHover:menuHover}'></menu-item-box>
+  <menu-item-box (emitActive)='setCurrentRoute($event)' [activeTitle]="activeTitle" [info]='{icon: "settings", title:menu.menu_settings, menuHover:menuHover, isLast:"true"}'></menu-item-box>
 </div>

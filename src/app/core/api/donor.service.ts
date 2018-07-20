@@ -19,4 +19,19 @@ export class DonorService{
         let url = this.api + "/donors";
         return this.http.get(url);
     }
+
+    public update(id: number, body: any) {
+        let url = this.api + "/donors/"+id;
+        return this.http.post(url, body);
+    }
+
+    public create(id: number, body: any) {
+        let url = this.api + "/donors";
+        return this.http.put(url, body);
+    }
+
+    public delete(id: number, body: any) {
+        let url = this.api + "/donors/"+id;
+        return this.http.delete(url, body);
+    }
 }

@@ -8,6 +8,7 @@ import { ChartRegistration, RegisteredItem } from '../services/chart-registratio
 import { forEach } from '@angular/router/src/utils/collection';
 import { MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material';
 import { FormControl } from '@angular/forms';
+import { GlobalText } from '../../../../texts/global';
 
 
 @Component({
@@ -16,6 +17,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./indicator-page.component.scss']
 })
 export class IndicatorPageComponent implements OnInit {
+  public indicator = GlobalText.TEXTS;
 
   @ViewChild('chart') chartDiv;
 
@@ -26,7 +28,8 @@ export class IndicatorPageComponent implements OnInit {
   public body: any = [];
   public indicators: any[] = [];
   public filtersButton;
-  public frequency = "Year";
+  public frequency = this.indicator.report_frequency_year;
+  public frequencyChanged = false;
   public chartDimensions: number[];
   public indicatorsLoading = false;
   public period: boolean = false;
@@ -43,15 +46,15 @@ export class IndicatorPageComponent implements OnInit {
 
   // Data Button Declaration
   public dataFilter1: Array<ButtonFilterData> = [
-    { level: '1', label: 'PER YEAR', value: 'Year', active: true },
-    { level: '1', label: 'PER QUARTER', value: 'Quarter', active: false },
-    { level: '1', label: 'PER MONTH', value: 'Month', active: false },
+    { level: '1', label: this.indicator.report_filter_per_year.toLocaleUpperCase(), value: this.indicator.report_frequency_year, active: true },
+    { level: '1', label: this.indicator.report_filter_per_quarter.toLocaleUpperCase(), value: this.indicator.report_frequency_quarter, active: false },
+    { level: '1', label: this.indicator.report_filter_per_month.toUpperCase(), value: this.indicator.report_frequency_month, active: false },
   ]
 
   public dataFilter2: Array<ButtonFilterData> = [
-    { level: '0', icon: 'settings/api', color: 'red', label: 'COUNTRY REPORT', value: 'country', active: true },
-    { level: '0', icon: 'reporting/projects', color: 'green', label: 'PROJECT REPORT', value: 'project', active: false },
-    { level: '0', icon: 'reporting/distribution', color: 'red', label: 'DISTRIBUTION REPORT', value: 'distribution', active: false },
+    { level: '0', icon: 'settings/api', color: 'red', label: this.indicator.report_country_report.toLocaleUpperCase(), value: this.indicator.report_country, active: true },
+    { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: this.indicator.report_project, active: false },
+    { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: this.indicator.report_distribution, active: false },
   ]
 
   //static variable
@@ -73,13 +76,12 @@ export class IndicatorPageComponent implements OnInit {
     this.checkSize();
     if (!this.indicatorsLoading) {
       this.indicatorsLoading = true;
-        this.referedClassService.getIndicators().toPromise().then(response => {
+      this.referedClassService.getIndicators().toPromise().then(response => {
         this.indicators = response as any;
         this.indicatorsLoading = false
-        console.log(this.indicators);
       }).catch(e => {
-         this.indicatorsLoading = false;
-      }); 
+        this.indicatorsLoading = false;
+      });
     }
   }
 
@@ -89,6 +91,22 @@ export class IndicatorPageComponent implements OnInit {
     }
     //Get button reference in the template and store it in variable
     this.filtersButton = this.buttonFilters;
+  }
+
+  /**
+   	* check if the langage has changed
+   	*/
+  ngDoCheck() {
+    if (this.indicator != GlobalText.TEXTS) {
+      this.indicator = GlobalText.TEXTS;
+      if (this.period) {
+        this.frequency = this.indicator.report_period_selected;
+      }
+      if(!this.frequencyChanged){
+        this.frequency = this.indicator.report_frequency_year;
+      }
+      this.updateFiltersWithLanguage();
+    }
   }
 
   /**
@@ -113,14 +131,15 @@ export class IndicatorPageComponent implements OnInit {
     });
 
     //Verify the frequency selected
-      this.dataFilter1.forEach(filter => {
-        if (filter['active']) {
-          this.frequency = filter['value'];
-          this.period = false;
-        }
-      });
-   
- 
+    this.dataFilter1.forEach(filter => {
+      if (filter['active']) {
+        this.frequency = filter['value'];
+        this.period = false;
+      }
+      this.frequencyChanged = true;
+    });
+
+
   }
 
   /**
@@ -166,7 +185,7 @@ export class IndicatorPageComponent implements OnInit {
   /**
    * For responsive design
    */
-  checkSize(): void{
+  checkSize(): void {
     this.heightScreen = window.innerHeight;
     this.widthScreen = window.innerWidth;
   }
@@ -176,17 +195,33 @@ export class IndicatorPageComponent implements OnInit {
    * For the button "choose period", 
    * Allow to now when the button is active or not
    */
-  selectPeriod(): void{
+  selectPeriod(): void {
     this.period = !this.period;
     if (this.period) {
-      this.frequency = "Period selected";
+      this.frequency = this.indicator.report_period_selected;
       this.dataFilter1.forEach(filter => {
         if (filter['active']) {
           filter['active'] = false;
-          
+
         }
       });
     }
+  }
+
+  updateFiltersWithLanguage() {
+    this.dataFilter1[0].label = this.indicator.report_filter_per_year.toLocaleUpperCase();
+    this.dataFilter1[0].value = this.indicator.report_frequency_year;
+    this.dataFilter1[1].label = this.indicator.report_filter_per_quarter.toLocaleUpperCase();
+    this.dataFilter1[1].value = this.indicator.report_frequency_quarter;
+    this.dataFilter1[2].label = this.indicator.report_filter_per_month.toLocaleUpperCase();
+    this.dataFilter1[2].value = this.indicator.report_frequency_month;
+
+    this.dataFilter2[0].label = this.indicator.report_country_report.toLocaleUpperCase();
+    this.dataFilter2[0].value = this.indicator.report_country;
+    this.dataFilter2[1].label = this.indicator.report_project_report.toLocaleUpperCase();
+    this.dataFilter2[1].value = this.indicator.report_project;
+    this.dataFilter2[2].label = this.indicator.report_distribution_report.toLocaleUpperCase();
+    this.dataFilter2[2].value = this.indicator.report_distribution;
   }
 
 }

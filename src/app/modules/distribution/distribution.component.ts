@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./distribution.component.scss']
 })
 export class DistributionComponent implements OnInit {
+	public nameComponent = "distribution_title";
 
   constructor() { }
 

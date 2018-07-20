@@ -1,16 +1,16 @@
-@import '../../../assets/css/variable.scss'; 
+@import '../../../assets/css/variable.scss';
 
 .header-container{
     width: 100%;
-    height: 100%;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
-
+    z-index: 10;
     .container-routes{
         display: flex;
-        width: 50%;
+        align-items: center;
+        flex-grow: 1;
         padding : 10px;
-        min-width: 200px;
         font-size: 1.9vh;
         flex-wrap: wrap;
 
@@ -22,78 +22,102 @@
             a {
                 text-decoration: none;
                 color: black;
+                &:hover{
+                    color : $bms_red;
+                    cursor: pointer;
+                }
             }
         }
     }
 
     .container-buttons{
         display: flex;
-        width: 50%;
+        flex-grow: 1;
         justify-content: flex-end;
-        text-align: end;            
+        align-items: center;
+        text-align: end;
         padding: 10px;
-        z-index: 50;
 
+        .buttons{
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 220px;
+            text-align: end;
+            align-content: end;
+            height: 50px;
+            z-index: 50;
+
+        }
         .button-admin{
             border:none;
+            outline: none;
+            display: flex;
+            align-items: center;
             background: none;
-            font-size: 4vh;
-
-            i{
-            font-size: 30px;
-            color: $bms_menu;
+            height: 40px;
+            img{
+                width: 40px;
+                height: 100%;
+                border-radius: 20px;
             }
             &:hover{
                 cursor: pointer;
-                i{
-                    color: $bms_dark_grey !important;
-                }
             }
         }
 
-        .button-menu {
-            margin :10px;
-            display: none;
-            background-color: #3d3d3d;
-            min-width: 160px;
-            box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.2);
-            
-            a {
-                color: $bms_white;
-                padding: 17px 16px;
-                text-decoration: none;
-                display: flex;
-                font-family: $bms_font_text;
-                justify-content: space-between !important;
-                align-items: center;
-                i{
-                    display: flex;
-                    padding-top: 10px;
-                    padding-bottom: 10px;
-                }
-                span{
-                    display: flex;
-                    width: 50%;
-                    
-                }
-
-                &:hover{
-                    background-color: #ddd;
-                    color: $bms_menu; 
-                }
+        .button-language{
+            border:none;
+            outline: none;
+            display: flex;
+            align-items: center;
+            background: none;
+            height: 38px;
+            padding: 3px;
+            margin-left: 10px;
+            img{
+                width: 34px;
+                height: 100%;
+                border-radius: 15px;
             }
 
-            &.open-menu{
-                display: block !important;
+            &:hover{
+                cursor: pointer;
             }
         }
     }
 }
 
 @media only screen and (max-width: 750px){
-    &.open-menu{
-        margin-left: -40vw !important;
-        margin-top: 10px !important;
+
+    .header-container{
+        position: fixed !important;
+        background-color: white;
+
+        .menu {
+            padding-top : 15vh !important;
+        }
+
+        .buttons{
+            width: 22vh !important;
+            height: 5vh !important;
+        }
+        .button-admin{
+            height: 4.3vh !important;
+            img{
+                width: 4vh !important;
+                border-radius: 15px !important;
+            }
+        }
+        .button-language{
+            height: 4vh !important;
+            padding: 0.4vh !important;
+            margin-left: 1vh !important;
+            img{
+                width: 3.2vh !important;
+                border-radius: 15px !important;
+            }
+        }
     }
 
     .button-admin {

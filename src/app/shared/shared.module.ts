@@ -12,6 +12,7 @@ import { MatSortModule                                          } from '@angular
 import { MatDialogModule                                        } from '@angular/material/dialog';
 import { MatFormFieldModule                                     } from '@angular/material/form-field';
 import { MatInputModule                                         } from '@angular/material';
+import { MatMenuModule                                          } from '@angular/material/menu';
 import { BrowserAnimationsModule                                } from '@angular/platform-browser/animations'
 
 import { MenuItemBoxComponent                                   } from '../components/menu-item-box/menu-item-box.component';
@@ -27,6 +28,7 @@ import { ModalComponent                                         } from '../compo
 import { ModalDeleteComponent                                   } from '../components/modals/modal-delete/modal-delete.component';
 import { ModalUpdateComponent                                   } from '../components/modals/modal-update/modal-update.component';
 import { ModalDetailsComponent                                  } from '../components/modals/modal-details/modal-details.component';
+import { ModalAddComponent                                      } from '../components/modals/modal-add/modal-add.component';
 
 import { LoginComponent                                         } from '../modules/public/login.component';
 import { DashboardComponent                                     } from '../modules/dashboard/dashboard.component';
@@ -45,8 +47,7 @@ import { DataValidationComponent                                } from '../modul
         RouterModule,
         CommonModule, // to use instead of BrowserModule if you are using lazyloaded module  like Malnutrition
         FormsModule,
-        ReactiveFormsModule,
-        MatCheckboxModule, 
+        MatCheckboxModule,
         MatTooltipModule,
         MatSelectModule,
         MatTableModule,
@@ -71,21 +72,23 @@ import { DataValidationComponent                                } from '../modul
         MatSnackBarModule,
         MatStepperModule,
         MatProgressBarModule,
-        MatListModule
+        MatListModule,
+		MatMenuModule,
+        ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
     ],
     declarations: [
         //Shared Components
         LoginComponent,
-        DashboardComponent, 
+        DashboardComponent,
         MenuComponent,
         MenuItemBoxComponent,
         HouseholdsComponent,
         HouseholdsImportComponent,
 		DistributionComponent,
 		SettingsComponent,
-		HeaderComponent,     
+		HeaderComponent,
         IconSvgComponent,
-		BoxDashboardComponent,        
+		BoxDashboardComponent,
 		TableComponent,
 		TableSearchComponent,
 		TableMobileComponent,
@@ -95,6 +98,7 @@ import { DataValidationComponent                                } from '../modul
         ModalComponent,
         ModalDeleteComponent,
 		ModalUpdateComponent,
+        ModalAddComponent,
 		ModalDetailsComponent,
 		BoxSettingComponent,
         BoxComponent,
@@ -104,21 +108,22 @@ import { DataValidationComponent                                } from '../modul
         ModalComponent,
         ModalDeleteComponent,
 		ModalUpdateComponent,
-		ModalDetailsComponent,
+        ModalDetailsComponent,
+        ModalAddComponent
     ],
     exports: [
         //Shared Components
-        LoginComponent, 
-		DashboardComponent,                 
+        LoginComponent,
+		DashboardComponent,
         MenuComponent,
         MenuItemBoxComponent,
         HouseholdsComponent,
         HouseholdsImportComponent,
 		DistributionComponent,
 		SettingsComponent,
-		HeaderComponent,                
+		HeaderComponent,
 		IconSvgComponent,
-		BoxDashboardComponent,        
+		BoxDashboardComponent,
 		TableComponent,
 		TableSearchComponent,
 		TableMobileComponent,
@@ -129,9 +134,10 @@ import { DataValidationComponent                                } from '../modul
         ModalDeleteComponent,
 		ModalUpdateComponent,
 		ModalDetailsComponent,
+        ModalAddComponent,
 		BoxSettingComponent,
         BoxComponent,
-        MatCheckboxModule, 
+        MatCheckboxModule,
         MatTooltipModule,
         MatSelectModule,
         MatTableModule,

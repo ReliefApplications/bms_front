@@ -12,7 +12,7 @@
 
 
         <!-- <mat-step [editable]="false" [completed]="isDone"> -->
-        <mat-step [editable]="false">
+        <mat-step [editable]="false" [completed]="typoDone">
             <ng-template class="step" matStepLabel>Typo issues </ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
@@ -88,7 +88,7 @@
             </div>
         </mat-step>
 
-        <mat-step [editable]="false">
+        <mat-step [editable]="false" [completed]="duplicateDone">
             <ng-template class="step" matStepLabel>Duplicates </ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
@@ -151,8 +151,8 @@
             </div>
         </mat-step>
 
-        <mat-step [editable]="false">
-            <ng-template matStepLabel>Added beneficiaries </ng-template>
+        <mat-step [editable]="false" [completed]="moreDone">
+            <ng-template matStepLabel>To add </ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">3</span>
@@ -222,8 +222,8 @@
             </div>
         </mat-step>
 
-        <mat-step [editable]="false">
-            <ng-template matStepLabel>Removed beneficiaries </ng-template>
+        <mat-step [editable]="false" [completed]="lessDone">
+            <ng-template matStepLabel>To remove </ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">4</span>

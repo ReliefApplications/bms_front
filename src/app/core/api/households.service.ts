@@ -24,7 +24,7 @@ export class HouseholdsService {
 
     /**
      * Get all households
-     * @param body 
+     * @param body any
      */
     public get(body?: any) {
         let url = this.api + "/households/get/all";
@@ -41,8 +41,11 @@ export class HouseholdsService {
     }
 
     /**
-     * Upload CSV to import new household
-     * @param body 
+     * Upload CSV  and data validation to import new household 
+     * @param body any
+     * @param idProject number
+     * @param step number
+     * @param token string
      */
     public sendDataToValidation(body: any, idProject: number, step: number, token?: string) {
         let url;

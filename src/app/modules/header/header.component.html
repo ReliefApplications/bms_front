@@ -14,27 +14,25 @@
   </div>
   <div class="container-buttons">
     <div class="buttons">
+	  <button mat-button (click)="changeLanguage()" color="primary">
+		  {{language | uppercase}}
+	  </button>
       <button class="button-language">
         <img src="assets/images/cambodia.png">
       </button>
-      <button class="button-language" (click)="changeLanguage()">
-        <img src="assets/images/{{language}}.jpg">
-      </button>
-      <button (click)="openAdminMenu()" class="button-admin">
-        <img src="assets/images/profile.png">
-      </button>
-    </div>
-    <div class="menu">
-      <div class="button-menu" [class.open-menu]="adminMenuOpen">
-        <a routerLink="/">
-          <span>{{header.header_profile | uppercase}}</span>
-          <mat-icon>person_outline</mat-icon>
-        </a>
-        <a (click)="logOut()" routerLink="/login">
-          <span>{{header.header_disconnect | uppercase}}</span>
-          <mat-icon>exit_to_app</mat-icon>
-        </a>
-      </div>
+	  <button [matMenuTriggerFor]="menu" class="button-admin">
+		<img src="assets/images/profile.png">
+	  </button>
+	  <mat-menu #menu="matMenu" overlapTrigger=false>
+	    <button mat-menu-item  routerLink="/">
+	      <mat-icon>person_outline</mat-icon>
+		  <span>{{header.header_profile | uppercase}}</span>
+	    </button>
+	    <button mat-menu-item (click)="logOut()" routerLink="/login">
+	     <mat-icon>exit_to_app</mat-icon>
+	       <span>{{header.header_disconnect | uppercase}}</span>
+	    </button>
+	  </mat-menu>
     </div>
   </div>
 </div>

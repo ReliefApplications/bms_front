@@ -18,7 +18,6 @@ export class HeaderComponent implements OnInit {
   public oldRoute = "";
   public oldComponent;
   public routeParsed : Array<string> = [this.header.header_home];
-  public adminMenuOpen = false;
 
   constructor(
   ) { }
@@ -35,9 +34,6 @@ export class HeaderComponent implements OnInit {
     if(this.currentComponent != this.oldComponent){
       this.createRoute(this.currentComponent);
       this.oldComponent = this.currentComponent;
-      if((this.currentComponent in GlobalText.TEXTS) && (GlobalText.TEXTS[this.currentComponent] == GlobalText.TEXTS.login_title)){
-        this.adminMenuOpen =false;
-      }
     }
     if (this.header != GlobalText.TEXTS) {
       this.header = GlobalText.TEXTS;
@@ -48,7 +44,7 @@ export class HeaderComponent implements OnInit {
   /**
    * get the name of the current in the right language
    * using the key 'currentComponent'
-   * @param currentComponent 
+   * @param currentComponent
    */
   createRoute(currentComponent): void{
     this.routeParsed = []
@@ -56,10 +52,6 @@ export class HeaderComponent implements OnInit {
     if(this.currentComponent in GlobalText.TEXTS){
       this.routeParsed.push(GlobalText.TEXTS[this.currentComponent]);
     }
-  }
-
-  openAdminMenu(): void{
-    this.adminMenuOpen = !this.adminMenuOpen;
   }
 
   logOut(): void{

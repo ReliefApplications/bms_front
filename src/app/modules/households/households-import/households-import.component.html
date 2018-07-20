@@ -1,11 +1,11 @@
 <div class="page-container">
     <div class="container-title">
-        <h2>IMPORT HOUSEHOLDS DATA</h2>
+        <h2>{{household.households_import_title | uppercase}}</h2>
     </div>
 
     <div class="container-boxes">
-        <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "folder", color: "green", title:households.households_import_file, subtitle:"", ref:"file import"}'></app-box-setting>
-        <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "red", title:households.households_import_api, subtitle:"", ref:"api import"}'></app-box-setting>
+        <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "folder", color: "green", title:household.households_import_file, subtitle:"", ref:"file import"}'></app-box-setting>
+        <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "red", title:household.households_import_api, subtitle:"", ref:"api import"}'></app-box-setting>
     </div>
 
     <div class="container-table" *ngIf="selectedTitle == 'file import'">
@@ -13,11 +13,11 @@
 
             <div class="content-button">
                 <mat-form-field>
-                    <mat-select placeholder="Projects" [formControl]="projects" (selectionChange)="getProjectSelected($event)">
+                    <mat-select placeholder={{household.households_import_getProject}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
                         <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()">DOWNLOAD CSV TEMPLATE</button>
+                <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()">{{household.households_import_csv | uppercase }}</button>
             </div>
             <div class="content-table">
                 <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
@@ -27,7 +27,7 @@
                         </div>
                         <div class="select-file">
                             <a class="fenetre-selection" href="javascript:void(0)" (click)="file.click()">
-                                <button mat-button color="primary" class="button-add-file">ADD FILE OR DRAG AND DROP</button>
+                                <button mat-button color="primary" class="button-add-file">{{household.households_import_addFile | uppercase}}</button>
                             </a>
                             <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
                         </div>
@@ -47,7 +47,7 @@
                 <a routerLink="/households/data-validation" *ngIf="csv && selectedProject">
                     <button mat-raised-button class="upload-button" (click)="addHouseholds()">
                         <mat-icon>publish</mat-icon>
-                        <span>UPLOAD</span>
+                        <span>{{household.households_import_upload | uppercase }}</span>
                     </button>
                 </a>
             </div>

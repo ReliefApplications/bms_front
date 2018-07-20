@@ -1,6 +1,6 @@
 <div class="page-container">
     <div class="container-title">
-        <h2>DATA VERIFICATION AND VALIDATION</h2>
+        <h2>{{verification.data_verification_title | uppercase}}</h2>
     </div>
 
 
@@ -13,18 +13,18 @@
 
         <!-- <mat-step [editable]="false" [completed]="isDone"> -->
         <mat-step [editable]="false" [completed]="typoDone">
-            <ng-template class="step" matStepLabel>Typo issues </ng-template>
+            <ng-template class="step" matStepLabel>{{verification.data_verification_step_1}} </ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">1</span>
-                    <span>Typo issues</span>
+                    <span>{{verification.data_verification_step_1}}</span>
                 </div>
                 <div class="container-content box-green">
 
                     <div class="content-table" *ngIf="typoIssues.length > 0">
                         <mat-card class="issues" *ngFor="let typoIssue of typoIssues, index as i">
                             <mat-chip-list>
-                                <mat-chip>Old</mat-chip>
+                                <mat-chip>{{verification.data_verification_chip_old}}</mat-chip>
                             </mat-chip-list>
                             <mat-card-content>
                                 <div class="householdData">
@@ -49,7 +49,7 @@
                                 </div>
                                 <mat-divider></mat-divider>
                                 <mat-chip-list>
-                                    <mat-chip>New</mat-chip>
+                                    <mat-chip>{{verification.data_verification_chip_new}}</mat-chip>
                                 </mat-chip-list>
                                 <div class="householdData">
                                     <mat-checkbox  color="primary" (change)="step1TypoIssues(typoIssue, 'new', i)">
@@ -75,13 +75,13 @@
                         </mat-card>
                     </div>
                     <div *ngIf="typoIssues.length == 0" class="no-data-box">
-                        <h1 class="box-title"> No typo issues</h1>
+                        <h1 class="box-title"> {{verification.data_verification_step_1_no_issues}}</h1>
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
 
                         <button mat-raised-button class="next-button" (click)=" sendCorrectedData()">
-                            <span>NEXT</span>
+                            <span>{{verification.data_verification_next}}</span>
                         </button>
                     </div>
                 </div>
@@ -89,19 +89,19 @@
         </mat-step>
 
         <mat-step [editable]="false" [completed]="duplicateDone">
-            <ng-template class="step" matStepLabel>Duplicates </ng-template>
+            <ng-template class="step" matStepLabel>{{verification.data_verification_step_2}} </ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">2</span>
-                    <span>Duplicates</span>
+                    <span>{{verification.data_verification_step_2}}</span>
                 </div>
                 <div class="container-content box-green">
 
                     <div class="content-table" *ngIf="duplicates.length > 0">
-                        <div class="issues" *ngFor="let duplicate of duplicates, index as i">
+                        <div class="duplicateIssues" *ngFor="let duplicate of duplicates, index as i">
                             <mat-card class="content-issue" *ngFor="let isDuplicate of duplicate.data, index as j">
                                 <mat-chip-list>
-                                    <mat-chip>Old</mat-chip>
+                                    <mat-chip>{{verification.data_verification_chip_old}}</mat-chip>
                                 </mat-chip-list>
                                 <mat-card-content>
                                     <div class="householdData">
@@ -119,7 +119,7 @@
                                     </div>
                                     <mat-divider></mat-divider>
                                     <mat-chip-list>
-                                        <mat-chip>New</mat-chip>
+                                        <mat-chip>{{verification.data_verification_chip_new}}</mat-chip>
                                     </mat-chip-list>
                                     <div class="householdData">
                                         <mat-checkbox color="primary" (change)="step2Duplicates(isDuplicate, 'new', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
@@ -139,12 +139,12 @@
                         </div>
                     </div>
                     <div *ngIf="duplicates.length == 0" class="no-data-box">
-                        <h1 class="box-title"> No duplicate issues</h1>
+                        <h1 class="box-title"> {{verification.data_verification_step_2_no_issues}}</h1>
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="25"></mat-progress-bar>
                         <button mat-raised-button class="next-button" (click)="sendCorrectedData()">
-                            <span>NEXT</span>
+                            <span>{{verification.data_verification_next}}</span>
                         </button>
                     </div>
                 </div>
@@ -152,11 +152,11 @@
         </mat-step>
 
         <mat-step [editable]="false" [completed]="moreDone">
-            <ng-template matStepLabel>To add </ng-template>
+            <ng-template matStepLabel>{{verification.data_verification_step_3}} </ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">3</span>
-                    <span>Added beneficiaries</span>
+                    <span>{{verification.data_verification_step_3}}</span>
                 </div>
                 <div class="container-content box-green">
                     <div class="content-table" *ngIf="more.length > 0">
@@ -176,7 +176,7 @@
                                 <div *ngIf="data.old.households.beneficiaries.length > 1">
                                     <mat-divider></mat-divider>
                                     <mat-chip-list>
-                                        <mat-chip>existing</mat-chip>
+                                        <mat-chip>{{verification.data_verification_chip_existing}}</mat-chip>
                                     </mat-chip-list>
                                     <div class="householdData">
                                         <div class="content-householdData">
@@ -191,7 +191,7 @@
                                 </div>
                                 <mat-divider></mat-divider>
                                 <mat-chip-list>
-                                    <mat-chip>To add</mat-chip>
+                                    <mat-chip>{{verification.data_verification_chip_add}}</mat-chip>
                                 </mat-chip-list>
                                 <div class="householdData">
                                     <div class="content-beneficiariesData">
@@ -210,12 +210,12 @@
                         </mat-card>
                     </div>
                     <div *ngIf="more.length == 0" class="no-data-box">
-                        <h1 class="box-title"> No beneficiaries to add</h1>
+                        <h1 class="box-title"> {{verification.data_verification_step_3_no_issues}}</h1>
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
                         <button mat-raised-button class="next-button" (click)="sendCorrectedData()">
-                            <span>NEXT</span>
+                            <span>{{verification.data_verification_next}}</span>
                         </button>
                     </div>
                 </div>
@@ -223,11 +223,11 @@
         </mat-step>
 
         <mat-step [editable]="false" [completed]="lessDone">
-            <ng-template matStepLabel>To remove </ng-template>
+            <ng-template matStepLabel>{{verification.data_verification_step_4}} </ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">4</span>
-                    <span>Removed beneficiaries</span>
+                    <span>{{verification.data_verification_step_4}}</span>
                 </div>
                 <div class="container-content box-green">
                     <div class="content-table" *ngIf="less.length > 0">
@@ -248,7 +248,7 @@
                                 <div *ngIf="data.new.households.beneficiaries.length > 1">
                                     <mat-divider></mat-divider>
                                     <mat-chip-list>
-                                        <mat-chip>In csv</mat-chip>
+                                        <mat-chip>{{verification.data_verification_chip_new}}</mat-chip>
                                     </mat-chip-list>
                                     <div class="householdData">
                                         <div class="content-householdData">
@@ -262,7 +262,7 @@
                                 </div>
                                 <mat-divider></mat-divider>
                                 <mat-chip-list>
-                                    <mat-chip>To remove</mat-chip>
+                                    <mat-chip>{{verification.data_verification_chip_remove}}</mat-chip>
                                 </mat-chip-list>
                                 <div class="householdData">
                                     <div class="content-beneficiariesData">
@@ -281,12 +281,12 @@
                         </mat-card>
                     </div>
                     <div *ngIf="less.length == 0" class="no-data-box">
-                        <h1 class="box-title"> No beneficiaries to remove</h1>
+                        <h1 class="box-title"> {{verification.data_verification_step_4_no_issues}}</h1>
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="75"></mat-progress-bar>
                         <button mat-raised-button class="next-button" (click)="sendCorrectedData()">
-                            <span>NEXT</span>
+                            <span>{{verification.data_verification_next}}</span>
                         </button>
                     </div>
                 </div>
@@ -294,19 +294,19 @@
         </mat-step>
 
         <mat-step [editable]="true">
-            <ng-template matStepLabel>Done</ng-template>
+            <ng-template matStepLabel>{{verification.data_verification_step_5}}</ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">5</span>
-                    <span>Done</span>
+                    <span>{{verification.data_verification_step_5}}</span>
                 </div>
                 <div class="container-content box-green">
                     <div class="content-table">
                         <div class="done">
-                            Your data has been verified.
+                            {{verification.data_verification_done}}
                             <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
                             <a routerLink="/households">
-                                <button mat-raised-button class="buttonSend" (click)="stepper.reset()">Send</button>
+                                <button mat-raised-button class="buttonSend" (click)="stepper.reset()">{{verification.data_verification_send}}</button>
                             </a>
                         </div>
 

@@ -4,6 +4,7 @@ import { HouseholdsService } from '../../../core/api/households.service';
 import { MatSnackBar, MatStepper } from '@angular/material';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { VerifiedData, FormatDuplicatesData, FormatMore, FormatLess } from '../../../model/data-validation';
+import { GlobalText } from '../../../../texts/global';
 
 
 
@@ -17,6 +18,9 @@ import { VerifiedData, FormatDuplicatesData, FormatMore, FormatLess } from '../.
 export class DataValidationComponent implements OnInit {
 
     @ViewChild('stepper') stepper: MatStepper;
+
+    public nameComponent = "data_verification_title";
+    public verification = GlobalText.TEXTS;
 
     //variable to manage all issues and display it
     public typoIssues: Array<any> = [];
@@ -46,6 +50,15 @@ export class DataValidationComponent implements OnInit {
 
     ngOnInit() {
         this.getData();
+    }
+
+    /**
+    * check if the langage has changed
+    */
+    ngDoCheck() {
+        if (this.verification != GlobalText.TEXTS) {
+            this.verification = GlobalText.TEXTS;
+        }
     }
 
 
@@ -348,22 +361,22 @@ export class DataValidationComponent implements OnInit {
         }
 
         if (this.step === 1 && this.typoIssues.length != length) {
-            this.snackBar.open('All typo issues aren\'t corrected', '', { duration: 500 });
+            this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected, '', { duration: 500 });
         } else if (this.step === 2 && this.duplicates.length != length) {
-            this.snackBar.open('All duplicates aren\'t corrected', '', { duration: 500 });
+            this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected, '', { duration: 500 });
         } else {
 
             if (this.step === 1) {
-                this.snackBar.open('Typo issues corrected', '', { duration: 500 });
+                this.snackBar.open(this.verification.data_verification_snackbar_typo_corrected, '', { duration: 500 });
                 this.typoDone = true;
             } else if (this.step === 2) {
-                this.snackBar.open('Duplicate issues corrected', '', { duration: 500 });
+                this.snackBar.open(this.verification.data_verification_snackbar_duplicate_corrected, '', { duration: 500 });
                 this.duplicateDone = true;
             } else if (this.step === 3) {
-                this.snackBar.open('Beneficiaries added in household', '', { duration: 500 });
+                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 500 });
                 this.moreDone = true;
             } else if (this.step === 4) {
-                this.snackBar.open('Beneficiaries removed in household', '', { duration: 500 });
+                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 500 });
                 this.lessDone = true;
             }
             this.step = this.step + 1;

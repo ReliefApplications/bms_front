@@ -18,7 +18,7 @@
             .content-table {
                 flex-wrap: wrap;
                 justify-content: space-evenly;
-                .issues{
+                .issues, .duplicateIssues{
                     display: flex;
                     width: 15%;
                     flex-direction: column;
@@ -157,6 +157,16 @@
         }  
     }
 
+    .duplicateIssues {
+        width: 100% !important;
+        .mat-chip {
+            font-size: 2vh !important;
+        }
+        .dataToCompare {
+            font-size: 2vh !important;
+        }  
+    }
+
     .no-data-box{
         margin: 5em 1em 5em 1em !important;
         .box-title {
@@ -189,7 +199,15 @@
         justify-content: center;
         align-items: center;
         margin-right: 4vw;
-      }
+    }
+
+    .content-issue {
+        width: 89% !important;
+    }
+
+
+
+
 }
 
 

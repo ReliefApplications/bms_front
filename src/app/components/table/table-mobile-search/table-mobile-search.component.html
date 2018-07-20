@@ -16,7 +16,7 @@
           <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element, property)}}</span>
         </td>
         <td *ngIf="propertiesTypes[property]=='png'">
-          <img class="png" src={{mapperService.mapValue(element,property)}}>
+          <img *ngFor="let image of mapperService.mapValue(element, property)" class="png" [src]=image>
         </td>
       </tr>
     </tbody>

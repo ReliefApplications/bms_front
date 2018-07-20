@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener} from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { HouseholdsService } from '../../../core/api/households.service';
 
@@ -15,8 +15,8 @@ import { GlobalText } from '../../../../texts/global';
   styleUrls: ['./households-import.component.scss']
 })
 export class HouseholdsImportComponent implements OnInit {
-  
-  public households = GlobalText.TEXTS;
+  public nameComponent = "households_import_title";
+  public household = GlobalText.TEXTS;
 
   //for the items button
   selectedTitle = "";
@@ -33,7 +33,7 @@ export class HouseholdsImportComponent implements OnInit {
 
   dragAreaClass: string = 'dragarea';
 
-  
+
   referedClassToken = Project;
   public referedClassService;
   public project;
@@ -49,17 +49,26 @@ export class HouseholdsImportComponent implements OnInit {
   }
 
   /**
+ * check if the langage has changed
+ */
+  ngDoCheck() {
+    if (this.household != GlobalText.TEXTS) {
+      this.household = GlobalText.TEXTS;
+    }
+  }
+
+  /**
    * Get list of all project and put it in the project selector
    */
   getProjects() {
     this.referedClassService = this._projectService;
-    this.referedClassService.get().subscribe( response => {
+    this.referedClassService.get().subscribe(response => {
       response = this.referedClassToken.formatArray(response.json());
       response.forEach(element => {
         var concat = element.id + " - " + element.name;
         this.projectList.push(concat);
       });
-    });    
+    });
   }
 
   /**
@@ -117,7 +126,7 @@ export class HouseholdsImportComponent implements OnInit {
    * @param event 
    */
   getProjectSelected(event) {
-    this.selectedProject = event.value;     
+    this.selectedProject = event.value;
   }
 
   /**
@@ -128,7 +137,7 @@ export class HouseholdsImportComponent implements OnInit {
     var project = this.selectedProject.split(" - ");
     data.append('file', this.csv);
     let step = 1;
-   
+
     this._importService.sendData(data, project[0], step);
   }
 
@@ -158,7 +167,7 @@ export class HouseholdsImportComponent implements OnInit {
 
     // setting the data is required by firefox
     event.dataTransfer.setData("text", 'firefox');
-    
+
     event.preventDefault();
     event.stopPropagation();
 

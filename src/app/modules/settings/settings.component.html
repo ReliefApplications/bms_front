@@ -13,7 +13,7 @@
   <div class="container-table">
     <div class="container-content" *ngIf="isBoxClicked">
       <div class="content-button">
-        <button mat-icon-button class="add-button">
+        <button mat-icon-button (click)="openDialog('add')" class="add-button">
           <mat-icon>add</mat-icon>
         </button>
         <button mat-raised-button class="export-button">

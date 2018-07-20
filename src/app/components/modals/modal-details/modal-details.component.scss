@@ -29,18 +29,27 @@
             width: 100%;
             align-items: baseline;
             
-            th{
-                display: flex;
-                width: 50%;    
-            }
-
             .table-title{
                 font-weight: bold;
                 font-size: 2vh; 
+                display: flex;
+                width: 25vh;
             }
 
             .table-value{
-                font-size: 2vh;                                
+                font-size: 2vh;  
+                display: flex;
+                width: 100%;
+
+                .form {
+                    min-width: 150px;
+                    max-width: 500px;
+                    width: 100%;
+                  
+                  .full-width {
+                    width: 100%;
+                  }
+                }
             }
         }
     }

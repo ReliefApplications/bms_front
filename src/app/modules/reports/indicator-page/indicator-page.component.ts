@@ -76,7 +76,6 @@ export class IndicatorPageComponent implements OnInit {
         this.referedClassService.getIndicators().toPromise().then(response => {
         this.indicators = response as any;
         this.indicatorsLoading = false
-        console.log(this.indicators);
       }).catch(e => {
          this.indicatorsLoading = false;
       }); 

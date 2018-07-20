@@ -27,6 +27,7 @@ import { ModalComponent                                         } from '../compo
 import { ModalDeleteComponent                                   } from '../components/modals/modal-delete/modal-delete.component';
 import { ModalUpdateComponent                                   } from '../components/modals/modal-update/modal-update.component';
 import { ModalDetailsComponent                                  } from '../components/modals/modal-details/modal-details.component';
+import { ModalAddComponent                                      } from '../components/modals/modal-add/modal-add.component';
 
 import { LoginComponent                                         } from '../modules/public/login.component';
 import { DashboardComponent                                     } from '../modules/dashboard/dashboard.component';
@@ -45,7 +46,6 @@ import { DataValidationComponent                                } from '../modul
         RouterModule,
         CommonModule, // to use instead of BrowserModule if you are using lazyloaded module  like Malnutrition
         FormsModule,
-        ReactiveFormsModule,
         MatCheckboxModule, 
         MatTooltipModule,
         MatSelectModule,
@@ -71,7 +71,8 @@ import { DataValidationComponent                                } from '../modul
         MatSnackBarModule,
         MatStepperModule,
         MatProgressBarModule,
-        MatListModule
+        MatListModule,
+        ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
     ],
     declarations: [
         //Shared Components
@@ -95,6 +96,7 @@ import { DataValidationComponent                                } from '../modul
         ModalComponent,
         ModalDeleteComponent,
 		ModalUpdateComponent,
+        ModalAddComponent,
 		ModalDetailsComponent,
 		BoxSettingComponent,
         BoxComponent,
@@ -104,7 +106,8 @@ import { DataValidationComponent                                } from '../modul
         ModalComponent,
         ModalDeleteComponent,
 		ModalUpdateComponent,
-		ModalDetailsComponent,
+        ModalDetailsComponent,
+        ModalAddComponent
     ],
     exports: [
         //Shared Components
@@ -129,6 +132,7 @@ import { DataValidationComponent                                } from '../modul
         ModalDeleteComponent,
 		ModalUpdateComponent,
 		ModalDetailsComponent,
+        ModalAddComponent,
 		BoxSettingComponent,
         BoxComponent,
         MatCheckboxModule, 

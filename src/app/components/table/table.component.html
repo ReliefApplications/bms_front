@@ -5,11 +5,10 @@
     <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>{{mapperService.mapTitle(property)}}</th>
       <td mat-cell *matCellDef="let element">
-        <app-icon-svg *ngIf="propertiesTypes[property]=='image'" class="icon" [name]="mapperService.mapValue(element, property)"></app-icon-svg>
-        <span class="icon" *ngIf="propertiesTypes[property]=='png'"><img src={{mapperService.mapValue(element,property)}}></span>
-        <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element, property)}}</span>
-
-      </td>
+          <span *ngIf="propertiesTypes[property]=='image'"><app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)" [name]="mapperService.mapValue(element, property)"></app-icon-svg></span>
+          <span *ngIf="propertiesTypes[property]=='png'"><img *ngFor="let image of mapperService.mapValue(element, property)" class="png" src={{mapperService.mapValue(element,property)}}></span>
+          <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element, property)}}</span>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">

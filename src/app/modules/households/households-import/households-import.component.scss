@@ -121,4 +121,9 @@ app-box-setting {
     .mat-button {
         font-size: 12px !important;
     }
+
+    .mat-list {
+        display: flex !important;
+        justify-content: center;
+    }
 }

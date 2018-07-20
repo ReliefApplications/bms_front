@@ -361,22 +361,22 @@ export class DataValidationComponent implements OnInit {
         }
 
         if (this.step === 1 && this.typoIssues.length != length) {
-            this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected, '', { duration: 500 });
+            this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected, '', { duration: 3000, horizontalPosition: "right" });
         } else if (this.step === 2 && this.duplicates.length != length) {
-            this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected, '', { duration: 500 });
+            this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected, '', { duration: 3000, horizontalPosition: "right" });
         } else {
 
             if (this.step === 1) {
-                this.snackBar.open(this.verification.data_verification_snackbar_typo_corrected, '', { duration: 500 });
+                this.snackBar.open(this.verification.data_verification_snackbar_typo_corrected, '', { duration: 3000, horizontalPosition: "right" });
                 this.typoDone = true;
             } else if (this.step === 2) {
-                this.snackBar.open(this.verification.data_verification_snackbar_duplicate_corrected, '', { duration: 500 });
+                this.snackBar.open(this.verification.data_verification_snackbar_duplicate_corrected, '', { duration: 3000, horizontalPosition: "right" });
                 this.duplicateDone = true;
             } else if (this.step === 3) {
-                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 500 });
+                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 3000, horizontalPosition: "right" });
                 this.moreDone = true;
             } else if (this.step === 4) {
-                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 500 });
+                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 3000, horizontalPosition: "right" });
                 this.lessDone = true;
             }
             this.step = this.step + 1;

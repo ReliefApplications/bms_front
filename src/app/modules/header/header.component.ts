@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
   public oldRoute = "";
   public oldComponent;
   public routeParsed : Array<string> = [this.header.header_home];
+  public routeNameParsed : Array<string[]> = [[this.header.header_home, "Home"]];
 
   constructor(
   ) { }
@@ -47,10 +48,11 @@ export class HeaderComponent implements OnInit {
    * @param currentComponent
    */
   createRoute(currentComponent): void{
-    this.routeParsed = []
-    this.routeParsed.push(this.header.header_home);
+    this.routeNameParsed = [];
+    this.routeParsed = this.currentRoute.split('/');
+    this.routeNameParsed.push([this.header.header_home, this.header.header_home]);
     if(this.currentComponent in GlobalText.TEXTS){
-      this.routeParsed.push(GlobalText.TEXTS[this.currentComponent]);
+      this.routeNameParsed.push([GlobalText.TEXTS[this.currentComponent], this.routeParsed[1]]);
     }
   }
 

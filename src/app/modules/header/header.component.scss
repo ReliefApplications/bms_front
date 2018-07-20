@@ -49,6 +49,25 @@
             z-index: 50;
 
         }
+
+        .button-language{
+            border:none;
+            background: none;
+            outline: none;
+            height: 40px;
+            width: 40px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            font-size: 2.2vh;
+            text-align: center;
+
+            &:hover{
+                cursor: pointer;
+                background: $bms_light_grey;
+            }
+        }
+
         .button-admin{
             border:none;
             outline: none;
@@ -66,7 +85,7 @@
             }
         }
 
-        .button-language{
+        .button-country{
             border:none;
             outline: none;
             display: flex;
@@ -99,23 +118,33 @@
         }
 
         .buttons{
-            width: 22vh !important;
-            height: 5vh !important;
+            width: 180px !important;
+            height: 40px !important;
         }
+
+        .button-language{
+            border-radius: 15px !important;
+            width: 30px !important;
+            height: 30px !important;
+            font-size: 2.5vh !important;
+            margin-right: 5px !important;
+        }
+
         .button-admin{
-            height: 4.3vh !important;
+            height: 32px !important;
             img{
-                width: 4vh !important;
-                border-radius: 15px !important;
+                width: 32px !important;
+                border-radius: 16px !important;
             }
         }
-        .button-language{
-            height: 4vh !important;
-            padding: 0.4vh !important;
-            margin-left: 1vh !important;
+
+        .button-country{
+            height: 29px !important;
+            padding: 1px !important;
+            margin-left: 3px !important;
             img{
-                width: 3.2vh !important;
-                border-radius: 15px !important;
+                width: 29px !important;
+                border-radius: 13px !important;
             }
         }
     }

@@ -209,6 +209,10 @@ button-filter-date{
 
 //for mobile screen
 @media only screen and (max-width: 750px){
+  .page-container{
+    margin-top : 20px !important;
+  } 
+
   .container-boxes {
     display: grid !important;
   }

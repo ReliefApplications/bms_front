@@ -10,7 +10,7 @@ import { GlobalText                                         } from '../../../tex
 })
 export class HeaderComponent implements OnInit {
   public header = GlobalText.TEXTS;
-  public language = "english";
+  public language = "en";
 
   @Input() currentComponent;
   @Input() currentRoute = "";
@@ -61,8 +61,8 @@ export class HeaderComponent implements OnInit {
   //TO DO : handle multiple languages
   changeLanguage(){
     switch(this.language){
-      case "francais" : this.language = "english"; GlobalText.changeLanguage('en'); break;
-      case "english" : this.language = "francais"; GlobalText.changeLanguage('fr'); break;
+      case "fr" : this.language = "en"; GlobalText.changeLanguage('en'); break;
+      case "en" : this.language = "fr"; GlobalText.changeLanguage('fr'); break;
     }
   }
 }

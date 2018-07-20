@@ -4,8 +4,8 @@
     </div>
 
     <div class="container-boxes">
-        <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "folder", color: "green", title:"file import", subtitle:"", ref:""}'></app-box-setting>
-        <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "red", title:"api import", subtitle:"", ref:""}'></app-box-setting>
+        <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "folder", color: "green", title:households.households_import_file, subtitle:"", ref:"file import"}'></app-box-setting>
+        <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "red", title:households.households_import_api, subtitle:"", ref:"api import"}'></app-box-setting>
     </div>
 
     <div class="container-table" *ngIf="selectedTitle == 'file import'">

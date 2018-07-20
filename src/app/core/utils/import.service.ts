@@ -84,12 +84,7 @@ export class ImportService {
                         this.project = project;
                         resolve(this.data);
                     }, error => {
-                        if (step === 3) {
-                            reject({'message': 'Error while adding beneficiairies'});
-                        } else {
-                            reject({'message': 'Error while removing beneficiaries'});
-                        }
-                        
+                        reject({'message': 'Error while adding or removing beneficiairies'});
                     });
                 } else if (step === 5) {
                     this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {

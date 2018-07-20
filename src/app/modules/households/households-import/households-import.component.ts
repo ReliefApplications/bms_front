@@ -7,6 +7,7 @@ import { ImportService } from '../../../core/utils/import.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { Project } from '../../../model/project';
 import { forEach } from '@angular/router/src/utils/collection';
+import { GlobalText } from '../../../../texts/global';
 
 @Component({
   selector: 'households-import',
@@ -14,6 +15,9 @@ import { forEach } from '@angular/router/src/utils/collection';
   styleUrls: ['./households-import.component.scss']
 })
 export class HouseholdsImportComponent implements OnInit {
+  
+  public households = GlobalText.TEXTS;
+
   //for the items button
   selectedTitle = "";
   isBoxClicked = false;

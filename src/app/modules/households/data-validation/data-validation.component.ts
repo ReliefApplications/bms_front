@@ -358,10 +358,13 @@ export class DataValidationComponent implements OnInit {
                 this.typoDone = true;
             } else if (this.step === 2) {
                 this.snackBar.open('Duplicate issues corrected', '', { duration: 500 });
+                this.duplicateDone = true;
             } else if (this.step === 3) {
                 this.snackBar.open('Beneficiaries added in household', '', { duration: 500 });
+                this.moreDone = true;
             } else if (this.step === 4) {
                 this.snackBar.open('Beneficiaries removed in household', '', { duration: 500 });
+                this.lessDone = true;
             }
             this.step = this.step + 1;
             this._importService.sendData(this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {

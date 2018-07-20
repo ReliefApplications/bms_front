@@ -57,6 +57,8 @@ export const TEXT = {
     households_title : "ménages",
     households_export : "export",
     households_import : "import",
+    households_import_file : "import de fichier",
+    households_import_api : "import par api",
 
     distribution_title : "distributions",
     

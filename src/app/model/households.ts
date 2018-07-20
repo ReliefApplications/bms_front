@@ -29,9 +29,9 @@ export class Households {
     dependents: Number;
      /**
      * Households' vulnerabilities
-     * @type {string}
+     * @type {Array}
      */
-    vulnerabilities: string = '';
+    vulnerabilities: Array<string> = [];
 
 
     constructor(instance?){
@@ -107,6 +107,31 @@ export class Households {
         }
     }
 
+    public static mapVulnerability(name: string): string {
+        if (!name) {
+            return "";
+        }
+        switch(name) {
+            case "pregnant": 
+                name = 'assets/images/households/pregnant.png'; 
+                break;
+            case "disabled": 
+                name = 'assets/images/households/disabled.png'; 
+                break;
+            case "lactating": 
+                name = 'assets/images/households/lactating.png'; 
+                break;
+            case "solo parent": 
+                name = 'assets/images/households/solo-parent.png'; 
+                break;
+            case "nutritional issues": 
+                name = 'assets/images/households/nutritional-issues.png';
+                 break;
+            default: return name;
+        }                 
+        return name;    
+    }
+
     public static formatArray(instance): Households[]{
         let households : Households[] = [];
         instance.forEach(element => {
@@ -123,13 +148,7 @@ export class Households {
                 household.familyName = beneficiary.family_name;
                 household.firstName = beneficiary.given_name;
                 beneficiary.vulnerability_criteria.forEach(vulnerability => {
-                    switch(vulnerability.value) {
-                        case "pregnant": household.vulnerabilities = 'assets/images/households/pregnant.png'; break;
-                        case "disabled": household.vulnerabilities = 'assets/images/households/disabled.png'; break;
-                        case "lactating": household.vulnerabilities = 'assets/images/households/lactating.png'; break;
-                        case "solo parent": household.vulnerabilities = 'assets/images/households/solo-parent.png'; break;
-                        case "nutritional issues": household.vulnerabilities = 'assets/images/households/nutritional-issues.png'; break;
-                    }                 
+                    household.vulnerabilities.push(this.mapVulnerability(vulnerability.value))
                 });
                
                 

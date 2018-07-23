@@ -112,47 +112,15 @@
     .buttons{
         visibility: hidden !important;
     }
-    // .header-container{
-    //     position: fixed !important;
-    //     background-color: white;
 
-    //     .menu {
-    //         padding-top : 15vh !important;
-    //     }
+    .container-routes{
+        padding-bottom: 0px !important;
+        padding-top: 0px !important;
+        height : 10px !important;
+    }
 
-    //     .buttons{
-    //         width: 180px !important;
-    //         height: 40px !important;
-    //     }
-
-    //     .button-language{
-    //         border-radius: 15px !important;
-    //         width: 30px !important;
-    //         height: 30px !important;
-    //         font-size: 2.5vh !important;
-    //         margin-right: 5px !important;
-    //     }
-
-    //     .button-admin{
-    //         height: 32px !important;
-    //         img{
-    //             width: 32px !important;
-    //             border-radius: 16px !important;
-    //         }
-    //     }
-
-    //     .button-country{
-    //         height: 29px !important;
-    //         padding: 1px !important;
-    //         margin-left: 3px !important;
-    //         img{
-    //             width: 29px !important;
-    //             border-radius: 13px !important;
-    //         }
-    //     }
-    // }
-
-    // .button-admin {
-    //     font-size : 5vh !important;
-    // }
+    .container-buttons{
+        padding-bottom: 0px !important;
+        padding-top: 0px !important;
+    }
 }

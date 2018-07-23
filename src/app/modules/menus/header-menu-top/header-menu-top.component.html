@@ -1,8 +1,32 @@
 <div class="header-container">
-  <a routerLink="/">
-    <img src="../../../../assets/images/bms_logo.png">
-  </a>
-  <button (click)="openTopMenu()">
-    <mat-icon>menu</mat-icon>
-  </button>
+  <div class="container-logo">
+    <a routerLink="/">
+      <img src="../../../../assets/images/bms_logo.png">
+    </a>
+  </div>
+  <div class="container-buttons">
+    <button class="button-country">
+      <img src="assets/images/cambodia.png">
+    </button>
+    <button [matMenuTriggerFor]="menu" class="button-menu">
+      <mat-icon>perm_identity</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" overlapTrigger=false>
+      <button mat-menu-item (click)="openDialog('language')">
+        <mat-icon>language</mat-icon>
+        <span>{{header.header_language | uppercase}}</span>
+      </button>
+      <button mat-menu-item routerLink="/">
+        <mat-icon>person_outline</mat-icon>
+        <span>{{header.header_profile | uppercase}}</span>
+      </button>
+      <button mat-menu-item (click)="logOut()" routerLink="/login">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>{{header.header_disconnect | uppercase}}</span>
+      </button>
+    </mat-menu>
+    <button class="button-menu" (click)="openTopMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
 </div>

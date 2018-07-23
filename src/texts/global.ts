@@ -3,6 +3,7 @@ import { TEXT as TEXT_EN} from "./global_en";
 
 export class GlobalText {
     static language = 'en';
+    static languages = ['en', 'fr'];
     static TEXTS = TEXT_EN;
     
     public static changeLanguage(language : string){

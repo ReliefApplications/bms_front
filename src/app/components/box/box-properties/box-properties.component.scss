@@ -29,3 +29,28 @@
             }
         }
 }
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+    .content-info{
+        display: flex;
+        flex-direction: row;
+        line-height : 2.5vh !important;
+
+        .info-subtitle{
+            display: flex;
+            flex-grow: 1;
+            font-size : 2.5vh !important;
+            line-height : 2.5vh !important;
+            word-break: break-word;
+            hyphens: auto;
+        }
+
+        .info-title{
+            display: flex;
+            min-width: 20vh;
+            font-size : 2.5vh !important;
+            line-height : 2.5vh !important;
+        }
+    }
+}

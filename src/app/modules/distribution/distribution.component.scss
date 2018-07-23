@@ -1,0 +1,66 @@
+@import '../../../assets/css/variable.scss'; 
+
+app-box-setting{
+    display: flex;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    flex-grow: 1;
+    width : 200px;
+    height : 80px;
+    min-width: 190px;
+    &.isLast{
+        margin-right: 0px !important;
+    }
+}
+    
+app-table-search{
+    width: 100%;
+    height: 100%;
+}
+
+app-table-mobile{
+    width: 100%;
+    height: 100%;
+}
+
+.properties-displayed{
+    display: flex;
+    flex-grow: 1;
+}
+
+button{
+    color: $bms_white;
+    background-color: $bms_red;
+    
+
+    &.export-button{
+        background-color: $bms_green !important;
+        height: 40px;
+    }
+
+    &.add-button{
+        width: 50px;
+        height: 50px;
+    }
+
+    span{
+        font-family: $bms_font_text;
+        padding-left:20px;
+    }
+}
+
+.container-content {
+    border-top: solid 12px $bms_green;
+}
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+    button{
+        &.add-button{
+            position: absolute;
+            bottom: 20px;
+            left: 80%;
+            z-index: 1000;
+        }
+    }       
+}

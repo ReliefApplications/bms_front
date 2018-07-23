@@ -60,6 +60,7 @@ export const TEXT = {
     households_import : "import",
 
     distribution_title : "distributions",
+    distribution_export : "export",
 
     table_filter : "Filter",
     table_actions : "Actions",
@@ -119,5 +120,6 @@ export const TEXT = {
     model_project_number_of_households: "Number of Households",
     model_project_donors_name: "Donors",
     model_project_notes: "Notes",
+    model_project_value: "Budget",
     model_sector : "Sector"
 }

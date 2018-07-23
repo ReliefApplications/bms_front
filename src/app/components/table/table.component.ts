@@ -96,7 +96,7 @@ export class TableComponent implements OnInit {
       this.entityInstance = this.mapperService.instantiate(this.entity);
 
       this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
-      this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
+    this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
       this.propertiesActions = new Array();
       this.properties.forEach(element => {
         this.propertiesActions.push(element);

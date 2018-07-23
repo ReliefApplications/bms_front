@@ -1,0 +1,31 @@
+@import '../../../../assets/css/variable.scss'; 
+
+
+.box-content{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding:10px;
+
+    .content-info{
+            justify-content: center;
+            align-content: center;
+            text-align: left;
+            font-family: $bms_font_text;
+            padding:15px;
+            .info-subtitle{
+                font-size : 1.5vh;
+                line-height : 1.5vh;
+                margin: 0 !important;
+            }
+    
+            .info-title{
+                font-weight: bold;
+                font-size : 1.5vh;
+                line-height : 1.5vh;
+                margin: 0 !important;
+            }
+        }
+}

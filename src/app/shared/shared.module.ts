@@ -20,6 +20,7 @@ import { IconSvgComponent                                       } from '../compo
 import { BoxDashboardComponent                                  } from '../components/box/box-dashboard/box-dashboard.component';
 import { BoxSettingComponent                                    } from '../components/box/box-setting/box-setting.component';
 import { BoxComponent                                           } from '../components/box/box.component';
+import { BoxPropertiesComponent                                 } from '../components/box/box-properties/box-properties.component';
 import { TableComponent                                         } from '../components/table/table.component';
 import { TableSearchComponent                                   } from '../components/table/table-search/table-search.component';
 import { TableMobileComponent                                   } from '../components/table/table-mobile/table-mobile.component';
@@ -104,6 +105,7 @@ import { DataValidationComponent                                } from '../modul
 		ModalLanguageComponent,        
 		BoxSettingComponent,
         BoxComponent,
+		BoxPropertiesComponent,
         DataValidationComponent
     ],
     entryComponents: [
@@ -127,6 +129,7 @@ import { DataValidationComponent                                } from '../modul
 		HeaderComponent,
 		IconSvgComponent,
 		BoxDashboardComponent,
+		BoxPropertiesComponent,
 		TableComponent,
 		TableSearchComponent,
 		TableMobileComponent,

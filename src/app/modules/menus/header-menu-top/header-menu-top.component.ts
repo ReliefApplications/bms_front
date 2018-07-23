@@ -13,6 +13,7 @@ import { ModalLanguageComponent                                 } from '../../..
 export class HeaderMenuTopComponent implements OnInit {
   public header = GlobalText.TEXTS;
   @Output() emitOpenMenu = new EventEmitter<boolean>();
+  @Output() emitLogOut = new EventEmitter();
 
   constructor(
     public dialog: MatDialog    
@@ -23,6 +24,10 @@ export class HeaderMenuTopComponent implements OnInit {
 
   openTopMenu(): void{
     this.emitOpenMenu.emit(true);
+  }
+
+  logOut(): void{
+    this.emitLogOut.emit();
   }
 
   /**

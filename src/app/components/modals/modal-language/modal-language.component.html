@@ -2,15 +2,11 @@
   <h4 class="modal-title">{{modal.modal_language_title}}</h4>
   <div class="modal-table" cdkFocusRegionstart>
     <span class="language-text">{{modal.modal_language_actual}}</span>
-    <button [matMenuTriggerFor]="menu" class="button-flag">
-      {{language | uppercase}}
-      <mat-icon inline=true>create</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu" overlapTrigger=false>
-      <button *ngFor="let l of languages" (click)="choseLanguage(l)" mat-menu-item class="button-language">
-        {{l | uppercase}}
-      </button>
-    </mat-menu>
+    <div class="select-container">
+      <mat-select [(ngModel)]="language" [formControl]="controls" class="button-flag">
+        <mat-option *ngFor="let l of languages" [value]="l">{{l | uppercase}}</mat-option>
+      </mat-select>
+    </div>
   </div>
   <div class="modal-button">
     <button mat-button (click)="closeDialog()" class="button-close">{{modal.modal_close}}</button>

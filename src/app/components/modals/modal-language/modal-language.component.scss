@@ -1,7 +1,8 @@
 @import '../../../../assets/css/variable.scss'; 
 
 .modal-container{
-    width: 50vh;    
+    height: 100% !important;   
+    width: 100% !important;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

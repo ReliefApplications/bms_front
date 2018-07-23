@@ -75,7 +75,7 @@ export const TEXT = {
     modal_add_title : "Add a new ",
     modal_delete_title : "Delete",
     modal_language_title : "Language",
-    modal_language_actual : "actual language :",
+    modal_language_actual : "Current language :",
     modal_delete_sentence : "You are about to delete ",
     modal_delete_sentence_2 : ". Are you sure ? ",
     modal_close : "Close",

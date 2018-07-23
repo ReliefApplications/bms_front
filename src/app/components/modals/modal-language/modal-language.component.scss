@@ -26,32 +26,26 @@
 
         .language-text{
             display: flex;
+            vertical-align: middle;
+            height: 4vh;
         }
         .button-flag{
             border:none;
-            display: flex;
             align-items: center;
             background: none; 
             height: 4vh;
+            vertical-align: top; 
             img{
                 margin-left: 3px;
                 width: 5vh;
                 height: 4vh;
-
             } 
             mat-icon{
                 margin-left: 3px;
-                width: 5vh;
-                height: 4vh;   
             }
             &:hover{
                 cursor: pointer;
             }
-        }
-        .flag-img{
-            display: flex;
-            width: 5vh !important;
-            height: 4vh !important;
         }
     }
 

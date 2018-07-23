@@ -97,8 +97,8 @@ export class ChartComponent implements OnInit, ChartInterface {
     //Call data from the back
     let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
     if (promise) {
-      promise.toPromise().then(data => {
-        this.data = data;        
+      promise.toPromise().then(response => {  
+        this.data = response.json();       
         if (!this.data || this.data.length === 0) {
           this.noData = true;
           this.loader = false;

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ChartInterface } from "../charts/chart/chart.interface";
-import { FilterInterface } from "../model/filter";
+import { FilterInterface } from "../../../model/filter";
 
 
 

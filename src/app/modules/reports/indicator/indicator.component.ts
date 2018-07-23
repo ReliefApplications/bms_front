@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { Indicator } from '../model/indicator';
-import { FilterInterface } from '../model/filter';
+import { Indicator } from '../../../model/indicator';
+import { FilterInterface } from '../../../model/filter';
 
 @Component({
   selector: 'app-indicator',
@@ -24,6 +24,7 @@ export class IndicatorComponent implements OnInit {
 
   ngOnInit() {
     this.chartDimensions = [400, 300];
+    console.log('app indicator', this.indicator)
   }
 
 }

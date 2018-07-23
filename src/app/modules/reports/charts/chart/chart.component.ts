@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, KeyValueDiffers, ViewChild, ElementRef } from '@angular/core';
 import { ChartDataLoaderService } from '../../services/chart-data-loader.service';
 import { ChartInterface, ChartSchemeClass, ChartTitleClass, ChartAxisClass, ChartLegendClass, ChartModalConfigClass, ChartIndicatorConfigClass } from './chart.interface';
-import { FilterInterface } from '../../model/filter';
+import { FilterInterface } from '../../../../model/filter';
 import { CacheService } from '../../../../core/storage/cache.service';
 import { timeout } from 'q';
 import { FilterService } from '../../services/filter.service';

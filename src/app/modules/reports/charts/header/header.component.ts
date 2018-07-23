@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    
+    console.log('title', this.title)
   }
 
   setAction(action: string) {

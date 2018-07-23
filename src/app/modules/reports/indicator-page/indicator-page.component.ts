@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, SimpleChanges, ElementRef, ViewChildren, QueryList, HostListener } from '@angular/core';
 import { IndicatorService } from '../services/indicator.service';
-import { FilterEvent, FilterInterface, AbstractFilter } from '../model/filter';
-import { Indicator } from '../model/indicator';
+import { FilterEvent, FilterInterface, AbstractFilter } from '../../../model/filter';
+import { Indicator } from '../../../model/indicator';
 import { CacheService } from '../../../core/storage/cache.service';
 import { ButtonFilterData, ButtonFilterComponent } from '../filters/button-filter/button-filter.component';
 import { ChartRegistration, RegisteredItem } from '../services/chart-registration.service';
@@ -65,6 +65,8 @@ export class IndicatorPageComponent implements OnInit {
   distributions = new FormControl();
   distributionList: string[] = ['0', '1', '2', '3', '4', '5'];
 
+  public referedClassToken = Indicator;
+
   constructor(
     public referedClassService: IndicatorService,
     public cacheService: CacheService,
@@ -77,7 +79,13 @@ export class IndicatorPageComponent implements OnInit {
     if (!this.indicatorsLoading) {
       this.indicatorsLoading = true;
       this.referedClassService.getIndicators().toPromise().then(response => {
-        this.indicators = response as any;
+
+        let indicatorResponse = this.referedClassToken.FormatArray(response.json());
+        // this.indicators = response as any;
+        for (let i = 0; i < indicatorResponse.length; i++) {
+          this.indicators.push(indicatorResponse[i]);
+        }
+        console.log('indicator', this.indicators);
         this.indicatorsLoading = false
       }).catch(e => {
         this.indicatorsLoading = false;
@@ -102,7 +110,7 @@ export class IndicatorPageComponent implements OnInit {
       if (this.period) {
         this.frequency = this.indicator.report_period_selected;
       }
-      if(!this.frequencyChanged){
+      if (!this.frequencyChanged) {
         this.frequency = this.indicator.report_frequency_year;
       }
       this.updateFiltersWithLanguage();

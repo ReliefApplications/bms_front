@@ -141,7 +141,6 @@ export class Households {
     }
 
     public static formatElement(element: any): Households {
-        console.log(element);
         let household = new Households();
         let dependents = element.number_dependents;
         household.id = element.id;

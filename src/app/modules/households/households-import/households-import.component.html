@@ -44,12 +44,10 @@
 
             </div>
             <div class="content-button content-button-footer">
-                <a routerLink="/households/data-validation" *ngIf="csv && selectedProject">
-                    <button mat-raised-button class="upload-button" (click)="addHouseholds()">
+                    <button mat-raised-button class="upload-button" (click)="addHouseholds()" *ngIf="csv && selectedProject">
                         <mat-icon>publish</mat-icon>
                         <span>{{household.households_import_upload | uppercase }}</span>
                     </button>
-                </a>
             </div>
         </div>
     </div>

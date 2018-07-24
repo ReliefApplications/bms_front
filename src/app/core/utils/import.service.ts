@@ -9,13 +9,11 @@ import { promise } from 'protractor';
 })
 export class ImportService {
 
-    public data;
-    public project;
-    public token;
+    public data : any;
+    public project: string;
+    public token : string;
     public referedClassToken;
     public referedClassService;
-    public test;
-
 
     constructor(
         public _householdsService: HouseholdsService
@@ -47,7 +45,6 @@ export class ImportService {
                     for (let i = 0; i < responseFormatted.length; i++) {
                         this.data.push(responseFormatted[i]);
                     }
-
                     this.token = response.json().token;
                     this.project = project;
                     resolve(this.data);
@@ -65,6 +62,7 @@ export class ImportService {
                         for (let i = 0; i < responseFormatted.length; i++) {
                             this.data.push(responseFormatted[i]);
                         }
+                        console.log('token', response.json().token);
                         this.token = response.json().token;
                         this.project = project;
                         resolve(this.data);
@@ -80,6 +78,7 @@ export class ImportService {
                         for (let i = 0; i < responseFormatted.length; i++) {
                             this.data.push(responseFormatted[i]);
                         }
+                        console.log('token', response.json().token);
                         this.token = response.json().token;
                         this.project = project;
                         resolve(this.data);

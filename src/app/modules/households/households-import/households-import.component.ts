@@ -8,6 +8,7 @@ import { ProjectService } from '../../../core/api/project.service';
 import { Project } from '../../../model/project';
 import { forEach } from '@angular/router/src/utils/collection';
 import { GlobalText } from '../../../../texts/global';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'households-import',
@@ -41,7 +42,8 @@ export class HouseholdsImportComponent implements OnInit {
   constructor(
     public _householdsService: HouseholdsService,
     public _importService: ImportService,
-    public _projectService: ProjectService
+    public _projectService: ProjectService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -138,7 +140,9 @@ export class HouseholdsImportComponent implements OnInit {
     data.append('file', this.csv);
     let step = 1;
 
-    this._importService.sendData(data, project[0], step);
+    this._importService.sendData(data, project[0], step).then(() => {
+      this.router.navigate(['/households/data-validation']);
+    });
   }
 
 

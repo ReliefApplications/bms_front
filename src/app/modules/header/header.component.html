@@ -1,23 +1,23 @@
 <div class="header-container">
   <div class="container-routes">
-    <span *ngFor="let item of routeParsed">
-      <span *ngIf="(item != '')&&(item != header.header_home)">
+    <span *ngFor="let item of routeNameParsed">
+      <span *ngIf="(item[0] != '')&&(item[0] != header.header_home)">
         >
       </span>
-      <a *ngIf="item == 'Home'" routerLink="/">
-        {{item.charAt(0).toUpperCase() + item.slice(1)}}
+      <a *ngIf="item[0] == header.header_home" routerLink="/">
+        {{item[0].charAt(0).toUpperCase() + item[0].slice(1)}}
       </a>
-      <a *ngIf="item != 'Home'" [routerLink]="[item]">
-        {{item.charAt(0).toUpperCase() + item.slice(1)}}
+      <a *ngIf="item[0] != header.header_home" [routerLink]="item[1]">
+        {{item[0].charAt(0).toUpperCase() + item[0].slice(1)}}
       </a>
     </span>
   </div>
   <div class="container-buttons">
     <div class="buttons">
-	  <button mat-button (click)="changeLanguage()" color="primary">
+	  <button class="button-language" (click)="openDialog('language')" color="white">
 		  {{language | uppercase}}
 	  </button>
-      <button class="button-language">
+      <button class="button-country">
         <img src="assets/images/cambodia.png">
       </button>
 	  <button [matMenuTriggerFor]="menu" class="button-admin">

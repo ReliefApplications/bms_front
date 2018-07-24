@@ -24,7 +24,6 @@ $box-content: 80px;
     display: flex;
     justify-content: left;
     height: 100%;
-
     .content-info{
         justify-content: right;
         align-content: center;
@@ -39,6 +38,8 @@ $box-content: 80px;
             display: flex;
             font-size : 1.5vh;
             margin: 0 !important;
+            word-break: break-word;
+            hyphens: auto;
         }
 
         .info-subtitle{

@@ -19,8 +19,11 @@ import { GlobalText } from '../../../texts/global';
 })
 export class TableComponent implements OnInit {
   public table = GlobalText.TEXTS;
+  private paginator: MatPaginator;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+  }
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() entity;
@@ -34,7 +37,7 @@ export class TableComponent implements OnInit {
   propertiesActions: any;
   entityInstance = null;
   public user_action: string = '';
-
+  
   constructor(
     public mapperService: Mapper,
     public dialog: MatDialog,
@@ -48,6 +51,9 @@ export class TableComponent implements OnInit {
   ngDoCheck() {
     if (this.entity != this.oldEntity) {
       this.checkData();
+    }
+    if(!this.data.paginator){
+      this.data.paginator = this.paginator;      
     }
     if (this.table != GlobalText.TEXTS) {
       this.table = GlobalText.TEXTS;
@@ -71,7 +77,7 @@ export class TableComponent implements OnInit {
   setDataTableProperties() {
     this.data.sort = this.sort;
     if (this.paginator) {
-      this.paginator._intl.itemsPerPageLabel = this.table.table_items_per_page;
+    this.paginator._intl.itemsPerPageLabel = this.table.table_items_per_page;
       this.paginator._intl.firstPageLabel = this.table.table_first_page;
       this.paginator._intl.previousPageLabel = this.table.table_previous_page;
       this.paginator._intl.nextPageLabel = this.table.table_next_page;

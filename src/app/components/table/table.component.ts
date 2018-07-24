@@ -45,8 +45,6 @@ export class TableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.data);
-    console.log("lkj");
     this.checkData();
   }
 
@@ -96,9 +94,8 @@ export class TableComponent implements OnInit {
     this.setDataTableProperties();
     if (this.entity) {
       this.entityInstance = this.mapperService.instantiate(this.entity);
-
       this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
-    this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
+      this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
       this.propertiesActions = new Array();
       this.properties.forEach(element => {
         this.propertiesActions.push(element);

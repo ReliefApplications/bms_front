@@ -21,9 +21,9 @@
         </div>
       </div>
       <div class="content-table">
-        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-search>
-        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="distributionClass" [service]="distributionService"
-          [data]="distributionData"></app-table-mobile-search>
+        <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
+        <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile" [entity]="distributionClass" [service]="distributionService"
+          [data]="distributionData"></app-table-mobile-distribution>
       </div>
     </div>
   </div>

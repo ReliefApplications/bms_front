@@ -114,8 +114,6 @@ export class HouseholdsImportComponent implements OnInit {
    */
   getProjectSelected(event) {
     this.selectedProject = event.value;
-    console.log(this.selectedProject);
-     
   }
 
   /**

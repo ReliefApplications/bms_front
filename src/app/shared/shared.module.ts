@@ -25,6 +25,8 @@ import { TableComponent                                         } from '../compo
 import { TableSearchComponent                                   } from '../components/table/table-search/table-search.component';
 import { TableMobileComponent                                   } from '../components/table/table-mobile/table-mobile.component';
 import { TableMobileSearchComponent                             } from '../components/table/table-mobile-search/table-mobile-search.component';
+import { TableDistributionComponent                             } from '../components/table/table-distribution/table-distribution.component';
+import { TableMobileDistributionComponent                       } from '../components/table/table-mobile-distribution/table-mobile-distribution.component';
 import { ModalComponent                                         } from '../components/modals/modal.component';
 import { ModalDeleteComponent                                   } from '../components/modals/modal-delete/modal-delete.component';
 import { ModalUpdateComponent                                   } from '../components/modals/modal-update/modal-update.component';
@@ -95,6 +97,8 @@ import { DataValidationComponent                                } from '../modul
 		TableSearchComponent,
 		TableMobileComponent,
 		TableMobileSearchComponent,
+		TableDistributionComponent,
+		TableMobileDistributionComponent,
 		MenuTopComponent,
 		HeaderMenuTopComponent,
         ModalComponent,
@@ -134,6 +138,8 @@ import { DataValidationComponent                                } from '../modul
 		TableSearchComponent,
 		TableMobileComponent,
 		TableMobileSearchComponent,
+		TableDistributionComponent,
+		TableMobileDistributionComponent,
 		MenuTopComponent,
 		HeaderMenuTopComponent,
         ModalComponent,

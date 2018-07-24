@@ -69,6 +69,11 @@ export class DistributionComponent implements OnInit {
     }
   }
 
+  /**
+   * update current project and its distributions when a other project box is clicked
+   * @param title 
+   * @param project 
+   */
   selectTitle(title, project): void {
     this.isBoxClicked = true;
     this.selectedTitle = title;
@@ -77,6 +82,9 @@ export class DistributionComponent implements OnInit {
   }
 
   //TO DO : get from cache
+  /**
+   * get all projects
+   */
   getProjects(): void {
     this.projectService.get().subscribe(response => {
       this.projects = this.projectClass.formatArray(response.json());
@@ -84,11 +92,14 @@ export class DistributionComponent implements OnInit {
     })
   }
 
+  /**
+   * get all distributions of a project
+   * @param projectId 
+   */
   getDistributionsByProject(projectId : number): void {
     this.distributionService.getByProject(projectId).subscribe(response => {
       let distribution = DistributionData.formatArray(response.json());
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + "S"], distribution);
-      console.log(distribution);
       this.distributionData = new MatTableDataSource(distribution);
     })
   }

@@ -21,7 +21,8 @@ export class BoxPropertiesComponent extends BoxComponent {
   public properties: any;
 
   ngOnInit() {
-    let entityInstance = this.mapperService.instantiate(this.entity);
+    let entityInstance = Object.create(this.entity.prototype);
+    entityInstance.constructor.apply(entityInstance);
     this.setMapperObject();
     this.properties = Object.getOwnPropertyNames(entityInstance.getMapperBox(entityInstance));
     this.elementObject = entityInstance.getMapperBox(this.componentDisplayed);
@@ -32,7 +33,8 @@ export class BoxPropertiesComponent extends BoxComponent {
       this.oldComponentDisplayed = null;
     }
     if(this.componentDisplayed != this.oldComponentDisplayed){
-      let entityInstance = this.mapperService.instantiate(this.entity);
+      let entityInstance = Object.create(this.entity.prototype);
+      entityInstance.constructor.apply(entityInstance);
       this.elementObject = entityInstance.getMapperBox(this.componentDisplayed);
       this.oldComponentDisplayed = this.componentDisplayed;
     }

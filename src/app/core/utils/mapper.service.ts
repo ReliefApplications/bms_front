@@ -24,8 +24,6 @@ export class Mapper{
     * set mapperObject with its properties set with the entity translator
     */
     setMapperObject(entity): Object{
-        console.log(entity);
-        console.log(entity.__classname__);
         switch(entity.__classname__){
             case 'DistributionData' :
             this.mapperObject = this.mapper.getEntityTranslator("distribution_data"); break;

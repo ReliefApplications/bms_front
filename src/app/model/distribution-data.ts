@@ -184,10 +184,12 @@ export class DistributionData {
         distributionDatas.location_name = element.location.adm1;
         distributionDatas.project = new Project(element.project);
         distributionDatas.selection_criteria = new SelectionCriteria(element.selection_criteria);
-        element.project.sectors.forEach(sector => {
-            distributionDatas.sectors.push(new Sector(sector));
-            distributionDatas.sectors_name.push(sector.name);
-        });
+        if(element.project && element.project.sectors){
+            element.project.sectors.forEach(sector => {
+                distributionDatas.sectors.push(new Sector(sector));
+                distributionDatas.sectors_name.push(sector.name);
+            });
+        }
         return distributionDatas;
     }
 

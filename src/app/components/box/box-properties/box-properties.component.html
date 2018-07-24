@@ -1,6 +1,6 @@
 <div class="box-content">
   <div *ngFor="let p of properties" class="content-info">
-      <h5 class="info-title">{{mapperService.mapTitle(p) | uppercase}}</h5>
-      <h4 class="info-subtitle">{{mapperService.mapValue(componentDisplayed, p)}}</h4>
+      <h5 class="info-title">{{mapperObject[p] | uppercase}}</h5>
+      {{elementObject[p]}}
   </div>
 </div>

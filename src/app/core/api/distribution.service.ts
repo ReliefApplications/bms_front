@@ -27,7 +27,7 @@ export class DistributionService{
     }
 
     public getByProject(idProject) {
-        // let url = this.api + "/distributions";
-        // return this.http.get(url);
+        let url = this.api + "/distributions";
+        return this.http.get(url);
     }
 }

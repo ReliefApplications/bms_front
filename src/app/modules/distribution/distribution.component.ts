@@ -46,6 +46,7 @@ export class DistributionComponent implements OnInit {
 
   ngOnInit() {
     this.getProjects();
+    this.checkSize();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -84,11 +85,11 @@ export class DistributionComponent implements OnInit {
   }
 
   getDistributionsByProject(projectId : number): void {
-  //   this.distributionService.getByProject(projectId).subscribe(response => {
-  //     response = DistributionData.formatArray(response.json());
-  //     this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + "S"], response);
-  //     console.log(response);
-  //     this.distributionData = new MatTableDataSource(response);
-  //   })
+    this.distributionService.getByProject(projectId).subscribe(response => {
+      let distribution = DistributionData.formatArray(response.json());
+      this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + "S"], distribution);
+      console.log(distribution);
+      this.distributionData = new MatTableDataSource(distribution);
+    })
   }
 }

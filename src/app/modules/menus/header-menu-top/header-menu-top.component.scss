@@ -8,23 +8,56 @@
     justify-content: space-between;
     align-items: center;
 
-    button{
-        padding-right:10px;
+    .container-logo{
         display: flex;
-        border:0;
-        background: none;
-        color: white;
-        height: 100%;
+        flex-grow: 1;
+        align-self: center;
+        justify-content: flex-start;
+    }
+    .container-buttons{
+        display: flex;
+        flex-grow: 1;
         justify-content: flex-end;
+        align-items: center;
 
-        i{
-            font-size: 3vh;
+        .button-menu{
+            // padding-right:10px;
+            display: flex;
+            border:0;
+            background: none;
+            color: white;
+            height: 100%;
+            justify-content: flex-end;
+    
+            i{
+                font-size: 3vh;
+            }
+    
+            &:hover{
+                cursor: pointer;
+                color: $bms_red;
+            }
         }
+    
+        .button-country{
+            border:0;
+            background: none;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            margin-left: 3px !important;
+            img{
+                border : solid 1px white;
+                height: 15px;
+                width: 23px !important;
+                // border-radius: 2vh !important;
+            }
 
-        &:hover{
-            cursor: pointer;
-            color: $bms_red;
-        }
+            &:hover{
+                cursor: pointer;
+                color: $bms_red;
+            }
+        }  
     }
 
     a{

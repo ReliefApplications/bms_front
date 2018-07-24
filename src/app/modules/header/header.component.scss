@@ -49,6 +49,25 @@
             z-index: 50;
 
         }
+
+        .button-language{
+            border:none;
+            background: none;
+            outline: none;
+            height: 40px;
+            width: 40px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            font-size: 2.2vh;
+            text-align: center;
+
+            &:hover{
+                cursor: pointer;
+                background: $bms_light_grey;
+            }
+        }
+
         .button-admin{
             border:none;
             outline: none;
@@ -66,7 +85,7 @@
             }
         }
 
-        .button-language{
+        .button-country{
             border:none;
             outline: none;
             display: flex;
@@ -90,37 +109,18 @@
 
 @media only screen and (max-width: 750px){
 
-    .header-container{
-        position: fixed !important;
-        background-color: white;
-
-        .menu {
-            padding-top : 15vh !important;
-        }
-
-        .buttons{
-            width: 22vh !important;
-            height: 5vh !important;
-        }
-        .button-admin{
-            height: 4.3vh !important;
-            img{
-                width: 4vh !important;
-                border-radius: 15px !important;
-            }
-        }
-        .button-language{
-            height: 4vh !important;
-            padding: 0.4vh !important;
-            margin-left: 1vh !important;
-            img{
-                width: 3.2vh !important;
-                border-radius: 15px !important;
-            }
-        }
+    .buttons{
+        visibility: hidden !important;
     }
 
-    .button-admin {
-        font-size : 5vh !important;
+    .container-routes{
+        padding-bottom: 0px !important;
+        padding-top: 0px !important;
+        height : 10px !important;
+    }
+
+    .container-buttons{
+        padding-bottom: 0px !important;
+        padding-top: 0px !important;
     }
 }

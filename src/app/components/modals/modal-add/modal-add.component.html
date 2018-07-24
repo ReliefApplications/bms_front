@@ -2,7 +2,6 @@
   <h4 class="modal-title">{{modal.modal_add_title}} {{entityDisplayedName | lowercase}}</h4>
   <table class="modal-table">
     <tr *ngFor="let p of properties" class="modal-row">
-      {{newObject[p]}}
       <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
       <th class="table-value">
         <form class="form">

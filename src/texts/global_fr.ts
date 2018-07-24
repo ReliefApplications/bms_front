@@ -16,6 +16,7 @@ export const TEXT = {
     header_home : "Accueil",
     header_profile : "profil", 
     header_disconnect : "déconnexion",
+    header_language : "langue",
 
     login_title : "login",
     login_bms : "Beneficiary management system",
@@ -106,6 +107,8 @@ export const TEXT = {
     modal_update_title : "Modifier",
     modal_add_title : "Ajouter un nouveau",
     modal_delete_title : "Supprimer",
+    modal_language_title : "Langage",
+    modal_language_actual : "Langue courante :",
     modal_delete_sentence : "Vous êtes sur le point de supprimer ",
     modal_delete_sentence_2 : ". ",
     modal_close : "Fermer",

@@ -29,6 +29,7 @@ import { ModalDeleteComponent                                   } from '../compo
 import { ModalUpdateComponent                                   } from '../components/modals/modal-update/modal-update.component';
 import { ModalDetailsComponent                                  } from '../components/modals/modal-details/modal-details.component';
 import { ModalAddComponent                                      } from '../components/modals/modal-add/modal-add.component';
+import { ModalLanguageComponent                                 } from '../components/modals/modal-language/modal-language.component';
 
 import { LoginComponent                                         } from '../modules/public/login.component';
 import { DashboardComponent                                     } from '../modules/dashboard/dashboard.component';
@@ -99,7 +100,8 @@ import { DataValidationComponent                                } from '../modul
         ModalDeleteComponent,
 		ModalUpdateComponent,
         ModalAddComponent,
-		ModalDetailsComponent,
+        ModalDetailsComponent,
+		ModalLanguageComponent,        
 		BoxSettingComponent,
         BoxComponent,
         DataValidationComponent
@@ -109,6 +111,7 @@ import { DataValidationComponent                                } from '../modul
         ModalDeleteComponent,
 		ModalUpdateComponent,
         ModalDetailsComponent,
+		ModalLanguageComponent,        
         ModalAddComponent
     ],
     exports: [
@@ -134,6 +137,7 @@ import { DataValidationComponent                                } from '../modul
         ModalDeleteComponent,
 		ModalUpdateComponent,
 		ModalDetailsComponent,
+		ModalLanguageComponent,        
         ModalAddComponent,
 		BoxSettingComponent,
         BoxComponent,

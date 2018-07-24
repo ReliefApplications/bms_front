@@ -46,15 +46,15 @@ export class IndicatorPageComponent implements OnInit {
 
   // Data Button Declaration
   public dataFilter1: Array<ButtonFilterData> = [
-    { level: '1', label: this.indicator.report_filter_per_year.toLocaleUpperCase(), value: this.indicator.report_frequency_year, active: true },
-    { level: '1', label: this.indicator.report_filter_per_quarter.toLocaleUpperCase(), value: this.indicator.report_frequency_quarter, active: false },
-    { level: '1', label: this.indicator.report_filter_per_month.toUpperCase(), value: this.indicator.report_frequency_month, active: false },
+    { level: '1', label: this.indicator.report_filter_per_year.toLocaleUpperCase(), value: 'year', active: true },
+    { level: '1', label: this.indicator.report_filter_per_quarter.toLocaleUpperCase(), value: 'quarter', active: false },
+    { level: '1', label: this.indicator.report_filter_per_month.toUpperCase(), value: 'month', active: false },
   ]
 
   public dataFilter2: Array<ButtonFilterData> = [
-    { level: '0', icon: 'settings/api', color: 'red', label: this.indicator.report_country_report.toLocaleUpperCase(), value: this.indicator.report_country, active: true },
-    { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: this.indicator.report_project, active: false },
-    { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: this.indicator.report_distribution, active: false },
+    { level: '0', icon: 'settings/api', color: 'red', label: this.indicator.report_country_report.toLocaleUpperCase(), value: 'Country', active: true },
+    { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: 'Project', active: false },
+    { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: false },
   ]
 
   //static variable
@@ -134,6 +134,7 @@ export class IndicatorPageComponent implements OnInit {
     this.dataFilter2.forEach(filter => {
       if (filter['active']) {
         this.type = filter['value'];
+        console.log('type', this.type);
       }
 
     });
@@ -218,18 +219,18 @@ export class IndicatorPageComponent implements OnInit {
 
   updateFiltersWithLanguage() {
     this.dataFilter1[0].label = this.indicator.report_filter_per_year.toLocaleUpperCase();
-    this.dataFilter1[0].value = this.indicator.report_frequency_year;
+    // this.dataFilter1[0].value = this.indicator.report_frequency_year;
     this.dataFilter1[1].label = this.indicator.report_filter_per_quarter.toLocaleUpperCase();
-    this.dataFilter1[1].value = this.indicator.report_frequency_quarter;
+    // this.dataFilter1[1].value = this.indicator.report_frequency_quarter;
     this.dataFilter1[2].label = this.indicator.report_filter_per_month.toLocaleUpperCase();
-    this.dataFilter1[2].value = this.indicator.report_frequency_month;
+    // this.dataFilter1[2].value = this.indicator.report_frequency_month;
 
     this.dataFilter2[0].label = this.indicator.report_country_report.toLocaleUpperCase();
-    this.dataFilter2[0].value = this.indicator.report_country;
+    // this.dataFilter2[0].value = this.indicator.report_country;
     this.dataFilter2[1].label = this.indicator.report_project_report.toLocaleUpperCase();
-    this.dataFilter2[1].value = this.indicator.report_project;
+    // this.dataFilter2[1].value = this.indicator.report_project;
     this.dataFilter2[2].label = this.indicator.report_distribution_report.toLocaleUpperCase();
-    this.dataFilter2[2].value = this.indicator.report_distribution;
+    // this.dataFilter2[2].value = this.indicator.report_distribution;
   }
 
 }

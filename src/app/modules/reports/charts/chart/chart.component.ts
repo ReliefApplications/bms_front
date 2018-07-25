@@ -71,12 +71,23 @@ export class ChartComponent implements OnInit, ChartInterface {
   ngOnInit() {
 
     // Visualisation 
-    this.scheme = {
-      gradient: true,
-      domain: [
-        '#F0A202', '#0E1428', '#ff4514', '#009EAE', '#FF866F', '#772014', '#235789'
-      ]
-    };
+    if(this.indicatorConfig.idIndicator == '10' ) {
+      this.scheme = {
+        gradient: true,
+        domain: [
+          '#0E1428', '#ff4514'
+        ]
+      };
+      this.legend.show = true;
+    } else {
+      this.scheme = {
+        gradient: true,
+        domain: [
+          '#F0A202', '#0E1428', '#ff4514', '#009EAE', '#FF866F', '#772014', '#235789'
+        ]
+      };
+    }
+    
 
     let header = document.getElementById("header");
     this.view = [360, 300];
@@ -98,7 +109,7 @@ export class ChartComponent implements OnInit, ChartInterface {
     let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
     if (promise) {
       promise.toPromise().then(response => {  
-        this.data = response.json();       
+        this.data = response.json(); 
         if (!this.data || this.data.length === 0) {
           this.noData = true;
           this.loader = false;

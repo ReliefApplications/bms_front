@@ -23,7 +23,7 @@ export class ChartAxisClass {
 }
 
 export class ChartLegendClass {
-    public show:           boolean = true; // has legend or not
+    public show:           boolean = false; // has legend or not
 
     constructor(){}
 }

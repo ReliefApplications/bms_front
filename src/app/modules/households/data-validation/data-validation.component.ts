@@ -382,10 +382,13 @@ export class DataValidationComponent implements OnInit {
                 this.lessDone = true;
             }
             this.step = this.step + 1;
-            
+
             this._importService.sendData(this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
                 this.stepper.next();
                 this.getData();
+            }, () => {
+                this.load = false;
+                this.snackBar.open('Error processing data ', '', { duration: 3000, horizontalPosition: "right" });
             });
 
         }

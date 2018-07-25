@@ -9,6 +9,7 @@ import { Project } from '../../../model/project';
 import { forEach } from '@angular/router/src/utils/collection';
 import { GlobalText } from '../../../../texts/global';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'households-import',
@@ -44,7 +45,8 @@ export class HouseholdsImportComponent implements OnInit {
     public _householdsService: HouseholdsService,
     public _importService: ImportService,
     public _projectService: ProjectService,
-    private router: Router
+    private router: Router,
+    public snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -143,6 +145,10 @@ export class HouseholdsImportComponent implements OnInit {
     this.load = true;
     this._importService.sendData(data, project[0], step).then(() => {
       this.router.navigate(['/households/data-validation']);
+    }, () => {
+      this.load = false;
+      this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: "right" });
+
     });
   }
 

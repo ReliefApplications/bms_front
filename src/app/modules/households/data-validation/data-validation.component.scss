@@ -49,7 +49,6 @@
                             text-align: center;
                             flex-grow: 1;
                             height: 50%;
-                            display: flex;
                             flex-direction: row;
                             .content-householdData {
                                 width: 100%
@@ -60,7 +59,7 @@
                                 width: 100%;
                             }
                             .dataToCompare {
-                                font-size: 1.2vh;
+                                font-size: 1.4vh;
                             }
                             .mat-checkbox {
                                 display: flex;
@@ -136,6 +135,9 @@
     width: 100%;
 }
 
+.mat-card {
+    padding: 20px 15px;
+}
 
 //for mobile screen
 @media only screen and (max-width: 750px){

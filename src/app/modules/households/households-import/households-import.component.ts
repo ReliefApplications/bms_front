@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener} from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { HouseholdsService } from '../../../core/api/households.service';
 
@@ -7,6 +7,9 @@ import { ImportService } from '../../../core/utils/import.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { Project } from '../../../model/project';
 import { forEach } from '@angular/router/src/utils/collection';
+import { GlobalText } from '../../../../texts/global';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'households-import',
@@ -14,6 +17,9 @@ import { forEach } from '@angular/router/src/utils/collection';
   styleUrls: ['./households-import.component.scss']
 })
 export class HouseholdsImportComponent implements OnInit {
+  public nameComponent = "households_import_title";
+  public household = GlobalText.TEXTS;
+
   //for the items button
   selectedTitle = "";
   isBoxClicked = false;
@@ -29,15 +35,18 @@ export class HouseholdsImportComponent implements OnInit {
 
   dragAreaClass: string = 'dragarea';
 
-  
+
   referedClassToken = Project;
   public referedClassService;
   public project;
+  public load: boolean = false;
 
   constructor(
     public _householdsService: HouseholdsService,
     public _importService: ImportService,
-    public _projectService: ProjectService
+    public _projectService: ProjectService,
+    private router: Router,
+    public snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -45,17 +54,26 @@ export class HouseholdsImportComponent implements OnInit {
   }
 
   /**
+ * check if the langage has changed
+ */
+  ngDoCheck() {
+    if (this.household != GlobalText.TEXTS) {
+      this.household = GlobalText.TEXTS;
+    }
+  }
+
+  /**
    * Get list of all project and put it in the project selector
    */
   getProjects() {
     this.referedClassService = this._projectService;
-    this.referedClassService.get().subscribe( response => {
+    this.referedClassService.get().subscribe(response => {
       response = this.referedClassToken.formatArray(response.json());
       response.forEach(element => {
         var concat = element.id + " - " + element.name;
         this.projectList.push(concat);
       });
-    });    
+    });
   }
 
   /**
@@ -114,8 +132,6 @@ export class HouseholdsImportComponent implements OnInit {
    */
   getProjectSelected(event) {
     this.selectedProject = event.value;
-    console.log(this.selectedProject);
-     
   }
 
   /**
@@ -125,9 +141,15 @@ export class HouseholdsImportComponent implements OnInit {
     var data = new FormData();
     var project = this.selectedProject.split(" - ");
     data.append('file', this.csv);
-    data.append('step', '1');
-   
-    this._importService.sendData(data, project[0]);
+    let step = 1;
+    this.load = true;
+    this._importService.sendData(data, project[0], step).then(() => {
+      this.router.navigate(['/households/data-validation']);
+    }, () => {
+      this.load = false;
+      this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: "right" });
+
+    });
   }
 
 
@@ -156,7 +178,7 @@ export class HouseholdsImportComponent implements OnInit {
 
     // setting the data is required by firefox
     event.dataTransfer.setData("text", 'firefox');
-    
+
     event.preventDefault();
     event.stopPropagation();
 

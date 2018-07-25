@@ -54,8 +54,7 @@
             <span>{{commodityNb}}</span>{{distribution.add_distribution_commodities_delivered | uppercase}}</h3>
         </div>
         <div class="commodity-form" *ngIf="widthScreen < maxWidthMobile">
-          <app-table-small-mobile (onRemove)="removeElement($event, commodityAction)" [entity]="commodityClass"
-            [data]="commodityData"></app-table-small-mobile>
+          <app-table-small-mobile (onRemove)="removeElement($event, commodityAction)" [entity]="commodityClass" [data]="commodityData"></app-table-small-mobile>
         </div>
       </div>
     </div>
@@ -64,4 +63,5 @@
     <button mat-button (click)="cancel()" class="button-cancel">{{distribution.modal_cancel}}</button>
     <button mat-button (click)="add()" class="button-create">{{distribution.modal_create}}</button>
   </div>
+  <span *ngIf="addDistribution" class="container-create-error">{{distribution.add_distribution_create_error}}</span>
 </div>

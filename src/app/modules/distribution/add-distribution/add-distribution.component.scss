@@ -211,6 +211,16 @@
     }
 }
 
+.container-create-error{
+    display: flex;
+    width: 100% !important;
+    justify-content: flex-end;
+    padding-left: 40px;
+    padding-right: 40px;
+    font-style: italic;
+    font-family: $bms_font_header;
+}
+
 @media only screen and (max-width: 750px),(max-height: 700px){
     .container-fields{
         flex-direction: column !important;

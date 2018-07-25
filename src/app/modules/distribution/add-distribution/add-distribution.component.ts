@@ -1,15 +1,16 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { Component, OnInit, HostListener                                  } from '@angular/core';
+import { MatDialog, MatTableDataSource                                    } from '@angular/material';
+import { Router                                                           } from '@angular/router';
 
-import { GlobalText } from '../../../../texts/global';
+import { GlobalText                                                       } from '../../../../texts/global';
 
-import { Mapper } from '../../../core/utils/mapper.service';
+import { Mapper                                                           } from '../../../core/utils/mapper.service';
 
-import { Commodity } from '../../../model/commodity';
-import { Criteria } from '../../../model/criteria';
-import { DistributionData } from '../../../model/distribution-data';
+import { Commodity                                                        } from '../../../model/commodity';
+import { Criteria                                                         } from '../../../model/criteria';
+import { DistributionData                                                 } from '../../../model/distribution-data';
 
-import { ModalAddComponent } from '../../../components/modals/modal-add/modal-add.component';
+import { ModalAddComponent                                                } from '../../../components/modals/modal-add/modal-add.component';
 
 @Component({
   selector: 'app-add-distribution',
@@ -37,6 +38,7 @@ export class AddDistributionComponent implements OnInit {
   public commodityData = new MatTableDataSource([]);
   public commodityNb = 0;
 
+  public addDistribution = false;
 
   public maxHeight = GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -51,6 +53,7 @@ export class AddDistributionComponent implements OnInit {
   constructor(
     public mapper: Mapper,
     public dialog: MatDialog,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -85,11 +88,11 @@ export class AddDistributionComponent implements OnInit {
   }
 
   cancel() {
-
+    this.router.navigate(["distribution"]);
   }
 
   add() {
-
+    this.addDistribution = true;
   }
 
   setStep(index: string) {

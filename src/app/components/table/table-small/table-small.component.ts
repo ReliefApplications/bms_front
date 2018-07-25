@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild, Output, EventEmitter   } from '@angular/c
 import { MatTableDataSource                                   } from '@angular/material';
 
 import { TableComponent                                       } from '../table.component';
-import { FieldMapper } from '../../../model/field-mapper';
+import { FieldMapper                                          } from '../../../model/field-mapper';
+import { GlobalText                                           } from '../../../../texts/global';
 
 @Component({
   selector: 'app-table-small',
@@ -14,6 +15,17 @@ export class TableSmallComponent extends TableComponent {
   public mapper: FieldMapper = new FieldMapper();
 
   @Output() onRemove = new EventEmitter();
+
+  ngDoCheck() {
+    if (this.entity != this.oldEntity) {
+      this.checkData();
+    }
+    if (this.table != GlobalText.TEXTS) {
+      this.table = GlobalText.TEXTS;
+      this.setDataTableProperties();
+      this.mapperObject = this.mapperService.findMapperObject(this.entity);
+    }
+  }
 
   checkData() {
     if (!this.data) {

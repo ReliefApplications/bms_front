@@ -110,11 +110,11 @@ export class Criteria {
     }
 
     public static formatArray(instance): Criteria[] {
-        let Criterias: Criteria[] = [];
+        let criterias: Criteria[] = [];
         instance.forEach(element => {
-            Criterias.push(this.formatFromApi(element));
+            criterias.push(this.formatFromApi(element));
         });
-        return Criterias;
+        return criterias;
     }
 
     public static formatFromApi(element: any): Criteria {

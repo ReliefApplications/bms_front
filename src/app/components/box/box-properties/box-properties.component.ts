@@ -27,6 +27,7 @@ export class BoxPropertiesComponent extends BoxComponent {
     this.properties = Object.getOwnPropertyNames(entityInstance.getMapperBox(entityInstance));
     this.elementObject = entityInstance.getMapperBox(this.componentDisplayed);
   }
+  
   ngDoCheck() {
     if (this.box != GlobalText.TEXTS) {
       this.box = GlobalText.TEXTS;

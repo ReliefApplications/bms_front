@@ -11,6 +11,7 @@ import { ModalUpdateComponent } from '../modals/modal-update/modal-update.compon
 import { ModalDeleteComponent } from '../modals/modal-delete/modal-delete.component';
 
 import { GlobalText } from '../../../texts/global';
+import { dashCaseToCamelCase } from '@angular/animations/browser/src/util';
 
 @Component({
   selector: 'app-table',

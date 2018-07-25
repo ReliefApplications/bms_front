@@ -135,5 +135,10 @@ export const TEXT = {
     model_criteria_kind_beneficiary : "Kind beneficiary",
     model_criteria_field : "Field",
     model_criteria_operator : "Operator",
-    model_criteria_value : "Value"
+    model_criteria_value : "Value",
+    model_commodity: "Commodity",
+    model_commodity_modality: "Modality",
+    model_commodity_type: "Type",
+    model_commodity_unit: "Unit",
+    model_commodity_value: "Quantity"
 }

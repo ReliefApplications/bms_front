@@ -43,6 +43,8 @@ export class Mapper{
                 return this.mapper.getEntityTranslator("country_specific"); 
             case 'Households' :
                 return this.mapper.getEntityTranslator("households");
+            case 'Commodity' :
+                return this.mapper.getEntityTranslator("commodity");
             default: return;
         }
     }

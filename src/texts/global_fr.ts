@@ -135,5 +135,10 @@ export const TEXT = {
     model_criteria_kind_beneficiary : "Type de bénéficiaires",
     model_criteria_field : "Champ",
     model_criteria_operator : "Opérateur",
-    model_criteria_value : "Valeur"
+    model_criteria_value : "Valeur",
+    model_commodity: "Ressource",
+    model_commodity_modality: "Modalité",
+    model_commodity_type: "Type",
+    model_commodity_unit: "Unité",
+    model_commodity_value: "Quantité"
 }

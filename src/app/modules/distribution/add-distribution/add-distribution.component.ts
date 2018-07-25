@@ -1,14 +1,15 @@
-import { Component, OnInit                                              } from '@angular/core';
-import { MatDialog, MatTableDataSource                                  } from '@angular/material';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 
-import { GlobalText                                                     } from '../../../../texts/global';
+import { GlobalText } from '../../../../texts/global';
 
-import { Mapper                                                         } from '../../../core/utils/mapper.service';
+import { Mapper } from '../../../core/utils/mapper.service';
 
-import { Criteria                                                       } from '../../../model/criteria';
-import { DistributionData                                               } from '../../../model/distribution-data';
+import { Commodity } from '../../../model/commodity';
+import { Criteria } from '../../../model/criteria';
+import { DistributionData } from '../../../model/distribution-data';
 
-import { ModalAddComponent                                              } from '../../../components/modals/modal-add/modal-add.component';
+import { ModalAddComponent } from '../../../components/modals/modal-add/modal-add.component';
 
 @Component({
   selector: 'app-add-distribution',
@@ -24,10 +25,24 @@ export class AddDistributionComponent implements OnInit {
   public propertiesTypes: any;
   entity = DistributionData;
 
-  public criteriaClassService;
   public criteriaClass = Criteria;
+  public criteriaAction = "addCriteria";
   public criteriaArray = [];
   public criteriaData = new MatTableDataSource([]);
+
+  public commodityClass = Commodity;
+  public commodityAction = "addCommodity";
+  public commodityArray = [];
+  public commodityData = new MatTableDataSource([]);
+
+
+  public maxHeight =  GlobalText.maxHeight;
+  public maxWidthMobile = GlobalText.maxWidthMobile;
+  public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
+  public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
+  public maxWidth = GlobalText.maxWidth;
+  public heightScreen;
+  public widthScreen;
 
   step = "";
 
@@ -42,6 +57,17 @@ export class AddDistributionComponent implements OnInit {
     this.mapperObject = this.mapper.findMapperObject(this.entity);
     this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
     this.propertiesTypes = this.newObject.getTypeProperties(this.newObject);
+   this.checkSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.checkSize();
+  }
+
+  checkSize(): void {
+    this.heightScreen = window.innerHeight;
+    this.widthScreen = window.innerWidth;
   }
 
   /**
@@ -50,6 +76,7 @@ export class AddDistributionComponent implements OnInit {
   ngDoCheck() {
     if (this.distribution != GlobalText.TEXTS) {
       this.distribution = GlobalText.TEXTS;
+      this.mapperObject = this.mapper.findMapperObject(this.entity);
       this.nameComponent = GlobalText.TEXTS.distribution_title;
       this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
     }
@@ -73,30 +100,50 @@ export class AddDistributionComponent implements OnInit {
   openDialog(user_action): void {
     let dialogRef;
 
-    if (user_action == 'addCriteria') {
+    if (user_action == this.criteriaAction) {
       dialogRef = this.dialog.open(ModalAddComponent, {
-        data: { data: [], entity: this.criteriaClass, service: this.criteriaClassService, mapper: this.mapper }
+        data: { data: [], entity: this.criteriaClass, mapper: this.mapper }
+      });
+    } else if (user_action == this.commodityAction) {
+      dialogRef = this.dialog.open(ModalAddComponent, {
+        data: { data: [], entity: this.commodityClass, mapper: this.mapper }
       });
     }
-    const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
-      this.createElement(data);
-    });
+    if(dialogRef){
+      const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
+        this.createElement(data, user_action);
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      create.unsubscribe();
-      console.log('The dialog was closed');
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        create.unsubscribe();
+        console.log('The dialog was closed');
+      });
+    }
   }
 
-  createElement(createElement: Object) {
-    this.criteriaArray.push(createElement);
-    this.criteriaData = new MatTableDataSource(this.criteriaArray);
+  createElement(createElement: Object, user_action) {
+    if (user_action == this.criteriaAction) {
+      this.criteriaArray.push(createElement);
+      this.criteriaData = new MatTableDataSource(this.criteriaArray);
+    } else if (user_action == this.commodityAction) {
+      this.commodityArray.push(createElement);
+      this.commodityData = new MatTableDataSource(this.commodityArray);
+    }
   }
 
-  removeElement(removeElement: Object){
-    const index = this.criteriaArray.findIndex((item) => item === removeElement);
-    if (index > -1) {
-      this.criteriaArray.splice(index, 1);
+  removeElement(removeElement: Object, user_action) {
+    if (user_action == this.criteriaAction) {
+      const index = this.criteriaArray.findIndex((item) => item === removeElement);
+      if (index > -1) {
+        this.criteriaArray.splice(index, 1);
+        this.criteriaData = new MatTableDataSource(this.criteriaArray);
+      }
+    } else if (user_action == this.commodityAction) {
+      const index = this.commodityArray.findIndex((item) => item === removeElement);
+      if (index > -1) {
+        this.commodityArray.splice(index, 1);
+        this.commodityData = new MatTableDataSource(this.commodityArray);
+      }
     }
   }
 }

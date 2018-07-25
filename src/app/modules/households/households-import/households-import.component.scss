@@ -80,6 +80,10 @@ app-box-setting {
     background-color: white;
 }
 
+.mat-spinner {
+    margin-bottom: 2vh;
+}
+
 
 //for mobile screen
 @media only screen and (max-width: 750px){
@@ -116,5 +120,14 @@ app-box-setting {
 
     .mat-raised-button{
         font-size: 2vh;
+    }
+
+    .mat-button {
+        font-size: 12px !important;
+    }
+
+    .mat-list {
+        display: flex !important;
+        justify-content: center;
     }
 }

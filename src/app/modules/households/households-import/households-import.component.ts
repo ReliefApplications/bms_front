@@ -38,6 +38,7 @@ export class HouseholdsImportComponent implements OnInit {
   referedClassToken = Project;
   public referedClassService;
   public project;
+  public load: boolean = false;
 
   constructor(
     public _householdsService: HouseholdsService,
@@ -139,7 +140,7 @@ export class HouseholdsImportComponent implements OnInit {
     var project = this.selectedProject.split(" - ");
     data.append('file', this.csv);
     let step = 1;
-
+    this.load = true;
     this._importService.sendData(data, project[0], step).then(() => {
       this.router.navigate(['/households/data-validation']);
     });

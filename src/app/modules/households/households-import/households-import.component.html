@@ -44,10 +44,13 @@
 
             </div>
             <div class="content-button content-button-footer">
-                    <button mat-raised-button class="upload-button" (click)="addHouseholds()" *ngIf="csv && selectedProject">
+                    <mat-spinner *ngIf="load" [diameter]="25"></mat-spinner>
+                    <button mat-raised-button class="upload-button" (click)="addHouseholds()" *ngIf="csv && selectedProject" [disabled] = 'load'>
                         <mat-icon>publish</mat-icon>
                         <span>{{household.households_import_upload | uppercase }}</span>
                     </button>
+                   
+
             </div>
         </div>
     </div>

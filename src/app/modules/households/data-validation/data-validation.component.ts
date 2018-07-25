@@ -39,6 +39,7 @@ export class DataValidationComponent implements OnInit {
     public duplicateDone = false;
     public moreDone = false;
     public lessDone = false;
+    public load: boolean = false;
 
     constructor(
         public _importService: ImportService,
@@ -66,6 +67,7 @@ export class DataValidationComponent implements OnInit {
      * Get data which need verification and validation after import csv
      */
     getData() {
+        this.load = false;
         if (this.step === 1) {
             this.typoIssues = this._importService.getData();
         }
@@ -365,7 +367,7 @@ export class DataValidationComponent implements OnInit {
         } else if (this.step === 2 && this.duplicates.length != length) {
             this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected, '', { duration: 3000, horizontalPosition: "right" });
         } else {
-
+            this.load = true;
             if (this.step === 1) {
                 this.snackBar.open(this.verification.data_verification_snackbar_typo_corrected, '', { duration: 3000, horizontalPosition: "right" });
                 this.typoDone = true;
@@ -380,6 +382,7 @@ export class DataValidationComponent implements OnInit {
                 this.lessDone = true;
             }
             this.step = this.step + 1;
+            
             this._importService.sendData(this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
                 this.stepper.next();
                 this.getData();

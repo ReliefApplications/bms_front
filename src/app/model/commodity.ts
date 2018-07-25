@@ -25,9 +25,9 @@ export class Commodity {
     unit: string = '';
     /**
      * Commodity's value
-     * @type {any}
+     * @type {number}
      */
-    value: any;
+    value: number;
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -81,7 +81,7 @@ export class Commodity {
             modality: "text",
             type: "text",
             unit: "text",
-            value: "text",
+            value: "number",
         }
     }
 
@@ -93,7 +93,7 @@ export class Commodity {
             modality: "text",
             type: "text",
             unit: "text",
-            value: "text",
+            value: "number",
         }
     }
 

@@ -31,6 +31,9 @@
         <div class="criteria-form">
           <app-table-small *ngIf="widthScreen > maxWidthMobile" (onRemove)="removeElement($event, criteriaAction)" [entity]="criteriaClass" [data]="criteriaData"></app-table-small>
         </div>
+        <div class="criteria-summary" *ngIf="criteriaArray.length != 0">
+          <h3 class="summary-text"><span>{{criteriaNbBeneficiaries}}</span>{{distribution.add_distribution_beneficiaries_reached | uppercase}}</h3>
+        </div>
       </div>
       <div class="forms-commodity">
         <div class="commodity-text">
@@ -42,6 +45,9 @@
         <div class="commodity-form">
           <app-table-small *ngIf="widthScreen > maxWidthMobile" (onRemove)="removeElement($event, commodityAction)" [entity]="commodityClass" [data]="commodityData"></app-table-small>
         </div>
+        <div class="commodity-summary" *ngIf="commodityArray.length != 0">
+            <h3 class="commodity-text"><span>{{commodityNb}}</span>{{distribution.add_distribution_commodities_delivered | uppercase}}</h3>
+          </div>
       </div>
     </div>
   </div>

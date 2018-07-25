@@ -66,6 +66,8 @@ export const TEXT = {
     add_distribution_new_distribution : "new distribution",
     add_distribution_selection_criteria : "selection criteria",
     add_distribution_distributed_commodity : "distributed commodity",
+    add_distribution_beneficiaries_reached: "Beneficiaries reached",
+    add_distribution_commodities_delivered: "Commodities delivered",
 
     table_filter : "Filter",
     table_actions : "Actions",
@@ -106,7 +108,7 @@ export const TEXT = {
     model_distribution_adm1: "Province",
     model_distribution_adm2: "District",
     model_distribution_adm3: "Community",
-    model_distribution_adm4: "Village",
+    model_distribution_adm4: "Village",    
     model_donor : "Donor",
     model_donor_fullname: "Donor's name",
     model_donor_shortname: "Shortname",

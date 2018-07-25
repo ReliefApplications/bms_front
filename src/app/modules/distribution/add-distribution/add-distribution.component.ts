@@ -29,14 +29,16 @@ export class AddDistributionComponent implements OnInit {
   public criteriaAction = "addCriteria";
   public criteriaArray = [];
   public criteriaData = new MatTableDataSource([]);
+  public criteriaNbBeneficiaries = 0;
 
   public commodityClass = Commodity;
   public commodityAction = "addCommodity";
   public commodityArray = [];
   public commodityData = new MatTableDataSource([]);
+  public commodityNb = 0;
 
 
-  public maxHeight =  GlobalText.maxHeight;
+  public maxHeight = GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;
   public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
   public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
@@ -57,7 +59,7 @@ export class AddDistributionComponent implements OnInit {
     this.mapperObject = this.mapper.findMapperObject(this.entity);
     this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
     this.propertiesTypes = this.newObject.getTypeProperties(this.newObject);
-   this.checkSize();
+    this.checkSize();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -109,7 +111,7 @@ export class AddDistributionComponent implements OnInit {
         data: { data: [], entity: this.commodityClass, mapper: this.mapper }
       });
     }
-    if(dialogRef){
+    if (dialogRef) {
       const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
         this.createElement(data, user_action);
       });
@@ -127,6 +129,7 @@ export class AddDistributionComponent implements OnInit {
       this.criteriaData = new MatTableDataSource(this.criteriaArray);
     } else if (user_action == this.commodityAction) {
       this.commodityArray.push(createElement);
+      this.sumCommodities(createElement);
       this.commodityData = new MatTableDataSource(this.commodityArray);
     }
   }
@@ -142,8 +145,23 @@ export class AddDistributionComponent implements OnInit {
       const index = this.commodityArray.findIndex((item) => item === removeElement);
       if (index > -1) {
         this.commodityArray.splice(index, 1);
+        this.removeCommodities(removeElement);
         this.commodityData = new MatTableDataSource(this.commodityArray);
       }
+    }
+  }
+
+  sumCommodities(createElement: Object) {
+    let value = parseInt(createElement["value"], 10);
+    if(value){
+      this.commodityNb += value;
+    }
+  }
+
+  removeCommodities(removeElement: Object) {
+    let value = parseInt(removeElement["value"], 10);
+    if(value){
+      this.commodityNb -= value;
     }
   }
 }

@@ -80,7 +80,7 @@
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
                         <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
-                        <button mat-raised-button class="next-button" (click)=" sendCorrectedData()" [disabled]= 'load'>
+                        <button mat-raised-button class="next-button" (click)=" sendCorrectedData()" *ngIf='!load'>
                             <span>{{verification.data_verification_next}}</span>
                         </button>
                     </div>
@@ -144,7 +144,7 @@
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="25"></mat-progress-bar>
                         <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
-                        <button mat-raised-button class="next-button" (click)="sendCorrectedData()" [disabled]="load">
+                        <button mat-raised-button class="next-button" (click)="sendCorrectedData()" *ngIf='!load'>
                             <span>{{verification.data_verification_next}}</span>
                         </button>
                     </div>
@@ -216,7 +216,7 @@
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
                         <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
-                        <button mat-raised-button class="next-button" (click)="sendCorrectedData()" [disabled]='load'>
+                        <button mat-raised-button class="next-button" (click)="sendCorrectedData()" *ngIf='!load'>
                             <span>{{verification.data_verification_next}}</span>
                         </button>
                     </div>
@@ -288,7 +288,7 @@
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="75"></mat-progress-bar>
                         <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
-                        <button mat-raised-button class="next-button" (click)="sendCorrectedData()" [disabled]="load">
+                        <button mat-raised-button class="next-button" (click)="sendCorrectedData()" *ngIf='!load'>
                             <span>{{verification.data_verification_next}}</span>
                         </button>
                     </div>

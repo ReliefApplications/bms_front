@@ -27,6 +27,7 @@ import { TableMobileComponent                                   } from '../compo
 import { TableMobileSearchComponent                             } from '../components/table/table-mobile-search/table-mobile-search.component';
 import { TableDistributionComponent                             } from '../components/table/table-distribution/table-distribution.component';
 import { TableMobileDistributionComponent                       } from '../components/table/table-mobile-distribution/table-mobile-distribution.component';
+import { TableSmallComponent                                    } from '../components/table/table-small/table-small.component';
 import { ModalComponent                                         } from '../components/modals/modal.component';
 import { ModalDeleteComponent                                   } from '../components/modals/modal-delete/modal-delete.component';
 import { ModalUpdateComponent                                   } from '../components/modals/modal-update/modal-update.component';
@@ -41,6 +42,7 @@ import { MenuTopComponent                                       } from '../modul
 import { HeaderMenuTopComponent                                 } from '../modules/menus/header-menu-top/header-menu-top.component';
 import { HouseholdsComponent                                    } from '../modules/households/households.component';
 import { DistributionComponent                                  } from '../modules/distribution/distribution.component';
+import { AddDistributionComponent                               } from '../modules/distribution/add-distribution/add-distribution.component';
 import { SettingsComponent                                      } from '../modules/settings/settings.component';
 import { HeaderComponent                                        } from '../modules/header/header.component';
 import { HouseholdsImportComponent                              } from '../modules/households/households-import/households-import.component';
@@ -89,6 +91,7 @@ import { DataValidationComponent                                } from '../modul
         HouseholdsComponent,
         HouseholdsImportComponent,
 		DistributionComponent,
+		AddDistributionComponent,
 		SettingsComponent,
 		HeaderComponent,
         IconSvgComponent,
@@ -99,6 +102,7 @@ import { DataValidationComponent                                } from '../modul
 		TableMobileSearchComponent,
 		TableDistributionComponent,
 		TableMobileDistributionComponent,
+		TableSmallComponent,
 		MenuTopComponent,
 		HeaderMenuTopComponent,
         ModalComponent,
@@ -129,6 +133,7 @@ import { DataValidationComponent                                } from '../modul
         HouseholdsComponent,
         HouseholdsImportComponent,
 		DistributionComponent,
+		AddDistributionComponent,
 		SettingsComponent,
 		HeaderComponent,
 		IconSvgComponent,
@@ -140,6 +145,7 @@ import { DataValidationComponent                                } from '../modul
 		TableMobileSearchComponent,
 		TableDistributionComponent,
 		TableMobileDistributionComponent,
+		TableSmallComponent,
 		MenuTopComponent,
 		HeaderMenuTopComponent,
         ModalComponent,

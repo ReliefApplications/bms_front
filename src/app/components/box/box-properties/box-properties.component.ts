@@ -23,7 +23,7 @@ export class BoxPropertiesComponent extends BoxComponent {
   ngOnInit() {
     let entityInstance = Object.create(this.entity.prototype);
     entityInstance.constructor.apply(entityInstance);
-    this.setMapperObject();
+    this.mapperObject = this.mapperService.findMapperObject(this.entity);
     this.properties = Object.getOwnPropertyNames(entityInstance.getMapperBox(entityInstance));
     this.elementObject = entityInstance.getMapperBox(this.componentDisplayed);
   }
@@ -38,27 +38,5 @@ export class BoxPropertiesComponent extends BoxComponent {
       this.elementObject = entityInstance.getMapperBox(this.componentDisplayed);
       this.oldComponentDisplayed = this.componentDisplayed;
     }
-
   }
-
-  setMapperObject() {
-    if (this.entity) {
-      switch (this.entity.__classname__) {
-        case 'DistributionData':
-          this.mapperObject = this.mapper.getEntityTranslator("distribution_data"); break;
-        case 'Donor':
-          this.mapperObject = this.mapper.getEntityTranslator("donor"); break;
-        case 'Project':
-          this.mapperObject = this.mapper.getEntityTranslator("project"); break;
-        case 'UserInterface':
-          this.mapperObject = this.mapper.getEntityTranslator("user"); break;
-        case 'CountrySpecific':
-          this.mapperObject = this.mapper.getEntityTranslator("country_specific"); break;
-        case 'Households':
-          this.mapperObject = this.mapper.getEntityTranslator("households"); break;
-        default: break;
-      }
-    }
-  }
-
 }

@@ -1,0 +1,41 @@
+<div class="page-container">
+  <div class="container-fields">
+    <div class="field-distribution">
+      <h1 class="distribution-title">{{distribution.add_distribution_new_distribution | uppercase}}</h1>
+      <div class="distribution-accordion">
+        <mat-accordion class="example-headers-align">
+          <mat-expansion-panel *ngFor="let p of properties" [expanded]="step === p" (opened)="setStep(p)" class="mat-elevation-z8">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{mapperObject[p]}}
+              </mat-panel-title>
+              <mat-panel-description *ngIf="!(step === p)">
+                {{newObject[p]}}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-form-field class="accordion-field">
+              <input [(ngModel)]="newObject[p]" class="field-input" matInput type="{{propertiesTypes[p]}}">
+            </mat-form-field>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+    <div class="field-forms">
+      <div class="forms-criteria">
+        <div class="criteria-text">
+          <h1 class="criteria-title">{{distribution.add_distribution_selection_criteria | uppercase}}</h1>
+          <button mat-icon-button (click)="openDialog('addCriteria')" class="add-button">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div class="criteria-form">
+          <app-table-small (onRemove)="removeElement($event)" [entity]="criteriaClass" [service]="criteriaClassService" [data]="criteriaData"></app-table-small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-buttons">
+    <button mat-button (click)="cancel()" class="button-cancel">{{distribution.modal_cancel}}</button>
+    <button mat-button (click)="add()" class="button-create">{{distribution.modal_create}}</button>
+  </div>
+</div>

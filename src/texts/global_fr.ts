@@ -62,6 +62,11 @@ export const TEXT = {
     distribution_title : "distributions",
     distribution_export : "export",
     
+    add_distribution_title : "nouvelle distribution",
+    add_distribution_new_distribution : "nouvelle distribution",
+    add_distribution_selection_criteria : "critères de sélection",
+    add_distribution_distributed_commodity : "ressource distribuée",
+
     table_filter : "Filtre",
     table_actions : "Actions",
     table_items_per_page : "Items par page",
@@ -94,10 +99,14 @@ export const TEXT = {
     model_country_specific_type: "Type",
     model_country_specific_countryIso3: "Pays",
     model_distribution : "Distribution",
-    model_distribution_name: "Distribution",
+    model_distribution_name: "Nom",
     model_distribution_location_name: "Lieu",
     model_distribution_number_beneficiaries: "n° Bénéficiaires",
     model_distribution_sectors_name: "Secteurs",
+    model_distribution_adm1: "Province",
+    model_distribution_adm2: "District",
+    model_distribution_adm3: "Commune",
+    model_distribution_adm4: "Village",
     model_donor : "Donneur",
     model_donor_fullname: "Nom du donneur",
     model_donor_shortname: "Surnom",
@@ -121,5 +130,10 @@ export const TEXT = {
     model_project_donors_name: "Donneurs",
     model_project_notes: "Notes",
     model_project_value: "Budget",
-    model_sector : "Secteur"
+    model_sector : "Secteur",
+    model_criteria : "Critère",
+    model_criteria_kind_beneficiary : "Type de bénéficiaires",
+    model_criteria_field : "Champ",
+    model_criteria_operator : "Opérateur",
+    model_criteria_value : "Valeur"
 }

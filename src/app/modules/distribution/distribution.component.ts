@@ -10,6 +10,7 @@ import { CacheService                                             } from '../../
 import { DistributionService } from '../../core/api/distribution.service';
 import { DistributionData } from '../../model/distribution-data';
 import { Mapper } from '../../core/utils/mapper.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-distribution',
@@ -41,6 +42,7 @@ export class DistributionComponent implements OnInit {
     public projectService: ProjectService,
     public distributionService: DistributionService,
     public mapperService : Mapper,
+    private router: Router,
     private _cacheService: CacheService        
   ) { }
 
@@ -102,5 +104,9 @@ export class DistributionComponent implements OnInit {
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + "S"], distribution);
       this.distributionData = new MatTableDataSource(distribution);
     })
+  }
+
+  addDistribution(){
+    this.router.navigate(["distribution/add-distribution"]);
   }
 }

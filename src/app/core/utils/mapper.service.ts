@@ -23,23 +23,28 @@ export class Mapper{
     /**
     * set mapperObject with its properties set with the entity translator
     */
-    setMapperObject(entity): Object{
+    setMapperObject(entity){
+        this.mapperObject = this.findMapperObject(entity);
+    }
+
+    findMapperObject(entity): Object{
         switch(entity.__classname__){
             case 'DistributionData' :
-            this.mapperObject = this.mapper.getEntityTranslator("distribution_data"); break;
+                return this.mapper.getEntityTranslator("distribution_data"); 
             case 'Donor' :
-            this.mapperObject = this.mapper.getEntityTranslator("donor"); break;
+                return this.mapper.getEntityTranslator("donor"); 
+            case 'Criteria' :
+                return this.mapper.getEntityTranslator("criteria"); 
             case 'Project' :
-            this.mapperObject = this.mapper.getEntityTranslator("project"); break;
+                return this.mapper.getEntityTranslator("project"); 
             case 'UserInterface' :
-            this.mapperObject = this.mapper.getEntityTranslator("user"); break;
+                return this.mapper.getEntityTranslator("user"); 
             case 'CountrySpecific' :
-            this.mapperObject = this.mapper.getEntityTranslator("country_specific"); break;
+                return this.mapper.getEntityTranslator("country_specific"); 
             case 'Households' :
-            this.mapperObject = this.mapper.getEntityTranslator("households"); break;
+                return this.mapper.getEntityTranslator("households");
             default: return;
         }
-        return this;
     }
 
     getMapperObject(): Object{

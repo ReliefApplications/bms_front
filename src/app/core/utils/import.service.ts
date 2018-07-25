@@ -62,7 +62,6 @@ export class ImportService {
                         for (let i = 0; i < responseFormatted.length; i++) {
                             this.data.push(responseFormatted[i]);
                         }
-                        console.log('token', response.json().token);
                         this.token = response.json().token;
                         this.project = project;
                         resolve(this.data);
@@ -78,7 +77,6 @@ export class ImportService {
                         for (let i = 0; i < responseFormatted.length; i++) {
                             this.data.push(responseFormatted[i]);
                         }
-                        console.log('token', response.json().token);
                         this.token = response.json().token;
                         this.project = project;
                         resolve(this.data);

@@ -20,6 +20,7 @@ export class CacheService {
 	static readonly PROJECTS		            = 'projects';
 	static readonly SECTORS		              	= 'sectors';
 	static readonly HOUSEHOLDS		            = 'households';
+	static readonly CRITERIAS		            = 'criterias';
 
 	constructor() {
 		this.defaultStorage = localStorage;

@@ -3,11 +3,10 @@
   <table class="modal-table">
     <th *ngFor="let p of properties" class="modal-row">
         <form class="form">
-          <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
+          <mat-form-field class="full-width">
             <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
-            <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [formControl]="controls"
-              multiple>
-              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
+            <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [formControl]="controls">
+              <mat-option *ngFor="let singleData of loadedData[p]; let i = index" [value]="i">{{singleData.field_string}}</mat-option>
             </mat-select>
           </mat-form-field>
         </form>

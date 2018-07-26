@@ -139,6 +139,8 @@ export const TEXT = {
     model_criteria_field : "Critère",
     model_criteria_operator : "Condition",
     model_criteria_value : "Valeur",
+    model_criteria_beneficiary : "Bénéficiaire",
+    model_criteria_dependents : "Dépendants",
     model_commodity: "Ressource",
     model_commodity_modality: "Modalité",
     model_commodity_type: "Type",

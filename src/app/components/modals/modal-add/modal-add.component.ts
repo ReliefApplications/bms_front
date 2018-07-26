@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output                           } from '@angular/core';
 import { ModalComponent                                                           } from '../modal.component';
 import { GlobalText                                                               } from '../../../../texts/global';
+import { Criteria } from '../../../model/criteria';
 
 @Component({
   selector: 'app-modal-add',

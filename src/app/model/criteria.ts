@@ -13,29 +13,41 @@ export class Criteria {
      * @type {string}
      */
     kind_beneficiary: string = '';
-    /**
-     * Criteria's field
+     /**
+     * Criteria's table_string
      * @type {string}
      */
-    field: string = '';
+    table_string: string = '';
     /**
-     * Criteria's operator
+     * Criteria's field_string
+     * @type {string}
+     */
+    field_string: string = '';
+    /**
+     * Criteria's condition_string
      * @type {spring}
      */
-    operator: string = '';
+    condition_string: string = '';
     /**
-     * Criteria's value
+     * Criteria's type
+     * @type {spring}
+     */
+    type: string = '';
+    /**
+     * Criteria's value_string
      * @type {any}
      */
-    value: any;
+    value_string: any;
 
     constructor(instance?) {
         if (instance !== undefined) {
+            this.type = instance.type;
             this.id = instance.id;
             this.kind_beneficiary = instance.kind_beneficiary;
-            this.field = instance.field;
-            this.operator = instance.operator;
-            this.value = instance.value;
+            this.field_string = instance.field_string;
+            this.condition_string = instance.condition_string;
+            this.value_string = instance.value_string;
+            this.table_string = instance.table_string;
         }
     }
 
@@ -52,9 +64,9 @@ export class Criteria {
 
         return {
             kind_beneficiary: selfinstance.kind_beneficiary,
-            field: selfinstance.field,
-            operator: selfinstance.operator,
-            value: selfinstance.value
+            field_string: selfinstance.field_string,
+            condition_string: selfinstance.condition_string,
+            value_string: selfinstance.value_string
         }
     }
 
@@ -67,9 +79,9 @@ export class Criteria {
 
         return {
             kind_beneficiary: selfinstance.kind_beneficiary,
-            field: selfinstance.field,
-            operator: selfinstance.operator,
-            value: selfinstance.value
+            field_string: selfinstance.field_string,
+            condition_string: selfinstance.condition_string,
+            value_string: selfinstance.value_string
         }
     }
 
@@ -79,9 +91,9 @@ export class Criteria {
     getTypeProperties(selfinstance): Object {
         return {
             kind_beneficiary: "text",
-            field: "text",
-            operator: "text",
-            value: "text",
+            field_string: "text",
+            condition_string: "text",
+            value_string: "text",
         }
     }
 
@@ -91,9 +103,9 @@ export class Criteria {
     getModalTypeProperties(selfinstance): Object {
         return {
             kind_beneficiary: "select",
-            field: "select",
-            operator: "select",
-            value: "text",
+            field_string: "select",
+            condition_string: "select",
+            value_string: "text",
         }
     }
 
@@ -103,9 +115,9 @@ export class Criteria {
     static translator(): Object {
         return {
             kind_beneficiary: GlobalText.TEXTS.model_criteria_kind_beneficiary,
-            field: GlobalText.TEXTS.model_criteria_field,
-            operator: GlobalText.TEXTS.model_criteria_operator,
-            value: GlobalText.TEXTS.model_criteria_value,
+            field_string: GlobalText.TEXTS.model_criteria_field,
+            condition_string: GlobalText.TEXTS.model_criteria_operator,
+            value_string: GlobalText.TEXTS.model_criteria_value,
         }
     }
 
@@ -121,6 +133,22 @@ export class Criteria {
         let criteria = new Criteria(element);
 
         return criteria;
+    }
+
+    /**
+     * used in modal line
+     * @param element 
+     * @param loadedData 
+     */
+    public static formatFromModalAdd(element: any, loadedData:any): Criteria {
+        let newObject = new Criteria(loadedData.field_string[element.field_string]);
+        if(element.kind_beneficiary){
+          newObject.kind_beneficiary = loadedData.kind_beneficiary[element.kind_beneficiary].field_string;
+        }
+        newObject.condition_string = loadedData.condition_string[element.condition_string].field_string;
+        newObject.value_string = element.value_string;
+
+        return newObject;
     }
 
     public static formatForApi(element: Criteria): any {

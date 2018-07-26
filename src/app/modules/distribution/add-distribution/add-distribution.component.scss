@@ -201,13 +201,16 @@
     justify-content: flex-end;
 
     .button-create{
-        color: $bms_red;
-        width: 10vh;
+        color: white;
+        width: 15vh;
+        background-color: $bms_green;
     }
 
     .button-cancel{
-        color: $bms_red;
-        width: 10vh;
+        color: $bms_green;
+        // background-color: $bms_slate;
+        width: 15vh;
+        margin-right: 10px;
     }
 }
 

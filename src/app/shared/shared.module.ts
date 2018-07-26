@@ -34,6 +34,7 @@ import { ModalDeleteComponent                                   } from '../compo
 import { ModalUpdateComponent                                   } from '../components/modals/modal-update/modal-update.component';
 import { ModalDetailsComponent                                  } from '../components/modals/modal-details/modal-details.component';
 import { ModalAddComponent                                      } from '../components/modals/modal-add/modal-add.component';
+import { ModalAddLineComponent                                  } from '../components/modals/modal-add/modal-add-line/modal-add-line.component';
 import { ModalLanguageComponent                                 } from '../components/modals/modal-language/modal-language.component';
 
 import { LoginComponent                                         } from '../modules/public/login.component';
@@ -113,6 +114,7 @@ import { DataValidationComponent                                } from '../modul
         ModalAddComponent,
         ModalDetailsComponent,
 		ModalLanguageComponent,        
+		ModalAddLineComponent,
 		BoxSettingComponent,
         BoxComponent,
 		BoxPropertiesComponent,
@@ -124,7 +126,8 @@ import { DataValidationComponent                                } from '../modul
 		ModalUpdateComponent,
         ModalDetailsComponent,
 		ModalLanguageComponent,        
-        ModalAddComponent
+        ModalAddComponent,
+		ModalAddLineComponent,
     ],
     exports: [
         //Shared Components
@@ -157,6 +160,7 @@ import { DataValidationComponent                                } from '../modul
 		ModalDetailsComponent,
 		ModalLanguageComponent,        
         ModalAddComponent,
+		ModalAddLineComponent,
 		BoxSettingComponent,
         BoxComponent,
         MatCheckboxModule,

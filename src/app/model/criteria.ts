@@ -90,9 +90,9 @@ export class Criteria {
     */
     getModalTypeProperties(selfinstance): Object {
         return {
-            kind_beneficiary: "text",
-            field: "text",
-            operator: "text",
+            kind_beneficiary: "select",
+            field: "select",
+            operator: "select",
             value: "text",
         }
     }

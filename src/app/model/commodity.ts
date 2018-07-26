@@ -90,9 +90,9 @@ export class Commodity {
     */
     getModalTypeProperties(selfinstance): Object {
         return {
-            modality: "text",
-            type: "text",
-            unit: "text",
+            modality: "select",
+            type: "select",
+            unit: "select",
             value: "number",
         }
     }

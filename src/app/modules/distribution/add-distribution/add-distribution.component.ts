@@ -12,6 +12,7 @@ import { Criteria                                                         } from
 import { DistributionData                                                 } from '../../../model/distribution-data';
 
 import { ModalAddLineComponent                                            } from '../../../components/modals/modal-add/modal-add-line/modal-add-line.component';
+import { ModalAddComponent                                                } from '../../../components/modals/modal-add/modal-add.component';
 
 @Component({
   selector: 'app-add-distribution',
@@ -112,7 +113,7 @@ export class AddDistributionComponent implements OnInit {
         data: { data: [], entity: this.criteriaClass, mapper: this.mapper }
       });
     } else if (user_action == this.commodityAction) {
-      dialogRef = this.dialog.open(ModalAddLineComponent, {
+      dialogRef = this.dialog.open(ModalAddComponent, {
         data: { data: [], entity: this.commodityClass, mapper: this.mapper }
       });
     }

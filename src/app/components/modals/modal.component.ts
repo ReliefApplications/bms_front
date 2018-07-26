@@ -85,7 +85,7 @@ export class ModalComponent implements OnInit {
     }
     //for criterias
     if(this.newObject && this.newObject.field_string == ''){
-      // this.loadedData.field_string = this._cacheService.get(CacheService.CRITERIAS);
+      this.loadedData.field_string = this._cacheService.get(CacheService.CRITERIAS);
       if(!this.loadedData.field_string)
       this.criteriaService.get().subscribe(response => {
         this.loadedData.field_string = response.json();

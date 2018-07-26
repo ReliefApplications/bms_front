@@ -83,14 +83,16 @@ export class ModalComponent implements OnInit {
         this._cacheService.set(CacheService.PROJECTS, this.loadedData.projects_name);
       });
     }
+    //for criterias
     if(this.newObject && this.newObject.field_string == ''){
       // this.loadedData.field_string = this._cacheService.get(CacheService.CRITERIAS);
       if(!this.loadedData.field_string)
       this.criteriaService.get().subscribe(response => {
-        this.loadedData.field_string = response;
+        this.loadedData.field_string = response.json();
         this._cacheService.set(CacheService.CRITERIAS, this.loadedData.field_string);
       });
     }
+    //for criterias
     if(this.newObject && this.newObject.kind_beneficiary == ''){
       this.loadedData.kind_beneficiary = [{"field_string":this.modal.model_criteria_beneficiary}, {"field_string":this.modal.model_criteria_dependents}];
     }

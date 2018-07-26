@@ -29,24 +29,7 @@
             display: flex;
             flex-grow: 1;
             align-items: baseline;
-
-            .table-value{
-                justify-content: center;
-                display: flex;
-                width: 100%;
-                font-size: 2vh;
-                font-weight: bold;
-
-                .form {
-                    min-width: 150px;
-                    max-width: 500px;
-                    width: 100%;
-                  
-                  .full-width {
-                    width: 100%;
-                  }
-                }
-            }
+            justify-content: center;
         }
     }
 

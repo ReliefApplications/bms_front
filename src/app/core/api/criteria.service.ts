@@ -22,56 +22,13 @@ export class CriteriaService{
     }
 
     public get() {
-        return of(this.CRITERIA)
-        // let url = this.api + "/distributions";
-        // return this.http.get(url);
+        let url = this.api + "/distribution/criteria";
+        return this.http.get(url);
     }
 
-    public CRITERIA = [
-        {
-            "id": 1,
-            "field_string": "disabled",
-            "table_string":"vulnerabilityCriteria",
-        },
-        {
-            "id": 2,
-            "field_string": "solo parent",
-            "table_string":"vulnerabilityCriteria",
-        },
-        {
-            "id": 3,
-            "field_string": "lactating",
-            "table_string":"vulnerabilityCriteria",
-        },
-        {
-            "id": 4,
-            "field_string": "pregnant",
-            "table_string":"vulnerabilityCriteria",
-        },
-        {
-            "id": 5,
-            "field_string": "nutritional issues",
-            "table_string":"vulnerabilityCriteria",
-        },
-        {
-            "id": 1,
-            "field_string": "ID Poor",
-            "type": "Number",
-            "table_string":"countrySpecific",
-        },
-        {
-            "id": 2,
-            "field_string": "WASH",
-            "type": "Text",
-            "table_string":"countrySpecific",
-        },
-        {
-            "field_string": "gender",
-            "type": "boolean"
-        },
-        {
-            "field_string": "dateOfBirth",
-            "type": "date"
-        }
-    ] ;
+    public getBeneficiariesNumber(criteriaArray:any){
+        let body = { "distribution_type" : "household", "criteria" : criteriaArray }
+        let url = this.api + "/distribution/criteria/number";
+        return this.http.post(url, body);
+    }
 }

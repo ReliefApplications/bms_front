@@ -140,7 +140,7 @@ export const TEXT = {
     model_criteria_operator : "Condition",
     model_criteria_value : "Value",
     model_criteria_beneficiary : "Beneficiary",
-    model_criteria_dependents : "Dependents",
+    model_criteria_dependents : "Dependent",
     model_commodity: "Commodity",
     model_commodity_modality: "Modality",
     model_commodity_type: "Type",

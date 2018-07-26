@@ -7,7 +7,7 @@ export class Criteria {
      * Criteria's id
      * @type {number}
      */
-    id: number;
+    id_field: number;
     /**
      * Criteria's kind_beneficiary
      * @type {string}
@@ -42,7 +42,7 @@ export class Criteria {
     constructor(instance?) {
         if (instance !== undefined) {
             this.type = instance.type;
-            this.id = instance.id;
+            this.id_field = instance.id_field;
             this.kind_beneficiary = instance.kind_beneficiary;
             this.field_string = instance.field_string;
             this.condition_string = instance.condition_string;
@@ -141,13 +141,14 @@ export class Criteria {
      * @param loadedData 
      */
     public static formatFromModalAdd(element: any, loadedData:any): Criteria {
-        let newObject = new Criteria(loadedData.field_string[element.field_string]);
-        if(element.kind_beneficiary){
-          newObject.kind_beneficiary = loadedData.kind_beneficiary[element.kind_beneficiary].field_string;
-        }
-        newObject.condition_string = loadedData.condition_string[element.condition_string].field_string;
+        let newObject = new Criteria(loadedData.field_string[element.field_string-1]);
+        if(!element.kind_beneficiary)
+            element.kind_beneficiary = 1 ;
+        if(!element.condition_string)
+            element.condition_string = 1 ;
+        newObject.kind_beneficiary = loadedData.kind_beneficiary[element.kind_beneficiary-1].field_string;
+        newObject.condition_string = loadedData.condition_string[element.condition_string-1].field_string;
         newObject.value_string = element.value_string;
-
         return newObject;
     }
 

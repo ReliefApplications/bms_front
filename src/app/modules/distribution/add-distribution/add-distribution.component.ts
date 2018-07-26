@@ -5,6 +5,7 @@ import { Router                                                           } from
 import { GlobalText                                                       } from '../../../../texts/global';
 
 import { Mapper                                                           } from '../../../core/utils/mapper.service';
+import { CriteriaService                                                  } from '../../../core/api/criteria.service';
 
 import { Commodity                                                        } from '../../../model/commodity';
 import { Criteria                                                         } from '../../../model/criteria';
@@ -54,6 +55,7 @@ export class AddDistributionComponent implements OnInit {
     public mapper: Mapper,
     public dialog: MatDialog,
     private router: Router,
+    private criteriaService: CriteriaService,
   ) { }
 
   ngOnInit() {
@@ -129,6 +131,9 @@ export class AddDistributionComponent implements OnInit {
   createElement(createElement: Object, user_action) {
     if (user_action == this.criteriaAction) {
       this.criteriaArray.push(createElement);
+      this.criteriaService.getBeneficiariesNumber(this.criteriaArray).subscribe(response => {
+        this.criteriaNbBeneficiaries = response.json();
+      });
       this.criteriaData = new MatTableDataSource(this.criteriaArray);
     } else if (user_action == this.commodityAction) {
       this.commodityArray.push(createElement);
@@ -148,6 +153,9 @@ export class AddDistributionComponent implements OnInit {
       const index = this.commodityArray.findIndex((item) => item === removeElement);
       if (index > -1) {
         this.commodityArray.splice(index, 1);
+        this.criteriaService.getBeneficiariesNumber(this.criteriaArray).subscribe(response => {
+          this.criteriaNbBeneficiaries = response.json();
+        });
         this.removeCommodities(removeElement);
         this.commodityData = new MatTableDataSource(this.commodityArray);
       }

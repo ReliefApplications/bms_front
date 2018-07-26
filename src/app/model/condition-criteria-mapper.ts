@@ -15,7 +15,12 @@ export class ConditionCriteriaMapper {
                 new ConditionCriteria('='),
                 new ConditionCriteria('!=')
             ];
-        } else {
+        } else if (type == null) {
+            return [
+                new ConditionCriteria('true'),
+                new ConditionCriteria('false')
+            ];
+        }else{
             return [
                 new ConditionCriteria('='),
                 new ConditionCriteria('!=')

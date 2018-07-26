@@ -1,6 +1,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HouseholdsService } from '../api/households.service';
-import { DataToValidate } from '../../model/data-validation';
+import { FormatDataNewOld, FormatDuplicatesData } from '../../model/data-validation';
+import { promise } from 'protractor';
 
 
 @Injectable({
@@ -8,14 +9,11 @@ import { DataToValidate } from '../../model/data-validation';
 })
 export class ImportService {
 
-    public dataTypo;
-    public dataDuplicate;
-    public dataMore;
-    public dataLess;
-    public project;
-    referedClassToken = DataToValidate;
+    public data : any;
+    public project: string;
+    public token : string;
+    public referedClassToken;
     public referedClassService;
-
 
     constructor(
         public _householdsService: HouseholdsService
@@ -23,53 +21,97 @@ export class ImportService {
 
     }
 
-    sendData(data, project) {
-        this.dataTypo = [];
-        this.dataDuplicate = [];
-        this.dataMore = [];
-        this.dataLess = [];
-        this.referedClassService = this._householdsService
-        this.referedClassService.sendCSVToValidation(data, project).subscribe(response => {
+    /**
+     * call the household service to send import and verification data
+     * format response after receive it
+     * 
+     * @param data any
+     * @param project step
+     * @param step number
+     * @param token string
+     */
+    sendData(data: any, project: string, step: number, token?: string) {
+        return new Promise<any[]>((resolve, reject) => {
+            this.data = [];
+            this.referedClassService = this._householdsService
+            //verifify if the token exist
+            //token don't exist in the step 1 (sending the csv)
+            if (!token) {
+                this.referedClassToken = FormatDataNewOld;
+                this.referedClassService.sendDataToValidation(data, project, step).subscribe(response => {
 
-            let responseTypo = this.referedClassToken.formatArray(response.json().typo);
-            for (let i = 0; i < responseTypo.length; i++) {
-                this.dataTypo.push(responseTypo[i]);
+                    //use function to format and type data
+                    let responseFormatted = this.referedClassToken.formatIssues(response.json(), step);
+                    for (let i = 0; i < responseFormatted.length; i++) {
+                        this.data.push(responseFormatted[i]);
+                    }
+                    this.token = response.json().token;
+                    this.project = project;
+                    resolve(this.data);
+                }, error => {
+                    reject({'message': 'Error while importing data'});
+                });
             }
+            else {
+                if (step === 2) {
+                    this.referedClassToken = FormatDuplicatesData;
+                    this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
 
-            let responseDuplicate = this.referedClassToken.formatArray(response.json().duplicate);
-            for (let i = 0; i < responseDuplicate.length; i++) {
-                this.dataDuplicate.push(responseDuplicate[i]);
-            }
+                        //use function to format and type data
+                        let responseFormatted = this.referedClassToken.formatDuplicates(response.json(), step);
+                        for (let i = 0; i < responseFormatted.length; i++) {
+                            this.data.push(responseFormatted[i]);
+                        }
+                        this.token = response.json().token;
+                        this.project = project;
+                        resolve(this.data);
+                    }, error => {
+                        reject({'message': 'Error while correcting typo issues'});
+                    });
+                } else if (step === 3 || step === 4) {
+                    this.referedClassToken = FormatDataNewOld;
+                    this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
 
-            let responseMoreBeneficiaries = this.referedClassToken.formatArray(response.json().more);
-            for (let i = 0; i < responseMoreBeneficiaries.length; i++) {
-                this.dataMore.push(responseMoreBeneficiaries[i]);
-            }
+                        //use function to format and type data
+                        let responseFormatted = this.referedClassToken.formatIssues(response.json(), step);
+                        for (let i = 0; i < responseFormatted.length; i++) {
+                            this.data.push(responseFormatted[i]);
+                        }
+                        this.token = response.json().token;
+                        this.project = project;
+                        resolve(this.data);
+                    }, error => {
+                        reject({'message': 'Error while adding or removing beneficiairies'});
+                    });
+                } else if (step === 5) {
+                    this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
+                        if (response._body) {
+                            resolve(this.data);
+                        }
+                    }, error => {
+                        reject({'message': 'Error while adding all import data'});
+                    });
+                }
 
-            let responseLessBeneficiaries = this.referedClassToken.formatArray(response.json().less);
-            for (let i = 0; i < responseLessBeneficiaries.length; i++) {
-                this.dataLess.push(responseLessBeneficiaries[i]);
+
             }
-            this.project = project;
-        });
+        })
+
     }
 
-    getTypoIssues() {
-        return this.dataTypo;
-    }
-
-    getDuplicates() {
-        return this.dataDuplicate;
-    }
-    getAddedBeneficiaries() {
-        return this.dataMore;
-    }
-    getRemovedBeneficiaries() {
-        return this.dataLess;
+    /**
+     * use by dataValidationComponent to get data retrun by the back
+     */
+    getData() {
+        return this.data;
     }
 
     getProject() {
         return this.project;
+    }
+
+    getToken() {
+        return this.token;
     }
 
 }

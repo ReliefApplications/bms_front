@@ -81,7 +81,8 @@ import { DataValidationComponent                                } from '../modul
         MatStepperModule,
         MatProgressBarModule,
         MatListModule,
-		MatMenuModule,
+        MatMenuModule,
+        MatProgressSpinnerModule,
         ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
     ],
     declarations: [
@@ -188,7 +189,8 @@ import { DataValidationComponent                                } from '../modul
         MatSnackBarModule,
         MatStepperModule,
         MatProgressBarModule,
-        MatListModule
+        MatListModule,
+        MatProgressSpinnerModule
 
     ],
     providers: [

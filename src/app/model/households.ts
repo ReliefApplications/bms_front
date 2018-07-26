@@ -22,20 +22,20 @@ export class Households {
      * @type {string}
      */
     location: string = '';
-        /**
-     * Households' dependents
-     * @type {Number}
-     */
+    /**
+ * Households' dependents
+ * @type {Number}
+ */
     dependents: Number;
-     /**
-     * Households' vulnerabilities
-     * @type {string}
-     */
-    vulnerabilities: string = '';
+    /**
+    * Households' vulnerabilities
+    * @type {Array}
+    */
+    vulnerabilities: Array<string> = [];
 
 
-    constructor(instance?){
-        if(instance !== undefined){
+    constructor(instance?) {
+        if (instance !== undefined) {
             this.id = instance.id;
             this.familyName = instance.familyName;
             this.firstName = instance.firstName;
@@ -45,7 +45,7 @@ export class Households {
         }
     }
 
-    public static getDisplayedName(){
+    public static getDisplayedName() {
         return GlobalText.TEXTS.model_households;
     }
 
@@ -53,9 +53,9 @@ export class Households {
     * return a Households after formatting its properties
     */
     getMapper(selfinstance): Object {
-        if(!selfinstance)
+        if (!selfinstance)
             return selfinstance;
-    
+
         return {
             familyName: selfinstance.familyName,
             firstName: selfinstance.firstName,
@@ -68,8 +68,8 @@ export class Households {
     /**
     * return a Households after formatting its properties for the modal details
     */
-    getMapperDetails(selfinstance): Object{
-        if(!selfinstance)
+    getMapperDetails(selfinstance): Object {
+        if (!selfinstance)
             return selfinstance;
 
         return {
@@ -78,19 +78,19 @@ export class Households {
             location: selfinstance.location,
             dependents: selfinstance.dependents,
             vulnerabilities: selfinstance.vulnerabilities,
-        } 
+        }
     }
 
     /**
     * return the type of Households properties
     */
-    getTypeProperties(selfinstance): Object{
+    getTypeProperties(selfinstance): Object {
         return {
-            familyName : "text",
-            firstName : "text",
-            location : "text",
-            dependents : "number",
-            vulnerabilities : "png",
+            familyName: "text",
+            firstName: "text",
+            location: "text",
+            dependents: "number",
+            vulnerabilities: "png",
         }
     }
 
@@ -102,13 +102,38 @@ export class Households {
             familyName: GlobalText.TEXTS.model_households_familyName,
             firstName: GlobalText.TEXTS.model_households_firstName,
             location: GlobalText.TEXTS.model_households_location,
-            dependents : GlobalText.TEXTS.model_households_dependents,
-            vulnerabilities : GlobalText.TEXTS.model_households_vulnerabilities,
+            dependents: GlobalText.TEXTS.model_households_dependents,
+            vulnerabilities: GlobalText.TEXTS.model_households_vulnerabilities,
         }
     }
 
-    public static formatArray(instance): Households[]{
-        let households : Households[] = [];
+    public static mapVulnerability(name: string): string {
+        if (!name) {
+            return "";
+        }
+        switch (name) {
+            case "pregnant":
+                name = 'assets/images/households/pregnant.png';
+                break;
+            case "disabled":
+                name = 'assets/images/households/disabled.png';
+                break;
+            case "lactating":
+                name = 'assets/images/households/lactating.png';
+                break;
+            case "solo parent":
+                name = 'assets/images/households/solo-parent.png';
+                break;
+            case "nutritional issues":
+                name = 'assets/images/households/nutritional-issues.png';
+                break;
+            default: return name;
+        }
+        return name;
+    }
+
+    public static formatArray(instance): Households[] {
+        let households: Households[] = [];
         instance.forEach(element => {
             households.push(this.formatElement(element));
         });
@@ -117,28 +142,31 @@ export class Households {
 
     public static formatElement(element: any): Households {
         let household = new Households();
-        let dependents = 0;
+        let dependents = element.number_dependents;
         household.id = element.id;
         element.beneficiaries.forEach(beneficiary => {
-                household.familyName = beneficiary.family_name;
-                household.firstName = beneficiary.given_name;
-                beneficiary.vulnerability_criteria.forEach(vulnerability => {
-                    switch(vulnerability.value) {
-                        case "pregnant": household.vulnerabilities = 'assets/images/households/pregnant.png'; break;
-                        case "disabled": household.vulnerabilities = 'assets/images/households/disabled.png'; break;
-                        case "lactating": household.vulnerabilities = 'assets/images/households/lactating.png'; break;
-                        case "solo parent": household.vulnerabilities = 'assets/images/households/solo-parent.png'; break;
-                        case "nutritional issues": household.vulnerabilities = 'assets/images/households/nutritional-issues.png'; break;
-                    }                 
-                });
-               
-                
+            household.familyName = beneficiary.family_name;
+            household.firstName = beneficiary.given_name;
+            beneficiary.vulnerability_criteria.forEach(vulnerability => {
+                household.vulnerabilities.push(this.mapVulnerability(vulnerability.value))
+            });
+
+
         });
-           
-        household.location = element.location.adm4 + " " + element.location.adm3 + " " +
-                             element.location.adm2 + " " +  element.location.adm1 + " "  ;
+        if (element.location.adm1) {
+            household.location += element.location.adm1 + " ";
+        }
+        if (element.location.adm2) {
+            household.location += element.location.adm2 + " ";
+        }
+        if (element.location.adm3) {
+            household.location += element.location.adm3 + " ";
+        }
+        if (element.location.adm4) {
+            household.location += element.location.adm4 + " ";
+        }
         household.dependents = dependents;
-        
+
 
         return household;
     }

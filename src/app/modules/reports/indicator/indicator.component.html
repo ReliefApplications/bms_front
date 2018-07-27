@@ -1,6 +1,6 @@
 
 <div #chart class="indicatorChart shadow" >
-  <pie-chart style="width: 100%" *ngIf="indicator.type_graph == 'camembert'" 
+  <pie-chart style="width: 100%" *ngIf="indicator.type_graph == 'pie'" 
     [view]="chartDimensions" 
     [filters]="filters"
     [title]="indicator.full_name"
@@ -8,7 +8,7 @@
     [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod }" >
   </pie-chart>
 
-  <pie-grid style="width: 100%" *ngIf="indicator.type_graph == 'cible'" 
+  <pie-grid style="width: 100%" *ngIf="indicator.type_graph == 'grid'" 
     [view]="chartDimensions" 
     [filters]="filters"
     [title]="indicator.full_name"
@@ -24,7 +24,7 @@
     [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod }" >
   </bar-chart>
 
-  <line-chart style="width: 100%" *ngIf="indicator.type_graph == 'courbe'" 
+  <line-chart style="width: 100%" *ngIf="indicator.type_graph == 'line'" 
     [view]="chartDimensions" 
     [filters]="filters"
     [title]="indicator.full_name" 
@@ -32,7 +32,7 @@
     [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod }">
   </line-chart>
   
-  <number-card-chart style="width: 100%" *ngIf="indicator.type_graph== 'nombre'" 
+  <number-card-chart style="width: 100%" *ngIf="indicator.type_graph== 'number'" 
     [view]="chartDimensions" 
     [filters]="filters"
     [title]="indicator.full_name" 
@@ -40,7 +40,7 @@
     [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod }" >
   </number-card-chart>
 
-  <stacked-vertical-bar-chart style="width: 100%" *ngIf="(indicator.type_graph == 'histogramme')||(indicator.type_graph == '')" 
+  <stacked-vertical-bar-chart style="width: 100%" *ngIf="(indicator.type_graph == 'stackbar')||(indicator.type_graph == '')" 
   [view]="chartDimensions"
   [filters]="filters" 
   [title]="indicator.full_name" 

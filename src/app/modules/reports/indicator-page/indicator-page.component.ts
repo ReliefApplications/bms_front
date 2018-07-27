@@ -85,7 +85,6 @@ export class IndicatorPageComponent implements OnInit {
         for (let i = 0; i < indicatorResponse.length; i++) {
           this.indicators.push(indicatorResponse[i]);
         }
-        console.log('indicator', this.indicators);
         this.indicatorsLoading = false
       }).catch(e => {
         this.indicatorsLoading = false;

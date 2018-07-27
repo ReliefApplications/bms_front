@@ -71,14 +71,13 @@ export class ChartComponent implements OnInit, ChartInterface {
   ngOnInit() {
 
     // Visualisation 
-    if(this.indicatorConfig.idIndicator == '10' ) {
+    if(this.indicatorConfig.idIndicator == '9' ) {
       this.scheme = {
         gradient: true,
         domain: [
           '#0E1428', '#ff4514'
         ]
       };
-      this.legend.show = true;
     } else {
       this.scheme = {
         gradient: true,
@@ -105,6 +104,7 @@ export class ChartComponent implements OnInit, ChartInterface {
       this.chartRegistrationService.registerFilter(this, filter);
     })
 
+    this.body['project'] = [1];
     //Call data from the back
     let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
     if (promise) {
@@ -116,7 +116,7 @@ export class ChartComponent implements OnInit, ChartInterface {
         }
         else {
           this.noData = false;
-          if(this.indicatorConfig.type == 'nombre') {
+          if(this.indicatorConfig.type == 'numberCard') {
             let lastDate = this.data[0]['date'].date;
             let newData: any = [];
             this.data.forEach(element => {
@@ -132,12 +132,14 @@ export class ChartComponent implements OnInit, ChartInterface {
             this.data = newData;
           }
 
-          if(this.indicatorConfig.type == 'courbe') {
+          if(this.indicatorConfig.type == 'line') {
             this.axis.yAxisLabel = this.data[0].series[0]['unity'];
           }
         }
       })
     };
+
+    
 
   }
 
@@ -154,7 +156,7 @@ export class ChartComponent implements OnInit, ChartInterface {
         })
 
 
-      if (Object.keys(this.body).length > 1) {
+      if (Object.keys(this.body).length > 2) {
 
         // let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
         // if (promise) {
@@ -162,20 +164,20 @@ export class ChartComponent implements OnInit, ChartInterface {
         //     this.data = data;
         //   })
         // }; 
-        this.data = [
-              {
-                "name": "Value1",
-                "value": Math.random()*1000
-              },
-              {
-                "name": "Value2",
-                "value": Math.random()*1000
-              },
-              {
-                "name": "Value3",
-                "value": Math.random()*1000
-              }
-        ];
+        // this.data = [
+        //       {
+        //         "name": "Value1",
+        //         "value": Math.random()*1000
+        //       },
+        //       {
+        //         "name": "Value2",
+        //         "value": Math.random()*1000
+        //       },
+        //       {
+        //         "name": "Value3",
+        //         "value": Math.random()*1000
+        //       }
+        // ];
 
 
       }

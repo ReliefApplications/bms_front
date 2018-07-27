@@ -24,7 +24,6 @@ export class IndicatorComponent implements OnInit {
 
   ngOnInit() {
     this.chartDimensions = [400, 300];
-    console.log('app indicator', this.indicator)
   }
 
 }

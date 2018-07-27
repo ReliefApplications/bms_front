@@ -26,7 +26,7 @@ export class Indicator {
         if(instance !== undefined){
             this.id = instance.id;
             this.full_name = instance.full_name;
-            this.type_graph = instance.type_graphique;
+            this.type_graph = instance.type_graph;
             this.type = instance.type;
         }
     }

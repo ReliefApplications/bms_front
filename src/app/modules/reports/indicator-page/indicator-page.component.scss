@@ -85,6 +85,12 @@ button-filter-items{
   visibility: visible;
 }
 
+.container-fluid {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 @keyframes wave {
   0%   {opacity: 0.2;}
   50%  {opacity: 0.6;}

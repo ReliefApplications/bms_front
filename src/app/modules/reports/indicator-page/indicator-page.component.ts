@@ -9,6 +9,8 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { GlobalText } from '../../../../texts/global';
+import { ProjectService } from '../../../core/api/project.service';
+import { Project } from '../../../model/project';
 
 
 @Component({
@@ -59,29 +61,30 @@ export class IndicatorPageComponent implements OnInit {
 
   //static variable
   // TODO: Replace par data from back
-  projects = new FormControl();
-  projectList: string[] = ['a', 'b', 'c', 'd', 'e', 'f'];
+  public projects = new FormControl();
+  public projectList: string[] = [];
 
   distributions = new FormControl();
-  distributionList: string[] = ['0', '1', '2', '3', '4', '5'];
-
-  public referedClassToken = Indicator;
+  distributionList: string[] = [];
 
   constructor(
-    public referedClassService: IndicatorService,
+    public indicatorService: IndicatorService,
     public cacheService: CacheService,
-    public chartRegistrationService: ChartRegistration
+    public chartRegistrationService: ChartRegistration,
+    public projectService: ProjectService
   ) {
   }
 
   ngOnInit() {
     this.checkSize();
+    this.getProjects();
+    this.getDistributions();
+
     if (!this.indicatorsLoading) {
       this.indicatorsLoading = true;
-      this.referedClassService.getIndicators().toPromise().then(response => {
+      this.indicatorService.getIndicators().toPromise().then(response => {
 
-        let indicatorResponse = this.referedClassToken.FormatArray(response.json());
-        // this.indicators = response as any;
+        let indicatorResponse = Indicator.FormatArray(response.json());
         for (let i = 0; i < indicatorResponse.length; i++) {
           this.indicators.push(indicatorResponse[i]);
         }
@@ -218,18 +221,41 @@ export class IndicatorPageComponent implements OnInit {
 
   updateFiltersWithLanguage() {
     this.dataFilter1[0].label = this.indicator.report_filter_per_year.toLocaleUpperCase();
-    // this.dataFilter1[0].value = this.indicator.report_frequency_year;
     this.dataFilter1[1].label = this.indicator.report_filter_per_quarter.toLocaleUpperCase();
-    // this.dataFilter1[1].value = this.indicator.report_frequency_quarter;
     this.dataFilter1[2].label = this.indicator.report_filter_per_month.toLocaleUpperCase();
-    // this.dataFilter1[2].value = this.indicator.report_frequency_month;
 
     this.dataFilter2[0].label = this.indicator.report_country_report.toLocaleUpperCase();
-    // this.dataFilter2[0].value = this.indicator.report_country;
     this.dataFilter2[1].label = this.indicator.report_project_report.toLocaleUpperCase();
-    // this.dataFilter2[1].value = this.indicator.report_project;
     this.dataFilter2[2].label = this.indicator.report_distribution_report.toLocaleUpperCase();
-    // this.dataFilter2[2].value = this.indicator.report_distribution;
   }
+
+  /**
+   * Get list of all project and put it in the project selector
+   */
+  getProjects() {
+    this.projectService.get().subscribe(response => {
+       let Projectresponse = Project.formatArray(response.json());
+       Projectresponse.forEach(element => {
+        var concat = element.id + " - " + element.name;
+        this.projectList.push(concat);
+      });
+    });
+    
+  }
+
+  /**
+   * Get list of all distribution and put it in the distribution selector
+   */
+  getDistributions() {
+    this.projectService.get().subscribe(response => {
+       let Projectresponse = Project.formatArray(response.json());
+       Projectresponse.forEach(element => {
+        var concat = element.id + " - " + element.name;
+        this.distributionList.push(concat);
+      });
+    });
+    
+  }
+
 
 }

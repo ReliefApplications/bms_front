@@ -59,7 +59,7 @@
               <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field *ngIf="type == 'distribution'">
+          <mat-form-field *ngIf="type == 'Distribution'">
             <mat-select placeholder="Distributions" [formControl]="distributions" multiple>
               <mat-option *ngFor="let distribution of distributionList" [value]="distribution">{{distribution}}</mat-option>
             </mat-select>
@@ -116,16 +116,7 @@
         </div>
 
         <div *ngIf="indicatorsLoading" class="container-fluid">
-          <div class="col-sm-12 loader-title">
-            <h1>{{indicator.report_loader}}</h1>
-          </div>
-          <div class="col-sm-12 loader-title">
-            <h2>{{indicator.report_loader}}</h2>
-          </div>
-          <div class="container">
-            <div class="chart chartLoader"></div>
-            <div class="chart chartLoader"></div>
-          </div>
+          <mat-spinner></mat-spinner>
         </div>
       </div>
     </div>

@@ -44,7 +44,7 @@
       <div class="content-select" *ngIf="type == 'Project'">
         <mat-card>
           <mat-form-field>
-            <mat-select placeholder="Projects" [formControl]="projects" multiple>
+            <mat-select placeholder="Projects" [formControl]="projects" (selectionChange)="getProjectSelected($event)" multiple>
               <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -55,7 +55,7 @@
       <div class="content-select" *ngIf="type == 'Distribution'">
         <mat-card>
           <mat-form-field>
-            <mat-select placeholder="Projects" [formControl]="projects">
+            <mat-select placeholder="Projects" [formControl]="projects" (selectionChange)="getProjectSelected($event)">
               <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
             </mat-select>
           </mat-form-field>

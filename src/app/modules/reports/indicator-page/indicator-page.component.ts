@@ -11,6 +11,8 @@ import { FormControl } from '@angular/forms';
 import { GlobalText } from '../../../../texts/global';
 import { ProjectService } from '../../../core/api/project.service';
 import { Project } from '../../../model/project';
+import { DistributionService } from '../../../core/api/distribution.service';
+import { DistributionData } from '../../../model/distribution-data';
 
 
 @Component({
@@ -63,22 +65,24 @@ export class IndicatorPageComponent implements OnInit {
   // TODO: Replace par data from back
   public projects = new FormControl();
   public projectList: string[] = [];
+  public selectedProject: string[] = [];
 
-  distributions = new FormControl();
-  distributionList: string[] = [];
+  public distributions = new FormControl();
+  public distributionList: string[] = [];
+  public selectedDistribution: string[] = [];
 
   constructor(
     public indicatorService: IndicatorService,
     public cacheService: CacheService,
     public chartRegistrationService: ChartRegistration,
-    public projectService: ProjectService
+    public projectService: ProjectService,
+    public distribtutionService: DistributionService
   ) {
   }
 
   ngOnInit() {
     this.checkSize();
     this.getProjects();
-    this.getDistributions();
 
     if (!this.indicatorsLoading) {
       this.indicatorsLoading = true;
@@ -234,28 +238,42 @@ export class IndicatorPageComponent implements OnInit {
    */
   getProjects() {
     this.projectService.get().subscribe(response => {
-       let Projectresponse = Project.formatArray(response.json());
-       Projectresponse.forEach(element => {
+      let Projectresponse = Project.formatArray(response.json());
+      Projectresponse.forEach(element => {
         var concat = element.id + " - " + element.name;
         this.projectList.push(concat);
       });
     });
-    
+
   }
 
   /**
    * Get list of all distribution and put it in the distribution selector
    */
   getDistributions() {
-    this.projectService.get().subscribe(response => {
-       let Projectresponse = Project.formatArray(response.json());
-       Projectresponse.forEach(element => {
+    var project = this.selectedProject[0].split(" - ");
+    this.distributionList = [];
+    this.distribtutionService.getByProject(project[0]).subscribe(response => {
+      let distributionResponse = DistributionData.formatArray(response.json());
+      distributionResponse.forEach(element => {
         var concat = element.id + " - " + element.name;
         this.distributionList.push(concat);
       });
     });
-    
+
+
   }
 
-
+  /**
+    * Get the project selected in the projectList selector
+    * @param event 
+    */
+  getProjectSelected(event) {
+    if (this.type === 'Distribution') {
+      this.selectedProject = event.value;
+      this.getDistributions();
+    } else {
+      this.selectedProject.push(event.value);
+    }
+  }
 }

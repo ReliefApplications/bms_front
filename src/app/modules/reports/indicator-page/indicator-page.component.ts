@@ -279,6 +279,11 @@ export class IndicatorPageComponent implements OnInit {
       this.getDistributions();   
       this.display = true;
     }
+
+    if (this.type === 'Project') {
+      this.selectedProject = [];
+      this.selectedProject.push(project[0]);
+    }
     
     // if (this.type === 'Project') {
       // let projectfind = false;

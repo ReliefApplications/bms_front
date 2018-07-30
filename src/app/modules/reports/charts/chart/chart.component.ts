@@ -162,7 +162,7 @@ export class ChartComponent implements OnInit, ChartInterface {
         })
 
       if (Object.keys(this.body).length >= 1) {
-        if (this.oldProject !== this.project && this.oldProject.length > 0) {
+        if (this.oldProject !== this.project && (this.oldProject.length > 0 || this.indicatorConfig.items === 'Project')) {
           let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
           if (promise) {
             promise.toPromise().then(response => {  

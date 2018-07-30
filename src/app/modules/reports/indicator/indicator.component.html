@@ -6,7 +6,7 @@
     [filters]="filters"
     [title]="indicator.full_name"
     [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
-    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod }" >
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod, items: indicator.type  }" >
   </pie-chart>
 
   <pie-grid style="width: 100%" *ngIf="indicator.type_graph == 'grid'" 
@@ -15,7 +15,7 @@
     [filters]="filters"
     [title]="indicator.full_name"
     [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
-    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod }" >
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod, items: indicator.type  }" >
   </pie-grid>
 
   <bar-chart style="width: 100%" *ngIf="indicator.type_graph == 'bar'" 
@@ -24,7 +24,7 @@
     [filters]="filters" 
     [title]="indicator.full_name" 
     [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
-    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod }" >
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod, items: indicator.type }" >
   </bar-chart>
 
   <line-chart style="width: 100%" *ngIf="indicator.type_graph == 'line'" 
@@ -33,7 +33,7 @@
     [filters]="filters"
     [title]="indicator.full_name" 
     [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
-    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod }">
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod, items: indicator.type  }">
   </line-chart>
   
   <number-card-chart style="width: 100%" *ngIf="indicator.type_graph== 'number'" 
@@ -42,7 +42,7 @@
     [filters]="filters"
     [title]="indicator.full_name" 
     [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Nombre' }"
-    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod }" >
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod, items: indicator.type  }" >
   </number-card-chart>
 
   <stacked-vertical-bar-chart style="width: 100%" *ngIf="(indicator.type_graph == 'stackbar')||(indicator.type_graph == '')" 
@@ -51,6 +51,6 @@
     [filters]="filters" 
     [title]="indicator.full_name" 
     [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
-    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod }" >
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod, items: indicator.type  }" >
 </stacked-vertical-bar-chart>
 </div>

@@ -22,13 +22,13 @@ export class CriteriaService{
     }
 
     public get() {
-        let url = this.api + "/distribution/criteria";
+        let url = this.api + "/distributions/criteria";
         return this.http.get(url);
     }
 
     public getBeneficiariesNumber(criteriaArray:any){
         let body = { "distribution_type" : "household", "criteria" : criteriaArray }
-        let url = this.api + "/distribution/criteria/number";
+        let url = this.api + "/distributions/criteria/number";
         return this.http.post(url, body);
     }
 }

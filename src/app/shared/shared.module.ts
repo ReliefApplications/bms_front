@@ -43,8 +43,8 @@ import { MenuComponent                                          } from '../modul
 import { MenuTopComponent                                       } from '../modules/menus/menu-top/menu-top.component';
 import { HeaderMenuTopComponent                                 } from '../modules/menus/header-menu-top/header-menu-top.component';
 import { HouseholdsComponent                                    } from '../modules/households/households.component';
-import { DistributionComponent                                  } from '../modules/distribution/distribution.component';
-import { AddDistributionComponent                               } from '../modules/distribution/add-distribution/add-distribution.component';
+import { DistributionComponent                                  } from '../modules/distributions/distributions.component';
+import { AddDistributionComponent                               } from '../modules/distributions/add-distribution/add-distribution.component';
 import { SettingsComponent                                      } from '../modules/settings/settings.component';
 import { HeaderComponent                                        } from '../modules/header/header.component';
 import { HouseholdsImportComponent                              } from '../modules/households/households-import/households-import.component';

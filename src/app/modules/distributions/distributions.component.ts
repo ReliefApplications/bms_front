@@ -14,8 +14,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-distribution',
-  templateUrl: './distribution.component.html',
-  styleUrls: ['./distribution.component.scss']
+  templateUrl: './distributions.component.html',
+  styleUrls: ['./distributions.component.scss']
 })
 export class DistributionComponent implements OnInit {
   public nameComponent = "distribution_title";

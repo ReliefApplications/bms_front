@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DistributionComponent } from './distribution.component';
+import { DistributionComponent } from './distributions.component';
 
 describe('DistributionComponent', () => {
   let component: DistributionComponent;

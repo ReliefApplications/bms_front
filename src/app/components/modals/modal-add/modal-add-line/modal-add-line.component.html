@@ -11,7 +11,10 @@
           </mat-form-field>
         </form>
         <form *ngIf="(p=='value_string')&&checkDataCriteria.type">
-          <mat-form-field class="full-width">
+          <mat-form-field class="full-width" *ngIf="checkDataCriteria.type ===  'date'">
+            <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [ngModelOptions]="{standalone: true}" [type]="checkDataCriteria.type">
+          </mat-form-field>
+          <mat-form-field class="full-width" *ngIf="checkDataCriteria.type !==  'date'">
             <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [ngModelOptions]="{standalone: true}" [type]="checkDataCriteria.type">
           </mat-form-field>
         </form>

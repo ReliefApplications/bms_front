@@ -44,8 +44,8 @@
       <div class="content-select" *ngIf="type == 'Project'">
         <mat-card>
           <mat-form-field>
-            <mat-select placeholder="Projects" [formControl]="projects" (selectionChange)="getProjectSelected($event)" multiple>
-              <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+            <mat-select placeholder="Projects"  (selectionChange)="getProjectSelected($event)">
+              <mat-option *ngFor="let project of projectList" [value]="project" >{{project}}</mat-option>
             </mat-select>
           </mat-form-field>
         </mat-card>
@@ -55,12 +55,12 @@
       <div class="content-select" *ngIf="type == 'Distribution'">
         <mat-card>
           <mat-form-field>
-            <mat-select placeholder="Projects" [formControl]="projects" (selectionChange)="getProjectSelected($event)">
-              <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+            <mat-select placeholder="Projects" (selectionChange)="getProjectSelected($event)">
+              <mat-option *ngFor="let project of projectList" [value]="project" >{{project}}</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field *ngIf="type == 'Distribution'">
-            <mat-select placeholder="Distributions" [formControl]="distributions" multiple>
+            <mat-select placeholder="Distributions" multiple>
               <mat-option *ngFor="let distribution of distributionList" [value]="distribution">{{distribution}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -107,7 +107,8 @@
       <div class="content-table">
         <div *ngIf="indicators.length" class="container-indicator">
           <div *ngFor="let indicator of indicators; let i = index">
-            <app-indicator *ngIf="(type == indicator['type'])" [indicator]="indicator" [chartDimensions]="chartDimensions" [filters]="findFilter(indicator['filter'])"></app-indicator>
+            <app-indicator *ngIf="type == indicator['type'] && display" [indicator]="indicator" [chartDimensions]="chartDimensions" [filters]="findFilter(indicator['filter'])" 
+                           [project]="selectedProject"></app-indicator>
           </div>
         </div>
 

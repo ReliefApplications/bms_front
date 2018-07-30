@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, SimpleChanges, ElementRef, ViewChildren, QueryList, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, SimpleChanges, ElementRef, ViewChildren, QueryList, HostListener, Output, EventEmitter } from '@angular/core';
 import { IndicatorService } from '../services/indicator.service';
 import { FilterEvent, FilterInterface, AbstractFilter } from '../../../model/filter';
 import { Indicator } from '../../../model/indicator';
@@ -38,6 +38,7 @@ export class IndicatorPageComponent implements OnInit {
   public indicatorsLoading = false;
   public period: boolean = false;
   public selectPeriodDisplay;
+  public display:boolean = true;
 
   //for responsive design
   public maxHeight = 700;
@@ -61,14 +62,12 @@ export class IndicatorPageComponent implements OnInit {
     { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: false },
   ]
 
-  //static variable
-  // TODO: Replace par data from back
-  public projects = new FormControl();
+  //variable for display name of project and distribution in selectors
   public projectList: string[] = [];
-  public selectedProject: string[] = [];
-
-  public distributions = new FormControl();
   public distributionList: string[] = [];
+  
+  //array to know which project or distribution are selected 
+  public selectedProject: string[] = [];
   public selectedDistribution: string[] = [];
 
   constructor(
@@ -140,7 +139,12 @@ export class IndicatorPageComponent implements OnInit {
     this.dataFilter2.forEach(filter => {
       if (filter['active']) {
         this.type = filter['value'];
-        console.log('type', this.type);
+        this.selectedProject = [];
+        if (this.type == 'Distribution') {
+          this.display = false;
+        }  else {
+          this.display = true;
+        }       
       }
 
     });
@@ -251,9 +255,8 @@ export class IndicatorPageComponent implements OnInit {
    * Get list of all distribution and put it in the distribution selector
    */
   getDistributions() {
-    var project = this.selectedProject[0].split(" - ");
     this.distributionList = [];
-    this.distribtutionService.getByProject(project[0]).subscribe(response => {
+    this.distribtutionService.getByProject(this.selectedProject[0]).subscribe(response => {
       let distributionResponse = DistributionData.formatArray(response.json());
       distributionResponse.forEach(element => {
         var concat = element.id + " - " + element.name;
@@ -269,11 +272,41 @@ export class IndicatorPageComponent implements OnInit {
     * @param event 
     */
   getProjectSelected(event) {
+    var project = event.value.split(" - ");
     if (this.type === 'Distribution') {
-      this.selectedProject = event.value;
-      this.getDistributions();
-    } else {
-      this.selectedProject.push(event.value);
+      this.selectedProject = [];
+      this.selectedProject.push(project[0]);
+      this.getDistributions();   
+      this.display = true;
     }
+    
+    // if (this.type === 'Project') {
+      // let projectfind = false;
+      // for (let i=0; i<this.selectedProject.length; i++) {
+      //   if (this.selectedProject[i] === project[0]) {
+      //     this.selectedProject.splice(this.selectedProject[i].indexOf(project[0]), 1);
+      //     projectfind = true;
+      //   }
+      // }
+      // if (!projectfind) {
+        // this.selectedProject.push(project[0]);
+      // } 
+
+      
+      // if(event.isUserInput) {
+        // var project = event.source.value.split(" - ");
+        // if(event.source.selected) {
+        //   this.selectedProject.push(project[0]);
+        // }
+        // else {
+        //   for (let i=0; i<this.selectedProject.length; i++) {
+        //     if (this.selectedProject[i] === project[0]) {
+        //       this.selectedProject.splice(this.selectedProject[i].indexOf(project[0]), 1);
+        //     }
+        //   }
+        // }        
+      // }
+    // }
+    console.log("select", project[0], this.selectedProject);
   }
 }

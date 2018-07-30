@@ -17,7 +17,7 @@ export class ChartComponent implements OnInit, ChartInterface {
   differ: any;
   @ViewChild('header') headerRef: ElementRef;
 
-  public body = {};
+  public body: any = {};
 
   uniqId: string;
 
@@ -34,6 +34,8 @@ export class ChartComponent implements OnInit, ChartInterface {
   @Input() axis: ChartAxisClass;
   legend: ChartLegendClass;
 
+  @Input() project:string[] = [];
+  oldProject: string[] = [];
 
   @Input() filters: Array<FilterInterface> = [];
   oldFilters: Array<FilterInterface> = [];
@@ -104,7 +106,6 @@ export class ChartComponent implements OnInit, ChartInterface {
       this.chartRegistrationService.registerFilter(this, filter);
     })
 
-    this.body['project'] = [1];
     //Call data from the back
     let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
     if (promise) {
@@ -136,16 +137,21 @@ export class ChartComponent implements OnInit, ChartInterface {
             this.axis.yAxisLabel = this.data[0].series[0]['unity'];
           }
         }
-      })
+        this.oldProject = this.project;
+      })   
     };
-
-    
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
     //Verify if value change and if value for the chart are already compared
-    if (changes.filters.currentValue != changes.filters.previousValue && !ChartRegistration.comparaisons.get(this.uniqId)) {
+    if ((changes.filters.currentValue != changes.filters.previousValue && !ChartRegistration.comparaisons.get(this.uniqId)) || 
+        (changes.project && changes.project.currentValue != changes.project && changes.project.previousValue)) {
+      if (this.project.length > 0 ){
+        this.body['project'] = this.project;
+      } else {
+        delete(this.body['project']);
+      }
+      
 
       //Search filter associate with the chart
       ChartRegistration.associations
@@ -155,15 +161,42 @@ export class ChartComponent implements OnInit, ChartInterface {
           this.body[item.referenceKey] = item.currentValue;
         })
 
-
-      if (Object.keys(this.body).length > 2) {
-
-        // let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
-        // if (promise) {
-        //   promise.toPromise().then(data => {
-        //     this.data = data;
-        //   })
-        // }; 
+      if (Object.keys(this.body).length >= 1) {
+        if (this.oldProject !== this.project && this.oldProject.length > 0) {
+          let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
+          if (promise) {
+            promise.toPromise().then(response => {  
+              this.data = response.json(); 
+              if (!this.data || this.data.length === 0) {
+                this.noData = true;
+                this.loader = false;
+              }
+              else {
+                this.noData = false;
+                if(this.indicatorConfig.type == 'numberCard') {
+                  let lastDate = this.data[0]['date'].date;
+                  let newData: any = [];
+                  this.data.forEach(element => {
+                    if (element['date'].date > lastDate) {
+                      lastDate = element['date'].date;
+                    }
+                  });
+                  this.data.forEach(element => {
+                    if (element['date'].date == lastDate) {
+                      newData.push(element);
+                    }
+                  });
+                  this.data = newData;
+                }
+                if(this.indicatorConfig.type == 'line') {
+                  this.axis.yAxisLabel = this.data[0].series[0]['unity'];
+                }
+              }
+              this.oldProject = this.project;
+            })    
+          };
+        }
+       
         // this.data = [
         //       {
         //         "name": "Value1",

@@ -14,6 +14,7 @@ export class IndicatorComponent implements OnInit {
   @Input() chartDimensions: number[];
   @Input() filters: Array<FilterInterface> = [];
   @Input() xAxisLabel;
+  @Input() project: string[];
 
   public computedMethod: string;
   public newFilters;

@@ -18,6 +18,7 @@ export class ModalDataComponent extends ModalComponent {
   @Input() indicatorConfig: any;
   @Output() closeMenu = new EventEmitter<boolean>();
   @Output() clearAction = new EventEmitter<boolean>();
+  @Input() project:string[];
 
   public bodyFilter: any;
   public dataModal: any;

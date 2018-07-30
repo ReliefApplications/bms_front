@@ -1,6 +1,7 @@
 
 <div #chart class="indicatorChart shadow" >
   <pie-chart style="width: 100%" *ngIf="indicator.type_graph == 'pie'" 
+    [project]="project"
     [view]="chartDimensions" 
     [filters]="filters"
     [title]="indicator.full_name"
@@ -9,6 +10,7 @@
   </pie-chart>
 
   <pie-grid style="width: 100%" *ngIf="indicator.type_graph == 'grid'" 
+    [project]="project"
     [view]="chartDimensions" 
     [filters]="filters"
     [title]="indicator.full_name"
@@ -17,6 +19,7 @@
   </pie-grid>
 
   <bar-chart style="width: 100%" *ngIf="indicator.type_graph == 'bar'" 
+    [project]="project"
     [view]="chartDimensions"
     [filters]="filters" 
     [title]="indicator.full_name" 
@@ -25,6 +28,7 @@
   </bar-chart>
 
   <line-chart style="width: 100%" *ngIf="indicator.type_graph == 'line'" 
+    [project]="project"
     [view]="chartDimensions" 
     [filters]="filters"
     [title]="indicator.full_name" 
@@ -33,6 +37,7 @@
   </line-chart>
   
   <number-card-chart style="width: 100%" *ngIf="indicator.type_graph== 'number'" 
+    [project]="project"
     [view]="chartDimensions" 
     [filters]="filters"
     [title]="indicator.full_name" 
@@ -41,10 +46,11 @@
   </number-card-chart>
 
   <stacked-vertical-bar-chart style="width: 100%" *ngIf="(indicator.type_graph == 'stackbar')||(indicator.type_graph == '')" 
-  [view]="chartDimensions"
-  [filters]="filters" 
-  [title]="indicator.full_name" 
-  [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
-  [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod }" >
+    [project]="project"
+    [view]="chartDimensions"
+    [filters]="filters" 
+    [title]="indicator.full_name" 
+    [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, computedMethod: computedMethod }" >
 </stacked-vertical-bar-chart>
 </div>

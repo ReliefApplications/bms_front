@@ -272,49 +272,28 @@ export class IndicatorPageComponent implements OnInit {
     * @param event 
     */
   getProjectSelected(event) {
-    
+    this.selectedProject = [];
+
     if (this.type === 'Distribution') {
       var project = event.value.split(" - ");
-      this.selectedProject = [];
       this.selectedProject.push(project[0]);
       this.getDistributions();   
       this.display = true;
-      console.log("select", project[0], this.selectedProject);
+    } 
+    else if (this.type === 'Project') {
+      if (event.value < 1) {
+        this.projectList.forEach(element => {    
+          var project = element.split(" - ");
+          this.selectedProject.push(project[0]);
+        });
+      } else {
+        event.value.forEach(element => {    
+          var project = element.split(" - ");
+          this.selectedProject.push(project[0]);
+        });
+      }
     }
 
-    if (this.type === 'Project') {
-      console.log(event);
-      // this.selectedProject = [];
-      // this.selectedProject.push(project[0]);
-    }
-    
-    // if (this.type === 'Project') {
-      // let projectfind = false;
-      // for (let i=0; i<this.selectedProject.length; i++) {
-      //   if (this.selectedProject[i] === project[0]) {
-      //     this.selectedProject.splice(this.selectedProject[i].indexOf(project[0]), 1);
-      //     projectfind = true;
-      //   }
-      // }
-      // if (!projectfind) {
-        // this.selectedProject.push(project[0]);
-      // } 
-
-      
-      // if(event.isUserInput) {
-        // var project = event.source.value.split(" - ");
-        // if(event.source.selected) {
-        //   this.selectedProject.push(project[0]);
-        // }
-        // else {
-        //   for (let i=0; i<this.selectedProject.length; i++) {
-        //     if (this.selectedProject[i] === project[0]) {
-        //       this.selectedProject.splice(this.selectedProject[i].indexOf(project[0]), 1);
-        //     }
-        //   }
-        // }        
-      // }
-    // }
    
   }
 
@@ -323,6 +302,11 @@ export class IndicatorPageComponent implements OnInit {
    * @param event 
    */
   getDistributionSelected(event) {
-
+      this.selectedDistribution = [];
+      event.value.forEach(element => {    
+        var distribution = element.split(" - ");
+        this.selectedDistribution.push(distribution[0]);
+      });
+      console.log("selected D", this.selectedDistribution);
   }
 }

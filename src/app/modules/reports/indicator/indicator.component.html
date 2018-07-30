@@ -2,6 +2,7 @@
 <div #chart class="indicatorChart shadow" >
   <pie-chart style="width: 100%" *ngIf="indicator.type_graph == 'pie'" 
     [project]="project"
+    [distribution]="distribution"
     [view]="chartDimensions" 
     [filters]="filters"
     [title]="indicator.full_name"
@@ -11,6 +12,7 @@
 
   <pie-grid style="width: 100%" *ngIf="indicator.type_graph == 'grid'" 
     [project]="project"
+    [distribution]="distribution"
     [view]="chartDimensions" 
     [filters]="filters"
     [title]="indicator.full_name"
@@ -20,6 +22,7 @@
 
   <bar-chart style="width: 100%" *ngIf="indicator.type_graph == 'bar'" 
     [project]="project"
+    [distribution]="distribution"
     [view]="chartDimensions"
     [filters]="filters" 
     [title]="indicator.full_name" 
@@ -29,6 +32,7 @@
 
   <line-chart style="width: 100%" *ngIf="indicator.type_graph == 'line'" 
     [project]="project"
+    [distribution]="distribution"
     [view]="chartDimensions" 
     [filters]="filters"
     [title]="indicator.full_name" 
@@ -38,6 +42,7 @@
   
   <number-card-chart style="width: 100%" *ngIf="indicator.type_graph== 'number'" 
     [project]="project"
+    [distribution]="distribution"
     [view]="chartDimensions" 
     [filters]="filters"
     [title]="indicator.full_name" 
@@ -47,6 +52,7 @@
 
   <stacked-vertical-bar-chart style="width: 100%" *ngIf="(indicator.type_graph == 'stackbar')||(indicator.type_graph == '')" 
     [project]="project"
+    [distribution]="distribution"
     [view]="chartDimensions"
     [filters]="filters" 
     [title]="indicator.full_name" 

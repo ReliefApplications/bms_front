@@ -272,17 +272,20 @@ export class IndicatorPageComponent implements OnInit {
     * @param event 
     */
   getProjectSelected(event) {
-    var project = event.value.split(" - ");
+    
     if (this.type === 'Distribution') {
+      var project = event.value.split(" - ");
       this.selectedProject = [];
       this.selectedProject.push(project[0]);
       this.getDistributions();   
       this.display = true;
+      console.log("select", project[0], this.selectedProject);
     }
 
     if (this.type === 'Project') {
-      this.selectedProject = [];
-      this.selectedProject.push(project[0]);
+      console.log(event);
+      // this.selectedProject = [];
+      // this.selectedProject.push(project[0]);
     }
     
     // if (this.type === 'Project') {
@@ -312,6 +315,14 @@ export class IndicatorPageComponent implements OnInit {
         // }        
       // }
     // }
-    console.log("select", project[0], this.selectedProject);
+   
+  }
+
+  /**
+   * Get the distribution selected in the distributionList selector
+   * @param event 
+   */
+  getDistributionSelected(event) {
+
   }
 }

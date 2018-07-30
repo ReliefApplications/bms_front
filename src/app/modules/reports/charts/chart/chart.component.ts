@@ -37,6 +37,9 @@ export class ChartComponent implements OnInit, ChartInterface {
   @Input() project:string[] = [];
   oldProject: string[] = [];
 
+  @Input() distribution:string[] = [];
+  oldDistribution: string[] = [];
+
   @Input() filters: Array<FilterInterface> = [];
   oldFilters: Array<FilterInterface> = [];
 
@@ -145,11 +148,19 @@ export class ChartComponent implements OnInit, ChartInterface {
   ngOnChanges(changes: SimpleChanges) {
     //Verify if value change and if value for the chart are already compared
     if ((changes.filters.currentValue != changes.filters.previousValue && !ChartRegistration.comparaisons.get(this.uniqId)) || 
-        (changes.project && changes.project.currentValue != changes.project && changes.project.previousValue)) {
+        (changes.project && changes.project.currentValue != changes.project && changes.project.previousValue)  || 
+        (changes.distribution && changes.distribution.currentValue != changes.distribution && changes.distribution.previousValue)) {
+
       if (this.project.length > 0 ){
         this.body['project'] = this.project;
       } else {
         delete(this.body['project']);
+      }
+
+      if (this.distribution.length > 0 ){
+        this.body['distribution'] = this.project;
+      } else {
+        delete(this.body['distribution']);
       }
       
 
@@ -162,7 +173,8 @@ export class ChartComponent implements OnInit, ChartInterface {
         })
 
       if (Object.keys(this.body).length >= 1) {
-        if (this.oldProject !== this.project && (this.oldProject.length > 0 || this.indicatorConfig.items === 'Project')) {
+        if (this.oldProject !== this.project && ((this.oldProject.length > 0 || this.indicatorConfig.items === 'Project') )) 
+         {
           let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
           if (promise) {
             promise.toPromise().then(response => {  

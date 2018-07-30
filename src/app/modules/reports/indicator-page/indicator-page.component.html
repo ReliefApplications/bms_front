@@ -44,7 +44,7 @@
       <div class="content-select" *ngIf="type == 'Project'">
         <mat-card>
           <mat-form-field>
-            <mat-select placeholder="Projects"  (selectionChange)="getProjectSelected($event)">
+            <mat-select placeholder="Projects" multiple (selectionChange)="getProjectSelected($event)">
               <mat-option *ngFor="let project of projectList" [value]="project" >{{project}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -108,7 +108,7 @@
         <div *ngIf="indicators.length" class="container-indicator">
           <div *ngFor="let indicator of indicators; let i = index">
             <app-indicator *ngIf="type == indicator['type'] && display" [indicator]="indicator" [chartDimensions]="chartDimensions" [filters]="findFilter(indicator['filter'])" 
-                           [project]="selectedProject"></app-indicator>
+                           [project]="selectedProject" [distribution]="selectedDistribution"></app-indicator>
           </div>
         </div>
 

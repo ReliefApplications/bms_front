@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output                           } from '@angular/core';
 import { ModalComponent                                                           } from '../modal.component';
 import { GlobalText                                                               } from '../../../../texts/global';
+import { Criteria } from '../../../model/criteria';
 
 @Component({
   selector: 'app-modal-add',
@@ -9,16 +10,25 @@ import { GlobalText                                                             
 })
 export class ModalAddComponent extends ModalComponent {
   public entityDisplayedName = "";
-  
+  public oldEntity="";
+  mapperObject = null;
+
   @Input() data:    any;
   @Output() onCreate = new EventEmitter();
 
   ngOnInit() {
-    this.newObject = this.data.mapper.instantiate(this.data.entity);
+    this.checkData();
+    this.loadData();
+  }
+
+  checkData(){
+    this.newObject = Object.create(this.data.entity.prototype);
+    this.newObject.constructor.apply(this.newObject);
+    this.mapperObject = this.data.mapper.findMapperObject(this.data.entity);
     this.entityDisplayedName = this.data.entity.getDisplayedName();
     this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
-    this.propertiesTypes = this.newObject.getModalTypeProperties(this.newObject);
-    this.loadData();
+    this.propertiesTypes = this.newObject.getModalTypeProperties(this.newObject); 
+    this.oldEntity = this.data.entity;
   }
 
   /**
@@ -28,6 +38,8 @@ export class ModalAddComponent extends ModalComponent {
     if (this.modal != GlobalText.TEXTS) {
       this.modal = GlobalText.TEXTS;
       this.entityDisplayedName = this.data.entity.getDisplayedName();
+    } else if (this.oldEntity != this.data.entity) {
+      this.checkData();
     }
   }
 

@@ -2,12 +2,12 @@
   <h4 class="modal-title">{{modal.modal_add_title}} {{entityDisplayedName | lowercase}}</h4>
   <table class="modal-table">
     <tr *ngFor="let p of properties" class="modal-row">
-      <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
+      <th class="table-title">{{mapperObject[p]}}</th>
       <th class="table-value">
         <form class="form">
           <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
             <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
-            <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{data.mapper.mapTitle(p)}}" [formControl]="controls"
+            <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [formControl]="controls"
               multiple>
               <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
             </mat-select>

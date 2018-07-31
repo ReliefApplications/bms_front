@@ -13,7 +13,7 @@ import { Sector                                     } from '../../model/sector';
 @Injectable({
 	providedIn: 'root'
 })
-export class DistributionService{
+export class CriteriaService{
     readonly api = URL_BMS_API;
 
     constructor(
@@ -22,12 +22,13 @@ export class DistributionService{
     }
 
     public get() {
-        let url = this.api + "/distributions";
+        let url = this.api + "/distributions/criteria";
         return this.http.get(url);
     }
 
-    public getByProject(idProject) {
-        let url = this.api + "/distributions/projects/"+idProject;
-        return this.http.get(url);
+    public getBeneficiariesNumber(criteriaArray:any){
+        let body = { "distribution_type" : "household", "criteria" : criteriaArray }
+        let url = this.api + "/distributions/criteria/number";
+        return this.http.post(url, body);
     }
 }

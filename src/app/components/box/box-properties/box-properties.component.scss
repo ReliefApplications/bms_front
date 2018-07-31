@@ -1,0 +1,50 @@
+@import '../../../../assets/css/variable.scss'; 
+
+
+.box-content{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding:10px;
+
+    .content-info{
+            justify-content: center;
+            align-content: center;
+            text-align: left;
+            font-family: $bms_font_text;
+            padding:15px;
+    
+            .info-title{
+                font-size : 1.5vh;
+                line-height : 1.5vh;
+                margin: 0 !important;
+            }
+        }
+}
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+    .content-info{
+        display: flex;
+        flex-direction: row;
+        line-height : 2.5vh !important;
+
+        .info-subtitle{
+            display: flex;
+            flex-grow: 1;
+            font-size : 2.5vh !important;
+            line-height : 2.5vh !important;
+            word-break: break-word;
+            hyphens: auto;
+        }
+
+        .info-title{
+            display: flex;
+            min-width: 20vh;
+            font-size : 2.5vh !important;
+            line-height : 2.5vh !important;
+        }
+    }
+}

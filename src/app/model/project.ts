@@ -79,7 +79,7 @@ export class Project {
         }
     }
 
-    public static getDisplayedName(){
+    public static getDisplayedName() {
         return GlobalText.TEXTS.model_project;
     }
 
@@ -168,6 +168,22 @@ export class Project {
     }
 
     /**
+    * return a Project after formatting its properties for the box properties
+    */
+    getMapperBox(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            start_date: selfinstance.start_date,
+            end_date: selfinstance.end_date,
+            donors_name: selfinstance.donors_name,
+            sectors_name: selfinstance.sectors_name,
+            value: selfinstance.value,
+        }
+    }
+
+    /**
     * return the type of Project properties
     */
     getTypeProperties(selfinstance): Object {
@@ -207,6 +223,7 @@ export class Project {
             number_of_households: GlobalText.TEXTS.model_project_number_of_households,
             donors_name: GlobalText.TEXTS.model_project_donors_name,
             notes: GlobalText.TEXTS.model_project_notes,
+            value: GlobalText.TEXTS.model_project_value,
         }
     }
 

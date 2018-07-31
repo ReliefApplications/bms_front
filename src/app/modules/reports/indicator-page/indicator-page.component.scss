@@ -19,6 +19,7 @@ button-filter-items{
 }
 
 
+
 .container-indicator{
   display: flex;
   flex-direction: row ;
@@ -187,9 +188,7 @@ button-filter-date{
   width: 100%;
   padding: 20px;
   .mat-card {
-    // justify-content: space-between;
     display: flex;
-    // align-items: baseline;
     padding: 15px;
   }
   .mat-form-field {

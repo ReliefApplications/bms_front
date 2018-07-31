@@ -11,5 +11,6 @@ export class BoxSettingComponent extends BoxComponent {
 
   ngOnInit() {
     this.selectedTitle = this.info.ref;
+    console.log(this.info);
   }
 }

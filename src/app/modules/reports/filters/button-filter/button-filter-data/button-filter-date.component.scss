@@ -5,6 +5,16 @@ button.level1 {
     margin-right: 20px;
 }
 
+.button-green {
+    background-color: $bms_green;
+}
+
+.button-red {
+background-color: $bms_red;
+}
+
+  
+
 .clicked{
 
     background-color: $bms_dark_grey !important;

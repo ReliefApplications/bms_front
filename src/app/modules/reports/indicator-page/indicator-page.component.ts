@@ -34,6 +34,7 @@ export class IndicatorPageComponent implements OnInit {
   public indicatorsLoading = false;
   public period: boolean = false;
   public selectPeriodDisplay;
+  public color: string = "red";
 
   //for responsive design
   public maxHeight = 700;
@@ -126,6 +127,7 @@ export class IndicatorPageComponent implements OnInit {
     this.dataFilter2.forEach(filter => {
       if (filter['active']) {
         this.type = filter['value'];
+        this.color = filter['color']
       }
 
     });

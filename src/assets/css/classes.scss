@@ -75,6 +75,22 @@ app-box-setting{
     }
 }
 
+.box-background-green{
+    background-color: $bms_green;
+}
+
+.box-background-red{
+    background-color: $bms-red;
+}
+
+.box-green{
+    border-top: solid 12px $bms_green;
+}
+
+.box-red{
+    border-top: solid 12px $bms_red;
+}
+
 .buttonIcon {
     line-height: 25px !important;
     height: 25px !important;

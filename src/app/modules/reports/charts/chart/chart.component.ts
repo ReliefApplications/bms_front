@@ -34,10 +34,10 @@ export class ChartComponent implements OnInit, ChartInterface {
   @Input() axis: ChartAxisClass;
   legend: ChartLegendClass;
 
-  @Input() project:string[] = [];
+  @Input() project: string[] = [];
   oldProject: string[] = [];
 
-  @Input() distribution:string[] = [];
+  @Input() distribution: string[] = [];
   oldDistribution: string[] = [];
 
   @Input() filters: Array<FilterInterface> = [];
@@ -76,7 +76,7 @@ export class ChartComponent implements OnInit, ChartInterface {
   ngOnInit() {
 
     // Visualisation 
-    if(this.indicatorConfig.idIndicator == '9' ) {
+    if (this.indicatorConfig.idIndicator == '9') {
       this.scheme = {
         gradient: true,
         domain: [
@@ -91,7 +91,7 @@ export class ChartComponent implements OnInit, ChartInterface {
         ]
       };
     }
-    
+
 
     let header = document.getElementById("header");
     this.view = [360, 300];
@@ -115,27 +115,27 @@ export class ChartComponent implements OnInit, ChartInterface {
 
   ngOnChanges(changes: SimpleChanges) {
     //Verify if value change and if value for the chart are already compared
-    if ((changes.filters.currentValue != changes.filters.previousValue && !ChartRegistration.comparaisons.get(this.uniqId)) || 
-        (changes.project && changes.project.currentValue != changes.project && changes.project.previousValue)  || 
-        (changes.distribution && changes.distribution.currentValue != changes.distribution && changes.distribution.previousValue)) {
+    if ((changes.filters.currentValue != changes.filters.previousValue && !ChartRegistration.comparaisons.get(this.uniqId)) ||
+      (changes.project && changes.project.currentValue != changes.project && changes.project.previousValue) ||
+      (changes.distribution && changes.distribution.currentValue != changes.distribution && changes.distribution.previousValue)) {
 
-      if ((this.project.length > 0)){
+      if ((this.project.length > 0)) {
         this.body['project'] = this.project;
-        delete(this.body['NoProject']);
-      } else if (this.project.length === 0 ) {
-        delete(this.body['project']);
+        delete (this.body['NoProject']);
+      } else if (this.project.length === 0) {
+        delete (this.body['project']);
         this.body['NoProject'] = [];
       }
 
-      if (this.distribution.length > 0){
+      if (this.distribution.length > 0) {
         this.body['distribution'] = this.distribution;
-        delete(this.body['NoDistribution']);
+        delete (this.body['NoDistribution']);
 
       } else if (this.distribution.length === 0) {
-        delete(this.body['distribution']);
+        delete (this.body['distribution']);
         this.body['NoDistribution'] = [];
       }
-      
+
 
       //Search filter associate with the chart
       ChartRegistration.associations
@@ -144,24 +144,24 @@ export class ChartComponent implements OnInit, ChartInterface {
           ChartRegistration.comparaisons.set(this.uniqId, true);
           this.body[item.referenceKey] = item.currentValue;
         })
-        
+
 
       if (Object.keys(this.body).length === 2) {
-        if (this.oldProject !== this.project &&  this.indicatorConfig.items === 'Project') 
-          {
-            this.getData();
-          }
-        else if (this.oldProject !== this.project && this.oldProject.length > 0 && this.indicatorConfig.items === 'Distribution' && this.distribution.length === 0) 
-        {
-          console.log('projet différents')
+        if (this.oldProject !== this.project && this.indicatorConfig.items === 'Project') {
           this.getData();
         }
-        //TODO : find why a loop whithout enb begin where use distribution
-        else if (this.oldProject === this.project && this.oldProject.length > 0 && this.oldDistribution !== this.distribution && this.distribution.length > 0 && this.indicatorConfig.items === 'Distribution' ) 
-          {
-            console.log('ok Distribution differente Project identique');
-            this.getData(); 
-          }
+        else if (this.oldProject !== this.project && this.oldProject.length > 0 && this.indicatorConfig.items === 'Distribution' && this.distribution.length === 0) {
+          this.getData();
+        }
+        else if (this.oldProject === this.project && this.oldProject.length > 0 && this.oldDistribution !== this.distribution && this.distribution.length > 0 && this.indicatorConfig.items === 'Distribution') {
+          this.getData();
+        }
+        else if (this.oldProject !== this.project && this.oldProject.length > 0 && this.indicatorConfig.items === 'Distribution' && this.distribution.length > 0) {
+          this.distribution = [];
+          delete (this.body['distribution']);
+          this.body['NoDistribution'] = [];
+          this.getData();
+        }
       }
       this.loader = false;
       this.loaded = true;
@@ -184,15 +184,15 @@ export class ChartComponent implements OnInit, ChartInterface {
   getData() {
     let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
     if (promise) {
-      promise.toPromise().then(response => {  
-        this.data = response.json(); 
+      promise.toPromise().then(response => {
+        this.data = response.json();
         if (!this.data || this.data.length === 0) {
           this.noData = true;
           this.loader = false;
         }
         else {
           this.noData = false;
-          if(this.indicatorConfig.type == 'numberCard') {
+          if (this.indicatorConfig.type == 'numberCard') {
             let lastDate = this.data[0]['date'].date;
             let newData: any = [];
             this.data.forEach(element => {
@@ -207,13 +207,13 @@ export class ChartComponent implements OnInit, ChartInterface {
             });
             this.data = newData;
           }
-          if(this.indicatorConfig.type == 'line') {
+          if (this.indicatorConfig.type == 'line') {
             this.axis.yAxisLabel = this.data[0].series[0]['unity'];
           }
         }
         this.oldProject = this.project;
         this.oldDistribution = this.distribution;
-      })    
+      })
     };
   }
 

@@ -2,14 +2,14 @@
   <div class="container-title">
     <h2>{{distribution.distribution_title | uppercase}}</h2>
   </div>
-  <div class="container-boxes">
+  <div class="container-boxes" [style.justify-content]="changeStyle(projects.length, 'justifyContent')" [style.overflow-x]="changeStyle(projects.length, 'scroll')">
     <app-box-setting *ngFor="let project of projects" (emitClickedTitle)="selectTitle($event, project)" [selectedTitle]="selectedTitle"
       [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'></app-box-setting>
   </div>
   <div class="container-table">
     <div class="container-content" *ngIf="isBoxClicked">
       <div class="content-button">
-        <button mat-icon-button (click)="addDistribution()" class="add-button">
+        <button mat-fab [color]="accent" (click)="addDistribution()" class="add-button">
           <mat-icon>add</mat-icon>
         </button>
         <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService" [componentDisplayed]="selectedProject"></app-box-properties>

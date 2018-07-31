@@ -1,5 +1,15 @@
 @import "./variable.scss";
 
+app-box-setting{
+    display: flex;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    min-width : 23%;
+    height : 80px;
+    &.isLast{
+        margin-right: 0px !important;
+    }
+}
 
 .page-container{
     width: 100%;
@@ -17,11 +27,10 @@
 
     .container-boxes{
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         flex-direction: row;
         width: 100%;
         padding: 20px;
-        justify-content: space-between;
     }
 
     .container-table{
@@ -66,11 +75,30 @@
     }
 }
 
-// button {
-//     color: $bms_white;
-//     background-color: $bms_green;
-    
-// }
+.buttonIcon {
+    line-height: 25px !important;
+    height: 25px !important;
+    width: 25px !important;
+  }
+  
+.icon-table-search {
+    line-height: 15px !important;
+    height: 15px !important;
+    width: 15px !important;
+    font-size: 15px !important;
+}
+
+.add-button{
+    width: 50px;
+    height: 50px;
+}
+
+.box-content{
+    width :100%;
+}
+
+
+
 
 //for mobile screen
 @media only screen and (max-width: 750px){
@@ -93,6 +121,15 @@
             padding: 0px !important;
         }
     }
+
+    button{
+        &.add-button{
+            position: absolute;
+            bottom: 20px;
+            left: 80%;
+            z-index: 1000;
+        }
+    }    
 
 
 }

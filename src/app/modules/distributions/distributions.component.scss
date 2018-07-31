@@ -1,17 +1,4 @@
 @import '../../../assets/css/variable.scss'; 
-
-app-box-setting{
-    display: flex;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    flex-grow: 1;
-    width : 200px;
-    height : 80px;
-    min-width: 190px;
-    &.isLast{
-        margin-right: 0px !important;
-    }
-}
     
 app-table-distribution{
     width: 100%;
@@ -43,11 +30,6 @@ button{
         height: 40px;
     }
 
-    &.add-button{
-        width: 50px;
-        height: 50px;
-    }
-
     span{
         font-family: $bms_font_text;
         padding-left:20px;
@@ -69,15 +51,5 @@ button{
 
     .export-button-container{
         width : 100% !important;
-    }
-    button{
-        &.add-button{
-            position: absolute;
-            bottom: 20px;
-            left: 80%;
-            z-index: 1000;
-        }
-
-        
-    }       
+    }     
 }

@@ -2,11 +2,11 @@
 
 $box-content: 80px;
 .box {
-    width: 100%;
+    width: 25%;
 }
 
 .box-content{
-    width :95%;
+    width :95% !important;
     background-color: $bms_light_grey;
     height: $box-content;
     display: flex;

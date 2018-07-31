@@ -25,6 +25,10 @@
     align-items: center;
 }
 
+.container-boxes {
+    justify-content: center;
+}
+
 .img-folder {
     height: 11vh;
     padding: 5%;
@@ -40,19 +44,6 @@ span{
     padding-left:20px;
 }
 
-
-app-box-setting {
-    justify-content: end;
-    display: flex;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    flex-grow: 1;
-    height : 80px;
-    min-width: 150px;
-    &.isLast{
-      margin-right: 0px !important;
-    }
-}
 
 .box-green{
     border-top: solid 12px $bms_green;

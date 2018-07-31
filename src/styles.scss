@@ -27,6 +27,7 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
   color: white !important
 }
 
+
 @media only screen and (max-width: 750px){
   .mat-horizontal-stepper-header-container {
     display: none !important;

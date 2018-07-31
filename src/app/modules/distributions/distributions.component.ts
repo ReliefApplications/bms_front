@@ -88,17 +88,19 @@ export class DistributionComponent implements OnInit {
    * get all projects
    */
   getProjects(): void {
-    this.projectService.get().subscribe(response => {
-      this.projects = this.projectClass.formatArray(response.json());
-      this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + "S"], this.projects);
-    })
+    let promise = this.projectService.get();
+    if (promise) {
+      promise.toPromise().then(response => {
+          this.projects = this.projectClass.formatArray(response.json());
+          this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + "S"], this.projects);
+        })
+    }     
   }
-
   /**
    * get all distributions of a project
    * @param projectId 
    */
-  getDistributionsByProject(projectId : number): void {
+  getDistributionsByProject(projectId : string): void {
     this.distributionService.getByProject(projectId).subscribe(response => {
       let distribution = DistributionData.formatArray(response.json());
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + "S"], distribution);
@@ -108,5 +110,24 @@ export class DistributionComponent implements OnInit {
 
   addDistribution(){
     this.router.navigate(["distribution/add-distribution"]);
+  }
+
+  changeStyle(projectsLength, type) {
+    switch(type) {
+      case 'justifyContent':
+        if (projectsLength > 4) {
+          return 'flex-start';
+        }
+        else { 
+          return 'center';
+        }
+      case 'scroll':
+      if (projectsLength > 4) {
+        return 'scroll';
+      }
+      else { 
+        return 'hidden';
+      }
+    }
   }
 }

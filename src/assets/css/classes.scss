@@ -1,5 +1,15 @@
 @import "./variable.scss";
 
+app-box-setting{
+    display: flex;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    min-width : 23%;
+    height : 80px;
+    &.isLast{
+        margin-right: 0px !important;
+    }
+}
 
 .page-container{
     width: 100%;
@@ -17,11 +27,10 @@
 
     .container-boxes{
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         flex-direction: row;
         width: 100%;
         padding: 20px;
-        justify-content: space-between;
     }
 
     .container-table{

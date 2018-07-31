@@ -42,7 +42,7 @@ export class Criteria {
     constructor(instance?) {
         if (instance !== undefined) {
             this.type = instance.type;
-            this.id_field = instance.id_field;
+            this.id_field = instance.id;
             this.kind_beneficiary = instance.kind_beneficiary;
             this.field_string = instance.field_string;
             this.condition_string = instance.condition_string;

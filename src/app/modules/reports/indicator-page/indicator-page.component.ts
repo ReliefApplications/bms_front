@@ -302,11 +302,19 @@ export class IndicatorPageComponent implements OnInit {
    * @param event 
    */
   getDistributionSelected(event) {
-      this.selectedDistribution = [];
+    console.log(event);
+    this.selectedDistribution = [];
+    if (event.value < 1) {
+      this.distributionList.forEach(element => {    
+        var distribution = element.split(" - ");
+        this.selectedDistribution.push(distribution[0]);
+      });
+    } else {
       event.value.forEach(element => {    
         var distribution = element.split(" - ");
         this.selectedDistribution.push(distribution[0]);
       });
-      console.log("selected D", this.selectedDistribution);
+    }
+    console.log("selected D", this.selectedDistribution);
   }
 }

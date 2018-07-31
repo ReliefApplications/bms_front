@@ -110,6 +110,81 @@ export class ChartComponent implements OnInit, ChartInterface {
     })
 
     //Call data from the back
+    this.getData();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    //Verify if value change and if value for the chart are already compared
+    if ((changes.filters.currentValue != changes.filters.previousValue && !ChartRegistration.comparaisons.get(this.uniqId)) || 
+        (changes.project && changes.project.currentValue != changes.project && changes.project.previousValue)  || 
+        (changes.distribution && changes.distribution.currentValue != changes.distribution && changes.distribution.previousValue)) {
+
+      if ((this.project.length > 0)){
+        this.body['project'] = this.project;
+        delete(this.body['NoProject']);
+      } else if (this.project.length === 0 ) {
+        delete(this.body['project']);
+        this.body['NoProject'] = [];
+      }
+
+      if (this.distribution.length > 0){
+        this.body['distribution'] = this.distribution;
+        delete(this.body['NoDistribution']);
+
+      } else if (this.distribution.length === 0) {
+        delete(this.body['distribution']);
+        this.body['NoDistribution'] = [];
+
+      }
+      
+
+      //Search filter associate with the chart
+      ChartRegistration.associations
+        .filter((item: RegisteredItem) => item.chartId === this.uniqId)
+        .forEach((item: RegisteredItem) => {
+          ChartRegistration.comparaisons.set(this.uniqId, true);
+          this.body[item.referenceKey] = item.currentValue;
+        })
+
+      if (Object.keys(this.body).length >= 2) {
+        if (this.oldProject !== this.project &&  this.indicatorConfig.items === 'Project') 
+          {
+            this.getData();
+          }
+        else if (this.oldProject !== this.project && this.oldProject.length > 0 && this.indicatorConfig.items === 'Distribution') 
+        {
+          this.getData();
+        }
+        //TODO : find why a loop whithout enb begin where use distribution
+        else if (this.oldDistribution !== this.distribution && this.distribution.length > 0 && this.indicatorConfig.items === 'Distribution' ) 
+          {
+            console.log('ok D');
+            if (this.oldProject === this.project  && this.oldProject.length > 0) {
+              console.log('ok P');
+              this.getData();
+              
+            }
+          }
+      }
+      this.loader = false;
+      this.loaded = true;
+    }
+  }
+
+  ngAfterViewChecked() {
+
+    /**
+     *Allow a responsive chart
+     */
+    let header = document.getElementById("header");
+    if (header && this.view && ((this.view[0] != header.offsetWidth - 20) || (this.view[1] != 360 - header.offsetHeight))) {
+      this.view[0] = header.offsetWidth - 20;
+      this.view[1] = 360 - header.offsetHeight;
+    }
+
+  }
+
+  getData() {
     let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
     if (promise) {
       promise.toPromise().then(response => {  
@@ -135,115 +210,15 @@ export class ChartComponent implements OnInit, ChartInterface {
             });
             this.data = newData;
           }
-
           if(this.indicatorConfig.type == 'line') {
             this.axis.yAxisLabel = this.data[0].series[0]['unity'];
           }
         }
         this.oldProject = this.project;
-      })   
+        this.oldDistribution = this.distribution;
+      })    
     };
   }
-
-  ngOnChanges(changes: SimpleChanges) {
-    //Verify if value change and if value for the chart are already compared
-    if ((changes.filters.currentValue != changes.filters.previousValue && !ChartRegistration.comparaisons.get(this.uniqId)) || 
-        (changes.project && changes.project.currentValue != changes.project && changes.project.previousValue)  || 
-        (changes.distribution && changes.distribution.currentValue != changes.distribution && changes.distribution.previousValue)) {
-
-      if (this.project.length > 0 ){
-        this.body['project'] = this.project;
-      } else {
-        delete(this.body['project']);
-      }
-
-      if (this.distribution.length > 0 ){
-        this.body['distribution'] = this.project;
-      } else {
-        delete(this.body['distribution']);
-      }
-      
-
-      //Search filter associate with the chart
-      ChartRegistration.associations
-        .filter((item: RegisteredItem) => item.chartId === this.uniqId)
-        .forEach((item: RegisteredItem) => {
-          ChartRegistration.comparaisons.set(this.uniqId, true);
-          this.body[item.referenceKey] = item.currentValue;
-        })
-
-      if (Object.keys(this.body).length >= 1) {
-        if (this.oldProject !== this.project && ((this.oldProject.length > 0 || this.indicatorConfig.items === 'Project') )) 
-         {
-          let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
-          if (promise) {
-            promise.toPromise().then(response => {  
-              this.data = response.json(); 
-              if (!this.data || this.data.length === 0) {
-                this.noData = true;
-                this.loader = false;
-              }
-              else {
-                this.noData = false;
-                if(this.indicatorConfig.type == 'numberCard') {
-                  let lastDate = this.data[0]['date'].date;
-                  let newData: any = [];
-                  this.data.forEach(element => {
-                    if (element['date'].date > lastDate) {
-                      lastDate = element['date'].date;
-                    }
-                  });
-                  this.data.forEach(element => {
-                    if (element['date'].date == lastDate) {
-                      newData.push(element);
-                    }
-                  });
-                  this.data = newData;
-                }
-                if(this.indicatorConfig.type == 'line') {
-                  this.axis.yAxisLabel = this.data[0].series[0]['unity'];
-                }
-              }
-              this.oldProject = this.project;
-            })    
-          };
-        }
-       
-        // this.data = [
-        //       {
-        //         "name": "Value1",
-        //         "value": Math.random()*1000
-        //       },
-        //       {
-        //         "name": "Value2",
-        //         "value": Math.random()*1000
-        //       },
-        //       {
-        //         "name": "Value3",
-        //         "value": Math.random()*1000
-        //       }
-        // ];
-
-
-      }
-      this.loader = false;
-      this.loaded = true;
-    }
-  }
-
-  ngAfterViewChecked() {
-
-    /**
-     *Allow a responsive chart
-     */
-    let header = document.getElementById("header");
-    if (header && this.view && ((this.view[0] != header.offsetWidth - 20) || (this.view[1] != 360 - header.offsetHeight))) {
-      this.view[0] = header.offsetWidth - 20;
-      this.view[1] = 360 - header.offsetHeight;
-    }
-
-  }
-
 
   // Actions
 

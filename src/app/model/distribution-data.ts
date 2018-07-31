@@ -38,20 +38,33 @@ export class DistributionData {
      */
     selection_criteria: SelectionCriteria;
     /**
-    * DistributionData's sector
-    * @type {string[]}
-    */
-    sectors_name: string[] = [];
-    /**
-     * DistributionData's sector
-     * @type {Sector[]}
-     */
-    sectors: Sector[] = [];
-    /**
      * DistributionData's location
      * @type {string}
      */
     location_name: string;
+    /**
+     * DistributionData's location Administrate level 1
+     * @type {string}
+     */
+    adm1: string = '';
+
+     /**
+     * DistributionData's location Administrate level 2
+     * @type {string}
+     */
+    adm2: string = '';
+
+     /**
+     * DistributionData's location Administrate level 3
+     * @type {string}
+     */
+    adm3: string = '';
+
+     /**
+     * DistributionData's location Administrate level 4
+     * @type {string}
+     */
+    adm4: string = '';
     /**
      * DistributionData's number_beneficiaries
      * @type {Int16Array}
@@ -64,6 +77,10 @@ export class DistributionData {
             this.name = instance.name;
             this.updated_on = instance.updated_on;
             this.number_beneficiaries = instance.number_beneficiaries;
+            this.adm1 = instance.location.adm1;
+            this.adm2 = instance.location.adm2;
+            this.adm3 = instance.location.adm3;
+            this.adm4 = instance.location.adm4;
         }
     }
 
@@ -82,8 +99,6 @@ export class DistributionData {
             location: Object.assign({}, selfinstance.location),
             project: Object.assign({}, selfinstance.project),
             selection_criteria: Object.assign({}, selfinstance.selection_criteria),
-            sectors_name: selfinstance.sectors_name,
-            sectors: Object.assign({}, selfinstance.sectors),
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
         }
@@ -100,7 +115,6 @@ export class DistributionData {
             name: selfinstance.name,
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
-            sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
         }
     }
 
@@ -115,7 +129,6 @@ export class DistributionData {
             name: selfinstance.name,
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
-            sectors_name: selfinstance.sectors_name,
         }
     }
 
@@ -130,7 +143,22 @@ export class DistributionData {
             name: selfinstance.name,
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
-            sectors_name: selfinstance.sectors_name,
+        }
+    }
+
+    /**
+     * return a Project after formatting its properties for the modal add
+     */
+    getMapperAdd(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            name: selfinstance.name,
+            adm1: selfinstance.adm1,
+            adm2: selfinstance.adm2,
+            adm3: selfinstance.adm3,
+            adm4: selfinstance.adm4,
         }
     }
 
@@ -142,7 +170,10 @@ export class DistributionData {
             name: "text",
             location_name: "text",
             number_beneficiaries: "number",
-            sectors_name: "image",
+            adm1: "text",
+            adm2: "text",
+            adm3: "text",
+            adm4: "text",
         }
     }
 
@@ -154,7 +185,6 @@ export class DistributionData {
             name: "text",
             location_name: "text",
             number_beneficiaries: "number",
-            sectors_name: "select",
         }
     }
 
@@ -166,7 +196,10 @@ export class DistributionData {
             name: GlobalText.TEXTS.model_distribution_name,
             location_name: GlobalText.TEXTS.model_distribution_location_name,
             number_beneficiaries: GlobalText.TEXTS.model_distribution_number_beneficiaries,
-            sectors_name: GlobalText.TEXTS.model_distribution_sectors_name,
+            adm1: GlobalText.TEXTS.model_distribution_adm1,
+            adm2: GlobalText.TEXTS.model_distribution_adm2,
+            adm3: GlobalText.TEXTS.model_distribution_adm3,
+            adm4: GlobalText.TEXTS.model_distribution_adm4,
         }
     }
 
@@ -184,10 +217,6 @@ export class DistributionData {
         distributionDatas.location_name = element.location.adm1;
         distributionDatas.project = new Project(element.project);
         distributionDatas.selection_criteria = new SelectionCriteria(element.selection_criteria);
-        element.project.sectors.forEach(sector => {
-            distributionDatas.sectors.push(new Sector(sector));
-            distributionDatas.sectors_name.push(sector.name);
-        });
         return distributionDatas;
     }
 

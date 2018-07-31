@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DistributionComponent } from './distribution.component';
+import { TableSmallComponent } from './table-small.component';
 
-describe('DistributionComponent', () => {
-  let component: DistributionComponent;
-  let fixture: ComponentFixture<DistributionComponent>;
+describe('TableSmallComponent', () => {
+  let component: TableSmallComponent;
+  let fixture: ComponentFixture<TableSmallComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DistributionComponent ]
+      declarations: [ TableSmallComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DistributionComponent);
+    fixture = TestBed.createComponent(TableSmallComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -38,11 +38,11 @@ export class SettingsComponent implements OnInit {
   data: MatTableDataSource<any>;
   public user_action: string = '';
 
-  public maxHeight = 700;
-  public maxWidthMobile = 750;
-  public maxWidthFirstRow = 1000;
-  public maxWidthSecondRow = 800;
-  public maxWidth = 750;
+  public maxHeight =  GlobalText.maxHeight;
+  public maxWidthMobile = GlobalText.maxWidthMobile;
+  public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
+  public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
+  public maxWidth = GlobalText.maxWidth;
   public heightScreen;
   public widthScreen;
 
@@ -111,6 +111,7 @@ export class SettingsComponent implements OnInit {
     this.load(title);
   }
 
+  //TO DO : get from cache
   load(title): void {
     this.referedClassService.get().subscribe(response => {
       response = this.referedClassToken.formatArray(response.json());

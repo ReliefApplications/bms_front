@@ -1,0 +1,67 @@
+<div class="page-container">
+  <div class="container-fields">
+    <div class="field-distribution">
+      <h1 class="distribution-title">{{distribution.add_distribution_new_distribution | uppercase}}</h1>
+      <div class="distribution-accordion">
+        <mat-accordion class="accordion-table">
+          <mat-expansion-panel *ngFor="let p of properties" [expanded]="step === p" (opened)="setStep(p)" class="mat-elevation-z8">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{mapperObject[p]}}
+              </mat-panel-title>
+              <mat-panel-description *ngIf="!(step === p)">
+                {{newObject[p]}}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-form-field class="accordion-field">
+              <input [(ngModel)]="newObject[p]" class="field-input" matInput type="{{propertiesTypes[p]}}">
+            </mat-form-field>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+    <div class="field-forms">
+      <div class="forms-criteria">
+        <div class="criteria-text">
+          <h1 class="criteria-title">{{distribution.add_distribution_selection_criteria | uppercase}}</h1>
+          <button mat-icon-button (click)="openDialog(criteriaAction)" class="add-button">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div class="criteria-form" *ngIf="widthScreen > maxWidthMobile">
+          <app-table-small (onRemove)="removeElement($event, criteriaAction)" [entity]="criteriaClass" [data]="criteriaData"></app-table-small>
+        </div>
+        <div class="criteria-summary" *ngIf="criteriaArray.length != 0">
+          <h3 class="summary-text">
+            <span>{{criteriaNbBeneficiaries.number}}</span>{{distribution.add_distribution_beneficiaries_reached | uppercase}}</h3>
+        </div>
+        <div class="criteria-form" *ngIf="widthScreen < maxWidthMobile">
+          <app-table-small-mobile (onRemove)="removeElement($event, criteriaAction)" [entity]="criteriaClass" [data]="criteriaData"></app-table-small-mobile>
+        </div>
+      </div>
+      <div class="forms-commodity">
+        <div class="commodity-text">
+          <h1 class="commodity-title">{{distribution.add_distribution_distributed_commodity | uppercase}}</h1>
+          <button mat-icon-button (click)="openDialog(commodityAction)" class="add-button">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div class="commodity-form" *ngIf="widthScreen > maxWidthMobile">
+          <app-table-small (onRemove)="removeElement($event, commodityAction)" [entity]="commodityClass" [data]="commodityData"></app-table-small>
+        </div>
+        <div class="commodity-summary" *ngIf="commodityArray.length != 0">
+          <h3 class="commodity-text">
+            <span>{{commodityNb}}</span>{{distribution.add_distribution_commodities_delivered | uppercase}}</h3>
+        </div>
+        <div class="commodity-form" *ngIf="widthScreen < maxWidthMobile">
+          <app-table-small-mobile (onRemove)="removeElement($event, commodityAction)" [entity]="commodityClass" [data]="commodityData"></app-table-small-mobile>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-buttons">
+    <button mat-button (click)="cancel()" class="button-cancel">{{distribution.modal_cancel}}</button>
+    <button mat-button (click)="add()" class="button-create">{{distribution.modal_create}}</button>
+  </div>
+  <span *ngIf="addDistribution" class="container-create-error">{{distribution.add_distribution_create_error}}</span>
+</div>

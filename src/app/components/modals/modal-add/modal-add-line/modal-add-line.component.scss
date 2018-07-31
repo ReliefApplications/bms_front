@@ -1,4 +1,4 @@
-@import '../../../../assets/css/variable.scss'; 
+@import '../../../../../assets/css/variable.scss'; 
 
 .modal-container{
     height: 100% !important;   
@@ -17,43 +17,19 @@
     }
 
     .modal-table{
-        display: flex;
         flex-wrap: wrap;
+        display: flex;
         width: 100% !important;
         padding: 5px;
+        flex-direction: row;
         font-family: $bms_font_text;
-        flex-direction: column;
 
         .modal-row{
+            flex-wrap: wrap;
             display: flex;
-            width: 100%;
+            flex-grow: 1;
             align-items: baseline;
-
-            .table-title{
-                text-align: left;
-                display: flex;
-                width: 25vh;
-                font-size: 2vh;                
-                font-weight: bold;
-            }
-
-            .table-value{
-                justify-content: center;
-                display: flex;
-                width: 100%;
-                font-size: 2vh;
-                font-weight: bold;
-
-                .form {
-                    min-width: 150px;
-                    max-width: 500px;
-                    width: 100%;
-                  
-                  .full-width {
-                    width: 100%;
-                  }
-                }
-            }
+            justify-content: center;
         }
     }
 

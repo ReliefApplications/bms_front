@@ -1,0 +1,59 @@
+@import '../../../../assets/css/variable.scss'; 
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+table {
+  overflow: auto;
+  width: 100%;
+  border:0;
+
+  td{
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    
+    app-icon-svg{
+      display: flex;
+      width: 4.5vh;
+      height: 4.5vh;
+    }
+  }
+
+  .header-cell{
+    text-align: center;
+    width: 200px;
+    color: $bms_red;
+  }
+
+  .content-cell{
+    text-align: center;
+    width: 200px;
+  }
+}
+
+button{
+  color: $bms_white;
+  margin: 0.5vh
+}
+
+.green{
+  background-color: $bms_green;
+}
+
+.red{
+  background-color: $bms_red;
+}
+
+.light-red{
+  background-color: $bms_light_red;
+}
+
+.icon {
+  height: 5vh;
+  width: 2vw;
+  display: flex;
+}

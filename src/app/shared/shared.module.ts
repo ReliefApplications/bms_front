@@ -20,15 +20,21 @@ import { IconSvgComponent                                       } from '../compo
 import { BoxDashboardComponent                                  } from '../components/box/box-dashboard/box-dashboard.component';
 import { BoxSettingComponent                                    } from '../components/box/box-setting/box-setting.component';
 import { BoxComponent                                           } from '../components/box/box.component';
+import { BoxPropertiesComponent                                 } from '../components/box/box-properties/box-properties.component';
 import { TableComponent                                         } from '../components/table/table.component';
 import { TableSearchComponent                                   } from '../components/table/table-search/table-search.component';
 import { TableMobileComponent                                   } from '../components/table/table-mobile/table-mobile.component';
 import { TableMobileSearchComponent                             } from '../components/table/table-mobile-search/table-mobile-search.component';
+import { TableDistributionComponent                             } from '../components/table/table-distribution/table-distribution.component';
+import { TableMobileDistributionComponent                       } from '../components/table/table-mobile-distribution/table-mobile-distribution.component';
+import { TableSmallComponent                                    } from '../components/table/table-small/table-small.component';
+import { TableSmallMobileComponent                              } from '../components/table/table-small-mobile/table-small-mobile.component';
 import { ModalComponent                                         } from '../components/modals/modal.component';
 import { ModalDeleteComponent                                   } from '../components/modals/modal-delete/modal-delete.component';
 import { ModalUpdateComponent                                   } from '../components/modals/modal-update/modal-update.component';
 import { ModalDetailsComponent                                  } from '../components/modals/modal-details/modal-details.component';
 import { ModalAddComponent                                      } from '../components/modals/modal-add/modal-add.component';
+import { ModalAddLineComponent                                  } from '../components/modals/modal-add/modal-add-line/modal-add-line.component';
 import { ModalLanguageComponent                                 } from '../components/modals/modal-language/modal-language.component';
 
 import { LoginComponent                                         } from '../modules/public/login.component';
@@ -37,7 +43,8 @@ import { MenuComponent                                          } from '../modul
 import { MenuTopComponent                                       } from '../modules/menus/menu-top/menu-top.component';
 import { HeaderMenuTopComponent                                 } from '../modules/menus/header-menu-top/header-menu-top.component';
 import { HouseholdsComponent                                    } from '../modules/households/households.component';
-import { DistributionComponent                                  } from '../modules/distribution/distribution.component';
+import { DistributionComponent                                  } from '../modules/distributions/distributions.component';
+import { AddDistributionComponent                               } from '../modules/distributions/add-distribution/add-distribution.component';
 import { SettingsComponent                                      } from '../modules/settings/settings.component';
 import { HeaderComponent                                        } from '../modules/header/header.component';
 import { HouseholdsImportComponent                              } from '../modules/households/households-import/households-import.component';
@@ -87,6 +94,7 @@ import { DataValidationComponent                                } from '../modul
         HouseholdsComponent,
         HouseholdsImportComponent,
 		DistributionComponent,
+		AddDistributionComponent,
 		SettingsComponent,
 		HeaderComponent,
         IconSvgComponent,
@@ -95,6 +103,10 @@ import { DataValidationComponent                                } from '../modul
 		TableSearchComponent,
 		TableMobileComponent,
 		TableMobileSearchComponent,
+		TableDistributionComponent,
+		TableMobileDistributionComponent,
+		TableSmallComponent,
+		TableSmallMobileComponent,
 		MenuTopComponent,
 		HeaderMenuTopComponent,
         ModalComponent,
@@ -103,8 +115,10 @@ import { DataValidationComponent                                } from '../modul
         ModalAddComponent,
         ModalDetailsComponent,
 		ModalLanguageComponent,        
+		ModalAddLineComponent,
 		BoxSettingComponent,
         BoxComponent,
+		BoxPropertiesComponent,
         DataValidationComponent
     ],
     entryComponents: [
@@ -113,7 +127,8 @@ import { DataValidationComponent                                } from '../modul
 		ModalUpdateComponent,
         ModalDetailsComponent,
 		ModalLanguageComponent,        
-        ModalAddComponent
+        ModalAddComponent,
+		ModalAddLineComponent,
     ],
     exports: [
         //Shared Components
@@ -124,14 +139,20 @@ import { DataValidationComponent                                } from '../modul
         HouseholdsComponent,
         HouseholdsImportComponent,
 		DistributionComponent,
+		AddDistributionComponent,
 		SettingsComponent,
 		HeaderComponent,
 		IconSvgComponent,
 		BoxDashboardComponent,
+		BoxPropertiesComponent,
 		TableComponent,
 		TableSearchComponent,
 		TableMobileComponent,
 		TableMobileSearchComponent,
+		TableDistributionComponent,
+		TableMobileDistributionComponent,
+		TableSmallComponent,
+		TableSmallMobileComponent,
 		MenuTopComponent,
 		HeaderMenuTopComponent,
         ModalComponent,
@@ -140,6 +161,7 @@ import { DataValidationComponent                                } from '../modul
 		ModalDetailsComponent,
 		ModalLanguageComponent,        
         ModalAddComponent,
+		ModalAddLineComponent,
 		BoxSettingComponent,
         BoxComponent,
         MatCheckboxModule,

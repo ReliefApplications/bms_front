@@ -33,7 +33,7 @@
         </div>
         <div class="criteria-summary" *ngIf="criteriaArray.length != 0">
           <h3 class="summary-text">
-            <span>{{criteriaNbBeneficiaries}}</span>{{distribution.add_distribution_beneficiaries_reached | uppercase}}</h3>
+            <span>{{criteriaNbBeneficiaries.number}}</span>{{distribution.add_distribution_beneficiaries_reached | uppercase}}</h3>
         </div>
         <div class="criteria-form" *ngIf="widthScreen < maxWidthMobile">
           <app-table-small-mobile (onRemove)="removeElement($event, criteriaAction)" [entity]="criteriaClass" [data]="criteriaData"></app-table-small-mobile>

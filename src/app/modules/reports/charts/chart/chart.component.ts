@@ -153,15 +153,14 @@ export class ChartComponent implements OnInit, ChartInterface {
           }
         else if (this.oldProject !== this.project && this.oldProject.length > 0 && this.indicatorConfig.items === 'Distribution' && this.distribution.length === 0) 
         {
+          console.log('projet différents')
           this.getData();
         }
         //TODO : find why a loop whithout enb begin where use distribution
         else if (this.oldProject === this.project && this.oldProject.length > 0 && this.oldDistribution !== this.distribution && this.distribution.length > 0 && this.indicatorConfig.items === 'Distribution' ) 
           {
             console.log('ok Distribution differente Project identique');
-            this.getData();
-              
-            
+            this.getData(); 
           }
       }
       this.loader = false;

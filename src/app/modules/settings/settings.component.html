@@ -13,7 +13,7 @@
   <div class="container-table">
     <div class="container-content" *ngIf="isBoxClicked">
       <div class="content-button">
-        <button mat-fab color = "accent" (click)="openDialog('add')" class="add-button">
+        <button mat-fab [color]="accent" (click)="openDialog('add')" class="add-button">
           <mat-icon>add</mat-icon>
         </button>
         <button mat-raised-button class="export-button">

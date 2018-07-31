@@ -52,7 +52,7 @@ export class ChartIndicatorConfigClass {
   public idIndicator:     string;
   public type:            string = 'bar';
   public computedMethod:  string = 'computed method';
-  public items:           string;
+  public items:           string = '';
 
   constructor(){}
 }

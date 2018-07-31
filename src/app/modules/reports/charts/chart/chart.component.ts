@@ -134,7 +134,6 @@ export class ChartComponent implements OnInit, ChartInterface {
       } else if (this.distribution.length === 0) {
         delete(this.body['distribution']);
         this.body['NoDistribution'] = [];
-
       }
       
 
@@ -145,25 +144,24 @@ export class ChartComponent implements OnInit, ChartInterface {
           ChartRegistration.comparaisons.set(this.uniqId, true);
           this.body[item.referenceKey] = item.currentValue;
         })
+        
 
-      if (Object.keys(this.body).length >= 2) {
+      if (Object.keys(this.body).length === 2) {
         if (this.oldProject !== this.project &&  this.indicatorConfig.items === 'Project') 
           {
             this.getData();
           }
-        else if (this.oldProject !== this.project && this.oldProject.length > 0 && this.indicatorConfig.items === 'Distribution') 
+        else if (this.oldProject !== this.project && this.oldProject.length > 0 && this.indicatorConfig.items === 'Distribution' && this.distribution.length === 0) 
         {
           this.getData();
         }
         //TODO : find why a loop whithout enb begin where use distribution
-        else if (this.oldDistribution !== this.distribution && this.distribution.length > 0 && this.indicatorConfig.items === 'Distribution' ) 
+        else if (this.oldProject === this.project && this.oldProject.length > 0 && this.oldDistribution !== this.distribution && this.distribution.length > 0 && this.indicatorConfig.items === 'Distribution' ) 
           {
-            console.log('ok D');
-            if (this.oldProject === this.project  && this.oldProject.length > 0) {
-              console.log('ok P');
-              this.getData();
+            console.log('ok Distribution differente Project identique');
+            this.getData();
               
-            }
+            
           }
       }
       this.loader = false;

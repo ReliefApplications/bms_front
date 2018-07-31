@@ -23,14 +23,14 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
       <td mat-cell class="content-cell" *matCellDef="let element">
-        <button mat-icon-button (click)="openDialog('details', element)" class="red">
-          <mat-icon>search</mat-icon>
+        <button mat-icon-button (click)="openDialog('details', element)" class="red buttonIcon">
+          <mat-icon class="icon-table-search">search</mat-icon>
         </button>
-        <button mat-icon-button (click)="openDialog('update', element)" class="light-red">
-          <mat-icon>edit</mat-icon>
+        <button mat-icon-button (click)="openDialog('update', element)" class="light-red buttonIcon">
+          <mat-icon class="icon-table-search">edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="openDialog('delete', element)" class="green">
-          <mat-icon>close</mat-icon>
+        <button mat-icon-button (click)="openDialog('delete', element)" class="green buttonIcon">
+          <mat-icon class="icon-table-search">close</mat-icon>
         </button>
       </td>
     </ng-container>

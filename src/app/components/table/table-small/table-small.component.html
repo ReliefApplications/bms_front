@@ -14,8 +14,8 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
         <td mat-cell (click)="remove(element)" class="content-cell" *matCellDef="let element">
-          <button mat-icon-button class="green">
-            <mat-icon>close</mat-icon>
+          <button mat-icon-button class="green buttonIcon">
+            <mat-icon class="icon-table-search">close</mat-icon>
           </button>
         </td>
       </ng-container>

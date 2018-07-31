@@ -9,7 +9,7 @@
   <div class="container-table">
     <div class="container-content" *ngIf="isBoxClicked">
       <div class="content-button">
-        <button mat-icon-button (click)="addDistribution()" class="add-button">
+        <button mat-fab [color]="accent" (click)="addDistribution()" class="add-button">
           <mat-icon>add</mat-icon>
         </button>
         <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService" [componentDisplayed]="selectedProject"></app-box-properties>

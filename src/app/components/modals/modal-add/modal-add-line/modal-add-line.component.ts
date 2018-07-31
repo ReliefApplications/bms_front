@@ -23,6 +23,9 @@ export class ModalAddLineComponent extends ModalAddComponent{
     } else if (this.oldEntity != this.data.entity) {
       this.checkData();
     }
+    //field_string represents the index of the criteria chosen. 
+    //It can't be equal to 0 otherwise the condition to check if it exists (this.newObject.field_string) can be wrong
+    //that's the reason why it is set with +1 and get with -1
     if(this.newObject.field_string && (this.checkCriteria != this.newObject.field_string)){
       this.checkDataCriteria = this.loadedData.field_string[this.newObject.field_string-1];
       this.loadedData.condition_string = this.checkCondition(this.checkDataCriteria);

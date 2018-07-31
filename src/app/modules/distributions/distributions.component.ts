@@ -112,6 +112,13 @@ export class DistributionComponent implements OnInit {
     this.router.navigate(["distribution/add-distribution"]);
   }
 
+  /**
+   * Verify if there is more than 4 projects to display.
+   * If there is more than 4 projects, the property justify-content 
+   * the property overflow-x change.
+   * @param projectsLength 
+   * @param type 
+   */
   changeStyle(projectsLength, type) {
     switch(type) {
       case 'justifyContent':

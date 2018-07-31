@@ -23,12 +23,6 @@ button{
         background-color: $bms_green !important;
         height: 40px;
     }
-
-    &.add-button{
-        width: 50px;
-        height: 50px;
-    }
-
     span{
         font-family: $bms_font_text;
         padding-left:20px;
@@ -41,12 +35,5 @@ button{
 
 //for mobile screen
 @media only screen and (max-width: 750px){
-    button{
-        &.add-button{
-            position: absolute;
-            bottom: 20px;
-            left: 80%;
-            z-index: 1000;
-        }
-    }       
+       
 }

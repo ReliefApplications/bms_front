@@ -24,7 +24,7 @@
       <div class="forms-criteria">
         <div class="criteria-text">
           <h1 class="criteria-title">{{distribution.add_distribution_selection_criteria | uppercase}}</h1>
-          <button mat-fab (click)="openDialog(criteriaAction)" class="add-button">
+          <button mat-mini-fab [color]="accent" (click)="openDialog(criteriaAction)" class="add-criteria-button">
             <mat-icon>add</mat-icon>
           </button>
         </div>
@@ -42,7 +42,7 @@
       <div class="forms-commodity">
         <div class="commodity-text">
           <h1 class="commodity-title">{{distribution.add_distribution_distributed_commodity | uppercase}}</h1>
-          <button mat-fab (click)="openDialog(commodityAction)" class="add-button">
+          <button mat-mini-fab [color]="accent" (click)="openDialog(commodityAction)" class="add-criteria-button">
             <mat-icon>add</mat-icon>
           </button>
         </div>

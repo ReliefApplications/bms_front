@@ -143,10 +143,11 @@ export class ChartComponent implements OnInit, ChartInterface {
         .forEach((item: RegisteredItem) => {
           ChartRegistration.comparaisons.set(this.uniqId, true);
           this.body[item.referenceKey] = item.currentValue;
+          console.log("frequency association");
         })
 
 
-      if (Object.keys(this.body).length === 2) {
+      if (Object.keys(this.body).length === 3) {
         if (this.oldProject !== this.project && this.indicatorConfig.items === 'Project') {
           this.getData();
         }
@@ -161,6 +162,9 @@ export class ChartComponent implements OnInit, ChartInterface {
           delete (this.body['distribution']);
           this.body['NoDistribution'] = [];
           this.getData();
+        }
+        else {
+          console.log('frequency');
         }
       }
       this.loader = false;

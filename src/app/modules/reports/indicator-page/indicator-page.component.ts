@@ -13,6 +13,8 @@ import { ProjectService } from '../../../core/api/project.service';
 import { Project } from '../../../model/project';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { DistributionData } from '../../../model/distribution-data';
+import { filterQueryId } from '@angular/core/src/view/util';
+import { ButtonFilterDateComponent } from '../filters/button-filter/button-filter-data/button-filter-date.component';
 
 
 @Component({
@@ -25,7 +27,7 @@ export class IndicatorPageComponent implements OnInit {
 
   @ViewChild('chart') chartDiv;
 
-  @ViewChildren(ButtonFilterComponent) buttonFilters: QueryList<ButtonFilterComponent>;
+  @ViewChildren(ButtonFilterDateComponent) buttonFilters: QueryList<ButtonFilterDateComponent>;
 
   public type = "Country";
   public filters: Map<string, FilterInterface> = new Map<string, FilterInterface>();

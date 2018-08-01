@@ -16,6 +16,7 @@ export class IndicatorComponent implements OnInit {
   @Input() xAxisLabel;
   @Input() project: string[];
   @Input() distribution: string[];
+  @Input() periodFrequency:string;
 
   public computedMethod: string;
   public newFilters;

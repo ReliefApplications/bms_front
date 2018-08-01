@@ -6,7 +6,7 @@ import { CacheService } from '../../../core/storage/cache.service';
 import { ButtonFilterData, ButtonFilterComponent } from '../filters/button-filter/button-filter.component';
 import { ChartRegistration, RegisteredItem } from '../services/chart-registration.service';
 import { forEach } from '@angular/router/src/utils/collection';
-import { MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material';
+import { MAT_CHIPS_DEFAULT_OPTIONS, MatButton } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { GlobalText } from '../../../../texts/global';
 import { ProjectService } from '../../../core/api/project.service';
@@ -34,13 +34,14 @@ export class IndicatorPageComponent implements OnInit {
   public body: any = [];
   public indicators: any[] = [];
   public filtersButton;
-  public frequency = this.indicator.report_frequency_year;
+  public frequency = "Year";
   public frequencyChanged = false;
   public chartDimensions: number[];
   public indicatorsLoading = false;
   public period: boolean = false;
   public selectPeriodDisplay;
-  public display:boolean = true;
+  public display: boolean = true;
+  public selectedPeriodFrequency: string = 'Period' ;
 
   //for responsive design
   public maxHeight = 700;
@@ -53,9 +54,10 @@ export class IndicatorPageComponent implements OnInit {
 
   // Data Button Declaration
   public dataFilter1: Array<ButtonFilterData> = [
-    { level: '1', label: this.indicator.report_filter_per_year.toLocaleUpperCase(), value: 'year', active: true },
-    { level: '1', label: this.indicator.report_filter_per_quarter.toLocaleUpperCase(), value: 'quarter', active: false },
-    { level: '1', label: this.indicator.report_filter_per_month.toUpperCase(), value: 'month', active: false },
+    { level: '1', label: this.indicator.report_filter_per_year.toLocaleUpperCase(), value: 'Year', active: true },
+    { level: '1', label: this.indicator.report_filter_per_quarter.toLocaleUpperCase(), value: 'Quarter', active: false },
+    { level: '1', label: this.indicator.report_filter_per_month.toUpperCase(), value: 'Month', active: false },
+    { level: '1', label: this.indicator.report_filter_chose_periode.toUpperCase(), value: 'Period', active: false },
   ]
 
   public dataFilter2: Array<ButtonFilterData> = [
@@ -67,7 +69,7 @@ export class IndicatorPageComponent implements OnInit {
   //variable for display name of project and distribution in selectors
   public projectList: string[] = [];
   public distributionList: string[] = [];
-  
+
   //array to know which project or distribution are selected 
   public selectedProject: string[] = [];
   public selectedDistribution: string[] = [];
@@ -114,12 +116,6 @@ export class IndicatorPageComponent implements OnInit {
   ngDoCheck() {
     if (this.indicator != GlobalText.TEXTS) {
       this.indicator = GlobalText.TEXTS;
-      if (this.period) {
-        this.frequency = this.indicator.report_period_selected;
-      }
-      if (!this.frequencyChanged) {
-        this.frequency = this.indicator.report_frequency_year;
-      }
       this.updateFiltersWithLanguage();
     }
   }
@@ -144,9 +140,9 @@ export class IndicatorPageComponent implements OnInit {
         this.selectedProject = [];
         if (this.type == 'Distribution') {
           this.display = false;
-        }  else {
+        } else {
           this.display = true;
-        }       
+        }
       }
 
     });
@@ -155,12 +151,14 @@ export class IndicatorPageComponent implements OnInit {
     this.dataFilter1.forEach(filter => {
       if (filter['active']) {
         this.frequency = filter['value'];
-        this.period = false;
+        if (filter['value'] === "Period") {
+          this.period = true;
+        } else {
+          this.period = false;
+          this.selectedPeriodFrequency = 'Period';
+        }
       }
-      this.frequencyChanged = true;
     });
-
-
   }
 
   /**
@@ -209,24 +207,6 @@ export class IndicatorPageComponent implements OnInit {
   checkSize(): void {
     this.heightScreen = window.innerHeight;
     this.widthScreen = window.innerWidth;
-  }
-
-
-  /**
-   * For the button "choose period", 
-   * Allow to now when the button is active or not
-   */
-  selectPeriod(): void {
-    this.period = !this.period;
-    if (this.period) {
-      this.frequency = this.indicator.report_period_selected;
-      this.dataFilter1.forEach(filter => {
-        if (filter['active']) {
-          filter['active'] = false;
-
-        }
-      });
-    }
   }
 
   updateFiltersWithLanguage() {
@@ -279,24 +259,24 @@ export class IndicatorPageComponent implements OnInit {
     if (this.type === 'Distribution') {
       var project = event.value.split(" - ");
       this.selectedProject.push(project[0]);
-      this.getDistributions();   
+      this.getDistributions();
       this.display = true;
-    } 
+    }
     else if (this.type === 'Project') {
       if (event.value < 1) {
-        this.projectList.forEach(element => {    
+        this.projectList.forEach(element => {
           var project = element.split(" - ");
           this.selectedProject.push(project[0]);
         });
       } else {
-        event.value.forEach(element => {    
+        event.value.forEach(element => {
           var project = element.split(" - ");
           this.selectedProject.push(project[0]);
         });
       }
     }
 
-   
+
   }
 
   /**
@@ -306,15 +286,19 @@ export class IndicatorPageComponent implements OnInit {
   getDistributionSelected(event) {
     this.selectedDistribution = [];
     if (event.value < 1) {
-      this.distributionList.forEach(element => {    
+      this.distributionList.forEach(element => {
         var distribution = element.split(" - ");
         this.selectedDistribution.push(distribution[0]);
       });
     } else {
-      event.value.forEach(element => {    
+      event.value.forEach(element => {
         var distribution = element.split(" - ");
         this.selectedDistribution.push(distribution[0]);
       });
     }
+  }
+
+  applyPeriod(from, to) {
+    this.selectedPeriodFrequency = "from: " +  from + ' - to: '+  to;
   }
 }

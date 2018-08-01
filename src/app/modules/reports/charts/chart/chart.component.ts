@@ -43,6 +43,9 @@ export class ChartComponent implements OnInit, ChartInterface {
   @Input() filters: Array<FilterInterface> = [];
   oldFilters: Array<FilterInterface> = [];
 
+  @Input() periodFrequency: string;
+  oldPeriodFrequency: string = '';
+
   @Input() indicatorConfig: ChartIndicatorConfigClass;
 
   @Output() selectedChart = new EventEmitter<string>();
@@ -117,7 +120,8 @@ export class ChartComponent implements OnInit, ChartInterface {
     //Verify if value change and if value for the chart are already compared
     if ((changes.filters.currentValue != changes.filters.previousValue && !ChartRegistration.comparaisons.get(this.uniqId)) ||
       (changes.project && changes.project.currentValue != changes.project && changes.project.previousValue) ||
-      (changes.distribution && changes.distribution.currentValue != changes.distribution && changes.distribution.previousValue)) {
+      (changes.distribution && changes.distribution.currentValue != changes.distribution && changes.distribution.previousValue) || 
+      (changes.periodFrequency && changes.periodFrequency.currentValue != changes.periodFrequency && changes.periodFrequency.previousValue)) {
 
       if ((this.project.length > 0)) {
         this.body['project'] = this.project;
@@ -143,19 +147,21 @@ export class ChartComponent implements OnInit, ChartInterface {
         .forEach((item: RegisteredItem) => {
           ChartRegistration.comparaisons.set(this.uniqId, true);
           this.body[item.referenceKey] = item.currentValue;
-          console.log("frequency association");
         })
 
 
       if (Object.keys(this.body).length === 3) {
         if (this.oldProject !== this.project && this.indicatorConfig.items === 'Project') {
           this.getData();
+          this.oldProject = this.project;
         }
         else if (this.oldProject !== this.project && this.oldProject.length > 0 && this.indicatorConfig.items === 'Distribution' && this.distribution.length === 0) {
           this.getData();
+          this.oldProject = this.project;
         }
         else if (this.oldProject === this.project && this.oldProject.length > 0 && this.oldDistribution !== this.distribution && this.distribution.length > 0 && this.indicatorConfig.items === 'Distribution') {
           this.getData();
+          this.oldDistribution = this.distribution;
         }
         else if (this.oldProject !== this.project && this.oldProject.length > 0 && this.indicatorConfig.items === 'Distribution' && this.distribution.length > 0) {
           this.distribution = [];
@@ -163,8 +169,13 @@ export class ChartComponent implements OnInit, ChartInterface {
           this.body['NoDistribution'] = [];
           this.getData();
         }
-        else {
-          console.log('frequency');
+        else if(this.body['frequency'] === 'Period' && this.periodFrequency !== this.oldPeriodFrequency) {
+          this.oldPeriodFrequency = this.periodFrequency;
+          this.body['frequency'] = this.oldPeriodFrequency;
+          this.getData();
+        } else if (this.body['frequency'] === 'Year' || this.body['frequency'] === 'Month' || this.body['frequency'] === 'Quarter'){
+          this.getData();
+          this.oldPeriodFrequency = 'Period';
         }
       }
       this.loader = false;
@@ -215,8 +226,6 @@ export class ChartComponent implements OnInit, ChartInterface {
             this.axis.yAxisLabel = this.data[0].series[0]['unity'];
           }
         }
-        this.oldProject = this.project;
-        this.oldDistribution = this.distribution;
       })
     };
   }

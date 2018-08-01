@@ -30,6 +30,7 @@ export class IndicatorPageComponent implements OnInit {
   @ViewChildren(ButtonFilterDateComponent) buttonFilters: QueryList<ButtonFilterDateComponent>;
 
   public type = "Country";
+  public oldType = "Country";
   public filters: Map<string, FilterInterface> = new Map<string, FilterInterface>();
   public body: any = [];
   public indicators: any[] = [];
@@ -118,6 +119,19 @@ export class IndicatorPageComponent implements OnInit {
       this.indicator = GlobalText.TEXTS;
       this.updateFiltersWithLanguage();
     }
+    if (this.type !== this.oldType) {
+      this.oldType = this.type;
+      this.dataFilter1.forEach(filterDate => {
+        if(filterDate['value'] === 'Year') {
+          this.frequency = filterDate['value'];
+          filterDate['active'] = true;
+          this.period = false;
+          this.selectedPeriodFrequency = 'Period';
+        } else {
+          filterDate['active'] = false
+        }
+      });
+    }
   }
 
   /**
@@ -144,7 +158,6 @@ export class IndicatorPageComponent implements OnInit {
           this.display = true;
         }
       }
-
     });
 
     //Verify the frequency selected

@@ -148,7 +148,7 @@ export class Households {
             household.familyName = beneficiary.family_name;
             household.firstName = beneficiary.given_name;
             beneficiary.vulnerability_criteria.forEach(vulnerability => {
-                household.vulnerabilities.push(this.mapVulnerability(vulnerability.value))
+                household.vulnerabilities.push(this.mapVulnerability(vulnerability.field_string))
             });
 
 

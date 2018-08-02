@@ -331,6 +331,23 @@ export class IndicatorPageComponent implements OnInit {
   }
 
   applyPeriod(from, to) {
-    this.selectedPeriodFrequency = "from: " + from + ' - to: ' + to;
+    var dateFrom = from.split('/');
+    if(dateFrom[0].length < 2) {
+      dateFrom[0] = "0"+dateFrom[0];
+    }
+    if(dateFrom[1].length < 2) {
+      dateFrom[1] = "0"+dateFrom[1];
+    }
+
+    var dateTo = to.split('/');
+    if(dateTo[0].length < 2) {
+      dateTo[0] = "0"+dateTo[0];
+    }
+    if(dateTo[1].length < 2) {
+      dateTo[1] = "0"+dateTo[1];
+    }
+    from = dateFrom[0] + '/' + dateFrom[1] + '/' + dateFrom[2];
+    to = dateTo[0] + '/' + dateTo[1] + '/' + dateTo[2];
+    this.selectedPeriodFrequency = from + '-' + to;
   }
 }

@@ -49,13 +49,9 @@ export class ChartComponent implements OnInit, ChartInterface {
 
   @Output() selectedChart = new EventEmitter<string>();
 
-  @Input() menuOpen: boolean = false;
   @Input() public loader: boolean = false;
   public loaded: boolean = false;
   @Input() public noData: boolean = true;
-
-  @Output() user_action = new EventEmitter<string>();
-  public action = '';
 
   constructor(
     protected differs: KeyValueDiffers,
@@ -117,7 +113,6 @@ export class ChartComponent implements OnInit, ChartInterface {
     })
 
     this.chartAssociation();
-
     //Call data from the back
     this.getData();
   }
@@ -229,10 +224,15 @@ export class ChartComponent implements OnInit, ChartInterface {
   switchFrequencyOrSelector() {
       if(this.oldfilterFrequency !== this.body['frequency']) {
         this.putInBody("frequency");
-        this.getData();
+        if(this.body["frequency"] !== "Period") {
+          this.getData();
+        }
       } else {
         this.putInBody("default");
-        this.getData();
+        if(this.body["frequency"] !== "Period") {
+          this.getData();
+        }
+        // this.getData();
         this.oldProject = this.project;
         this.oldDistribution = this.distribution;
       }
@@ -264,18 +264,5 @@ export class ChartComponent implements OnInit, ChartInterface {
       ChartRegistration.comparaisons.set(this.uniqId, true);
       this.changeFrequency(item.currentValue, item.referenceKey);
     })
-  }
-
-  // Actions
-  actionClicked(e: string) {
-    this.action = e;
-  }
-
-  closeMenu(e) {
-    this.menuOpen = false;
-  }
-
-  clearAction(e) {
-    this.action = "";
   }
 }

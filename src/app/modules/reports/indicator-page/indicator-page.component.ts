@@ -7,7 +7,7 @@ import { ButtonFilterData, ButtonFilterComponent } from '../filters/button-filte
 import { ChartRegistration, RegisteredItem } from '../services/chart-registration.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { MAT_CHIPS_DEFAULT_OPTIONS, MatButton, MatSelect, MatOption } from '@angular/material';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { GlobalText } from '../../../../texts/global';
 import { ProjectService } from '../../../core/api/project.service';
 import { Project } from '../../../model/project';
@@ -24,6 +24,8 @@ import { ButtonFilterDateComponent } from '../filters/button-filter/button-filte
 })
 export class IndicatorPageComponent implements OnInit {
   public indicator = GlobalText.TEXTS;
+  from = new FormControl('', [Validators.required]);
+  to = new FormControl('', [Validators.required]);
 
   @ViewChild('chart') chartDiv;
   @ViewChildren(MatOption) matoption: QueryList<MatOption>;

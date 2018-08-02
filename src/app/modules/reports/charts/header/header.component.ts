@@ -12,21 +12,10 @@ export class HeaderComponent implements OnInit {
 
   @Input() loader: boolean = false;
   @Input() noData: boolean;
-  @Input() menuOpen: boolean = false;
-
-  @Output() menuAction = new EventEmitter<string>();
 
   constructor() { }
 
   ngOnInit() {
-  }
-
-  setAction(action: string) {
-    this.menuAction.emit(action);
-  }
-
-  toggleChartMenu() {
-    this.menuOpen = !this.menuOpen;
   }
 
 }

@@ -163,6 +163,11 @@ export class VerifiedData {
      *  @type {string}
      */
     id_duplicate?: string;
+    /**
+     * id uses by the back
+     * @type {number}
+     */
+    id_tmp_cache?: number;
 
 
     constructor(instance?) {
@@ -172,6 +177,7 @@ export class VerifiedData {
             this.id_old = instance.id_old;
             this.to_delete = instance.to_delete
             this.id_duplicate = instance.id_duplicate
+            this.id_tmp_cache = instance.id_tmp_cache
         }
     }
 
@@ -254,11 +260,18 @@ export class FormatMore {
      * @type {Array}
      */
     data: Array<any> = [];
+    /**
+     * id uses by the back
+     * @type {number}
+     */
+    id_tmp_cache?: number;
+    
 
     constructor(instance?) {
         if (instance !== undefined) {
             this.id_old = instance.id_old;
             this.data = instance.data;
+            this.id_tmp_cache = instance.id_tmp_cache;
         }
     }
 
@@ -279,11 +292,17 @@ export class FormatLess {
      * @type {Array}
      */
     data: Array<any> = [];
+    /**
+     * id uses by the back
+     * @type {number}
+     */
+    id_tmp_cache?: number;
 
     constructor(instance?) {
         if (instance !== undefined) {
             this.id_old = instance.id_old;
             this.data = instance.data;
+            this.id_tmp_cache = instance.id_tmp_cache;
         }
     }
 

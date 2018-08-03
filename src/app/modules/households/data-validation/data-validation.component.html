@@ -271,7 +271,7 @@
                                         <div class="dataToCompare" *ngIf="data.old.households.beneficiaries.length > 1">
                                             <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
                                                 <div class="dataToCompare" *ngIf="beneficiary.status == 0">
-                                                    <mat-checkbox color="primary" (change)="step4Less(beneficiary.id, data.old.households.id)">
+                                                    <mat-checkbox color="primary" (change)="step4Less(beneficiary.id, data.old.households.id, data.id_tmp_cache)">
                                                         {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
                                                     </mat-checkbox>
                                                 </div>

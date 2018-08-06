@@ -34,14 +34,13 @@ export class Location {
         }
     }
 
-    public static formatAdm1(instance): any[] {
-        var adm1 = [];
-        console.log(instance);
+    public static formatAdm(instance): any[] {
+        var adm = [];
         instance.forEach(element => {
             var concat = element.id + " - " + element.name;
-            adm1.push(concat);
+            adm.push(concat);
         });
         
-        return adm1;
+        return adm;
     }
 }

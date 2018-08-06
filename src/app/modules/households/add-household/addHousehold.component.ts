@@ -35,17 +35,17 @@ export class AddHouseholdComponent implements OnInit {
 
   //for the district selector
   district = new FormControl();
-  districtList: string[];
+  districtList: string[] = [];
   public selectedDistrict: string = null;
 
   //for the commune selector
   commune = new FormControl();
-  communeList: string[];
+  communeList: string[] = [];
   public selectedCommune: string = null;
 
   //for the village selector
   village = new FormControl();
-  villageList: string[];
+  villageList: string[] = [];
   public selectedVillage: string = null;
 
   constructor(
@@ -87,9 +87,8 @@ export class AddHouseholdComponent implements OnInit {
   getProvince() {
     this.referedClassService = this._projectService;
     this._locationService.getAdm1().subscribe(response => {
-      let responseAdm1 = Location.formatAdm1(response.json());
+      let responseAdm1 = Location.formatAdm(response.json());
       responseAdm1.forEach(element => {
-        // var concat = element.id + " - " + element.name;
         this.provinceList.push(element);
       });
     });
@@ -100,7 +99,15 @@ export class AddHouseholdComponent implements OnInit {
    * Get list of all District (adm2) and put it in the district selector
    */
   getDistrict(adm1: string) {
-
+    let body = {};
+    body['adm1'] = adm1;
+    this.referedClassService = this._projectService;
+    this._locationService.getAdm2(body).subscribe(response => {
+      let responseAdm2 = Location.formatAdm(response.json());
+      responseAdm2.forEach(element => {
+        this.districtList.push(element);
+      });
+    });
   }
 
   /**
@@ -124,6 +131,7 @@ export class AddHouseholdComponent implements OnInit {
         let province = event.value.split(" - ");
         this.selectedProvince = province[0];
         console.log(this.selectedProvince);
+        this.getDistrict(this.selectedProvince);
         break;
     }
 

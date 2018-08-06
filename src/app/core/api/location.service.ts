@@ -19,10 +19,18 @@ export class LocationService {
 
     /**
      * Get all adm1
-     * @param body 
      */
     public getAdm1() {
         let url = this.api + "/location/adm1";
         return this.http.get(url);
+    }
+
+    /**
+     * Get all adm2 associate to the selected adm1
+     * @param body 
+     */
+    public getAdm2(body?: any) {
+        let url = this.api + "/location/adm2";
+        return this.http.post(url, body);
     }
 }

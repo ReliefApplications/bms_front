@@ -26,7 +26,7 @@
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-select placeholder={{household.add_household_getDistrict}} [formControl]="district" (selectionChange)="selected($event, 'district')">
-                                    <mat-option *ngFor="let disctrict of districtList" [value]="district">{{district}}</mat-option>
+                                    <mat-option *ngFor="let district of districtList" [value]="district">{{district}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                             <mat-form-field>

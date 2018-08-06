@@ -42,4 +42,13 @@ export class LocationService {
         let url = this.api + "/location/adm3";
         return this.http.post(url, body);
     }
+
+    /**
+     * Get all adm4 associate to the selected adm3
+     * @param body 
+     */
+    public getAdm4(body?: any) {
+        let url = this.api + "/location/adm4";
+        return this.http.post(url, body);
+    }
 }

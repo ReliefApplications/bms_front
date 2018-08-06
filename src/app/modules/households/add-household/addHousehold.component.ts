@@ -128,8 +128,16 @@ export class AddHouseholdComponent implements OnInit {
   /**
    * Get list of all Vilage (adm4) and put it in the village selector
    */
-  getVillage() {
-
+  getVillage(adm3: string) {
+    let body = {};
+    body['adm3'] = adm3;
+    this.referedClassService = this._projectService;
+    this._locationService.getAdm4(body).subscribe(response => {
+      let responseAdm4 = Location.formatAdm(response.json());
+      responseAdm4.forEach(element => {
+        this.villageList.push(element);
+      });
+    });
   }
 
 
@@ -144,6 +152,15 @@ export class AddHouseholdComponent implements OnInit {
         let district = event.value.split(" - ");
         this.selectedDistrict = district[0];
         this.getCommune(this.selectedDistrict);
+        break;
+      case 'commune':
+        let commune = event.value.split(" - ");
+        this.selectedCommune = commune[0];
+        this.getVillage(this.selectedCommune);
+        break;
+      case 'village':
+        let village = event.value.split(" - ");
+        this.selectedVillage = village[0];
         break;
     }
 

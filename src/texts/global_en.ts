@@ -68,6 +68,18 @@ export const TEXT = {
     households_import_upload: 'upload',
 
     add_household_title: "add household",
+    add_household_step1: "Information",
+    add_household_step2: "Head",
+    add_household_step3: "Members",
+    add_household_step4: "Done",
+    add_household_create: "Summary of Household to create",
+    add_household_getProject: 'Projects',
+    add_household_getProvince: "Province",
+    add_household_getDistrict: "District",
+    add_household_getCommune: "Commune",
+    add_household_getVillage: "Village",
+    add_household_getAddress: "Address",
+    add_household_getNotes : "Notes",
 
     data_verification_title: 'data verification and validation',
     data_verification_step_1: 'Typo issues',

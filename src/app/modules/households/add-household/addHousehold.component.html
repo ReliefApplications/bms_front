@@ -8,10 +8,8 @@
             <mat-icon>done</mat-icon>
         </ng-template>
 
-
-        <!-- <mat-step [editable]="false" [completed]="isDone"> -->
         <mat-step>
-            <ng-template class="step" matStepLabel>Information </ng-template>
+            <ng-template class="step" matStepLabel>{{household.add_household_step1}} </ng-template>
             <div class="container-table">
                 <!-- <div class="stepInMobile">
                     <span class="dot">1</span>
@@ -20,7 +18,43 @@
                 <div class="container-content box-green">
 
                     <div class="content-table">
-
+                        <div class="content-information">
+                            <mat-form-field>
+                                <mat-select placeholder={{household.add_household_getProvince}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
+                                    <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-select placeholder={{household.add_household_getDistrict}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
+                                    <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-select placeholder={{household.add_household_getCommune}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
+                                    <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="content-information">
+                            <mat-form-field>
+                                <mat-select placeholder={{household.add_household_getVillage}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
+                                    <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder={{household.add_household_getAddress}}>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-select placeholder={{household.add_household_getProject}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
+                                    <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="content-information notes">
+                            <mat-form-field>
+                                <textarea matInput matAutosizeMaxRows=9 matTextareaAutosize="true" placeholder={{household.add_household_getNotes}}></textarea>
+                            </mat-form-field>
+                        </div>
                     </div>
 
                     <div class="content-button-footer">
@@ -34,7 +68,7 @@
         </mat-step>
 
         <mat-step>
-            <ng-template class="step" matStepLabel>Head </ng-template>
+            <ng-template class="step" matStepLabel>{{household.add_household_step2}}</ng-template>
             <div class="container-table">
                 <!-- <div class="stepInMobile">
                     <span class="dot">1</span>
@@ -57,43 +91,43 @@
         </mat-step>
 
         <mat-step>
-                <ng-template class="step" matStepLabel>Members </ng-template>
-                <div class="container-table">
-                    <!-- <div class="stepInMobile">
+            <ng-template class="step" matStepLabel>{{household.add_household_step3}}</ng-template>
+            <div class="container-table">
+                <!-- <div class="stepInMobile">
                         <span class="dot">1</span>
                         <span>Members</span>
                     </div> -->
-                    <div class="container-content box-green">
-    
-                        <div class="content-table">
+                <div class="container-content box-green">
 
-                        </div>
-    
-                        <div class="content-button-footer">
-                            <!-- <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
+                    <div class="content-table">
+
+                    </div>
+
+                    <div class="content-button-footer">
+                        <!-- <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
                                     <button mat-raised-button class="next-button" (click)=" sendCorrectedData()" *ngIf='!load'>
                                         <span>{{verification.data_verification_next}}</span>
                                     </button> -->
-                        </div>
                     </div>
                 </div>
-            </mat-step>
+            </div>
+        </mat-step>
 
         <mat-step [editable]="true">
-            <ng-template matStepLabel>Done</ng-template>
+            <ng-template matStepLabel>{{household.add_household_step4}}</ng-template>
             <div class="container-table">
-                <div class="stepInMobile">
+                <!-- <div class="stepInMobile">
                     <span class="dot">5</span>
                     <span>Done</span>
-                </div>
+                </div> -->
                 <div class="container-content box-green">
                     <div class="content-table">
                         <div class="done">
-                            <!-- {{verification.data_verification_done}}
-                                <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
-                                <a routerLink="/households">
-                                    <button mat-raised-button class="buttonSend" (click)="stepper.reset()">{{verification.data_verification_send}}</button>
-                                </a> -->
+                            {{household.add_household_done}}
+                            <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+                            <!-- <a routerLink="/households"> -->
+                            <button mat-raised-button class="buttonSend">{{household.add_household_create}}</button>
+                            <!-- </a> -->
                         </div>
 
 

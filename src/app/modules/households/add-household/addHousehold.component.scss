@@ -1,6 +1,9 @@
 @import '../../../../assets/css/variable.scss'; 
 
-
-.box-green{
-    border-top: solid 12px $bms_green;
+.content-information {
+    display: flex;
+    flex-direction: column;
+}
+.notes {
+    justify-content: center;
 }

@@ -68,6 +68,18 @@ export const TEXT = {
     households_import_upload: 'import',
 
     add_household_title: "Ajout d'un ménage",
+    add_household_step1: "Information",
+    add_household_step2: "Chef de famille",
+    add_household_step3: "Membres",
+    add_household_step4: "Fin",
+    add_household_create: "Récapitulatif du ménage à créer",
+    add_household_getProject: 'Projets',
+    add_household_getProvince: "Province",
+    add_household_getDistrict: "District",
+    add_household_getCommune: "Commune",
+    add_household_getVillage: "Village",
+    add_household_getAddress: "Adresse",
+    add_household_getNotes : "Notes",
 
     data_verification_title: 'verification et validation des donnees',
     data_verification_step_1: 'Erreurs d\'orthographe',

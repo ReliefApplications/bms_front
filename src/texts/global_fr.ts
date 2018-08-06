@@ -67,6 +67,8 @@ export const TEXT = {
     households_import_addFile: 'ajouter un fichier ou glisser-déposer',
     households_import_upload: 'import',
 
+    add_household_title: "Ajout d'un ménage",
+
     data_verification_title: 'verification et validation des donnees',
     data_verification_step_1: 'Erreurs d\'orthographe',
     data_verification_step_2: 'Doublons',

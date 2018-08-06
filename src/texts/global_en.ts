@@ -67,6 +67,8 @@ export const TEXT = {
     households_import_addFile: 'add file or drag and drop',
     households_import_upload: 'upload',
 
+    add_household_title: "add household",
+
     data_verification_title: 'data verification and validation',
     data_verification_step_1: 'Typo issues',
     data_verification_step_2: 'Duplicates',

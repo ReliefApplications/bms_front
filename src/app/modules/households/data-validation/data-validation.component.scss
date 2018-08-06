@@ -1,105 +1,64 @@
 @import '../../../../assets/css/variable.scss'; 
 
 
-.mat-stepper-horizontal {
-    display: block;
-    width: 100%;
-    .container-table {
-        padding: 0px;
-        .box-green{
-            border-top: solid 12px $bms_green;
-            .content-button{
-                justify-content: flex-end !important;
-                .next{
-                    font-weight: 900;
-                    margin-right: 0.8vw;
-                 }
-            } 
-            .content-table {
-                flex-wrap: wrap;
-                justify-content: space-evenly;
-                .issues, .duplicateIssues{
-                    display: flex;
-                    width: 15%;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    margin-left: 0.5vw;
-                    margin-right: 0.5vw;
-                    margin-bottom: 2vw;
-                    .mat-chip-list {
-                        width: 100%;
-                        display: flex;
-                        justify-content: flex-end;
-                        .mat-chip {
-                            font-size: 1vh;
-                            padding: 1px 8px;
-                            margin: 4px 4px 13px 4px;
-                        }
-                    }
-                    .mat-card-content {
-                        display: flex;
-                        flex-direction: column;
-                        height: 100%;
-                        .mat-divider {
-                            position: relative !important;
-                            margin: 10px 0px 10px 0px;
-                        }                
-                        .householdData {
-                            width: 100%;
-                            text-align: center;
-                            flex-grow: 1;
-                            height: 50%;
-                            flex-direction: row;
-                            .content-householdData {
-                                width: 100%
-                            }
-                            .content-beneficiariesData{
-                                display: flex;
-                                justify-content: center;
-                                width: 100%;
-                            }
-                            .dataToCompare {
-                                font-size: 1.4vh;
-                            }
-                            .mat-checkbox {
-                                display: flex;
-                            }
-                        }
-                    }
-                }
-                .done {
-                    display: flex;
-                    width: 100%;
-                    flex-direction: column;
-                    align-items: center;
-                    margin-top: 2vh;
-                    .buttonSend {
-                        margin: 2vh 0;
-                    }
-                }
+ 
+           
+.issues, .duplicateIssues{
+    display: flex;
+    width: 15%;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 0.5vw;
+    margin-right: 0.5vw;
+    margin-bottom: 2vw;
+    .mat-chip-list {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        .mat-chip {
+            font-size: 1vh;
+            padding: 1px 8px;
+            margin: 4px 4px 13px 4px;
+        }
+    }
+    .mat-card-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        .mat-divider {
+            position: relative !important;
+            margin: 10px 0px 10px 0px;
+        }                
+        .householdData {
+            width: 100%;
+            text-align: center;
+            flex-grow: 1;
+            height: 50%;
+            flex-direction: row;
+            .content-householdData {
+                width: 100%
             }
-            .content-button-footer{
+            .content-beneficiariesData{
                 display: flex;
+                justify-content: center;
                 width: 100%;
-                padding : 10px 20px 20px 20px;
-                align-items: center;
-                justify-content: flex-end;
-    
-                .mat-raised-button {
-                    background-color: $bms_green;
-                    span{
-                        font-family: $bms_font_text;
-                    }
-                }
             }
-        }  
+            .dataToCompare {
+                font-size: 1.4vh;
+            }
+            .mat-checkbox {
+                display: flex;
+            }
+        }
     }
-    button{
-        color: $bms_white;
-        background-color: $bms_green;
-       
-    }
+}     
+    
+button{
+    color: $bms_white;
+    background-color: $bms_green;
+    
 }
+
 
 .container-content {
     padding-top: 10px;

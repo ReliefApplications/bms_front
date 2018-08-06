@@ -1,1 +1,107 @@
-<p>add</p>
+<div class="page-container">
+    <div class="container-title">
+        <h2>{{household.add_household_title | uppercase}}</h2>
+    </div>
+
+    <mat-horizontal-stepper linear #stepper>
+        <ng-template matStepperIcon="done">
+            <mat-icon>done</mat-icon>
+        </ng-template>
+
+
+        <!-- <mat-step [editable]="false" [completed]="isDone"> -->
+        <mat-step>
+            <ng-template class="step" matStepLabel>Information </ng-template>
+            <div class="container-table">
+                <!-- <div class="stepInMobile">
+                    <span class="dot">1</span>
+                    <span>Information</span>
+                </div> -->
+                <div class="container-content box-green">
+
+                    <div class="content-table">
+
+                    </div>
+
+                    <div class="content-button-footer">
+                        <!-- <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
+                            <button mat-raised-button class="next-button" (click)=" sendCorrectedData()" *ngIf='!load'>
+                                <span>{{verification.data_verification_next}}</span>
+                            </button> -->
+                    </div>
+                </div>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template class="step" matStepLabel>Head </ng-template>
+            <div class="container-table">
+                <!-- <div class="stepInMobile">
+                    <span class="dot">1</span>
+                    <span>Head</span>
+                </div> -->
+                <div class="container-content box-green">
+
+                    <div class="content-table">
+
+                    </div>
+
+                    <div class="content-button-footer">
+                        <!-- <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
+                                <button mat-raised-button class="next-button" (click)=" sendCorrectedData()" *ngIf='!load'>
+                                    <span>{{verification.data_verification_next}}</span>
+                                </button> -->
+                    </div>
+                </div>
+            </div>
+        </mat-step>
+
+        <mat-step>
+                <ng-template class="step" matStepLabel>Members </ng-template>
+                <div class="container-table">
+                    <!-- <div class="stepInMobile">
+                        <span class="dot">1</span>
+                        <span>Members</span>
+                    </div> -->
+                    <div class="container-content box-green">
+    
+                        <div class="content-table">
+
+                        </div>
+    
+                        <div class="content-button-footer">
+                            <!-- <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
+                                    <button mat-raised-button class="next-button" (click)=" sendCorrectedData()" *ngIf='!load'>
+                                        <span>{{verification.data_verification_next}}</span>
+                                    </button> -->
+                        </div>
+                    </div>
+                </div>
+            </mat-step>
+
+        <mat-step [editable]="true">
+            <ng-template matStepLabel>Done</ng-template>
+            <div class="container-table">
+                <div class="stepInMobile">
+                    <span class="dot">5</span>
+                    <span>Done</span>
+                </div>
+                <div class="container-content box-green">
+                    <div class="content-table">
+                        <div class="done">
+                            <!-- {{verification.data_verification_done}}
+                                <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+                                <a routerLink="/households">
+                                    <button mat-raised-button class="buttonSend" (click)="stepper.reset()">{{verification.data_verification_send}}</button>
+                                </a> -->
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </mat-step>
+
+    </mat-horizontal-stepper>
+</div>

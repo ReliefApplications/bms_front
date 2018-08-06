@@ -20,32 +20,32 @@
                     <div class="content-table">
                         <div class="content-select">
                             <mat-form-field>
-                                <mat-select placeholder={{household.add_household_getProvince}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
-                                    <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+                                <mat-select placeholder={{household.add_household_getProvince}} [formControl]="province" (selectionChange)="selected($event, 'province')">
+                                    <mat-option *ngFor="let province of provinceList" [value]="province">{{province}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-select placeholder={{household.add_household_getDistrict}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
-                                    <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+                                <mat-select placeholder={{household.add_household_getDistrict}} [formControl]="district" (selectionChange)="selected($event, 'district')">
+                                    <mat-option *ngFor="let disctrict of districtList" [value]="district">{{district}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-select placeholder={{household.add_household_getCommune}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
-                                    <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+                                <mat-select placeholder={{household.add_household_getCommune}} [formControl]="commune" (selectionChange)="selected($event, 'commune')">
+                                    <mat-option *ngFor="let commune of communeList" [value]="commune">{{commune}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
                         <div class="content-select">
                             <mat-form-field>
-                                <mat-select placeholder={{household.add_household_getVillage}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
-                                    <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+                                <mat-select placeholder={{household.add_household_getVillage}} [formControl]="village" (selectionChange)="selected($event, 'village')">
+                                    <mat-option *ngFor="let village of villageList" [value]="village">{{village}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                             <mat-form-field>
                                 <input matInput placeholder={{household.add_household_getAddress}}>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-select placeholder={{household.add_household_getProject}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
+                                <mat-select placeholder={{household.add_household_getProject}} [formControl]="projects" (selectionChange)="selected($event, 'project')">
                                     <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -83,7 +83,7 @@
                                 <input matInput placeholder={{household.add_household_getGivenName}}>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-select placeholder={{household.add_household_getGender}} [formControl]="gender" (selectionChange)="getGenderSelected($event)">
+                                <mat-select placeholder={{household.add_household_getGender}} [formControl]="gender" (selectionChange)="selected($event, 'gender')">
                                     <mat-option *ngFor="let gender of genderList" [value]="gender">{{gender}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -98,7 +98,7 @@
                                 <input matInput placeholder={{household.add_household_getNationalID}}>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-select placeholder={{household.add_household_getOccupation}} [formControl]="gender" (selectionChange)="getGenderSelected($event)">
+                                <mat-select placeholder={{household.add_household_getOccupation}} [formControl]="gender" (selectionChange)="selected($event, 'occupation')">
                                     <mat-option *ngFor="let gender of genderList" [value]="gender">{{gender}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -139,7 +139,7 @@
                                 <input matInput placeholder={{household.add_household_getGivenName}}>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-select placeholder={{household.add_household_getGender}} [formControl]="gender" (selectionChange)="getGenderSelected($event)">
+                                <mat-select placeholder={{household.add_household_getGender}} [formControl]="gender" (selectionChange)="selected($event, 'gender')">
                                     <mat-option *ngFor="let gender of genderList" [value]="gender">{{gender}}</mat-option>
                                 </mat-select>
                             </mat-form-field>

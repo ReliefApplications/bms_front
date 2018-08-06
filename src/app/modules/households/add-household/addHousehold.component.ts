@@ -3,6 +3,8 @@ import { GlobalText } from '../../../../texts/global';
 import { FormControl } from '@angular/forms';
 import { ProjectService } from '../../../core/api/project.service';
 import { Project } from '../../../model/project';
+import { Location } from '../../../model/location';
+import { LocationService } from '../../../core/api/location.service';
 
 @Component({
   selector: 'add-household',
@@ -26,12 +28,34 @@ export class AddHouseholdComponent implements OnInit {
   genderList: string[] = ['F', 'M'];
   public selectedGender: string = null;
 
+  //for the province selector
+  province = new FormControl();
+  provinceList: string[] = [];
+  public selectedProvince: string = null;
+
+  //for the district selector
+  district = new FormControl();
+  districtList: string[];
+  public selectedDistrict: string = null;
+
+  //for the commune selector
+  commune = new FormControl();
+  communeList: string[];
+  public selectedCommune: string = null;
+
+  //for the village selector
+  village = new FormControl();
+  villageList: string[];
+  public selectedVillage: string = null;
+
   constructor(
     public _projectService: ProjectService,
+    public _locationService: LocationService,
   ) { }
 
   ngOnInit() {
     this.getProjects();
+    this.getProvince();
   }
 
   /**
@@ -48,20 +72,60 @@ export class AddHouseholdComponent implements OnInit {
   */
   getProjects() {
     this.referedClassService = this._projectService;
-    this.referedClassService.get().subscribe(response => {
-      response = Project.formatArray(response.json());
-      response.forEach(element => {
+    this._projectService.get().subscribe(response => {
+      let responseProject = Project.formatArray(response.json());
+      responseProject.forEach(element => {
         var concat = element.id + " - " + element.name;
         this.projectList.push(concat);
       });
     });
   }
 
-  getProjectSelected(event) {
+  /**
+   * Get list of all Province (adm1) and put it in the province selector
+   */
+  getProvince() {
+    this.referedClassService = this._projectService;
+    this._locationService.getAdm1().subscribe(response => {
+      let responseAdm1 = Location.formatAdm1(response.json());
+      responseAdm1.forEach(element => {
+        // var concat = element.id + " - " + element.name;
+        this.provinceList.push(element);
+      });
+    });
 
   }
 
-  getGenderSelected(event) {
+  /**
+   * Get list of all District (adm2) and put it in the district selector
+   */
+  getDistrict(adm1: string) {
+
+  }
+
+  /**
+   * Get list of all Commune (adm3) and put it in the commune selector
+   */
+  getCommune() {
+
+  }
+
+  /**
+   * Get list of all Vilage (adm4) and put it in the village selector
+   */
+  getVillage() {
+
+  }
+
+
+  selected(event, type) {
+    switch(type) {
+      case 'province':
+        let province = event.value.split(" - ");
+        this.selectedProvince = province[0];
+        console.log(this.selectedProvince);
+        break;
+    }
 
   }
 
@@ -70,7 +134,7 @@ export class AddHouseholdComponent implements OnInit {
   }
 
   create() {
-    
+
   }
 
 }

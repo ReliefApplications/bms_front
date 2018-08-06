@@ -1,3 +1,5 @@
+
+
 export class Location {
     /**
      * Administrate level 1
@@ -30,5 +32,16 @@ export class Location {
             this.adm3 = instance.adm3;
             this.adm4 = instance.adm4;
         }
+    }
+
+    public static formatAdm1(instance): any[] {
+        var adm1 = [];
+        console.log(instance);
+        instance.forEach(element => {
+            var concat = element.id + " - " + element.name;
+            adm1.push(concat);
+        });
+        
+        return adm1;
     }
 }

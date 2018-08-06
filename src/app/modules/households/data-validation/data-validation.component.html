@@ -28,7 +28,7 @@
                             </mat-chip-list>
                             <mat-card-content>
                                 <div class="householdData">
-                                    <mat-checkbox  color="primary" (change)="step1TypoIssues(typoIssue, 'old', i)">
+                                    <mat-checkbox color="primary" (change)="step1TypoIssues(typoIssue, 'old', i)">
                                     </mat-checkbox>
                                     <div class="content-householdData">
                                         <div class="dataToCompare">{{typoIssue.old.nameHead}}</div>
@@ -52,7 +52,7 @@
                                     <mat-chip>{{verification.data_verification_chip_new}}</mat-chip>
                                 </mat-chip-list>
                                 <div class="householdData">
-                                    <mat-checkbox  color="primary" (change)="step1TypoIssues(typoIssue, 'new', i)">
+                                    <mat-checkbox color="primary" (change)="step1TypoIssues(typoIssue, 'new', i)">
                                     </mat-checkbox>
                                     <div class="content-householdData">
                                         <div class="dataToCompare">{{typoIssue.new.nameHead}}</div>
@@ -100,13 +100,13 @@
                     <div class="content-table" *ngIf="duplicates.length > 0">
                         <div class="duplicateIssues" *ngFor="let duplicate of duplicates, index as i">
                             <mat-card class="content-issue" *ngFor="let isDuplicate of duplicate.data, index as j">
-                                <mat-chip-list>
-                                    <mat-chip>{{verification.data_verification_chip_old}}</mat-chip>
-                                </mat-chip-list>
                                 <mat-card-content>
                                     <div class="householdData">
+                                        <mat-chip-list>
+                                            <mat-chip>{{verification.data_verification_chip_old}}</mat-chip>
+                                        </mat-chip-list>
                                         <mat-checkbox [checked]="isDuplicate.old.isHead" [disabled]='isDuplicate.old.isHead' color="primary" (change)="step2Duplicates(isDuplicate, 'old', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
-                                    </mat-checkbox>
+                                        </mat-checkbox>
                                         <div class="content-householdData">
                                             <div class="dataToCompare">{{isDuplicate.old.households.beneficiaries[0].family_name}} {{isDuplicate.old.households.beneficiaries[0].given_name}}</div>
                                             <div class="dataToCompare">{{isDuplicate.old.households.address_number}} {{isDuplicate.old.households.address_street}}</div>
@@ -118,10 +118,11 @@
                                         </div>
                                     </div>
                                     <mat-divider></mat-divider>
-                                    <mat-chip-list>
-                                        <mat-chip>{{verification.data_verification_chip_new}}</mat-chip>
-                                    </mat-chip-list>
+
                                     <div class="householdData">
+                                        <mat-chip-list>
+                                            <mat-chip>{{verification.data_verification_chip_new}}</mat-chip>
+                                        </mat-chip-list>
                                         <mat-checkbox color="primary" (change)="step2Duplicates(isDuplicate, 'new', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
                                         </mat-checkbox>
                                         <div class="content-householdData">
@@ -246,7 +247,7 @@
                                         <div class="dataToCompare">{{data.old.households.location.adm1}}</div>
                                     </div>
                                 </div>
-                               
+
                                 <div *ngIf="data.new.households.beneficiaries.length > 1">
                                     <mat-divider></mat-divider>
                                     <mat-chip-list>

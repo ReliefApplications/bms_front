@@ -44,12 +44,18 @@ export class FormatDataNewOld {
      * @type {string}
      */
     id_tmp_beneficiary?: string;
+    /**
+     * id uses by the back
+     * @type {number}
+     */
+    id_tmp_cache?: number;
 
     constructor(instance?) {
         if (instance !== undefined) {
             this.old = instance.old;
             this.new = instance.new;
             this.id_tmp_beneficiary = instance.id_tmp_beneficary;
+            this.id_tmp_cache = instance.this.id_tmp_cache;
         }
     }
 
@@ -81,6 +87,7 @@ export class FormatDataNewOld {
         let data = new FormatDataNewOld();
         data.new.households = element.new;
         data.old.households = element.old;
+        data.id_tmp_cache = element.id_tmp_cache; 
         
         //if step 2 (duplicates) format is different of other steps
         if (step === 2) {

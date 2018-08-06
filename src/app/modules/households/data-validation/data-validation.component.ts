@@ -105,7 +105,6 @@ export class DataValidationComponent implements OnInit {
     step1TypoIssues(data: any, type: string, index: number) {
         let verification = new VerifiedData;
         let indexFound: boolean = false;
-        console.log('aaaaa', data);
         this.correctedData.forEach(element => {
             //Search the index in the correctedData
             //if index found, update directly this object

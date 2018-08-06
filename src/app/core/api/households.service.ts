@@ -28,7 +28,6 @@ export class HouseholdsService {
      */
     public get(body?: any) {
         let url = this.api + "/households/get/all";
-        // return of(HOUSEHOLDS);
         return this.http.post(url, body);
     }
 

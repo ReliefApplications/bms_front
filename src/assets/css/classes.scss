@@ -103,6 +103,7 @@
                 justify-content: flex-end;
     
                 .mat-raised-button {
+                    color: white;
                     background-color: $bms_green;
                     span{
                         font-family: $bms_font_text;
@@ -111,11 +112,10 @@
             }
         }  
     }
-    button{
-        color: $bms_white;
-        background-color: $bms_green;
-       
-    }
+}
+
+.stepInMobile {
+    display : none;
 }
 
 //for mobile screen
@@ -139,6 +139,32 @@
             padding: 0px !important;
         }
     }
+
+    .next {
+        padding-left: 0 !important;
+    }
+
+    .content-button-footer {
+        justify-content: space-between !important;
+    }
+
+    .stepInMobile {
+        display: flex !important;
+        margin-bottom: 3vh;
+        justify-content: center;
+    }
+    .dot {
+        height: 24px;
+        width: 24px;
+        background-color: #424242;
+        border-radius: 50%;
+        display: flex;
+        color: white;
+        justify-content: center;
+        align-items: center;
+        margin-right: 4vw;
+    }
+
 
 
 }

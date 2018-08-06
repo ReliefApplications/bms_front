@@ -21,6 +21,11 @@ export class AddHouseholdComponent implements OnInit {
   projectList: string[] = [];
   public selectedProject: string = null;
 
+  //for the gender selector
+  gender = new FormControl();
+  genderList: string[] = ['F', 'M'];
+  public selectedGender: string = null;
+
   constructor(
     public _projectService: ProjectService,
   ) { }
@@ -54,6 +59,18 @@ export class AddHouseholdComponent implements OnInit {
 
   getProjectSelected(event) {
 
+  }
+
+  getGenderSelected(event) {
+
+  }
+
+  cancel() {
+
+  }
+
+  create() {
+    
   }
 
 }

@@ -1,9 +1,25 @@
 @import '../../../../assets/css/variable.scss'; 
 
-.content-information {
+.content-select {
     display: flex;
     flex-direction: column;
 }
-.notes {
+.notes, .members {
     justify-content: center;
+}
+
+.vulnerabilities {
+    justify-content: space-around;
+}
+
+.cancel {
+    margin-right: 2vw;
+}
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+    .container-table{
+        width: 99% !important;
+        flex-direction: column;
+    }
 }

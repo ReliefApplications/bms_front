@@ -59,7 +59,6 @@ button{
     
 }
 
-
 .container-content {
     padding-top: 10px;
 }
@@ -86,10 +85,6 @@ button{
     }
 }
 
-.stepInMobile {
-    display : none;
-}
-
 .content-issue {
     width: 100%;
 }
@@ -104,9 +99,7 @@ button{
         width: 99% !important;
         flex-direction: column;
     }
-    .next {
-        padding-left: 0 !important;
-    }
+    
     .issues {
         width: 100% !important;
         padding: 13px 16px !important;
@@ -140,28 +133,7 @@ button{
         width: 63%;
         margin: 2vh;
     }
-
-    .content-button-footer {
-        justify-content: space-between !important;
-    }
-
-    .stepInMobile {
-        display: flex !important;
-        margin-bottom: 3vh;
-        justify-content: center;
-    }
-    .dot {
-        height: 24px;
-        width: 24px;
-        background-color: #424242;
-        border-radius: 50%;
-        display: flex;
-        color: white;
-        justify-content: center;
-        align-items: center;
-        margin-right: 4vw;
-    }
-
+    
     .content-issue {
         width: 89% !important;
     }

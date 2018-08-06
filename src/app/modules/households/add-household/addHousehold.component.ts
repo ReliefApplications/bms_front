@@ -19,33 +19,33 @@ export class AddHouseholdComponent implements OnInit {
   public referedClassService;
 
   //for the project selector
-  projects = new FormControl();
-  projectList: string[] = [];
+  public projects = new FormControl();
+  public projectList: string[] = [];
   public selectedProject: string = null;
 
   //for the gender selector
-  gender = new FormControl();
-  genderList: string[] = ['F', 'M'];
+  public gender = new FormControl();
+  public genderList: string[] = ['F', 'M'];
   public selectedGender: string = null;
 
   //for the province selector
-  province = new FormControl();
-  provinceList: string[] = [];
+  public province = new FormControl();
+  public provinceList: string[] = [];
   public selectedProvince: string = null;
 
   //for the district selector
-  district = new FormControl();
-  districtList: string[] = [];
+  public district = new FormControl();
+  public districtList: string[] = [];
   public selectedDistrict: string = null;
 
   //for the commune selector
-  commune = new FormControl();
-  communeList: string[] = [];
+  public commune = new FormControl();
+  public communeList: string[] = [];
   public selectedCommune: string = null;
 
   //for the village selector
-  village = new FormControl();
-  villageList: string[] = [];
+  public village = new FormControl();
+  public villageList: string[] = [];
   public selectedVillage: string = null;
 
   constructor(
@@ -113,8 +113,16 @@ export class AddHouseholdComponent implements OnInit {
   /**
    * Get list of all Commune (adm3) and put it in the commune selector
    */
-  getCommune() {
-
+  getCommune(adm2: string) {
+    let body = {};
+    body['adm2'] = adm2;
+    this.referedClassService = this._projectService;
+    this._locationService.getAdm3(body).subscribe(response => {
+      let responseAdm3 = Location.formatAdm(response.json());
+      responseAdm3.forEach(element => {
+        this.communeList.push(element);
+      });
+    });
   }
 
   /**
@@ -126,12 +134,16 @@ export class AddHouseholdComponent implements OnInit {
 
 
   selected(event, type) {
-    switch(type) {
+    switch (type) {
       case 'province':
         let province = event.value.split(" - ");
         this.selectedProvince = province[0];
-        console.log(this.selectedProvince);
         this.getDistrict(this.selectedProvince);
+        break;
+      case 'district':
+        let district = event.value.split(" - ");
+        this.selectedDistrict = district[0];
+        this.getCommune(this.selectedDistrict);
         break;
     }
 

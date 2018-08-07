@@ -5,7 +5,7 @@ import { ProjectService } from '../../../core/api/project.service';
 import { Project } from '../../../model/project';
 import { Location } from '../../../model/location';
 import { LocationService } from '../../../core/api/location.service';
-import { MatInput, MatSnackBar } from '@angular/material';
+import { MatInput, MatSnackBar, MatStepper } from '@angular/material';
 
 @Component({
   selector: 'add-household',
@@ -16,6 +16,8 @@ export class AddHouseholdComponent implements OnInit {
 
   public nameComponent = "add_household_title";
   public household = GlobalText.TEXTS;
+
+  @ViewChild('stepper') stepper: MatStepper;
 
   public referedClassService;
 
@@ -197,36 +199,23 @@ export class AddHouseholdComponent implements OnInit {
    * @param notes 
    */
   nextStep1(addressNumber: string, addressStreet: string, addressPostcode: string, notes: string) {
-    this.householdToCreate['notes'] = notes;
-    this.householdToCreate['latitude'] = '0';
-    this.householdToCreate['longitude'] = '0';
-
-    if (!this.addressNumber.invalid) {
+    if (!this.addressNumber.invalid && !this.addressStreet.invalid && !this.addressPostcode.invalid && !this.province.invalid && !this.projects.invalid) {
+      this.householdToCreate['notes'] = notes;
+      this.householdToCreate['latitude'] = '0';
+      this.householdToCreate['longitude'] = '0';
       this.householdToCreate['address_number'] = addressNumber;
-    } else {
-      this.snackBar.open('Invalid address Number', '', { duration: 3000, horizontalPosition: "right" });
-    }
-
-    if (!this.addressStreet.invalid) {
       this.householdToCreate['address_street'] = addressStreet;
-    } else {
-      this.snackBar.open('Adress street is required', '', { duration: 3000, horizontalPosition: "right" });
-    }
-
-    if (!this.addressPostcode.invalid) {
       this.householdToCreate['address_postcode'] = addressPostcode;
+      this.householdToCreate['location'] = {};
+      this.householdToCreate['location']['country_iso3'] = 'KHM';
+      this.householdToCreate['location']['adm1'] = this.selectedProvince;
+      this.householdToCreate['location']['adm2'] = this.selectedDistrict;
+      this.householdToCreate['location']['adm3'] = this.selectedCommune;
+      this.householdToCreate['location']['adm4'] = this.selectedVillage;
+      this.stepper.next();
     } else {
-      this.snackBar.open('Invalid address postcode', '', { duration: 3000, horizontalPosition: "right" });
+      this.snackBar.open('Invalid field', '', { duration: 3000, horizontalPosition: "right" });
     }
-
-    this.householdToCreate['location'] = {};
-    this.householdToCreate['location']['country_iso3'] = 'KHM';
-    this.householdToCreate['location']['adm1'] = this.selectedProvince;
-    this.householdToCreate['location']['adm2'] = this.selectedDistrict;
-    this.householdToCreate['location']['adm3'] = this.selectedCommune;
-    this.householdToCreate['location']['adm4'] = this.selectedVillage;
-
-
     console.log('household', this.householdToCreate);
     console.log('projects', this.selectedProject);
 

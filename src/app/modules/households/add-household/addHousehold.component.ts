@@ -207,7 +207,7 @@ export class AddHouseholdComponent implements OnInit {
   }
 
   /**
-   * use to check vulnerabilites in head
+   * use to check vulnerabilites in member
    * @param vulnerablity 
    */
   choiceVulnerabilities(vulnerablity) {
@@ -249,55 +249,64 @@ export class AddHouseholdComponent implements OnInit {
       this.householdToCreate['location']['adm2'] = this.selectedDistrict;
       this.householdToCreate['location']['adm3'] = this.selectedCommune;
       this.householdToCreate['location']['adm4'] = this.selectedVillage;
+      this.householdToCreate['beneficiaries'] = [];
       this.stepper.next();
     } else {
       this.snackBar.open('Invalid field', '', { duration: 3000, horizontalPosition: "right" });
     }
   }
 
-  nextStep2(familyName: string, givenName: string, dateOfBirth, nationalID: string, livelihood: string) {
-    this.householdToCreate['beneficiaries'] = [];
-    this.householdToCreate['livelihood'] = livelihood;
-
-    let head = {};
+  nextStep2(familyName: string, givenName: string, dateOfBirth, nationalID: string,  type: string,livelihood?: string) {
+    let member = {};
     let fieldNationalID = {};
     let fieldPhones = {};
     let fieldVunerabilityCriteria = {};
 
-    head['given_name'] = givenName;
-    head['family_name'] = familyName;
+    member['given_name'] = givenName;
+    member['family_name'] = familyName;
     if (this.selectedGender === "F") {
-      head['gender'] = 0;
+      member['gender'] = 0;
     } 
     else {
-      head['gender'] = 1;
+      member['gender'] = 1;
     }
-    head['status'] = 1;
     let formatDateOfBirth = dateOfBirth.split('/');
-    head['data_of_birth'] = formatDateOfBirth[2] + "-" + formatDateOfBirth[0] + "-" + formatDateOfBirth[1];
-    head['updated_on'] = new Date();
-    head['profile'] = {};
+    member['data_of_birth'] = formatDateOfBirth[2] + "-" + formatDateOfBirth[0] + "-" + formatDateOfBirth[1];
+    member['updated_on'] = new Date();
+    member['profile'] = {};
 
-    head['national_ids'] = [];
-    head['phones'] = [];
-    head['vulnerability_criteria'] = [];
+    member['national_ids'] = [];
+    member['phones'] = [];
+    member['vulnerability_criteria'] = [];
 
     this.selectedVulnerabilities.forEach(vulnerability => {
       fieldVunerabilityCriteria = {};
       fieldVunerabilityCriteria['id'] = vulnerability;
-      head['vulnerability_criteria'].push(fieldVunerabilityCriteria);
+      member['vulnerability_criteria'].push(fieldVunerabilityCriteria);
     });
 
-    
     fieldNationalID['id_number'] = nationalID;
     fieldNationalID['id_type'] = 'type1';
-    head['national_ids'].push(fieldNationalID);
+    member['national_ids'].push(fieldNationalID);
     
     fieldPhones['number'] = '555555',
     fieldPhones['type'] = 'type1',
-    head['phones'].push(fieldPhones);
+    member['phones'].push(fieldPhones);
+
     
-    this.householdToCreate['beneficiaries'].push(head);
+    if(type === 'head') {
+      this.householdToCreate['livelihood'] = livelihood;
+      member['status'] = 1;
+    } else {
+      member['status'] = 0;
+    }
+
+    
+   
+    
+    this.householdToCreate['beneficiaries'].push(member);
+    this.stepper.next();
+
     console.log(this.householdToCreate);
   }
 

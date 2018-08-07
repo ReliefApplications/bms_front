@@ -83,10 +83,10 @@
                     <div class="content-table">
                         <div class="content-select">
                             <mat-form-field>
-                                <input matInput placeholder={{household.add_household_getFamilyName}} #FamilyName>
+                                <input matInput placeholder={{household.add_household_getFamilyName}} #FamilyNameHead>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput placeholder={{household.add_household_getGivenName}} #GivenName>
+                                <input matInput placeholder={{household.add_household_getGivenName}} #GivenNameHead>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-select placeholder={{household.add_household_getGender}} [formControl]="gender" (selectionChange)="selected($event, 'gender')">
@@ -96,15 +96,15 @@
                         </div>
                         <div class="content-select">
                             <mat-form-field>
-                                <input matInput [matDatepicker]="birthHead" placeholder={{household.add_household_getDateOfBirth}} #DateOfBirth>
+                                <input matInput [matDatepicker]="birthHead" placeholder={{household.add_household_getDateOfBirth}} #DateOfBirthHead>
                                 <mat-datepicker-toggle matSuffix [for]="birthHead"></mat-datepicker-toggle>
                                 <mat-datepicker #birthHead></mat-datepicker>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput placeholder={{household.add_household_getNationalID}} #NationalID>
+                                <input matInput placeholder={{household.add_household_getNationalID}} #NationalIDHead>
                             </mat-form-field>
                             <mat-form-field>
-                                <input [formControl]="occupation" matInput placeholder={{household.add_household_getOccupation}} #Livelihood>
+                                <input [formControl]="occupation" matInput placeholder={{household.add_household_getOccupation}} #LivelihoodHead>
                             </mat-form-field>
                         </div>
                         <div class="content-select vulnerabilities" >
@@ -113,7 +113,7 @@
                     </div>
 
                     <div class="content-button-footer">
-                        <button mat-raised-button (click)="nextStep2(FamilyName.value, GivenName.value, DateOfBirth.value, NationalID.value, Livelihood.value)">
+                        <button mat-raised-button (click)="nextStep2(FamilyNameHead.value, GivenNameHead.value, DateOfBirthHead.value, NationalIDHead.value, 'head', LivelihoodHead.value)">
                             <span>{{household.add_household_next}}</span>
                         </button>
                     </div>
@@ -133,10 +133,10 @@
                     <div class="content-table">
                         <div class="content-select">
                             <mat-form-field>
-                                <input matInput placeholder={{household.add_household_getFamilyName}}>
+                                <input matInput placeholder={{household.add_household_getFamilyName}} #FamilyNameBeneficiary>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput placeholder={{household.add_household_getGivenName}}>
+                                <input matInput placeholder={{household.add_household_getGivenName}} #GivenNameBeneficiary >
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-select placeholder={{household.add_household_getGender}} [formControl]="gender" (selectionChange)="selected($event, 'gender')">
@@ -146,12 +146,12 @@
                         </div>
                         <div class="content-select members">
                             <mat-form-field>
-                                <input matInput [matDatepicker]="birth" placeholder={{household.add_household_getDateOfBirth}}>
+                                <input matInput [matDatepicker]="birth" placeholder={{household.add_household_getDateOfBirth}} #DateOfBirthBeneficiary>
                                 <mat-datepicker-toggle matSuffix [for]="birth"></mat-datepicker-toggle>
                                 <mat-datepicker #birth></mat-datepicker>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput placeholder={{household.add_household_getNationalID}}>
+                                <input matInput placeholder={{household.add_household_getNationalID}} #NationalIDBeneficiary>
                             </mat-form-field>
                         </div>
                         <div class="content-select vulnerabilities">
@@ -160,7 +160,7 @@
                     </div>
 
                     <div class="content-button-footer">
-                        <button mat-raised-button matStepperNext>
+                        <button mat-raised-button (click)="nextStep2(FamilyNameBeneficiary.value, GivenNameBeneficiary.value, DateOfBirthBeneficiary.value, NationalIDBeneficiary.value, 'beneficiary')">
                             <span>{{household.add_household_next}}</span>
                         </button>
                     </div>

@@ -34,30 +34,36 @@
                                     <mat-option *ngFor="let commune of communeList" [value]="commune">{{commune}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>
-                        <div class="content-select">
                             <mat-form-field>
                                 <mat-select placeholder={{household.add_household_getVillage}} [formControl]="village" (selectionChange)="selected($event, 'village')">
                                     <mat-option *ngFor="let village of villageList" [value]="village">{{village}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
-                            <mat-form-field>
-                                <input matInput placeholder={{household.add_household_getAddress}}>
-                            </mat-form-field>
+                        </div>
+                        <div class="content-select">
                             <mat-form-field>
                                 <mat-select placeholder={{household.add_household_getProject}} [formControl]="projects" (selectionChange)="selected($event, 'project')">
                                     <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
+                            <mat-form-field>
+                                <input [formControl]="addressNumber" matInput placeholder={{household.add_household_getAddressNumber}} #AddressNumber>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input [formControl]="addressStreet" matInput placeholder={{household.add_household_getAddressStreet}} #AddressStreet>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input [formControl]="addressPostcode" matInput placeholder={{household.add_household_getAddressPostcode}} #AddressPostcode>
+                            </mat-form-field>
                         </div>
                         <div class="content-select notes">
                             <mat-form-field>
-                                <textarea matInput matAutosizeMaxRows=9 matTextareaAutosize="true" placeholder={{household.add_household_getNotes}}></textarea>
+                                <textarea matInput matAutosizeMaxRows=12 matTextareaAutosize="true" placeholder={{household.add_household_getNotes}} #Notes></textarea>
                             </mat-form-field>
                         </div>
                     </div>
                     <div class="content-button-footer">
-                        <button mat-raised-button matStepperNext>
+                        <button mat-raised-button (click)="nextStep1(AddressNumber.value, AddressStreet.value, AddressPostcode.value, Notes.value)">
                             <span>{{household.add_household_next}}</span>
                         </button>
                     </div>
@@ -98,9 +104,7 @@
                                 <input matInput placeholder={{household.add_household_getNationalID}}>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-select placeholder={{household.add_household_getOccupation}} [formControl]="gender" (selectionChange)="selected($event, 'occupation')">
-                                    <mat-option *ngFor="let gender of genderList" [value]="gender">{{gender}}</mat-option>
-                                </mat-select>
+                                <input [formControl]="occupation" matInput placeholder={{household.add_household_getOccupation}}>
                             </mat-form-field>
                         </div>
                         <div class="content-select vulnerabilities">
@@ -125,9 +129,9 @@
             <ng-template class="step" matStepLabel>{{household.add_household_step3}}</ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
-                        <span class="dot">3</span>
-                        <span>{{household.add_household_step3}}</span>
-                    </div>
+                    <span class="dot">3</span>
+                    <span>{{household.add_household_step3}}</span>
+                </div>
                 <div class="container-content box-green">
 
                     <div class="content-table">
@@ -182,12 +186,12 @@
                 <div class="container-content box-green">
                     <div class="content-table">
                         <div class="done">
-                            {{household.add_household_done}}   
+                            {{household.add_household_done}}
                         </div>
                     </div>
                     <div class="content-button-footer">
-                            <button mat-raised-button class="cancel" (click)="cancel()">{{household.add_household_cancel}}</button>
-                            <button mat-raised-button (click)="create()">{{household.add_household_create}}</button>
+                        <button mat-raised-button class="cancel" (click)="cancel()">{{household.add_household_cancel}}</button>
+                        <button mat-raised-button (click)="create()">{{household.add_household_create}}</button>
                     </div>
                 </div>
             </div>

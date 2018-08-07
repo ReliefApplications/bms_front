@@ -1,10 +1,11 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { GlobalText } from '../../../../texts/global';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { ProjectService } from '../../../core/api/project.service';
 import { Project } from '../../../model/project';
 import { Location } from '../../../model/location';
 import { LocationService } from '../../../core/api/location.service';
+import { MatInput, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'add-household',
@@ -19,7 +20,7 @@ export class AddHouseholdComponent implements OnInit {
   public referedClassService;
 
   //for the project selector
-  public projects = new FormControl();
+  public projects = new FormControl('', Validators.required);
   public projectList: string[] = [];
   public selectedProject: string = null;
 
@@ -29,7 +30,7 @@ export class AddHouseholdComponent implements OnInit {
   public selectedGender: string = null;
 
   //for the province selector
-  public province = new FormControl();
+  public province = new FormControl('', Validators.required);
   public provinceList: string[] = [];
   public selectedProvince: string = null;
 
@@ -48,9 +49,18 @@ export class AddHouseholdComponent implements OnInit {
   public villageList: string[] = [];
   public selectedVillage: string = null;
 
+  //for the address' input
+  public addressNumber = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
+  public addressStreet = new FormControl('', [Validators.pattern('[a-zA-Z ]*'), Validators.required]);
+  public addressPostcode = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
+  public occupation = new FormControl();
+
+  public householdToCreate: any = {}
+
   constructor(
     public _projectService: ProjectService,
     public _locationService: LocationService,
+    public snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -85,6 +95,10 @@ export class AddHouseholdComponent implements OnInit {
    * Get list of all Province (adm1) and put it in the province selector
    */
   getProvince() {
+    this.provinceList = [];
+    this.districtList = [];
+    this.communeList = [];
+    this.villageList = [];
     this.referedClassService = this._projectService;
     this._locationService.getAdm1().subscribe(response => {
       let responseAdm1 = Location.formatAdm(response.json());
@@ -99,6 +113,9 @@ export class AddHouseholdComponent implements OnInit {
    * Get list of all District (adm2) and put it in the district selector
    */
   getDistrict(adm1: string) {
+    this.districtList = [];
+    this.communeList = [];
+    this.villageList = [];
     let body = {};
     body['adm1'] = adm1;
     this.referedClassService = this._projectService;
@@ -114,6 +131,8 @@ export class AddHouseholdComponent implements OnInit {
    * Get list of all Commune (adm3) and put it in the commune selector
    */
   getCommune(adm2: string) {
+    this.communeList = [];
+    this.villageList = [];
     let body = {};
     body['adm2'] = adm2;
     this.referedClassService = this._projectService;
@@ -129,6 +148,7 @@ export class AddHouseholdComponent implements OnInit {
    * Get list of all Vilage (adm4) and put it in the village selector
    */
   getVillage(adm3: string) {
+    this.villageList = [];
     let body = {};
     body['adm3'] = adm3;
     this.referedClassService = this._projectService;
@@ -145,24 +165,70 @@ export class AddHouseholdComponent implements OnInit {
     switch (type) {
       case 'province':
         let province = event.value.split(" - ");
-        this.selectedProvince = province[0];
-        this.getDistrict(this.selectedProvince);
+        this.selectedProvince = province[1];
+        this.getDistrict(province[0]);
         break;
       case 'district':
         let district = event.value.split(" - ");
-        this.selectedDistrict = district[0];
-        this.getCommune(this.selectedDistrict);
+        this.selectedDistrict = district[1];
+        this.getCommune(district[0]);
         break;
       case 'commune':
         let commune = event.value.split(" - ");
-        this.selectedCommune = commune[0];
-        this.getVillage(this.selectedCommune);
+        this.selectedCommune = commune[1];
+        this.getVillage(commune[0]);
         break;
       case 'village':
         let village = event.value.split(" - ");
-        this.selectedVillage = village[0];
+        this.selectedVillage = village[1];
+        break;
+      case 'project':
+        let project = event.value.split(" - ");
+        this.selectedProject = project[0];
         break;
     }
+  }
+
+  /**
+   * Get and put in the householdToCreate Object all data in the step 1 to create the household
+   * @param addressNumber 
+   * @param addressStreet 
+   * @param addressPostcode 
+   * @param notes 
+   */
+  nextStep1(addressNumber: string, addressStreet: string, addressPostcode: string, notes: string) {
+    this.householdToCreate['notes'] = notes;
+    this.householdToCreate['latitude'] = '0';
+    this.householdToCreate['longitude'] = '0';
+
+    if (!this.addressNumber.invalid) {
+      this.householdToCreate['address_number'] = addressNumber;
+    } else {
+      this.snackBar.open('Invalid address Number', '', { duration: 3000, horizontalPosition: "right" });
+    }
+
+    if (!this.addressStreet.invalid) {
+      this.householdToCreate['address_street'] = addressStreet;
+    } else {
+      this.snackBar.open('Adress street is required', '', { duration: 3000, horizontalPosition: "right" });
+    }
+
+    if (!this.addressPostcode.invalid) {
+      this.householdToCreate['address_postcode'] = addressPostcode;
+    } else {
+      this.snackBar.open('Invalid address postcode', '', { duration: 3000, horizontalPosition: "right" });
+    }
+
+    this.householdToCreate['location'] = {};
+    this.householdToCreate['location']['country_iso3'] = 'KHM';
+    this.householdToCreate['location']['adm1'] = this.selectedProvince;
+    this.householdToCreate['location']['adm2'] = this.selectedDistrict;
+    this.householdToCreate['location']['adm3'] = this.selectedCommune;
+    this.householdToCreate['location']['adm4'] = this.selectedVillage;
+
+
+    console.log('household', this.householdToCreate);
+    console.log('projects', this.selectedProject);
 
   }
 

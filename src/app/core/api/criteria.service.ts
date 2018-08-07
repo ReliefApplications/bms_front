@@ -31,4 +31,12 @@ export class CriteriaService{
         let url = this.api + "/distributions/criteria/number";
         return this.http.post(url, body);
     }
+
+    /**
+     * get the lit of vulnerability criteria
+     */
+    public getVulnerabilityCriteria() {
+        let url = this.api + "/vulnerability_criteria";
+        return this.http.get(url);
+    }
 }

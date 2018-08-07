@@ -91,11 +91,6 @@ export const TEXT = {
     add_household_getDateOfBirth : "Date de naissance",
     add_household_getNationalID : "Identifiant national",
     add_household_getOccupation : "Métier",
-    add_household_lactating : "Allaitant",
-    add_household_solo_parent : "Parent seul",
-    add_household_pregnant: "Enceinte",
-    add_household_nutritionnal_issue : "Problème nutritionnel",
-    add_household_disabled : "Handicapé",
 
     data_verification_title: 'verification et validation des donnees',
     data_verification_step_1: 'Erreurs d\'orthographe',

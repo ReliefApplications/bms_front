@@ -6,6 +6,8 @@ import { Project } from '../../../model/project';
 import { Location } from '../../../model/location';
 import { LocationService } from '../../../core/api/location.service';
 import { MatInput, MatSnackBar, MatStepper } from '@angular/material';
+import { CriteriaService } from '../../../core/api/criteria.service';
+import { VulnerabilityCriteria } from '../../../model/vulnerability_criteria';
 
 @Component({
   selector: 'add-household',
@@ -18,8 +20,6 @@ export class AddHouseholdComponent implements OnInit {
   public household = GlobalText.TEXTS;
 
   @ViewChild('stepper') stepper: MatStepper;
-
-  public referedClassService;
 
   //for the project selector
   public projects = new FormControl('', Validators.required);
@@ -51,23 +51,28 @@ export class AddHouseholdComponent implements OnInit {
   public villageList: string[] = [];
   public selectedVillage: string = null;
 
+  public allVulnerability = [];
+
   //for the address' input
   public addressNumber = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
   public addressStreet = new FormControl('', [Validators.pattern('[a-zA-Z ]*'), Validators.required]);
   public addressPostcode = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
   public occupation = new FormControl();
+  public selectedVulnerabilities = [];
 
   public householdToCreate: any = {}
 
   constructor(
     public _projectService: ProjectService,
     public _locationService: LocationService,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    public _criteriaService: CriteriaService
   ) { }
 
   ngOnInit() {
     this.getProjects();
     this.getProvince();
+    this.getVulnerabilityCriteria();
   }
 
   /**
@@ -83,7 +88,6 @@ export class AddHouseholdComponent implements OnInit {
   * Get list of all project and put it in the project selector
   */
   getProjects() {
-    this.referedClassService = this._projectService;
     this._projectService.get().subscribe(response => {
       let responseProject = Project.formatArray(response.json());
       responseProject.forEach(element => {
@@ -101,7 +105,6 @@ export class AddHouseholdComponent implements OnInit {
     this.districtList = [];
     this.communeList = [];
     this.villageList = [];
-    this.referedClassService = this._projectService;
     this._locationService.getAdm1().subscribe(response => {
       let responseAdm1 = Location.formatAdm(response.json());
       responseAdm1.forEach(element => {
@@ -120,7 +123,6 @@ export class AddHouseholdComponent implements OnInit {
     this.villageList = [];
     let body = {};
     body['adm1'] = adm1;
-    this.referedClassService = this._projectService;
     this._locationService.getAdm2(body).subscribe(response => {
       let responseAdm2 = Location.formatAdm(response.json());
       responseAdm2.forEach(element => {
@@ -137,7 +139,6 @@ export class AddHouseholdComponent implements OnInit {
     this.villageList = [];
     let body = {};
     body['adm2'] = adm2;
-    this.referedClassService = this._projectService;
     this._locationService.getAdm3(body).subscribe(response => {
       let responseAdm3 = Location.formatAdm(response.json());
       responseAdm3.forEach(element => {
@@ -153,11 +154,22 @@ export class AddHouseholdComponent implements OnInit {
     this.villageList = [];
     let body = {};
     body['adm3'] = adm3;
-    this.referedClassService = this._projectService;
     this._locationService.getAdm4(body).subscribe(response => {
       let responseAdm4 = Location.formatAdm(response.json());
       responseAdm4.forEach(element => {
         this.villageList.push(element);
+      });
+    });
+  }
+
+  /**
+   * Get list of all Vulnerabilities
+   */
+  getVulnerabilityCriteria() {
+    this._criteriaService.getVulnerabilityCriteria().subscribe(response => {
+      let responseCriteria = VulnerabilityCriteria.formatArray(response.json());
+      responseCriteria.forEach(element => {
+        this.allVulnerability.push(element);
       });
     });
   }
@@ -188,6 +200,31 @@ export class AddHouseholdComponent implements OnInit {
         let project = event.value.split(" - ");
         this.selectedProject = project[0];
         break;
+      case 'gender':
+        this.selectedGender = event.value;
+        break;
+    }
+  }
+
+  /**
+   * use to check vulnerabilites in head
+   * @param vulnerablity 
+   */
+  choiceVulnerabilities(vulnerablity) {
+    let vulnerabilityFound = false;
+    if (this.selectedVulnerabilities.length === 0) {
+      this.selectedVulnerabilities.push(vulnerablity.id);
+    } else {
+      this.selectedVulnerabilities.forEach(element => {
+        if(element === vulnerablity.id) {
+          this.selectedVulnerabilities.splice(this.selectedVulnerabilities.indexOf(vulnerablity.id), 1);
+          vulnerabilityFound = true;
+        } 
+      })
+
+      if (!vulnerabilityFound) {
+        this.selectedVulnerabilities.push(vulnerablity.id);
+      }
     }
   }
 
@@ -216,9 +253,52 @@ export class AddHouseholdComponent implements OnInit {
     } else {
       this.snackBar.open('Invalid field', '', { duration: 3000, horizontalPosition: "right" });
     }
-    console.log('household', this.householdToCreate);
-    console.log('projects', this.selectedProject);
+  }
 
+  nextStep2(familyName: string, givenName: string, dateOfBirth, nationalID: string, livelihood: string) {
+    this.householdToCreate['beneficiaries'] = [];
+    this.householdToCreate['livelihood'] = livelihood;
+
+    let head = {};
+    let fieldNationalID = {};
+    let fieldPhones = {};
+    let fieldVunerabilityCriteria = {};
+
+    head['given_name'] = givenName;
+    head['family_name'] = familyName;
+    if (this.selectedGender === "F") {
+      head['gender'] = 0;
+    } 
+    else {
+      head['gender'] = 1;
+    }
+    head['status'] = 1;
+    let formatDateOfBirth = dateOfBirth.split('/');
+    head['data_of_birth'] = formatDateOfBirth[2] + "-" + formatDateOfBirth[0] + "-" + formatDateOfBirth[1];
+    head['updated_on'] = new Date();
+    head['profile'] = {};
+
+    head['national_ids'] = [];
+    head['phones'] = [];
+    head['vulnerability_criteria'] = [];
+
+    this.selectedVulnerabilities.forEach(vulnerability => {
+      fieldVunerabilityCriteria = {};
+      fieldVunerabilityCriteria['id'] = vulnerability;
+      head['vulnerability_criteria'].push(fieldVunerabilityCriteria);
+    });
+
+    
+    fieldNationalID['id_number'] = nationalID;
+    fieldNationalID['id_type'] = 'type1';
+    head['national_ids'].push(fieldNationalID);
+    
+    fieldPhones['number'] = '555555',
+    fieldPhones['type'] = 'type1',
+    head['phones'].push(fieldPhones);
+    
+    this.householdToCreate['beneficiaries'].push(head);
+    console.log(this.householdToCreate);
   }
 
   cancel() {
@@ -226,7 +306,7 @@ export class AddHouseholdComponent implements OnInit {
   }
 
   create() {
-
+    console.log(this.selectedProject);
   }
 
 }

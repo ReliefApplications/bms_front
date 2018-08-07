@@ -91,6 +91,9 @@ export const TEXT = {
     add_household_getDateOfBirth : "Date de naissance",
     add_household_getNationalID : "Identifiant national",
     add_household_getOccupation : "Métier",
+    add_household_getTypeNationalId: 'Type d\'identifiant national',
+    add_household_getTypePhone: 'Type de téléphone',
+    add_household_getPhone: 'Téléphone',
 
     data_verification_title: 'verification et validation des donnees',
     data_verification_step_1: 'Erreurs d\'orthographe',

@@ -51,6 +51,16 @@ export class AddHouseholdComponent implements OnInit {
   public villageList: string[] = [];
   public selectedVillage: string = null;
 
+  //for the type phone selector
+  public typePhone = new FormControl();
+  public typePhoneList: string[] = ['type1'];
+  public selectedtypePhone: string = null;
+
+  //for the type national id selector
+  public typeNationalId = new FormControl();
+  public typeNationalIdList: string[] = ['type1', 'card'];
+  public selectedtypeNationalId: string = null;
+
   public allVulnerability = [];
 
   //for the address' input
@@ -203,6 +213,12 @@ export class AddHouseholdComponent implements OnInit {
       case 'gender':
         this.selectedGender = event.value;
         break;
+      case 'typeNationalId':
+        this.selectedtypeNationalId = event.value;
+        break;
+      case 'typePhone':
+        this.selectedtypePhone = event.value;
+        break;
     }
   }
 
@@ -216,10 +232,10 @@ export class AddHouseholdComponent implements OnInit {
       this.selectedVulnerabilities.push(vulnerablity.id);
     } else {
       this.selectedVulnerabilities.forEach(element => {
-        if(element === vulnerablity.id) {
+        if (element === vulnerablity.id) {
           this.selectedVulnerabilities.splice(this.selectedVulnerabilities.indexOf(vulnerablity.id), 1);
           vulnerabilityFound = true;
-        } 
+        }
       })
 
       if (!vulnerabilityFound) {
@@ -256,7 +272,7 @@ export class AddHouseholdComponent implements OnInit {
     }
   }
 
-  nextStep2(familyName: string, givenName: string, dateOfBirth, nationalID: string,  type: string,livelihood?: string) {
+  nextStep2(familyName: string, givenName: string, dateOfBirth, nationalID: string, phone: string, type: string, livelihood?: string) {
     let member = {};
     let fieldNationalID = {};
     let fieldPhones = {};
@@ -266,7 +282,7 @@ export class AddHouseholdComponent implements OnInit {
     member['family_name'] = familyName;
     if (this.selectedGender === "F") {
       member['gender'] = 0;
-    } 
+    }
     else {
       member['gender'] = 1;
     }
@@ -288,22 +304,28 @@ export class AddHouseholdComponent implements OnInit {
     fieldNationalID['id_number'] = nationalID;
     fieldNationalID['id_type'] = 'type1';
     member['national_ids'].push(fieldNationalID);
-    
-    fieldPhones['number'] = '555555',
-    fieldPhones['type'] = 'type1',
+
+    if(phone != null) {
+      if(this.selectedtypePhone != null) {
+        fieldPhones['type'] = this.selectedtypePhone;
+        
+      }
+    }
+    fieldPhones['number'] = phone;
+    fieldPhones['type'] = 'type1';
     member['phones'].push(fieldPhones);
 
-    
-    if(type === 'head') {
+
+    if (type === 'head') {
       this.householdToCreate['livelihood'] = livelihood;
       member['status'] = 1;
     } else {
       member['status'] = 0;
     }
 
-    
-   
-    
+
+
+
     this.householdToCreate['beneficiaries'].push(member);
     this.stepper.next();
 

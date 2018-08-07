@@ -11,10 +11,23 @@
 
 .vulnerabilities {
     justify-content: space-around;
+    display: flex;
+    padding: 30px 30px 0px 30px;
+    width: 100%;
 }
 
 .cancel {
     margin-right: 2vw;
+}
+
+.beneficiary {
+    flex-direction: column;
+}
+
+.all-information {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
 }
 
 //for mobile screen

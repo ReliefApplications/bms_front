@@ -58,5 +58,15 @@ export class HouseholdsService {
         return this.http.post(url, body);
     }
 
+    /**
+     * To add an household
+     * @param body 
+     * @param id_Project 
+     */
+    public add(body: any, id_Project: string) {
+        let url = this.api + "/households/project/" + id_Project;
+        return this.http.put(url, body);
+    }
+
 }
 

@@ -1,0 +1,47 @@
+<div class="all-information">
+  <div class="content-select">
+    <mat-form-field>
+      <input matInput placeholder={{household.add_household_getFamilyName}} #FamilyNameBeneficiary>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder={{household.add_household_getGivenName}} #GivenNameBeneficiary>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder={{household.add_household_getGender}} [formControl]="gender" (selectionChange)="selected($event, 'gender')">
+        <mat-option *ngFor="let gender of genderList" [value]="gender">{{gender}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="content-select">
+    <mat-form-field>
+      <input matInput [matDatepicker]="birth" placeholder={{household.add_household_getDateOfBirth}} #DateOfBirthBeneficiary>
+      <mat-datepicker-toggle matSuffix [for]="birth"></mat-datepicker-toggle>
+      <mat-datepicker #birth></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder={{household.add_household_getTypeNationalId}} [formControl]="typeNationalId" (selectionChange)="selected($event, 'typeNationalId')"
+        value='type1'>
+        <mat-option *ngFor="let type of typeNationalIdList" [value]="type">{{type}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder={{household.add_household_getNationalID}} #NationalIDBeneficiary>
+    </mat-form-field>
+  </div>
+  <div class="content-select members">
+    <mat-form-field>
+      <input [formControl]="occupation" matInput placeholder={{household.add_household_getOccupation}} #LivelihoodHead>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder={{household.add_household_getTypePhone}} [formControl]="typePhone" (selectionChange)="selected($event, 'typePhone')">
+        <mat-option *ngFor="let type of typePhoneList" [value]="type">{{type}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder={{household.add_household_getPhone}} #PhoneBeneficiary>
+    </mat-form-field>
+  </div>
+</div>
+<div class="additional-information vulnerabilities">
+  <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability)" *ngFor="let vulnerability of allVulnerability">{{vulnerability.field_string}}</mat-checkbox>
+</div>

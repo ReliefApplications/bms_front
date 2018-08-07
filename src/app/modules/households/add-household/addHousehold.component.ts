@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ViewChildren, asNativeElements, QueryList } from '@angular/core';
 import { GlobalText } from '../../../../texts/global';
 import { FormControl, Validators } from '@angular/forms';
 import { ProjectService } from '../../../core/api/project.service';
@@ -8,6 +8,10 @@ import { LocationService } from '../../../core/api/location.service';
 import { MatInput, MatSnackBar, MatStepper } from '@angular/material';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { VulnerabilityCriteria } from '../../../model/vulnerability_criteria';
+import { CountrySpecificService } from '../../../core/api/country-specific.service';
+import { CountrySpecific } from '../../../model/country-specific';
+import { Router } from '@angular/router';
+import { HouseholdsService } from '../../../core/api/households.service';
 
 @Component({
   selector: 'add-household',
@@ -20,6 +24,7 @@ export class AddHouseholdComponent implements OnInit {
   public household = GlobalText.TEXTS;
 
   @ViewChild('stepper') stepper: MatStepper;
+  @ViewChildren('countrySpecificsAnswer') CountrySpecificsInput : QueryList<MatInput>;
 
   //for the project selector
   public projects = new FormControl('', Validators.required);
@@ -52,16 +57,19 @@ export class AddHouseholdComponent implements OnInit {
   public selectedVillage: string = null;
 
   //for the type phone selector
-  public typePhone = new FormControl();
+  public typePhone = new FormControl('type1');
   public typePhoneList: string[] = ['type1'];
-  public selectedtypePhone: string = null;
+  public selectedtypePhone: string = '';
 
   //for the type national id selector
-  public typeNationalId = new FormControl();
+  public typeNationalId = new FormControl('card');
   public typeNationalIdList: string[] = ['type1', 'card'];
-  public selectedtypeNationalId: string = null;
+  public selectedtypeNationalId: string = '';
 
+  //for other item which need to display with database information
   public allVulnerability = [];
+  public countrySpecifics = [];
+  public answerCountrySpecific;
 
   //for the address' input
   public addressNumber = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
@@ -76,13 +84,21 @@ export class AddHouseholdComponent implements OnInit {
     public _projectService: ProjectService,
     public _locationService: LocationService,
     public snackBar: MatSnackBar,
-    public _criteriaService: CriteriaService
+    public _criteriaService: CriteriaService,
+    public _countrySpecificsService: CountrySpecificService,
+    public router: Router,
+    public _householdsServce: HouseholdsService
   ) { }
 
   ngOnInit() {
     this.getProjects();
     this.getProvince();
     this.getVulnerabilityCriteria();
+    this.getCountrySpecifics();
+  }
+
+  ngAfterViewInit() {
+    this.answerCountrySpecific = this.CountrySpecificsInput;
   }
 
   /**
@@ -184,8 +200,24 @@ export class AddHouseholdComponent implements OnInit {
     });
   }
 
+  /**
+   * Get list of field and type of all country specifics
+   */
+  getCountrySpecifics() {
+    let promise = this._countrySpecificsService.get();
+    if (promise) {
+      promise.toPromise().then(response => {
+        let responseCountrySpecifics = CountrySpecific.formatArray(response.json());
+        responseCountrySpecifics.forEach(element => {
+          this.countrySpecifics.push(element);
+        });
+      });
+    }
+    
+  }
 
-  selected(event, type) {
+
+  selected(event, type: string) {
     switch (type) {
       case 'province':
         let province = event.value.split(" - ");
@@ -222,11 +254,21 @@ export class AddHouseholdComponent implements OnInit {
     }
   }
 
+  getIdCountrySpecific(name: string) {
+    let idCountrySpecific;
+    this.countrySpecifics.forEach(element => {
+      if (element.field === name)
+      idCountrySpecific =  element.id;
+    })
+
+    return idCountrySpecific;
+  }
+
   /**
    * use to check vulnerabilites in member
    * @param vulnerablity 
    */
-  choiceVulnerabilities(vulnerablity) {
+  choiceVulnerabilities(vulnerablity : VulnerabilityCriteria) {
     let vulnerabilityFound = false;
     if (this.selectedVulnerabilities.length === 0) {
       this.selectedVulnerabilities.push(vulnerablity.id);
@@ -252,6 +294,8 @@ export class AddHouseholdComponent implements OnInit {
    * @param notes 
    */
   nextStep1(addressNumber: string, addressStreet: string, addressPostcode: string, notes: string) {
+    let answerCountry = {};
+    let idCountrySpecific = {};
     if (!this.addressNumber.invalid && !this.addressStreet.invalid && !this.addressPostcode.invalid && !this.province.invalid && !this.projects.invalid) {
       this.householdToCreate['notes'] = notes;
       this.householdToCreate['latitude'] = '0';
@@ -266,12 +310,31 @@ export class AddHouseholdComponent implements OnInit {
       this.householdToCreate['location']['adm3'] = this.selectedCommune;
       this.householdToCreate['location']['adm4'] = this.selectedVillage;
       this.householdToCreate['beneficiaries'] = [];
+      this.householdToCreate['country_specific_answers'] = [];
+      this.answerCountrySpecific._results.forEach(result => {
+        answerCountry = {};
+        idCountrySpecific = {};
+        answerCountry['answer'] = result.nativeElement.value;
+        idCountrySpecific['id'] = this.getIdCountrySpecific(result.nativeElement.attributes[5].nodeValue);
+        answerCountry["country_specific"] = idCountrySpecific;
+        this.householdToCreate['country_specific_answers'].push(answerCountry);
+      })
       this.stepper.next();
     } else {
       this.snackBar.open('Invalid field', '', { duration: 3000, horizontalPosition: "right" });
     }
   }
 
+  /**
+   * Get and put in the householdToCreate Object all data associationg with members (head and beneficiaries)
+   * @param familyName 
+   * @param givenName 
+   * @param dateOfBirth 
+   * @param nationalID 
+   * @param phone 
+   * @param type 
+   * @param livelihood 
+   */
   nextStep2(familyName: string, givenName: string, dateOfBirth, nationalID: string, phone: string, type: string, livelihood?: string) {
     let member = {};
     let fieldNationalID = {};
@@ -287,10 +350,10 @@ export class AddHouseholdComponent implements OnInit {
       member['gender'] = 1;
     }
     let formatDateOfBirth = dateOfBirth.split('/');
-    member['data_of_birth'] = formatDateOfBirth[2] + "-" + formatDateOfBirth[0] + "-" + formatDateOfBirth[1];
+    member['date_of_birth'] = formatDateOfBirth[2] + "-" + formatDateOfBirth[0] + "-" + formatDateOfBirth[1];
     member['updated_on'] = new Date();
     member['profile'] = {};
-
+    member['profile']['photo'] = "";
     member['national_ids'] = [];
     member['phones'] = [];
     member['vulnerability_criteria'] = [];
@@ -301,20 +364,36 @@ export class AddHouseholdComponent implements OnInit {
       member['vulnerability_criteria'].push(fieldVunerabilityCriteria);
     });
 
-    fieldNationalID['id_number'] = nationalID;
-    fieldNationalID['id_type'] = 'type1';
-    member['national_ids'].push(fieldNationalID);
-
-    if(phone != null) {
-      if(this.selectedtypePhone != null) {
+    if (phone != null) {
+      if (this.selectedtypePhone != '') {
         fieldPhones['type'] = this.selectedtypePhone;
-        
+        fieldPhones['number'] = phone;
       }
+      else {
+        fieldPhones['type'] = 'type1';
+        fieldPhones['number'] = phone;
+      }
+    } else {
+      fieldPhones['type'] = null;
+      fieldPhones['number'] = null;
     }
-    fieldPhones['number'] = phone;
-    fieldPhones['type'] = 'type1';
     member['phones'].push(fieldPhones);
 
+
+    if (nationalID != null) {
+      if (this.selectedtypeNationalId != '') {
+        fieldNationalID['id_type'] = this.selectedtypeNationalId;
+        fieldNationalID['id_number'] = nationalID;
+      }
+      else {
+        fieldNationalID['id_type'] = 'card';
+        fieldNationalID['id_number'] = nationalID;
+      }
+    } else {
+      fieldNationalID['id_type'] = null;
+      fieldNationalID['id_number'] = null;
+    }
+    member['national_ids'].push(fieldNationalID);
 
     if (type === 'head') {
       this.householdToCreate['livelihood'] = livelihood;
@@ -323,21 +402,22 @@ export class AddHouseholdComponent implements OnInit {
       member['status'] = 0;
     }
 
-
-
-
     this.householdToCreate['beneficiaries'].push(member);
     this.stepper.next();
 
-    console.log(this.householdToCreate);
   }
 
   cancel() {
-
+    this.router.navigate(['/households']);
   }
 
   create() {
-    console.log(this.selectedProject);
+    let promise = this._householdsServce.add(this.householdToCreate, this.selectedProject);
+    if(promise) {
+      promise.toPromise().then(() => {
+        this.router.navigate(['/households']);
+      })
+    }
   }
 
 }

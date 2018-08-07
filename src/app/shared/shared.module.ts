@@ -49,7 +49,8 @@ import { SettingsComponent                                      } from '../modul
 import { HeaderComponent                                        } from '../modules/header/header.component';
 import { HouseholdsImportComponent                              } from '../modules/households/households-import/households-import.component';
 import { DataValidationComponent                                } from '../modules/households/data-validation/data-validation.component';
-import { AddHouseholdComponent } from '../modules/households/add-household/addHousehold.component';
+import { AddHouseholdComponent                                  } from '../modules/households/add-household/addHousehold.component';
+import { FormsAddBeneficiaryComponent } from '../components/forms/forms-add-beneficiary/forms-add-beneficiary.component';
 
 @NgModule({
     imports: [
@@ -122,6 +123,7 @@ import { AddHouseholdComponent } from '../modules/households/add-household/addHo
 		BoxPropertiesComponent,
         DataValidationComponent,
         AddHouseholdComponent,
+        FormsAddBeneficiaryComponent
     ],
     entryComponents: [
         ModalComponent,
@@ -193,7 +195,8 @@ import { AddHouseholdComponent } from '../modules/households/add-household/addHo
         MatProgressBarModule,
         MatListModule,
         MatProgressSpinnerModule,
-        AddHouseholdComponent
+        AddHouseholdComponent,
+        FormsAddBeneficiaryComponent
 
     ],
     providers: [

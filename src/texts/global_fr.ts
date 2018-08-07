@@ -94,6 +94,7 @@ export const TEXT = {
     add_household_getTypeNationalId: 'Type d\'identifiant national',
     add_household_getTypePhone: 'Type de téléphone',
     add_household_getPhone: 'Téléphone',
+    add_household_Country_Specifics: "Spécificité du pays",
 
     data_verification_title: 'verification et validation des donnees',
     data_verification_step_1: 'Erreurs d\'orthographe',

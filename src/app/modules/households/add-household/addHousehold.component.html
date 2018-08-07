@@ -18,48 +18,58 @@
                 <div class="container-content box-green">
 
                     <div class="content-table">
-                        <div class="content-select">
-                            <mat-form-field>
-                                <mat-select placeholder={{household.add_household_getProvince}} [formControl]="province" (selectionChange)="selected($event, 'province')">
-                                    <mat-option *ngFor="let province of provinceList" [value]="province">{{province}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-form-field>
-                                <mat-select placeholder={{household.add_household_getDistrict}} [formControl]="district" (selectionChange)="selected($event, 'district')">
-                                    <mat-option *ngFor="let district of districtList" [value]="district">{{district}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-form-field>
-                                <mat-select placeholder={{household.add_household_getCommune}} [formControl]="commune" (selectionChange)="selected($event, 'commune')">
-                                    <mat-option *ngFor="let commune of communeList" [value]="commune">{{commune}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-form-field>
-                                <mat-select placeholder={{household.add_household_getVillage}} [formControl]="village" (selectionChange)="selected($event, 'village')">
-                                    <mat-option *ngFor="let village of villageList" [value]="village">{{village}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
+                        <div class="all-information">
+                            <div class="content-select">
+                                <mat-form-field>
+                                    <mat-select placeholder={{household.add_household_getProvince}} [formControl]="province" (selectionChange)="selected($event, 'province')">
+                                        <mat-option *ngFor="let province of provinceList" [value]="province">{{province}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-select placeholder={{household.add_household_getDistrict}} [formControl]="district" (selectionChange)="selected($event, 'district')">
+                                        <mat-option *ngFor="let district of districtList" [value]="district">{{district}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-select placeholder={{household.add_household_getCommune}} [formControl]="commune" (selectionChange)="selected($event, 'commune')">
+                                        <mat-option *ngFor="let commune of communeList" [value]="commune">{{commune}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-select placeholder={{household.add_household_getVillage}} [formControl]="village" (selectionChange)="selected($event, 'village')">
+                                        <mat-option *ngFor="let village of villageList" [value]="village">{{village}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="content-select">
+                                <mat-form-field>
+                                    <mat-select placeholder={{household.add_household_getProject}} [formControl]="projects" (selectionChange)="selected($event, 'project')">
+                                        <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input [formControl]="addressNumber" matInput placeholder={{household.add_household_getAddressNumber}} #AddressNumber>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input [formControl]="addressStreet" matInput placeholder={{household.add_household_getAddressStreet}} #AddressStreet>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input [formControl]="addressPostcode" matInput placeholder={{household.add_household_getAddressPostcode}} #AddressPostcode>
+                                </mat-form-field>
+                            </div>
+                            <div class="content-select notes">
+                                <mat-form-field>
+                                    <textarea matInput matAutosizeMaxRows=12 matTextareaAutosize="true" placeholder={{household.add_household_getNotes}} #Notes></textarea>
+                                </mat-form-field>
+                            </div>
                         </div>
-                        <div class="content-select">
-                            <mat-form-field>
-                                <mat-select placeholder={{household.add_household_getProject}} [formControl]="projects" (selectionChange)="selected($event, 'project')">
-                                    <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-form-field>
-                                <input [formControl]="addressNumber" matInput placeholder={{household.add_household_getAddressNumber}} #AddressNumber>
-                            </mat-form-field>
-                            <mat-form-field>
-                                <input [formControl]="addressStreet" matInput placeholder={{household.add_household_getAddressStreet}} #AddressStreet>
-                            </mat-form-field>
-                            <mat-form-field>
-                                <input [formControl]="addressPostcode" matInput placeholder={{household.add_household_getAddressPostcode}} #AddressPostcode>
-                            </mat-form-field>
-                        </div>
-                        <div class="content-select notes">
-                            <mat-form-field>
-                                <textarea matInput matAutosizeMaxRows=12 matTextareaAutosize="true" placeholder={{household.add_household_getNotes}} #Notes></textarea>
-                            </mat-form-field>
+                        <div class="additional-information country-specific">
+                            <label class="country-specific-label">{{household.add_household_Country_Specifics}} : </label>
+                            <div class="field-country-specific">
+                                <mat-form-field *ngFor="let countrySpecific of countrySpecifics, i as index">
+                                    <input matInput placeholder={{countrySpecific.field}} #countrySpecificsAnswer>
+                                </mat-form-field>
+                            </div>
                         </div>
                     </div>
                     <div class="content-button-footer">
@@ -80,7 +90,7 @@
                 </div>
                 <div class="container-content box-green">
 
-                    <div class="content-table beneficiary">
+                    <div class="content-table">
                         <div class="all-information">
                             <div class="content-select">
                                 <mat-form-field>
@@ -124,7 +134,7 @@
                                 </mat-form-field>
                             </div>
                         </div>
-                        <div class="vulnerabilities">
+                        <div class="additional-information vulnerabilities">
                             <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability)" *ngFor="let vulnerability of allVulnerability">{{vulnerability.field_string}}</mat-checkbox>
                         </div>
                     </div>
@@ -146,8 +156,7 @@
                     <span>{{household.add_household_step3}}</span>
                 </div>
                 <div class="container-content box-green">
-
-                    <div class="content-table beneficiary">
+                    <div class="content-table">
                         <div class="all-information">
                             <div class="content-select">
                                 <mat-form-field>
@@ -169,7 +178,8 @@
                                     <mat-datepicker #birth></mat-datepicker>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <mat-select placeholder={{household.add_household_getTypeNationalId}} [formControl]="typeNationalId" (selectionChange)="selected($event, 'typeNationalId')" value='type1'>
+                                    <mat-select placeholder={{household.add_household_getTypeNationalId}} [formControl]="typeNationalId" (selectionChange)="selected($event, 'typeNationalId')"
+                                        value='type1'>
                                         <mat-option *ngFor="let type of typeNationalIdList" [value]="type">{{type}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
@@ -188,7 +198,7 @@
                                 </mat-form-field>
                             </div>
                         </div>
-                        <div class="vulnerabilities">
+                        <div class="additional-information vulnerabilities">
                             <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability)" *ngFor="let vulnerability of allVulnerability">{{vulnerability.field_string}}</mat-checkbox>
                         </div>
                     </div>

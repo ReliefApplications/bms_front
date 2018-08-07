@@ -8,19 +8,20 @@
 .notes, .members {
     justify-content: center;
 }
-
 .vulnerabilities {
     justify-content: space-around;
+}
+.additional-information {
     display: flex;
-    padding: 30px 30px 0px 30px;
     width: 100%;
+    justify-content: space-evenly;
 }
 
 .cancel {
     margin-right: 2vw;
 }
 
-.beneficiary {
+.content-table{
     flex-direction: column;
 }
 
@@ -28,6 +29,19 @@
     display: flex;
     justify-content: space-around;
     width: 100%;
+}
+
+.country-specific {
+    justify-content: space-around;
+    flex-direction: column;
+    margin-top: 2vh;
+    .country-specific-label {
+        align-self: center;
+    }
+    .field-country-specific {
+        display: flex;
+        justify-content: space-evenly;
+    }
 }
 
 //for mobile screen

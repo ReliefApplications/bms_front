@@ -32,7 +32,7 @@ export class CountrySpecific {
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;
-            this.field = instance.field;
+            this.field = instance.field_string;
             this.type = instance.type;
             this.countryIso3 = instance.countryIso3;
             this.name = instance.name;
@@ -150,7 +150,7 @@ export class CountrySpecific {
     public static formatFromApiCountrySpecific(element: any): CountrySpecific {
         let countrySpecific = new CountrySpecific();
         countrySpecific.id = element.id;
-        countrySpecific.field = element.field;
+        countrySpecific.field = element.field_string;
         countrySpecific.type = element.type;
         countrySpecific.countryIso3 = element.countryIso3;
         countrySpecific.name = element.field;

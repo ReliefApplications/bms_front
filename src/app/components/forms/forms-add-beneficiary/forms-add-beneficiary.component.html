@@ -1,10 +1,10 @@
 <div class="all-information">
   <div class="content-select">
     <mat-form-field>
-      <input matInput placeholder={{household.add_household_getFamilyName}} #FamilyNameBeneficiary>
+      <input matInput placeholder={{household.add_household_getFamilyName}} #FamilyName>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder={{household.add_household_getGivenName}} #GivenNameBeneficiary>
+      <input matInput placeholder={{household.add_household_getGivenName}} #GivenName>
     </mat-form-field>
     <mat-form-field>
       <mat-select placeholder={{household.add_household_getGender}} [formControl]="gender" (selectionChange)="selected($event, 'gender')">
@@ -14,7 +14,7 @@
   </div>
   <div class="content-select">
     <mat-form-field>
-      <input matInput [matDatepicker]="birth" placeholder={{household.add_household_getDateOfBirth}} #DateOfBirthBeneficiary>
+      <input matInput [matDatepicker]="birth" placeholder={{household.add_household_getDateOfBirth}} #DateOfBirth>
       <mat-datepicker-toggle matSuffix [for]="birth"></mat-datepicker-toggle>
       <mat-datepicker #birth></mat-datepicker>
     </mat-form-field>
@@ -25,12 +25,12 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder={{household.add_household_getNationalID}} #NationalIDBeneficiary>
+      <input matInput placeholder={{household.add_household_getNationalID}} #NationalID>
     </mat-form-field>
   </div>
   <div class="content-select members">
-    <mat-form-field>
-      <input [formControl]="occupation" matInput placeholder={{household.add_household_getOccupation}} #LivelihoodHead>
+    <mat-form-field >
+      <input  matInput placeholder={{household.add_household_getOccupation}} #Livelihood [disabled]= "status === 1">
     </mat-form-field>
     <mat-form-field>
       <mat-select placeholder={{household.add_household_getTypePhone}} [formControl]="typePhone" (selectionChange)="selected($event, 'typePhone')">
@@ -38,7 +38,7 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder={{household.add_household_getPhone}} #PhoneBeneficiary>
+      <input matInput placeholder={{household.add_household_getPhone}} #Phone>
     </mat-form-field>
   </div>
 </div>

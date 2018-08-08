@@ -90,7 +90,7 @@ export const TEXT = {
     add_household_getGender : "Gender",
     add_household_getDateOfBirth : "Date of Birth",
     add_household_getNationalID : "National ID Number",
-    add_household_getOccupation : "Occupation",
+    add_household_getOccupation : "Livelihood",
     add_household_getTypeNationalId: 'Type of National ID Number',
     add_household_getTypePhone: 'Type phone',
     add_household_getPhone: 'Phone',

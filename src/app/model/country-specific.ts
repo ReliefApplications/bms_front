@@ -162,3 +162,17 @@ export class CountrySpecific {
         return new CountrySpecific(element);
     }
 }
+
+
+export class CountrySpecificAnswer {
+    static __classname__ = "CountrySpecificAnswer";
+    /**
+     * Answer
+     * @type { string}
+     */
+    answer : string = '';
+    /**
+     * @type {CountrySpecific}
+     */
+    country_specific: CountrySpecific;
+}

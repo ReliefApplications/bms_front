@@ -50,7 +50,6 @@ import { HeaderComponent                                        } from '../modul
 import { HouseholdsImportComponent                              } from '../modules/households/households-import/households-import.component';
 import { DataValidationComponent                                } from '../modules/households/data-validation/data-validation.component';
 import { AddHouseholdComponent                                  } from '../modules/households/add-household/addHousehold.component';
-import { FormsAddBeneficiaryComponent } from '../components/forms/forms-add-beneficiary/forms-add-beneficiary.component';
 
 @NgModule({
     imports: [
@@ -123,7 +122,7 @@ import { FormsAddBeneficiaryComponent } from '../components/forms/forms-add-bene
 		BoxPropertiesComponent,
         DataValidationComponent,
         AddHouseholdComponent,
-        FormsAddBeneficiaryComponent
+        
     ],
     entryComponents: [
         ModalComponent,
@@ -196,7 +195,6 @@ import { FormsAddBeneficiaryComponent } from '../components/forms/forms-add-bene
         MatListModule,
         MatProgressSpinnerModule,
         AddHouseholdComponent,
-        FormsAddBeneficiaryComponent
 
     ],
     providers: [

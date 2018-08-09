@@ -105,7 +105,6 @@ export class DataValidationComponent implements OnInit {
     step1TypoIssues(data: any, type: string, index: number) {
         let verification = new VerifiedData;
         let indexFound: boolean = false;
-
         this.correctedData.forEach(element => {
             //Search the index in the correctedData
             //if index found, update directly this object
@@ -130,11 +129,13 @@ export class DataValidationComponent implements OnInit {
                 verification.id_old = data.old.households.id;
                 verification.state = true;
                 verification.index = index;
+                verification.id_tmp_cache = data.id_tmp_cache;
             }
             else if (type === 'new') {
                 verification.new = data.new.households;
                 verification.id_old = data.old.households.id;
                 verification.index = index;
+                verification.id_tmp_cache = data.id_tmp_cache;
             }
             this.correctedData.push(verification);
         }
@@ -276,12 +277,14 @@ export class DataValidationComponent implements OnInit {
             //if the household doesn't find create it
             if (!householdFind) {
                 beneficiaryToAdd.id_old = idOld;
+                beneficiaryToAdd.id_tmp_cache = beneficiary.id_tmp_cache;
                 beneficiaryToAdd.data.push(beneficiary);
                 this.correctedData.push(beneficiaryToAdd);
             }
         } else {
             //if correctedData contains 0 data, add directly FormatMore object
             beneficiaryToAdd.id_old = idOld;
+            beneficiaryToAdd.id_tmp_cache = beneficiary.id_tmp_cache;
             beneficiaryToAdd.data.push(beneficiary);
             this.correctedData.push(beneficiaryToAdd);
         }
@@ -294,7 +297,7 @@ export class DataValidationComponent implements OnInit {
      * @param idBeneficiary number
      * @param idOld number
      */
-    step4Less(idBeneficiary: number, idOld: number) {
+    step4Less(idBeneficiary: number, idOld: number, idCache : number) {
         let beneficiaryToAdd = new FormatLess;
         let householdFind: boolean = false;
         let beneficiaryFind: boolean = false;
@@ -325,12 +328,14 @@ export class DataValidationComponent implements OnInit {
             //if the household doesn't find create it
             if (!householdFind) {
                 beneficiaryToAdd.id_old = idOld;
+                beneficiaryToAdd.id_tmp_cache = idCache;
                 beneficiaryToAdd.data.push(idToSend);
                 this.correctedData.push(beneficiaryToAdd);
             }
         } else {
             //if correctedData contains 0 data, add directly FormatMore object
             beneficiaryToAdd.id_old = idOld;
+            beneficiaryToAdd.id_tmp_cache = idCache;
             beneficiaryToAdd.data.push(idToSend);
             this.correctedData.push(beneficiaryToAdd);
         }

@@ -17,7 +17,7 @@
                 </div>
                 <div class="container-content box-green">
                     <div class="content-table">
-                        <div class="all-information">
+                        <div class="all-information-computer all-information-mobile">
                             <div class="content-select">
                                 <mat-form-field>
                                     <mat-select placeholder={{household.add_household_getProvince}} [formControl]="province" (selectionChange)="selected($event, 'province')">
@@ -93,10 +93,10 @@
                 <div class="container-content box-green">
 
                     <div class="content-table">
-                        <form [formGroup]="headForm" (ngSubmit)='next()'>
+                        <form [formGroup]="headForm" (ngSubmit)='next()' class="all-information-mobile">
                             <div formArrayName='head'>
                                 <div *ngFor="let item of head.controls; let HeadIndex=index" [formGroupName]="HeadIndex" class="member">
-                                    <div class="all-information">
+                                    <div class="all-information-computer member-mobile">
                                         <div class="content-select">
                                             <mat-form-field>
                                                 <input matInput placeholder={{household.add_household_getFamilyName}} formControlName="familyName">

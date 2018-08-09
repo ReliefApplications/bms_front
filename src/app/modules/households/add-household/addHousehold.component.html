@@ -58,7 +58,7 @@
                             </div>
                             <div class="content-select notes">
                                 <mat-form-field>
-                                    <input matInput placeholder={{household.add_household_getOccupation}} #Livelihood>
+                                    <input matInput  placeholder={{household.add_household_getOccupation}} #Livelihood>
                                 </mat-form-field>
                                 <mat-form-field>
                                     <textarea matInput matAutosizeMaxRows=12 matTextareaAutosize="true" placeholder={{household.add_household_getNotes}} #Notes></textarea>
@@ -328,9 +328,9 @@
                                         </div>
                                         <div class='column' *ngIf='head.vulnerability_criteria.length > 0'>
                                             <label class='title'>Vulnerability Criteria</label>
-                                            <label *ngFor='let vulnerability of head.vulnerability_criteria'> {{vulnerability.id}}</label>
-
-                                            <!-- <img *ngFor='let vulnerability of member.vulnerability_criteria' src={{vulnerability.src}}> -->
+                                            <div class="recapVulnerabilities">
+                                                <img class="png" *ngFor='let vulnerability of head.vulnerability_criteria' src={{vulnerability.src}}>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -371,9 +371,9 @@
                                         </div>
                                         <div class='column' *ngIf='member.vulnerability_criteria.length > 0'>
                                             <label class='title'>Vulnerability Criteria</label>
-                                            <label *ngFor='let vulnerability of member.vulnerability_criteria'> {{vulnerability.id}}</label>
-
-                                            <!-- <img *ngFor='let vulnerability of member.vulnerability_criteria' src={{vulnerability.src}}> -->
+                                            <div class="recapVulnerabilities">
+                                                <img class="png" *ngFor='let vulnerability of member.vulnerability_criteria' src={{vulnerability.src}}>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

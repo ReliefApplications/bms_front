@@ -21,9 +21,9 @@ export class AddHouseholds {
     address_postcode: string = '';
     /**
      * Households' livelihood
-     * @type {string}
+     * @type {number}
      */
-    livelihood: string = '';
+    livelihood: number = 0;
     /**
     * Households' notes
     * @type {string}
@@ -93,7 +93,7 @@ export class AddBeneficiaries {
      * profile
      * @type {Profile}
      */
-    profile: Profile;
+    profile: Profile = new Profile;
     /**
      * Vulnerabilities criteria
      * @type {Array}

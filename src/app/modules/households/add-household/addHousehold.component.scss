@@ -17,7 +17,7 @@
     justify-content: space-evenly;
 }
 
-.cancel {
+.cancel, .add-button {
     margin-right: 2vw;
 }
 
@@ -29,6 +29,32 @@
     display: flex;
     justify-content: space-around;
     width: 100%;
+}
+
+.member {
+    margin-bottom: 4vh;
+}
+
+.row {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: small;
+    margin-bottom: 1.5vh;
+    flex-wrap: wrap;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label, h4 {
+    font-family: $bms_font_text
+}
+
+.title {
+    font-weight: bold;
 }
 
 .country-specific {

@@ -109,6 +109,11 @@ export class AddBeneficiaries {
      * @type {Array}
      */
     national_ids: Array<NationalID> = [];
+    /**
+     * id_beneficiary
+     * @type {string}
+     */
+    id: string;
 
 }
 
@@ -137,10 +142,10 @@ export class Phones {
 
 export class NationalID {
     static __classname__ = 'NationalID';
-     /**
-     * number 
-     * @type {string}
-     */
+    /**
+    * number 
+    * @type {string}
+    */
     id_number: string = '';
     /**
      * type of number

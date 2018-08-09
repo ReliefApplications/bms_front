@@ -93,9 +93,9 @@
                 <div class="container-content box-green">
 
                     <div class="content-table">
-                        <form [formGroup]="beneficiaryForm" (ngSubmit)='next()'>
-                            <div formArrayName='beneficiary'>
-                                <div *ngFor="let item of beneficiary.controls; let beneficiaryIndex=index" [formGroupName]="beneficiaryIndex">
+                        <form [formGroup]="headForm" (ngSubmit)='next()'>
+                            <div formArrayName='head'>
+                                <div *ngFor="let item of head.controls; let HeadIndex=index" [formGroupName]="HeadIndex" class="member">
                                     <div class="all-information">
                                         <div class="content-select">
                                             <mat-form-field>
@@ -138,9 +138,10 @@
                                         </div>
                                     </div>
                                     <div class="additional-information vulnerabilities">
-                                        <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability, beneficiaryIndex)" formControlName="vulnerabilities" *ngFor="let vulnerability of allVulnerability">{{vulnerability.field_string}}</mat-checkbox>
+                                        <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability, HeadIndex, 'head')" formControlName="vulnerabilities"
+                                            *ngFor="let vulnerability of allVulnerability">{{vulnerability.field_string}}</mat-checkbox>
                                     </div>
-                                  
+
                                 </div>
                             </div>
                         </form>
@@ -150,9 +151,6 @@
                         <button mat-raised-button (click)='next("head")'>
                             <span>{{household.add_household_next}}</span>
                         </button>
-                        <!-- <button mat-raised-button (click)="nextStep2(FamilyNameHead.value, GivenNameHead.value, DateOfBirthHead.value, NationalIDHead.value, PhoneHead.value, 'head', LivelihoodHead.value)">
-                            <span>{{household.add_household_next}}</span>
-                        </button> -->
                     </div>
                 </div>
             </div>
@@ -169,7 +167,7 @@
                     <div class="content-table">
                         <form [formGroup]="beneficiaryForm" (ngSubmit)='next()'>
                             <div formArrayName='beneficiary'>
-                                <div *ngFor="let item of beneficiary.controls; let beneficiaryIndex=index" [formGroupName]="beneficiaryIndex">
+                                <div *ngFor="let item of beneficiary.controls; let beneficiaryIndex=index" [formGroupName]="beneficiaryIndex" class="member">
                                     <div class="all-information">
                                         <div class="content-select">
                                             <mat-form-field>
@@ -212,7 +210,8 @@
                                         </div>
                                     </div>
                                     <div class="additional-information vulnerabilities">
-                                        <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability, beneficiaryIndex)" formControlName="vulnerabilities" *ngFor="let vulnerability of allVulnerability">{{vulnerability.field_string}}</mat-checkbox>
+                                        <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability, beneficiaryIndex, 'beneficiary')" formControlName="vulnerabilities"
+                                            *ngFor="let vulnerability of allVulnerability">{{vulnerability.field_string}}</mat-checkbox>
                                     </div>
                                 </div>
                             </div>
@@ -220,15 +219,12 @@
                     </div>
 
                     <div class="content-button-footer">
+                        <button mat-raised-button (click)="addMoreBeneficiary()" class="add-button">
+                            <span>Add </span>
+                        </button>
                         <button mat-raised-button (click)='next("beneficiary")'>
                             <span>{{household.add_household_next}}</span>
                         </button>
-                        <button mat-raised-button (click)="addMoreBeneficiary()">
-                            <span>Add </span>
-                        </button>
-                        <!-- <button mat-raised-button (click)="nextStep2(FamilyNameBeneficiary.value, GivenNameBeneficiary.value, DateOfBirthBeneficiary.value, NationalIDBeneficiary.value, PhoneBeneficiary.value, 'beneficiary')">
-                            <span>{{household.add_household_next}}</span>
-                        </button> -->
                     </div>
                 </div>
             </div>
@@ -243,17 +239,160 @@
                 </div>
                 <div class="container-content box-green">
                     <div class="content-table">
-                        <div class="done">
+                        <!-- <div class="done">
                             {{household.add_household_done}}
+                        </div> -->
+                        <div>
+                            <h4 class="done">Household general information</h4>
+                            <div class='row'>
+                                <div class='column'>
+                                    <label class='title'>Address</label>
+                                    <label>{{householdToCreate.address_number}} {{householdToCreate.address_street}} {{householdToCreate.address_postcode}}</label>
+                                </div>
+                                <div class='column'>
+                                    <label class='title'>Province</label>
+                                    <label>{{householdToCreate.location.adm1}}</label>
+
+                                </div>
+                                <div class='column' *ngIf='householdToCreate.location.adm2'>
+                                    <label class='title'>District</label>
+                                    <label>{{householdToCreate.location.adm2}}</label>
+
+                                </div>
+                                <div class='column' *ngIf='householdToCreate.location.adm3'>
+                                    <label class='title'>Commune</label>
+                                    <label>{{householdToCreate.location.adm3}}</label>
+
+                                </div>
+                                <div class='column' *ngIf='householdToCreate.location.adm4'>
+                                    <label class='title'>Village</label>
+                                    <label>{{householdToCreate.location.adm4}}</label>
+                                </div>
+                                <div class='column'>
+                                    <label class='title'>Livelihood</label>
+                                    <label>{{householdToCreate.livelihood}}</label>
+                                </div>
+                                <div class='column'>
+                                    <label class='title'>Notes</label>
+                                    <label>{{householdToCreate.notes}}</label>
+
+                                </div>
+                                <div class='column'>
+                                    <label class='title'>Project</label>
+                                    <label>{{selectedProject}}</label>
+                                </div>
+                            </div>
                         </div>
+
+                        <div>
+                            <h4 class="done">Country Specific Information</h4>
+                            <div class='row'>
+                                <div class='column' *ngFor='let countrySpecific of householdToCreate.country_specific_answers'>
+                                    <label class='title'>{{countrySpecific.country_specific.field}}</label>
+                                    <label>{{countrySpecific.answer}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="done">Head of Household</h4>
+                            <div *ngFor='let head of householdToCreate.beneficiaries'>
+                                <div *ngIf='head.status === "1"'>
+                                    <div class='row'>
+                                        <div class='column'>
+                                            <label class='title'>Given Name</label>
+                                            <label>{{head.given_name}}</label>
+                                        </div>
+                                        <div class='column'>
+                                            <label class='title'>Family Name</label>
+                                            <label>{{head.family_name}}</label>
+                                        </div>
+                                        <div class='column'>
+                                            <label class='title'>Date of Birth</label>
+                                            <label>{{head.date_of_birth}}</label>
+                                        </div>
+                                        <div class='column' *ngIf='head.gender === 0'>
+                                            <label class='title'>Gender</label>
+                                            <label>F</label>
+                                        </div>
+                                        <div class='column' *ngIf='head.gender === 1'>
+                                            <label class='title'>Gender</label>
+                                            <label>M</label>
+                                        </div>
+                                        <div class='column' *ngIf='head.phones.length > 0'>
+                                            <label class='title'>Phones</label>
+                                            <label *ngFor='let phone of head.phones'> {{phone.type}}-{{phone.number}}</label>
+                                        </div>
+                                        <div class='column' *ngIf='head.national_ids.length > 0'>
+                                            <label class='title'>National ID</label>
+                                            <label *ngFor='let nationalID of head.national_ids'> {{nationalID.id_type}}-{{nationalID.id_number}}</label>
+                                        </div>
+                                        <div class='column' *ngIf='head.vulnerability_criteria.length > 0'>
+                                            <label class='title'>Vulnerability Criteria</label>
+                                            <label *ngFor='let vulnerability of head.vulnerability_criteria'> {{vulnerability.id}}</label>
+
+                                            <!-- <img *ngFor='let vulnerability of member.vulnerability_criteria' src={{vulnerability.src}}> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="done">Member of Household</h4>
+                            <div *ngFor='let member of householdToCreate.beneficiaries'>
+                                <div *ngIf='member.status === "0"'>
+                                    <div class='row'>
+                                        <div class='column'>
+                                            <label class='title'>Given Name</label>
+                                            <label>{{member.given_name}}</label>
+                                        </div>
+                                        <div class='column'>
+                                            <label class='title'>Family Name</label>
+                                            <label>{{member.family_name}}</label>
+                                        </div>
+                                        <div class='column'>
+                                            <label class='title'>Date of Birth</label>
+                                            <label>{{member.date_of_birth}}</label>
+                                        </div>
+                                        <div class='column' *ngIf='member.gender === 0'>
+                                            <label class='title'>Gender</label>
+                                            <label>F</label>
+                                        </div>
+                                        <div class='column' *ngIf='member.gender === 1'>
+                                            <label class='title'>Gender</label>
+                                            <label>M</label>
+                                        </div>
+                                        <div class='column' *ngIf='member.phones.length > 0'>
+                                            <label class='title'>Phones</label>
+                                            <label *ngFor='let phone of member.phones'> {{phone.type}}-{{phone.number}}</label>
+                                        </div>
+                                        <div class='column' *ngIf='member.national_ids.length > 0'>
+                                            <label class='title'>National ID</label>
+                                            <label *ngFor='let nationalID of member.national_ids'> {{nationalID.id_type}}-{{nationalID.id_number}}</label>
+                                        </div>
+                                        <div class='column' *ngIf='member.vulnerability_criteria.length > 0'>
+                                            <label class='title'>Vulnerability Criteria</label>
+                                            <label *ngFor='let vulnerability of member.vulnerability_criteria'> {{vulnerability.id}}</label>
+
+                                            <!-- <img *ngFor='let vulnerability of member.vulnerability_criteria' src={{vulnerability.src}}> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
                     </div>
+
                     <div class="content-button-footer">
                         <button mat-raised-button class="cancel" (click)="cancel()">{{household.add_household_cancel}}</button>
                         <button mat-raised-button (click)="create()">{{household.add_household_create}}</button>
                     </div>
                 </div>
             </div>
-
         </mat-step>
 
     </mat-horizontal-stepper>

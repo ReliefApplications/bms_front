@@ -63,12 +63,12 @@ export class AddBeneficiaries {
      *  familyName
      * @type {string}
      */
-    familyName: string = '';
+    family_name: string = '';
     /**
      *  firstName
      * @type {string}
      */
-    firstName: string = '';
+    given_name: string = '';
     /**
      * gender
      * @type {number}

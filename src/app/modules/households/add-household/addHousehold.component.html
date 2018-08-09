@@ -16,7 +16,6 @@
                     <span>{{household.add_household_step1}} </span>
                 </div>
                 <div class="container-content box-green">
-
                     <div class="content-table">
                         <div class="all-information">
                             <div class="content-select">
@@ -59,7 +58,7 @@
                             </div>
                             <div class="content-select notes">
                                 <mat-form-field>
-                                    <input [formControl]="occupation" matInput placeholder={{household.add_household_getOccupation}} #Livelihood>
+                                    <input matInput placeholder={{household.add_household_getOccupation}} #Livelihood>
                                 </mat-form-field>
                                 <mat-form-field>
                                     <textarea matInput matAutosizeMaxRows=12 matTextareaAutosize="true" placeholder={{household.add_household_getNotes}} #Notes></textarea>
@@ -76,7 +75,7 @@
                         </div>
                     </div>
                     <div class="content-button-footer">
-                        <button mat-raised-button (click)="nextStep1(AddressNumber.value, AddressStreet.value, AddressPostcode.value, Notes.value, Livelihood.value)">
+                        <button mat-raised-button (click)="addInformation(AddressNumber.value, AddressStreet.value, AddressPostcode.value, Notes.value, Livelihood.value)">
                             <span>{{household.add_household_next}}</span>
                         </button>
                     </div>
@@ -94,55 +93,66 @@
                 <div class="container-content box-green">
 
                     <div class="content-table">
-                        <div class="all-information">
-                            <div class="content-select">
-                                <mat-form-field>
-                                    <input matInput placeholder={{household.add_household_getFamilyName}} #FamilyNameHead>
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <input matInput placeholder={{household.add_household_getGivenName}} #GivenNameHead>
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-select placeholder={{household.add_household_getGender}} [formControl]="gender" (selectionChange)="selected($event, 'gender')">
-                                        <mat-option *ngFor="let gender of genderList" [value]="gender">{{gender}}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+                        <form [formGroup]="beneficiaryForm" (ngSubmit)='next()'>
+                            <div formArrayName='beneficiary'>
+                                <div *ngFor="let item of beneficiary.controls; let beneficiaryIndex=index" [formGroupName]="beneficiaryIndex">
+                                    <div class="all-information">
+                                        <div class="content-select">
+                                            <mat-form-field>
+                                                <input matInput placeholder={{household.add_household_getFamilyName}} formControlName="familyName">
+                                            </mat-form-field>
+                                            <mat-form-field>
+                                                <input matInput placeholder={{household.add_household_getGivenName}} formControlName="givenName">
+                                            </mat-form-field>
+                                            <mat-form-field>
+                                                <mat-select placeholder={{household.add_household_getGender}} formControlName="gender" (selectionChange)="selected($event, 'gender')">
+                                                    <mat-option *ngFor="let gender of genderList" [value]="gender">{{gender}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="content-select">
+                                            <mat-form-field>
+                                                <input matInput [matDatepicker]="birthHead" placeholder={{household.add_household_getDateOfBirth}} formControlName="birth"
+                                                    #DateOfBirthHead>
+                                                <mat-datepicker-toggle matSuffix [for]="birthHead"></mat-datepicker-toggle>
+                                                <mat-datepicker #birthHead></mat-datepicker>
+                                            </mat-form-field>
+                                            <mat-form-field>
+                                                <mat-select placeholder={{household.add_household_getTypeNationalId}} formControlName="typeNationalId" (selectionChange)="selected($event, 'typeNationalId')">
+                                                    <mat-option *ngFor="let type of typeNationalIdList" [value]="type">{{type}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <mat-form-field>
+                                                <input matInput placeholder={{household.add_household_getNationalID}} formControlName="nationalID">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="content-select">
+                                            <mat-form-field>
+                                                <mat-select placeholder={{household.add_household_getTypePhone}} formControlName="typePhone" (selectionChange)="selected($event, 'typePhone')">
+                                                    <mat-option *ngFor="let type of typePhoneList" [value]="type">{{type}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <mat-form-field>
+                                                <input matInput placeholder={{household.add_household_getPhone}} formControlName="phone">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="additional-information vulnerabilities">
+                                        <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability, beneficiaryIndex)" formControlName="vulnerabilities" *ngFor="let vulnerability of allVulnerability">{{vulnerability.field_string}}</mat-checkbox>
+                                    </div>
+                                  
+                                </div>
                             </div>
-                            <div class="content-select">
-                                <mat-form-field>
-                                    <input matInput [matDatepicker]="birthHead" placeholder={{household.add_household_getDateOfBirth}} #DateOfBirthHead>
-                                    <mat-datepicker-toggle matSuffix [for]="birthHead"></mat-datepicker-toggle>
-                                    <mat-datepicker #birthHead></mat-datepicker>
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-select placeholder={{household.add_household_getTypeNationalId}} [formControl]="typeNationalId" (selectionChange)="selected($event, 'typeNationalId')">
-                                        <mat-option *ngFor="let type of typeNationalIdList" [value]="type">{{type}}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <input matInput placeholder={{household.add_household_getNationalID}} #NationalIDHead>
-                                </mat-form-field>
-                            </div>
-                            <div class="content-select">
-                                <mat-form-field>
-                                    <mat-select placeholder={{household.add_household_getTypePhone}} [formControl]="typePhone" (selectionChange)="selected($event, 'typePhone')">
-                                        <mat-option *ngFor="let type of typePhoneList" [value]="type">{{type}}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <input matInput placeholder={{household.add_household_getPhone}} #PhoneHead>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="additional-information vulnerabilities">
-                            <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability)" *ngFor="let vulnerability of allVulnerability">{{vulnerability.field_string}}</mat-checkbox>
-                        </div>
+                        </form>
                     </div>
 
                     <div class="content-button-footer">
-                        <button mat-raised-button (click)="nextStep2(FamilyNameHead.value, GivenNameHead.value, DateOfBirthHead.value, NationalIDHead.value, PhoneHead.value, 'head', LivelihoodHead.value)">
+                        <button mat-raised-button (click)='next("head")'>
                             <span>{{household.add_household_next}}</span>
                         </button>
+                        <!-- <button mat-raised-button (click)="nextStep2(FamilyNameHead.value, GivenNameHead.value, DateOfBirthHead.value, NationalIDHead.value, PhoneHead.value, 'head', LivelihoodHead.value)">
+                            <span>{{household.add_household_next}}</span>
+                        </button> -->
                     </div>
                 </div>
             </div>
@@ -157,56 +167,68 @@
                 </div>
                 <div class="container-content box-green">
                     <div class="content-table">
-                        <div class="all-information">
-                            <div class="content-select">
-                                <mat-form-field>
-                                    <input matInput placeholder={{household.add_household_getFamilyName}} #FamilyNameBeneficiary>
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <input matInput placeholder={{household.add_household_getGivenName}} #GivenNameBeneficiary>
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-select placeholder={{household.add_household_getGender}} [formControl]="gender" (selectionChange)="selected($event, 'gender')">
-                                        <mat-option *ngFor="let gender of genderList" [value]="gender">{{gender}}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+                        <form [formGroup]="beneficiaryForm" (ngSubmit)='next()'>
+                            <div formArrayName='beneficiary'>
+                                <div *ngFor="let item of beneficiary.controls; let beneficiaryIndex=index" [formGroupName]="beneficiaryIndex">
+                                    <div class="all-information">
+                                        <div class="content-select">
+                                            <mat-form-field>
+                                                <input matInput placeholder={{household.add_household_getFamilyName}} formControlName="familyName">
+                                            </mat-form-field>
+                                            <mat-form-field>
+                                                <input matInput placeholder={{household.add_household_getGivenName}} formControlName="givenName">
+                                            </mat-form-field>
+                                            <mat-form-field>
+                                                <mat-select placeholder={{household.add_household_getGender}} formControlName="gender" (selectionChange)="selected($event, 'gender')">
+                                                    <mat-option *ngFor="let gender of genderList" [value]="gender">{{gender}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="content-select">
+                                            <mat-form-field>
+                                                <input matInput [matDatepicker]="birthHead" placeholder={{household.add_household_getDateOfBirth}} formControlName="birth"
+                                                    #DateOfBirthHead>
+                                                <mat-datepicker-toggle matSuffix [for]="birthHead"></mat-datepicker-toggle>
+                                                <mat-datepicker #birthHead></mat-datepicker>
+                                            </mat-form-field>
+                                            <mat-form-field>
+                                                <mat-select placeholder={{household.add_household_getTypeNationalId}} formControlName="typeNationalId" (selectionChange)="selected($event, 'typeNationalId')">
+                                                    <mat-option *ngFor="let type of typeNationalIdList" [value]="type">{{type}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <mat-form-field>
+                                                <input matInput placeholder={{household.add_household_getNationalID}} formControlName="nationalID">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="content-select">
+                                            <mat-form-field>
+                                                <mat-select placeholder={{household.add_household_getTypePhone}} formControlName="typePhone" (selectionChange)="selected($event, 'typePhone')">
+                                                    <mat-option *ngFor="let type of typePhoneList" [value]="type">{{type}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <mat-form-field>
+                                                <input matInput placeholder={{household.add_household_getPhone}} formControlName="phone">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="additional-information vulnerabilities">
+                                        <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability, beneficiaryIndex)" formControlName="vulnerabilities" *ngFor="let vulnerability of allVulnerability">{{vulnerability.field_string}}</mat-checkbox>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="content-select">
-                                <mat-form-field>
-                                    <input matInput [matDatepicker]="birth" placeholder={{household.add_household_getDateOfBirth}} #DateOfBirthBeneficiary>
-                                    <mat-datepicker-toggle matSuffix [for]="birth"></mat-datepicker-toggle>
-                                    <mat-datepicker #birth></mat-datepicker>
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-select placeholder={{household.add_household_getTypeNationalId}} [formControl]="typeNationalId" (selectionChange)="selected($event, 'typeNationalId')"
-                                        value='type1'>
-                                        <mat-option *ngFor="let type of typeNationalIdList" [value]="type">{{type}}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <input matInput placeholder={{household.add_household_getNationalID}} #NationalIDBeneficiary>
-                                </mat-form-field>
-                            </div>
-                            <div class="content-select members">
-                                <mat-form-field>
-                                    <mat-select placeholder={{household.add_household_getTypePhone}} [formControl]="typePhone" (selectionChange)="selected($event, 'typePhone')">
-                                        <mat-option *ngFor="let type of typePhoneList" [value]="type">{{type}}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <input matInput placeholder={{household.add_household_getPhone}} #PhoneBeneficiary>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="additional-information vulnerabilities">
-                            <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability)" *ngFor="let vulnerability of allVulnerability">{{vulnerability.field_string}}</mat-checkbox>
-                        </div>
+                        </form>
                     </div>
 
                     <div class="content-button-footer">
-                        <button mat-raised-button (click)="nextStep2(FamilyNameBeneficiary.value, GivenNameBeneficiary.value, DateOfBirthBeneficiary.value, NationalIDBeneficiary.value, PhoneBeneficiary.value, 'beneficiary')">
+                        <button mat-raised-button (click)='next("beneficiary")'>
                             <span>{{household.add_household_next}}</span>
                         </button>
+                        <button mat-raised-button (click)="addMoreBeneficiary()">
+                            <span>Add </span>
+                        </button>
+                        <!-- <button mat-raised-button (click)="nextStep2(FamilyNameBeneficiary.value, GivenNameBeneficiary.value, DateOfBirthBeneficiary.value, NationalIDBeneficiary.value, PhoneBeneficiary.value, 'beneficiary')">
+                            <span>{{household.add_household_next}}</span>
+                        </button> -->
                     </div>
                 </div>
             </div>

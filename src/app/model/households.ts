@@ -154,16 +154,16 @@ export class Households {
 
         });
         if (element.location.adm1) {
-            household.location += element.location.adm1 + " ";
+            household.location += element.location.adm1.name + " ";
         }
         if (element.location.adm2) {
-            household.location += element.location.adm2 + " ";
+            household.location += element.location.adm2.name + " ";
         }
         if (element.location.adm3) {
-            household.location += element.location.adm3 + " ";
+            household.location += element.location.adm3.name + " ";
         }
         if (element.location.adm4) {
-            household.location += element.location.adm4 + " ";
+            household.location += element.location.adm4.name + " ";
         }
         household.dependents = dependents;
 

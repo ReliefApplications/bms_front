@@ -44,12 +44,18 @@ export class FormatDataNewOld {
      * @type {string}
      */
     id_tmp_beneficiary?: string;
+    /**
+     * id uses by the back
+     * @type {number}
+     */
+    id_tmp_cache?: number;
 
     constructor(instance?) {
         if (instance !== undefined) {
             this.old = instance.old;
             this.new = instance.new;
             this.id_tmp_beneficiary = instance.id_tmp_beneficary;
+            this.id_tmp_cache = instance.this.id_tmp_cache;
         }
     }
 
@@ -81,6 +87,7 @@ export class FormatDataNewOld {
         let data = new FormatDataNewOld();
         data.new.households = element.new;
         data.old.households = element.old;
+        data.id_tmp_cache = element.id_tmp_cache; 
         
         //if step 2 (duplicates) format is different of other steps
         if (step === 2) {
@@ -163,6 +170,11 @@ export class VerifiedData {
      *  @type {string}
      */
     id_duplicate?: string;
+    /**
+     * id uses by the back
+     * @type {number}
+     */
+    id_tmp_cache?: number;
 
 
     constructor(instance?) {
@@ -172,6 +184,7 @@ export class VerifiedData {
             this.id_old = instance.id_old;
             this.to_delete = instance.to_delete
             this.id_duplicate = instance.id_duplicate
+            this.id_tmp_cache = instance.id_tmp_cache
         }
     }
 
@@ -254,11 +267,18 @@ export class FormatMore {
      * @type {Array}
      */
     data: Array<any> = [];
+    /**
+     * id uses by the back
+     * @type {number}
+     */
+    id_tmp_cache?: number;
+    
 
     constructor(instance?) {
         if (instance !== undefined) {
             this.id_old = instance.id_old;
             this.data = instance.data;
+            this.id_tmp_cache = instance.id_tmp_cache;
         }
     }
 
@@ -279,11 +299,17 @@ export class FormatLess {
      * @type {Array}
      */
     data: Array<any> = [];
+    /**
+     * id uses by the back
+     * @type {number}
+     */
+    id_tmp_cache?: number;
 
     constructor(instance?) {
         if (instance !== undefined) {
             this.id_old = instance.id_old;
             this.data = instance.data;
+            this.id_tmp_cache = instance.id_tmp_cache;
         }
     }
 

@@ -35,7 +35,7 @@ export class IndicatorPageComponent implements OnInit {
   public body: any = [];
   public indicators: any[] = [];
   public filtersButton;
-  public frequency = "Year";
+  public frequency = "Month";
   public frequencyChanged = false;
   public chartDimensions: number[];
   public indicatorsLoading = false;

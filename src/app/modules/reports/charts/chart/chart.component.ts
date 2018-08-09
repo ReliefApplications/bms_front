@@ -44,7 +44,6 @@ export class ChartComponent implements OnInit, ChartInterface {
   oldFilters: Array<FilterInterface> = [];
 
   @Input() periodFrequency: string;
-  oldPeriodFrequency: string = '';
   oldfilterFrequency: string = '';
 
   @Input() indicatorConfig: ChartIndicatorConfigClass;
@@ -104,6 +103,7 @@ export class ChartComponent implements OnInit, ChartInterface {
 
     // Filters
     this.oldFilters = this.filters;
+    this.oldfilterFrequency = 'Month';
     if(this.indicatorConfig.items === "Distribution") {
       this.body["project"] = this.project;
       this.oldProject = this.project;
@@ -111,7 +111,6 @@ export class ChartComponent implements OnInit, ChartInterface {
       this.body['NoProject'] = [];
     }
     this.body['NoDistribution'] = [];
-    this.oldPeriodFrequency = this.periodFrequency;
 
     // Registration
     this.chartRegistrationService.generateId(this);
@@ -139,7 +138,7 @@ export class ChartComponent implements OnInit, ChartInterface {
         })
 
       if (Object.keys(this.body).length === 3) {
-        this.conditionToGet();
+        this.switchFrequencyOrSelector();
       }
       this.loader = false;
       this.loaded = true;
@@ -188,29 +187,28 @@ export class ChartComponent implements OnInit, ChartInterface {
 
   /**
    * To put the good key in the body before get the data
+   * If nameCase is frequency : only button filter date was clicked
+   * If namecase is default : only selector was touch
    */
   putInBody(nameCase: string) {
     if (nameCase === "frequency") {
-      console.log(nameCase)
-      if ((this.project.length > 0)) {
+      if (this.oldProject.length > 0) {
         this.body['project'] = this.oldProject;
         delete (this.body['NoProject']);
-      } else if (this.project.length === 0) {
+      } else if (this.oldProject.length === 0) {
         delete (this.body['project']);
         this.body['NoProject'] = [];
       }
-
-      if (this.distribution.length > 0) {
+      if (this.oldDistribution.length > 0) {
         this.body['distribution'] = this.oldDistribution;
         delete (this.body['NoDistribution']);
 
-      } else if (this.distribution.length === 0) {
+      } else if (this.oldDistribution.length === 0) {
         delete (this.body['distribution']);
         this.body['NoDistribution'] = [];
       }
     }
     else {
-      console.log(nameCase)
       if ((this.project.length > 0)) {
         this.body['project'] = this.project;
         delete (this.body['NoProject']);
@@ -232,50 +230,19 @@ export class ChartComponent implements OnInit, ChartInterface {
   }
 
   /**
-   * Condition to respect to can new data
+   * Function to know if the user interact with button filter date or selector
    */
-  conditionToGet() {
-    console.group();
-    console.log('indicator congig', this.indicatorConfig.items);
-    console.log('distribution length', this.distribution.length);
-    console.log('old project length', this.oldProject.length);
-    console.log('project new / old ', this.project, this.oldProject);
-    console.log('distribution new / old ', this.distribution, this.oldDistribution);
-    console.log('frequency new / old ', this.periodFrequency, this.oldPeriodFrequency);
-    console.groupEnd();
-
-    if (this.oldProject !== this.project && this.indicatorConfig.items === 'Project') {
-      console.log("1")
-      
+  switchFrequencyOrSelector() {
       if(this.oldfilterFrequency !== this.body['frequency']) {
         this.putInBody("frequency");
+        this.getData();
       } else {
         this.putInBody("default");
+        this.getData();
+        this.oldProject = this.project;
+        this.oldDistribution = this.distribution;
       }
-
-
-      this.getData();
-      this.oldProject = this.project;
-    }
-    else if (this.oldProject !== this.project && this.oldProject.length > 0 && this.indicatorConfig.items === 'Distribution' && this.distribution.length === 0) {
-      console.log("2")
-      // this.changeFrequency("caseProjectDistribution");
-      this.putInBody("default");
-      this.getData();
-      this.oldProject = this.project;
-      this.oldDistribution = this.distribution;
-    }
-    else if (this.oldProject === this.project && this.oldProject.length > 0 && this.oldDistribution !== this.distribution && this.distribution.length > 0 && this.indicatorConfig.items === 'Distribution') {
-      console.log("3")
-      // this.changeFrequency("caseDistribution");
-      this.putInBody("default");
-      this.getData();
-      this.oldProject = this.project;
-      this.oldDistribution = this.distribution;
-    }
-    // else if (this.indicatorConfig.items === 'Country') {
-    //   this.changeFrequency("caseCountry");
-    // }
+      this.oldfilterFrequency = this.body['frequency'];
   }
 
   /**
@@ -284,19 +251,14 @@ export class ChartComponent implements OnInit, ChartInterface {
   changeFrequency(currentValueFilter: string, referenceKey: string) {
     if (referenceKey === "frequency") {
       if (currentValueFilter === 'Period') {
-        this.oldfilterFrequency = this.periodFrequency;
         this.body['frequency'] = this.periodFrequency;
       }
       else if (currentValueFilter === 'Year' || currentValueFilter === 'Month' || currentValueFilter === 'Quarter') {
         this.body['frequency'] = currentValueFilter;
-        this.oldfilterFrequency = currentValueFilter;
       }
     }
    
   }
-
-
-
 
   // Actions
   actionClicked(e: string) {

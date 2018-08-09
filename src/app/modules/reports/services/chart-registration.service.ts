@@ -80,7 +80,7 @@ export class ChartRegistration {
         ChartRegistration.associations.push({
             chartId: chart.uniqId,
             filterId: filter.getFullname(),
-            currentValue: 'Year',
+            currentValue: 'Month',
             oldValue: undefined,
             referenceKey: filter.referenceKey
         });

@@ -150,30 +150,36 @@ export class IndicatorPageComponent implements OnInit {
       });
 
     //Verify the type (here : Country, Project, Distribution) to display the good charts
-    this.dataFilter2.forEach(filter => {
-      if (filter['active']) {
-        this.type = filter['value'];
-        this.selectedProject = [];
-        if (this.type == 'Distribution') {
-          this.display = false;
-        } else {
-          this.display = true;
+    if(e.id === "bms") {
+      this.dataFilter2.forEach(filter => {
+        if (filter['active']) {
+          this.type = filter['value'];
+          this.selectedProject = [];
+          if (this.type == 'Distribution') {
+            this.display = false;
+          } 
+          else {
+            this.display = true;
+          }
         }
-      }
-    });
+      });
+    } else if( e.id === "frequency") {
+      //Verify the frequency selected
+      this.dataFilter1.forEach(filter => {
+        if (filter['active']) {
+          this.frequency = filter['value'];
+          if (filter['value'] === "Period") {
+            this.period = true;
+          } else {
+            this.period = false;
+            this.selectedPeriodFrequency = 'Period';
+          }
+        }
+      });
+    }
 
-    //Verify the frequency selected
-    this.dataFilter1.forEach(filter => {
-      if (filter['active']) {
-        this.frequency = filter['value'];
-        if (filter['value'] === "Period") {
-          this.period = true;
-        } else {
-          this.period = false;
-          this.selectedPeriodFrequency = 'Period';
-        }
-      }
-    });
+
+    
   }
 
   /**
@@ -284,7 +290,6 @@ export class IndicatorPageComponent implements OnInit {
       var project = event.value.split(" - ");
       this.selectedProject.push(project[0]);
       this.selectedDistribution = [];
-      console.log(this.selectedProject);
       this.getDistributions();
       this.display = true;
     }

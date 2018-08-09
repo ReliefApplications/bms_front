@@ -60,8 +60,8 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field *ngIf="type == 'Distribution'">
-            <mat-select placeholder="Distributions" multiple (selectionChange)="getDistributionSelected($event)">
-              <mat-option *ngFor="let distribution of distributionList" [value]="distribution">{{distribution}}</mat-option>
+            <mat-select placeholder="Distributions" multiple (selectionChange)="getDistributionSelected($event)" >
+              <mat-option *ngFor="let distribution of distributionList" [value]="distribution" #selectorDistribution>{{distribution}}</mat-option>
             </mat-select>
           </mat-form-field>
         </mat-card>

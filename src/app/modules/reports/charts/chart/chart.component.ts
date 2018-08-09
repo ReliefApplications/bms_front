@@ -45,6 +45,7 @@ export class ChartComponent implements OnInit, ChartInterface {
 
   @Input() periodFrequency: string;
   oldPeriodFrequency: string = '';
+  oldfilterFrequency: string = '';
 
   @Input() indicatorConfig: ChartIndicatorConfigClass;
 
@@ -77,7 +78,6 @@ export class ChartComponent implements OnInit, ChartInterface {
   }
 
   ngOnInit() {
-
     // Visualisation 
     if (this.indicatorConfig.idIndicator == '9') {
       this.scheme = {
@@ -95,7 +95,6 @@ export class ChartComponent implements OnInit, ChartInterface {
       };
     }
 
-
     let header = document.getElementById("header");
     this.view = [360, 300];
     if (header) {
@@ -105,6 +104,14 @@ export class ChartComponent implements OnInit, ChartInterface {
 
     // Filters
     this.oldFilters = this.filters;
+    if(this.indicatorConfig.items === "Distribution") {
+      this.body["project"] = this.project;
+      this.oldProject = this.project;
+    } else {
+      this.body['NoProject'] = [];
+    }
+    this.body['NoDistribution'] = [];
+    this.oldPeriodFrequency = this.periodFrequency;
 
     // Registration
     this.chartRegistrationService.generateId(this);
@@ -120,9 +127,90 @@ export class ChartComponent implements OnInit, ChartInterface {
     //Verify if value change and if value for the chart are already compared
     if ((changes.filters.currentValue != changes.filters.previousValue && !ChartRegistration.comparaisons.get(this.uniqId)) ||
       (changes.project && changes.project.currentValue != changes.project && changes.project.previousValue) ||
-      (changes.distribution && changes.distribution.currentValue != changes.distribution && changes.distribution.previousValue) || 
+      (changes.distribution && changes.distribution.currentValue != changes.distribution && changes.distribution.previousValue) ||
       (changes.periodFrequency && changes.periodFrequency.currentValue != changes.periodFrequency && changes.periodFrequency.previousValue)) {
 
+      //Search filter associate with the chart
+      ChartRegistration.associations
+        .filter((item: RegisteredItem) => item.chartId === this.uniqId)
+        .forEach((item: RegisteredItem) => {
+          ChartRegistration.comparaisons.set(this.uniqId, true);
+          this.changeFrequency(item.currentValue, item.referenceKey);
+        })
+
+      if (Object.keys(this.body).length === 3) {
+        this.conditionToGet();
+      }
+      this.loader = false;
+      this.loaded = true;
+    }
+  }
+
+  ngAfterViewChecked() {
+    /**
+     *Allow a responsive chart
+     */
+    let header = document.getElementById("header");
+    if (header && this.view && ((this.view[0] != header.offsetWidth - 20) || (this.view[1] != 360 - header.offsetHeight))) {
+      this.view[0] = header.offsetWidth - 20;
+      this.view[1] = 360 - header.offsetHeight;
+    }
+  }
+
+  /**
+   * Get data from the back with id of indicator and body
+   * Body contains filters : 
+   *  - Project = to know which project the user want to display
+   *  - Distribution = to know which distribution the user want to display
+   *                           A distribution is always link with a project
+   *  - frequency = to knwo which frequency the user want to display
+   *  - if no project or distribution are selected, keys Project and Distribution
+   *    are replace by keys NoDistribtion and NoProject
+   */
+  getData() {
+    let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
+    if (promise) {
+      promise.toPromise().then(response => {
+        this.data = response.json();
+        if (!this.data || this.data.length === 0) {
+          this.noData = true;
+          this.loader = false;
+        }
+        else {
+          this.noData = false;
+          if (this.indicatorConfig.type == 'line') {
+            this.axis.yAxisLabel = this.data[0].series[0]['unity'];
+          }
+        }
+      })
+    };
+  }
+
+  /**
+   * To put the good key in the body before get the data
+   */
+  putInBody(nameCase: string) {
+    if (nameCase === "frequency") {
+      console.log(nameCase)
+      if ((this.project.length > 0)) {
+        this.body['project'] = this.oldProject;
+        delete (this.body['NoProject']);
+      } else if (this.project.length === 0) {
+        delete (this.body['project']);
+        this.body['NoProject'] = [];
+      }
+
+      if (this.distribution.length > 0) {
+        this.body['distribution'] = this.oldDistribution;
+        delete (this.body['NoDistribution']);
+
+      } else if (this.distribution.length === 0) {
+        delete (this.body['distribution']);
+        this.body['NoDistribution'] = [];
+      }
+    }
+    else {
+      console.log(nameCase)
       if ((this.project.length > 0)) {
         this.body['project'] = this.project;
         delete (this.body['NoProject']);
@@ -139,99 +227,78 @@ export class ChartComponent implements OnInit, ChartInterface {
         delete (this.body['distribution']);
         this.body['NoDistribution'] = [];
       }
+    }
 
+  }
 
-      //Search filter associate with the chart
-      ChartRegistration.associations
-        .filter((item: RegisteredItem) => item.chartId === this.uniqId)
-        .forEach((item: RegisteredItem) => {
-          ChartRegistration.comparaisons.set(this.uniqId, true);
-          this.body[item.referenceKey] = item.currentValue;
-        })
+  /**
+   * Condition to respect to can new data
+   */
+  conditionToGet() {
+    console.group();
+    console.log('indicator congig', this.indicatorConfig.items);
+    console.log('distribution length', this.distribution.length);
+    console.log('old project length', this.oldProject.length);
+    console.log('project new / old ', this.project, this.oldProject);
+    console.log('distribution new / old ', this.distribution, this.oldDistribution);
+    console.log('frequency new / old ', this.periodFrequency, this.oldPeriodFrequency);
+    console.groupEnd();
 
-
-      if (Object.keys(this.body).length === 3) {
-        if (this.oldProject !== this.project && this.indicatorConfig.items === 'Project') {
-          this.getData();
-          this.oldProject = this.project;
-        }
-        else if (this.oldProject !== this.project && this.oldProject.length > 0 && this.indicatorConfig.items === 'Distribution' && this.distribution.length === 0) {
-          this.getData();
-          this.oldProject = this.project;
-        }
-        else if (this.oldProject === this.project && this.oldProject.length > 0 && this.oldDistribution !== this.distribution && this.distribution.length > 0 && this.indicatorConfig.items === 'Distribution') {
-          this.getData();
-          this.oldDistribution = this.distribution;
-        }
-        else if (this.oldProject !== this.project && this.oldProject.length > 0 && this.indicatorConfig.items === 'Distribution' && this.distribution.length > 0) {
-          this.distribution = [];
-          delete (this.body['distribution']);
-          this.body['NoDistribution'] = [];
-          this.getData();
-        }
-        else if(this.body['frequency'] === 'Period' && this.periodFrequency !== this.oldPeriodFrequency) {
-          this.oldPeriodFrequency = this.periodFrequency;
-          this.body['frequency'] = this.oldPeriodFrequency;
-          this.getData();
-        } else if (this.body['frequency'] === 'Year' || this.body['frequency'] === 'Month' || this.body['frequency'] === 'Quarter'){
-          this.getData();
-          this.oldPeriodFrequency = 'Period';
-        }
+    if (this.oldProject !== this.project && this.indicatorConfig.items === 'Project') {
+      console.log("1")
+      
+      if(this.oldfilterFrequency !== this.body['frequency']) {
+        this.putInBody("frequency");
+      } else {
+        this.putInBody("default");
       }
-      this.loader = false;
-      this.loaded = true;
+
+
+      this.getData();
+      this.oldProject = this.project;
     }
-  }
-
-  ngAfterViewChecked() {
-
-    /**
-     *Allow a responsive chart
-     */
-    let header = document.getElementById("header");
-    if (header && this.view && ((this.view[0] != header.offsetWidth - 20) || (this.view[1] != 360 - header.offsetHeight))) {
-      this.view[0] = header.offsetWidth - 20;
-      this.view[1] = 360 - header.offsetHeight;
+    else if (this.oldProject !== this.project && this.oldProject.length > 0 && this.indicatorConfig.items === 'Distribution' && this.distribution.length === 0) {
+      console.log("2")
+      // this.changeFrequency("caseProjectDistribution");
+      this.putInBody("default");
+      this.getData();
+      this.oldProject = this.project;
+      this.oldDistribution = this.distribution;
     }
-
+    else if (this.oldProject === this.project && this.oldProject.length > 0 && this.oldDistribution !== this.distribution && this.distribution.length > 0 && this.indicatorConfig.items === 'Distribution') {
+      console.log("3")
+      // this.changeFrequency("caseDistribution");
+      this.putInBody("default");
+      this.getData();
+      this.oldProject = this.project;
+      this.oldDistribution = this.distribution;
+    }
+    // else if (this.indicatorConfig.items === 'Country') {
+    //   this.changeFrequency("caseCountry");
+    // }
   }
 
-  getData() {
-    let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
-    if (promise) {
-      promise.toPromise().then(response => {
-        this.data = response.json();
-        if (!this.data || this.data.length === 0) {
-          this.noData = true;
-          this.loader = false;
-        }
-        else {
-          this.noData = false;
-          if (this.indicatorConfig.type == 'numberCard') {
-            let lastDate = this.data[0]['date'].date;
-            let newData: any = [];
-            this.data.forEach(element => {
-              if (element['date'].date > lastDate) {
-                lastDate = element['date'].date;
-              }
-            });
-            this.data.forEach(element => {
-              if (element['date'].date == lastDate) {
-                newData.push(element);
-              }
-            });
-            this.data = newData;
-          }
-          if (this.indicatorConfig.type == 'line') {
-            this.axis.yAxisLabel = this.data[0].series[0]['unity'];
-          }
-        }
-      })
-    };
+  /**
+   * function call when here is an interaction with the date button
+   */
+  changeFrequency(currentValueFilter: string, referenceKey: string) {
+    if (referenceKey === "frequency") {
+      if (currentValueFilter === 'Period') {
+        this.oldfilterFrequency = this.periodFrequency;
+        this.body['frequency'] = this.periodFrequency;
+      }
+      else if (currentValueFilter === 'Year' || currentValueFilter === 'Month' || currentValueFilter === 'Quarter') {
+        this.body['frequency'] = currentValueFilter;
+        this.oldfilterFrequency = currentValueFilter;
+      }
+    }
+   
   }
+
+
+
 
   // Actions
-
   actionClicked(e: string) {
     this.action = e;
   }

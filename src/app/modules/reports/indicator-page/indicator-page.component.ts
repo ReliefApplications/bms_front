@@ -6,7 +6,7 @@ import { CacheService } from '../../../core/storage/cache.service';
 import { ButtonFilterData, ButtonFilterComponent } from '../filters/button-filter/button-filter.component';
 import { ChartRegistration, RegisteredItem } from '../services/chart-registration.service';
 import { forEach } from '@angular/router/src/utils/collection';
-import { MAT_CHIPS_DEFAULT_OPTIONS, MatButton } from '@angular/material';
+import { MAT_CHIPS_DEFAULT_OPTIONS, MatButton, MatSelect, MatOption } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { GlobalText } from '../../../../texts/global';
 import { ProjectService } from '../../../core/api/project.service';
@@ -26,7 +26,7 @@ export class IndicatorPageComponent implements OnInit {
   public indicator = GlobalText.TEXTS;
 
   @ViewChild('chart') chartDiv;
-
+  @ViewChildren(MatOption) matoption: QueryList<MatOption>;
   @ViewChildren(ButtonFilterDateComponent) buttonFilters: QueryList<ButtonFilterDateComponent>;
 
   public type = "Country";
@@ -42,7 +42,8 @@ export class IndicatorPageComponent implements OnInit {
   public period: boolean = false;
   public selectPeriodDisplay;
   public display: boolean = true;
-  public selectedPeriodFrequency: string = 'Period' ;
+  public selectedPeriodFrequency: string = 'Period';
+  public allMatOption;
 
   //for responsive design
   public maxHeight = 700;
@@ -55,9 +56,9 @@ export class IndicatorPageComponent implements OnInit {
 
   // Data Button Declaration
   public dataFilter1: Array<ButtonFilterData> = [
-    { level: '1', label: this.indicator.report_filter_per_year.toLocaleUpperCase(), value: 'Year', active: true },
+    { level: '1', label: this.indicator.report_filter_per_year.toLocaleUpperCase(), value: 'Year', active: false },
     { level: '1', label: this.indicator.report_filter_per_quarter.toLocaleUpperCase(), value: 'Quarter', active: false },
-    { level: '1', label: this.indicator.report_filter_per_month.toUpperCase(), value: 'Month', active: false },
+    { level: '1', label: this.indicator.report_filter_per_month.toUpperCase(), value: 'Month', active: true },
     { level: '1', label: this.indicator.report_filter_chose_periode.toUpperCase(), value: 'Period', active: false },
   ]
 
@@ -109,6 +110,7 @@ export class IndicatorPageComponent implements OnInit {
     }
     //Get button reference in the template and store it in variable
     this.filtersButton = this.buttonFilters;
+    this.allMatOption = this.matoption;
   }
 
   /**
@@ -122,7 +124,7 @@ export class IndicatorPageComponent implements OnInit {
     if (this.type !== this.oldType) {
       this.oldType = this.type;
       this.dataFilter1.forEach(filterDate => {
-        if(filterDate['value'] === 'Year') {
+        if (filterDate['value'] === 'Month') {
           this.frequency = filterDate['value'];
           filterDate['active'] = true;
           this.period = false;
@@ -269,12 +271,24 @@ export class IndicatorPageComponent implements OnInit {
   getProjectSelected(event) {
     this.selectedProject = [];
 
+    //to deselect mat-option when we change of project
     if (this.type === 'Distribution') {
+      this.distributionList.forEach(distribution => {
+        this.allMatOption.forEach(option => {
+          if (option.value === distribution) {
+            option.deselect();
+          }
+        });
+      });
+      
       var project = event.value.split(" - ");
       this.selectedProject.push(project[0]);
+      this.selectedDistribution = [];
+      console.log(this.selectedProject);
       this.getDistributions();
       this.display = true;
     }
+
     else if (this.type === 'Project') {
       if (event.value < 1) {
         this.projectList.forEach(element => {
@@ -312,6 +326,6 @@ export class IndicatorPageComponent implements OnInit {
   }
 
   applyPeriod(from, to) {
-    this.selectedPeriodFrequency = "from: " +  from + ' - to: '+  to;
+    this.selectedPeriodFrequency = "from: " + from + ' - to: ' + to;
   }
 }

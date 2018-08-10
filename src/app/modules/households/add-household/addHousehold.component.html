@@ -58,7 +58,7 @@
                             </div>
                             <div class="content-select notes">
                                 <mat-form-field>
-                                    <input matInput  placeholder={{household.add_household_getOccupation}} #Livelihood>
+                                    <input matInput placeholder={{household.add_household_getOccupation}} #Livelihood>
                                 </mat-form-field>
                                 <mat-form-field>
                                     <textarea matInput matAutosizeMaxRows=12 matTextareaAutosize="true" placeholder={{household.add_household_getNotes}} #Notes></textarea>
@@ -111,11 +111,17 @@
                                             </mat-form-field>
                                         </div>
                                         <div class="content-select">
-                                            <mat-form-field>
-                                                <input matInput [matDatepicker]="birthHead" placeholder={{household.add_household_getDateOfBirth}} formControlName="birth"
+                                            <mat-form-field class="datepicker-computer">
+                                                <input matInput [matDatepicker]="birthHeadComputer" placeholder={{household.add_household_getDateOfBirth}} formControlName="birth"
                                                     #DateOfBirthHead>
-                                                <mat-datepicker-toggle matSuffix [for]="birthHead"></mat-datepicker-toggle>
-                                                <mat-datepicker #birthHead></mat-datepicker>
+                                                <mat-datepicker-toggle matSuffix [for]="birthHeadComputer"></mat-datepicker-toggle>
+                                                <mat-datepicker  #birthHeadComputer></mat-datepicker>
+                                            </mat-form-field>
+                                            <mat-form-field class="datepicker-mobile">
+                                                <input matInput [matDatepicker]="birthHeadMobile" placeholder={{household.add_household_getDateOfBirth}} formControlName="birth"
+                                                    #DateOfBirthHead>
+                                                <mat-datepicker-toggle matSuffix [for]="birthHeadMobile"></mat-datepicker-toggle>
+                                                <mat-datepicker touchUi #birthHeadMobile></mat-datepicker>
                                             </mat-form-field>
                                             <mat-form-field>
                                                 <mat-select placeholder={{household.add_household_getTypeNationalId}} formControlName="typeNationalId" (selectionChange)="selected($event, 'typeNationalId')">
@@ -165,10 +171,10 @@
                 </div>
                 <div class="container-content box-green">
                     <div class="content-table">
-                        <form [formGroup]="beneficiaryForm" (ngSubmit)='next()'>
+                        <form [formGroup]="beneficiaryForm" (ngSubmit)='next()' class="all-information-mobile">
                             <div formArrayName='beneficiary'>
                                 <div *ngFor="let item of beneficiary.controls; let beneficiaryIndex=index" [formGroupName]="beneficiaryIndex" class="member">
-                                    <div class="all-information">
+                                    <div class="all-information-computer member-mobile">
                                         <div class="content-select">
                                             <mat-form-field>
                                                 <input matInput placeholder={{household.add_household_getFamilyName}} formControlName="familyName">
@@ -183,11 +189,17 @@
                                             </mat-form-field>
                                         </div>
                                         <div class="content-select">
-                                            <mat-form-field>
-                                                <input matInput [matDatepicker]="birthHead" placeholder={{household.add_household_getDateOfBirth}} formControlName="birth"
+                                            <mat-form-field class="datepicker-computer">
+                                                <input matInput [matDatepicker]="birthBeneficiaryComputer" placeholder={{household.add_household_getDateOfBirth}} formControlName="birth"
                                                     #DateOfBirthHead>
-                                                <mat-datepicker-toggle matSuffix [for]="birthHead"></mat-datepicker-toggle>
-                                                <mat-datepicker #birthHead></mat-datepicker>
+                                                <mat-datepicker-toggle matSuffix [for]="birthBeneficiaryComputer"></mat-datepicker-toggle>
+                                                <mat-datepicker #birthBeneficiaryComputer></mat-datepicker>
+                                            </mat-form-field>
+                                            <mat-form-field class="datepicker-mobile">
+                                                <input matInput [matDatepicker]="birthBeneficiaryMobile" placeholder={{household.add_household_getDateOfBirth}} formControlName="birth"
+                                                    #DateOfBirthHead>
+                                                <mat-datepicker-toggle matSuffix [for]="birthBeneficiaryMobile"></mat-datepicker-toggle>
+                                                <mat-datepicker touchUi #birthBeneficiaryMobile></mat-datepicker>
                                             </mat-form-field>
                                             <mat-form-field>
                                                 <mat-select placeholder={{household.add_household_getTypeNationalId}} formControlName="typeNationalId" (selectionChange)="selected($event, 'typeNationalId')">
@@ -268,11 +280,11 @@
                                     <label class='title'>Village</label>
                                     <label>{{householdToCreate.location.adm4}}</label>
                                 </div>
-                                <div class='column'>
+                                <div class='column' *ngIf='householdToCreate.livelihood'>
                                     <label class='title'>Livelihood</label>
                                     <label>{{householdToCreate.livelihood}}</label>
                                 </div>
-                                <div class='column'>
+                                <div class='column' *ngIf="householdToCreate.notes">
                                     <label class='title'>Notes</label>
                                     <label>{{householdToCreate.notes}}</label>
 
@@ -285,7 +297,7 @@
                         </div>
 
                         <div>
-                            <h4 class="done">Country Specific Information</h4>
+                            <h4 class="done" *ngIf="householdToCreate.country_specific_answers.length > 0">Country Specific Information</h4>
                             <div class='row'>
                                 <div class='column' *ngFor='let countrySpecific of householdToCreate.country_specific_answers'>
                                     <label class='title'>{{countrySpecific.country_specific.field}}</label>

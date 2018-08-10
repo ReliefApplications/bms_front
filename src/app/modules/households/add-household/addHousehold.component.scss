@@ -75,11 +75,27 @@ label, h4 {
     width: 30px;
 }
 
+.datepicker-mobile {
+    display: none;
+}
+
+.datepicker-computer {
+    display: block;
+}
+
 //for mobile screen
 @media only screen and (max-width: 750px){
     .container-table{
         width: 99% !important;
         flex-direction: column;
+    }
+
+    .datepicker-mobile {
+        display: block;
+    }
+
+    .datepicker-computer {
+        display: none !important;
     }
 
     .all-information-mobile {
@@ -94,11 +110,22 @@ label, h4 {
     }
 
     .mat-form-field {
-        display: flex !important;
+        display: flex;
         justify-content: center;          
     }
 
     .field-country-specific {
+        flex-direction: column;
+    }
+
+    .member {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .vulnerabilities {
+        width: 50%;
         flex-direction: column;
     }
 }

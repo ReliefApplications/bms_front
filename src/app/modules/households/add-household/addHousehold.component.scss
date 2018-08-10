@@ -83,6 +83,10 @@ label, h4 {
     display: block;
 }
 
+mat-progress-bar {
+    display: none;
+}
+
 //for mobile screen
 @media only screen and (max-width: 750px){
     .container-table{
@@ -111,7 +115,12 @@ label, h4 {
 
     .mat-form-field {
         display: flex;
-        justify-content: center;          
+        justify-content: center;
+        // width: 66%;          
+    }
+
+    .mat-form-field-wrapper {
+        width: 66%;
     }
 
     .field-country-specific {
@@ -131,5 +140,10 @@ label, h4 {
 
     .column {
         margin: 1vw;
+    }
+
+    mat-progress-bar {
+        display: block;
+        width: 50%;
     }
 }

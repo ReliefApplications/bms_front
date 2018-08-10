@@ -75,6 +75,7 @@
                         </div>
                     </div>
                     <div class="content-button-footer">
+                        <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
                         <button mat-raised-button (click)="addInformation(AddressNumber.value, AddressStreet.value, AddressPostcode.value, Notes.value, Livelihood.value)">
                             <span>{{household.add_household_next}}</span>
                         </button>
@@ -115,7 +116,7 @@
                                                 <input matInput [matDatepicker]="birthHeadComputer" placeholder={{household.add_household_getDateOfBirth}} formControlName="birth"
                                                     #DateOfBirthHead>
                                                 <mat-datepicker-toggle matSuffix [for]="birthHeadComputer"></mat-datepicker-toggle>
-                                                <mat-datepicker  #birthHeadComputer></mat-datepicker>
+                                                <mat-datepicker #birthHeadComputer></mat-datepicker>
                                             </mat-form-field>
                                             <mat-form-field class="datepicker-mobile">
                                                 <input matInput [matDatepicker]="birthHeadMobile" placeholder={{household.add_household_getDateOfBirth}} formControlName="birth"
@@ -154,6 +155,7 @@
                     </div>
 
                     <div class="content-button-footer">
+                        <mat-progress-bar mode="determinate" value="35"></mat-progress-bar>
                         <button mat-raised-button (click)='next("head")'>
                             <span>{{household.add_household_next}}</span>
                         </button>
@@ -231,6 +233,7 @@
                     </div>
 
                     <div class="content-button-footer">
+                        <mat-progress-bar mode="determinate" value="70"></mat-progress-bar>
                         <button mat-raised-button (click)="addMoreBeneficiary()" class="add-button">
                             <span>Add </span>
                         </button>
@@ -299,16 +302,16 @@
                         <div>
                             <h4 class="done" *ngIf="householdToCreate.country_specific_answers.length > 0">Country Specific Information</h4>
                             <div class='row'>
-                                <div  *ngFor='let countrySpecific of householdToCreate.country_specific_answers'>
+                                <div *ngFor='let countrySpecific of householdToCreate.country_specific_answers'>
                                     <div class='column' *ngIf='countrySpecific.answer != ""'>
-                                            <label class='title'>{{countrySpecific.country_specific.field}}</label>
-                                            <label>{{countrySpecific.answer}}</label>
+                                        <label class='title'>{{countrySpecific.country_specific.field}}</label>
+                                        <label>{{countrySpecific.answer}}</label>
                                     </div>
-                                    <div  class='column' *ngIf='countrySpecific.answer == ""'>
-                                            <label class='title'>{{countrySpecific.country_specific.field}}</label>
-                                            <label>-</label>
+                                    <div class='column' *ngIf='countrySpecific.answer == ""'>
+                                        <label class='title'>{{countrySpecific.country_specific.field}}</label>
+                                        <label>-</label>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -407,6 +410,7 @@
                     </div>
 
                     <div class="content-button-footer">
+                        <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
                         <button mat-raised-button class="cancel" (click)="cancel()">{{household.add_household_cancel}}</button>
                         <button mat-raised-button (click)="create()">{{household.add_household_create}}</button>
                     </div>

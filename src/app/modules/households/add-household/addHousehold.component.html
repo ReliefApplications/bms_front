@@ -299,9 +299,16 @@
                         <div>
                             <h4 class="done" *ngIf="householdToCreate.country_specific_answers.length > 0">Country Specific Information</h4>
                             <div class='row'>
-                                <div class='column' *ngFor='let countrySpecific of householdToCreate.country_specific_answers'>
-                                    <label class='title'>{{countrySpecific.country_specific.field}}</label>
-                                    <label>{{countrySpecific.answer}}</label>
+                                <div  *ngFor='let countrySpecific of householdToCreate.country_specific_answers'>
+                                    <div class='column' *ngIf='countrySpecific.answer != ""'>
+                                            <label class='title'>{{countrySpecific.country_specific.field}}</label>
+                                            <label>{{countrySpecific.answer}}</label>
+                                    </div>
+                                    <div  class='column' *ngIf='countrySpecific.answer == ""'>
+                                            <label class='title'>{{countrySpecific.country_specific.field}}</label>
+                                            <label>-</label>
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>

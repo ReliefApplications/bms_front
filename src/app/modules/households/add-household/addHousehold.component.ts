@@ -417,7 +417,7 @@ export class AddHouseholdComponent implements OnInit {
       this.householdToCreate.location.adm2 = this.selectedDistrict;
       this.householdToCreate.location.adm3 = this.selectedCommune;
       this.householdToCreate.location.adm4 = this.selectedVillage;
-      this.householdToCreate.livelihood =Number(livelihood);
+      this.householdToCreate.livelihood = Number(livelihood);
       this.answerCountrySpecific._results.forEach(result => {
         let answerCountry = new CountrySpecificAnswer;
         let idCountrySpecific = new CountrySpecific;
@@ -441,26 +441,26 @@ export class AddHouseholdComponent implements OnInit {
    * @param type
    */
   next(type) {
-      if (type === 'head') {
-        if(this.headForm.status === 'VALID') {
-          this.addBeneficiaries(this.headForm.value.head, type);
-          this.stepper.next();
-        }
-        else {
-          this.snackBar.open('Invalid field', '', { duration: 3000, horizontalPosition: "right" });
-        }
+    if (type === 'head') {
+      if (this.headForm.status === 'VALID') {
+        this.addBeneficiaries(this.headForm.value.head, type);
+        this.stepper.next();
       }
       else {
-        if (this.beneficiaryForm.status === "VALID") {
-          this.addBeneficiaries(this.beneficiaryForm.value.beneficiary, type);
-          this.stepper.next();
-        }
-        else {
-          this.snackBar.open('Invalid field', '', { duration: 3000, horizontalPosition: "right" });
-        }
+        this.snackBar.open('Invalid field', '', { duration: 3000, horizontalPosition: "right" });
       }
-    
-   
+    }
+    else {
+      if (this.beneficiaryForm.status === "VALID") {
+        this.addBeneficiaries(this.beneficiaryForm.value.beneficiary, type);
+        this.stepper.next();
+      }
+      else {
+        this.snackBar.open('Invalid field', '', { duration: 3000, horizontalPosition: "right" });
+      }
+    }
+    console.log(this.householdToCreate)
+
   }
 
   /**
@@ -494,14 +494,14 @@ export class AddHouseholdComponent implements OnInit {
     })
   }
 
-  findSrcVulnerability(idVulnerability: string) : string  {
-    let src :string = '';
+  findSrcVulnerability(idVulnerability: string): string {
+    let src: string = '';
     this.allVulnerability.forEach(vulnerability => {
       if (vulnerability.id === idVulnerability) {
         src = vulnerability.src
       }
     })
-    
+
     return src;
   }
 
@@ -511,7 +511,7 @@ export class AddHouseholdComponent implements OnInit {
    * @param type 
    * @param newBeneficiary 
    */
-  formatBeneficiaries(inputBeneficiary, type, newBeneficiary){
+  formatBeneficiaries(inputBeneficiary, type, newBeneficiary) {
     newBeneficiary.id = inputBeneficiary.id;
     newBeneficiary.family_name = inputBeneficiary.familyName;
     newBeneficiary.given_name = inputBeneficiary.givenName;
@@ -553,7 +553,7 @@ export class AddHouseholdComponent implements OnInit {
         vulnerabilities.vulnerabilities.forEach(vulnerability => {
           let fieldVulnerability: VulnerabilityCriteria = new VulnerabilityCriteria;
           fieldVulnerability.id = vulnerability;
-          fieldVulnerability.src =  this.findSrcVulnerability(vulnerability);
+          fieldVulnerability.src = this.findSrcVulnerability(vulnerability);
           newBeneficiary.vulnerability_criteria.push(fieldVulnerability);
         })
       }

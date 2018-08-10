@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener                                  } from '@angular/core';
 import { MatDialog, MatTableDataSource                                    } from '@angular/material';
-import { Router                                                           } from '@angular/router';
+import { Router, ActivatedRoute                                                           } from '@angular/router';
 
 import { GlobalText                                                       } from '../../../../texts/global';
 
@@ -50,6 +50,8 @@ export class AddDistributionComponent implements OnInit {
   public heightScreen;
   public widthScreen;
 
+  public queryParams;
+
   step = "";
 
   constructor(
@@ -57,6 +59,7 @@ export class AddDistributionComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private criteriaService: CriteriaService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -66,6 +69,7 @@ export class AddDistributionComponent implements OnInit {
     this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
     this.propertiesTypes = this.newObject.getTypeProperties(this.newObject);
     this.checkSize();
+    this.getQueryParameter();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -76,6 +80,14 @@ export class AddDistributionComponent implements OnInit {
   checkSize(): void {
     this.heightScreen = window.innerHeight;
     this.widthScreen = window.innerWidth;
+  }
+
+  /**
+   * get the parameter in the route
+   * use to get the active project
+   */
+  getQueryParameter() {
+    this.route.queryParams.subscribe(params => this.queryParams = params)
   }
 
   /**
@@ -132,7 +144,7 @@ export class AddDistributionComponent implements OnInit {
   createElement(createElement: Object, user_action) {
     if (user_action == this.criteriaAction) {
       this.criteriaArray.push(createElement);
-      this.criteriaService.getBeneficiariesNumber(this.criteriaArray).subscribe(response => {
+      this.criteriaService.getBeneficiariesNumber(this.criteriaArray, this.queryParams.project).subscribe(response => {
         this.criteriaNbBeneficiaries = response.json();
       });
       this.criteriaData = new MatTableDataSource(this.criteriaArray);
@@ -154,7 +166,7 @@ export class AddDistributionComponent implements OnInit {
       const index = this.commodityArray.findIndex((item) => item === removeElement);
       if (index > -1) {
         this.commodityArray.splice(index, 1);
-        this.criteriaService.getBeneficiariesNumber(this.criteriaArray).subscribe(response => {
+        this.criteriaService.getBeneficiariesNumber(this.criteriaArray, this.queryParams.project).subscribe(response => {
           this.criteriaNbBeneficiaries = response.json();
         });
         this.removeCommodities(removeElement);

@@ -9,6 +9,7 @@ import { SectorService                                                          
 
 import { GlobalText                                                                  } from '../../../texts/global';
 import { CriteriaService } from '../../core/api/criteria.service';
+import { ModalitiesService } from '../../core/api/modalities.service';
 
 @Component({
   selector: 'modal',
@@ -36,7 +37,8 @@ export class ModalComponent implements OnInit {
     public donorService : DonorService,    
     public sectorService : SectorService,    
     public projectService : ProjectService,    
-    public criteriaService : CriteriaService,    
+    public criteriaService : CriteriaService,  
+    public modalitiesService: ModalitiesService,  
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
@@ -95,6 +97,16 @@ export class ModalComponent implements OnInit {
     //for criterias
     if(this.newObject && this.newObject.kind_beneficiary == ''){
       this.loadedData.kind_beneficiary = [{"field_string":this.modal.model_criteria_beneficiary}, {"field_string":this.modal.model_criteria_dependents}];
+    }
+
+    if(this.newObject && this.newObject.modality == '') {
+      this.loadedData.modality = this._cacheService.get(CacheService.COMMODITY);
+      if (!this.loadedData.modality) {
+        this.modalitiesService.getModalities().subscribe(response => {
+          this.loadedData.modality = response.json();
+          this._cacheService.set(CacheService.COMMODITY, this.loadedData.modality);
+        })
+      }
     }
   }
  

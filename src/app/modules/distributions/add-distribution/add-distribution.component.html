@@ -9,13 +9,22 @@
               <mat-panel-title>
                 {{mapperObject[p]}}
               </mat-panel-title>
-              <mat-panel-description *ngIf="!(step === p)">
+              <mat-panel-description *ngIf= "propertiesTypes[p]!='date' &&  propertiesTypes[p]!='text'"> 
                 {{newObject[p]}}
               </mat-panel-description>
             </mat-expansion-panel-header>
             <mat-form-field class="accordion-field">
-              <input [(ngModel)]="newObject[p]" class="field-input" matInput type="{{propertiesTypes[p]}}">
+              <input *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date'" [(ngModel)]="newObject[p]" class="field-input"
+                matInput type="{{propertiesTypes[p]}}">
+              <mat-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [formControl]="controls"
+                (selectionChange)="selected($event, newObject, p)">
+                <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</mat-option>
+              </mat-select>
+              <input *ngIf="propertiesTypes[p]=='date'" matInput [matDatepicker]="dateDistribution" placeholder="{{mapperObject[p]}}" [(ngModel)]="newObject[p]">
+              <mat-datepicker-toggle *ngIf="propertiesTypes[p]=='date'" matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
+              <mat-datepicker #dateDistribution></mat-datepicker>
             </mat-form-field>
+
           </mat-expansion-panel>
         </mat-accordion>
       </div>

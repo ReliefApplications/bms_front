@@ -28,6 +28,11 @@ export class Commodity {
      * @type {number}
      */
     value: number;
+     /**
+     * Commodity's type of modality
+     * @type {ModalityType}
+     */
+    modality_type: ModalityType;
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -135,6 +140,10 @@ export class Commodity {
      */
     public static formatFromModalAdd(element: any, loadedData:any): Commodity {
         let commodity: Commodity = new Commodity;
+
+        let modalityType: ModalityType = new ModalityType;
+        modalityType.id = element.type;
+        commodity.modality_type = modalityType
         
         //search which modality was selected with its id
         for(let i=0; i<loadedData.modality.length; i++) {
@@ -155,4 +164,15 @@ export class Commodity {
         commodity.value = element.value;
         return commodity;
     }
+}
+
+
+export class ModalityType {
+    static __classname__ = 'ModalityType';
+    /**
+     * Modality type's id
+     * @type {number}
+     */
+    id: number;
+
 }

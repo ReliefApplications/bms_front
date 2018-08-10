@@ -143,6 +143,7 @@ export const TEXT = {
     model_distribution_adm2: "District",
     model_distribution_adm3: "Commune",
     model_distribution_adm4: "Village",
+    model_distribution_date: "Date de la distribution",
     model_donor : "Donneur",
     model_donor_fullname: "Nom du donneur",
     model_donor_shortname: "Surnom",

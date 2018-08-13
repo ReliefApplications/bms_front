@@ -5,7 +5,7 @@
     flex-direction: column;
 }
 
-.notes, .members {
+.members {
     justify-content: center;
 }
 .vulnerabilities {
@@ -31,6 +31,10 @@
     display: flex;
     justify-content: space-around;
     width: 100%;
+}
+
+.notes {
+    width: 85%;
 }
 
 

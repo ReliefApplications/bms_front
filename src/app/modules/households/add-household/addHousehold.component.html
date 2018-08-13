@@ -56,22 +56,22 @@
                                     <input [formControl]="addressPostcode" matInput placeholder={{household.add_household_getAddressPostcode}} #AddressPostcode>
                                 </mat-form-field>
                             </div>
-                            <div class="content-select notes">
+                            <div class="content-select">
                                 <mat-form-field>
                                     <input matInput placeholder={{household.add_household_getOccupation}} #Livelihood>
                                 </mat-form-field>
-                                <mat-form-field>
-                                    <textarea matInput matAutosizeMaxRows=12 placeholder={{household.add_household_getNotes}} #Notes></textarea>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="additional-information country-specific">
-                            <label class="country-specific-label">{{household.add_household_Country_Specifics}} : </label>
-                            <div class="field-country-specific">
+
                                 <mat-form-field *ngFor="let countrySpecific of countrySpecifics, i as index">
                                     <input matInput placeholder={{countrySpecific.field}} #countrySpecificsAnswer>
                                 </mat-form-field>
+
                             </div>
+                        </div>
+                        <div class="additional-information">
+
+                            <mat-form-field class="notes">
+                                <textarea matInput matAutosizeMaxRows=12 placeholder={{household.add_household_getNotes}} #Notes></textarea>
+                            </mat-form-field>
                         </div>
                     </div>
                     <div class="content-button-footer">

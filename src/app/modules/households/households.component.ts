@@ -4,6 +4,7 @@ import { CacheService } from '../../core/storage/cache.service';
 import { Households } from '../../model/households';
 import { HouseholdsService } from '../../core/api/households.service';
 import { GlobalText } from '../../../texts/global';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-households',
@@ -21,6 +22,7 @@ export class HouseholdsComponent implements OnInit {
   constructor(
     private cacheService: CacheService,
     public householdsService: HouseholdsService,
+    private router: Router,
   ) { }
 
   //For windows size
@@ -70,6 +72,10 @@ export class HouseholdsComponent implements OnInit {
   checkSize(): void{
     this.heightScreen = window.innerHeight;
     this.widthScreen = window.innerWidth;
+  }
+
+  addOneHousehold(){
+    this.router.navigate(['/households/add-household']);
   }
 
 

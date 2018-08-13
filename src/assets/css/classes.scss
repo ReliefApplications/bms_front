@@ -66,11 +66,57 @@
     }
 }
 
-// button {
-//     color: $bms_white;
-//     background-color: $bms_green;
+
+.mat-stepper-horizontal {
+    display: block;
+    width: 100%;
+    .container-table {
+        padding: 0px;
+        .box-green{
+            border-top: solid 12px $bms_green;
+            .content-button{
+                justify-content: flex-end !important;
+                .next{
+                    font-weight: 900;
+                    margin-right: 0.8vw;
+                 }
+            } 
+            .content-table {
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+                .done {
+                    display: flex;
+                    width: 100%;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-top: 2vh;
+                    .buttonSend {
+                        margin: 2vh 0;
+                    }
+                }
+            }
+            .content-button-footer{
+                display: flex;
+                width: 100%;
+                padding : 10px 20px 20px 20px;
+                align-items: center;
+                justify-content: flex-end;
     
-// }
+                .mat-raised-button {
+                    color: white;
+                    background-color: $bms_green;
+                    span{
+                        font-family: $bms_font_text;
+                    }
+                }
+            }
+        }  
+    }
+}
+
+.stepInMobile {
+    display : none;
+}
 
 //for mobile screen
 @media only screen and (max-width: 750px){
@@ -93,6 +139,32 @@
             padding: 0px !important;
         }
     }
+
+    .next {
+        padding-left: 0 !important;
+    }
+
+    .content-button-footer {
+        justify-content: space-between !important;
+    }
+
+    .stepInMobile {
+        display: flex !important;
+        margin-bottom: 3vh;
+        justify-content: center;
+    }
+    .dot {
+        height: 24px;
+        width: 24px;
+        background-color: #424242;
+        border-radius: 50%;
+        display: flex;
+        color: white;
+        justify-content: center;
+        align-items: center;
+        margin-right: 4vw;
+    }
+
 
 
 }

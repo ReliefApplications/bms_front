@@ -260,7 +260,7 @@
                         <!-- <div class="done">
                             {{household.add_household_done}}
                         </div> -->
-                        <div>
+                        <mat-card>
                             <h4 class="done">Household general information</h4>
                             <div class='row'>
                                 <div class='column'>
@@ -300,9 +300,9 @@
                                     <label>{{selectedProject}}</label>
                                 </div>
                             </div>
-                        </div>
+                        </mat-card>
 
-                        <div>
+                        <mat-card>
                             <h4 class="done" *ngIf="householdToCreate.country_specific_answers.length > 0">Country Specific Information</h4>
                             <div class='row'>
                                 <div *ngFor='let countrySpecific of householdToCreate.country_specific_answers'>
@@ -317,8 +317,8 @@
 
                                 </div>
                             </div>
-                        </div>
-                        <div>
+                        </mat-card>
+                        <mat-card>
                             <h4 class="done">Head of Household</h4>
                             <div *ngFor='let head of householdToCreate.beneficiaries'>
                                 <div *ngIf='head.status === "1"'>
@@ -360,8 +360,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div>
+                        </mat-card>
+                        <mat-card>
                             <h4 class="done">Member of Household</h4>
                             <div *ngFor='let member of householdToCreate.beneficiaries'>
                                 <div *ngIf='member.status === "0"'>
@@ -403,7 +403,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </mat-card>
 
 
 

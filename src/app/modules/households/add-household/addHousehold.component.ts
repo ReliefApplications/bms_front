@@ -440,7 +440,7 @@ export class AddHouseholdComponent implements OnInit {
    * the type is head or beneficiary : head for the step 2, beneficiary for the step 3
    * @param type
    */
-  next(type) {
+  next(type:string = null) {
     if (type === 'head') {
       if (this.headForm.status === 'VALID') {
         this.addBeneficiaries(this.headForm.value.head, type);

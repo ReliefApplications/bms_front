@@ -132,7 +132,7 @@ export class Households {
         return name;
     }
 
-    public static formatArray(instance): Households[] {
+    public static formatArray(instance : any): Households[] {
         let households: Households[] = [];
         instance.forEach(element => {
             households.push(this.formatElement(element));
@@ -148,7 +148,7 @@ export class Households {
             household.familyName = beneficiary.family_name;
             household.firstName = beneficiary.given_name;
             beneficiary.vulnerability_criteria.forEach(vulnerability => {
-                household.vulnerabilities.push(this.mapVulnerability(vulnerability.value))
+                household.vulnerabilities.push(this.mapVulnerability(vulnerability.field_string))
             });
 
 

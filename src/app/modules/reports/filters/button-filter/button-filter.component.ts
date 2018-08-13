@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AbstractFilter, FilterInterface } from '../../model/filter';
+import { AbstractFilter, FilterInterface } from '../../../../model/filter';
 import { FilterService } from '../../services/filter.service';
 
 export interface ButtonFilterData {

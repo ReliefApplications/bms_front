@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { Indicator } from '../model/indicator';
-import { FilterInterface } from '../model/filter';
+import { Indicator } from '../../../model/indicator';
+import { FilterInterface } from '../../../model/filter';
 
 @Component({
   selector: 'app-indicator',
@@ -14,13 +14,13 @@ export class IndicatorComponent implements OnInit {
   @Input() chartDimensions: number[];
   @Input() filters: Array<FilterInterface> = [];
   @Input() xAxisLabel;
+  @Input() project: string[];
+  @Input() distribution: string[];
+  @Input() periodFrequency:string;
 
-  public computedMethod: string;
   public newFilters;
 
-  constructor() {
-    this.computedMethod = "Nombre absolu";
-  }
+  constructor() {}
 
   ngOnInit() {
     this.chartDimensions = [400, 300];

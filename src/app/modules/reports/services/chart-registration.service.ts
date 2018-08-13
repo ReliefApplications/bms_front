@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ChartInterface } from "../charts/chart/chart.interface";
-import { FilterInterface } from "../model/filter";
+import { FilterInterface } from "../../../model/filter";
 
 
 
@@ -80,7 +80,7 @@ export class ChartRegistration {
         ChartRegistration.associations.push({
             chartId: chart.uniqId,
             filterId: filter.getFullname(),
-            currentValue: undefined,
+            currentValue: 'Month',
             oldValue: undefined,
             referenceKey: filter.referenceKey
         });

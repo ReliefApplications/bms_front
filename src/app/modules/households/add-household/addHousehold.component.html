@@ -61,7 +61,7 @@
                                     <input matInput placeholder={{household.add_household_getOccupation}} #Livelihood>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <textarea matInput matAutosizeMaxRows=12 matTextareaAutosize="true" placeholder={{household.add_household_getNotes}} #Notes></textarea>
+                                    <textarea matInput matAutosizeMaxRows=12 placeholder={{household.add_household_getNotes}} #Notes></textarea>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -175,7 +175,8 @@
                     <div class="content-table">
                         <form [formGroup]="beneficiaryForm" (ngSubmit)='next()' class="all-information-mobile">
                             <div formArrayName='beneficiary'>
-                                <div *ngFor="let item of beneficiary.controls; let beneficiaryIndex=index" [formGroupName]="beneficiaryIndex" class="member">
+                                <div *ngFor="let item of beneficiary.controls; let beneficiaryIndex=index; last as isLast" [formGroupName]="beneficiaryIndex"
+                                    class="member">
                                     <div class="all-information-computer member-mobile">
                                         <div class="content-select">
                                             <mat-form-field>
@@ -227,6 +228,8 @@
                                         <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability, beneficiaryIndex, 'beneficiary')" formControlName="vulnerabilities"
                                             *ngFor="let vulnerability of allVulnerability">{{vulnerability.field_string}}</mat-checkbox>
                                     </div>
+                                    <mat-divider *ngIf="!isLast"></mat-divider>
+
                                 </div>
                             </div>
                         </form>

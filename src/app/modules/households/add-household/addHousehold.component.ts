@@ -459,8 +459,6 @@ export class AddHouseholdComponent implements OnInit {
         this.snackBar.open('Invalid field', '', { duration: 3000, horizontalPosition: "right" });
       }
     }
-    console.log(this.householdToCreate)
-
   }
 
   /**

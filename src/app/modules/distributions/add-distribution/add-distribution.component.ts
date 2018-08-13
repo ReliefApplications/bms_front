@@ -45,8 +45,6 @@ export class AddDistributionComponent implements OnInit {
   public commodityData = new MatTableDataSource([]);
   public commodityNb = 0;
 
-  public addDistribution = false;
-
   public maxHeight = GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;
   public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
@@ -85,6 +83,9 @@ export class AddDistributionComponent implements OnInit {
     this.loadProvince();
   }
 
+  /**
+   * Get adm1 from the back or from the cache service with the key ADM1
+   */
   loadProvince() {
     this.locationService.getAdm1().subscribe(response => {
       this.loadedData.adm1 = response.json();
@@ -96,6 +97,10 @@ export class AddDistributionComponent implements OnInit {
     this.loadedData.adm4 = [];
   }
 
+  /**
+   *  Get adm2 from the back or from the cache service with the key ADM2
+   * @param adm1
+   */
   loadDistrict(adm1) {
     this.locationService.getAdm2(adm1).subscribe(response => {
       this.loadedData.adm2 = response.json();
@@ -106,6 +111,10 @@ export class AddDistributionComponent implements OnInit {
     this.loadedData.adm4 = [];
   }
 
+  /**
+   * Get adm3 from the back or from the cahce service with the key ADM3
+   * @param adm2 
+   */
   loadCommunity(adm2) {
     this.locationService.getAdm3(adm2).subscribe(response => {
       this.loadedData.adm3 = response.json();
@@ -115,6 +124,10 @@ export class AddDistributionComponent implements OnInit {
     this.loadedData.adm4 = [];
   }
 
+  /**
+   *  Get adm4 from the back or from the cahce service with the key ADM4
+   * @param adm3 
+   */
   loadVillage(adm3) {
     this.locationService.getAdm4(adm3).subscribe(response => {
       this.loadedData.adm4 = response.json();
@@ -123,6 +136,13 @@ export class AddDistributionComponent implements OnInit {
     });
   }
 
+  /**
+   * Check which adm is selected to load the list of adm link to it
+   * fro example : if adm1 (province) selected load adm2
+   * @param event
+   * @param selectedObject 
+   * @param index 
+   */
   selected($event, selectedObject, index) {
     if (index === "adm1") {
       this.loadDistrict(selectedObject);
@@ -163,10 +183,17 @@ export class AddDistributionComponent implements OnInit {
     }
   }
 
+  /**
+   * to cancel the creation of distribution and go back in the distribution page
+   */
   cancel() {
     this.router.navigate(["distribution"]);
   }
 
+  /**
+   * Get in the chache service the name of all adm selected
+   * @param adm 
+   */
   getAdmName(adm: string) {
     if (adm === "adm1") {
       let adm1 = this._cacheService.get(CacheService.ADM1);
@@ -209,8 +236,10 @@ export class AddDistributionComponent implements OnInit {
     }
   }
 
+  /**
+   * create the new distribution object before send it to the back
+   */
   add() {
-    this.addDistribution = true;
     let newDistribution: DistributionData = new DistributionData;
     newDistribution.name = this.newObject.name;
     newDistribution.type = "0";
@@ -277,6 +306,11 @@ export class AddDistributionComponent implements OnInit {
     }
   }
 
+  /**
+   * add row in selection criteria table and distributed commodity table
+   * @param createElement 
+   * @param user_action 
+   */
   createElement(createElement: Object, user_action) {
     if (user_action == this.criteriaAction) {
       this.criteriaArray.push(createElement);
@@ -291,6 +325,11 @@ export class AddDistributionComponent implements OnInit {
     }
   }
 
+  /**
+   * delete row in selection criteria table and distributed commodity table
+   * @param removeElement 
+   * @param user_action 
+   */
   removeElement(removeElement: Object, user_action) {
     if (user_action == this.criteriaAction) {
       const index = this.criteriaArray.findIndex((item) => item === removeElement);
@@ -311,6 +350,10 @@ export class AddDistributionComponent implements OnInit {
     }
   }
 
+  /**
+   * add the number of all commodites to display the total
+   * @param createElement 
+   */
   sumCommodities(createElement: Object) {
     let value = parseInt(createElement["value"], 10);
     if (value) {
@@ -318,6 +361,10 @@ export class AddDistributionComponent implements OnInit {
     }
   }
 
+  /**
+   * remove of the total the remove commodity
+   * @param removeElement 
+   */
   removeCommodities(removeElement: Object) {
     let value = parseInt(removeElement["value"], 10);
     if (value) {

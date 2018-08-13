@@ -101,7 +101,6 @@ export const TEXT = {
     add_distribution_distributed_commodity : "distributed commodity",
     add_distribution_beneficiaries_reached: "Beneficiaries reached",
     add_distribution_commodities_delivered: "Commodities delivered",
-    add_distribution_create_error: "create a distribution soon !",
 
     table_filter : "Filter",
     table_actions : "Actions",

@@ -34,7 +34,17 @@
 }
 
 .notes {
-    width: 85%;
+    width: 90%;
+}
+
+.step1 {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.content-table-step1 {
+    align-items: center
 }
 
 

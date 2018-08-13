@@ -132,7 +132,7 @@ export class Households {
         return name;
     }
 
-    public static formatArray(instance): Households[] {
+    public static formatArray(instance : any): Households[] {
         let households: Households[] = [];
         instance.forEach(element => {
             households.push(this.formatElement(element));

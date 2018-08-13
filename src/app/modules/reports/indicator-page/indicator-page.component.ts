@@ -1,14 +1,20 @@
-import { Component, OnInit, ViewChild, SimpleChanges, ElementRef, ViewChildren, QueryList, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, SimpleChanges, ElementRef, ViewChildren, QueryList, HostListener, Output, EventEmitter } from '@angular/core';
 import { IndicatorService } from '../services/indicator.service';
-import { FilterEvent, FilterInterface, AbstractFilter } from '../model/filter';
-import { Indicator } from '../model/indicator';
+import { FilterEvent, FilterInterface, AbstractFilter } from '../../../model/filter';
+import { Indicator } from '../../../model/indicator';
 import { CacheService } from '../../../core/storage/cache.service';
 import { ButtonFilterData, ButtonFilterComponent } from '../filters/button-filter/button-filter.component';
 import { ChartRegistration, RegisteredItem } from '../services/chart-registration.service';
 import { forEach } from '@angular/router/src/utils/collection';
-import { MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material';
-import { FormControl } from '@angular/forms';
+import { MAT_CHIPS_DEFAULT_OPTIONS, MatButton, MatSelect, MatOption } from '@angular/material';
+import { FormControl, Validators } from '@angular/forms';
 import { GlobalText } from '../../../../texts/global';
+import { ProjectService } from '../../../core/api/project.service';
+import { Project } from '../../../model/project';
+import { DistributionService } from '../../../core/api/distribution.service';
+import { DistributionData } from '../../../model/distribution-data';
+import { filterQueryId } from '@angular/core/src/view/util';
+import { ButtonFilterDateComponent } from '../filters/button-filter/button-filter-data/button-filter-date.component';
 
 
 @Component({
@@ -18,22 +24,28 @@ import { GlobalText } from '../../../../texts/global';
 })
 export class IndicatorPageComponent implements OnInit {
   public indicator = GlobalText.TEXTS;
+  from = new FormControl('', [Validators.required]);
+  to = new FormControl('', [Validators.required]);
 
   @ViewChild('chart') chartDiv;
-
-  @ViewChildren(ButtonFilterComponent) buttonFilters: QueryList<ButtonFilterComponent>;
+  @ViewChildren(MatOption) matoption: QueryList<MatOption>;
+  @ViewChildren(ButtonFilterDateComponent) buttonFilters: QueryList<ButtonFilterDateComponent>;
 
   public type = "Country";
+  public oldType = "Country";
   public filters: Map<string, FilterInterface> = new Map<string, FilterInterface>();
   public body: any = [];
   public indicators: any[] = [];
   public filtersButton;
-  public frequency = this.indicator.report_frequency_year;
+  public frequency = "Month";
   public frequencyChanged = false;
   public chartDimensions: number[];
   public indicatorsLoading = false;
   public period: boolean = false;
   public selectPeriodDisplay;
+  public display: boolean = true;
+  public selectedPeriodFrequency: string = 'Period';
+  public allMatOption;
 
   //for responsive design
   public maxHeight = 700;
@@ -46,38 +58,47 @@ export class IndicatorPageComponent implements OnInit {
 
   // Data Button Declaration
   public dataFilter1: Array<ButtonFilterData> = [
-    { level: '1', label: this.indicator.report_filter_per_year.toLocaleUpperCase(), value: this.indicator.report_frequency_year, active: true },
-    { level: '1', label: this.indicator.report_filter_per_quarter.toLocaleUpperCase(), value: this.indicator.report_frequency_quarter, active: false },
-    { level: '1', label: this.indicator.report_filter_per_month.toUpperCase(), value: this.indicator.report_frequency_month, active: false },
+    { level: '1', label: this.indicator.report_filter_per_year.toLocaleUpperCase(), value: 'Year', active: false },
+    { level: '1', label: this.indicator.report_filter_per_quarter.toLocaleUpperCase(), value: 'Quarter', active: false },
+    { level: '1', label: this.indicator.report_filter_per_month.toUpperCase(), value: 'Month', active: true },
+    { level: '1', label: this.indicator.report_filter_chose_periode.toUpperCase(), value: 'Period', active: false },
   ]
 
   public dataFilter2: Array<ButtonFilterData> = [
-    { level: '0', icon: 'settings/api', color: 'red', label: this.indicator.report_country_report.toLocaleUpperCase(), value: this.indicator.report_country, active: true },
-    { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: this.indicator.report_project, active: false },
-    { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: this.indicator.report_distribution, active: false },
+    { level: '0', icon: 'settings/api', color: 'red', label: this.indicator.report_country_report.toLocaleUpperCase(), value: 'Country', active: true },
+    { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: 'Project', active: false },
+    { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: false },
   ]
 
-  //static variable
-  // TODO: Replace par data from back
-  projects = new FormControl();
-  projectList: string[] = ['a', 'b', 'c', 'd', 'e', 'f'];
+  //variable for display name of project and distribution in selectors
+  public projectList: string[] = [];
+  public distributionList: string[] = [];
 
-  distributions = new FormControl();
-  distributionList: string[] = ['0', '1', '2', '3', '4', '5'];
+  //array to know which project or distribution are selected 
+  public selectedProject: string[] = [];
+  public selectedDistribution: string[] = [];
 
   constructor(
-    public referedClassService: IndicatorService,
+    public indicatorService: IndicatorService,
     public cacheService: CacheService,
-    public chartRegistrationService: ChartRegistration
+    public chartRegistrationService: ChartRegistration,
+    public projectService: ProjectService,
+    public distribtutionService: DistributionService
   ) {
   }
 
   ngOnInit() {
     this.checkSize();
+    this.getProjects();
+
     if (!this.indicatorsLoading) {
       this.indicatorsLoading = true;
-      this.referedClassService.getIndicators().toPromise().then(response => {
-        this.indicators = response as any;
+      this.indicatorService.getIndicators().toPromise().then(response => {
+
+        let indicatorResponse = Indicator.FormatArray(response.json());
+        for (let i = 0; i < indicatorResponse.length; i++) {
+          this.indicators.push(indicatorResponse[i]);
+        }
         this.indicatorsLoading = false
       }).catch(e => {
         this.indicatorsLoading = false;
@@ -91,6 +112,7 @@ export class IndicatorPageComponent implements OnInit {
     }
     //Get button reference in the template and store it in variable
     this.filtersButton = this.buttonFilters;
+    this.allMatOption = this.matoption;
   }
 
   /**
@@ -99,13 +121,20 @@ export class IndicatorPageComponent implements OnInit {
   ngDoCheck() {
     if (this.indicator != GlobalText.TEXTS) {
       this.indicator = GlobalText.TEXTS;
-      if (this.period) {
-        this.frequency = this.indicator.report_period_selected;
-      }
-      if(!this.frequencyChanged){
-        this.frequency = this.indicator.report_frequency_year;
-      }
       this.updateFiltersWithLanguage();
+    }
+    if (this.type !== this.oldType) {
+      this.oldType = this.type;
+      this.dataFilter1.forEach(filterDate => {
+        if (filterDate['value'] === 'Month') {
+          this.frequency = filterDate['value'];
+          filterDate['active'] = true;
+          this.period = false;
+          this.selectedPeriodFrequency = 'Period';
+        } else {
+          filterDate['active'] = false
+        }
+      });
     }
   }
 
@@ -123,23 +152,36 @@ export class IndicatorPageComponent implements OnInit {
       });
 
     //Verify the type (here : Country, Project, Distribution) to display the good charts
-    this.dataFilter2.forEach(filter => {
-      if (filter['active']) {
-        this.type = filter['value'];
-      }
+    if(e.id === "bms") {
+      this.dataFilter2.forEach(filter => {
+        if (filter['active']) {
+          this.type = filter['value'];
+          this.selectedProject = [];
+          if (this.type == 'Distribution') {
+            this.display = false;
+          } 
+          else {
+            this.display = true;
+          }
+        }
+      });
+    } else if( e.id === "frequency") {
+      //Verify the frequency selected
+      this.dataFilter1.forEach(filter => {
+        if (filter['active']) {
+          this.frequency = filter['value'];
+          if (filter['value'] === "Period") {
+            this.period = true;
+          } else {
+            this.period = false;
+            this.selectedPeriodFrequency = 'Period';
+          }
+        }
+      });
+    }
 
-    });
 
-    //Verify the frequency selected
-    this.dataFilter1.forEach(filter => {
-      if (filter['active']) {
-        this.frequency = filter['value'];
-        this.period = false;
-      }
-      this.frequencyChanged = true;
-    });
-
-
+    
   }
 
   /**
@@ -190,38 +232,124 @@ export class IndicatorPageComponent implements OnInit {
     this.widthScreen = window.innerWidth;
   }
 
+  updateFiltersWithLanguage() {
+    this.dataFilter1[0].label = this.indicator.report_filter_per_year.toLocaleUpperCase();
+    this.dataFilter1[1].label = this.indicator.report_filter_per_quarter.toLocaleUpperCase();
+    this.dataFilter1[2].label = this.indicator.report_filter_per_month.toLocaleUpperCase();
+
+    this.dataFilter2[0].label = this.indicator.report_country_report.toLocaleUpperCase();
+    this.dataFilter2[1].label = this.indicator.report_project_report.toLocaleUpperCase();
+    this.dataFilter2[2].label = this.indicator.report_distribution_report.toLocaleUpperCase();
+  }
 
   /**
-   * For the button "choose period", 
-   * Allow to now when the button is active or not
+   * Get list of all project and put it in the project selector
    */
-  selectPeriod(): void {
-    this.period = !this.period;
-    if (this.period) {
-      this.frequency = this.indicator.report_period_selected;
-      this.dataFilter1.forEach(filter => {
-        if (filter['active']) {
-          filter['active'] = false;
+  getProjects() {
+    this.projectService.get().subscribe(response => {
+      let Projectresponse = Project.formatArray(response.json());
+      Projectresponse.forEach(element => {
+        var concat = element.id + " - " + element.name;
+        this.projectList.push(concat);
+      });
+    });
 
-        }
+  }
+
+  /**
+   * Get list of all distribution and put it in the distribution selector
+   */
+  getDistributions() {
+    this.distributionList = [];
+    this.distribtutionService.getByProject(this.selectedProject[0]).subscribe(response => {
+      let distributionResponse = DistributionData.formatArray(response.json());
+      distributionResponse.forEach(element => {
+        var concat = element.id + " - " + element.name;
+        this.distributionList.push(concat);
+      });
+    });
+
+
+  }
+
+  /**
+    * Get the project selected in the projectList selector
+    * @param event 
+    */
+  getProjectSelected(event) {
+    this.selectedProject = [];
+
+    //to deselect mat-option when we change of project
+    if (this.type === 'Distribution') {
+      this.distributionList.forEach(distribution => {
+        this.allMatOption.forEach(option => {
+          if (option.value === distribution) {
+            option.deselect();
+          }
+        });
+      });
+      
+      var project = event.value.split(" - ");
+      this.selectedProject.push(project[0]);
+      this.selectedDistribution = [];
+      this.getDistributions();
+      this.display = true;
+    }
+
+    else if (this.type === 'Project') {
+      if (event.value < 1) {
+        this.projectList.forEach(element => {
+          var project = element.split(" - ");
+          this.selectedProject.push(project[0]);
+        });
+      } else {
+        event.value.forEach(element => {
+          var project = element.split(" - ");
+          this.selectedProject.push(project[0]);
+        });
+      }
+    }
+
+
+  }
+
+  /**
+   * Get the distribution selected in the distributionList selector
+   * @param event 
+   */
+  getDistributionSelected(event) {
+    this.selectedDistribution = [];
+    if (event.value < 1) {
+      this.distributionList.forEach(element => {
+        var distribution = element.split(" - ");
+        this.selectedDistribution.push(distribution[0]);
+      });
+    } else {
+      event.value.forEach(element => {
+        var distribution = element.split(" - ");
+        this.selectedDistribution.push(distribution[0]);
       });
     }
   }
 
-  updateFiltersWithLanguage() {
-    this.dataFilter1[0].label = this.indicator.report_filter_per_year.toLocaleUpperCase();
-    this.dataFilter1[0].value = this.indicator.report_frequency_year;
-    this.dataFilter1[1].label = this.indicator.report_filter_per_quarter.toLocaleUpperCase();
-    this.dataFilter1[1].value = this.indicator.report_frequency_quarter;
-    this.dataFilter1[2].label = this.indicator.report_filter_per_month.toLocaleUpperCase();
-    this.dataFilter1[2].value = this.indicator.report_frequency_month;
+  applyPeriod(from, to) {
+    var dateFrom = from.split('/');
+    if(dateFrom[0].length < 2) {
+      dateFrom[0] = "0"+dateFrom[0];
+    }
+    if(dateFrom[1].length < 2) {
+      dateFrom[1] = "0"+dateFrom[1];
+    }
 
-    this.dataFilter2[0].label = this.indicator.report_country_report.toLocaleUpperCase();
-    this.dataFilter2[0].value = this.indicator.report_country;
-    this.dataFilter2[1].label = this.indicator.report_project_report.toLocaleUpperCase();
-    this.dataFilter2[1].value = this.indicator.report_project;
-    this.dataFilter2[2].label = this.indicator.report_distribution_report.toLocaleUpperCase();
-    this.dataFilter2[2].value = this.indicator.report_distribution;
+    var dateTo = to.split('/');
+    if(dateTo[0].length < 2) {
+      dateTo[0] = "0"+dateTo[0];
+    }
+    if(dateTo[1].length < 2) {
+      dateTo[1] = "0"+dateTo[1];
+    }
+    from = dateFrom[0] + '/' + dateFrom[1] + '/' + dateFrom[2];
+    to = dateTo[0] + '/' + dateTo[1] + '/' + dateTo[2];
+    this.selectedPeriodFrequency = from + '-' + to;
   }
-
 }

@@ -2,9 +2,6 @@
 [title]           = "title"
 [loader]          = "loader"
 [noData]          = "noData"
-[menuOpen]        = "menuOpen"
-[modalConfig]     = "modalConfig"
-(menuAction) = "actionClicked($event)"
 ></chart-header>
 
 <div *ngIf="!loader && (!noData)" >
@@ -13,7 +10,10 @@
     [scheme]         = "scheme"
     [labels]         = "'true'"
     [results]        = "data"
-    [gradient]       = "scheme.gradient">
+    [gradient]       = "scheme.gradient"
+    [legend]         = "false"
+    [trimLabels]     = "true"
+    [animations]     = "false">
     </ngx-charts-pie-chart>
 </div>
 <div *ngIf="!loader && noData" class="no-data">
@@ -21,23 +21,3 @@
 </div>
 
 <div *ngIf="loader" class="boxLoader"></div>
-
-<modal-data *ngIf="(action == 'donnees')&&!loader"
-  (closeMenu)         = "closeMenu($event)"
-  (clearAction)       = "clearAction($event)"
-  [modalId]           = "this.modalConfig.modalId"
-  [modalTitle]        = "this.title"
-  [data]              = "this.data"
-  [indicatorConfig]   = "this.indicatorConfig"
-  [filters]           = "this.filters"
-  [typeChartModal]    = "this.indicatorConfig.type"
-  [modalAxis]         = "{ x: this.axis.xAxisLabel, y: this.axis.yAxisLabel }"
-  >
-</modal-data>
-
-<reporting-modal-details *ngIf="(action == 'details')&&!loader"
-  (clearAction)       = "clearAction($event)"
-  [modalId]             = "this.modalConfig.modalId"
-  [modalTitle]          = "this.title"
-  [modalComputedMethod] = "this.indicatorConfig.computedMethod">
-</reporting-modal-details>

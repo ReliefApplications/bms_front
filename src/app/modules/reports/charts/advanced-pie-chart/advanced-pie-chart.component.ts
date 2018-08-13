@@ -40,7 +40,6 @@ export class AdvancedPieChartComponent extends ChartComponent {
     this.scheme.domain          = ['#92CB53', '#20C8C0', '#FC4F1E'];
     this.title.main             = "";
     this.title.sub              =  "";
-    this.modalConfig.modalId    = 'a';
   }
 
   ngOnInit() {

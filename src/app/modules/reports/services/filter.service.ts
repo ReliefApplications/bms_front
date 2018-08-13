@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FilterInterface } from '../model/filter';
+import { FilterInterface } from '../../../model/filter';
 import { filter } from 'rxjs/operators';
 
 

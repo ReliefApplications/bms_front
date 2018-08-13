@@ -5,20 +5,16 @@
     display: flex;
     justify-content: center;
     background-color: $bms_white;
-    margin: 15px;
+    margin: 10px;
     min-width: 500px;
     min-height: 420px;
+    padding-right: 15px;
   }
 
   @media screen and (max-width:550px) and (min-width:280px) {
     .indicatorChart{
-      flex-basis: fit-content;
-      display: flex;
-      justify-content: center;
-      background-color: $bms_white;
-      margin: 15px;
       min-width: 0;
       min-height: 150px;
-      width: 220px;
+      width: 80vw;
     }
   }

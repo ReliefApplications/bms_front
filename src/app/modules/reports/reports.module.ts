@@ -6,7 +6,6 @@ import { SharedModule   } from '../../shared/shared.module';
 
 // Components
 import { ReportsComponent } from './reports.component';
-import { DataTableComponent } from './data-table/data-table.component';
 import { IndicatorComponent } from './indicator/indicator.component';
 import { IndicatorPageComponent } from './indicator-page/indicator-page.component';
 import { HeaderComponent } from './charts/header/header.component';
@@ -27,11 +26,6 @@ import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
 import { PieGridComponent } from './charts/pie-grid/pie-grid.component';
 import { StackedVerticalBarChartComponent } from './charts/stacked-vertical-bar-chart/stacked-vertical-bar-chart.component';
 
-//modal
-import { ModalComponent } from './modals/modal.component';
-import { ModalDataComponent } from './modals/modal-data/modal-data.component';
-import { ReportingModalDetailsComponent } from './modals/modal-details/modal-details.component';
-
 @NgModule({
 
     imports: [
@@ -45,7 +39,6 @@ import { ReportingModalDetailsComponent } from './modals/modal-details/modal-det
     ],
     declarations: [
         ReportsComponent,
-        DataTableComponent,
         IndicatorComponent,
         IndicatorPageComponent,
         ButtonFilterComponent,
@@ -59,9 +52,6 @@ import { ReportingModalDetailsComponent } from './modals/modal-details/modal-det
         PieGridComponent,
         StackedVerticalBarChartComponent,
         HeaderComponent,
-        ModalComponent,
-        ModalDataComponent,
-        ReportingModalDetailsComponent,
         ButtonFilterDateComponent,
         ButtonFilterItemsComponent      
     ]

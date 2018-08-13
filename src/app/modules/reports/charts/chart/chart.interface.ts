@@ -7,7 +7,6 @@ export interface ChartInterface {
     title?:                 ChartTitleClass;
     axis?:                  ChartAxisClass;
     legend?:                ChartLegendClass;
-    modalConfig?:           ChartModalConfigClass;
     indicatorConfig?:       ChartIndicatorConfigClass;
 }
 
@@ -23,7 +22,7 @@ export class ChartAxisClass {
 }
 
 export class ChartLegendClass {
-    public show:           boolean = true; // has legend or not
+    public show:           boolean = false; // has legend or not
 
     constructor(){}
 }
@@ -42,16 +41,11 @@ export class ChartTitleClass {
     constructor(){}
 }
 
-export class ChartModalConfigClass {
-  public modalId:         string = 'id';
-
-  constructor(){}
-}
-
 export class ChartIndicatorConfigClass {
   public idIndicator:     string;
   public type:            string = 'bar';
-  public computedMethod:  string = 'computed method';
+  public items:           string = '';
+  public name:            string = '';
 
   constructor(){}
 }

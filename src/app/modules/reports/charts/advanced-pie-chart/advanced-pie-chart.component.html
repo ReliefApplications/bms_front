@@ -2,32 +2,17 @@
 [title]           = "title"
 [loader]          = "loader"
 [noData]          = "noData"
-[menuOpen]        = "menuOpen"
-[modalConfig]     = "modalConfig"
-(menuAction) = "actionClicked($event)"
 ></chart-header>
 
 <div *ngIf="!loader">
     <ngx-charts-advanced-pie-chart
      [view]           = "view"
      [scheme]         = "scheme"
-     [results]        = "data">
+     [results]        = "data"
+     [animations]     = "false">
     </ngx-charts-advanced-pie-chart>
 </div>
 
 <div class="text-center">
   <!-- <spinner-component *ngIf="loader"></spinner-component> -->
 </div>
-
-<modal-data
-    [modalId]           = "this.modalConfig.modalId"
-    [modalTitle]        = "this.title.main"
-    [data]              = "this.data"
-    [typeChartModal]    = "this.indicatorConfig.type"
-    [modalAxis]         = "{ x: this.axis.xAxisLabel, y: this.axis.yAxisLabel }" >
-</modal-data>
-
-<reporting-modal-details
-  [modalId]             = "this.modalConfig.modalId"
-  [modalComputedMethod] = "this.indicatorConfig.computedMethod">
-</reporting-modal-details>

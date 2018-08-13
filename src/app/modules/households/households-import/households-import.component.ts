@@ -114,7 +114,7 @@ export class HouseholdsImportComponent implements OnInit {
         let arrExport = [];
         let reponse = response.json();
         if (!(reponse instanceof Array)) {
-          console.log("Auncune donnée à exporter");
+          console.log("No data to export");
         } else {
           arrExport.push(response.json()[0]); //0 represente le fichier csv et 1 son nom
           const blob = new Blob(arrExport, { type: 'text/csv' });
@@ -122,7 +122,7 @@ export class HouseholdsImportComponent implements OnInit {
         }
       })
       .catch(error => {
-        console.log("Auncune donnée à exporter");
+        console.log("No data to export");
       });
   }
 
@@ -147,7 +147,7 @@ export class HouseholdsImportComponent implements OnInit {
       this.router.navigate(['/households/data-validation']);
     }, () => {
       this.load = false;
-      this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: "right" });
+      this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: "right"});
 
     });
   }

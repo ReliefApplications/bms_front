@@ -16,12 +16,14 @@ import { AppRouting 															} from './app.routing';
 import { SharedModule 															} from './shared/shared.module';
 
 import { ReportsModule										 					} from './modules/reports/reports.module';
+import { ProfileComponent } from './modules/profile/profile.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		ForbiddenComponent,
 		NotFoundComponent,
+		ProfileComponent,
 	],
 	imports: [
 		// Modules

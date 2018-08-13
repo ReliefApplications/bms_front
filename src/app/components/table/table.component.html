@@ -8,7 +8,7 @@
           <span *ngIf="propertiesTypes[property]=='image'"><app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)" [name]="mapperService.mapValue(element, property)"></app-icon-svg></span>
           <span *ngIf="propertiesTypes[property]=='png'"><img *ngFor="let image of mapperService.mapValue(element, property)" class="png" src={{mapperService.mapValue(element,property)}}></span>
           <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element, property)}}</span>
-        </td>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">

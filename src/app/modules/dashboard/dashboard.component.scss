@@ -1,4 +1,4 @@
-@import '../../../assets/css/variable.scss'; 
+@import '../../../assets/css/variable.scss';
 
 .boxes-map{
     display: flex;
@@ -19,7 +19,7 @@
         height: 90%;
         display: flex;
         padding: 5px;
-        box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);    
+        box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
         z-index: 0;
         #map {
             width:70% !important;
@@ -65,7 +65,7 @@
         }
     }
 }
-    
+
 
 .container-distribution{
     display: flex;
@@ -87,7 +87,7 @@
         margin-bottom: 50px;
         padding: 5px;
         background-color: $bms_light_grey;
-        box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);    
+        box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
 
         app-table{
             width: 100%;
@@ -112,9 +112,9 @@
         .content-text{
             visibility: hidden;
             width: 0px !important;
-            display: none !important;            
-        }  
-        
+            display: none !important;
+        }
+
         #map {
             flex-grow:1 !important;
         }
@@ -126,14 +126,14 @@
             .content-text{
                 visibility: visible !important;
                 flex-grow:1 !important;
-                display: inline-block !important;            
+                display: inline-block !important;
                 color: white;
-            } 
+            }
 
             #map {
                 visibility: hidden;
                 width: 0px !important;
-                display: none !important;    
+                display: none !important;
             }
         }
     }

@@ -1,0 +1,33 @@
+<div class="container">
+
+  <h1> PROFILE </h1>
+
+  <form class="profile-field">
+
+    <h2> USER INFORMATION </h2>
+
+    <mat-form-field>
+      <input matInput [placeholder]="actualUserInterface.email" disabled="true">
+    </mat-form-field>
+
+    <h2> CHANGE PASSWORD </h2>
+
+    <mat-form-field>
+      <input matInput placeholder="Old password" type="password">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="New password" type="password">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Re-enter new password" type="password">
+    </mat-form-field>
+
+    <div class="validation">
+      <button mat-button>CANCEL</button>
+      <button mat-button>SAVE</button>
+    </div>
+  </form>
+
+</div>

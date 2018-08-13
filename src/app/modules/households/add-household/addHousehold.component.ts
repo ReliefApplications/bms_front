@@ -170,7 +170,7 @@ export class AddHouseholdComponent implements OnInit {
    * instantiate a nex form for beneficiary
    */
   addMoreBeneficiary() {
-    if(this.beneficiaryForm == undefined ) {
+    if (this.beneficiaryForm == undefined) {
       this.instantiateFormBeneficiary();
     } else {
       let newBeneficiary = this.formBuilder.group({
@@ -188,7 +188,7 @@ export class AddHouseholdComponent implements OnInit {
       this.beneficiary.push(newBeneficiary);
       this.id_beneficiary = this.id_beneficiary + 1;
     }
-   
+
   }
 
   /**
@@ -368,7 +368,7 @@ export class AddHouseholdComponent implements OnInit {
       if (element.field === name)
         idCountrySpecific = element.id;
     })
-
+    
     return idCountrySpecific;
   }
 
@@ -434,8 +434,8 @@ export class AddHouseholdComponent implements OnInit {
         let answerCountry = new CountrySpecificAnswer;
         let idCountrySpecific = new CountrySpecific;
         answerCountry.answer = result.nativeElement.value;
-        idCountrySpecific.id = this.getIdCountrySpecific(result.nativeElement.attributes[5].nodeValue);
-        idCountrySpecific.field = result.nativeElement.attributes[5].nodeValue;
+        idCountrySpecific.id = this.getIdCountrySpecific(result.nativeElement.attributes[4].nodeValue);
+        idCountrySpecific.field = result.nativeElement.attributes[4].nodeValue;
         answerCountry.country_specific = idCountrySpecific;
         this.householdToCreate['country_specific_answers'].push(answerCountry);
       })
@@ -452,7 +452,7 @@ export class AddHouseholdComponent implements OnInit {
    * the type is head or beneficiary : head for the step 2, beneficiary for the step 3
    * @param type
    */
-  next(type:string = null) {
+  next(type: string = null) {
     if (type === 'head') {
       if (this.headForm.status === 'VALID') {
         this.addBeneficiaries(this.headForm.value.head, type);
@@ -463,13 +463,19 @@ export class AddHouseholdComponent implements OnInit {
       }
     }
     else {
-      if (this.beneficiaryForm.status === "VALID") {
-        this.addBeneficiaries(this.beneficiaryForm.value.beneficiary, type);
+      if (this.beneficiaryForm != undefined) {
+        if (this.beneficiaryForm.status === "VALID") {
+          this.addBeneficiaries(this.beneficiaryForm.value.beneficiary, type);
+          this.stepper.next();
+        }
+        else {
+          this.snackBar.open('Invalid field', '', { duration: 3000, horizontalPosition: "right" });
+        }
+      } else {
         this.stepper.next();
+
       }
-      else {
-        this.snackBar.open('Invalid field', '', { duration: 3000, horizontalPosition: "right" });
-      }
+
     }
   }
 

@@ -170,32 +170,40 @@ export class AddDistributionComponent implements OnInit {
   getAdmName(adm: string) {
     if (adm === "adm1") {
       let adm1 = this._cacheService.get(CacheService.ADM1);
-      for(let i=0; i<adm1.length; i++) {
-        if (adm1[i].id === this.newObject.adm1) {
-          return adm1[i].name;
+      if (this.newObject.adm1) {
+        for (let i = 0; i < adm1.length; i++) {
+          if (adm1[i].id === this.newObject.adm1) {
+            return adm1[i].name;
+          }
         }
       }
     } else if (adm === "adm2") {
       let adm2 = this._cacheService.get(CacheService.ADM2);
-      for(let i=0; i<adm2.length; i++) {
-        if (adm2[i].id === this.newObject.adm2) {
-          return adm2[i].name;
+      if (this.newObject.adm2) {
+        for (let i = 0; i < adm2.length; i++) {
+          if (adm2[i].id === this.newObject.adm2) {
+            return adm2[i].name;
+          }
         }
       }
     }
     else if (adm === "adm3") {
       let adm3 = this._cacheService.get(CacheService.ADM3);
-      for(let i=0; i<adm3.length; i++) {
-        if (adm3[i].id === this.newObject.adm3) {
-          return adm3[i].name;
+      if (this.newObject.adm3) {
+        for (let i = 0; i < adm3.length; i++) {
+          if (adm3[i].id === this.newObject.adm3) {
+            return adm3[i].name;
+          }
         }
       }
     }
     else if (adm === "adm4") {
       let adm4 = this._cacheService.get(CacheService.ADM4);
-      for(let i=0; i<adm4.length; i++) {
-        if (adm4[i].id === this.newObject.adm4) {
-          return adm4[i].name;
+      if (this.newObject.adm4) {
+        for (let i = 0; i < adm4.length; i++) {
+          if (adm4[i].id === this.newObject.adm4) {
+            return adm4[i].name;
+          }
         }
       }
     }
@@ -207,7 +215,7 @@ export class AddDistributionComponent implements OnInit {
     newDistribution.name = this.newObject.name;
     newDistribution.type = "0";
     newDistribution.project.id = this.queryParams.project;
-    
+
     newDistribution.location.adm1 = this.getAdmName('adm1');
     newDistribution.location.adm2 = this.getAdmName('adm2');
     newDistribution.location.adm3 = this.getAdmName('adm3');
@@ -227,7 +235,7 @@ export class AddDistributionComponent implements OnInit {
 
     let promise = this._distributionService.add(newDistribution);
     if (promise) {
-      promise.toPromise().then( () => {
+      promise.toPromise().then(() => {
         this.snackBar.open('distribution ' + newDistribution.name + ' was created', '', { duration: 3000, horizontalPosition: "right" });
         this.router.navigate(['/distribution']);
       })

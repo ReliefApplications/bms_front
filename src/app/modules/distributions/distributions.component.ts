@@ -100,7 +100,6 @@ export class DistributionComponent implements OnInit {
    */
   getDistributionsByProject(projectId : number): void {
     this.distributionService.getByProject(projectId).subscribe(response => {
-      console.log('distribution', response);
       let distribution = DistributionData.formatArray(response.json());
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + "S"], distribution);
       this.distributionData = new MatTableDataSource(distribution);

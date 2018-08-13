@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { GlobalText } from '../../../../texts/global';
@@ -17,6 +17,7 @@ import { FormControl } from '@angular/forms';
 import { LocationService } from '../../../core/api/location.service';
 import { Project } from '../../../model/project';
 import { CacheService } from '../../../core/storage/cache.service';
+import { DistributionService } from '../../../core/api/distribution.service';
 
 @Component({
   selector: 'app-add-distribution',
@@ -68,21 +69,20 @@ export class AddDistributionComponent implements OnInit {
     private criteriaService: CriteriaService,
     private route: ActivatedRoute,
     private locationService: LocationService,
-    private _cacheService: CacheService
+    private _cacheService: CacheService,
+    private _distributionService: DistributionService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
     this.newObject = Object.create(this.entity.prototype);
     this.newObject.constructor.apply(this.newObject);
     this.mapperObject = this.mapper.findMapperObject(this.entity);
-    console.log('mapper object', this.mapperObject)
     this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
     this.propertiesTypes = this.newObject.getTypeProperties(this.newObject);
     this.checkSize();
     this.getQueryParameter();
-    console.log("add distribution", this.newObject)
     this.loadProvince();
-    console.log('load Data', this.loadedData)
   }
 
   loadProvince() {
@@ -225,13 +225,16 @@ export class AddDistributionComponent implements OnInit {
 
     newDistribution.date_distribution = formatDateOfBirth[2] + "-" + formatDateOfBirth[0] + "-" + formatDateOfBirth[1];
 
+    let promise = this._distributionService.add(newDistribution);
+    if (promise) {
+      promise.toPromise().then( () => {
+        this.snackBar.open('distribution ' + newDistribution.name + ' was created', '', { duration: 3000, horizontalPosition: "right" });
+        this.router.navigate(['/distribution']);
+      })
+    } else {
+      this.snackBar.open('Error while create new distribution', '', { duration: 3000, horizontalPosition: "right" });
 
-
-    console.log(this.newObject)
-    console.log('criteria', this.criteriaArray);
-    console.log('commodity', this.commodityArray)
-
-    console.log("neew distribution", newDistribution)
+    }
 
   }
 

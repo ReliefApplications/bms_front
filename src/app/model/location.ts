@@ -1,3 +1,5 @@
+
+
 export class Location {
     /**
      * Administrate level 1
@@ -23,12 +25,30 @@ export class Location {
      */
     adm4: string = '';
 
+    /**
+     * Administrate country
+     * TODO: get the country of the plateforme
+     * @type {string}
+     */
+    country_iso3: string = 'KHM'
+
     constructor(instance?){
         if(instance !== undefined){
             this.adm1 = instance.adm1;
             this.adm2 = instance.adm2;
             this.adm3 = instance.adm3;
             this.adm4 = instance.adm4;
+            this.country_iso3 = instance.country_iso3;
         }
+    }
+
+    public static formatAdm(instance): any[] {
+        var adm = [];
+        instance.forEach(element => {
+            var concat = element.id + " - " + element.name;
+            adm.push(concat);
+        });
+        
+        return adm;
     }
 }

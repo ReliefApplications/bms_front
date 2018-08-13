@@ -94,10 +94,6 @@ export class ModalComponent implements OnInit {
         this._cacheService.set(CacheService.CRITERIAS, this.loadedData.field_string);
       });
     }
-    //for criterias
-    if(this.newObject && this.newObject.kind_beneficiary == ''){
-      this.loadedData.kind_beneficiary = [{"field_string":this.modal.model_criteria_beneficiary}, {"field_string":this.modal.model_criteria_dependents}];
-    }
 
     if(this.newObject && this.newObject.modality == '') {
       this.loadedData.modality = this._cacheService.get(CacheService.COMMODITY);

@@ -74,8 +74,8 @@ export class DistributionData {
     /**
      * DistributionData's type
      * Could be 1 or 0 
-     * 1 represent beneficiary => distribution_type = beneficiary
-     * 0 represent dependents => distribution_type = household
+     * 1 represent beneficiary
+     * 0 represent household
      * @type {type}
      */
     type: string;
@@ -138,7 +138,8 @@ export class DistributionData {
             name: selfinstance.name,
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
-            date_distribution: selfinstance.date_distribution
+            date_distribution: selfinstance.date_distribution,
+            type: selfinstance.type
         }
     }
 
@@ -153,7 +154,8 @@ export class DistributionData {
             name: selfinstance.name,
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
-            date_distribution: selfinstance.date_distribution
+            date_distribution: selfinstance.date_distribution,
+            type: selfinstance.type
         }
     }
 
@@ -168,7 +170,8 @@ export class DistributionData {
             name: selfinstance.name,
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
-            date_distribution: selfinstance.date_distribution
+            date_distribution: selfinstance.date_distribution,
+            type: selfinstance.type
         }
     }
 
@@ -185,7 +188,8 @@ export class DistributionData {
             adm2: selfinstance.adm2,
             adm3: selfinstance.adm3,
             adm4: selfinstance.adm4,
-            date_distribution: selfinstance.date_distribution
+            date_distribution: selfinstance.date_distribution,
+            type: selfinstance.type
         }
     }
 
@@ -201,7 +205,8 @@ export class DistributionData {
             adm2: "select",
             adm3: "select",
             adm4: "select",
-            date_distribution: "date"
+            date_distribution: "date",
+            type: 'radio'
         }
     }
 
@@ -229,6 +234,7 @@ export class DistributionData {
             adm3: GlobalText.TEXTS.model_distribution_adm3,
             adm4: GlobalText.TEXTS.model_distribution_adm4,
             date_distribution : GlobalText.TEXTS.model_distribution_date,
+            type :'Type'
         }
     }
 

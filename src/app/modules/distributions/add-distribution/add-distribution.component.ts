@@ -242,7 +242,7 @@ export class AddDistributionComponent implements OnInit {
   add() {
     let newDistribution: DistributionData = new DistributionData;
     newDistribution.name = this.newObject.name;
-    newDistribution.type = "0";
+    newDistribution.type = this.newObject.type;
     newDistribution.project.id = this.queryParams.project;
 
     newDistribution.location.adm1 = this.getAdmName('adm1');
@@ -295,7 +295,8 @@ export class AddDistributionComponent implements OnInit {
       });
     }
     if (dialogRef) {
-      const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
+      const create = dialogRef.componentInstance.onCreate.subscribe((data: Criteria) => {
+        data.kind_beneficiary = this.newObject.type;
         this.createElement(data, user_action);
       });
 

@@ -63,7 +63,6 @@ export class Criteria {
             return selfinstance;
 
         return {
-            kind_beneficiary: selfinstance.kind_beneficiary,
             field_string: selfinstance.field_string,
             condition_string: selfinstance.condition_string,
             value_string: selfinstance.value_string
@@ -78,7 +77,6 @@ export class Criteria {
             return selfinstance;
 
         return {
-            kind_beneficiary: selfinstance.kind_beneficiary,
             field_string: selfinstance.field_string,
             condition_string: selfinstance.condition_string,
             value_string: selfinstance.value_string
@@ -90,7 +88,6 @@ export class Criteria {
     */
     getTypeProperties(selfinstance): Object {
         return {
-            kind_beneficiary: "text",
             field_string: "text",
             condition_string: "text",
             value_string: "text",
@@ -102,7 +99,6 @@ export class Criteria {
     */
     getModalTypeProperties(selfinstance): Object {
         return {
-            kind_beneficiary: "select",
             field_string: "select",
             condition_string: "select",
             value_string: "text",
@@ -114,7 +110,6 @@ export class Criteria {
     */
     static translator(): Object {
         return {
-            kind_beneficiary: GlobalText.TEXTS.model_criteria_kind_beneficiary,
             field_string: GlobalText.TEXTS.model_criteria_field,
             condition_string: GlobalText.TEXTS.model_criteria_operator,
             value_string: GlobalText.TEXTS.model_criteria_value,
@@ -142,11 +137,8 @@ export class Criteria {
      */
     public static formatFromModalAdd(element: any, loadedData:any): Criteria {
         let newObject = new Criteria(loadedData.field_string[element.field_string-1]);
-        if(!element.kind_beneficiary)
-            element.kind_beneficiary = 1 ;
         if(!element.condition_string)
             element.condition_string = 1 ;
-        newObject.kind_beneficiary = loadedData.kind_beneficiary[element.kind_beneficiary-1].field_string;
         newObject.condition_string = loadedData.condition_string[element.condition_string-1].field_string;
         newObject.value_string = element.value_string;
         return newObject;

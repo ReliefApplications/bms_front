@@ -236,15 +236,26 @@ export class AddDistributionComponent implements OnInit {
     }
   }
 
+  getNameProject(id) : string {
+    let projects= this._cacheService.get(CacheService.PROJECTS);
+    let name: string = ""
+
+    projects.forEach(element => {
+      if(element.id == id) {
+        name = element.name;
+      }
+    });
+    return name
+   
+  }
+
   /**
    * create the new distribution object before send it to the back
    */
   add() {
     let newDistribution: DistributionData = new DistributionData;
-    newDistribution.name = this.newObject.name;
     newDistribution.type = this.newObject.type;
     newDistribution.project.id = this.queryParams.project;
-
     newDistribution.location.adm1 = this.getAdmName('adm1');
     newDistribution.location.adm2 = this.getAdmName('adm2');
     newDistribution.location.adm3 = this.getAdmName('adm3');
@@ -262,16 +273,21 @@ export class AddDistributionComponent implements OnInit {
 
     newDistribution.date_distribution = formatDateOfBirth[2] + "-" + formatDateOfBirth[0] + "-" + formatDateOfBirth[1];
 
-    let promise = this._distributionService.add(newDistribution);
-    if (promise) {
-      promise.toPromise().then(() => {
-        this.snackBar.open('distribution ' + newDistribution.name + ' was created', '', { duration: 3000, horizontalPosition: "right" });
-        this.router.navigate(['/distribution']);
-      })
-    } else {
-      this.snackBar.open('Error while create new distribution', '', { duration: 3000, horizontalPosition: "right" });
+    newDistribution.name = this.getNameProject(this.queryParams.project)+"-"+this.getAdmName('adm1')+"-"+newDistribution.date_distribution;
 
-    }
+
+    console.log(newDistribution)
+
+    // let promise = this._distributionService.add(newDistribution);
+    // if (promise) {
+    //   promise.toPromise().then(() => {
+    //     this.snackBar.open('distribution ' + newDistribution.name + ' was created', '', { duration: 3000, horizontalPosition: "right" });
+    //     this.router.navigate(['/distribution']);
+    //   })
+    // } else {
+    //   this.snackBar.open('Error while create new distribution', '', { duration: 3000, horizontalPosition: "right" });
+
+    // }
 
   }
 

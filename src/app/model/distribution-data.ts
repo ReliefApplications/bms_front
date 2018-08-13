@@ -183,7 +183,7 @@ export class DistributionData {
             return selfinstance;
 
         return {
-            name: selfinstance.name,
+            // name: selfinstance.name,
             adm1: selfinstance.adm1,
             adm2: selfinstance.adm2,
             adm3: selfinstance.adm3,
@@ -198,7 +198,7 @@ export class DistributionData {
     */
     getTypeProperties(selfinstance): Object {
         return {
-            name: "text",
+            // name: "text",
             location_name: "text",
             number_beneficiaries: "number",
             adm1: "select",

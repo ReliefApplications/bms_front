@@ -70,7 +70,7 @@
                         <div class="additional-information">
 
                             <mat-form-field class="notes">
-                                <textarea matInput matAutosizeMaxRows=12 placeholder={{household.add_household_getNotes}} #Notes></textarea>
+                                <textarea matInput matTextareaAutosize="true" matAutosizeMinRows="5" matAutosizeMaxRows="5" placeholder={{household.add_household_getNotes}} #Notes></textarea>
                             </mat-form-field>
                         </div>
                     </div>
@@ -173,10 +173,11 @@
                 </div>
                 <div class="container-content box-green">
                     <div class="content-table">
-                        <form [formGroup]="beneficiaryForm" (ngSubmit)='next()' class="all-information-mobile">
+                        <form [formGroup]="beneficiaryForm" class="all-information-mobile add-beneficiaries" *ngIf="id_beneficiary != 0">
                             <div formArrayName='beneficiary'>
                                 <div *ngFor="let item of beneficiary.controls; let beneficiaryIndex=index; last as isLast" [formGroupName]="beneficiaryIndex"
                                     class="member">
+                                    <button mat-mini-fab color='warn' class='delete' (click)="deleteBeneficiary(beneficiaryIndex)"><mat-icon>delete</mat-icon></button>
                                     <div class="all-information-computer member-mobile">
                                         <div class="content-select">
                                             <mat-form-field>

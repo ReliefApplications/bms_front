@@ -104,7 +104,6 @@ export class AddHouseholdComponent implements OnInit {
     this.getVulnerabilityCriteria();
     this.getCountrySpecifics();
     this.instantiateFormHead();
-    this.instantiateFormBeneficiary();
   }
 
   /**
@@ -171,20 +170,33 @@ export class AddHouseholdComponent implements OnInit {
    * instantiate a nex form for beneficiary
    */
   addMoreBeneficiary() {
-    let newBeneficiary = this.formBuilder.group({
-      id: 'beneficiary' + this.id_beneficiary,
-      familyName: '',
-      givenName: '',
-      gender: '',
-      birth: '',
-      typeNationalId: '',
-      typePhone: '',
-      vulnerabilities: '',
-      phone: '',
-      nationalID: ''
-    })
-    this.beneficiary.push(newBeneficiary);
-    this.id_beneficiary = this.id_beneficiary + 1;
+    if(this.beneficiaryForm == undefined ) {
+      this.instantiateFormBeneficiary();
+    } else {
+      let newBeneficiary = this.formBuilder.group({
+        id: 'beneficiary' + this.id_beneficiary,
+        familyName: '',
+        givenName: '',
+        gender: '',
+        birth: '',
+        typeNationalId: '',
+        typePhone: '',
+        vulnerabilities: '',
+        phone: '',
+        nationalID: ''
+      })
+      this.beneficiary.push(newBeneficiary);
+      this.id_beneficiary = this.id_beneficiary + 1;
+    }
+   
+  }
+
+  /**
+   * to delete beneficiary
+   * @param index 
+   */
+  deleteBeneficiary(index) {
+    this.beneficiary.removeAt(index);
   }
 
   /**

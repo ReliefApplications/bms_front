@@ -1,4 +1,4 @@
-import { Component, OnInit                                  } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList                                  } from '@angular/core';
 import { ModalAddComponent                                  } from '../modal-add.component';
 import { GlobalText                                         } from '../../../../../texts/global';
 import { ConditionCriteriaMapper                            } from '../../../../model/condition-criteria-mapper';
@@ -14,6 +14,7 @@ export class ModalAddLineComponent extends ModalAddComponent{
   public checkDataCriteria = [];
 
   public checkType = "";
+  public myForm;
 
   /**
    * check if the langage has changed
@@ -27,40 +28,25 @@ export class ModalAddLineComponent extends ModalAddComponent{
       this.checkData();
     }
     if(this.newObject.field_string && (this.checkCriteria != this.newObject.field_string)){
+
       this.checkDataCriteria = this.loadedData.field_string[this.newObject.field_string-1];
       this.loadedData.condition_string = this.checkCondition(this.checkDataCriteria);
       this.checkCriteria = this.newObject.field_string;
     }
     if(this.checkType != this.newObject.kind_beneficiary) {
-      this.getCriteria();
-    }
-  }
+      this.loadedData.condition_string = [];
+      this.checkDataCriteria = [];
+      
+      if(this.newObject.kind_beneficiary === 1) {
+        this.loadedData.field_string =  this.allCriteria.filter(item => item.distribution_type === 'Beneficiary');
 
-  getCriteria() {
-      if (this.newObject && this.newObject.field_string == '') {
-          this.criteriaService.get().subscribe(response => {
-            this.checkGroup(this.newObject.kind_beneficiary, response.json())
-          });
+      } else {
+        this.loadedData.field_string = this.allCriteria.filter(item => item.distribution_type === 'Household');
       }
+      this.checkType = this.newObject.kind_beneficiary;
+    }
   }
 
-  checkGroup(group, data) {
-    this.loadedData.field_string = [];
-    if(group === 1) {
-      data.forEach(element => {
-        if((!element.table_string) || (element.table_string != 'countrySpecific')) {
-          this.loadedData.field_string.push(element);
-        }
-      });
-    } else {
-      data.forEach(element => {
-        if(element.table_string && element.table_string == 'countrySpecific') {
-          this.loadedData.field_string.push(element);
-        }
-      });
-    }
-    this.checkType = this.newObject.kind_beneficiary;
-  }
 
   /**
    * for criteria's table

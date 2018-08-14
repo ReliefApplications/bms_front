@@ -4,7 +4,7 @@
     <th *ngFor="let p of properties" class="modal-row">
         <form *ngIf="p!='value_string'">
           <mat-form-field class="full-width">
-            <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
+            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='selectCriteria'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
             <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [formControl]="controls">
               <mat-option *ngFor="let singleData of loadedData[p]; let i = index" [value]="i+1">{{singleData.field_string}}</mat-option>
             </mat-select>

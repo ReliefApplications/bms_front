@@ -100,8 +100,6 @@ export class AddDistributionComponent implements OnInit {
 
   selectDate(event) {
     this.newObject.date_distribution = event.value.toLocaleDateString();
-    console.log(this.newObject)
-    console.log(event.value.toLocaleDateString());
   }
 
   /**
@@ -328,7 +326,6 @@ export class AddDistributionComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         create.unsubscribe();
-        console.log('The dialog was closed');
       });
     }
   }
@@ -341,7 +338,6 @@ export class AddDistributionComponent implements OnInit {
   createElement(createElement: Object, user_action) {
     if (user_action == this.criteriaAction) {
       this.criteriaArray.push(createElement);
-      console.log('cirteria array', this.criteriaArray);
       this.criteriaService.getBeneficiariesNumber(this.criteriaArray, this.queryParams.project).subscribe(response => {
         this.criteriaNbBeneficiaries = response.json();
       });

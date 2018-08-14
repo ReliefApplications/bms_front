@@ -30,6 +30,8 @@ export class ModalComponent implements OnInit {
     Validators.email,
   ]);
 
+  public allCriteria = [];
+
   matcher = new MyErrorStateMatcher();
 
   constructor(public dialogRef: MatDialogRef<ModalComponent>,
@@ -85,10 +87,19 @@ export class ModalComponent implements OnInit {
           this._cacheService.set(CacheService.PROJECTS, this.loadedData.projects_name);
         });
     }
+
+    if(this.newObject && this.newObject.field_string == ''){
+      // this.allCriteria = this._cacheService.get(CacheService.CRITERIAS);
+      if(this.allCriteria.length === 0 )
+        this.criteriaService.get().subscribe(response => {
+          this.allCriteria  = response.json();
+          this.loadedData.field_string = [];
+          this._cacheService.set(CacheService.CRITERIAS, this.loadedData.field_string);
+        });
+    }
  
     //for criterias
     if (this.newObject && this.newObject.kind_beneficiary == '') {
-      this.loadedData.field_string = [];
       this.loadedData.kind_beneficiary = [{ "field_string": this.modal.model_criteria_beneficiary }, { "field_string": this.modal.model_criteria_household }];
     }
 

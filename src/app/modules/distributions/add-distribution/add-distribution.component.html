@@ -25,7 +25,7 @@
               <mat-datepicker #dateDistribution></mat-datepicker>
             </mat-form-field>
             <mat-radio-group class="typeDistribution" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'"  [(ngModel)]="newObject[p]" >
-                <mat-radio-button color="warn" value="Household" disabled='true'>Household</mat-radio-button>
+                <mat-radio-button color="warn" value="Household" disabled='false'>Household</mat-radio-button>
                 <mat-radio-button color="warn" value="Beneficiary">Beneficiary</mat-radio-button>
               </mat-radio-group>
           </mat-expansion-panel>
@@ -36,7 +36,7 @@
       <div class="forms-criteria">
         <div class="criteria-text">
           <h1 class="criteria-title">{{distribution.add_distribution_selection_criteria | uppercase}}</h1>
-          <button mat-icon-button (click)="openDialog(criteriaAction)" class="add-button" [disabled]="!newObject.type">
+          <button mat-icon-button (click)="openDialog(criteriaAction)" class="add-button">
             <mat-icon>add</mat-icon>
           </button>
         </div>

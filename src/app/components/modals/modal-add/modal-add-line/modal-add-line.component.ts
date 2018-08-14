@@ -2,6 +2,7 @@ import { Component, OnInit                                  } from '@angular/cor
 import { ModalAddComponent                                  } from '../modal-add.component';
 import { GlobalText                                         } from '../../../../../texts/global';
 import { ConditionCriteriaMapper                            } from '../../../../model/condition-criteria-mapper';
+import { CacheService } from '../../../../core/storage/cache.service';
 
 @Component({
   selector: 'app-modal-add-line',
@@ -11,6 +12,8 @@ import { ConditionCriteriaMapper                            } from '../../../../
 export class ModalAddLineComponent extends ModalAddComponent{
   public checkCriteria = -1;
   public checkDataCriteria = [];
+
+  public checkType = "";
 
   /**
    * check if the langage has changed
@@ -28,6 +31,35 @@ export class ModalAddLineComponent extends ModalAddComponent{
       this.loadedData.condition_string = this.checkCondition(this.checkDataCriteria);
       this.checkCriteria = this.newObject.field_string;
     }
+    if(this.checkType != this.newObject.kind_beneficiary) {
+      this.getCriteria();
+    }
+  }
+
+  getCriteria() {
+      if (this.newObject && this.newObject.field_string == '') {
+          this.criteriaService.get().subscribe(response => {
+            this.checkGroup(this.newObject.kind_beneficiary, response.json())
+          });
+      }
+  }
+
+  checkGroup(group, data) {
+    this.loadedData.field_string = [];
+    if(group === 1) {
+      data.forEach(element => {
+        if((!element.table_string) || (element.table_string != 'countrySpecific')) {
+          this.loadedData.field_string.push(element);
+        }
+      });
+    } else {
+      data.forEach(element => {
+        if(element.table_string && element.table_string == 'countrySpecific') {
+          this.loadedData.field_string.push(element);
+        }
+      });
+    }
+    this.checkType = this.newObject.kind_beneficiary;
   }
 
   /**

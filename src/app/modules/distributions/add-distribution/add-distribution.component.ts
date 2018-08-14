@@ -315,7 +315,7 @@ export class AddDistributionComponent implements OnInit {
     }
     if (dialogRef) {
       const create = dialogRef.componentInstance.onCreate.subscribe((data: Criteria) => {
-        data.kind_beneficiary = this.newObject.type;
+        // data.kind_beneficiary = this.newObject.type;
         this.createElement(data, user_action);
       });
 
@@ -334,6 +334,7 @@ export class AddDistributionComponent implements OnInit {
   createElement(createElement: Object, user_action) {
     if (user_action == this.criteriaAction) {
       this.criteriaArray.push(createElement);
+      console.log('cirteria array', this.criteriaArray);
       this.criteriaService.getBeneficiariesNumber(this.criteriaArray, this.queryParams.project).subscribe(response => {
         this.criteriaNbBeneficiaries = response.json();
       });

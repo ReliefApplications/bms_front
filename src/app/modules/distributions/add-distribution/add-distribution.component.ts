@@ -81,6 +81,7 @@ export class AddDistributionComponent implements OnInit {
     this.checkSize();
     this.getQueryParameter();
     this.loadProvince();
+    this.newObject.type = "Household";
   }
 
   /**
@@ -95,6 +96,12 @@ export class AddDistributionComponent implements OnInit {
     this.loadedData.adm2 = [];
     this.loadedData.adm3 = [];
     this.loadedData.adm4 = [];
+  }
+
+  selectDate(event) {
+    this.newObject.date_distribution = event.value.toLocaleDateString();
+    console.log(this.newObject)
+    console.log(event.value.toLocaleDateString());
   }
 
   /**
@@ -269,7 +276,7 @@ export class AddDistributionComponent implements OnInit {
     newDistribution.selection_criteria = this.criteriaArray;
     newDistribution.commodities = this.commodityArray;
 
-    let formatDateOfBirth = this.newObject.date_distribution.toLocaleDateString().split('/');
+    let formatDateOfBirth = this.newObject.date_distribution.split('/');
     if (formatDateOfBirth[0].length < 2) {
       formatDateOfBirth[0] = "0" + formatDateOfBirth[0];
     }
@@ -279,7 +286,7 @@ export class AddDistributionComponent implements OnInit {
 
     newDistribution.date_distribution = formatDateOfBirth[2] + "-" + formatDateOfBirth[0] + "-" + formatDateOfBirth[1];
 
-    newDistribution.name = this.getNameProject(this.queryParams.project)+"-"+this.newObject.adm1+"-"+this.newObject.date_distribution.toLocaleDateString()+"-";
+    newDistribution.name = this.getNameProject(this.queryParams.project)+"-"+this.newObject.adm1+"-"+this.newObject.date_distribution+"-";
 
     let promise = this._distributionService.add(newDistribution);
     if (promise) {

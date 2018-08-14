@@ -9,9 +9,10 @@
               <mat-panel-title>
                 {{mapperObject[p]}}
               </mat-panel-title>
-              <mat-panel-description *ngIf= "propertiesTypes[p]!='date' &&  propertiesTypes[p]!='text'"> 
+              <mat-panel-description *ngIf= " propertiesTypes[p]!='text'"> 
                 {{newObject[p]}}
               </mat-panel-description>
+            
             </mat-expansion-panel-header>
             <mat-form-field class="accordion-field" *ngIf="propertiesTypes[p]=='select' || propertiesTypes[p]=='date'">
               <input *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]!='radio'" [(ngModel)]="newObject[p]" class="field-input"
@@ -20,12 +21,12 @@
                 (selectionChange)="selected($event, newObject, p)">
                 <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.name">{{singleData.name}}</mat-option>
               </mat-select>
-              <input *ngIf="propertiesTypes[p]=='date' && propertiesTypes[p]!='radio'" matInput [matDatepicker]="dateDistribution" placeholder="{{mapperObject[p]}}" [(ngModel)]="newObject[p]">
+              <input *ngIf="propertiesTypes[p]=='date' && propertiesTypes[p]!='radio'" matInput [matDatepicker]="dateDistribution" placeholder="{{mapperObject[p]}}" (ngModel)="newObject[p]" (dateChange)='selectDate($event)'>
               <mat-datepicker-toggle *ngIf="propertiesTypes[p]=='date' && propertiesTypes[p]!='radio'" matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
               <mat-datepicker #dateDistribution></mat-datepicker>
             </mat-form-field>
             <mat-radio-group class="typeDistribution" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'"  [(ngModel)]="newObject[p]" >
-                <mat-radio-button color="warn" value="Household" disabled='false'>Household</mat-radio-button>
+                <mat-radio-button checked='true' color="warn" value="Household" disabled='false'>Household</mat-radio-button>
                 <mat-radio-button color="warn" value="Beneficiary">Beneficiary</mat-radio-button>
               </mat-radio-group>
           </mat-expansion-panel>

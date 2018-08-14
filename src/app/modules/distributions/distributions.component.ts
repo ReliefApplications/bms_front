@@ -107,6 +107,6 @@ export class DistributionComponent implements OnInit {
   }
 
   addDistribution(){
-    this.router.navigate(["distribution/add-distribution"]);
+    this.router.navigate(["distribution/add-distribution"], {queryParams: {project: this.selectedProject.id}});
   }
 }

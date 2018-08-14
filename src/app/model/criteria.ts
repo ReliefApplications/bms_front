@@ -1,5 +1,5 @@
-import { SectorMapper                                                                       } from "./sector-mapper";
-import { GlobalText                                                                         } from "../../texts/global";
+import { SectorMapper } from "./sector-mapper";
+import { GlobalText } from "../../texts/global";
 
 export class Criteria {
     static __classname__ = 'Criteria';
@@ -13,10 +13,10 @@ export class Criteria {
      * @type {string}
      */
     kind_beneficiary: string = '';
-     /**
-     * Criteria's table_string
-     * @type {string}
-     */
+    /**
+    * Criteria's table_string
+    * @type {string}
+    */
     table_string: string = '';
     /**
      * Criteria's field_string
@@ -51,7 +51,7 @@ export class Criteria {
         }
     }
 
-    public static getDisplayedName(){
+    public static getDisplayedName() {
         return GlobalText.TEXTS.model_criteria;
     }
 
@@ -140,14 +140,14 @@ export class Criteria {
      * @param element 
      * @param loadedData 
      */
-    public static formatFromModalAdd(element: any, loadedData:any): Criteria {
-        let newObject = new Criteria(loadedData.field_string[element.field_string-1]);
-        if(!element.kind_beneficiary)
-            element.kind_beneficiary = 1 ;
-        if(!element.condition_string)
-            element.condition_string = 1 ;
-        newObject.kind_beneficiary = loadedData.kind_beneficiary[element.kind_beneficiary-1].field_string;
-        newObject.condition_string = loadedData.condition_string[element.condition_string-1].field_string;
+    public static formatFromModalAdd(element: any, loadedData: any): Criteria {
+        let newObject = new Criteria(loadedData.field_string[element.field_string - 1]);
+        if (!element.kind_beneficiary)
+            element.kind_beneficiary = 1;
+        if (!element.condition_string)
+            element.condition_string = 1;
+        newObject.kind_beneficiary = loadedData.kind_beneficiary[element.kind_beneficiary - 1].field_string;
+        newObject.condition_string = loadedData.condition_string[element.condition_string - 1].field_string;
         newObject.value_string = element.value_string;
         return newObject;
     }

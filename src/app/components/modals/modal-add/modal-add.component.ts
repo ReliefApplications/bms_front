@@ -2,6 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output                         
 import { ModalComponent                                                           } from '../modal.component';
 import { GlobalText                                                               } from '../../../../texts/global';
 import { Criteria } from '../../../model/criteria';
+import { Commodity } from '../../../model/commodity';
 
 @Component({
   selector: 'app-modal-add',
@@ -12,6 +13,8 @@ export class ModalAddComponent extends ModalComponent {
   public entityDisplayedName = "";
   public oldEntity="";
   mapperObject = null;
+
+  oldSelectedModality: number = 0;
 
   @Input() data:    any;
   @Output() onCreate = new EventEmitter();
@@ -33,6 +36,7 @@ export class ModalAddComponent extends ModalComponent {
 
   /**
    * check if the langage has changed
+   * or if a select field has changed
    */
   ngDoCheck() {
     if (this.modal != GlobalText.TEXTS) {
@@ -43,9 +47,24 @@ export class ModalAddComponent extends ModalComponent {
     }
   }
 
+  selected($event, selectedField) {
+    if (selectedField.modality !== this.oldSelectedModality) {
+      this.getModalityType(selectedField.modality);
+      this.oldSelectedModality = selectedField.modality;
+    }
+ 
+  }
+
+  getModalityType(modality) {
+    this.modalitiesService.getModalitiesType(modality).subscribe(response => {
+      this.loadedData.type = response.json();
+    })
+  }
+
+
   //emit the new object
   add():any {
-    this.onCreate.emit(this.newObject);
+    this.onCreate.emit(this.data.entity.formatFromModalAdd(this.newObject, this.loadedData));
     this.closeDialog();
   }
 }

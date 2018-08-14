@@ -1,18 +1,23 @@
-import { Component, OnInit, HostListener                                  } from '@angular/core';
-import { MatDialog, MatTableDataSource                                    } from '@angular/material';
-import { Router                                                           } from '@angular/router';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { MatDialog, MatTableDataSource, MatSnackBar } from '@angular/material';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import { GlobalText                                                       } from '../../../../texts/global';
+import { GlobalText } from '../../../../texts/global';
 
-import { Mapper                                                           } from '../../../core/utils/mapper.service';
-import { CriteriaService                                                  } from '../../../core/api/criteria.service';
+import { Mapper } from '../../../core/utils/mapper.service';
+import { CriteriaService } from '../../../core/api/criteria.service';
 
-import { Commodity                                                        } from '../../../model/commodity';
-import { Criteria                                                         } from '../../../model/criteria';
-import { DistributionData                                                 } from '../../../model/distribution-data';
+import { Commodity } from '../../../model/commodity';
+import { Criteria } from '../../../model/criteria';
+import { DistributionData } from '../../../model/distribution-data';
 
-import { ModalAddLineComponent                                            } from '../../../components/modals/modal-add/modal-add-line/modal-add-line.component';
-import { ModalAddComponent                                                } from '../../../components/modals/modal-add/modal-add.component';
+import { ModalAddLineComponent } from '../../../components/modals/modal-add/modal-add-line/modal-add-line.component';
+import { ModalAddComponent } from '../../../components/modals/modal-add/modal-add.component';
+import { FormControl } from '@angular/forms';
+import { LocationService } from '../../../core/api/location.service';
+import { Project } from '../../../model/project';
+import { CacheService } from '../../../core/storage/cache.service';
+import { DistributionService } from '../../../core/api/distribution.service';
 
 @Component({
   selector: 'app-add-distribution',
@@ -40,8 +45,6 @@ export class AddDistributionComponent implements OnInit {
   public commodityData = new MatTableDataSource([]);
   public commodityNb = 0;
 
-  public addDistribution = false;
-
   public maxHeight = GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;
   public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
@@ -50,6 +53,11 @@ export class AddDistributionComponent implements OnInit {
   public heightScreen;
   public widthScreen;
 
+  public queryParams;
+  public controls = new FormControl();
+
+  public loadedData: any = [];
+
   step = "";
 
   constructor(
@@ -57,6 +65,11 @@ export class AddDistributionComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private criteriaService: CriteriaService,
+    private route: ActivatedRoute,
+    private locationService: LocationService,
+    private _cacheService: CacheService,
+    private _distributionService: DistributionService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -66,6 +79,89 @@ export class AddDistributionComponent implements OnInit {
     this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
     this.propertiesTypes = this.newObject.getTypeProperties(this.newObject);
     this.checkSize();
+    this.getQueryParameter();
+    this.loadProvince();
+    this.newObject.type = "Household";
+  }
+
+  /**
+   * Get adm1 from the back or from the cache service with the key ADM1
+   */
+  loadProvince() {
+    this.locationService.getAdm1().subscribe(response => {
+      this.loadedData.adm1 = response.json();
+      this._cacheService.set(CacheService.ADM1, this.loadedData.adm1);
+
+    });
+    this.loadedData.adm2 = [];
+    this.loadedData.adm3 = [];
+    this.loadedData.adm4 = [];
+  }
+
+  selectDate(event) {
+    this.newObject.date_distribution = event.value.toLocaleDateString();
+  }
+
+  /**
+   *  Get adm2 from the back or from the cache service with the key ADM2
+   * @param adm1
+   */
+  loadDistrict(adm1) {
+    this.locationService.getAdm2(adm1).subscribe(response => {
+      this.loadedData.adm2 = response.json();
+      this._cacheService.set(CacheService.ADM2, this.loadedData.adm2);
+
+    });
+    this.loadedData.adm3 = [];
+    this.loadedData.adm4 = [];
+  }
+
+  /**
+   * Get adm3 from the back or from the cahce service with the key ADM3
+   * @param adm2 
+   */
+  loadCommunity(adm2) {
+    this.locationService.getAdm3(adm2).subscribe(response => {
+      this.loadedData.adm3 = response.json();
+      this._cacheService.set(CacheService.ADM3, this.loadedData.adm3);
+
+    });
+    this.loadedData.adm4 = [];
+  }
+
+  /**
+   *  Get adm4 from the back or from the cahce service with the key ADM4
+   * @param adm3 
+   */
+  loadVillage(adm3) {
+    this.locationService.getAdm4(adm3).subscribe(response => {
+      this.loadedData.adm4 = response.json();
+      this._cacheService.set(CacheService.ADM4, this.loadedData.adm4);
+
+    });
+  }
+
+  /**
+   * Check which adm is selected to load the list of adm link to it
+   * fro example : if adm1 (province) selected load adm2
+   * @param event
+   * @param selectedObject 
+   * @param index 
+   */
+  selected($event, selectedObject, index) {
+    if (index === "adm1") {
+      let body = {};
+      body['adm1'] = this.getAdmID('adm1');
+      this.loadDistrict(body);
+    } else if (index === "adm2") {
+      let body = {};
+      body['adm2'] = this.getAdmID('adm2');
+      this.loadCommunity(body);
+    } else if (index === "adm3") {
+      let body = {};
+      body['adm3'] = this.getAdmID('adm3');
+      this.loadVillage(selectedObject);
+    } 
   }
 
   @HostListener('window:resize', ['$event'])
@@ -76,6 +172,14 @@ export class AddDistributionComponent implements OnInit {
   checkSize(): void {
     this.heightScreen = window.innerHeight;
     this.widthScreen = window.innerWidth;
+  }
+
+  /**
+   * get the parameter in the route
+   * use to get the active project
+   */
+  getQueryParameter() {
+    this.route.queryParams.subscribe(params => this.queryParams = params)
   }
 
   /**
@@ -90,12 +194,109 @@ export class AddDistributionComponent implements OnInit {
     }
   }
 
+  /**
+   * to cancel the creation of distribution and go back in the distribution page
+   */
   cancel() {
     this.router.navigate(["distribution"]);
   }
 
+  /**
+   * Get in the chache service the name of all adm selected
+   * @param adm 
+   */
+  getAdmID(adm: string) {
+    if (adm === "adm1") {
+      let adm1 = this._cacheService.get(CacheService.ADM1);
+      if (this.newObject.adm1) {
+        for (let i = 0; i < adm1.length; i++) {
+          if (adm1[i].name === this.newObject.adm1) {
+            return adm1[i].id;
+          }
+        }
+      }
+    } else if (adm === "adm2") {
+      let adm2 = this._cacheService.get(CacheService.ADM2);
+      if (this.newObject.adm2) {
+        for (let i = 0; i < adm2.length; i++) {
+          if (adm2[i].name === this.newObject.adm2) {
+            return adm2[i].id;
+          }
+        }
+      }
+    }
+    else if (adm === "adm3") {
+      let adm3 = this._cacheService.get(CacheService.ADM3);
+      if (this.newObject.adm3) {
+        for (let i = 0; i < adm3.length; i++) {
+          if (adm3[i].name === this.newObject.adm3) {
+            return adm3[i].id;
+          }
+        }
+      }
+    }
+    else if (adm === "adm4") {
+      let adm4 = this._cacheService.get(CacheService.ADM4);
+      if (this.newObject.adm4) {
+        for (let i = 0; i < adm4.length; i++) {
+          if (adm4[i].name === this.newObject.adm4) {
+            return adm4[i].id;
+          }
+        }
+      }
+    }
+  }
+
+  getNameProject(id) : string {
+    let projects= this._cacheService.get(CacheService.PROJECTS);
+    let name: string = ""
+
+    projects.forEach(element => {
+      if(element.id == id) {
+        name = element.name;
+      }
+    });
+    return name
+   
+  }
+
+  /**
+   * create the new distribution object before send it to the back
+   */
   add() {
-    this.addDistribution = true;
+    let newDistribution: DistributionData = new DistributionData;
+    newDistribution.type = this.newObject.type;
+    newDistribution.project.id = this.queryParams.project;
+    newDistribution.location.adm1 = this.newObject.adm1;
+    newDistribution.location.adm2 = this.newObject.adm2;
+    newDistribution.location.adm3 = this.newObject.adm3;
+    newDistribution.location.adm4 = this.newObject.adm3;
+    newDistribution.selection_criteria = this.criteriaArray;
+    newDistribution.commodities = this.commodityArray;
+
+    let formatDateOfBirth = this.newObject.date_distribution.split('/');
+    if (formatDateOfBirth[0].length < 2) {
+      formatDateOfBirth[0] = "0" + formatDateOfBirth[0];
+    }
+    if (formatDateOfBirth[1].length < 2) {
+      formatDateOfBirth[1] = "0" + formatDateOfBirth[1];
+    }
+
+    newDistribution.date_distribution = formatDateOfBirth[2] + "-" + formatDateOfBirth[0] + "-" + formatDateOfBirth[1];
+
+    newDistribution.name = this.getNameProject(this.queryParams.project)+"-"+this.newObject.adm1+"-"+this.newObject.date_distribution+"-";
+
+    let promise = this._distributionService.add(newDistribution);
+    if (promise) {
+      promise.toPromise().then(response => {
+        this.snackBar.open('distribution : ' + response.json().distribution.name + ' was created', '', { duration: 3000, horizontalPosition: "right" });
+        this.router.navigate(['/distribution']);
+      })
+    } else {
+      this.snackBar.open('Error while create new distribution', '', { duration: 3000, horizontalPosition: "right" });
+
+    }
+
   }
 
   setStep(index: string) {
@@ -118,21 +319,26 @@ export class AddDistributionComponent implements OnInit {
       });
     }
     if (dialogRef) {
-      const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
+      const create = dialogRef.componentInstance.onCreate.subscribe((data: Criteria) => {
+        // data.kind_beneficiary = this.newObject.type;
         this.createElement(data, user_action);
       });
 
       dialogRef.afterClosed().subscribe(result => {
         create.unsubscribe();
-        console.log('The dialog was closed');
       });
     }
   }
 
+  /**
+   * add row in selection criteria table and distributed commodity table
+   * @param createElement 
+   * @param user_action 
+   */
   createElement(createElement: Object, user_action) {
     if (user_action == this.criteriaAction) {
       this.criteriaArray.push(createElement);
-      this.criteriaService.getBeneficiariesNumber(this.criteriaArray).subscribe(response => {
+      this.criteriaService.getBeneficiariesNumber(this.criteriaArray, this.queryParams.project).subscribe(response => {
         this.criteriaNbBeneficiaries = response.json();
       });
       this.criteriaData = new MatTableDataSource(this.criteriaArray);
@@ -143,6 +349,11 @@ export class AddDistributionComponent implements OnInit {
     }
   }
 
+  /**
+   * delete row in selection criteria table and distributed commodity table
+   * @param removeElement 
+   * @param user_action 
+   */
   removeElement(removeElement: Object, user_action) {
     if (user_action == this.criteriaAction) {
       const index = this.criteriaArray.findIndex((item) => item === removeElement);
@@ -154,7 +365,7 @@ export class AddDistributionComponent implements OnInit {
       const index = this.commodityArray.findIndex((item) => item === removeElement);
       if (index > -1) {
         this.commodityArray.splice(index, 1);
-        this.criteriaService.getBeneficiariesNumber(this.criteriaArray).subscribe(response => {
+        this.criteriaService.getBeneficiariesNumber(this.criteriaArray, this.queryParams.project).subscribe(response => {
           this.criteriaNbBeneficiaries = response.json();
         });
         this.removeCommodities(removeElement);
@@ -163,16 +374,24 @@ export class AddDistributionComponent implements OnInit {
     }
   }
 
+  /**
+   * add the number of all commodites to display the total
+   * @param createElement 
+   */
   sumCommodities(createElement: Object) {
     let value = parseInt(createElement["value"], 10);
-    if(value){
+    if (value) {
       this.commodityNb += value;
     }
   }
 
+  /**
+   * remove of the total the remove commodity
+   * @param removeElement 
+   */
   removeCommodities(removeElement: Object) {
     let value = parseInt(removeElement["value"], 10);
-    if(value){
+    if (value) {
       this.commodityNb -= value;
     }
   }

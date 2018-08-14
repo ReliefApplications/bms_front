@@ -145,12 +145,18 @@ export class AddDistributionComponent implements OnInit {
    */
   selected($event, selectedObject, index) {
     if (index === "adm1") {
-      this.loadDistrict(selectedObject);
+      let body = {};
+      body['adm1'] = this.getAdmID('adm1');
+      this.loadDistrict(body);
     } else if (index === "adm2") {
-      this.loadCommunity(selectedObject);
+      let body = {};
+      body['adm2'] = this.getAdmID('adm2');
+      this.loadCommunity(body);
     } else if (index === "adm3") {
+      let body = {};
+      body['adm3'] = this.getAdmID('adm3');
       this.loadVillage(selectedObject);
-    }
+    } 
   }
 
   @HostListener('window:resize', ['$event'])
@@ -194,13 +200,13 @@ export class AddDistributionComponent implements OnInit {
    * Get in the chache service the name of all adm selected
    * @param adm 
    */
-  getAdmName(adm: string) {
+  getAdmID(adm: string) {
     if (adm === "adm1") {
       let adm1 = this._cacheService.get(CacheService.ADM1);
       if (this.newObject.adm1) {
         for (let i = 0; i < adm1.length; i++) {
-          if (adm1[i].id === this.newObject.adm1) {
-            return adm1[i].name;
+          if (adm1[i].name === this.newObject.adm1) {
+            return adm1[i].id;
           }
         }
       }
@@ -208,8 +214,8 @@ export class AddDistributionComponent implements OnInit {
       let adm2 = this._cacheService.get(CacheService.ADM2);
       if (this.newObject.adm2) {
         for (let i = 0; i < adm2.length; i++) {
-          if (adm2[i].id === this.newObject.adm2) {
-            return adm2[i].name;
+          if (adm2[i].name === this.newObject.adm2) {
+            return adm2[i].id;
           }
         }
       }
@@ -218,8 +224,8 @@ export class AddDistributionComponent implements OnInit {
       let adm3 = this._cacheService.get(CacheService.ADM3);
       if (this.newObject.adm3) {
         for (let i = 0; i < adm3.length; i++) {
-          if (adm3[i].id === this.newObject.adm3) {
-            return adm3[i].name;
+          if (adm3[i].name === this.newObject.adm3) {
+            return adm3[i].id;
           }
         }
       }
@@ -228,8 +234,8 @@ export class AddDistributionComponent implements OnInit {
       let adm4 = this._cacheService.get(CacheService.ADM4);
       if (this.newObject.adm4) {
         for (let i = 0; i < adm4.length; i++) {
-          if (adm4[i].id === this.newObject.adm4) {
-            return adm4[i].name;
+          if (adm4[i].name === this.newObject.adm4) {
+            return adm4[i].id;
           }
         }
       }
@@ -256,10 +262,10 @@ export class AddDistributionComponent implements OnInit {
     let newDistribution: DistributionData = new DistributionData;
     newDistribution.type = this.newObject.type;
     newDistribution.project.id = this.queryParams.project;
-    newDistribution.location.adm1 = this.getAdmName('adm1');
-    newDistribution.location.adm2 = this.getAdmName('adm2');
-    newDistribution.location.adm3 = this.getAdmName('adm3');
-    newDistribution.location.adm4 = this.getAdmName('adm4');
+    newDistribution.location.adm1 = this.newObject.adm1;
+    newDistribution.location.adm2 = this.newObject.adm2;
+    newDistribution.location.adm3 = this.newObject.adm3;
+    newDistribution.location.adm4 = this.newObject.adm3;
     newDistribution.selection_criteria = this.criteriaArray;
     newDistribution.commodities = this.commodityArray;
 
@@ -273,21 +279,18 @@ export class AddDistributionComponent implements OnInit {
 
     newDistribution.date_distribution = formatDateOfBirth[2] + "-" + formatDateOfBirth[0] + "-" + formatDateOfBirth[1];
 
-    newDistribution.name = this.getNameProject(this.queryParams.project)+"-"+this.getAdmName('adm1')+"-"+newDistribution.date_distribution;
+    newDistribution.name = this.getNameProject(this.queryParams.project)+"-"+this.newObject.adm1+"-"+this.newObject.date_distribution.toLocaleDateString()+"-";
 
+    let promise = this._distributionService.add(newDistribution);
+    if (promise) {
+      promise.toPromise().then(response => {
+        this.snackBar.open('distribution : ' + response.json().distribution.name + ' was created', '', { duration: 3000, horizontalPosition: "right" });
+        this.router.navigate(['/distribution']);
+      })
+    } else {
+      this.snackBar.open('Error while create new distribution', '', { duration: 3000, horizontalPosition: "right" });
 
-    console.log(newDistribution)
-
-    // let promise = this._distributionService.add(newDistribution);
-    // if (promise) {
-    //   promise.toPromise().then(() => {
-    //     this.snackBar.open('distribution ' + newDistribution.name + ' was created', '', { duration: 3000, horizontalPosition: "right" });
-    //     this.router.navigate(['/distribution']);
-    //   })
-    // } else {
-    //   this.snackBar.open('Error while create new distribution', '', { duration: 3000, horizontalPosition: "right" });
-
-    // }
+    }
 
   }
 

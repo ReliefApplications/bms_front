@@ -18,14 +18,14 @@
                 matInput type="{{propertiesTypes[p]}}">
               <mat-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date' && propertiesTypes[p]!='radio'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [formControl]="controls"
                 (selectionChange)="selected($event, newObject, p)">
-                <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</mat-option>
+                <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.name">{{singleData.name}}</mat-option>
               </mat-select>
               <input *ngIf="propertiesTypes[p]=='date' && propertiesTypes[p]!='radio'" matInput [matDatepicker]="dateDistribution" placeholder="{{mapperObject[p]}}" [(ngModel)]="newObject[p]">
               <mat-datepicker-toggle *ngIf="propertiesTypes[p]=='date' && propertiesTypes[p]!='radio'" matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
               <mat-datepicker #dateDistribution></mat-datepicker>
             </mat-form-field>
             <mat-radio-group class="typeDistribution" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'"  [(ngModel)]="newObject[p]" >
-                <mat-radio-button color="warn" value="Household">Household</mat-radio-button>
+                <mat-radio-button color="warn" value="Household" disabled='true'>Household</mat-radio-button>
                 <mat-radio-button color="warn" value="Beneficiary">Beneficiary</mat-radio-button>
               </mat-radio-group>
           </mat-expansion-panel>

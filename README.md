@@ -15,7 +15,7 @@ You need to set up a s3 bucket and make sure "Static website hosting" is enabled
 
 A simple tutorial for reference: https://medium.com/codefactory/angular2-s3-love-deploy-to-cloud-in-6-steps-3f312647a659
 
-To push the build code to S3 Bucket: `aws s3 cp ./dist/bms-front s3://bms-front --recursive --acl public-read`
+To push the build code to S3 Bucket: `aws s3 cp ./dist/bms-front s3://front.bmstaging.info --recursive --acl public-read`
 
 ## Running unit tests
 
@@ -59,4 +59,3 @@ If it's the first time, please run
 ```bash
 sudo ./docker-build.sh bms/front
 ```
-

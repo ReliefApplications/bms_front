@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private serviceMap: LeafletService,
     private cacheService: CacheService,
-    public referedClassService: DistributionService,
+    public distributionService: DistributionService,
 
   ) { }
 
@@ -74,10 +74,10 @@ export class DashboardComponent implements OnInit {
   * check if it is cached, otherwise get it from the api
   */
   checkDistributions(): void {
-    this.referedClassService.get().subscribe(response => {
+    this.distributionService.get().subscribe(response => {
       this.distributions = new MatTableDataSource(this.referedClassToken.formatArray(response.json()));
       this.cacheService.set(CacheService.DISTRIBUTIONS, response);
     })
   }
-  
+
 }

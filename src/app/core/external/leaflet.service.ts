@@ -17,8 +17,6 @@ export class LeafletService {
 
 	private map: any;
 	private tiles: any;
-	// private runLayer;
-	private upcomingDistribution = [];
 
 	constructor(
 		private _locationService: LocationService,
@@ -94,24 +92,27 @@ export class LeafletService {
 				//search in all layer which layer has a code begining with the location code of a upcoming distribution and set a color and a weigth of them
 				admLayer.eachLayer(function (adm) {
 					upcomingDistribution.forEach(element => {
-						if ((adm.feature.properties.ADM3_PCODE === element.code_location && element.adm_level === "adm3") || 
-							(adm.feature.properties.ADM2_PCODE === element.code_location && element.adm_level === "adm2") || 
-							(adm.feature.properties.ADM1_PCODE === element.code_location && element.adm_level === "adm1") ) {
+						if ((adm.feature.properties.ADM3_PCODE === element.code_location && element.adm_level === "adm3") ||
+							(adm.feature.properties.ADM2_PCODE === element.code_location && element.adm_level === "adm2") ||
+							(adm.feature.properties.ADM1_PCODE === element.code_location && element.adm_level === "adm1")) {
 
 							adm.setStyle({
-								color : '#E75B48',
+								color: '#E75B48',
 								fillColor: '#E75B48',
 								weight: 2,
-								fillOpacity : .5,
+								fillOpacity: .5,
 								opacity: .2
 							});
 
-							//Create tooltip which is display when there is a hover event
-							let tooltipInformation = 	"<p> Distribution : " + element.name + "</p>" + 
-														"<p> Location : " + element.location_name + "</p>" ;
+							let tooltipInformation = '';
+							element.distribution.forEach(data => {
+								tooltipInformation += "<p> Distribution : " + data.name + "</p>";
+								tooltipInformation += "<p> Location : " + data.location_name + "</p>";
+							})
+
 							let tooltip = Leaflet.tooltip({
-								permanent : false,
-								interactive : true
+								permanent: false,
+								interactive: true
 							}, adm).setContent(tooltipInformation);
 							adm.bindTooltip(tooltip);
 						}

@@ -51,4 +51,9 @@ export class LocationService {
         let url = this.api + "/location/adm4";
         return this.http.post(url, body);
     }
+
+    public getUpcomingDistributionCode() {
+        let url = this.api + "/location/upcoming_distribution";
+        return this.http.get(url);
+    }
 }

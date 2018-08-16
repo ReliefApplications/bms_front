@@ -26,6 +26,7 @@ export class CacheService {
 	static readonly ADM2						= 'adm2';
 	static readonly ADM3						= 'adm3';
 	static readonly ADM4						= 'adm4';
+	static readonly MAPSDATA					= 'mapsData';
 
 	constructor() {
 		this.defaultStorage = localStorage;

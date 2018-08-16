@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 //Plugins
 import * as Leaflet from 'leaflet';
+import * as LeafletOmnivore from '@mapbox/leaflet-omnivore';
 
 import * as $ from 'jquery';
+import { LocationService } from '../api/location.service';
+import { CacheService } from '../storage/cache.service';
+import { HttpService } from '../api/http.service';
+import { addToViewTree } from '@angular/core/src/render3/instructions';
 
 @Injectable({
 	providedIn: 'root'
@@ -12,8 +17,15 @@ export class LeafletService {
 
 	private map: any;
 	private tiles: any;
+	// private runLayer;
+	private upcomingDistribution = [];
 
-	constructor() {}
+	constructor(
+		private _locationService: LocationService,
+		private _cacheService: CacheService,
+		private http: HttpService
+
+	) { }
 
 	//------------------------------------------------------------------------//
 	//---------------------------------- MAP ---------------------------------//
@@ -23,7 +35,7 @@ export class LeafletService {
 
 		// Create map
 		this.map = Leaflet.map(mapId, {
-			center: [11.5792295,104.6099912],   // Centered on Phnom Penh
+			center: [11.5792295, 104.6099912],   // Centered on Phnom Penh
 			zoom: 7,
 			maxZoom: 10,
 			minZoom: 3,           // Too see the whole world on small screens
@@ -35,8 +47,12 @@ export class LeafletService {
 			scrollWheelZoom: false,
 			layers: []
 		});
-		
+
 		this.map.once('focus', () => { this.map.scrollWheelZoom.enable(); });
+		this.addKML();
+		this.getUpcomingDistributionCode();
+		console.log(this._cacheService.get(CacheService.MAPSDATA));
+
 	}
 
 	addTileLayer() {
@@ -55,4 +71,49 @@ export class LeafletService {
 
 	addCities() {
 	}
+
+	addKML() {
+
+		if (this.map) {
+			// this.runLayer = LeafletOmnivore.kml('assets/maps/map.kml').addTo(this.map);
+
+			// this.runLayer = LeafletOmnivore.geojson('assets/maps/map.json').addTo(this.map);
+
+			
+			let runLayer = LeafletOmnivore.geojson('assets/maps/map.json').on("ready", function() {
+				runLayer.eachLayer(function(layer) {
+					if (layer.feature.properties.Name == "KH070302") {
+						console.log("KH070302", layer);
+					}
+				})
+			}).addTo(this.map);
+
+			// console.log(this.runLayer);
+
+			console.log(this.map)
+			this.map.eachLayer(function(layer) {
+				console.log("layer", layer);
+			})
+
+
+		}
+
+	}
+
+	getUpcomingDistributionCode() {
+		let promise = this._locationService.getUpcomingDistributionCode();
+		if (promise) {
+			promise.toPromise().then(response => {
+				this._cacheService.set(CacheService.MAPSDATA, response.json());
+			})
+		}
+	}
+
+	
+
+
+
+
+
+
 }

@@ -49,10 +49,9 @@ export class LeafletService {
 		});
 
 		this.map.once('focus', () => { this.map.scrollWheelZoom.enable(); });
-		this.addKML();
 		this.getUpcomingDistributionCode();
-		console.log(this._cacheService.get(CacheService.MAPSDATA));
 
+		this.addKML();
 	}
 
 	addTileLayer() {
@@ -69,37 +68,42 @@ export class LeafletService {
 		this.addTileLayer();
 	}
 
-	addCities() {
-	}
-
+	//add all layers to show the upcoming distribution in the map dashoard
 	addKML() {
 
+		//Check if the map is already created
 		if (this.map) {
-			// this.runLayer = LeafletOmnivore.kml('assets/maps/map.kml').addTo(this.map);
 
-			// this.runLayer = LeafletOmnivore.geojson('assets/maps/map.json').addTo(this.map);
+			//get in the cache the liste of upcoming distribution
+			let upcomingDistribution = this._cacheService.get(CacheService.MAPSDATA);
 
-			
-			let runLayer = LeafletOmnivore.geojson('assets/maps/map.json').on("ready", function() {
-				runLayer.eachLayer(function(layer) {
-					if (layer.feature.properties.Name == "KH070302") {
-						console.log("KH070302", layer);
-					}
+			//call the KML file to get the layer
+			let runLayer = LeafletOmnivore.kml('assets/maps/map.kml').on("ready", function () {
+
+				//delete the displaying layer
+				runLayer.eachLayer(function (layer) {
+					layer.setStyle({
+						weight: 0
+					});
+				});
+
+				//search in all layer which layer has a code begining with the location code of a upcoming distribution and set a color and a weigth of them
+				runLayer.eachLayer(function (layer) {
+					upcomingDistribution.forEach(element => {
+						if (layer.feature.properties.RIGHT_A3.startsWith(element.code_location) || layer.feature.properties.LEFT_A3.startsWith(element.code_location)) {
+							layer.setStyle({
+								color: '#E75B48',
+								weight: 2
+							});
+						}
+					});
 				})
 			}).addTo(this.map);
-
-			// console.log(this.runLayer);
-
-			console.log(this.map)
-			this.map.eachLayer(function(layer) {
-				console.log("layer", layer);
-			})
-
-
 		}
-
 	}
 
+
+	//get all upcoming distribution and set it in the cache 
 	getUpcomingDistributionCode() {
 		let promise = this._locationService.getUpcomingDistributionCode();
 		if (promise) {
@@ -107,9 +111,10 @@ export class LeafletService {
 				this._cacheService.set(CacheService.MAPSDATA, response.json());
 			})
 		}
+
 	}
 
-	
+
 
 
 

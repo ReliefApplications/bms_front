@@ -71,7 +71,8 @@ export class LeafletService {
 	//add all layers to show the upcoming distribution in the map dashoard
 	addKML() {
 
-		
+		this.getUpcomingDistributionCode();
+
 		//Check if the map is already created
 		if (this.map) {
 
@@ -90,7 +91,7 @@ export class LeafletService {
 					});
 				});
 
-				//search in all layer which layer has a code begining with the location code of a upcoming distribution & if the code is a adm3 code and set a color and a weigth of them
+				//search in all layer which layer has a code begining with the location code of a upcoming distribution and set a color and a weigth of them
 				admLayer.eachLayer(function (adm) {
 					upcomingDistribution.forEach(element => {
 						if ((adm.feature.properties.ADM3_PCODE === element.code_location && element.adm_level === "adm3") || 
@@ -117,8 +118,6 @@ export class LeafletService {
 					});
 				})
 			})
-
-			
 			admLayer.addTo(this.map);
 		}
 	}

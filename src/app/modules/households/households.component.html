@@ -10,8 +10,8 @@
         </button>
 
         <div class="import-export">
-          <button mat-raised-button class="export-button">
-            <mat-icon>get_app</mat-icon>
+          <button mat-raised-button class="export-button" (click)="export()">
+            <mat-icon>get_app</mat-icon >
             <span>{{household.households_export | uppercase}}</span>
           </button>
           <a routerLink="/households/import">

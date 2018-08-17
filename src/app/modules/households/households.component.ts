@@ -1,10 +1,11 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatSnackBar } from '@angular/material';
 import { CacheService } from '../../core/storage/cache.service';
 import { Households } from '../../model/households';
 import { HouseholdsService } from '../../core/api/households.service';
 import { GlobalText } from '../../../texts/global';
 import { Router } from '@angular/router';
+import { saveAs } from 'file-saver/FileSaver';
 
 @Component({
   selector: 'app-households',
@@ -23,6 +24,7 @@ export class HouseholdsComponent implements OnInit {
     private cacheService: CacheService,
     public householdsService: HouseholdsService,
     private router: Router,
+    public snackBar: MatSnackBar
   ) { }
 
   //For windows size
@@ -76,6 +78,24 @@ export class HouseholdsComponent implements OnInit {
 
   addOneHousehold(){
     this.router.navigate(['/households/add-household']);
+  }
+
+  export() {
+    this.householdsService.export().toPromise()
+      .then(response => {
+        let arrExport = [];
+        let reponse = response.json();
+        if (!(reponse instanceof Array)) {
+          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: "right"});
+        } else {
+          arrExport.push(response.json()[0]); //0 represente le fichier csv et 1 son nom
+          const blob = new Blob(arrExport, { type: 'text/csv' });
+          saveAs(blob, response.json()[1]);
+        }
+      })
+      .catch(error => {
+        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: "right"});
+      });
   }
 
 

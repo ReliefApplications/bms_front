@@ -37,9 +37,12 @@ export class DistributionService{
     }
 
 
-    //TODO: Add route to export distribution
+    /**
+     * TODO: Add route to export distribution
+     * Export data of distribution in CSV
+     */
     public export() {
-        let url = this.api;
+        let url = this.api + "/distributions/export";
         return this.http.get(url);
     }
 }

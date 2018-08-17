@@ -5,6 +5,7 @@ import { AuthenticationService } from '../../core/authentication/authentication.
 import { UserInterface, ErrorInterface } from '../../model/interfaces';
 
 import { GlobalText } from '../../../texts/global';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
 	selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
 
 	constructor(
 		public _authService: AuthenticationService,
-		public router: Router
+		public router: Router,
+		public snackBar: MatSnackBar
 	) { }
 
 	ngOnInit() {
@@ -50,7 +52,7 @@ export class LoginComponent implements OnInit {
 				}
 			})
 			.catch((error: ErrorInterface) => {
-				console.log(error);
+				this.snackBar.open(error.message, '', { duration: 3000, horizontalPosition: "right"});
 				this.forgotMessage = true;
 			});
 	}

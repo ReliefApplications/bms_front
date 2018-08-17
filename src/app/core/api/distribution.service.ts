@@ -35,4 +35,11 @@ export class DistributionService{
         let url = this.api + "/distributions";
         return this.http.put(url, body);
     }
+
+
+    //TODO: Add route to export distribution
+    public export() {
+        let url = this.api;
+        return this.http.get(url);
+    }
 }

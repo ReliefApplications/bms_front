@@ -21,7 +21,7 @@ export class HouseholdsImportComponent implements OnInit {
   public household = GlobalText.TEXTS;
 
   //for the items button
-  selectedTitle = "";
+  selectedTitle = "file import";
   isBoxClicked = false;
 
   //for the selector

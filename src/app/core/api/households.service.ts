@@ -68,5 +68,14 @@ export class HouseholdsService {
         return this.http.put(url, body);
     }
 
+    /**
+     * TODO: add route
+     * Export household data in CSV
+     */
+    public export () {
+        let url = this.api + "/households/export";
+        return this.http.get(url);
+    }
+
 }
 

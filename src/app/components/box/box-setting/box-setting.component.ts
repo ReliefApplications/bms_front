@@ -14,8 +14,11 @@ export class BoxSettingComponent extends BoxComponent {
     {
       this.selectedTitle = "users";
     } 
-    if(this.info.icon === "settings/projects" && !this.selectedTitle) {
+     else if(this.info.icon === "settings/projects" && !this.selectedTitle) {
       this.selectedTitle = this.info.ref;
+    }
+    else if (this.info.ref === "file import") {
+      this.selectedTitle = "file import";
     }
     
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener                          } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
 
 import { GlobalText                                               } from '../../../texts/global';
 
@@ -11,6 +11,8 @@ import { DistributionService } from '../../core/api/distribution.service';
 import { DistributionData } from '../../model/distribution-data';
 import { Mapper } from '../../core/utils/mapper.service';
 import { Router } from '@angular/router';
+
+import { saveAs } from 'file-saver/FileSaver';
 
 @Component({
   selector: 'app-distribution',
@@ -43,7 +45,8 @@ export class DistributionComponent implements OnInit {
     public distributionService: DistributionService,
     public mapperService : Mapper,
     private router: Router,
-    private _cacheService: CacheService        
+    private _cacheService: CacheService,
+    public snackBar: MatSnackBar        
   ) { }
 
   ngOnInit() {
@@ -112,5 +115,26 @@ export class DistributionComponent implements OnInit {
 
   addDistribution(){
     this.router.navigate(["distribution/add-distribution"], {queryParams: {project: this.selectedProject.id}});
+  }
+
+  /**
+   * to export distribution data
+   */
+  export() {
+    this.distributionService.export().toPromise()
+      .then(response => {
+        let arrExport = [];
+        let reponse = response.json();
+        if (!(reponse instanceof Array)) {
+          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: "right"});
+        } else {
+          arrExport.push(response.json()[0]); //0 represente le fichier csv et 1 son nom
+          const blob = new Blob(arrExport, { type: 'text/csv' });
+          saveAs(blob, response.json()[1]);
+        }
+      })
+      .catch(error => {
+        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: "right"});
+      });
   }
 }

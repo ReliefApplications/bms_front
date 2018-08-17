@@ -14,7 +14,7 @@
         </button>
         <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService" [componentDisplayed]="selectedProject"></app-box-properties>
         <div class="export-button-container">
-          <button mat-raised-button class="export-button">
+          <button mat-raised-button class="export-button" (click)="export()">
             <mat-icon>get_app</mat-icon>
             <span>{{distribution.distribution_export | uppercase}}</span>
           </button>

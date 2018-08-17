@@ -119,23 +119,5 @@
         #map {
             flex-grow:1 !important;
         }
-
-        &:hover{
-            background-color: #000000 !important;
-            opacity: 0.9;
-
-            .content-text{
-                visibility: visible !important;
-                flex-grow:1 !important;
-                display: inline-block !important;            
-                color: white;
-            } 
-
-            #map {
-                visibility: hidden;
-                width: 0px !important;
-                display: none !important;    
-            }
-        }
     }
 }

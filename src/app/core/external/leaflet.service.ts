@@ -69,13 +69,15 @@ export class LeafletService {
 	//add all layers to show the upcoming distribution in the map dashoard
 	addKML() {
 
-		this.getUpcomingDistributionCode();
-
 		//Check if the map is already created
 		if (this.map) {
 
 			//get in the cache the liste of upcoming distribution
 			let upcomingDistribution = this._cacheService.get(CacheService.MAPSDATA);
+			if(!upcomingDistribution) {
+				this.getUpcomingDistributionCode();
+				let upcomingDistribution = this._cacheService.get(CacheService.MAPSDATA);
+			}
 
 			// //call the KML file to get the layer
 			let admLayer = LeafletOmnivore.kml('assets/maps/map.kml').on("ready", function () {
@@ -90,7 +92,7 @@ export class LeafletService {
 				});
 
 				//search in all layer which layer has a code begining with the location code of a upcoming distribution and set a color and a weigth of them
-				admLayer.eachLayer(function (adm) {
+				admLayer.eachLayer(function (adm, index) {
 					upcomingDistribution.forEach(element => {
 						if ((adm.feature.properties.ADM3_PCODE === element.code_location && element.adm_level === "adm3") ||
 							(adm.feature.properties.ADM2_PCODE === element.code_location && element.adm_level === "adm2") ||
@@ -105,9 +107,16 @@ export class LeafletService {
 							});
 
 							let tooltipInformation = '';
-							element.distribution.forEach(data => {
+							element.distribution.forEach(function (data, index, element) {
 								tooltipInformation += "<p> Distribution : " + data.name + "</p>";
-								tooltipInformation += "<p> Location : " + data.location_name + "</p>";
+								tooltipInformation += "<p> Location : " + data.location_name + "</p>"
+
+								//to display a divider between distribution in a same tooltip
+								//but don't put divider after thie last element
+								if(!Object.is(element.length-1, index)) {
+									tooltipInformation += "<hr>";
+								}
+								
 							})
 
 							let tooltip = Leaflet.tooltip({

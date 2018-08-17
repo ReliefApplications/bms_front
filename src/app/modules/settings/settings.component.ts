@@ -60,6 +60,7 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.checkSize();
+    this.selectTitle("users");
   }
 
   /**

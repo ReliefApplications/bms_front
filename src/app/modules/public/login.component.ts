@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
 				}
 			})
 			.catch((error: ErrorInterface) => {
-				this.snackBar.open(error.message, '', { duration: 3000, horizontalPosition: "right"});
+				this.snackBar.open(error.message, '', { duration: 3000, horizontalPosition: "right" });
 				this.forgotMessage = true;
 			});
 	}

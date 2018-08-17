@@ -80,6 +80,10 @@ export class HouseholdsComponent implements OnInit {
     this.router.navigate(['/households/add-household']);
   }
 
+  /**
+   * to export household data
+   * CSV exported as the same format of csv template download for import
+   */
   export() {
     this.householdsService.export().toPromise()
       .then(response => {

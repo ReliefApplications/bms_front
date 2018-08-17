@@ -117,6 +117,9 @@ export class DistributionComponent implements OnInit {
     this.router.navigate(["distribution/add-distribution"], {queryParams: {project: this.selectedProject.id}});
   }
 
+  /**
+   * to export distribution data
+   */
   export() {
     this.distributionService.export().toPromise()
       .then(response => {

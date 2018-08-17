@@ -91,10 +91,14 @@ export class DistributionComponent implements OnInit {
    * get all projects
    */
   getProjects(): void {
-    this.projectService.get().subscribe(response => {
-      this.projects = this.projectClass.formatArray(response.json());
-      this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + "S"], this.projects);
-    })
+    let promise = this.projectService.get();
+    if(promise) {
+      promise.toPromise().then(response => {
+        this.projects = this.projectClass.formatArray(response.json());
+        this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + "S"], this.projects);
+        this.selectTitle(this.projects[0].name, this.projects[0]);
+      })
+    }
   }
 
   /**

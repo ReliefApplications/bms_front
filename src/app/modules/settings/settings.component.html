@@ -16,10 +16,6 @@
         <button mat-icon-button (click)="openDialog('add')" class="add-button">
           <mat-icon>add</mat-icon>
         </button>
-        <button mat-raised-button class="export-button">
-          <mat-icon>get_app</mat-icon>
-          <span>{{settings.settings_export | uppercase}}</span>
-        </button>
       </div>
       <div class="content-table">
         <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data"></app-table-search>

@@ -7,7 +7,6 @@ export interface ChartInterface {
     title?:                 ChartTitleClass;
     axis?:                  ChartAxisClass;
     legend?:                ChartLegendClass;
-    modalConfig?:           ChartModalConfigClass;
     indicatorConfig?:       ChartIndicatorConfigClass;
 }
 
@@ -42,17 +41,11 @@ export class ChartTitleClass {
     constructor(){}
 }
 
-export class ChartModalConfigClass {
-  public modalId:         string = 'id';
-
-  constructor(){}
-}
-
 export class ChartIndicatorConfigClass {
   public idIndicator:     string;
   public type:            string = 'bar';
-  public computedMethod:  string = 'computed method';
   public items:           string = '';
+  public name:            string = '';
 
   constructor(){}
 }

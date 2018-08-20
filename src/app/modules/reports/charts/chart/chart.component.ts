@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, KeyValueDiffers, ViewChild, ElementRef } from '@angular/core';
 import { ChartDataLoaderService } from '../../services/chart-data-loader.service';
-import { ChartInterface, ChartSchemeClass, ChartTitleClass, ChartAxisClass, ChartLegendClass, ChartModalConfigClass, ChartIndicatorConfigClass } from './chart.interface';
+import { ChartInterface, ChartSchemeClass, ChartTitleClass, ChartAxisClass, ChartLegendClass, ChartIndicatorConfigClass } from './chart.interface';
 import { FilterInterface } from '../../../../model/filter';
 import { CacheService } from '../../../../core/storage/cache.service';
 import { timeout } from 'q';
@@ -30,7 +30,6 @@ export class ChartComponent implements OnInit, ChartInterface {
 
   scheme: ChartSchemeClass;
   @Input() title: ChartTitleClass;
-  @Input() modalConfig: ChartModalConfigClass;
   @Input() axis: ChartAxisClass;
   legend: ChartLegendClass;
 
@@ -69,7 +68,6 @@ export class ChartComponent implements OnInit, ChartInterface {
     this.title = new ChartTitleClass();
     this.axis = new ChartAxisClass();
     this.legend = new ChartLegendClass();
-    this.modalConfig = new ChartModalConfigClass();
     this.indicatorConfig = new ChartIndicatorConfigClass();
 
 
@@ -78,7 +76,7 @@ export class ChartComponent implements OnInit, ChartInterface {
 
   ngOnInit() {
     // Visualisation 
-    if (this.indicatorConfig.idIndicator == '9') {
+    if (this.indicatorConfig.name === 'Number Men and Women') {
       this.scheme = {
         gradient: true,
         domain: [

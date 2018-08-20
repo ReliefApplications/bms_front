@@ -54,7 +54,6 @@ export class LineChartComponent extends ChartComponent {
     this.axis.yAxisLabel      = 'Y Axis';
     this.title.main           = "";
     this.title.sub            =  "";
-    this.modalConfig.modalId  = 'a';
     this.autoScale            = false;
   }
 }

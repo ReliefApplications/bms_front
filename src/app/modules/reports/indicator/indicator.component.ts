@@ -18,12 +18,9 @@ export class IndicatorComponent implements OnInit {
   @Input() distribution: string[];
   @Input() periodFrequency:string;
 
-  public computedMethod: string;
   public newFilters;
 
-  constructor() {
-    this.computedMethod = "Nombre absolu";
-  }
+  constructor() {}
 
   ngOnInit() {
     this.chartDimensions = [400, 300];

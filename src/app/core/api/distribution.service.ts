@@ -30,4 +30,15 @@ export class DistributionService{
         let url = this.api + "/distributions/projects/"+idProject;
         return this.http.get(url);
     }
+
+    public update(id: number, distribution: DistributionData) {
+        let url = this.api + "/distributions/" + id;
+        console.log("entering distribution service");
+        return this.http.post(url, distribution);
+    }
+
+    public delete(distributionId) {
+        let url = this.api + "/distributions/archive/" + distributionId
+        return this.http.post(url, '');
+    }
 }

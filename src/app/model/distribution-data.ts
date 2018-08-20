@@ -72,11 +72,12 @@ export class DistributionData {
     number_beneficiaries: Int16Array;
 
     constructor(instance?) {
-        if (instance !== undefined) {
+        if (instance !== undefined && instance != null) {
             this.id = instance.id;
             this.name = instance.name;
             this.updated_on = instance.updated_on;
             this.number_beneficiaries = instance.number_beneficiaries;
+            instance.location = instance.location || {}; // TODO: remove this line when backend bug fixed
             this.adm1 = instance.location.adm1;
             this.adm2 = instance.location.adm2;
             this.adm3 = instance.location.adm3;
@@ -203,24 +204,33 @@ export class DistributionData {
         }
     }
 
+    // Renvoie un array des datas depuis l'objet récupéré de l'Api.
     public static formatArray(instance): DistributionData[] {
         let distributionDatas: DistributionData[] = [];
         instance.forEach(element => {
-            distributionDatas.push(this.formatFromApi(element));
+            if(element && element.id && element.location && element.project && element.name) {
+                distributionDatas.push(this.formatFromApi(element));
+            }
         });
+        console.log("formatArray :", distributionDatas);
         return distributionDatas;
     }
 
+    // Json -> DistributionData
     public static formatFromApi(element: any): DistributionData {
         let distributionDatas = new DistributionData(element);
-        distributionDatas.location = new Location(element.location);
-        distributionDatas.location_name = element.location.adm1;
+        distributionDatas.location = new Location(element.location || {});
+        distributionDatas.location_name = (element.location  || {}).adm1;
         distributionDatas.project = new Project(element.project);
         distributionDatas.selection_criteria = new SelectionCriteria(element.selection_criteria);
+        console.log("from api: ",distributionDatas);
         return distributionDatas;
     }
 
+    // DistributionData -> Json
     public static formatForApi(element: DistributionData): any {
         let distributionDatas = new DistributionData(element);
+        // ?
+        return(distributionDatas);
     }
 }

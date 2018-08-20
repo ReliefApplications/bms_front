@@ -1,33 +1,34 @@
 <div class="container">
 
-  <h1> PROFILE </h1>
+  <h1> {{profilePage.header_profile | uppercase}} </h1>
 
-  <form class="profile-field">
+  <form class="profile-field" [formGroup]="profileForm" (ngSubmit)="onProfileFormSubmit()">
 
-    <h2> USER INFORMATION </h2>
+    <h2> {{ profilePage.profile_user_information | uppercase }} </h2>
 
     <mat-form-field>
-      <input matInput [placeholder]="actualUserInterface.email" disabled="true">
+      <input matInput placeholder={{actualUser.email}} formControlName="email" disabled="true">
     </mat-form-field>
 
-    <h2> CHANGE PASSWORD </h2>
+    <h2> {{ profilePage.profile_user_change_password | uppercase }} </h2>
 
     <mat-form-field>
-      <input matInput placeholder="Old password" type="password">
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="New password" type="password">
+      <input matInput [placeholder]="profilePage.profile_user_hint_old_password" type="password" formControlName="oldPassword">
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput placeholder="Re-enter new password" type="password">
+      <input matInput [placeholder]="profilePage.profile_user_hint_new_password" type="password" formControlName="newPassword1">
     </mat-form-field>
 
-    <div class="validation">
-      <button mat-button>CANCEL</button>
-      <button mat-button>SAVE</button>
+    <mat-form-field>
+      <input matInput [placeholder]="profilePage.profile_user_hint_new_password_again" type="password" formControlName="newPassword2">
+    </mat-form-field>
+
+    <div>
+      <button mat-button class="cancel"> {{ profilePage.modal_cancel | uppercase }} </button>
+      <button mat-button type="submit" [disabled]="!profileForm.valid" class="validation"> {{ profilePage.modal_save | uppercase }} </button>
     </div>
+
   </form>
 
 </div>

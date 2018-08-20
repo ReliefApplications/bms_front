@@ -27,10 +27,20 @@
       padding-left: 10%;
     }
 
-    .validation button{
-      width: 45%;
-      margin: 2.5%;
-      background-color: $bms_bright_green;
+    div {
+      .validation{
+        color: white;
+        width: 15vh;
+        margin: 2.5%;
+        background-color: $bms_green;
+      }
+
+      .cancel {
+        color: $bms_green;
+        // background-color: $bms_slate;
+        width: 15vh;
+        margin-right: 10px;
+      }
     }
 
   }

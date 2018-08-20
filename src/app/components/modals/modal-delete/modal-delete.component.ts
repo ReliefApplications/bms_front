@@ -7,8 +7,8 @@ import { ModalComponent                                    } from '../modal.comp
   styleUrls: ['./modal-delete.component.scss']
 })
 export class ModalDeleteComponent extends ModalComponent {
-  
-  @Input() data:    any;
+
+  @Input() data: any;
   @Output() onDelete = new EventEmitter();
 
   ngOnInit() {

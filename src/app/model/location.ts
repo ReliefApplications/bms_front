@@ -24,7 +24,7 @@ export class Location {
     adm4: string = '';
 
     constructor(instance?){
-        if(instance !== undefined){
+        if(instance !== undefined && instance !== null){
             this.adm1 = instance.adm1;
             this.adm2 = instance.adm2;
             this.adm3 = instance.adm3;

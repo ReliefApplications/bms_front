@@ -38,7 +38,7 @@ export class TableComponent implements OnInit {
   propertiesActions: any;
   entityInstance = null;
   public user_action: string = '';
-  
+
   constructor(
     public mapperService: Mapper,
     public dialog: MatDialog,
@@ -47,6 +47,9 @@ export class TableComponent implements OnInit {
 
   ngOnInit() {
     this.checkData();
+    console.log("distribution service :", this.service);
+    console.log("distribution data :", this.data);
+    console.log("distribution entity :", this.entity);
   }
 
   ngDoCheck() {
@@ -54,7 +57,7 @@ export class TableComponent implements OnInit {
       this.checkData();
     }
     if(!this.data.paginator){
-      this.data.paginator = this.paginator;      
+      this.data.paginator = this.paginator;
     }
     if (this.table != GlobalText.TEXTS) {
       this.table = GlobalText.TEXTS;
@@ -64,8 +67,10 @@ export class TableComponent implements OnInit {
   }
 
   updateData() {
+
     this.service.get().subscribe(response => {
       this.data = new MatTableDataSource(this.entity.formatArray(response.json()));
+      console.log("updateData: ", response.json());
       //update cache associated variable
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + "S"], response.json());
 
@@ -94,6 +99,7 @@ export class TableComponent implements OnInit {
     }
     this.setDataTableProperties();
     if (this.entity) {
+      console.log("checkin");
       this.entityInstance = this.mapperService.instantiate(this.entity);
       this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
       this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
@@ -126,15 +132,18 @@ export class TableComponent implements OnInit {
         data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
       });
     }
+
     let deleteElement = null;
     if (dialogRef.componentInstance.onDelete) {
-      deleteElement = dialogRef.componentInstance.onDelete.subscribe((data) => {
+      deleteElement = dialogRef.componentInstance.onDelete.subscribe(
+        (data) => {
         this.deleteElement(data);
       });
     }
     let updateElement = null;
     if (dialogRef.componentInstance.onUpdate) {
-      updateElement = dialogRef.componentInstance.onUpdate.subscribe((data) => {
+      updateElement = dialogRef.componentInstance.onUpdate.subscribe(
+        (data) => {
         this.updateElement(data);
       });
     }
@@ -142,7 +151,9 @@ export class TableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (updateElement)
+      {
         updateElement.unsubscribe();
+      }
       if (deleteElement)
         deleteElement.unsubscribe();
       console.log('The dialog was closed');
@@ -156,9 +167,14 @@ export class TableComponent implements OnInit {
   }
 
   updateElement(updateElement: Object) {
+    console.log("update element 1:", updateElement);
     updateElement = this.entity.formatForApi(updateElement);
+
+      console.log("update element 2:", updateElement);
     this.service.update(updateElement['id'], updateElement).subscribe(response => {
       this.updateData();
+    }, error => {
+      console.error("err", error);
     })
   }
 
@@ -172,7 +188,7 @@ export class TableComponent implements OnInit {
 
 const rangeLabel = (page: number, pageSize: number, length: number) => {
   let table = GlobalText.TEXTS;
- 
+
   if (length == 0 || pageSize == 0) { return `0 ` + table.table_of_page + ` ${length}`; }
 
   length = Math.max(length, 0);

@@ -75,6 +75,7 @@ export class DashboardComponent implements OnInit {
   */
   checkDistributions(): void {
     this.referedClassService.get().subscribe(response => {
+      console.log(response.json());
       this.distributions = new MatTableDataSource(this.referedClassToken.formatArray(response.json()));
       this.cacheService.set(CacheService.DISTRIBUTIONS, response);
     })

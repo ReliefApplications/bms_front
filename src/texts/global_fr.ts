@@ -8,13 +8,13 @@ export const TEXT = {
     dashboard_summary_4 : "montant total des transactions",
     dashboard_recent_distributions : "distributions récentes",
 
-    menu_distributions : "distributions", 
+    menu_distributions : "distributions",
     menu_households : "ménages",
     menu_reports : "graphiques",
     menu_settings : "paramètres",
 
     header_home : "Accueil",
-    header_profile : "profil", 
+    header_profile : "profil",
     header_disconnect : "déconnexion",
     header_language : "langue",
 
@@ -94,7 +94,7 @@ export const TEXT = {
 
     distribution_title : "distributions",
     distribution_export : "export",
-    
+
     add_distribution_title : "nouvelle distribution",
     add_distribution_new_distribution : "nouvelle distribution",
     add_distribution_selection_criteria : "critères de sélection",
@@ -124,7 +124,7 @@ export const TEXT = {
     modal_cancel : "Annuler",
     modal_save : "Enregistrer",
     modal_delete : "Supprimer",
-    modal_create : "Créer", 
+    modal_create : "Créer",
     modal_valid_email : "Veuillez utiliser un mail valide",
     modal_email_is : "Email ",
     modal_email_placeholder : "Email",
@@ -178,5 +178,14 @@ export const TEXT = {
     model_commodity_modality: "Modalité",
     model_commodity_type: "Type",
     model_commodity_unit: "Unité",
-    model_commodity_value: "Quantité"
+    model_commodity_value: "Quantité",
+
+    profile_user_information: "Informations utilisateur",
+    profile_user_change_password: "Changer mon mot de passe",
+    profile_user_hint_old_password: "Mot de passe actuel",
+    profile_user_hint_new_password: "Nouveau mot de passe",
+    profile_user_hint_new_password_again: "Ré-entrez votre nouveau mot de passe",
+    snackbar_change_password_done: "Mot de passe modifié !",
+    snackbar_change_password_fail: "Le mot de passe n'a pas pu être changé...",
+    snackbar_change_password_not_possible: "Mot de passe pas assez long ou différent de la vérification"
 }

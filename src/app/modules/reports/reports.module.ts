@@ -6,7 +6,6 @@ import { SharedModule   } from '../../shared/shared.module';
 
 // Components
 import { ReportsComponent } from './reports.component';
-import { DataTableComponent } from './data-table/data-table.component';
 import { IndicatorComponent } from './indicator/indicator.component';
 import { IndicatorPageComponent } from './indicator-page/indicator-page.component';
 import { HeaderComponent } from './charts/header/header.component';
@@ -40,7 +39,6 @@ import { StackedVerticalBarChartComponent } from './charts/stacked-vertical-bar-
     ],
     declarations: [
         ReportsComponent,
-        DataTableComponent,
         IndicatorComponent,
         IndicatorPageComponent,
         ButtonFilterComponent,

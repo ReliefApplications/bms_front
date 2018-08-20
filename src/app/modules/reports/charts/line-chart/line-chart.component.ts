@@ -13,7 +13,6 @@ import { ChartRegistration } from '../../services/chart-registration.service';
 export class LineChartComponent extends ChartComponent {
 
   public autoScale: boolean = false;
-  // public el: ElementRef;
 
   constructor(
     protected differs: KeyValueDiffers,

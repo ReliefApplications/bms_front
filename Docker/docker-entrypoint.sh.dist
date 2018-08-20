@@ -6,7 +6,7 @@ if [ ! -d node_modules ]; then
     npm install
 fi
 
-ng serve --host 0.0.0.0 
+ng serve --host 0.0.0.0 -c production 
 # you can precise your environment
 # ng serve --host 0.0.0.0 --env=dev --port 4560 
    

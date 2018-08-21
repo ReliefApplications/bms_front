@@ -47,10 +47,6 @@ export class TableComponent implements OnInit {
 
   ngOnInit() {
     this.checkData();
-    console.log("distribution service :", this.service);
-    console.log("distribution data :", this.data);
-    console.log("distribution entity :", this.entity);
-    console.log("cc : ", this.properties);
   }
 
   ngDoCheck() {
@@ -71,13 +67,12 @@ export class TableComponent implements OnInit {
 
     this.service.get().subscribe(response => {
       this.data = new MatTableDataSource(this.entity.formatArray(response.json()));
-      console.log("updateData: ", response.json());
       //update cache associated variable
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + "S"], response.json());
 
       this.setDataTableProperties();
     }, error => {
-      console.log("error", error);
+      console.error("error", error);
     });
   }
 
@@ -100,7 +95,6 @@ export class TableComponent implements OnInit {
     }
     this.setDataTableProperties();
     if (this.entity) {
-      console.log("checkin");
       this.entityInstance = this.mapperService.instantiate(this.entity);
       this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
       this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
@@ -157,7 +151,6 @@ export class TableComponent implements OnInit {
       }
       if (deleteElement)
         deleteElement.unsubscribe();
-      console.log('The dialog was closed');
     });
   }
 
@@ -168,10 +161,10 @@ export class TableComponent implements OnInit {
   }
 
   updateElement(updateElement: Object) {
-    console.log("update element 1:", updateElement);
+    // console.log("update element 1:", updateElement);
     updateElement = this.entity.formatForApi(updateElement);
 
-    console.log("update element 2:", updateElement);
+    // console.log("update element 2:", updateElement);
     this.service.update(updateElement['id'], updateElement).subscribe(response => {
       this.updateData();
     }, error => {
@@ -180,7 +173,6 @@ export class TableComponent implements OnInit {
   }
 
   deleteElement(deleteElement: Object) {
-    console.log(deleteElement);
     this.service.delete(deleteElement['id']).subscribe(response => {
       this.updateData();
     })

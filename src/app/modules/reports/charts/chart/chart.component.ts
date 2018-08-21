@@ -116,6 +116,8 @@ export class ChartComponent implements OnInit, ChartInterface {
       this.chartRegistrationService.registerFilter(this, filter);
     })
 
+    this.chartAssociation();
+
     //Call data from the back
     this.getData();
   }
@@ -127,13 +129,7 @@ export class ChartComponent implements OnInit, ChartInterface {
       (changes.distribution && changes.distribution.currentValue != changes.distribution && changes.distribution.previousValue) ||
       (changes.periodFrequency && changes.periodFrequency.currentValue != changes.periodFrequency && changes.periodFrequency.previousValue)) {
 
-      //Search filter associate with the chart
-      ChartRegistration.associations
-        .filter((item: RegisteredItem) => item.chartId === this.uniqId)
-        .forEach((item: RegisteredItem) => {
-          ChartRegistration.comparaisons.set(this.uniqId, true);
-          this.changeFrequency(item.currentValue, item.referenceKey);
-        })
+      this.chartAssociation();
 
       if (Object.keys(this.body).length === 3) {
         this.switchFrequencyOrSelector();
@@ -256,6 +252,18 @@ export class ChartComponent implements OnInit, ChartInterface {
       }
     }
    
+  }
+
+  /**
+   * search the filter associate to the charts
+   */
+  chartAssociation() {
+    ChartRegistration.associations
+    .filter((item: RegisteredItem) => item.chartId === this.uniqId)
+    .forEach((item: RegisteredItem) => {
+      ChartRegistration.comparaisons.set(this.uniqId, true);
+      this.changeFrequency(item.currentValue, item.referenceKey);
+    })
   }
 
   // Actions

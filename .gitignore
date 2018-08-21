@@ -39,4 +39,8 @@ testem.log
 Thumbs.db
 
 # Docker
+<<<<<<< HEAD
 /Docker/docker-entrypoint.sh
+=======
+/Docker/docker-entrypoint.sh
+>>>>>>> dev

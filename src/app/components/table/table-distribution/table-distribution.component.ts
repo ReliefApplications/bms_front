@@ -9,4 +9,7 @@ import { TableComponent                                       } from '../table.c
   styleUrls: ['./table-distribution.component.scss']
 })
 export class TableDistributionComponent extends TableComponent {
+
+  
+
 }

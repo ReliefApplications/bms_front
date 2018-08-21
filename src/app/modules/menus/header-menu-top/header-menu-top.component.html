@@ -12,11 +12,11 @@
       <mat-icon>perm_identity</mat-icon>
     </button>
     <mat-menu #menu="matMenu" overlapTrigger=false>
-      <!-- <button mat-menu-item (click)="openDialog('language')">
+      <button mat-menu-item (click)="openDialog('language')">
         <mat-icon>language</mat-icon>
         <span>{{header.header_language | uppercase}}</span>
-      </button> -->
-      <button mat-menu-item routerLink="/">
+      </button>
+      <button mat-menu-item routerLink="/profile">
         <mat-icon>person_outline</mat-icon>
         <span>{{header.header_profile | uppercase}}</span>
       </button>

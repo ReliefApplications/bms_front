@@ -31,11 +31,21 @@ export class DistributionService{
         return this.http.get(url);
     }
 
+    public update(id: number, distribution: DistributionData) {
+        let url = this.api + "/distributions/" + id;
+        console.log("entering distribution service", distribution);
+        return this.http.post(url, distribution);
+    }
+
+    public delete(distributionId) {
+        let url = this.api + "/distributions/archive/" + distributionId
+        return this.http.post(url, '');
+    }
+
     public add(body: any) {
         let url = this.api + "/distributions";
         return this.http.put(url, body);
     }
-
 
     /**
      * TODO: Add route to export distribution

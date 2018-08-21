@@ -11,6 +11,7 @@ import { SettingsComponent 																} from './modules/settings/settings.c
 import { HouseholdsComponent 															} from './modules/households/households.component';
 import { HouseholdsImportComponent 														} from './modules/households/households-import/households-import.component';
 import { ReportsComponent 																} from './modules/reports/reports.component';
+import { ProfileComponent																	} from './modules/profile/profile.component';
 import { AddHouseholdComponent 															} from './modules/households/add-household/addHousehold.component';
 import { DataValidationComponent 														} from './modules/households/data-validation/data-validation.component';
 
@@ -30,6 +31,8 @@ export const routes: Routes = [
 	{ path: 'reports', component: ReportsComponent },
 
 	{ path: 'settings', component: SettingsComponent },
+
+	{ path: 'profile', component: ProfileComponent },
 
 	{ path: 'households/import', component: HouseholdsImportComponent },
 

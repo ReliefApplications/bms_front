@@ -1,0 +1,48 @@
+@import '../../../assets/css/variable.scss';
+
+.container {
+  width: 40%;
+  height: 70%;
+  margin: 0 auto;
+  text-align: center;
+  font-family: $bms_font_header;
+  vertical-align: middle;
+
+  h1 {
+    font-family: $bms_font_header;
+    margin: 15%;
+  }
+
+  .profile-field {
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+      text-align: left;
+      font-family: $bms_font_text;
+      font-weight: lighter;
+    }
+
+    mat-form-field {
+      padding-left: 10%;
+    }
+
+    div {
+      .validation{
+        color: white;
+        width: 15vh;
+        margin: 2.5%;
+        background-color: $bms_green;
+      }
+
+      .cancel {
+        color: $bms_green;
+        // background-color: $bms_slate;
+        width: 15vh;
+        margin-right: 10px;
+      }
+    }
+
+  }
+
+}

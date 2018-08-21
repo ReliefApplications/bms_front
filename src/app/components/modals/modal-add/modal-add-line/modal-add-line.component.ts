@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren, QueryList                                  } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, Input                                  } from '@angular/core';
 import { ModalAddComponent                                  } from '../modal-add.component';
 import { GlobalText                                         } from '../../../../../texts/global';
 import { ConditionCriteriaMapper                            } from '../../../../model/condition-criteria-mapper';

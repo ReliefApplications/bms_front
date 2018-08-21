@@ -8,13 +8,13 @@ export const TEXT = {
     dashboard_summary_4 : "total value transactions",
     dashboard_recent_distributions : "recent distributions",
 
-    menu_distributions : "distributions", 
+    menu_distributions : "distributions",
     menu_households : "households",
     menu_reports : "reports",
     menu_settings : "settings",
 
     header_home : "Home",
-    header_profile : "profile", 
+    header_profile : "profile",
     header_disconnect : "disconnect",
     header_language : "language",
 
@@ -152,7 +152,7 @@ export const TEXT = {
     modal_cancel : "Cancel",
     modal_save : "Save",
     modal_delete : "Delete",
-    modal_create : "Create", 
+    modal_create : "Create",
     modal_valid_email : "Please enter a valid email address",
     modal_email_is : "Email is",
     modal_email_placeholder : "Email",
@@ -207,5 +207,14 @@ export const TEXT = {
     model_commodity_modality: "Modality",
     model_commodity_type: "Type",
     model_commodity_unit: "Unit",
-    model_commodity_value: "Quantity"
+    model_commodity_value: "Quantity",
+
+    profile_user_information: "User information",
+    profile_user_change_password: "Change password",
+    profile_user_hint_old_password: "Old password",
+    profile_user_hint_new_password: "New password",
+    profile_user_hint_new_password_again: "Re-enter new password",
+    snackbar_change_password_done: "Password has been changed !",
+    snackbar_change_password_fail: "Could not change password...",
+    snackbar_change_password_not_possible: "Password must be longer than 1 character and match with verification"
 }

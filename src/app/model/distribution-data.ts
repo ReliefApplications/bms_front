@@ -91,11 +91,12 @@ export class DistributionData {
     commodities: Array<Commodity>;
 
     constructor(instance?) {
-        if (instance !== undefined) {
+        if (instance !== undefined && instance != null) {
             this.id = instance.id;
             this.name = instance.name;
             this.updated_on = instance.updated_on;
             this.number_beneficiaries = instance.number_beneficiaries;
+            instance.location = instance.location || {}; // TODO: remove this line when backend bug fixed
             this.adm1 = instance.location.adm1;
             this.adm2 = instance.location.adm2;
             this.adm3 = instance.location.adm3;
@@ -238,14 +239,20 @@ export class DistributionData {
         }
     }
 
+    // Renvoie un array des datas depuis l'objet récupéré de l'Api.
     public static formatArray(instance): DistributionData[] {
         let distributionDatas: DistributionData[] = [];
+        console.log("formatArray before :", distributionDatas);
         instance.forEach(element => {
-            distributionDatas.push(this.formatFromApi(element));
+            if(element && element.id && element.location && element.project && element.name) {
+                distributionDatas.push(this.formatFromApi(element));
+            }
         });
+        console.log("formatArray :", distributionDatas);
         return distributionDatas;
     }
 
+    // Json -> DistributionData
     public static formatFromApi(element: any): DistributionData {
         let distributionDatas = new DistributionData(element);
         distributionDatas.location = new Location(element.location);
@@ -270,7 +277,30 @@ export class DistributionData {
         return distributionDatas;
     }
 
+    // DistributionData -> Json
     public static formatForApi(element: DistributionData): any {
-        let distributionDatas = new DistributionData(element);
+
+        // TODO : recréer le champ location en attribuant chaque valeur de element à chaque champ de location
+        // >>>>>  Placer dans l'input de update de location une selection des 4 possiblités liées à la BDD (ex: addDistribution).
+
+        let updatedDistribution = {
+            id : element.id, //id
+            name : element.name, //name
+            updated_on : element.updated_on, //updated_on
+            date_distribution : element.date_distribution, //date_distribution
+            location : element.location, //location
+            project : element.project, //project
+            selection_criteria : element.selection_criteria, //selection_criteria
+            archived : false, //archived
+            validated : true, //validated
+            reporting_distribution : {}[0], //reporting_distribution
+            type : element.type, //type
+            commodities : element.commodities, //commodities
+            distribution_beneficiaries : {}[0] //distribution_beneficiaries
+        };
+
+        return(updatedDistribution);
     }
+
+
 }

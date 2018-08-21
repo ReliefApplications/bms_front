@@ -1,6 +1,7 @@
 import { NgModule 																} from '@angular/core';
 import { BrowserModule 															} from '@angular/platform-browser';
 import { FormsModule 															} from '@angular/forms';
+import { ReactiveFormsModule } 											from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS 									} from '@angular/common/http';
 import { HttpModule 															} from '@angular/http';
 
@@ -16,24 +17,27 @@ import { AppRouting 															} from './app.routing';
 import { SharedModule 															} from './shared/shared.module';
 
 import { ReportsModule										 					} from './modules/reports/reports.module';
+import { ProfileComponent } from './modules/profile/profile.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		ForbiddenComponent,
 		NotFoundComponent,
+		ProfileComponent,
 	],
 	imports: [
 		// Modules
 		BrowserModule,
 		FormsModule,
+		ReactiveFormsModule,
 		HttpClientModule,
 		SharedModule,
 		HttpModule,
 
 		// Reporting
 		ReportsModule,
-		
+
 		// Routing
 		AppRouting
 	],

@@ -6,7 +6,7 @@
       <th class="table-value">
         <form class="form">
           <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
-            <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}"
+            <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries')"
               [type]="propertiesTypes[p]">
             <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="updateObject[p]" placeholder="{{data.mapper.mapTitle(p)}}"
               [formControl]="controls" multiple>

@@ -26,13 +26,13 @@
         </tr>
       </tbody>
       <tfoot>
-        <button *ngIf="mapperService.mapValue(element, 'validated')"  mat-button class="red">
+        <button *ngIf="mapperService.mapValue(element, 'validated')"  mat-button class="green">
           <mat-icon inline=true>search</mat-icon>
         </button>
         <button *ngIf="!mapperService.mapValue(element, 'validated')" mat-button class="light-red">
           <mat-icon inline=true>edit</mat-icon>
         </button>
-        <button *ngIf="!mapperService.mapValue(element, 'validated')" mat-button class="green">
+        <button *ngIf="!mapperService.mapValue(element, 'validated')" mat-button class="red">
           <mat-icon inline=true>close</mat-icon>
         </button>
       </tfoot>

@@ -24,7 +24,7 @@ import { ExportInterface } from '../../model/export.interface';
 export class DistributionComponent implements OnInit {
   public nameComponent = "distribution_title";
   public distribution = GlobalText.TEXTS;
-  
+
   projects: Project[];
   distributionData: MatTableDataSource<any>;
   distributionClass = DistributionData;
@@ -48,7 +48,7 @@ export class DistributionComponent implements OnInit {
     public mapperService : Mapper,
     private router: Router,
     private _cacheService: CacheService,
-    public snackBar: MatSnackBar        
+    public snackBar: MatSnackBar,    
   ) { }
 
   ngOnInit() {
@@ -78,8 +78,8 @@ export class DistributionComponent implements OnInit {
 
   /**
    * update current project and its distributions when a other project box is clicked
-   * @param title 
-   * @param project 
+   * @param title
+   * @param project
    */
   selectTitle(title, project): void {
     this.isBoxClicked = true;
@@ -105,7 +105,7 @@ export class DistributionComponent implements OnInit {
 
   /**
    * get all distributions of a project
-   * @param projectId 
+   * @param projectId
    */
   getDistributionsByProject(projectId : number): void {
     this.distributionService.getByProject(projectId).subscribe(response => {

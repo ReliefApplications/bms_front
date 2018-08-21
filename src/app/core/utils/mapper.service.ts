@@ -30,17 +30,17 @@ export class Mapper{
     findMapperObject(entity): Object{
         switch(entity.__classname__){
             case 'DistributionData' :
-                return this.mapper.getEntityTranslator("distribution_data"); 
+                return this.mapper.getEntityTranslator("distribution_data");
             case 'Donor' :
-                return this.mapper.getEntityTranslator("donor"); 
+                return this.mapper.getEntityTranslator("donor");
             case 'Criteria' :
-                return this.mapper.getEntityTranslator("criteria"); 
+                return this.mapper.getEntityTranslator("criteria");
             case 'Project' :
-                return this.mapper.getEntityTranslator("project"); 
+                return this.mapper.getEntityTranslator("project");
             case 'UserInterface' :
-                return this.mapper.getEntityTranslator("user"); 
+                return this.mapper.getEntityTranslator("user");
             case 'CountrySpecific' :
-                return this.mapper.getEntityTranslator("country_specific"); 
+                return this.mapper.getEntityTranslator("country_specific");
             case 'Households' :
                 return this.mapper.getEntityTranslator("households");
             case 'Commodity' :
@@ -72,7 +72,7 @@ export class Mapper{
     }
 
     /**
-    * return the formmatted value of a property p of the object element 
+    * return the formmatted value of a property p of the object element
     * the formatting is for modal details
     */
     mapValueDetails(element, p){

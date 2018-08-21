@@ -73,8 +73,10 @@ export class DashboardComponent implements OnInit {
   * get the distributions list to display on dashboard
   * check if it is cached, otherwise get it from the api
   */
+
   checkDistributions(): void {
     this.distributionService.get().subscribe(response => {
+      console.log(response.json());
       this.distributions = new MatTableDataSource(this.referedClassToken.formatArray(response.json()));
       this.cacheService.set(CacheService.DISTRIBUTIONS, response);
     })

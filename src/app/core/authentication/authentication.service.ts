@@ -27,9 +27,9 @@ export class AuthenticationService {
 		this._wsseService.setUsername(username);
 		return this.http.get(URL_BMS_API + '/salt/' + username);
     }
-    
+
     logUser(user){
-		return this.http.post(URL_BMS_API + '/login', user);        
+		return this.http.post(URL_BMS_API + '/login', user);
     }
 
 	checkCredentials() {
@@ -43,10 +43,10 @@ export class AuthenticationService {
                 user.salted_password = this._wsseService.saltPassword(getSalt.salt, user.password);
                 this.logUser(user).subscribe(success => {
                     let data = success;
-                    
+
                     if (data) {
 						console.log("Successfully logged in", success);
-                        
+
                         this.user = data as UserInterface;
                         this.user.loggedIn = true;
 						let voters = this.rightAccessDefinition(this.user);
@@ -90,11 +90,11 @@ export class AuthenticationService {
         this.user = new UserInterface();
         this._cacheService.remove(CacheService.USER);
     }
-	
-	rightAccessDefinition(user: UserInterface) {
+
+		rightAccessDefinition(user: UserInterface) {
         let voters: any = {};
         // user.role.forEach((item: string, index: number, array) => {
-        	//add voters 
+        	//add voters
         // })
         return voters;
     }

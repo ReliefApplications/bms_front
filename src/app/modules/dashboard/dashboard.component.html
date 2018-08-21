@@ -6,7 +6,7 @@
                 <div id="map"></div>
             </div>
         </div>
-        <div class="boxes-summary">
+        <div *ngIf="widthScreen > maxWidthMobile" class="boxes-summary">
             <h1 class="summary-title">{{dashboard.dashboard_summary | uppercase}}</h1>
             <div class="summary-content">
                 <app-box-dashboard [info]='{icon: "home", color: "green", title:dashboard.dashboard_summary_1, subtitle:"10,250", ref:""}'></app-box-dashboard>
@@ -19,8 +19,8 @@
     <div class="container-distribution">
         <h1 class="distribution-title">{{dashboard.dashboard_recent_distributions | uppercase}}</h1>
         <div class="distribution-content">
-            <app-table *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="distributions"></app-table>
-            <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="distributions"></app-table-mobile>
+            <app-table *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="distributionService" [data]="distributions"></app-table>
+            <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="distributionService" [data]="distributions"></app-table-mobile>
         </div>
     </div>
 </div>

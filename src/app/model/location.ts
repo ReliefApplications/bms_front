@@ -2,6 +2,12 @@
 
 export class Location {
     /**
+     * DistributionData's id
+     * @type {number}
+     */
+    id: number;
+
+    /**
      * Administrate level 1
      * @type {string}
      */
@@ -33,7 +39,8 @@ export class Location {
 
 
     constructor(instance?){
-        if(instance !== undefined){
+        if(instance !== undefined && instance !== null){
+            this.id = instance.id;
             this.adm1 = instance.adm1;
             this.adm2 = instance.adm2;
             this.adm3 = instance.adm3;

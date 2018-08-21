@@ -41,7 +41,8 @@ export class ModalComponent implements OnInit {
     public projectService: ProjectService,
     public criteriaService: CriteriaService,
     public modalitiesService: ModalitiesService,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) { 
+    }
 
   ngOnInit() {
   }

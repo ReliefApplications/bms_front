@@ -30,8 +30,8 @@ export class DonorService{
         return this.http.put(url, body);
     }
 
-    public delete(id: number, body: any) {
+    public delete(id: number) {
         let url = this.api + "/donors/"+id;
-        return this.http.delete(url, body);
+        return this.http.delete(url);
     }
 }

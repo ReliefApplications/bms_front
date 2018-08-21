@@ -286,6 +286,8 @@ export class AddDistributionComponent implements OnInit {
 
     newDistribution.name = this.getNameProject(this.queryParams.project)+"-"+this.newObject.adm1+"-"+this.newObject.date_distribution+"-";
 
+    console.log("NEW ONE : ", newDistribution);
+
     let promise = this._distributionService.add(newDistribution);
     if (promise) {
       promise.toPromise().then(response => {
@@ -320,7 +322,7 @@ export class AddDistributionComponent implements OnInit {
     }
     if (dialogRef) {
       const create = dialogRef.componentInstance.onCreate.subscribe((data: Criteria) => {
-        // data.kind_beneficiary = this.newObject.type;
+        //data.kind_beneficiary = this.newObject.type;
         this.createElement(data, user_action);
       });
 

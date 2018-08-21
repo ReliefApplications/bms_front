@@ -270,4 +270,8 @@ export class Project {
         }
         return project;
     }
+
+    public static formatFromModalAdd(a, b) {
+        return {};
+    }
 }

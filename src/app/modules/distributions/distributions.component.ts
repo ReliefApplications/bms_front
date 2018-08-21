@@ -14,6 +14,8 @@ import { Router } from '@angular/router';
 
 import { saveAs } from 'file-saver/FileSaver';
 
+import { ExportInterface } from '../../model/export.interface';
+
 @Component({
   selector: 'app-distribution',
   templateUrl: './distributions.component.html',
@@ -123,14 +125,15 @@ export class DistributionComponent implements OnInit {
   export() {
     this.distributionService.export().toPromise()
       .then(response => {
-        let arrExport = [];
-        let reponse = response.json();
-        if (!(reponse instanceof Array)) {
+        const arrExport = [];
+        const reponse: ExportInterface = response.json() as ExportInterface;
+
+        if (!(reponse instanceof Object)) {
           this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: "right"});
         } else {
-          arrExport.push(response.json()[0]); //0 represente le fichier csv et 1 son nom
+          arrExport.push(reponse.content);
           const blob = new Blob(arrExport, { type: 'text/csv' });
-          saveAs(blob, response.json()[1]);
+          saveAs(blob, reponse.filename);
         }
       })
       .catch(error => {

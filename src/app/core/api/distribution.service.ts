@@ -33,12 +33,26 @@ export class DistributionService{
 
     public update(id: number, distribution: DistributionData) {
         let url = this.api + "/distributions/" + id;
-        console.log("entering distribution service");
+        console.log("entering distribution service", distribution);
         return this.http.post(url, distribution);
     }
 
     public delete(distributionId) {
         let url = this.api + "/distributions/archive/" + distributionId
         return this.http.post(url, '');
+    }
+
+    public add(body: any) {
+        let url = this.api + "/distributions";
+        return this.http.put(url, body);
+    }
+
+    /**
+     * TODO: Add route to export distribution
+     * Export data of distribution in CSV
+     */
+    public export() {
+        let url = this.api + "/distributions/export";
+        return this.http.get(url);
     }
 }

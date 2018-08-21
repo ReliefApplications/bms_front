@@ -21,7 +21,7 @@ export class HouseholdsImportComponent implements OnInit {
   public household = GlobalText.TEXTS;
 
   //for the items button
-  selectedTitle = "";
+  selectedTitle = "file import";
   isBoxClicked = false;
 
   //for the selector
@@ -114,7 +114,7 @@ export class HouseholdsImportComponent implements OnInit {
         let arrExport = [];
         let reponse = response.json();
         if (!(reponse instanceof Array)) {
-          console.log("No data to export");
+          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: "right"});
         } else {
           arrExport.push(response.json()[0]); //0 represente le fichier csv et 1 son nom
           const blob = new Blob(arrExport, { type: 'text/csv' });
@@ -122,7 +122,7 @@ export class HouseholdsImportComponent implements OnInit {
         }
       })
       .catch(error => {
-        console.log("No data to export");
+        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: "right"});
       });
   }
 

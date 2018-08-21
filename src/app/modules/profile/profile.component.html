@@ -7,7 +7,7 @@
     <h2> {{ profilePage.profile_user_information | uppercase }} </h2>
 
     <mat-form-field>
-      <input matInput placeholder={{actualUser.email}} formControlName="email" disabled="true">
+      <input matInput placeholder={{actualUser.email}} formControlName="email" [disabled]="true">
     </mat-form-field>
 
     <h2> {{ profilePage.profile_user_change_password | uppercase }} </h2>

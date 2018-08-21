@@ -10,6 +10,16 @@ export class BoxSettingComponent extends BoxComponent {
   @Input() selectedTitle;
 
   ngOnInit() {
-    this.selectedTitle = this.info.ref;
+    if(this.info.ref === "users") 
+    {
+      this.selectedTitle = "users";
+    } 
+     else if(this.info.icon === "settings/projects" && !this.selectedTitle) {
+      this.selectedTitle = this.info.ref;
+    }
+    else if (this.info.ref === "file import") {
+      this.selectedTitle = "file import";
+    }
+    
   }
 }

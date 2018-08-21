@@ -49,6 +49,7 @@ import { SettingsComponent                                      } from '../modul
 import { HeaderComponent                                        } from '../modules/header/header.component';
 import { HouseholdsImportComponent                              } from '../modules/households/households-import/households-import.component';
 import { DataValidationComponent                                } from '../modules/households/data-validation/data-validation.component';
+import { AddHouseholdComponent                                  } from '../modules/households/add-household/addHousehold.component';
 
 @NgModule({
     imports: [
@@ -119,7 +120,9 @@ import { DataValidationComponent                                } from '../modul
 		BoxSettingComponent,
         BoxComponent,
 		BoxPropertiesComponent,
-        DataValidationComponent
+        DataValidationComponent,
+        AddHouseholdComponent,
+        
     ],
     entryComponents: [
         ModalComponent,
@@ -190,7 +193,8 @@ import { DataValidationComponent                                } from '../modul
         MatStepperModule,
         MatProgressBarModule,
         MatListModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        AddHouseholdComponent,
 
     ],
     providers: [

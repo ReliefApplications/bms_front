@@ -8,8 +8,8 @@
 			<app-menu-top (emitCurrentRoute)="setCurrentRoute($event)" (emitCloseMenu)="clickOnTopMenu($event)" [openMenu]="openTopMenu"></app-menu-top>
 		</div>
 		<div class="wrapper-header" [class.hideMenu]="!user.loggedIn" [class.small-screen]="smallScreenMode&&user.loggedIn">
-			<app-header (emitLogOut)="onLogOut($event)" [currentRoute]="currentRoute" [currentComponent]="currentComponent"></app-header>
+			<app-header (emitLogOut)="onLogOut($event)" [currentRoute]="currentRoute" [currentComponent]="currentComponent" *ngIf="!smallScreenMode"></app-header>
 		</div>
-		<router-outlet (activate)="onActivate($event)"></router-outlet> 
+		<router-outlet (activate)="onActivate($event)"></router-outlet>
 	</div>
 </div>

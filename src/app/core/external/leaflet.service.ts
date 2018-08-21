@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 //Plugins
 import * as Leaflet from 'leaflet';
+import * as LeafletOmnivore from '@mapbox/leaflet-omnivore';
 
 import * as $ from 'jquery';
+import { LocationService } from '../api/location.service';
+import { CacheService } from '../storage/cache.service';
+import { HttpService } from '../api/http.service';
+import { addToViewTree } from '@angular/core/src/render3/instructions';
 
 @Injectable({
 	providedIn: 'root'
@@ -13,7 +18,12 @@ export class LeafletService {
 	private map: any;
 	private tiles: any;
 
-	constructor() {}
+	constructor(
+		private _locationService: LocationService,
+		private _cacheService: CacheService,
+		private http: HttpService
+
+	) { }
 
 	//------------------------------------------------------------------------//
 	//---------------------------------- MAP ---------------------------------//
@@ -23,7 +33,7 @@ export class LeafletService {
 
 		// Create map
 		this.map = Leaflet.map(mapId, {
-			center: [11.5792295,104.6099912],   // Centered on Phnom Penh
+			center: [11.5792295, 104.6099912],   // Centered on Phnom Penh
 			zoom: 7,
 			maxZoom: 10,
 			minZoom: 3,           // Too see the whole world on small screens
@@ -35,8 +45,11 @@ export class LeafletService {
 			scrollWheelZoom: false,
 			layers: []
 		});
-		
+
 		this.map.once('focus', () => { this.map.scrollWheelZoom.enable(); });
+		this.getUpcomingDistributionCode();
+
+		this.addKML();
 	}
 
 	addTileLayer() {
@@ -53,6 +66,90 @@ export class LeafletService {
 		this.addTileLayer();
 	}
 
-	addCities() {
+	//add all layers to show the upcoming distribution in the map dashoard
+	addKML() {
+
+		//Check if the map is already created
+		if (this.map) {
+
+			//get in the cache the liste of upcoming distribution
+			let upcomingDistribution = this._cacheService.get(CacheService.MAPSDATA);
+			if(!upcomingDistribution) {
+				this.getUpcomingDistributionCode();
+				let upcomingDistribution = this._cacheService.get(CacheService.MAPSDATA);
+			}
+
+			// //call the KML file to get the layer
+			let admLayer = LeafletOmnivore.kml('assets/maps/map.kml').on("ready", function () {
+
+				//delete the displaying layer
+				admLayer.eachLayer(function (adm) {
+					adm.setStyle({
+						opacity: 0,
+						weight: 0,
+						fillOpacity: 0
+					});
+				});
+
+				//search in all layer which layer has a code begining with the location code of a upcoming distribution and set a color and a weigth of them
+				admLayer.eachLayer(function (adm, index) {
+					upcomingDistribution.forEach(element => {
+						if ((adm.feature.properties.ADM3_PCODE === element.code_location && element.adm_level === "adm3") ||
+							(adm.feature.properties.ADM2_PCODE === element.code_location && element.adm_level === "adm2") ||
+							(adm.feature.properties.ADM1_PCODE === element.code_location && element.adm_level === "adm1")) {
+
+							adm.setStyle({
+								color: '#E75B48',
+								fillColor: '#E75B48',
+								weight: 2,
+								fillOpacity: .5,
+								opacity: .2
+							});
+
+							let tooltipInformation = '';
+							element.distribution.forEach(function (data, index, element) {
+								tooltipInformation += "<p> Distribution : " + data.name + "</p>";
+								tooltipInformation += "<p> Location : " + data.location_name + "</p>"
+
+								//to display a divider between distribution in a same tooltip
+								//but don't put divider after thie last element
+								if(!Object.is(element.length-1, index)) {
+									tooltipInformation += "<hr>";
+								}
+								
+							})
+
+							let tooltip = Leaflet.tooltip({
+								permanent: false,
+								interactive: true
+							}, adm).setContent(tooltipInformation);
+							adm.bindTooltip(tooltip);
+						}
+					});
+				})
+			})
+			admLayer.addTo(this.map);
+		}
 	}
+
+
+
+	//get all upcoming distribution and set it in the cache 
+	getUpcomingDistributionCode() {
+		let promise = this._locationService.getUpcomingDistributionCode();
+		if (promise) {
+			promise.toPromise().then(response => {
+				this._cacheService.set(CacheService.MAPSDATA, response.json());
+			})
+		}
+
+	}
+
+
+
+
+
+
+
+
 }

@@ -26,9 +26,17 @@ export class CriteriaService{
         return this.http.get(url);
     }
 
-    public getBeneficiariesNumber(criteriaArray:any){
+    public getBeneficiariesNumber(criteriaArray:any, project: string){
         let body = { "distribution_type" : "household", "criteria" : criteriaArray }
-        let url = this.api + "/distributions/criteria/number";
+        let url = this.api + "/distributions/criteria/project/"+project+"/number";
         return this.http.post(url, body);
+    }
+
+    /**
+     * get the lit of vulnerability criteria
+     */
+    public getVulnerabilityCriteria() {
+        let url = this.api + "/vulnerability_criteria";
+        return this.http.get(url);
     }
 }

@@ -12,10 +12,11 @@ import { HouseholdsComponent 															} from './modules/households/househo
 import { HouseholdsImportComponent 														} from './modules/households/households-import/households-import.component';
 import { ReportsComponent 																} from './modules/reports/reports.component';
 import { ProfileComponent																	} from './modules/profile/profile.component';
+import { AddHouseholdComponent 															} from './modules/households/add-household/addHousehold.component';
+import { DataValidationComponent 														} from './modules/households/data-validation/data-validation.component';
 
 // Services
 import { AuthGuard 																		} from './core/guards/auth.guard';
-import { DataValidationComponent 														} from './modules/households/data-validation/data-validation.component';
 
 // Do not change the order of the routes, it matters
 export const routes: Routes = [
@@ -36,6 +37,8 @@ export const routes: Routes = [
 	{ path: 'households/import', component: HouseholdsImportComponent },
 
 	{ path: 'households/data-validation', component: DataValidationComponent },
+
+	{ path: 'households/add-household', component: AddHouseholdComponent },
 
 	// home route protected by auth guard
 	{ path: '', component: DashboardComponent, canActivate: [AuthGuard] },

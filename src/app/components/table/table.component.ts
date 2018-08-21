@@ -50,6 +50,7 @@ export class TableComponent implements OnInit {
     console.log("distribution service :", this.service);
     console.log("distribution data :", this.data);
     console.log("distribution entity :", this.entity);
+    console.log("cc : ", this.properties);
   }
 
   ngDoCheck() {
@@ -170,7 +171,7 @@ export class TableComponent implements OnInit {
     console.log("update element 1:", updateElement);
     updateElement = this.entity.formatForApi(updateElement);
 
-      console.log("update element 2:", updateElement);
+    console.log("update element 2:", updateElement);
     this.service.update(updateElement['id'], updateElement).subscribe(response => {
       this.updateData();
     }, error => {
@@ -179,8 +180,8 @@ export class TableComponent implements OnInit {
   }
 
   deleteElement(deleteElement: Object) {
-    deleteElement = this.entity.formatForApi(deleteElement);
-    this.service.delete(deleteElement['id'], deleteElement).subscribe(response => {
+    console.log(deleteElement);
+    this.service.delete(deleteElement['id']).subscribe(response => {
       this.updateData();
     })
   }

@@ -20,6 +20,7 @@ table {
     justify-content: center;
     align-content: center;
     align-items: center;
+    padding-right: 12px;
     
     app-icon-svg{
       display: flex;
@@ -59,4 +60,8 @@ button{
 .png {
   height: 4vh;
   width: 2vw;
+}
+
+.dependents {
+  width : 40%;
 }

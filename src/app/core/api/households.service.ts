@@ -28,7 +28,6 @@ export class HouseholdsService {
      */
     public get(body?: any) {
         let url = this.api + "/households/get/all";
-        // return of(HOUSEHOLDS);
         return this.http.post(url, body);
     }
 
@@ -57,6 +56,25 @@ export class HouseholdsService {
 
         }
         return this.http.post(url, body);
+    }
+
+    /**
+     * To add an household
+     * @param body 
+     * @param id_Project 
+     */
+    public add(body: any, id_Project: string) {
+        let url = this.api + "/households/project/" + id_Project;
+        return this.http.put(url, body);
+    }
+
+    /**
+     * TODO: add route
+     * Export household data in CSV
+     */
+    public export () {
+        let url = this.api + "/households/export";
+        return this.http.get(url);
     }
 
 }

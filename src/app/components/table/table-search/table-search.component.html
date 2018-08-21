@@ -14,7 +14,7 @@
           <app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)" [name]="image"></app-icon-svg>
         </span>
         <span *ngIf="propertiesTypes[property]=='png'">
-          <img *ngFor="let image of mapperService.mapValue(element, property)" class="png" src={{mapperService.mapValue(element,property)}}>
+          <img *ngFor="let image of mapperService.mapValue(element, property)" class="png" [src]="image">
         </span>
         <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element, property)}}</span>
       </td>
@@ -23,13 +23,13 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
       <td mat-cell class="content-cell" *matCellDef="let element">
-        <button mat-icon-button (click)="openDialog('details', element)" class="red">
+        <button mat-icon-button (click)="openDialog('details', element)" class="green">
           <mat-icon>search</mat-icon>
         </button>
         <button mat-icon-button (click)="openDialog('update', element)" class="light-red">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="openDialog('delete', element)" class="green">
+        <button mat-icon-button (click)="openDialog('delete', element)" class="red">
           <mat-icon>close</mat-icon>
         </button>
       </td>

@@ -10,4 +10,4 @@ TARGET=$1 # ex: project/subproject
 
 sudo docker build -t $TARGET -f ./Dockerfile . # --build-arg USER=$2
 sudo docker images | grep $TARGET
-sudo docker-compose up devapp
+sudo docker-compose up devapp #ng serve

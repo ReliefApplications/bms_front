@@ -99,11 +99,11 @@ export class Households {
     */
     static translator(): Object {
         return {
-            familyName: GlobalText.TEXTS.model_households_familyName,
-            firstName: GlobalText.TEXTS.model_households_firstName,
-            location: GlobalText.TEXTS.model_households_location,
-            dependents: GlobalText.TEXTS.model_households_dependents,
-            vulnerabilities: GlobalText.TEXTS.model_households_vulnerabilities,
+            familyName: GlobalText.TEXTS.model_beneficiaries_familyName,
+            firstName: GlobalText.TEXTS.model_beneficiaries_firstName,
+            location: GlobalText.TEXTS.model_beneficiaries_location,
+            dependents: GlobalText.TEXTS.model_beneficiaries_dependents,
+            vulnerabilities: GlobalText.TEXTS.model_beneficiaries_vulnerabilities,
         }
     }
 

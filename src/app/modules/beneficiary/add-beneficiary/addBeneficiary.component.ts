@@ -22,7 +22,7 @@ import { Profile } from 'selenium-webdriver/firefox';
 })
 export class AddBeneficiaryComponent implements OnInit {
 
-  public nameComponent = "add_household_title";
+  public nameComponent = "add_beneficiary_title";
   public household = GlobalText.TEXTS;
 
   @ViewChild('stepper') stepper: MatStepper;

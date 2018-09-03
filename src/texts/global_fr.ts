@@ -8,8 +8,8 @@ export const TEXT = {
     dashboard_summary_4 : "montant total des transactions",
     dashboard_recent_distributions : "distributions récentes",
 
-    menu_distributions : "distributions",
-    menu_households : "ménages",
+    menu_projects : "projets",
+    menu_beneficiaries : "bénéficiaires",
     menu_reports : "graphiques",
     menu_settings : "paramètres",
 
@@ -55,7 +55,7 @@ export const TEXT = {
     report_upcoming_reporting : "Graphiques à venir",
     report_loader : "Chargement",
 
-    households_title : "ménages",
+    households_title : "bénéficiaires",
     households_export : "export",
 
     households_import : "import",
@@ -67,12 +67,12 @@ export const TEXT = {
     households_import_addFile: 'ajouter un fichier ou glisser-déposer',
     households_import_upload: 'import',
 
-    add_household_title: "Ajout d'un ménage",
+    add_household_title: "Ajout d'un bénéficiaire",
     add_household_step1: "Information",
     add_household_step2: "Chef de famille",
     add_household_step3: "Membres",
     add_household_step4: "Fin",
-    add_household_done: "Récapitulatif du ménage à créer",
+    add_household_done: "Récapitulatif du bénéficiaire à créer",
     add_household_create: "Créer",
     add_household_cancel: "Annuler",
     add_household_next: "Suivant",
@@ -121,11 +121,11 @@ export const TEXT = {
     data_verification_snackbar_less_corrected: 'Bénéficiaires supprimer avec succès',
     data_verification_snackbar_more_corrected: 'Bénéficiaires ajouter avec succès',
 
-    distribution_title : "distributions",
+    distribution_title : "projets",
     distribution_export : "export",
 
-    add_distribution_title : "nouvelle distribution",
-    add_distribution_new_distribution : "nouvelle distribution",
+    add_distribution_title : "nouveau projet",
+    add_distribution_new_distribution : "nouveau projet",
     add_distribution_selection_criteria : "critères de sélection",
     add_distribution_distributed_commodity : "ressource distribuée",
     add_distribution_beneficiaries_reached: "Bénéficaires atteints",

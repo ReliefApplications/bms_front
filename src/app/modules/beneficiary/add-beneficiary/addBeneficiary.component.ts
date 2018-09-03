@@ -16,11 +16,11 @@ import { AddHouseholds, AddBeneficiaries, Phones, NationalID } from '../../../mo
 import { Profile } from 'selenium-webdriver/firefox';
 
 @Component({
-  selector: 'add-household',
-  templateUrl: './addHousehold.component.html',
-  styleUrls: ['./addHousehold.component.scss']
+  selector: 'add-beneficiary',
+  templateUrl: './addBeneficiary.component.html',
+  styleUrls: ['./addBeneficiary.component.scss']
 })
-export class AddHouseholdComponent implements OnInit {
+export class AddBeneficiaryComponent implements OnInit {
 
   public nameComponent = "add_household_title";
   public household = GlobalText.TEXTS;

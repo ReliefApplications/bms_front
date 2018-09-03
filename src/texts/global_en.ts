@@ -8,8 +8,8 @@ export const TEXT = {
     dashboard_summary_4 : "total value transactions",
     dashboard_recent_distributions : "recent distributions",
 
-    menu_distributions : "distributions",
-    menu_households : "households",
+    menu_projects : "projects",
+    menu_beneficiaries : "beneficiaries",
     menu_reports : "reports",
     menu_settings : "settings",
 
@@ -55,7 +55,7 @@ export const TEXT = {
     report_upcoming_reporting : "Upcoming reporting",
     report_loader : "Loader",
 
-    households_title : "households",
+    households_title : "beneficiaries",
     households_export : "export",
 
     households_import : "import",
@@ -67,7 +67,7 @@ export const TEXT = {
     households_import_addFile: 'add file or drag and drop',
     households_import_upload: 'upload',
 
-    add_household_title: "add household",
+    add_household_title: "add beneficiary",
     add_household_step1: "Information",
     add_household_step2: "Head",
     add_household_step3: "Members",
@@ -121,11 +121,11 @@ export const TEXT = {
     data_verification_snackbar_less_corrected: 'Beneficiaries removed with success',
     data_verification_snackbar_more_corrected: 'Beneficiaries added with success',
 
-    distribution_title : "distributions",
+    distribution_title : "projects",
     distribution_export : "export",
 
-    add_distribution_title : "new distribution",
-    add_distribution_new_distribution : "new distribution",
+    add_distribution_title : "new project",
+    add_distribution_new_distribution : "new project",
     add_distribution_selection_criteria : "selection criteria",
     add_distribution_distributed_commodity : "distributed commodity",
     add_distribution_beneficiaries_reached: "Beneficiaries reached",

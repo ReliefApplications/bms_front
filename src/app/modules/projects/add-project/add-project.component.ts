@@ -20,12 +20,12 @@ import { CacheService } from '../../../core/storage/cache.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 
 @Component({
-  selector: 'app-add-distribution',
-  templateUrl: './add-distribution.component.html',
-  styleUrls: ['./add-distribution.component.scss']
+  selector: 'app-add-project',
+  templateUrl: './add-project.component.html',
+  styleUrls: ['./add-project.component.scss']
 })
-export class AddDistributionComponent implements OnInit {
-  public nameComponent = "add_distribution_title";
+export class AddProjectComponent implements OnInit {
+  public nameComponent = "add_project_title";
   public distribution = GlobalText.TEXTS;
   public newObject: any;
   mapperObject = null;

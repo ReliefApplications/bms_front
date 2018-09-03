@@ -12,12 +12,12 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
-  selector: 'households-import',
-  templateUrl: './households-import.component.html',
-  styleUrls: ['./households-import.component.scss']
+  selector: 'beneficiaries-import',
+  templateUrl: './beneficiaries-import.component.html',
+  styleUrls: ['./beneficiaries-import.component.scss']
 })
-export class HouseholdsImportComponent implements OnInit {
-  public nameComponent = "households_import_title";
+export class BeneficiariesImportComponent implements OnInit {
+  public nameComponent = "beneficiaries_import_title";
   public household = GlobalText.TEXTS;
 
   //for the items button

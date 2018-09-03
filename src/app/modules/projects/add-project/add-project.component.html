@@ -1,7 +1,7 @@
 <div class="page-container">
   <div class="container-fields">
     <div class="field-distribution">
-      <h1 class="distribution-title">{{distribution.add_distribution_new_distribution | uppercase}}</h1>
+      <h1 class="distribution-title">{{distribution.add_project_new_distribution | uppercase}}</h1>
       <div class="distribution-accordion">
         <mat-accordion class="accordion-table">
           <mat-expansion-panel *ngFor="let p of properties" [expanded]="step === p" (opened)="setStep(p)" class="mat-elevation-z8">

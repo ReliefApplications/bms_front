@@ -42,14 +42,14 @@ import { DashboardComponent                                     } from '../modul
 import { MenuComponent                                          } from '../modules/menus/menu/menu.component';
 import { MenuTopComponent                                       } from '../modules/menus/menu-top/menu-top.component';
 import { HeaderMenuTopComponent                                 } from '../modules/menus/header-menu-top/header-menu-top.component';
-import { HouseholdsComponent                                    } from '../modules/households/households.component';
-import { DistributionComponent                                  } from '../modules/distributions/distributions.component';
-import { AddDistributionComponent                               } from '../modules/distributions/add-distribution/add-distribution.component';
+import { BeneficiariesComponent                                    } from '../modules/beneficiary/beneficiaries.component';
+import { ProjectComponent                                  } from '../modules/projects/project.component';
+import { AddProjectComponent                               } from '../modules/projects/add-project/add-project.component';
 import { SettingsComponent                                      } from '../modules/settings/settings.component';
 import { HeaderComponent                                        } from '../modules/header/header.component';
-import { HouseholdsImportComponent                              } from '../modules/households/households-import/households-import.component';
-import { DataValidationComponent                                } from '../modules/households/data-validation/data-validation.component';
-import { AddHouseholdComponent                                  } from '../modules/households/add-household/addHousehold.component';
+import { BeneficiariesImportComponent                              } from '../modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
+import { DataValidationComponent                                } from '../modules/beneficiary/data-validation/data-validation.component';
+import { AddBeneficiaryComponent                                  } from '../modules/beneficiary/add-beneficiary/addBeneficiary.component';
 
 @NgModule({
     imports: [
@@ -92,10 +92,10 @@ import { AddHouseholdComponent                                  } from '../modul
         DashboardComponent,
         MenuComponent,
         MenuItemBoxComponent,
-        HouseholdsComponent,
-        HouseholdsImportComponent,
-		DistributionComponent,
-		AddDistributionComponent,
+        BeneficiariesComponent,
+        BeneficiariesImportComponent,
+		ProjectComponent,
+		AddProjectComponent,
 		SettingsComponent,
 		HeaderComponent,
         IconSvgComponent,
@@ -121,7 +121,7 @@ import { AddHouseholdComponent                                  } from '../modul
         BoxComponent,
 		BoxPropertiesComponent,
         DataValidationComponent,
-        AddHouseholdComponent,
+        AddBeneficiaryComponent,
         
     ],
     entryComponents: [
@@ -139,10 +139,10 @@ import { AddHouseholdComponent                                  } from '../modul
 		DashboardComponent,
         MenuComponent,
         MenuItemBoxComponent,
-        HouseholdsComponent,
-        HouseholdsImportComponent,
-		DistributionComponent,
-		AddDistributionComponent,
+        BeneficiariesComponent,
+        BeneficiariesImportComponent,
+		ProjectComponent,
+		AddProjectComponent,
 		SettingsComponent,
 		HeaderComponent,
 		IconSvgComponent,
@@ -194,7 +194,7 @@ import { AddHouseholdComponent                                  } from '../modul
         MatProgressBarModule,
         MatListModule,
         MatProgressSpinnerModule,
-        AddHouseholdComponent,
+        AddBeneficiaryComponent,
 
     ],
     providers: [

@@ -9,13 +9,13 @@ import { saveAs } from 'file-saver/FileSaver';
 import { ExportInterface } from '../../model/export.interface';
 
 @Component({
-  selector: 'app-households',
-  templateUrl: './households.component.html',
-  styleUrls: ['./households.component.scss']
+  selector: 'app-beneficiaries',
+  templateUrl: './beneficiaries.component.html',
+  styleUrls: ['./beneficiaries.component.scss']
 })
-export class HouseholdsComponent implements OnInit {
+export class BeneficiariesComponent implements OnInit {
   public household = GlobalText.TEXTS;
-	public nameComponent = "households_title";
+	public nameComponent = "beneficiaries_title";
 
   public referedClassService;
   referedClassToken = Households;

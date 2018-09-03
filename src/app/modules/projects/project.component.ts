@@ -17,11 +17,11 @@ import { saveAs } from 'file-saver/FileSaver';
 import { ExportInterface } from '../../model/export.interface';
 
 @Component({
-  selector: 'app-distribution',
-  templateUrl: './distributions.component.html',
-  styleUrls: ['./distributions.component.scss']
+  selector: 'app-project',
+  templateUrl: './project.component.html',
+  styleUrls: ['./project.component.scss']
 })
-export class DistributionComponent implements OnInit {
+export class ProjectComponent implements OnInit {
   public nameComponent = "distribution_title";
   public distribution = GlobalText.TEXTS;
 

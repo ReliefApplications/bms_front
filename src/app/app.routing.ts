@@ -5,15 +5,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent 																} from './modules/public/login.component';
 import { DashboardComponent 															} from './modules/dashboard/dashboard.component';
 import { NotFoundComponent 																} from './components/error-pages/not-found/not-found.component';
-import { DistributionComponent 															} from './modules/distributions/distributions.component';
-import { AddDistributionComponent 														} from './modules/distributions/add-distribution/add-distribution.component';
+import { ProjectComponent 																} from './modules/projects/project.component';
+import { AddProjectComponent 															} from './modules/projects/add-project/add-project.component';
 import { SettingsComponent 																} from './modules/settings/settings.component';
-import { HouseholdsComponent 															} from './modules/households/households.component';
-import { HouseholdsImportComponent 														} from './modules/households/households-import/households-import.component';
+import { BeneficiariesComponent 														} from './modules/beneficiary/beneficiaries.component';
+import { BeneficiariesImportComponent 													} from './modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
 import { ReportsComponent 																} from './modules/reports/reports.component';
-import { ProfileComponent																	} from './modules/profile/profile.component';
-import { AddHouseholdComponent 															} from './modules/households/add-household/addHousehold.component';
-import { DataValidationComponent 														} from './modules/households/data-validation/data-validation.component';
+import { ProfileComponent																} from './modules/profile/profile.component';
+import { AddBeneficiaryComponent 														} from './modules/beneficiary/add-beneficiary/addBeneficiary.component';
+import { DataValidationComponent 														} from './modules/beneficiary/data-validation/data-validation.component';
 
 // Services
 import { AuthGuard 																		} from './core/guards/auth.guard';
@@ -22,11 +22,11 @@ import { AuthGuard 																		} from './core/guards/auth.guard';
 export const routes: Routes = [
 	{ path: 'login', component: LoginComponent },
 
-	{ path: 'distribution', component: DistributionComponent },
+	{ path: 'projects', component: ProjectComponent },
 
-	{ path: 'distribution/add-distribution', component: AddDistributionComponent },
+	{ path: 'project/add-project', component: AddProjectComponent },
 
-	{ path: 'households', component: HouseholdsComponent },
+	{ path: 'beneficiaries', component: BeneficiariesComponent },
 
 	{ path: 'reports', component: ReportsComponent },
 
@@ -34,11 +34,11 @@ export const routes: Routes = [
 
 	{ path: 'profile', component: ProfileComponent },
 
-	{ path: 'households/import', component: HouseholdsImportComponent },
+	{ path: 'beneficiaries/import', component: BeneficiariesImportComponent },
 
-	{ path: 'households/data-validation', component: DataValidationComponent },
+	{ path: 'beneficiaries/data-beneficiaries', component: DataValidationComponent },
 
-	{ path: 'households/add-household', component: AddHouseholdComponent },
+	{ path: 'beneficiaries/add-beneficiaries', component: AddBeneficiaryComponent },
 
 	// home route protected by auth guard
 	{ path: '', component: DashboardComponent, canActivate: [AuthGuard] },

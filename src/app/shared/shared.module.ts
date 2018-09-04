@@ -50,6 +50,7 @@ import { HeaderComponent                                        } from '../modul
 import { BeneficiariesImportComponent                              } from '../modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
 import { DataValidationComponent                                } from '../modules/beneficiary/data-validation/data-validation.component';
 import { AddBeneficiaryComponent                                  } from '../modules/beneficiary/add-beneficiary/addBeneficiary.component';
+import { DistributionsComponent                                 } from '../modules/projects/distributions/distributions.component';
 
 @NgModule({
     imports: [
@@ -94,7 +95,8 @@ import { AddBeneficiaryComponent                                  } from '../mod
         MenuItemBoxComponent,
         BeneficiariesComponent,
         BeneficiariesImportComponent,
-		ProjectComponent,
+        ProjectComponent,
+        DistributionsComponent,
 		AddProjectComponent,
 		SettingsComponent,
 		HeaderComponent,

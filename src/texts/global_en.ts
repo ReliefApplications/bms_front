@@ -209,6 +209,11 @@ export const TEXT = {
     model_commodity_unit: "Unit",
     model_commodity_value: "Quantity",
 
+    distribution_details_export:"export",
+    distribution_details_import:"import & compare",
+    distribution_details_random:"export random sample",
+    distribution_details_validate:"validate",
+
     profile_user_information: "User information",
     profile_user_change_password: "Change password",
     profile_user_hint_old_password: "Old password",

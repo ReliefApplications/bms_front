@@ -116,7 +116,7 @@ export class ProjectComponent implements OnInit {
   }
 
   addDistribution(){
-    this.router.navigate(["distribution/add-distribution"], {queryParams: {project: this.selectedProject.id}});
+    this.router.navigate(["project/add-project"], {queryParams: {project: this.selectedProject.id}});
   }
 
   /**

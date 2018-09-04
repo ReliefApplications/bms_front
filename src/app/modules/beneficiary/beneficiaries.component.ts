@@ -78,7 +78,7 @@ export class BeneficiariesComponent implements OnInit {
   }
 
   addOneHousehold(){
-    this.router.navigate(['/households/add-household']);
+    this.router.navigate(['/beneficiaries/add-beneficiaries']);
   }
 
   /**

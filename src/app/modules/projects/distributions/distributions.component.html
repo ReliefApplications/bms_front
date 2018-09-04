@@ -1,3 +1,52 @@
-<p>
-  distributions works!
-</p>
+<h2> Distribution {{distributionId}}</h2>
+
+<mat-horizontal-stepper>
+
+  <mat-step label="1.{{ TEXT.distribution_details_export | uppercase }}" [stepControl]="form1">
+    <form [formGroup]="form1">
+
+      <div class="container-table">
+        <div class="container-content">
+          <div class="content-button">
+            <button mat-icon-button (click)="addBeneficiary()" class="add-button">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          <div class="content-table">
+            <app-table *ngIf="widthScreen > maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
+            </app-table>
+            <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
+            </app-table-mobile>
+          </div>
+        </div>
+      </div>
+      <button class="next" mat-button matStepperNext>Next</button>
+
+    </form>
+  </mat-step>
+
+  <mat-step label="2.{{ TEXT.distribution_details_import | uppercase }}" [stepControl]="form2">
+    <form [formGroup]="form2">
+      
+        <button class="next" mat-button matStepperNext>Next</button>
+
+    </form>
+  </mat-step>
+
+  <mat-step label="3.{{ TEXT.distribution_details_random | uppercase }}" [stepControl]="form3">
+    <form [formGroup]="form3">
+      
+        <button class="next" mat-button matStepperNext>Next</button>
+
+    </form>
+  </mat-step>
+
+  <mat-step label="4.{{ TEXT.distribution_details_validate | uppercase }}" [stepControl]="form4">
+    <form [formGroup]="form4">
+      
+        <button class="next" mat-button matStepperNext>Next</button>
+
+    </form>
+  </mat-step>
+
+</mat-horizontal-stepper>

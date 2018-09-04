@@ -65,3 +65,11 @@ button{
 .dependents {
   width : 40%;
 }
+
+.distribution-details {
+
+  &:hover {
+    background-color: lightgreen;
+    cursor: pointer;
+  }
+}

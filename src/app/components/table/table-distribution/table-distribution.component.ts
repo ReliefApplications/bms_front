@@ -10,6 +10,4 @@ import { TableComponent                                       } from '../table.c
 })
 export class TableDistributionComponent extends TableComponent {
 
-  
-
 }

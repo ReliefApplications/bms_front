@@ -183,6 +183,11 @@ export const TEXT = {
     model_beneficiaries_location: "Location",
     model_beneficiaries_dependents : "Dependents",
     model_beneficiaries_vulnerabilities : "Vulnerabilities",
+    model_beneficiaries_gender : "Gender",
+    model_beneficiaries_dateofbirth : "Date of birth",
+    model_beneficiaries_status : "Satus",
+    model_beneficiaries_nationalids: "ID number",
+    model_beneficiaries_phones: "Phones",
     model_user : "User",
     model_user_username: "Email",
     model_user_rights: "Rights",
@@ -208,6 +213,7 @@ export const TEXT = {
     model_commodity_type: "Type",
     model_commodity_unit: "Unit",
     model_commodity_value: "Quantity",
+
 
     distribution_details_export:"export",
     distribution_details_import:"import & compare",

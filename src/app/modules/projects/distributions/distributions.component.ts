@@ -5,6 +5,9 @@ import { Households } from '../../../model/households';
 import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms' 
 import { ActivatedRoute } from '@angular/router';
 import { DistributionData } from '../../../model/distribution-data';
+import { CacheService } from '../../../core/storage/cache.service';
+import { Beneficiaries } from '../../../model/beneficiary';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-distributions',
@@ -16,9 +19,11 @@ export class DistributionsComponent implements OnInit {
   distributionId : number;
   distribution : DistributionData;
   TEXT = GlobalText.TEXTS;
-  step : number;
-  beneficiaryEntity : Households;
-  beneficiaryData : {}[];
+  beneficiaryEntity : Beneficiaries;
+  beneficiaryData : any;
+  importedData : any;
+  randomSampleData : any;
+  finalData : any;
 
   public maxHeight =  GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -32,8 +37,9 @@ export class DistributionsComponent implements OnInit {
 
   constructor(
     public distributionService : DistributionService,
+    public cacheService : CacheService,
     private formBuilder : FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) { 
     this.route.params.subscribe( params => this.distributionId = params.id);
   }
@@ -52,7 +58,8 @@ export class DistributionsComponent implements OnInit {
       //fourth : new FormControl()
     });
     
-    //this.distributionService.get(); //need get 1 distrib by id (or pass the distrib from projects by calling this ocmponent differently)
+    this.getSelectedDistribution();
+    this.getBeneficiaries();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -65,12 +72,37 @@ export class DistributionsComponent implements OnInit {
     this.widthScreen = window.innerWidth;
   }
 
-  addBeneficiary() {
-    // TODO : connect to new beneficiary functionnality with project & distribution already filled.
+  getSelectedDistribution() {
+    let distributionsList = this.cacheService.get(CacheService.DISTRIBUTIONS);
+    distributionsList = JSON.parse(distributionsList._body);
+
+    if(distributionsList)
+    {
+      distributionsList.forEach(element => {
+        if(element.id == this.distributionId)
+        {
+          this.distribution = element;
+        }
+      });
+    
+    }
   }
 
-  nextStep() {
-    this.step++;
+  getBeneficiaries() {
+    this.distributionService.getBeneficiaries(this.distributionId)
+    .subscribe(
+      response => {
+        let data = response.json();
+        this.beneficiaryData = new MatTableDataSource( Beneficiaries.formatArray(data) );
+      },
+      error => {
+        console.log("Error: ", error);
+      }
+    );
+  }
+
+  test() {
+    // TODO : connect to new beneficiary functionnality with project & distribution already filled.
   }
 
 }

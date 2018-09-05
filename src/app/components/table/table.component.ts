@@ -46,7 +46,9 @@ export class TableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log("data before check: ", this.data);
     this.checkData();
+    console.log("data after check: ", this.data);
   }
 
   ngDoCheck() {

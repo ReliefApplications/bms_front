@@ -248,7 +248,7 @@ export class DistributionData {
                 distributionDatas.push(this.formatFromApi(element));
             }
         });
-        console.log("formatArray :", distributionDatas);
+        console.log("formatedArray :", distributionDatas);
         return distributionDatas;
     }
 

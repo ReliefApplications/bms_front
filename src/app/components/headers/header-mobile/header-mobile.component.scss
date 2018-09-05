@@ -1,0 +1,18 @@
+@import '../../../../assets/css/variable.scss';
+
+button {
+  color: $bms_light_grey;
+
+  img {
+    height: 24px;
+    width: 24px;
+  }
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+span {
+    color: $bms_black;
+}

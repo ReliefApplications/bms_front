@@ -18,6 +18,8 @@ import { SharedModule 															} from './shared/shared.module';
 
 import { ReportsModule										 					} from './modules/reports/reports.module';
 import { ProfileComponent } from './modules/profile/profile.component';
+import { HeaderMobileComponent } from './components/headers/header-mobile/header-mobile.component';
+import { HeaderComponent } from './components/headers/header/header.component';
 
 @NgModule({
 	declarations: [
@@ -25,6 +27,8 @@ import { ProfileComponent } from './modules/profile/profile.component';
 		ForbiddenComponent,
 		NotFoundComponent,
 		ProfileComponent,
+    HeaderMobileComponent,
+		HeaderComponent,
 	],
 	imports: [
 		// Modules

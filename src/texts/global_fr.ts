@@ -8,6 +8,7 @@ export const TEXT = {
     dashboard_summary_4 : "montant total des transactions",
     dashboard_recent_distributions : "distributions récentes",
 
+    menu_home : "home",
     menu_projects : "projets",
     menu_beneficiaries : "bénéficiaires",
     menu_reports : "graphiques",

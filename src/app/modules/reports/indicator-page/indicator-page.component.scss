@@ -40,13 +40,13 @@ button-filter-items{
 }
 
 .subtitle{
-  color: $bms_dark_red ;
+  color: $bms_black ;
   text-transform: uppercase;
 }
 
 .text {
   flex-grow: 2;
-  color: $bms_dark_red;
+  color: $bms_black;
   font-size:18px;
   width: 100%;
   &:hover{

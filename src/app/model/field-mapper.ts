@@ -6,6 +6,7 @@ import { CountrySpecific                                   } from "./country-spe
 import { Households                                        } from "./households";
 import { Criteria                                          } from "./criteria";
 import { Commodity                                         } from "./commodity";
+import { Beneficiaries                                     } from "./beneficiary";
 
 export class FieldMapper{
 
@@ -19,6 +20,7 @@ export class FieldMapper{
             case 'households' : return Households.translator();
             case 'project' : return Project.translator();
             case 'user' : return UserInterface.translator();
+            case 'beneficiaries' : return Beneficiaries.translator();
         }
     }
 }

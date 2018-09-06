@@ -43,13 +43,13 @@ export class Beneficiaries {
      * Beneficiary national_ids
      * @type {Array}
      */
-    national_ids: Array<number> = [];
+    national_ids: Array<string> = [];
 
     /**
      * Beneficiary phones
      * @type {Array}
      */
-    phones: Array<number> = [];
+    phones: Array<string> = [];
 
     /**
      * Beneficiary vulnerabilities
@@ -78,10 +78,46 @@ export class Beneficiaries {
         return GlobalText.TEXTS.model_criteria_beneficiary;
     }
 
+    mapAllProperties(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            id : selfinstance.id,
+            given_name : selfinstance.given_name,
+            family_name : selfinstance.family_name,
+            gender : selfinstance.gender,
+            date_of_birth : selfinstance.date_of_birth,
+            status : selfinstance.status,
+            national_ids : Object.assign({}, selfinstance.national_ids),
+            phones : Object.assign({}, selfinstance.phones),
+            vulnerabilities : Object.assign({}, selfinstance.vulnerabilities),
+        }
+    }
+
     /**
     * return a Beneficiary after formatting its properties
     */
     getMapper(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            given_name : selfinstance.given_name,
+            family_name : selfinstance.family_name,
+            gender : selfinstance.gender,
+            date_of_birth : selfinstance.date_of_birth,
+            //status : selfinstance.status,
+            //national_ids : selfinstance.national_ids,
+            //phones : selfinstance.phones,
+            vulnerabilities : selfinstance.vulnerabilities,
+        }
+    }
+
+    /**
+    * return a Beneficiary after formatting its properties for the modal details
+    */
+    getMapperDetails(selfinstance): Object {
         if (!selfinstance)
             return selfinstance;
 
@@ -98,9 +134,9 @@ export class Beneficiaries {
     }
 
     /**
-    * return a Beneficiary after formatting its properties for the modal details
+    * return a DistributionData after formatting its properties for the modal update
     */
-    getMapperDetails(selfinstance): Object {
+    getMapperUpdate(selfinstance): Object {
         if (!selfinstance)
             return selfinstance;
 
@@ -126,11 +162,27 @@ export class Beneficiaries {
             gender : "text",
             date_of_birth : "date",
             status : "number",
-            national_ids : "number",
-            phones : "number",
+            national_ids : "text",
+            phones : "text",
             vulnerabilities : "png",
         }
     }
+
+    /**
+    * return the type of Beneficiary properties
+    */
+    getModalTypeProperties(selfinstance): Object {
+    return {
+        given_name : "text",
+        family_name : "text",
+        gender : "text",
+        date_of_birth : "date",
+        status : "number",
+        national_ids : "text",
+        phones : "text",
+        vulnerabilities : "png",
+    }
+}
 
     /**
     * return Households properties name displayed
@@ -175,11 +227,11 @@ export class Beneficiaries {
 
     public static formatArray(instance : any): Beneficiaries[] {
         let beneficiaries : Beneficiaries[] = [];
-        console.log("before format : ", instance);
+        //console.log("before format : ", instance);
         instance.forEach(element => {
             beneficiaries.push(this.formatElement(element));
         })
-        console.log("after format : ", beneficiaries);
+        //console.log("after format : ", beneficiaries);
         return(beneficiaries);
     }
 
@@ -194,17 +246,17 @@ export class Beneficiaries {
 
         instance.national_ids.forEach(
             element => {
-                beneficiary.national_ids.push(element);
+                beneficiary.national_ids.push(element.id_number);
             }
         )
         instance.phones.forEach(
             element => {
-                beneficiary.phones.push(element);
+                beneficiary.phones.push(element.number);
             }
         )
         instance.vulnerability_criteria.forEach(
             element => {
-                beneficiary.vulnerabilities.push(element);
+                beneficiary.vulnerabilities.push(this.mapVulnerability(element.field_string));
             }
         )
 

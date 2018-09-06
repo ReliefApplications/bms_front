@@ -46,9 +46,9 @@ export class TableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log("data before check: ", this.data);
+    //console.log("data before check: ", this.data);
     this.checkData();
-    console.log("data after check: ", this.data);
+    //console.log("data after check: ", this.data);
   }
 
   ngDoCheck() {
@@ -170,7 +170,7 @@ export class TableComponent implements OnInit {
     this.service.update(updateElement['id'], updateElement).subscribe(response => {
       this.updateData();
     }, error => {
-      console.error("err", error);
+      //console.error("err", error);
     })
   }
 

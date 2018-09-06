@@ -19,8 +19,8 @@ export class DistributionsComponent implements OnInit {
   distributionId : number;
   distribution : DistributionData;
   TEXT = GlobalText.TEXTS;
-  beneficiaryEntity : Beneficiaries;
-  beneficiaryData : any;
+  beneficiaryEntity = Beneficiaries;
+  beneficiaryData : MatTableDataSource<any>;
   importedData : any;
   randomSampleData : any;
   finalData : any;
@@ -45,6 +45,8 @@ export class DistributionsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkSize();
+    
     this.form1 = this.formBuilder.group({
       //first : new FormControl()
     });

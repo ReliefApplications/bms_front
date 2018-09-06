@@ -91,6 +91,18 @@ button{
         background-color: $bms_red;
     }
 }
+.content-table {
+    display: flex;
+    width : 100%;
+    flex-direction: column;
+
+    .waitingDataContainer {
+        width:100%;
+        text-align: center;
+        margin-left: 45%;
+        font-size: 20px;
+      }
+}
 
 //for mobile screen
 @media only screen and (max-width: 750px){
@@ -115,4 +127,5 @@ button{
     .mat-raised-button{
         font-size: 2vh;
     }
+    
 }

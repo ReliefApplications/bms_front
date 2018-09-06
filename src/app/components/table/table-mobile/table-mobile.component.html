@@ -1,15 +1,12 @@
 <!-- TABLE -->
 <div class="table-container">
-  <div class="waitingDataContainer" *ngIf="!data">
-    <mat-spinner></mat-spinner>
-  </div>
-  <div class="noDataContainer" *ngIf="data && data=={}">
+  <div class="noDataContainer" *ngIf="!filled">
       <h3>
           <mat-icon>clear</mat-icon>
           No data available
       </h3>
   </div>
-  <div *ngIf="data && data != {}">
+  <div *ngIf="filled">
     <table *ngFor="let element of data.filteredData" class="box-element">
       <tbody>
         <tr *ngFor="let property of properties">

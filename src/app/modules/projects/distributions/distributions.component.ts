@@ -24,6 +24,7 @@ export class DistributionsComponent implements OnInit {
   importedData : any;
   randomSampleData : any;
   finalData : any;
+  loading : boolean;
 
   public maxHeight =  GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -59,7 +60,7 @@ export class DistributionsComponent implements OnInit {
     this.form4 = this.formBuilder.group({
       //fourth : new FormControl()
     });
-    
+    this.loading = true;
     this.getSelectedDistribution();
     this.getBeneficiaries();
   }
@@ -96,6 +97,7 @@ export class DistributionsComponent implements OnInit {
       response => {
         let data = response.json();
         this.beneficiaryData = new MatTableDataSource( Beneficiaries.formatArray(data) );
+        this.loading = false;
       },
       error => {
         // console.log("Error: ", error);

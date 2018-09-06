@@ -198,7 +198,7 @@ export class AddProjectComponent implements OnInit {
    * to cancel the creation of distribution and go back in the distribution page
    */
   cancel() {
-    this.router.navigate(["distribution"]);
+    this.router.navigate(["projects"]);
   }
 
   /**
@@ -292,7 +292,7 @@ export class AddProjectComponent implements OnInit {
     if (promise) {
       promise.toPromise().then(response => {
         this.snackBar.open('distribution : ' + response.json().distribution.name + ' was created', '', { duration: 3000, horizontalPosition: "right" });
-        this.router.navigate(['/distribution']);
+        this.router.navigate(['/projects']);
       })
     } else {
       this.snackBar.open('Error while create new distribution', '', { duration: 3000, horizontalPosition: "right" });

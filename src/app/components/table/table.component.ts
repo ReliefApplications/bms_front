@@ -37,7 +37,7 @@ export class TableComponent implements OnChanges {
   propertiesTypes: any;
   propertiesActions: any;
   entityInstance = null;
-  state = 'wait';
+  filled : boolean;
   public user_action: string = '';
 
   constructor(
@@ -48,15 +48,16 @@ export class TableComponent implements OnChanges {
 
   ngOnChanges() {
     this.checkData();
+    console.log("", this.data);
 
-    if(!this.data) {
-      this.state = 'wait';
-    }
-    else if(this.data ? this.data.data.length > 0 : false) {
-      this.state = 'data';
-    }
-    else {
-      this.state = 'empty';
+    if(this.data)
+    {
+      if(this.data=={} || !this.data.data) {
+        this.filled = false;
+      }
+      else {
+        this.filled = true;
+      }
     }
   }
 

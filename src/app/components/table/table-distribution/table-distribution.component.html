@@ -1,20 +1,17 @@
 <!-- TABLE -->
 <div class="table-container">
-  <div class="waitingDataContainer" *ngIf="!data">
-    <mat-spinner></mat-spinner>
-  </div>
-  <div class="noDataContainer" *ngIf="data && data=={}">
+  <div class="noDataContainer" *ngIf="!filled">
       <h3>
           <mat-icon>clear</mat-icon>
           No data available
       </h3>
   </div>
-    <div class="container-header" *ngIf="data && data != {}">
+    <div class="container-header" *ngIf="filled">
       <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
       </mat-form-field>
     </div>
-    <table *ngIf="data && data != {}" mat-table [dataSource]="data" matSort>
+    <table *ngIf="filled" mat-table [dataSource]="data" matSort>
 
       <ng-container *ngFor="let property of properties" matColumnDef="{{property}}" [class.little]="p==dependents">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{mapperService.mapTitle(property)}}</th>
@@ -47,7 +44,7 @@
       <tr mat-header-row *matHeaderRowDef="propertiesActions" class="header-row"></tr>
       <tr mat-row *matRowDef="let row; columns: propertiesActions;" class="single-row distribution-details" routerLink="/distributions/{{row.id}}"></tr>
     </table>
-    <mat-paginator *ngIf="data && data != {}" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator *ngIf="filled" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </div>
   
   

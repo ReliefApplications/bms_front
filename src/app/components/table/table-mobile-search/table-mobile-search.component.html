@@ -1,20 +1,17 @@
 <!-- TABLE -->
 <div class="table-container">
-  <div class="waitingDataContainer" *ngIf="state==='wait'">
-    <mat-spinner></mat-spinner>
-  </div>
-  <div class="noDataContainer" *ngIf="state==='empty'">
+  <div class="noDataContainer" *ngIf="!filled">
       <h3>
           <mat-icon>clear</mat-icon>
           No data available
       </h3>
   </div>
-  <div *ngIf="state==='data'" class="container-header">
+  <div *ngIf="filled" class="container-header">
     <mat-form-field>
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
     </mat-form-field>
   </div>
-  <div *ngIf="state=='data'">
+  <div *ngIf="filled">
     <table *ngFor="let element of data._renderData._value" class="box-element">
       <tbody>
         <tr *ngFor="let property of properties">
@@ -47,5 +44,5 @@
       </tfoot>
     </table>
   </div>
-  <mat-paginator *ngIf="state=='data'" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <mat-paginator *ngIf="filled" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>

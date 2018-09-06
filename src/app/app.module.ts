@@ -18,7 +18,6 @@ import { SharedModule 															} from './shared/shared.module';
 
 import { ReportsModule										 					} from './modules/reports/reports.module';
 import { ProfileComponent } from './modules/profile/profile.component';
-import { BeneficiaryImportComponent } from './modules/projects/distributions/beneficiary-import/beneficiary-import.component';
 import { HeaderMobileComponent } from './components/headers/header-mobile/header-mobile.component';
 import { HeaderComponent } from './components/headers/header/header.component';
 
@@ -28,7 +27,6 @@ import { HeaderComponent } from './components/headers/header/header.component';
 		ForbiddenComponent,
 		NotFoundComponent,
 		ProfileComponent,
-		BeneficiaryImportComponent,
     	HeaderMobileComponent,
 		HeaderComponent,
 	],

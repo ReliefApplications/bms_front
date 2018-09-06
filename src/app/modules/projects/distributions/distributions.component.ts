@@ -98,7 +98,7 @@ export class DistributionsComponent implements OnInit {
         this.beneficiaryData = new MatTableDataSource( Beneficiaries.formatArray(data) );
       },
       error => {
-        console.log("Error: ", error);
+        // console.log("Error: ", error);
       }
     );
   }

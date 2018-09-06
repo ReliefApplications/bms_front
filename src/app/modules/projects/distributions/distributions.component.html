@@ -22,12 +22,6 @@
                 </button>
               </div>
             </div>
-            <div class ="container-empty" *ngIf="!beneficiaryData">
-                <p>
-                  <mat-icon>clear</mat-icon>
-                  No data available
-                </p>
-            </div>
             <div class="content-table">
               <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
               </app-table-search>

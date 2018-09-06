@@ -1,6 +1,6 @@
 
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource, MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource, MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner} from '@angular/material';
 
 import { Mapper } from '../../core/utils/mapper.service';
 import { CacheService } from '../../core/storage/cache.service';
@@ -29,10 +29,10 @@ export class TableComponent implements OnInit {
 
   @Input() entity;
   public oldEntity;
-  @Input() data: any = [];
+  @Input() data: any;
   @Input() service;
   sortedData: any;
-  allData: any;
+  allData: any = undefined;
   properties: any;
   propertiesTypes: any;
   propertiesActions: any;
@@ -46,9 +46,7 @@ export class TableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //console.log("data before check: ", this.data);
     this.checkData();
-    //console.log("data after check: ", this.data);
   }
 
   ngDoCheck() {

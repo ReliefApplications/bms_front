@@ -1,6 +1,15 @@
 <!-- TABLE -->
 <div class="table-container">
-    <table mat-table [dataSource]="data" matSort class="mat-elevation-z8">
+  <div class="waitingDataContainer" *ngIf="!data">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div class="noDataContainer" *ngIf="data && data=={}">
+      <h3>
+          <mat-icon>clear</mat-icon>
+          No data available
+      </h3>
+  </div>
+    <table *ngIf="data && data != {}" mat-table [dataSource]="data" matSort class="mat-elevation-z8">
   
       <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
         <th mat-header-cell class="header-cell" *matHeaderCellDef mat-sort-header>{{mapperObject[property]}}</th>

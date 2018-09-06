@@ -39,7 +39,7 @@ export const routes: Routes = [
 
 	{ path: 'beneficiaries/import', component: BeneficiariesImportComponent },
 
-	{ path: 'beneficiaries/data-beneficiaries', component: DataValidationComponent },
+	{ path: 'beneficiaries/data-validation', component: DataValidationComponent },
 
 	{ path: 'beneficiaries/add-beneficiaries', component: AddBeneficiaryComponent },
 

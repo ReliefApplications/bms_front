@@ -73,7 +73,7 @@ export class DistributionData {
     number_beneficiaries: Int16Array;
     /**
      * DistributionData's type
-     * Could be 1 or 0 
+     * Could be 1 or 0
      * 1 represent beneficiary
      * 0 represent household
      * @type {type}
@@ -248,7 +248,6 @@ export class DistributionData {
                 distributionDatas.push(this.formatFromApi(element));
             }
         });
-        //console.log("formatedArray :", distributionDatas);
         return distributionDatas;
     }
 

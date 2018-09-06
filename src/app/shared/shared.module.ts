@@ -1,106 +1,102 @@
-import { NgModule                                               } from '@angular/core';
-import { RouterModule, Routes                                   } from '@angular/router';
-import { CommonModule                                           } from '@angular/common';
-import { FormsModule, ReactiveFormsModule                       } from '@angular/forms';
-import { FormControl, FormGroup, Validators                     } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule, MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatDividerModule, MAT_CHECKBOX_CLICK_ACTION, MatRadioModule, MatChipsModule,  MatSnackBarModule, MatStepperModule, MatProgressBarModule, MatListModule} from '@angular/material';
-import { MatProgressSpinnerModule                               } from '@angular/material/progress-spinner';
-import { MatIconModule                                          } from '@angular/material/icon';
-import { MatTooltipModule                                       } from '@angular/material/tooltip'
-import { MatTableModule                                         } from '@angular/material/table';
-import { MatSortModule                                          } from '@angular/material/sort';
-import { MatDialogModule                                        } from '@angular/material/dialog';
-import { MatFormFieldModule                                     } from '@angular/material/form-field';
-import { MatInputModule                                         } from '@angular/material';
-import { MatMenuModule                                          } from '@angular/material/menu';
-import { BrowserAnimationsModule                                } from '@angular/platform-browser/animations'
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule, MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatDividerModule, MAT_CHECKBOX_CLICK_ACTION, MatRadioModule, MatChipsModule, MatSnackBarModule, MatStepperModule, MatProgressBarModule, MatListModule } from '@angular/material';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatTableModule } from '@angular/material/table';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material';
+import { MatMenuModule } from '@angular/material/menu';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
-import { MenuItemBoxComponent                                   } from '../components/menu-item-box/menu-item-box.component';
-import { IconSvgComponent                                       } from '../components/icon-svg/icon-svg.component';
-import { BoxDashboardComponent                                  } from '../components/box/box-dashboard/box-dashboard.component';
-import { BoxSettingComponent                                    } from '../components/box/box-setting/box-setting.component';
-import { BoxComponent                                           } from '../components/box/box.component';
-import { BoxPropertiesComponent                                 } from '../components/box/box-properties/box-properties.component';
-import { TableComponent                                         } from '../components/table/table.component';
-import { TableSearchComponent                                   } from '../components/table/table-search/table-search.component';
-import { TableMobileComponent                                   } from '../components/table/table-mobile/table-mobile.component';
-import { TableMobileSearchComponent                             } from '../components/table/table-mobile-search/table-mobile-search.component';
-import { TableDistributionComponent                             } from '../components/table/table-distribution/table-distribution.component';
-import { TableMobileDistributionComponent                       } from '../components/table/table-mobile-distribution/table-mobile-distribution.component';
-import { TableSmallComponent                                    } from '../components/table/table-small/table-small.component';
-import { TableSmallMobileComponent                              } from '../components/table/table-small-mobile/table-small-mobile.component';
-import { ModalComponent                                         } from '../components/modals/modal.component';
-import { ModalDeleteComponent                                   } from '../components/modals/modal-delete/modal-delete.component';
-import { ModalUpdateComponent                                   } from '../components/modals/modal-update/modal-update.component';
-import { ModalDetailsComponent                                  } from '../components/modals/modal-details/modal-details.component';
-import { ModalAddComponent                                      } from '../components/modals/modal-add/modal-add.component';
-import { ModalAddLineComponent                                  } from '../components/modals/modal-add/modal-add-line/modal-add-line.component';
-import { ModalLanguageComponent                                 } from '../components/modals/modal-language/modal-language.component';
+import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
+import { BoxDashboardComponent } from '../components/box/box-dashboard/box-dashboard.component';
+import { BoxSettingComponent } from '../components/box/box-setting/box-setting.component';
+import { BoxComponent } from '../components/box/box.component';
+import { BoxPropertiesComponent } from '../components/box/box-properties/box-properties.component';
+import { TableComponent } from '../components/table/table.component';
+import { TableSearchComponent } from '../components/table/table-search/table-search.component';
+import { TableMobileComponent } from '../components/table/table-mobile/table-mobile.component';
+import { TableMobileSearchComponent } from '../components/table/table-mobile-search/table-mobile-search.component';
+import { TableDistributionComponent } from '../components/table/table-distribution/table-distribution.component';
+import { TableMobileDistributionComponent } from '../components/table/table-mobile-distribution/table-mobile-distribution.component';
+import { TableSmallComponent } from '../components/table/table-small/table-small.component';
+import { TableSmallMobileComponent } from '../components/table/table-small-mobile/table-small-mobile.component';
+import { ModalComponent } from '../components/modals/modal.component';
+import { ModalDeleteComponent } from '../components/modals/modal-delete/modal-delete.component';
+import { ModalUpdateComponent } from '../components/modals/modal-update/modal-update.component';
+import { ModalDetailsComponent } from '../components/modals/modal-details/modal-details.component';
+import { ModalAddComponent } from '../components/modals/modal-add/modal-add.component';
+import { ModalAddLineComponent } from '../components/modals/modal-add/modal-add-line/modal-add-line.component';
+import { ModalLanguageComponent } from '../components/modals/modal-language/modal-language.component';
 
-import { LoginComponent                                         } from '../modules/public/login.component';
-import { DashboardComponent                                     } from '../modules/dashboard/dashboard.component';
-import { MenuComponent                                          } from '../modules/menus/menu/menu.component';
-import { MenuTopComponent                                       } from '../modules/menus/menu-top/menu-top.component';
-import { HeaderMenuTopComponent                                 } from '../modules/menus/header-menu-top/header-menu-top.component';
-import { BeneficiariesComponent                                    } from '../modules/beneficiary/beneficiaries.component';
-import { ProjectComponent                                  } from '../modules/projects/project.component';
-import { AddProjectComponent                               } from '../modules/projects/add-project/add-project.component';
-import { SettingsComponent                                      } from '../modules/settings/settings.component';
-import { HeaderComponent                                        } from '../modules/header/header.component';
-import { BeneficiariesImportComponent                              } from '../modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
-import { DataValidationComponent                                } from '../modules/beneficiary/data-validation/data-validation.component';
-import { AddBeneficiaryComponent                                  } from '../modules/beneficiary/add-beneficiary/addBeneficiary.component';
-import { DistributionsComponent                                 } from '../modules/projects/distributions/distributions.component';
+
+import { LoginComponent } from '../modules/public/login.component';
+import { DashboardComponent } from '../modules/dashboard/dashboard.component';
+import { BeneficiariesComponent } from '../modules/beneficiary/beneficiaries.component';
+import { ProjectComponent } from '../modules/projects/project.component';
+import { AddProjectComponent } from '../modules/projects/add-project/add-project.component';
+import { SettingsComponent } from '../modules/settings/settings.component';
+import { BeneficiariesImportComponent } from '../modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
+import { DataValidationComponent } from '../modules/beneficiary/data-validation/data-validation.component';
+import { AddBeneficiaryComponent } from '../modules/beneficiary/add-beneficiary/addBeneficiary.component';
+import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
 
 @NgModule({
-    imports: [
-        RouterModule,
-        CommonModule, // to use instead of BrowserModule if you are using lazyloaded module  like Malnutrition
-        FormsModule,
-        MatCheckboxModule,
-        MatTooltipModule,
-        MatSelectModule,
-        MatTableModule,
-        MatOptionModule,
-        MatButtonModule,
-        MatSortModule,
-        MatDialogModule,
-        MatProgressSpinnerModule,
-        MatIconModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatPaginatorModule,
-        MatExpansionModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatCardModule,
-        MatSelectModule,
-        BrowserAnimationsModule,
-        MatDividerModule,
-        MatRadioModule,
-        MatChipsModule,
-        MatSnackBarModule,
-        MatStepperModule,
-        MatProgressBarModule,
-        MatListModule,
-        MatMenuModule,
-        MatProgressSpinnerModule,
-        ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
-    ],
-    declarations: [
-        //Shared Components
-        LoginComponent,
-        DashboardComponent,
-        MenuComponent,
-        MenuItemBoxComponent,
-        BeneficiariesComponent,
-        BeneficiariesImportComponent,
-        ProjectComponent,
-        DistributionsComponent,
+	imports: [
+		RouterModule,
+		CommonModule, // to use instead of BrowserModule if you are using lazyloaded module
+		FormsModule,
+		MatCheckboxModule,
+		MatTooltipModule,
+		MatSelectModule,
+		MatTableModule,
+		MatOptionModule,
+		MatButtonModule,
+		MatSortModule,
+		MatDialogModule,
+		MatProgressSpinnerModule,
+		MatIconModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatPaginatorModule,
+		MatExpansionModule,
+		MatDatepickerModule,
+		MatNativeDateModule,
+		MatCardModule,
+		MatSelectModule,
+		BrowserAnimationsModule,
+		MatDividerModule,
+		MatRadioModule,
+		MatChipsModule,
+		MatSnackBarModule,
+		MatStepperModule,
+		MatProgressBarModule,
+		MatListModule,
+		MatMenuModule,
+		MatProgressSpinnerModule,
+		MatSidenavModule,
+		MatToolbarModule,
+		ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
+	],
+	declarations: [
+		//Shared Components
+		LoginComponent,
+		DashboardComponent,
+		BeneficiariesComponent,
+		BeneficiariesImportComponent,
+		ProjectComponent,
 		AddProjectComponent,
 		SettingsComponent,
-		HeaderComponent,
-        IconSvgComponent,
+		IconSvgComponent,
 		BoxDashboardComponent,
 		TableComponent,
 		TableSearchComponent,
@@ -110,43 +106,39 @@ import { DistributionsComponent                                 } from '../modul
 		TableMobileDistributionComponent,
 		TableSmallComponent,
 		TableSmallMobileComponent,
-		MenuTopComponent,
-		HeaderMenuTopComponent,
-        ModalComponent,
-        ModalDeleteComponent,
+		ModalComponent,
+		ModalDeleteComponent,
 		ModalUpdateComponent,
-        ModalAddComponent,
-        ModalDetailsComponent,
-		ModalLanguageComponent,        
+		ModalAddComponent,
+		ModalDetailsComponent,
+		ModalLanguageComponent,
 		ModalAddLineComponent,
 		BoxSettingComponent,
-        BoxComponent,
+		BoxComponent,
 		BoxPropertiesComponent,
-        DataValidationComponent,
-        AddBeneficiaryComponent,
-        
-    ],
-    entryComponents: [
-        ModalComponent,
-        ModalDeleteComponent,
+		DataValidationComponent,
+		AddBeneficiaryComponent,
+		DistributionsComponent,
+
+	],
+	entryComponents: [
+		ModalComponent,
+		ModalDeleteComponent,
 		ModalUpdateComponent,
-        ModalDetailsComponent,
-		ModalLanguageComponent,        
-        ModalAddComponent,
+		ModalDetailsComponent,
+		ModalLanguageComponent,
+		ModalAddComponent,
 		ModalAddLineComponent,
-    ],
-    exports: [
-        //Shared Components
-        LoginComponent,
+	],
+	exports: [
+		//Shared Components
+		LoginComponent,
 		DashboardComponent,
-        MenuComponent,
-        MenuItemBoxComponent,
-        BeneficiariesComponent,
-        BeneficiariesImportComponent,
+		BeneficiariesComponent,
+		BeneficiariesImportComponent,
 		ProjectComponent,
 		AddProjectComponent,
 		SettingsComponent,
-		HeaderComponent,
 		IconSvgComponent,
 		BoxDashboardComponent,
 		BoxPropertiesComponent,
@@ -158,49 +150,50 @@ import { DistributionsComponent                                 } from '../modul
 		TableMobileDistributionComponent,
 		TableSmallComponent,
 		TableSmallMobileComponent,
-		MenuTopComponent,
-		HeaderMenuTopComponent,
-        ModalComponent,
-        ModalDeleteComponent,
+		ModalComponent,
+		ModalDeleteComponent,
 		ModalUpdateComponent,
 		ModalDetailsComponent,
-		ModalLanguageComponent,        
-        ModalAddComponent,
+		ModalLanguageComponent,
+		ModalAddComponent,
 		ModalAddLineComponent,
 		BoxSettingComponent,
-        BoxComponent,
-        MatCheckboxModule,
-        MatTooltipModule,
-        MatSelectModule,
-        MatTableModule,
-        MatOptionModule,
-        MatButtonModule,
-        MatSortModule,
-        MatDialogModule,
-        MatProgressSpinnerModule,
-        MatIconModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatPaginatorModule,
-        MatExpansionModule,
-        MatDatepickerModule,
-        MatCardModule,
-        MatNativeDateModule,
-        MatSelectModule,
-        DataValidationComponent,
-        MatDividerModule,
-        MatRadioModule,
-        MatChipsModule,
-        MatSnackBarModule,
-        MatStepperModule,
-        MatProgressBarModule,
-        MatListModule,
-        MatProgressSpinnerModule,
-        AddBeneficiaryComponent,
+		BoxComponent,
+		MatCheckboxModule,
+		MatTooltipModule,
+		MatSelectModule,
+		MatTableModule,
+		MatOptionModule,
+		MatButtonModule,
+		MatSortModule,
+		MatDialogModule,
+		MatProgressSpinnerModule,
+		MatIconModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatPaginatorModule,
+		MatExpansionModule,
+		MatDatepickerModule,
+		MatCardModule,
+		MatNativeDateModule,
+		MatSelectModule,
+		DataValidationComponent,
+		MatDividerModule,
+		MatRadioModule,
+		MatChipsModule,
+		MatSnackBarModule,
+		MatStepperModule,
+		MatProgressBarModule,
+		MatListModule,
+		MatProgressSpinnerModule,
+		AddBeneficiaryComponent,
+		MatSidenavModule,
+		MatToolbarModule,
+		MatMenuModule
 
-    ],
-    providers: [
-        {provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check'}
-    ]
+	],
+	providers: [
+		{ provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }
+	]
 })
 export class SharedModule { }

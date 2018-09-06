@@ -3,6 +3,9 @@ import { UserInterface } from './model/interfaces';
 import { AuthenticationService } from './core/authentication/authentication.service';
 import { GlobalText } from '../texts/global';
 
+import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
+import { MatDialog } from '@angular/material';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,8 +23,13 @@ export class AppComponent {
   public maxHeight = 700;
   public maxWidth = 750;
 
+  public isShowing = false;
+  public menu = GlobalText.TEXTS;
+
+
   constructor(
-    private _authenticationService: AuthenticationService
+    private _authenticationService: AuthenticationService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(){
@@ -34,13 +42,36 @@ export class AppComponent {
     this.checkSize();
   }
 
+  change() {
+    if(!this.smallScreenMode)
+      this.isShowing = !this.isShowing;
+  }
+
+    /**
+    * open each modal dialog
+    */
+    openDialog(user_action): void {
+      let dialogRef;
+
+      if (user_action == 'language') {
+        dialogRef = this.dialog.open(ModalLanguageComponent, {
+        });
+      }
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+      });
+    }
+
   checkSize(): void{
     if((window.innerHeight < this.maxHeight)||(window.innerWidth < this.maxWidth))
     {
       this.smallScreenMode = true;
-    } 
+      this.isShowing = true;
+    }
     else{
       this.smallScreenMode = false;
+      this.isShowing = false;
     }
   }
 
@@ -49,7 +80,7 @@ export class AppComponent {
       if(!this.user.loggedIn){
         this.logOut = true;
       }else{
-        this.logOut = false;      
+        this.logOut = false;
       }
       return this.user;
     }
@@ -57,7 +88,7 @@ export class AppComponent {
     if(!this.user.loggedIn){
       this.logOut = true;
     }else{
-      this.logOut = false;      
+      this.logOut = false;
     }
     return this.user;
   }
@@ -92,7 +123,7 @@ export class AppComponent {
 
   /**
    * get the name of the current page component (if it exists)
-   * @param e 
+   * @param e
    */
   onActivate(e){
     this.currentComponent = e.nameComponent;

@@ -8,6 +8,7 @@ export const TEXT = {
     dashboard_summary_4 : "total value transactions",
     dashboard_recent_distributions : "recent distributions",
 
+    menu_home : "home",
     menu_projects : "projects",
     menu_beneficiaries : "beneficiaries",
     menu_reports : "reports",
@@ -15,7 +16,7 @@ export const TEXT = {
 
     header_home : "Home",
     header_profile : "profile",
-    header_disconnect : "disconnect",
+    header_disconnect : "log out",
     header_language : "language",
 
     login_title : "login",
@@ -170,8 +171,8 @@ export const TEXT = {
     model_distribution_adm1: "Province",
     model_distribution_adm2: "District",
     model_distribution_adm3: "Community",
-    model_distribution_adm4: "Village",  
-    model_distribution_date: "Date of distribution", 
+    model_distribution_adm4: "Village",
+    model_distribution_date: "Date of distribution",
     model_donor : "Donor",
     model_donor_fullname: "Donor's name",
     model_donor_shortname: "Shortname",

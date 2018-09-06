@@ -5,7 +5,7 @@ import { ReactiveFormsModule } 											from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS 									} from '@angular/common/http';
 import { HttpModule 															} from '@angular/http';
 
-import { AuthInterceptor 														} from './core/interceptors/auth-interceptor';
+import { httpInterceptorProviders 								} from './core/interceptors/index-interceptors';
 
 import { AppComponent 															} from './app.component';
 import { DashboardComponent 													} from './modules/dashboard/dashboard.component';
@@ -19,6 +19,8 @@ import { SharedModule 															} from './shared/shared.module';
 import { ReportsModule										 					} from './modules/reports/reports.module';
 import { ProfileComponent } from './modules/profile/profile.component';
 import { BeneficiaryImportComponent } from './modules/projects/distributions/beneficiary-import/beneficiary-import.component';
+import { HeaderMobileComponent } from './components/headers/header-mobile/header-mobile.component';
+import { HeaderComponent } from './components/headers/header/header.component';
 
 @NgModule({
 	declarations: [
@@ -27,6 +29,8 @@ import { BeneficiaryImportComponent } from './modules/projects/distributions/ben
 		NotFoundComponent,
 		ProfileComponent,
 		BeneficiaryImportComponent,
+    	HeaderMobileComponent,
+		HeaderComponent,
 	],
 	imports: [
 		// Modules
@@ -44,7 +48,7 @@ import { BeneficiaryImportComponent } from './modules/projects/distributions/ben
 		AppRouting
 	],
 	providers: [
-		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    httpInterceptorProviders
 	],
 	bootstrap: [AppComponent]
 })

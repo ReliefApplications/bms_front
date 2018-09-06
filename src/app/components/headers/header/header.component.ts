@@ -2,9 +2,9 @@ import { Component, OnInit, Input, Output, EventEmitter     } from '@angular/cor
 import { ActivatedRoute                                     } from '@angular/router';
 import { MatDialog                                          } from '@angular/material';
 
-import { GlobalText                                         } from '../../../texts/global';
+import { GlobalText                                         } from '../../../../texts/global';
 
-import { ModalLanguageComponent                             } from '../../components/modals/modal-language/modal-language.component';
+import { ModalLanguageComponent                             } from '../../../components/modals/modal-language/modal-language.component';
 
 @Component({
   selector: 'app-header',
@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
   public routeNameParsed: Array<string[]> = [[this.header.header_home, "Home"]];
 
   constructor(
-    public dialog: MatDialog    
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {

@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnChanges } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource, MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner} from '@angular/material';
 
 import { Mapper } from '../../core/utils/mapper.service';
@@ -18,7 +18,7 @@ import { dashCaseToCamelCase } from '@angular/animations/browser/src/util';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnChanges {
   public table = GlobalText.TEXTS;
   private paginator: MatPaginator;
 
@@ -37,6 +37,7 @@ export class TableComponent implements OnInit {
   propertiesTypes: any;
   propertiesActions: any;
   entityInstance = null;
+  state = 'wait';
   public user_action: string = '';
 
   constructor(
@@ -45,8 +46,18 @@ export class TableComponent implements OnInit {
     public _cacheService: CacheService
   ) { }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.checkData();
+
+    if(!this.data) {
+      this.state = 'wait';
+    }
+    else if(this.data ? this.data.data.length > 0 : false) {
+      this.state = 'data';
+    }
+    else {
+      this.state = 'empty';
+    }
   }
 
   ngDoCheck() {

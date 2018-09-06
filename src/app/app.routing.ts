@@ -18,6 +18,7 @@ import { DataValidationComponent 														} from './modules/beneficiary/dat
 // Services
 import { AuthGuard 																		} from './core/guards/auth.guard';
 import { DistributionsComponent } from './modules/projects/distributions/distributions.component';
+import { BeneficiaryImportComponent } from './modules/projects/distributions/beneficiary-import/beneficiary-import.component';
 
 // Do not change the order of the routes, it matters
 export const routes: Routes = [
@@ -28,6 +29,8 @@ export const routes: Routes = [
 	{ path: 'project/add-project', component: AddProjectComponent },
 
 	{ path: 'distributions/:id', component: DistributionsComponent },
+
+	{ path: 'distributions/beneficiary-import', component: BeneficiaryImportComponent },
 
 	{ path: 'beneficiaries', component: BeneficiariesComponent },
 

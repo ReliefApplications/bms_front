@@ -7,8 +7,10 @@ import { ActivatedRoute } from '@angular/router';
 import { DistributionData } from '../../../model/distribution-data';
 import { CacheService } from '../../../core/storage/cache.service';
 import { Beneficiaries } from '../../../model/beneficiary';
-import { MatTableDataSource } from '@angular/material';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
+import { MatTableDataSource, MatSnackBar } from '@angular/material';
+import { ExportInterface } from '../../../model/export.interface';
+import { saveAs } from 'file-saver/FileSaver';
 
 @Component({
   selector: 'app-distributions',
@@ -44,6 +46,7 @@ export class DistributionsComponent implements OnInit {
     private formBuilder : FormBuilder,
     private route: ActivatedRoute,
     private beneficiariesService : BeneficiariesService,
+    public snackBar: MatSnackBar,    
   ) { 
     this.route.params.subscribe( params => this.distributionId = params.id);
   }
@@ -126,4 +129,22 @@ export class DistributionsComponent implements OnInit {
     // TODO : connect to new beneficiary functionnality with project & distribution already filled.
   }
 
+  export(){
+    this.distributionService.export("distribution", this.distributionId).toPromise()
+      .then(response => {
+        const arrExport = [];
+        const reponse: ExportInterface = response.json() as ExportInterface;
+
+        if (!(reponse instanceof Object)) {
+          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: "right"});
+        } else {
+          arrExport.push(reponse.content);
+          const blob = new Blob(arrExport, { type: 'text/csv' });
+          saveAs(blob, reponse.filename);
+        }
+      })
+      .catch(error => {
+        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: "right"});
+      });
+  }
 }

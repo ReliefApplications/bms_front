@@ -16,4 +16,9 @@ export class BeneficiariesService {
     let url = this.api + "/distributions/" + distributionId + "/beneficiaries";
     return this.http.get(url);
   }
+
+  public getRandom(distributionId) {
+    let url = this.api + "/distributions/" + distributionId + "/random";
+    return this.http.get(url);
+  }
 }

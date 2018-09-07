@@ -49,6 +49,7 @@ import { BeneficiariesImportComponent } from '../modules/beneficiary/beneficiari
 import { DataValidationComponent } from '../modules/beneficiary/data-validation/data-validation.component';
 import { AddBeneficiaryComponent } from '../modules/beneficiary/add-beneficiary/addBeneficiary.component';
 import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
+import { ImportDistributionComponent } from '../modules/projects/distributions/import-distribution/import-distribution.component';
 
 @NgModule({
 	imports: [
@@ -119,6 +120,7 @@ import { DistributionsComponent } from '../modules/projects/distributions/distri
 		DataValidationComponent,
 		AddBeneficiaryComponent,
 		DistributionsComponent,
+		ImportDistributionComponent,
 
 	],
 	entryComponents: [

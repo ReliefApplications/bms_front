@@ -1,6 +1,6 @@
 
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource, MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material';
+import { Component, OnInit, Input, ViewChild, OnChanges } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource, MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner} from '@angular/material';
 
 import { Mapper } from '../../core/utils/mapper.service';
 import { CacheService } from '../../core/storage/cache.service';
@@ -18,7 +18,7 @@ import { dashCaseToCamelCase } from '@angular/animations/browser/src/util';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnChanges {
   public table = GlobalText.TEXTS;
   private paginator: MatPaginator;
 
@@ -29,14 +29,15 @@ export class TableComponent implements OnInit {
 
   @Input() entity;
   public oldEntity;
-  @Input() data: any = [];
+  @Input() data: any;
   @Input() service;
   sortedData: any;
-  allData: any;
+  allData: any = undefined;
   properties: any;
   propertiesTypes: any;
   propertiesActions: any;
   entityInstance = null;
+  filled : boolean = true;
   public user_action: string = '';
 
   constructor(
@@ -45,8 +46,9 @@ export class TableComponent implements OnInit {
     public _cacheService: CacheService
   ) { }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.checkData();
+    //this.checkTable();
   }
 
   ngDoCheck() {
@@ -61,6 +63,16 @@ export class TableComponent implements OnInit {
       this.setDataTableProperties();
       this.mapperService.setMapperObject(this.entity);
     }
+  }
+
+  checkTable() {
+      if(this.data.data && this.data.data.length>0)
+      {
+        this.filled = true;
+      }
+      else {
+        this.filled = false;
+      }
   }
 
   updateData() {
@@ -168,7 +180,7 @@ export class TableComponent implements OnInit {
     this.service.update(updateElement['id'], updateElement).subscribe(response => {
       this.updateData();
     }, error => {
-      console.error("err", error);
+      //console.error("err", error);
     })
   }
 

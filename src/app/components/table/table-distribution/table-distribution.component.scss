@@ -65,3 +65,23 @@ button{
 .dependents {
   width : 40%;
 }
+
+.distribution-details {
+
+  &:hover {
+    //background-color: lightgreen;
+    cursor: pointer;
+  }
+}
+
+.noDataContainer {
+  text-align: center;
+  margin: 10px auto;
+  font-size: 20px;
+}
+
+.waitingDataContainer {
+  text-align: center;
+  margin: 10px auto;
+  font-size: 20px;
+}

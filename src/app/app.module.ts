@@ -27,7 +27,7 @@ import { HeaderComponent } from './components/headers/header/header.component';
 		ForbiddenComponent,
 		NotFoundComponent,
 		ProfileComponent,
-    HeaderMobileComponent,
+    	HeaderMobileComponent,
 		HeaderComponent,
 	],
 	imports: [

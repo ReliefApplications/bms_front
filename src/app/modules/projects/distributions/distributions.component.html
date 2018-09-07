@@ -1,0 +1,152 @@
+<div class="page-container">
+  <div class="title" *ngIf="distribution">
+    <h2> {{TEXT.model_distribution | uppercase}} </h2>
+    <p>{{distribution.name | uppercase}}</p>
+  </div>
+
+  <mat-horizontal-stepper>
+
+    <mat-step label="{{ TEXT.distribution_details_export | uppercase }}" [stepControl]="form1">
+      <form [formGroup]="form1">
+
+        <div class="container-table">
+          <div class="container-content">
+            <div class="content-button">
+              <button mat-icon-button class="add-button" (click)="test()">
+                <mat-icon>add</mat-icon>
+              </button>
+              <div class="import-export">
+                <button mat-raised-button class="export-button" (click)="test()">
+                  <mat-icon>get_app</mat-icon >
+                  <span>{{TEXT.beneficiaries_export | uppercase}}</span>
+                </button>
+              </div>
+            </div>
+            <div class="content-table">
+              <div class="waitingDataContainer" *ngIf="loading">
+                <mat-spinner></mat-spinner>
+              </div>
+              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loading" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
+              </app-table-search>
+              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loading" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
+              </app-table-mobile-search>
+            </div>
+            <div class="next-container">
+              <button class="next" mat-button matStepperNext>Next</button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </mat-step>
+
+    <mat-step label="{{ TEXT.distribution_details_import | uppercase }}" [stepControl]="form2">
+      <form [formGroup]="form2">
+      
+        <div class="container-table">
+          <div class="container-content">
+            <div class="content-button">
+              <button mat-icon-button class="add-button" (click)="test()">
+                <mat-icon>add</mat-icon>
+              </button>
+              <div class="import-export">
+                <a routerLink="/distributions/beneficiary-import">
+                  <button mat-raised-button class="import-button">
+                    <mat-icon>publish</mat-icon>
+                    <span>{{TEXT.beneficiaries_import | uppercase}}</span>
+                  </button>
+                </a>
+              </div>
+            </div>
+            <div class ="container-empty" *ngIf="!importedData">
+              <p>
+                <mat-icon>folder</mat-icon>
+                You need to import your file to compare and update the beneficiaries data.
+              </p>
+            </div>
+            <div class="content-table" *ngIf="importedData">
+              <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="importedData">
+              </app-table-search>
+              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="importedData">
+              </app-table-mobile-search>
+            </div>
+            <div class="next-container">
+              <button class="next" mat-button matStepperNext>Next</button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </mat-step>
+
+    <mat-step label="{{ TEXT.distribution_details_random | uppercase }}" [stepControl]="form3">
+      <form [formGroup]="form3">
+        
+        <div class="container-table">
+          <div class="container-content">
+            <div class="content-button">
+              <button mat-icon-button class="add-button" (click)="test()">
+                <mat-icon>add</mat-icon>
+              </button>
+              <div class="import-export">
+                <button mat-raised-button class="export-button" (click)="test()">
+                  <mat-icon>get_app</mat-icon >
+                  <span>{{TEXT.beneficiaries_export | uppercase}}</span>
+                </button>
+              </div>
+            </div>
+            <div class ="container-empty" *ngIf="!randomSampleData">
+              <p>
+                <mat-icon>clear</mat-icon>
+                Random sample can't be generated...
+              </p>
+            </div>
+            <div class="content-table" *ngIf="randomSampleData">
+              <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="randomSampleData">
+              </app-table-search>
+              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="randomSampleData">
+              </app-table-mobile-search>
+            </div>
+            <div class="next-container">
+              <button class="next" mat-button matStepperNext>Next</button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </mat-step>
+
+    <mat-step label="{{ TEXT.distribution_details_validate | uppercase }}" [stepControl]="form4">
+      <form [formGroup]="form4">
+        
+        <div class="container-table">
+          <div class="container-content">
+            <div class="content-button">
+              <button mat-icon-button class="add-button" (click)="test()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+            <div class ="container-empty" *ngIf="!finalData">
+              <p>
+                <mat-icon>keyboard_backspace</mat-icon>
+                Please complete the previous steps before validating
+              </p>
+            </div>
+            <div class="content-table" *ngIf="finalData">
+              <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="finalData">
+              </app-table-search>
+              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="finalData">
+              </app-table-mobile-search>
+            </div>
+            <div class="transaction">
+                <button mat-button>Transaction</button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </mat-step>
+
+  </mat-horizontal-stepper>
+
+</div>

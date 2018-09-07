@@ -6,7 +6,7 @@ import { LoginComponent 																} from './modules/public/login.component
 import { DashboardComponent 															} from './modules/dashboard/dashboard.component';
 import { NotFoundComponent 																} from './components/error-pages/not-found/not-found.component';
 import { ProjectComponent 																} from './modules/projects/project.component';
-import { AddProjectComponent 															} from './modules/projects/add-project/add-project.component';
+import { AddDistributionComponent 															} from './modules/projects/add-distribution/add-distribution.component';
 import { SettingsComponent 																} from './modules/settings/settings.component';
 import { BeneficiariesComponent 														} from './modules/beneficiary/beneficiaries.component';
 import { BeneficiariesImportComponent 													} from './modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
@@ -17,6 +17,7 @@ import { DataValidationComponent 														} from './modules/beneficiary/dat
 
 // Services
 import { AuthGuard 																		} from './core/guards/auth.guard';
+import { DistributionsComponent } from './modules/projects/distributions/distributions.component';
 
 // Do not change the order of the routes, it matters
 export const routes: Routes = [
@@ -24,7 +25,11 @@ export const routes: Routes = [
 
 	{ path: 'projects', component: ProjectComponent },
 
-	{ path: 'project/add-project', component: AddProjectComponent },
+	{ path: 'project/add-distribution', component: AddDistributionComponent },
+
+	{ path: 'distributions/:id', component: DistributionsComponent },
+
+	//{ path: 'distributions/import', component: },
 
 	{ path: 'beneficiaries', component: BeneficiariesComponent },
 
@@ -36,7 +41,7 @@ export const routes: Routes = [
 
 	{ path: 'beneficiaries/import', component: BeneficiariesImportComponent },
 
-	{ path: 'beneficiaries/data-beneficiaries', component: DataValidationComponent },
+	{ path: 'beneficiaries/data-validation', component: DataValidationComponent },
 
 	{ path: 'beneficiaries/add-beneficiaries', component: AddBeneficiaryComponent },
 

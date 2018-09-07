@@ -10,6 +10,7 @@ import { SectorService } from '../../core/api/sector.service';
 import { GlobalText } from '../../../texts/global';
 import { CriteriaService } from '../../core/api/criteria.service';
 import { ModalitiesService } from '../../core/api/modalities.service';
+import { isArray } from 'util';
 
 @Component({
   selector: 'modal',
@@ -114,10 +115,7 @@ export class ModalComponent implements OnInit {
       }
     }
   }
- 
-
 }
-
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

@@ -242,6 +242,7 @@ export class DistributionData {
     // Renvoie un array des datas depuis l'objet récupéré de l'Api.
     public static formatArray(instance): DistributionData[] {
         let distributionDatas: DistributionData[] = [];
+        //console.log("formatArray before :", distributionDatas);
         instance.forEach(element => {
             if(element && element.id && element.location && element.project && element.name) {
                 distributionDatas.push(this.formatFromApi(element));

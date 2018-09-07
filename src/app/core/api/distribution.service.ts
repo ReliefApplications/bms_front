@@ -47,6 +47,11 @@ export class DistributionService{
         return this.http.put(url, body);
     }
 
+    public getBeneficiaries(id: number) {
+        let url = this.api + "/distributions/" + id + "/beneficiaries";
+        return this.http.get(url);
+    }
+
     /**
      * TODO: Add route to export distribution
      * Export data of distribution in CSV

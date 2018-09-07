@@ -1,6 +1,25 @@
-@import '../../../assets/css/variable.scss'; 
+@import '../../../../assets/css/variable.scss'; 
 
+.page-container {
+    width: 100%;
     
+    .title {
+        width: 100%;
+        height: 100px;
+        text-align : center;
+        margin: 0 auto;
+        padding: 15px;
+
+        h2 {
+            text-align: left;
+        }
+        p {
+            margin-top : 10px;
+            font-size: 18px;
+        }
+    }
+}
+   
 app-table-search{
     width: 100%;
     height: 100%;
@@ -13,6 +32,12 @@ app-table-mobile{
 
 .container-content {
     border-top: solid 12px $bms_green;
+}
+.container-empty {
+    width: 100%;
+    margin: 15px;
+    text-align: center;
+    font-size: 18px;
 }
 
 button{
@@ -47,11 +72,36 @@ button{
     display: flex;
 }
 
-.waitingDataContainer {
-    width:100%;
+.next-container {
+    width: 100%;
+    text-align: right;
+    margin: 10px;
+
+    button {
+        background-color: $bms_green;
+    }
+}
+.transaction {
+    width : 100%;
     text-align: center;
-    margin-left: 45%;
-    font-size: 20px;
+    padding: 5px;
+    margin-bottom: 10px;
+
+    button {
+        background-color: $bms_red;
+    }
+}
+.content-table {
+    display: flex;
+    width : 100%;
+    flex-direction: column;
+
+    .waitingDataContainer {
+        width:100%;
+        text-align: center;
+        margin-left: 45%;
+        font-size: 20px;
+      }
 }
 
 //for mobile screen
@@ -77,4 +127,5 @@ button{
     .mat-raised-button{
         font-size: 2vh;
     }
+    
 }

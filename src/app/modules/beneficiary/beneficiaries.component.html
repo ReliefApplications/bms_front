@@ -14,7 +14,7 @@
             <mat-icon>get_app</mat-icon >
             <span>{{household.beneficiaries_export | uppercase}}</span>
           </button>
-          <a routerLink="/households/import">
+          <a routerLink="/beneficiaries/import">
             <button mat-raised-button class="import-button">
               <mat-icon>publish</mat-icon>
               <span>{{household.beneficiaries_import | uppercase}}</span>
@@ -23,8 +23,11 @@
         </div>
       </div>
       <div class="content-table">
-        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="households"></app-table-search>
-        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
+        <div class="waitingDataContainer" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+        <app-table-search *ngIf="widthScreen > maxWidthMobile && !loading" [entity]="referedClassToken" [service]="referedClassService" [data]="households"></app-table-search>
+        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loading" [entity]="referedClassToken" [service]="referedClassService"
           [data]="households"></app-table-mobile-search>
       </div>
     </div>

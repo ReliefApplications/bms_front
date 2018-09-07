@@ -20,11 +20,11 @@ import { CacheService } from '../../../core/storage/cache.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 
 @Component({
-  selector: 'app-add-project',
-  templateUrl: './add-project.component.html',
-  styleUrls: ['./add-project.component.scss']
+  selector: 'app-add-distribution',
+  templateUrl: './add-distribution.component.html',
+  styleUrls: ['./add-distribution.component.scss']
 })
-export class AddProjectComponent implements OnInit {
+export class AddDistributionComponent implements OnInit {
   public nameComponent = "add_project_title";
   public distribution = GlobalText.TEXTS;
   public newObject: any;
@@ -198,7 +198,7 @@ export class AddProjectComponent implements OnInit {
    * to cancel the creation of distribution and go back in the distribution page
    */
   cancel() {
-    this.router.navigate(["distribution"]);
+    this.router.navigate(["projects"]);
   }
 
   /**
@@ -292,7 +292,7 @@ export class AddProjectComponent implements OnInit {
     if (promise) {
       promise.toPromise().then(response => {
         this.snackBar.open('distribution : ' + response.json().distribution.name + ' was created', '', { duration: 3000, horizontalPosition: "right" });
-        this.router.navigate(['/distribution']);
+        this.router.navigate(['/projects']);
       })
     } else {
       this.snackBar.open('Error while create new distribution', '', { duration: 3000, horizontalPosition: "right" });

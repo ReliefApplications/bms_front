@@ -1,12 +1,18 @@
 <!-- TABLE -->
 <div class="table-container">
-    <div class="container-header">
+  <div class="noDataContainer" *ngIf="!filled">
+      <h3>
+          <mat-icon>clear</mat-icon>
+          No data available
+      </h3>
+  </div>
+    <div class="container-header" *ngIf="filled">
       <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
       </mat-form-field>
     </div>
-    <table mat-table [dataSource]="data" matSort>
-  
+    <table *ngIf="filled" mat-table [dataSource]="data" matSort>
+
       <ng-container *ngFor="let property of properties" matColumnDef="{{property}}" [class.little]="p==dependents">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{mapperService.mapTitle(property)}}</th>
         <td mat-cell *matCellDef="let element">
@@ -36,9 +42,9 @@
       </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="propertiesActions" class="header-row"></tr>
-      <tr mat-row *matRowDef="let row; columns: propertiesActions;" class="single-row"></tr>
+      <tr mat-row *matRowDef="let row; columns: propertiesActions;" class="single-row distribution-details" routerLink="/distributions/{{row.id}}"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator *ngIf="filled" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </div>
   
   

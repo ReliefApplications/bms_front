@@ -1,40 +1,48 @@
 <!-- TABLE -->
 <div class="table-container">
-  <div class="container-header">
+  <div class="noDataContainer" *ngIf="!filled">
+      <h3>
+          <mat-icon>clear</mat-icon>
+          No data available
+      </h3>
+  </div>
+  <div *ngIf="filled" class="container-header">
     <mat-form-field>
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
     </mat-form-field>
   </div>
-  <table *ngFor="let element of data._renderData._value" class="box-element">
-    <tbody>
-      <tr *ngFor="let property of properties">
-        <td class="element-value">
-          <span> {{mapperService.mapTitle(property)}}</span>
-        </td>
-        <td>
-          <span *ngIf="propertiesTypes[property]=='image'">
-            <app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)" [name]="image"></app-icon-svg>
-          </span>
-        </td>
-        <td *ngIf="propertiesTypes[property]=='png'">
-          <img *ngFor="let image of mapperService.mapValue(element, property)" class="png" [src]=image>
-        </td>
-        <td *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">
-          <span>{{mapperService.mapValue(element, property)}}</span>
-        </td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <button mat-button (click)="openDialog('details', element)" class="green">
-        <mat-icon inline=true>search</mat-icon>
-      </button>
-      <button mat-button (click)="openDialog('update', element)" class="light-red">
-        <mat-icon inline=true>edit</mat-icon>
-      </button>
-      <button mat-button (click)="openDialog('delete', element)" class="red">
-        <mat-icon inline=true>close</mat-icon>
-      </button>
-    </tfoot>
-  </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <div *ngIf="filled">
+    <table *ngFor="let element of data._renderData._value" class="box-element">
+      <tbody>
+        <tr *ngFor="let property of properties">
+          <td class="element-value">
+            <span> {{mapperService.mapTitle(property)}}</span>
+          </td>
+          <td>
+            <span *ngIf="propertiesTypes[property]=='image'">
+              <app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)" [name]="image"></app-icon-svg>
+            </span>
+          </td>
+          <td *ngIf="propertiesTypes[property]=='png'">
+            <img *ngFor="let image of mapperService.mapValue(element, property)" class="png" [src]=image>
+          </td>
+          <td *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">
+            <span>{{mapperService.mapValue(element, property)}}</span>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <button mat-button (click)="openDialog('details', element)" class="green">
+          <mat-icon inline=true>search</mat-icon>
+        </button>
+        <button mat-button (click)="openDialog('update', element)" class="light-red">
+          <mat-icon inline=true>edit</mat-icon>
+        </button>
+        <button mat-button (click)="openDialog('delete', element)" class="red">
+          <mat-icon inline=true>close</mat-icon>
+        </button>
+      </tfoot>
+    </table>
+  </div>
+  <mat-paginator *ngIf="filled" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>

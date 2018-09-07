@@ -45,6 +45,8 @@ export class Mapper{
                 return this.mapper.getEntityTranslator("households");
             case 'Commodity' :
                 return this.mapper.getEntityTranslator("commodity");
+            case 'Beneficiaries' :
+                return this.mapper.getEntityTranslator("beneficiaries");    
             default: return;
         }
     }

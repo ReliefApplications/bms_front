@@ -126,7 +126,7 @@ export const TEXT = {
     distribution_export : "export",
 
     add_project_title : "nouveau projet",
-    add_project_new_distribution : "nouveau projet",
+    add_project_new_distribution : "nouvelle distribution",
     add_distribution_selection_criteria : "critères de sélection",
     add_distribution_distributed_commodity : "ressource distribuée",
     add_distribution_beneficiaries_reached: "Bénéficaires atteints",
@@ -184,6 +184,11 @@ export const TEXT = {
     model_beneficiaries_location: "Lieu",
     model_beneficiaries_dependents : "Dépendents",
     model_beneficiaries_vulnerabilities : "Vulnérabilités",
+    model_beneficiaries_gender : "Genre",
+    model_beneficiaries_dateofbirth : "Date de naissance",
+    model_beneficiaries_status: "Satut",
+    model_beneficiaries_nationalids: "Numéro d'identification",
+    model_beneficiaries_phones: "Téléphones",
     model_user : "Utilisateur",
     model_user_username: "Email",
     model_user_rights: "Rôles",
@@ -209,6 +214,11 @@ export const TEXT = {
     model_commodity_type: "Type",
     model_commodity_unit: "Unité",
     model_commodity_value: "Quantité",
+
+    distribution_details_export:"exporter",
+    distribution_details_import:"importer & comparer",
+    distribution_details_random:"échantillon aléatoire",
+    distribution_details_validate:"valider",
 
     profile_user_information: "Informations utilisateur",
     profile_user_change_password: "Changer mon mot de passe",

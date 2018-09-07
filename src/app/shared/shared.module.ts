@@ -38,15 +38,17 @@ import { ModalAddComponent } from '../components/modals/modal-add/modal-add.comp
 import { ModalAddLineComponent } from '../components/modals/modal-add/modal-add-line/modal-add-line.component';
 import { ModalLanguageComponent } from '../components/modals/modal-language/modal-language.component';
 
+
 import { LoginComponent } from '../modules/public/login.component';
 import { DashboardComponent } from '../modules/dashboard/dashboard.component';
 import { BeneficiariesComponent } from '../modules/beneficiary/beneficiaries.component';
 import { ProjectComponent } from '../modules/projects/project.component';
-import { AddProjectComponent } from '../modules/projects/add-project/add-project.component';
+import { AddDistributionComponent } from '../modules/projects/add-distribution/add-distribution.component';
 import { SettingsComponent } from '../modules/settings/settings.component';
 import { BeneficiariesImportComponent } from '../modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
 import { DataValidationComponent } from '../modules/beneficiary/data-validation/data-validation.component';
 import { AddBeneficiaryComponent } from '../modules/beneficiary/add-beneficiary/addBeneficiary.component';
+import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
 
 @NgModule({
 	imports: [
@@ -92,7 +94,7 @@ import { AddBeneficiaryComponent } from '../modules/beneficiary/add-beneficiary/
 		BeneficiariesComponent,
 		BeneficiariesImportComponent,
 		ProjectComponent,
-		AddProjectComponent,
+		AddDistributionComponent,
 		SettingsComponent,
 		IconSvgComponent,
 		BoxDashboardComponent,
@@ -116,6 +118,7 @@ import { AddBeneficiaryComponent } from '../modules/beneficiary/add-beneficiary/
 		BoxPropertiesComponent,
 		DataValidationComponent,
 		AddBeneficiaryComponent,
+		DistributionsComponent,
 
 	],
 	entryComponents: [
@@ -134,7 +137,7 @@ import { AddBeneficiaryComponent } from '../modules/beneficiary/add-beneficiary/
 		BeneficiariesComponent,
 		BeneficiariesImportComponent,
 		ProjectComponent,
-		AddProjectComponent,
+		AddDistributionComponent,
 		SettingsComponent,
 		IconSvgComponent,
 		BoxDashboardComponent,

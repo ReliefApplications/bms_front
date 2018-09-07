@@ -56,8 +56,14 @@ export class DistributionService{
      * TODO: Add route to export distribution
      * Export data of distribution in CSV
      */
-    public export() {
-        let url = this.api + "/distributions/export";
-        return this.http.get(url);
+    public export(option: string, id : number) {
+        if(option == "project"){
+            let url = this.api + "/export?project=" + id;
+            return this.http.get(url);
+        }
+        else if(option == "distribution"){
+            let url = this.api + "/export?beneficiariesInDistribution=" + id;
+            return this.http.get(url);
+        }
     }
 }

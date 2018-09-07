@@ -123,7 +123,7 @@ export class ProjectComponent implements OnInit {
    * to export distribution data
    */
   export() {
-    this.distributionService.export().toPromise()
+    this.distributionService.export("project", this.selectedProject.id).toPromise()
       .then(response => {
         const arrExport = [];
         const reponse: ExportInterface = response.json() as ExportInterface;

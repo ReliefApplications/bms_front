@@ -43,7 +43,7 @@ import { LoginComponent } from '../modules/public/login.component';
 import { DashboardComponent } from '../modules/dashboard/dashboard.component';
 import { BeneficiariesComponent } from '../modules/beneficiary/beneficiaries.component';
 import { ProjectComponent } from '../modules/projects/project.component';
-import { AddProjectComponent } from '../modules/projects/add-project/add-project.component';
+import { AddDistributionComponent } from '../modules/projects/add-distribution/add-distribution.component';
 import { SettingsComponent } from '../modules/settings/settings.component';
 import { BeneficiariesImportComponent } from '../modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
 import { DataValidationComponent } from '../modules/beneficiary/data-validation/data-validation.component';
@@ -94,7 +94,7 @@ import { DistributionsComponent } from '../modules/projects/distributions/distri
 		BeneficiariesComponent,
 		BeneficiariesImportComponent,
 		ProjectComponent,
-		AddProjectComponent,
+		AddDistributionComponent,
 		SettingsComponent,
 		IconSvgComponent,
 		BoxDashboardComponent,
@@ -137,7 +137,7 @@ import { DistributionsComponent } from '../modules/projects/distributions/distri
 		BeneficiariesComponent,
 		BeneficiariesImportComponent,
 		ProjectComponent,
-		AddProjectComponent,
+		AddDistributionComponent,
 		SettingsComponent,
 		IconSvgComponent,
 		BoxDashboardComponent,

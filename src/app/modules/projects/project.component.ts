@@ -29,6 +29,7 @@ export class ProjectComponent implements OnInit {
   distributionData: MatTableDataSource<any>;
   distributionClass = DistributionData;
   projectClass = Project;
+  loading : boolean;
 
   selectedTitle = "";
   selectedProject = null;
@@ -54,6 +55,7 @@ export class ProjectComponent implements OnInit {
   ngOnInit() {
     this.getProjects();
     this.checkSize();
+    this.loading = true;
   }
 
   @HostListener('window:resize', ['$event'])
@@ -112,11 +114,12 @@ export class ProjectComponent implements OnInit {
       let distribution = DistributionData.formatArray(response.json());
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + "S"], distribution);
       this.distributionData = new MatTableDataSource(distribution);
+      this.loading = false;
     })
   }
 
   addDistribution(){
-    this.router.navigate(["project/add-project"], {queryParams: {project: this.selectedProject.id}});
+    this.router.navigate(["project/add-distribution"], {queryParams: {project: this.selectedProject.id}});
   }
 
   /**

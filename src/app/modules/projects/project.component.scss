@@ -58,6 +58,13 @@ button{
     border-top: solid 12px $bms_green;
 }
 
+.waitingDataContainer {
+    width:100%;
+    text-align: center;
+    margin-left: 45%;
+    font-size: 20px;
+  }
+
 //for mobile screen
 @media only screen and (max-width: 750px){
     .content-button{

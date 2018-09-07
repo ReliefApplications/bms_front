@@ -20,6 +20,7 @@ export class BeneficiariesComponent implements OnInit {
   public referedClassService;
   referedClassToken = Households;
   households : MatTableDataSource<Households>;
+  loading : boolean;
 
   constructor(
     private cacheService: CacheService,
@@ -40,6 +41,7 @@ export class BeneficiariesComponent implements OnInit {
   ngOnInit() {
     this.checkSize();
     this.checkHouseholds();
+    this.loading = true;
   }
 
   /**
@@ -60,6 +62,7 @@ export class BeneficiariesComponent implements OnInit {
       response = this.referedClassToken.formatArray(response.json());
       this.households = new MatTableDataSource(response);
       this.cacheService.set('HOUSEHOLDS', response);
+      this.loading = false;
     })
   }
 

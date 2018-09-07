@@ -21,8 +21,11 @@
         </div>
       </div>
       <div class="content-table">
-        <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
-        <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile" [entity]="distributionClass" [service]="distributionService"
+        <div class="waitingDataContainer" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+        <app-table-distribution *ngIf="widthScreen > maxWidthMobile && !loading" [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
+        <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile && !loading" [entity]="distributionClass" [service]="distributionService"
           [data]="distributionData"></app-table-mobile-distribution>
       </div>
     </div>

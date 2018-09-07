@@ -1,13 +1,13 @@
 <!-- TABLE -->
 <div class="table-container">
-  <div class="noDataContainer" *ngIf="!filled">
+  <div *ngIf="filled==false" class="noDataContainer">
       <h3>
           <mat-icon>clear</mat-icon>
           No data available
       </h3>
   </div>
 
-  <div class="container-header" *ngIf="filled">
+  <div class="container-header" *ngIf="filled==true">
     <mat-form-field>
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
     </mat-form-field>

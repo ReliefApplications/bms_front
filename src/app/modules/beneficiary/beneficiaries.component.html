@@ -23,8 +23,11 @@
         </div>
       </div>
       <div class="content-table">
-        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="households"></app-table-search>
-        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
+        <div class="waitingDataContainer" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+        <app-table-search *ngIf="widthScreen > maxWidthMobile && !loading" [entity]="referedClassToken" [service]="referedClassService" [data]="households"></app-table-search>
+        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loading" [entity]="referedClassToken" [service]="referedClassService"
           [data]="households"></app-table-mobile-search>
       </div>
     </div>

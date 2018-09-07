@@ -37,7 +37,7 @@ export class TableComponent implements OnChanges {
   propertiesTypes: any;
   propertiesActions: any;
   entityInstance = null;
-  filled : boolean;
+  filled : boolean = true;
   public user_action: string = '';
 
   constructor(
@@ -48,17 +48,7 @@ export class TableComponent implements OnChanges {
 
   ngOnChanges() {
     this.checkData();
-    console.log("", this.data);
-
-    if(this.data)
-    {
-      if(this.data=={} || !this.data.data) {
-        this.filled = false;
-      }
-      else {
-        this.filled = true;
-      }
-    }
+    //this.checkTable();
   }
 
   ngDoCheck() {
@@ -73,6 +63,16 @@ export class TableComponent implements OnChanges {
       this.setDataTableProperties();
       this.mapperService.setMapperObject(this.entity);
     }
+  }
+
+  checkTable() {
+      if(this.data.data && this.data.data.length>0)
+      {
+        this.filled = true;
+      }
+      else {
+        this.filled = false;
+      }
   }
 
   updateData() {

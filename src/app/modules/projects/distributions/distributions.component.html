@@ -6,7 +6,7 @@
 
   <mat-horizontal-stepper>
 
-    <mat-step label="1.{{ TEXT.distribution_details_export | uppercase }}" [stepControl]="form1">
+    <mat-step label="{{ TEXT.distribution_details_export | uppercase }}" [stepControl]="form1">
       <form [formGroup]="form1">
 
         <div class="container-table">
@@ -26,9 +26,9 @@
               <div class="waitingDataContainer" *ngIf="loading">
                 <mat-spinner></mat-spinner>
               </div>
-              <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryDatad">
+              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loading" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
               </app-table-search>
-              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
+              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loading" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
               </app-table-mobile-search>
             </div>
             <div class="next-container">
@@ -40,7 +40,7 @@
       </form>
     </mat-step>
 
-    <mat-step label="2.{{ TEXT.distribution_details_import | uppercase }}" [stepControl]="form2">
+    <mat-step label="{{ TEXT.distribution_details_import | uppercase }}" [stepControl]="form2">
       <form [formGroup]="form2">
       
         <div class="container-table">
@@ -79,7 +79,7 @@
       </form>
     </mat-step>
 
-    <mat-step label="3.{{ TEXT.distribution_details_random | uppercase }}" [stepControl]="form3">
+    <mat-step label="{{ TEXT.distribution_details_random | uppercase }}" [stepControl]="form3">
       <form [formGroup]="form3">
         
         <div class="container-table">
@@ -116,7 +116,7 @@
       </form>
     </mat-step>
 
-    <mat-step label="4.{{ TEXT.distribution_details_validate | uppercase }}" [stepControl]="form4">
+    <mat-step label="{{ TEXT.distribution_details_validate | uppercase }}" [stepControl]="form4">
       <form [formGroup]="form4">
         
         <div class="container-table">

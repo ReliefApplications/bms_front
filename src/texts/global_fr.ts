@@ -126,7 +126,7 @@ export const TEXT = {
     distribution_export : "export",
 
     add_project_title : "nouveau projet",
-    add_project_new_distribution : "nouveau projet",
+    add_project_new_distribution : "nouvelle distribution",
     add_distribution_selection_criteria : "critères de sélection",
     add_distribution_distributed_commodity : "ressource distribuée",
     add_distribution_beneficiaries_reached: "Bénéficaires atteints",

@@ -73,7 +73,7 @@ export class HouseholdsService {
      * Export household data in CSV
      */
     public export () {
-        let url = this.api + "/export?beneficiaries=X";
+        let url = this.api + "/export?beneficiaries=true";
         return this.http.get(url);
     }
 

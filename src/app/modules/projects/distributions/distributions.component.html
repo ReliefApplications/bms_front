@@ -26,7 +26,7 @@
               <div class="waitingDataContainer" *ngIf="loading1">
                 <mat-spinner></mat-spinner>
               </div>
-              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loading" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
+              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loading1" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
               </app-table-search>
               <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loading1" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
               </app-table-mobile-search>

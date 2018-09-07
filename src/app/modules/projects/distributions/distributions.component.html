@@ -28,7 +28,7 @@
               </div>
               <app-table-search *ngIf="widthScreen > maxWidthMobile && !loading" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
               </app-table-search>
-              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loading" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
+              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loading1" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
               </app-table-mobile-search>
             </div>
             <div class="next-container">

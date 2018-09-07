@@ -1,7 +1,7 @@
 <div class="page-container">
   <div class="title" *ngIf="distribution">
     <h2> {{TEXT.model_distribution | uppercase}} </h2>
-    <p>{{distribution.name | uppercase}}</p>
+    <p>{{distribution.name | uppercase}} {{TEXT.model_beneficiaries}}</p>
   </div>
 
   <mat-horizontal-stepper>
@@ -23,7 +23,7 @@
               </div>
             </div>
             <div class="content-table">
-              <div class="waitingDataContainer" *ngIf="loading">
+              <div class="waitingDataContainer" *ngIf="loading1">
                 <mat-spinner></mat-spinner>
               </div>
               <app-table-search *ngIf="widthScreen > maxWidthMobile && !loading" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
@@ -45,20 +45,10 @@
       
         <div class="container-table">
           <div class="container-content">
-            <div class="content-button">
-              <button mat-icon-button class="add-button" (click)="test()">
-                <mat-icon>add</mat-icon>
-              </button>
-              <div class="import-export">
-                <a routerLink="/distributions/beneficiary-import">
-                  <button mat-raised-button class="import-button">
-                    <mat-icon>publish</mat-icon>
-                    <span>{{TEXT.beneficiaries_import | uppercase}}</span>
-                  </button>
-                </a>
-              </div>
+            <div class="import-content">
+                <app-import-distribution></app-import-distribution>
             </div>
-            <div class ="container-empty" *ngIf="!importedData">
+            <div class ="container-empty" *ngIf="false">
               <p>
                 <mat-icon>folder</mat-icon>
                 You need to import your file to compare and update the beneficiaries data.
@@ -85,8 +75,8 @@
         <div class="container-table">
           <div class="container-content">
             <div class="content-button">
-              <button mat-icon-button class="add-button" (click)="test()">
-                <mat-icon>add</mat-icon>
+              <button mat-icon-button class="random-button" (click)="generateRandom()">
+                <mat-icon>autorenew</mat-icon>
               </button>
               <div class="import-export">
                 <button mat-raised-button class="export-button" (click)="test()">
@@ -101,8 +91,11 @@
                 Random sample can't be generated...
               </p>
             </div>
+            <div class="waitingDataContainer" *ngIf="loading3">
+              <mat-spinner></mat-spinner>
+            </div>
             <div class="content-table" *ngIf="randomSampleData">
-              <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="randomSampleData">
+              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loading3" [entity]="beneficiaryEntity" [service]="distributionService" [data]="randomSampleData">
               </app-table-search>
               <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="randomSampleData">
               </app-table-mobile-search>

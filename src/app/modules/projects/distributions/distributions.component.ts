@@ -8,6 +8,7 @@ import { DistributionData } from '../../../model/distribution-data';
 import { CacheService } from '../../../core/storage/cache.service';
 import { Beneficiaries } from '../../../model/beneficiary';
 import { MatTableDataSource } from '@angular/material';
+import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 
 @Component({
   selector: 'app-distributions',
@@ -24,7 +25,8 @@ export class DistributionsComponent implements OnInit {
   importedData : any;
   randomSampleData : any;
   finalData : any;
-  loading : boolean;
+  loading1 : boolean;
+  loading3 : boolean;
 
   public maxHeight =  GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -41,6 +43,7 @@ export class DistributionsComponent implements OnInit {
     public cacheService : CacheService,
     private formBuilder : FormBuilder,
     private route: ActivatedRoute,
+    private beneficiariesService : BeneficiariesService,
   ) { 
     this.route.params.subscribe( params => this.distributionId = params.id);
   }
@@ -60,7 +63,6 @@ export class DistributionsComponent implements OnInit {
     this.form4 = this.formBuilder.group({
       //fourth : new FormControl()
     });
-    this.loading = true;
     this.getSelectedDistribution();
     this.getBeneficiaries();
   }
@@ -92,17 +94,32 @@ export class DistributionsComponent implements OnInit {
   }
 
   getBeneficiaries() {
+    this.loading1 = true;
     this.distributionService.getBeneficiaries(this.distributionId)
     .subscribe(
       response => {
         let data = response.json();
+        console.log("All: ",data);
         this.beneficiaryData = new MatTableDataSource( Beneficiaries.formatArray(data) );
-        this.loading = false;
+        this.loading1 = false;
       },
       error => {
         // console.log("Error: ", error);
       }
     );
+  }
+
+  generateRandom() {
+    this.loading3 = true;
+    this.beneficiariesService.getRandom(this.distributionId)
+      .subscribe(
+        response => { 
+          let data = response.json();
+          console.log("random: ",data);
+          this.randomSampleData = new MatTableDataSource( Beneficiaries.formatArray(data) );
+        }
+      )
+    this.loading3 = false;
   }
 
   test() {

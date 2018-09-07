@@ -1,0 +1,135 @@
+@import '../../../../../assets/css/variable.scss'; 
+.container-table {
+    display: flex;
+    flex-direction: column;
+
+    .content-head {
+        text-align: right;
+        margin: 10px;
+        padding-bottom: 10px;
+    }
+    
+    .content-table {
+        width: 100%;
+        padding: 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .content-button-footer{
+        justify-content: left !important;
+        padding: 0px;
+        margin-left: 10px;
+    }
+    
+    .upload-zone {
+        width: 100%;
+    }
+    
+    .content-drag-and-drop {
+        display: flex;
+        width: 100%;
+    }
+    
+    .card-drag-and-drop {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .img-folder {
+        height: 11vh;
+        padding: 5%;
+    }
+    
+    .upload-button{
+        height: 40px;
+        margin-bottom: 2vh;
+        
+    }
+    span{
+        font-family: $bms_font_text;
+        padding-left:20px;
+    }
+    
+    app-box-setting {
+        justify-content: end;
+        display: flex;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        flex-grow: 1;
+        height : 80px;
+        min-width: 150px;
+        &.isLast{
+          margin-right: 0px !important;
+        }
+    }
+    
+    .box-green{
+        border-top: solid 12px $bms_green;
+    }
+    
+    .box-red{
+        border-top: solid 12px $bms_red;
+    }
+    
+    .button-add-file {
+        background-color: white;
+    }
+    
+    .mat-spinner {
+        margin-bottom: 2vh;
+    }
+    
+}
+
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+
+    .mat-form-field {
+        width: 100%;
+    }
+
+    .select-file {
+        font-size: 1.2em;
+        text-align: center;
+    }
+
+    .template {
+        font-size: 1.2em;
+        text-align: center;
+    }
+
+    .list-file {
+        font-size: 3vw;
+    }
+
+    .content-button {
+        flex-direction: column;
+    }
+
+    .template {
+        margin-bottom: 3vh;
+    }
+
+    .text {
+        font-size: 2.5 vh;
+    }
+
+    .mat-raised-button{
+        font-size: 2vh;
+    }
+
+    .mat-button {
+        font-size: 12px !important;
+    }
+
+    .mat-list {
+        display: flex !important;
+        justify-content: center;
+    }
+}

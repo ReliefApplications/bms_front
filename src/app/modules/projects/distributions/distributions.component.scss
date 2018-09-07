@@ -66,10 +66,15 @@ button{
     }
 }
 
-.import-export {
-    margin-right: 10px;
-    justify-content: space-between;
+.generator {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.import-content {
+    margin: 15px;
+    width: 100%;
 }
 
 .next-container {

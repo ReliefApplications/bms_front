@@ -58,7 +58,12 @@
                             </div>
                             <div class="content-select">
                                 <mat-form-field>
-                                    <input matInput placeholder={{household.add_beneficiary_getOccupation}} #Livelihood>
+                                  <input type="text" placeholder={{household.add_beneficiary_getOccupation}} matInput [formControl]="livelihoods" [matAutocomplete]="auto" #Livelihood>
+                                  <mat-autocomplete #auto="matAutocomplete">
+                                      <mat-option *ngFor="let option of filteredLivelihoodList | async" [value]="option">
+                                          {{option}}
+                                      </mat-option>
+                                  </mat-autocomplete>
                                 </mat-form-field>
 
                                 <mat-form-field *ngFor="let countrySpecific of countrySpecifics, i as index">

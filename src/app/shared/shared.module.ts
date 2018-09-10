@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material';
 import { MatMenuModule } from '@angular/material/menu';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
@@ -86,6 +87,7 @@ import { ImportDistributionComponent } from '../modules/projects/distributions/i
 		MatProgressSpinnerModule,
 		MatSidenavModule,
 		MatToolbarModule,
+    MatAutocompleteModule,
 		ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
 	],
 	declarations: [
@@ -191,6 +193,7 @@ import { ImportDistributionComponent } from '../modules/projects/distributions/i
 		AddBeneficiaryComponent,
 		MatSidenavModule,
 		MatToolbarModule,
+    MatAutocompleteModule,
 		MatMenuModule
 
 	],

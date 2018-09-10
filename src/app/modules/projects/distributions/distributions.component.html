@@ -12,9 +12,10 @@
         <div class="container-table">
           <div class="container-content">
             <div class="content-button">
-              <button mat-icon-button class="add-button" (click)="test()">
+              <button mat-icon-button class="add-button" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)">
                 <mat-icon>add</mat-icon>
               </button>
+              <app-box-properties class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
               <div class="import-export">
                 <button mat-raised-button class="export-button" (click)="export()">
                   <mat-icon>get_app</mat-icon >
@@ -32,7 +33,7 @@
               </app-table-mobile-search>
             </div>
             <div class="next-container">
-              <button class="next" mat-button matStepperNext>Next</button>
+              <button class="next" mat-button matStepperNext (click)="updateSteps()">Next</button>
             </div>
           </div>
         </div>
@@ -45,6 +46,7 @@
       
         <div class="container-table">
           <div class="container-content">
+            <app-box-properties class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
             <div class="import-content">
                 <app-import-distribution></app-import-distribution>
             </div>
@@ -61,7 +63,7 @@
               </app-table-mobile-search>
             </div>
             <div class="next-container">
-              <button class="next" mat-button matStepperNext (click)="generateRandom()">Next</button>
+              <button class="next" mat-button matStepperNext (click)="updateSteps()">Next</button>
             </div>
           </div>
         </div>
@@ -69,15 +71,16 @@
       </form>
     </mat-step>
 
-    <mat-step label="{{ TEXT.distribution_details_random | uppercase }}" [stepControl]="form3" (click)="generateRandom()">
+    <mat-step label="{{ TEXT.distribution_details_random | uppercase }}" [stepControl]="form3">
       <form [formGroup]="form3">
         
         <div class="container-table">
           <div class="container-content">
             <div class="content-button">
               <button mat-icon-button class="random-button" (click)="generateRandom()">
-                <mat-icon>autorenew</mat-icon>
+                <mat-icon>shuffle</mat-icon>
               </button>
+              <app-box-properties class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
               <div class="import-export">
                 <button mat-raised-button class="export-button" (click)="test()">
                   <mat-icon>get_app</mat-icon >
@@ -101,7 +104,7 @@
               </app-table-mobile-search>
             </div>
             <div class="next-container">
-              <button class="next" mat-button matStepperNext>Next</button>
+              <button class="next" mat-button matStepperNext (click)="updateSteps()">Next</button>
             </div>
           </div>
         </div>
@@ -115,24 +118,22 @@
         <div class="container-table">
           <div class="container-content">
             <div class="content-button">
-              <button mat-icon-button class="add-button" (click)="test()">
-                <mat-icon>add</mat-icon>
-              </button>
+              <app-box-properties class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
             </div>
-            <div class ="container-empty" *ngIf="!finalData">
+            <div class ="container-empty" *ngIf="!beneficiaryData">
               <p>
                 <mat-icon>keyboard_backspace</mat-icon>
                 Please complete the previous steps before validating
               </p>
             </div>
-            <div class="content-table" *ngIf="finalData">
-              <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="finalData">
+            <div class="content-table" *ngIf="beneficiaryData">
+              <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
               </app-table-search>
               <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="finalData">
               </app-table-mobile-search>
             </div>
             <div class="transaction">
-                <button mat-button>Transaction</button>
+                <button mat-button (click)="openDialog(validation)">Validate</button>
             </div>
           </div>
         </div>
@@ -143,3 +144,43 @@
   </mat-horizontal-stepper>
 
 </div>
+
+<ng-template #validation>
+  <div class="validate">
+    <div class="modal-header">
+      <h2>Confirm the transaction</h2>
+    </div>
+    <div class="modal-body">
+      <p> Please enter your email to confirm that you want to validate the transaction of this distribution. </p>
+      <mat-form-field>
+          <input matInput placeholder="Email" [(ngModel)]="this.enteredEmail">
+      </mat-form-field>
+    </div>
+    <div class="modal-footer action">
+        <button mat-button class="cancel" (click)="exitValidation()">Cancel</button>
+        <button mat-button class="confirm" (click)="confirmValidation()">Confirm</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #addBeneficiary>
+  <div class="adding">
+    <div class="modal-header">
+      <h2>Add beneficiaries to this distribution</h2>
+    </div>
+    <div class="modal-body">
+      <p> Please select the beneficiaries from the project <strong> {{actualDistribution.project.name}} </strong> that you want to add to the <strong> {{actualDistribution.name}} </strong> distribution.</p>
+      <div class="selectBeneficiaries">
+        <mat-form-field>
+          <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" multiple ([ngModel])="selectBeneficiaries">
+            <mat-option class="options" *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">{{beneficiary.given_name}} {{beneficiary.family_name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button mat-button class="cancel" (click)="exitAdding()">Cancel</button>
+      <button mat-button class="confirm" (click)="confirmAdding()">Confirm</button>
+    </div>
+  </div>
+</ng-template>

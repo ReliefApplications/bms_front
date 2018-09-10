@@ -40,6 +40,11 @@ app-table-mobile{
     font-size: 18px;
 }
 
+.properties-displayed{
+    display: flex;
+    flex-grow: 1;
+}
+
 button{
     color: $bms_white;
     background-color: $bms_red;
@@ -55,7 +60,7 @@ button{
         height: 40px;
     }
 
-    &.add-button{
+    &.add-button, &.random-button, &.refresh-button {
         width: 50px;
         height: 50px;
     }
@@ -88,12 +93,14 @@ button{
 }
 .transaction {
     width : 100%;
-    text-align: center;
-    padding: 5px;
-    margin-bottom: 10px;
+    text-align: right;
 
     button {
         background-color: $bms_red;
+        font-weight: bold;
+        width: 75px;
+        height: 45px;
+        margin: 20px;
     }
 }
 .content-table {
@@ -108,6 +115,35 @@ button{
         font-size: 20px;
       }
 }
+
+.validate, .adding {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    mat-form-field {
+        width: 100%;
+    }
+    .action {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        width: 100%;
+        margin: 10px;
+
+        .cancel {
+            background-color: $bms_white;
+            color: $bms_red;
+            margin-right: 5px;
+        }
+        .confirm {
+            background-color: $bms_red;
+            color: $bms_white;
+        }
+    }
+}
+
 
 //for mobile screen
 @media only screen and (max-width: 750px){

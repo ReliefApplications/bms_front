@@ -19,7 +19,8 @@
     <div class="container-distribution">
         <h1 class="distribution-title">{{dashboard.dashboard_recent_distributions | uppercase}}</h1>
         <div class="distribution-content">
-            <app-table *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="distributionService" [data]="distributions"></app-table>
+            <mat-spinner *ngIf="loadingTable"></mat-spinner>
+            <app-table *ngIf="widthScreen > maxWidthMobile && !loadingTable" [entity]="referedClassToken" [service]="distributionService" [data]="distributions"></app-table>
             <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="distributionService" [data]="distributions"></app-table-mobile>
         </div>
     </div>

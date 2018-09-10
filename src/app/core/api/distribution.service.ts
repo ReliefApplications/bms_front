@@ -9,6 +9,7 @@ import { DistributionData                           } from '../../model/distribu
 import { Project                                    } from '../../model/project';
 import { Location                                   } from '../../model/location';
 import { Sector                                     } from '../../model/sector';
+import { Beneficiaries } from '../../model/beneficiary';
 
 @Injectable({
 	providedIn: 'root'
@@ -33,7 +34,6 @@ export class DistributionService{
 
     public update(id: number, distribution: DistributionData) {
         let url = this.api + "/distributions/" + id;
-        console.log("entering distribution service", distribution);
         return this.http.post(url, distribution);
     }
 

@@ -193,6 +193,21 @@ export class DistributionData {
             type: selfinstance.type
         }
     }
+    
+    /**
+     * return a Project after formatting its properties for the property box
+     */
+    getMapperBox(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            date_distribution: selfinstance.date_distribution,
+            location_name: selfinstance.location_name,
+            number_beneficiaries: selfinstance.number_beneficiaries,
+            type: selfinstance.type,
+        }
+    }
 
     /**
     * return the type of DistributionData properties

@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit {
   users: any;
   referedClassToken = DistributionData;
   distributions: MatTableDataSource<DistributionData>;
+  loadingTable = true;
   public maxWidthMobile = 750;
   public heightScreen;
   public widthScreen;
@@ -79,6 +80,7 @@ export class DashboardComponent implements OnInit {
       console.log(response.json());
       this.distributions = new MatTableDataSource(this.referedClassToken.formatArray(response.json()));
       this.cacheService.set(CacheService.DISTRIBUTIONS, response);
+      this.loadingTable = false;
     })
   }
 

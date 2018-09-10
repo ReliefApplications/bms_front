@@ -116,15 +116,20 @@ export class ImportDistributionComponent implements OnInit {
   }
 
   getRightData() {
+    
+    let rightData;
+
     switch(this.compareAction){
-      case 'add': return(this.addingData);
+      case 'add': rightData = this.addingData;
         break;
-      case 'remove': return(this.removingData);
+      case 'remove': rightData = this.removingData;
         break;
-      case 'error': return(this.errorsData);
+      case 'error': rightData = this.errorsData;
         break;
       default: break;
     }
+
+    return(rightData);
   }
 
 

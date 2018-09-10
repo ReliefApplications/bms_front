@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
 
+    //import
     .content-head {
         text-align: right;
         margin: 10px;
@@ -83,7 +84,43 @@
     .mat-spinner {
         margin-bottom: 2vh;
     }
+
     
+    //compare
+    .buttonTitles{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        button{
+            margin-left: 1px;
+        }
+
+        .add {
+            border-bottom-left-radius: 5px;
+            border-top-left-radius: 5px;
+        }
+        .error {
+            border-bottom-right-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .selected {
+            background-color: $bms_green;
+            color: white;
+            font-weight: bold;
+        }
+    }
+    
+    .footer-content
+    {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        .back {
+            background-color: $bms_red;
+        }
+    }
 }
 
 

@@ -1,4 +1,4 @@
-<div class="container-table" *ngIf="state=='import'">
+<div class="container-table" *ngIf="!comparing">
       
       <div class="content-head">
           <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()">{{TEXT.beneficiaries_import_csv | uppercase }}</button>
@@ -36,14 +36,22 @@
         </div>
 </div>
 
-<div class="container-table" *ngIf="state=='compare'">
+<div class="container-table" *ngIf="comparing">
 
     <div class="tableTitles">
         <div class="buttonTitles">
-            <button class="add"></button>
-            <button class="remove"></button>
-            <button class="error"></button>
+            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'add'}" class="add" (click)="selectComparingAction('add')">To be added</button>
+            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'remove'}" class="remove" (click)="selectComparingAction('remove')">To be removed</button>
+            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'error'}" class="error" (click)="selectComparingAction('error')">Errors</button>
         </div>
+    </div>
+
+    <div class="table-content">
+
+    </div>
+
+    <div class="footer-content">
+        <button mat-raised-button class="back" (click)="goBack()">Back</button>
     </div>
 
 </div>

@@ -20,7 +20,8 @@ export class ImportDistributionComponent implements OnInit {
   //upload
   response = "";
   public csv = null;
-  state : string;
+  comparing : boolean;
+  compareAction : string;
   distribution : DistributionData;
 
   referedClassToken = DistributionData;
@@ -34,7 +35,8 @@ export class ImportDistributionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.state = "import";
+    this.comparing = false;
+    this.compareAction = "add";
   }
 
     /**
@@ -91,7 +93,18 @@ export class ImportDistributionComponent implements OnInit {
    * Upload csv and import the new distribution (list of beneficiaries)
    */
   updateDistribution() {
-    this.state = 'compare';
+    this.comparing = true;
+  }
+
+  selectComparingAction(action : string) {
+    
+    if(action === "add" || action === "remove" || action === "error"){
+      this.compareAction = action;
+    }
+  }
+
+  goBack() {
+    this.comparing = false;
   }
 
 

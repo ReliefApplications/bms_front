@@ -29,8 +29,8 @@ export class DistributionsComponent implements OnInit {
   randomSampleData : MatTableDataSource<any>;
   finalData : MatTableDataSource<any>;
 
-  loading1 : boolean;
-  loading3 : boolean;
+  loadingFirstStep : boolean;
+  loadingThirdStep : boolean;
 
   public maxHeight =  GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;

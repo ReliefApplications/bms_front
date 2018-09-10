@@ -100,14 +100,14 @@ export class DistributionsComponent implements OnInit {
   }
 
   getBeneficiaries() {
-    this.loading1 = true;
+    this.loadingFirstStep = true;
     this.distributionService.getBeneficiaries(this.distributionId)
     .subscribe(
       response => {
         let data = response.json();
         //console.log("All: ",data);
         this.beneficiaryData = new MatTableDataSource( Beneficiaries.formatArray(data) );
-        this.loading1 = false;
+        this.loadingFirstStep = false;
       },
       error => {
         // console.log("Error: ", error);
@@ -116,7 +116,7 @@ export class DistributionsComponent implements OnInit {
   }
 
   generateRandom() {
-    this.loading3 = true;
+    this.loadingThirdStep = true;
     this.beneficiariesService.getRandom(this.distributionId)
       .subscribe(
         response => { 
@@ -125,7 +125,7 @@ export class DistributionsComponent implements OnInit {
           this.randomSampleData = new MatTableDataSource( Beneficiaries.formatArray(data) );
         }
       )
-    this.loading3 = false;
+    this.loadingThirdStep = false;
   }
 
   test() {

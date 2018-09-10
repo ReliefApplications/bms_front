@@ -1,11 +1,13 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { HouseholdsService } from '../../../../core/api/households.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatTableDataSource } from '@angular/material';
 import { saveAs } from 'file-saver/FileSaver';
 import { ImportService } from '../../../../core/utils/import.service';
 import { FormControl } from '@angular/forms';
 import { DistributionData } from '../../../../model/distribution-data';
 import { GlobalText } from '../../../../../texts/global';
+import { DistributionService } from '../../../../core/api/distribution.service';
+import { Beneficiaries } from '../../../../model/beneficiary';
 
 @Component({
   selector: 'app-import-distribution',
@@ -25,13 +27,19 @@ export class ImportDistributionComponent implements OnInit {
   distribution : DistributionData;
 
   referedClassToken = DistributionData;
+  beneficiaryEntity = Beneficiaries;
   public referedClassService;
   public load: boolean = false;
+
+  addingData : MatTableDataSource<any>;
+  removingData : MatTableDataSource<any>;
+  errorsData : MatTableDataSource<any>;
 
   constructor(
     public _householdsService: HouseholdsService,
     public snackBar: MatSnackBar,
     public _importService: ImportService,
+    public distributionService: DistributionService,
   ) { }
 
   ngOnInit() {
@@ -105,6 +113,18 @@ export class ImportDistributionComponent implements OnInit {
 
   goBack() {
     this.comparing = false;
+  }
+
+  getRightData() {
+    switch(this.compareAction){
+      case 'add': return(this.addingData);
+        break;
+      case 'remove': return(this.removingData);
+        break;
+      case 'error': return(this.errorsData);
+        break;
+      default: break;
+    }
   }
 
 

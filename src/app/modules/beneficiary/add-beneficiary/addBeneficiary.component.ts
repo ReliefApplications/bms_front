@@ -1,6 +1,8 @@
 import { Component, OnInit, HostListener, ViewChild, ViewChildren, asNativeElements, QueryList } from '@angular/core';
 import { GlobalText } from '../../../../texts/global';
 import { FormControl, Validators, FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { Observable } from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 import { ProjectService } from '../../../core/api/project.service';
 import { Project } from '../../../model/project';
 import { Location } from '../../../model/location';
@@ -14,6 +16,7 @@ import { Router } from '@angular/router';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { AddHouseholds, AddBeneficiaries, Phones, NationalID } from '../../../model/add-household';
 import { Profile } from 'selenium-webdriver/firefox';
+import { LIVELIHOOD } from '../../../model/livelihood';
 
 @Component({
   selector: 'add-beneficiary',
@@ -87,6 +90,11 @@ export class AddBeneficiaryComponent implements OnInit {
   public id_head: number = 0;
   public id_beneficiary: number = 0;
 
+  //List of livelihoods
+  public livelihoodList = LIVELIHOOD;
+  public filteredLivelihoodList: Observable<any[]>;
+  public livelihoods = new FormControl();
+
   constructor(
     public _projectService: ProjectService,
     public _locationService: LocationService,
@@ -104,6 +112,19 @@ export class AddBeneficiaryComponent implements OnInit {
     this.getVulnerabilityCriteria();
     this.getCountrySpecifics();
     this.instantiateFormHead();
+
+    this.filteredLivelihoodList = this.livelihoods.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterLivelihoods(value))
+    );
+  }
+
+  /**
+   * Filter the list of livelihoods according to waht the user types
+   */
+  filterLivelihoods(value: string) {
+    let filterValue = value.toLowerCase();
+    return this.livelihoodList.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   /**
@@ -193,7 +214,7 @@ export class AddBeneficiaryComponent implements OnInit {
 
   /**
    * to delete beneficiary
-   * @param index 
+   * @param index
    */
   deleteBeneficiary(index) {
     this.beneficiary.removeAt(index);
@@ -328,8 +349,8 @@ export class AddBeneficiaryComponent implements OnInit {
    * sitch in the type give in paramater
    * this function is called by the selector when the value change
    * allow to get the new value
-   * @param event 
-   * @param type 
+   * @param event
+   * @param type
    */
   selected(event, type: string) {
     switch (type) {
@@ -360,7 +381,7 @@ export class AddBeneficiaryComponent implements OnInit {
 
   /**
    * get the id of country specific when formating data
-   * @param name 
+   * @param name
    */
   getIdCountrySpecific(name: string) {
     let idCountrySpecific;
@@ -368,7 +389,7 @@ export class AddBeneficiaryComponent implements OnInit {
       if (element.field === name)
         idCountrySpecific = element.id;
     })
-    
+
     return idCountrySpecific;
   }
 
@@ -377,7 +398,7 @@ export class AddBeneficiaryComponent implements OnInit {
    * if a vulnerability checkbox is check the value of if is add in the array
    * if a vulnerability is uncheck, the value is delete of the array
    * An unique index is created to find which beneficiaries is associate with which array
-   * @param vulnerablity 
+   * @param vulnerablity
    */
   choiceVulnerabilities(vulnerablity: VulnerabilityCriteria, index, type) {
     let vulnerabilitiesByBeneficiary = {};
@@ -414,12 +435,12 @@ export class AddBeneficiaryComponent implements OnInit {
 
   /**
    * Get and put in the householdToCreate Object all data in the step 1 to create the household
-   * @param addressNumber 
-   * @param addressStreet 
-   * @param addressPostcode 
-   * @param notes 
+   * @param addressNumber
+   * @param addressStreet
+   * @param addressPostcode
+   * @param notes
    */
-  addInformation(addressNumber: string, addressStreet: string, addressPostcode: string, notes: string, livelihood: string) {
+  addInformation(addressNumber: string, addressStreet: string, addressPostcode: string, notes: string, livelihood: number) {
     if (!this.addressNumber.invalid && !this.addressStreet.invalid && !this.addressPostcode.invalid && !this.province.invalid && !this.projects.invalid) {
       this.householdToCreate.notes = notes;
       this.householdToCreate.address_number = addressNumber;
@@ -429,7 +450,7 @@ export class AddBeneficiaryComponent implements OnInit {
       this.householdToCreate.location.adm2 = this.selectedDistrict;
       this.householdToCreate.location.adm3 = this.selectedCommune;
       this.householdToCreate.location.adm4 = this.selectedVillage;
-      this.householdToCreate.livelihood = Number(livelihood);
+      this.householdToCreate.livelihood = this.livelihoodList.indexOf(livelihood);
       this.answerCountrySpecific._results.forEach(result => {
         let answerCountry = new CountrySpecificAnswer;
         let idCountrySpecific = new CountrySpecific;
@@ -448,7 +469,7 @@ export class AddBeneficiaryComponent implements OnInit {
   }
 
   /**
-   * function call when the user click in next button in step 2 or 3 
+   * function call when the user click in next button in step 2 or 3
    * the type is head or beneficiary : head for the step 2, beneficiary for the step 3
    * @param type
    */
@@ -481,10 +502,10 @@ export class AddBeneficiaryComponent implements OnInit {
 
   /**
    * to add beneficiaries is object householdToCreate
-   * check if the beneficiaries exists, if it exists, it is update directly 
+   * check if the beneficiaries exists, if it exists, it is update directly
    * if not, it is create
-   * @param inputBeneficiaries 
-   * @param type 
+   * @param inputBeneficiaries
+   * @param type
    */
   addBeneficiaries(inputBeneficiaries, type: string) {
     inputBeneficiaries.forEach(inputBeneficiary => {
@@ -523,9 +544,9 @@ export class AddBeneficiaryComponent implements OnInit {
 
   /**
    * use to format beneficiaries in the good format
-   * @param inputBeneficiary 
-   * @param type 
-   * @param newBeneficiary 
+   * @param inputBeneficiary
+   * @param type
+   * @param newBeneficiary
    */
   formatBeneficiaries(inputBeneficiary, type, newBeneficiary) {
     newBeneficiary.id = inputBeneficiary.id;

@@ -14,6 +14,7 @@ import { ReportsComponent 																} from './modules/reports/reports.comp
 import { ProfileComponent																} from './modules/profile/profile.component';
 import { AddBeneficiaryComponent 														} from './modules/beneficiary/add-beneficiary/addBeneficiary.component';
 import { DataValidationComponent 														} from './modules/beneficiary/data-validation/data-validation.component';
+import { ImportDistributionComponent } from './modules/projects/distributions/import-distribution/import-distribution.component';
 
 // Services
 import { AuthGuard 																		} from './core/guards/auth.guard';
@@ -28,8 +29,6 @@ export const routes: Routes = [
 	{ path: 'project/add-distribution', component: AddDistributionComponent },
 
 	{ path: 'distributions/:id', component: DistributionsComponent },
-
-	//{ path: 'distributions/import', component: },
 
 	{ path: 'beneficiaries', component: BeneficiariesComponent },
 

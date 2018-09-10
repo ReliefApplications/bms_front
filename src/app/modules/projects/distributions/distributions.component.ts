@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DistributionData } from '../../../model/distribution-data';
 import { CacheService } from '../../../core/storage/cache.service';
 import { Beneficiaries } from '../../../model/beneficiary';
+import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { MatTableDataSource, MatSnackBar } from '@angular/material';
 import { ExportInterface } from '../../../model/export.interface';
 import { saveAs } from 'file-saver/FileSaver';
@@ -19,14 +20,17 @@ import { saveAs } from 'file-saver/FileSaver';
 export class DistributionsComponent implements OnInit {
 
   distributionId : number;
-  distribution : DistributionData;
+  actualDistribution : DistributionData;
   TEXT = GlobalText.TEXTS;
   beneficiaryEntity = Beneficiaries;
+
   beneficiaryData : MatTableDataSource<any>;
   importedData : any;
-  randomSampleData : any;
-  finalData : any;
-  loading : boolean;
+  randomSampleData : MatTableDataSource<any>;
+  finalData : MatTableDataSource<any>;
+
+  loadingFirstStep : boolean;
+  loadingThirdStep : boolean;
 
   public maxHeight =  GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -43,6 +47,7 @@ export class DistributionsComponent implements OnInit {
     public cacheService : CacheService,
     private formBuilder : FormBuilder,
     private route: ActivatedRoute,
+    private beneficiariesService : BeneficiariesService,
     public snackBar: MatSnackBar,    
   ) { 
     this.route.params.subscribe( params => this.distributionId = params.id);
@@ -63,9 +68,9 @@ export class DistributionsComponent implements OnInit {
     this.form4 = this.formBuilder.group({
       //fourth : new FormControl()
     });
-    this.loading = true;
     this.getSelectedDistribution();
     this.getBeneficiaries();
+    this.generateRandom();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -87,7 +92,7 @@ export class DistributionsComponent implements OnInit {
       distributionsList.forEach(element => {
         if(element.id == this.distributionId)
         {
-          this.distribution = element;
+          this.actualDistribution = element;
         }
       });
     
@@ -95,17 +100,32 @@ export class DistributionsComponent implements OnInit {
   }
 
   getBeneficiaries() {
+    this.loadingFirstStep = true;
     this.distributionService.getBeneficiaries(this.distributionId)
     .subscribe(
       response => {
         let data = response.json();
+        //console.log("All: ",data);
         this.beneficiaryData = new MatTableDataSource( Beneficiaries.formatArray(data) );
-        this.loading = false;
+        this.loadingFirstStep = false;
       },
       error => {
         // console.log("Error: ", error);
       }
     );
+  }
+
+  generateRandom() {
+    this.loadingThirdStep = true;
+    this.beneficiariesService.getRandom(this.distributionId)
+      .subscribe(
+        response => { 
+          let data = response.json();
+          //console.log("random: ",data);
+          this.randomSampleData = new MatTableDataSource( Beneficiaries.formatArray(data) );
+        }
+      )
+    this.loadingThirdStep = false;
   }
 
   test() {

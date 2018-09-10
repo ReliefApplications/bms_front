@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material';
 import { MatMenuModule } from '@angular/material/menu';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
@@ -49,6 +50,7 @@ import { BeneficiariesImportComponent } from '../modules/beneficiary/beneficiari
 import { DataValidationComponent } from '../modules/beneficiary/data-validation/data-validation.component';
 import { AddBeneficiaryComponent } from '../modules/beneficiary/add-beneficiary/addBeneficiary.component';
 import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
+import { ImportDistributionComponent } from '../modules/projects/distributions/import-distribution/import-distribution.component';
 
 @NgModule({
 	imports: [
@@ -85,6 +87,7 @@ import { DistributionsComponent } from '../modules/projects/distributions/distri
 		MatProgressSpinnerModule,
 		MatSidenavModule,
 		MatToolbarModule,
+    MatAutocompleteModule,
 		ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
 	],
 	declarations: [
@@ -119,6 +122,7 @@ import { DistributionsComponent } from '../modules/projects/distributions/distri
 		DataValidationComponent,
 		AddBeneficiaryComponent,
 		DistributionsComponent,
+		ImportDistributionComponent,
 
 	],
 	entryComponents: [
@@ -189,6 +193,7 @@ import { DistributionsComponent } from '../modules/projects/distributions/distri
 		AddBeneficiaryComponent,
 		MatSidenavModule,
 		MatToolbarModule,
+    MatAutocompleteModule,
 		MatMenuModule
 
 	],

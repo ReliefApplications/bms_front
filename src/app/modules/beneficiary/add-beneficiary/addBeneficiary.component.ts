@@ -440,7 +440,7 @@ export class AddBeneficiaryComponent implements OnInit {
    * @param addressPostcode
    * @param notes
    */
-  addInformation(addressNumber: string, addressStreet: string, addressPostcode: string, notes: string, livelihood: number) {
+  addInformation(addressNumber: string, addressStreet: string, addressPostcode: string, notes: string, livelihood: string) {
     if (!this.addressNumber.invalid && !this.addressStreet.invalid && !this.addressPostcode.invalid && !this.province.invalid && !this.projects.invalid) {
       this.householdToCreate.notes = notes;
       this.householdToCreate.address_number = addressNumber;

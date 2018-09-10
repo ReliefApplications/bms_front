@@ -1,7 +1,7 @@
 <div class="page-container">
-  <div class="title" *ngIf="distribution">
+  <div class="title" *ngIf="actualDistribution">
     <h2> {{TEXT.model_distribution | uppercase}} </h2>
-    <p>{{distribution.name | uppercase}} {{TEXT.model_beneficiaries}}</p>
+    <p>{{actualDistribution.name | uppercase}} {{TEXT.model_beneficiaries}}</p>
   </div>
 
   <mat-horizontal-stepper>
@@ -61,7 +61,7 @@
               </app-table-mobile-search>
             </div>
             <div class="next-container">
-              <button class="next" mat-button matStepperNext>Next</button>
+              <button class="next" mat-button matStepperNext (click)="generateRandom()">Next</button>
             </div>
           </div>
         </div>
@@ -69,7 +69,7 @@
       </form>
     </mat-step>
 
-    <mat-step label="{{ TEXT.distribution_details_random | uppercase }}" [stepControl]="form3">
+    <mat-step label="{{ TEXT.distribution_details_random | uppercase }}" [stepControl]="form3" (click)="generateRandom()">
       <form [formGroup]="form3">
         
         <div class="container-table">

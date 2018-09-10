@@ -20,7 +20,7 @@ export class ImportDistributionComponent implements OnInit {
   //upload
   response = "";
   public csv = null;
-
+  state : string;
   distribution : DistributionData;
 
   referedClassToken = DistributionData;
@@ -34,6 +34,7 @@ export class ImportDistributionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.state = "import";
   }
 
     /**
@@ -90,7 +91,7 @@ export class ImportDistributionComponent implements OnInit {
    * Upload csv and import the new distribution (list of beneficiaries)
    */
   updateDistribution() {
-
+    this.state = 'compare';
   }
 
 

@@ -1,4 +1,4 @@
-<div class="container-table">
+<div class="container-table" *ngIf="state=='import'">
       
       <div class="content-head">
           <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()">{{TEXT.beneficiaries_import_csv | uppercase }}</button>
@@ -34,4 +34,16 @@
                 <span>{{TEXT.beneficiaries_import_upload | uppercase }}</span>
             </button>
         </div>
+</div>
+
+<div class="container-table" *ngIf="state=='compare'">
+
+    <div class="tableTitles">
+        <div class="buttonTitles">
+            <button class="add"></button>
+            <button class="remove"></button>
+            <button class="error"></button>
+        </div>
+    </div>
+
 </div>

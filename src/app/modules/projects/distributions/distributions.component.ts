@@ -20,13 +20,15 @@ import { saveAs } from 'file-saver/FileSaver';
 export class DistributionsComponent implements OnInit {
 
   distributionId : number;
-  distribution : DistributionData;
+  actualDistribution : DistributionData;
   TEXT = GlobalText.TEXTS;
   beneficiaryEntity = Beneficiaries;
+
   beneficiaryData : MatTableDataSource<any>;
   importedData : any;
-  randomSampleData : any;
-  finalData : any;
+  randomSampleData : MatTableDataSource<any>;
+  finalData : MatTableDataSource<any>;
+  
   loading1 : boolean;
   loading3 : boolean;
 
@@ -68,6 +70,7 @@ export class DistributionsComponent implements OnInit {
     });
     this.getSelectedDistribution();
     this.getBeneficiaries();
+    this.generateRandom();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -89,7 +92,7 @@ export class DistributionsComponent implements OnInit {
       distributionsList.forEach(element => {
         if(element.id == this.distributionId)
         {
-          this.distribution = element;
+          this.actualDistribution = element;
         }
       });
     

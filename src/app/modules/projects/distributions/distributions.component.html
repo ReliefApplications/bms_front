@@ -1,7 +1,11 @@
 <div class="page-container">
   <div class="title" *ngIf="actualDistribution">
     <h2> {{TEXT.model_distribution | uppercase}} </h2>
-    <p>{{actualDistribution.name | uppercase}} {{TEXT.model_beneficiaries}}</p>
+    <p>
+        {{actualDistribution.name | uppercase}} 
+        <mat-icon class="valid" *ngIf="this.actualDistribution.validated==true">check_circle</mat-icon>
+        <mat-icon class="unvalid" *ngIf="this.actualDistribution.validated==false">check_circle_outline</mat-icon>
+    </p>
   </div>
 
   <mat-horizontal-stepper>
@@ -15,7 +19,7 @@
               <button mat-icon-button class="add-button" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)">
                 <mat-icon>add</mat-icon>
               </button>
-              <app-box-properties class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
+              <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
               <div class="import-export">
                 <button mat-raised-button class="export-button" (click)="export()">
                   <mat-icon>get_app</mat-icon >
@@ -27,9 +31,9 @@
               <div class="waitingDataContainer" *ngIf="loadingFirstStep">
                 <mat-spinner></mat-spinner>
               </div>
-              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
+              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated">
               </app-table-search>
-              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
+              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated">
               </app-table-mobile-search>
             </div>
             <div class="next-container">
@@ -46,9 +50,9 @@
       
         <div class="container-table">
           <div class="container-content">
-            <app-box-properties class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
+            <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
             <div class="import-content">
-                <app-import-distribution></app-import-distribution>
+                <app-import-distribution [distribution]="this.actualDistribution"></app-import-distribution>
             </div>
             <div class ="container-empty" *ngIf="false">
               <p>
@@ -80,7 +84,7 @@
               <button mat-icon-button class="random-button" (click)="generateRandom()">
                 <mat-icon>shuffle</mat-icon>
               </button>
-              <app-box-properties class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
+              <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
               <div class="import-export">
                 <button mat-raised-button class="export-button" (click)="test()">
                   <mat-icon>get_app</mat-icon >
@@ -118,18 +122,22 @@
         <div class="container-table">
           <div class="container-content">
             <div class="content-button">
-              <app-box-properties class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
+              <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
             </div>
-            <div class ="container-empty" *ngIf="!beneficiaryData">
+            <div class ="container-empty" *ngIf="!finalBeneficiaryData && !loadingFinalStep">
               <p>
-                <mat-icon>keyboard_backspace</mat-icon>
-                Please complete the previous steps before validating
+                <mat-icon>edit</mat-icon>
+                This distribution has not been modified so far.
               </p>
+              <button mat-raised-button class="show" (click)="getDistributionBeneficiaries('final')"> Show data anyway </button>
             </div>
-            <div class="content-table" *ngIf="beneficiaryData">
-              <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="beneficiaryData">
+            <div class="waitingDataContainer" *ngIf="loadingFinalStep">
+                <mat-spinner></mat-spinner>
+            </div>
+            <div class="content-table" *ngIf="finalBeneficiaryData">
+              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="finalBeneficiaryData" [editable]="!actualDistribution.validated">
               </app-table-search>
-              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="finalData">
+              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="finalBeneficiaryData" [editable]="!actualDistribution.validated">
               </app-table-mobile-search>
             </div>
             <div class="transaction">
@@ -172,13 +180,13 @@
       <p> Please select the beneficiaries from the project <strong> {{actualDistribution.project.name}} </strong> that you want to add to the <strong> {{actualDistribution.name}} </strong> distribution.</p>
       <div class="selectBeneficiaries">
         <mat-form-field>
-          <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" multiple ([ngModel])="selectBeneficiaries">
+          <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" ([ngModel])="selectedBeneficiary">
             <mat-option class="options" *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">{{beneficiary.given_name}} {{beneficiary.family_name}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer action">
       <button mat-button class="cancel" (click)="exitAdding()">Cancel</button>
       <button mat-button class="confirm" (click)="confirmAdding()">Confirm</button>
     </div>

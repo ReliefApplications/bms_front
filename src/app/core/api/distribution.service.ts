@@ -14,41 +14,46 @@ import { Beneficiaries } from '../../model/beneficiary';
 @Injectable({
 	providedIn: 'root'
 })
-export class DistributionService{
+export class DistributionService {
     readonly api = URL_BMS_API;
 
     constructor(
-        private http : HttpService
-    ){
+        private http: HttpService
+    ) {
     }
 
     public get() {
-        let url = this.api + "/distributions";
+        const url = this.api + '/distributions';
         return this.http.get(url);
     }
 
     public getByProject(idProject) {
-        let url = this.api + "/distributions/projects/"+idProject;
+        const url = this.api + '/distributions/projects/' + idProject;
         return this.http.get(url);
     }
 
     public update(id: number, distribution: DistributionData) {
-        let url = this.api + "/distributions/" + id;
+        const url = this.api + '/distributions/' + id;
         return this.http.post(url, distribution);
     }
 
     public delete(distributionId) {
-        let url = this.api + "/distributions/archive/" + distributionId
+        const url = this.api + '/distributions/archive/' + distributionId;
         return this.http.post(url, '');
     }
 
     public add(body: any) {
-        let url = this.api + "/distributions";
+        const url = this.api + '/distributions';
         return this.http.put(url, body);
     }
 
     public getBeneficiaries(id: number) {
-        let url = this.api + "/distributions/" + id + "/beneficiaries";
+        const url = this.api + '/distributions/' + id + '/beneficiaries';
+        return this.http.get(url);
+    }
+
+    public setValidation(id: number) {
+        const url = this.api + '/distributions/' + id + '/validate';
         return this.http.get(url);
     }
 
@@ -56,13 +61,12 @@ export class DistributionService{
      * TODO: Add route to export distribution
      * Export data of distribution in CSV
      */
-    public export(option: string, id : number) {
-        if(option == "project"){
-            let url = this.api + "/export?project=" + id;
+    public export(option: string, id: number) {
+        if (option === 'project') {
+            const url = this.api + '/export?project=' + id;
             return this.http.get(url);
-        }
-        else if(option == "distribution"){
-            let url = this.api + "/export?beneficiariesInDistribution=" + id;
+        } else if (option === 'distribution') {
+            const url = this.api + '/export?beneficiariesInDistribution=' + id;
             return this.http.get(url);
         }
     }

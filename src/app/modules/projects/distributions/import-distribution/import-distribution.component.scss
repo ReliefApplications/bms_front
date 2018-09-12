@@ -47,13 +47,17 @@
     }
     
     .upload-button{
+
         height: 40px;
         margin-bottom: 2vh;
+        margin-left: 2vh;
+        background-color: $bms_red;
+        color: white;
         
     }
     span{
         font-family: $bms_font_text;
-        padding-left:20px;
+        padding-left:10px;
     }
     
     app-box-setting {
@@ -94,6 +98,7 @@
 
         button{
             margin-left: 1px;
+            font-size : 14px;
         }
 
         .add {
@@ -116,11 +121,20 @@
         width: 100%;
         display: flex;
         flex-direction: row;
-        justify-content: left;
+        justify-content: center;
         margin-top : 10px;
-        .back {
-            background-color: $bms_red;
-            color: white;
+        button {
+            font-weight: bold;
+            margin-right: 5px;
+
+            &.submit {
+                background-color: $bms_red;
+                color: white;
+            }
+            &.back {
+                background-color: white;
+                color: $bms_red;
+            }
         }
     }
 }

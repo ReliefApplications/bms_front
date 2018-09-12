@@ -17,29 +17,29 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./beneficiaries-import.component.scss']
 })
 export class BeneficiariesImportComponent implements OnInit {
-  public nameComponent = "beneficiaries_import_title";
+  public nameComponent = 'beneficiaries_import_title';
   public household = GlobalText.TEXTS;
 
-  //for the items button
-  selectedTitle = "file import";
+  // for the items button
+  selectedTitle = 'file import';
   isBoxClicked = false;
 
-  //for the selector
+  // for the selector
   projects = new FormControl();
   projectList: string[] = [];
   public selectedProject: string = null;
 
-  //upload
-  response = "";
+  // upload
+  response = '';
   public csv = null;
 
-  dragAreaClass: string = 'dragarea';
+  dragAreaClass = 'dragarea';
 
 
   referedClassToken = Project;
   public referedClassService;
   public project;
-  public load: boolean = false;
+  public load = false;
 
   constructor(
     public _householdsService: HouseholdsService,
@@ -57,7 +57,7 @@ export class BeneficiariesImportComponent implements OnInit {
  * check if the langage has changed
  */
   ngDoCheck() {
-    if (this.household != GlobalText.TEXTS) {
+    if (this.household !== GlobalText.TEXTS) {
       this.household = GlobalText.TEXTS;
     }
   }
@@ -70,7 +70,7 @@ export class BeneficiariesImportComponent implements OnInit {
     this.referedClassService.get().subscribe(response => {
       response = this.referedClassToken.formatArray(response.json());
       response.forEach(element => {
-        var concat = element.id + " - " + element.name;
+        const concat = element.id + ' - ' + element.name;
         this.projectList.push(concat);
       });
     });
@@ -78,11 +78,11 @@ export class BeneficiariesImportComponent implements OnInit {
 
   /**
    * Detect when the file change with the file browse or with the drag and drop
-   * @param event 
-   * @param typeEvent 
+   * @param event
+   * @param typeEvent
    */
   fileChange(event, typeEvent) {
-    let fileList: FileList
+    let fileList: FileList;
 
     switch (typeEvent) {
       case 'dataTransfer': fileList = event.dataTransfer.files; break;
@@ -97,7 +97,7 @@ export class BeneficiariesImportComponent implements OnInit {
 
   /**
    * Detect which button item (file import or api import) is selected
-   * @param title 
+   * @param title
    */
   selectTitle(title): void {
     this.isBoxClicked = true;
@@ -105,30 +105,30 @@ export class BeneficiariesImportComponent implements OnInit {
   }
 
   /**
-   * Get the csv template to import new household and ask 
+   * Get the csv template to import new household and ask
    * to save it or just to open it in the computer
    */
   exportTemplate() {
     this._householdsService.getTemplate().toPromise()
       .then(response => {
-        let arrExport = [];
-        let reponse = response.json();
+        const arrExport = [];
+        const reponse = response.json();
         if (!(reponse instanceof Array)) {
-          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: "right"});
+          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});
         } else {
-          arrExport.push(response.json()[0]); //0 represente le fichier csv et 1 son nom
+          arrExport.push(response.json()[0]); // 0 represente le fichier csv et 1 son nom
           const blob = new Blob(arrExport, { type: 'text/csv' });
           saveAs(blob, response.json()[1]);
         }
       })
       .catch(error => {
-        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: "right"});
+        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
       });
   }
 
   /**
    * Get the project selected in the projectList selector
-   * @param event 
+   * @param event
    */
   getProjectSelected(event) {
     this.selectedProject = event.value;
@@ -138,16 +138,16 @@ export class BeneficiariesImportComponent implements OnInit {
    * Send csv file and project to import new households
    */
   addHouseholds() {
-    var data = new FormData();
-    var project = this.selectedProject.split(" - ");
+    const data = new FormData();
+    const project = this.selectedProject.split(' - ');
     data.append('file', this.csv);
-    let step = 1;
+    const step = 1;
     this.load = true;
     this._importService.sendData(data, project[0], step).then(() => {
       this.router.navigate(['/beneficiaries/data-validation']);
     }, () => {
       this.load = false;
-      this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: "right"});
+      this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
 
     });
   }
@@ -155,29 +155,29 @@ export class BeneficiariesImportComponent implements OnInit {
 
   /**
    * All listener for the drag and drop
-   * @param event 
+   * @param event
    */
   @HostListener('dragover', ['$event']) onDragOver(event) {
-    this.dragAreaClass = "dragarea-hover";
+    this.dragAreaClass = 'dragarea-hover';
     event.preventDefault();
   }
   @HostListener('dragenter', ['$event']) onDragEnter(event) {
-    this.dragAreaClass = "dragarea-hover";
+    this.dragAreaClass = 'dragarea-hover';
     event.preventDefault();
   }
   @HostListener('dragend', ['$event']) onDragEnd(event) {
-    this.dragAreaClass = "dragarea";
+    this.dragAreaClass = 'dragarea';
     event.preventDefault();
   }
   @HostListener('dragleave', ['$event']) onDragLeave(event) {
-    this.dragAreaClass = "dragarea";
+    this.dragAreaClass = 'dragarea';
     event.preventDefault();
   }
   @HostListener('drop', ['$event']) onDrop(event) {
-    this.dragAreaClass = "dragarea";
+    this.dragAreaClass = 'dragarea';
 
     // setting the data is required by firefox
-    event.dataTransfer.setData("text", 'firefox');
+    event.dataTransfer.setData('text', 'firefox');
 
     event.preventDefault();
     event.stopPropagation();

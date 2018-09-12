@@ -27,7 +27,7 @@ export class HouseholdsService {
      * @param body any
      */
     public get(body?: any) {
-        let url = this.api + "/households/get/all";
+        const url = this.api + '/households/get/all';
         return this.http.post(url, body);
     }
 
@@ -35,12 +35,12 @@ export class HouseholdsService {
      * Get the csv template to import household
      */
     public getTemplate() {
-        let url = this.api + "/csv/households/export";
+        const url = this.api + '/csv/households/export';
         return this.http.get(url);
     }
 
     /**
-     * Upload CSV  and data validation to import new household 
+     * Upload CSV  and data validation to import new household
      * @param body any
      * @param idProject number
      * @param step number
@@ -49,10 +49,9 @@ export class HouseholdsService {
     public sendDataToValidation(body: any, idProject: number, step: number, token?: string) {
         let url;
         if (token) {
-            url = this.api + "/import/households/project/" + idProject + "?step=" + step + "&token=" + token;
-        }
-        else {
-            url = this.api + "/import/households/project/" + idProject + "?step=" + step;
+            url = this.api + '/import/households/project/' + idProject + '?step=' + step + '&token=' + token;
+        } else {
+            url = this.api + '/import/households/project/' + idProject + '?step=' + step;
 
         }
         return this.http.post(url, body);
@@ -60,11 +59,11 @@ export class HouseholdsService {
 
     /**
      * To add an household
-     * @param body 
-     * @param id_Project 
+     * @param body
+     * @param id_Project
      */
     public add(body: any, id_Project: string) {
-        let url = this.api + "/households/project/" + id_Project;
+        const url = this.api + '/households/project/' + id_Project;
         return this.http.put(url, body);
     }
 
@@ -73,7 +72,7 @@ export class HouseholdsService {
      * Export household data in CSV
      */
     public export () {
-        let url = this.api + "/export?beneficiaries=true";
+        const url = this.api + '/export?beneficiaries=true';
         return this.http.get(url);
     }
 

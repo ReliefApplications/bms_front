@@ -16,6 +16,20 @@
         p {
             margin-top : 10px;
             font-size: 18px;
+
+            mat-icon {
+                padding: auto;
+                margin-left: 3px;
+                font-size: 20px;
+                vertical-align: middle;
+
+                &.unvalid {
+                    color: grey;
+                }
+                &.valid {
+                    color: $bms_red;
+                }
+            }
         }
     }
 }
@@ -107,13 +121,13 @@ button{
     display: flex;
     width : 100%;
     flex-direction: column;
+}
 
-    .waitingDataContainer {
-        width:100%;
-        text-align: center;
-        margin-left: 45%;
-        font-size: 20px;
-      }
+.waitingDataContainer {
+    width:100%;
+    text-align: center;
+    margin-left: 45%;
+    font-size: 20px;
 }
 
 .validate, .adding {

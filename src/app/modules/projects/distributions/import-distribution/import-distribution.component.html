@@ -28,8 +28,8 @@
         </div>
 
         <div class="content-button content-button-footer">
-            <mat-spinner  [diameter]="35" *ngIf="load"></mat-spinner>
-            <button mat-raised-button class="upload-button" (click)="updateDistribution()" *ngIf="csv && !load">
+            <mat-spinner  [diameter]="35" *ngIf="loadFile"></mat-spinner>
+            <button mat-raised-button class="upload-button" (click)="updateDistribution(1)" *ngIf="csv && !loadFile">
                 <mat-icon>publish</mat-icon>
                 <span>{{TEXT.beneficiaries_import_upload | uppercase }}</span>
             </button>
@@ -40,19 +40,36 @@
 
     <div class="tableTitles">
         <div class="buttonTitles">
-            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'add'}" class="add" (click)="selectComparingAction('add')">To be added</button>
-            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'remove'}" class="remove" (click)="selectComparingAction('remove')">To be removed</button>
-            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'error'}" class="error" (click)="selectComparingAction('error')">Errors</button>
+            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'add'}" class="add" (click)="selectComparingAction('add')">
+                <mat-icon>add_circle_outline</mat-icon>
+                <span>{{ TEXT.import_added | uppercase }}</span>
+            </button>
+            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'remove'}" class="remove" (click)="selectComparingAction('remove')">
+                <mat-icon>highlight_off</mat-icon>
+                <span>{{ TEXT.import_deleted | uppercase }}</span>
+            </button>
+            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'error'}" class="error" (click)="selectComparingAction('error')">
+                <mat-icon>error_outline</mat-icon>
+                <span>{{ TEXT.import_errors | uppercase }}</span>
+            </button>
         </div>
     </div>
 
     <div class="table-content">
-        <app-table-search [entity]="beneficiaryEntity" [service]="distributionService" [data]="getRightData()">
+        <app-table-search [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="getRightData()" [editable]="false">
         </app-table-search>
     </div>
 
+    <mat-spinner  [diameter]="35" *ngIf="loadUpdate"></mat-spinner>
     <div class="footer-content">
-        <button mat-raised-button class="back" (click)="goBack()">Back</button>
+        <button mat-raised-button class="back" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+            <span>Back</span>
+        </button>
+        <button mat-raised-button class="submit" (click)="updateDistribution(2)">
+            <mat-icon>check_circle</mat-icon>
+            <span>Update</span>
+        </button>
     </div>
 
 </div>

@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { GlobalText } from '../../../../texts/global';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { Households } from '../../../model/households';
-import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms' 
+import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DistributionData } from '../../../model/distribution-data';
 import { CacheService } from '../../../core/storage/cache.service';
@@ -20,70 +20,75 @@ import { Mapper } from '../../../core/utils/mapper.service';
 })
 export class DistributionsComponent implements OnInit {
 
-  distributionId : number;
-  actualDistribution : DistributionData;
+  distributionId: number;
+  actualDistribution: any;
 
-  loadingFirstStep : boolean;
-  loadingThirdStep : boolean;
-  enteredEmail : string;
-  
-  //Entities passed to table components
+  // Control variables.
+  loadingFirstStep: boolean;
+  loadingThirdStep: boolean;
+  loadingFinalStep: boolean;
+  enteredEmail: string;
+
+  // Entities passed to table components.
   beneficiaryEntity = Beneficiaries;
   distributionEntity = DistributionData;
 
-  //Datas
-  beneficiaryData : MatTableDataSource<any>;
-  importedData : any;
-  randomSampleData : MatTableDataSource<any>;
+  // Datas.
+  initialBeneficiaryData: MatTableDataSource<any>;
+  importedData: any;
+  randomSampleData: MatTableDataSource<any>;
+  finalBeneficiaryData: MatTableDataSource<any>;
 
-  //Screen display variables.
+  // Screen display variables.
   public maxHeight =  GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;
   public heightScreen;
   public widthScreen;
   TEXT = GlobalText.TEXTS;
 
-  //AddBeneficiary Dialog variables.
+  // AddBeneficiary Dialog variables.
   beneficiaryForm = new FormControl();
   beneficiaryList = new Array<Beneficiaries>();
-  selectedBeneficiaries : any[];
+  selectedBeneficiary = new Beneficiaries();
 
-  //Stepper forms.
-  form1 : FormGroup;
-  form2 : FormGroup;
-  form3 : FormGroup;
-  form4 : FormGroup;
+  // Stepper forms.
+  form1: FormGroup;
+  form2: FormGroup;
+  form3: FormGroup;
+  form4: FormGroup;
 
   constructor(
-    public distributionService : DistributionService,
-    public cacheService : CacheService,
-    private formBuilder : FormBuilder,
+    public distributionService: DistributionService,
+    public cacheService: CacheService,
+    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private beneficiariesService : BeneficiariesService,
+    private beneficiariesService: BeneficiariesService,
     public snackBar: MatSnackBar,
-    public mapperService : Mapper,
-    private dialog : MatDialog,
-  ) { 
+    public mapperService: Mapper,
+    private dialog: MatDialog,
+  ) {
     this.route.params.subscribe( params => this.distributionId = params.id);
   }
 
   ngOnInit() {
     this.checkSize();
-    
+    this.loadingFirstStep = false;
+    this.loadingThirdStep = false;
+    this.loadingFinalStep = false;
+
+    // Steps Forms.
     this.form1 = this.formBuilder.group({
-      //first : new FormControl()
     });
     this.form2 = this.formBuilder.group({
-      //second : new FormControl()
     });
     this.form3 = this.formBuilder.group({
-      //third : new FormControl()
     });
     this.form4 = this.formBuilder.group({
-      //fourth : new FormControl()
     });
+
     this.getSelectedDistribution();
     this.updateSteps();
+    console.log(this.actualDistribution.validated);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -101,41 +106,49 @@ export class DistributionsComponent implements OnInit {
    **/
   updateSteps() {
     this.generateRandom();
-    this.getDistributionBeneficiaries();
-    console.log("hi");
-  } 
+    this.getDistributionBeneficiaries('initial');
+    console.log('hi');
+  }
 
   /**
-   * Gets the distribution launched from the cache
+   * Gets the launched distribution from the cache
    */
   getSelectedDistribution() {
     let distributionsList = this.cacheService.get(CacheService.DISTRIBUTIONS);
     distributionsList = JSON.parse(distributionsList._body);
 
-    if(distributionsList)
-    {
+    if (distributionsList) {
       distributionsList.forEach(element => {
-        if(element.id == this.distributionId)
-        {
+        if (Number(element.id) === Number(this.distributionId)) {
           this.actualDistribution = element;
+        } else {
+            // console.log('fail');
         }
       });
-    
     }
   }
 
   /**
    * Gets the Beneficiaries of the actual distribution to display the table
    */
-  getDistributionBeneficiaries() {
-    this.loadingFirstStep = true;
+  getDistributionBeneficiaries(type: string) {
+      if (type === 'initial') {
+        this.loadingFirstStep = true;
+      } else if (type === 'final') {
+        this.loadingFinalStep = true;
+      }
     this.distributionService.getBeneficiaries(this.distributionId)
     .subscribe(
       response => {
-        let data = response.json();
-        //console.log("All: ",data);
-        this.beneficiaryData = new MatTableDataSource( Beneficiaries.formatArray(data) );
-        this.loadingFirstStep = false;
+        const data = response.json();
+
+        if (type === 'initial') {
+            this.initialBeneficiaryData = new MatTableDataSource( Beneficiaries.formatArray(data) );
+            this.loadingFirstStep = false;
+        } else if (type === 'final') {
+            this.finalBeneficiaryData = new MatTableDataSource( Beneficiaries.formatArray(data) );
+            this.loadingFinalStep = false;
+        }
       },
       error => {
         // console.log("Error: ", error);
@@ -146,48 +159,32 @@ export class DistributionsComponent implements OnInit {
   /**
    * Gets all the beneficiaries of the project to be able to add some to this distribution
    */
-  getProjectBeneficiaries() {
+    getProjectBeneficiaries() {
+    let allBeneficiaries;
 
-    // let allDistributions = new Array<DistributionData>();
+        this.beneficiariesService.getAllFromProject(this.actualDistribution.project.id)
+            .subscribe(
+                result => {
+                    allBeneficiaries = result.json();
 
-    // this.distributionService.getByProject(this.actualDistribution.project.id)
-    //   .subscribe(
-    //     response => {
-    //       allDistributions = DistributionData.formatArray(response.json());
-
-    //       allDistributions.forEach(
-    //         element => { 
-    //           this.distributionService.getBeneficiaries(element.id)
-    //             .subscribe(
-    //               response => {
-    //                 this.beneficiaryList.push( Beneficiaries.formatElement(response.json()) );
-    //                 console.log('', this.beneficiaryList);
-    //               },
-    //               error => {
-    //                 //err.
-    //               }
-    //             )
-    //          }
-    //       )
-
-    //     },
-    //     error => {
-    //       //err.
-    //     }
-    //   );
-  }
+                    if (allBeneficiaries) {
+                        this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
+                    }
+            }
+        );
+    }
 
   /**
    * Handles the csv export of the data table
    */
-  export(){
-    this.distributionService.export("distribution", this.distributionId).toPromise()
+  export() {
+    this.distributionService.export('distribution', this.distributionId).toPromise()
       .then(response => {
         const arrExport = [];
         const reponse: ExportInterface = response.json() as ExportInterface;
 
         if (!(reponse instanceof Object)) {
-          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: "right"});
+          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});
         } else {
           arrExport.push(reponse.content);
           const blob = new Blob(arrExport, { type: 'text/csv' });
@@ -195,7 +192,7 @@ export class DistributionsComponent implements OnInit {
         }
       })
       .catch(error => {
-        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: "right"});
+        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
       });
   }
 
@@ -206,14 +203,14 @@ export class DistributionsComponent implements OnInit {
     this.loadingThirdStep = true;
     this.beneficiariesService.getRandom(this.distributionId)
       .subscribe(
-        response => { 
-          let data = response.json();
-          //console.log("random: ",data);
+        response => {
+          const data = response.json();
+          // console.log("random: ",data);
           this.randomSampleData = new MatTableDataSource( Beneficiaries.formatArray(data) );
         }
-      )
+      );
     this.loadingThirdStep = false;
-  } 
+  }
 
   test() {
     // TODO : connect to new beneficiary functionnality with project & distribution already filled.
@@ -221,42 +218,61 @@ export class DistributionsComponent implements OnInit {
 
   /**
    * Opens a dialog corresponding to the ng-template passed as a parameter
-   * @param template 
+   * @param template
    */
   openDialog(template) {
     this.dialog.open(template);
   }
 
-  //To confirm on Validation dialog
+  // To confirm on Validation dialog
   confirmValidation() {
-    let actualUser = this.cacheService.get(CacheService.USER);
+    const actualUser = this.cacheService.get(CacheService.USER);
 
-    if(this.enteredEmail && actualUser.username === this.enteredEmail) {
-      // TODO : transaction
-      this.snackBar.open("Transaction confirmed", '', { duration : 3000, horizontalPosition: 'center'} );
-    }
-    else {
-      this.snackBar.open("Wrong email", '', { duration : 3000, horizontalPosition: 'center'} );
+    if (this.enteredEmail && actualUser.username === this.enteredEmail) {
+
+      this.distributionService.setValidation(this.distributionId)
+        .subscribe(
+            success => {
+                this.actualDistribution.validated = true;
+                this.snackBar.open('Distribution has been validated', '', { duration : 3000, horizontalPosition: 'center'});
+                // update cache ?
+            },
+            error => {
+                this.actualDistribution.validated = false;
+                this.snackBar.open('Distribution could not be validated', '', { duration : 3000, horizontalPosition: 'center'});
+            }
+        );
+    } else {
+      this.snackBar.open('Wrong email', '', { duration : 3000, horizontalPosition: 'center'} );
     }
 
     this.dialog.closeAll();
   }
 
-  //To cancel on Validation dialog
+  // To cancel on Validation dialog
   exitValidation() {
-    this.snackBar.open("Transaction canceled", '', { duration : 3000, horizontalPosition: 'center'} );
+    this.snackBar.open('Transaction canceled', '', { duration : 3000, horizontalPosition: 'center'} );
     this.dialog.closeAll();
   }
 
-  //To confirm on AddBeneficiary dialog
+  // To confirm on AddBeneficiary dialog
   confirmAdding() {
-    this.beneficiariesService.update(this.distributionId, this.selectedBeneficiaries[0] );
     this.dialog.closeAll();
+
+    this.beneficiariesService.add(this.distributionId, Beneficiaries.formatForApi(this.selectedBeneficiary))
+    .subscribe(
+        success => {
+        this.snackBar.open('Beneficiary added', '', { duration : 3000, horizontalPosition: 'center'});
+    },
+        error => {
+        this.snackBar.open('Beneficiary could not be added', '', { duration : 3000, horizontalPosition: 'center'});
+    });
   }
 
-  //To cancel on AddBeneficiary dialog
+  // To cancel on AddBeneficiary dialog
   exitAdding() {
     this.dialog.closeAll();
+    this.snackBar.open('Adding canceled', '', { duration : 3000, horizontalPosition: 'center'});
   }
 
 }

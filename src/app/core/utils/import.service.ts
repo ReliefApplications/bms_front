@@ -9,9 +9,9 @@ import { promise } from 'protractor';
 })
 export class ImportService {
 
-    public data : any;
+    public data: any;
     public project: string;
-    public token : string;
+    public token: string;
     public referedClassToken;
     public referedClassService;
 
@@ -24,7 +24,7 @@ export class ImportService {
     /**
      * call the household service to send import and verification data
      * format response after receive it
-     * 
+     *
      * @param data any
      * @param project step
      * @param step number
@@ -33,15 +33,15 @@ export class ImportService {
     sendData(data: any, project: string, step: number, token?: string) {
         return new Promise<any[]>((resolve, reject) => {
             this.data = [];
-            this.referedClassService = this._householdsService
-            //verifify if the token exist
-            //token don't exist in the step 1 (sending the csv)
+            this.referedClassService = this._householdsService;
+            // verifify if the token exist
+            // token don't exist in the step 1 (sending the csv)
             if (!token) {
                 this.referedClassToken = FormatDataNewOld;
                 this.referedClassService.sendDataToValidation(data, project, step).subscribe(response => {
 
-                    //use function to format and type data
-                    let responseFormatted = this.referedClassToken.formatIssues(response.json(), step);
+                    // use function to format and type data
+                    const responseFormatted = this.referedClassToken.formatIssues(response.json(), step);
                     for (let i = 0; i < responseFormatted.length; i++) {
                         this.data.push(responseFormatted[i]);
                     }
@@ -51,14 +51,13 @@ export class ImportService {
                 }, error => {
                     reject({'message': 'Error while importing data'});
                 });
-            }
-            else {
+            } else {
                 if (step === 2) {
                     this.referedClassToken = FormatDuplicatesData;
                     this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
 
-                        //use function to format and type data
-                        let responseFormatted = this.referedClassToken.formatDuplicates(response.json(), step);
+                        // use function to format and type data
+                        const responseFormatted = this.referedClassToken.formatDuplicates(response.json(), step);
                         for (let i = 0; i < responseFormatted.length; i++) {
                             this.data.push(responseFormatted[i]);
                         }
@@ -72,8 +71,8 @@ export class ImportService {
                     this.referedClassToken = FormatDataNewOld;
                     this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
 
-                        //use function to format and type data
-                        let responseFormatted = this.referedClassToken.formatIssues(response.json(), step);
+                        // use function to format and type data
+                        const responseFormatted = this.referedClassToken.formatIssues(response.json(), step);
                         for (let i = 0; i < responseFormatted.length; i++) {
                             this.data.push(responseFormatted[i]);
                         }
@@ -95,7 +94,7 @@ export class ImportService {
 
 
             }
-        })
+        });
 
     }
 

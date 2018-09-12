@@ -8,6 +8,7 @@ import { AuthenticationService } from '../../core/authentication/authentication.
 import { LeafletService } from '../../core/external/leaflet.service';
 import { CacheService } from '../../core/storage/cache.service';
 import { DistributionService } from '../../core/api/distribution.service';
+import { GeneralService } from '../../core/api/general.service';
 
 import { DistributionData } from '../../model/distribution-data';
 
@@ -21,20 +22,22 @@ import { GlobalText } from '../../../texts/global';
 export class DashboardComponent implements OnInit {
   public dashboard = GlobalText.TEXTS;
 
-  users: any;
   referedClassToken = DistributionData;
   distributions: MatTableDataSource<DistributionData>;
   public maxWidthMobile = 750;
   public heightScreen;
   public widthScreen;
 
+  public summary = [];
+
   constructor(
     private http: HttpClient,
     private _authenticationService: AuthenticationService,
     private router: Router,
     private serviceMap: LeafletService,
-    private cacheService: CacheService,
-    public distributionService: DistributionService,
+    private _cacheService: CacheService,
+    public _distributionService: DistributionService,
+    public _generalService: GeneralService,
 
   ) { }
 
@@ -46,6 +49,7 @@ export class DashboardComponent implements OnInit {
     this.serviceMap.createMap('map');
     this.serviceMap.addTileLayer();
 
+    this.getSummary();
     this.checkDistributions();
     this.checkSize();
   }
@@ -75,10 +79,19 @@ export class DashboardComponent implements OnInit {
   */
 
   checkDistributions(): void {
-    this.distributionService.get().subscribe(response => {
-      console.log(response.json());
+    this._distributionService.get().subscribe(response => {
       this.distributions = new MatTableDataSource(this.referedClassToken.formatArray(response.json()));
-      this.cacheService.set(CacheService.DISTRIBUTIONS, response);
+      this._cacheService.set(CacheService.DISTRIBUTIONS, response);
+    })
+  }
+
+  /**
+   * Get summary information
+   * @return array
+   */
+  getSummary(): void {
+    this._generalService.getSummary().subscribe(response => {
+      this.summary = response.json();
     })
   }
 

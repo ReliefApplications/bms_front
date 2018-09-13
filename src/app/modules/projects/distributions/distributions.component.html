@@ -8,7 +8,7 @@
     </p>
   </div>
 
-  <mat-horizontal-stepper>
+  <mat-horizontal-stepper #myStepper>
 
     <mat-step label="{{ TEXT.distribution_details_export | uppercase }}" [stepControl]="form1">
       <form [formGroup]="form1">
@@ -16,7 +16,7 @@
         <div class="container-table">
           <div class="container-content">
             <div class="content-button">
-              <button mat-icon-button class="add-button" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)">
+              <button mat-icon-button class="add-button" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" [disabled]="actualDistribution.validated">
                 <mat-icon>add</mat-icon>
               </button>
               <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
@@ -31,7 +31,7 @@
               <div class="waitingDataContainer" *ngIf="loadingFirstStep">
                 <mat-spinner></mat-spinner>
               </div>
-              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated">
+              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated">
               </app-table-search>
               <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated">
               </app-table-mobile-search>
@@ -45,19 +45,19 @@
       </form>
     </mat-step>
 
-    <mat-step label="{{ TEXT.distribution_details_import | uppercase }}" [stepControl]="form2">
+    <mat-step label="{{ TEXT.distribution_details_import | uppercase }}" [stepControl]="form2" *ngIf="!actualDistribution.validated">
       <form [formGroup]="form2">
       
         <div class="container-table">
           <div class="container-content">
             <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
             <div class="import-content">
-                <app-import-distribution [distribution]="this.actualDistribution"></app-import-distribution>
+                <app-import-distribution *ngIf="!actualDistribution.validated" [distribution]="this.actualDistribution" (success)="this.getDistributionBeneficiaries('final')"></app-import-distribution>
             </div>
-            <div class ="container-empty" *ngIf="false">
+            <div class ="container-empty" *ngIf="actualDistribution.validated">
               <p>
                 <mat-icon>folder</mat-icon>
-                You need to import your file to compare and update the beneficiaries data.
+                You can't update this distribution.
               </p>
             </div>
             <div class="content-table" *ngIf="importedData">
@@ -108,7 +108,7 @@
               </app-table-mobile-search>
             </div>
             <div class="next-container">
-              <button class="next" mat-button matStepperNext (click)="updateSteps()">Next</button>
+              <button class="next" mat-button matStepperNext (click)="updateSteps()" *ngIf="!actualDistribution.validated">Next</button>
             </div>
           </div>
         </div>
@@ -116,7 +116,7 @@
       </form>
     </mat-step>
 
-    <mat-step label="{{ TEXT.distribution_details_validate | uppercase }}" [stepControl]="form4">
+    <mat-step label="{{ TEXT.distribution_details_validate | uppercase }}" [stepControl]="form4" *ngIf="!actualDistribution.validated">
       <form [formGroup]="form4">
         
         <div class="container-table">
@@ -140,8 +140,8 @@
               <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="finalBeneficiaryData" [editable]="!actualDistribution.validated">
               </app-table-mobile-search>
             </div>
-            <div class="transaction">
-                <button mat-button (click)="openDialog(validation)">Validate</button>
+            <div class="validation">
+                <button mat-button (click)="openDialog(validation)" [disabled]="actualDistribution.validated">Validate</button>
             </div>
           </div>
         </div>
@@ -166,7 +166,7 @@
     </div>
     <div class="modal-footer action">
         <button mat-button class="cancel" (click)="exitValidation()">Cancel</button>
-        <button mat-button class="confirm" (click)="confirmValidation()">Confirm</button>
+        <button mat-button class="confirm" (click)="confirmValidation(); goBackToBeginning(myStepper)">Confirm</button>
     </div>
   </div>
 </ng-template>
@@ -180,7 +180,7 @@
       <p> Please select the beneficiaries from the project <strong> {{actualDistribution.project.name}} </strong> that you want to add to the <strong> {{actualDistribution.name}} </strong> distribution.</p>
       <div class="selectBeneficiaries">
         <mat-form-field>
-          <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" ([ngModel])="selectedBeneficiary">
+          <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" [(ngModel)]="selectedBeneficiary">
             <mat-option class="options" *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">{{beneficiary.given_name}} {{beneficiary.family_name}}</mat-option>
           </mat-select>
         </mat-form-field>

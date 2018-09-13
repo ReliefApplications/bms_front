@@ -159,22 +159,17 @@ public static formatElement(instance: any): Beneficiaries {
 
 public static formatForApi(instance: any) {
 
-    const vulnerability_criteria_copy = new Array();
-    const phones_copy = new Array();
-    const national_ids_copy = new Array();
+    console.log('formatForApi: ', instance);
 
-    instance.vulnerabilities.forEach(
-        element => { vulnerability_criteria_copy.push (element); }
-    );
-    instance.phones.forEach(
-        element => { phones_copy.push (element); }
-    );
-    instance.national_ids.forEach(
-        element => { national_ids_copy.push (element); }
-    );
+    let vulnerability_criteria_copy = new Array();
+    let phones_copy = new Array();
+    let national_ids_copy = new Array();
+
+    vulnerability_criteria_copy = instance.vulnerabilities;
+    phones_copy = instance.phones;
+    national_ids_copy = instance.national_ids;
 
     const beneficiary = {
-        id : instance.id,
         given_name : instance.given_name,
         family_name : instance.family_name,
         gender : instance.gender,
@@ -183,7 +178,6 @@ public static formatForApi(instance: any) {
         vulnerability_criteria : vulnerability_criteria_copy,
         phones : phones_copy,
         national_ids : national_ids_copy
-
     };
 
     return(beneficiary);
@@ -215,10 +209,19 @@ public static formatForApi(instance: any) {
             return selfinstance;
         }
 
+        let stringGender;
+        if (selfinstance.gender === 0) {
+            stringGender = 'Female';
+        } else if (selfinstance.gender === 1) {
+            stringGender = 'Male';
+        } else {
+            stringGender = 'Other';
+        }
+
         return {
             given_name : selfinstance.given_name,
             family_name : selfinstance.family_name,
-            gender : selfinstance.gender,
+            gender : stringGender,
             date_of_birth : selfinstance.date_of_birth,
             // status : selfinstance.status,
             // national_ids : selfinstance.national_ids,
@@ -284,19 +287,19 @@ public static formatForApi(instance: any) {
     }
 
     /**
-    * return the type of Beneficiary properties
+    * return the type of Beneficiary properties for modal
     */
     getModalTypeProperties(selfinstance): Object {
         return {
             given_name : 'text',
             family_name : 'text',
-            gender : 'text',
+            gender : 'number',
             date_of_birth : 'date',
             status : 'number',
             national_ids : 'text',
             phones : 'text',
             vulnerabilities : 'png',
-            };
+        };
     }
 
 

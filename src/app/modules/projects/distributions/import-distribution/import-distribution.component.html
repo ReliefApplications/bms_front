@@ -1,7 +1,6 @@
 <div class="container-table" *ngIf="!comparing">
       
       <div class="content-head">
-          <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()">{{TEXT.beneficiaries_import_csv | uppercase }}</button>
       </div>
 
         <div class="content-table">
@@ -42,15 +41,15 @@
         <div class="buttonTitles">
             <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'add'}" class="add" (click)="selectComparingAction('add')">
                 <mat-icon>add_circle_outline</mat-icon>
-                <span>{{ TEXT.import_added | uppercase }}</span>
+                <span>{{ TEXT.import_added | uppercase }} ({{numberAdded}})</span>
             </button>
             <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'remove'}" class="remove" (click)="selectComparingAction('remove')">
                 <mat-icon>highlight_off</mat-icon>
-                <span>{{ TEXT.import_deleted | uppercase }}</span>
+                <span>{{ TEXT.import_deleted | uppercase }} ({{numberRemoved}})</span>
             </button>
             <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'error'}" class="error" (click)="selectComparingAction('error')">
                 <mat-icon>error_outline</mat-icon>
-                <span>{{ TEXT.import_errors | uppercase }}</span>
+                <span>{{ TEXT.import_errors | uppercase }} ({{numberErrors}})</span>
             </button>
         </div>
     </div>

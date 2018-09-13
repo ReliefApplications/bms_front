@@ -18,12 +18,22 @@ export class BeneficiariesService {
     return this.http.get(url);
   }
 
+  public update(beneficiaryId: number, beneficiary: any) {
+      const url = this.api + '/beneficiaries/' + beneficiaryId;
+      return this.http.post(url, beneficiary);
+  }
+
+  public delete(beneficiaryId: number, distributionId: any) {
+    const url = this.api + '/beneficiaries/' + beneficiaryId + '?distribution=' + distributionId;
+    return this.http.delete(url);
+}
+
   public getRandom(distributionId) {
     const url = this.api + '/distributions/' + distributionId + '/random';
     return this.http.get(url);
   }
 
-  public add(distributionId: number, beneficiary: Beneficiaries) {
+  public add(distributionId: number, beneficiary: any) {
     const url = this.api + '/distributions/' + distributionId + '/beneficiary';
     return this.http.put(url, beneficiary);
   }

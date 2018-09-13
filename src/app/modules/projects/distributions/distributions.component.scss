@@ -52,6 +52,10 @@ app-table-mobile{
     margin: 15px;
     text-align: center;
     font-size: 18px;
+
+    .show {
+        background-color: $bms_green;
+    }
 }
 
 .properties-displayed{
@@ -83,6 +87,10 @@ button{
         font-family: $bms_font_text;
         padding-left:20px;
     }
+
+    &:disabled {
+        background-color: darkgrey;
+    }
 }
 
 .generator {
@@ -105,7 +113,7 @@ button{
         background-color: $bms_green;
     }
 }
-.transaction {
+.validation {
     width : 100%;
     text-align: right;
 
@@ -115,6 +123,10 @@ button{
         width: 75px;
         height: 45px;
         margin: 20px;
+
+        &:disabled {
+            background-color: darkgrey;
+        }
     }
 }
 .content-table {
@@ -167,6 +179,10 @@ button{
             bottom: 20px;
             left: 80%;
             z-index: 1000;
+
+            &:disabled {
+                background-color: darkgrey;
+            }
         }
 
         &.export-button{

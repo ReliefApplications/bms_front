@@ -33,9 +33,8 @@ export class LeafletService {
 
 		// Create map
 		this.map = Leaflet.map(mapId, {
-			center: [11.5792295, 104.6099912],   // Centered on Phnom Penh
 			zoom: 7,
-			maxZoom: 10,
+			maxZoom: 11,
 			minZoom: 3,           // Too see the whole world on small screens
 			zoomControl: true,        // Display the + and - buttons for the zoom
 			zoomAnimation: true,        // Smooth transition of zoom
@@ -46,9 +45,9 @@ export class LeafletService {
 			layers: []
 		});
 
-		this.map.once('focus', () => { this.map.scrollWheelZoom.enable(); });
+		this.map.once('click', () => { this.map.scrollWheelZoom.enable(); });
 		this.getUpcomingDistributionCode();
-
+    this.addTileLayer();
 		this.addKML();
 	}
 
@@ -68,22 +67,25 @@ export class LeafletService {
 
 	//add all layers to show the upcoming distribution in the map dashoard
 	addKML() {
-
+    let country = "KHM";
 		//Check if the map is already created
 		if (this.map) {
 
-			//get in the cache the liste of upcoming distribution
+			//get in the cache the list of upcoming distribution
 			let upcomingDistribution = this._cacheService.get(CacheService.MAPSDATA);
 			if(!upcomingDistribution) {
 				this.getUpcomingDistributionCode();
 				let upcomingDistribution = this._cacheService.get(CacheService.MAPSDATA);
 			}
 
-			// //call the KML file to get the layer
-			let admLayer = LeafletOmnivore.kml('assets/maps/map.kml').on("ready", function () {
+			// call the KML file to get the layer
+			let admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.toLowerCase() + '.kml').on("ready", () => {
+        // center the map on the appropriate country
+        let admGroup = Leaflet.featureGroup(admLayers.getLayers());
+        this.map.fitBounds(admGroup.getBounds());
 
 				//delete the displaying layer
-				admLayer.eachLayer(function (adm) {
+				admLayers.eachLayer(adm => {
 					adm.setStyle({
 						opacity: 0,
 						weight: 0,
@@ -92,18 +94,19 @@ export class LeafletService {
 				});
 
 				//search in all layer which layer has a code begining with the location code of a upcoming distribution and set a color and a weigth of them
-				admLayer.eachLayer(function (adm, index) {
+				admLayers.eachLayer(function (adm, index) {
 					upcomingDistribution.forEach(element => {
-						if ((adm.feature.properties.ADM3_PCODE === element.code_location && element.adm_level === "adm3") ||
+						if ((adm.feature.properties.ADM4_PCODE === element.code_location && element.adm_level === "adm4") ||
+              (adm.feature.properties.ADM3_PCODE === element.code_location && element.adm_level === "adm3") ||
 							(adm.feature.properties.ADM2_PCODE === element.code_location && element.adm_level === "adm2") ||
 							(adm.feature.properties.ADM1_PCODE === element.code_location && element.adm_level === "adm1")) {
 
 							adm.setStyle({
-								color: '#E75B48',
-								fillColor: '#E75B48',
+								color: '#51C9DF', // bms_light_blue
+								fillColor: '#51C9DF', // bms_light_blue
 								weight: 2,
-								fillOpacity: .5,
-								opacity: .2
+								fillOpacity: .8,
+								opacity: .8
 							});
 
 							let tooltipInformation = '';
@@ -116,7 +119,7 @@ export class LeafletService {
 								if(!Object.is(element.length-1, index)) {
 									tooltipInformation += "<hr>";
 								}
-								
+
 							})
 
 							let tooltip = Leaflet.tooltip({
@@ -128,13 +131,13 @@ export class LeafletService {
 					});
 				})
 			})
-			admLayer.addTo(this.map);
+			admLayers.addTo(this.map);
 		}
 	}
 
 
 
-	//get all upcoming distribution and set it in the cache 
+	//get all upcoming distribution and set it in the cache
 	getUpcomingDistributionCode() {
 		let promise = this._locationService.getUpcomingDistributionCode();
 		if (promise) {

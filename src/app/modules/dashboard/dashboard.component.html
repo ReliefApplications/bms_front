@@ -9,10 +9,10 @@
         <div *ngIf="widthScreen > maxWidthMobile" class="boxes-summary">
             <h1 class="summary-title">{{dashboard.dashboard_summary | uppercase}}</h1>
             <div class="summary-content">
-                <app-box-dashboard [info]='{icon: "home", color: "green", title:dashboard.dashboard_summary_1, subtitle:"10,250", ref:""}'></app-box-dashboard>
-                <app-box-dashboard [info]='{icon: "project", color: "red", title:dashboard.dashboard_summary_2, subtitle:"12", undersubtitle:"",ref:""}'></app-box-dashboard>
-                <app-box-dashboard [info]='{icon: "enrol", color: "green", title:dashboard.dashboard_summary_3, subtitle:"9,750", undersubtitle:"",ref:""}'></app-box-dashboard>
-                <app-box-dashboard [info]='{icon: "dollar", color: "red", title:dashboard.dashboard_summary_4, subtitle:"$360,000", undersubtitle:"",ref:""}'></app-box-dashboard>
+                <app-box-dashboard [info]='{icon: "home", color: "green", title:dashboard.dashboard_summary_1, subtitle:summary[0], ref:""}'></app-box-dashboard>
+                <app-box-dashboard [info]='{icon: "project", color: "red", title:dashboard.dashboard_summary_2, subtitle:summary[1], undersubtitle:"",ref:""}'></app-box-dashboard>
+                <app-box-dashboard [info]='{icon: "enrol", color: "green", title:dashboard.dashboard_summary_3, subtitle:summary[2], undersubtitle:"",ref:""}'></app-box-dashboard>
+                <app-box-dashboard [info]='{icon: "dollar", color: "red", title:dashboard.dashboard_summary_4, subtitle:summary[3], undersubtitle:"",ref:""}'></app-box-dashboard>
             </div>
         </div>
     </div>

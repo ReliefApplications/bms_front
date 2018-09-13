@@ -173,9 +173,8 @@ export class DistributionsComponent implements OnInit {
 
                     if (allBeneficiaries) {
                         this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
-                        console.log('beneficiaries got : ', this.beneficiaryList);
                     } else {
-                        console.log('beneficiaires List is empty');
+                        // console.log('beneficiaires List is empty');
                     }
                 }
             );
@@ -267,7 +266,6 @@ export class DistributionsComponent implements OnInit {
      */
     confirmAdding() {
         this.dialog.closeAll();
-        console.log('selectedbenef ', this.selectedBeneficiary);
 
         this.beneficiariesService.add(this.distributionId, Beneficiaries.formatForApi(this.selectedBeneficiary))
             .subscribe(

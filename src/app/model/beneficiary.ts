@@ -159,7 +159,7 @@ public static formatElement(instance: any): Beneficiaries {
 
 public static formatForApi(instance: any) {
 
-    console.log('formatForApi: ', instance);
+    // console.log('formatForApi: ', instance);
 
     let vulnerability_criteria_copy = new Array();
     let phones_copy = new Array();

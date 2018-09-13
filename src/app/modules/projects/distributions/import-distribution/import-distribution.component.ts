@@ -61,7 +61,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     ngOnInit() {
         this.comparing = false;
         this.compareAction = 'add';
-        console.log(this.distribution);
+        // console.log(this.distribution);
     }
 
     /**
@@ -135,7 +135,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
             this.csv = null;
             this.comparing = false;
         } else {
-            console.log('Error / empty csv');
+            // console.log('Error / empty csv');
         }
     }
 

@@ -31,9 +31,9 @@
               <div class="waitingDataContainer" *ngIf="loadingFirstStep">
                 <mat-spinner></mat-spinner>
               </div>
-              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated">
+              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated" [parentId]="distributionId">
               </app-table-search>
-              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated">
+              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated" [parentId]="distributionId">
               </app-table-mobile-search>
             </div>
             <div class="next-container">
@@ -59,12 +59,6 @@
                 <mat-icon>folder</mat-icon>
                 You can't update this distribution.
               </p>
-            </div>
-            <div class="content-table" *ngIf="importedData">
-              <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="importedData">
-              </app-table-search>
-              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="importedData">
-              </app-table-mobile-search>
             </div>
             <div class="next-container">
               <button class="next" mat-button matStepperNext (click)="updateSteps()">Next</button>
@@ -102,9 +96,9 @@
               <mat-spinner></mat-spinner>
             </div>
             <div class="content-table" *ngIf="randomSampleData">
-              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingThirdStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="randomSampleData">
+              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingThirdStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="randomSampleData" [parentId]="distributionId">
               </app-table-search>
-              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="randomSampleData">
+              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="distributionService" [data]="randomSampleData" [parentId]="distributionId">
               </app-table-mobile-search>
             </div>
             <div class="next-container">
@@ -135,9 +129,11 @@
                 <mat-spinner></mat-spinner>
             </div>
             <div class="content-table" *ngIf="finalBeneficiaryData">
-              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="finalBeneficiaryData" [editable]="!actualDistribution.validated">
+              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="distributionService" 
+                  [data]="finalBeneficiaryData" [editable]="!actualDistribution.validated" [parentId]="distributionId">
               </app-table-search>
-              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="distributionService" [data]="finalBeneficiaryData" [editable]="!actualDistribution.validated">
+              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="distributionService" 
+              [data]="finalBeneficiaryData" [editable]="!actualDistribution.validated" [parentId]="distributionId">
               </app-table-mobile-search>
             </div>
             <div class="validation">

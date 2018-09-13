@@ -89,6 +89,10 @@ export class DistributionData {
      * @type {Array}
      */
     commodities: Array<Commodity>;
+    /**
+     * validated or not
+     */
+    validated: boolean;
 
     constructor(instance?) {
         if (instance !== undefined && instance != null) {
@@ -103,6 +107,7 @@ export class DistributionData {
             this.adm4 = instance.location.adm4;
             this.type = instance.type;
             this.date_distribution = instance.date_distribution;
+            this.validated = instance.validated;
         }
     }
 
@@ -125,7 +130,8 @@ export class DistributionData {
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
             type: selfinstance.type,
-            date_distribution: selfinstance.date_distribution
+            date_distribution: selfinstance.date_distribution,
+            validated: selfinstance.validated,
         };
     }
 

@@ -12,6 +12,7 @@ import { MatTableDataSource, MatSnackBar, MatDialog, MatFormField, MatStepper } 
 import { ExportInterface } from '../../../model/export.interface';
 import { saveAs } from 'file-saver/FileSaver';
 import { Mapper } from '../../../core/utils/mapper.service';
+import { AnimationRendererFactory } from '@angular/platform-browser/animations/src/animation_renderer';
 
 @Component({
     selector: 'app-distributions',
@@ -112,17 +113,27 @@ export class DistributionsComponent implements OnInit {
      * Gets the launched distribution from the cache
      */
     getSelectedDistribution() {
-        let distributionsList = this.cacheService.get(CacheService.DISTRIBUTIONS);
-        distributionsList = JSON.parse(distributionsList._body);
+        this.distributionService.getOne(this.distributionId)
+        .subscribe(
+            result => { // Get from Back
+                this.actualDistribution = result.json();
+                // console.log('Got distribution from back :', this.actualDistribution);
+            }
+        );
+        if (!this.actualDistribution) { // Get from Cache
+            let distributionsList = this.cacheService.get(CacheService.DISTRIBUTIONS);
+            distributionsList = JSON.parse(distributionsList._body);
 
-        if (distributionsList) {
-            distributionsList.forEach(element => {
-                if (Number(element.id) === Number(this.distributionId)) {
-                    this.actualDistribution = element;
-                } else {
-                    // console.log('fail');
-                }
-            });
+            if (distributionsList) {
+                distributionsList.forEach(element => {
+                    if (Number(element.id) === Number(this.distributionId)) {
+                        this.actualDistribution = element;
+                    } else {
+                        // console.log('fail');
+                    }
+                });
+            }
+            // console.log('Got distribution from cache :', this.actualDistribution);
         }
     }
 
@@ -239,7 +250,7 @@ export class DistributionsComponent implements OnInit {
                     success => {
                         this.actualDistribution.validated = true;
                         this.snackBar.open('Distribution has been validated', '', { duration: 3000, horizontalPosition: 'center' });
-                        // update cache ?
+                        this.validateActualDistributionInCache();
                     },
                     error => {
                         this.actualDistribution.validated = false;
@@ -251,6 +262,30 @@ export class DistributionsComponent implements OnInit {
         }
 
         this.dialog.closeAll();
+    }
+
+    validateActualDistributionInCache() {
+
+        const newDistributionsList = new Array<DistributionData>();
+        this.distributionService.get()
+            .subscribe( result => {
+                const oldDistributionsList = result.json();
+                oldDistributionsList.forEach(
+                    element => {
+                        const distrib = element;
+
+                        if (Number(element.id) === Number(this.distributionId)) {
+                            distrib.validated = true;
+                        }
+
+                        newDistributionsList.push(distrib);
+                    }
+                );
+                this.cacheService.set(CacheService.DISTRIBUTIONS, newDistributionsList);
+            },
+            error => {
+                // console.log('could not refresh :', error);
+            });
     }
 
     /**

@@ -27,6 +27,11 @@ export class DistributionService {
         return this.http.get(url);
     }
 
+    public getOne(id: number) {
+        const url = this.api + '/distributions/' + id;
+        return this.http.get(url);
+    }
+
     public getByProject(idProject) {
         const url = this.api + '/distributions/projects/' + idProject;
         return this.http.get(url);

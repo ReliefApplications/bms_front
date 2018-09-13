@@ -13,6 +13,7 @@ import { ModalDeleteComponent } from '../modals/modal-delete/modal-delete.compon
 
 import { GlobalText } from '../../../texts/global';
 import { dashCaseToCamelCase } from '@angular/animations/browser/src/util';
+import { Beneficiaries } from '../../model/beneficiary';
 
 @Component({
   selector: 'app-table',
@@ -36,6 +37,7 @@ export class TableComponent implements OnChanges, DoCheck {
   }
 
   @Input() editable: boolean;
+  @Input() parentId: Number = null;
   @Input() entity;
   public oldEntity;
   @Input() data: any;
@@ -72,6 +74,14 @@ export class TableComponent implements OnChanges, DoCheck {
       this.setDataTableProperties();
       this.mapperService.setMapperObject(this.entity);
     }
+  }
+
+  checkEntityUpdateRights() {
+      if (this.entity === Beneficiaries) {
+          return false;
+      } else {
+          return true;
+      }
   }
 
   checkTable() {
@@ -193,9 +203,15 @@ export class TableComponent implements OnChanges, DoCheck {
   }
 
   deleteElement(deleteElement: Object) {
-    this.service.delete(deleteElement['id']).subscribe(response => {
-      this.updateData();
-    });
+    if (this.entity === Beneficiaries) {
+        this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
+            this.updateData();
+        });
+    } else {
+        this.service.delete(deleteElement['id']).subscribe(response => {
+            this.updateData();
+        });
+    }
   }
 }
 

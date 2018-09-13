@@ -85,3 +85,23 @@ button{
   margin: 10px auto;
   font-size: 20px;
 }
+
+.distribution-go {
+    border: 0px;
+
+    mat-icon {
+        font-weight: 900  !important;
+        font-size: 25px;
+        color: $bms_white;
+    }
+}
+.unvalidated {
+    border: 3px solid $bms_green !important;
+    background-color: $bms_white !important;
+
+    mat-icon {
+        color: $bms_green !important;
+        font-weight: 600  !important;
+        margin-bottom: 5px !important;
+    }
+}

@@ -54,6 +54,7 @@ import { DataValidationComponent } from '../modules/beneficiary/data-validation/
 import { AddBeneficiaryComponent } from '../modules/beneficiary/add-beneficiary/addBeneficiary.component';
 import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
 import { ImportDistributionComponent } from '../modules/projects/distributions/import-distribution/import-distribution.component';
+import { TransactionTableComponent } from '../components/table/transaction-table/transaction-table.component';
 
 @NgModule({
 imports: [
@@ -112,6 +113,7 @@ declarations: [
     TableMobileDistributionComponent,
     TableSmallComponent,
     TableSmallMobileComponent,
+    TransactionTableComponent,
     ModalComponent,
     ModalDeleteComponent,
     ModalUpdateComponent,
@@ -157,6 +159,7 @@ exports: [
     TableMobileDistributionComponent,
     TableSmallComponent,
     TableSmallMobileComponent,
+    TransactionTableComponent,
     ModalComponent,
     ModalDeleteComponent,
     ModalUpdateComponent,

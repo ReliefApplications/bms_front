@@ -57,6 +57,7 @@ export class DistributionsComponent implements OnInit {
     form2: FormGroup;
     form3: FormGroup;
     form4: FormGroup;
+    form5: FormGroup;
 
     constructor(
         public distributionService: DistributionService,
@@ -87,6 +88,8 @@ export class DistributionsComponent implements OnInit {
         });
         this.form4 = this.formBuilder.group({
         });
+        this.form5 = this.formBuilder.group({
+        });
 
         this.getSelectedDistribution();
         this.getDistributionBeneficiaries('initial');
@@ -110,7 +113,7 @@ export class DistributionsComponent implements OnInit {
         .subscribe(
             result => { // Get from Back
                 this.actualDistribution = result.json();
-                console.log('Got distribution from back :', this.actualDistribution);
+                // console.log('Got distribution from back :', this.actualDistribution);
             },
             error => {
                 if (!this.actualDistribution) { // Get from Cache
@@ -124,7 +127,7 @@ export class DistributionsComponent implements OnInit {
                             }
                         });
                     }
-                    console.log('Got distribution from cache :', this.actualDistribution, 'because of error : ', error);
+                    // console.log('Got distribution from cache :', this.actualDistribution, 'because of error : ', error);
                 }
             });
     }
@@ -381,5 +384,9 @@ export class DistributionsComponent implements OnInit {
             stepper.previous();
         }
     }
+
+    /**
+     * Transaction
+     */
 
 }

@@ -20,6 +20,7 @@ import { ReportsModule										 					} from './modules/reports/reports.module';
 import { ProfileComponent } from './modules/profile/profile.component';
 import { HeaderMobileComponent } from './components/headers/header-mobile/header-mobile.component';
 import { HeaderComponent } from './components/headers/header/header.component';
+import { TransactionTableComponent } from './components/table/transaction-table/transaction-table.component';
 
 @NgModule({
 	declarations: [
@@ -29,6 +30,7 @@ import { HeaderComponent } from './components/headers/header/header.component';
 		ProfileComponent,
     	HeaderMobileComponent,
 		HeaderComponent,
+		TransactionTableComponent,
 	],
 	imports: [
 		// Modules

@@ -29,15 +29,20 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
         <td mat-cell class="content-cell" *matCellDef="let element">
-          <button mat-icon-button class="distribution-go" [ngClass]="{'unvalidated' : !element.validated}" class="green" routerLink="/distributions/{{element.id}}">
-            <mat-icon>group_add</mat-icon>
-          </button>
-          <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="light-red">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="red">
-            <mat-icon>close</mat-icon>
-          </button>
+          <div class="validated-distribution" *ngIf="element.validated" routerLink="/distributions/{{element.id}}">
+              <mat-icon>done</mat-icon>
+          </div>
+          <div class="unvalidated-distribution" *ngIf="!element.validated">
+            <button mat-icon-button class="green" routerLink="/distributions/{{element.id}}">
+                <mat-icon>group_add</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="light-red">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="red">
+                <mat-icon>close</mat-icon>
+            </button>
+          </div>
         </td>
       </ng-container>
   

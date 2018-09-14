@@ -104,8 +104,8 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
             this.comparing = true;
             let tables;
 
-            this.beneficiaryService.import(this.distribution.id, data, IMPORT_COMPARE)
-                .subscribe(
+            this.beneficiaryService.import(this.distribution.id, data, IMPORT_COMPARE).toPromise()
+                .then(
                     result => {
                         tables = result.json();
 
@@ -120,6 +120,11 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                         this.errorsData = new MatTableDataSource(errorList);
                         this.addingData = new MatTableDataSource(addList);
                         this.removingData = new MatTableDataSource(removeList);
+                    }
+                )
+                .catch(
+                    error => {
+                        console.log('error: ', error);
                     }
                 );
         } else if (this.csv && step === IMPORT_UPDATE) {

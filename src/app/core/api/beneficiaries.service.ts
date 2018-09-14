@@ -28,8 +28,8 @@ export class BeneficiariesService {
     return this.http.delete(url);
 }
 
-  public getRandom(distributionId) {
-    const url = this.api + '/distributions/' + distributionId + '/random';
+  public getRandom(distributionId, size: number) {
+    const url = this.api + '/distributions/' + distributionId + '/random' + '?size=' + size;
     return this.http.get(url);
   }
 
@@ -48,6 +48,5 @@ export class BeneficiariesService {
     // step = 1 -> get the comparing tables & step = 2 -> update database.
     return this.http.post(url, file);
   }
-
 
 }

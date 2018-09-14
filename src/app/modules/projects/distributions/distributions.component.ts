@@ -22,13 +22,14 @@ import { AnimationRendererFactory } from '@angular/platform-browser/animations/s
 export class DistributionsComponent implements OnInit {
 
     distributionId: number;
-    actualDistribution: any;
+    actualDistribution = new DistributionData();
 
     // Control variables.
     loadingFirstStep: boolean;
     loadingThirdStep: boolean;
     loadingFinalStep: boolean;
     enteredEmail: string;
+    sampleSize: number; // %
 
     // Entities passed to table components.
     beneficiaryEntity = Beneficiaries;
@@ -36,7 +37,6 @@ export class DistributionsComponent implements OnInit {
 
     // Datas.
     initialBeneficiaryData: MatTableDataSource<any>;
-    importedData: any;
     randomSampleData: MatTableDataSource<any>;
     finalBeneficiaryData: MatTableDataSource<any>;
 
@@ -76,6 +76,7 @@ export class DistributionsComponent implements OnInit {
         this.loadingFirstStep = false;
         this.loadingThirdStep = false;
         this.loadingFinalStep = false;
+        this.sampleSize = 10;
 
         // Steps Forms.
         this.form1 = this.formBuilder.group({
@@ -88,7 +89,7 @@ export class DistributionsComponent implements OnInit {
         });
 
         this.getSelectedDistribution();
-        this.updateSteps();
+        this.getDistributionBeneficiaries('initial');
     }
 
     @HostListener('window:resize', ['$event'])
@@ -102,14 +103,6 @@ export class DistributionsComponent implements OnInit {
     }
 
     /**
-     * Updates the value of the beneficiaries tables from step to step
-     **/
-    updateSteps() {
-        this.generateRandom();
-        this.getDistributionBeneficiaries('initial');
-    }
-
-    /**
      * Gets the launched distribution from the cache
      */
     getSelectedDistribution() {
@@ -117,24 +110,23 @@ export class DistributionsComponent implements OnInit {
         .subscribe(
             result => { // Get from Back
                 this.actualDistribution = result.json();
-                // console.log('Got distribution from back :', this.actualDistribution);
-            }
-        );
-        if (!this.actualDistribution) { // Get from Cache
-            let distributionsList = this.cacheService.get(CacheService.DISTRIBUTIONS);
-            distributionsList = JSON.parse(distributionsList._body);
-
-            if (distributionsList) {
-                distributionsList.forEach(element => {
-                    if (Number(element.id) === Number(this.distributionId)) {
-                        this.actualDistribution = element;
-                    } else {
-                        // console.log('fail');
+                console.log('Got distribution from back :', this.actualDistribution);
+            },
+            error => {
+                if (!this.actualDistribution) { // Get from Cache
+                    const distributionsList: DistributionData[] = this.cacheService.get(CacheService.DISTRIBUTIONS);
+                    if (distributionsList) {
+                        distributionsList.forEach(element => {
+                            if (Number(element.id) === Number(this.distributionId)) {
+                                this.actualDistribution = element;
+                            } else {
+                                // console.log('fail');
+                            }
+                        });
                     }
-                });
-            }
-            // console.log('Got distribution from cache :', this.actualDistribution);
-        }
+                    console.log('Got distribution from cache :', this.actualDistribution, 'because of error : ', error);
+                }
+            });
     }
 
     /**
@@ -144,6 +136,9 @@ export class DistributionsComponent implements OnInit {
         if (type === 'initial') {
             this.loadingFirstStep = true;
         } else if (type === 'final') {
+            this.loadingFinalStep = true;
+        } else if (type === 'both') {
+            this.loadingFirstStep = true;
             this.loadingFinalStep = true;
         }
         this.distributionService.getBeneficiaries(this.distributionId)
@@ -159,7 +154,15 @@ export class DistributionsComponent implements OnInit {
                         // Step 4 table
                         this.finalBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
                         this.loadingFinalStep = false;
+                    } else if (type === 'both') {
+                        const beneficiariesData = Beneficiaries.formatArray(data);
+                        this.initialBeneficiaryData = new MatTableDataSource(beneficiariesData);
+                        this.finalBeneficiaryData = new MatTableDataSource(beneficiariesData);
+                        this.loadingFirstStep = false;
+                        this.loadingFinalStep = false;
                     }
+
+                    this.generateRandom();
                 },
                 error => {
                     // console.log("Error: ", error);
@@ -201,7 +204,7 @@ export class DistributionsComponent implements OnInit {
                 const reponse: ExportInterface = response.json() as ExportInterface;
 
                 if (!(reponse instanceof Object)) {
-                    this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right' });
+                    this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'center' });
                 } else {
                     arrExport.push(reponse.content);
                     const blob = new Blob(arrExport, { type: 'text/csv' });
@@ -209,24 +212,69 @@ export class DistributionsComponent implements OnInit {
                 }
             })
             .catch(error => {
-                this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right' });
+                this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'center' });
             });
     }
 
     /**
-     * Generates a table of 10 random beneficiaries from this distribution
+     * Defines the number of beneficiaries corresponding of the sampleSize percentage
+     */
+    defineSampleSize(): number {
+
+        if (this.sampleSize <= 0) {
+            this.sampleSize = 0;
+        } else if (this.sampleSize >= 100) {
+            this.sampleSize = 100;
+        }
+
+        if (this.finalBeneficiaryData) {
+            return Math.ceil( (this.sampleSize / 100) * this.finalBeneficiaryData.data.length );
+        } else {
+            return Math.ceil( (this.sampleSize / 100) * this.initialBeneficiaryData.data.length );
+        }
+
+    }
+
+    /**
+     * Generates a table of random beneficiaries from this distribution (length of table = sample size)
      */
     generateRandom() {
+        const sampleLength = this.defineSampleSize();
         this.loadingThirdStep = true;
-        this.beneficiariesService.getRandom(this.distributionId)
+
+        if (sampleLength > 0) {
+            this.beneficiariesService.getRandom(this.distributionId, sampleLength)
             .subscribe(
                 response => {
-                    const data = response.json();
-                    // console.log("random: ",data);
-                    this.randomSampleData = new MatTableDataSource(Beneficiaries.formatArray(data));
+                    const data = Beneficiaries.formatArray(response.json());
+                    this.randomSampleData = new MatTableDataSource(data);
+                    this.loadingThirdStep = false;
                 }
             );
-        this.loadingThirdStep = false;
+        }
+    }
+
+    /**
+     * Requests Back-end a csv containing the sample to export it
+     */
+    exportSample() {
+        this.distributionService.exportSample(this.randomSampleData.data).toPromise()
+        .then(response => {
+            const arrExport = [];
+            const reponse: ExportInterface = response.json() as ExportInterface;
+
+            if (!(reponse instanceof Object)) {
+                this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'center' });
+            } else {
+                arrExport.push(reponse.content);
+                const blob = new Blob(arrExport, { type: 'text/csv' });
+                saveAs(blob, reponse.filename);
+            }
+        })
+        .catch(error => {
+            this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'center' });
+        });
+        // console.log(this.randomSampleData.data);
     }
 
     /**
@@ -264,6 +312,9 @@ export class DistributionsComponent implements OnInit {
         this.dialog.closeAll();
     }
 
+    /**
+     * Refresh the cache with the validated distribution
+     */
     validateActualDistributionInCache() {
 
         const newDistributionsList = new Array<DistributionData>();
@@ -321,6 +372,10 @@ export class DistributionsComponent implements OnInit {
         this.snackBar.open('Adding canceled', '', { duration: 3000, horizontalPosition: 'center' });
     }
 
+    /**
+     * Go back to step 1 when validating
+     * @param stepper
+     */
     goBackToBeginning(stepper: MatStepper) {
         for (let i = 0; i < 3; i++) {
             stepper.previous();

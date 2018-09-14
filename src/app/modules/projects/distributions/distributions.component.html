@@ -8,7 +8,7 @@
     </p>
   </div>
 
-  <mat-horizontal-stepper #myStepper>
+  <mat-horizontal-stepper linear #myStepper>
 
     <mat-step label="{{ TEXT.distribution_details_export | uppercase }}" [stepControl]="form1">
       <form [formGroup]="form1">
@@ -22,7 +22,7 @@
               <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
               <div class="import-export">
                 <button mat-raised-button class="export-button" (click)="export()">
-                  <mat-icon>get_app</mat-icon >
+                  <mat-icon>get_app</mat-icon>
                   <span>{{TEXT.beneficiaries_export | uppercase}}</span>
                 </button>
               </div>
@@ -37,7 +37,7 @@
               </app-table-mobile-search>
             </div>
             <div class="next-container">
-              <button class="next" mat-button matStepperNext (click)="updateSteps()">Next</button>
+              <button class="next" mat-button matStepperNext (click)="this.getDistributionBeneficiaries('both')">Next</button>
             </div>
           </div>
         </div>
@@ -61,7 +61,8 @@
               </p>
             </div>
             <div class="next-container">
-              <button class="next" mat-button matStepperNext (click)="updateSteps()">Next</button>
+              <button class="back" mat-button matStepperPrevious >Previous</button>
+              <button class="next" mat-button matStepperNext >Next</button>
             </div>
           </div>
         </div>
@@ -75,12 +76,18 @@
         <div class="container-table">
           <div class="container-content">
             <div class="content-button">
-              <button mat-icon-button class="random-button" (click)="generateRandom()">
-                <mat-icon>shuffle</mat-icon>
-              </button>
-              <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
+              <div class="sample-size-input">
+                <button mat-icon-button class="random-button" (click)="generateRandom()">
+                    <mat-icon>shuffle</mat-icon>
+                </button>
+                <mat-form-field> 
+                    {{TEXT.sample_choose_size | uppercase}} :
+                    <input matInput [(ngModel)]="this.sampleSize" [ngModelOptions]="{standalone: true}" min="0" max="100" type="number">
+                    %
+                </mat-form-field>
+              </div>
               <div class="import-export">
-                <button mat-raised-button class="export-button" (click)="test()">
+                <button mat-raised-button class="export-button" (click)="exportSample()">
                   <mat-icon>get_app</mat-icon >
                   <span>{{TEXT.beneficiaries_export | uppercase}}</span>
                 </button>
@@ -102,7 +109,8 @@
               </app-table-mobile-search>
             </div>
             <div class="next-container">
-              <button class="next" mat-button matStepperNext (click)="updateSteps()" *ngIf="!actualDistribution.validated">Next</button>
+              <button class="back" mat-button matStepperPrevious>Previous</button>
+              <button class="next" mat-button matStepperNext *ngIf="!actualDistribution.validated">Next</button>
             </div>
           </div>
         </div>
@@ -137,7 +145,8 @@
               </app-table-mobile-search>
             </div>
             <div class="validation">
-                <button mat-button (click)="openDialog(validation)" [disabled]="actualDistribution.validated">Validate</button>
+                <button class="back" mat-button matStepperPrevious>Previous</button>
+                <button mat-button class="ok" (click)="openDialog(validation)" [disabled]="actualDistribution.validated">Validate</button>
             </div>
           </div>
         </div>

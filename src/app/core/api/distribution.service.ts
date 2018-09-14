@@ -69,10 +69,15 @@ export class DistributionService {
     public export(option: string, id: number) {
         if (option === 'project') {
             const url = this.api + '/export?project=' + id;
-            return this.http.get(url);
+            return this.http.post(url, '');
         } else if (option === 'distribution') {
             const url = this.api + '/export?beneficiariesInDistribution=' + id;
-            return this.http.get(url);
+            return this.http.post(url, '');
         }
+    }
+
+    public exportSample(sample: any) {
+        const url = this.api + '/export?distributionSample=true';
+        return this.http.post(url, sample);
     }
 }

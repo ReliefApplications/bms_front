@@ -86,22 +86,20 @@ button{
   font-size: 20px;
 }
 
-.distribution-go {
-    border: 0px;
+.validated-distribution {
 
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    
     mat-icon {
         font-weight: 900  !important;
         font-size: 25px;
-        color: $bms_white;
+        color: $bms_green;
+        overflow: hidden;
     }
-}
-.unvalidated {
-    border: 3px solid $bms_green !important;
-    background-color: $bms_white !important;
 
-    mat-icon {
-        color: $bms_green !important;
-        font-weight: 600  !important;
-        margin-bottom: 5px !important;
+    &:hover {
+        background-color: lightgrey;
     }
 }

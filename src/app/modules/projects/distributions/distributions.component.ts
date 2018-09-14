@@ -379,8 +379,8 @@ export class DistributionsComponent implements OnInit {
      * Go back to step 1 when validating
      * @param stepper
      */
-    goBackToBeginning(stepper: MatStepper) {
-        for (let i = 0; i < 3; i++) {
+    goToTransaction(stepper: MatStepper) {
+        for (let i = 0; i < 2; i++) {
             stepper.previous();
         }
     }

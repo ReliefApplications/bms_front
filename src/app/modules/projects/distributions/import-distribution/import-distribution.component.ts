@@ -10,6 +10,7 @@ import { DistributionService } from '../../../../core/api/distribution.service';
 import { Beneficiaries } from '../../../../model/beneficiary';
 import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
 import { ImportedBeneficiary } from '../../../../model/imported-beneficiary';
+import {MatBadgeModule} from '@angular/material/badge';
 
 const IMPORT_COMPARE = 1;
 const IMPORT_UPDATE = 2;
@@ -109,9 +110,9 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                     result => {
                         tables = result.json();
 
-                        const errorList = ImportedBeneficiary.formatArray(tables[0]);
-                        const addList = ImportedBeneficiary.formatArray(tables[1]);
-                        const removeList = ImportedBeneficiary.formatArray(tables[2]);
+                        const errorList = ImportedBeneficiary.formatArray(tables.errors);
+                        const addList = ImportedBeneficiary.formatArray(tables.added);
+                        const removeList = ImportedBeneficiary.formatArray(tables.deleted);
 
                         this.numberErrors = errorList.length;
                         this.numberAdded = addList.length;

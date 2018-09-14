@@ -6,7 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule,
 MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatDividerModule,
 MAT_CHECKBOX_CLICK_ACTION, MatRadioModule, MatChipsModule, MatSnackBarModule, MatStepperModule,
-MatProgressBarModule, MatListModule } from '@angular/material';
+MatProgressBarModule, MatListModule, MatBadgeModule } from '@angular/material';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -78,6 +78,7 @@ imports: [
     MatDatepickerModule,
     MatNativeDateModule,
     MatCardModule,
+    MatBadgeModule,
     MatSelectModule,
     BrowserAnimationsModule,
     MatDividerModule,
@@ -128,6 +129,7 @@ declarations: [
     AddBeneficiaryComponent,
     DistributionsComponent,
     ImportDistributionComponent,
+
 
 ],
 entryComponents: [
@@ -200,7 +202,8 @@ exports: [
     MatSidenavModule,
     MatToolbarModule,
     MatAutocompleteModule,
-    MatMenuModule
+    MatMenuModule,
+    MatBadgeModule,
 
 ],
 providers: [

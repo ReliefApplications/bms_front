@@ -4,8 +4,10 @@ import { DistributionData } from '../../../model/distribution-data';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { Beneficiaries } from '../../../model/beneficiary';
 import { Mapper } from '../../../core/utils/mapper.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { CacheService } from '../../../core/storage/cache.service';
+import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
+import { DistributionService } from '../../../core/api/distribution.service';
 
 @Component({
   selector: 'app-transaction-table',
@@ -15,20 +17,55 @@ import { CacheService } from '../../../core/storage/cache.service';
 export class TransactionTableComponent extends TableComponent implements OnInit {
 
     distribution: DistributionData;
+    beneficiaries: any;
+    loading = true;
 
     constructor(
         public mapperService: Mapper,
         public dialog: MatDialog,
-        public _cacheService: CacheService) {
+        public _cacheService: CacheService,
+        public distributionService: DistributionService) {
             super(mapperService, dialog, _cacheService);
         }
 
     ngOnInit() {
-        this.entity = Beneficiaries;
+        this.entity = ImportedBeneficiary;
         this.service = BeneficiariesService;
+        this.getDistribution();
     }
 
     getDistribution() {
+        const distributionsList: DistributionData[] = this._cacheService.get(CacheService.DISTRIBUTIONS);
+
+        if (distributionsList && this.parentId) {
+            distributionsList.forEach(
+                element => {
+                    if (Number(element.id) === Number(this.parentId)) {
+                        this.distribution = element;
+                    }
+                }
+            );
+        } else {
+            console.log('missing cache get or distributionId in component call');
+        }
     }
+
+    getBeneficiaries() {
+        this.loading = true;
+
+        this.distributionService.getBeneficiaries(Number(this.parentId))
+        .subscribe(
+            response => {
+                const data = response.json();
+
+                this.beneficiaries = new MatTableDataSource(ImportedBeneficiary.formatArray(data));
+                this.loading = false;
+            },
+            error => {
+                // console.log("Error: ", error);
+            }
+        );
+    }
+
 
 }

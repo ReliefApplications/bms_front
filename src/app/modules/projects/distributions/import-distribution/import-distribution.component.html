@@ -39,17 +39,17 @@
 
     <div class="tableTitles">
         <div class="buttonTitles">
-            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'add'}" class="add" (click)="selectComparingAction('add')">
+            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'add'}" class="add" [matBadge]="removingData" (click)="selectComparingAction('add')">
                 <mat-icon>add_circle_outline</mat-icon>
-                <span>{{ TEXT.import_added | uppercase }} ({{numberAdded}})</span>
+                <span>{{ TEXT.import_added | uppercase }}</span>
             </button>
-            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'remove'}" class="remove" (click)="selectComparingAction('remove')">
+            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'remove'}" class="remove" [matBadge]="numberRemoved" (click)="selectComparingAction('remove')">
                 <mat-icon>highlight_off</mat-icon>
-                <span>{{ TEXT.import_deleted | uppercase }} ({{numberRemoved}})</span>
+                <span>{{ TEXT.import_deleted | uppercase }}</span>
             </button>
-            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'error'}" class="error" (click)="selectComparingAction('error')">
+            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'error'}" class="error" [matBadge]="numberErrors" (click)="selectComparingAction('error')">
                 <mat-icon>error_outline</mat-icon>
-                <span>{{ TEXT.import_errors | uppercase }} ({{numberErrors}})</span>
+                <span>{{ TEXT.import_errors | uppercase }}</span>
             </button>
         </div>
     </div>

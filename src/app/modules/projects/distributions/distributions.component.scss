@@ -141,6 +141,17 @@ button{
         background-color: lightgray;
         margin: 20px;
     }
+    .transact {
+        background-color: $bms_red;
+        font-weight: bold;
+        width: 100px;
+        height: 45px;
+        margin: 20px;
+
+        &:disabled {
+            background-color: darkgrey;
+        }
+    }
 }
 
 .content-table {

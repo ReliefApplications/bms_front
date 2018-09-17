@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, DoCheck, Input, Output, EventEmitter } from '@angular/core';
 import { HouseholdsService } from '../../../../core/api/households.service';
 import { MatSnackBar, MatTableDataSource } from '@angular/material';
 import { saveAs } from 'file-saver/FileSaver';
@@ -8,161 +8,188 @@ import { DistributionData } from '../../../../model/distribution-data';
 import { GlobalText } from '../../../../../texts/global';
 import { DistributionService } from '../../../../core/api/distribution.service';
 import { Beneficiaries } from '../../../../model/beneficiary';
+import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
+import { ImportedBeneficiary } from '../../../../model/imported-beneficiary';
+
+const IMPORT_COMPARE = 1;
+const IMPORT_UPDATE = 2;
 
 @Component({
-  selector: 'app-import-distribution',
-  templateUrl: './import-distribution.component.html',
-  styleUrls: ['./import-distribution.component.scss']
+    selector: 'app-import-distribution',
+    templateUrl: './import-distribution.component.html',
+    styleUrls: ['./import-distribution.component.scss']
 })
-export class ImportDistributionComponent implements OnInit {
+export class ImportDistributionComponent implements OnInit, DoCheck {
 
-  dragAreaClass: string = 'dragarea';
-  public TEXT = GlobalText.TEXTS;
+    dragAreaClass = 'dragarea';
+    public TEXT = GlobalText.TEXTS;
 
-  //upload
-  response = "";
-  public csv = null;
-  comparing : boolean;
-  compareAction : string;
-  distribution : DistributionData;
+    @Input() distribution: DistributionData;
+    @Output() success = new EventEmitter<boolean>();
 
-  referedClassToken = DistributionData;
-  beneficiaryEntity = Beneficiaries;
-  public referedClassService;
-  public load: boolean = false;
+    // upload
+    response = '';
+    public csv = null;
+    comparing: boolean;
 
-  addingData : MatTableDataSource<any>;
-  removingData : MatTableDataSource<any>;
-  errorsData : MatTableDataSource<any>;
+    // indicators
+    referedClassToken = DistributionData;
+    beneficiaryEntity = Beneficiaries;
+    importedBeneficiaryEntity = ImportedBeneficiary;
+    public loadFile = false;
+    public loadUpdate = false;
 
-  constructor(
-    public _householdsService: HouseholdsService,
-    public snackBar: MatSnackBar,
-    public _importService: ImportService,
-    public distributionService: DistributionService,
-  ) { }
+    // datas
+    addingData: MatTableDataSource<any>;
+    removingData: MatTableDataSource<any>;
+    errorsData: MatTableDataSource<any>;
 
-  ngOnInit() {
-    this.comparing = false;
-    this.compareAction = "add";
-  }
+    // datas infos
+    numberAdded = 0;
+    numberRemoved = 0;
+    numberErrors = 0;
+
+    constructor(
+        public _householdsService: HouseholdsService,
+        public snackBar: MatSnackBar,
+        public _importService: ImportService,
+        public distributionService: DistributionService,
+        public beneficiaryService: BeneficiariesService,
+    ) { }
+
+    ngOnInit() {
+        this.comparing = false;
+        // console.log(this.distribution);
+    }
 
     /**
      * check if the langage has changed
      */
     ngDoCheck() {
-      if (this.TEXT != GlobalText.TEXTS) {
-        this.TEXT = GlobalText.TEXTS;
-      }
-    }
-  
-  /**
-   * Get the csv template to import new household and ask 
-   * to save it or just to open it in the computer
-   */
-  exportTemplate() {
-    this._householdsService.getTemplate().toPromise()
-      .then(response => {
-        let arrExport = [];
-        let reponse = response.json();
-        if (!(reponse instanceof Array)) {
-          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: "right"});
-        } else {
-          arrExport.push(response.json()[0]); //0 represente le fichier csv et 1 son nom
-          const blob = new Blob(arrExport, { type: 'text/csv' });
-          saveAs(blob, response.json()[1]);
+        if (this.TEXT !== GlobalText.TEXTS) {
+            this.TEXT = GlobalText.TEXTS;
         }
-      })
-      .catch(error => {
-        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: "right"});
-      });
-  }
-
-  /**
-   * Detect when the file change with the file browse or with the drag and drop
-   * @param event 
-   * @param typeEvent 
-   */
-  fileChange(event, typeEvent) {
-    let fileList: FileList
-
-    switch (typeEvent) {
-      case 'dataTransfer': fileList = event.dataTransfer.files; break;
-      case 'target': fileList = event.target.files; break;
-      default: break;
     }
 
-    if (fileList.length > 0) {
-      this.csv = fileList[0];
-    }
-  }
+    /**
+     * Detect when the file change with the file browse or with the drag and drop
+     * @param event
+     * @param typeEvent
+     */
+    fileChange(event, typeEvent) {
+        let fileList: FileList;
 
-  /**
-   * Upload csv and import the new distribution (list of beneficiaries)
-   */
-  updateDistribution() {
-    this.comparing = true;
-  }
+        switch (typeEvent) {
+            case 'dataTransfer': fileList = event.dataTransfer.files; break;
+            case 'target': fileList = event.target.files; break;
+            default: break;
+        }
 
-  selectComparingAction(action : string) {
-    
-    if(action === "add" || action === "remove" || action === "error"){
-      this.compareAction = action;
-    }
-  }
-
-  goBack() {
-    this.comparing = false;
-  }
-
-  getRightData() {
-    
-    let rightData;
-
-    switch(this.compareAction){
-      case 'add': rightData = this.addingData;
-        break;
-      case 'remove': rightData = this.removingData;
-        break;
-      case 'error': rightData = this.errorsData;
-        break;
-      default: break;
+        if (fileList.length > 0) {
+            this.csv = fileList[0];
+        }
     }
 
-    return(rightData);
-  }
+    /**
+     * Upload csv and import the new distribution (list of beneficiaries)
+     */
+    updateDistribution(step: number) {
 
+        const data = new FormData();
+        data.append('file', this.csv);
 
-  /**
-   * All listener for the drag and drop
-   * @param event 
-   */
-  @HostListener('dragover', ['$event']) onDragOver(event) {
-    this.dragAreaClass = "dragarea-hover";
-    event.preventDefault();
-  }
-  @HostListener('dragenter', ['$event']) onDragEnter(event) {
-    this.dragAreaClass = "dragarea-hover";
-    event.preventDefault();
-  }
-  @HostListener('dragend', ['$event']) onDragEnd(event) {
-    this.dragAreaClass = "dragarea";
-    event.preventDefault();
-  }
-  @HostListener('dragleave', ['$event']) onDragLeave(event) {
-    this.dragAreaClass = "dragarea";
-    event.preventDefault();
-  }
-  @HostListener('drop', ['$event']) onDrop(event) {
-    this.dragAreaClass = "dragarea";
+        if (this.csv && step === IMPORT_COMPARE) {
+            this.comparing = true;
+            this.loadFile = true;
+            let tables;
 
-    // setting the data is required by firefox
-    event.dataTransfer.setData("text", 'firefox');
+            this.beneficiaryService.import(this.distribution.id, data, IMPORT_COMPARE).toPromise()
+                .then(
+                    result => {
+                        tables = result.json();
 
-    event.preventDefault();
-    event.stopPropagation();
+                        const errorList = ImportedBeneficiary.formatArray(tables.errors);
+                        const addList = ImportedBeneficiary.formatArray(tables.added);
+                        const removeList = ImportedBeneficiary.formatArray(tables.deleted);
 
-    this.fileChange(event, 'dataTransfer');
-  }
+                        if (errorList && errorList.length > 0) {
+                            this.numberErrors = errorList.length;
+                        } else {
+                            this.numberErrors = 0;
+                        }
+                        if (addList && addList.length > 0) {
+                            this.numberAdded = addList.length;
+                        } else {
+                            this.numberAdded = 0;
+                        }
+                        if (removeList && removeList.length > 0) {
+                            this.numberRemoved = removeList.length;
+                        } else {
+                            this.numberRemoved = 0;
+                        }
+
+                        this.errorsData = new MatTableDataSource(errorList);
+                        this.addingData = new MatTableDataSource(addList);
+                        this.removingData = new MatTableDataSource(removeList);
+                        this.loadFile = false;
+                    }
+                )
+                .catch(
+                    error => {
+                        // console.log('error: ', error);
+                    }
+                );
+        } else if (this.csv && step === IMPORT_UPDATE) {
+            this.loadUpdate = true;
+            this.beneficiaryService.import(this.distribution.id, data, IMPORT_UPDATE)
+                .subscribe(
+                    success => {
+                        this.snackBar.open('Distribution updated', '', { duration: 3000, horizontalPosition: 'center' });
+                        this.success.emit(true);
+                        this.loadUpdate = false;
+                    }
+                );
+            this.csv = null;
+            this.comparing = false;
+        } else {
+            // console.log('Error / empty csv');
+        }
+    }
+
+    goBack() {
+        this.comparing = false;
+    }
+
+    /**
+     * All listener for the drag and drop
+     * @param event
+     */
+    @HostListener('dragover', ['$event']) onDragOver(event) {
+        this.dragAreaClass = 'dragarea-hover';
+        event.preventDefault();
+    }
+    @HostListener('dragenter', ['$event']) onDragEnter(event) {
+        this.dragAreaClass = 'dragarea-hover';
+        event.preventDefault();
+    }
+    @HostListener('dragend', ['$event']) onDragEnd(event) {
+        this.dragAreaClass = 'dragarea';
+        event.preventDefault();
+    }
+    @HostListener('dragleave', ['$event']) onDragLeave(event) {
+        this.dragAreaClass = 'dragarea';
+        event.preventDefault();
+    }
+    @HostListener('drop', ['$event']) onDrop(event) {
+        this.dragAreaClass = 'dragarea';
+
+        // setting the data is required by firefox
+        event.dataTransfer.setData('text', 'firefox');
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.fileChange(event, 'dataTransfer');
+    }
 
 }

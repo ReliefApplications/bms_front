@@ -5,17 +5,17 @@ import { FieldMapper            } from '../../model/field-mapper';
 @Injectable({
 	providedIn: 'root'
 })
-export class Mapper{
-    mapper:FieldMapper = new FieldMapper();
+export class Mapper {
+    mapper: FieldMapper = new FieldMapper();
     entityInstance = null;
     mapperObject = null;
 
-    constructor(){
+    constructor() {
 
     }
 
-    instantiate(classToken){
-        let instance = Object.create(classToken.prototype);
+    instantiate(classToken) {
+        const instance = Object.create(classToken.prototype);
         instance.constructor.apply(instance);
         return this.entityInstance = instance;
     }
@@ -23,53 +23,56 @@ export class Mapper{
     /**
     * set mapperObject with its properties set with the entity translator
     */
-    setMapperObject(entity){
+    setMapperObject(entity) {
         this.mapperObject = this.findMapperObject(entity);
     }
 
-    findMapperObject(entity): Object{
-        switch(entity.__classname__){
+    findMapperObject(entity): Object {
+        switch (entity.__classname__) {
             case 'DistributionData' :
-                return this.mapper.getEntityTranslator("distribution_data");
+                return this.mapper.getEntityTranslator('distribution_data');
             case 'Donor' :
-                return this.mapper.getEntityTranslator("donor");
+                return this.mapper.getEntityTranslator('donor');
             case 'Criteria' :
-                return this.mapper.getEntityTranslator("criteria");
+                return this.mapper.getEntityTranslator('criteria');
             case 'Project' :
-                return this.mapper.getEntityTranslator("project");
+                return this.mapper.getEntityTranslator('project');
             case 'UserInterface' :
-                return this.mapper.getEntityTranslator("user");
+                return this.mapper.getEntityTranslator('user');
             case 'CountrySpecific' :
-                return this.mapper.getEntityTranslator("country_specific");
+                return this.mapper.getEntityTranslator('country_specific');
             case 'Households' :
-                return this.mapper.getEntityTranslator("households");
+                return this.mapper.getEntityTranslator('households');
             case 'Commodity' :
-                return this.mapper.getEntityTranslator("commodity");
+                return this.mapper.getEntityTranslator('commodity');
             case 'Beneficiaries' :
-                return this.mapper.getEntityTranslator("beneficiaries");    
+                return this.mapper.getEntityTranslator('beneficiaries');
+            case 'ImportedBeneficiary' :
+                return this.mapper.getEntityTranslator('imported_beneficiary');
             default: return;
         }
     }
 
-    getMapperObject(): Object{
+    getMapperObject(): Object {
         return this.mapperObject;
     }
 
     /**
     * return the displayed name of a mapperObject's property if the property exists
     */
-    mapTitle(column): Object{
-        let mapperObject = this.getMapperObject();
+    mapTitle(column): Object {
+        const mapperObject = this.getMapperObject();
         return mapperObject ? mapperObject[column] : '';
     }
 
     /**
     * return the formmatted value of a property p of the object element
     */
-    mapValue(element, p){
-        let elementObject = this.entityInstance.getMapper(element);
-        if(!elementObject)
+    mapValue(element, p) {
+        const elementObject = this.entityInstance.getMapper(element);
+        if (!elementObject) {
             return p;
+        }
         return elementObject[p];
     }
 
@@ -77,7 +80,7 @@ export class Mapper{
     * return the formmatted value of a property p of the object element
     * the formatting is for modal details
     */
-    mapValueDetails(element, p){
+    mapValueDetails(element, p) {
         return this.entityInstance.getMapperDetails(element)[p];
     }
 }

@@ -1,6 +1,7 @@
 
-import { Component, OnInit, Input, ViewChild, OnChanges } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource, MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner} from '@angular/material';
+import { Component, OnInit, Input, ViewChild, OnChanges, ElementRef, DoCheck } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource,
+MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner} from '@angular/material';
 
 import { Mapper } from '../../core/utils/mapper.service';
 import { CacheService } from '../../core/storage/cache.service';
@@ -12,21 +13,31 @@ import { ModalDeleteComponent } from '../modals/modal-delete/modal-delete.compon
 
 import { GlobalText } from '../../../texts/global';
 import { dashCaseToCamelCase } from '@angular/animations/browser/src/util';
+import { Beneficiaries } from '../../model/beneficiary';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnChanges {
+export class TableComponent implements OnChanges, DoCheck {
   public table = GlobalText.TEXTS;
   private paginator: MatPaginator;
 
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
   }
-  @ViewChild(MatSort) sort: MatSort;
 
+  sort;
+  @ViewChild(MatSort) set content(content: ElementRef<MatSort>) {
+    this.sort = content;
+    if (this.sort) {
+      this.data.sort = this.sort;
+    }
+  }
+
+  @Input() editable: boolean;
+  @Input() parentId: Number = null;
   @Input() entity;
   public oldEntity;
   @Input() data: any;
@@ -37,8 +48,8 @@ export class TableComponent implements OnChanges {
   propertiesTypes: any;
   propertiesActions: any;
   entityInstance = null;
-  filled : boolean = true;
-  public user_action: string = '';
+  filled = true;
+  public user_action = '';
 
   constructor(
     public mapperService: Mapper,
@@ -48,29 +59,35 @@ export class TableComponent implements OnChanges {
 
   ngOnChanges() {
     this.checkData();
-    //this.checkTable();
+    // this.checkTable();
   }
 
   ngDoCheck() {
-    if (this.entity != this.oldEntity) {
+    if (this.entity !== this.oldEntity) {
       this.checkData();
     }
-    if(!this.data.paginator){
+    if (!this.data.paginator) {
       this.data.paginator = this.paginator;
     }
-    if (this.table != GlobalText.TEXTS) {
+    if (this.table !== GlobalText.TEXTS) {
       this.table = GlobalText.TEXTS;
       this.setDataTableProperties();
       this.mapperService.setMapperObject(this.entity);
     }
   }
 
-  checkTable() {
-      if(this.data.data && this.data.data.length>0)
-      {
-        this.filled = true;
+  checkEntityUpdateRights() {
+      if (this.entity === Beneficiaries) {
+          return false;
+      } else {
+          return true;
       }
-      else {
+  }
+
+  checkTable() {
+      if (this.data.data && this.data.data.length > 0) {
+        this.filled = true;
+      } else {
         this.filled = false;
       }
   }
@@ -79,12 +96,13 @@ export class TableComponent implements OnChanges {
 
     this.service.get().subscribe(response => {
       this.data = new MatTableDataSource(this.entity.formatArray(response.json()));
-      //update cache associated variable
-      this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + "S"], response.json());
+      // update cache associated variable
+      const key = (<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + 'S'];
+      this._cacheService.set(key, response.json());
 
       this.setDataTableProperties();
     }, error => {
-      console.error("error", error);
+      console.error('error', error);
     });
   }
 
@@ -114,7 +132,7 @@ export class TableComponent implements OnChanges {
       this.properties.forEach(element => {
         this.propertiesActions.push(element);
       });
-      this.propertiesActions.push("actions");
+      this.propertiesActions.push('actions');
       this.mapperService.setMapperObject(this.entity);
     }
     this.oldEntity = this.entity;
@@ -126,11 +144,11 @@ export class TableComponent implements OnChanges {
   openDialog(user_action, element): void {
     let dialogRef;
 
-    if (user_action == 'details') {
+    if (user_action === 'details') {
       dialogRef = this.dialog.open(ModalDetailsComponent, {
         data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
       });
-    } else if (user_action == 'update') {
+    } else if (user_action === 'update') {
       dialogRef = this.dialog.open(ModalUpdateComponent, {
         data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
       });
@@ -157,12 +175,12 @@ export class TableComponent implements OnChanges {
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if (updateElement)
-      {
+      if (updateElement) {
         updateElement.unsubscribe();
       }
-      if (deleteElement)
+      if (deleteElement) {
         deleteElement.unsubscribe();
+      }
     });
   }
 
@@ -180,21 +198,27 @@ export class TableComponent implements OnChanges {
     this.service.update(updateElement['id'], updateElement).subscribe(response => {
       this.updateData();
     }, error => {
-      //console.error("err", error);
-    })
+      // console.error("err", error);
+    });
   }
 
   deleteElement(deleteElement: Object) {
-    this.service.delete(deleteElement['id']).subscribe(response => {
-      this.updateData();
-    })
+    if (this.entity === Beneficiaries) {
+        this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
+            this.updateData();
+        });
+    } else {
+        this.service.delete(deleteElement['id']).subscribe(response => {
+            this.updateData();
+        });
+    }
   }
 }
 
 const rangeLabel = (page: number, pageSize: number, length: number) => {
-  let table = GlobalText.TEXTS;
+  const table = GlobalText.TEXTS;
 
-  if (length == 0 || pageSize == 0) { return `0 ` + table.table_of_page + ` ${length}`; }
+  if (length === 0 || pageSize === 0) { return `0 ` + table.table_of_page + ` ${length}`; }
 
   length = Math.max(length, 0);
 
@@ -206,4 +230,4 @@ const rangeLabel = (page: number, pageSize: number, length: number) => {
     startIndex + pageSize;
 
   return `${startIndex + 1} - ${endIndex} ` + table.table_of_page + ` ${length}`;
-}
+};

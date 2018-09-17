@@ -16,6 +16,20 @@
         p {
             margin-top : 10px;
             font-size: 18px;
+
+            mat-icon {
+                padding: auto;
+                margin-left: 3px;
+                font-size: 20px;
+                vertical-align: middle;
+
+                &.unvalid {
+                    color: grey;
+                }
+                &.valid {
+                    color: $bms_red;
+                }
+            }
         }
     }
 }
@@ -38,6 +52,15 @@ app-table-mobile{
     margin: 15px;
     text-align: center;
     font-size: 18px;
+
+    .show {
+        background-color: $bms_green;
+    }
+}
+
+.properties-displayed{
+    display: flex;
+    flex-grow: 1;
 }
 
 button{
@@ -55,7 +78,7 @@ button{
         height: 40px;
     }
 
-    &.add-button{
+    &.add-button, &.random-button, &.refresh-button {
         width: 50px;
         height: 50px;
     }
@@ -63,6 +86,10 @@ button{
     span{
         font-family: $bms_font_text;
         padding-left:20px;
+    }
+
+    &:disabled {
+        background-color: darkgrey;
     }
 }
 
@@ -82,31 +109,111 @@ button{
     text-align: right;
     margin: 10px;
 
-    button {
+    .next {
         background-color: $bms_green;
     }
-}
-.transaction {
-    width : 100%;
-    text-align: center;
-    padding: 5px;
-    margin-bottom: 10px;
 
-    button {
-        background-color: $bms_red;
+    .back {
+        float: left;
+        color: black;
+        background-color: lightgray;
     }
 }
+
+.validation {
+    width : 100%;
+    text-align: right;
+
+    .ok {
+        background-color: $bms_red;
+        font-weight: bold;
+        width: 75px;
+        height: 45px;
+        margin: 20px;
+
+        &:disabled {
+            background-color: darkgrey;
+        }
+    }
+    .back {
+        float: left;
+        color: black;
+        background-color: lightgray;
+        margin: 20px;
+    }
+    .transact {
+        background-color: $bms_red;
+        font-weight: bold;
+        width: 100px;
+        height: 45px;
+        margin: 20px;
+
+        &:disabled {
+            background-color: darkgrey;
+        }
+    }
+}
+
 .content-table {
     display: flex;
     width : 100%;
     flex-direction: column;
+}
 
-    .waitingDataContainer {
-        width:100%;
-        text-align: center;
-        margin-left: 45%;
-        font-size: 20px;
-      }
+.waitingDataContainer {
+    width:100%;
+    text-align: center;
+    margin-left: 45%;
+    font-size: 20px;
+}
+
+.validate, .adding {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    mat-form-field {
+        width: 100%;
+    }
+    .action {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        width: 100%;
+        margin: 10px;
+
+        .cancel {
+            background-color: $bms_white;
+            color: $bms_red;
+            margin-right: 5px;
+        }
+        .confirm {
+            background-color: $bms_red;
+            color: $bms_white;
+        }
+    }
+}
+
+.sample-size-input {
+    width: 270px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    mat-form-field {
+        width: 100%;
+        height: 40px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        input {
+            text-align: right;
+            width: 47px;
+        }
+    }
 }
 
 //for mobile screen
@@ -117,6 +224,10 @@ button{
             bottom: 20px;
             left: 80%;
             z-index: 1000;
+
+            &:disabled {
+                background-color: darkgrey;
+            }
         }
 
         &.export-button{

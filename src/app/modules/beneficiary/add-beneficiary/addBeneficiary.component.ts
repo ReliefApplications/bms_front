@@ -453,7 +453,7 @@ export class AddBeneficiaryComponent implements OnInit {
       this.householdToCreate.livelihood = this.livelihoodList.indexOf(livelihood);
       this.answerCountrySpecific._results.forEach(result => {
         let answerCountry = new CountrySpecificAnswer;
-        let idCountrySpecific = new CountrySpecific;
+        const idCountrySpecific = new CountrySpecific;
         answerCountry.answer = result.nativeElement.value;
         idCountrySpecific.id = this.getIdCountrySpecific(result.nativeElement.attributes[4].nodeValue);
         idCountrySpecific.field = result.nativeElement.attributes[4].nodeValue;
@@ -509,13 +509,12 @@ export class AddBeneficiaryComponent implements OnInit {
    */
   addBeneficiaries(inputBeneficiaries, type: string) {
     inputBeneficiaries.forEach(inputBeneficiary => {
-      let alreadyRegister: boolean = false;
+      let alreadyRegister = false;
       if (this.householdToCreate.beneficiaries.length === 0) {
-        let newBeneficiary: AddBeneficiaries = new AddBeneficiaries;
+        const newBeneficiary: AddBeneficiaries = new AddBeneficiaries;
         this.formatBeneficiaries(inputBeneficiary, type, newBeneficiary)
         this.householdToCreate.beneficiaries.push(newBeneficiary);
-      }
-      else {
+      } else {
         this.householdToCreate.beneficiaries.forEach(householdBeneficiary => {
           if (householdBeneficiary.id === inputBeneficiary.id) {
             this.formatBeneficiaries(inputBeneficiary, type, householdBeneficiary)
@@ -523,7 +522,7 @@ export class AddBeneficiaryComponent implements OnInit {
           }
         })
         if (!alreadyRegister) {
-          let newBeneficiary: AddBeneficiaries = new AddBeneficiaries;
+          const newBeneficiary: AddBeneficiaries = new AddBeneficiaries;
           this.formatBeneficiaries(inputBeneficiary, type, newBeneficiary)
           this.householdToCreate.beneficiaries.push(newBeneficiary);
         }
@@ -532,7 +531,7 @@ export class AddBeneficiaryComponent implements OnInit {
   }
 
   findSrcVulnerability(idVulnerability: string): string {
-    let src: string = '';
+    let src = '';
     this.allVulnerability.forEach(vulnerability => {
       if (vulnerability.id === idVulnerability) {
         src = vulnerability.src
@@ -552,19 +551,18 @@ export class AddBeneficiaryComponent implements OnInit {
     newBeneficiary.id = inputBeneficiary.id;
     newBeneficiary.family_name = inputBeneficiary.familyName;
     newBeneficiary.given_name = inputBeneficiary.givenName;
-    let fieldPhone: Phones = new Phones;
+    const fieldPhone: Phones = new Phones;
     fieldPhone.number = inputBeneficiary.phone;
     fieldPhone.type = inputBeneficiary.typePhone;
     newBeneficiary.phones.push(fieldPhone);
-    let fieldNationalID: NationalID = new NationalID;
+    const fieldNationalID: NationalID = new NationalID;
     fieldNationalID.id_number = inputBeneficiary.nationalID;
     fieldNationalID.id_type = inputBeneficiary.typeNationalId;
     newBeneficiary.national_ids.push(fieldNationalID);
 
     if (inputBeneficiary.gender === "F") {
       newBeneficiary.gender = 0
-    }
-    else {
+    } else {
       newBeneficiary.gender = 1
     }
 
@@ -574,21 +572,21 @@ export class AddBeneficiaryComponent implements OnInit {
       newBeneficiary.status = "0";
     }
 
-    let formatDateOfBirth = inputBeneficiary.birth.toLocaleDateString().split('/');
+    const formatDateOfBirth = inputBeneficiary.birth.toLocaleDateString().split('/');
     if (formatDateOfBirth[0].length < 2) {
-      formatDateOfBirth[0] = "0" + formatDateOfBirth[0];
+      formatDateOfBirth[0] = '0' + formatDateOfBirth[0];
     }
     if (formatDateOfBirth[1].length < 2) {
-      formatDateOfBirth[1] = "0" + formatDateOfBirth[1];
+      formatDateOfBirth[1] = '0' + formatDateOfBirth[1];
     }
 
-    newBeneficiary.date_of_birth = formatDateOfBirth[2] + "-" + formatDateOfBirth[0] + "-" + formatDateOfBirth[1];
+    newBeneficiary.date_of_birth = formatDateOfBirth[2] + '-' + formatDateOfBirth[0] + '-' + formatDateOfBirth[1];
 
     newBeneficiary.vulnerability_criteria = [];
     this.selectedVulnerabilities.forEach(vulnerabilities => {
       if (vulnerabilities.id === inputBeneficiary.id) {
         vulnerabilities.vulnerabilities.forEach(vulnerability => {
-          let fieldVulnerability: VulnerabilityCriteria = new VulnerabilityCriteria;
+          const fieldVulnerability: VulnerabilityCriteria = new VulnerabilityCriteria;
           fieldVulnerability.id = vulnerability;
           fieldVulnerability.src = this.findSrcVulnerability(vulnerability);
           newBeneficiary.vulnerability_criteria.push(fieldVulnerability);
@@ -608,17 +606,17 @@ export class AddBeneficiaryComponent implements OnInit {
    * send data to the back and create the new household
    */
   create() {
-    let project = this.selectedProject.split(" - ");
+    const project = this.selectedProject.split(' - ');
 
     this.householdToCreate.beneficiaries.forEach(beneficiary => {
       delete beneficiary.id;
-    })
+    });
 
-    let promise = this._householdsServce.add(this.householdToCreate, project[0]);
+    const promise = this._householdsServce.add(this.householdToCreate, project[0]);
     if (promise) {
       promise.toPromise().then(() => {
         this.router.navigate(['/households']);
-      })
+      });
     }
   }
 

@@ -153,39 +153,38 @@ export class DataValidationComponent implements OnInit {
      */
     step2Duplicates(data: any, type: string, idDuplicate: string, newHousehold: any, idCache?: number) {
         let verification = new VerifiedData;
-        let indexFound: boolean = false;
+        let indexFound = false;
         let correctDuplicate = new FormatDuplicatesData;
 
         this.correctedData.forEach(duplicateVerified => {
             duplicateVerified.data.forEach(element => {
-                //search if the duplicate id is already in correctedData
-                //if duplicate id found, associate object update directly this object
+                // search if the duplicate id is already in correctedData
+                // if duplicate id found, associate object update directly this object
                 if (element.id_duplicate === idDuplicate) {
                     indexFound = true;
                     if (type === 'old') {
                         element.state = !element.state;
-                        //when state is true, add an object to_delete containing name of new object
+                        // when state is true, add an object to_delete containing name of new object
                         if (element.state) {
                             element.to_delete = {};
                             element.to_delete.given_name = data.new.households.beneficiaries[0].given_name;
                             element.to_delete.family_name = data.new.households.beneficiaries[0].family_name;
                         }
-                        //when state is false, delete object to_delete
+                        // when state is false, delete object to_delete
                         else if (!element.state) {
                             delete element.to_delete;
                         }
-                    }
-                    else {
-                        //when new already exist, delete it
-                        //if new exist, it means checkbox is already check and we want unchecked it
+                    } else {
+                        // when new already exist, delete it
+                        // if new exist, it means checkbox is already check and we want unchecked it
                         if (element.new) {
                             delete element.new;
                             element.to_delete = {};
                             element.to_delete.given_name = data.new.households.beneficiaries[0].given_name;
                             element.to_delete.family_name = data.new.households.beneficiaries[0].family_name;
                         }
-                        //when new don't exist, create it
-                        //if new don't exist, it means it don't check and we want check it
+                        // when new don't exist, create it
+                        // if new don't exist, it means it don't check and we want check it
                         else {
                             element.new = data.new.households;
                             delete element.to_delete;
@@ -194,13 +193,13 @@ export class DataValidationComponent implements OnInit {
                 }
             });
         });
-        //if duplicate isn't found in correctedData, create object and insert it in correctedData
+        // if duplicate isn't found in correctedData, create object and insert it in correctedData
         if (indexFound === false) {
             if (type === 'old') {
                 verification.id_old = data.old.households.id;
                 verification.id_duplicate = idDuplicate;
-                //verify if the old duplicate is the head
-                //if it's a head, state is true, object is create and checkbox is check and disabled in html
+                // verify if the old duplicate is the head
+                // if it's a head, state is true, object is create and checkbox is check and disabled in html
                 if (data.old.isHead) {
                     verification.state = true;
                     verification.to_delete = {};
@@ -217,11 +216,11 @@ export class DataValidationComponent implements OnInit {
                 verification.id_duplicate = idDuplicate;
             }
 
-            //before add it in corrected data, we verified if the id_cache exist in correctedData
-            let alreadyExist: boolean = false;
+            // before add it in corrected data, we verified if the id_cache exist in correctedData
+            let alreadyExist = false;
             if (idCache) {
                 this.correctedData.forEach(element => {
-                    //if id_cache already exist, update directly this element
+                    // if id_cache already exist, update directly this element
                     if (element.id_tmp_cache === idCache) {
                         element.data.push(verification);
                         alreadyExist = true;
@@ -229,7 +228,7 @@ export class DataValidationComponent implements OnInit {
                 });
             }
 
-            //if id_cache don't exist, create new object in correctedData
+            // if id_cache don't exist, create new object in correctedData
             if (!alreadyExist) {
                 if (idCache) {
                     correctDuplicate.id_tmp_cache = idCache;
@@ -250,31 +249,31 @@ export class DataValidationComponent implements OnInit {
      */
     step3More(beneficiary: any, idOld: number) {
         let beneficiaryToAdd = new FormatMore;
-        let householdFind: boolean = false;
-        let beneficiaryFind: boolean = false;
+        let householdFind = false;
+        let beneficiaryFind = false;
 
-        //check if a action has already made 
+        // check if a action has already made 
         if (this.correctedData.length != 0) {
             for (let j = 0; j < this.correctedData.length; j++) {
-                //check if the household has already register in correctData
+                // check if the household has already register in correctData
                 if (this.correctedData[j].id_old === idOld) {
                     householdFind = true;
-                    //if the household exist, search beneficiary
+                    // if the household exist, search beneficiary
                     for (let i = 0; i < this.correctedData[j].data.length; i++) {
-                        //if beneficiary exist, it means it already check and we want to unchecked it so remove it
+                        // if beneficiary exist, it means it already check and we want to unchecked it so remove it
                         if (this.correctedData[j].data[i].id_tmp === beneficiary.id_tmp) {
                             this.correctedData[j].data.splice(this.correctedData[j].data.indexOf(beneficiary.id_tmp), 1);
                             beneficiaryFind = true;
                             break;
                         }
                     }
-                    //if it doesn't exist, it means it unchecked and we want to checked it, so create it
+                    // if it doesn't exist, it means it unchecked and we want to checked it, so create it
                     if (!beneficiaryFind) {
                         this.correctedData[j].data.push(beneficiary);
                     }
                 }
             }
-            //if the household doesn't find create it
+            // if the household doesn't find create it
             if (!householdFind) {
                 beneficiaryToAdd.id_old = idOld;
                 beneficiaryToAdd.id_tmp_cache = beneficiary.id_tmp_cache;
@@ -282,7 +281,7 @@ export class DataValidationComponent implements OnInit {
                 this.correctedData.push(beneficiaryToAdd);
             }
         } else {
-            //if correctedData contains 0 data, add directly FormatMore object
+            // if correctedData contains 0 data, add directly FormatMore object
             beneficiaryToAdd.id_old = idOld;
             beneficiaryToAdd.id_tmp_cache = beneficiary.id_tmp_cache;
             beneficiaryToAdd.data.push(beneficiary);
@@ -299,33 +298,33 @@ export class DataValidationComponent implements OnInit {
      */
     step4Less(idBeneficiary: number, idOld: number, idCache : number) {
         let beneficiaryToAdd = new FormatLess;
-        let householdFind: boolean = false;
-        let beneficiaryFind: boolean = false;
+        let householdFind = false;
+        let beneficiaryFind = false;
         let idToSend: any = {};
         idToSend.id = idBeneficiary;
 
-        //check if a action has already made 
+        // check if a action has already made
         if (this.correctedData.length != 0) {
             for (let j = 0; j < this.correctedData.length; j++) {
-                //check if the household has already register in correctData
+                // check if the household has already register in correctData
                 if (this.correctedData[j].id_old === idOld) {
                     householdFind = true;
-                    //if the household exist, search beneficiary
+                    // if the household exist, search beneficiary
                     for (let i = 0; i < this.correctedData[j].data.length; i++) {
-                        //if beneficiary exist, it means it already check and we want to unchecked it so remove it
+                        // if beneficiary exist, it means it already check and we want to unchecked it so remove it
                         if (this.correctedData[j].data[i].id === idBeneficiary) {
                             this.correctedData[j].data.splice(this.correctedData[j].data.indexOf(idBeneficiary), 1);
                             beneficiaryFind = true;
                             break;
                         }
                     }
-                    //if it doesn't exist, it means it unchecked and we want to checked it, so create it
+                    // if it doesn't exist, it means it unchecked and we want to checked it, so create it
                     if (!beneficiaryFind) {
                         this.correctedData[j].data.push(idToSend);
                     }
                 }
             }
-            //if the household doesn't find create it
+            // if the household doesn't find create it
             if (!householdFind) {
                 beneficiaryToAdd.id_old = idOld;
                 beneficiaryToAdd.id_tmp_cache = idCache;
@@ -333,7 +332,7 @@ export class DataValidationComponent implements OnInit {
                 this.correctedData.push(beneficiaryToAdd);
             }
         } else {
-            //if correctedData contains 0 data, add directly FormatMore object
+            // if correctedData contains 0 data, add directly FormatMore object
             beneficiaryToAdd.id_old = idOld;
             beneficiaryToAdd.id_tmp_cache = idCache;
             beneficiaryToAdd.data.push(idToSend);
@@ -346,9 +345,9 @@ export class DataValidationComponent implements OnInit {
      * Data could be send only if all data is verify
      */
     sendCorrectedData() {
-        //verification for the step 1 and 2
-        //the length of correctedData need to be equal of the length of data receive by the back
-        //if the length isn't equal all data isn't corrected and it's impossible to go in the next step
+        // verification for the step 1 and 2
+        // the length of correctedData need to be equal of the length of data receive by the back
+        // if the length isn't equal all data isn't corrected and it's impossible to go in the next step
         let length = this.correctedData.length;
         if (this.step === 1) {
             this.correctedData.forEach(element => {
@@ -368,22 +367,22 @@ export class DataValidationComponent implements OnInit {
         }
 
         if (this.step === 1 && this.typoIssues.length != length) {
-            this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected, '', { duration: 3000, horizontalPosition: "right" });
+            this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected, '', { duration: 3000, horizontalPosition: 'right' });
         } else if (this.step === 2 && this.duplicates.length != length) {
-            this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected, '', { duration: 3000, horizontalPosition: "right" });
+            this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected, '', { duration: 3000, horizontalPosition: 'right' });
         } else {
             this.load = true;
             if (this.step === 1) {
-                this.snackBar.open(this.verification.data_verification_snackbar_typo_corrected, '', { duration: 3000, horizontalPosition: "right" });
+                this.snackBar.open(this.verification.data_verification_snackbar_typo_corrected, '', { duration: 3000, horizontalPosition: 'right' });
                 this.typoDone = true;
             } else if (this.step === 2) {
-                this.snackBar.open(this.verification.data_verification_snackbar_duplicate_corrected, '', { duration: 3000, horizontalPosition: "right" });
+                this.snackBar.open(this.verification.data_verification_snackbar_duplicate_corrected, '', { duration: 3000, horizontalPosition: 'right' });
                 this.duplicateDone = true;
             } else if (this.step === 3) {
-                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 3000, horizontalPosition: "right" });
+                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 3000, horizontalPosition: 'right' });
                 this.moreDone = true;
             } else if (this.step === 4) {
-                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 3000, horizontalPosition: "right" });
+                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 3000, horizontalPosition: 'right' });
                 this.lessDone = true;
             }
             this.step = this.step + 1;
@@ -393,7 +392,7 @@ export class DataValidationComponent implements OnInit {
                 this.getData();
             }, () => {
                 this.load = false;
-                this.snackBar.open('Error processing data ', '', { duration: 3000, horizontalPosition: "right" });
+                this.snackBar.open('Error processing data ', '', { duration: 3000, horizontalPosition: 'right' });
             });
 
         }

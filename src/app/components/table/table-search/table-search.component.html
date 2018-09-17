@@ -33,10 +33,10 @@
         <button mat-icon-button (click)="openDialog('details', element)" class="green">
           <mat-icon>search</mat-icon>
         </button>
-        <button mat-icon-button (click)="openDialog('update', element)" class="light-red">
+        <button *ngIf="editable && checkEntityUpdateRights()" mat-icon-button (click)="openDialog('update', element)" class="light-red">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="openDialog('delete', element)" class="red">
+        <button *ngIf="editable" mat-icon-button (click)="openDialog('delete', element)" class="red">
           <mat-icon>close</mat-icon>
         </button>
       </td>

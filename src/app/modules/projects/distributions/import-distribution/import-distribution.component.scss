@@ -139,6 +139,22 @@
     }
 }
 
+.mat-badge-content {
+    z-index: 9000;
+}
+
+.buttonTitles {
+    .add {
+        z-index: 300;
+    }
+    .remove {
+        z-index: 200;
+    }
+    .error {
+        z-index: 100;
+    }
+}
+
 
 //for mobile screen
 @media only screen and (max-width: 750px){

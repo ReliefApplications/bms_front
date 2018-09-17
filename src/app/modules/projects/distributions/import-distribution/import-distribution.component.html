@@ -39,7 +39,7 @@
 
     <div class="tableTitles">
         <div class="buttonTitles">
-            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'add'}" class="add" [matBadge]="removingData" (click)="selectComparingAction('add')">
+            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'add'}" class="add" [matBadge]="numberAdded" (click)="selectComparingAction('add')">
                 <mat-icon>add_circle_outline</mat-icon>
                 <span>{{ TEXT.import_added | uppercase }}</span>
             </button>

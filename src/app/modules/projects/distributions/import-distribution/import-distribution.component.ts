@@ -10,7 +10,6 @@ import { DistributionService } from '../../../../core/api/distribution.service';
 import { Beneficiaries } from '../../../../model/beneficiary';
 import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
 import { ImportedBeneficiary } from '../../../../model/imported-beneficiary';
-import {MatBadgeModule} from '@angular/material/badge';
 
 const IMPORT_COMPARE = 1;
 const IMPORT_UPDATE = 2;
@@ -32,7 +31,6 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     response = '';
     public csv = null;
     comparing: boolean;
-    compareAction: string;
 
     // indicators
     referedClassToken = DistributionData;
@@ -61,7 +59,6 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
 
     ngOnInit() {
         this.comparing = false;
-        this.compareAction = 'add';
         // console.log(this.distribution);
     }
 
@@ -103,6 +100,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
 
         if (this.csv && step === IMPORT_COMPARE) {
             this.comparing = true;
+            this.loadFile = true;
             let tables;
 
             this.beneficiaryService.import(this.distribution.id, data, IMPORT_COMPARE).toPromise()
@@ -133,6 +131,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                         this.errorsData = new MatTableDataSource(errorList);
                         this.addingData = new MatTableDataSource(addList);
                         this.removingData = new MatTableDataSource(removeList);
+                        this.loadFile = false;
                     }
                 )
                 .catch(
@@ -145,9 +144,9 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
             this.beneficiaryService.import(this.distribution.id, data, IMPORT_UPDATE)
                 .subscribe(
                     success => {
-                        this.loadUpdate = false;
                         this.snackBar.open('Distribution updated', '', { duration: 3000, horizontalPosition: 'center' });
                         this.success.emit(true);
+                        this.loadUpdate = false;
                     }
                 );
             this.csv = null;
@@ -157,32 +156,9 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
         }
     }
 
-    selectComparingAction(action: string) {
-        if (action === 'add' || action === 'remove' || action === 'error') {
-            this.compareAction = action;
-        }
-    }
-
     goBack() {
         this.comparing = false;
     }
-
-    getRightData() {
-        let rightData;
-
-        switch (this.compareAction) {
-            case 'add': rightData = this.addingData;
-                break;
-            case 'remove': rightData = this.removingData;
-                break;
-            case 'error': rightData = this.errorsData;
-                break;
-            default: break;
-        }
-
-        return (rightData);
-    }
-
 
     /**
      * All listener for the drag and drop

@@ -6,7 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule,
 MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatDividerModule,
 MAT_CHECKBOX_CLICK_ACTION, MatRadioModule, MatChipsModule, MatSnackBarModule, MatStepperModule,
-MatProgressBarModule, MatListModule, MatBadgeModule } from '@angular/material';
+MatProgressBarModule, MatListModule, MatBadgeModule, MatTabsModule } from '@angular/material';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -91,6 +91,7 @@ imports: [
     MatMenuModule,
     MatProgressSpinnerModule,
     MatSidenavModule,
+    MatTabsModule,
     MatToolbarModule,
     MatAutocompleteModule,
 ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
@@ -198,6 +199,7 @@ exports: [
     MatProgressBarModule,
     MatListModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
     AddBeneficiaryComponent,
     MatSidenavModule,
     MatToolbarModule,

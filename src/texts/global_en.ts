@@ -216,9 +216,10 @@ export const TEXT = {
     model_commodity_value: 'Quantity',
     sample_choose_size: 'Sample size',
 
-    import_added: 'Added',
-    import_deleted: 'Deleted',
-    import_errors: 'Errors',
+    import_added: 'Will be added',
+    import_deleted: 'Will be deleted',
+    import_errors: 'Will be ignored',
+    import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.',
 
     distribution_details_export: 'export',
     distribution_details_import: 'import & compare',

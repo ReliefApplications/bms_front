@@ -31,6 +31,11 @@
     .content-drag-and-drop {
         display: flex;
         width: 100%;
+
+        p {
+            text-align: center;
+            font-style: italic;
+        }
     }
     
     .card-drag-and-drop {
@@ -139,9 +144,20 @@
     }
 }
 
-.mat-badge-content {
-    z-index: 9000;
+.badge {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    label {
+        margin-right: 5px;
+    }
+    mat-chip-list-wrapper {
+        background-color: $bms_green;
+    }
 }
+
 
 .buttonTitles {
     .add {

@@ -6,6 +6,7 @@
         <div class="content-table">
             <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
                 <mat-card class="card-drag-and-drop">
+                    <p>{{TEXT.import_description}}</p>
                     <div>
                         <img class='img-folder' src="assets/images/folder.png">
                     </div>
@@ -37,27 +38,50 @@
 
 <div class="container-table" *ngIf="comparing">
 
-    <div class="tableTitles">
-        <div class="buttonTitles">
-            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'add'}" class="add" [matBadge]="numberAdded" (click)="selectComparingAction('add')">
-                <mat-icon>add_circle_outline</mat-icon>
-                <span>{{ TEXT.import_added | uppercase }}</span>
-            </button>
-            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'remove'}" class="remove" [matBadge]="numberRemoved" (click)="selectComparingAction('remove')">
-                <mat-icon>highlight_off</mat-icon>
-                <span>{{ TEXT.import_deleted | uppercase }}</span>
-            </button>
-            <button mat-raised-button [ngClass]="{'selected': this.compareAction === 'error'}" class="error" [matBadge]="numberErrors" (click)="selectComparingAction('error')">
-                <mat-icon>error_outline</mat-icon>
-                <span>{{ TEXT.import_errors | uppercase }}</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="table-content">
-        <app-table-search [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="getRightData()" [editable]="false">
-        </app-table-search>
-    </div>
+    <mat-tab-group class="tabs">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <div class="badge">
+                    <label>
+                        {{ TEXT.import_added | uppercase }}
+                    </label>
+                    <mat-chip-list><mat-chip>{{numberAdded}}</mat-chip></mat-chip-list>
+                </div>
+            </ng-template>
+            <div class="table-content">
+                <app-table-search [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="addingData" [editable]="false">
+                </app-table-search>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <div class="badge">
+                    <label>
+                        {{ TEXT.import_deleted | uppercase }}
+                    </label>
+                    <mat-chip-list><mat-chip>{{numberRemoved}}</mat-chip></mat-chip-list>
+                </div>
+            </ng-template>
+            <div class="table-content">
+                <app-table-search [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="removingData" [editable]="false">
+                </app-table-search>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <div class="badge">
+                    <label>
+                        {{ TEXT.import_errors | uppercase }}
+                    </label>
+                    <mat-chip-list><mat-chip>{{numberErrors}}</mat-chip></mat-chip-list>
+                </div>
+            </ng-template>
+            <div class="table-content">
+                <app-table-search [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="errorsData" [editable]="false">
+                </app-table-search>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
 
     <mat-spinner  [diameter]="35" *ngIf="loadUpdate"></mat-spinner>
     <div class="footer-content">

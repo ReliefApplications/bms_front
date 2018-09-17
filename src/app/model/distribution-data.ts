@@ -99,7 +99,7 @@ export class DistributionData {
             this.id = instance.id;
             this.name = instance.name;
             this.updated_on = instance.updated_on;
-            this.number_beneficiaries = instance.number_beneficiaries;
+            this.number_beneficiaries = instance.distribution_beneficiaries.length;
             instance.location = instance.location || {}; // TODO: remove this line when backend bug fixed
             this.adm1 = instance.location.adm1;
             this.adm2 = instance.location.adm2;
@@ -213,11 +213,38 @@ export class DistributionData {
             return selfinstance;
         }
 
+        console.log('nb:', selfinstance);
+
+        let location;
+        if (selfinstance.location.adm1) {
+            location = selfinstance.location.adm1.name;
+        } else if (selfinstance.location.adm2) {
+            location = selfinstance.location.adm2.name;
+        } else if (selfinstance.location.adm3) {
+            location = selfinstance.location.adm3.name;
+        } else if (selfinstance.location.adm4) {
+            location = selfinstance.location.adm4.name;
+        }
+
+        let distType;
+        if (selfinstance.type === 0) {
+            distType = 'Beneficiary';
+        } else {
+            distType = 'Household';
+        }
+
+        let num;
+        if (selfinstance.distribution_beneficiaries) {
+            num = selfinstance.distribution_beneficiaries.length;
+        } else {
+            num = 0;
+        }
+
         return {
             date_distribution: selfinstance.date_distribution,
-            location_name: selfinstance.location_name,
-            number_beneficiaries: selfinstance.number_beneficiaries,
-            type: selfinstance.type,
+            location_name: location,
+            number_beneficiaries: num,
+            type: distType,
         };
     }
 
@@ -298,6 +325,10 @@ export class DistributionData {
         }
         if (element.location.adm4) {
             distributionDatas.location_name += element.location.adm4.name + ' ';
+        }
+
+        if (distributionDatas.number_beneficiaries) {
+            distributionDatas.number_beneficiaries = element.distribution_beneficiaries.length;
         }
 
         return distributionDatas;

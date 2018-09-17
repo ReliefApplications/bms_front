@@ -30,6 +30,8 @@ export class DistributionsComponent implements OnInit {
     loadingFinalStep: boolean;
     enteredEmail: string;
     sampleSize: number; // %
+    extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods
+    extensionTypeStep3: string; // 1.xls / 2.csv / 3.ods
 
     // Entities passed to table components.
     beneficiaryEntity = Beneficiaries;
@@ -78,6 +80,7 @@ export class DistributionsComponent implements OnInit {
         this.loadingThirdStep = false;
         this.loadingFinalStep = false;
         this.sampleSize = 10;
+        this.extensionType = 'xls';
 
         // Steps Forms.
         this.form1 = this.formBuilder.group({
@@ -195,6 +198,18 @@ export class DistributionsComponent implements OnInit {
                     }
                 }
             );
+    }
+
+    setType(step, choice) {
+
+        switch(step) {
+            case 1 : this.extensionTypeStep1 = choice;
+                break;
+            case 3 : this.extensionTypeStep3 = choice;
+                break;
+            default:
+                break;
+        }
     }
 
     /**

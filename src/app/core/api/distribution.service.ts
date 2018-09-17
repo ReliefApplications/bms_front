@@ -54,7 +54,7 @@ export class DistributionService {
 
     public getBeneficiaries(id: number) {
         const url = this.api + '/distributions/' + id + '/beneficiaries';
-        return this.http.get(url);
+        return this.http.get(url, '');
     }
 
     public setValidation(id: number) {

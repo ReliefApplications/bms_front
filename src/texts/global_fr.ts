@@ -219,7 +219,7 @@ export const TEXT = {
     import_added: 'Ajout',
     import_deleted: 'Suppression',
     import_errors: 'Erreurs',
-    import_description: 'Importez le fichier contenant la distribution après modifications. La base de donnée sera mise à jour lorsque vous cliquerez sur "upload" après validation de l\'import'
+    import_description: 'Importez le fichier contenant la distribution après modifications. La base de donnée sera mise à jour lorsque vous cliquerez sur "upload" après validation de l\'import. Les bénéficiaires inconnus seront ignorés.',
 
     distribution_details_export: 'exporter',
     distribution_details_import: 'importer & comparer',

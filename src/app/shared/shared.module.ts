@@ -92,6 +92,7 @@ imports: [
     MatProgressSpinnerModule,
     MatSidenavModule,
     MatTabsModule,
+    MatChipsModule,
     MatToolbarModule,
     MatAutocompleteModule,
 ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
@@ -206,6 +207,7 @@ exports: [
     MatAutocompleteModule,
     MatMenuModule,
     MatBadgeModule,
+    MatChipsModule,
 
 ],
 providers: [

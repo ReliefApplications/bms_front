@@ -213,8 +213,6 @@ export class DistributionData {
             return selfinstance;
         }
 
-        console.log('nb:', selfinstance);
-
         let location;
         if (selfinstance.location.adm1) {
             location = selfinstance.location.adm1.name;

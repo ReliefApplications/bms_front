@@ -136,7 +136,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                 )
                 .catch(
                     error => {
-                        console.log('error: ', error);
+                        // console.log('error: ', error);
                     }
                 );
         } else if (this.csv && step === IMPORT_UPDATE) {

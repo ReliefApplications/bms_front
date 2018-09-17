@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.language = GlobalText.language;
-      console.log('The dialog was closed');
+      // console.log('The dialog was closed');
     });
   }
 }

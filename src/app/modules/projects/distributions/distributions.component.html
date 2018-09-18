@@ -174,37 +174,39 @@
       </form>
     </mat-step>
 
-    <mat-step label="TRANSACTION" [stepControl]="form4" *ngIf="actualDistribution.validated">
+    <mat-step label="TRANSACTION" [stepControl]="form5" *ngIf="actualDistribution.validated">
             <form [formGroup]="form5">
-              
-              <div class="container-table">
-                <div class="container-content">
-                  <div class="content-button">
-                    <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
-                  </div>
-                  <div class ="container-empty" *ngIf="!finalBeneficiaryData && !loadingFinalStep">
-                  </div>
-                  <div class="waitingDataContainer" *ngIf="loadingFinalStep">
-                      <mat-spinner></mat-spinner>
-                  </div>
-                  <div class="content-table" *ngIf="finalBeneficiaryData">
-                    <app-transaction-table *ngIf="widthScreen > maxWidthMobile && !loadingFinalStep" [parentId]="distributionId">
-                    </app-transaction-table>
-                  </div>
-                  <div class="validation">
-                      <button mat-button class="transact">Transaction</button>
-                  </div>
+    
+                <div class="container-table">
+                    <div class="container-content">
+                        <div class="content-button">
+                            <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity"
+                                [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
+                        </div>
+                        <div class="container-empty" *ngIf="!finalBeneficiaryData && !loadingFinalStep">
+                        </div>
+                        <div class="waitingDataContainer" *ngIf="loadingTransaction">
+                            <mat-spinner></mat-spinner>
+                        </div>
+                        <div class="content-table" *ngIf="transactionData">
+                            <app-transaction-table [parentObject]="actualDistribution" [entity]="importedBeneficiaryEntity" [service]="distributionService"
+                                [data]="transactionData" [editable]="false">
+                            </app-transaction-table>
+                        </div>
+                        <div class="validation">
+                            <button mat-button class="transact" (click)="openDialog(transaction)">Transaction</button>
+                        </div>
+                    </div>
                 </div>
-              </div>
-      
+    
             </form>
-          </mat-step>
+        </mat-step>
 
   </mat-horizontal-stepper>
 
 </div>
 
-<ng-template #validation>
+<ng-template #transaction>
   <div class="validate">
     <div class="modal-header">
       <h2>Confirm the transaction</h2>
@@ -221,6 +223,21 @@
     </div>
   </div>
 </ng-template>
+
+<ng-template #validation>
+        <div class="validate">
+          <div class="modal-header">
+            <h2>Confirm the validation</h2>
+          </div>
+          <div class="modal-body">
+            <p> Do you really want to validate this distribution ? You won't be able to modify it anymore. </p>
+          </div>
+          <div class="modal-footer action">
+              <button mat-button class="cancel" (click)="exitValidation()">Cancel</button>
+              <button mat-button class="confirm" (click)="confirmValidation(); goToTransaction(myStepper)">Confirm</button>
+          </div>
+        </div>
+      </ng-template>
 
 <ng-template #addBeneficiary>
   <div class="adding">

@@ -65,6 +65,68 @@ button{
     font-size: 20px;
   }
 
+  .import-export {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 40px;
+
+    .import-button {
+        margin-left: 5px;
+    }
+    .export-button {
+        background-color: $bms_green !important;
+        height: 40px;
+        margin-right: 0px;
+        border-top-right-radius: 0px !important;
+        border-bottom-right-radius: 0px !important;
+    }
+
+    .extension {
+        width: 30px;
+        text-align: center;
+        height: 36px;
+
+        .dropdown {
+            background-color: $bms_green;
+            height: 100%;
+            width: 20px !important;
+            padding: 2px !important;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+            border-left: solid 1px $bms_light_grey;
+            box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3); 
+            display: flex;
+            justify-content: center;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            mat-icon {
+                float: left !important;
+                margin: auto;
+                color: white;
+            }
+        }
+    }
+}
+
+.mat-menu-item {
+    background-color: white;
+    color: black;
+
+    &:hover {
+        background-color: $bms_green;
+        color: white;
+        font-weight: bold;
+    }
+
+    mat-icon {
+        margin-left: 10px;
+    }
+}
+
 //for mobile screen
 @media only screen and (max-width: 750px){
     .content-button{

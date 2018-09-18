@@ -71,9 +71,10 @@ export class HouseholdsService {
      * TODO: add route
      * Export household data in CSV
      */
-    public export () {
+    public export (extensionType: string) {
         const url = this.api + '/export?beneficiaries=true';
-        return this.http.get(url);
+        const body = { type: extensionType };
+        return this.http.post(url, body);
     }
 
 }

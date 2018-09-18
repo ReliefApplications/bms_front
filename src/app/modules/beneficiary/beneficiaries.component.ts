@@ -15,12 +15,13 @@ import { ExportInterface } from '../../model/export.interface';
 })
 export class BeneficiariesComponent implements OnInit {
   public household = GlobalText.TEXTS;
-	public nameComponent = "beneficiaries_title";
+	public nameComponent = 'beneficiaries_title';
 
   public referedClassService;
   referedClassToken = Households;
-  households : MatTableDataSource<Households>;
-  loading : boolean;
+  households: MatTableDataSource<Households>;
+  loading: boolean;
+  public extensionType: string;
 
   constructor(
     private cacheService: CacheService,
@@ -29,7 +30,7 @@ export class BeneficiariesComponent implements OnInit {
     public snackBar: MatSnackBar
   ) { }
 
-  //For windows size
+  // For windows size
   public maxHeight = 700;
   public maxWidthMobile = 750;
   public maxWidthFirstRow = 1000;
@@ -42,13 +43,14 @@ export class BeneficiariesComponent implements OnInit {
     this.checkSize();
     this.checkHouseholds();
     this.loading = true;
+    this.extensionType = 'xls';
   }
 
   /**
    * check if the langage has changed
    */
   ngDoCheck() {
-    if (this.household != GlobalText.TEXTS) {
+    if (this.household !== GlobalText.TEXTS) {
       this.household = GlobalText.TEXTS;
     }
   }
@@ -56,32 +58,36 @@ export class BeneficiariesComponent implements OnInit {
   /**
    * Get list of all households and display it
    */
-  checkHouseholds(): void{
+  checkHouseholds(): void {
     this.referedClassService = this.householdsService;
     this.referedClassService.get().subscribe( response => {
       response = this.referedClassToken.formatArray(response.json());
       this.households = new MatTableDataSource(response);
       this.cacheService.set('HOUSEHOLDS', response);
       this.loading = false;
-    })
+    });
   }
 
   /**
    * Listener and function use in case where windows is resize
-   * @param event 
+   * @param event
    */
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.checkSize();
   }
 
-  checkSize(): void{
+  checkSize(): void {
     this.heightScreen = window.innerHeight;
     this.widthScreen = window.innerWidth;
   }
 
-  addOneHousehold(){
+  addOneHousehold() {
     this.router.navigate(['/beneficiaries/add-beneficiaries']);
+  }
+
+  setType(choice: string) {
+      this.extensionType = choice;
   }
 
   /**
@@ -89,13 +95,13 @@ export class BeneficiariesComponent implements OnInit {
    * CSV exported as the same format of csv template download for import
    */
   export() {
-    this.householdsService.export().toPromise()
+    this.householdsService.export(this.extensionType).toPromise()
       .then(response => {
-        let arrExport = [];
+        const arrExport = [];
         const reponse: ExportInterface = response.json() as ExportInterface;
 
         if (!(reponse instanceof Object)) {
-          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: "right"});
+          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});
         } else {
           arrExport.push(reponse.content);
           const blob = new Blob(arrExport, { type: 'text/csv' });
@@ -103,7 +109,7 @@ export class BeneficiariesComponent implements OnInit {
         }
       })
       .catch(error => {
-        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: "right"});
+        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
       });
   }
 

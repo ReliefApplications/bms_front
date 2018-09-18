@@ -66,18 +66,23 @@ export class DistributionService {
      * TODO: Add route to export distribution
      * Export data of distribution in CSV
      */
-    public export(option: string, id: number) {
+    public export(option: string, extensionType: string, id: number) {
+        const body = { type : extensionType };
         if (option === 'project') {
             const url = this.api + '/export?project=' + id;
-            return this.http.post(url, '');
+            return this.http.post(url, body);
         } else if (option === 'distribution') {
             const url = this.api + '/export?beneficiariesInDistribution=' + id;
-            return this.http.post(url, '');
+            return this.http.post(url, body);
         }
     }
 
-    public exportSample(sample: any) {
+    public exportSample(sample: any, extensionType: string) {
         const url = this.api + '/export?distributionSample=true';
-        return this.http.post(url, sample);
+        const body = {
+            sample: sample,
+            type : extensionType,
+        };
+        return this.http.post(url, body);
     }
 }

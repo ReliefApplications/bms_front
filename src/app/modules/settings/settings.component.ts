@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
 
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { DistributionService } from '../../core/api/distribution.service';
@@ -21,6 +21,8 @@ import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.c
 
 import { GlobalText } from '../../../texts/global';
 import { SettingsService } from '../../core/api/settings.service';
+import { ExportInterface } from '../../model/export.interface';
+import { saveAs } from 'file-saver/FileSaver';
 
 @Component({
   selector: 'app-settings',
@@ -59,6 +61,7 @@ export class SettingsComponent implements OnInit {
     public countrySpecificService: CountrySpecificService,
     private _cacheService: CacheService,
     private _settingsService: SettingsService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
@@ -120,11 +123,39 @@ export class SettingsComponent implements OnInit {
     }
 
     if (category === 'projects' && country) {
-        this._settingsService.export(this.extensionType, category, country)
-        .subscribe();
+        this._settingsService.export(this.extensionType, category, country).toPromise()
+        .then(response => {
+            const arrExport = [];
+            const reponse: ExportInterface = response.json() as ExportInterface;
+
+            if (!(reponse instanceof Object)) {
+              this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});
+            } else {
+              arrExport.push(reponse.content);
+              const blob = new Blob(arrExport, { type: 'text/csv' });
+              saveAs(blob, reponse.filename);
+            }
+          })
+          .catch(error => {
+            this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
+          });
     } else {
-        this._settingsService.export(this.extensionType, category)
-        .subscribe();
+        this._settingsService.export(this.extensionType, category).toPromise()
+        .then(response => {
+            const arrExport = [];
+            const reponse: ExportInterface = response.json() as ExportInterface;
+
+            if (!(reponse instanceof Object)) {
+              this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});
+            } else {
+              arrExport.push(reponse.content);
+              const blob = new Blob(arrExport, { type: 'text/csv' });
+              saveAs(blob, reponse.filename);
+            }
+          })
+          .catch(error => {
+            this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
+          });
     }
   }
 

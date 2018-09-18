@@ -80,7 +80,8 @@ export class DistributionsComponent implements OnInit {
         this.loadingThirdStep = false;
         this.loadingFinalStep = false;
         this.sampleSize = 10;
-        this.extensionType = 'xls';
+        this.extensionTypeStep1 = 'xls';
+        this.extensionTypeStep3 = 'xls';
 
         // Steps Forms.
         this.form1 = this.formBuilder.group({
@@ -202,7 +203,7 @@ export class DistributionsComponent implements OnInit {
 
     setType(step, choice) {
 
-        switch(step) {
+        switch (step) {
             case 1 : this.extensionTypeStep1 = choice;
                 break;
             case 3 : this.extensionTypeStep3 = choice;
@@ -216,7 +217,7 @@ export class DistributionsComponent implements OnInit {
      * Handles the csv export of the data table
      */
     export() {
-        this.distributionService.export('distribution', this.distributionId).toPromise()
+        this.distributionService.export('distribution', this.extensionTypeStep1, this.distributionId).toPromise()
             .then(response => {
                 const arrExport = [];
                 const reponse: ExportInterface = response.json() as ExportInterface;
@@ -276,7 +277,7 @@ export class DistributionsComponent implements OnInit {
      * Requests Back-end a csv containing the sample to export it
      */
     exportSample() {
-        this.distributionService.exportSample(this.randomSampleData.data).toPromise()
+        this.distributionService.exportSample(this.randomSampleData.data, this.extensionTypeStep3).toPromise()
         .then(response => {
             const arrExport = [];
             const reponse: ExportInterface = response.json() as ExportInterface;

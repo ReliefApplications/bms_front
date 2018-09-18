@@ -254,14 +254,18 @@ button{
     }
 }
 
-.mat-menu-content {
-    background-color: $bms_light_grey !important;
+.mat-menu-item {
+    background-color: white;
+    color: black;
 
-    button {
+    &:hover {
+        background-color: $bms_green;
+        color: white;
+        font-weight: bold;
+    }
 
-        &:hover {
-            background-color: $bms_green;
-        }
+    mat-icon {
+        margin-left: 10px;
     }
 }
 

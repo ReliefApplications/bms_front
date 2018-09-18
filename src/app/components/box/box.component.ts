@@ -18,11 +18,11 @@ export class BoxComponent implements OnInit {
   ngOnInit() {
   }
 
-  changeRoute(route): void{
+  changeRoute(route): void {
     this.router.navigate([route]);
   }
 
-  emitTitle(title){
+  emitTitle(title) {
     this.emitClickedTitle.emit(title);
   }
 }

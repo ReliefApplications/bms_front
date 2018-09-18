@@ -22,18 +22,19 @@ import { ExportInterface } from '../../model/export.interface';
   styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
-  public nameComponent = "distribution_title";
+  public nameComponent = 'distribution_title';
   public distribution = GlobalText.TEXTS;
 
   projects: Project[];
   distributionData: MatTableDataSource<any>;
   distributionClass = DistributionData;
   projectClass = Project;
-  loading : boolean;
+  loading: boolean;
 
-  selectedTitle = "";
+  selectedTitle = '';
   selectedProject = null;
   isBoxClicked = false;
+  extensionType: string;
 
   public maxHeight =  GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -46,16 +47,17 @@ export class ProjectComponent implements OnInit {
   constructor(
     public projectService: ProjectService,
     public distributionService: DistributionService,
-    public mapperService : Mapper,
+    public mapperService: Mapper,
     private router: Router,
     private _cacheService: CacheService,
-    public snackBar: MatSnackBar,    
+    public snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
     this.getProjects();
     this.checkSize();
     this.loading = true;
+    this.extensionType = 'xls';
   }
 
   @HostListener('window:resize', ['$event'])
@@ -72,7 +74,7 @@ export class ProjectComponent implements OnInit {
    * check if the langage has changed
    */
   ngDoCheck() {
-    if (this.distribution != GlobalText.TEXTS) {
+    if (this.distribution !== GlobalText.TEXTS) {
       this.distribution = GlobalText.TEXTS;
       this.nameComponent = GlobalText.TEXTS.distribution_title;
     }
@@ -90,18 +92,22 @@ export class ProjectComponent implements OnInit {
     this.getDistributionsByProject(project.id);
   }
 
-  //TO DO : get from cache
+  setType(choice: string) {
+    this.extensionType = choice;
+}
+
+  // TO DO : get from cache
   /**
    * get all projects
    */
   getProjects(): void {
-    let promise = this.projectService.get();
-    if(promise) {
+    const promise = this.projectService.get();
+    if (promise) {
       promise.toPromise().then(response => {
         this.projects = this.projectClass.formatArray(response.json());
-        this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + "S"], this.projects);
+        this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + 'S'], this.projects);
         this.selectTitle(this.projects[0].name, this.projects[0]);
-      })
+      });
     }
   }
 
@@ -109,30 +115,30 @@ export class ProjectComponent implements OnInit {
    * get all distributions of a project
    * @param projectId
    */
-  getDistributionsByProject(projectId : number): void {
+  getDistributionsByProject(projectId: number): void {
     this.distributionService.getByProject(projectId).subscribe(response => {
-      let distribution = DistributionData.formatArray(response.json());
-      this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + "S"], distribution);
+      const distribution = DistributionData.formatArray(response.json());
+      this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + 'S'], distribution);
       this.distributionData = new MatTableDataSource(distribution);
       this.loading = false;
-    })
+    });
   }
 
-  addDistribution(){
-    this.router.navigate(["project/add-distribution"], {queryParams: {project: this.selectedProject.id}});
+  addDistribution() {
+    this.router.navigate(['project/add-distribution'], {queryParams: {project: this.selectedProject.id}});
   }
 
   /**
    * to export distribution data
    */
   export() {
-    this.distributionService.export("project", this.selectedProject.id).toPromise()
+    this.distributionService.export('project', this.extensionType, this.selectedProject.id).toPromise()
       .then(response => {
         const arrExport = [];
         const reponse: ExportInterface = response.json() as ExportInterface;
 
         if (!(reponse instanceof Object)) {
-          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: "right"});
+          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});
         } else {
           arrExport.push(reponse.content);
           const blob = new Blob(arrExport, { type: 'text/csv' });
@@ -140,7 +146,7 @@ export class ProjectComponent implements OnInit {
         }
       })
       .catch(error => {
-        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: "right"});
+        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
       });
   }
 }

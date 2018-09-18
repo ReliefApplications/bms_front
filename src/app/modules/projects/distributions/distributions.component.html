@@ -79,7 +79,7 @@
       </form>
     </mat-step>
 
-    <mat-step label="{{ TEXT.distribution_details_random | uppercase }}" [stepControl]="form3">
+    <mat-step label="{{ TEXT.distribution_details_random | uppercase }}" [stepControl]="form3" *ngIf="!actualDistribution.validated">
       <form [formGroup]="form3">
         
         <div class="container-table">

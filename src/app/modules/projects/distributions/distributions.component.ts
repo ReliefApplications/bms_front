@@ -210,7 +210,6 @@ export class DistributionsComponent implements OnInit {
             .subscribe(
                 result => {
                     allBeneficiaries = result.json();
-
                     if (allBeneficiaries) {
                         this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
                     } else {
@@ -409,6 +408,7 @@ export class DistributionsComponent implements OnInit {
                     this.getDistributionBeneficiaries('final');
                 },
                 error => {
+                    console.log('cc', this.selectedBeneficiary);
                     this.snackBar.open('Beneficiary could not be added', '', { duration: 3000, horizontalPosition: 'center' });
                 });
     }

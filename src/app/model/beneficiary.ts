@@ -137,6 +137,7 @@ public static formatElement(instance: any): Beneficiaries {
     beneficiary.gender = instance.gender;
     beneficiary.date_of_birth = instance.date_of_birth;
     beneficiary.status = instance.status;
+    beneficiary.id = instance.id;
 
     instance.national_ids.forEach(
         element => {
@@ -177,7 +178,8 @@ public static formatForApi(instance: any) {
         status : instance.status,
         vulnerability_criteria : vulnerability_criteria_copy,
         phones : phones_copy,
-        national_ids : national_ids_copy
+        national_ids : national_ids_copy,
+        id: instance.id
     };
 
     return(beneficiary);

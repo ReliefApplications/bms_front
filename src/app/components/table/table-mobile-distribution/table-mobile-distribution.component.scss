@@ -65,6 +65,7 @@ table {
       display:flex;
       flex-wrap: wrap;
       flex-direction: row;
+      
       button{
         display:flex;   
         flex-wrap: wrap;
@@ -74,7 +75,8 @@ table {
         height: 20px;     
         margin: 0 !important ;
         border-radius: 0 !important;
-        i{
+
+        mat-icon{
             display:flex;   
         }
       }

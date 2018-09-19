@@ -49,22 +49,22 @@ export class DistributionData {
      */
     adm1 = '';
 
-     /**
-     * DistributionData's location Administrate level 2
-     * @type {string}
-     */
+    /**
+    * DistributionData's location Administrate level 2
+    * @type {string}
+    */
     adm2 = '';
 
-     /**
-     * DistributionData's location Administrate level 3
-     * @type {string}
-     */
+    /**
+    * DistributionData's location Administrate level 3
+    * @type {string}
+    */
     adm3 = '';
 
-     /**
-     * DistributionData's location Administrate level 4
-     * @type {string}
-     */
+    /**
+    * DistributionData's location Administrate level 4
+    * @type {string}
+    */
     adm4 = '';
     /**
      * DistributionData's number_beneficiaries
@@ -114,6 +114,94 @@ export class DistributionData {
     public static getDisplayedName() {
         return GlobalText.TEXTS.model_distribution;
     }
+
+
+    /**
+    * return DistributionData properties name displayed
+    */
+    static translator(): Object {
+        return {
+            name: GlobalText.TEXTS.model_distribution_name,
+            location_name: GlobalText.TEXTS.model_distribution_location_name,
+            number_beneficiaries: GlobalText.TEXTS.model_distribution_number_beneficiaries,
+            adm1: GlobalText.TEXTS.model_distribution_adm1,
+            adm2: GlobalText.TEXTS.model_distribution_adm2,
+            adm3: GlobalText.TEXTS.model_distribution_adm3,
+            adm4: GlobalText.TEXTS.model_distribution_adm4,
+            date_distribution: GlobalText.TEXTS.model_distribution_date,
+            type: 'Type'
+        };
+    }
+
+    // Renvoie un array des datas depuis l'objet récupéré de l'Api.
+    public static formatArray(instance): DistributionData[] {
+        const distributionDatas: DistributionData[] = [];
+        // console.log("formatArray before :", distributionDatas);
+        instance.forEach(element => {
+            if (Boolean(instance.archived) === false) {
+                if (element && element.id && element.location && element.project && element.name) {
+                    distributionDatas.push(this.formatFromApi(element));
+                }
+            }
+        });
+        return distributionDatas;
+    }
+
+    // Json -> DistributionData
+    public static formatFromApi(element: any): DistributionData {
+        const distributionDatas = new DistributionData(element);
+        distributionDatas.location = new Location(element.location);
+        distributionDatas.project = new Project(element.project);
+        distributionDatas.selection_criteria = [];
+        const selectionCriteria = new SelectionCriteria(element.selection_criteria);
+        distributionDatas.selection_criteria.push(selectionCriteria);
+
+        if (element.location.adm1) {
+            distributionDatas.location_name += element.location.adm1.name + ' ';
+        }
+        if (element.location.adm2) {
+            distributionDatas.location_name += element.location.adm2.name + ' ';
+        }
+        if (element.location.adm3) {
+            distributionDatas.location_name += element.location.adm3.name + ' ';
+        }
+        if (element.location.adm4) {
+            distributionDatas.location_name += element.location.adm4.name + ' ';
+        }
+
+        if (distributionDatas.number_beneficiaries) {
+            distributionDatas.number_beneficiaries = element.distribution_beneficiaries.length;
+        }
+
+        return distributionDatas;
+    }
+
+    // DistributionData -> Json
+    public static formatForApi(element: DistributionData): any {
+
+        // TODO : recréer le champ location en attribuant chaque valeur de element à chaque champ de location
+        // >>>>>  Placer dans l'input de update de location une selection des 4 possiblités liées à la BDD (ex: addDistribution).
+
+        const updatedDistribution = {
+            id: element.id, // id
+            name: element.name, // name
+            updated_on: element.updated_on, // updated_on
+            date_distribution: element.date_distribution, // date_distribution
+            location: element.location, // location
+            project: element.project, // project
+            selection_criteria: element.selection_criteria, // selection_criteria
+            archived: false, // archived
+            validated: false, // validated
+            reporting_distribution: {}[0], // reporting_distribution
+            type: element.type, // type
+            commodities: element.commodities, // commodities
+            distribution_beneficiaries: {}[0] // distribution_beneficiaries
+        };
+
+        return (updatedDistribution);
+    }
+
+
 
     mapAllProperties(selfinstance): Object {
         if (!selfinstance) {
@@ -280,89 +368,5 @@ export class DistributionData {
             number_beneficiaries: 'number',
         };
     }
-
-    /**
-    * return DistributionData properties name displayed
-    */
-    static translator(): Object {
-        return {
-            name: GlobalText.TEXTS.model_distribution_name,
-            location_name: GlobalText.TEXTS.model_distribution_location_name,
-            number_beneficiaries: GlobalText.TEXTS.model_distribution_number_beneficiaries,
-            adm1: GlobalText.TEXTS.model_distribution_adm1,
-            adm2: GlobalText.TEXTS.model_distribution_adm2,
-            adm3: GlobalText.TEXTS.model_distribution_adm3,
-            adm4: GlobalText.TEXTS.model_distribution_adm4,
-            date_distribution : GlobalText.TEXTS.model_distribution_date,
-            type : 'Type'
-        };
-    }
-
-    // Renvoie un array des datas depuis l'objet récupéré de l'Api.
-    public static formatArray(instance): DistributionData[] {
-        const distributionDatas: DistributionData[] = [];
-        // console.log("formatArray before :", distributionDatas);
-        instance.forEach(element => {
-            if (element && element.id && element.location && element.project && element.name) {
-                distributionDatas.push(this.formatFromApi(element));
-            }
-        });
-        return distributionDatas;
-    }
-
-    // Json -> DistributionData
-    public static formatFromApi(element: any): DistributionData {
-        const distributionDatas = new DistributionData(element);
-        distributionDatas.location = new Location(element.location);
-        distributionDatas.project = new Project(element.project);
-        distributionDatas.selection_criteria = [];
-        const selectionCriteria = new SelectionCriteria(element.selection_criteria);
-        distributionDatas.selection_criteria.push(selectionCriteria);
-
-        if (element.location.adm1) {
-            distributionDatas.location_name += element.location.adm1.name + ' ';
-        }
-        if (element.location.adm2) {
-            distributionDatas.location_name += element.location.adm2.name + ' ';
-        }
-        if (element.location.adm3) {
-            distributionDatas.location_name += element.location.adm3.name + ' ';
-        }
-        if (element.location.adm4) {
-            distributionDatas.location_name += element.location.adm4.name + ' ';
-        }
-
-        if (distributionDatas.number_beneficiaries) {
-            distributionDatas.number_beneficiaries = element.distribution_beneficiaries.length;
-        }
-
-        return distributionDatas;
-    }
-
-    // DistributionData -> Json
-    public static formatForApi(element: DistributionData): any {
-
-        // TODO : recréer le champ location en attribuant chaque valeur de element à chaque champ de location
-        // >>>>>  Placer dans l'input de update de location une selection des 4 possiblités liées à la BDD (ex: addDistribution).
-
-        const updatedDistribution = {
-            id : element.id, // id
-            name : element.name, // name
-            updated_on : element.updated_on, // updated_on
-            date_distribution : element.date_distribution, // date_distribution
-            location : element.location, // location
-            project : element.project, // project
-            selection_criteria : element.selection_criteria, // selection_criteria
-            archived : false, // archived
-            validated : true, // validated
-            reporting_distribution : {}[0], // reporting_distribution
-            type : element.type, // type
-            commodities : element.commodities, // commodities
-            distribution_beneficiaries : {}[0] // distribution_beneficiaries
-        };
-
-        return(updatedDistribution);
-    }
-
 
 }

@@ -6,7 +6,6 @@
           No data available
       </h3>
   </div>
-  <h2> HHIIIIIIIIIIIIIIIIIIIII </h2>
     <div class="container-header" *ngIf="filled">
       <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
@@ -37,10 +36,10 @@
             <button mat-icon-button class="green" routerLink="/distributions/{{element.id}}">
                 <mat-icon>group_add</mat-icon>
             </button>
-            <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="light-red">
+            <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="light-red" (click)="openDialog('update', element)">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="red">
+            <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="red" (click)="openDialog('delete', element)" >
                 <mat-icon>close</mat-icon>
             </button>
           </div>

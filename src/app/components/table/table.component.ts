@@ -14,6 +14,8 @@ import { ModalDeleteComponent } from '../modals/modal-delete/modal-delete.compon
 import { GlobalText } from '../../../texts/global';
 import { dashCaseToCamelCase } from '@angular/animations/browser/src/util';
 import { Beneficiaries } from '../../model/beneficiary';
+import { id } from '@swimlane/ngx-charts/release/utils';
+import { DistributionData } from '../../model/distribution-data';
 
 @Component({
   selector: 'app-table',
@@ -89,6 +91,16 @@ export class TableComponent implements OnChanges, DoCheck {
       }
   }
 
+  checkItemStateRights(item: any) {
+      if (item instanceof DistributionData) {
+          if (item.validated) {
+              return false;
+          } else {
+              return true;
+          }
+      }
+  }
+
   checkTable() {
       if (this.data.data && this.data.data.length > 0) {
         this.filled = true;
@@ -149,7 +161,7 @@ export class TableComponent implements OnChanges, DoCheck {
   openDialog(user_action, element): void {
     let dialogRef;
 
-    if (user_action === 'details') {
+    if (user_action === 'details' ) {
       dialogRef = this.dialog.open(ModalDetailsComponent, {
         data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
       });
@@ -165,9 +177,12 @@ export class TableComponent implements OnChanges, DoCheck {
 
     let deleteElement = null;
     if (dialogRef.componentInstance.onDelete) {
+        console.log('went threw');
       deleteElement = dialogRef.componentInstance.onDelete.subscribe(
         (data) => {
+        console.log(data);
         this.deleteElement(data);
+        console.log('did it !');
       });
     }
     let updateElement = null;
@@ -209,6 +224,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
   deleteElement(deleteElement: Object) {
     if (this.entity === Beneficiaries) {
+        console.log('delete: ', this.deleteElement['id']);
         this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
             this.updateData();
         });

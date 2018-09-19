@@ -141,7 +141,7 @@ button{
     }
     button{
         &.add-button{
-            position: absolute;
+            position: fixed;
             bottom: 20px;
             left: 80%;
             z-index: 1000;

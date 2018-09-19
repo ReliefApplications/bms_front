@@ -21,9 +21,6 @@ const IMPORT_UPDATE = 2;
 })
 export class ImportDistributionComponent implements OnInit, DoCheck {
 
-    dragAreaClass = 'dragarea';
-    public TEXT = GlobalText.TEXTS;
-
     @Input() distribution: DistributionData;
     @Output() success = new EventEmitter<boolean>();
 
@@ -49,6 +46,14 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     numberRemoved = 0;
     numberErrors = 0;
 
+    // Screen display variables.
+    dragAreaClass = 'dragarea';
+    public maxHeight = GlobalText.maxHeight;
+    public maxWidthMobile = GlobalText.maxWidthMobile;
+    public heightScreen;
+    public widthScreen;
+    TEXT = GlobalText.TEXTS;
+
     constructor(
         public _householdsService: HouseholdsService,
         public snackBar: MatSnackBar,
@@ -59,7 +64,18 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
 
     ngOnInit() {
         this.comparing = false;
+        this.checkSize();
         // console.log(this.distribution);
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+      this.checkSize();
+    }
+
+    checkSize(): void {
+      this.heightScreen = window.innerHeight;
+      this.widthScreen = window.innerWidth;
     }
 
     /**

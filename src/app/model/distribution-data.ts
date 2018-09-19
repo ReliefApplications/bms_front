@@ -143,12 +143,19 @@ export class DistributionData {
             return selfinstance;
         }
 
+        let type;
+        if (selfinstance.type === 0) {
+            type = 'Household';
+        } else {
+            type = 'Beneficiary';
+        }
+
         return {
             name: selfinstance.name,
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
             date_distribution: selfinstance.date_distribution,
-            type: selfinstance.type
+            type: type
         };
     }
 

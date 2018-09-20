@@ -158,6 +158,8 @@ export const TEXT = {
     modal_email_is : 'Email ',
     modal_email_placeholder : 'Email',
     modal_required : 'obligatoire',
+    modal_leave : 'Quitter',
+    modal_leave_sentence : 'Souhaitez-vous réellement quitter sans enregistrer vos modifications ?',
 
     model_country_specific : 'Option par pays',
     model_country_specific_field: 'Champ',

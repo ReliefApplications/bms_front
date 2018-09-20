@@ -55,6 +55,7 @@ import { AddBeneficiaryComponent } from '../modules/beneficiary/add-beneficiary/
 import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
 import { ImportDistributionComponent } from '../modules/projects/distributions/import-distribution/import-distribution.component';
 import { TransactionTableComponent } from '../components/table/transaction-table/transaction-table.component';
+import { ModalLeaveComponent } from '../components/modals/modal-leave/modal-leave.component';
 
 @NgModule({
 imports: [
@@ -142,6 +143,7 @@ entryComponents: [
     ModalLanguageComponent,
     ModalAddComponent,
     ModalAddLineComponent,
+    ModalLeaveComponent
 ],
 exports: [
 // Shared Components

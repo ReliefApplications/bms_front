@@ -158,6 +158,8 @@ export const TEXT = {
     modal_email_is : 'Email is',
     modal_email_placeholder : 'Email',
     modal_required : 'required',
+    modal_leave : 'Leave',
+    modal_leave_sentence : 'Do you really want to leave with unsaved changes ?',
 
     model_country_specific : 'Country specific option',
     model_country_specific_field: 'Field',
@@ -215,6 +217,7 @@ export const TEXT = {
     model_commodity_unit: 'Unit',
     model_commodity_value: 'Quantity',
     sample_choose_size: 'Sample size',
+
 
     import_added: 'Will be added',
     import_deleted: 'Will be deleted',

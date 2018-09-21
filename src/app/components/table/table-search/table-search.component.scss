@@ -27,6 +27,10 @@ table {
       width: 4.5vh;
       height: 4.5vh;
     }
+
+    .integered {
+        width: 100px !important;
+    }
   }
 
   .header-cell{
@@ -41,21 +45,26 @@ table {
 }
 
 button{
-  color: $bms_white;
-  margin: 0.5vh
-}
-
-.green{
-  background-color: $bms_green;
-}
-
-.red{
-  background-color: $bms_red;
-}
-
-.light-red{
-  background-color: $bms_light_red;
-}
+    // color: $bms_white;
+    margin: 0.5vh;
+  
+    mat-icon {
+      font-weight: 800  !important;
+      font-size: 25px;
+    }
+  }
+  
+  .green{
+    color: $bms_light_blue;
+  }
+  
+  .red{
+    color: $bms_red;
+  }
+  
+  .light-red{
+    color: $bms_light_red;
+  }
 
 .png {
   height: 4vh;

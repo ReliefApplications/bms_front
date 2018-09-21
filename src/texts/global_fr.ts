@@ -131,6 +131,7 @@ export const TEXT = {
     add_distribution_distributed_commodity : 'ressource distribuée',
     add_distribution_beneficiaries_reached: 'Bénéficaires atteints',
     add_distribution_commodities_delivered: 'Ressources délivrées',
+    add_project: 'Créer un projet',
 
     table_filter : 'Filtre',
     table_actions : 'Actions',

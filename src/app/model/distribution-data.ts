@@ -129,7 +129,7 @@ export class DistributionData {
             adm3: GlobalText.TEXTS.model_distribution_adm3,
             adm4: GlobalText.TEXTS.model_distribution_adm4,
             date_distribution: GlobalText.TEXTS.model_distribution_date,
-            type: 'Type'
+            type: 'Target'
         };
     }
 
@@ -235,7 +235,7 @@ export class DistributionData {
         if (selfinstance.type === 0) {
             type = 'Household';
         } else {
-            type = 'Beneficiary';
+            type = 'Individual';
         }
 
         return {
@@ -321,7 +321,7 @@ export class DistributionData {
 
         let distType;
         if (selfinstance.type === 0) {
-            distType = 'Beneficiary';
+            distType = 'Individual';
         } else {
             distType = 'Household';
         }

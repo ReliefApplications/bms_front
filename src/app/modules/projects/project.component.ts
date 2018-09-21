@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { saveAs } from 'file-saver/FileSaver';
 
 import { ExportInterface } from '../../model/export.interface';
+import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
 
 @Component({
   selector: 'app-project',
@@ -51,6 +52,7 @@ export class ProjectComponent implements OnInit {
     private router: Router,
     private _cacheService: CacheService,
     public snackBar: MatSnackBar,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -149,4 +151,27 @@ export class ProjectComponent implements OnInit {
         this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
       });
   }
+
+    openNewProjectDialog() {
+        const dialogRef = this.dialog.open(
+            ModalAddComponent, {
+                data : {
+                    data : [],
+                    entity: Project,
+                    service: this.projectService,
+                    mapper: this.mapperService
+                }
+            }
+        );
+        const create = dialogRef.componentInstance.onCreate.subscribe(
+            (data) => {
+                console.log('got from dialog: ', data);
+                this.projectService.create(data['id'], data).subscribe(
+                    response => {
+                        this.getProjects();
+                    }
+                );
+            }
+        );
+    }
 }

@@ -1,7 +1,7 @@
-import { Sector } from "./sector"
-import { SectorMapper } from "./sector-mapper";
-import { Donor } from "./donor";
-import { GlobalText } from "../../texts/global";
+import { Sector } from './sector';
+import { SectorMapper } from './sector-mapper';
+import { Donor } from './donor';
+import { GlobalText } from '../../texts/global';
 
 export class Project {
     static __classname__ = 'Project';
@@ -14,7 +14,7 @@ export class Project {
      * Project's name
      * @type {string}
      */
-    name: string = '';
+    name = '';
     /**
     * Project's sector
     * @type {string[]}
@@ -84,8 +84,9 @@ export class Project {
     }
 
     mapAllProperties(selfinstance): Object {
-        if (!selfinstance)
+        if (!selfinstance) {
             return selfinstance;
+        }
 
         return {
             id: selfinstance.id,
@@ -96,15 +97,16 @@ export class Project {
             iso3: selfinstance.iso3,
             notes: selfinstance.notes,
             value: selfinstance.value,
-        }
+        };
     }
 
     /**
     * return a Project after formatting its properties
     */
     getMapper(selfinstance): Object {
-        if (!selfinstance)
+        if (!selfinstance) {
             return selfinstance;
+        }
 
         return {
             name: selfinstance.name,
@@ -113,15 +115,16 @@ export class Project {
             end_date: selfinstance.end_date,
             number_of_households: selfinstance.number_of_households,
             donors_name: selfinstance.donors_name
-        }
+        };
     }
 
     /**
     * return a Project after formatting its properties for the modal details
     */
     getMapperDetails(selfinstance): Object {
-        if (!selfinstance)
+        if (!selfinstance) {
             return selfinstance;
+        }
 
         return {
             name: selfinstance.name,
@@ -130,15 +133,16 @@ export class Project {
             end_date: selfinstance.end_date,
             number_of_households: selfinstance.number_of_households,
             donors_name: selfinstance.donors_name
-        }
+        };
     }
 
     /**
      * return a Project after formatting its properties for the modal add
      */
     getMapperAdd(selfinstance): Object {
-        if (!selfinstance)
+        if (!selfinstance) {
             return selfinstance;
+        }
 
         return {
             name: selfinstance.name,
@@ -147,15 +151,16 @@ export class Project {
             end_date: selfinstance.end_date,
             donors_name: selfinstance.donors_name,
             notes: selfinstance.notes
-        }
+        };
     }
 
     /**
     * return a Project after formatting its properties for the modal update
     */
     getMapperUpdate(selfinstance): Object {
-        if (!selfinstance)
+        if (!selfinstance) {
             return selfinstance;
+        }
 
         return {
             name: selfinstance.name,
@@ -164,15 +169,16 @@ export class Project {
             end_date: selfinstance.end_date,
             number_of_households: selfinstance.number_of_households,
             donors_name: selfinstance.donors_name
-        }
+        };
     }
 
     /**
     * return a Project after formatting its properties for the box properties
     */
     getMapperBox(selfinstance): Object {
-        if (!selfinstance)
+        if (!selfinstance) {
             return selfinstance;
+        }
 
         return {
             start_date: selfinstance.start_date,
@@ -180,7 +186,7 @@ export class Project {
             donors_name: selfinstance.donors_name,
             sectors_name: selfinstance.sectors_name,
             value: selfinstance.value,
-        }
+        };
     }
 
     /**
@@ -188,13 +194,13 @@ export class Project {
     */
     getTypeProperties(selfinstance): Object {
         return {
-            name: "text",
-            sectors_name: "image",
-            start_date: "date",
-            end_date: "date",
-            number_of_households: "number",
-            donors_name: "text",
-        }
+            name: 'text',
+            sectors_name: 'image',
+            start_date: 'date',
+            end_date: 'date',
+            number_of_households: 'number',
+            donors_name: 'text',
+        };
     }
 
     /**
@@ -202,13 +208,13 @@ export class Project {
     */
     getModalTypeProperties(selfinstance): Object {
         return {
-            name: "text",
-            sectors_name: "select",
-            start_date: "date",
-            end_date: "date",
-            number_of_households: "number",
-            donors_name: "select",
-        }
+            name: 'text',
+            sectors_name: 'select',
+            start_date: 'date',
+            end_date: 'date',
+            number_of_households: 'number',
+            donors_name: 'select',
+        };
     }
 
     /**
@@ -224,11 +230,11 @@ export class Project {
             donors_name: GlobalText.TEXTS.model_project_donors_name,
             notes: GlobalText.TEXTS.model_project_notes,
             value: GlobalText.TEXTS.model_project_value,
-        }
+        };
     }
 
     public static formatArray(instance): Project[] {
-        let projects: Project[] = [];
+        const projects: Project[] = [];
         instance.forEach(element => {
             projects.push(this.formatProject(element));
         });
@@ -236,7 +242,7 @@ export class Project {
     }
 
     public static formatProject(element: any): Project {
-        let project = new Project(element);
+        const project = new Project(element);
         element.sectors.forEach(sector => {
             project.sectors.push(new Sector(sector));
             project.sectors_name.push(sector.name);
@@ -249,10 +255,10 @@ export class Project {
     }
 
     public static formatForApi(element: Project): any {
-        let project = new Project(element);
+        const project = new Project(element);
         if (element.sectors_name) {
             element.sectors_name.forEach(sector => {
-                let newSector = new Sector();
+                const newSector = new Sector();
                 newSector.id = parseInt(sector, 10);
                 project.sectors.push(new Sector(newSector));
             });
@@ -261,7 +267,7 @@ export class Project {
         }
         if (element.donors_name) {
             element.donors_name.forEach(donor => {
-                let newDonor = new Donor();
+                const newDonor = new Donor();
                 newDonor.id = parseInt(donor, 10);
                 project.donors.push(new Donor(newDonor));
             });
@@ -271,7 +277,7 @@ export class Project {
         return project;
     }
 
-    public static formatFromModalAdd(a, b) {
-        return {};
+    public static formatFromModalAdd(object, data) {
+        return object;
     }
 }

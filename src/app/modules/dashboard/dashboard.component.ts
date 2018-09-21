@@ -13,6 +13,9 @@ import { GeneralService } from '../../core/api/general.service';
 import { DistributionData } from '../../model/distribution-data';
 
 import { GlobalText } from '../../../texts/global';
+import { MAX_LENGTH_VALIDATOR } from '@angular/forms/src/directives/validators';
+
+const RECENT_DIST_LENGTH = 5;
 
 @Component({
   selector: 'app-dashboard',
@@ -43,7 +46,7 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let user = this._authenticationService.getUser();
+    const user = this._authenticationService.getUser();
     if (!user.loggedIn) {
       this.router.navigate(['/login']);
     }
@@ -59,7 +62,7 @@ export class DashboardComponent implements OnInit {
    * check if the langage has changed
    */
   ngDoCheck() {
-    if (this.dashboard != GlobalText.TEXTS) {
+    if (this.dashboard !== GlobalText.TEXTS) {
       this.dashboard = GlobalText.TEXTS;
     }
   }
@@ -80,11 +83,20 @@ export class DashboardComponent implements OnInit {
   */
 
   checkDistributions(): void {
-    this._distributionService.get().subscribe(response => {
-      this.distributions = new MatTableDataSource(this.referedClassToken.formatArray(response.json()));
-      this.loadingTable = false;
-      this._cacheService.set(CacheService.DISTRIBUTIONS, response);
-    })
+      let distribs;
+    this._distributionService.get().subscribe(
+        response => {
+
+            distribs = new MatTableDataSource(this.referedClassToken.formatArray(response.json()));
+            console.log('first', distribs.data);
+            if (distribs.data.length > RECENT_DIST_LENGTH) {
+                distribs.data = distribs.data.slice(-RECENT_DIST_LENGTH);
+            }
+            console.log('then', distribs.data);
+            this.distributions = distribs;
+            this.loadingTable = false;
+            this._cacheService.set(CacheService.DISTRIBUTIONS, response);
+        });
   }
 
   /**
@@ -94,7 +106,7 @@ export class DashboardComponent implements OnInit {
   getSummary(): void {
     this._generalService.getSummary().subscribe(response => {
       this.summary = response.json();
-    })
+    });
   }
 
 }

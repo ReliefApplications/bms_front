@@ -43,6 +43,10 @@ button{
       font-weight: 800  !important;
       font-size: 25px;
     }
+
+    &:hover {
+        background-color: $bms_light_grey;
+    }
   }
   
   .green{

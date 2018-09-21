@@ -13,48 +13,31 @@ app-box-setting{
     }
 }
 
-.add-project {
+.container-title {
     display: flex;
     align-items: center;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    flex-grow: 1;
-    width : 100px;
-    min-width: 180px !important;
-    height : 80px;
-    min-width: 95px;
-    background-color: $bms_light_grey;
-    box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
-    margin-right: 10px;
 
-    &:hover {
-        cursor: pointer;
-    }
-    
-    .icon-content {
-        height: 100%;
-        width: 30%;
-        background-color: $bms_red;
-        overflow: hidden;
-        text-align: center;
-
-        mat-icon {
-            width:70%;
-            height:70%;
-            font-size: 45px;
-            color: white;
-            vertical-align: middle;
-            margin-top: 19%;
-        }
-    }
-
-    .title {
-        width: 70%;
+    .add-project {
+        width: 35px;
+        min-width: 35px !important;
+        height: 35px;
+        color: $bms_red;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        font-weight: 50 !important;
+        background-color: $bms_red;
+        margin-left: 10px;
+        border-radius: 100%;
+        box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
+    
+        &:hover {
+            cursor: pointer;
+        }
+    
+        mat-icon {
+            font-size: 25px;
+            color: $bms_light_grey;
+            margin-top: 5px;
+            margin-left: 5px;
+        }
     }
 }
     

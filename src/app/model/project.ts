@@ -132,6 +132,7 @@ export class Project {
             start_date: selfinstance.start_date,
             end_date: selfinstance.end_date,
             number_of_households: selfinstance.number_of_households,
+            value: selfinstance.value,
             donors_name: selfinstance.donors_name
         };
     }
@@ -150,6 +151,7 @@ export class Project {
             start_date: selfinstance.start_date,
             end_date: selfinstance.end_date,
             donors_name: selfinstance.donors_name,
+            value: selfinstance.value,
             notes: selfinstance.notes
         };
     }
@@ -168,6 +170,7 @@ export class Project {
             start_date: selfinstance.start_date,
             end_date: selfinstance.end_date,
             number_of_households: selfinstance.number_of_households,
+            value: selfinstance.value,
             donors_name: selfinstance.donors_name
         };
     }
@@ -214,6 +217,7 @@ export class Project {
             end_date: 'date',
             number_of_households: 'number',
             donors_name: 'select',
+            value: 'number',
         };
     }
 

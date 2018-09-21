@@ -33,7 +33,7 @@ export class LeafletService {
 
 		// Create map
 		this.map = Leaflet.map(mapId, {
-			zoom: 7,
+			zoom: 8,
 			maxZoom: 11,
 			minZoom: 3,           // Too see the whole world on small screens
 			zoomControl: true,        // Display the + and - buttons for the zoom

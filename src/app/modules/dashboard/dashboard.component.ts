@@ -88,11 +88,11 @@ export class DashboardComponent implements OnInit {
         response => {
 
             distribs = new MatTableDataSource(this.referedClassToken.formatArray(response.json()));
-            console.log('first', distribs.data);
+            // console.log('first', distribs.data);
             if (distribs.data.length > RECENT_DIST_LENGTH) {
                 distribs.data = distribs.data.slice(-RECENT_DIST_LENGTH);
             }
-            console.log('then', distribs.data);
+            // console.log('then', distribs.data);
             this.distributions = distribs;
             this.loadingTable = false;
             this._cacheService.set(CacheService.DISTRIBUTIONS, response);

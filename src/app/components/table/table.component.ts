@@ -177,12 +177,9 @@ export class TableComponent implements OnChanges, DoCheck {
 
     let deleteElement = null;
     if (dialogRef.componentInstance.onDelete) {
-        console.log('went threw');
       deleteElement = dialogRef.componentInstance.onDelete.subscribe(
         (data) => {
-        console.log(data);
         this.deleteElement(data);
-        console.log('did it !');
       });
     }
     let updateElement = null;

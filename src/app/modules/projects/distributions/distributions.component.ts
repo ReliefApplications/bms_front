@@ -123,7 +123,7 @@ export class DistributionsComponent implements OnInit {
         .subscribe(
             result => { // Get from Back
                 this.actualDistribution = result.json();
-                console.log('Got distribution from back :', this.actualDistribution);
+                // console.log('Got distribution from back :', this.actualDistribution);
 
                 if (this.actualDistribution.validated) {
                     this.getDistributionBeneficiaries('transaction');
@@ -141,7 +141,7 @@ export class DistributionsComponent implements OnInit {
                             }
                         });
                     }
-                    console.log('Got distribution from cache :', this.actualDistribution, 'because of error : ', error);
+                    // console.log('Got distribution from cache :', this.actualDistribution, 'because of error : ', error);
                 }
             });
     }
@@ -167,23 +167,23 @@ export class DistributionsComponent implements OnInit {
 
                     if (type === 'initial') {
                         // Step 1 table
-                        console.log('Getting Initial data');
+                        // console.log('Getting Initial data');
                         this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
                         this.loadingFirstStep = false;
                     } else if (type === 'final') {
                         // Step 4 table
-                        console.log('Getting final data');
+                        // console.log('Getting final data');
                         this.finalBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
                         this.loadingFinalStep = false;
                     } else if (type === 'both') {
-                        console.log('Getting both data');
+                        // console.log('Getting both data');
                         const beneficiariesData = Beneficiaries.formatArray(data);
                         this.initialBeneficiaryData = new MatTableDataSource(beneficiariesData);
                         this.finalBeneficiaryData = new MatTableDataSource(beneficiariesData);
                         this.loadingFirstStep = false;
                         this.loadingFinalStep = false;
                     } else if (type === 'transaction') {
-                        console.log('Getting transaction data');
+                        // console.log('Getting transaction data');
                         this.transactionData = new MatTableDataSource(ImportedBeneficiary.formatArray(data));
                         this.loadingTransaction = false;
                     }
@@ -408,7 +408,7 @@ export class DistributionsComponent implements OnInit {
                     this.getDistributionBeneficiaries('final');
                 },
                 error => {
-                    console.log('cc', this.selectedBeneficiary);
+                    // console.log('cc', this.selectedBeneficiary);
                     this.snackBar.open('Beneficiary could not be added', '', { duration: 3000, horizontalPosition: 'center' });
                 });
     }

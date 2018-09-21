@@ -165,7 +165,7 @@ export class ProjectComponent implements OnInit {
         );
         const create = dialogRef.componentInstance.onCreate.subscribe(
             (data) => {
-                console.log('got from dialog: ', data);
+                // console.log('got from dialog: ', data);
                 this.projectService.create(data['id'], data).subscribe(
                     response => {
                         this.getProjects();

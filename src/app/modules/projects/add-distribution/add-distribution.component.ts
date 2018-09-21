@@ -284,7 +284,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
 
     newDistribution.name = this.getNameProject(this.queryParams.project) + '-' + this.newObject.adm1 + '-' + this.newObject.date_distribution + '-';
 
-    console.log('NEW ONE : ', newDistribution);
+    // console.log('NEW ONE : ', newDistribution);
 
     const promise = this._distributionService.add(newDistribution);
     if (promise) {

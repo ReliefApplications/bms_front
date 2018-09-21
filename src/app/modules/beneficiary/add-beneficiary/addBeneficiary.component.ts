@@ -358,7 +358,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                 responseCountrySpecifics.forEach(element => {
                     this.countrySpecifics.push(element);
                 });
-                console.log(this.countrySpecifics);
+                // console.log(this.countrySpecifics);
             });
         }
 

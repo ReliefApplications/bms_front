@@ -64,9 +64,9 @@ export class ModalAddComponent extends ModalComponent {
 
   // emit the new object
   add(): any {
-    console.log('(dialog) Sent to format: ', this.newObject);
+    // console.log('(dialog) Sent to format: ', this.newObject);
     const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
-    console.log('(dialog) Return from format: ', formatedObject);
+    // console.log('(dialog) Return from format: ', formatedObject);
     this.onCreate.emit(formatedObject);
     this.closeDialog();
   }

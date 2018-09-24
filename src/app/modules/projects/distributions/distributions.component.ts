@@ -12,6 +12,7 @@ import { MatTableDataSource, MatSnackBar, MatDialog, MatFormField, MatStepper } 
 import { ExportInterface } from '../../../model/export.interface';
 import { saveAs } from 'file-saver/FileSaver';
 import { Mapper } from '../../../core/utils/mapper.service';
+import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
 import { AnimationRendererFactory } from '@angular/platform-browser/animations/src/animation_renderer';
 
 @Component({
@@ -28,6 +29,7 @@ export class DistributionsComponent implements OnInit {
     loadingFirstStep: boolean;
     loadingThirdStep: boolean;
     loadingFinalStep: boolean;
+    loadingTransaction: boolean;
     enteredEmail: string;
     sampleSize: number; // %
     extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods
@@ -36,11 +38,13 @@ export class DistributionsComponent implements OnInit {
     // Entities passed to table components.
     beneficiaryEntity = Beneficiaries;
     distributionEntity = DistributionData;
+    importedBeneficiaryEntity = ImportedBeneficiary;
 
     // Datas.
     initialBeneficiaryData: MatTableDataSource<any>;
     randomSampleData: MatTableDataSource<any>;
     finalBeneficiaryData: MatTableDataSource<any>;
+    transactionData: MatTableDataSource<any>;
 
     // Screen display variables.
     public maxHeight = GlobalText.maxHeight;
@@ -76,14 +80,18 @@ export class DistributionsComponent implements OnInit {
 
     ngOnInit() {
         this.checkSize();
+        this.actualDistribution.validated = true;
         this.loadingFirstStep = false;
         this.loadingThirdStep = false;
         this.loadingFinalStep = false;
+        this.loadingTransaction = false;
         this.sampleSize = 10;
         this.extensionTypeStep1 = 'xls';
         this.extensionTypeStep3 = 'xls';
 
         // Steps Forms.
+        this.form5 = this.formBuilder.group({
+        });
         this.form1 = this.formBuilder.group({
         });
         this.form2 = this.formBuilder.group({
@@ -91,8 +99,6 @@ export class DistributionsComponent implements OnInit {
         this.form3 = this.formBuilder.group({
         });
         this.form4 = this.formBuilder.group({
-        });
-        this.form5 = this.formBuilder.group({
         });
 
         this.getSelectedDistribution();
@@ -118,6 +124,10 @@ export class DistributionsComponent implements OnInit {
             result => { // Get from Back
                 this.actualDistribution = result.json();
                 // console.log('Got distribution from back :', this.actualDistribution);
+
+                if (this.actualDistribution.validated) {
+                    this.getDistributionBeneficiaries('transaction');
+                }
             },
             error => {
                 if (!this.actualDistribution) { // Get from Cache
@@ -147,6 +157,8 @@ export class DistributionsComponent implements OnInit {
         } else if (type === 'both') {
             this.loadingFirstStep = true;
             this.loadingFinalStep = true;
+        } else if (type === 'transaction') {
+            this.loadingTransaction = true;
         }
         this.distributionService.getBeneficiaries(this.distributionId)
             .subscribe(
@@ -155,18 +167,25 @@ export class DistributionsComponent implements OnInit {
 
                     if (type === 'initial') {
                         // Step 1 table
+                        // console.log('Getting Initial data');
                         this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
                         this.loadingFirstStep = false;
                     } else if (type === 'final') {
                         // Step 4 table
+                        // console.log('Getting final data');
                         this.finalBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
                         this.loadingFinalStep = false;
                     } else if (type === 'both') {
+                        // console.log('Getting both data');
                         const beneficiariesData = Beneficiaries.formatArray(data);
                         this.initialBeneficiaryData = new MatTableDataSource(beneficiariesData);
                         this.finalBeneficiaryData = new MatTableDataSource(beneficiariesData);
                         this.loadingFirstStep = false;
                         this.loadingFinalStep = false;
+                    } else if (type === 'transaction') {
+                        // console.log('Getting transaction data');
+                        this.transactionData = new MatTableDataSource(ImportedBeneficiary.formatArray(data));
+                        this.loadingTransaction = false;
                     }
 
                     this.generateRandom();
@@ -191,7 +210,6 @@ export class DistributionsComponent implements OnInit {
             .subscribe(
                 result => {
                     allBeneficiaries = result.json();
-
                     if (allBeneficiaries) {
                         this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
                     } else {
@@ -308,22 +326,33 @@ export class DistributionsComponent implements OnInit {
      * To confirm on Validation dialog
      */
     confirmValidation() {
-        const actualUser = this.cacheService.get(CacheService.USER);
-
-        if (this.enteredEmail && actualUser.username === this.enteredEmail) {
-
             this.distributionService.setValidation(this.distributionId)
                 .subscribe(
                     success => {
                         this.actualDistribution.validated = true;
                         this.snackBar.open('Distribution has been validated', '', { duration: 3000, horizontalPosition: 'center' });
                         this.validateActualDistributionInCache();
+                        this.getDistributionBeneficiaries('transaction');
                     },
                     error => {
                         this.actualDistribution.validated = false;
                         this.snackBar.open('Distribution could not be validated', '', { duration: 3000, horizontalPosition: 'center' });
                     }
                 );
+
+        this.dialog.closeAll();
+    }
+
+    /**
+     * To transact
+     */
+    confirmTransaction() {
+        const actualUser = this.cacheService.get(CacheService.USER);
+
+        if (this.enteredEmail && actualUser.username === this.enteredEmail) {
+
+            // transaction
+
         } else {
             this.snackBar.open('Wrong email', '', { duration: 3000, horizontalPosition: 'center' });
         }
@@ -379,6 +408,7 @@ export class DistributionsComponent implements OnInit {
                     this.getDistributionBeneficiaries('final');
                 },
                 error => {
+                    // console.log('cc', this.selectedBeneficiary);
                     this.snackBar.open('Beneficiary could not be added', '', { duration: 3000, horizontalPosition: 'center' });
                 });
     }

@@ -284,13 +284,13 @@ export class AddDistributionComponent implements OnInit, DoCheck {
 
     newDistribution.name = this.getNameProject(this.queryParams.project) + '-' + this.newObject.adm1 + '-' + this.newObject.date_distribution + '-';
 
-    console.log('NEW ONE : ', newDistribution);
+    // console.log('NEW ONE : ', newDistribution);
 
     const promise = this._distributionService.add(newDistribution);
     if (promise) {
       promise.toPromise().then(response => {
         this.snackBar.open('distribution : ' + response.json().distribution.name + ' was created', '', { duration: 3000, horizontalPosition: 'right' });
-        this.router.navigate(['/projects']);
+        this.router.navigate(['/distributions/' + response.json().distribution.id ]);
       });
     } else {
       this.snackBar.open('Error while create new distribution', '', { duration: 3000, horizontalPosition: 'right' });

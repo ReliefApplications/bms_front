@@ -65,6 +65,7 @@ table {
       display:flex;
       flex-wrap: wrap;
       flex-direction: row;
+      
       button{
         display:flex;   
         flex-wrap: wrap;
@@ -74,7 +75,8 @@ table {
         height: 20px;     
         margin: 0 !important ;
         border-radius: 0 !important;
-        i{
+
+        mat-icon{
             display:flex;   
         }
       }
@@ -83,21 +85,30 @@ table {
 }
 
 button{
-  color: $bms_white;
-  margin: 0.5vh
-}
+    // color: $bms_white;
+    margin: 0.5vh;
+  
+    mat-icon {
+      font-weight: 800  !important;
+      font-size: 25px;
+    }
 
-.green{
-  background-color: $bms_green;
-}
-
-.red{
-  background-color: $bms_red;
-}
-
-.light-red{
-  background-color: $bms_light_red;
-}
+    &:hover {
+        background-color: $bms_light_grey;
+    }
+  }
+  
+  .green{
+    color: $bms_light_blue;
+  }
+  
+  .red{
+    color: $bms_red;
+  }
+  
+  .light-red{
+    color: $bms_light_red;
+  }
 
 .container-header {
   padding: 20px;

@@ -69,7 +69,7 @@ export class DistributionService {
     public export(option: string, extensionType: string, id: number) {
         const body = { type : extensionType };
         if (option === 'project') {
-            const url = this.api + '/export?project=' + id;
+            const url = this.api + '/export?distributions=' + id;
             return this.http.post(url, body);
         } else if (option === 'distribution') {
             const url = this.api + '/export?beneficiariesInDistribution=' + id;

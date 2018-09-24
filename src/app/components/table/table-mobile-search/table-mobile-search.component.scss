@@ -5,7 +5,7 @@
   flex-direction: column;
   width: 100%;
   margin-bottom: 40px;
-
+  
   .mat-form-field {
     font-size: 14px;
     width: 100%;
@@ -83,17 +83,30 @@ table {
 }
 
 button{
-  color: $bms_white;
-  margin: 0.5vh
-}
-
-.green{
-  background-color: $bms_green;
-}
-
-.red{
-  background-color: $bms_red;
-}
+    // color: $bms_white;
+    margin: 0.5vh;
+  
+    mat-icon {
+      font-weight: 800  !important;
+      font-size: 25px;
+    }
+    
+    &:hover {
+        background-color: $bms_light_grey;
+    }
+  }
+  
+  .green{
+    color: $bms_light_blue;
+  }
+  
+  .red{
+    color: $bms_red;
+  }
+  
+  .light-red{
+    color: $bms_light_red;
+  }
 
 .light-red{
   background-color: $bms_light_red;

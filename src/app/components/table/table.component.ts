@@ -14,6 +14,8 @@ import { ModalDeleteComponent } from '../modals/modal-delete/modal-delete.compon
 import { GlobalText } from '../../../texts/global';
 import { dashCaseToCamelCase } from '@angular/animations/browser/src/util';
 import { Beneficiaries } from '../../model/beneficiary';
+import { id } from '@swimlane/ngx-charts/release/utils';
+import { DistributionData } from '../../model/distribution-data';
 
 @Component({
   selector: 'app-table',
@@ -36,8 +38,13 @@ export class TableComponent implements OnChanges, DoCheck {
     }
   }
 
+  // To activate/desactivate action buttons
   @Input() editable: boolean;
-  @Input() parentId: Number = null;
+  // For Imported Beneficiaries
+  @Input() parentId: number = null;
+  // For Transaction Beneficiaries
+  @Input() parentObject: any;
+
   @Input() entity;
   public oldEntity;
   @Input() data: any;
@@ -81,6 +88,16 @@ export class TableComponent implements OnChanges, DoCheck {
           return false;
       } else {
           return true;
+      }
+  }
+
+  checkItemStateRights(item: any) {
+      if (item instanceof DistributionData) {
+          if (item.validated) {
+              return false;
+          } else {
+              return true;
+          }
       }
   }
 
@@ -144,7 +161,7 @@ export class TableComponent implements OnChanges, DoCheck {
   openDialog(user_action, element): void {
     let dialogRef;
 
-    if (user_action === 'details') {
+    if (user_action === 'details' ) {
       dialogRef = this.dialog.open(ModalDetailsComponent, {
         data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
       });
@@ -204,6 +221,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
   deleteElement(deleteElement: Object) {
     if (this.entity === Beneficiaries) {
+        console.log('delete: ', this.deleteElement['id']);
         this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
             this.updateData();
         });

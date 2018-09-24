@@ -18,18 +18,18 @@ export class ModalUpdateComponent extends ModalComponent {
     this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapperUpdate(this.entityInstance));
 
     this.propertiesTypes = this.entityInstance.getModalTypeProperties(this.entityInstance);
-    try{
+    try {
       this.updateObject = this.entityInstance.mapAllProperties(this.data.data);
     } catch (e) {
-      console.error("the function mapAllProperties is not defined for the entity ", this.entityInstance);
+      console.error('the function mapAllProperties is not defined for the entity ', this.entityInstance);
     }
     this.loadData();
   }
 
   /**
-   * emit the object updated 
+   * emit the object updated
    */
-  save():any {
+  save(): any {
     this.onUpdate.emit(this.updateObject);
     this.closeDialog();
   }

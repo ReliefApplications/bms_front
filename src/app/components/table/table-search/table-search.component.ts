@@ -8,4 +8,8 @@ import { TableComponent                                       } from '../table.c
   styleUrls: ['./table-search.component.scss']
 })
 export class TableSearchComponent extends TableComponent {
+
+    getImageName(t2: String) {
+        return( t2.substring(25).split('.')[0] );
+    }
 }

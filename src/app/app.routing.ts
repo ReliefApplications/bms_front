@@ -18,6 +18,7 @@ import { ImportDistributionComponent } from './modules/projects/distributions/im
 
 // Services
 import { AuthGuard 																		} from './core/guards/auth.guard';
+import { DeactivateGuard                                                                } from './core/guards/deactivate.guard';
 import { DistributionsComponent } from './modules/projects/distributions/distributions.component';
 
 // Do not change the order of the routes, it matters
@@ -42,7 +43,8 @@ export const routes: Routes = [
 
 	{ path: 'beneficiaries/data-validation', component: DataValidationComponent },
 
-	{ path: 'beneficiaries/add-beneficiaries', component: AddBeneficiaryComponent },
+    // TODO : Add DeactivateGuard to prevent from loosing data when leaving page
+	{ path: 'beneficiaries/add-beneficiaries', component: AddBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
 
 	// home route protected by auth guard
 	{ path: '', component: DashboardComponent, canActivate: [AuthGuard] },
@@ -52,8 +54,11 @@ export const routes: Routes = [
 ];
 
 @NgModule({
+    providers: [
+        DeactivateGuard
+      ],
 	imports: [RouterModule.forRoot(routes)],
-	exports: [RouterModule]
+    exports: [RouterModule],
 })
 
 

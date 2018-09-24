@@ -35,6 +35,7 @@ export class BeneficiariesService {
 
   public add(distributionId: number, beneficiary: any) {
     const url = this.api + '/distributions/' + distributionId + '/beneficiary';
+    // console.log(beneficiary);
     return this.http.put(url, beneficiary);
   }
 

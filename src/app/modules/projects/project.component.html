@@ -1,10 +1,14 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{distribution.distribution_title | uppercase}}</h2>
+    <h2>{{distribution.distribution_title | uppercase}}</h2> 
+    <div class="add-project" (click)="openNewProjectDialog()">
+        <mat-icon>add</mat-icon>
+    </div>
   </div>
   <div class="container-boxes">
     <app-box-setting *ngFor="let project of projects" (emitClickedTitle)="selectTitle($event, project)" [selectedTitle]="selectedTitle"
-      [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'></app-box-setting>
+      [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'>
+    </app-box-setting>
   </div>
   <div class="container-table">
     <div class="container-content" *ngIf="isBoxClicked">

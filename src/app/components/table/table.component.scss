@@ -36,20 +36,29 @@ table {
 }
 
 button{
-  color: $bms_white;
-  margin: 0.5vh
+  // color: $bms_white;
+  margin: 0.5vh;
+
+  mat-icon {
+    font-weight: 800  !important;
+    font-size: 25px;
+  }
+
+  &:hover {
+      background-color: $bms_light_grey;
+  }
 }
 
 .green{
-  background-color: $bms_green;
+  color: $bms_light_blue;
 }
 
 .red{
-  background-color: $bms_red;
+  color: $bms_red;
 }
 
 .light-red{
-  background-color: $bms_light_red;
+  color: $bms_light_red;
 }
 
 .icon {
@@ -69,3 +78,29 @@ button{
   margin: 10px auto;
   font-size: 20px;
 }
+
+.validated-distribution {
+
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    
+    mat-icon {
+        font-weight: 1000  !important;
+        font-size: 25px;
+        color: $bms_green;
+        overflow: hidden;
+    }
+
+    &:hover {
+        background-color: $bms_light_grey;
+    }
+}
+
+.distribution-details {
+
+    &:hover {
+      //background-color: lightgreen;
+      cursor: pointer;
+    }
+  }

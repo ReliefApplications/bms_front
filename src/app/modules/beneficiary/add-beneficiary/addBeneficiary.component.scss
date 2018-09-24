@@ -28,8 +28,13 @@
     align-self: flex-end;
 }
 
-.cancel, .add-button {
+.cancel {
     margin-right: 2vw;
+}
+
+.add-button {
+    margin-right: 2vw;
+    background-color: $bms_red !important;
 }
 
 .content-table{

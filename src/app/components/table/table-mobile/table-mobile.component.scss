@@ -82,17 +82,30 @@ table {
 }
 
 button{
-  color: $bms_white;
-  margin: 0.5vh
-}
+    // color: $bms_white;
+    margin: 0.5vh;
+  
+    mat-icon {
+      font-weight: 800  !important;
+      font-size: 25px;
+    }
 
-.green{
-  background-color: $bms_green;
-}
-
-.red{
-  background-color: $bms_red;
-}
+    &:hover {
+        background-color: $bms_light_grey;
+    }
+  }
+  
+  .green{
+    color: $bms_light_blue;
+  }
+  
+  .red{
+    color: $bms_red;
+  }
+  
+  .light-red{
+    color: $bms_light_red;
+  }
 
 .light-red{
   background-color: $bms_light_red;

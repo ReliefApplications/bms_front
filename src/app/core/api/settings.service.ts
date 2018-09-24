@@ -22,7 +22,7 @@ export class SettingsService {
         let url: string;
 
         if (category === 'projects' && country) {
-            url = this.api + '/export?projects=' + country;
+            url = this.api + '/export?project=' + country;
         } else {
             url = this.api + '/export' + '?' + category + '=true';
         }

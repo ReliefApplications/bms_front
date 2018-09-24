@@ -20,7 +20,7 @@
                         <div class="step1 all-information-mobile">
                             <div class="content-select">
                                 <mat-form-field>
-                                    <mat-select placeholder={{household.add_beneficiary_getProvince}} [formControl]="province" (selectionChange)="selected($event, 'province')">
+                                    <mat-select placeholder="{{household.add_beneficiary_getProvince}} *" [formControl]="province" (selectionChange)="selected($event, 'province')">
                                         <mat-option *ngFor="let province of provinceList" [value]="province">{{province}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
@@ -42,18 +42,18 @@
                             </div>
                             <div class="content-select">
                                 <mat-form-field>
-                                    <mat-select placeholder={{household.add_beneficiary_getProject}} [formControl]="projects" (selectionChange)="selected($event, 'project')">
+                                    <mat-select placeholder="{{household.add_beneficiary_getProject}} *" [formControl]="projects" (selectionChange)="selected($event, 'project')">
                                         <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <input [formControl]="addressNumber" matInput placeholder={{household.add_beneficiary_getAddressNumber}} #AddressNumber>
+                                    <input [formControl]="addressNumber" matInput type="number" placeholder="{{household.add_beneficiary_getAddressNumber}} *" #AddressNumber>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <input [formControl]="addressStreet" matInput placeholder={{household.add_beneficiary_getAddressStreet}} #AddressStreet>
+                                    <input [formControl]="addressStreet" matInput placeholder="{{household.add_beneficiary_getAddressStreet}} *" #AddressStreet>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <input [formControl]="addressPostcode" matInput placeholder={{household.add_beneficiary_getAddressPostcode}} #AddressPostcode>
+                                    <input [formControl]="addressPostcode" matInput placeholder="{{household.add_beneficiary_getAddressPostcode}} *" #AddressPostcode>
                                 </mat-form-field>
                             </div>
                             <div class="content-select">
@@ -67,7 +67,7 @@
                                 </mat-form-field>
 
                                 <mat-form-field *ngFor="let countrySpecific of countrySpecifics, i as index">
-                                    <input matInput placeholder={{countrySpecific.field}} #countrySpecificsAnswer>
+                                    <input *ngIf="countrySpecific.field" matInput placeholder={{countrySpecific.field}} #countrySpecificsAnswer>
                                 </mat-form-field>
 
                             </div>
@@ -105,20 +105,20 @@
                                     <div class="all-information-computer member-mobile">
                                         <div class="content-select">
                                             <mat-form-field>
-                                                <input matInput placeholder={{household.add_beneficiary_getFamilyName}} formControlName="familyName">
+                                                <input matInput placeholder="{{household.add_beneficiary_getFamilyName}} *" formControlName="familyName">
                                             </mat-form-field>
                                             <mat-form-field>
-                                                <input matInput placeholder={{household.add_beneficiary_getGivenName}} formControlName="givenName">
+                                                <input matInput placeholder="{{household.add_beneficiary_getGivenName}} *" formControlName="givenName">
                                             </mat-form-field>
                                             <mat-form-field>
-                                                <mat-select placeholder={{household.add_beneficiary_getGender}} formControlName="gender" (selectionChange)="selected($event, 'gender')">
+                                                <mat-select placeholder="{{household.add_beneficiary_getGender}} *" formControlName="gender" (selectionChange)="selected($event, 'gender')">
                                                     <mat-option *ngFor="let gender of genderList" [value]="gender">{{gender}}</mat-option>
                                                 </mat-select>
                                             </mat-form-field>
                                         </div>
                                         <div class="content-select">
                                             <mat-form-field class="datepicker-computer">
-                                                <input matInput [matDatepicker]="birthHeadComputer" placeholder={{household.add_beneficiary_getDateOfBirth}} formControlName="birth"
+                                                <input matInput [matDatepicker]="birthHeadComputer" placeholder="{{household.add_beneficiary_getDateOfBirth}} *" formControlName="birth"
                                                     #DateOfBirthHead>
                                                 <mat-datepicker-toggle matSuffix [for]="birthHeadComputer"></mat-datepicker-toggle>
                                                 <mat-datepicker #birthHeadComputer></mat-datepicker>
@@ -186,20 +186,20 @@
                                     <div class="all-information-computer member-mobile">
                                         <div class="content-select">
                                             <mat-form-field>
-                                                <input matInput placeholder={{household.add_beneficiary_getFamilyName}} formControlName="familyName">
+                                                <input matInput placeholder="{{household.add_beneficiary_getFamilyName}} *" formControlName="familyName" [value]="this.headForm.value.head[0].familyName">
                                             </mat-form-field>
                                             <mat-form-field>
-                                                <input matInput placeholder={{household.add_beneficiary_getGivenName}} formControlName="givenName">
+                                                <input matInput placeholder="{{household.add_beneficiary_getGivenName}} *" formControlName="givenName">
                                             </mat-form-field>
                                             <mat-form-field>
-                                                <mat-select placeholder={{household.add_beneficiary_getGender}} formControlName="gender" (selectionChange)="selected($event, 'gender')">
+                                                <mat-select placeholder="{{household.add_beneficiary_getGender}} *" formControlName="gender" (selectionChange)="selected($event, 'gender')">
                                                     <mat-option *ngFor="let gender of genderList" [value]="gender">{{gender}}</mat-option>
                                                 </mat-select>
                                             </mat-form-field>
                                         </div>
                                         <div class="content-select">
                                             <mat-form-field class="datepicker-computer">
-                                                <input matInput [matDatepicker]="birthBeneficiaryComputer" placeholder={{household.add_beneficiary_getDateOfBirth}} formControlName="birth"
+                                                <input matInput [matDatepicker]="birthBeneficiaryComputer" placeholder="{{household.add_beneficiary_getDateOfBirth}} *" formControlName="birth"
                                                     #DateOfBirthHead>
                                                 <mat-datepicker-toggle matSuffix [for]="birthBeneficiaryComputer"></mat-datepicker-toggle>
                                                 <mat-datepicker #birthBeneficiaryComputer></mat-datepicker>

@@ -1,7 +1,7 @@
 import { NgModule 																} from '@angular/core';
 import { BrowserModule 															} from '@angular/platform-browser';
 import { FormsModule 															} from '@angular/forms';
-import { ReactiveFormsModule } 											from '@angular/forms';
+import { ReactiveFormsModule                                                    } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS 									} from '@angular/common/http';
 import { HttpModule 															} from '@angular/http';
 
@@ -20,6 +20,7 @@ import { ReportsModule										 					} from './modules/reports/reports.module';
 import { ProfileComponent } from './modules/profile/profile.component';
 import { HeaderMobileComponent } from './components/headers/header-mobile/header-mobile.component';
 import { HeaderComponent } from './components/headers/header/header.component';
+import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave.component';
 
 @NgModule({
 	declarations: [
@@ -29,6 +30,7 @@ import { HeaderComponent } from './components/headers/header/header.component';
 		ProfileComponent,
     	HeaderMobileComponent,
 		HeaderComponent,
+		ModalLeaveComponent,
 	],
 	imports: [
 		// Modules

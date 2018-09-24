@@ -131,6 +131,7 @@ export const TEXT = {
     add_distribution_distributed_commodity : 'ressource distribuée',
     add_distribution_beneficiaries_reached: 'Bénéficaires atteints',
     add_distribution_commodities_delivered: 'Ressources délivrées',
+    add_project: 'Créer un projet',
 
     table_filter : 'Filtre',
     table_actions : 'Actions',
@@ -158,6 +159,8 @@ export const TEXT = {
     modal_email_is : 'Email ',
     modal_email_placeholder : 'Email',
     modal_required : 'obligatoire',
+    modal_leave : 'Quitter',
+    modal_leave_sentence : 'Souhaitez-vous réellement quitter sans enregistrer vos modifications ?',
 
     model_country_specific : 'Option par pays',
     model_country_specific_field: 'Champ',

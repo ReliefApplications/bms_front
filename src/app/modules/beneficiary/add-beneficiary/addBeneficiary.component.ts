@@ -33,6 +33,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     @ViewChild('stepper') stepper: MatStepper;
     @ViewChildren('countrySpecificsAnswer') CountrySpecificsInput: QueryList<MatInput>;
     selectedIdPoor = false;
+    loadingCreation = false;
 
     // for the project selector
     public projects = new FormControl('', Validators.required);
@@ -128,7 +129,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
      */
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
-        if (this.householdToCreate) {
+        if (this.householdToCreate && !this.loadingCreation) {
             const dialogRef = this.dialog.open(ModalLeaveComponent, {});
 
             return dialogRef.afterClosed();
@@ -557,7 +558,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         });
     }
 
-    findSrcVulnerability(idVulnerability: string): string {
+    findSrcVulnerability(idVulnerability: string) : string {
         let src = '';
         this.allVulnerability.forEach(vulnerability => {
             if (vulnerability.id === idVulnerability) {
@@ -633,17 +634,30 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
      * send data to the back and create the new household
      */
     create() {
-        const project = this.selectedProject.split(' - ');
+        if(this.selectedProject && this.householdToCreate.beneficiaries) {
+            const project = this.selectedProject.split(' - ');
 
-        this.householdToCreate.beneficiaries.forEach(beneficiary => {
-            delete beneficiary.id;
-        });
-
-        const promise = this._householdsServce.add(this.householdToCreate, project[0]);
-        if (promise) {
-            promise.toPromise().then(() => {
-                this.router.navigate(['/households']);
+            this.householdToCreate.beneficiaries.forEach(beneficiary => {
+                delete beneficiary.id;
             });
+
+            this.loadingCreation = true;
+            const promise = this._householdsServce.add(this.householdToCreate, project[0]);
+            if (promise) {
+                promise.toPromise().then(() => {
+                    this.router.navigate(['/households']);
+                    this.loadingCreation = false;
+                })
+                .catch(
+                    () => {
+                        this.loadingCreation = false;
+                        this.snackBar.open('Error while creating household', '', { duration: 3000, horizontalPosition: 'right' });
+                    }
+                );
+            }
+        } else {
+            this.snackBar.open('Missing data to create household', '', { duration: 3000, horizontalPosition: 'right' });
+
         }
     }
 

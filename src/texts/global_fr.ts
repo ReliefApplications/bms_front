@@ -217,6 +217,7 @@ export const TEXT = {
     model_commodity_type: 'Type',
     model_commodity_unit: 'Unité',
     model_commodity_value: 'Quantité',
+    model_commodity_currency: 'Somme',
     sample_choose_size: 'Taille d\'échantillon',
 
     import_added: 'Ajout',

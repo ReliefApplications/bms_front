@@ -109,8 +109,13 @@ export class ModalComponent implements OnInit {
       this.loadedData.modality = this._cacheService.get(CacheService.COMMODITY);
       if (!this.loadedData.modality) {
         this.modalitiesService.getModalities().subscribe(response => {
-          this.loadedData.modality = response.json();
-          this._cacheService.set(CacheService.COMMODITY, this.loadedData.modality);
+            this.loadedData.modality = response.json();
+            for(let i=0; i<this.loadedData.modality.length; i++) {
+                if(this.loadedData.modality[i].name == 'CTP') {
+                    this.loadedData.modality[i].name = 'Cash';
+                }
+            }
+            this._cacheService.set(CacheService.COMMODITY, this.loadedData.modality);
         })
       }
     }

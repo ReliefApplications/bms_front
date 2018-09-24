@@ -58,9 +58,21 @@ export class ModalAddComponent extends ModalComponent {
   getModalityType(modality) {
     this.modalitiesService.getModalitiesType(modality).subscribe(response => {
       this.loadedData.type = response.json();
+      for(let i=0; i<this.loadedData.type.length; i++) {
+        if(this.loadedData.type[i].name === 'Mobile') {
+            this.loadedData.type[i].name = 'Mobile Money';
+        }
+      }
     });
   }
 
+  description() : String {
+    if(this.data.entity.getAddDescription) {
+        return this.data.entity.getAddDescription();
+    } else {
+        return undefined;
+    }
+  }
 
   // emit the new object
   add(): any {

@@ -31,6 +31,7 @@ export class ProjectComponent implements OnInit {
   distributionClass = DistributionData;
   projectClass = Project;
   loading: boolean;
+  loadingCreation = false;
 
   selectedTitle = '';
   selectedProject = null;
@@ -153,6 +154,7 @@ export class ProjectComponent implements OnInit {
   }
 
     openNewProjectDialog() {
+        this.loadingCreation = true;
         const dialogRef = this.dialog.open(
             ModalAddComponent, {
                 data : {
@@ -169,8 +171,13 @@ export class ProjectComponent implements OnInit {
                 this.projectService.create(data['id'], data).subscribe(
                     response => {
                         this.getProjects();
-                    }
+                    },
                 );
+            }
+        );
+        dialogRef.afterClosed().subscribe(
+            () => {
+                this.loadingCreation = false;
             }
         );
     }

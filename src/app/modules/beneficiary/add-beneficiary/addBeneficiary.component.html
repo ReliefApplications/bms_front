@@ -65,9 +65,15 @@
                                       </mat-option>
                                   </mat-autocomplete>
                                 </mat-form-field>
-
+                                
+                                <!-- <mat-select placeholder="ID Poor?" [(ngModel)]="setIdPoor">
+                                    <option value="true"> Yes</option>
+                                    <option value="false"> No</option> 
+                                </mat-select> -->
+                                
                                 <mat-form-field *ngFor="let countrySpecific of countrySpecifics, i as index">
-                                    <input *ngIf="countrySpecific.field" matInput placeholder={{countrySpecific.field}} #countrySpecificsAnswer>
+                                    <input [formControl]="specifics[0]" *ngIf="countrySpecific.field && countrySpecific.field!='ID Poor'" matInput placeholder={{countrySpecific.field}} #countrySpecificsAnswer>
+                                    <input [formControl]="specifics[1]" *ngIf="countrySpecific.field && countrySpecific.field=='ID Poor'" matInput placeholder={{countrySpecific.field}} #countrySpecificsAnswer>
                                 </mat-form-field>
 
                             </div>
@@ -266,7 +272,7 @@
                         <!-- <div class="done">
                             {{household.add_beneficiary_done}}
                         </div> -->
-                        <mat-card>
+                        <!-- <mat-card>
                             <h4 class="done">Household general information</h4>
                             <div class='row'>
                                 <div class='column'>
@@ -323,7 +329,7 @@
 
                                 </div>
                             </div>
-                        </mat-card>
+                        </mat-card> -->
                         <mat-card>
                             <h4 class="done">Head of Household</h4>
                             <div *ngFor='let head of householdToCreate.beneficiaries'>

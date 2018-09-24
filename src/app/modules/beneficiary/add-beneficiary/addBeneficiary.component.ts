@@ -74,7 +74,9 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     // for other item which need to display with database information
     public allVulnerability = [];
     public countrySpecifics = [];
+    public specifics = [];
     public answerCountrySpecific;
+    public setIdPoor = new FormControl();
 
     // for the address' input
     public addressNumber = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
@@ -116,6 +118,10 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         this.getVulnerabilityCriteria();
         this.getCountrySpecifics();
         this.instantiateFormHead();
+
+        this.specifics[0] = new FormControl();
+        this.specifics[1] = new FormControl();
+        this.specifics[2] = new FormControl();
 
         this.filteredLivelihoodList = this.livelihoods.valueChanges.pipe(
             startWith(''),
@@ -483,6 +489,16 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
             this.stepper.next();
 
             // this.addGeneralInformation = true;
+        } else if (this.addressNumber.invalid) {
+            this.snackBar.open('Invalid field : addressNumber', '', { duration: 3000, horizontalPosition: 'right' });
+        } else if (this.addressStreet.invalid) {
+            this.snackBar.open('Invalid field : addressStreet', '', { duration: 3000, horizontalPosition: 'right' });
+        } else if (this.addressPostcode.invalid) {
+            this.snackBar.open('Invalid field : addressPostcode', '', { duration: 3000, horizontalPosition: 'right' });
+        } else if (this.province.invalid) {
+            this.snackBar.open('Invalid field : province', '', { duration: 3000, horizontalPosition: 'right' });
+        } else if (this.projects.invalid) {
+            this.snackBar.open('Invalid field : projects', '', { duration: 3000, horizontalPosition: 'right' });
         } else {
             this.snackBar.open('Invalid field', '', { duration: 3000, horizontalPosition: 'right' });
         }

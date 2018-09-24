@@ -139,17 +139,22 @@ export class BeneficiariesImportComponent implements OnInit {
    */
   addHouseholds() {
     const data = new FormData();
-    const project = this.selectedProject.split(' - ');
-    data.append('file', this.csv);
-    const step = 1;
-    this.load = true;
-    this._importService.sendData(data, project[0], step).then(() => {
-      this.router.navigate(['/beneficiaries/data-validation']);
-    }, () => {
-      this.load = false;
-      this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
 
-    });
+    if (!this.csv || !this.selectedProject || this.load) {
+        this.snackBar.open('You must select a project and add a file before uploading', '', { duration: 3000, horizontalPosition: 'right' });
+    } else {
+        const project = this.selectedProject.split(' - ');
+        data.append('file', this.csv);
+        const step = 1;
+        this.load = true;
+        this._importService.sendData(data, project[0], step).then(() => {
+        this.router.navigate(['/beneficiaries/data-validation']);
+        }, () => {
+        this.load = false;
+        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
+
+        });
+    }
   }
 
 

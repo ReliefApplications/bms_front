@@ -218,6 +218,14 @@
         width: 15vh;
         margin-right: 10px;
     }
+    
+    mat-spinner{
+        margin-right: 2vh;
+
+        &:circle {
+            stroke: $bms_green !important;
+        }
+    }
 }
 
 .container-create-error{

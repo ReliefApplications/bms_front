@@ -57,6 +57,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
   public controls = new FormControl();
 
   public loadedData: any = [];
+  public loadingCreation = false;
 
   step = '';
 
@@ -262,39 +263,44 @@ export class AddDistributionComponent implements OnInit, DoCheck {
    * create the new distribution object before send it to the back
    */
   add() {
-    const newDistribution: DistributionData = new DistributionData;
-    newDistribution.type = this.newObject.type;
-    newDistribution.project.id = this.queryParams.project;
-    newDistribution.location.adm1 = this.newObject.adm1;
-    newDistribution.location.adm2 = this.newObject.adm2;
-    newDistribution.location.adm3 = this.newObject.adm3;
-    newDistribution.location.adm4 = this.newObject.adm3;
-    newDistribution.selection_criteria = this.criteriaArray;
-    newDistribution.commodities = this.commodityArray;
+      if (this.newObject.type && this.criteriaArray && this.commodityArray && this.newObject.date_distribution) {
+        this.loadingCreation = true;
+        const newDistribution: DistributionData = new DistributionData;
+        newDistribution.type = this.newObject.type;
+        newDistribution.project.id = this.queryParams.project;
+        newDistribution.location.adm1 = this.newObject.adm1;
+        newDistribution.location.adm2 = this.newObject.adm2;
+        newDistribution.location.adm3 = this.newObject.adm3;
+        newDistribution.location.adm4 = this.newObject.adm3;
+        newDistribution.selection_criteria = this.criteriaArray;
+        newDistribution.commodities = this.commodityArray;
 
-    const formatDateOfBirth = this.newObject.date_distribution.split('/');
-    if (formatDateOfBirth[0].length < 2) {
-      formatDateOfBirth[0] = '0' + formatDateOfBirth[0];
-    }
-    if (formatDateOfBirth[1].length < 2) {
-      formatDateOfBirth[1] = '0' + formatDateOfBirth[1];
-    }
+        const formatDateOfBirth = this.newObject.date_distribution.split('/');
+        if (formatDateOfBirth[0].length < 2) {
+        formatDateOfBirth[0] = '0' + formatDateOfBirth[0];
+        }
+        if (formatDateOfBirth[1].length < 2) {
+        formatDateOfBirth[1] = '0' + formatDateOfBirth[1];
+        }
 
-    newDistribution.date_distribution = formatDateOfBirth[2] + '-' + formatDateOfBirth[0] + '-' + formatDateOfBirth[1];
+        newDistribution.date_distribution = formatDateOfBirth[2] + '-' + formatDateOfBirth[0] + '-' + formatDateOfBirth[1];
 
-    newDistribution.name = this.getNameProject(this.queryParams.project) + '-' + this.newObject.adm1 + '-' + this.newObject.date_distribution + '-';
+        newDistribution.name = this.getNameProject(this.queryParams.project) + '-' + this.newObject.adm1 + '-' + this.newObject.date_distribution + '-';
 
-    // console.log('NEW ONE : ', newDistribution);
+        // console.log('NEW ONE : ', newDistribution);
 
-    const promise = this._distributionService.add(newDistribution);
-    if (promise) {
-      promise.toPromise().then(response => {
-        this.snackBar.open('distribution : ' + response.json().distribution.name + ' was created', '', { duration: 3000, horizontalPosition: 'right' });
-        this.router.navigate(['/distributions/' + response.json().distribution.id ]);
-      });
+        const promise = this._distributionService.add(newDistribution);
+        if (promise) {
+            promise.toPromise().then(response => {
+            this.loadingCreation = false;
+                this.snackBar.open('distribution : ' + response.json().distribution.name + ' was created', '', { duration: 3000, horizontalPosition: 'right' });
+                this.router.navigate(['/distributions/' + response.json().distribution.id ]);
+            });
+        } else {
+            this.snackBar.open('Error while creating new distribution', '', { duration: 3000, horizontalPosition: 'right' });
+        }
     } else {
-      this.snackBar.open('Error while create new distribution', '', { duration: 3000, horizontalPosition: 'right' });
-
+        this.snackBar.open('Fill new distribution\'s information before', '', { duration: 3000, horizontalPosition: 'right' });
     }
 
   }

@@ -483,6 +483,16 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
             this.stepper.next();
 
             // this.addGeneralInformation = true;
+        } else if (this.addressNumber.invalid) {
+            this.snackBar.open('Invalid field : addressNumber', '', { duration: 3000, horizontalPosition: 'right' });
+        } else if (this.addressStreet.invalid) {
+            this.snackBar.open('Invalid field : addressStreet', '', { duration: 3000, horizontalPosition: 'right' });
+        } else if (this.addressPostcode.invalid) {
+            this.snackBar.open('Invalid field : addressPostcode', '', { duration: 3000, horizontalPosition: 'right' });
+        } else if (this.province.invalid) {
+            this.snackBar.open('Invalid field : province', '', { duration: 3000, horizontalPosition: 'right' });
+        } else if (this.projects.invalid) {
+            this.snackBar.open('Invalid field : projects', '', { duration: 3000, horizontalPosition: 'right' });
         } else {
             this.snackBar.open('Invalid field', '', { duration: 3000, horizontalPosition: 'right' });
         }

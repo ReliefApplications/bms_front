@@ -210,7 +210,7 @@ exports: [
     MatMenuModule,
     MatBadgeModule,
     MatChipsModule,
-
+    MatAutocompleteModule
 ],
 providers: [
 { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }

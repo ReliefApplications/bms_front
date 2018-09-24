@@ -74,9 +74,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     // for other item which need to display with database information
     public allVulnerability = [];
     public countrySpecifics = [];
-    public specifics = [];
     public answerCountrySpecific;
-    public setIdPoor = new FormControl();
 
     // for the address' input
     public addressNumber = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
@@ -118,10 +116,6 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         this.getVulnerabilityCriteria();
         this.getCountrySpecifics();
         this.instantiateFormHead();
-
-        this.specifics[0] = new FormControl();
-        this.specifics[1] = new FormControl();
-        this.specifics[2] = new FormControl();
 
         this.filteredLivelihoodList = this.livelihoods.valueChanges.pipe(
             startWith(''),

@@ -67,8 +67,7 @@
                                 </mat-form-field>
                                 
                                 <mat-form-field *ngFor="let countrySpecific of countrySpecifics, i as index">
-                                    <input *ngIf="countrySpecific.field && countrySpecific.field!='ID Poor'" matInput placeholder={{countrySpecific.field}} #countrySpecificsAnswer>
-                                    <input *ngIf="countrySpecific.field && countrySpecific.field=='ID Poor'" matInput placeholder={{countrySpecific.field}} #countrySpecificsAnswer>
+                                    <input *ngIf="countrySpecific.field"  matInput placeholder={{countrySpecific.field}} #countrySpecificsAnswer>
                                 </mat-form-field>
 
                             </div>

@@ -152,8 +152,13 @@ export class BeneficiariesImportComponent implements OnInit {
         }, () => {
         this.load = false;
         this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
-
-        });
+        })
+        .catch(
+            () => {
+                this.load = false;
+                this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
+            }
+        );
     }
   }
 

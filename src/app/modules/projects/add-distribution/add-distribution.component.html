@@ -74,7 +74,7 @@
   </div>
   <div class="container-buttons">
     <button mat-button (click)="cancel()" class="button-cancel">{{distribution.modal_cancel}}</button>
-    <mat-spinner *ngIf="loadingCreation"></mat-spinner>
+    <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
     <button mat-button *ngIf="!loadingCreation" (click)="add()" class="button-create">{{distribution.modal_create}}</button>
   </div>
 </div>

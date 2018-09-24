@@ -218,11 +218,13 @@
         width: 15vh;
         margin-right: 10px;
     }
+    
+    mat-spinner{
+        margin-right: 2vh;
 
-    mat-spinner {
-        color: $bms_green !important;
-        width: 10vh;
-        height: 10vh;
+        &:circle {
+            stroke: $bms_green !important;
+        }
     }
 }
 

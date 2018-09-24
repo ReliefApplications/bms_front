@@ -66,14 +66,9 @@
                                   </mat-autocomplete>
                                 </mat-form-field>
                                 
-                                <!-- <mat-select placeholder="ID Poor?" [(ngModel)]="setIdPoor">
-                                    <option value="true"> Yes</option>
-                                    <option value="false"> No</option> 
-                                </mat-select> -->
-                                
                                 <mat-form-field *ngFor="let countrySpecific of countrySpecifics, i as index">
-                                    <input [formControl]="specifics[0]" *ngIf="countrySpecific.field && countrySpecific.field!='ID Poor'" matInput placeholder={{countrySpecific.field}} #countrySpecificsAnswer>
-                                    <input [formControl]="specifics[1]" *ngIf="countrySpecific.field && countrySpecific.field=='ID Poor'" matInput placeholder={{countrySpecific.field}} #countrySpecificsAnswer>
+                                    <input *ngIf="countrySpecific.field && countrySpecific.field!='ID Poor'" matInput placeholder={{countrySpecific.field}} #countrySpecificsAnswer>
+                                    <input *ngIf="countrySpecific.field && countrySpecific.field=='ID Poor'" matInput placeholder={{countrySpecific.field}} #countrySpecificsAnswer>
                                 </mat-form-field>
 
                             </div>

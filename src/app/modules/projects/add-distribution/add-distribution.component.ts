@@ -57,6 +57,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
   public controls = new FormControl();
 
   public loadedData: any = [];
+  public loadingCreation = false;
 
   step = '';
 
@@ -262,6 +263,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
    * create the new distribution object before send it to the back
    */
   add() {
+    this.loadingCreation = true;
     const newDistribution: DistributionData = new DistributionData;
     newDistribution.type = this.newObject.type;
     newDistribution.project.id = this.queryParams.project;
@@ -288,12 +290,13 @@ export class AddDistributionComponent implements OnInit, DoCheck {
 
     const promise = this._distributionService.add(newDistribution);
     if (promise) {
-      promise.toPromise().then(response => {
-        this.snackBar.open('distribution : ' + response.json().distribution.name + ' was created', '', { duration: 3000, horizontalPosition: 'right' });
-        this.router.navigate(['/distributions/' + response.json().distribution.id ]);
-      });
+        promise.toPromise().then(response => {
+          this.loadingCreation = false;
+            this.snackBar.open('distribution : ' + response.json().distribution.name + ' was created', '', { duration: 3000, horizontalPosition: 'right' });
+            this.router.navigate(['/distributions/' + response.json().distribution.id ]);
+        });
     } else {
-      this.snackBar.open('Error while create new distribution', '', { duration: 3000, horizontalPosition: 'right' });
+        this.snackBar.open('Error while create new distribution', '', { duration: 3000, horizontalPosition: 'right' });
 
     }
 

@@ -15,6 +15,11 @@
         font-size: 3vh;
         border-bottom: solid 1px $bms_red;
     }
+    
+    p {
+        font-style: italic;
+        text-align: center;
+    }
 
     .modal-table{
         display: flex;

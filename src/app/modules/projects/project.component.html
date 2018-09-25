@@ -1,7 +1,8 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{distribution.distribution_title | uppercase}}</h2> 
-    <div class="add-project" (click)="openNewProjectDialog()">
+    <h2>{{distribution.distribution_title | uppercase}}</h2>
+    <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
+    <div class="add-project" *ngIf="!loadingCreation" (click)="openNewProjectDialog()">
         <mat-icon>add</mat-icon>
     </div>
   </div>

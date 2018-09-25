@@ -106,6 +106,7 @@ export class Commodity {
     * return Commodity properties name displayed
     */
     static translator(): Object {
+
         return {
             modality: GlobalText.TEXTS.model_commodity_modality,
             type: GlobalText.TEXTS.model_commodity_type,

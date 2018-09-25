@@ -34,9 +34,9 @@
         </div>
     </div>
       <div class="content-table">
-        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="false"></app-table-search>
+        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="true"></app-table-search>
         <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
-          [data]="data"></app-table-mobile-search>
+          [data]="data" [editable]="true" ></app-table-mobile-search>
       </div>
     </div>
   </div>

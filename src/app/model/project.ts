@@ -159,20 +159,35 @@ export class Project {
     /**
     * return a Project after formatting its properties for the modal update
     */
-    getMapperUpdate(selfinstance): Object {
+    getMapperUpdate(selfinstance: any, data? : any): Object {
         if (!selfinstance) {
             return selfinstance;
         }
 
-        return {
-            name: selfinstance.name,
-            sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
-            start_date: selfinstance.start_date,
-            end_date: selfinstance.end_date,
-            number_of_households: selfinstance.number_of_households,
-            value: selfinstance.value,
-            donors_name: selfinstance.donors_name
-        };
+        let obj;
+
+        if(data && Number(data.number_of_households) === 0) {
+            obj = {
+                name: selfinstance.name,
+                sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
+                start_date: selfinstance.start_date,
+                end_date: selfinstance.end_date,
+                number_of_households: selfinstance.number_of_households,
+                value: selfinstance.value,
+                donors_name: selfinstance.donors_name,
+            };
+        } else {
+            obj = {
+                sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
+                start_date: selfinstance.start_date,
+                end_date: selfinstance.end_date,
+                number_of_households: selfinstance.number_of_households,
+                value: selfinstance.value,
+                donors_name: selfinstance.donors_name,
+            };
+        }
+
+        return obj;
     }
 
     /**
@@ -283,5 +298,9 @@ export class Project {
 
     public static formatFromModalAdd(object, data) {
         return object;
+    }
+
+    public static getAddDescription() : String {
+        return 'You will be able to modify project\'s name until your first distribution.';
     }
 }

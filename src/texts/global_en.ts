@@ -217,6 +217,7 @@ export const TEXT = {
     model_commodity_type: 'Type',
     model_commodity_unit: 'Unit',
     model_commodity_value: 'Quantity',
+    model_commodity_currency: 'Currency',
     sample_choose_size: 'Sample size',
 
 

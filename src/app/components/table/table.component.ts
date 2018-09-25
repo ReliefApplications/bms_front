@@ -221,7 +221,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
   deleteElement(deleteElement: Object) {
     if (this.entity === Beneficiaries) {
-        console.log('delete: ', this.deleteElement['id']);
+        // console.log('delete: ', this.deleteElement['id']);
         this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
             this.updateData();
         });

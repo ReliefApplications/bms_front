@@ -15,7 +15,8 @@ export class ModalUpdateComponent extends ModalComponent {
 
   ngOnInit() {
     this.entityInstance = this.data.mapper.instantiate(this.data.entity);
-    this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapperUpdate(this.entityInstance));
+    // console.log(this.data);
+    this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapperUpdate(this.entityInstance, this.data.data));
 
     this.propertiesTypes = this.entityInstance.getModalTypeProperties(this.entityInstance);
     try {

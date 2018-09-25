@@ -421,7 +421,8 @@
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
                         <button mat-raised-button class="cancel" (click)="cancel()">{{household.add_beneficiary_cancel}}</button>
-                        <button mat-raised-button (click)="create()">{{household.add_beneficiary_create}}</button>
+                        <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
+                        <button *ngIf="!loadingCreation"  mat-raised-button (click)="create()">{{household.add_beneficiary_create}}</button>
                     </div>
                 </div>
             </div>

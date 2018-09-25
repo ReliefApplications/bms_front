@@ -26,12 +26,6 @@ export class ErrorInterceptor implements HttpInterceptor {
                     this.snackErrors(error);
                     return of(error);
                 }
-            ),
-            tap(
-                (event : HttpEvent<any>) => {
-                    if (event instanceof HttpResponse)
-                    return(event);
-                }
             )
         );
     }

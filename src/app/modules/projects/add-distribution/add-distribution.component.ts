@@ -294,7 +294,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
             promise.toPromise().then(response => {
             this.loadingCreation = false;
                 this.snackBar.open('distribution : ' + response.json().distribution.name + ' was created', '', { duration: 3000, horizontalPosition: 'right' });
-                this.router.navigate(['/distributions/' + response.json().distribution.id ]);
+                this.router.navigate(['projects/distributions/' + response.json().distribution.id ]);
             });
         } else {
             this.snackBar.open('Error while creating new distribution', '', { duration: 3000, horizontalPosition: 'right' });

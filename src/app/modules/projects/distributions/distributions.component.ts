@@ -21,7 +21,7 @@ import { AnimationRendererFactory } from '@angular/platform-browser/animations/s
     styleUrls: ['./distributions.component.scss']
 })
 export class DistributionsComponent implements OnInit {
-
+    public nameComponent = 'distribution_title';
     distributionId: number;
     actualDistribution = new DistributionData();
 

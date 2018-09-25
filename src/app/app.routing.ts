@@ -29,7 +29,7 @@ export const routes: Routes = [
 
 	{ path: 'project/add-distribution', component: AddDistributionComponent },
 
-	{ path: 'distributions/:id', component: DistributionsComponent },
+	{ path: 'projects/distributions/:id', component: DistributionsComponent },
 
 	{ path: 'beneficiaries', component: BeneficiariesComponent },
 

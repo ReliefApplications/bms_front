@@ -122,8 +122,9 @@ export const TEXT = {
     data_verification_snackbar_less_corrected: 'Beneficiaries removed with success',
     data_verification_snackbar_more_corrected: 'Beneficiaries added with success',
 
-    distribution_title : 'projects',
+    distribution_title : 'distributions',
     distribution_export : 'export',
+    project_title: 'projects',
 
     add_project_title : 'new project',
     add_project_new_distribution : 'new distribution',

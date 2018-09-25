@@ -35,10 +35,10 @@
                 </tr>
             </tbody>
             <tfoot>
-                <div class="validated-distribution" *ngIf="element.validated" routerLink="/distributions/{{element.id}}">
+                <div class="validated-distribution" *ngIf="element.validated" routerLink="/projects/distributions/{{element.id}}">
                     <mat-icon>done</mat-icon>
                 </div>
-                    <button mat-icon-button class="green" *ngIf="!element.validated" routerLink="/distributions/{{element.id}}">
+                    <button mat-icon-button class="green" *ngIf="!element.validated" routerLink="/projects/distributions/{{element.id}}">
                         <mat-icon inline=true>group_add</mat-icon>
                     </button>
                     <button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" mat-button

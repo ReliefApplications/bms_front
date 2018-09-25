@@ -23,7 +23,7 @@ import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.c
   styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
-  public nameComponent = 'distribution_title';
+  public nameComponent = 'project_title';
   public distribution = GlobalText.TEXTS;
 
   projects: Project[];

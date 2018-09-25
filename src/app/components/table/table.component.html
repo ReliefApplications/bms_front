@@ -19,7 +19,7 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
       <td mat-cell class="content-cell" *matCellDef="let element">
-          <div class="validated-distribution" *ngIf="element.validated" routerLink="/distributions/{{element.id}}">
+          <div class="validated-distribution" *ngIf="element.validated" routerLink="/projects/distributions/{{element.id}}">
               <mat-icon>done</mat-icon>
           </div>
         <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('details', element)" class="green">

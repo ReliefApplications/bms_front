@@ -1,5 +1,6 @@
 import { Injectable                                 } from '@angular/core';
 import { Http, Headers, RequestOptions              } from '@angular/http';
+import {HttpClient                                  } from "@angular/common/http";
 import { Router                                     } from '@angular/router';
 
 //Services
@@ -13,7 +14,7 @@ export class HttpService {
     public lastRequestUri : string;
 
     constructor(
-        private http : Http,
+        private http : HttpClient,
         private router : Router,
         private _wsseService : WsseService
     ){

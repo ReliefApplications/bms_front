@@ -41,11 +41,11 @@ export class ImportService {
                 this.referedClassService.sendDataToValidation(data, project, step).subscribe(response => {
 
                     // use function to format and type data
-                    const responseFormatted = this.referedClassToken.formatIssues(response.json(), step);
+                    const responseFormatted = this.referedClassToken.formatIssues(response, step);
                     for (let i = 0; i < responseFormatted.length; i++) {
                         this.data.push(responseFormatted[i]);
                     }
-                    this.token = response.json().token;
+                    this.token = response.token;
                     this.project = project;
                     resolve(this.data);
                 }, error => {
@@ -57,11 +57,11 @@ export class ImportService {
                     this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
 
                         // use function to format and type data
-                        const responseFormatted = this.referedClassToken.formatDuplicates(response.json(), step);
+                        const responseFormatted = this.referedClassToken.formatDuplicates(response, step);
                         for (let i = 0; i < responseFormatted.length; i++) {
                             this.data.push(responseFormatted[i]);
                         }
-                        this.token = response.json().token;
+                        this.token = response.token;
                         this.project = project;
                         resolve(this.data);
                     }, error => {
@@ -72,11 +72,11 @@ export class ImportService {
                     this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
 
                         // use function to format and type data
-                        const responseFormatted = this.referedClassToken.formatIssues(response.json(), step);
+                        const responseFormatted = this.referedClassToken.formatIssues(response, step);
                         for (let i = 0; i < responseFormatted.length; i++) {
                             this.data.push(responseFormatted[i]);
                         }
-                        this.token = response.json().token;
+                        this.token = response.token;
                         this.project = project;
                         resolve(this.data);
                     }, error => {

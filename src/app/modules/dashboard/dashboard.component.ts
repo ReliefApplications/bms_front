@@ -87,7 +87,7 @@ export class DashboardComponent implements OnInit {
     this._distributionService.get().subscribe(
         response => {
 
-            distribs = new MatTableDataSource(this.referedClassToken.formatArray(response.json()));
+            distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
             // console.log('first', distribs.data);
             if (distribs.data.length > RECENT_DIST_LENGTH) {
                 distribs.data = distribs.data.slice(-RECENT_DIST_LENGTH);
@@ -105,7 +105,7 @@ export class DashboardComponent implements OnInit {
    */
   getSummary(): void {
     this._generalService.getSummary().subscribe(response => {
-      this.summary = response.json();
+      this.summary = response;
     });
   }
 

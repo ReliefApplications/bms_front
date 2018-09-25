@@ -69,7 +69,7 @@ export class ModalComponent implements OnInit {
       this.loadedData.sectors_name = this._cacheService.get(CacheService.SECTORS);
       if (!this.loadedData.sectors)
         this.sectorService.get().subscribe(response => {
-          this.loadedData.sectors_name = response.json();
+          this.loadedData.sectors_name = response;
           this._cacheService.set(CacheService.SECTORS, this.loadedData.sectors_name);
         });
     }
@@ -77,7 +77,7 @@ export class ModalComponent implements OnInit {
       this.loadedData.donors_name = this._cacheService.get(CacheService.DONORS);
       if (!this.loadedData.donors_name)
         this.donorService.get().subscribe(response => {
-          this.loadedData.donors_name = response.json();
+          this.loadedData.donors_name = response;
           this._cacheService.set(CacheService.DONORS, this.loadedData.donors_name);
         });
     }
@@ -85,7 +85,7 @@ export class ModalComponent implements OnInit {
       this.loadedData.projects_name = this._cacheService.get(CacheService.PROJECTS);
       if (!this.loadedData.projects)
         this.projectService.get().subscribe(response => {
-          this.loadedData.projects_name = response.json();
+          this.loadedData.projects_name = response;
           this._cacheService.set(CacheService.PROJECTS, this.loadedData.projects_name);
         });
     }
@@ -94,7 +94,7 @@ export class ModalComponent implements OnInit {
       // this.allCriteria = this._cacheService.get(CacheService.CRITERIAS);
       if(this.allCriteria.length === 0 )
         this.criteriaService.get().subscribe(response => {
-          this.allCriteria  = response.json();
+          this.allCriteria  = response;
           this.loadedData.field_string = [];
           this._cacheService.set(CacheService.CRITERIAS, this.loadedData.field_string);
         });
@@ -109,7 +109,7 @@ export class ModalComponent implements OnInit {
       this.loadedData.modality = this._cacheService.get(CacheService.COMMODITY);
       if (!this.loadedData.modality) {
         this.modalitiesService.getModalities().subscribe(response => {
-            this.loadedData.modality = response.json();
+            this.loadedData.modality = response;
             for(let i=0; i<this.loadedData.modality.length; i++) {
                 if(this.loadedData.modality[i].name == 'CTP') {
                     this.loadedData.modality[i].name = 'Cash';

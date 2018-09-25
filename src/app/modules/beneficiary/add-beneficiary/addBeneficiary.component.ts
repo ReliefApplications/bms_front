@@ -260,7 +260,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
      */
     getProjects() {
         this._projectService.get().subscribe(response => {
-            const responseProject = Project.formatArray(response.json());
+            const responseProject = Project.formatArray(response);
             responseProject.forEach(element => {
                 const concat = element.id + ' - ' + element.name;
                 this.projectList.push(concat);
@@ -277,7 +277,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         this.communeList = [];
         this.villageList = [];
         this._locationService.getAdm1().subscribe(response => {
-            const responseAdm1 = Location.formatAdm(response.json());
+            const responseAdm1 = Location.formatAdm(response);
             responseAdm1.forEach(element => {
                 this.provinceList.push(element);
             });
@@ -295,7 +295,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         const body = {};
         body['adm1'] = adm1;
         this._locationService.getAdm2(body).subscribe(response => {
-            const responseAdm2 = Location.formatAdm(response.json());
+            const responseAdm2 = Location.formatAdm(response);
             responseAdm2.forEach(element => {
                 this.districtList.push(element);
             });
@@ -311,7 +311,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         const body = {};
         body['adm2'] = adm2;
         this._locationService.getAdm3(body).subscribe(response => {
-            const responseAdm3 = Location.formatAdm(response.json());
+            const responseAdm3 = Location.formatAdm(response);
             responseAdm3.forEach(element => {
                 this.communeList.push(element);
             });
@@ -326,7 +326,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         const body = {};
         body['adm3'] = adm3;
         this._locationService.getAdm4(body).subscribe(response => {
-            const responseAdm4 = Location.formatAdm(response.json());
+            const responseAdm4 = Location.formatAdm(response);
             responseAdm4.forEach(element => {
                 this.villageList.push(element);
             });
@@ -340,7 +340,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         const promise = this._criteriaService.getVulnerabilityCriteria();
         if (promise) {
             promise.toPromise().then(response => {
-                const responseCriteria = VulnerabilityCriteria.formatArray(response.json());
+                const responseCriteria = VulnerabilityCriteria.formatArray(response);
                 responseCriteria.forEach(element => {
                     this.allVulnerability.push(element);
                 });
@@ -355,7 +355,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         const promise = this._countrySpecificsService.get();
         if (promise) {
             promise.toPromise().then(response => {
-                const responseCountrySpecifics = CountrySpecific.formatArray(response.json());
+                const responseCountrySpecifics = CountrySpecific.formatArray(response);
                 responseCountrySpecifics.forEach(element => {
                     this.countrySpecifics.push(element);
                 });

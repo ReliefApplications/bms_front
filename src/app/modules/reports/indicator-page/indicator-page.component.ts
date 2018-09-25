@@ -95,7 +95,7 @@ export class IndicatorPageComponent implements OnInit {
       this.indicatorsLoading = true;
       this.indicatorService.getIndicators().toPromise().then(response => {
 
-        let indicatorResponse = Indicator.FormatArray(response.json());
+        let indicatorResponse = Indicator.FormatArray(response);
         for (let i = 0; i < indicatorResponse.length; i++) {
           this.indicators.push(indicatorResponse[i]);
         }
@@ -247,7 +247,7 @@ export class IndicatorPageComponent implements OnInit {
    */
   getProjects() {
     this.projectService.get().subscribe(response => {
-      let Projectresponse = Project.formatArray(response.json());
+      let Projectresponse = Project.formatArray(response);
       Projectresponse.forEach(element => {
         var concat = element.id + " - " + element.name;
         this.projectList.push(concat);
@@ -262,7 +262,7 @@ export class IndicatorPageComponent implements OnInit {
   getDistributions() {
     this.distributionList = [];
     this.distribtutionService.getByProject(this.selectedProject[0]).subscribe(response => {
-      let distributionResponse = DistributionData.formatArray(response.json());
+      let distributionResponse = DistributionData.formatArray(response);
       distributionResponse.forEach(element => {
         var concat = element.id + " - " + element.name;
         this.distributionList.push(concat);

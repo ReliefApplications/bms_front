@@ -112,10 +112,10 @@ export class TableComponent implements OnChanges, DoCheck {
   updateData() {
 
     this.service.get().subscribe(response => {
-      this.data = new MatTableDataSource(this.entity.formatArray(response.json()));
+      this.data = new MatTableDataSource(this.entity.formatArray(response));
       // update cache associated variable
       const key = (<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + 'S'];
-      this._cacheService.set(key, response.json());
+      this._cacheService.set(key, response);
 
       this.setDataTableProperties();
     }, error => {
@@ -221,7 +221,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
   deleteElement(deleteElement: Object) {
     if (this.entity === Beneficiaries) {
-        console.log('delete: ', this.deleteElement['id']);
+        // console.log('delete: ', this.deleteElement['id']);
         this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
             this.updateData();
         });

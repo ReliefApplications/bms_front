@@ -122,7 +122,7 @@ export class DistributionsComponent implements OnInit {
         this.distributionService.getOne(this.distributionId)
         .subscribe(
             result => { // Get from Back
-                this.actualDistribution = result.json();
+                this.actualDistribution = result;
                 // console.log('Got distribution from back :', this.actualDistribution);
 
                 if (this.actualDistribution.validated) {
@@ -163,7 +163,7 @@ export class DistributionsComponent implements OnInit {
         this.distributionService.getBeneficiaries(this.distributionId)
             .subscribe(
                 response => {
-                    const data = response.json();
+                    const data = response;
 
                     if (type === 'initial') {
                         // Step 1 table
@@ -209,7 +209,7 @@ export class DistributionsComponent implements OnInit {
         this.beneficiariesService.getAllFromProject(this.actualDistribution.project.id)
             .subscribe(
                 result => {
-                    allBeneficiaries = result.json();
+                    allBeneficiaries = result;
                     if (allBeneficiaries) {
                         this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
                     } else {
@@ -238,7 +238,7 @@ export class DistributionsComponent implements OnInit {
         this.distributionService.export('distribution', this.extensionTypeStep1, this.distributionId).toPromise()
             .then(response => {
                 const arrExport = [];
-                const reponse: ExportInterface = response.json() as ExportInterface;
+                const reponse: ExportInterface = response as ExportInterface;
 
                 if (!(reponse instanceof Object)) {
                     this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'center' });
@@ -283,7 +283,7 @@ export class DistributionsComponent implements OnInit {
             this.beneficiariesService.getRandom(this.distributionId, sampleLength)
             .subscribe(
                 response => {
-                    const data = Beneficiaries.formatArray(response.json());
+                    const data = Beneficiaries.formatArray(response);
                     this.randomSampleData = new MatTableDataSource(data);
                     this.loadingThirdStep = false;
                 }
@@ -298,7 +298,7 @@ export class DistributionsComponent implements OnInit {
         this.distributionService.exportSample(this.randomSampleData.data, this.extensionTypeStep3).toPromise()
         .then(response => {
             const arrExport = [];
-            const reponse: ExportInterface = response.json() as ExportInterface;
+            const reponse: ExportInterface = response as ExportInterface;
 
             if (!(reponse instanceof Object)) {
                 this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'center' });
@@ -368,7 +368,7 @@ export class DistributionsComponent implements OnInit {
         const newDistributionsList = new Array<DistributionData>();
         this.distributionService.get()
             .subscribe( result => {
-                const oldDistributionsList = result.json();
+                const oldDistributionsList = result;
                 oldDistributionsList.forEach(
                     element => {
                         const distrib = element;

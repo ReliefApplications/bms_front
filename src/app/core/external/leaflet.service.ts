@@ -142,7 +142,7 @@ export class LeafletService {
 		let promise = this._locationService.getUpcomingDistributionCode();
 		if (promise) {
 			promise.toPromise().then(response => {
-				this._cacheService.set(CacheService.MAPSDATA, response.json());
+				this._cacheService.set(CacheService.MAPSDATA, response);
 			})
 		}
 

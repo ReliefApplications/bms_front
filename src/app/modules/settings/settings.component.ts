@@ -126,7 +126,7 @@ export class SettingsComponent implements OnInit {
         this._settingsService.export(this.extensionType, category, country).toPromise()
         .then(response => {
             const arrExport = [];
-            const reponse: ExportInterface = response.json() as ExportInterface;
+            const reponse: ExportInterface = response as ExportInterface;
 
             if (!(reponse instanceof Object)) {
               this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});
@@ -143,7 +143,7 @@ export class SettingsComponent implements OnInit {
         this._settingsService.export(this.extensionType, category).toPromise()
         .then(response => {
             const arrExport = [];
-            const reponse: ExportInterface = response.json() as ExportInterface;
+            const reponse: ExportInterface = response as ExportInterface;
 
             if (!(reponse instanceof Object)) {
               this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});
@@ -185,7 +185,7 @@ export class SettingsComponent implements OnInit {
   // TO DO : get from cache
   load(title): void {
     this.referedClassService.get().subscribe(response => {
-      response = this.referedClassToken.formatArray(response.json());
+      response = this.referedClassToken.formatArray(response);
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.referedClassToken.__classname__.toUpperCase() + 'S'], response);
       this.data = new MatTableDataSource(response);
     });

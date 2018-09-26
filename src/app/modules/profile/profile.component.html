@@ -1,6 +1,6 @@
 <div class="container">
 
-  <h1> {{profilePage.header_profile | uppercase}} </h1>
+  <h1> {{profilePage.header_profile | titlecase}} </h1>
 
   <form class="profile-field" [formGroup]="profileForm" (ngSubmit)="onProfileFormSubmit()">
 

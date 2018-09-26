@@ -1,13 +1,13 @@
 <div class="page-container">
     <div class="container-boxes">
         <div class="boxes-map">
-            <h1 class="map-title">{{dashboard.dashboard_distribution_map | uppercase}}</h1>
+            <h1 class="map-title">{{dashboard.dashboard_distribution_map | titlecase}}</h1>
             <div class="map-content">
                 <div id="map"></div>
             </div>
         </div>
         <div *ngIf="widthScreen > maxWidthMobile" class="boxes-summary">
-            <h1 class="summary-title">{{dashboard.dashboard_summary | uppercase}}</h1>
+            <h1 class="summary-title">{{dashboard.dashboard_summary | titlecase}}</h1>
             <div class="summary-content">
                 <app-box-dashboard [info]='{icon: "home", color: "green", title:dashboard.dashboard_summary_1, subtitle:summary[0], ref:""}'></app-box-dashboard>
                 <app-box-dashboard [info]='{icon: "project", color: "red", title:dashboard.dashboard_summary_2, subtitle:summary[1], undersubtitle:"",ref:""}'></app-box-dashboard>
@@ -17,11 +17,11 @@
         </div>
     </div>
     <div class="container-distribution">
-        <h1 class="distribution-title">{{dashboard.dashboard_recent_distributions | uppercase}}</h1>
+        <h1 class="distribution-title">{{dashboard.dashboard_recent_distributions | titlecase}}</h1>
         <div class="distribution-content">
             <mat-spinner *ngIf="loadingTable"></mat-spinner>
-            <app-table *ngIf="widthScreen > maxWidthMobile && !loadingTable" [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table>
-            <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-mobile>
+            <app-table-dashboard *ngIf="widthScreen > maxWidthMobile && !loadingTable" [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-dashboard>
+            <app-table-mobile-dashboard *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-mobile-dashboard>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <div class="page-container">
   <div class="container-fields">
     <div class="field-distribution">
-      <h1 class="distribution-title">{{distribution.add_project_new_distribution | uppercase}}</h1>
+      <h1 class="distribution-title">{{distribution.add_project_new_distribution | titlecase}}</h1>
       <div class="distribution-accordion">
         <mat-accordion class="accordion-table">
           <mat-expansion-panel *ngFor="let p of properties" [expanded]="step === p" (opened)="setStep(p)" class="mat-elevation-z8">
@@ -36,7 +36,7 @@
     <div class="field-forms">
       <div class="forms-criteria">
         <div class="criteria-text">
-          <h1 class="criteria-title">{{distribution.add_distribution_selection_criteria | uppercase}}</h1>
+          <h1 class="criteria-title">{{distribution.add_distribution_selection_criteria | titlecase}}</h1>
           <button mat-icon-button (click)="openDialog(criteriaAction)" class="add-button">
             <mat-icon>add</mat-icon>
           </button>
@@ -54,7 +54,7 @@
       </div>
       <div class="forms-commodity">
         <div class="commodity-text">
-          <h1 class="commodity-title">{{distribution.add_distribution_distributed_commodity | uppercase}}</h1>
+          <h1 class="commodity-title">{{distribution.add_distribution_distributed_commodity | titlecase}}</h1>
           <button mat-icon-button (click)="openDialog(commodityAction)" class="add-button">
             <mat-icon>add</mat-icon>
           </button>

@@ -1,17 +1,19 @@
 import { Injectable                                 } from '@angular/core';
 import { Http, Headers, RequestOptions              } from '@angular/http';
-import {HttpClient                                  } from "@angular/common/http";
+import {HttpClient, HttpParams                                  } from "@angular/common/http";
 import { Router                                     } from '@angular/router';
 
 //Services
 import { WsseService                                } from '../authentication/wsse.service';
+import { forEach } from '@angular/router/src/utils/collection';
+import { Observable } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class HttpService {
 
-    public lastRequestUri : string;
+    public lastRequestUri : HttpParams;
 
     constructor(
         private http : HttpClient,
@@ -25,68 +27,58 @@ export class HttpService {
      * @param  {any}    parameters [description]
      * @return {[type]}            [description]
      */
-    buildUri(parameters : any){
-        let uri = Object.keys(parameters).length > 0 ? '?' : '';
+    buildUri(parameters : any) {
 
-        let keys = Object.keys(parameters);
-        keys.forEach( (key, index) => {
-            uri += key + '=' + encodeURIComponent(parameters[key]);
+        let params = new HttpParams();
 
-            if(index < (keys.length-1)){
-                uri += '&';
-            }
-        });
-
-        return uri;
-    }
-
-    prepareQuery(parameters = {}, headers = {}) : RequestOptions{
-
-        let useXWsse = true;
-        if( 'useXWsse' in parameters ) {
-            useXWsse = parameters['useXWsse'];
-            delete parameters['useXWsse'];
+        for (let i = 0; i < parameters.length; i++) {
+            
+            params = params.set( String(Object.keys(parameters)[i]), String(parameters[i]) );
+            
         }
 
-        if( useXWsse )
-            headers['x-wsse'] = this._wsseService.getHeaderValue();
-            
-        headers['country'] = this.getCountry();
-        this.lastRequestUri = this.buildUri(parameters);
+        // new Map (parameters)
+        // .forEach(
+        //     (value, key, map) => {
+        //         params = params.set(String(key), String(value));
+        //     }
+        // );
 
-        let _headers = new Headers(headers);
-        return new RequestOptions({headers: _headers});
+        return(params);
     }
 
-    get(url, parameters = {}, headers = {}){
-        let options = this.prepareQuery(parameters, headers);
+    prepareQuery(parameters = {}) : any {
+
+        this.lastRequestUri = this.buildUri(parameters);
+
+        return new RequestOptions();
+    }
+
+    get(url, parameters = {}) : Observable<any> {
+        let options = this.prepareQuery(parameters);
         url += this.lastRequestUri;
 
         return this.http.get(url , options);
     }
 
-    post(url, body, parameters = {}, headers = {}){
-        let options = this.prepareQuery(parameters, headers);
+    post(url, body, parameters = {}) : Observable<any> {
+        let options = this.prepareQuery(parameters);
         url += this.lastRequestUri;
         return this.http.post(url, body, options);
     }
 
-    put(url, body, parameters = {}, headers = {}){
-        let options = this.prepareQuery(parameters, headers);
+    put(url, body, parameters = {}) : Observable<any> {
+        let options = this.prepareQuery(parameters);
         url += this.lastRequestUri;
 
         return this.http.put(url, body, options);
     }
 
-    delete(url, parameters = {}, headers = {}){
-        let options = this.prepareQuery(parameters, headers);
+    delete(url, parameters = {}) : Observable<any> {
+        let options = this.prepareQuery(parameters);
         url += this.lastRequestUri;
 
         return this.http.delete(url, options);
-    }
-
-    getCountry() {
-        return 'KHM';
     }
 
 }

@@ -162,7 +162,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                     typePhone: '',
                     vulnerabilities: '',
                     phone: ['', Validators.pattern('[0-9]*')],
-                    countryCode: '+885',
+                    countryCode: '+885', // TODO : Get user country code
                     nationalID: ''
                 })
             ])

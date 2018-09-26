@@ -161,7 +161,8 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                     typeNationalId: '',
                     typePhone: '',
                     vulnerabilities: '',
-                    phone: '',
+                    phone: ['', Validators.pattern('[0-9]*')],
+                    countryCode: '+89',
                     nationalID: ''
                 })
             ])
@@ -183,7 +184,8 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                     typeNationalId: '',
                     typePhone: '',
                     vulnerabilities: '',
-                    phone: '',
+                    phone: ['', Validators.pattern('[0-9]*')],
+                    countryCode: '+89',
                     nationalID: ''
                 })
             ])
@@ -580,7 +582,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         newBeneficiary.family_name = inputBeneficiary.familyName;
         newBeneficiary.given_name = inputBeneficiary.givenName;
         const fieldPhone: Phones = new Phones;
-        fieldPhone.number = inputBeneficiary.phone;
+        fieldPhone.number = inputBeneficiary.countryCode + inputBeneficiary.phone;
         fieldPhone.type = inputBeneficiary.typePhone;
         newBeneficiary.phones.push(fieldPhone);
         const fieldNationalID: NationalID = new NationalID;

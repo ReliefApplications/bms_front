@@ -139,7 +139,7 @@ export class DistributionData {
         // console.log("formatArray before :", distributionDatas);
         instance.forEach(element => {
             if (Boolean(instance.archived) === false) {
-                if (element && element.id && element.location && element.project && element.name) {
+                if ( !element.archived && element && element.id && element.location && element.project && element.name ) {
                     distributionDatas.push(this.formatFromApi(element));
                 }
             }

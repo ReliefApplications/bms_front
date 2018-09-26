@@ -34,6 +34,7 @@ import { TableDistributionComponent } from '../components/table/table-distributi
 import { TableMobileDistributionComponent } from '../components/table/table-mobile-distribution/table-mobile-distribution.component';
 import { TableSmallComponent } from '../components/table/table-small/table-small.component';
 import { TableSmallMobileComponent } from '../components/table/table-small-mobile/table-small-mobile.component';
+import { TableDashboardComponent } from '../components/table/table-dashboard/table-dashboard.component';
 import { ModalComponent } from '../components/modals/modal.component';
 import { ModalDeleteComponent } from '../components/modals/modal-delete/modal-delete.component';
 import { ModalUpdateComponent } from '../components/modals/modal-update/modal-update.component';
@@ -56,6 +57,7 @@ import { DistributionsComponent } from '../modules/projects/distributions/distri
 import { ImportDistributionComponent } from '../modules/projects/distributions/import-distribution/import-distribution.component';
 import { TransactionTableComponent } from '../components/table/transaction-table/transaction-table.component';
 import { ModalLeaveComponent } from '../components/modals/modal-leave/modal-leave.component';
+import { TableMobileDashboardComponent } from '../components/table/table-mobile-dashboard/table-mobile-dashboard.component';
 
 @NgModule({
 imports: [
@@ -117,6 +119,8 @@ declarations: [
     TableMobileDistributionComponent,
     TableSmallComponent,
     TableSmallMobileComponent,
+    TableDashboardComponent,
+    TableMobileDashboardComponent,
     TransactionTableComponent,
     ModalComponent,
     ModalDeleteComponent,
@@ -166,6 +170,8 @@ exports: [
     TableSmallComponent,
     TableSmallMobileComponent,
     TransactionTableComponent,
+    TableDashboardComponent,
+    TableMobileDashboardComponent,
     ModalComponent,
     ModalDeleteComponent,
     ModalUpdateComponent,

@@ -1,0 +1,40 @@
+<!-- TABLE -->
+<div class="table-container">
+    <div class="noDataContainer" *ngIf="!filled">
+        <h3>
+            <mat-icon>clear</mat-icon>
+            No data available
+        </h3>
+    </div>
+    <div *ngIf="filled">
+      <table *ngFor="let element of data.filteredData" class="box-element">
+        <tbody>
+          <tr *ngFor="let property of properties">
+            <td class="element-title">
+              <span> {{mapperService.mapTitle(property)}}</span>
+            </td>
+            <td class="element-value" *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">
+              <span>{{mapperService.mapValue(element, property)}}</span>
+            </td>
+            <td *ngIf="propertiesTypes[property]=='image'">
+              <app-icon-svg  class="icon" [name]="mapperService.mapValue(element, property)"></app-icon-svg>
+            </td>
+            <td  *ngIf="propertiesTypes[property]=='png'">
+                <img class="png" src={{mapperService.mapValue(element,property)}}>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+            <button mat-button (click)="openDialog('details', element)" class="green">
+              <mat-icon inline=true>search</mat-icon>
+              </button>
+              <button mat-button (click)="openDialog('update', element)" class="light-red">
+                <mat-icon inline=true>edit</mat-icon>
+              </button>
+              <button mat-button (click)="openDialog('delete', element)" class="red">
+                <mat-icon inline=true>close</mat-icon>
+              </button>
+        </tfoot>
+      </table>
+    </div>
+  </div>

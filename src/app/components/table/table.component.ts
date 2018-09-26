@@ -182,6 +182,7 @@ export class TableComponent implements OnChanges, DoCheck {
         this.deleteElement(data);
       });
     }
+    
     let updateElement = null;
     if (dialogRef.componentInstance.onUpdate) {
       updateElement = dialogRef.componentInstance.onUpdate.subscribe(
@@ -189,7 +190,6 @@ export class TableComponent implements OnChanges, DoCheck {
         this.updateElement(data);
       });
     }
-
 
     dialogRef.afterClosed().subscribe(result => {
       if (updateElement) {

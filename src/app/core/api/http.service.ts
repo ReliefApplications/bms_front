@@ -12,8 +12,6 @@ import { Observable } from 'rxjs';
 })
 export class HttpService {
 
-    public lastRequestUri : HttpParams;
-
     constructor(
         private http : HttpClient,
         private router : Router,
@@ -22,54 +20,32 @@ export class HttpService {
     }
 
     /**
-     * Build the uri from parameters
-     * @param  {any}    parameters [description]
-     * @return {[type]}            [description]
+     * Build the request parameters
+     * @param  {any}    parameters
+     * @return {any}
      */
-    buildUri(parameters : any) {
-
-        let params = new HttpParams();
-
-        for (let i = 0; i < parameters.length; i++) {
-            
-            params = params.set( String(Object.keys(parameters)[i]), String(parameters[i]) );
-            
-        }
-
-        return(params);
-    }
-
     prepareQuery(parameters = {}) : any {
-
-        this.lastRequestUri = this.buildUri(parameters);
-
-        return new RequestOptions();
+        return { params: parameters };
     }
 
     get(url, parameters = {}) : Observable<any> {
         let options = this.prepareQuery(parameters);
-        url += this.lastRequestUri;
-
         return this.http.get(url , options);
     }
 
     post(url, body, parameters = {}) : Observable<any> {
         let options = this.prepareQuery(parameters);
-        url += this.lastRequestUri;
+        console.log(options)
         return this.http.post(url, body, options);
     }
 
     put(url, body, parameters = {}) : Observable<any> {
         let options = this.prepareQuery(parameters);
-        url += this.lastRequestUri;
-
         return this.http.put(url, body, options);
     }
 
     delete(url, parameters = {}) : Observable<any> {
         let options = this.prepareQuery(parameters);
-        url += this.lastRequestUri;
-
         return this.http.delete(url, options);
     }
 

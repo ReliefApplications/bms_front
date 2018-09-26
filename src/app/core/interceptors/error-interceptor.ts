@@ -3,7 +3,7 @@ import {
 	HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpEventType
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { URL_BMS_API } from '../../../environments/environment';
 import { MatSnackBar } from '@angular/material';
 

@@ -1,11 +1,10 @@
 import { Injectable                                 } from '@angular/core';
-import { Http, Headers, RequestOptions              } from '@angular/http';
-import {HttpClient, HttpParams                                  } from "@angular/common/http";
+import { RequestOptions                             } from '@angular/http';
+import { HttpClient, HttpParams                     } from '@angular/common/http';
 import { Router                                     } from '@angular/router';
 
 //Services
 import { WsseService                                } from '../authentication/wsse.service';
-import { forEach } from '@angular/router/src/utils/collection';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -36,13 +35,6 @@ export class HttpService {
             params = params.set( String(Object.keys(parameters)[i]), String(parameters[i]) );
             
         }
-
-        // new Map (parameters)
-        // .forEach(
-        //     (value, key, map) => {
-        //         params = params.set(String(key), String(value));
-        //     }
-        // );
 
         return(params);
     }

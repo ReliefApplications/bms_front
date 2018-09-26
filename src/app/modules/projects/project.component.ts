@@ -107,7 +107,7 @@ export class ProjectComponent implements OnInit {
     const promise = this.projectService.get();
     if (promise) {
       promise.toPromise().then(response => {
-        this.projects = this.projectClass.formatArray(response.json());
+        this.projects = this.projectClass.formatArray(response);
         this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + 'S'], this.projects);
         this.selectTitle(this.projects[0].name, this.projects[0]);
       });
@@ -120,7 +120,7 @@ export class ProjectComponent implements OnInit {
    */
   getDistributionsByProject(projectId: number): void {
     this.distributionService.getByProject(projectId).subscribe(response => {
-      const distribution = DistributionData.formatArray(response.json());
+      const distribution = DistributionData.formatArray(response);
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + 'S'], distribution);
       this.distributionData = new MatTableDataSource(distribution);
       this.loading = false;
@@ -138,7 +138,7 @@ export class ProjectComponent implements OnInit {
     this.distributionService.export('project', this.extensionType, this.selectedProject.id).toPromise()
       .then(response => {
         const arrExport = [];
-        const reponse: ExportInterface = response.json() as ExportInterface;
+        const reponse: ExportInterface = response as ExportInterface;
 
         if (!(reponse instanceof Object)) {
           this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});

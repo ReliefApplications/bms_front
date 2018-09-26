@@ -122,7 +122,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
             this.beneficiaryService.import(this.distribution.id, data, IMPORT_COMPARE).toPromise()
                 .then(
                     result => {
-                        tables = result.json();
+                        tables = result;
 
                         const errorList = ImportedBeneficiary.formatArray(tables.errors);
                         const addList = ImportedBeneficiary.formatArray(tables.added);

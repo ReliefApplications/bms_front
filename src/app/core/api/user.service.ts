@@ -52,7 +52,7 @@ export class UserService{
 							let saltedNewPassword = this.wsseService.saltPassword(getSalt.salt, clearNewPassword);
 							this.requestPasswordChange(parseInt(user.user_id), {oldPassword:saltedOldPassword, newPassword:saltedNewPassword} )
 									.subscribe(success => {
-									let data = success.json();
+									let data = success;
 											//console.log("Password changed", success);
 											this.authenticationService.setUser(data);
 											resolve(data);

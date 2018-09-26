@@ -124,6 +124,7 @@ export const TEXT = {
 
     distribution_title : 'projets',
     distribution_export : 'export',
+    project_title: 'porjets',
 
     add_project_title : 'nouveau projet',
     add_project_new_distribution : 'nouvelle distribution',

@@ -90,7 +90,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
    */
   loadProvince() {
     this.locationService.getAdm1().subscribe(response => {
-      this.loadedData.adm1 = response.json();
+      this.loadedData.adm1 = response;
       this._cacheService.set(CacheService.ADM1, this.loadedData.adm1);
 
     });
@@ -109,7 +109,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
    */
   loadDistrict(adm1) {
     this.locationService.getAdm2(adm1).subscribe(response => {
-      this.loadedData.adm2 = response.json();
+      this.loadedData.adm2 = response;
       this._cacheService.set(CacheService.ADM2, this.loadedData.adm2);
 
     });
@@ -123,7 +123,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
    */
   loadCommunity(adm2) {
     this.locationService.getAdm3(adm2).subscribe(response => {
-      this.loadedData.adm3 = response.json();
+      this.loadedData.adm3 = response;
       this._cacheService.set(CacheService.ADM3, this.loadedData.adm3);
 
     });
@@ -136,7 +136,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
    */
   loadVillage(adm3) {
     this.locationService.getAdm4(adm3).subscribe(response => {
-      this.loadedData.adm4 = response.json();
+      this.loadedData.adm4 = response;
       this._cacheService.set(CacheService.ADM4, this.loadedData.adm4);
 
     });
@@ -293,8 +293,8 @@ export class AddDistributionComponent implements OnInit, DoCheck {
         if (promise) {
             promise.toPromise().then(response => {
             this.loadingCreation = false;
-                this.snackBar.open('distribution : ' + response.json().distribution.name + ' was created', '', { duration: 3000, horizontalPosition: 'right' });
-                this.router.navigate(['projects/distributions/' + response.json().distribution.id ]);
+                this.snackBar.open('distribution : ' + response.distribution.name + ' was created', '', { duration: 3000, horizontalPosition: 'right' });
+                this.router.navigate(['projects/distributions/' + response.distribution.id ]);
             });
         } else {
             this.snackBar.open('Error while creating new distribution', '', { duration: 3000, horizontalPosition: 'right' });
@@ -345,7 +345,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
     if (user_action === this.criteriaAction) {
       this.criteriaArray.push(createElement);
       this.criteriaService.getBeneficiariesNumber(this.criteriaArray, this.queryParams.project).subscribe(response => {
-        this.criteriaNbBeneficiaries = response.json();
+        this.criteriaNbBeneficiaries = response;
       });
       this.criteriaData = new MatTableDataSource(this.criteriaArray);
     } else if (user_action === this.commodityAction) {
@@ -372,7 +372,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
       if (index > -1) {
         this.commodityArray.splice(index, 1);
         this.criteriaService.getBeneficiariesNumber(this.criteriaArray, this.queryParams.project).subscribe(response => {
-          this.criteriaNbBeneficiaries = response.json();
+          this.criteriaNbBeneficiaries = response;
         });
         this.removeCommodities(removeElement);
         this.commodityData = new MatTableDataSource(this.commodityArray);

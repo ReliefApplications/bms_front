@@ -61,7 +61,7 @@ export class BeneficiariesComponent implements OnInit {
   checkHouseholds(): void {
     this.referedClassService = this.householdsService;
     this.referedClassService.get().subscribe( response => {
-      response = this.referedClassToken.formatArray(response.json());
+      response = this.referedClassToken.formatArray(response);
       this.households = new MatTableDataSource(response);
       this.cacheService.set('HOUSEHOLDS', response);
       this.loading = false;
@@ -98,7 +98,7 @@ export class BeneficiariesComponent implements OnInit {
     this.householdsService.export(this.extensionType).toPromise()
       .then(response => {
         const arrExport = [];
-        const reponse: ExportInterface = response.json() as ExportInterface;
+        const reponse: ExportInterface = response as ExportInterface;
 
         if (!(reponse instanceof Object)) {
           this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});

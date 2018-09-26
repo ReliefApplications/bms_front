@@ -112,10 +112,10 @@ export class TableComponent implements OnChanges, DoCheck {
   updateData() {
 
     this.service.get().subscribe(response => {
-      this.data = new MatTableDataSource(this.entity.formatArray(response.json()));
+      this.data = new MatTableDataSource(this.entity.formatArray(response));
       // update cache associated variable
       const key = (<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + 'S'];
-      this._cacheService.set(key, response.json());
+      this._cacheService.set(key, response);
 
       this.setDataTableProperties();
     }, error => {

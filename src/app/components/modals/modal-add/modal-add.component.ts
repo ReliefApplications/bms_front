@@ -57,7 +57,7 @@ export class ModalAddComponent extends ModalComponent {
 
   getModalityType(modality) {
     this.modalitiesService.getModalitiesType(modality).subscribe(response => {
-      this.loadedData.type = response.json();
+      this.loadedData.type = response;
       for(let i=0; i<this.loadedData.type.length; i++) {
         if(this.loadedData.type[i].name === 'Mobile') {
             this.loadedData.type[i].name = 'Mobile Money';

@@ -68,7 +68,7 @@ export class BeneficiariesImportComponent implements OnInit {
   getProjects() {
     this.referedClassService = this._projectService;
     this.referedClassService.get().subscribe(response => {
-      response = this.referedClassToken.formatArray(response.json());
+      response = this.referedClassToken.formatArray(response);
       response.forEach(element => {
         const concat = element.id + ' - ' + element.name;
         this.projectList.push(concat);
@@ -112,13 +112,13 @@ export class BeneficiariesImportComponent implements OnInit {
     this._householdsService.getTemplate().toPromise()
       .then(response => {
         const arrExport = [];
-        const reponse = response.json();
+        const reponse = response;
         if (!(reponse instanceof Array)) {
           this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});
         } else {
-          arrExport.push(response.json()[0]); // 0 represente le fichier csv et 1 son nom
+          arrExport.push(response[0]); // 0 represente le fichier csv et 1 son nom
           const blob = new Blob(arrExport, { type: 'text/csv' });
-          saveAs(blob, response.json()[1]);
+          saveAs(blob, response[1]);
         }
       })
       .catch(error => {

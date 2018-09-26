@@ -82,4 +82,12 @@ export class ModalAddComponent extends ModalComponent {
     this.onCreate.emit(formatedObject);
     this.closeDialog();
   }
+
+  unitType(): string {
+    if(this.newObject && this.newObject.modality === 2 ) {
+        // Modality = 2 => Cash => Unit = Currency
+        return 'Currency';
+    } else {
+        return 'Unit';
+    }
 }

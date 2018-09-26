@@ -162,7 +162,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                     typePhone: '',
                     vulnerabilities: '',
                     phone: ['', Validators.pattern('[0-9]*')],
-                    countryCode: '+89',
+                    countryCode: '+885',
                     nationalID: ''
                 })
             ])
@@ -185,7 +185,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                     typePhone: '',
                     vulnerabilities: '',
                     phone: ['', Validators.pattern('[0-9]*')],
-                    countryCode: '+89',
+                    countryCode: '+885',
                     nationalID: ''
                 })
             ])

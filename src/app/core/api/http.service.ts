@@ -35,7 +35,7 @@ export class HttpService {
 
     post(url, body, parameters = {}) : Observable<any> {
         let options = this.prepareQuery(parameters);
-        console.log(options)
+        // console.log(options)
         return this.http.post(url, body, options);
     }
 

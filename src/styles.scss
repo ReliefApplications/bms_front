@@ -31,6 +31,30 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+.container-boxes {
+    width:100% !important;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    justify-content: flex-start !important;
+
+    app-box-setting{
+        flex-grow: 0;
+        display: flex;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        width : 300px !important;
+        min-width: 300px !important;
+        height : 80px;
+        box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3); 
+
+        &.isLast{
+            margin-right: 0px !important;
+        }
+    }
+}
+
 @media only screen and (max-width: 750px){
   .mat-horizontal-stepper-header-container {
     display: none !important;

@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{distribution.distribution_title | titlecase}}</h2>
+    <h2>{{distribution.menu_projects | titlecase}}</h2>
     <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
     <div class="add-project" *ngIf="!loadingCreation" (click)="openNewProjectDialog()">
         <mat-icon>add</mat-icon>

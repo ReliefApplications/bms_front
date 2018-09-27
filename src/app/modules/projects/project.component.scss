@@ -1,24 +1,5 @@
 @import '../../../assets/css/variable.scss'; 
 
-.container-boxes {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-
-    app-box-setting{
-        display: flex;
-        margin-right: 10px;
-        margin-bottom: 10px;
-        width : 300px !important;
-        height : 80px;
-        flex: 0 0 auto;
-
-        &.isLast{
-            margin-right: 0px !important;
-        }
-    }
-}
-
 .container-title {
     display: flex;
     align-items: center;

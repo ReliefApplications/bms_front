@@ -129,7 +129,7 @@ export class SettingsComponent implements OnInit {
             const reponse: ExportInterface = response as ExportInterface;
 
             if (!(reponse instanceof Object)) {
-              this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});
+              this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'center'});
             } else {
               arrExport.push(reponse.content);
               const blob = new Blob(arrExport, { type: 'text/csv' });
@@ -137,7 +137,7 @@ export class SettingsComponent implements OnInit {
             }
           })
           .catch(error => {
-            this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
+            this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'center'});
           });
     } else {
         this._settingsService.export(this.extensionType, category).toPromise()
@@ -146,7 +146,7 @@ export class SettingsComponent implements OnInit {
             const reponse: ExportInterface = response as ExportInterface;
 
             if (!(reponse instanceof Object)) {
-              this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});
+              this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'center'});
             } else {
               arrExport.push(reponse.content);
               const blob = new Blob(arrExport, { type: 'text/csv' });
@@ -154,7 +154,7 @@ export class SettingsComponent implements OnInit {
             }
           })
           .catch(error => {
-            this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
+            this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'center'});
           });
     }
   }

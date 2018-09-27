@@ -124,6 +124,20 @@ mat-progress-bar {
     display: none;
 }
 
+.phone {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    .phone-1 {
+        width: 15%;
+    }
+    .phone-2 {
+        width: 85%;
+    }
+}
+
 //for mobile screen
 @media only screen and (max-width: 750px){
     .container-table{

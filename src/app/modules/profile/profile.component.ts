@@ -58,16 +58,16 @@ export class ProfileComponent implements OnInit, DoCheck {
         .then((user: UserInterface) => {
   				//console.log(user)
   				// SNACKBAR
-  				this.snackBar.open(this.profilePage.snackbar_change_password_done, '', { duration : 3000, horizontalPosition: 'right' } );
+  				this.snackBar.open(this.profilePage.snackbar_change_password_done, '', { duration : 3000, horizontalPosition: 'center' } );
   			})
   			.catch((error: ErrorInterface) => {
   				//console.log(error);
   				// SNACKBAR
-  				this.snackBar.open(this.profilePage.snackbar_change_password_fail, '', { duration : 3000, horizontalPosition: 'right' } );
+  				this.snackBar.open(this.profilePage.snackbar_change_password_fail, '', { duration : 3000, horizontalPosition: 'center' } );
   			});
       }
     else {
-      this.snackBar.open(this.profilePage.snackbar_change_password_not_possible, '', { duration : 3000, horizontalPosition: 'right' } );
+      this.snackBar.open(this.profilePage.snackbar_change_password_not_possible, '', { duration : 3000, horizontalPosition: 'center' } );
     }
 
     this.setActualUser();

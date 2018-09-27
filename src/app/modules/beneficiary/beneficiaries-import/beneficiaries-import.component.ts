@@ -114,7 +114,7 @@ export class BeneficiariesImportComponent implements OnInit {
         const arrExport = [];
         const reponse = response;
         if (!(reponse instanceof Array)) {
-          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});
+          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'center'});
         } else {
           arrExport.push(response[0]); // 0 represente le fichier csv et 1 son nom
           const blob = new Blob(arrExport, { type: 'text/csv' });
@@ -122,7 +122,7 @@ export class BeneficiariesImportComponent implements OnInit {
         }
       })
       .catch(error => {
-        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
+        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'center'});
       });
   }
 
@@ -141,7 +141,7 @@ export class BeneficiariesImportComponent implements OnInit {
     const data = new FormData();
 
     if (!this.csv || !this.selectedProject || this.load) {
-        this.snackBar.open('You must select a project and add a file before uploading', '', { duration: 3000, horizontalPosition: 'right' });
+        this.snackBar.open('You must select a project and add a file before uploading', '', { duration: 3000, horizontalPosition: 'center' });
     } else {
         const project = this.selectedProject.split(' - ');
         data.append('file', this.csv);
@@ -151,12 +151,12 @@ export class BeneficiariesImportComponent implements OnInit {
         this.router.navigate(['/beneficiaries/data-validation']);
         }, () => {
         this.load = false;
-        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
+        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'center'});
         })
         .catch(
             () => {
                 this.load = false;
-                this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
+                this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'center'});
             }
         );
     }

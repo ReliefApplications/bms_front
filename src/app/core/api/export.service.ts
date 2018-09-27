@@ -23,7 +23,7 @@ export class ExportService {
      * @param  extensionType extension of the file
      * @return               file to export
      */
-    public export(key: string, value: any, extensionType: string) {
+    public export(key: string, value: any, extensionType: string, body = null) {
         let params = {};
         params['type'] = extensionType;
         params[key] = value;
@@ -32,7 +32,7 @@ export class ExportService {
             params: params
         };
         const url = this.api + '/export';
-        return this.http.get(url, options).toPromise()
+        return this.http.post(url, body, options).toPromise()
         .then(response => {
             saveAs(response, key + '.' + extensionType);
         });

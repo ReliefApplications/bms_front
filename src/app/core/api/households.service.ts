@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import { URL_BMS_API } from '../../../environments/environment';
 
 import { HttpService } from './http.service';
+import { ExportService } from './export.service';
 
 import { Households } from '../../model/households';
 import { Project } from '../../model/project';
@@ -18,7 +19,8 @@ export class HouseholdsService {
     readonly api = URL_BMS_API;
 
     constructor(
-        private http: HttpService
+        private http: HttpService,
+        private exportService: ExportService
     ) {
     }
 

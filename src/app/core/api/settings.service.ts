@@ -1,9 +1,8 @@
 import { Injectable                                 } from '@angular/core';
 import { of                                         } from 'rxjs';
-
 import { URL_BMS_API                                } from '../../../environments/environment';
-
 import { HttpService                                } from './http.service';
+import { ExportService                              } from './export.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,19 +13,15 @@ export class SettingsService {
 
     constructor(
         private http: HttpService,
+        private exportService: ExportService
     ) {
     }
 
     public export(extensionType: string, category: string, country?: string) {
-        const body = { type: extensionType };
-        let url: string;
-
         if (category === 'projects' && country) {
-            url = this.api + '/export?project=' + country;
+            return this.exportService.export(category, country, extensionType);
         } else {
-            url = this.api + '/export' + '?' + category + '=true';
+            return this.exportService.export(category, true, extensionType);
         }
-
-        return this.http.post(url, body);
     }
 }

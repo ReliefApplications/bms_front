@@ -19,33 +19,19 @@ export class HttpService {
     ){
     }
 
-    /**
-     * Build the request parameters
-     * @param  {any}    parameters
-     * @return {any}
-     */
-    prepareQuery(parameters = {}) : any {
-        return { params: parameters };
-    }
-
-    get(url, parameters = {}) : Observable<any> {
-        let options = this.prepareQuery(parameters);
+    get(url, options = {}) : Observable<any> {
         return this.http.get(url , options);
     }
 
-    post(url, body, parameters = {}) : Observable<any> {
-        let options = this.prepareQuery(parameters);
-        // console.log(options)
+    post(url, body, options = {}) : Observable<any> {
         return this.http.post(url, body, options);
     }
 
-    put(url, body, parameters = {}) : Observable<any> {
-        let options = this.prepareQuery(parameters);
+    put(url, body, options = {}) : Observable<any> {
         return this.http.put(url, body, options);
     }
 
-    delete(url, parameters = {}) : Observable<any> {
-        let options = this.prepareQuery(parameters);
+    delete(url, options = {}) : Observable<any> {
         return this.http.delete(url, options);
     }
 

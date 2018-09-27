@@ -21,7 +21,7 @@ export class DistributionService {
     readonly api = URL_BMS_API;
 
     constructor(
-        private http: HttpService
+        private http: HttpService,
         private exportService: ExportService
     ) {
     }

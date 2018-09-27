@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="title" *ngIf="actualDistribution">
-    <h2> {{TEXT.model_distribution | uppercase}} </h2>
+    <h2> {{TEXT.model_distribution | titlecase}} </h2>
     <p>
         {{actualDistribution.name | uppercase}} 
         <mat-icon class="valid" *ngIf="this.actualDistribution.validated==true">check_circle</mat-icon>

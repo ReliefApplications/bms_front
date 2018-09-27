@@ -13,9 +13,7 @@ import { GeneralService } from '../../core/api/general.service';
 import { DistributionData } from '../../model/distribution-data';
 
 import { GlobalText } from '../../../texts/global';
-import { MAX_LENGTH_VALIDATOR } from '@angular/forms/src/directives/validators';
 
-const RECENT_DIST_LENGTH = 5;
 
 @Component({
   selector: 'app-dashboard',
@@ -88,11 +86,7 @@ export class DashboardComponent implements OnInit {
         response => {
 
             distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
-            // console.log('first', distribs.data);
-            if (distribs.data.length > RECENT_DIST_LENGTH) {
-                distribs.data = distribs.data.slice(-RECENT_DIST_LENGTH);
-            }
-            // console.log('then', distribs.data);
+
             this.distributions = distribs;
             this.loadingTable = false;
             this._cacheService.set(CacheService.DISTRIBUTIONS, response);

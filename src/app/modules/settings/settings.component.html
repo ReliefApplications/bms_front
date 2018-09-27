@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{settings.settings_title | uppercase}}</h2>
+    <h2>{{settings.settings_title | titlecase}}</h2>
   </div>
   <div class="container-boxes">
     <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/users", color: "green", title:settings.settings_users, ref:"users"}'></app-box-setting>

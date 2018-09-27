@@ -235,22 +235,7 @@ export class DistributionsComponent implements OnInit {
      * Handles the csv export of the data table
      */
     export() {
-        this.distributionService.export('distribution', this.extensionTypeStep1, this.distributionId).toPromise()
-            .then(response => {
-                const arrExport = [];
-                const reponse: ExportInterface = response as ExportInterface;
-
-                if (!(reponse instanceof Object)) {
-                    this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'center' });
-                } else {
-                    arrExport.push(reponse.content);
-                    const blob = new Blob(arrExport, { type: 'text/csv' });
-                    saveAs(blob, reponse.filename);
-                }
-            })
-            .catch(error => {
-                this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'center' });
-            });
+        this.distributionService.export('distribution', this.extensionTypeStep1, this.distributionId);
     }
 
     /**
@@ -295,23 +280,7 @@ export class DistributionsComponent implements OnInit {
      * Requests Back-end a csv containing the sample to export it
      */
     exportSample() {
-        this.distributionService.exportSample(this.randomSampleData.data, this.extensionTypeStep3).toPromise()
-        .then(response => {
-            const arrExport = [];
-            const reponse: ExportInterface = response as ExportInterface;
-
-            if (!(reponse instanceof Object)) {
-                this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'center' });
-            } else {
-                arrExport.push(reponse.content);
-                const blob = new Blob(arrExport, { type: 'text/csv' });
-                saveAs(blob, reponse.filename);
-            }
-        })
-        .catch(error => {
-            this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'center' });
-        });
-        // console.log(this.randomSampleData.data);
+        this.distributionService.exportSample(this.randomSampleData.data, this.extensionTypeStep3);
     }
 
     /**

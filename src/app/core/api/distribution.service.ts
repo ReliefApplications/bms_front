@@ -75,7 +75,7 @@ export class DistributionService {
     }
 
     public exportSample(sample: any, extensionType: string) {
-        return this.exportService.export('distributionSample', true, extensionType);
+        return this.exportService.export('distributionSample', true, extensionType, {sample: sample});
 
     }
 }

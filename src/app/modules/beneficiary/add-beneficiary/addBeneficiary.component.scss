@@ -131,10 +131,12 @@ mat-progress-bar {
     flex-wrap: nowrap;
 
     .phone-1 {
-        width: 15%;
+        width: 18%;
+        text-align: right;
     }
     .phone-2 {
-        width: 85%;
+        width: 80%;
+        margin-left: 2%;
     }
 }
 

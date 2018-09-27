@@ -19,6 +19,7 @@ import { Profile } from 'selenium-webdriver/firefox';
 import { LIVELIHOOD } from '../../../model/livelihood';
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
 import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
+import { CacheService } from '../../../core/storage/cache.service';
 
 @Component({
     selector: 'add-beneficiary',
@@ -83,6 +84,12 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     public addressPostcode = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
     public selectedVulnerabilities = [];
 
+    // Phone number lib
+    private CodesMethods = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+    private getCountryISO2 = require("country-iso-3-to-2");
+    public countryCodesList = []; 
+    public filteredCountryCodesList : Observable<any[]>;
+
     // This object will be fill and send to the back when button create is click
     public householdToCreate: AddHouseholds = new AddHouseholds;
 
@@ -109,6 +116,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         public _householdsServce: HouseholdsService,
         public formBuilder: FormBuilder,
         public dialog: MatDialog,
+        public _cacheService: CacheService,
     ) { }
 
     ngOnInit() {
@@ -117,11 +125,20 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         this.getVulnerabilityCriteria();
         this.getCountrySpecifics();
         this.instantiateFormHead();
+        this.initiateCountryCodes();
 
+        // console.log(this.headForm);
+        this.getUserPhoneCode();
+        // Filter livelihood list
         this.filteredLivelihoodList = this.livelihoods.valueChanges.pipe(
             startWith(''),
-            map(value => this.filterLivelihoods(value))
+            map(value =>  this.filter(value, this.livelihoodList) )  
         );
+        // Filter countryCode list
+            this.filteredCountryCodesList = this.headForm.valueChanges.pipe(
+                startWith(''),
+                map( value => this.filter( value.head? String(value.head[0].countryCode) : '', this.countryCodesList) )
+            );
     }
 
     /**
@@ -141,9 +158,34 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     /**
      * Filter the list of livelihoods according to waht the user types
      */
-    filterLivelihoods(value: string) {
+    filter(value: string, element: any) {
         const filterValue = value.toLowerCase();
-        return this.livelihoodList.filter(option => option.toLowerCase().includes(filterValue));
+        // console.log(element.filter(option => option.toLowerCase().includes(filterValue)))
+        return element.filter(option => option.toLowerCase().includes(filterValue));
+    }
+
+    initiateCountryCodes() {
+        // console.log(this.CodesMethods.getSupportedRegions());
+        this.countryCodesList = this.CodesMethods.getSupportedRegions();
+        for (let i = 0; i < this.countryCodesList.length; i++) {
+            this.countryCodesList[i] = '+' + this.CodesMethods.getCountryCodeForRegion(this.countryCodesList[i]).toString();
+        }
+        // console.log(this.countryCodesList);
+    }
+
+    getUserPhoneCode() : string {
+        let phoneCode;
+
+        phoneCode = this._cacheService.get(CacheService.ADM1);
+        // console.log('cache:', phoneCode);
+
+        if(phoneCode) {
+            phoneCode = String( this.getCountryISO2(phoneCode[0].country_i_s_o3.toString()) );
+            phoneCode = '+' + this.CodesMethods.getCountryCodeForRegion(phoneCode);
+            return(phoneCode);
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -162,7 +204,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                     typePhone: '',
                     vulnerabilities: '',
                     phone: ['', Validators.pattern('[0-9]*')],
-                    countryCode: '+885', // TODO : Get user country code
+                    countryCode: this.getUserPhoneCode(),
                     nationalID: ''
                 })
             ])
@@ -185,7 +227,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                     typePhone: '',
                     vulnerabilities: '',
                     phone: ['', Validators.pattern('[0-9]*')],
-                    countryCode: '+885',
+                    countryCode: this.getUserPhoneCode(),
                     nationalID: ''
                 })
             ])

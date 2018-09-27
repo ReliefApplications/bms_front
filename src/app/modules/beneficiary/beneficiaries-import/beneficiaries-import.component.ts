@@ -120,9 +120,6 @@ export class BeneficiariesImportComponent implements OnInit {
           const blob = new Blob(arrExport, { type: 'text/csv' });
           saveAs(blob, response[1]);
         }
-      })
-      .catch(error => {
-        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
       });
   }
 

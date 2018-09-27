@@ -68,14 +68,12 @@ export class HouseholdsService {
     }
 
     /**
-     * TODO: add route
-     * Export household data in CSV
+     * Export beneficiaries
+     * @param  extensionType type of file to export
+     * @return               file
      */
     public export (extensionType: string) {
-        const url = this.api + '/export?beneficiaries=true';
-        const body = { type: extensionType };
-        return this.http.post(url, body);
+        return this.exportService.export('beneficiaries', true, extensionType);
     }
 
 }
-

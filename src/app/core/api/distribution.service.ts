@@ -9,7 +9,10 @@ import { DistributionData                           } from '../../model/distribu
 import { Project                                    } from '../../model/project';
 import { Location                                   } from '../../model/location';
 import { Sector                                     } from '../../model/sector';
-import { Beneficiaries } from '../../model/beneficiary';
+import { Beneficiaries                              } from '../../model/beneficiary';
+
+import { ExportService                              } from './export.service';
+
 
 @Injectable({
 	providedIn: 'root'
@@ -19,6 +22,7 @@ export class DistributionService {
 
     constructor(
         private http: HttpService
+        private exportService: ExportService
     ) {
     }
 
@@ -62,27 +66,16 @@ export class DistributionService {
         return this.http.get(url);
     }
 
-    /**
-     * TODO: Add route to export distribution
-     * Export data of distribution in CSV
-     */
     public export(option: string, extensionType: string, id: number) {
-        const body = { type : extensionType };
         if (option === 'project') {
-            const url = this.api + '/export?distributions=' + id;
-            return this.http.post(url, body);
+          return this.exportService.export('distributions', id, extensionType);
         } else if (option === 'distribution') {
-            const url = this.api + '/export?beneficiariesInDistribution=' + id;
-            return this.http.post(url, body);
+            return this.exportService.export('beneficiariesInDistribution', id, extensionType);
         }
     }
 
     public exportSample(sample: any, extensionType: string) {
-        const url = this.api + '/export?distributionSample=true';
-        const body = {
-            sample: sample,
-            type : extensionType,
-        };
-        return this.http.post(url, body);
+        return this.exportService.export('distributionSample', true, extensionType);
+
     }
 }

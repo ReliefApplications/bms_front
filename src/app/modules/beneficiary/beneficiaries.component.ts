@@ -91,26 +91,11 @@ export class BeneficiariesComponent implements OnInit {
   }
 
   /**
-   * to export household data
-   * CSV exported as the same format of csv template download for import
+   * Export houshold data
+   * @return file
    */
   export() {
-    this.householdsService.export(this.extensionType).toPromise()
-      .then(response => {
-        const arrExport = [];
-        const reponse: ExportInterface = response as ExportInterface;
-
-        if (!(reponse instanceof Object)) {
-          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'right'});
-        } else {
-          arrExport.push(reponse.content);
-          const blob = new Blob(arrExport, { type: 'text/csv' });
-          saveAs(blob, reponse.filename);
-        }
-      })
-      .catch(error => {
-        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'right'});
-      });
+    this.householdsService.export(this.extensionType);
   }
 
 

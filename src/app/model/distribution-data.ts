@@ -129,6 +129,7 @@ export class DistributionData {
             adm3: GlobalText.TEXTS.model_distribution_adm3,
             adm4: GlobalText.TEXTS.model_distribution_adm4,
             date_distribution: GlobalText.TEXTS.model_distribution_date,
+            commodities: GlobalText.TEXTS.model_commodity,
             type: 'Target'
         };
     }
@@ -277,6 +278,7 @@ export class DistributionData {
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
             date_distribution: selfinstance.date_distribution,
+            commodities: selfinstance.commodities,
             type: selfinstance.type
         };
     }
@@ -333,10 +335,22 @@ export class DistributionData {
             num = 0;
         }
 
+        let commodity = '';
+        if(selfinstance.commodities && selfinstance.commodities.length>0) {
+            selfinstance.commodities.forEach(
+                com => { commodity = '' + commodity + com }
+            )
+        } else if (selfinstance.commodities) {
+            commodity = selfinstance.commodities[0].modality;            
+        } else {
+            commodity = 'none';
+        }
+        
         return {
             date_distribution: selfinstance.date_distribution,
             location_name: location,
             number_beneficiaries: num,
+            commodities: commodity,
             type: distType,
         };
     }
@@ -354,6 +368,7 @@ export class DistributionData {
             adm3: 'select',
             adm4: 'select',
             date_distribution: 'date',
+            commodities: 'select',
             type: 'radio'
         };
     }

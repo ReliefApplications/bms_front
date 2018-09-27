@@ -144,9 +144,19 @@
                                                     <mat-option *ngFor="let type of typePhoneList" [value]="type">{{type}}</mat-option>
                                                 </mat-select>
                                             </mat-form-field>
-                                            <mat-form-field>
-                                                <input matInput placeholder={{household.add_beneficiary_getPhone}} formControlName="phone">
-                                            </mat-form-field>
+                                            <div class = 'phone'>
+                                                <mat-form-field class='phone-1'>
+                                                    <input matInput type="tel-country-code" formControlName="countryCode" placeholder="Code" [matAutocomplete]="auto2">
+                                                    <mat-autocomplete #auto2="matAutocomplete">
+                                                        <mat-option *ngFor="let choice of filteredCountryCodesList | async" [value]="choice"> 
+                                                            {{choice}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                </mat-form-field>
+                                                <mat-form-field class='phone-2'>
+                                                    <input matInput type="tel-national" placeholder={{household.add_beneficiary_getPhone}} formControlName="phone">
+                                                </mat-form-field>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="additional-information vulnerabilities">
@@ -225,9 +235,14 @@
                                                     <mat-option *ngFor="let type of typePhoneList" [value]="type">{{type}}</mat-option>
                                                 </mat-select>
                                             </mat-form-field>
-                                            <mat-form-field>
-                                                <input matInput placeholder={{household.add_beneficiary_getPhone}} formControlName="phone">
-                                            </mat-form-field>
+                                            <div class = 'phone'>
+                                                    <mat-form-field class='phone-1'>
+                                                        <input matInput type="tel-country-code" formControlName="countryCode">
+                                                    </mat-form-field>
+                                                    <mat-form-field class='phone-2'>
+                                                        <input matInput type="tel-national" placeholder={{household.add_beneficiary_getPhone}} formControlName="phone">
+                                                    </mat-form-field>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="additional-information vulnerabilities">

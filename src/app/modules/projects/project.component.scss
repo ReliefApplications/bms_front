@@ -1,18 +1,5 @@
 @import '../../../assets/css/variable.scss'; 
 
-app-box-setting{
-    display: flex;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    flex-grow: 4;
-    width : 200px;
-    height : 80px;
-    min-width: 190px;
-    &.isLast{
-        margin-right: 0px !important;
-    }
-}
-
 .container-title {
     display: flex;
     align-items: center;

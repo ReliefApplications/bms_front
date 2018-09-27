@@ -6,6 +6,9 @@ $box-content: 80px;
     background-color: $bms_dark_grey;
     width :100%;
     height: $box-content;
+    border-radius: 3px;
+    overflow: hidden;
+
     .content-icon{
         background-color: $bms_menu;
     }

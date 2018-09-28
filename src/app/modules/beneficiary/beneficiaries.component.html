@@ -2,7 +2,7 @@
   <div class="container-title">
     <h2>{{household.beneficiaries_title | titlecase}}</h2>
   </div>
-  <app-placeholder-table class="container-table" *ngIf="loadingBeneficiaries"></app-placeholder-table>
+  <app-placeholder-panel class="container-table" *ngIf="loadingBeneficiaries"></app-placeholder-panel>
   <div class="container-table" *ngIf="!loadingBeneficiaries">
     <div class="container-content">
       <div class="content-button">

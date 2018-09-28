@@ -1,14 +1,15 @@
 <div class="page-container">
 
-    <app-placeholder-panel *ngIf="loadingDistribution"> </app-placeholder-panel>
-    <div class="title" *ngIf="actualDistribution && !loadingDistribution">
+    <div class="title">
         <h2> {{TEXT.model_distribution | titlecase}} </h2>
-        <p>
+        <p *ngIf="actualDistribution && !loadingDistribution">
             {{actualDistribution.name | uppercase}}
             <mat-icon class="valid" *ngIf="this.actualDistribution.validated==true">check_circle</mat-icon>
             <mat-icon class="unvalid" *ngIf="this.actualDistribution.validated==false">check_circle_outline</mat-icon>
         </p>
     </div>
+
+    <app-placeholder-panel *ngIf="loadingDistribution"> </app-placeholder-panel>
 
     <app-placeholder-stepper *ngIf="loadingDatas"></app-placeholder-stepper>
 

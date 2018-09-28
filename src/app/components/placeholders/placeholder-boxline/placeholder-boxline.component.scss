@@ -1,17 +1,16 @@
 @import '../../../../assets/css/variable.scss';
 
 .placeholder-container {
-    width: 95%;
+    width: 99%;
     display: flex;
     flex-direction: row;
-    margin-left: 2.5%;
-    justify-content: space-between;
+    margin-left: 10px;
 
     .placeholder-box-line {
-        width: 30%;
-        margin-top: 10px;
-        height: 75px;
+        width: 300px;
+        height: 80px;
         margin-bottom: 10px;
+        margin-right: 10px;
         background: $bms_dark_grey;
         animation: wave 2s ease-in-out 0s infinite;
     }

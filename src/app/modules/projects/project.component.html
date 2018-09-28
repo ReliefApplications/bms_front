@@ -12,7 +12,7 @@
       [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'>
     </app-box-setting>
   </div>
-  <app-placeholder-table class="container-table-placeholder" *ngIf="loadingDistributions"></app-placeholder-table>
+  <app-placeholder-panel class="container-table" *ngIf="loadingDistributions"></app-placeholder-panel>
   <div class="container-table" *ngIf="!loadingDistributions">
     <div class="container-content" *ngIf="isBoxClicked">
       <div class="content-button">

@@ -3,7 +3,7 @@
         <h2>{{indicator.report_title | titlecase}}</h2>
     </div>
 
-    <app-placeholder-boxline *ngIf="indicatorsLoading" class="container-boxline"></app-placeholder-boxline>
+    <app-placeholder-boxline *ngIf="indicatorsLoading" class="container-boxes"></app-placeholder-boxline>
     <div class="container-boxes" *ngIf="!indicatorsLoading">
         <!-- button to change view (viewcountry, project or distribution) -->
         <button-filter-items [id]="'bms'" [page]="'reporting'" (emitFilter)="onFilter($event)"

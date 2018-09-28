@@ -31,6 +31,12 @@
                 }
             }
         }
+        app-placeholder-panel {
+            margin: 0 auto !important;
+            width: 50% !important;
+            height: 30px !important;
+            margin-bottom: 50px !important;
+        }
     }
 }
    
@@ -267,13 +273,6 @@ button{
     mat-icon {
         margin-left: 10px;
     }
-}
-
-app-placeholder-panel {
-    margin: 0 auto;
-    width: 50%;
-    height: 30px;
-    margin-bottom: 50px;
 }
 
 app-placeholder-stepper {

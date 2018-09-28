@@ -116,7 +116,7 @@ export class SettingsComponent implements OnInit {
             break;
         case 'projects':
             category = 'projects';
-            country = this._cacheService.get(CacheService.ADM1)[0].country_i_s_o3;
+            country = 'KHM';
             break;
         default:
             break;

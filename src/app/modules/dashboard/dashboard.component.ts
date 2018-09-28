@@ -74,12 +74,6 @@ export class DashboardComponent implements OnInit {
     this.checkSize();
   }
 
-  @HostListener('document:keypress', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) { 
-    if ( event.key === '$') {
-    }
-  }
-
   checkSize(): void {
     this.heightScreen = window.innerHeight;
     this.widthScreen = window.innerWidth;
@@ -98,7 +92,7 @@ export class DashboardComponent implements OnInit {
             distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
 
             this.distributions = distribs;
-            // this.loadingTable = false;
+            this.loadingTable = false;
             this._cacheService.set(CacheService.DISTRIBUTIONS, response);
         });
   }
@@ -110,7 +104,7 @@ export class DashboardComponent implements OnInit {
   getSummary(): void {
     this._generalService.getSummary().subscribe(response => {
       this.summary = response;
-      // this.loadingSummary = false;
+      this.loadingSummary = false;
     });
   }
 

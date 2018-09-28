@@ -71,20 +71,10 @@ export class SettingsComponent implements OnInit {
         this.extensionType = 'xls';
     }
 
-    /**
-     * check if the langage has changed
-     */
-    ngDoCheck() {
-        if (this.settings !== GlobalText.TEXTS) {
-            this.settings = GlobalText.TEXTS;
-            this.nameComponent = GlobalText.TEXTS.settings_title;
-        }
-    }
-
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.checkSize();
-    }
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.checkSize();
+  }
 
     checkSize(): void {
         this.heightScreen = window.innerHeight;

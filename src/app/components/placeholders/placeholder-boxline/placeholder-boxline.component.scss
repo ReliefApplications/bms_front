@@ -1,0 +1,32 @@
+@import '../../../../assets/css/variable.scss';
+
+.placeholder-container {
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    margin-left: 2.5%;
+    justify-content: space-between;
+
+    .placeholder-box-line {
+        width: 30%;
+        margin-top: 10px;
+        height: 75px;
+        margin-bottom: 10px;
+        background: $bms_dark_grey;
+        animation: wave 2s ease-in-out 0s infinite;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+
+    
+    .placeholder-panel {
+        margin: 20px;
+        width: 90%;
+        height: 600%;
+        background: $bms_dark_grey;
+        animation: wave 2s ease-in-out 0s infinite;
+
+        margin-right: 10px !important;
+    }
+}

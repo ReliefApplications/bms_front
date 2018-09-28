@@ -1,5 +1,12 @@
   @import "../../../../assets/css/variable.scss";
- 
+
+.container-boxes {
+    width: 100%;
+}
+
+app-placeholder-boxline {
+    width: 100% !important;
+}
 
 button-filter-items{
   justify-content: end;
@@ -15,8 +22,18 @@ button-filter-items{
   }
 }
 
-.container-content {
-  border-top: solid 12px $bms_green;
+app-placeholder-panel {
+    width: 100% !important;
+    height: 500px !important;
+    text-align: center;
+}
+
+.container-table {
+    width: 100% !important;
+
+    .container-content {
+        border-top: solid 12px $bms_green;
+      }
 }
 
 
@@ -220,7 +237,18 @@ button-filter-date{
 
   .container-boxes {
     display: grid !important;
+    width: 95% !important;
   }
+
+  .container-boxline {
+    width: 100% !important;
+    text-align: center;
+    }
+    app-placeholder-panel {
+        width: 100% !important;
+        height: 100px !important;
+        text-align: center;
+    }
 
   .container-table {
     width: 97% !important;

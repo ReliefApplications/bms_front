@@ -10,6 +10,11 @@ app-table-mobile{
     height: 100%;
 }
 
+app-placeholder-panel {
+    width: 100% !important;
+    height: 300px;
+}
+
 button{
     color: $bms_white;
     background-color: $bms_red;

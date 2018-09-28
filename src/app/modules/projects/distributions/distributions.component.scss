@@ -269,6 +269,18 @@ button{
     }
 }
 
+app-placeholder-panel {
+    margin: 0 auto;
+    width: 50%;
+    height: 30px;
+    margin-bottom: 50px;
+}
+
+app-placeholder-stepper {
+    width: 100% !important;
+    height: 600px !important;
+}
+
 //for mobile screen
 @media only screen and (max-width: 750px){
 

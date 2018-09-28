@@ -25,6 +25,9 @@ export class DistributionsComponent implements OnInit {
     distributionId: number;
     actualDistribution = new DistributionData();
 
+    loadingDatas = true;
+    loadingDistribution = true;
+
     // Control variables.
     loadingFirstStep: boolean;
     loadingThirdStep: boolean;
@@ -128,6 +131,7 @@ export class DistributionsComponent implements OnInit {
                 if (this.actualDistribution.validated) {
                     this.getDistributionBeneficiaries('transaction');
                 }
+                this.loadingDistribution = false;
             },
             error => {
                 if (!this.actualDistribution) { // Get from Cache
@@ -189,6 +193,10 @@ export class DistributionsComponent implements OnInit {
                     }
 
                     this.generateRandom();
+
+                    if(this.loadingDatas == true) {
+                        this.loadingDatas = false;
+                    }
                 },
                 error => {
                     // console.log("Error: ", error);

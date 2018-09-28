@@ -40,7 +40,7 @@ export class IndicatorPageComponent implements OnInit {
   public frequency = "Month";
   public frequencyChanged = false;
   public chartDimensions: number[];
-  public indicatorsLoading = false;
+  public indicatorsLoading = true;
   public period: boolean = false;
   public selectPeriodDisplay;
   public display: boolean = true;

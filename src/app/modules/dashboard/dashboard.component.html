@@ -8,7 +8,8 @@
         </div>
         <div *ngIf="widthScreen > maxWidthMobile" class="boxes-summary">
             <h1 class="summary-title">{{dashboard.dashboard_summary | titlecase}}</h1>
-            <div class="summary-content">
+            <app-placeholder-summary *ngIf="loadingSummary" class="summary-content"></app-placeholder-summary>
+            <div class="summary-content" *ngIf="!loadingSummary">
                 <app-box-dashboard [info]='{icon: "home", color: "green", title:dashboard.dashboard_summary_1, subtitle:summary[0], ref:""}'></app-box-dashboard>
                 <app-box-dashboard [info]='{icon: "project", color: "red", title:dashboard.dashboard_summary_2, subtitle:summary[1], undersubtitle:"",ref:""}'></app-box-dashboard>
                 <app-box-dashboard [info]='{icon: "enrol", color: "green", title:dashboard.dashboard_summary_3, subtitle:summary[2], undersubtitle:"",ref:""}'></app-box-dashboard>
@@ -18,9 +19,9 @@
     </div>
     <div class="container-distribution">
         <h1 class="distribution-title">{{dashboard.dashboard_recent_distributions | titlecase}}</h1>
-        <div class="distribution-content">
-            <mat-spinner *ngIf="loadingTable"></mat-spinner>
-            <app-table-dashboard *ngIf="widthScreen > maxWidthMobile && !loadingTable" [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-dashboard>
+        <app-placeholder-table *ngIf='loadingTable' class="distribution-content-placeholder"></app-placeholder-table>
+        <div class="distribution-content" *ngIf='!loadingTable'>
+            <app-table-dashboard *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-dashboard>
             <app-table-mobile-dashboard *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-mobile-dashboard>
         </div>
     </div>

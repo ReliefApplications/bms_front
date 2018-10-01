@@ -1,4 +1,4 @@
-<div class="modal-container">
+<mat-dialog-content class="modal-container">
   <h4 class="modal-title">{{modal.modal_add_title}} {{entityDisplayedName | lowercase}}</h4>
   <table class="modal-table">
         <p *ngIf="this.data.entity.getAddDescription">{{this.data.entity.getAddDescription()}}</p>
@@ -35,5 +35,5 @@
     <button mat-button (click)="closeDialog()" class="button-cancel">{{modal.modal_cancel}}</button>
     <button mat-button (click)="add()" class="button-delete">{{modal.modal_create}}</button>
   </div>
-</div>
+</mat-dialog-content>
 

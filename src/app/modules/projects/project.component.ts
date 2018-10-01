@@ -29,8 +29,11 @@ export class ProjectComponent implements OnInit {
   distributionData: MatTableDataSource<any>;
   distributionClass = DistributionData;
   projectClass = Project;
-  loading: boolean;
-  loadingCreation = false;
+
+  // loading
+  loadingDistributions = true;
+  loadingCreation : boolean;
+  loadingProjects = true;
 
   selectedTitle = '';
   selectedProject = null;
@@ -58,7 +61,6 @@ export class ProjectComponent implements OnInit {
   ngOnInit() {
     this.getProjects();
     this.checkSize();
-    this.loading = true;
     this.extensionType = 'xls';
   }
 
@@ -109,6 +111,7 @@ export class ProjectComponent implements OnInit {
         this.projects = this.projectClass.formatArray(response);
         this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + 'S'], this.projects);
         this.selectTitle(this.projects[0].name, this.projects[0]);
+        this.loadingProjects = false;
       });
     }
   }
@@ -122,7 +125,7 @@ export class ProjectComponent implements OnInit {
       const distribution = DistributionData.formatArray(response);
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + 'S'], distribution);
       this.distributionData = new MatTableDataSource(distribution);
-      this.loading = false;
+      this.loadingDistributions = false;
     });
   }
 

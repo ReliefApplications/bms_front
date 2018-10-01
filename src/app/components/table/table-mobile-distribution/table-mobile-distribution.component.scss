@@ -65,6 +65,7 @@ table {
       display:flex;
       flex-wrap: wrap;
       flex-direction: row;
+      justify-content: stretch;
       
       button{
         display:flex;   
@@ -72,9 +73,12 @@ table {
         flex-grow: 1;
         justify-content: center;
         align-self: center;
-        height: 20px;     
+        height: 25px;     
         margin: 0 !important ;
         border-radius: 0 !important;
+        width: 33%;
+        color: white;
+        flex-grow: 1;
 
         mat-icon{
             display:flex;   
@@ -97,18 +101,17 @@ button{
         background-color: $bms_light_grey;
     }
   }
-  
-  .green{
-    color: $bms_light_blue;
-  }
-  
-  .red{
-    color: $bms_red;
-  }
-  
-  .light-red{
-    color: $bms_light_red;
-  }
+        .green{
+            background-color: $bms_light_blue;
+        }
+        
+        .red{
+            background-color: $bms_red;
+        }
+        
+        .light-red{
+            background-color: $bms_light_red;
+        }
 
 .container-header {
   padding: 20px;

@@ -21,7 +21,6 @@ import { ProfileComponent } from './modules/profile/profile.component';
 import { HeaderMobileComponent } from './components/headers/header-mobile/header-mobile.component';
 import { HeaderComponent } from './components/headers/header/header.component';
 import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave.component';
-import { PlaceholderDashboardComponent } from './placeholders/placeholder-dashboard/placeholder-dashboard.component';
 
 @NgModule({
 	declarations: [
@@ -32,7 +31,7 @@ import { PlaceholderDashboardComponent } from './placeholders/placeholder-dashbo
     	HeaderMobileComponent,
 		HeaderComponent,
 		ModalLeaveComponent,
-		PlaceholderDashboardComponent,
+
 	],
 	imports: [
 		// Modules

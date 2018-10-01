@@ -51,7 +51,7 @@ export class BeneficiariesService {
   }
 
   public listApi(){
-    const url = this.api + '/import/api/households/listAPI';
+    const url = this.api + '/import/api/households/list';
     return this.http.get(url);
   }
 

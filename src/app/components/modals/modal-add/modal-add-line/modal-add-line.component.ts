@@ -28,17 +28,31 @@ export class ModalAddLineComponent extends ModalAddComponent{
       this.checkData();
     }
     if(this.newObject.field_string && (this.checkCriteria != this.newObject.field_string)){
-
+      console.log("test");
       this.checkDataCriteria = this.loadedData.field_string[this.newObject.field_string-1];
       this.loadedData.condition_string = this.checkCondition(this.checkDataCriteria);
       this.checkCriteria = this.newObject.field_string;
     }
+    if(this.newObject.kind_beneficiary != 0 || this.newObject.kind_beneficiary != 1){
+      console.log("test1");
       this.loadedData.condition_string = [];
       this.checkDataCriteria = [];
       
       this.loadedData.field_string = this.allCriteria;
+      
+      if(this.newObject.field_string == 8 || this.newObject.field_string == 9){
+        //Set kind beneficiary to 1 == Household
+        this.newObject.kind_beneficiary = 1;
+      }
+      else {
+        this.newObject.kind_beneficiary = 0;
+      }
 
       this.checkType = this.newObject.kind_beneficiary;
+    }
+      console.log(this.checkType);
+      console.log(this.newObject.kind_beneficiary);
+      console.log(this.newObject);
   }
 
 

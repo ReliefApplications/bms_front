@@ -10,7 +10,8 @@
       [selectedTitle]="selectedTitle" [info]='{icon: "settings/donors", color: "green", title:settings.settings_donors, ref:"donors"}'></app-box-setting>
     <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "red", title:settings.settings_projects, ref:"projects"}'></app-box-setting>
   </div>
-  <div class="container-table">
+  <app-placeholder-panel *ngIf="loadingData"></app-placeholder-panel>
+  <div class="container-table" *ngIf="!loadingData">
     <div class="container-content" *ngIf="isBoxClicked">
       <div class="content-button">
         <button mat-icon-button (click)="openDialog('add')" class="add-button">

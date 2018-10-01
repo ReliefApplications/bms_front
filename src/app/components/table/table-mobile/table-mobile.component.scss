@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-bottom: 40px;
 
   .mat-form-field {
     font-size: 14px;
@@ -13,7 +14,7 @@
 
 table {
   overflow: auto;
-  width: 100%;
+  width: 100%;  
 }
 
 .box-element{
@@ -32,7 +33,8 @@ table {
       
       span{
         font-size : 3vh; 
-        font-family: $bms_font_header;       
+        font-family: $bms_font_header;  
+        text-align: center;     
       }
 
       &.element-title{
@@ -48,8 +50,7 @@ table {
         font-family: $bms_font_header;       
         word-wrap:break-word;
         border: none;
-        display:flex;
-        text-align: center;
+        display:inline-block;
       }
 
       app-icon-svg{
@@ -64,16 +65,22 @@ table {
       display:flex;
       flex-wrap: wrap;
       flex-direction: row;
+      justify-content: stretch;
+      
       button{
         display:flex;   
         flex-wrap: wrap;
         flex-grow: 1;
         justify-content: center;
         align-self: center;
-        height: 20px;    
+        height: 25px;     
         margin: 0 !important ;
         border-radius: 0 !important;
-        i{
+        width: 33%;
+        color: white;
+        flex-grow: 1;
+
+        mat-icon{
             display:flex;   
         }
       }
@@ -94,18 +101,26 @@ button{
         background-color: $bms_light_grey;
     }
   }
-  
-  .green{
-    color: $bms_light_blue;
-  }
-  
-  .red{
-    color: $bms_red;
-  }
-  
-  .light-red{
-    color: $bms_light_red;
-  }
+        .green{
+            background-color: $bms_light_blue;
+        }
+        
+        .red{
+            background-color: $bms_red;
+        }
+        
+        .light-red{
+            background-color: $bms_light_red;
+        }
+
+.container-header {
+  padding: 20px;
+}
+
+.mat-paginator {
+  margin: 3vw;
+}
+
 
 .png {
   display: flex;

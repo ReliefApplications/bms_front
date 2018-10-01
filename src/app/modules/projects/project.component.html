@@ -6,12 +6,14 @@
         <mat-icon>add</mat-icon>
     </div>
   </div>
-  <div class="container-boxes">
+  <app-placeholder-boxline *ngIf="loadingProjects" class="container-boxes"></app-placeholder-boxline>
+  <div class="container-boxes" *ngIf="!loadingProjects">
     <app-box-setting *ngFor="let project of projects" (emitClickedTitle)="selectTitle($event, project)" [selectedTitle]="selectedTitle"
       [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'>
     </app-box-setting>
   </div>
-  <div class="container-table">
+  <app-placeholder-panel class="container-table" *ngIf="loadingDistributions"></app-placeholder-panel>
+  <div class="container-table" *ngIf="!loadingDistributions">
     <div class="container-content" *ngIf="isBoxClicked">
       <div class="content-button">
         <button mat-icon-button (click)="addDistribution()" class="add-button">
@@ -36,11 +38,8 @@
           </div>
       </div>
       <div class="content-table">
-        <div class="waitingDataContainer" *ngIf="loading">
-            <mat-spinner></mat-spinner>
-        </div>
-        <app-table-distribution *ngIf="widthScreen > maxWidthMobile && !loading" [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
-        <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile && !loading" [entity]="distributionClass" [service]="distributionService"
+        <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
+        <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile" [entity]="distributionClass" [service]="distributionService"
           [data]="distributionData"></app-table-mobile-distribution>
       </div>
     </div>

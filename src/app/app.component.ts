@@ -4,7 +4,7 @@ import { AuthenticationService } from './core/authentication/authentication.serv
 import { GlobalText } from '../texts/global';
 
 import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSidenav } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -103,6 +103,12 @@ export class AppComponent {
 
   setCurrentRoute(currentRoute): void{
     this.currentRoute = currentRoute;
+  }
+
+  toggle(sideNavId) {
+      if(this.smallScreenMode) {
+        sideNavId.toggle();
+      }
   }
 
   onLogOut(e): void{

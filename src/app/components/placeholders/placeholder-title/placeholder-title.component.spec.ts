@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlaceholderBoxComponent } from './placeholder-box.component';
+import { PlaceholderTitleComponent } from './placeholder-title.component';
 
-describe('PlaceholderBoxComponent', () => {
-  let component: PlaceholderBoxComponent;
-  let fixture: ComponentFixture<PlaceholderBoxComponent>;
+describe('PlaceholderTitleComponent', () => {
+  let component: PlaceholderTitleComponent;
+  let fixture: ComponentFixture<PlaceholderTitleComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlaceholderBoxComponent ]
+      declarations: [ PlaceholderTitleComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlaceholderBoxComponent);
+    fixture = TestBed.createComponent(PlaceholderTitleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

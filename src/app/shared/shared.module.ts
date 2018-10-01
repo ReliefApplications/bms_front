@@ -58,13 +58,11 @@ import { ImportDistributionComponent } from '../modules/projects/distributions/i
 import { TransactionTableComponent } from '../components/table/transaction-table/transaction-table.component';
 import { ModalLeaveComponent } from '../components/modals/modal-leave/modal-leave.component';
 import { TableMobileDashboardComponent } from '../components/table/table-mobile-dashboard/table-mobile-dashboard.component';
-import { PlaceholderBoxComponent } from '../components/placeholders/placeholder-box/placeholder-box.component';
-import { PlaceholderMapComponent } from '../components/placeholders/placeholder-map/placeholder-map.component';
-import { PlaceholderTableComponent } from '../components/placeholders/placeholder-table/placeholder-table.component';
 import { PlaceholderSummaryComponent } from '../components/placeholders/placeholder-summary/placeholder-summary.component';
 import { PlaceholderBoxlineComponent } from '../components/placeholders/placeholder-boxline/placeholder-boxline.component';
 import { PlaceholderPanelComponent } from '../components/placeholders/placeholder-panel/placeholder-panel.component';
 import { PlaceholderStepperComponent } from '../components/placeholders/placeholder-stepper/placeholder-stepper.component';
+import { PlaceholderTitleComponent } from '../components/placeholders/placeholder-title/placeholder-title.component';
 
 @NgModule({
 imports: [
@@ -143,13 +141,11 @@ declarations: [
     AddBeneficiaryComponent,
     DistributionsComponent,
     ImportDistributionComponent,
-    PlaceholderBoxComponent,
-    PlaceholderMapComponent,
-    PlaceholderTableComponent,
     PlaceholderSummaryComponent,
     PlaceholderBoxlineComponent,
     PlaceholderPanelComponent,
     PlaceholderStepperComponent,
+    PlaceholderTitleComponent
     
 ],
 entryComponents: [
@@ -230,13 +226,11 @@ exports: [
     MatBadgeModule,
     MatChipsModule,
     MatAutocompleteModule,
-    PlaceholderBoxComponent,
-    PlaceholderMapComponent,
-    PlaceholderTableComponent,
     PlaceholderSummaryComponent,
     PlaceholderBoxlineComponent,
     PlaceholderPanelComponent,
     PlaceholderStepperComponent,
+    PlaceholderTitleComponent
 ],
 providers: [
 { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }

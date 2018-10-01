@@ -1,19 +1,18 @@
 @import "../../../../assets/css/variable.scss";
 
 .placeholder-panel {
-    width: 100%;
+    width: 95%;
     height: 100%;
     background: $bms_dark_grey;
     animation: wave 2s ease-in-out 0s infinite;
-
-    margin-right: 10px !important;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
 }
 
 @media only screen and (max-width: 750px) {
-
     
     .placeholder-panel {
-        margin: 10px;
+        
         width: 95%;
         height: 60%;
         background: $bms_dark_grey;

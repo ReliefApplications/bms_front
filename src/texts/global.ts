@@ -17,7 +17,7 @@ export class GlobalText {
        switch(language){
         case 'en':  GlobalText.TEXTS = TEXT_EN; break;
         case 'fr': GlobalText.TEXTS = TEXT_FR; break;
-        default: GlobalText.TEXTS =TEXT_EN; break;
+        default: GlobalText.TEXTS = TEXT_EN; break;
         }
     }
 }

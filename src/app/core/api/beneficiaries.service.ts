@@ -50,4 +50,18 @@ export class BeneficiariesService {
     return this.http.post(url, file);
   }
 
+  public apiName(){
+    const url = this.api + '/beneficiaries/import/api/name';
+    return this.http.get(url);
+  }
+
+  public apiParam(apiObject: any, project: string){
+    const url = this.api + '/beneficiaries/import/api/params/' + project;
+    return this.http.post(url, apiObject);
+  }
+
+  public importApi(apiObject: any, project: string){
+    const url = this.api + '/beneficiaries/import/api/' + project;
+    return this.http.post(url, apiObject);
+  }
 }

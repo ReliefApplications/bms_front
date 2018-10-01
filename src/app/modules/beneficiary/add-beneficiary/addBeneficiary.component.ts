@@ -87,8 +87,8 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     // Phone number lib
     private CodesMethods = require('google-libphonenumber').PhoneNumberUtil.getInstance();
     private getCountryISO2 = require("country-iso-3-to-2");
-    public countryCodesList = []; 
-    public filteredCountryCodesList : Observable<any[]>;
+    public countryCodesList = [];
+    public filteredCountryCodesList: Observable<any[]>;
 
     // This object will be fill and send to the back when button create is click
     public householdToCreate: AddHouseholds = new AddHouseholds;
@@ -132,13 +132,13 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         // Filter livelihood list
         this.filteredLivelihoodList = this.livelihoods.valueChanges.pipe(
             startWith(''),
-            map(value =>  this.filter(value, this.livelihoodList) )  
+            map(value => this.filter(value, this.livelihoodList))
         );
         // Filter countryCode list
-            this.filteredCountryCodesList = this.headForm.valueChanges.pipe(
-                startWith(''),
-                map( value => this.filter( value.head? String(value.head[0].countryCode) : '', this.countryCodesList) )
-            );
+        this.filteredCountryCodesList = this.headForm.valueChanges.pipe(
+            startWith(''),
+            map(value => this.filter(value.head ? String(value.head[0].countryCode) : '', this.countryCodesList))
+        );
     }
 
     /**
@@ -151,7 +151,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
 
             return dialogRef.afterClosed();
         } else {
-            return(true);
+            return (true);
         }
     }
 
@@ -173,16 +173,16 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         // console.log(this.countryCodesList);
     }
 
-    getUserPhoneCode() : string {
+    getUserPhoneCode(): string {
         let phoneCode;
 
         phoneCode = this._cacheService.get(CacheService.ADM1);
         // console.log('cache:', phoneCode);
 
-        if(phoneCode) {
-            phoneCode = String( this.getCountryISO2(phoneCode[0].country_i_s_o3.toString()) );
+        if (phoneCode) {
+            phoneCode = String(this.getCountryISO2(phoneCode[0].country_i_s_o3.toString()));
             phoneCode = '+' + this.CodesMethods.getCountryCodeForRegion(phoneCode);
-            return(phoneCode);
+            return (phoneCode);
         } else {
             return '';
         }
@@ -410,7 +410,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     }
 
     /**
-     * sitch in the type give in paramater
+     * switch in the type give in paramater
      * this function is called by the selector when the value change
      * allow to get the new value
      * @param event
@@ -602,7 +602,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         });
     }
 
-    findSrcVulnerability(idVulnerability: string) : string {
+    findSrcVulnerability(idVulnerability: string): string {
         let src = '';
         this.allVulnerability.forEach(vulnerability => {
             if (vulnerability.id === idVulnerability) {
@@ -678,7 +678,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
      * send data to the back and create the new household
      */
     create() {
-        if(this.selectedProject && this.householdToCreate.beneficiaries) {
+        if (this.selectedProject && this.householdToCreate.beneficiaries) {
             const project = this.selectedProject.split(' - ');
 
             this.householdToCreate.beneficiaries.forEach(beneficiary => {
@@ -692,12 +692,12 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                     this.router.navigate(['/households']);
                     this.loadingCreation = false;
                 })
-                .catch(
-                    () => {
-                        this.loadingCreation = false;
-                        this.snackBar.open('Error while creating household', '', { duration: 3000, horizontalPosition: 'right' });
-                    }
-                );
+                    .catch(
+                        () => {
+                            this.loadingCreation = false;
+                            this.snackBar.open('Error while creating household', '', { duration: 3000, horizontalPosition: 'right' });
+                        }
+                    );
             }
         } else {
             this.snackBar.open('Missing data to create household', '', { duration: 3000, horizontalPosition: 'right' });

@@ -10,9 +10,9 @@
             [data]="dataFilter2" [referenceKey]="'bms_search'"></button-filter-items>
     </div>
 
-    <app-placeholder-panel *ngIf="indicatorsLoading"></app-placeholder-panel>
-    <div class="container-table">
-        <div class="container-content" *ngIf="!indicatorsLoading">
+    <app-placeholder-panel class="container-table" *ngIf="indicatorsLoading"></app-placeholder-panel>
+    <div class="container-table" *ngIf="!indicatorsLoading">
+        <div class="container-content">
             <div class="content-button">
 
                 <!-- button to filter data by frequency -->

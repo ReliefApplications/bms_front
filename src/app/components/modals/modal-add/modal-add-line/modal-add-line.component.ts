@@ -33,18 +33,12 @@ export class ModalAddLineComponent extends ModalAddComponent{
       this.loadedData.condition_string = this.checkCondition(this.checkDataCriteria);
       this.checkCriteria = this.newObject.field_string;
     }
-    if(this.checkType != this.newObject.kind_beneficiary) {
       this.loadedData.condition_string = [];
       this.checkDataCriteria = [];
       
-      if(this.newObject.kind_beneficiary === 1) {
-        this.loadedData.field_string =  this.allCriteria.filter(item => item.distribution_type === 'Beneficiary');
+      this.loadedData.field_string = this.allCriteria;
 
-      } else {
-        this.loadedData.field_string = this.allCriteria.filter(item => item.distribution_type === 'Household');
-      }
       this.checkType = this.newObject.kind_beneficiary;
-    }
   }
 
 

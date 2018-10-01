@@ -203,6 +203,13 @@ export class AddDistributionComponent implements OnInit, DoCheck {
   }
 
   /**
+   * Get the distribution type choosen by the user
+   */
+  typeDistributionOnChange(event){
+    this.newObject.type = event.value;
+  }
+
+  /**
    * Get in the chache service the name of all adm selected
    * @param adm
    */

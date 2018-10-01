@@ -12,6 +12,7 @@
         background: $bms_dark_grey;
         animation: wave 2s ease-in-out 0s infinite;
         margin-bottom: 30px;
+        border-radius: 3px;
     }
 
     app-placeholder-panel {
@@ -19,4 +20,14 @@
         height: 500px !important;
     }
 
+}
+
+@media only screen and (max-width: 750px) {
+
+    .placeholder-stepper-header {
+        height: 0px !important;
+        background: transparent;
+        margin-bottom: 0px !important;
+        border-radius: 3px;
+    }
 }

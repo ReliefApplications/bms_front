@@ -13,6 +13,7 @@
         margin-right: 10px;
         background: $bms_dark_grey;
         animation: wave 2s ease-in-out 0s infinite;
+        border-radius: 3px;
     }
 }
 
@@ -25,7 +26,7 @@
         height: 600%;
         background: $bms_dark_grey;
         animation: wave 2s ease-in-out 0s infinite;
-
+        border-radius: 3px;
         margin-right: 10px !important;
     }
 }

@@ -25,7 +25,7 @@
               <mat-datepicker-toggle *ngIf="propertiesTypes[p]=='date' && propertiesTypes[p]!='radio'" matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
               <mat-datepicker #dateDistribution></mat-datepicker>
             </mat-form-field>
-            <mat-radio-group class="typeDistribution" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'"  [(ngModel)]="newObject[p]" >
+            <mat-radio-group class="typeDistribution" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'"  (change)="typeDistributionOnChange($event)" [(ngModel)]="newObject[p]" >
                 <mat-radio-button checked='true' color="warn" value="Household" disabled='false'>Household</mat-radio-button>
                 <mat-radio-button color="warn" value="Beneficiary">Beneficiary</mat-radio-button>
               </mat-radio-group>

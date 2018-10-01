@@ -58,29 +58,30 @@
 
     <div class="container-table" *ngIf="selectedTitle == 'api import'">
         <div class="container-content box-red">
+            <div class="content-button">
+                <mat-form-field>
+                    <mat-select placeholder={{household.beneficiaries_import_getProject}} [formControl]="projects"
+                        (selectionChange)="getProjectSelected($event)">
+                        <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
             <div class="content-table content-table-step1">
-                    <div class="content-button">
-                        <mat-form-field>
-                            <mat-select placeholder={{household.beneficiaries_import_getProject}} [formControl]="projects"
-                                (selectionChange)="getProjectSelected($event)">
-                                <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
+
                 <div class="step1 all-information-mobile">
                     <div class="content-select" *ngIf="selectedProject">
-                        <h2>Select API</h2>
-                        <mat-radio-group (change)='onChangeRadioAPI($event)'>
+                        <h4>Select API</h4>
+                        <mat-radio-group (change)='onChangeRadioAPI($event)' class="content-select">
                             <mat-radio-button *ngFor="let name of APINames;" value="{{ name }}">{{ name }}</mat-radio-button>
                         </mat-radio-group>
                     </div>
 
                     <div class="content-select">
-                        <mat-form-field *ngFor="let APIParam of APIParams;">
-                            <input matInput *ngIf="APIParam.paramType == 'text'" type="text" [formControl]="text"
-                                placeholder="{{ APIParam.paramName }} *" (change)="getValue($event, APIParam.paramName)">
-                            <input matInput *ngIf="APIParam.paramType == 'number'" type="number" [formControl]="number"
-                                placeholder="{{ APIParam.paramName }} *">
+                        <mat-form-field *ngFor="let ParamToDisplay of ParamsToDisplay;">
+                            <input matInput *ngIf="ParamToDisplay.paramType == 'text'" type="text" [formControl]="text"
+                                placeholder="{{ ParamToDisplay.paramName }} *" (change)="getValue($event, ParamToDisplay.paramName)">
+                            <input matInput *ngIf="ParamToDisplay.paramType == 'number'" type="number" [formControl]="number"
+                                placeholder="{{ ParamToDisplay.paramName }} *">
                         </mat-form-field>
                     </div>
                 </div>
@@ -88,7 +89,8 @@
             <div class="content-button content-button-footer">
                 <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
                 <button *ngIf="!load" mat-raised-button class="upload-button" (click)="addBeneficiaries()">
-                    <span>{{household.import_insert | uppercase }}</span>
+                    <mat-icon>publish</mat-icon>
+                    <span>{{household.beneficiaries_import_upload | uppercase }}</span>
                 </button>
             </div>
         </div>

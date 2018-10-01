@@ -43,7 +43,8 @@ export class BeneficiariesImportComponent implements OnInit {
 
 
   public APINames: string[] = [];
-  public APIParams: string[] = [];
+  public APIParams: any = [];
+  public ParamsToDisplay: any = [];
   public text = new FormControl('', [Validators.pattern('[a-zA-Z ]*'), Validators.required]);
   public number = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
   public paramToSend = {};
@@ -205,41 +206,44 @@ export class BeneficiariesImportComponent implements OnInit {
   /************************************* API IMPORT  ******************************************************/
   //Recover all the API available for the actual country
   getAPINames() {
-    this._beneficiariesService.apiName()
+    this._beneficiariesService.listApi()
       .subscribe(names => {
         names = names['listAPI'];
-        names.forEach(name => {
-          this.APINames.push(name['APIName']);
-        });
-      });
-  }
+        let param = {};
 
-  //Recover the value of the API choosen and display inputs depend of the number of params that takes the function in the back
-  onChangeRadioAPI(event) {
-    const project = this.selectedProject.split(' - ');
-    this.provider = event.value;
-    let apiObject = { 'api': event.value };
-    this._beneficiariesService.apiParam(apiObject, project[0])
-      .subscribe(params => {
-        params.forEach(param => {
-          if (param['paramType'] == "string") {
-            param['paramType'] = "text";
-          }
-          else if (param['paramType'] == "int") {
-            param['paramType'] = "number";
+        Object.values(names).forEach(listAPI => {
+          this.APINames.push(listAPI['APIName']);
+
+          for (let j = 0; j < listAPI['params'].length; j++) {
+            if(listAPI['params'][j].paramType == 'string'){
+              param['paramType'] = "text";
+            }
+            else if(listAPI['params'][j].paramType == 'int'){
+              param['paramType'] = "number";
+            }
+
+            param['paramName'] = listAPI['params'][j].paramName;
+            
           }
 
           this.APIParams.push(param);
         });
-
       });
   }
 
+  //Get the index of the radiogroup to display the right inputs
+  onChangeRadioAPI(event){
+    this.ParamsToDisplay = [];
+    const index = this.APINames.indexOf(event.value);
+    this.ParamsToDisplay.push({'paramType': this.APIParams[index].paramType, 'paramName': this.APIParams[index].paramName});
+    this.provider = event.value;
+  }
+  
   //Get each value in inputs
   getValue(event, paramName) {
     const text = event.target.value;
 
-    this.paramToSend[paramName] = text;
+    this.paramToSend["params"] = {[paramName]: text};
   }
 
   //Check if all fields are set, and import all the beneficiaries

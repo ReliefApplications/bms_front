@@ -1,14 +1,11 @@
 <div class="header-container">
   <div class="container-routes">
-    <span *ngFor="let item of routeNameParsed">
-      <span *ngIf="(item[0] != '')&&(item[0] != header.header_home)">
+    <span *ngFor="let item of breadcrumb">
+      <span *ngIf="item.route !== '/'">
         >
       </span>
-      <a *ngIf="item[0] == header.header_home" routerLink="/">
-        {{item[0].charAt(0).toUpperCase() + item[0].slice(1)}}
-      </a>
-      <a *ngIf="item[0] != header.header_home" [routerLink]="item[1]">
-        {{item[0].charAt(0).toUpperCase() + item[0].slice(1)}}
+      <a routerLink={{item.route}}>
+        {{item.name}}
       </a>
     </span>
   </div>

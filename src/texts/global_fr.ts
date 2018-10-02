@@ -15,7 +15,16 @@ export const TEXT = {
     menu_settings : 'paramètres',
 
     header_home : 'Accueil',
-    header_profile : 'profil',
+    header_projects : 'Projets',
+    'header_add-distribution' : 'Ajouter une distribution',
+    'header_distributions' : 'Distribution',
+    header_beneficiaries : 'Bénéficiaires',
+    header_resports : 'Graphiques',
+    header_settings : 'Paramètres',
+    header_profile : 'Profil',
+    header_import : 'Import',
+    'header_data-validation' : 'Validation de données',
+    'header_add-beneficiaries' : 'Ajouter un ménage',
     header_disconnect : 'déconnexion',
     header_language : 'langue',
 

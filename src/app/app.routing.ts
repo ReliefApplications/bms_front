@@ -27,7 +27,7 @@ export const routes: Routes = [
 
 	{ path: 'projects', component: ProjectComponent },
 
-	{ path: 'project/add-distribution', component: AddDistributionComponent },
+	{ path: 'projects/add-distribution', component: AddDistributionComponent },
 
 	{ path: 'projects/distributions/:id', component: DistributionsComponent },
 
@@ -41,7 +41,7 @@ export const routes: Routes = [
 
 	{ path: 'beneficiaries/import', component: BeneficiariesImportComponent },
 
-	{ path: 'beneficiaries/data-validation', component: DataValidationComponent },
+	{ path: 'beneficiaries/import/data-validation', component: DataValidationComponent },
 
     // TODO : Add DeactivateGuard to prevent from loosing data when leaving page
 	{ path: 'beneficiaries/add-beneficiaries', component: AddBeneficiaryComponent , canDeactivate : [DeactivateGuard]},

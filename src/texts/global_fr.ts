@@ -19,7 +19,7 @@ export const TEXT = {
     header_disconnect : 'déconnexion',
     header_language : 'langue',
 
-    login_title : 'login',
+    login_title : 'Connexion',
     login_bms : 'Beneficiary management system',
     login_username : 'identifiant',
     login_password : '*********',
@@ -238,5 +238,11 @@ export const TEXT = {
     profile_user_hint_new_password_again: 'Ré-entrez votre nouveau mot de passe',
     snackbar_change_password_done: 'Mot de passe modifié !',
     snackbar_change_password_fail: 'Le mot de passe n\'a pas pu être changé...',
-    snackbar_change_password_not_possible: 'Mot de passe pas assez long ou différent de la vérification'
+    snackbar_change_password_not_possible: 'Mot de passe pas assez long ou différent de la vérification',
+
+    forbidden: 'Page interdite',
+    forbidden_message: 'Désolé, vous n\'avez pas l\'autorisation d\'accéder à cette page',
+    not_found: 'Page non trouvée',
+    not_found_message: 'Désolé, cette page n\'est pas disponible',
+    back_to_homepage: 'Retour à la page d\'accueil'
 };

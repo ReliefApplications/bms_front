@@ -226,7 +226,7 @@ export const TEXT = {
     import_deleted: 'Will be deleted',
     import_errors: 'Will be ignored',
     import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing. Any unknown beneficiary will be ignored',
-    
+
     distribution_details_export: 'export',
     distribution_details_import: 'import & compare',
     distribution_details_random: 'export random sample',
@@ -239,5 +239,11 @@ export const TEXT = {
     profile_user_hint_new_password_again: 'Re-enter new password',
     snackbar_change_password_done: 'Password has been changed !',
     snackbar_change_password_fail: 'Could not change password...',
-    snackbar_change_password_not_possible: 'Password must be longer than 1 character and match with verification'
+    snackbar_change_password_not_possible: 'Password must be longer than 1 character and match with verification',
+
+    forbidden: 'Forbidden Page',
+    forbidden_message: 'Sorry, you don\'t have permission to access this page',
+    not_found: 'Page Not Found',
+    not_found_message: 'Sorry, this page could not be found',
+    back_to_homepage: 'Go back to homepage'
 };

@@ -1,42 +1,62 @@
 @import "./variable.scss";
 
 
-.page-container{
+.page-container {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
 
-    .container-title{
+    .container-title {
         width: 100%;
         padding-left: 20px;
         font-family: $bms_font_header;
-        font-size: 2vh;   
-        margin-top: 3vh;    
+        font-size: 1.2em;
+        display: flex;
+        align-items: center;
     }
 
-    .container-boxes{
+    .container-boxes {
+        width:100%;
         display: flex;
-        flex-wrap: wrap;
         flex-direction: row;
-        width: 100%;
-        padding: 20px;
-        justify-content: space-between;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        margin: 0 20px;
+
+        app-box-setting {
+            flex-grow: 0;
+            display: flex;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            width : 300px;
+            min-width: 300px;
+            height : 80px;
+            box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
+        }
     }
 
-    .container-table{
+    .container-table {
         display: flex;
         width: 100%;
         padding: 20px;
 
-        .container-content{
+        .box-green {
+              border-top: solid 12px $bms_green;
+        }
+        .box-red {
+              border-top: solid 12px $bms_red;
+        }
+
+        .container-content {
             display: flex;
             flex-wrap: wrap;
             width: 100%;
             background-color: $bms_light_grey;
-            box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);    
+            box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
             border-radius: 3px;
-    
+
           .content-table{
               display: flex;
               width: 100%;
@@ -44,7 +64,7 @@
             }
         }
 
-        .content-button{
+        .content-button {
             display: flex;
             width: 100%;
             padding-top : 20px;
@@ -62,7 +82,7 @@
                 }
             }
         }
-    
+
     }
 }
 
@@ -72,45 +92,45 @@
     width: 100%;
     .container-table {
         padding: 0px;
-        .box-green{
-            border-top: solid 12px $bms_green;
-            .content-button{
-                justify-content: flex-end !important;
-                .next{
-                    font-weight: 900;
-                    margin-right: 0.8vw;
-                 }
-            } 
-            .content-table {
-                flex-wrap: wrap;
-                justify-content: space-evenly;
-                .done {
-                    display: flex;
-                    width: 100%;
-                    flex-direction: column;
-                    align-items: center;
-                    margin-top: 2vh;
-                    .buttonSend {
-                        margin: 2vh 0;
-                    }
-                }
+    }
+}
+
+.box-green, .box-red {
+    .content-button{
+        justify-content: flex-end !important;
+        .next{
+            font-weight: 900;
+            margin-right: 0.8vw;
+         }
+    }
+    .content-table {
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        .done {
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2vh;
+            .buttonSend {
+                margin: 2vh 0;
             }
-            .content-button-footer{
-                display: flex;
-                width: 100%;
-                padding : 10px 20px 20px 20px;
-                align-items: center;
-                justify-content: flex-end;
-    
-                .mat-raised-button {
-                    color: white;
-                    background-color: $bms_green;
-                    span{
-                        font-family: $bms_font_text;
-                    }
-                }
+        }
+    }
+    .content-button-footer{
+        display: flex;
+        width: 100%;
+        padding : 10px 20px 20px 20px;
+        align-items: center;
+        justify-content: flex-end;
+
+        .mat-raised-button {
+            color: white;
+            background-color: $bms_green;
+            span{
+                font-family: $bms_font_text;
             }
-        }  
+        }
     }
 }
 
@@ -120,16 +140,12 @@
 
 //for mobile screen
 @media only screen and (max-width: 750px){
-    .container-boxes{
-        flex-wrap: nowrap !important;
-        overflow-x: scroll;
-    }
     .container-table{
         padding: 5px 5px 20px 5px !important;
 
         .content-button {
             justify-content: flex-end !important;
-            
+
             .mat-raised-button{
             margin-right: 0px !important;
             }

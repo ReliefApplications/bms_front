@@ -1,9 +1,6 @@
-@import '../../../assets/css/variable.scss'; 
+@import '../../../assets/css/variable.scss';
 
 .container-title {
-    display: flex;
-    align-items: center;
-
     .add-project {
         width: 35px;
         min-width: 35px !important;
@@ -14,11 +11,11 @@
         margin-left: 10px;
         border-radius: 100%;
         box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
-    
+
         &:hover {
             cursor: pointer;
         }
-    
+
         mat-icon {
             font-size: 25px;
             color: $bms_light_grey;
@@ -31,7 +28,7 @@
         margin-left: 1vh;
     }
 }
-    
+
 app-table-distribution{
     width: 100%;
     height: 100%;
@@ -55,7 +52,7 @@ app-table-mobile-distribution{
 button{
     color: $bms_white;
     background-color: $bms_red;
-    
+
 
     &.export-button{
         background-color: $bms_green !important;
@@ -71,10 +68,6 @@ button{
         font-family: $bms_font_text;
         padding-left:20px;
     }
-}
-
-.container-content {
-    border-top: solid 12px $bms_green;
 }
 
 .waitingDataContainer {
@@ -114,7 +107,7 @@ button{
             border-top-right-radius: 2px;
             border-bottom-right-radius: 2px;
             border-left: solid 1px $bms_light_grey;
-            box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3); 
+            box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3);
             display: flex;
             justify-content: center;
 
@@ -175,6 +168,6 @@ app-placeholder-panel {
             z-index: 1000;
         }
 
-        
-    }       
+
+    }
 }

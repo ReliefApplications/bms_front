@@ -25,7 +25,11 @@ export class DashboardComponent implements OnInit {
 
   referedClassToken = DistributionData;
   distributions: MatTableDataSource<DistributionData>;
+
+  // Loaders
   loadingTable = true;
+  loadingSummary = true;
+
   public maxWidthMobile = 750;
   public heightScreen;
   public widthScreen;
@@ -100,6 +104,7 @@ export class DashboardComponent implements OnInit {
   getSummary(): void {
     this._generalService.getSummary().subscribe(response => {
       this.summary = response;
+      this.loadingSummary = false;
     });
   }
 

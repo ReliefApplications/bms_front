@@ -4,6 +4,10 @@
     flex-direction: column;
 }
 
+.content-table-step1 {
+    align-items: center
+}
+
 .content-button-footer{
     justify-content: flex-end !important;
 }
@@ -70,6 +74,16 @@ span{
     margin-bottom: 2vh;
 }
 
+.step1 {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.content-select {
+    display: flex;
+    flex-direction: column;
+}
 
 //for mobile screen
 @media only screen and (max-width: 750px){
@@ -115,5 +129,12 @@ span{
     .mat-list {
         display: flex !important;
         justify-content: center;
+    }
+
+    .all-information-mobile {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        flex-direction: column;
     }
 }

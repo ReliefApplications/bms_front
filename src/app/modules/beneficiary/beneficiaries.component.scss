@@ -118,6 +118,11 @@ button{
     }
 }
 
+app-placeholder-panel {
+    width: 100%;
+    height: 400px;
+}
+
 //for mobile screen
 @media only screen and (max-width: 750px){
     button{

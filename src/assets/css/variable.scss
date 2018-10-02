@@ -24,3 +24,15 @@ $bms_red: #DC3D49;
 //Font
 $bms_font_header : 'Lato', sans-serif;
 $bms_font_text : 'Roboto', sans-serif;
+
+
+// constants for animation scss
+
+$width-gap-xsmall : 15px;
+$width-gap-small: 20px;
+$width-gap-big  : 50px;
+
+$width-item-one  : 270px;
+$width-item-two  : 2*$width-item-one + 1*$width-gap-small;
+$width-item-three: 3*$width-item-one + 2*$width-gap-small;
+$width-item-four : 4*$width-item-one + 3*$width-gap-small;

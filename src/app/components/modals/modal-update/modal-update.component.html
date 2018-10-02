@@ -1,4 +1,4 @@
-<div class="modal-container">
+<mat-dialog-content class="modal-container">
   <h4 class="modal-title">{{modal.modal_update_title}}</h4>
   <table class="modal-table">
     <tr *ngFor="let p of properties" class="modal-row">
@@ -31,4 +31,4 @@
     <button mat-button (click)="closeDialog()" class="button-save">{{modal.modal_cancel}}</button>
     <button mat-button (click)="save()" class="button-cancel">{{modal.modal_save}}</button>
   </div>
-</div>
+</mat-dialog-content>

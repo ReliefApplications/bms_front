@@ -5,7 +5,7 @@
   flex-direction: column;
   width: 100%;
   margin-bottom: 40px;
-  
+
   .mat-form-field {
     font-size: 14px;
     width: 100%;
@@ -65,16 +65,22 @@ table {
       display:flex;
       flex-wrap: wrap;
       flex-direction: row;
+      justify-content: stretch;
+      
       button{
         display:flex;   
         flex-wrap: wrap;
         flex-grow: 1;
         justify-content: center;
         align-self: center;
-        height: 20px;     
+        height: 25px;     
         margin: 0 !important ;
         border-radius: 0 !important;
-        i{
+        width: 33%;
+        color: white;
+        flex-grow: 1;
+
+        mat-icon{
             display:flex;   
         }
       }
@@ -90,27 +96,22 @@ button{
       font-weight: 800  !important;
       font-size: 25px;
     }
-    
+
     &:hover {
         background-color: $bms_light_grey;
     }
   }
-  
-  .green{
-    color: $bms_light_blue;
-  }
-  
-  .red{
-    color: $bms_red;
-  }
-  
-  .light-red{
-    color: $bms_light_red;
-  }
-
-.light-red{
-  background-color: $bms_light_red;
-}
+        .green{
+            background-color: $bms_light_blue;
+        }
+        
+        .red{
+            background-color: $bms_red;
+        }
+        
+        .light-red{
+            background-color: $bms_light_red;
+        }
 
 .container-header {
   padding: 20px;

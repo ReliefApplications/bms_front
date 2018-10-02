@@ -84,6 +84,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
     this.getQueryParameter();
     this.loadProvince();
     this.newObject.type = 'Household';
+    this.newObject.threshold = '0';
   }
 
   /**
@@ -360,10 +361,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
   createElement(createElement: Object, user_action) {
     if (user_action === this.criteriaAction) {
       this.criteriaArray.push(createElement);
-      console.log(this.criteriaArray);
-      console.log(this.queryParams.project);
       this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
-        console.log(response);
         this.criteriaNbBeneficiaries = response;
       });
       this.criteriaData = new MatTableDataSource(this.criteriaArray);

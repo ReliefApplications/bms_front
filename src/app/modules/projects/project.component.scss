@@ -1,6 +1,5 @@
 @import '../../../assets/css/variable.scss';
 
-.container-title {
     .add-project {
         width: 35px;
         min-width: 35px !important;
@@ -27,7 +26,6 @@
     mat-spinner {
         margin-left: 1vh;
     }
-}
 
 app-table-distribution{
     width: 100%;

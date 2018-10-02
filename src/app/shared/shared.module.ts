@@ -63,6 +63,7 @@ import { PlaceholderBoxlineComponent } from '../components/placeholders/placehol
 import { PlaceholderPanelComponent } from '../components/placeholders/placeholder-panel/placeholder-panel.component';
 import { PlaceholderStepperComponent } from '../components/placeholders/placeholder-stepper/placeholder-stepper.component';
 import { PlaceholderTitleComponent } from '../components/placeholders/placeholder-title/placeholder-title.component';
+import { TableBeneficiariesComponent } from '../components/table/table-beneficiaries/table-beneficiaries.component';
 
 @NgModule({
 imports: [
@@ -126,6 +127,7 @@ declarations: [
     TableSmallMobileComponent,
     TableDashboardComponent,
     TableMobileDashboardComponent,
+    TableBeneficiariesComponent,
     TransactionTableComponent,
     ModalComponent,
     ModalDeleteComponent,
@@ -181,6 +183,7 @@ exports: [
     TransactionTableComponent,
     TableDashboardComponent,
     TableMobileDashboardComponent,
+    TableBeneficiariesComponent,
     ModalComponent,
     ModalDeleteComponent,
     ModalUpdateComponent,

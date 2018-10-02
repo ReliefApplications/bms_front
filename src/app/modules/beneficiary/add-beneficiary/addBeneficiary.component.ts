@@ -12,7 +12,7 @@ import { CriteriaService } from '../../../core/api/criteria.service';
 import { VulnerabilityCriteria } from '../../../model/vulnerability_criteria';
 import { CountrySpecificService } from '../../../core/api/country-specific.service';
 import { CountrySpecific, CountrySpecificAnswer } from '../../../model/country-specific';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { AddHouseholds, AddBeneficiaries, Phones, NationalID } from '../../../model/add-household';
 import { Profile } from 'selenium-webdriver/firefox';
@@ -20,6 +20,9 @@ import { LIVELIHOOD } from '../../../model/livelihood';
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
 import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
 import { CacheService } from '../../../core/storage/cache.service';
+import { Households } from '../../../model/households';
+import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'add-beneficiary',
@@ -36,10 +39,13 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     selectedIdPoor = false;
     loadingCreation = false;
 
+    // Household Mode ? 'add' or 'update'
+    public mode = 'add';
+
     // for the project selector
     public projects = new FormControl('', Validators.required);
     public projectList: string[] = [];
-    public selectedProject: string = null;
+    public selectedProject: string[] = null;
 
     // for the gender selector
     public genderList: string[] = ['F', 'M'];
@@ -64,6 +70,9 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     public village = new FormControl();
     public villageList: string[] = [];
     public selectedVillage: string = null;
+
+    // notes ?
+    public notes = new FormControl();
 
     // for the type phone selector
     public typePhoneList: string[] = ['mobile', 'landline'];
@@ -106,6 +115,9 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     public filteredLivelihoodList: Observable<any[]>;
     public livelihoods = new FormControl();
 
+    // Update a Beneficiary mode ?
+    public updatedBeneficiary : any;
+
     constructor(
         public _projectService: ProjectService,
         public _locationService: LocationService,
@@ -113,13 +125,18 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         public _criteriaService: CriteriaService,
         public _countrySpecificsService: CountrySpecificService,
         public router: Router,
-        public _householdsServce: HouseholdsService,
         public formBuilder: FormBuilder,
         public dialog: MatDialog,
         public _cacheService: CacheService,
+        public _householdsService: HouseholdsService,
+        public _beneficiariesService: BeneficiariesService,
+        private route: ActivatedRoute,
     ) { }
 
     ngOnInit() {
+        if(this.router.url.split('/')[2] === 'update-beneficiary')
+            this.mode = 'update';
+        
         this.getProjects();
         this.getProvince();
         this.getVulnerabilityCriteria();
@@ -139,6 +156,10 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
             startWith(''),
             map(value => this.filter(value.head ? String(value.head[0].countryCode) : '', this.countryCodesList))
         );
+
+        if(this.mode==='update') {
+            this.getUpdatedBeneficiary();
+        }
     }
 
     /**
@@ -153,13 +174,128 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         } else {
             return (true);
         }
+
+    }
+
+    getUpdatedBeneficiary() {
+        this.route.params.subscribe(
+            result => {
+                if(result['id']) {
+                    this._householdsService.getOne(result['id']).subscribe(
+                        result => {
+                            this.updatedBeneficiary = result;
+                            console.log("Beneficiary to update -- ", this.updatedBeneficiary);
+                            this.prefillData();
+                        }
+                    );
+                }
+            }
+        );
+    }
+
+    prefillData() {
+
+        // Prefill Adress fields
+        this.addressNumber.setValue(this.updatedBeneficiary.address_number);
+        this.addressStreet.setValue(this.updatedBeneficiary.address_street);
+        this.addressPostcode.setValue(this.updatedBeneficiary.address_postcode);
+        this.livelihoods.setValue(this.livelihoodList[this.updatedBeneficiary.livelihood]);
+        this.notes.setValue(this.updatedBeneficiary.notes);
+        
+        // Prefill Location fields
+        let location = Location.formatAdmFromApi(this.updatedBeneficiary.location);
+        
+        this.getProvince();
+        this.province.setValue(Location.formatOneAdm(location.adm1)) 
+        this.selectedProvince = Location.formatOneAdm(location.adm1);
+        this.getDistrict(String(location.adm1.id));
+
+        if(location.adm2) {
+            this.district.setValue(Location.formatOneAdm(location.adm2));
+            this.selectedDistrict = Location.formatOneAdm(location.adm2);
+            this.getCommune(String(location.adm2.id));
+        }
+        if(location.adm3) {
+            this.commune.setValue(Location.formatOneAdm(location.adm3));
+            this.selectedCommune = Location.formatOneAdm(location.adm3);
+            this.getVillage(String(location.adm3.id));
+        }
+        if(location.adm4) {
+            this.village.setValue(Location.formatOneAdm(location.adm4));
+            this.selectedVillage = Location.formatOneAdm(location.adm4);
+        }
+
+        // Prefill Project field
+        let projects = this.updatedBeneficiary.projects;
+        projects.forEach(
+            element => {
+                projects[projects.indexOf(element)] = '' + element.id + ' - ' + element.name;
+            }
+        )
+        this.projects.setValue(projects);
+        this.selectedProject = projects;
+
+        // Beneficiaries Head & Members
+        let head;
+        let members = [];
+        this.updatedBeneficiary.beneficiaries.forEach(
+            beneficiary => {
+                if (beneficiary.status) {
+                    head = beneficiary;
+                } else {
+                    members.push(beneficiary);
+                }
+            }
+        )
+
+        // Prefill Head
+        if(head.gender === 0) {
+            head.gender = 'F';
+        } else if (head.gender === 1) {
+            head.gender = 'M';
+        }
+        if(head.national_ids) {
+            head.national_ids = head.national_ids[0];
+        }
+        if(head.phones) {
+            head.phones = head.phones[0];
+        }
+
+        this.instantiateFormHead(head);
+
+        // Prefill Members
+        members.forEach(
+            element => {
+                let member = element;
+
+                if(member.gender === 0) {
+                    member.gender = 'F';
+                } else if (member.gender === 1) {
+                    member.gender = 'M';
+                }
+                if(member.national_ids) {
+                    member.national_ids = member.national_ids[0];
+                }
+                if(member.phones) {
+                    member.phones = member.phones[0];
+                }
+
+                members[members.indexOf(element)] = member;
+            }
+        );
+
+        // TODO : instantiate for the number of members
     }
 
     /**
      * Filter the list of livelihoods according to waht the user types
      */
     filter(value: string, element: any) {
-        const filterValue = value.toLowerCase();
+        let filterValue;
+
+        if(value) {
+            filterValue = value.toLowerCase();
+        }
         // console.log(element.filter(option => option.toLowerCase().includes(filterValue)))
         return element.filter(option => option.toLowerCase().includes(filterValue));
     }
@@ -191,21 +327,21 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     /**
      * Initiate the head form structure
      */
-    instantiateFormHead() {
+    instantiateFormHead(instance? ) {
         this.headForm = this.formBuilder.group({
             head: this.formBuilder.array([
                 this.formBuilder.group({
                     id: 'head' + this.id_head,
-                    familyName: ['', Validators.required],
-                    givenName: ['', Validators.required],
-                    gender: ['', Validators.required],
-                    birth: ['', Validators.required],
+                    familyName: [instance? instance.family_name : '', Validators.required],
+                    givenName: [instance? instance.given_name : '', Validators.required],
+                    gender: [instance? instance.gender : '', Validators.required],
+                    birth: [instance? instance.date_of_birth : '', Validators.required],
                     typeNationalId: '',
                     typePhone: '',
-                    vulnerabilities: '',
-                    phone: ['', Validators.pattern('[0-9]*')],
+                    vulnerabilities: instance? instance.vulnerability_criteria : '',
+                    phone: [instance? instance.phones : '', Validators.pattern('[0-9]*')],
                     countryCode: this.getUserPhoneCode(),
-                    nationalID: ''
+                    nationalID: instance? instance.national_ids : ''
                 })
             ])
         });
@@ -417,6 +553,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
      * @param type
      */
     selected(event, type: string) {
+        console.log(this.headForm);
         switch (type) {
             case 'province':
                 const province = event.value.split(' - ');
@@ -587,12 +724,14 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                 this.formatBeneficiaries(inputBeneficiary, type, newBeneficiary);
                 this.householdToCreate.beneficiaries.push(newBeneficiary);
             } else {
-                this.householdToCreate.beneficiaries.forEach(householdBeneficiary => {
-                    if (householdBeneficiary.id === inputBeneficiary.id) {
-                        this.formatBeneficiaries(inputBeneficiary, type, householdBeneficiary);
-                        alreadyRegister = true;
+                this.householdToCreate.beneficiaries.forEach(
+                    householdBeneficiary => {
+                        if (householdBeneficiary.id === inputBeneficiary.id) {
+                            this.formatBeneficiaries(inputBeneficiary, type, householdBeneficiary);
+                            alreadyRegister = true;
+                        }
                     }
-                });
+                );
                 if (!alreadyRegister) {
                     const newBeneficiary: AddBeneficiaries = new AddBeneficiaries;
                     this.formatBeneficiaries(inputBeneficiary, type, newBeneficiary);
@@ -686,7 +825,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
             });
 
             this.loadingCreation = true;
-            const promise = this._householdsServce.add(this.householdToCreate, project[0]);
+            const promise = this._householdsService.add(this.householdToCreate, project[0]);
             if (promise) {
                 promise.toPromise().then(() => {
                     this.router.navigate(['/households']);

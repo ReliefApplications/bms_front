@@ -97,6 +97,8 @@ export const TEXT = {
     add_beneficiary_getPhone: 'Téléphone',
     add_beneficiary_Country_Specifics: 'Spécificité du pays',
 
+    update_beneficiary_title: 'Modifier un bénéficiaire',
+
     data_verification_title: 'verification et validation des donnees',
     data_verification_step_1: 'Erreurs d\'orthographe',
     data_verification_step_2: 'Doublons',

@@ -37,7 +37,8 @@
         <div class="waitingDataContainer" *ngIf="loading">
             <mat-spinner></mat-spinner>
         </div>
-        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="households" [editable]="true"></app-table-search>
+        <app-table-beneficiaries *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" 
+            [data]="households" [editable]="true" (updating)="updateBeneficiary($event)"></app-table-beneficiaries>
         <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
           [data]="households" [editable]="true"></app-table-mobile-search>
       </div>

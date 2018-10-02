@@ -1,6 +1,7 @@
 <div class="page-container">
     <div class="container-title">
-        <h2>{{household.add_beneficiary_title | titlecase}}</h2>
+        <h2 *ngIf="mode==='add'">{{household.add_beneficiary_title | titlecase}}</h2>
+        <h2 *ngIf="mode==='update'">{{household.update_beneficiary_title | titlecase}}</h2>        
     </div>
 
     <mat-horizontal-stepper linear #stepper>
@@ -42,7 +43,7 @@
                             </div>
                             <div class="content-select">
                                 <mat-form-field>
-                                    <mat-select placeholder="{{household.add_beneficiary_getProject}} *" [formControl]="projects" (selectionChange)="selected($event, 'project')">
+                                    <mat-select placeholder="{{household.add_beneficiary_getProject}} *" [formControl]="projects" (selectionChange)="selected($event, 'project')" multiple>
                                         <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
@@ -75,7 +76,7 @@
                         <div class="additional-information">
 
                             <mat-form-field class="notes">
-                                <textarea matInput matTextareaAutosize="true" matAutosizeMinRows="5" matAutosizeMaxRows="5" placeholder={{household.add_beneficiary_getNotes}} #Notes></textarea>
+                                <textarea matInput [formControl]="notes" matTextareaAutosize="true" matAutosizeMinRows="5" matAutosizeMaxRows="5" placeholder={{household.add_beneficiary_getNotes}} #Notes></textarea>
                             </mat-form-field>
                         </div>
                     </div>

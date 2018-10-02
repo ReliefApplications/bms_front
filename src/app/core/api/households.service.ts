@@ -33,6 +33,11 @@ export class HouseholdsService {
         return this.http.post(url, body);
     }
 
+    public getOne(beneficiaryId) {
+        const url = this.api + '/households/' + beneficiaryId;
+        return this.http.get(url);
+    }
+
     /**
      * Get the csv template to import household
      */

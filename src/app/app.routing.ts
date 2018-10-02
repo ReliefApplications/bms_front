@@ -43,8 +43,8 @@ export const routes: Routes = [
 
 	{ path: 'beneficiaries/data-validation', component: DataValidationComponent },
 
-    // TODO : Add DeactivateGuard to prevent from loosing data when leaving page
-	{ path: 'beneficiaries/add-beneficiaries', component: AddBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
+    { path: 'beneficiaries/add-beneficiaries', component: AddBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
+    { path: 'beneficiaries/update-beneficiary/:id', component: AddBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
 
 	// home route protected by auth guard
 	{ path: '', component: DashboardComponent, canActivate: [AuthGuard] },

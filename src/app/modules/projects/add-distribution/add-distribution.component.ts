@@ -262,10 +262,6 @@ export class AddDistributionComponent implements OnInit, DoCheck {
     }
   }
 
-  typeDistributionOnChange(event){
-    this.newObject.type = event.value;
-  }
-
   getNameProject(id): string {
     const projects = this._cacheService.get(CacheService.PROJECTS);
     let name = '';

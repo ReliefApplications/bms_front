@@ -211,6 +211,13 @@ export class AddDistributionComponent implements OnInit, DoCheck {
   }
 
   /**
+   * Get the number input inserted by the user
+   */
+  numberOnInput(event){
+    this.newObject.threshold = event.target.value;
+  }
+
+  /**
    * Get in the chache service the name of all adm selected
    * @param adm
    */
@@ -271,10 +278,11 @@ export class AddDistributionComponent implements OnInit, DoCheck {
    * create the new distribution object before send it to the back
    */
   add() {
-      if (this.newObject.type && this.criteriaArray && this.commodityArray && this.newObject.date_distribution) {
+      if (this.newObject.type && this.newObject.threshold && this.criteriaArray && this.commodityArray && this.newObject.date_distribution) {
         this.loadingCreation = true;
         const newDistribution: DistributionData = new DistributionData;
         newDistribution.type = this.newObject.type;
+        newDistribution.threshold = this.newObject.threshold;
         newDistribution.project.id = this.queryParams.project;
         newDistribution.location.adm1 = this.newObject.adm1;
         newDistribution.location.adm2 = this.newObject.adm2;
@@ -354,7 +362,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
       this.criteriaArray.push(createElement);
       console.log(this.criteriaArray);
       console.log(this.queryParams.project);
-      this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.queryParams.project).subscribe(response => {
+      this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
         console.log(response);
         this.criteriaNbBeneficiaries = response;
       });
@@ -382,7 +390,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
       const index = this.commodityArray.findIndex((item) => item === removeElement);
       if (index > -1) {
         this.commodityArray.splice(index, 1);
-        this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.queryParams.project).subscribe(response => {
+        this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
           this.criteriaNbBeneficiaries = response;
         });
         this.removeCommodities(removeElement);

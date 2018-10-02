@@ -16,7 +16,7 @@
             </mat-expansion-panel-header>
             <mat-form-field class="accordion-field" *ngIf="propertiesTypes[p]=='select' || propertiesTypes[p]=='date' || propertiesTypes[p]=='number'">
               <input *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='number'"
-                [(ngModel)]="newObject[p]" class="field-input" matInput type="{{propertiesTypes[p]}}" [formControl]="controlNumber">
+                [(ngModel)]="newObject[p]" class="field-input" matInput type="{{propertiesTypes[p]}}" [formControl]="controlNumber" (input)="numberOnInput($event)">
               <mat-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date' && propertiesTypes[p]!='radio'"
                 [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [formControl]="controls" (selectionChange)="selected($event, newObject, p)">
                 <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.name">{{singleData.name}}</mat-option>
@@ -31,10 +31,6 @@
               <mat-radio-button checked='true' color="warn" value="Household" disabled='false'>Household</mat-radio-button>
               <mat-radio-button color="warn" value="Beneficiary">Beneficiary</mat-radio-button>
             </mat-radio-group>
-            <mat-form-field class="accordion-field" *ngIf="propertiesTypes[p]=='select' || propertiesTypes[p]=='date'">
-              <input *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]!='radio'"
-                [(ngModel)]="newObject[p]" class="field-input" matInput type="{{propertiesTypes[p]}}">
-            </mat-form-field>
           </mat-expansion-panel>
         </mat-accordion>
       </div>

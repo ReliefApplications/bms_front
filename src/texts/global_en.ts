@@ -133,6 +133,9 @@ export const TEXT = {
     add_distribution_beneficiaries_reached: 'Beneficiaries reached',
     add_distribution_households_reached: 'Households reached',
     add_distribution_commodities_delivered: 'Commodities delivered',
+    add_distribution_threshold: 'Threshold',
+    add_distribution_female: 'Women',
+    add_distribution_male: 'Men',
     add_project: 'Create a project',
 
     table_filter : 'Filter',
@@ -178,7 +181,6 @@ export const TEXT = {
     model_distribution_adm3: 'Community',
     model_distribution_adm4: 'Village',
     model_distribution_date: 'Date of distribution',
-    model_distribution_threshold: 'Threshold',
     model_donor : 'Donor',
     model_donor_fullname: 'Donor\'s name',
     model_donor_shortname: 'Shortname',

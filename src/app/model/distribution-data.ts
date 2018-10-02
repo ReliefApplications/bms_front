@@ -136,7 +136,6 @@ export class DistributionData {
             adm4: GlobalText.TEXTS.model_distribution_adm4,
             date_distribution: GlobalText.TEXTS.model_distribution_date,
             commodities: GlobalText.TEXTS.model_commodity,
-            threshold: GlobalText.TEXTS.model_distribution_threshold,
             type: 'Target'
         };
     }
@@ -305,8 +304,7 @@ export class DistributionData {
             adm3: selfinstance.adm3,
             adm4: selfinstance.adm4,
             date_distribution: selfinstance.date_distribution,
-            type: selfinstance.type,
-            threshold: selfinstance.threshold
+            type: selfinstance.type
         };
     }
 
@@ -377,8 +375,7 @@ export class DistributionData {
             adm4: 'select',
             date_distribution: 'date',
             commodities: 'select',
-            type: 'radio',
-            threshold: 'number'
+            type: 'radio'
         };
     }
 

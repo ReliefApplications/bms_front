@@ -38,6 +38,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
   public criteriaArray = [];
   public criteriaData = new MatTableDataSource([]);
   public criteriaNbBeneficiaries = 0;
+  public load: boolean = false;
 
   public commodityClass = Commodity;
   public commodityAction = 'addCommodity';
@@ -205,15 +206,36 @@ export class AddDistributionComponent implements OnInit, DoCheck {
   /**
    * Get the distribution type choosen by the user
    */
-  typeDistributionOnChange(event){
+  typeDistributionOnChange(event) {
     this.newObject.type = event.value;
+
+    if (this.criteriaArray.length != 0) {
+      this.load = true;
+      this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
+        this.criteriaNbBeneficiaries = response;
+        this.load = false;
+      });
+    }
   }
 
   /**
    * Get the number input inserted by the user
    */
-  numberOnInput(event){
+  numberOnInput(event) {
     this.newObject.threshold = event.target.value;
+  }
+
+  /**
+   * Refresh the research when input changed
+   */
+  numberOnChange() {
+    if (this.criteriaArray.length != 0) {
+      this.load = true;
+      this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
+        this.criteriaNbBeneficiaries = response;
+        this.load = false;
+      });
+    }
   }
 
   /**
@@ -277,45 +299,45 @@ export class AddDistributionComponent implements OnInit, DoCheck {
    * create the new distribution object before send it to the back
    */
   add() {
-      if (this.newObject.type && this.newObject.threshold && this.criteriaArray && this.commodityArray && this.newObject.date_distribution) {
-        this.loadingCreation = true;
-        const newDistribution: DistributionData = new DistributionData;
-        newDistribution.type = this.newObject.type;
-        newDistribution.threshold = this.newObject.threshold;
-        newDistribution.project.id = this.queryParams.project;
-        newDistribution.location.adm1 = this.newObject.adm1;
-        newDistribution.location.adm2 = this.newObject.adm2;
-        newDistribution.location.adm3 = this.newObject.adm3;
-        newDistribution.location.adm4 = this.newObject.adm3;
-        newDistribution.selection_criteria = this.criteriaArray;
-        newDistribution.commodities = this.commodityArray;
+    if (this.newObject.type && this.newObject.threshold && this.criteriaArray && this.commodityArray && this.newObject.date_distribution) {
+      this.loadingCreation = true;
+      const newDistribution: DistributionData = new DistributionData;
+      newDistribution.type = this.newObject.type;
+      newDistribution.threshold = this.newObject.threshold;
+      newDistribution.project.id = this.queryParams.project;
+      newDistribution.location.adm1 = this.newObject.adm1;
+      newDistribution.location.adm2 = this.newObject.adm2;
+      newDistribution.location.adm3 = this.newObject.adm3;
+      newDistribution.location.adm4 = this.newObject.adm3;
+      newDistribution.selection_criteria = this.criteriaArray;
+      newDistribution.commodities = this.commodityArray;
 
-        const formatDateOfBirth = this.newObject.date_distribution.split('/');
-        if (formatDateOfBirth[0].length < 2) {
+      const formatDateOfBirth = this.newObject.date_distribution.split('/');
+      if (formatDateOfBirth[0].length < 2) {
         formatDateOfBirth[0] = '0' + formatDateOfBirth[0];
-        }
-        if (formatDateOfBirth[1].length < 2) {
+      }
+      if (formatDateOfBirth[1].length < 2) {
         formatDateOfBirth[1] = '0' + formatDateOfBirth[1];
-        }
+      }
 
-        newDistribution.date_distribution = formatDateOfBirth[2] + '-' + formatDateOfBirth[0] + '-' + formatDateOfBirth[1];
+      newDistribution.date_distribution = formatDateOfBirth[2] + '-' + formatDateOfBirth[0] + '-' + formatDateOfBirth[1];
 
-        newDistribution.name = this.getNameProject(this.queryParams.project) + '-' + this.newObject.adm1 + '-' + this.newObject.date_distribution + '-';
+      newDistribution.name = this.getNameProject(this.queryParams.project) + '-' + this.newObject.adm1 + '-' + this.newObject.date_distribution + '-';
 
-        // console.log('NEW ONE : ', newDistribution);
+      // console.log('NEW ONE : ', newDistribution);
 
-        const promise = this._distributionService.add(newDistribution);
-        if (promise) {
-            promise.toPromise().then(response => {
-            this.loadingCreation = false;
-                this.snackBar.open('distribution : ' + response.distribution.name + ' was created', '', { duration: 3000, horizontalPosition: 'center' });
-                this.router.navigate(['projects/distributions/' + response.distribution.id ]);
-            });
-        } else {
-            this.snackBar.open('Error while creating new distribution', '', { duration: 3000, horizontalPosition: 'center' });
-        }
+      const promise = this._distributionService.add(newDistribution);
+      if (promise) {
+        promise.toPromise().then(response => {
+          this.loadingCreation = false;
+          this.snackBar.open('distribution : ' + response.distribution.name + ' was created', '', { duration: 3000, horizontalPosition: 'center' });
+          this.router.navigate(['projects/distributions/' + response.distribution.id]);
+        });
+      } else {
+        this.snackBar.open('Error while creating new distribution', '', { duration: 3000, horizontalPosition: 'center' });
+      }
     } else {
-        this.snackBar.open('Fill new distribution\'s information before', '', { duration: 3000, horizontalPosition: 'center' });
+      this.snackBar.open('Fill new distribution\'s information before', '', { duration: 3000, horizontalPosition: 'center' });
     }
 
   }
@@ -358,9 +380,11 @@ export class AddDistributionComponent implements OnInit, DoCheck {
    */
   createElement(createElement: Object, user_action) {
     if (user_action === this.criteriaAction) {
+      this.load = true;
       this.criteriaArray.push(createElement);
       this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
         this.criteriaNbBeneficiaries = response;
+        this.load = false;
       });
       this.criteriaData = new MatTableDataSource(this.criteriaArray);
     } else if (user_action === this.commodityAction) {

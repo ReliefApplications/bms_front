@@ -40,25 +40,29 @@
           <button mat-icon-button (click)="openDialog(criteriaAction)" class="add-button">
             <mat-icon>add</mat-icon>
           </button>
-          <mat-accordion class="accordion-table">
-            <mat-expansion-panel *ngFor="let p of properties" [expanded]="step === p" (opened)="setStep(p)" class="mat-elevation-z8">
-              <mat-form-field class="accordion-field">
-                <input class="field-input" matInput type="number" [formControl]="controlNumber" (input)="numberOnInput($event)">
-              </mat-form-field>
-            </mat-expansion-panel>
-          </mat-accordion>
         </div>
+
         <div class="criteria-form" *ngIf="widthScreen > maxWidthMobile">
           <app-table-small (onRemove)="removeElement($event, criteriaAction)" [entity]="criteriaClass" [data]="criteriaData"></app-table-small>
         </div>
-        <div class="criteria-summary" *ngIf="criteriaArray.length != 0">
-          <h3 class="summary-text" *ngIf="newObject.type == 'Beneficiary'">
-            <span>{{criteriaNbBeneficiaries.number}}</span>{{distribution.add_distribution_beneficiaries_reached |
-            uppercase}}</h3>
-          <h3 class="summary-text" *ngIf="newObject.type == 'Household'">
-            <span>{{criteriaNbBeneficiaries.number}}</span>{{distribution.add_distribution_households_reached |
-            uppercase}}</h3>
+
+        <div class="criteria-threshold">
+          <mat-form-field class="accordion-field" id="threshold">
+            <mat-label>{{ distribution.add_distribution_threshold }}</mat-label>
+            <input class="field-input" matInput type="number" [(ngModel)]="newObject.threshold" [formControl]="controlNumber"
+              (input)="numberOnInput($event)" (change)="numberOnChange()">
+          </mat-form-field>
+
+          <div class="criteria-summary" *ngIf="criteriaArray.length != 0">
+            <h3 class="summary-text" *ngIf="newObject.type == 'Beneficiary'">
+              <span *ngIf="!load">{{criteriaNbBeneficiaries.number}}</span><span *ngIf="load"><mat-spinner [diameter]="25"></mat-spinner></span>{{distribution.add_distribution_beneficiaries_reached |
+              uppercase}}</h3>
+            <h3 class="summary-text" *ngIf="newObject.type == 'Household'">
+              <span *ngIf="!load">{{criteriaNbBeneficiaries.number}}</span><span *ngIf="load"><mat-spinner [diameter]="25"></mat-spinner></span>{{distribution.add_distribution_households_reached |
+              uppercase}}</h3>
+          </div>
         </div>
+
         <div class="criteria-form" *ngIf="widthScreen < maxWidthMobile">
           <app-table-small-mobile (onRemove)="removeElement($event, criteriaAction)" [entity]="criteriaClass" [data]="criteriaData"></app-table-small-mobile>
         </div>

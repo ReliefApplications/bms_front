@@ -2,22 +2,28 @@
   <h4 class="modal-title">{{modal.modal_add_title}}{{entityDisplayedName | lowercase}}</h4>
   <table class="modal-table">
     <th *ngFor="let p of properties" class="modal-row">
-        <form *ngIf="p!='value_string'">
-          <mat-form-field class="full-width">
-            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='selectCriteria'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
-            <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [formControl]="controls">
-              <mat-option *ngFor="let singleData of loadedData[p]; let i = index" [value]="i+1">{{singleData.field_string}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </form>
-        <form *ngIf="(p=='value_string')&&checkDataCriteria.type">
-          <mat-form-field class="full-width" *ngIf="checkDataCriteria.type ===  'date'">
-            <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [ngModelOptions]="{standalone: true}" [type]="checkDataCriteria.type">
-          </mat-form-field>
-          <mat-form-field class="full-width" *ngIf="checkDataCriteria.type !==  'date'">
-            <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [ngModelOptions]="{standalone: true}" [type]="checkDataCriteria.type">
-          </mat-form-field>
-        </form>
+      <form *ngIf="p!='value_string'">
+        <mat-form-field class="full-width">
+          <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='selectCriteria'" [(ngModel)]="newObject[p]"
+            placeholder="{{mapperObject[p]}}" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
+          <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
+            [formControl]="controls">
+            <mat-option *ngFor="let singleData of loadedData[p]; let i = index" [value]="i+1">{{singleData.field_string}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+      <form *ngIf="(p=='value_string')&&checkDataCriteria.type">
+        <mat-form-field class="full-width" *ngIf="checkDataCriteria.field_string === 'gender'">
+          <mat-select placeholder="Gender" [formControl]="controls" (selectionChange)="genderOnChange($event)">
+            <mat-option value="0">{{modal.add_distribution_female}}</mat-option>
+            <mat-option value="1">{{modal.add_distribution_male}}</mat-option>
+          </mat-select> 
+        </mat-form-field>
+        <mat-form-field class="full-width" *ngIf="checkDataCriteria.field_string !== 'gender'">
+          <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
+            [ngModelOptions]="{standalone: true}" [type]="checkDataCriteria.type">
+        </mat-form-field>
+      </form>
     </th>
   </table>
   <div class="modal-button">

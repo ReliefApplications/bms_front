@@ -147,11 +147,9 @@ export class AddDistributionComponent implements OnInit, DoCheck {
   /**
    * Check which adm is selected to load the list of adm link to it
    * fro example : if adm1 (province) selected load adm2
-   * @param event
-   * @param selectedObject
    * @param index
    */
-  selected($event, selectedObject, index) {
+  selected(index) {
     if (index === 'adm1') {
       const body = {};
       body['adm1'] = this.getAdmID('adm1');
@@ -163,7 +161,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
     } else if (index === 'adm3') {
       const body = {};
       body['adm3'] = this.getAdmID('adm3');
-      this.loadVillage(selectedObject);
+      this.loadVillage(body);
     }
   }
 
@@ -219,7 +217,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
   }
 
   /**
-   * Get in the chache service the name of all adm selected
+   * Get in the cache service the name of all adm selected
    * @param adm
    */
   getAdmID(adm: string) {

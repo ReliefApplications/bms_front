@@ -31,15 +31,14 @@ export class ModalAddLineComponent extends ModalAddComponent{
       
       if(this.newObject.field_string == 8 || this.newObject.field_string == 9){
         //Set kind beneficiary to 1 == Household
-        this.newObject.kind_beneficiary = 1;
+        this.newObject.kind_beneficiary = 2;
       }
       else {
-        this.newObject.kind_beneficiary = 0;
+        this.newObject.kind_beneficiary = 1;
       }
 
       this.checkType = this.newObject.kind_beneficiary;
-      
-      console.log("test");
+  
       this.checkDataCriteria = this.loadedData.field_string[this.newObject.field_string-1];
       this.loadedData.condition_string = this.checkCondition(this.checkDataCriteria);
       this.checkCriteria = this.newObject.field_string;
@@ -47,9 +46,6 @@ export class ModalAddLineComponent extends ModalAddComponent{
     else{
       this.loadedData.field_string = this.allCriteria;
     }
-      console.log(this.checkType);
-      console.log(this.newObject.kind_beneficiary);
-      console.log(this.newObject);
   }
 
 

@@ -14,9 +14,9 @@
               </mat-panel-description>
 
             </mat-expansion-panel-header>
-            <mat-form-field class="accordion-field" *ngIf="propertiesTypes[p]=='select' || propertiesTypes[p]=='date'">
-              <input *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]!='radio'"
-                [(ngModel)]="newObject[p]" class="field-input" matInput type="{{propertiesTypes[p]}}">
+            <mat-form-field class="accordion-field" *ngIf="propertiesTypes[p]=='select' || propertiesTypes[p]=='date' || propertiesTypes[p]=='number'">
+              <input *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='number'"
+                [(ngModel)]="newObject[p]" class="field-input" matInput type="{{propertiesTypes[p]}}" [formControl]="controlNumber">
               <mat-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date' && propertiesTypes[p]!='radio'"
                 [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [formControl]="controls" (selectionChange)="selected($event, newObject, p)">
                 <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.name">{{singleData.name}}</mat-option>
@@ -31,6 +31,10 @@
               <mat-radio-button checked='true' color="warn" value="Household" disabled='false'>Household</mat-radio-button>
               <mat-radio-button color="warn" value="Beneficiary">Beneficiary</mat-radio-button>
             </mat-radio-group>
+            <mat-form-field class="accordion-field" *ngIf="propertiesTypes[p]=='select' || propertiesTypes[p]=='date'">
+              <input *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]!='radio'"
+                [(ngModel)]="newObject[p]" class="field-input" matInput type="{{propertiesTypes[p]}}">
+            </mat-form-field>
           </mat-expansion-panel>
         </mat-accordion>
       </div>
@@ -47,8 +51,11 @@
           <app-table-small (onRemove)="removeElement($event, criteriaAction)" [entity]="criteriaClass" [data]="criteriaData"></app-table-small>
         </div>
         <div class="criteria-summary" *ngIf="criteriaArray.length != 0">
-          <h3 class="summary-text">
+          <h3 class="summary-text" *ngIf="newObject.type == 'Beneficiary'">
             <span>{{criteriaNbBeneficiaries.number}}</span>{{distribution.add_distribution_beneficiaries_reached |
+            uppercase}}</h3>
+          <h3 class="summary-text" *ngIf="newObject.type == 'Household'">
+            <span>{{criteriaNbBeneficiaries.number}}</span>{{distribution.add_distribution_households_reached |
             uppercase}}</h3>
         </div>
         <div class="criteria-form" *ngIf="widthScreen < maxWidthMobile">

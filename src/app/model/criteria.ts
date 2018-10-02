@@ -38,6 +38,11 @@ export class Criteria {
      * @type {any}
      */
     value_string: any;
+    /**
+     * Criteria's weight
+     * @type {number};
+     */
+    weight: number;
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -65,7 +70,8 @@ export class Criteria {
         return {
             field_string: selfinstance.field_string,
             condition_string: selfinstance.condition_string,
-            value_string: selfinstance.value_string
+            value_string: selfinstance.value_string,
+            weight: selfinstance.weight
         }
     }
 
@@ -79,7 +85,8 @@ export class Criteria {
         return {
             field_string: selfinstance.field_string,
             condition_string: selfinstance.condition_string,
-            value_string: selfinstance.value_string
+            value_string: selfinstance.value_string,
+            weight: selfinstance.weight
         }
     }
 
@@ -91,6 +98,7 @@ export class Criteria {
             field_string: "text",
             condition_string: "text",
             value_string: "text",
+            weight: "number"
         }
     }
 
@@ -102,6 +110,7 @@ export class Criteria {
             field_string: "select",
             condition_string: "select",
             value_string: "text",
+            weight: "number"
         }
     }
 
@@ -113,6 +122,7 @@ export class Criteria {
             field_string: GlobalText.TEXTS.model_criteria_field,
             condition_string: GlobalText.TEXTS.model_criteria_operator,
             value_string: GlobalText.TEXTS.model_criteria_value,
+            weight: GlobalText.TEXTS.model_criteria_weight
         }
     }
 
@@ -144,6 +154,7 @@ export class Criteria {
         newObject.kind_beneficiary = loadedData.kind_beneficiary[element.kind_beneficiary - 1].field_string;
         newObject.condition_string = loadedData.condition_string[element.condition_string - 1].field_string;
         newObject.value_string = element.value_string;
+        newObject.weight = element.weight;
         return newObject;
     }
 

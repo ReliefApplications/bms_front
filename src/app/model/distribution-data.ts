@@ -93,6 +93,11 @@ export class DistributionData {
      * validated or not
      */
     validated: boolean;
+    /**
+     * Distribution data's threshold
+     * @type {number}
+     */
+    threshold: number;
 
     constructor(instance?) {
         if (instance !== undefined && instance != null) {
@@ -108,6 +113,7 @@ export class DistributionData {
             this.type = instance.type;
             this.date_distribution = instance.date_distribution;
             this.validated = instance.validated;
+            this.threshold = instance.threshold;
         }
     }
 
@@ -130,6 +136,7 @@ export class DistributionData {
             adm4: GlobalText.TEXTS.model_distribution_adm4,
             date_distribution: GlobalText.TEXTS.model_distribution_date,
             commodities: GlobalText.TEXTS.model_commodity,
+            threshold: GlobalText.TEXTS.model_distribution_threshold,
             type: 'Target'
         };
     }
@@ -279,7 +286,7 @@ export class DistributionData {
             number_beneficiaries: selfinstance.number_beneficiaries,
             date_distribution: selfinstance.date_distribution,
             commodities: selfinstance.commodities,
-            type: selfinstance.type
+            type: selfinstance.type,
         };
     }
 
@@ -298,7 +305,8 @@ export class DistributionData {
             adm3: selfinstance.adm3,
             adm4: selfinstance.adm4,
             date_distribution: selfinstance.date_distribution,
-            type: selfinstance.type
+            type: selfinstance.type,
+            threshold: selfinstance.threshold
         };
     }
 
@@ -369,7 +377,8 @@ export class DistributionData {
             adm4: 'select',
             date_distribution: 'date',
             commodities: 'select',
-            type: 'radio'
+            type: 'radio',
+            threshold: 'number'
         };
     }
 

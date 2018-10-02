@@ -131,6 +131,7 @@ export const TEXT = {
     add_distribution_selection_criteria : 'selection criteria',
     add_distribution_distributed_commodity : 'distributed commodity',
     add_distribution_beneficiaries_reached: 'Beneficiaries reached',
+    add_distribution_households_reached: 'Households reached',
     add_distribution_commodities_delivered: 'Commodities delivered',
     add_project: 'Create a project',
 
@@ -177,6 +178,7 @@ export const TEXT = {
     model_distribution_adm3: 'Community',
     model_distribution_adm4: 'Village',
     model_distribution_date: 'Date of distribution',
+    model_distribution_threshold: 'Threshold',
     model_donor : 'Donor',
     model_donor_fullname: 'Donor\'s name',
     model_donor_shortname: 'Shortname',
@@ -213,6 +215,7 @@ export const TEXT = {
     model_criteria_value : 'Value',
     model_criteria_beneficiary : 'Beneficiary',
     model_criteria_household : 'Household',
+    model_criteria_weight : 'Weight',
     model_commodity: 'Commodity',
     model_commodity_modality: 'Modality',
     model_commodity_type: 'Type',

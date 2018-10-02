@@ -13,7 +13,7 @@ import { DistributionData } from '../../../model/distribution-data';
 
 import { ModalAddLineComponent } from '../../../components/modals/modal-add/modal-add-line/modal-add-line.component';
 import { ModalAddComponent } from '../../../components/modals/modal-add/modal-add.component';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { LocationService } from '../../../core/api/location.service';
 import { Project } from '../../../model/project';
 import { CacheService } from '../../../core/storage/cache.service';
@@ -55,6 +55,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
 
   public queryParams;
   public controls = new FormControl();
+  public controlNumber = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
 
   public loadedData: any = [];
   public loadingCreation = false;
@@ -351,7 +352,10 @@ export class AddDistributionComponent implements OnInit, DoCheck {
   createElement(createElement: Object, user_action) {
     if (user_action === this.criteriaAction) {
       this.criteriaArray.push(createElement);
-      this.criteriaService.getBeneficiariesNumber(this.criteriaArray, this.queryParams.project).subscribe(response => {
+      console.log(this.criteriaArray);
+      console.log(this.queryParams.project);
+      this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.queryParams.project).subscribe(response => {
+        console.log(response);
         this.criteriaNbBeneficiaries = response;
       });
       this.criteriaData = new MatTableDataSource(this.criteriaArray);
@@ -378,7 +382,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
       const index = this.commodityArray.findIndex((item) => item === removeElement);
       if (index > -1) {
         this.commodityArray.splice(index, 1);
-        this.criteriaService.getBeneficiariesNumber(this.criteriaArray, this.queryParams.project).subscribe(response => {
+        this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.queryParams.project).subscribe(response => {
           this.criteriaNbBeneficiaries = response;
         });
         this.removeCommodities(removeElement);

@@ -238,9 +238,21 @@
     font-family: $bms_font_header;
 }
 
+.criteria-threshold {
+    display: flex;
+    justify-content: space-between;
+}
+
+#threshold{
+    margin-left: 20px;
+    max-width: 30%;
+}
+
 @media only screen and (max-width: 750px),(max-height: 700px){
     .container-fields{
         flex-direction: column !important;
+        padding: 0px;
+        overflow-x: hidden;
 
         .distribution-accordion{
             min-height: 200px !important;

@@ -93,6 +93,11 @@ export class DistributionData {
      * validated or not
      */
     validated: boolean;
+    /**
+     * Distribution data's threshold
+     * @type {number}
+     */
+    threshold: number;
 
     constructor(instance?) {
         if (instance !== undefined && instance != null) {
@@ -108,6 +113,7 @@ export class DistributionData {
             this.type = instance.type;
             this.date_distribution = instance.date_distribution;
             this.validated = instance.validated;
+            this.threshold = instance.threshold;
         }
     }
 
@@ -279,7 +285,7 @@ export class DistributionData {
             number_beneficiaries: selfinstance.number_beneficiaries,
             date_distribution: selfinstance.date_distribution,
             commodities: selfinstance.commodities,
-            type: selfinstance.type
+            type: selfinstance.type,
         };
     }
 

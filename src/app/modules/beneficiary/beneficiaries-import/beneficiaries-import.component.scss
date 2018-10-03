@@ -1,17 +1,5 @@
 @import '../../../../assets/css/variable.scss';
 
-.content-table {
-    flex-direction: column;
-}
-
-.content-table-step1 {
-    align-items: center
-}
-
-.upload-zone {
-    width: 100%;
-}
-
 .content-drag-and-drop {
     display: flex;
     width: 100%;
@@ -30,10 +18,10 @@
     }
 }
 
-.step1 {
+.api-information {
     display: flex;
     justify-content: space-between;
-    width: 90%;
+    width: 75%;
 }
 
 .content-select {
@@ -41,56 +29,24 @@
     flex-direction: column;
 }
 
-//for mobile screen
+// for mobile screen
 @media only screen and (max-width: 750px){
-
-    .mat-form-field {
-        width: 100%;
-    }
-
-    .select-file {
-        font-size: 1.2em;
-        text-align: center;
-    }
-
-    .template {
-        font-size: 1.2em;
-        text-align: center;
-    }
-
-    .list-file {
-        font-size: 3vw;
-    }
 
     .content-button {
         flex-direction: column;
     }
 
+    .mat-form-field {
+        width: 100%;
+    }
+
     .template {
-        margin-bottom: 3vh;
+      margin-bottom: 20px;
     }
 
-    .text {
-        font-size: 2.5 vh;
-    }
-
-    .mat-raised-button{
-        font-size: 2vh;
-    }
-
-    .mat-button {
-        font-size: 12px !important;
-    }
-
-    .mat-list {
-        display: flex !important;
-        justify-content: center;
-    }
-
-    .all-information-mobile {
+    .api-information {
         display: flex;
         justify-content: space-around;
-        width: 100%;
         flex-direction: column;
     }
 }

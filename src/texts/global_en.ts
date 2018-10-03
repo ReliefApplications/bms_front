@@ -134,8 +134,8 @@ export const TEXT = {
     add_distribution_households_reached: 'Households reached',
     add_distribution_commodities_delivered: 'Commodities delivered',
     add_distribution_threshold: 'Threshold',
-    add_distribution_female: 'Women',
-    add_distribution_male: 'Men',
+    add_distribution_female: 'Woman',
+    add_distribution_male: 'Man',
     add_project: 'Create a project',
 
     table_filter : 'Filter',

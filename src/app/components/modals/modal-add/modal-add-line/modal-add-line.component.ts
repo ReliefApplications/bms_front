@@ -52,7 +52,33 @@ export class ModalAddLineComponent extends ModalAddComponent {
    * @param event 
    */
   genderOnChange(event) {
-    this.newObject.value_string = event.value;
+    if (event.value == "Woman") {
+      this.newObject.value_string = 0;
+    }
+    else if (event.value == "Man") {
+      this.newObject.value_string = 1;
+    }
+  }
+
+  /**
+   * Get the date selected by the user
+   * @param event 
+   */
+  selectDate(event) {
+    let day = event.value.getDate();
+    let monthIndex = event.value.getMonth()+1;
+    let year = event.value.getFullYear();
+
+
+    if(day < 10){
+      day = "0" + day;
+    }
+    if(monthIndex < 10){
+      monthIndex = "0" + monthIndex;
+    }
+
+    let finalDate = year + "-" + monthIndex + "-" + day;
+    this.newObject.value_string = finalDate;
   }
 
   /**
@@ -70,6 +96,8 @@ export class ModalAddLineComponent extends ModalAddComponent {
 
   //emit the new object
   add(): any {
+    console.log(this.newObject);
+
     let newObject = Object.assign({}, this.newObject);
     this.onCreate.emit(this.data.entity.formatFromModalAdd(newObject, this.loadedData));
     this.closeDialog();

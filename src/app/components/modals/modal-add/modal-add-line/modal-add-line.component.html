@@ -15,11 +15,16 @@
       <form *ngIf="(p=='value_string')&&checkDataCriteria.type">
         <mat-form-field class="full-width" *ngIf="checkDataCriteria.field_string === 'gender'">
           <mat-select placeholder="Gender" [formControl]="controls" (selectionChange)="genderOnChange($event)">
-            <mat-option value="0">{{modal.add_distribution_female}}</mat-option>
-            <mat-option value="1">{{modal.add_distribution_male}}</mat-option>
-          </mat-select> 
+            <mat-option value="Woman">{{modal.add_distribution_female}}</mat-option>
+            <mat-option value="Man">{{modal.add_distribution_male}}</mat-option>
+          </mat-select>
         </mat-form-field>
-        <mat-form-field class="full-width" *ngIf="checkDataCriteria.field_string !== 'gender'">
+        <mat-form-field class="full-width" *ngIf="checkDataCriteria.field_string === 'dateOfBirth'">
+          <input matInput [matDatepicker]="dateDistribution" placeholder="Date" (dateChange)='selectDate($event)'>
+          <mat-datepicker-toggle matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
+          <mat-datepicker #dateDistribution></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="full-width" *ngIf="checkDataCriteria.field_string !== 'gender' && checkDataCriteria.field_string !== 'dateOfBirth'">
           <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
             [ngModelOptions]="{standalone: true}" [type]="checkDataCriteria.type">
         </mat-form-field>

@@ -26,8 +26,8 @@ export class CriteriaService{
         return this.http.get(url);
     }
 
-    public getBeneficiariesNumber(criteriaArray:any, project: string){
-        let body = { "distribution_type" : "household", "criteria" : criteriaArray }
+    public getBeneficiariesNumber(distributionType: string, criteriaArray:any, threshold: number, project: string){
+        let body = { "distribution_type" : distributionType, "criteria" : criteriaArray, "threshold": threshold }
         let url = this.api + "/distributions/criteria/project/"+project+"/number";
         return this.http.post(url, body);
     }

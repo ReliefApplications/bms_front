@@ -55,16 +55,17 @@
 //for mobile screen
 @media only screen and (max-width: 750px){
     .modal-container{
+        display: block !important;
         width: 45vh;  
         height: 350px;
     }
 
     .modal-table{
-        flex-direction: row;
+        display: block !important;
 
-    .modal-row{
-        flex-wrap: wrap;
-    }
+        .modal-row{
+            flex-wrap: wrap;
+        }
         
     }
 }

@@ -1,32 +1,35 @@
 <!-- TABLE -->
 <div class="table-container">
   <div class="noDataContainer" *ngIf="!filled">
-      <h3>
-          <mat-icon>clear</mat-icon>
-          No data available
-      </h3>
+    <h3>
+      <mat-icon>clear</mat-icon>
+      No data available
+    </h3>
   </div>
-    <table *ngIf="filled" mat-table [dataSource]="data" matSort class="mat-elevation-z8">
-  
-      <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
-        <th mat-header-cell class="header-cell" *matHeaderCellDef mat-sort-header>{{mapperObject[property]}}</th>
-        <td mat-cell *matCellDef="let element">
-            <span *ngIf="propertiesTypes[property]=='image'"><app-icon-svg class="icon" *ngFor="let image of element.getMapper(element)[property]" [name]="element.getMapper(element)[property]"></app-icon-svg></span>
-            <span *ngIf="propertiesTypes[property]=='png'"><img *ngFor="let image of element.getMapper(element)[property]" class="png" src={{element.getMapper(element)[property]}}></span>
-            <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{element.getMapper(element)[property]}}</span>
-          </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
-        <td mat-cell (click)="remove(element)" class="content-cell" *matCellDef="let element">
-          <button mat-icon-button class="green">
-            <mat-icon>close</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="propertiesActions"></tr>
-      <tr mat-row *matRowDef="let row; columns: propertiesActions;"></tr>
-    </table>
-  </div>
+  <table *ngIf="filled" mat-table [dataSource]="data" matSort class="mat-elevation-z8">
+
+    <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
+      <th mat-header-cell class="header-cell" *matHeaderCellDef mat-sort-header>{{mapperObject[property]}}</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="propertiesTypes[property]=='image'">
+          <app-icon-svg class="icon" *ngFor="let image of element.getMapper(element)[property]" [name]="element.getMapper(element)[property]"></app-icon-svg>
+        </span>
+        <span *ngIf="propertiesTypes[property]=='png'"><img *ngFor="let image of element.getMapper(element)[property]"
+            class="png" src={{element.getMapper(element)[property]}}></span>
+        <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{element.getMapper(element)[property]}}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
+      <td mat-cell (click)="remove(element)" class="content-cell" *matCellDef="let element">
+        <button mat-icon-button class="green">
+          <mat-icon>close</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="propertiesActions"></tr>
+    <tr mat-row *matRowDef="let row; columns: propertiesActions;"></tr>
+  </table>
+</div>

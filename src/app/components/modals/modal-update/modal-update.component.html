@@ -6,15 +6,22 @@
       <th class="table-value">
         <form class="form">
           <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
-            <input matInput *ngIf="propertiesTypes[p]!='select'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries')"
+            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p] != 'date'" [(ngModel)]="updateObject[p]"
+              [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries')"
               [type]="propertiesTypes[p]">
+
             <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="updateObject[p]" placeholder="{{data.mapper.mapTitle(p)}}"
               [formControl]="controls" multiple>
               <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
             </mat-select>
+
+            <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'" matInput [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution" placeholder="{{data.mapper.mapTitle(p)}}">
+            <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'"></mat-datepicker-toggle>
+            <mat-datepicker #dateDistribution></mat-datepicker>
           </mat-form-field>
           <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">
-            <input [(ngModel)]="updateObject[p]" matInput placeholder="{{modal.modal_email}}" [formControl]="emailFormControl" [errorStateMatcher]="matcher">
+            <input [(ngModel)]="updateObject[p]" matInput placeholder="{{modal.modal_email}}" [formControl]="emailFormControl"
+              [errorStateMatcher]="matcher">
             <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
               {{modal.modal_valid_email}}
             </mat-error>

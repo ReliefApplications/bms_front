@@ -1,149 +1,17 @@
-@import '../../../assets/css/variable.scss'; 
+@import '../../../assets/css/variable.scss';
 
-    
-app-table-search{
+
+app-table-search {
     width: 100%;
     height: 100%;
 }
 
-app-table-mobile{
+app-table-mobile {
     width: 100%;
     height: 100%;
-}
-
-.container-content {
-    border-top: solid 12px $bms_green;
-}
-
-button{
-    color: $bms_white;
-    background-color: $bms_red;
-
-    &.export-button{
-        background-color: $bms_green !important;
-        height: 40px;
-        margin-right: 10px;
-    }
-
-    &.import-button{
-        background-color: $bms_green !important;
-        height: 40px;
-    }
-
-    &.add-button{
-        width: 50px;
-        height: 50px;
-    }
-
-    span{
-        font-family: $bms_font_text;
-        padding-left:20px;
-    }
-}
-
-.import-export {
-    margin-right: 5px;
-    justify-content: space-between;
-    display: flex;
-
-    .import-button {
-        margin-left: 5px;
-        background-color: $bms_green !important;
-    }
-}
-
-.waitingDataContainer {
-    width:100%;
-    text-align: center;
-    margin-left: 45%;
-    font-size: 20px;
-}
-
-.import-export {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    height: 40px;
-
-    .export-button {
-        background-color: $bms_green !important;
-        height: 40px;
-        margin-right: 0px;
-        border-top-right-radius: 0px !important;
-        border-bottom-right-radius: 0px !important;
-    }
-
-    .extension {
-        width: 30px;
-        text-align: center;
-        height: 36px;
-
-        .dropdown {
-            background-color: $bms_green;
-            height: 100%;
-            width: 20px !important;
-            padding: 2px !important;
-            border-top-right-radius: 2px;
-            border-bottom-right-radius: 2px;
-            border-left: solid 1px $bms_light_grey;
-            box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3); 
-            display: flex;
-            justify-content: center;
-
-            &:hover {
-                cursor: pointer;
-            }
-
-            mat-icon {
-                float: left !important;
-                margin: auto;
-                color: white;
-            }
-        }
-    }
-}
-
-.mat-menu-item {
-    background-color: white;
-    color: black;
-
-    &:hover {
-        background-color: $bms_green;
-        color: white;
-        font-weight: bold;
-    }
-
-    mat-icon {
-        margin-left: 10px;
-    }
 }
 
 app-placeholder-panel {
     width: 100%;
     height: 400px;
-}
-
-//for mobile screen
-@media only screen and (max-width: 750px){
-    button{
-        &.add-button{
-            position: fixed;
-            bottom: 20px;
-            left: 80%;
-            z-index: 1000;
-        }
-
-        &.export-button{
-            margin-right: 0px !important;
-        }
-    }
-    
-    .import-export {
-        width: 100%;
-        padding-bottom: 20px;
-    }
-
-    .mat-raised-button{
-        font-size: 2vh;
-    }
 }

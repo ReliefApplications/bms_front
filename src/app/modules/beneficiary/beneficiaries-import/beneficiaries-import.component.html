@@ -29,7 +29,7 @@
                         </div>
                         <div class="select-file">
                             <a class="fenetre-selection" href="javascript:void(0)" (click)="file.click()">
-                                <button mat-button color="primary" class="button-add-file">{{household.beneficiaries_import_addFile
+                                <button mat-stroked-button color="primary" class="button-add-file">{{household.beneficiaries_import_addFile
                                     | uppercase}}</button>
                             </a>
                             <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />

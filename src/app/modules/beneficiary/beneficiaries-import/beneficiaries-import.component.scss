@@ -1,15 +1,11 @@
 @import '../../../../assets/css/variable.scss';
 
-.content-table{
+.content-table {
     flex-direction: column;
 }
 
 .content-table-step1 {
     align-items: center
-}
-
-.content-button-footer{
-    justify-content: flex-end !important;
 }
 
 .upload-zone {
@@ -19,51 +15,19 @@
 .content-drag-and-drop {
     display: flex;
     width: 100%;
-}
 
-.card-drag-and-drop {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-}
+    .card-drag-and-drop {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
 
-.img-folder {
-    height: 11vh;
-    padding: 5%;
-}
-
-.upload-button{
-    height: 40px;
-    margin-bottom: 2vh;
-
-}
-span{
-    font-family: $bms_font_text;
-    padding-left:20px;
-}
-
-.list-file {
-    width: 100%;
-    margin-top: 2vh;
-    border-collapse: collapse;
-    font-family: $bms_font_text;
-
-    td, th {
-        border: 1px dotted black;
-        text-align: left;
-        padding: 8px;
-        border-radius: 3px;
+      .img-folder {
+        height: 11vh;
+        padding: 5%;
+      }
     }
-}
-
-.button-add-file {
-    background-color: white;
-}
-
-.mat-spinner {
-    margin-bottom: 2vh;
 }
 
 .step1 {

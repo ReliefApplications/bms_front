@@ -4,18 +4,18 @@
   </div>
   <app-placeholder-panel class="container-table" *ngIf="loadingBeneficiaries"></app-placeholder-panel>
   <div class="container-table" *ngIf="!loadingBeneficiaries">
-    <div class="container-content">
+    <div class="container-content box-green">
       <div class="content-button">
-        <button mat-icon-button class="add-button" (click)="addOneHousehold()">
+        <button mat-fab class="add-button" (click)="addOneHousehold()">
           <mat-icon>add</mat-icon>
         </button>
 
         <div class="import-export">
-            <button mat-raised-button class="export-button" (click)="export()">
-              <mat-icon>get_app</mat-icon>
-              <span>{{household.beneficiaries_export | uppercase}}</span>
-            </button>
             <div class="extension">
+                <button mat-raised-button class="export-button" (click)="export()">
+                  <mat-icon>get_app</mat-icon>
+                  <span>{{household.beneficiaries_export | uppercase}}</span>
+                </button>
                 <div mat-button class="dropdown" [matMenuTriggerFor]="exportType">
                     <mat-icon>keyboard_arrow_down</mat-icon>
                 </div>
@@ -25,18 +25,13 @@
                     <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon> </button>
                 </mat-menu>
             </div>
-            <a routerLink="/beneficiaries/import">
-                <button mat-raised-button class="import-button">
-                  <mat-icon>publish</mat-icon>
-                  <span>{{household.beneficiaries_import | uppercase}}</span>
-                </button>
-            </a>
+            <button mat-raised-button class="import-button" routerLink="/beneficiaries/import">
+              <mat-icon>publish</mat-icon>
+              <span>{{household.beneficiaries_import | uppercase}}</span>
+            </button>
           </div>
       </div>
       <div class="content-table">
-        <div class="waitingDataContainer" *ngIf="loading">
-            <mat-spinner></mat-spinner>
-        </div>
         <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="households" [editable]="true"></app-table-search>
         <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
           [data]="households" [editable]="true"></app-table-mobile-search>

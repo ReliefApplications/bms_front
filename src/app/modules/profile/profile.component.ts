@@ -1,5 +1,5 @@
 import { Component, OnInit, DoCheck} from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { UserService } from '../../core/api/user.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { UserInterface, ErrorInterface } from '../../model/interfaces';
@@ -19,7 +19,7 @@ export class ProfileComponent implements OnInit, DoCheck {
   profilePage = GlobalText.TEXTS;
   actualUser : UserInterface;
   profileForm = new FormGroup({
-    email : new FormControl(''),
+    email : new FormControl({value: '', disabled: 'true'}),
     oldPassword : new FormControl(''),
     newPassword1 : new FormControl(''),
     newPassword2 : new FormControl('')
@@ -28,7 +28,8 @@ export class ProfileComponent implements OnInit, DoCheck {
   constructor( public userService : UserService,
                public authenticationService : AuthenticationService,
                public wsseService : WsseService,
-               public snackBar : MatSnackBar ) {
+               public snackBar : MatSnackBar,
+               public formBuilder: FormBuilder ) {
   }
 
   ngOnInit() {

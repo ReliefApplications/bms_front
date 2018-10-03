@@ -93,7 +93,6 @@ export class Project {
             name: selfinstance.name,
             start_date: selfinstance.start_date,
             end_date: selfinstance.end_date,
-            number_of_households: selfinstance.number_of_households,
             iso3: selfinstance.iso3,
             notes: selfinstance.notes,
             value: selfinstance.value,
@@ -172,7 +171,6 @@ export class Project {
                 sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
                 start_date: selfinstance.start_date,
                 end_date: selfinstance.end_date,
-                number_of_households: selfinstance.number_of_households,
                 value: selfinstance.value,
                 donors_name: selfinstance.donors_name,
             };
@@ -181,7 +179,6 @@ export class Project {
                 sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
                 start_date: selfinstance.start_date,
                 end_date: selfinstance.end_date,
-                number_of_households: selfinstance.number_of_households,
                 value: selfinstance.value,
                 donors_name: selfinstance.donors_name,
             };
@@ -230,7 +227,6 @@ export class Project {
             sectors_name: 'select',
             start_date: 'date',
             end_date: 'date',
-            number_of_households: 'number',
             donors_name: 'select',
             value: 'number',
         };

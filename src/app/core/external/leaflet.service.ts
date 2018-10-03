@@ -95,40 +95,42 @@ export class LeafletService {
 
 				//search in all layer which layer has a code begining with the location code of a upcoming distribution and set a color and a weigth of them
 				admLayers.eachLayer(function (adm, index) {
-					upcomingDistribution.forEach(element => {
-						if ((adm.feature.properties.ADM4_PCODE === element.code_location && element.adm_level === "adm4") ||
-              (adm.feature.properties.ADM3_PCODE === element.code_location && element.adm_level === "adm3") ||
-							(adm.feature.properties.ADM2_PCODE === element.code_location && element.adm_level === "adm2") ||
-							(adm.feature.properties.ADM1_PCODE === element.code_location && element.adm_level === "adm1")) {
+          if (upcomingDistribution) {
+  					upcomingDistribution.forEach(element => {
+  						if ((adm.feature.properties.ADM4_PCODE === element.code_location && element.adm_level === "adm4") ||
+                (adm.feature.properties.ADM3_PCODE === element.code_location && element.adm_level === "adm3") ||
+  							(adm.feature.properties.ADM2_PCODE === element.code_location && element.adm_level === "adm2") ||
+  							(adm.feature.properties.ADM1_PCODE === element.code_location && element.adm_level === "adm1")) {
 
-							adm.setStyle({
-								color: '#51C9DF', // bms_light_blue
-								fillColor: '#51C9DF', // bms_light_blue
-								weight: 2,
-								fillOpacity: .8,
-								opacity: .8
-							});
+  							adm.setStyle({
+  								color: '#51C9DF', // bms_light_blue
+  								fillColor: '#51C9DF', // bms_light_blue
+  								weight: 2,
+  								fillOpacity: .8,
+  								opacity: .8
+  							});
 
-							let tooltipInformation = '';
-							element.distribution.forEach(function (data, index, element) {
-								tooltipInformation += "<p> Distribution : " + data.name + "</p>";
-								tooltipInformation += "<p> Location : " + data.location_name + "</p>"
+  							let tooltipInformation = '';
+  							element.distribution.forEach(function (data, index, element) {
+  								tooltipInformation += "<p> Distribution : " + data.name + "</p>";
+  								tooltipInformation += "<p> Location : " + data.location_name + "</p>"
 
-								//to display a divider between distribution in a same tooltip
-								//but don't put divider after thie last element
-								if(!Object.is(element.length-1, index)) {
-									tooltipInformation += "<hr>";
-								}
+  								//to display a divider between distribution in a same tooltip
+  								//but don't put divider after thie last element
+  								if(!Object.is(element.length-1, index)) {
+  									tooltipInformation += "<hr>";
+  								}
 
-							})
+  							})
 
-							let tooltip = Leaflet.tooltip({
-								permanent: false,
-								interactive: true
-							}, adm).setContent(tooltipInformation);
-							adm.bindTooltip(tooltip);
-						}
-					});
+  							let tooltip = Leaflet.tooltip({
+  								permanent: false,
+  								interactive: true
+  							}, adm).setContent(tooltipInformation);
+  							adm.bindTooltip(tooltip);
+  						}
+  					});
+          }
 				})
 			})
 			admLayers.addTo(this.map);
@@ -147,12 +149,4 @@ export class LeafletService {
 		}
 
 	}
-
-
-
-
-
-
-
-
 }

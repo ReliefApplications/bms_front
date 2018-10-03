@@ -18,7 +18,10 @@ export class HeaderComponent implements OnInit {
   @Output() emitLogOut = new EventEmitter();
 
   public currentRoute = "/";
-  public breadcrumb: Array<any>;
+  public breadcrumb: Array<any> = [{
+    'route': "/",
+    'name': this.header.header_home
+  }];
 
   constructor(
     public dialog: MatDialog,

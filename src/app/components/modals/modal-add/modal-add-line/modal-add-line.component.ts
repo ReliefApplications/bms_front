@@ -52,12 +52,7 @@ export class ModalAddLineComponent extends ModalAddComponent {
    * @param event 
    */
   genderOnChange(event) {
-    if (event.value == "Woman") {
-      this.newObject.value_string = 0;
-    }
-    else if (event.value == "Man") {
-      this.newObject.value_string = 1;
-    }
+    this.newObject.value_string = event.value;
   }
 
   /**
@@ -96,8 +91,6 @@ export class ModalAddLineComponent extends ModalAddComponent {
 
   //emit the new object
   add(): any {
-    console.log(this.newObject);
-
     let newObject = Object.assign({}, this.newObject);
     this.onCreate.emit(this.data.entity.formatFromModalAdd(newObject, this.loadedData));
     this.closeDialog();

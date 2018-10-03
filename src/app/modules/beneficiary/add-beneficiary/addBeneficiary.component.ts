@@ -22,7 +22,6 @@ import { ModalLeaveComponent } from '../../../components/modals/modal-leave/moda
 import { CacheService } from '../../../core/storage/cache.service';
 import { Households } from '../../../model/households';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
-import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'add-beneficiary',
@@ -30,7 +29,7 @@ import { forEach } from '@angular/router/src/utils/collection';
     styleUrls: ['./addBeneficiary.component.scss']
 })
 export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
-
+    public cc = 'lact';
     public nameComponent = 'add_beneficiary_title';
     public household = GlobalText.TEXTS;
 
@@ -45,7 +44,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     // for the project selector
     public projects = new FormControl('', Validators.required);
     public projectList: string[] = [];
-    public selectedProject: string[] = null;
+    public selectedProjects: string[] = null;
 
     // for the gender selector
     public genderList: string[] = ['F', 'M'];
@@ -86,6 +85,9 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     public allVulnerability = [];
     public countrySpecifics = [];
     public answerCountrySpecific;
+
+    // update vulnerabilities
+    public updatedVulnerabilities = [];
 
     // for the address' input
     public addressNumber = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
@@ -137,6 +139,8 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         if(this.router.url.split('/')[2] === 'update-beneficiary')
             this.mode = 'update';
         
+        console.log(this.selectedVulnerabilities);
+        
         this.getProjects();
         this.getProvince();
         this.getVulnerabilityCriteria();
@@ -160,6 +164,8 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         if(this.mode==='update') {
             this.getUpdatedBeneficiary();
         }
+
+        
     }
 
     /**
@@ -233,15 +239,17 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
             }
         )
         this.projects.setValue(projects);
-        this.selectedProject = projects;
+        this.selectedProjects = projects;
 
         // Beneficiaries Head & Members
         let head;
+        let headIndex;
         let members = [];
         this.updatedBeneficiary.beneficiaries.forEach(
             beneficiary => {
                 if (beneficiary.status) {
                     head = beneficiary;
+                    headIndex = this.updatedBeneficiary.beneficiaries.indexOf(beneficiary);
                 } else {
                     members.push(beneficiary);
                 }
@@ -263,10 +271,34 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
 
         this.instantiateFormHead(head);
 
+        if(head.vulnerability_criteria) {
+            this.updatedVulnerabilities.push(this.allVulnerability);
+            
+            head.vulnerability_criteria.forEach(
+                element => {
+                    this.updatedVulnerabilities[0].forEach(
+                        criteria => {
+                            this.choiceVulnerabilities(VulnerabilityCriteria.formatElement(element), headIndex, 'head');
+                            if(criteria.field_string === element.field_string) {
+                                this.updatedVulnerabilities[0][this.updatedVulnerabilities[0].indexOf(criteria)].checked = true;
+                            } else {
+                                this.updatedVulnerabilities[0][this.updatedVulnerabilities[0].indexOf(criteria)].checked = false;
+                            }
+                        }
+                    );
+                }
+            );
+        }
+
         // Prefill Members
+        let memberIndex = 0;
         members.forEach(
             element => {
                 let member = element;
+
+                if(memberIndex === headIndex) {
+                    memberIndex++;
+                }
 
                 if(member.gender === 0) {
                     member.gender = 'F';
@@ -281,9 +313,23 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                 }
 
                 members[members.indexOf(element)] = member;
+
+                this.instantiateFormBeneficiary(member);
+
+                if(element.vulnerability_criteria) {
+                    element.vulnerability_criteria.forEach(
+                        crit => {
+                            this.choiceVulnerabilities(VulnerabilityCriteria.formatElement(crit), memberIndex , 'member');
+                        }
+                    );
+                }
+                this.addMoreBeneficiary(member);
+
+                memberIndex++;
             }
         );
 
+        console.log("test: ", this.updatedVulnerabilities);
         // TODO : instantiate for the number of members
     }
 
@@ -338,7 +384,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                     birth: [instance? instance.date_of_birth : '', Validators.required],
                     typeNationalId: '',
                     typePhone: '',
-                    vulnerabilities: instance? instance.vulnerability_criteria : '',
+                    vulnerabilities: '',
                     phone: [instance? instance.phones : '', Validators.pattern('[0-9]*')],
                     countryCode: this.getUserPhoneCode(),
                     nationalID: instance? instance.national_ids : ''
@@ -350,19 +396,19 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     /**
     * Initiate the beneficiary form structure
     */
-    instantiateFormBeneficiary() {
+    instantiateFormBeneficiary(instance? ) {
         this.beneficiaryForm = this.formBuilder.group({
             beneficiary: this.formBuilder.array([
                 this.formBuilder.group({
                     id: 'beneficiary' + this.id_beneficiary,
-                    familyName: ['', Validators.required],
-                    givenName: ['', Validators.required],
-                    gender: ['', Validators.required],
-                    birth: ['', Validators.required],
+                    familyName: [instance? instance.family_name : '', Validators.required],
+                    givenName: [instance? instance.given_name : '', Validators.required],
+                    gender: [instance? instance.gender : '', Validators.required],
+                    birth: [instance? instance.date_of_birth : '', Validators.required],
                     typeNationalId: '',
                     typePhone: '',
                     vulnerabilities: '',
-                    phone: ['', Validators.pattern('[0-9]*')],
+                    phone: [instance? instance.phones : '', Validators.pattern('[0-9]*')],
                     countryCode: this.getUserPhoneCode(),
                     nationalID: ''
                 })
@@ -389,20 +435,21 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
      * to create more than one beneficiaries
      * instantiate a nex form for beneficiary
      */
-    addMoreBeneficiary() {
-        if (this.beneficiaryForm === undefined) {
+    addMoreBeneficiary(instance?) {
+        console.log('inst',instance);
+        if (this.beneficiaryForm === undefined && !instance) {
             this.instantiateFormBeneficiary();
         } else {
             const newBeneficiary = this.formBuilder.group({
                 id: 'beneficiary' + this.id_beneficiary,
-                familyName: '',
-                givenName: '',
-                gender: '',
-                birth: '',
+                familyName: instance? instance.family_name : '',
+                givenName: instance? instance.given_name : '',
+                gender: instance? instance.gender : '',
+                birth: instance? instance.date_of_birth : '',
                 typeNationalId: '',
                 typePhone: '',
                 vulnerabilities: '',
-                phone: '',
+                phone: instance? instance.phones : '',
                 nationalID: ''
             });
             this.beneficiary.push(newBeneficiary);
@@ -575,7 +622,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                 this.selectedVillage = village[1];
                 break;
             case 'project':
-                this.selectedProject = event.value;
+                this.selectedProjects = event.value;
                 break;
         }
     }
@@ -595,6 +642,10 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         return idCountrySpecific;
     }
 
+    test() {
+        return true;
+    }
+
     /**
      * use to check vulnerabilites in member
      * if a vulnerability checkbox is check the value of if is add in the array
@@ -603,6 +654,8 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
      * @param vulnerablity
      */
     choiceVulnerabilities(vulnerablity: VulnerabilityCriteria, index, type) {
+        console.log("creating vulnerabilities", vulnerablity, index, type);
+        
         const vulnerabilitiesByBeneficiary = {};
         vulnerabilitiesByBeneficiary['id'] = type + index;
         vulnerabilitiesByBeneficiary['vulnerabilities'] = [];
@@ -817,15 +870,22 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
      * send data to the back and create the new household
      */
     create() {
-        if (this.selectedProject && this.householdToCreate.beneficiaries) {
-            const project = this.selectedProject.split(' - ');
+        if (this.selectedProjects && this.householdToCreate.beneficiaries) {
+
+            let projects;
+            this.selectedProjects.forEach(
+                element => {
+                    projects.push(element.split(' - ')[1]);
+                }
+            );
 
             this.householdToCreate.beneficiaries.forEach(beneficiary => {
                 delete beneficiary.id;
             });
 
             this.loadingCreation = true;
-            const promise = this._householdsService.add(this.householdToCreate, project[0]);
+            
+            const promise = this._householdsService.add(this.householdToCreate, projects);
             if (promise) {
                 promise.toPromise().then(() => {
                     this.router.navigate(['/households']);

@@ -156,7 +156,7 @@ export class BeneficiariesImportComponent implements OnInit {
       const step = 1;
       this.load = true;
       this._importService.sendData(data, project[0], step).then(() => {
-        this.router.navigate(['/beneficiaries/data-validation']);
+        this.router.navigate(['/beneficiaries/import/data-validation']);
       }, () => {
         this.load = false;
         this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'center' });

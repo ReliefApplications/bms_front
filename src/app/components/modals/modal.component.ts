@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, ErrorStateMatcher } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, ErrorStateMatcher, MatSnackBar } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 
 import { CacheService } from '../../core/storage/cache.service';
@@ -42,6 +42,7 @@ export class ModalComponent implements OnInit {
     public projectService: ProjectService,
     public criteriaService: CriteriaService,
     public modalitiesService: ModalitiesService,
+    public snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any) { 
     }
 
@@ -64,7 +65,7 @@ export class ModalComponent implements OnInit {
   /**
    * load data for selects
    */
-  loadData() {
+  loadData(updateObject?) {
     if ((this.newObject && this.newObject.sectors) || (this.data.data && this.data.data.sectors)) {
       this.loadedData.sectors_name = this._cacheService.get(CacheService.SECTORS);
       if (!this.loadedData.sectors)
@@ -89,7 +90,73 @@ export class ModalComponent implements OnInit {
           this._cacheService.set(CacheService.PROJECTS, this.loadedData.projects_name);
         });
     }
+    
+    //Distribution in projects
+    if((updateObject && updateObject.date_distribution && updateObject.location_name && updateObject.name && updateObject.updated_on)){
+      this.loadedData.type = [
+        {
+          'id': '0',
+          'name': 'Households'
+        },
+        {
+          'id': '1',
+          'name': 'Beneficiaries'
+        }
+      ]
+    }
 
+    //User in settings
+    if((this.newObject && this.newObject.password == '') || (updateObject && updateObject.email && updateObject.rights)){
+      this.loadedData.rights = [
+        {
+          'id': "ROLE_ADMIN",
+          'name': 'ROLE_ADMIN',
+        },
+        {
+          'id': "ROLE_READ_ONLY",
+          'name': 'ROLE_READ_ONLY',
+        },
+        {
+          'id': "ROLE_FIELD_OFFICER",
+          'name': 'ROLE_FIELD_OFFICER',
+        },
+        {
+          'id': "ROLE_PROJECT_OFFICER",
+          'name': 'ROLE_PROJECT_OFFICER',
+        },
+        {
+          'id': "ROLE_PROJECT_MANAGER",
+          'name': 'ROLE_PROJECT_MANAGER',
+        },
+        {
+          'id': "ROLE_COUNTRY_MANAGER",
+          'name': 'ROLE_COUNTRY_MANAGER',
+        },
+        {
+          'id': "ROLE_REGIONAL_MANAGER",
+          'name': 'ROLE_REGIONAL_MANAGER',
+        },
+        {
+          'id': "ROLE_GLOBAL_ADMIN",
+          'name': 'ROLE_GLOBAL_ADMIN',
+        },
+      ]
+    }
+    
+    //Country specific option in settings
+    if((this.newObject && this.newObject.countryIso3 == '' && this.newObject.field == '' && this.newObject.name == '') || (updateObject && updateObject.field && updateObject.type)){
+      this.loadedData.type = [
+        {
+          'id': "text",
+          'name': 'text',
+        },
+        {
+          'id': "number",
+          'name': 'number',
+        }
+      ]
+    }
+    
     if(this.newObject && this.newObject.field_string == ''){
       // this.allCriteria = this._cacheService.get(CacheService.CRITERIAS);
       if(this.allCriteria.length === 0 )
@@ -99,7 +166,7 @@ export class ModalComponent implements OnInit {
           this._cacheService.set(CacheService.CRITERIAS, this.loadedData.field_string);
         });
     }
- 
+
     //for criterias
     if (this.newObject && this.newObject.kind_beneficiary == '') {
       this.loadedData.kind_beneficiary = [{ "field_string": this.modal.model_criteria_beneficiary }, { "field_string": this.modal.model_criteria_household }];

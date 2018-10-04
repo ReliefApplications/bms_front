@@ -6,13 +6,17 @@
       <th class="table-value">
         <form class="form">
           <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
-            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p] != 'date'" [(ngModel)]="updateObject[p]"
+            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p] != 'date' && propertiesTypes[p]!='selectSingle'" [(ngModel)]="updateObject[p]"
               [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries')"
               [type]="propertiesTypes[p]">
 
             <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="updateObject[p]" placeholder="{{data.mapper.mapTitle(p)}}"
               [formControl]="controls" multiple>
               <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
+            </mat-select>
+
+            <mat-select *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="updateObject[p]" placeholder="{{data.mapper.mapTitle(p)}}" [formControl]="controls">
+              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
             </mat-select>
 
             <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'" matInput [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution" placeholder="{{data.mapper.mapTitle(p)}}">

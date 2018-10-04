@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { UserInterface } from './model/interfaces';
+import { User } from './model/user';
 import { AuthenticationService } from './core/authentication/authentication.service';
 import { GlobalText } from '../texts/global';
 
@@ -13,7 +13,7 @@ import { MatDialog, MatSidenav } from '@angular/material';
 })
 export class AppComponent {
 
-  user: UserInterface = new UserInterface();
+  user: User = new User();
   public currentRoute = "";
   public currentComponent;
   public menuHover = false;
@@ -75,7 +75,7 @@ export class AppComponent {
     }
   }
 
-  getUser(): UserInterface {
+  getUser(): User {
     if (this.user.id) {
       if(!this.user.loggedIn){
         this.logOut = true;

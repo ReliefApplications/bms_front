@@ -202,6 +202,7 @@ export const TEXT = {
     model_beneficiaries_location: 'Lieu',
     model_beneficiaries_dependents : 'Dépendents',
     model_beneficiaries_vulnerabilities : 'Vulnérabilités',
+    model_beneficiaries_projects : 'Projets',
     model_beneficiaries_gender : 'Genre',
     model_beneficiaries_dateofbirth : 'Date de naissance',
     model_beneficiaries_status: 'Satut',

@@ -4,7 +4,7 @@ import { URL_BMS_API                                } from '../../../environment
 
 import { HttpService                                } from './http.service';
 import { WsseService                                } from '../authentication/wsse.service';
-import { UserInterface, ErrorInterface 							} from '../../model/interfaces';
+import { User, ErrorInterface 							} from '../../model/user';
 import { SaltInterface 															} from '../../model/salt';
 import { AuthenticationService											} from '../authentication/authentication.service';
 
@@ -45,7 +45,7 @@ export class UserService{
 
 		public updatePassword(user: any, clearOldPassword: any, clearNewPassword: any)
 		{
-			return new Promise<UserInterface | ErrorInterface | null>((resolve, reject) => {
+			return new Promise<User | ErrorInterface | null>((resolve, reject) => {
 					this.authenticationService.requestSalt(user.username).subscribe(success => {
 							let getSalt  = success as SaltInterface;
 							let saltedOldPassword = this.wsseService.saltPassword(getSalt.salt, clearOldPassword);

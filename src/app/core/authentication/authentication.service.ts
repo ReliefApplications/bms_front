@@ -6,7 +6,7 @@ import { WsseService } from './wsse.service';
 import { CacheService } from '../storage/cache.service';
 
 import { URL_BMS_API } from '../../../environments/environment';
-import { UserInterface, ErrorInterface } from '../../model/interfaces';
+import { User, ErrorInterface } from '../../model/user';
 import { SaltInterface } from '../../model/salt';
 
 @Injectable({
@@ -14,7 +14,7 @@ import { SaltInterface } from '../../model/salt';
 })
 export class AuthenticationService {
 
-	private user : UserInterface;
+	private user : User;
 	constructor(
 		public _wsseService: WsseService,
 		public _cacheService: CacheService,
@@ -36,8 +36,8 @@ export class AuthenticationService {
 		return this.http.get<any>(URL_BMS_API + '/check');
 	}
 
-	login(user: UserInterface) {
-        return new Promise<UserInterface | ErrorInterface | null>((resolve, reject) => {
+	login(user: User) {
+        return new Promise<User | ErrorInterface | null>((resolve, reject) => {
             this.requestSalt(user.username).subscribe(success => {
                 let getSalt  = success as SaltInterface;
                 user.salted_password = this._wsseService.saltPassword(getSalt.salt, user.password);
@@ -47,7 +47,7 @@ export class AuthenticationService {
                     if (data) {
 						// console.log("Successfully logged in", success);
 
-                        this.user = data as UserInterface;
+                        this.user = data as User;
                         this.user.loggedIn = true;
 						let voters = this.rightAccessDefinition(this.user);
 						//add with voters definition
@@ -77,21 +77,21 @@ export class AuthenticationService {
         this._cacheService.clear();
     }
 
-    getUser(): UserInterface {
-        return this._cacheService.get(CacheService.USER) || new UserInterface();
+    getUser(): User {
+        return this._cacheService.get(CacheService.USER) || new User();
     }
 
-    setUser(user: UserInterface) {
+    setUser(user: User) {
         this.user = user;
         this._cacheService.set(CacheService.USER, user);
     }
 
     resetUser() {
-        this.user = new UserInterface();
+        this.user = new User();
         this._cacheService.remove(CacheService.USER);
     }
 
-		rightAccessDefinition(user: UserInterface) {
+		rightAccessDefinition(user: User) {
         let voters: any = {};
         // user.role.forEach((item: string, index: number, array) => {
         	//add voters

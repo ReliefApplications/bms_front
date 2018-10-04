@@ -4,8 +4,8 @@ export class ErrorInterface {
     message: string;
 }
 
-export class UserInterface {
-    static __classname__ = 'UserInterface';
+export class User {
+    static __classname__ = 'User';
     /**
      * User id
      * @type {string}
@@ -50,6 +50,7 @@ export class UserInterface {
             this.username = instance.username;
             this.email = instance.email;
             this.salted_password = instance.salted_password;
+            this.rights = instance.rights;
         }
     }
 
@@ -71,7 +72,7 @@ export class UserInterface {
     }
 
     /**
-    * return a UserInterface after formatting its properties
+    * return a User after formatting its properties
     */
     getMapper(selfinstance): Object {
         if (!selfinstance)
@@ -84,7 +85,7 @@ export class UserInterface {
     }
 
     /**
-    * return a UserInterface after formatting its properties for the modal details
+    * return a User after formatting its properties for the modal details
     */
     getMapperDetails(selfinstance): Object {
         if (!selfinstance)
@@ -97,7 +98,7 @@ export class UserInterface {
     }
 
     /**
-     * return a UserInterface after formatting its properties for the modal add
+     * return a User after formatting its properties for the modal add
      */
     getMapperAdd(selfinstance): Object {
         if (!selfinstance)
@@ -110,7 +111,7 @@ export class UserInterface {
     }
 
     /**
-     * return a UserInterface after formatting its properties for the modal update
+     * return a User after formatting its properties for the modal update
      */
     getMapperUpdate(selfinstance): Object {
         if (!selfinstance)
@@ -122,7 +123,7 @@ export class UserInterface {
     }
 
     /**
-    * return the type of UserInterface properties
+    * return the type of User properties
     */
     getTypeProperties(selfinstance): Object {
         return {
@@ -132,17 +133,17 @@ export class UserInterface {
     }
 
     /**
-    * return the type of UserInterface properties for modals
+    * return the type of User properties for modals
     */
     getModalTypeProperties(selfinstance): Object {
         return {
             username: "email",
-            rights: "text"
+            rights: "selectSingle"
         }
     }
 
     /**
-    * return UserInterface properties name displayed
+    * return User properties name displayed
     */
     static translator(): Object {
         return {
@@ -151,16 +152,16 @@ export class UserInterface {
         }
     }
 
-    public static formatArray(instance): UserInterface[] {
-        let users: UserInterface[] = [];
+    public static formatArray(instance): User[] {
+        let users: User[] = [];
         instance.forEach(element => {
             users.push(this.formatFromApi(element));
         });
         return users;
     }
 
-    public static formatFromApi(element: any): UserInterface {
-        let user = new UserInterface(element);
+    public static formatFromApi(element: any): User {
+        let user = new User(element);
         if (element.roles) {
             element.roles.forEach(element => {
                 user.rights = " " + element + " ";
@@ -169,7 +170,18 @@ export class UserInterface {
         return user;
     }
 
-    public static formatForApi(element: UserInterface): any {
-        return new UserInterface(element);
+    /**
+     * used in modal add
+     * @param element 
+     * @param loadedData 
+     */
+    public static formatFromModalAdd(element: any, loadedData: any): User {
+        let newObject = new User(element);
+
+        return newObject;
+    }
+
+    public static formatForApi(element: User): any {
+        return new User(element);
     }
 }

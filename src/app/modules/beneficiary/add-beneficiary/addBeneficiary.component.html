@@ -1,7 +1,6 @@
 <div class="page-container">
     <div class="container-title">
-        <h2 *ngIf="mode==='add'">{{household.add_beneficiary_title | titlecase}}</h2>
-        <h2 *ngIf="mode==='update'">{{household.update_beneficiary_title | titlecase}}</h2>        
+        <h2 *ngIf="mode==='add'">{{household.add_beneficiary_title | titlecase}}</h2>       
     </div>
 
     <mat-horizontal-stepper linear #stepper>
@@ -166,7 +165,7 @@
                                     </div>
                                     <div  class="additional-information vulnerabilities" *ngIf="mode == 'update' && updatedVulnerabilities[0]">
                                         <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability, HeadIndex, 'head')" *ngFor="let vulnerability of allVulnerability"
-                                            [checked]="updatedVulnerabilities[0][allVulnerability.indexOf(vulnerability)].checked">{{vulnerability.field_string}}</mat-checkbox>
+                                            [checked]="updatedVulnerabilities[HeadIndex][allVulnerability.indexOf(vulnerability)].checked">{{vulnerability.field_string}}</mat-checkbox>
                                     </div>
                                     
 
@@ -251,9 +250,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="additional-information vulnerabilities">
-                                        <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability, beneficiaryIndex, 'beneficiary')" formControlName="vulnerabilities"
-                                            *ngFor="let vulnerability of allVulnerability">{{vulnerability.field_string}}</mat-checkbox>
+                                    <div  class="additional-information vulnerabilities" *ngIf="mode == 'add'">
+                                        <mat-checkbox  color="primary" (change)="choiceVulnerabilities(vulnerability, beneficiaryIndex, 'beneficiary')" formControlName="vulnerabilities"
+                                        *ngFor="let vulnerability of allVulnerability"> {{vulnerability.field_string}}</mat-checkbox>
+                                    </div>
+                                    <div  class="additional-information vulnerabilities" *ngIf="mode == 'update' && updatedVulnerabilities[0]">
+                                        <mat-checkbox color="primary" (change)="choiceVulnerabilities(vulnerability, beneficiaryIndex, 'beneficiary')" *ngFor="let vulnerability of allVulnerability"
+                                            [checked]="updatedVulnerabilities[beneficiaryIndex][allVulnerability.indexOf(vulnerability)].checked">{{vulnerability.field_string}}</mat-checkbox>
                                     </div>
                                     <mat-divider *ngIf="!isLast"></mat-divider>
 

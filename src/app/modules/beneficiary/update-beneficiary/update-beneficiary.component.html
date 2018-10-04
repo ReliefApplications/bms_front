@@ -1,0 +1,108 @@
+<div class="page-container">
+    <div class="container-title">
+        <h2>{{Text.update_beneficiary_title | titlecase}}</h2>        
+    </div>
+
+    <mat-horizontal-stepper linear #stepper>
+        <ng-template matStepperIcon="done">
+            <mat-icon>done</mat-icon>
+        </ng-template>
+
+        <mat-step>
+            <ng-template class="step" matStepLabel>{{Text.add_beneficiary_step1}} </ng-template>
+            <div class="container-table">
+                <div class="stepInMobile">
+                    <span class="dot">1</span>
+                    <span>{{Text.add_beneficiary_step1}} </span>
+                </div>
+                <div class="container-content box-green">
+                    <div class="content-table content-table-step1">
+                        <div class="step1 all-information-mobile">
+                           
+                        </div>
+                        <div class="additional-information">
+
+                        </div>
+                    </div>
+                    <div class="content-button-footer">
+                        <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
+                        <button mat-raised-button (click)="test()">
+                            <span>{{Text.add_beneficiary_next}}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template class="step" matStepLabel>{{Text.add_beneficiary_step2}}</ng-template>
+            <div class="container-table">
+                <div class="stepInMobile">
+                    <span class="dot">2</span>
+                    <span>{{Text.add_beneficiary_step2}}</span>
+                </div>
+                <div class="container-content box-green">
+
+                    <div class="content-table">
+                        
+                    </div>
+
+                    <div class="content-button-footer">
+                        <mat-progress-bar mode="determinate" value="35"></mat-progress-bar>
+                        <button mat-raised-button (click)='test()'>
+                            <span>{{Text.add_beneficiary_next}}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template class="step" matStepLabel>{{Text.add_beneficiary_step3}}</ng-template>
+            <div class="container-table">
+                <div class="stepInMobile">
+                    <span class="dot">3</span>
+                    <span>{{Text.add_beneficiary_step3}}</span>
+                </div>
+                <div class="container-content box-green">
+                    <div class="content-table">
+                        
+                    </div>
+
+                    <div class="content-button-footer">
+                        <mat-progress-bar mode="determinate" value="70"></mat-progress-bar>
+                        <button mat-raised-button (click)="test()" class="add-button">
+                            <span>Add </span>
+                        </button>
+                        <button mat-raised-button (click)='test()'>
+                            <span>{{Text.add_beneficiary_next}}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </mat-step>
+
+        <mat-step [editable]="true">
+            <ng-template matStepLabel>{{Text.add_beneficiary_step4}}</ng-template>
+            <div class="container-table">
+                <div class="stepInMobile">
+                    <span class="dot">4</span>
+                    <span>{{Text.add_beneficiary_step4}}</span>
+                </div>
+                <div class="container-content box-green">
+                    <div class="content-table">
+
+                    </div>
+
+                    <div class="content-button-footer">
+                        <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+                        <button mat-raised-button class="cancel" (click)="test()">{{Text.add_beneficiary_cancel}}</button>
+                        
+                        <button *ngIf="!loadingCreation"  mat-raised-button (click)="test()">{{Text.add_beneficiary_create}}</button>
+                    </div>
+                </div>
+            </div>
+        </mat-step>
+
+    </mat-horizontal-stepper>
+</div>

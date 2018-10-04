@@ -23,6 +23,8 @@ import { CacheService } from '../../../core/storage/cache.service';
 import { Households } from '../../../model/households';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 
+// DELETE MODIFICATIONS FOR UPDATE : GO BACK TO OLD ADD COMPONENT
+
 @Component({
     selector: 'add-beneficiary',
     templateUrl: './addBeneficiary.component.html',
@@ -243,7 +245,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
 
         // Beneficiaries Head & Members
         let head;
-        let headIndex;
+        let headIndex = 0;
         let members = [];
         this.updatedBeneficiary.beneficiaries.forEach(
             beneficiary => {
@@ -255,6 +257,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                 }
             }
         )
+        console.log('members: ', members);
 
         // Prefill Head
         if(head.gender === 0) {
@@ -262,11 +265,27 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         } else if (head.gender === 1) {
             head.gender = 'M';
         }
-        if(head.national_ids) {
-            head.national_ids = head.national_ids[0];
+        if(head.phones[0]) {
+            head.phones = {
+                number: head.phones[0].number,
+                type: head.phones[0].type
+            }
+        } else {
+            head.phones = {
+                number: '',
+                type: ''
+            }
         }
-        if(head.phones) {
-            head.phones = head.phones[0];
+        if(head.national_ids[0]) {
+            head.national_ids = {
+                number: head.national_ids[0].id_number,
+                type: head.national_ids[0].id_type
+            }
+        } else {
+            head.national_ids = {
+                number: '',
+                type: ''
+            }
         }
 
         this.instantiateFormHead(head);
@@ -276,9 +295,9 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
             
             head.vulnerability_criteria.forEach(
                 element => {
+                    this.choiceVulnerabilities(VulnerabilityCriteria.formatElement(element), headIndex, 'head');
                     this.updatedVulnerabilities[0].forEach(
                         criteria => {
-                            this.choiceVulnerabilities(VulnerabilityCriteria.formatElement(element), headIndex, 'head');
                             if(criteria.field_string === element.field_string) {
                                 this.updatedVulnerabilities[0][this.updatedVulnerabilities[0].indexOf(criteria)].checked = true;
                             } else {
@@ -290,14 +309,15 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
             );
         }
 
-        // Prefill Members
-        let memberIndex = 0;
+        // Prefill Members.
+        // first member index is after head (0) in updatedVulnerability array.
+        let memberIndexInHousehold = 0;
         members.forEach(
             element => {
                 let member = element;
-
-                if(memberIndex === headIndex) {
-                    memberIndex++;
+                
+                if(memberIndexInHousehold === headIndex) {
+                    memberIndexInHousehold++;
                 }
 
                 if(member.gender === 0) {
@@ -305,31 +325,53 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                 } else if (member.gender === 1) {
                     member.gender = 'M';
                 }
-                if(member.national_ids) {
-                    member.national_ids = member.national_ids[0];
+                if(member.phones[0]) {
+                    member.phones = {
+                        number: member.phones[0].number,
+                        type: member.phones[0].type
+                    }
+                } else {
+                    member.phones = {
+                        number: '',
+                        type: ''
+                    }
                 }
-                if(member.phones) {
-                    member.phones = member.phones[0];
+                if(member.national_ids[0]) {
+                    member.national_ids = {
+                        number: member.national_ids[0].id_number,
+                        type: member.national_ids[0].id_type
+                    }
+                } else {
+                    member.national_ids = {
+                        number: '',
+                        type: ''
+                    }
                 }
 
                 members[members.indexOf(element)] = member;
+                this.addMoreBeneficiary(member);
 
-                this.instantiateFormBeneficiary(member);
-
-                if(element.vulnerability_criteria) {
-                    element.vulnerability_criteria.forEach(
-                        crit => {
-                            this.choiceVulnerabilities(VulnerabilityCriteria.formatElement(crit), memberIndex , 'member');
+                if(member.vulnerability_criteria) {
+                    this.updatedVulnerabilities.push(this.allVulnerability);
+                    
+                    member.vulnerability_criteria.forEach(
+                        vulnerability => {
+                            this.choiceVulnerabilities(VulnerabilityCriteria.formatElement(vulnerability), memberIndexInHousehold, 'member');
+                            this.updatedVulnerabilities[this.updatedVulnerabilities.length-1].forEach(
+                                criteria => {
+                                    this.updatedVulnerabilities[this.updatedVulnerabilities.length-1]
+                                    [this.updatedVulnerabilities[this.updatedVulnerabilities.length-1]
+                                    .indexOf(criteria)].checked = (criteria.field_string === vulnerability.field_string);
+                                }
+                            );
                         }
                     );
                 }
-                this.addMoreBeneficiary(member);
-
-                memberIndex++;
+                memberIndexInHousehold++;
             }
         );
 
-        console.log("test: ", this.updatedVulnerabilities);
+        console.log("test 2: ", this.updatedVulnerabilities);
         // TODO : instantiate for the number of members
     }
 
@@ -382,12 +424,12 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                     givenName: [instance? instance.given_name : '', Validators.required],
                     gender: [instance? instance.gender : '', Validators.required],
                     birth: [instance? instance.date_of_birth : '', Validators.required],
-                    typeNationalId: '',
-                    typePhone: '',
+                    typeNationalId: instance? instance.national_ids.type : '',
+                    typePhone: instance? instance.phones.type : '',
                     vulnerabilities: '',
-                    phone: [instance? instance.phones : '', Validators.pattern('[0-9]*')],
+                    phone: [instance? instance.phones.number : '', Validators.pattern('[0-9]*')],
                     countryCode: this.getUserPhoneCode(),
-                    nationalID: instance? instance.national_ids : ''
+                    nationalID: instance? instance.national_ids.number: ''
                 })
             ])
         });
@@ -405,12 +447,12 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                     givenName: [instance? instance.given_name : '', Validators.required],
                     gender: [instance? instance.gender : '', Validators.required],
                     birth: [instance? instance.date_of_birth : '', Validators.required],
-                    typeNationalId: '',
-                    typePhone: '',
+                    typeNationalId: instance? instance.national_ids.type : '',
+                    typePhone: instance? instance.phones.type : '',
                     vulnerabilities: '',
-                    phone: [instance? instance.phones : '', Validators.pattern('[0-9]*')],
+                    phone: [instance? instance.phones.number : '', Validators.pattern('[0-9]*')],
                     countryCode: this.getUserPhoneCode(),
-                    nationalID: ''
+                    nationalID: instance? instance.national_ids.number : '',
                 })
             ])
         });
@@ -436,9 +478,9 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
      * instantiate a nex form for beneficiary
      */
     addMoreBeneficiary(instance?) {
-        console.log('inst',instance);
-        if (this.beneficiaryForm === undefined && !instance) {
-            this.instantiateFormBeneficiary();
+        console.log('inst : ',instance);
+        if (this.beneficiaryForm === undefined) {
+            instance? this.instantiateFormBeneficiary(instance) : this.instantiateFormBeneficiary();
         } else {
             const newBeneficiary = this.formBuilder.group({
                 id: 'beneficiary' + this.id_beneficiary,
@@ -446,11 +488,12 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                 givenName: instance? instance.given_name : '',
                 gender: instance? instance.gender : '',
                 birth: instance? instance.date_of_birth : '',
-                typeNationalId: '',
-                typePhone: '',
+                typeNationalId: instance? instance.national_ids.type : '',
+                typePhone: instance? instance.phones.type : '',
                 vulnerabilities: '',
-                phone: instance? instance.phones : '',
-                nationalID: ''
+                phone: [instance? instance.phones.number : '', Validators.pattern('[0-9]*')],
+                countryCode: this.getUserPhoneCode(),
+                nationalID: instance? instance.national_ids.number : '',
             });
             this.beneficiary.push(newBeneficiary);
             this.id_beneficiary = this.id_beneficiary + 1;
@@ -836,11 +879,11 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
             newBeneficiary.status = '0';
         }
 
-        const formatDateOfBirth = inputBeneficiary.birth.toLocaleDateString().split('/');
-        if (formatDateOfBirth[0].length < 2) {
+        const formatDateOfBirth = inputBeneficiary.birth.split('/');
+        if (String(formatDateOfBirth[0]).length < 2) {
             formatDateOfBirth[0] = '0' + formatDateOfBirth[0];
         }
-        if (formatDateOfBirth[1].length < 2) {
+        if (String(formatDateOfBirth[1]).length < 2) {
             formatDateOfBirth[1] = '0' + formatDateOfBirth[1];
         }
 
@@ -872,7 +915,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     create() {
         if (this.selectedProjects && this.householdToCreate.beneficiaries) {
 
-            let projects;
+            let projects = [];
             this.selectedProjects.forEach(
                 element => {
                     projects.push(element.split(' - ')[1]);
@@ -885,10 +928,10 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
 
             this.loadingCreation = true;
             
-            const promise = this._householdsService.add(this.householdToCreate, projects);
+            const promise = this._householdsService.add2(this.householdToCreate, projects);
             if (promise) {
                 promise.toPromise().then(() => {
-                    this.router.navigate(['/households']);
+                    this.router.navigate(['/beneficiaries']);
                     this.loadingCreation = false;
                 })
                     .catch(

@@ -74,6 +74,15 @@ export class HouseholdsService {
         return this.http.put(url, body);
     }
 
+    public add2(hh: any, projects_ids: string[]) {
+        const url = this.api + '/households'
+        let body = {
+            household: hh,
+            projects: projects_ids
+        }
+        return this.http.put(url, body);
+    }
+
     /**
      * Export beneficiaries
      * @param  extensionType type of file to export

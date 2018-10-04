@@ -64,6 +64,7 @@ import { PlaceholderPanelComponent } from '../components/placeholders/placeholde
 import { PlaceholderStepperComponent } from '../components/placeholders/placeholder-stepper/placeholder-stepper.component';
 import { PlaceholderTitleComponent } from '../components/placeholders/placeholder-title/placeholder-title.component';
 import { TableBeneficiariesComponent } from '../components/table/table-beneficiaries/table-beneficiaries.component';
+import { UpdateBeneficiaryComponent } from '../modules/beneficiary/update-beneficiary/update-beneficiary.component';
 
 @NgModule({
 imports: [
@@ -147,7 +148,8 @@ declarations: [
     PlaceholderBoxlineComponent,
     PlaceholderPanelComponent,
     PlaceholderStepperComponent,
-    PlaceholderTitleComponent
+    PlaceholderTitleComponent,
+    UpdateBeneficiaryComponent,
     
 ],
 entryComponents: [

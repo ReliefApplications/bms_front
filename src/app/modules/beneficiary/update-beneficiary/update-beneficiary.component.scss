@@ -1,0 +1,202 @@
+@import '../../../../assets/css/variable.scss'; 
+
+.content-select {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-beneficiaries {
+    display: flex;
+    flex-direction: column
+}
+
+.members {
+    justify-content: center;
+}
+.vulnerabilities {
+    justify-content: space-around;
+    margin-bottom: 2vh;
+    margin-top: 2vh;    
+}
+.additional-information {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.delete {
+    align-self: flex-end;
+}
+
+.cancel {
+    margin-right: 2vw;
+}
+
+.add-button {
+    margin-right: 2vw;
+    background-color: $bms_red !important;
+}
+
+.content-table{
+    flex-direction: column;
+}
+
+.all-information-computer {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.notes {
+    width: 90%;
+}
+
+.step1 {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.content-table-step1 {
+    align-items: center
+}
+
+
+.member {
+    margin-bottom: 4vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+mat-divider {
+    width: 25%;
+}
+
+.row {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: small;
+    margin-bottom: 1.5vh;
+    flex-wrap: wrap;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label, h4 {
+    font-family: $bms_font_text
+}
+
+.title {
+    font-weight: bold;
+}
+
+.country-specific {
+    justify-content: space-around;
+    flex-direction: column;
+    margin-top: 2vh;
+    .country-specific-label {
+        align-self: center;
+    }
+    .field-country-specific {
+        display: flex;
+        justify-content: space-evenly;
+    }
+}
+
+.png {
+    width: 30px;
+}
+
+.datepicker-mobile {
+    display: none;
+}
+
+.datepicker-computer {
+    display: block;
+}
+
+mat-progress-bar {
+    display: none;
+}
+
+.phone {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    .phone-1 {
+        width: 18%;
+        text-align: right;
+    }
+    .phone-2 {
+        width: 80%;
+        margin-left: 2%;
+    }
+}
+
+//for mobile screen
+@media only screen and (max-width: 750px){
+    .container-table{
+        width: 99% !important;
+        flex-direction: column;
+    }
+
+    .datepicker-mobile {
+        display: block;
+    }
+
+    .datepicker-computer {
+        display: none !important;
+    }
+
+    .all-information-mobile {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .member-mobile {
+        flex-direction: column;
+    }
+
+    .mat-form-field {
+        display: flex;
+        justify-content: center;
+        // width: 66%;          
+    }
+
+    .mat-form-field-wrapper {
+        width: 66%;
+    }
+
+    .field-country-specific {
+        flex-direction: column;
+    }
+
+    .member {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .vulnerabilities {
+        width: 50%;
+        flex-direction: column;
+    }
+
+    .column {
+        margin: 1vw;
+    }
+
+    mat-progress-bar {
+        display: block;
+        width: 50%;
+    }
+}

@@ -99,7 +99,7 @@ export class Households {
             dependents: "number",
             vulnerabilities: "png",
             projects: "text",
-        }
+        } 
     }
 
     /**

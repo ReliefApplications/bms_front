@@ -106,8 +106,7 @@ export class Donor {
         return {
             fullname: selfinstance.fullname,
             shortname: selfinstance.shortname,
-            notes: selfinstance.notes,
-            projects_name: selfinstance.projects_name,
+            notes: selfinstance.notes
         }
     }
 
@@ -133,8 +132,7 @@ export class Donor {
             name: "text",
             fullname: "text",
             shortname: "text",
-            notes: "text",
-            projects_name: "text"
+            notes: "text"
         }
     }
 
@@ -146,8 +144,7 @@ export class Donor {
             name: "text",
             fullname: "text",
             shortname: "text",
-            notes: "text",
-            projects_name: "select"
+            notes: "text"
         }
     }
 

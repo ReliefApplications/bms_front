@@ -222,7 +222,7 @@ export class BeneficiariesImportComponent implements OnInit {
             }
 
             param['paramName'] = listAPI['params'][j].paramName;
-            
+
           }
 
           this.APIParams.push(param);
@@ -237,7 +237,7 @@ export class BeneficiariesImportComponent implements OnInit {
     this.ParamsToDisplay.push({'paramType': this.APIParams[index].paramType, 'paramName': this.APIParams[index].paramName});
     this.provider = event.value;
   }
-  
+
   //Get each value in inputs
   getValue(event, paramName) {
     const text = event.target.value;

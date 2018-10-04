@@ -29,7 +29,7 @@
                         </div>
                         <div class="select-file">
                             <a class="fenetre-selection" href="javascript:void(0)" (click)="file.click()">
-                                <button mat-button color="primary" class="button-add-file">{{household.beneficiaries_import_addFile
+                                <button mat-stroked-button color="primary" class="button-add-file">{{household.beneficiaries_import_addFile
                                     | uppercase}}</button>
                             </a>
                             <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
@@ -66,13 +66,12 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="content-table content-table-step1">
-
-                <div class="step1 all-information-mobile">
-                    <div class="content-select" *ngIf="selectedProject">
-                        <h4>Select API</h4>
+            <div class="content-table">
+                <div class="api-information">
+                    <div class="content-select">
+                        <h3>{{household.beneficiaries_select_api | uppercase}}</h3>
                         <mat-radio-group (change)='onChangeRadioAPI($event)' class="content-select">
-                            <mat-radio-button *ngFor="let name of APINames;" value="{{ name }}">{{ name }}</mat-radio-button>
+                            <mat-radio-button *ngFor="let name of APINames;" value="{{ name }}" color="primary">{{ name }}</mat-radio-button>
                         </mat-radio-group>
                     </div>
 

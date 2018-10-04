@@ -1,6 +1,5 @@
 @import "./variable.scss";
 
-
 .page-container {
     width: 100%;
     display: flex;
@@ -33,7 +32,7 @@
             width : 300px;
             min-width: 300px;
             height : 80px;
-            box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
+            box-shadow: $bms_shadow;
         }
     }
 
@@ -54,39 +53,96 @@
             flex-wrap: wrap;
             width: 100%;
             background-color: $bms_light_grey;
-            box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
+            box-shadow: $bms_shadow;
             border-radius: 3px;
 
-          .content-table{
+            .content-button {
               display: flex;
               width: 100%;
-              padding : 20px;
-            }
-        }
+              padding-top : 20px;
+              padding-left: 20px;
+              padding-right: 20px;
+              padding-bottom: 0px;
+              align-items: center;
+              justify-content: space-between;
 
-        .content-button {
-            display: flex;
-            width: 100%;
-            padding-top : 20px;
-            padding-left: 20px;
-            padding-right: 20px;
-            padding-bottom: 0px;
-            align-items: center;
-            justify-content: space-between;
-            .mat-raised-button {
+
+
+              .import-export {
+                  display: flex;
+                  .extension {
+                      display: flex;
+                      margin-right: 20px;
+                      height: 36px;
+
+                      .dropdown {
+                          background-color: $bms_green;
+                          height: 100%;
+                          width: 20px;
+                          padding: 2px;
+                          border-top-right-radius: 2px;
+                          border-bottom-right-radius: 2px;
+                          border-left: solid 1px $bms_light_grey;
+                          box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3);
+                          display: flex;
+                          justify-content: center;
+                          &:hover {
+                              cursor: pointer;
+                          }
+
+                          mat-icon {
+                              margin: auto;
+                              color: $bms_white;
+                          }
+                      }
+
+                      .mat-menu-item {
+                          &:hover {
+                              background-color: $bms_green;
+                              color: $bms_white;
+                              font-weight: bold;
+                          }
+                          mat-icon {
+                              margin-left: 10px;
+                          }
+                      }
+                  }
+              }
+
+              .mat-raised-button {
                 color: $bms_white;
                 background-color: $bms_green;
-                span{
+                height: 40px;
+                .mat-button-wrapper {
+                  span {
                     font-weight: bold;
+                    padding-left:20px;
                     font-family: $bms_font_text;
+                  }
                 }
+              }
+              .add-button {
+                color: $bms_white;
+                background-color: $bms_red;
+              }
+            }
+
+            .content-table {
+                display: flex;
+                width: 100%;
+                padding : 20px;
+            }
+
+            .content-button-footer {
+                justify-content: flex-end !important;
+                padding-bottom: 20px !important;
             }
         }
 
     }
 }
 
-
+// TODO check
 .mat-stepper-horizontal {
     display: block;
     width: 100%;
@@ -97,7 +153,7 @@
 
 .box-green, .box-red {
     .content-button{
-        justify-content: flex-end !important;
+        // justify-content: flex-end !important;
         .next{
             font-weight: 900;
             margin-right: 0.8vw;
@@ -117,21 +173,6 @@
             }
         }
     }
-    .content-button-footer{
-        display: flex;
-        width: 100%;
-        padding : 10px 20px 20px 20px;
-        align-items: center;
-        justify-content: flex-end;
-
-        .mat-raised-button {
-            color: white;
-            background-color: $bms_green;
-            span{
-                font-family: $bms_font_text;
-            }
-        }
-    }
 }
 
 .stepInMobile {
@@ -139,23 +180,21 @@
 }
 
 //for mobile screen
-@media only screen and (max-width: 750px){
-    .container-table{
-        padding: 5px 5px 20px 5px !important;
+@media only screen and (max-width: 750px) {
+  .container-table {
+      .add-button {
+        position: fixed;
+        bottom: 2vh;
+        right: 2vh;
+        z-index: 1000;
+      }
 
-        .content-button {
-            justify-content: flex-end !important;
+      .content-table {
+        padding: 0px !important;
+      }
+  }
 
-            .mat-raised-button{
-            margin-right: 0px !important;
-            }
-        }
-
-        .content-table {
-            padding: 0px !important;
-        }
-    }
-
+    // TODO check
     .next {
         padding-left: 0 !important;
     }
@@ -180,7 +219,4 @@
         align-items: center;
         margin-right: 4vw;
     }
-
-
-
 }

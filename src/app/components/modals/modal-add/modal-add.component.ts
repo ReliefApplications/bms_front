@@ -92,10 +92,10 @@ export class ModalAddComponent extends ModalComponent {
             else
                 this.snackBar.open('Invalid field : Email', '', { duration: 3000, horizontalPosition: 'right' });
         }
-        else if ((this.newObject.fullname && this.newObject.shortname) || this.newObject.fullname == '' || this.newObject.shortname == ''){
-            if(this.newObject.fullname == '' || this.newObject.shortname == '' || this.newObject.notes == '' || this.newObject.projects_name.length == 0)
+        else if ((this.newObject.fullname && this.newObject.shortname) || this.newObject.fullname == '' || this.newObject.shortname == '') {
+            if (this.newObject.fullname == '' || this.newObject.shortname == '' || this.newObject.notes == '')
                 this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
-            else{
+            else {
                 // console.log('(dialog) Sent to format: ', this.newObject);
                 const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
                 console.log('(dialog) Return from format: ', formatedObject);

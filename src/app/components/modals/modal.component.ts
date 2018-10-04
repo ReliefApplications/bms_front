@@ -90,12 +90,6 @@ export class ModalComponent implements OnInit {
           this._cacheService.set(CacheService.PROJECTS, this.loadedData.projects_name);
         });
     }
-
-    if((this.newObject && this.newObject.fullname == '' && this.newObject.shortname == '' && this.newObject.projects_name == '')){
-      this.projectService.get().subscribe(response => {
-        this.loadedData.projects_name = response;
-      });
-    }
     
     if((this.newObject && this.newObject.password == '') || (updateObject && updateObject.email && updateObject.rights)){
       this.loadedData.rights = [

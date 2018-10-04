@@ -9,7 +9,7 @@
         background-color: $bms_red;
         margin-left: 10px;
         border-radius: 100%;
-        box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
+        box-shadow: $bms_shadow;
 
         &:hover {
             cursor: pointer;

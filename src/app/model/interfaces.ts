@@ -50,6 +50,7 @@ export class UserInterface {
             this.username = instance.username;
             this.email = instance.email;
             this.salted_password = instance.salted_password;
+            this.rights = instance.rights;
         }
     }
 
@@ -137,7 +138,7 @@ export class UserInterface {
     getModalTypeProperties(selfinstance): Object {
         return {
             username: "email",
-            rights: "text"
+            rights: "selectSingle"
         }
     }
 
@@ -167,6 +168,17 @@ export class UserInterface {
             });
         }
         return user;
+    }
+
+    /**
+     * used in modal add
+     * @param element 
+     * @param loadedData 
+     */
+    public static formatFromModalAdd(element: any, loadedData: any): UserInterface {
+        let newObject = new UserInterface(element);
+
+        return newObject;
     }
 
     public static formatForApi(element: UserInterface): any {

@@ -3,6 +3,7 @@ import { ModalComponent } from '../modal.component';
 import { GlobalText } from '../../../../texts/global';
 import { Criteria } from '../../../model/criteria';
 import { Commodity } from '../../../model/commodity';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     selector: 'app-modal-add',
@@ -15,7 +16,6 @@ export class ModalAddComponent extends ModalComponent {
     mapperObject = null;
 
     oldSelectedModality = 0;
-
     @Input() data: any;
     @Output() onCreate = new EventEmitter();
 
@@ -47,10 +47,12 @@ export class ModalAddComponent extends ModalComponent {
         }
     }
 
-    selected($event, selectedField) {
-        if (selectedField.modality !== this.oldSelectedModality) {
-            this.getModalityType(selectedField.modality);
-            this.oldSelectedModality = selectedField.modality;
+    selected(selectedField) {
+        if (selectedField.modality) {
+            if (selectedField.modality !== this.oldSelectedModality) {
+                this.getModalityType(selectedField.modality);
+                this.oldSelectedModality = selectedField.modality;
+            }
         }
 
     }
@@ -76,11 +78,26 @@ export class ModalAddComponent extends ModalComponent {
 
     // emit the new object
     add(): any {
-        // console.log('(dialog) Sent to format: ', this.newObject);
-        const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
-        // console.log('(dialog) Return from format: ', formatedObject);
-        this.onCreate.emit(formatedObject);
-        this.closeDialog();
+        if (this.newObject.username) {
+            const checkMail = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+
+            if (checkMail.test(this.newObject.username)) {
+                // console.log('(dialog) Sent to format: ', this.newObject);
+                const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
+                // console.log('(dialog) Return from format: ', formatedObject);
+                this.onCreate.emit(formatedObject);
+                this.closeDialog();
+            }
+            else
+                this.snackBar.open('Invalid field : Email', '', { duration: 3000, horizontalPosition: 'right' });
+        }
+        else {
+            // console.log('(dialog) Sent to format: ', this.newObject);
+            const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
+            // console.log('(dialog) Return from format: ', formatedObject);
+            this.onCreate.emit(formatedObject);
+            this.closeDialog();
+        }
     }
 
     unitType(): string {

@@ -127,7 +127,20 @@ export class ModalComponent implements OnInit {
         },
       ]
     }
-
+    
+    if((this.newObject && this.newObject.countryIso3 == '' && this.newObject.field == '' && this.newObject.name == '') || (updateObject && updateObject.field && updateObject.type)){
+      this.loadedData.type = [
+        {
+          'id': "text",
+          'name': 'text',
+        },
+        {
+          'id': "number",
+          'name': 'number',
+        }
+      ]
+    }
+    
     if(this.newObject && this.newObject.field_string == ''){
       // this.allCriteria = this._cacheService.get(CacheService.CRITERIAS);
       if(this.allCriteria.length === 0 )

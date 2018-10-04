@@ -1,4 +1,5 @@
 import { GlobalText } from "../../texts/global";
+import { Project } from "./project";
 
 export class Households {
     static __classname__ = 'Households';
@@ -23,16 +24,20 @@ export class Households {
      */
     location: string = '';
     /**
- * Households' dependents
- * @type {Number}
- */
+     * Households' dependents
+     * @type {Number}
+     */
     dependents: Number;
     /**
     * Households' vulnerabilities
     * @type {Array}
     */
     vulnerabilities: Array<string> = [];
-
+    /**
+     * Household's projects
+     * @type {string}
+     */
+    projects: string;
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -62,6 +67,7 @@ export class Households {
             location: selfinstance.location,
             dependents: selfinstance.dependents,
             vulnerabilities: selfinstance.vulnerabilities,
+            projects: selfinstance.projects,
         }
     }
 
@@ -78,6 +84,7 @@ export class Households {
             location: selfinstance.location,
             dependents: selfinstance.dependents,
             vulnerabilities: selfinstance.vulnerabilities,
+            projects: selfinstance.projects,
         }
     }
 
@@ -91,6 +98,7 @@ export class Households {
             location: "text",
             dependents: "number",
             vulnerabilities: "png",
+            projects: "text",
         }
     }
 
@@ -104,6 +112,7 @@ export class Households {
             location: GlobalText.TEXTS.model_beneficiaries_location,
             dependents: GlobalText.TEXTS.model_beneficiaries_dependents,
             vulnerabilities: GlobalText.TEXTS.model_beneficiaries_vulnerabilities,
+            projects: GlobalText.TEXTS.model_beneficiaries_projects,
         }
     }
 
@@ -145,16 +154,26 @@ export class Households {
     public static formatElement(element: any): Households {
         let household = new Households();
         let dependents = element.number_dependents;
+        let projectString = "";
+
         household.id = element.id;
+        
         element.beneficiaries.forEach(beneficiary => {
             household.familyName = beneficiary.family_name;
             household.firstName = beneficiary.given_name;
             beneficiary.vulnerability_criteria.forEach(vulnerability => {
                 household.vulnerabilities.push(this.mapVulnerability(vulnerability.field_string))
             });
-
-
         });
+
+        element.projects.forEach(project => {
+            if(projectString == "")
+                projectString = project.name;
+            else
+                projectString = projectString + ", " + project.name;
+        });
+        household.projects = projectString;
+
         if (element.location.adm1) {
             household.location += element.location.adm1.name + " ";
         }

@@ -4,6 +4,7 @@ import { GlobalText } from '../../../../texts/global';
 import { Criteria } from '../../../model/criteria';
 import { Commodity } from '../../../model/commodity';
 import { MatSnackBar } from '@angular/material';
+import { count } from '@swimlane/ngx-charts';
 
 @Component({
     selector: 'app-modal-add',
@@ -90,6 +91,17 @@ export class ModalAddComponent extends ModalComponent {
             }
             else
                 this.snackBar.open('Invalid field : Email', '', { duration: 3000, horizontalPosition: 'right' });
+        }
+        else if ((this.newObject.fullname && this.newObject.shortname) || this.newObject.fullname == '' || this.newObject.shortname == ''){
+            if(this.newObject.fullname == '' || this.newObject.shortname == '' || this.newObject.notes == '' || this.newObject.projects_name.length == 0)
+                this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
+            else{
+                // console.log('(dialog) Sent to format: ', this.newObject);
+                const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
+                console.log('(dialog) Return from format: ', formatedObject);
+                this.onCreate.emit(formatedObject);
+                this.closeDialog();
+            }
         }
         else {
             // console.log('(dialog) Sent to format: ', this.newObject);

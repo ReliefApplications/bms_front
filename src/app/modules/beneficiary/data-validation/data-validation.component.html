@@ -3,15 +3,11 @@
         <h2>{{verification.data_verification_title | titlecase}}</h2>
     </div>
 
-
-
     <mat-horizontal-stepper linear #stepper>
         <ng-template matStepperIcon="done">
             <mat-icon>done</mat-icon>
         </ng-template>
 
-
-        <!-- <mat-step [editable]="false" [completed]="isDone"> -->
         <mat-step [editable]="false" [completed]="typoDone">
             <ng-template class="step" matStepLabel>{{verification.data_verification_step_1}} </ng-template>
             <div class="container-table">
@@ -80,7 +76,7 @@
                     <div class="content-button content-button-footer">
                         <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
                         <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
-                        <button mat-raised-button class="next-button" (click)=" sendCorrectedData()" *ngIf='!load'>
+                        <button mat-raised-button class="button-background-green" (click)=" sendCorrectedData()" *ngIf='!load'>
                             <mat-icon>navigate_next</mat-icon>
                             <span>{{verification.data_verification_next}}</span>
                         </button>
@@ -146,7 +142,7 @@
                     <div class="content-button content-button-footer">
                         <mat-progress-bar mode="determinate" value="25"></mat-progress-bar>
                         <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
-                        <button mat-raised-button class="next-button" (click)="sendCorrectedData()" *ngIf='!load'>
+                        <button mat-raised-button class="button-background-green" (click)="sendCorrectedData()" *ngIf='!load'>
                             <mat-icon>navigate_next</mat-icon>
                             <span>{{verification.data_verification_next}}</span>
                         </button>
@@ -219,7 +215,7 @@
                     <div class="content-button content-button-footer">
                         <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
                         <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
-                        <button mat-raised-button class="next-button" (click)="sendCorrectedData()" *ngIf='!load'>
+                        <button mat-raised-button class="button-background-green" (click)="sendCorrectedData()" *ngIf='!load'>
                             <mat-icon>navigate_next</mat-icon>
                             <span>{{verification.data_verification_next}}</span>
                         </button>
@@ -292,7 +288,7 @@
                     <div class="content-button content-button-footer">
                         <mat-progress-bar mode="determinate" value="75"></mat-progress-bar>
                         <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
-                        <button mat-raised-button class="next-button" (click)="sendCorrectedData()" *ngIf='!load'>
+                        <button mat-raised-button class="button-background-green" (click)="sendCorrectedData()" *ngIf='!load'>
                             <mat-icon>navigate_next</mat-icon>
                             <span>{{verification.data_verification_next}}</span>
                         </button>
@@ -314,7 +310,7 @@
                             {{verification.data_verification_done}}
                             <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
                             <a routerLink="/beneficiaries">
-                                <button mat-raised-button class="buttonSend" (click)="stepper.reset()">{{verification.data_verification_send}}</button>
+                                <button mat-raised-button class="button-background-green" (click)="stepper.reset()">{{verification.data_verification_send}}</button>
                             </a>
                         </div>
 

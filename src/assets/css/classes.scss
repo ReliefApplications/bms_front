@@ -1,5 +1,6 @@
 @import "./variable.scss";
 
+// Layout
 .page-container {
     width: 100%;
     display: flex;
@@ -58,74 +59,14 @@
             border-radius: 3px;
 
             .content-button {
-              display: flex;
-              width: 100%;
-              padding-top : 20px;
-              padding-left: 20px;
-              padding-right: 20px;
-              padding-bottom: 0px;
-              align-items: center;
-              justify-content: space-between;
-
-
-
-              .import-export {
-                  display: flex;
-                  .extension {
-                      display: flex;
-                      margin-right: 20px;
-                      height: 36px;
-
-                      .dropdown {
-                          background-color: $bms_green;
-                          height: 100%;
-                          width: 20px;
-                          padding: 2px;
-                          border-top-right-radius: 2px;
-                          border-bottom-right-radius: 2px;
-                          border-left: solid 1px $bms_light_grey;
-                          box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3);
-                          display: flex;
-                          justify-content: center;
-                          &:hover {
-                              cursor: pointer;
-                          }
-
-                          mat-icon {
-                              margin: auto;
-                              color: $bms_white;
-                          }
-                      }
-
-                      .mat-menu-item {
-                          &:hover {
-                              background-color: $bms_green;
-                              color: $bms_white;
-                              font-weight: bold;
-                          }
-                          mat-icon {
-                              margin-left: 10px;
-                          }
-                      }
-                  }
-              }
-
-              .mat-raised-button {
-                color: $bms_white;
-                background-color: $bms_green;
-                height: 40px;
-                .mat-button-wrapper {
-                  span {
-                    font-weight: bold;
-                    padding-left: 10px;
-                    font-family: $bms_font_text;
-                  }
-                }
-              }
-              .add-button {
-                color: $bms_white;
-                background-color: $bms_red;
-              }
+                display: flex;
+                width: 100%;
+                padding-top : 20px;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-bottom: 0px;
+                align-items: center;
+                justify-content: space-between;
             }
 
             .content-table {
@@ -141,7 +82,84 @@
                 padding-bottom: 20px !important;
             }
         }
+    }
+}
 
+
+// Buttons
+.mat-raised-button {
+  color: $bms_white !important;
+  height: 40px !important;
+  .mat-button-wrapper {
+    span {
+      font-weight: bold;
+      padding-left: 10px !important;
+    }
+  }
+}
+
+.add-button {
+  color: $bms_white !important;
+  background-color: $bms_red !important;
+}
+
+.button-text-primary {
+  color: $bms_green !important;
+}
+.button-text-accent {
+  color: $bms_red !important;
+}
+
+.button-background-primary {
+  background-color: $bms_green !important;
+}
+.button-background-accent {
+  background-color: $bms_red !important;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+
+    // Dropdown buttons
+    .extension {
+        display: flex;
+        height: 36px;
+
+        .dropdown {
+            background-color: $bms_green;
+            height: 100%;
+            width: 20px;
+            padding: 2px;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+            border-left: solid 1px $bms_light_grey;
+            box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            &:hover {
+                cursor: pointer;
+            }
+
+            mat-icon {
+                margin: auto;
+                color: $bms_white;
+            }
+        }
+
+        .mat-menu-item {
+            &:hover {
+                background-color: $bms_green;
+                color: $bms_white;
+                font-weight: bold;
+            }
+            mat-icon {
+                margin-left: 10px;
+            }
+        }
+    }
+    button:last-child {
+      margin-left: 20px;
     }
 }
 
@@ -173,9 +191,14 @@
 
 //for mobile screen
 @media only screen and (max-width: 750px) {
+  .mat-stepper-horizontal {
+    .container-table {
+      width: unset !important;
+    }
+  }
+
   .container-table {
       flex-direction: column;
-      width: unset !important;
       .add-button {
         position: fixed;
         bottom: 2vh;

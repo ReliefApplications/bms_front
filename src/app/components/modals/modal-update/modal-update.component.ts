@@ -14,7 +14,6 @@ export class ModalUpdateComponent extends ModalComponent {
   updateObject: any;
 
   ngOnInit() {
-    console.log("init");
     this.entityInstance = this.data.mapper.instantiate(this.data.entity);
     // console.log(this.data);
     this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapperUpdate(this.entityInstance, this.data.data));
@@ -25,7 +24,7 @@ export class ModalUpdateComponent extends ModalComponent {
     } catch (e) {
       console.error('the function mapAllProperties is not defined for the entity ', this.entityInstance);
     }
-    this.loadData();
+    this.loadData(this.updateObject);
   }
 
   /**

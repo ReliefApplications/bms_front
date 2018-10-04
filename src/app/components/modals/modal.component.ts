@@ -65,7 +65,7 @@ export class ModalComponent implements OnInit {
   /**
    * load data for selects
    */
-  loadData() {
+  loadData(updateObject?) {
     if ((this.newObject && this.newObject.sectors) || (this.data.data && this.data.data.sectors)) {
       this.loadedData.sectors_name = this._cacheService.get(CacheService.SECTORS);
       if (!this.loadedData.sectors)
@@ -91,7 +91,7 @@ export class ModalComponent implements OnInit {
         });
     }
 
-    if(this.newObject && this.newObject.password == ''){
+    if((this.newObject && this.newObject.password == '') || (updateObject && updateObject.email && updateObject.rights)){
       this.loadedData.rights = [
         {
           'id': "ROLE_ADMIN",

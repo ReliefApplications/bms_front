@@ -282,7 +282,6 @@ export class DistributionData {
         return {
             name: selfinstance.name,
             location_name: selfinstance.location_name,
-            number_beneficiaries: selfinstance.number_beneficiaries,
             date_distribution: selfinstance.date_distribution,
             commodities: selfinstance.commodities,
             type: selfinstance.type,
@@ -386,7 +385,7 @@ export class DistributionData {
         return {
             name: 'text',
             location_name: 'text',
-            number_beneficiaries: 'number',
+            type: 'selectSingle',
         };
     }
 

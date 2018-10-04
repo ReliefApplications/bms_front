@@ -24,37 +24,42 @@ export class ModalUpdateComponent extends ModalComponent {
     } catch (e) {
       console.error('the function mapAllProperties is not defined for the entity ', this.entityInstance);
     }
-    this.loadData();
+    this.loadData(this.updateObject);
+
+    console.log(this.updateObject + '_' + this.updateObject.date_distribution + '_' + this.updateObject.location_name + '_' + this.updateObject.name + '_' + this.updateObject.type + '_' + this.updateObject.updated_on)
+    console.log(this.loadedData);
   }
 
   /**
    * emit the object updated
    */
   save(): any {
-
-    if (typeof this.updateObject.start_date == "object") {
-      let day = this.updateObject.start_date.getDate();
-      let month = this.updateObject.start_date.getMonth() + 1;
-      const year = this.updateObject.start_date.getFullYear();
-
-      if (day < 10)
-        day = "0" + day;
-      if (month < 10)
-        month = "0" + month;
-      this.updateObject.start_date = year + "-" + month + "-" + day;
+    if(this.updateObject.start_date){
+      if (typeof this.updateObject.start_date == "object") {
+        let day = this.updateObject.start_date.getDate();
+        let month = this.updateObject.start_date.getMonth() + 1;
+        const year = this.updateObject.start_date.getFullYear();
+  
+        if (day < 10)
+          day = "0" + day;
+        if (month < 10)
+          month = "0" + month;
+        this.updateObject.start_date = year + "-" + month + "-" + day;
+      }
+  
+      if (typeof this.updateObject.end_date == "object") {
+        let day = this.updateObject.end_date.getDate();
+        let month = this.updateObject.end_date.getMonth() + 1;
+        const year = this.updateObject.end_date.getFullYear();
+  
+        if (day < 10)
+          day = "0" + day;
+        if (month < 10)
+          month = "0" + month;
+        this.updateObject.end_date = year + "-" + month + "-" + day;
+      }
     }
-
-    if (typeof this.updateObject.end_date == "object") {
-      let day = this.updateObject.end_date.getDate();
-      let month = this.updateObject.end_date.getMonth() + 1;
-      const year = this.updateObject.end_date.getFullYear();
-
-      if (day < 10)
-        day = "0" + day;
-      if (month < 10)
-        month = "0" + month;
-      this.updateObject.end_date = year + "-" + month + "-" + day;
-    }
+    
     
     this.onUpdate.emit(this.updateObject);
     this.closeDialog();

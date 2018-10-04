@@ -8,14 +8,19 @@
       <th class="table-value">
         <form class="form">
           <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
-            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='selectSingle'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
+            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
             <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [formControl]="controls"
               multiple>
               <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
             </mat-select>
+
             <mat-select *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [formControl]="controls" (selectionChange)="selected($event, newObject)" >
               <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
             </mat-select>
+
+            <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'" matInput [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution" placeholder="{{data.mapper.mapTitle(p)}}">
+            <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'"></mat-datepicker-toggle>
+            <mat-datepicker #dateDistribution></mat-datepicker>
           </mat-form-field>
           <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">
             <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.modal_email}}" [formControl]="emailFormControl" [errorStateMatcher]="matcher">

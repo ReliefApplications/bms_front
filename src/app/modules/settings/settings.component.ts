@@ -14,7 +14,7 @@ import { Mapper } from '../../core/utils/mapper.service';
 import { DistributionData } from '../../model/distribution-data';
 import { Donor } from '../../model/donor';
 import { Project } from '../../model/project';
-import { UserInterface } from '../../model/interfaces';
+import { User } from '../../model/user';
 import { CountrySpecific } from '../../model/country-specific';
 
 import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
@@ -118,7 +118,7 @@ export class SettingsComponent implements OnInit {
     getData(title) {
         switch (title) {
             case 'users':
-                this.referedClassToken = UserInterface;
+                this.referedClassToken = User;
                 this.referedClassService = this.userService;
                 break;
             case 'donors':
@@ -171,7 +171,7 @@ export class SettingsComponent implements OnInit {
 
     createElement(createElement: Object) {
         createElement = this.referedClassToken.formatForApi(createElement);
-        if (this.referedClassToken.__classname__ !== 'UserInterface') {
+        if (this.referedClassToken.__classname__ !== 'User') {
             this.referedClassService.create(createElement['id'], createElement).subscribe(response => {
                 this.selectTitle(this.selectedTitle);
             });

@@ -3,6 +3,8 @@ import { ModalComponent } from '../modal.component';
 import { GlobalText } from '../../../../texts/global';
 import { Criteria } from '../../../model/criteria';
 import { Commodity } from '../../../model/commodity';
+import { MatSnackBar } from '@angular/material';
+import { count } from '@swimlane/ngx-charts';
 
 @Component({
     selector: 'app-modal-add',
@@ -15,7 +17,6 @@ export class ModalAddComponent extends ModalComponent {
     mapperObject = null;
 
     oldSelectedModality = 0;
-
     @Input() data: any;
     @Output() onCreate = new EventEmitter();
 
@@ -47,10 +48,12 @@ export class ModalAddComponent extends ModalComponent {
         }
     }
 
-    selected($event, selectedField) {
-        if (selectedField.modality !== this.oldSelectedModality) {
-            this.getModalityType(selectedField.modality);
-            this.oldSelectedModality = selectedField.modality;
+    selected(selectedField) {
+        if (selectedField.modality) {
+            if (selectedField.modality !== this.oldSelectedModality) {
+                this.getModalityType(selectedField.modality);
+                this.oldSelectedModality = selectedField.modality;
+            }
         }
 
     }
@@ -76,12 +79,71 @@ export class ModalAddComponent extends ModalComponent {
 
     // emit the new object
     add(): any {
-        // console.log('(dialog) Sent to format: ', this.newObject);
-        const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
-        // console.log('(dialog) Return from format: ', formatedObject);
-        this.onCreate.emit(formatedObject);
-        this.closeDialog();
-    } 
+        if (this.newObject.username) {
+            const checkMail = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+
+            if (checkMail.test(this.newObject.username)) {
+                // console.log('(dialog) Sent to format: ', this.newObject);
+                const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
+                // console.log('(dialog) Return from format: ', formatedObject);
+                this.onCreate.emit(formatedObject);
+                this.closeDialog();
+            }
+            else
+                this.snackBar.open('Invalid field : Email', '', { duration: 3000, horizontalPosition: 'right' });
+        }
+        else if ((this.newObject.fullname && this.newObject.shortname) || this.newObject.fullname == '' || this.newObject.shortname == '') {
+            if (this.newObject.fullname == '' || this.newObject.shortname == '' || this.newObject.notes == '')
+                this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
+            else {
+                // console.log('(dialog) Sent to format: ', this.newObject);
+                const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
+                // console.log('(dialog) Return from format: ', formatedObject);
+                this.onCreate.emit(formatedObject);
+                this.closeDialog();
+            }
+        }
+        else if (this.newObject.start_date && this.newObject.end_date && this.newObject.name && this.newObject.notes && this.newObject.value) {
+            if (this.newObject.start_date != '') {
+                if (typeof this.newObject.start_date == "object") {
+                    let day = this.newObject.start_date.getDate();
+                    let month = this.newObject.start_date.getMonth() + 1;
+                    const year = this.newObject.start_date.getFullYear();
+
+                    if (day < 10)
+                        day = "0" + day;
+                    if (month < 10)
+                        month = "0" + month;
+                    this.newObject.start_date = year + "-" + month + "-" + day;
+                }
+
+                if (typeof this.newObject.end_date == "object") {
+                    let day = this.newObject.end_date.getDate();
+                    let month = this.newObject.end_date.getMonth() + 1;
+                    const year = this.newObject.end_date.getFullYear();
+
+                    if (day < 10)
+                        day = "0" + day;
+                    if (month < 10)
+                        month = "0" + month;
+                    this.newObject.end_date = year + "-" + month + "-" + day;
+                }
+            }
+
+            // console.log('(dialog) Sent to format: ', this.newObject);
+            const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
+            // console.log('(dialog) Return from format: ', formatedObject);
+            this.onCreate.emit(formatedObject);
+            this.closeDialog();
+        }
+        else {
+            // console.log('(dialog) Sent to format: ', this.newObject);
+            const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
+            // console.log('(dialog) Return from format: ', formatedObject);
+            this.onCreate.emit(formatedObject);
+            this.closeDialog();
+        }
+    }
 
     unitType(): string {
         if (this.newObject && this.newObject.modality === 2) {

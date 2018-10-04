@@ -8,7 +8,7 @@
 
     .container-title {
         width: 100%;
-        padding-left: 20px;
+        padding: 0 20px;
         font-family: $bms_font_header;
         font-size: 1.2em;
         display: flex;
@@ -51,6 +51,7 @@
         .container-content {
             display: flex;
             flex-wrap: wrap;
+            justify-content: center;
             width: 100%;
             background-color: $bms_light_grey;
             box-shadow: $bms_shadow;
@@ -116,7 +117,7 @@
                 .mat-button-wrapper {
                   span {
                     font-weight: bold;
-                    padding-left:20px;
+                    padding-left: 10px;
                     font-family: $bms_font_text;
                   }
                 }
@@ -129,6 +130,8 @@
 
             .content-table {
                 display: flex;
+                flex-direction: column;
+                align-items: center;
                 width: 100%;
                 padding : 20px;
             }
@@ -142,26 +145,15 @@
     }
 }
 
-// TODO check
-.mat-stepper-horizontal {
-    display: block;
-    width: 100%;
-    .container-table {
-        padding: 0px;
-    }
-}
-
+// TODO check addBeneficiary (done) and distributions (next)
 .box-green, .box-red {
     .content-button{
-        // justify-content: flex-end !important;
         .next{
             font-weight: 900;
             margin-right: 0.8vw;
          }
     }
     .content-table {
-        flex-wrap: wrap;
-        justify-content: space-evenly;
         .done {
             display: flex;
             width: 100%;
@@ -182,6 +174,8 @@
 //for mobile screen
 @media only screen and (max-width: 750px) {
   .container-table {
+      flex-direction: column;
+      width: unset !important;
       .add-button {
         position: fixed;
         bottom: 2vh;
@@ -192,31 +186,31 @@
       .content-table {
         padding: 0px !important;
       }
+
+      .content-button {
+          flex-direction: column;
+      }
+
+      .stepInMobile {
+          display: flex;
+          margin-bottom: 1.5em;
+          justify-content: center;
+          .dot {
+              height: 24px;
+              width: 24px;
+              background-color: $bms_black;
+              color: $bms_white;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              margin-right: 1em;
+          }
+      }
   }
 
-    // TODO check
+    // TODO check distributions
     .next {
         padding-left: 0 !important;
-    }
-
-    .content-button-footer {
-        justify-content: space-between !important;
-    }
-
-    .stepInMobile {
-        display: flex !important;
-        margin-bottom: 3vh;
-        justify-content: center;
-    }
-    .dot {
-        height: 24px;
-        width: 24px;
-        background-color: #424242;
-        border-radius: 50%;
-        display: flex;
-        color: white;
-        justify-content: center;
-        align-items: center;
-        margin-right: 4vw;
     }
 }

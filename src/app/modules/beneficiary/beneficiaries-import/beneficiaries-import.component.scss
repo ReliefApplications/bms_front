@@ -30,12 +30,7 @@
 }
 
 // for mobile screen
-@media only screen and (max-width: 750px){
-
-    .content-button {
-        flex-direction: column;
-    }
-
+@media only screen and (max-width: 750px) {
     .mat-form-field {
         width: 100%;
     }

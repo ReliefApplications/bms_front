@@ -29,7 +29,9 @@ body {
 // Override Material theme
 .mat-stepper-horizontal {
   background-color: $bms_white !important;
+  width: calc(100% - 40px);
 }
+
 .mat-drawer-container {
   background-color: $bms_white !important;
 }
@@ -42,11 +44,25 @@ body {
   color: $bms_white !important;
 }
 
-@media only screen and (max-width: 750px){
+.mat-horizontal-content-container {
+  padding: 0 !important;
+  overflow: unset !important;
+}
+
+.mat-progress-bar {
+    display: none !important;
+}
+
+@media only screen and (max-width: 750px) {
+  .mat-stepper-horizontal {
+    width: unset;
+  }
   .mat-horizontal-stepper-header-container {
     display: none !important;
   }
-  .mat-horizontal-content-container {
-    padding: 0 5px 0 0 !important;
+
+  .mat-progress-bar {
+      display: block !important;
+      margin: 1em;
   }
 }

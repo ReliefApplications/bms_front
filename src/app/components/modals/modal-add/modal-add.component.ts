@@ -98,10 +98,43 @@ export class ModalAddComponent extends ModalComponent {
             else {
                 // console.log('(dialog) Sent to format: ', this.newObject);
                 const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
-                console.log('(dialog) Return from format: ', formatedObject);
+                // console.log('(dialog) Return from format: ', formatedObject);
                 this.onCreate.emit(formatedObject);
                 this.closeDialog();
             }
+        }
+        else if (this.newObject.start_date && this.newObject.end_date && this.newObject.name && this.newObject.notes && this.newObject.value) {
+            if (this.newObject.start_date != '') {
+                if (typeof this.newObject.start_date == "object") {
+                    let day = this.newObject.start_date.getDate();
+                    let month = this.newObject.start_date.getMonth() + 1;
+                    const year = this.newObject.start_date.getFullYear();
+
+                    if (day < 10)
+                        day = "0" + day;
+                    if (month < 10)
+                        month = "0" + month;
+                    this.newObject.start_date = year + "-" + month + "-" + day;
+                }
+
+                if (typeof this.newObject.end_date == "object") {
+                    let day = this.newObject.end_date.getDate();
+                    let month = this.newObject.end_date.getMonth() + 1;
+                    const year = this.newObject.end_date.getFullYear();
+
+                    if (day < 10)
+                        day = "0" + day;
+                    if (month < 10)
+                        month = "0" + month;
+                    this.newObject.end_date = year + "-" + month + "-" + day;
+                }
+            }
+
+            // console.log('(dialog) Sent to format: ', this.newObject);
+            const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
+            // console.log('(dialog) Return from format: ', formatedObject);
+            this.onCreate.emit(formatedObject);
+            this.closeDialog();
         }
         else {
             // console.log('(dialog) Sent to format: ', this.newObject);

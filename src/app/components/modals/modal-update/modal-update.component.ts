@@ -25,6 +25,9 @@ export class ModalUpdateComponent extends ModalComponent {
       console.error('the function mapAllProperties is not defined for the entity ', this.entityInstance);
     }
     this.loadData(this.updateObject);
+
+    console.log(this.updateObject + '_' + this.updateObject.date_distribution + '_' + this.updateObject.location_name + '_' + this.updateObject.name + '_' + this.updateObject.type + '_' + this.updateObject.updated_on)
+    console.log(this.loadedData);
   }
 
   /**

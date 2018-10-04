@@ -91,6 +91,21 @@ export class ModalComponent implements OnInit {
         });
     }
     
+    //Distribution in projects
+    if((updateObject && updateObject.date_distribution && updateObject.location_name && updateObject.name && updateObject.updated_on)){
+      this.loadedData.type = [
+        {
+          'id': '0',
+          'name': 'Households'
+        },
+        {
+          'id': '1',
+          'name': 'Beneficiaries'
+        }
+      ]
+    }
+
+    //User in settings
     if((this.newObject && this.newObject.password == '') || (updateObject && updateObject.email && updateObject.rights)){
       this.loadedData.rights = [
         {
@@ -128,6 +143,7 @@ export class ModalComponent implements OnInit {
       ]
     }
     
+    //Country specific option in settings
     if((this.newObject && this.newObject.countryIso3 == '' && this.newObject.field == '' && this.newObject.name == '') || (updateObject && updateObject.field && updateObject.type)){
       this.loadedData.type = [
         {

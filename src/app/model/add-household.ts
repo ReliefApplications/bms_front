@@ -1,5 +1,5 @@
 import { CountrySpecificAnswer } from "./country-specific";
-import { VulnerabilityCriteria } from "./vulnerability_criteria";
+import { VulnerabilityCriteria } from "./vulnerability-criteria";
 import { Location } from "./location";
 
 export class AddHouseholds {
@@ -129,7 +129,7 @@ export class Profile {
 export class Phones {
     static __classname__ = 'Phones';
     /**
-     * number 
+     * number
      * @type {string}
      */
     number: string = '';
@@ -143,7 +143,7 @@ export class Phones {
 export class NationalID {
     static __classname__ = 'NationalID';
     /**
-    * number 
+    * number
     * @type {string}
     */
     id_number: string = '';

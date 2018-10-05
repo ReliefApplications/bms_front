@@ -2,10 +2,6 @@
 @import "./assets/css/classes.scss";
 @import "./assets/css/animations.scss";
 
-.leaflet-control-attribution.leaflet-control {
-  display: none !important;  
-}
-
 // THEME
 @import '~@angular/material/theming';
 
@@ -19,45 +15,54 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
 @include angular-material-theme($candy-app-theme);
 
 
-//To overwrite CSS of MatStepper
-.mat-step-icon{
-  color: white !important
-}
-
-.mat-step-icon-not-touched{
-  color: white !important
-}
-
 body {
   font-family: 'Roboto', sans-serif;
+  background-color: $bms_white !important;
 }
 
-.container-boxes {
-    width:100% !important;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    justify-content: flex-start !important;
-    margin-right: 20px;
+// Override Leaflet theme
 
-    app-box-setting{
-        flex-grow: 0;
-        display: flex;
-        margin-right: 10px;
-        margin-bottom: 10px;
-        width : 300px !important;
-        min-width: 300px !important;
-        height : 80px;
-        box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3); 
-    }
+.leaflet-control-attribution.leaflet-control {
+  display: none !important;
 }
 
-@media only screen and (max-width: 750px){
+// Override Material theme
+.mat-stepper-horizontal {
+  background-color: $bms_white !important;
+  width: calc(100% - 40px);
+}
+
+.mat-drawer-container {
+  background-color: $bms_white !important;
+}
+
+.mat-step-icon {
+  color: $bms_white !important;
+}
+
+.mat-step-icon-not-touched {
+  color: $bms_white !important;
+}
+
+.mat-horizontal-content-container {
+  padding: 0 !important;
+  overflow: unset !important;
+}
+
+.mat-progress-bar {
+    display: none !important;
+}
+
+@media only screen and (max-width: 750px) {
+  .mat-stepper-horizontal {
+    width: unset;
+  }
   .mat-horizontal-stepper-header-container {
     display: none !important;
   }
-  .mat-horizontal-content-container {
-    padding: 0 5px 0 0 !important;
+
+  .mat-progress-bar {
+      display: block !important;
+      margin: 1em;
   }
 }

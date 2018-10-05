@@ -365,7 +365,7 @@ export class DataValidationComponent implements OnInit {
 
             });
         }
-
+        
         if (this.step === 1 && this.typoIssues.length != length) {
             this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected, '', { duration: 3000, horizontalPosition: 'center' });
         } else if (this.step === 2 && this.duplicates.length != length) {
@@ -386,7 +386,6 @@ export class DataValidationComponent implements OnInit {
                 this.lessDone = true;
             }
             this.step = this.step + 1;
-
             this._importService.sendData(this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
                 this.stepper.next();
                 this.getData();

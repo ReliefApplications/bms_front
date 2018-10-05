@@ -1,37 +1,12 @@
-@import '../../../assets/css/variable.scss'; 
+@import '../../../assets/css/variable.scss';
 
-.container-title {
-    display: flex;
-    align-items: center;
-
-    .add-project {
-        width: 35px;
-        min-width: 35px !important;
-        height: 35px;
-        color: $bms_red;
-        display: flex;
-        background-color: $bms_red;
-        margin-left: 10px;
-        border-radius: 100%;
-        box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);
-    
-        &:hover {
-            cursor: pointer;
-        }
-    
-        mat-icon {
-            font-size: 25px;
-            color: $bms_light_grey;
-            margin-top: 5px;
-            margin-left: 5px;
-        }
-    }
-
-    mat-spinner {
-        margin-left: 1vh;
+.button-text-accent {
+    margin-left: 20px;
+    .new-project {
+      margin-left: 10px;
     }
 }
-    
+
 app-table-distribution{
     width: 100%;
     height: 100%;
@@ -52,84 +27,12 @@ app-table-mobile-distribution{
     flex-grow: 1;
 }
 
-button{
-    color: $bms_white;
-    background-color: $bms_red;
-    
-
-    &.export-button{
-        background-color: $bms_green !important;
-        height: 40px;
-    }
-
-    &.add-button{
-        width: 50px;
-        height: 50px;
-    }
-
-    span{
-        font-family: $bms_font_text;
-        padding-left:20px;
-    }
-}
-
-.container-content {
-    border-top: solid 12px $bms_green;
-}
-
 .waitingDataContainer {
     width:100%;
     text-align: center;
     margin-left: 45%;
     font-size: 20px;
   }
-
-  .import-export {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    height: 40px;
-
-    .import-button {
-        margin-left: 5px;
-    }
-    .export-button {
-        background-color: $bms_green !important;
-        height: 40px;
-        margin-right: 0px;
-        border-top-right-radius: 0px !important;
-        border-bottom-right-radius: 0px !important;
-    }
-
-    .extension {
-        width: 30px;
-        text-align: center;
-        height: 36px;
-
-        .dropdown {
-            background-color: $bms_green;
-            height: 100%;
-            width: 20px !important;
-            padding: 2px !important;
-            border-top-right-radius: 2px;
-            border-bottom-right-radius: 2px;
-            border-left: solid 1px $bms_light_grey;
-            box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3); 
-            display: flex;
-            justify-content: center;
-
-            &:hover {
-                cursor: pointer;
-            }
-
-            mat-icon {
-                float: left !important;
-                margin: auto;
-                color: white;
-            }
-        }
-    }
-}
 
 app-placeholder-panel {
     width:100%;
@@ -175,6 +78,6 @@ app-placeholder-panel {
             z-index: 1000;
         }
 
-        
-    }       
+
+    }
 }

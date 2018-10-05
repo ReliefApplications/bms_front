@@ -40,16 +40,20 @@ export class ImportService {
                 this.referedClassToken = FormatDataNewOld;
                 this.referedClassService.sendDataToValidation(data, project, step).subscribe(response => {
 
-                    // use function to format and type data
-                    const responseFormatted = this.referedClassToken.formatIssues(response, step);
-                    for (let i = 0; i < responseFormatted.length; i++) {
-                        this.data.push(responseFormatted[i]);
-                    }
-                    this.token = response.token;
-                    this.project = project;
-                    resolve(this.data);
+                    if(typeof response == "string")
+                        reject({'message': response});
+                    else{
+                        // use function to format and type data
+                        const responseFormatted = this.referedClassToken.formatIssues(response, step);
+                        for (let i = 0; i < responseFormatted.length; i++) {
+                            this.data.push(responseFormatted[i]);
+                        }
+                        this.token = response.token;
+                        this.project = project;
+                        resolve(this.data);
+                    }    
                 }, error => {
-                    reject({'message': 'Error while importing data'});
+                    reject({ 'message': 'Error while importing data' });
                 });
             } else {
                 if (step === 2) {
@@ -65,7 +69,7 @@ export class ImportService {
                         this.project = project;
                         resolve(this.data);
                     }, error => {
-                        reject({'message': 'Error while correcting typo issues'});
+                        reject({ 'message': 'Error while correcting typo issues' });
                     });
                 } else if (step === 3 || step === 4) {
                     this.referedClassToken = FormatDataNewOld;
@@ -80,15 +84,13 @@ export class ImportService {
                         this.project = project;
                         resolve(this.data);
                     }, error => {
-                        reject({'message': 'Error while adding or removing beneficiairies'});
+                        reject({ 'message': 'Error while adding or removing beneficiairies' });
                     });
                 } else if (step === 5) {
                     this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
-                        if (response._body) {
-                            resolve(this.data);
-                        }
+                        resolve([this.data, response]);
                     }, error => {
-                        reject({'message': 'Error while adding all import data'});
+                        reject({ 'message': 'Error while adding all import data' });
                     });
                 }
 

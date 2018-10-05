@@ -13,7 +13,7 @@ import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { LIVELIHOOD } from '../../../model/livelihood';
 import { Location } from '../../../model/location';
 import { Project } from '../../../model/project';
-import { VulnerabilityCriteria } from '../../../model/vulnerability_criteria';
+import { Criteria } from '../../../model/criteria';
 import { CountrySpecific } from '../../../model/country-specific';
 import { startWith, map } from 'rxjs/operators';
 import { StaticInjector } from '@angular/core/src/di/injector';
@@ -24,6 +24,9 @@ import { StaticInjector } from '@angular/core/src/di/injector';
     styleUrls: ['./update-beneficiary.component.scss']
 })
 export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
+
+    // Mode
+    public mode : string;
 
     // Translate
     public Text = GlobalText.TEXTS;
@@ -48,7 +51,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
     public typeNationalIdList: string[] = ['type1', 'card'];
 
     constructor(
-        public router: ActivatedRoute,
+        public route: ActivatedRoute,
         public _projectService: ProjectService,
         public _locationService: LocationService,
         public _criteriaService: CriteriaService,
@@ -59,9 +62,17 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
         public formBuilder: FormBuilder,
         public dialog: MatDialog,
         public snackBar: MatSnackBar,
+        public router: Router,
     ) { }
 
     ngOnInit() {
+        // Set right mode (update or create)
+        if(this.router.url.split('/')[2] === 'update-beneficiary') {
+            this.mode = 'update';
+        } else {
+            this.mode = 'create';
+        }
+
         // Get lists
         this.livelihoodsList = LIVELIHOOD;
         this.getVulnerabilityCriteria();
@@ -72,7 +83,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
         this.initiateHousehold();
     }
 
-    // Test mode
+    // For tests
     ngDoCheck() {
         console.log(this.updatedHousehold);
     }
@@ -81,29 +92,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
      * Gets household from backend and loads the method that will fill our 'updatedHousehold' attribute for input display and update.
      */
     initiateHousehold() {
-        this.router.params.subscribe(
-            result => {
-                if (result['id']) {
-                    this._householdsService.getOne(result['id']).subscribe(
-                        result => {
-                            this.originalHousehold = result;
-                            console.log("Household from Back : ", this.originalHousehold);
-
-                            this.formatHouseholdForForm();
-                        }
-                    );
-                }
-            }
-        );
-    }
-
-    /**
-     * Transforms an instance of backend beneficiary in a formated Household readable for the inputs.
-     */
-    formatHouseholdForForm() {
 
         this.updatedHousehold = {
-            // Format of a household for Form
+        // First set the format of a Household for Input Forms
             id: 0,
             address_number: '',
             address_postcode: '',
@@ -120,6 +111,35 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
                 adm4: '',
             },
         }
+        
+        // Set the Head if the user is creating
+        if(this.mode === 'create') {
+            this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
+        }
+
+        // Get the selected household if the user is updating
+        if(this.mode === 'update') {
+            this.route.params.subscribe(
+                result => {
+                    if (result['id']) {
+                        this._householdsService.getOne(result['id']).subscribe(
+                            result => {
+                                this.originalHousehold = result;
+                                console.log("Household from Back : ", this.originalHousehold);
+
+                                this.formatHouseholdForForm();
+                            }
+                        );
+                    }
+                }
+            );
+        }
+    }
+
+    /**
+     * Transforms an instance of backend beneficiary in a formated Household readable for the inputs.
+     */
+    formatHouseholdForForm() {
 
         // Id & address & livelihood & notes.
         this.updatedHousehold.id = this.originalHousehold.id;
@@ -362,7 +382,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
         const promise = this._criteriaService.getVulnerabilityCriteria();
         if (promise) {
             promise.toPromise().then(response => {
-                const responseCriteria = VulnerabilityCriteria.formatArray(response);
+                const responseCriteria = Criteria.formatArray(response);
                 responseCriteria.forEach(element => {
                     this.vulnerabilityList.push(element);
                 });

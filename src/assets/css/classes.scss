@@ -1,116 +1,187 @@
 @import "./variable.scss";
 
-
-.page-container{
+// Layout
+.page-container {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
 
-    .container-title{
+    .container-title {
         width: 100%;
-        padding-left: 20px;
+        padding: 0 20px;
         font-family: $bms_font_header;
-        font-size: 2vh;   
-        margin-top: 3vh;    
+        font-size: 1.2em;
+        display: flex;
+        align-items: center;
     }
 
-    .container-boxes{
+    .container-boxes {
+        width:100%;
         display: flex;
-        flex-wrap: wrap;
         flex-direction: row;
-        width: 100%;
-        padding: 20px;
-        justify-content: space-between;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        margin: 0 20px;
+
+        app-box-setting {
+            flex-grow: 0;
+            display: flex;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            width : 300px;
+            min-width: 300px;
+            height : 80px;
+            box-shadow: $bms_shadow;
+        }
     }
 
-    .container-table{
+    .container-table {
         display: flex;
         width: 100%;
         padding: 20px;
 
-        .container-content{
+        .box-green {
+              border-top: solid 12px $bms_green;
+        }
+        .box-red {
+              border-top: solid 12px $bms_red;
+        }
+
+        .container-content {
             display: flex;
             flex-wrap: wrap;
+            justify-content: center;
             width: 100%;
             background-color: $bms_light_grey;
-            box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);    
+            box-shadow: $bms_shadow;
             border-radius: 3px;
-    
-          .content-table{
-              display: flex;
-              width: 100%;
-              padding : 20px;
-            }
-        }
 
-        .content-button{
-            display: flex;
-            width: 100%;
-            padding-top : 20px;
-            padding-left: 20px;
-            padding-right: 20px;
-            padding-bottom: 0px;
-            align-items: center;
-            justify-content: space-between;
-            .mat-raised-button {
-                color: $bms_white;
-                background-color: $bms_green;
-                span{
-                    font-weight: bold;
-                    font-family: $bms_font_text;
-                }
+            .content-button {
+                display: flex;
+                width: 100%;
+                padding-top : 20px;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-bottom: 0px;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .content-table {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                padding : 20px;
+            }
+
+            .content-button-footer {
+                justify-content: flex-end !important;
+                padding-bottom: 20px !important;
             }
         }
-    
     }
 }
 
 
-.mat-stepper-horizontal {
-    display: block;
-    width: 100%;
-    .container-table {
-        padding: 0px;
-        .box-green{
-            border-top: solid 12px $bms_green;
-            .content-button{
-                justify-content: flex-end !important;
-                .next{
-                    font-weight: 900;
-                    margin-right: 0.8vw;
-                 }
-            } 
-            .content-table {
-                flex-wrap: wrap;
-                justify-content: space-evenly;
-                .done {
-                    display: flex;
-                    width: 100%;
-                    flex-direction: column;
-                    align-items: center;
-                    margin-top: 2vh;
-                    .buttonSend {
-                        margin: 2vh 0;
-                    }
-                }
+// Buttons
+.mat-raised-button {
+  color: $bms_white !important;
+  height: 40px !important;
+  .mat-button-wrapper {
+    span {
+      font-weight: bold;
+      padding-left: 10px !important;
+    }
+  }
+}
+
+.add-button {
+  color: $bms_white !important;
+  background-color: $bms_red !important;
+}
+
+.button-text-primary {
+  color: $bms_green !important;
+}
+.button-text-accent {
+  color: $bms_red !important;
+}
+
+.button-background-primary {
+  background-color: $bms_green !important;
+}
+.button-background-accent {
+  background-color: $bms_red !important;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+
+    // Dropdown buttons
+    .extension {
+        display: flex;
+        height: 36px;
+
+        .dropdown {
+            background-color: $bms_green;
+            height: 100%;
+            width: 20px;
+            padding: 2px;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+            border-left: solid 1px $bms_light_grey;
+            box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            &:hover {
+                cursor: pointer;
             }
-            .content-button-footer{
-                display: flex;
-                width: 100%;
-                padding : 10px 20px 20px 20px;
-                align-items: center;
-                justify-content: flex-end;
-    
-                .mat-raised-button {
-                    color: white;
-                    background-color: $bms_green;
-                    span{
-                        font-family: $bms_font_text;
-                    }
-                }
+
+            mat-icon {
+                margin: auto;
+                color: $bms_white;
             }
-        }  
+        }
+
+        .mat-menu-item {
+            &:hover {
+                background-color: $bms_green;
+                color: $bms_white;
+                font-weight: bold;
+            }
+            mat-icon {
+                margin-left: 10px;
+            }
+        }
+    }
+    button:last-child {
+      margin-left: 20px;
+    }
+}
+
+// TODO check addBeneficiary (done) and distributions (next)
+.box-green, .box-red {
+    .content-button{
+        .next{
+            font-weight: 900;
+            margin-right: 0.8vw;
+         }
+    }
+    .content-table {
+        .done {
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2vh;
+            .buttonSend {
+                margin: 2vh 0;
+            }
+        }
     }
 }
 
@@ -119,52 +190,50 @@
 }
 
 //for mobile screen
-@media only screen and (max-width: 750px){
-    .container-boxes{
-        flex-wrap: nowrap !important;
-        overflow-x: scroll;
+@media only screen and (max-width: 750px) {
+  .mat-stepper-horizontal {
+    .container-table {
+      width: unset !important;
     }
-    .container-table{
-        padding: 5px 5px 20px 5px !important;
+  }
 
-        .content-button {
-            justify-content: flex-end !important;
-            
-            .mat-raised-button{
-            margin-right: 0px !important;
-            }
-        }
+  .container-table {
+      flex-direction: column;
+      .add-button {
+        position: fixed;
+        bottom: 2vh;
+        right: 2vh;
+        z-index: 1000;
+      }
 
-        .content-table {
-            padding: 0px !important;
-        }
-    }
+      .content-table {
+        padding: 0px !important;
+      }
 
+      .content-button {
+          flex-direction: column;
+      }
+
+      .stepInMobile {
+          display: flex;
+          margin-bottom: 1.5em;
+          justify-content: center;
+          .dot {
+              height: 24px;
+              width: 24px;
+              background-color: $bms_black;
+              color: $bms_white;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              margin-right: 1em;
+          }
+      }
+  }
+
+    // TODO check distributions
     .next {
         padding-left: 0 !important;
     }
-
-    .content-button-footer {
-        justify-content: space-between !important;
-    }
-
-    .stepInMobile {
-        display: flex !important;
-        margin-bottom: 3vh;
-        justify-content: center;
-    }
-    .dot {
-        height: 24px;
-        width: 24px;
-        background-color: #424242;
-        border-radius: 50%;
-        display: flex;
-        color: white;
-        justify-content: center;
-        align-items: center;
-        margin-right: 4vw;
-    }
-
-
-
 }

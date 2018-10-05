@@ -42,9 +42,9 @@ export const routes: Routes = [
 
 	{ path: 'beneficiaries/import', component: BeneficiariesImportComponent },
 
-	{ path: 'beneficiaries/data-validation', component: DataValidationComponent },
+	{ path: 'beneficiaries/import/data-validation', component: DataValidationComponent },
 
-    { path: 'beneficiaries/add-beneficiaries', component: AddBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
+    { path: 'beneficiaries/add-beneficiaries', component: UpdateBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
     { path: 'beneficiaries/update-beneficiary/:id', component: UpdateBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
 
 	// home route protected by auth guard

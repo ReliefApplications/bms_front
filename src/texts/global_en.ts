@@ -15,7 +15,16 @@ export const TEXT = {
     menu_settings : 'settings',
 
     header_home : 'Home',
-    header_profile : 'profile',
+    header_projects : 'Projects',
+    'header_add-distribution' : 'Add Distribution',
+    'header_distributions' : 'Distribution',
+    header_beneficiaries : 'Beneficiaries',
+    header_resports : 'Reports',
+    header_settings : 'Settings',
+    header_profile : 'Profile',
+    header_import : 'Import',
+    'header_data-validation' : 'Data Validation',
+    'header_add-beneficiaries' : 'Add Household',
     header_disconnect : 'log out',
     header_language : 'language',
 
@@ -62,6 +71,7 @@ export const TEXT = {
     beneficiaries_import : 'import',
     beneficiaries_import_file : 'file import',
     beneficiaries_import_api : 'api import',
+    beneficiaries_select_api : 'Select API',
     beneficiaries_import_title: 'import households data',
     beneficiaries_import_getProject: 'Projects',
     beneficiaries_import_csv: 'download csv template',
@@ -133,7 +143,11 @@ export const TEXT = {
     add_distribution_selection_criteria : 'selection criteria',
     add_distribution_distributed_commodity : 'distributed commodity',
     add_distribution_beneficiaries_reached: 'Beneficiaries reached',
+    add_distribution_households_reached: 'Households reached',
     add_distribution_commodities_delivered: 'Commodities delivered',
+    add_distribution_threshold: 'Threshold',
+    add_distribution_female: 'Woman',
+    add_distribution_male: 'Man',
     add_project: 'Create a project',
 
     table_filter : 'Filter',
@@ -215,6 +229,7 @@ export const TEXT = {
     model_criteria_value : 'Value',
     model_criteria_beneficiary : 'Beneficiary',
     model_criteria_household : 'Household',
+    model_criteria_weight : 'Weight',
     model_commodity: 'Commodity',
     model_commodity_modality: 'Modality',
     model_commodity_type: 'Type',
@@ -228,7 +243,7 @@ export const TEXT = {
     import_deleted: 'Will be deleted',
     import_errors: 'Will be ignored',
     import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing. Any unknown beneficiary will be ignored',
-    
+
     distribution_details_export: 'export',
     distribution_details_import: 'import & compare',
     distribution_details_random: 'export random sample',
@@ -241,5 +256,11 @@ export const TEXT = {
     profile_user_hint_new_password_again: 'Re-enter new password',
     snackbar_change_password_done: 'Password has been changed !',
     snackbar_change_password_fail: 'Could not change password...',
-    snackbar_change_password_not_possible: 'Password must be longer than 1 character and match with verification'
+    snackbar_change_password_not_possible: 'Password must be longer than 1 character and match with verification',
+
+    forbidden: 'Forbidden Page',
+    forbidden_message: 'Sorry, you don\'t have permission to access this page',
+    not_found: 'Page Not Found',
+    not_found_message: 'Sorry, this page could not be found',
+    back_to_homepage: 'Go back to homepage'
 };

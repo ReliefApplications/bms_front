@@ -147,7 +147,6 @@ export class BeneficiariesImportComponent implements OnInit {
    */
   addHouseholds() {
     const data = new FormData();
-
     if (!this.csv || !this.selectedProject || this.load) {
       this.snackBar.open('You must select a project and add a file before uploading', '', { duration: 3000, horizontalPosition: 'center' });
     } else {
@@ -156,10 +155,10 @@ export class BeneficiariesImportComponent implements OnInit {
       const step = 1;
       this.load = true;
       this._importService.sendData(data, project[0], step).then(() => {
-        this.router.navigate(['/beneficiaries/data-validation']);
-      }, () => {
+        this.router.navigate(['/beneficiaries/import/data-validation']);
+      }, (err) => {
         this.load = false;
-        this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'center' });
+        this.snackBar.open(err.message, '', { duration: 3000, horizontalPosition: 'center' });
       })
         .catch(
           () => {
@@ -223,7 +222,7 @@ export class BeneficiariesImportComponent implements OnInit {
             }
 
             param['paramName'] = listAPI['params'][j].paramName;
-            
+
           }
 
           this.APIParams.push(param);
@@ -238,7 +237,7 @@ export class BeneficiariesImportComponent implements OnInit {
     this.ParamsToDisplay.push({'paramType': this.APIParams[index].paramType, 'paramName': this.APIParams[index].paramName});
     this.provider = event.value;
   }
-  
+
   //Get each value in inputs
   getValue(event, paramName) {
     const text = event.target.value;

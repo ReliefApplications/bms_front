@@ -19,7 +19,7 @@ $box-content: 80px;
         height: 100%;
         border:0;
         background: none;
-        box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.3);    
+        box-shadow: $bms_shadow;    
         padding: 0 !important;
         &:hover{
             cursor: pointer;

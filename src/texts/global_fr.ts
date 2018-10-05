@@ -15,11 +15,20 @@ export const TEXT = {
     menu_settings : 'paramètres',
 
     header_home : 'Accueil',
-    header_profile : 'profil',
+    header_projects : 'Projets',
+    'header_add-distribution' : 'Ajouter une distribution',
+    'header_distributions' : 'Distribution',
+    header_beneficiaries : 'Bénéficiaires',
+    header_resports : 'Graphiques',
+    header_settings : 'Paramètres',
+    header_profile : 'Profil',
+    header_import : 'Import',
+    'header_data-validation' : 'Validation de données',
+    'header_add-beneficiaries' : 'Ajouter un ménage',
     header_disconnect : 'déconnexion',
     header_language : 'langue',
 
-    login_title : 'login',
+    login_title : 'Connexion',
     login_bms : 'Beneficiary management system',
     login_username : 'identifiant',
     login_password : '*********',
@@ -62,6 +71,7 @@ export const TEXT = {
     beneficiaries_import : 'import',
     beneficiaries_import_file : 'import de fichier',
     beneficiaries_import_api : 'import par api',
+    beneficiaries_select_api : 'Sélectionner une API',
     beneficiaries_import_title: 'import de ménages',
     beneficiaries_import_getProject: 'Projets',
     beneficiaries_import_csv: 'télécharger le modèle csv',
@@ -133,7 +143,11 @@ export const TEXT = {
     add_distribution_selection_criteria : 'critères de sélection',
     add_distribution_distributed_commodity : 'ressource distribuée',
     add_distribution_beneficiaries_reached: 'Bénéficaires atteints',
+    add_distribution_households_reached: 'Ménages atteints',
     add_distribution_commodities_delivered: 'Ressources délivrées',
+    add_distribution_threshold: 'Limite',
+    add_distribution_female: 'Femme',
+    add_distribution_male: 'Homme',
     add_project: 'Créer un projet',
 
     table_filter : 'Filtre',
@@ -215,6 +229,7 @@ export const TEXT = {
     model_criteria_value : 'Valeur',
     model_criteria_beneficiary : 'Bénéficiaire',
     model_criteria_household : 'Ménage',
+    model_criteria_weight : 'Poids',
     model_commodity: 'Ressource',
     model_commodity_modality: 'Modalité',
     model_commodity_type: 'Type',
@@ -240,5 +255,11 @@ export const TEXT = {
     profile_user_hint_new_password_again: 'Ré-entrez votre nouveau mot de passe',
     snackbar_change_password_done: 'Mot de passe modifié !',
     snackbar_change_password_fail: 'Le mot de passe n\'a pas pu être changé...',
-    snackbar_change_password_not_possible: 'Mot de passe pas assez long ou différent de la vérification'
+    snackbar_change_password_not_possible: 'Mot de passe pas assez long ou différent de la vérification',
+
+    forbidden: 'Page interdite',
+    forbidden_message: 'Désolé, vous n\'avez pas l\'autorisation d\'accéder à cette page',
+    not_found: 'Page non trouvée',
+    not_found_message: 'Désolé, cette page n\'est pas disponible',
+    back_to_homepage: 'Retour à la page d\'accueil'
 };

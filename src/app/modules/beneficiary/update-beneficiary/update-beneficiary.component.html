@@ -1,11 +1,12 @@
 <div class="page-container">
     <div class="container-title">
-        <h2>{{Text.update_beneficiary_title | titlecase}}</h2>
+        <h2 *ngIf='mode=="update"'>{{Text.update_beneficiary_title | titlecase}}</h2>
+        <h2 *ngIf='mode=="create"'>{{Text.add_beneficiary_title | titlecase}}</h2>
     </div>
 
     <app-placeholder-stepper *ngIf="!updatedHousehold"></app-placeholder-stepper>
 
-    <mat-horizontal-stepper linear #stepper *ngIf="updatedHousehold">
+    <mat-horizontal-stepper linear #stepper *ngIf="mode == 'create' || (mode == 'update' && updatedHousehold.beneficiaries[0])">
         <ng-template matStepperIcon="done">
             <mat-icon>done</mat-icon>
         </ng-template>
@@ -22,7 +23,7 @@
                         <div class="step1 all-information-mobile">
                             <div class="column-container">
                                 <mat-form-field>
-                                    <mat-select #province placeholder={{Text.add_beneficiary_getProvince}} [(ngModel)]="updatedHousehold.location.adm1">
+                                    <mat-select #province placeholder={{Text.add_beneficiary_getProvince}} [(ngModel)]="updatedHousehold.location.adm1" required>
                                         <mat-option *ngFor="let province of provinceList" [value]="province">
                                             {{province}} 
                                         </mat-option>
@@ -52,20 +53,20 @@
                             </div>
                             <div class="column-container">
                                 <mat-form-field>
-                                    <mat-select multiple #projects placeholder={{Text.add_beneficiary_getProject}} [(ngModel)]="updatedHousehold.projects">
+                                    <mat-select multiple #projects placeholder={{Text.add_beneficiary_getProject}} [(ngModel)]="updatedHousehold.projects" required>
                                         <mat-option *ngFor="let project of projectList" [value]="project"> 
                                             {{project}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <input matInput #addressNumber placeholder={{Text.add_beneficiary_getAddressNumber}} [(ngModel)]="updatedHousehold.address_number">
+                                    <input matInput #addressNumber placeholder={{Text.add_beneficiary_getAddressNumber}} [(ngModel)]="updatedHousehold.address_number" required>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <input matInput #addressStreet placeholder={{Text.add_beneficiary_getAddressStreet}} [(ngModel)]="updatedHousehold.address_street">
+                                    <input matInput #addressStreet placeholder={{Text.add_beneficiary_getAddressStreet}} [(ngModel)]="updatedHousehold.address_street" required>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <input matInput #addressPostcode placeholder={{Text.add_beneficiary_getAddressPostcode}} [(ngModel)]="updatedHousehold.address_postcode">
+                                    <input matInput #addressPostcode placeholder={{Text.add_beneficiary_getAddressPostcode}} [(ngModel)]="updatedHousehold.address_postcode" required>
                                 </mat-form-field>
                             </div>
                             <div class="column-container">

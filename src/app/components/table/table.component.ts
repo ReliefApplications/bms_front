@@ -1,7 +1,9 @@
 
 import { Component, OnInit, Input, ViewChild, OnChanges, ElementRef, DoCheck } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource,
-MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner} from '@angular/material';
+import {
+  MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource,
+  MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner
+} from '@angular/material';
 
 import { Mapper } from '../../core/utils/mapper.service';
 import { CacheService } from '../../core/storage/cache.service';
@@ -84,29 +86,29 @@ export class TableComponent implements OnChanges, DoCheck {
   }
 
   checkEntityUpdateRights() {
-      if (this.entity === Beneficiaries) {
-          return false;
-      } else {
-          return true;
-      }
+    if (this.entity === Beneficiaries) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   checkItemStateRights(item: any) {
-      if (item instanceof DistributionData) {
-          if (item.validated) {
-              return false;
-          } else {
-              return true;
-          }
+    if (item instanceof DistributionData) {
+      if (item.validated) {
+        return false;
+      } else {
+        return true;
       }
+    }
   }
 
   checkTable() {
-      if (this.data.data && this.data.data.length > 0) {
-        this.filled = true;
-      } else {
-        this.filled = false;
-      }
+    if (this.data.data && this.data.data.length > 0) {
+      this.filled = true;
+    } else {
+      this.filled = false;
+    }
   }
 
   updateData() {
@@ -126,7 +128,7 @@ export class TableComponent implements OnChanges, DoCheck {
   setDataTableProperties() {
     this.data.sort = this.sort;
     if (this.paginator) {
-    this.paginator._intl.itemsPerPageLabel = this.table.table_items_per_page;
+      this.paginator._intl.itemsPerPageLabel = this.table.table_items_per_page;
       this.paginator._intl.firstPageLabel = this.table.table_first_page;
       this.paginator._intl.previousPageLabel = this.table.table_previous_page;
       this.paginator._intl.nextPageLabel = this.table.table_next_page;
@@ -161,7 +163,7 @@ export class TableComponent implements OnChanges, DoCheck {
   openDialog(user_action, element): void {
     let dialogRef;
 
-    if (user_action === 'details' ) {
+    if (user_action === 'details') {
       dialogRef = this.dialog.open(ModalDetailsComponent, {
         data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
       });
@@ -179,16 +181,16 @@ export class TableComponent implements OnChanges, DoCheck {
     if (dialogRef.componentInstance.onDelete) {
       deleteElement = dialogRef.componentInstance.onDelete.subscribe(
         (data) => {
-        this.deleteElement(data);
-      });
+          this.deleteElement(data);
+        });
     }
-    
+
     let updateElement = null;
     if (dialogRef.componentInstance.onUpdate) {
       updateElement = dialogRef.componentInstance.onUpdate.subscribe(
         (data) => {
-        this.updateElement(data);
-      });
+          this.updateElement(data);
+        });
     }
 
     dialogRef.afterClosed().subscribe(result => {
@@ -221,14 +223,14 @@ export class TableComponent implements OnChanges, DoCheck {
 
   deleteElement(deleteElement: Object) {
     if (this.entity === Beneficiaries) {
-        // console.log('delete: ', this.deleteElement['id']);
-        this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
-            this.updateData();
-        });
+      // console.log('delete: ', this.deleteElement['id']);
+      this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
+        this.updateData();
+      });
     } else {
-        this.service.delete(deleteElement['id']).subscribe(response => {
-            this.updateData();
-        });
+      this.service.delete(deleteElement['id']).subscribe(response => {
+        this.updateData();
+      });
     }
   }
 }

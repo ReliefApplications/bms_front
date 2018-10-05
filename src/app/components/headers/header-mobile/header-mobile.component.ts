@@ -15,8 +15,6 @@ export class HeaderMobileComponent implements OnInit {
   public header = GlobalText.TEXTS;
   public language = "en";
 
-  @Input() currentComponent;
-  @Input() currentRoute = "";
   @Output() emitLogOut = new EventEmitter();
   @Output() emitCurrentRoute = new EventEmitter<string>();
   @Output() emitToggle = new EventEmitter();

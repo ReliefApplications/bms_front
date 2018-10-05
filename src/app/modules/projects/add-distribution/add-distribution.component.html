@@ -9,26 +9,26 @@
               <mat-panel-title>
                 {{mapperObject[p]}}
               </mat-panel-title>
-              <mat-panel-description *ngIf= " propertiesTypes[p]!='text'"> 
+              <mat-panel-description *ngIf=" propertiesTypes[p]!='text'">
                 {{newObject[p]}}
               </mat-panel-description>
-            
+
             </mat-expansion-panel-header>
             <mat-form-field class="accordion-field" *ngIf="propertiesTypes[p]=='select' || propertiesTypes[p]=='date'">
-              <input *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]!='radio'" [(ngModel)]="newObject[p]" class="field-input"
-                matInput type="{{propertiesTypes[p]}}">
-              <mat-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date' && propertiesTypes[p]!='radio'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [formControl]="controls"
-                (selectionChange)="selected($event, newObject, p)">
+              <mat-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date'" [(ngModel)]="newObject[p]"
+                placeholder="{{mapperObject[p]}}" [formControl]="controls" (selectionChange)="selected(p)">
                 <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.name">{{singleData.name}}</mat-option>
               </mat-select>
-              <input *ngIf="propertiesTypes[p]=='date' && propertiesTypes[p]!='radio'" matInput [matDatepicker]="dateDistribution" placeholder="{{mapperObject[p]}}" (ngModel)="newObject[p]" (dateChange)='selectDate($event)'>
-              <mat-datepicker-toggle *ngIf="propertiesTypes[p]=='date' && propertiesTypes[p]!='radio'" matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
+              <input *ngIf="propertiesTypes[p]=='date'" matInput [matDatepicker]="dateDistribution" placeholder="{{mapperObject[p]}}"
+                (ngModel)="newObject[p]" (dateChange)='selectDate($event)'>
+              <mat-datepicker-toggle *ngIf="propertiesTypes[p]=='date'" matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
               <mat-datepicker #dateDistribution></mat-datepicker>
             </mat-form-field>
-            <mat-radio-group class="typeDistribution" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'"  (change)="typeDistributionOnChange($event)" [(ngModel)]="newObject[p]" >
-                <mat-radio-button checked='true' color="warn" value="Household" disabled='false'>Household</mat-radio-button>
-                <mat-radio-button color="warn" value="Beneficiary">Beneficiary</mat-radio-button>
-              </mat-radio-group>
+            <mat-radio-group class="typeDistribution" (change)="typeDistributionOnChange($event)" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'"
+              [(ngModel)]="newObject[p]">
+              <mat-radio-button checked='true' color="warn" value="Household" disabled='false'>Household</mat-radio-button>
+              <mat-radio-button color="warn" value="Beneficiary">Beneficiary</mat-radio-button>
+            </mat-radio-group>
           </mat-expansion-panel>
         </mat-accordion>
       </div>
@@ -41,13 +41,28 @@
             <mat-icon>add</mat-icon>
           </button>
         </div>
+
         <div class="criteria-form" *ngIf="widthScreen > maxWidthMobile">
           <app-table-small (onRemove)="removeElement($event, criteriaAction)" [entity]="criteriaClass" [data]="criteriaData"></app-table-small>
         </div>
-        <div class="criteria-summary" *ngIf="criteriaArray.length != 0">
-          <h3 class="summary-text">
-            <span>{{criteriaNbBeneficiaries.number}}</span>{{distribution.add_distribution_beneficiaries_reached | uppercase}}</h3>
+
+        <div class="criteria-threshold">
+          <mat-form-field class="accordion-field" id="threshold">
+            <mat-label>{{ distribution.add_distribution_threshold }}</mat-label>
+            <input class="field-input" matInput type="number" [(ngModel)]="newObject.threshold" [formControl]="controlNumber"
+              (input)="numberOnInput($event)" (change)="numberOnChange()">
+          </mat-form-field>
+
+          <div class="criteria-summary" *ngIf="criteriaArray.length != 0">
+            <h3 class="summary-text" *ngIf="newObject.type == 'Beneficiary'">
+              <span *ngIf="!load">{{criteriaNbBeneficiaries.number}}</span><span *ngIf="load"><mat-spinner [diameter]="25"></mat-spinner></span>{{distribution.add_distribution_beneficiaries_reached |
+              uppercase}}</h3>
+            <h3 class="summary-text" *ngIf="newObject.type == 'Household'">
+              <span *ngIf="!load">{{criteriaNbBeneficiaries.number}}</span><span *ngIf="load"><mat-spinner [diameter]="25"></mat-spinner></span>{{distribution.add_distribution_households_reached |
+              uppercase}}</h3>
+          </div>
         </div>
+
         <div class="criteria-form" *ngIf="widthScreen < maxWidthMobile">
           <app-table-small-mobile (onRemove)="removeElement($event, criteriaAction)" [entity]="criteriaClass" [data]="criteriaData"></app-table-small-mobile>
         </div>

@@ -81,7 +81,7 @@ export class ModalAddComponent extends ModalComponent {
         // console.log('(dialog) Return from format: ', formatedObject);
         this.onCreate.emit(formatedObject);
         this.closeDialog();
-    }
+    } 
 
     unitType(): string {
         if (this.newObject && this.newObject.modality === 2) {

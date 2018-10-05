@@ -12,7 +12,7 @@ import { CriteriaService } from '../../../core/api/criteria.service';
 import { VulnerabilityCriteria } from '../../../model/vulnerability_criteria';
 import { CountrySpecificService } from '../../../core/api/country-specific.service';
 import { CountrySpecific, CountrySpecificAnswer } from '../../../model/country-specific';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { AddHouseholds, AddBeneficiaries, Phones, NationalID } from '../../../model/add-household';
 import { Profile } from 'selenium-webdriver/firefox';
@@ -20,10 +20,6 @@ import { LIVELIHOOD } from '../../../model/livelihood';
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
 import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
 import { CacheService } from '../../../core/storage/cache.service';
-import { Households } from '../../../model/households';
-import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
-
-// DELETE MODIFICATIONS FOR UPDATE : GO BACK TO OLD ADD COMPONENT
 
 @Component({
     selector: 'add-beneficiary',
@@ -31,22 +27,18 @@ import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
     styleUrls: ['./addBeneficiary.component.scss']
 })
 export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
-    public cc = 'lact';
+
     public nameComponent = 'add_beneficiary_title';
     public household = GlobalText.TEXTS;
 
     @ViewChild('stepper') stepper: MatStepper;
     @ViewChildren('countrySpecificsAnswer') CountrySpecificsInput: QueryList<MatInput>;
-    selectedIdPoor = false;
     loadingCreation = false;
-
-    // Household Mode ? 'add' or 'update'
-    public mode = 'add';
 
     // for the project selector
     public projects = new FormControl('', Validators.required);
     public projectList: string[] = [];
-    public selectedProjects: string[] = null;
+    public selectedProject: string = null;
 
     // for the gender selector
     public genderList: string[] = ['F', 'M'];
@@ -72,9 +64,6 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     public villageList: string[] = [];
     public selectedVillage: string = null;
 
-    // notes ?
-    public notes = new FormControl();
-
     // for the type phone selector
     public typePhoneList: string[] = ['mobile', 'landline'];
     public selectedtypePhone = '';
@@ -87,9 +76,6 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     public allVulnerability = [];
     public countrySpecifics = [];
     public answerCountrySpecific;
-
-    // update vulnerabilities
-    public updatedVulnerabilities = [];
 
     // for the address' input
     public addressNumber = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
@@ -119,9 +105,6 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     public filteredLivelihoodList: Observable<any[]>;
     public livelihoods = new FormControl();
 
-    // Update a Beneficiary mode ?
-    public updatedBeneficiary : any;
-
     constructor(
         public _projectService: ProjectService,
         public _locationService: LocationService,
@@ -129,20 +112,13 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         public _criteriaService: CriteriaService,
         public _countrySpecificsService: CountrySpecificService,
         public router: Router,
+        public _householdsServce: HouseholdsService,
         public formBuilder: FormBuilder,
         public dialog: MatDialog,
         public _cacheService: CacheService,
-        public _householdsService: HouseholdsService,
-        public _beneficiariesService: BeneficiariesService,
-        private route: ActivatedRoute,
     ) { }
 
     ngOnInit() {
-        if(this.router.url.split('/')[2] === 'update-beneficiary')
-            this.mode = 'update';
-        
-        console.log(this.selectedVulnerabilities);
-        
         this.getProjects();
         this.getProvince();
         this.getVulnerabilityCriteria();
@@ -162,12 +138,6 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
             startWith(''),
             map(value => this.filter(value.head ? String(value.head[0].countryCode) : '', this.countryCodesList))
         );
-
-        if(this.mode==='update') {
-            this.getUpdatedBeneficiary();
-        }
-
-        
     }
 
     /**
@@ -182,208 +152,13 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         } else {
             return (true);
         }
-
-    }
-
-    getUpdatedBeneficiary() {
-        this.route.params.subscribe(
-            result => {
-                if(result['id']) {
-                    this._householdsService.getOne(result['id']).subscribe(
-                        result => {
-                            this.updatedBeneficiary = result;
-                            console.log("Beneficiary to update -- ", this.updatedBeneficiary);
-                            this.prefillData();
-                        }
-                    );
-                }
-            }
-        );
-    }
-
-    prefillData() {
-
-        // Prefill Adress fields
-        this.addressNumber.setValue(this.updatedBeneficiary.address_number);
-        this.addressStreet.setValue(this.updatedBeneficiary.address_street);
-        this.addressPostcode.setValue(this.updatedBeneficiary.address_postcode);
-        this.livelihoods.setValue(this.livelihoodList[this.updatedBeneficiary.livelihood]);
-        this.notes.setValue(this.updatedBeneficiary.notes);
-        
-        // Prefill Location fields
-        let location = Location.formatAdmFromApi(this.updatedBeneficiary.location);
-        
-        this.getProvince();
-        this.province.setValue(Location.formatOneAdm(location.adm1)) 
-        this.selectedProvince = Location.formatOneAdm(location.adm1);
-        this.getDistrict(String(location.adm1.id));
-
-        if(location.adm2) {
-            this.district.setValue(Location.formatOneAdm(location.adm2));
-            this.selectedDistrict = Location.formatOneAdm(location.adm2);
-            this.getCommune(String(location.adm2.id));
-        }
-        if(location.adm3) {
-            this.commune.setValue(Location.formatOneAdm(location.adm3));
-            this.selectedCommune = Location.formatOneAdm(location.adm3);
-            this.getVillage(String(location.adm3.id));
-        }
-        if(location.adm4) {
-            this.village.setValue(Location.formatOneAdm(location.adm4));
-            this.selectedVillage = Location.formatOneAdm(location.adm4);
-        }
-
-        // Prefill Project field
-        let projects = this.updatedBeneficiary.projects;
-        projects.forEach(
-            element => {
-                projects[projects.indexOf(element)] = '' + element.id + ' - ' + element.name;
-            }
-        )
-        this.projects.setValue(projects);
-        this.selectedProjects = projects;
-
-        // Beneficiaries Head & Members
-        let head;
-        let headIndex = 0;
-        let members = [];
-        this.updatedBeneficiary.beneficiaries.forEach(
-            beneficiary => {
-                if (beneficiary.status) {
-                    head = beneficiary;
-                    headIndex = this.updatedBeneficiary.beneficiaries.indexOf(beneficiary);
-                } else {
-                    members.push(beneficiary);
-                }
-            }
-        )
-        console.log('members: ', members);
-
-        // Prefill Head
-        if(head.gender === 0) {
-            head.gender = 'F';
-        } else if (head.gender === 1) {
-            head.gender = 'M';
-        }
-        if(head.phones[0]) {
-            head.phones = {
-                number: head.phones[0].number,
-                type: head.phones[0].type
-            }
-        } else {
-            head.phones = {
-                number: '',
-                type: ''
-            }
-        }
-        if(head.national_ids[0]) {
-            head.national_ids = {
-                number: head.national_ids[0].id_number,
-                type: head.national_ids[0].id_type
-            }
-        } else {
-            head.national_ids = {
-                number: '',
-                type: ''
-            }
-        }
-
-        this.instantiateFormHead(head);
-
-        if(head.vulnerability_criteria) {
-            this.updatedVulnerabilities.push(this.allVulnerability);
-            
-            head.vulnerability_criteria.forEach(
-                element => {
-                    this.choiceVulnerabilities(VulnerabilityCriteria.formatElement(element), headIndex, 'head');
-                    this.updatedVulnerabilities[0].forEach(
-                        criteria => {
-                            if(criteria.field_string === element.field_string) {
-                                this.updatedVulnerabilities[0][this.updatedVulnerabilities[0].indexOf(criteria)].checked = true;
-                            } else {
-                                this.updatedVulnerabilities[0][this.updatedVulnerabilities[0].indexOf(criteria)].checked = false;
-                            }
-                        }
-                    );
-                }
-            );
-        }
-
-        // Prefill Members.
-        // first member index is after head (0) in updatedVulnerability array.
-        let memberIndexInHousehold = 0;
-        members.forEach(
-            element => {
-                let member = element;
-                
-                if(memberIndexInHousehold === headIndex) {
-                    memberIndexInHousehold++;
-                }
-
-                if(member.gender === 0) {
-                    member.gender = 'F';
-                } else if (member.gender === 1) {
-                    member.gender = 'M';
-                }
-                if(member.phones[0]) {
-                    member.phones = {
-                        number: member.phones[0].number,
-                        type: member.phones[0].type
-                    }
-                } else {
-                    member.phones = {
-                        number: '',
-                        type: ''
-                    }
-                }
-                if(member.national_ids[0]) {
-                    member.national_ids = {
-                        number: member.national_ids[0].id_number,
-                        type: member.national_ids[0].id_type
-                    }
-                } else {
-                    member.national_ids = {
-                        number: '',
-                        type: ''
-                    }
-                }
-
-                members[members.indexOf(element)] = member;
-                this.addMoreBeneficiary(member);
-
-                if(member.vulnerability_criteria) {
-                    this.updatedVulnerabilities.push(this.allVulnerability);
-                    
-                    member.vulnerability_criteria.forEach(
-                        vulnerability => {
-                            this.choiceVulnerabilities(VulnerabilityCriteria.formatElement(vulnerability), memberIndexInHousehold, 'member');
-                            this.updatedVulnerabilities[this.updatedVulnerabilities.length-1].forEach(
-                                criteria => {
-                                    this.updatedVulnerabilities[this.updatedVulnerabilities.length-1]
-                                    [this.updatedVulnerabilities[this.updatedVulnerabilities.length-1]
-                                    .indexOf(criteria)].checked = (criteria.field_string === vulnerability.field_string);
-                                }
-                            );
-                        }
-                    );
-                }
-                memberIndexInHousehold++;
-            }
-        );
-
-        console.log("test 2: ", this.updatedVulnerabilities);
-        // TODO : instantiate for the number of members
     }
 
     /**
      * Filter the list of livelihoods according to waht the user types
      */
     filter(value: string, element: any) {
-        let filterValue;
-
-        if(value) {
-            filterValue = value.toLowerCase();
-        }
+        const filterValue = value.toLowerCase();
         // console.log(element.filter(option => option.toLowerCase().includes(filterValue)))
         return element.filter(option => option.toLowerCase().includes(filterValue));
     }
@@ -415,21 +190,21 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     /**
      * Initiate the head form structure
      */
-    instantiateFormHead(instance? ) {
+    instantiateFormHead() {
         this.headForm = this.formBuilder.group({
             head: this.formBuilder.array([
                 this.formBuilder.group({
                     id: 'head' + this.id_head,
-                    familyName: [instance? instance.family_name : '', Validators.required],
-                    givenName: [instance? instance.given_name : '', Validators.required],
-                    gender: [instance? instance.gender : '', Validators.required],
-                    birth: [instance? instance.date_of_birth : '', Validators.required],
-                    typeNationalId: instance? instance.national_ids.type : '',
-                    typePhone: instance? instance.phones.type : '',
+                    familyName: ['', Validators.required],
+                    givenName: ['', Validators.required],
+                    gender: ['', Validators.required],
+                    birth: ['', Validators.required],
+                    typeNationalId: '',
+                    typePhone: '',
                     vulnerabilities: '',
-                    phone: [instance? instance.phones.number : '', Validators.pattern('[0-9]*')],
+                    phone: ['', Validators.pattern('[0-9]*')],
                     countryCode: this.getUserPhoneCode(),
-                    nationalID: instance? instance.national_ids.number: ''
+                    nationalID: ''
                 })
             ])
         });
@@ -438,21 +213,21 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
     /**
     * Initiate the beneficiary form structure
     */
-    instantiateFormBeneficiary(instance? ) {
+    instantiateFormBeneficiary() {
         this.beneficiaryForm = this.formBuilder.group({
             beneficiary: this.formBuilder.array([
                 this.formBuilder.group({
                     id: 'beneficiary' + this.id_beneficiary,
-                    familyName: [instance? instance.family_name : '', Validators.required],
-                    givenName: [instance? instance.given_name : '', Validators.required],
-                    gender: [instance? instance.gender : '', Validators.required],
-                    birth: [instance? instance.date_of_birth : '', Validators.required],
-                    typeNationalId: instance? instance.national_ids.type : '',
-                    typePhone: instance? instance.phones.type : '',
+                    familyName: ['', Validators.required],
+                    givenName: ['', Validators.required],
+                    gender: ['', Validators.required],
+                    birth: ['', Validators.required],
+                    typeNationalId: '',
+                    typePhone: '',
                     vulnerabilities: '',
-                    phone: [instance? instance.phones.number : '', Validators.pattern('[0-9]*')],
+                    phone: ['', Validators.pattern('[0-9]*')],
                     countryCode: this.getUserPhoneCode(),
-                    nationalID: instance? instance.national_ids.number : '',
+                    nationalID: ''
                 })
             ])
         });
@@ -477,23 +252,21 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
      * to create more than one beneficiaries
      * instantiate a nex form for beneficiary
      */
-    addMoreBeneficiary(instance?) {
-        console.log('inst : ',instance);
+    addMoreBeneficiary() {
         if (this.beneficiaryForm === undefined) {
-            instance? this.instantiateFormBeneficiary(instance) : this.instantiateFormBeneficiary();
+            this.instantiateFormBeneficiary();
         } else {
             const newBeneficiary = this.formBuilder.group({
                 id: 'beneficiary' + this.id_beneficiary,
-                familyName: instance? instance.family_name : '',
-                givenName: instance? instance.given_name : '',
-                gender: instance? instance.gender : '',
-                birth: instance? instance.date_of_birth : '',
-                typeNationalId: instance? instance.national_ids.type : '',
-                typePhone: instance? instance.phones.type : '',
+                familyName: '',
+                givenName: '',
+                gender: '',
+                birth: '',
+                typeNationalId: '',
+                typePhone: '',
                 vulnerabilities: '',
-                phone: [instance? instance.phones.number : '', Validators.pattern('[0-9]*')],
-                countryCode: this.getUserPhoneCode(),
-                nationalID: instance? instance.national_ids.number : '',
+                phone: '',
+                nationalID: ''
             });
             this.beneficiary.push(newBeneficiary);
             this.id_beneficiary = this.id_beneficiary + 1;
@@ -643,7 +416,6 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
      * @param type
      */
     selected(event, type: string) {
-        console.log(this.headForm);
         switch (type) {
             case 'province':
                 const province = event.value.split(' - ');
@@ -665,7 +437,7 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                 this.selectedVillage = village[1];
                 break;
             case 'project':
-                this.selectedProjects = event.value;
+                this.selectedProject = event.value;
                 break;
         }
     }
@@ -685,10 +457,6 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
         return idCountrySpecific;
     }
 
-    test() {
-        return true;
-    }
-
     /**
      * use to check vulnerabilites in member
      * if a vulnerability checkbox is check the value of if is add in the array
@@ -697,8 +465,6 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
      * @param vulnerablity
      */
     choiceVulnerabilities(vulnerablity: VulnerabilityCriteria, index, type) {
-        console.log("creating vulnerabilities", vulnerablity, index, type);
-        
         const vulnerabilitiesByBeneficiary = {};
         vulnerabilitiesByBeneficiary['id'] = type + index;
         vulnerabilitiesByBeneficiary['vulnerabilities'] = [];
@@ -820,14 +586,12 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
                 this.formatBeneficiaries(inputBeneficiary, type, newBeneficiary);
                 this.householdToCreate.beneficiaries.push(newBeneficiary);
             } else {
-                this.householdToCreate.beneficiaries.forEach(
-                    householdBeneficiary => {
-                        if (householdBeneficiary.id === inputBeneficiary.id) {
-                            this.formatBeneficiaries(inputBeneficiary, type, householdBeneficiary);
-                            alreadyRegister = true;
-                        }
+                this.householdToCreate.beneficiaries.forEach(householdBeneficiary => {
+                    if (householdBeneficiary.id === inputBeneficiary.id) {
+                        this.formatBeneficiaries(inputBeneficiary, type, householdBeneficiary);
+                        alreadyRegister = true;
                     }
-                );
+                });
                 if (!alreadyRegister) {
                     const newBeneficiary: AddBeneficiaries = new AddBeneficiaries;
                     this.formatBeneficiaries(inputBeneficiary, type, newBeneficiary);
@@ -879,11 +643,11 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
             newBeneficiary.status = '0';
         }
 
-        const formatDateOfBirth = inputBeneficiary.birth.split('/');
-        if (String(formatDateOfBirth[0]).length < 2) {
+        const formatDateOfBirth = inputBeneficiary.birth.toLocaleDateString().split('/');
+        if (formatDateOfBirth[0].length < 2) {
             formatDateOfBirth[0] = '0' + formatDateOfBirth[0];
         }
-        if (String(formatDateOfBirth[1]).length < 2) {
+        if (formatDateOfBirth[1].length < 2) {
             formatDateOfBirth[1] = '0' + formatDateOfBirth[1];
         }
 
@@ -913,22 +677,15 @@ export class AddBeneficiaryComponent implements OnInit, DesactivationGuarded {
      * send data to the back and create the new household
      */
     create() {
-        if (this.selectedProjects && this.householdToCreate.beneficiaries) {
-
-            let projects = [];
-            this.selectedProjects.forEach(
-                element => {
-                    projects.push(element.split(' - ')[1]);
-                }
-            );
+        if (this.selectedProject && this.householdToCreate.beneficiaries) {
+            const project = this.selectedProject.split(' - ');
 
             this.householdToCreate.beneficiaries.forEach(beneficiary => {
                 delete beneficiary.id;
             });
 
             this.loadingCreation = true;
-            
-            const promise = this._householdsService.add2(this.householdToCreate, projects);
+            const promise = this._householdsServce.add(this.householdToCreate, project[0]);
             if (promise) {
                 promise.toPromise().then(() => {
                     this.router.navigate(['/beneficiaries']);

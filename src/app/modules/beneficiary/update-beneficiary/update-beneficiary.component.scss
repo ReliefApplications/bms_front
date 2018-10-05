@@ -1,5 +1,10 @@
 @import '../../../../assets/css/variable.scss'; 
 
+app-placeholder-stepper {
+    width: 100% !important;
+    height: 100% !important;
+}
+
 .content-select {
     display: flex;
     flex-direction: column;

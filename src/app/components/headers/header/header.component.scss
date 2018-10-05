@@ -1,126 +1,71 @@
 @import '../../../../assets/css/variable.scss';
 
-.header-container{
+.header-container {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     z-index: 10;
-    .container-routes{
+
+    .container-routes {
         display: flex;
         align-items: center;
         flex-grow: 1;
         padding : 10px;
-        font-size: 1.9vh;
+        font-size: 0.8em;
         flex-wrap: wrap;
 
-        span{
+        span {
             padding: 3px;
             font-family: $bms_font_text;
             text-decoration: none;
 
             a {
                 text-decoration: none;
-                color: black;
-                &:hover{
+                color: $bms_black;
+                &:hover {
                     color : $bms_red;
-                    cursor: pointer;
                 }
             }
         }
     }
 
-    .container-buttons{
+    .container-buttons {
         display: flex;
         flex-grow: 1;
         justify-content: flex-end;
         align-items: center;
-        text-align: end;
         padding: 10px;
 
-        .buttons{
+        .buttons {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            width: 220px;
-            text-align: end;
             align-content: end;
             height: 50px;
             z-index: 50;
 
-        }
-
-        .button-language{
-            border:none;
-            background: none;
-            outline: none;
-            height: 40px;
-            width: 40px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            font-size: 2.2vh;
-            text-align: center;
-
-            &:hover{
-                cursor: pointer;
-                background: $bms_light_grey;
+            .button-language {
+              min-width: unset;
             }
-        }
 
-        .button-admin{
-            border:none;
-            outline: none;
-            display: flex;
-            align-items: center;
-            background: none;
-            height: 40px;
-            img{
+            .round-button {
+              border:none;
+              outline: none;
+              display: flex;
+              align-items: center;
+              background: none;
+              height: 40px;
+              img {
                 width: 40px;
                 height: 100%;
                 border-radius: 20px;
-            }
-            &:hover{
+              }
+              &:hover {
                 cursor: pointer;
+              }
             }
         }
 
-        .button-country{
-            border:none;
-            outline: none;
-            display: flex;
-            align-items: center;
-            background: none;
-            height: 38px;
-            padding: 3px;
-            margin-left: 10px;
-            img{
-                width: 34px;
-                height: 100%;
-                border-radius: 15px;
-            }
-
-            &:hover{
-                cursor: pointer;
-            }
-        }
-    }
-}
-
-@media only screen and (max-width: 750px){
-
-    .buttons{
-        visibility: hidden !important;
-    }
-
-    .container-routes{
-        padding-bottom: 0px !important;
-        padding-top: 0px !important;
-        height : 10px !important;
-    }
-
-    .container-buttons{
-        padding-bottom: 0px !important;
-        padding-top: 0px !important;
     }
 }

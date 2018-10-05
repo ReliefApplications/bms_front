@@ -27,8 +27,7 @@
         <div class="action-buttons">
           <button mat-button class="button-text-primary"> {{ profilePage.modal_cancel | uppercase }} </button>
           <button mat-raised-button type="submit" [disabled]="!profileForm.valid" class="button-background-primary">
-            <mat-icon>save</mat-icon>
-            <span>{{ profilePage.modal_save | uppercase }}</span>
+            {{ profilePage.modal_save | uppercase }}
           </button>
         </div>
       </form>

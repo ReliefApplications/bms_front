@@ -3,8 +3,7 @@
     <h2>{{distribution.menu_projects | titlecase}}</h2>
     <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
     <button mat-stroked-button class="button-text-accent" *ngIf="!loadingCreation" (click)="openNewProjectDialog()">
-        <mat-icon>add</mat-icon>
-        <span class="new-project">NEW</span>
+        <span>NEW</span>
     </button>
   </div>
   <app-placeholder-boxline *ngIf="loadingProjects" class="container-boxes"></app-placeholder-boxline>

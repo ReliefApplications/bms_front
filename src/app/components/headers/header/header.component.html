@@ -11,13 +11,13 @@
   </div>
   <div class="container-buttons">
     <div class="buttons">
-	  <!-- <button class="button-language" (click)="openDialog('language')" color="white">
+	  <!-- <button mat-stroked-button class="button-language" (click)="openDialog('language')">
 		  {{language | uppercase}}
 	  </button> -->
-      <button class="button-country">
+      <button class="round-button">
         <img src="assets/images/cambodia.png">
       </button>
-	  <button [matMenuTriggerFor]="menu" class="button-admin">
+	  <button [matMenuTriggerFor]="menu" class="round-button">
 		<img src="assets/images/profile.png">
 	  </button>
 	  <mat-menu #menu="matMenu" overlapTrigger=false>

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, ErrorStateMatcher, MatSnackBar } from '@angular/material';
-import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 
 import { CacheService } from '../../core/storage/cache.service';
 import { DonorService } from '../../core/api/donor.service';
@@ -11,6 +11,7 @@ import { GlobalText } from '../../../texts/global';
 import { CriteriaService } from '../../core/api/criteria.service';
 import { ModalitiesService } from '../../core/api/modalities.service';
 import { isArray } from 'util';
+import { User } from '../../model/user';
 
 @Component({
   selector: 'modal',
@@ -26,6 +27,12 @@ export class ModalComponent implements OnInit {
   public loadedData: any = [];
   newObject: any;
   public controls = new FormControl();
+
+  form = new FormGroup({
+    projectsControl: new FormControl({value: '', disabled: 'true'}),
+    countryControl: new FormControl({value: '', disabled: 'true'}),
+  });
+
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email,
@@ -34,6 +41,7 @@ export class ModalComponent implements OnInit {
   public allCriteria = [];
 
   matcher = new MyErrorStateMatcher();
+  user = new User();
 
   constructor(public dialogRef: MatDialogRef<ModalComponent>,
     public _cacheService: CacheService,
@@ -107,40 +115,10 @@ export class ModalComponent implements OnInit {
 
     //User in settings
     if((this.newObject && this.newObject.password == '') || (updateObject && updateObject.email && updateObject.rights)){
-      this.loadedData.rights = [
-        {
-          'id': "ROLE_ADMIN",
-          'name': 'ROLE_ADMIN',
-        },
-        {
-          'id': "ROLE_READ_ONLY",
-          'name': 'ROLE_READ_ONLY',
-        },
-        {
-          'id': "ROLE_FIELD_OFFICER",
-          'name': 'ROLE_FIELD_OFFICER',
-        },
-        {
-          'id': "ROLE_PROJECT_OFFICER",
-          'name': 'ROLE_PROJECT_OFFICER',
-        },
-        {
-          'id': "ROLE_PROJECT_MANAGER",
-          'name': 'ROLE_PROJECT_MANAGER',
-        },
-        {
-          'id': "ROLE_COUNTRY_MANAGER",
-          'name': 'ROLE_COUNTRY_MANAGER',
-        },
-        {
-          'id': "ROLE_REGIONAL_MANAGER",
-          'name': 'ROLE_REGIONAL_MANAGER',
-        },
-        {
-          'id': "ROLE_GLOBAL_ADMIN",
-          'name': 'ROLE_GLOBAL_ADMIN',
-        },
-      ]
+      this.loadedData.rights = this.user.getAllRights();
+      this.projectService.get().subscribe(response => {
+        this.loadedData.projects = response;
+      });
     }
     
     //Country specific option in settings

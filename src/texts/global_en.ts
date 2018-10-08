@@ -261,5 +261,14 @@ export const TEXT = {
     forbidden_message: 'Sorry, you don\'t have permission to access this page',
     not_found: 'Page Not Found',
     not_found_message: 'Sorry, this page could not be found',
-    back_to_homepage: 'Go back to homepage'
+    back_to_homepage: 'Go back to homepage',
+
+    role_user_admin: 'Administrator',
+    role_user_read_only: 'Read only',
+    role_user_field_officer: 'Field officer',
+    role_user_project_officer: 'Project officer',
+    role_user_project_manager: 'Project manager',
+    role_user_country_manager: 'Country manager',
+    role_user_regional_manager: 'Regional manager',
+    role_user_global_admin: 'Global admin'
 };

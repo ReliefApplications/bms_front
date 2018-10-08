@@ -100,7 +100,7 @@ export class AuthenticationService {
     }
 
 
-    public createUser(id: number, body: any, salt: any) {
+    public createUser(body: any, salt: any) {
         let saltedPassword = this._wsseService.saltPassword(salt, body.password);
         this._wsseService.setSalted(saltedPassword);
         body.password = saltedPassword;

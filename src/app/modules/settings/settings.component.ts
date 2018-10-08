@@ -36,7 +36,7 @@ export class SettingsComponent implements OnInit {
     selectedTitle = '';
     isBoxClicked = false;
     loadingData = true;
-    
+
     public referedClassService;
     referedClassToken;
     data: MatTableDataSource<any>;
@@ -71,10 +71,10 @@ export class SettingsComponent implements OnInit {
         this.extensionType = 'xls';
     }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.checkSize();
-  }
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.checkSize();
+    }
 
     checkSize(): void {
         this.heightScreen = window.innerHeight;
@@ -179,7 +179,18 @@ export class SettingsComponent implements OnInit {
             // for users, there are two step (one to get the salt and one to create the user)
             this.authenticationService.requestSalt(createElement['username']).subscribe(response => {
                 if (response) {
-                    this.authenticationService.createUser(createElement['id'], createElement, response).subscribe(response => {
+                    if (createElement['rights'] == "ROLE_PROJECT_MANAGER" || createElement['rights'] == "ROLE_PROJECT_OFFICER" || createElement['rights'] == "ROLE_FIELD_OFFICER")
+                        delete createElement['country'];
+                    else if (createElement['rights'] == "ROLE_REGIONAL_MANAGER" || createElement['rights'] == "ROLE_COUNTRY_MANAGER" || createElement['rights'] == "ROLE_READ_ONLY")
+                        delete createElement['projects'];
+                    else {
+                        delete createElement['country'];
+                        delete createElement['projects'];
+                    }
+
+                    console.log(createElement);
+                    
+                    this.authenticationService.createUser(createElement, response).subscribe(() => {
                         this.selectTitle(this.selectedTitle);
                     });
                 }

@@ -81,6 +81,14 @@
     }
 }
 
+.visible {
+    display: flex !important;
+}
+
+.hidden {
+    display: none !important;
+}
+
 //for mobile screen
 @media only screen and (max-width: 750px){
     .modal-container{

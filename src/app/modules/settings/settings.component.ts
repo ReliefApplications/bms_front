@@ -187,8 +187,6 @@ export class SettingsComponent implements OnInit {
                         delete createElement['country'];
                         delete createElement['projects'];
                     }
-
-                    console.log(createElement);
                     
                     this.authenticationService.createUser(createElement, response).subscribe(() => {
                         this.selectTitle(this.selectedTitle);

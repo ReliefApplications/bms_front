@@ -100,7 +100,6 @@ export class ModalAddComponent extends ModalComponent {
 
     // emit the new object
     add(): any {
-        console.log(this.newObject);
         if (this.newObject.username) {
             if (this.newObject.rights == "") {
                 this.snackBar.open('You must defined a right', '', { duration: 3000, horizontalPosition: 'right' });

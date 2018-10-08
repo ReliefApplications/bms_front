@@ -5,116 +5,9 @@ app-placeholder-stepper {
     height: 100% !important;
 }
 
-.content-select {
-    display: flex;
-    flex-direction: column;
-}
-
-.add-beneficiaries {
-    display: flex;
-    flex-direction: column
-}
-
-.members {
-    justify-content: center;
-}
-.vulnerabilities {
-    justify-content: space-around;
-    margin-bottom: 2vh;
-    margin-top: 2vh;    
-}
-.additional-information {
-    display: flex;
-    width: 100%;
-    justify-content: space-evenly;
-}
-
-.delete {
-    align-self: flex-end;
-}
-
-.cancel {
-    margin-right: 2vw;
-}
-
-.add-button {
-    margin-right: 2vw;
-    background-color: $bms_red !important;
-}
-
-.content-table{
-    flex-direction: column;
-}
-
-.all-information-computer {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-}
-
-.notes {
-    width: 90%;
-}
-
-.step1 {
-    display: flex;
-    justify-content: space-between;
-    width: 90%;
-}
-
-.content-table-step1 {
-    align-items: center
-}
-
-
-.member {
-    margin-bottom: 4vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 mat-divider {
-    width: 25%;
-}
-
-.row {
-    display: flex;
-    justify-content: space-evenly;
-    font-size: small;
-    margin-bottom: 1.5vh;
-    flex-wrap: wrap;
-}
-
-.column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-label, h4 {
-    font-family: $bms_font_text
-}
-
-.title {
-    font-weight: bold;
-}
-
-.country-specific {
-    justify-content: space-around;
-    flex-direction: column;
-    margin-top: 2vh;
-    .country-specific-label {
-        align-self: center;
-    }
-    .field-country-specific {
-        display: flex;
-        justify-content: space-evenly;
-    }
-}
-
-.png {
-    width: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .datepicker-mobile {
@@ -125,83 +18,83 @@ label, h4 {
     display: block;
 }
 
-mat-progress-bar {
-    display: none;
+table {
+    border-radius: 5px !important;
+    text-align: center;
+
+    th, td {
+        min-width: 75px;
+        margin-left: 5px;
+        margin-right: 5px;
+        text-align: center !important;
+    }
 }
 
-.phone {
+.all-information, .head, .member, .info-resume {
+    padding-top: 20px;
+    padding-bottom: 20px;
     width: 100%;
+    height: auto;
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 
-    .phone-1 {
-        width: 18%;
-        text-align: right;
+    .column-container {
+        min-width: 200px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        margin-left: 10px;
+        margin-right: 10px;
     }
-    .phone-2 {
-        width: 80%;
-        margin-left: 2%;
-    }
-}
 
-//for mobile screen
-@media only screen and (max-width: 750px){
-    .container-table{
-        width: 99% !important;
+    .specifics {
+        display: flex;
         flex-direction: column;
     }
 
+    .lign-container {
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+        margin: 20px;
+
+        .mat-form-field {
+            width: 80%;
+        }
+    }
+
+    .info-resume {
+        width: 100%;
+        padding: 15px;
+
+        .info-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: auto;
+            
+            p {
+                margin-left: 20px;
+            }
+    
+        }
+    }
+
+    .button-container {
+        text-align: right;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
+
+@media only screen and (max-width: 750px) {
     .datepicker-mobile {
         display: block;
     }
 
     .datepicker-computer {
         display: none !important;
-    }
-
-    .all-information-mobile {
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-        flex-direction: column;
-    }
-
-    .member-mobile {
-        flex-direction: column;
-    }
-
-    .mat-form-field {
-        display: flex;
-        justify-content: center;
-        // width: 66%;          
-    }
-
-    .mat-form-field-wrapper {
-        width: 66%;
-    }
-
-    .field-country-specific {
-        flex-direction: column;
-    }
-
-    .member {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .vulnerabilities {
-        width: 50%;
-        flex-direction: column;
-    }
-
-    .column {
-        margin: 1vw;
-    }
-
-    mat-progress-bar {
-        display: block;
-        width: 50%;
     }
 }

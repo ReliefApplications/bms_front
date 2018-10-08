@@ -28,6 +28,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
     // Mode
     public mode : string;
 
+    // Test var
+    public changedBeneficiary;
+
     // Translate
     public Text = GlobalText.TEXTS;
 
@@ -49,6 +52,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
     public genderList: string[] = ['F', 'M'];
     public typePhoneList: string[] = ['mobile', 'landline'];
     public typeNationalIdList: string[] = ['type1', 'card'];
+
+    // Table
+    public tableColumns: string[] = ['Given name', 'Family name', 'Gender', 'Birth date', 'Phone', 'National id']
 
     constructor(
         public route: ActivatedRoute,
@@ -85,7 +91,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
 
     // For tests
     ngDoCheck() {
-        console.log(this.updatedHousehold);
+        if(this.changedBeneficiary !== Object.values(this.updatedHousehold)) {
+            console.log('HH : ', this.updatedHousehold);
+            this.changedBeneficiary = Object.values( this.updatedHousehold ); 
+        }
     }
 
     /**
@@ -272,6 +281,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
         return (formatedBeneficiary);
     }
 
+    /**
+     * To delete a beneficiary from the actual household.
+     * @param index 
+     */
     removeBeneficiary(index: number) {
         if(index < this.updatedHousehold.beneficiaries.length) {
             this.updatedHousehold.beneficiaries.splice(index, 1);
@@ -281,6 +294,94 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
     // TODO : reverse ?
     formatHouseholdForApi() {
 
+        let finalHousehold = this.updatedHousehold;
+        let finalBeneficiaries = this.updatedHousehold.beneficiaries;
+        let dataHousehold;
+
+        dataHousehold = {
+            address_number: '',
+            address_postcode: '',
+            address_street: '',
+            beneficiaries: [],
+            country_specific_answers: [],
+            id: 0,
+            latitude: '',
+            livelihood: '',
+            location: {},
+            longitude: '',
+            notes: '',
+            projects: [],
+        }
+
+        if(finalHousehold.address_number && finalHousehold.address_postcode && finalHousehold.address_street
+            && finalBeneficiaries[0] && finalBeneficiaries[0].family_name && finalBeneficiaries[0].given_name
+            && finalBeneficiaries[0].gender && finalHousehold.projects && finalHousehold.location.adm1) {
+            // Format & Go
+            
+            dataHousehold.address_number = finalHousehold.address_number;
+            dataHousehold.address_postcode = finalHousehold.address_postcode;
+            dataHousehold.address_street = finalHousehold.address_street;
+            dataHousehold.id = finalHousehold.id;
+            dataHousehold.livelihood = finalHousehold.livelihood;
+            dataHousehold.notes = finalHousehold.notes;
+            
+            // Beneficiaries
+            let beneficiary = {
+                date_of_birth: '',
+                family_name: '',
+                gender: 0,
+                given_name: '',
+                id: '',
+                national_ids: [],
+                phones: [],
+                profile: {},
+                status: false,
+                updated_on: new Date(),
+                vulnerability_criteria: [],
+            }
+
+            finalBeneficiaries.forEach(
+                element => {
+                    beneficiary.date_of_birth = element.birth_date;
+                    beneficiary.family_name = element.family_name;
+                    
+                    if(element.gender === 'F') {
+                        beneficiary.gender = 0;
+                    } else if(element.gender === 'M') {
+                        beneficiary.gender = 1;
+                    }
+
+                    beneficiary.given_name = element.given_name;
+                    beneficiary.id = element.id;
+
+                    if(finalBeneficiaries.indexOf(element) === 0) {
+                        beneficiary.status = true;
+                    } else {
+                        beneficiary.status = false;
+                    }
+
+                    beneficiary.national_ids.push(
+                        {
+                            id: undefined,
+                            id_number: element.national_id.id_number,
+                            type_number: element.national_id.type,
+                        }
+                    )
+                    beneficiary.phones.push(
+                        {
+                            id: undefined,
+                            number: element.phone.number,
+                            type: element.phone.type,
+                        }
+                    )
+                }
+            )
+        }
+        else {
+            // Minimum data not filled -> Error !
+            this.snackBar.open('Minimum required data is not complete : please check previous steps', '', {duration: 3000, horizontalPosition: 'center' });
+        }
+        
     }
 
     pullBeneficiary() {
@@ -288,6 +389,28 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
     }
 
     test() { }
+
+    /**
+     * Creates a string to display the full location
+     */
+    getFullLocation() {
+        let fullLocation : string;
+        let actualLocation = this.updatedHousehold.location;
+
+        if(actualLocation.adm1) {
+            fullLocation = actualLocation.adm1.split('-')[1];
+        }
+        if(actualLocation.adm2) {
+            fullLocation += ', ' + actualLocation.adm2.split('-')[1];
+        }
+        if(actualLocation.adm3) {
+            fullLocation += ', ' + actualLocation.adm3.split('-')[1];
+        }
+        if(actualLocation.adm4) {
+            fullLocation += ', ' + actualLocation.adm4.split('-')[1];
+        }
+        return(fullLocation);
+    }
 
     /**
      * Filter a list according to what the user types (needs formControl)

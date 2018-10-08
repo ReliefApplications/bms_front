@@ -76,12 +76,16 @@
                 width: 100%;
                 padding : 20px;
             }
-
-            .content-button-footer {
-                justify-content: flex-end !important;
-                padding-bottom: 20px !important;
-            }
         }
+    }
+}
+
+.content-button-footer {
+    justify-content: flex-end !important;
+    padding-bottom: 20px !important;
+    button {
+        margin-left: 10px;
+        margin-right: 10px;
     }
 }
 
@@ -115,6 +119,10 @@
 }
 .button-background-accent {
   background-color: $bms_red !important;
+}
+.button-background-cancel {
+  background-color: $bms_white !important;
+  color: black !important;
 }
 
 .action-buttons {

@@ -4,10 +4,10 @@
     <tr *ngFor="let p of properties" class="modal-row">
       <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
       <th class="table-value">
-        <form class="form">
+        <form class="form" [formGroup]="form">
           <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
-            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p] != 'date' && propertiesTypes[p]!='selectSingle'" [(ngModel)]="updateObject[p]"
-              [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries')"
+            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p] != 'date' && propertiesTypes[p]!='selectSingle'  && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry'"
+              [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries')"
               [type]="propertiesTypes[p]">
 
             <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="updateObject[p]" placeholder="{{data.mapper.mapTitle(p)}}"
@@ -15,16 +15,32 @@
               <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
             </mat-select>
 
-            <mat-select *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="updateObject[p]" placeholder="{{data.mapper.mapTitle(p)}}" [formControl]="controls">
+            <mat-select *ngIf="propertiesTypes[p]=='selectSingle' && p != 'rights'" [(ngModel)]="updateObject[p]"
+              placeholder="{{data.mapper.mapTitle(p)}}" [formControl]="controls">
               <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
             </mat-select>
 
-            <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'" matInput [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution" placeholder="{{data.mapper.mapTitle(p)}}">
+            <mat-select *ngIf="propertiesTypes[p]=='selectSingle' && p == 'rights'" [(ngModel)]="updateObject[p]"
+              placeholder="{{data.mapper.mapTitle(p)}}" [formControl]="controls" (selectionChange)="selected($event, newObject)">
+              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
+            </mat-select>
+
+            <mat-select *ngIf="propertiesTypes[p]=='selectProjects'" [(ngModel)]="updateObject[p]" placeholder="Projects"
+              formControlName="projectsControl" multiple>
+              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
+            </mat-select>
+
+            <input matInput *ngIf="propertiesTypes[p]=='inputCountry'" [(ngModel)]="updateObject[p]" formControlName="countryControl"
+              type="text" value="KHM">
+
+            <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'" matInput
+              [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
+              placeholder="{{data.mapper.mapTitle(p)}}">
             <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'"></mat-datepicker-toggle>
             <mat-datepicker #dateDistribution></mat-datepicker>
           </mat-form-field>
           <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">
-            <input [(ngModel)]="updateObject[p]" matInput placeholder="{{modal.modal_email}}" [formControl]="emailFormControl"
+            <input [(ngModel)]="updateObject[p]" matInput placeholder="{{modal.modal_email}}" formControlName="emailFormControl"
               [errorStateMatcher]="matcher">
             <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
               {{modal.modal_valid_email}}

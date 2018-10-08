@@ -38,7 +38,7 @@
           </mat-form-field>
 
           <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">
-            <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.modal_email}}" [formControl]="emailFormControl"
+            <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.modal_email}}" formControlName="emailFormControl"
               [errorStateMatcher]="matcher">
             <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
               {{modal.modal_valid_email}}

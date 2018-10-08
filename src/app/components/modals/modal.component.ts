@@ -31,13 +31,11 @@ export class ModalComponent implements OnInit {
   form = new FormGroup({
     projectsControl: new FormControl({value: '', disabled: 'true'}),
     countryControl: new FormControl({value: '', disabled: 'true'}),
+    emailFormControl: new FormControl('', [ Validators.required, Validators.email ]),
   });
 
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-
+  emailFormControl= new FormControl('', [ Validators.required, Validators.email ]);
+  
   public allCriteria = [];
 
   matcher = new MyErrorStateMatcher();

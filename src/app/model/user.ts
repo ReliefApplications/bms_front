@@ -133,7 +133,10 @@ export class User {
             return selfinstance;
 
         return {
-            rights: selfinstance.rights
+            username: selfinstance.username,
+            rights: selfinstance.rights,
+            projects: selfinstance.projects,
+            country: selfinstance.country
         }
     }
 

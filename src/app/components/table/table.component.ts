@@ -213,6 +213,15 @@ export class TableComponent implements OnChanges, DoCheck {
     // console.log("update element 1:", updateElement);
     updateElement = this.entity.formatForApi(updateElement);
 
+    if (updateElement['rights'] == "ROLE_PROJECT_MANAGER" || updateElement['rights'] == "ROLE_PROJECT_OFFICER" || updateElement['rights'] == "ROLE_FIELD_OFFICER")
+      delete updateElement['country'];
+    else if (updateElement['rights'] == "ROLE_REGIONAL_MANAGER" || updateElement['rights'] == "ROLE_COUNTRY_MANAGER" || updateElement['rights'] == "ROLE_READ_ONLY")
+      delete updateElement['projects'];
+    else {
+      delete updateElement['country'];
+      delete updateElement['projects'];
+    }
+
     // console.log("update element 2:", updateElement);
     this.service.update(updateElement['id'], updateElement).subscribe(response => {
       this.updateData();

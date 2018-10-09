@@ -158,6 +158,25 @@ export class TableComponent implements OnChanges, DoCheck {
   }
 
   /**
+   * Recover the right from the model
+   * @param element 
+   */
+  recoverRights(element){
+    let re = /\ /gi;
+    element.rights = element.rights.replace(re, "");
+    let finalRight;
+
+    this.entityInstance.getAllRights().forEach(rights => {
+      let value = Object.values(rights);
+      if(value[0] == element.rights){
+        finalRight = value[1];
+      }
+    });
+
+    return finalRight;
+  }
+
+  /**
   * open each modal dialog
   */
   openDialog(user_action, element): void {

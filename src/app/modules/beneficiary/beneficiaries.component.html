@@ -10,9 +10,9 @@
           <mat-icon>add</mat-icon>
         </button>
 
-        <div class="import-export">
+        <div class="action-buttons">
             <div class="extension">
-                <button mat-raised-button class="export-button" (click)="export()">
+                <button mat-raised-button class="button-background-primary" (click)="export()">
                   <mat-icon>get_app</mat-icon>
                   <span>{{household.beneficiaries_export | uppercase}}</span>
                 </button>
@@ -25,7 +25,7 @@
                     <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon> </button>
                 </mat-menu>
             </div>
-            <button mat-raised-button class="import-button" routerLink="/beneficiaries/import">
+            <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries/import">
               <mat-icon>publish</mat-icon>
               <span>{{household.beneficiaries_import | uppercase}}</span>
             </button>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="container">
 
   <h1> {{profilePage.header_profile | titlecase}} </h1>
@@ -27,8 +28,41 @@
     <div>
       <button mat-button class="cancel"> {{ profilePage.modal_cancel | uppercase }} </button>
       <button mat-button type="submit" [disabled]="!profileForm.valid" class="validation"> {{ profilePage.modal_save | uppercase }} </button>
+=======
+<div class="page-container">
+  <div class="container-title">
+    <h2> {{profilePage.header_profile | titlecase}} </h2>
+  </div>
+
+  <div class="container-table">
+    <div class="container-profile">
+      <form class="profile-field" [formGroup]="profileForm" (ngSubmit)="onProfileFormSubmit()">
+        <h2> {{ profilePage.profile_user_information | uppercase }} </h2>
+        <mat-form-field>
+          <input matInput placeholder={{actualUser.email}} formControlName="email" [disabled]="true">
+        </mat-form-field>
+
+        <h2> {{ profilePage.profile_user_change_password | uppercase }} </h2>
+        <mat-form-field>
+          <input matInput [placeholder]="profilePage.profile_user_hint_old_password" type="password" formControlName="oldPassword">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput [placeholder]="profilePage.profile_user_hint_new_password" type="password" formControlName="newPassword1">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput [placeholder]="profilePage.profile_user_hint_new_password_again" type="password" formControlName="newPassword2">
+        </mat-form-field>
+
+        <div class="action-buttons">
+          <button mat-button class="button-text-primary"> {{ profilePage.modal_cancel | uppercase }} </button>
+          <button mat-raised-button type="submit" [disabled]="!profileForm.valid" class="button-background-primary">
+            {{ profilePage.modal_save | uppercase }}
+          </button>
+        </div>
+      </form>
+>>>>>>> dev
     </div>
-
-  </form>
-
+  </div>
 </div>

@@ -12,13 +12,13 @@
   </div>
   <app-placeholder-panel *ngIf="loadingData"></app-placeholder-panel>
   <div class="container-table" *ngIf="!loadingData">
-    <div class="container-content" *ngIf="isBoxClicked">
+    <div class="container-content box-green" *ngIf="isBoxClicked">
       <div class="content-button">
-        <button mat-icon-button (click)="openDialog('add')" class="add-button">
+        <button mat-fab (click)="openDialog('add')" class="add-button">
           <mat-icon>add</mat-icon>
         </button>
-        <div class="import-export">
-            <button mat-raised-button class="export-button" (click)="export()">
+        <div class="action-buttons">
+            <button mat-raised-button class="button-background-primary" (click)="export()">
             <mat-icon>get_app</mat-icon>
             <span>{{settings.beneficiaries_export | uppercase}}</span>
             </button>

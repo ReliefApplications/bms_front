@@ -29,7 +29,7 @@
                         </div>
                         <div class="select-file">
                             <a class="fenetre-selection" href="javascript:void(0)" (click)="file.click()">
-                                <button mat-stroked-button color="primary" class="button-add-file">{{household.beneficiaries_import_addFile
+                                <button mat-stroked-button color="primary">{{household.beneficiaries_import_addFile
                                     | uppercase}}</button>
                             </a>
                             <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
@@ -48,7 +48,7 @@
             </div>
             <div class="content-button content-button-footer">
                 <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-                <button *ngIf="!load" mat-raised-button class="upload-button" (click)="addHouseholds()">
+                <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="addHouseholds()">
                     <mat-icon>publish</mat-icon>
                     <span>{{household.beneficiaries_import_upload | uppercase }}</span>
                 </button>
@@ -87,7 +87,7 @@
             </div>
             <div class="content-button content-button-footer">
                 <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-                <button *ngIf="!load" mat-raised-button class="upload-button" (click)="addBeneficiaries()">
+                <button *ngIf="!load" mat-raised-button class="button-background-accent" (click)="addBeneficiaries()">
                     <mat-icon>publish</mat-icon>
                     <span>{{household.beneficiaries_import_upload | uppercase }}</span>
                 </button>

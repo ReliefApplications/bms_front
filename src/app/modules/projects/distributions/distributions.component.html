@@ -28,7 +28,7 @@
                             </button>
                             <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity"
                                 [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
-                            <div class="import-export">
+                            <div class="action-buttons">
                                 <button mat-raised-button class="export-button" (click)="export()">
                                     <mat-icon>get_app</mat-icon>
                                     <span>{{TEXT.beneficiaries_export | uppercase}}</span>
@@ -113,7 +113,7 @@
                                     %
                                 </mat-form-field>
                             </div>
-                            <div class="import-export">
+                            <div class="action-buttons">
                                 <button mat-raised-button class="export-button" (click)="exportSample()">
                                     <mat-icon>get_app</mat-icon>
                                     <span>{{TEXT.beneficiaries_export | uppercase}}</span>

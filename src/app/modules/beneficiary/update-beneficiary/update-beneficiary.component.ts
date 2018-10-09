@@ -305,10 +305,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
             beneficiaries: [],
             country_specific_answers: [],
             id: 0,
-            latitude: '',
+            latitude: '0',
             livelihood: '',
             location: {},
-            longitude: '',
+            longitude: '0',
             notes: '',
             projects: [],
         }
@@ -322,26 +322,25 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
             dataHousehold.address_postcode = finalHousehold.address_postcode;
             dataHousehold.address_street = finalHousehold.address_street;
             dataHousehold.id = finalHousehold.id;
-            dataHousehold.livelihood = finalHousehold.livelihood;
+            dataHousehold.livelihood = this.livelihoodsList.indexOf(finalHousehold.livelihood);
             dataHousehold.notes = finalHousehold.notes;
             
             // Beneficiaries
-            let beneficiary = {
-                date_of_birth: '',
-                family_name: '',
-                gender: 0,
-                given_name: '',
-                id: '',
-                national_ids: [],
-                phones: [],
-                profile: {},
-                status: false,
-                updated_on: new Date(),
-                vulnerability_criteria: [],
-            }
-
             finalBeneficiaries.forEach(
                 element => {
+                    let beneficiary = {
+                        date_of_birth: '',
+                        family_name: '',
+                        gender: 0,
+                        given_name: '',
+                        id: '',
+                        national_ids: [],
+                        phones: [],
+                        profile: {},
+                        status: false,
+                        updated_on: new Date(),
+                        vulnerability_criteria: [],
+                    }
                     beneficiary.date_of_birth = element.birth_date;
                     beneficiary.family_name = element.family_name;
                     
@@ -360,13 +359,15 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
                         beneficiary.status = false;
                     }
 
+                    if(element.national_id.number)
                     beneficiary.national_ids.push(
                         {
                             id: undefined,
-                            id_number: element.national_id.id_number,
+                            id_number: element.national_id.number,
                             type_number: element.national_id.type,
                         }
                     )
+                    if(element.phone.number)
                     beneficiary.phones.push(
                         {
                             id: undefined,
@@ -374,8 +375,35 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
                             type: element.phone.type,
                         }
                     )
+                    this.originalHousehold.beneficiaries.forEach(
+                        element => {
+                            if(element.id === beneficiary.id) {
+                                beneficiary.profile = element.profile;
+                            }
+                        }
+                    )
+
+                    element.vulnerabilities.forEach(
+                        vulnerability => {
+                            if(vulnerability === true) {
+                                let criteriaIndex = element.vulnerabilities.indexOf(vulnerability);
+                                beneficiary.vulnerability_criteria.push(
+                                    {
+                                        id: this.vulnerabilityList[criteriaIndex].id_field,
+                                        field_string: this.vulnerabilityList[criteriaIndex].field_string,
+                                    }
+                                );
+                            }
+                        }
+                    );
+                    dataHousehold.beneficiaries.push(beneficiary);
                 }
-            )
+            );
+
+            // Location
+
+
+            console.log('Household for Api: ', dataHousehold);
         }
         else {
             // Minimum data not filled -> Error !

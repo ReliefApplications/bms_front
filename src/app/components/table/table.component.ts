@@ -2,7 +2,7 @@
 import { Component, OnInit, Input, ViewChild, OnChanges, ElementRef, DoCheck } from '@angular/core';
 import {
   MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource,
-  MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner
+  MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner, MatSnackBar
 } from '@angular/material';
 
 import { Mapper } from '../../core/utils/mapper.service';
@@ -63,7 +63,8 @@ export class TableComponent implements OnChanges, DoCheck {
   constructor(
     public mapperService: Mapper,
     public dialog: MatDialog,
-    public _cacheService: CacheService
+    public _cacheService: CacheService,
+    public snackBar: MatSnackBar,
   ) { }
 
   ngOnChanges() {
@@ -162,18 +163,20 @@ export class TableComponent implements OnChanges, DoCheck {
    * @param element 
    */
   recoverRights(element){
-    let re = /\ /gi;
-    element.rights = element.rights.replace(re, "");
-    let finalRight;
-
-    this.entityInstance.getAllRights().forEach(rights => {
-      let value = Object.values(rights);
-      if(value[0] == element.rights){
-        finalRight = value[1];
-      }
-    });
-
-    return finalRight;
+    if(element.rights){
+      let re = /\ /gi;
+      element.rights = element.rights.replace(re, "");
+      let finalRight;
+  
+      this.entityInstance.getAllRights().forEach(rights => {
+        let value = Object.values(rights);
+        if(value[0] == element.rights){
+          finalRight = value[1];
+        }
+      });
+  
+      return finalRight;
+    }
   }
 
   /**
@@ -200,6 +203,7 @@ export class TableComponent implements OnChanges, DoCheck {
     if (dialogRef.componentInstance.onDelete) {
       deleteElement = dialogRef.componentInstance.onDelete.subscribe(
         (data) => {
+          this.snackBar.open(this.entity.__classname__ + ' deleted', '', { duration: 3000, horizontalPosition: 'right' });
           this.deleteElement(data);
         });
     }
@@ -208,6 +212,7 @@ export class TableComponent implements OnChanges, DoCheck {
     if (dialogRef.componentInstance.onUpdate) {
       updateElement = dialogRef.componentInstance.onUpdate.subscribe(
         (data) => {
+          this.snackBar.open(this.entity.__classname__ + ' updated', '', { duration: 3000, horizontalPosition: 'right' });
           this.updateElement(data);
         });
     }

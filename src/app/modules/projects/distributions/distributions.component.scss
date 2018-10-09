@@ -210,7 +210,7 @@ button{
     }
 }
 
-.import-export {
+.action-buttons {
     display: flex;
     flex-direction: row;
     align-items: stretch;
@@ -283,7 +283,7 @@ app-placeholder-stepper {
         align-items: center;
         margin: 5px;
 
-        .import-export {
+        .action-buttons {
             display: flex;
             justify-content: center;
         }
@@ -306,7 +306,7 @@ app-placeholder-stepper {
         }
     }
 
-    .import-export {
+    .action-buttons {
         width: 100%;
         padding-bottom: 20px;
     }

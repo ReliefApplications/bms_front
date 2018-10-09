@@ -1,10 +1,10 @@
 <div class="modal-container">
-    <h4 class="modal-title">{{TEXT.modal_leave}}</h4>
+    <h4 class="modal-title underline-primary">{{TEXT.modal_leave}}</h4>
     <div class="modal-table">
         {{TEXT.modal_leave_sentence}}
     </div>
-    <div class="modal-button">
-        <button mat-button class="button-leave" (click)="leave()">{{TEXT.modal_leave}}</button>
-        <button mat-button class="button-cancel" (click)="cancel()">{{TEXT.modal_cancel}}</button>
+    <div class="modal-button action-buttons">
+        <button mat-button class="button-text-primary" (click)="cancel()">{{TEXT.modal_cancel}}</button>
+        <button mat-raised-button class="button-background-primary" (click)="leave()">{{TEXT.modal_leave}}</button>
     </div>
 </div>

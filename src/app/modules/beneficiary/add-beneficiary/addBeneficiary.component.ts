@@ -9,7 +9,7 @@ import { Location } from '../../../model/location';
 import { LocationService } from '../../../core/api/location.service';
 import { MatInput, MatSnackBar, MatStepper, getMatFormFieldPlaceholderConflictError, MatDialog } from '@angular/material';
 import { CriteriaService } from '../../../core/api/criteria.service';
-import { VulnerabilityCriteria } from '../../../model/vulnerability_criteria';
+import { VulnerabilityCriteria } from '../../../model/vulnerability-criteria';
 import { CountrySpecificService } from '../../../core/api/country-specific.service';
 import { CountrySpecific, CountrySpecificAnswer } from '../../../model/country-specific';
 import { Router, NavigationEnd } from '@angular/router';

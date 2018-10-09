@@ -1,14 +1,4 @@
-@import '../../../assets/css/variable.scss'; 
-    
-app-table-search{
-    width: 100%;
-    height: 100%;
-}
-
-app-table-mobile{
-    width: 100%;
-    height: 100%;
-}
+@import '../../../assets/css/variable.scss';
 
 app-placeholder-panel {
     margin-top: 15px;
@@ -17,102 +7,12 @@ app-placeholder-panel {
     margin-left: 10px;
 }
 
-button{
-    color: $bms_white;
-    background-color: $bms_red;
-    
-
-    &.export-button{
-        background-color: $bms_green !important;
-        height: 40px;
-    }
-
-    &.add-button{
-        width: 50px;
-        height: 50px;
-    }
-
-    span{
-        font-family: $bms_font_text;
-        padding-left:20px;
-    }
+app-table-search {
+    width: 100%;
+    height: 100%;
 }
 
-.container-content {
-    border-top: solid 12px $bms_green;
-}
-
-
-.import-export {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    height: 40px;
-
-    .import-button {
-        margin-left: 5px;
-    }
-    .export-button {
-        background-color: $bms_green !important;
-        height: 40px;
-        margin-right: 0px;
-        border-top-right-radius: 0px !important;
-        border-bottom-right-radius: 0px !important;
-    }
-
-    .extension {
-        width: 30px;
-        text-align: center;
-        height: 36px;
-
-        .dropdown {
-            background-color: $bms_green;
-            height: 100%;
-            width: 20px !important;
-            padding: 2px !important;
-            border-top-right-radius: 2px;
-            border-bottom-right-radius: 2px;
-            border-left: solid 1px $bms_light_grey;
-            box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3); 
-            display: flex;
-            justify-content: center;
-
-            &:hover {
-                cursor: pointer;
-            }
-
-            mat-icon {
-                float: left !important;
-                margin: auto;
-                color: white;
-            }
-        }
-    }
-}
-
-.mat-menu-item {
-    background-color: white;
-    color: black;
-
-    &:hover {
-        background-color: $bms_green;
-        color: white;
-        font-weight: bold;
-    }
-
-    mat-icon {
-        margin-left: 10px;
-    }
-}
-
-//for mobile screen
-@media only screen and (max-width: 750px){
-    button{
-        &.add-button{
-            position: fixed;
-            bottom: 20px;
-            left: 80%;
-            z-index: 1000;
-        }
-    }       
+app-table-mobile {
+    width: 100%;
+    height: 100%;
 }

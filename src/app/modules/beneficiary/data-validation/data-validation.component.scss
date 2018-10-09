@@ -1,147 +1,79 @@
-@import '../../../../assets/css/variable.scss'; 
+@import '../../../../assets/css/variable.scss';
 
-
- 
-           
-.issues, .duplicateIssues{
+.issues {
     display: flex;
-    width: 15%;
-    flex-direction: column;
+    width: 100%;
+    flex-direction: row;
     justify-content: space-between;
-    margin-left: 0.5vw;
-    margin-right: 0.5vw;
-    margin-bottom: 2vw;
-    .mat-chip-list {
+    align-items: center;
+
+    .content-issue {
         width: 100%;
-        display: flex;
-        justify-content: flex-end;
-        .mat-chip {
-            font-size: 1vh;
-            padding: 1px 8px;
-            margin: 4px 4px 13px 4px;
-        }
-    }
-    .mat-card-content {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        .mat-divider {
-            position: relative !important;
-            margin: 10px 0px 10px 0px;
-        }                
-        .householdData {
-            width: 100%;
-            text-align: center;
-            flex-grow: 1;
-            height: 50%;
-            flex-direction: row;
-            .content-householdData {
-                width: 100%
+        margin: 10px;
+
+        .mat-card-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+
+            .mat-divider {
+                position: relative !important;
+                margin: 10px 0px 10px 0px;
             }
-            .content-beneficiariesData{
-                display: flex;
-                justify-content: center;
+            .householdData {
                 width: 100%;
-            }
-            .dataToCompare {
-                font-size: 1.4vh;
-            }
-            .mat-checkbox {
-                display: flex;
+                text-align: center;
+                flex-grow: 1;
+                height: 50%;
+                flex-direction: row;
+
+                .mat-checkbox {
+                    display: flex;
+                }
+                .mat-chip-list {
+                    width: 100%;
+                    display: flex;
+                    justify-content: flex-end;
+                    .mat-chip {
+                        font-size: 0.9em;
+                        padding: 1px 8px;
+                    }
+                }
+
+                .content-householdData {
+                    width: 100%
+                }
+                .content-beneficiariesData {
+                    display: flex;
+                    justify-content: center;
+                    width: 100%;
+                }
             }
         }
     }
-}     
-    
-button{
-    color: $bms_white;
-    background-color: $bms_green;
-    
 }
 
-.container-content {
-    padding-top: 10px;
-}
-
-.mat-progress-bar {
-    display: none;
-}
-
-.no-data-box{
-    border: solid 2px black;
+.no-data-box {
+    border: solid 2px $bms_black;
     border-radius: 80px;
     text-align: center;
     justify-content: center;
-    padding: 3%;
-    margin: 5em 6em 5em 6em;
     display: flex;
-    width: 100%;
-  
-    .box-title{
-      display: flex;
-      font-style: bold;
-      font-size: 50px;
-      font-family: Lato,Helvetica,Arial,sans-serif;
-    }
-}
-
-.content-issue {
-    width: 100%;
-}
-
-.mat-card {
-    padding: 20px 15px;
+    width: 50%;
+    margin: 20px 0;
 }
 
 //for mobile screen
 @media only screen and (max-width: 750px){
-    .container-table{
-        width: 99% !important;
-        flex-direction: column;
-    }
-    
     .issues {
-        width: 100% !important;
-        padding: 13px 16px !important;
-        .mat-chip {
-            font-size: 2vh !important;
-        }
-        .dataToCompare {
-            font-size: 2vh !important;
-        }  
-    }
-
-    .duplicateIssues {
-        width: 100% !important;
-        .mat-chip {
-            font-size: 2vh !important;
-        }
-        .dataToCompare {
-            font-size: 2vh !important;
-        }  
-    }
-
-    .no-data-box{
-        margin: 5em 1em 5em 1em !important;
-        .box-title {
-          font-size: 10vw !important;
+        width: 80% !important;
+        flex-direction: column;
+        .content-issue {
+          margin: 10px 0;
         }
     }
 
-    .mat-progress-bar {
-        display: block;
-        width: 63%;
-        margin: 2vh;
+    .no-data-box {
+      width: 80%;
     }
-    
-    .content-issue {
-        width: 89% !important;
-    }
-
-
-
-
 }
-
-
-

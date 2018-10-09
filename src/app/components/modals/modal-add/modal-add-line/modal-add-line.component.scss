@@ -1,71 +1,22 @@
-@import '../../../../../assets/css/variable.scss'; 
-
-.modal-container{
-    height: 100% !important;   
-    width: 100% !important;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-
-    .modal-title{
-        display: flex;
-        flex-grow: 1;
-        padding: 5px;
-        font-family: $bms_font_header;
-        font-size: 3vh;
-        border-bottom: solid 1px $bms_red;
-    }
-
-    .modal-table{
-        flex-wrap: wrap;
-        display: flex;
-        width: 100% !important;
-        padding: 5px;
-        flex-direction: row;
-        font-family: $bms_font_text;
-
-        .modal-row{
-            flex-wrap: wrap;
-            display: flex;
-            flex-grow: 1;
-            align-items: baseline;
-            justify-content: center;
-        }
-    }
-
-    .modal-button{
-        display: flex;
-        flex-wrap: wrap;
-        width: 100% !important;
-        padding-top: 20px;
-        justify-content: flex-end;
-
-        .button-save{
-            color: $bms_red;
-            width: 7vh;
-        }
-
-        .button-cancel{
-            color: $bms_red;
-            width: 7vh;
-        }
-    }
+.modal-table {
+  flex-direction: row;
+  align-items: flex-end;
+  .modal-row {
+    width: unset;
+    margin-right: 20px;
+  }
 }
 
+
 //for mobile screen
-@media only screen and (max-width: 750px){
-    .modal-container{
-        display: block !important;
-        width: 45vh;  
-        height: 350px;
+@media only screen and (max-width: 750px) {
+  .modal-row {
+    width: 100% !important;
+    form {
+      width: 100%;
+      .mat-form-field {
+        width: 100%;
+      }
     }
-
-    .modal-table{
-        display: block !important;
-
-        .modal-row{
-            flex-wrap: wrap;
-        }
-        
-    }
+  }
 }

@@ -2,9 +2,9 @@
   <div class="container-title">
     <h2>{{distribution.menu_projects | titlecase}}</h2>
     <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
-    <div class="add-project" *ngIf="!loadingCreation" (click)="openNewProjectDialog()">
-        <mat-icon>add</mat-icon>
-    </div>
+    <button mat-stroked-button class="button-text-accent" *ngIf="!loadingCreation" (click)="openNewProjectDialog()">
+        <span>NEW</span>
+    </button>
   </div>
   <app-placeholder-boxline *ngIf="loadingProjects" class="container-boxes"></app-placeholder-boxline>
   <div class="container-boxes" *ngIf="!loadingProjects">
@@ -14,14 +14,14 @@
   </div>
   <app-placeholder-panel class="container-table" *ngIf="loadingDistributions"></app-placeholder-panel>
   <div class="container-table" *ngIf="!loadingDistributions">
-    <div class="container-content" *ngIf="isBoxClicked">
+    <div class="container-content box-green" *ngIf="isBoxClicked">
       <div class="content-button">
-        <button mat-icon-button (click)="addDistribution()" class="add-button">
+        <button mat-fab (click)="addDistribution()" class="add-button">
           <mat-icon>add</mat-icon>
         </button>
         <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService" [componentDisplayed]="selectedProject"></app-box-properties>
-        <div class="import-export">
-            <button mat-raised-button class="export-button" (click)="export()">
+        <div class="action-buttons">
+            <button mat-raised-button class="button-background-primary" (click)="export()">
               <mat-icon>get_app</mat-icon>
               <span>{{distribution.beneficiaries_export | uppercase}}</span>
             </button>

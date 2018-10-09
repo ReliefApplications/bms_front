@@ -1,5 +1,5 @@
 <div class="modal-container">
-  <h4 class="modal-title">{{modal.modal_language_title}}</h4>
+  <h4 class="modal-title underline-accent">{{modal.modal_language_title}}</h4>
   <div class="modal-table" cdkFocusRegionstart>
     <span class="language-text">{{modal.modal_language_actual}}</span>
     <div class="select-container">
@@ -8,8 +8,8 @@
       </mat-select>
     </div>
   </div>
-  <div class="modal-button">
-    <button mat-button (click)="closeDialog()" class="button-close">{{modal.modal_close}}</button>
-    <button mat-button (click)="save()" class="button-save">{{modal.modal_save}}</button>
+  <div class="modal-button action-buttons">
+    <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.modal_close}}</button>
+    <button mat-raised-button (click)="save()" class="button-background-accent">{{modal.modal_save}}</button>
   </div>
 </div>

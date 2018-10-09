@@ -1,5 +1,5 @@
 <mat-dialog-content class="modal-container">
-  <h4 class="modal-title">{{modal.modal_add_title}} {{entityDisplayedName | lowercase}}</h4>
+  <h4 class="modal-title underline-accent">{{modal.modal_add_title}} {{entityDisplayedName | lowercase}}</h4>
   <table class="modal-table">
         <p *ngIf="this.data.entity.getAddDescription">{{this.data.entity.getAddDescription()}}</p>
     <tr *ngFor="let p of properties" class="modal-row">
@@ -31,9 +31,8 @@
       </th>
     </tr>
   </table>
-  <div class="modal-button">
-    <button mat-button (click)="closeDialog()" class="button-cancel">{{modal.modal_cancel}}</button>
-    <button mat-button (click)="add()" class="button-delete">{{modal.modal_create}}</button>
+  <div class="modal-button action-buttons">
+    <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.modal_cancel}}</button>
+    <button mat-raised-button (click)="add()" class="button-background-accent">{{modal.modal_create}}</button>
   </div>
 </mat-dialog-content>
-

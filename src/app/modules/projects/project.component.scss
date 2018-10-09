@@ -2,27 +2,19 @@
 
 .button-text-accent {
     margin-left: 20px;
-    .new-project {
-      margin-left: 10px;
-    }
 }
 
-app-table-distribution{
+app-table-distribution {
     width: 100%;
     height: 100%;
 }
 
-app-table-mobile-distribution{
+app-table-mobile-distribution {
     width: 100%;
     height: 100%;
 }
 
-.export-button-container{
-    display: flex;
-    justify-content: flex-start;
-}
-
-.properties-displayed{
+.properties-displayed {
     display: flex;
     flex-grow: 1;
 }

@@ -1,117 +1,117 @@
-@import '../../../assets/css/variable.scss'; 
+@import '../../../assets/css/variable.scss';
 
-svg{
+svg {
     align-self: stretch;
 }
 
-.icon-rect-stroke{
-    rect{
-        stroke:#f0fff090;
+.icon-rect-stroke {
+    rect {
+        stroke: $bms_slate;
     }
 
-    &.hover-icon{
-        rect{
-            stroke: white !important;
+    &.hover-icon {
+        rect {
+            stroke: $bms_white !important;
         }
     }
 
-    &.clicked-icon{
-        rect{
+    &.clicked-icon {
+        rect {
             stroke: $bms_red !important;
         }
     }
 }
 
-.icon-rect-fill{
-    rect{
-        fill:#f0fff090;
+.icon-rect-fill {
+    rect {
+        fill: $bms_slate;
     }
 
-    &.hover-icon{
-        rect{
-            fill: white !important;
+    &.hover-icon {
+        rect {
+            fill: $bms_white !important;
         }
     }
 
-    &.clicked-icon{
-        rect{
+    &.clicked-icon {
+        rect {
             fill: $bms_red !important;
         }
     }
 }
 
-.icon-path-stroke{
-    path{
-        stroke:#f0fff090;
+.icon-path-stroke {
+    path {
+        stroke: $bms_slate;
     }
 
-    &.hover-icon{
-        path{
-            stroke: white !important;
+    &.hover-icon {
+        path {
+            stroke: $bms_white !important;
         }
     }
 
-    &.clicked-icon{
-        path{
+    &.clicked-icon {
+        path {
             stroke: $bms_red !important;
         }
     }
 }
 
-.icon-path-fill{
-    path{
-        fill:#f0fff090;
+.icon-path-fill {
+    path {
+        fill: $bms_slate;
     }
 
-    &.hover-icon{
-        path{
-            fill: white !important;
+    &.hover-icon {
+        path {
+            fill: $bms_white !important;
         }
     }
 
-    &.clicked-icon{
-        path{
+    &.clicked-icon {
+        path {
             fill: $bms_red !important;
         }
     }
 }
 
-.icon-polygon-stroke{
-    polygon{
-        stroke:#f0fff090;
+.icon-polygon-stroke {
+    polygon {
+        stroke: $bms_slate;
     }
 
-    &.hover-icon{
-        polygon{
-            stroke: white !important;
+    &.hover-icon {
+        polygon {
+            stroke: $bms_white !important;
         }
     }
 
-    &.clicked-icon{
-        polygon{
+    &.clicked-icon {
+        polygon {
             stroke: $bms_red !important;
         }
     }
 }
 
-.icon-polygon-fill{
-    polygon{
-        fill:#f0fff090;
+.icon-polygon-fill {
+    polygon {
+        fill: $bms_slate;
     }
 
-    &.hover-icon{
-        polygon{
-            fill: white !important;
+    &.hover-icon {
+        polygon {
+            fill: $bms_white !important;
         }
     }
 
-    &.clicked-icon{
-        polygon{
+    &.clicked-icon {
+        polygon {
             fill: $bms_red !important;
         }
     }
 }
 
-.small-width{
+.small-width {
     width: 8vh;
 }

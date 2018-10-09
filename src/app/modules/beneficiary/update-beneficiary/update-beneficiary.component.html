@@ -23,21 +23,24 @@
                         <div class="step1 all-information">
                             <div class="column-container">
                                 <mat-form-field>
-                                    <mat-select #province placeholder={{Text.add_beneficiary_getProvince}} [(ngModel)]="updatedHousehold.location.adm1" required>
+                                    <mat-select #province placeholder={{Text.add_beneficiary_getProvince}} [(ngModel)]="updatedHousehold.location.adm1" 
+                                        (selectionChange)='refreshLocation(1)' required>
                                         <mat-option *ngFor="let province of provinceList" [value]="province">
                                             {{province}} 
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <mat-select #district placeholder={{Text.add_beneficiary_getDistrict}} [(ngModel)]="updatedHousehold.location.adm2">
+                                    <mat-select #district placeholder={{Text.add_beneficiary_getDistrict}} [(ngModel)]="updatedHousehold.location.adm2"
+                                        (selectionChange)='refreshLocation(2)'>
                                         <mat-option *ngFor="let district of districtList" [value]="district">
                                             {{district}} 
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <mat-select #commune placeholder={{Text.add_beneficiary_getCommune}} [(ngModel)]="updatedHousehold.location.adm3">
+                                    <mat-select #commune placeholder={{Text.add_beneficiary_getCommune}} [(ngModel)]="updatedHousehold.location.adm3"
+                                        (selectionChange)='refreshLocation(3)'>
                                         <mat-option *ngFor="let commune of communeList" [value]="commune"> 
                                             {{commune}}
                                         </mat-option>
@@ -97,7 +100,7 @@
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
-                        <button mat-raised-button class="button-background-primary" (click)="test()" matStepperNext>
+                        <button mat-raised-button class="button-background-primary" (click)="nextValidation(1, stepper)">
                             <span>{{Text.add_beneficiary_next}}</span>
                         </button>
                     </div>
@@ -171,7 +174,7 @@
                                 </mat-form-field>
                             </div>
                             <div class="lign-container">
-                                <mat-checkbox *ngFor="let vulnerability of vulnerabilityList, let vulIndex=index" 
+                                <mat-checkbox color='primary' *ngFor="let vulnerability of vulnerabilityList, let vulIndex=index" 
                                 [checked]="updatedHousehold.beneficiaries[0].vulnerabilities[vulIndex]"
                                 (change)="updatedHousehold.beneficiaries[0].vulnerabilities[vulIndex] = !updatedHousehold.beneficiaries[0].vulnerabilities[vulIndex]">
                                     {{vulnerability.field_string}}
@@ -180,7 +183,7 @@
                         </div>
                         <div class="content-button-footer">
                             <mat-progress-bar mode="determinate" value="35"></mat-progress-bar>
-                            <button mat-raised-button class="button-background-primary" (click)='test()' matStepperNext>
+                            <button mat-raised-button class="button-background-primary" (click)='nextValidation(2, stepper)'>
                                 <span>{{Text.add_beneficiary_next}}</span>
                             </button>
                         </div>
@@ -201,6 +204,9 @@
                             <div class="step3" *ngFor="let member of updatedHousehold.beneficiaries, let memberIndex=index">
                                 <div class="container member" *ngIf="memberIndex>0">
                                     <div class="button-container">
+                                        <div class="member-rank">
+                                            {{memberIndex}}
+                                        </div>
                                         <button mat-mini-fab color='warn' class='delete' (click)="removeBeneficiary(memberIndex)">
                                             <mat-icon>delete</mat-icon>
                                         </button>
@@ -261,7 +267,7 @@
                                         </mat-form-field>
                                     </div>
                                     <div class="lign-container">
-                                        <mat-checkbox *ngFor="let vulnerability of vulnerabilityList, let vulIndex=index" 
+                                        <mat-checkbox color='primary' *ngFor="let vulnerability of vulnerabilityList, let vulIndex=index" 
                                         [checked]="updatedHousehold.beneficiaries[memberIndex].vulnerabilities[vulIndex]"
                                         (change)="updatedHousehold.beneficiaries[memberIndex].vulnerabilities[vulIndex] = !updatedHousehold.beneficiaries[memberIndex].vulnerabilities[vulIndex]">
                                             {{vulnerability.field_string}}
@@ -276,7 +282,7 @@
                         <button mat-raised-button (click)="updatedHousehold.beneficiaries.push( pushBeneficiary() )" class="add-button">
                             <span>Add </span>
                         </button>
-                        <button mat-raised-button class="button-background-primary" (click)='test()' matStepperNext>
+                        <button mat-raised-button class="button-background-primary" (click)='nextValidation(3, stepper)'>
                             <span>{{Text.add_beneficiary_next}}</span>
                         </button>
                     </div>
@@ -295,11 +301,11 @@
                     <div class="content-table">
                         <h3>Household information summary :</h3>
                         <div class="info-resume">
-                            <div class="info-container">
+                            <div class="info-container" *ngIf="updatedHousehold.livelihood">
                                 <h4 class='summary-title'>Livelihood: </h4> 
                                 <p class="summary-title-value">{{updatedHousehold.livelihood}}</p>
                             </div>
-                            <div class="info-container">
+                            <div class="info-container" *ngIf="updatedHousehold.address_number && updatedHousehold.address_postcode && updatedHousehold.address_street">
                                 <h4 class='summary-title'> Full household address: </h4> 
                                 <p class="summary-title-value">
                                     {{updatedHousehold.address_number}}  
@@ -307,7 +313,7 @@
                                     {{updatedHousehold.address_postcode}}
                                 </p>
                             </div>
-                            <div class="info-container">
+                            <div class="info-container" *ngIf="updatedHousehold.location.adm1">
                                 <h4 class='summary-title'> Household Location: </h4> 
                                 <p class="summary-title-value">
                                     {{getFullLocation()}}
@@ -315,7 +321,7 @@
                             </div>                 
                         </div>
                         <h3> Beneficiaries: </h3>
-                        <table mat-table [dataSource]="updatedHousehold.beneficiaries" class="mat-elevation-z8 summary">
+                        <table mat-table [dataSource]="tableData" class="mat-elevation-z8 summary">
                             <ng-container [matColumnDef]=tableColumns[0]>
                                 <th mat-header-cell *matHeaderCellDef> {{ tableColumns[0] }} </th>
                                 <td mat-cell *matCellDef="let element"> {{element.given_name}} </td>
@@ -353,9 +359,11 @@
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
-                        <button mat-raised-button class="button-background-cancel" (click)="test()">{{Text.add_beneficiary_cancel}}</button>
+                        <button mat-raised-button class="button-background-cancel" (click)="cancel()">{{Text.add_beneficiary_cancel}}</button>
 
-                        <button mat-raised-button class="button-background-primary" (click)="formatHouseholdForApi()">{{Text.add_beneficiary_create}}</button>
+                        <button mat-raised-button class="button-background-primary" *ngIf="mode=='create'" (click)="create()">{{Text.add_beneficiary_create}}</button>
+                        <button mat-raised-button class="button-background-primary" *ngIf="mode=='update'" (click)="update()">{{Text.modal_update_title}}</button>
+
                     </div>
                 </div>
             </div>

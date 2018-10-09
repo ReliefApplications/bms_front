@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, DoCheck } from '@angular/core';
+import { Component, OnInit, OnChanges, DoCheck, HostListener } from '@angular/core';
 import { GlobalText } from '../../../../texts/global';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HouseholdsService } from '../../../core/api/households.service';
@@ -7,7 +7,7 @@ import { LocationService } from '../../../core/api/location.service';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { CountrySpecificService } from '../../../core/api/country-specific.service';
 import { FormBuilder } from '@angular/forms';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar, MatTableDataSource, MatStepper } from '@angular/material';
 import { CacheService } from '../../../core/storage/cache.service';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { LIVELIHOOD } from '../../../model/livelihood';
@@ -15,15 +15,16 @@ import { Location } from '../../../model/location';
 import { Project } from '../../../model/project';
 import { Criteria } from '../../../model/criteria';
 import { CountrySpecific } from '../../../model/country-specific';
-import { startWith, map } from 'rxjs/operators';
-import { StaticInjector } from '@angular/core/src/di/injector';
+import { Observable } from 'rxjs';
+import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
+import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
 
 @Component({
     selector: 'app-update-beneficiary',
     templateUrl: './update-beneficiary.component.html',
     styleUrls: ['./update-beneficiary.component.scss']
 })
-export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
+export class UpdateBeneficiaryComponent implements OnInit, DoCheck, DesactivationGuarded {
 
     // Mode
     public mode : string;
@@ -37,6 +38,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
     // Household objects
     public originalHousehold: any;
     public updatedHousehold: any;
+    public countryISO3;
+    public updateId;
 
     // DB Lists
     public provinceList = [];
@@ -54,7 +57,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
     public typeNationalIdList: string[] = ['type1', 'card'];
 
     // Table
-    public tableColumns: string[] = ['Given name', 'Family name', 'Gender', 'Birth date', 'Phone', 'National id']
+    public tableColumns: string[] = ['Given name', 'Family name', 'Gender', 'Birth date', 'Phone', 'National id'];
+    public tableData: MatTableDataSource<any>;
 
     constructor(
         public route: ActivatedRoute,
@@ -104,7 +108,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
 
         this.updatedHousehold = {
         // First set the format of a Household for Input Forms
-            id: 0,
+            // id: 0,
             address_number: '',
             address_postcode: '',
             address_street: '',
@@ -124,6 +128,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
         // Set the Head if the user is creating
         if(this.mode === 'create') {
             this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
+            this.countryISO3 = this._cacheService.get(CacheService.PROJECTS)[0].iso3;
+            this.getCountrySpecifics();
+            this.updatedHousehold.specificAnswers = this.countrySpecificsList;
         }
 
         // Get the selected household if the user is updating
@@ -151,7 +158,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
     formatHouseholdForForm() {
 
         // Id & address & livelihood & notes.
-        this.updatedHousehold.id = this.originalHousehold.id;
+        this.updateId = this.originalHousehold.id;
         this.updatedHousehold.address_number = this.originalHousehold.address_number;
         this.updatedHousehold.address_postcode = this.originalHousehold.address_postcode;
         this.updatedHousehold.address_street = this.originalHousehold.address_street;
@@ -186,6 +193,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
 
         // Location.
         let location = Location.formatAdmFromApi(this.originalHousehold.location);
+        this.countryISO3 = location.country_iso3;
         this.updatedHousehold.location.adm1 = Location.formatOneAdm(location.adm1);
 
         if (location.adm1) {
@@ -218,6 +226,20 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
         );
     }
 
+    // MAJ location
+    refreshLocation(adm: number) {
+        switch(adm) {
+            case 1: this.getDistrict(this.updatedHousehold.location.adm1);
+                break;
+            case 2: this.getCommune(this.updatedHousehold.location.adm2);
+                break;
+            case 3: this.getVillage(this.updatedHousehold.location.adm3);
+                break;
+            default:
+                break;
+        }
+    }
+
     /**
      * Returns a formated Beneficiary readable for the inputs from an instance of backend beneficiary.
      * @param beneficiary 
@@ -226,7 +248,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
 
         let formatedBeneficiary = {
             // Format of a beneficiary for Form
-            id: '',
+            id: undefined,
             birth_date: '',
             family_name: '',
             given_name: '',
@@ -277,6 +299,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
                         });
                 }
             });
+
+        this.tableData = new MatTableDataSource(this.updatedHousehold.beneficiaries);
         
         return (formatedBeneficiary);
     }
@@ -291,41 +315,46 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
         }
     }
 
-    // TODO : reverse ?
-    formatHouseholdForApi() {
+    /**
+     * Formats all the changes in the updatedHousehold object linked to the forms into a Household object readable by the Backend.
+     */
+    formatHouseholdForApi() : any {
 
         let finalHousehold = this.updatedHousehold;
-        let finalBeneficiaries = this.updatedHousehold.beneficiaries;
+
+        let finalBeneficiaries = this.updatedHousehold.beneficiaries.slice(0);
         let dataHousehold;
 
+        console.log("final", finalBeneficiaries);
+        console.log("updated", this.updatedHousehold.beneficiaries);
         dataHousehold = {
             address_number: '',
             address_postcode: '',
             address_street: '',
             beneficiaries: [],
             country_specific_answers: [],
-            id: 0,
+            // id: undefined,
             latitude: '0',
-            livelihood: '',
+            livelihood: undefined,
             location: {},
             longitude: '0',
             notes: '',
-            projects: [],
         }
 
         if(finalHousehold.address_number && finalHousehold.address_postcode && finalHousehold.address_street
             && finalBeneficiaries[0] && finalBeneficiaries[0].family_name && finalBeneficiaries[0].given_name
-            && finalBeneficiaries[0].gender && finalHousehold.projects && finalHousehold.location.adm1) {
+            && finalBeneficiaries[0].gender && finalHousehold.projects[0] && finalHousehold.location.adm1) {
             // Format & Go
             
             dataHousehold.address_number = finalHousehold.address_number;
             dataHousehold.address_postcode = finalHousehold.address_postcode;
             dataHousehold.address_street = finalHousehold.address_street;
-            dataHousehold.id = finalHousehold.id;
             dataHousehold.livelihood = this.livelihoodsList.indexOf(finalHousehold.livelihood);
             dataHousehold.notes = finalHousehold.notes;
+            // dataHousehold.id = finalHousehold.id;
             
             // Beneficiaries
+            console.log(finalBeneficiaries.length);
             finalBeneficiaries.forEach(
                 element => {
                     let beneficiary = {
@@ -333,11 +362,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
                         family_name: '',
                         gender: 0,
                         given_name: '',
-                        id: '',
+                        id: undefined,
                         national_ids: [],
                         phones: [],
-                        profile: {},
-                        status: false,
+                        profile: {
+                            photo: '',
+                        },
+                        status: 0,
                         updated_on: new Date(),
                         vulnerability_criteria: [],
                     }
@@ -351,12 +382,15 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
                     }
 
                     beneficiary.given_name = element.given_name;
-                    beneficiary.id = element.id;
+
+                    if(element.id) {
+                        beneficiary.id = element.id;
+                    }
 
                     if(finalBeneficiaries.indexOf(element) === 0) {
-                        beneficiary.status = true;
+                        beneficiary.status = 1;
                     } else {
-                        beneficiary.status = false;
+                        beneficiary.status = 0;
                     }
 
                     if(element.national_id.number)
@@ -375,6 +409,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
                             type: element.phone.type,
                         }
                     )
+                    if(this.originalHousehold)
                     this.originalHousehold.beneficiaries.forEach(
                         element => {
                             if(element.id === beneficiary.id) {
@@ -401,22 +436,164 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
             );
 
             // Location
+            let copyAdm1 = finalHousehold.location.adm1.split(' - ')[1];
+            let copyAdm2 = undefined;
+            let copyAdm3 = undefined;
+            let copyAdm4 = undefined;
 
+            if(finalHousehold.location.adm2) {
+                copyAdm2 = finalHousehold.location.adm2.split(' - ')[1];
+            }
+            if(finalHousehold.location.adm3) {
+                copyAdm3 = finalHousehold.location.adm3.split(' - ')[1];
+            }
+            if(finalHousehold.location.adm4) {
+                copyAdm4 = finalHousehold.location.adm4.split(' - ')[1];
+            }
+            
+            dataHousehold.location = {
+                adm1: copyAdm1,
+                adm2: copyAdm2,
+                adm3: copyAdm3,
+                adm4: copyAdm4,
+                country_iso3: this.countryISO3,
+            }
 
+            // Specifics
+            finalHousehold.specificAnswers.forEach(
+                result => {
+                    let specific = {
+                        countryIso3: this.countryISO3,
+                        field: result.field_string,
+                        id: result.id,
+                        name: '',
+                        type: result.type,
+                    }
+
+                    dataHousehold.country_specific_answers.push(
+                        {
+                            answer: result.answer,
+                            country_specific: specific,
+                        }
+                    );
+                }
+            );
             console.log('Household for Api: ', dataHousehold);
+            return(dataHousehold);
         }
         else {
             // Minimum data not filled -> Error !
             this.snackBar.open('Minimum required data is not complete : please check previous steps', '', {duration: 3000, horizontalPosition: 'center' });
+            return(undefined);
         }
         
     }
 
-    pullBeneficiary() {
-
+    /**
+     * Call backend to create a new household with filled data.
+     */
+    create() {
+        let body = this.formatHouseholdForApi();
+        let selectedProjectsIds = new Array<string>();
+        this.updatedHousehold.projects.forEach(
+            project => {
+                selectedProjectsIds.push( project.split(' - ')[0]);
+            }
+        )
+        if(body) {
+            this._householdsService.add2(body, selectedProjectsIds).toPromise()
+            .then(
+                success => {
+                    this.snackBar.open('Created successfuly : ' + success, '', {duration: 3000, horizontalPosition: 'center'});
+                }
+            )
+            .catch(
+                error => {
+                    this.snackBar.open('Error while creating : ' + error, '', {duration: 3000, horizontalPosition: 'center'});
+                }
+            )
+        }
     }
 
-    test() { }
+    /**
+     * Call backend to update the selected household with filled data.
+     */
+    update() {
+        let body = this.formatHouseholdForApi();
+
+        // TODO : create route to update with beneficiary id (several projects)
+    }
+
+    /**
+     * 
+     */
+    nextValidation(step: number, stepper: MatStepper) {
+        if(step === 1) {
+            let hh = this.updatedHousehold;
+
+            if(!hh.location.adm1) {
+                
+            } else if (!hh.projects[0]) {
+                this.snackBar.open('You must select at least one project', '', {duration: 3000, horizontalPosition: 'center'});
+            } else if (!hh.address_number) {
+                this.snackBar.open('You must enter your address number', '', {duration: 3000, horizontalPosition: 'center'});
+            } else if (!hh.address_postcode) {
+                this.snackBar.open('You must enter your address street', '', {duration: 3000, horizontalPosition: 'center'});
+            } else if(!hh.address_street) {
+                this.snackBar.open('You must enter your address postcode', '', {duration: 3000, horizontalPosition: 'center'});
+            } else {
+                stepper.next();
+            }
+        } else if (step === 2) {
+            let head = this.updatedHousehold.beneficiaries[0];
+
+            if(!head.family_name) {
+                this.snackBar.open('You must enter a family name', '', {duration: 3000, horizontalPosition: 'center'});
+            } else if (!head.given_name) {
+                this.snackBar.open('You must enter a given name', '', {duration: 3000, horizontalPosition: 'center'});
+            } else if (!head.gender) {
+                this.snackBar.open('You must select a gender', '', {duration: 3000, horizontalPosition: 'center'});
+            } else {
+                stepper.next();
+            }
+        } else if (step === 3) {
+            let counter = 1;
+            let gotError = false;
+            let members = this.updatedHousehold.beneficiaries;
+
+            for(let i=1; i<members.length && !gotError; i++) {
+                gotError = true;
+                if(!members[i].family_name) {
+                    this.snackBar.open('You must enter a family name for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
+                } else if(!members[i].given_name) {
+                    this.snackBar.open('You must enter a given name for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
+                } else if(!members[i].gender) {
+                    this.snackBar.open('You must select a gender for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
+                } else {
+                    gotError = false;
+                    counter++;
+                }
+            }
+            if(counter === members.length) {
+                stepper.next();
+            }
+        }
+        
+    }
+
+    /**
+     * Verify if modifications have been made to prevent the user from leaving and display dialog to confirm we wiwhes to delete them
+     */
+    @HostListener('window:beforeunload')
+    canDeactivate(): Observable<boolean> | boolean {
+        if (this.updatedHousehold) {
+            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+
+            return dialogRef.afterClosed();
+        } else {
+            return (true);
+        }
+    }
 
     /**
      * Creates a string to display the full location
@@ -550,10 +727,28 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck {
             promise.toPromise().then(response => {
                 const responseCountrySpecifics = CountrySpecific.formatArray(response);
                 responseCountrySpecifics.forEach(element => {
-                    this.countrySpecificsList.push(element);
+                    console.log(element);
+                    this.countrySpecificsList.push(
+                        {
+                            answer:'',
+                            countryIso3: this.countryISO3,
+                            field_string: element.field,
+                            id: element.id,
+                            type: element.type,
+                            name: element.name,
+                        }
+                    );
+
                 });
             });
         }
+    }
+
+    /**
+     * alow to return in household page and abort the creation of household
+     */
+    cancel() {
+        this.router.navigate(['/beneficiaries']);
     }
 
 }

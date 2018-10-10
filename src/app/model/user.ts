@@ -106,7 +106,9 @@ export class User {
 
         return {
             username: selfinstance.username,
-            rights: selfinstance.rights
+            rights: selfinstance.rights,
+            projects: selfinstance.projects,
+            country: selfinstance.country
         }
     }
 

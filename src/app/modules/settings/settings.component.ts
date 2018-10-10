@@ -141,6 +141,18 @@ export class SettingsComponent implements OnInit {
     // TO DO : get from cache
     load(title): void {
         this.referedClassService.get().subscribe(response => {
+            if (response && response[0].email && response[0].username && response[0].roles) 
+                response.forEach(element => {
+                    element.projects = new Array<number>();
+                    element.country = '';
+
+                    for (let i = 0; i < element.user_projects.length; i++) 
+                        element.projects[i] = element.user_projects[i].project.name;
+
+                    for (let i = 0; i < element.countries.length; i++) 
+                        element.country = element.countries[i].iso3;   
+                });
+
             response = this.referedClassToken.formatArray(response);
             this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.referedClassToken.__classname__.toUpperCase() + 'S'], response);
             this.data = new MatTableDataSource(response);
@@ -188,7 +200,7 @@ export class SettingsComponent implements OnInit {
                         delete createElement['country'];
                         delete createElement['projects'];
                     }
-                    
+
                     this.authenticationService.createUser(createElement, response).subscribe(() => {
                         this.snackBar.open(this.referedClassToken.__classname__ + ' created', '', { duration: 3000, horizontalPosition: 'right' });
                         this.selectTitle(this.selectedTitle);

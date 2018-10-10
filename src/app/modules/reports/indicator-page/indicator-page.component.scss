@@ -49,7 +49,7 @@ app-placeholder-panel {
     margin: 2em;
   }
 }
-    
+
 .chartLoader{
   background-color: black;
   opacity: 0.2;
@@ -75,7 +75,7 @@ app-placeholder-panel {
   text-align: left;
   width:100%;
 }
-    
+
 .button{
   width:100%;
   padding: 15px;
@@ -96,7 +96,7 @@ app-placeholder-panel {
   position: absolute;
   z-index: 1;
 }
-    
+
 /* Show the tooltip text when you mouse over the tooltip container */
 .tooltip-container:hover .tooltip-text {
   visibility: visible;
@@ -142,29 +142,6 @@ app-placeholder-panel {
   }
 }
 
-.no-data-box{
-  border: solid 2px black;
-  border-radius: 80px;
-  text-align: center;
-  justify-content: center;
-  padding: 3%;
-  margin: 5em 6em 5em 6em;
-  display: flex;
-  width: 100%;
-
-  .box-title{
-    display: flex;
-    font-style: bold;
-    font-size: 50px;
-    font-family: Lato,Helvetica,Arial,sans-serif;
-  }
-}
-
-.no-data-text{
-  color: $bms_green;
-  font-style: italic;
-} 
-
 .frequency {
   display: flex;
 }
@@ -177,7 +154,7 @@ button-filter-date{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  
+
 }
 
 // .clicked {
@@ -349,4 +326,3 @@ button-filter-date{
   }
 
 }
-

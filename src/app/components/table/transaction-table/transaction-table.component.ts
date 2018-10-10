@@ -4,7 +4,7 @@ import { DistributionData } from '../../../model/distribution-data';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { Beneficiaries } from '../../../model/beneficiary';
 import { Mapper } from '../../../core/utils/mapper.service';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { CacheService } from '../../../core/storage/cache.service';
 import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
 import { DistributionService } from '../../../core/api/distribution.service';
@@ -22,8 +22,9 @@ export class TransactionTableComponent extends TableComponent implements OnInit 
         public mapperService: Mapper,
         public dialog: MatDialog,
         public _cacheService: CacheService,
-        public distributionService: DistributionService) {
-            super(mapperService, dialog, _cacheService);
+        public distributionService: DistributionService,
+        public snackBar: MatSnackBar) {
+            super(mapperService, dialog, _cacheService, snackBar);
         }
 
     ngOnInit() {

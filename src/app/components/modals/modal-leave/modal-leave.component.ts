@@ -6,7 +6,7 @@ import { MatDialogRef } from '@angular/material';
 @Component({
   selector: 'app-modal-leave',
   templateUrl: './modal-leave.component.html',
-  styleUrls: ['./modal-leave.component.scss']
+  styleUrls: ['../modal.component.scss', './modal-leave.component.scss']
 })
 export class ModalLeaveComponent implements OnInit {
 

@@ -8,7 +8,7 @@ import { count } from '@swimlane/ngx-charts';
 @Component({
     selector: 'app-modal-add',
     templateUrl: './modal-add.component.html',
-    styleUrls: ['./modal-add.component.scss']
+    styleUrls: ['../modal.component.scss', './modal-add.component.scss']
 })
 export class ModalAddComponent extends ModalComponent {
     public entityDisplayedName = '';

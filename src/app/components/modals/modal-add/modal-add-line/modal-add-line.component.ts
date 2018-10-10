@@ -7,7 +7,7 @@ import { CacheService } from '../../../../core/storage/cache.service';
 @Component({
   selector: 'app-modal-add-line',
   templateUrl: './modal-add-line.component.html',
-  styleUrls: ['./modal-add-line.component.scss']
+  styleUrls: ['../../modal.component.scss', './modal-add-line.component.scss']
 })
 export class ModalAddLineComponent extends ModalAddComponent {
   public checkCriteria = -1;
@@ -49,7 +49,7 @@ export class ModalAddLineComponent extends ModalAddComponent {
 
   /**
    * Get the gender selected by the user
-   * @param event 
+   * @param event
    */
   genderOnChange(event) {
     this.newObject.value_string = event.value;
@@ -57,7 +57,7 @@ export class ModalAddLineComponent extends ModalAddComponent {
 
   /**
    * Get the date selected by the user
-   * @param event 
+   * @param event
    */
   selectDate(event) {
     let day = event.value.getDate();
@@ -79,7 +79,7 @@ export class ModalAddLineComponent extends ModalAddComponent {
   /**
    * for criteria's table
    * adapt condtion to the selected criteria
-   * @param checkData 
+   * @param checkData
    */
   checkCondition(checkData) {
     let type = null;

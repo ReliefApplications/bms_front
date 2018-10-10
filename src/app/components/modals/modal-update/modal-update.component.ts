@@ -5,7 +5,7 @@ import { Donor } from '../../../model/donor';
 @Component({
   selector: 'modal-update',
   templateUrl: './modal-update.component.html',
-  styleUrls: ['./modal-update.component.scss']
+  styleUrls: ['../modal.component.scss', './modal-update.component.scss']
 })
 export class ModalUpdateComponent extends ModalComponent {
 
@@ -32,7 +32,7 @@ export class ModalUpdateComponent extends ModalComponent {
       let re = /\ /gi;
       this.updateObject.rights = this.updateObject.rights.replace(re, "");
 
-      if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER") 
+      if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER")
         this.form.controls['projectsControl'].enable();
     }
 

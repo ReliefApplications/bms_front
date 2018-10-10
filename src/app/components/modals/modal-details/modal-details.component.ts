@@ -4,7 +4,7 @@ import { ModalComponent                                     } from '../modal.com
 @Component({
   selector: 'modal-details',
   templateUrl: './modal-details.component.html',
-  styleUrls: ['./modal-details.component.scss']
+  styleUrls: ['../modal.component.scss', './modal-details.component.scss']
 })
 export class ModalDetailsComponent extends ModalComponent {
 

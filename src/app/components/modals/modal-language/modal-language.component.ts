@@ -5,7 +5,7 @@ import { GlobalText } from '../../../../texts/global';
 @Component({
   selector: 'app-modal-language',
   templateUrl: './modal-language.component.html',
-  styleUrls: ['./modal-language.component.scss']
+  styleUrls: ['../modal.component.scss', './modal-language.component.scss']
 })
 export class ModalLanguageComponent extends ModalComponent {
   public languages = GlobalText.languages;

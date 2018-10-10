@@ -123,7 +123,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 adm4: '',
             },
         }
-        
+
         // Set the Head if the user is creating
         if(this.mode === 'create') {
             this.countryISO3 = this._cacheService.get(CacheService.PROJECTS)[0].iso3;
@@ -217,7 +217,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 if (beneficiary.status === true) {
                     this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary(beneficiary));
                 }
-                // Member. 
+                // Member.
                 else {
                     this.updatedHousehold.beneficiaries.push(this.pushBeneficiary(beneficiary));
                 }
@@ -261,7 +261,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         if(finalHousehold.address_number && finalHousehold.address_postcode && finalHousehold.address_street
             && finalBeneficiaries[0] && finalBeneficiaries[0].family_name && finalBeneficiaries[0].given_name
             && finalBeneficiaries[0].gender && finalHousehold.projects[0] && finalHousehold.location.adm1) {
-            
+
             // Format address & basic fields
             dataHousehold.address_number = finalHousehold.address_number;
             dataHousehold.address_postcode = finalHousehold.address_postcode;
@@ -269,7 +269,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             dataHousehold.livelihood = this.livelihoodsList.indexOf(finalHousehold.livelihood);
             dataHousehold.notes = finalHousehold.notes;
                 // dataHousehold.id = finalHousehold.id;
-            
+
             // Beneficiaries
             finalBeneficiaries.forEach(
                 element => {
@@ -289,7 +289,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     }
                     beneficiary.date_of_birth = this.formatDate(element.birth_date);
                     beneficiary.family_name = element.family_name;
-                    
+
                     if(element.gender === 'F') {
                         beneficiary.gender = 0;
                     } else if(element.gender === 'M') {
@@ -332,20 +332,19 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                             }
                         }
                     )
-
                     element.vulnerabilities.forEach(
-                        vulnerability => {
+                        (vulnerability, index) => {
                             if(vulnerability === true) {
-                                let criteriaIndex = element.vulnerabilities.indexOf(vulnerability);
                                 beneficiary.vulnerability_criteria.push(
                                     {
-                                        id: this.vulnerabilityList[criteriaIndex].id_field,
-                                        field_string: this.vulnerabilityList[criteriaIndex].field_string,
+                                        id: this.vulnerabilityList[index].id_field,
+                                        field_string: this.vulnerabilityList[index].field_string,
                                     }
                                 );
                             }
                         }
                     );
+                    console.log(beneficiary);
                     dataHousehold.beneficiaries.push(beneficiary);
                 }
             );
@@ -365,7 +364,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             if(finalHousehold.location.adm4) {
                 copyAdm4 = finalHousehold.location.adm4.split(' - ')[1];
             }
-            
+
             dataHousehold.location = {
                 adm1: copyAdm1,
                 adm2: copyAdm2,
@@ -401,12 +400,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             this.snackBar.open('Minimum required data is not complete : please check previous steps', '', {duration: 3000, horizontalPosition: 'center' });
             return(undefined);
         }
-        
+
     }
 
     /**
      * Returns a formated Beneficiary readable for the inputs from an instance of backend beneficiary.
-     * @param beneficiary 
+     * @param beneficiary
      */
     pushBeneficiary(beneficiary?: any) {
 
@@ -471,13 +470,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             });
 
         this.tableData = new MatTableDataSource(this.updatedHousehold.beneficiaries);
-        
+
         return (formatedBeneficiary);
     }
 
     /**
      * To delete a beneficiary from the actual household.
-     * @param index 
+     * @param index
      */
     removeBeneficiary(index: number) {
         if(index < this.updatedHousehold.beneficiaries.length) {
@@ -585,7 +584,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             let hh = this.updatedHousehold;
 
             if(!hh.location.adm1) {
-                
+
             } else if (!hh.projects[0]) {
                 this.snackBar.open('You must select at least one project', '', {duration: 3000, horizontalPosition: 'center'});
             } else if (!hh.address_number) {
@@ -635,7 +634,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     this.snackBar.open('You must select a gender for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
                 } else if (members[i].phone.number && isNaN(Number(members[i].phone.number)))  {
                     this.snackBar.open('Phone can only be composed by digits for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
-                } else if (members[i].phone.number && members[i].phone.code && !this.elementExists(members[i].phone.code, this.countryCodesList) 
+                } else if (members[i].phone.number && members[i].phone.code && !this.elementExists(members[i].phone.code, this.countryCodesList)
                     || members[i].phone.number && !members[i].phone.code) {
                     this.snackBar.open('Please select an existing country code from the list', '', {duration: 3000, horizontalPosition: 'center'});
                 } else if (members[i].birth_date && members[i].birth_date.getTime() > (new Date()).getTime()) {
@@ -649,7 +648,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 stepper.next();
             }
         }
-        
+
     }
 
     /**
@@ -852,8 +851,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
     /**
      * Returns true if an element is part of an array (permits to verify that autocomplete choices are part of the matched list)
-     * @param element 
-     * @param array 
+     * @param element
+     * @param array
      */
     elementExists(element: any, array: any[]) : boolean {
         let exists = false;

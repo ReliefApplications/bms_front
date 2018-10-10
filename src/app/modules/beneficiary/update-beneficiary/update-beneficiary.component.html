@@ -23,10 +23,10 @@
                         <div class="step1 all-information">
                             <div class="column-container">
                                 <mat-form-field>
-                                    <mat-select #province placeholder={{Text.add_beneficiary_getProvince}} [(ngModel)]="updatedHousehold.location.adm1" 
+                                    <mat-select #province placeholder={{Text.add_beneficiary_getProvince}} [(ngModel)]="updatedHousehold.location.adm1"
                                         (selectionChange)='reloadLocation(1)' required>
                                         <mat-option *ngFor="let province of provinceList" [value]="province">
-                                            {{province}} 
+                                            {{province}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
@@ -34,21 +34,21 @@
                                     <mat-select #district placeholder={{Text.add_beneficiary_getDistrict}} [(ngModel)]="updatedHousehold.location.adm2"
                                         (selectionChange)='reloadLocation(2)'>
                                         <mat-option *ngFor="let district of districtList" [value]="district">
-                                            {{district}} 
+                                            {{district}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field>
                                     <mat-select #commune placeholder={{Text.add_beneficiary_getCommune}} [(ngModel)]="updatedHousehold.location.adm3"
                                         (selectionChange)='reloadLocation(3)'>
-                                        <mat-option *ngFor="let commune of communeList" [value]="commune"> 
+                                        <mat-option *ngFor="let commune of communeList" [value]="commune">
                                             {{commune}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field>
                                     <mat-select #village placeholder={{Text.add_beneficiary_getVillage}} [(ngModel)]="updatedHousehold.location.adm4">
-                                        <mat-option *ngFor="let village of villageList" [value]="village"> 
+                                        <mat-option *ngFor="let village of villageList" [value]="village">
                                             {{village}}
                                         </mat-option>
                                     </mat-select>
@@ -57,7 +57,7 @@
                             <div class="column-container">
                                 <mat-form-field>
                                     <mat-select multiple #projects placeholder={{Text.add_beneficiary_getProject}} [(ngModel)]="updatedHousehold.projects" required>
-                                        <mat-option *ngFor="let project of projectList" [value]="project"> 
+                                        <mat-option *ngFor="let project of projectList" [value]="project">
                                             {{project}}
                                         </mat-option>
                                     </mat-select>
@@ -129,20 +129,20 @@
                             <div class="column-container">
                                 <mat-form-field>
                                     <mat-select placeholder={{Text.add_beneficiary_getGender}} [(ngModel)]="updatedHousehold.beneficiaries[0].gender" required>
-                                        <mat-option *ngFor="let type of genderList" [value]="type"> 
-                                            {{type}} 
+                                        <mat-option *ngFor="let type of genderList" [value]="type">
+                                            {{type}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field class="datepicker-computer" required>
-                                    <input #DateOfBirthHead matInput [matDatepicker]="birthHeadComputer" 
+                                    <input #DateOfBirthHead matInput [matDatepicker]="birthHeadComputer"
                                     placeholder={{Text.add_beneficiary_getDateOfBirth}}
                                     [(ngModel)]="updatedHousehold.beneficiaries[0].birth_date">
                                     <mat-datepicker-toggle matSuffix [for]="birthHeadComputer"></mat-datepicker-toggle>
                                     <mat-datepicker #birthHeadComputer></mat-datepicker>
                                 </mat-form-field>
                                 <mat-form-field class="datepicker-mobile" required>
-                                    <input #DateOfBirthHead matInput [matDatepicker]="birthHeadMobile" 
+                                    <input #DateOfBirthHead matInput [matDatepicker]="birthHeadMobile"
                                     placeholder={{Text.add_beneficiary_getDateOfBirth}}
                                     [(ngModel)]="updatedHousehold.beneficiaries[0].birth_date">
                                     <mat-datepicker-toggle matSuffix [for]="birthHeadMobile"></mat-datepicker-toggle>
@@ -152,8 +152,8 @@
                             <div class="column-container">
                                 <mat-form-field>
                                    <mat-select placeholder={{Text.add_beneficiary_getTypeNationalId}} [(ngModel)]="updatedHousehold.beneficiaries[0].national_id.type">
-                                        <mat-option *ngFor="let type of typeNationalIdList" [value]="type"> 
-                                            {{type}} 
+                                        <mat-option *ngFor="let type of typeNationalIdList" [value]="type">
+                                            {{type}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
@@ -164,14 +164,14 @@
                             <div class="column-container">
                                 <mat-form-field>
                                    <mat-select placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone.type">
-                                        <mat-option *ngFor="let type of typePhoneList" [value]="type"> 
-                                            {{type}} 
+                                        <mat-option *ngFor="let type of typePhoneList" [value]="type">
+                                            {{type}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                                 <div class="combo">
                                     <mat-form-field>
-                                        <input matInput type="tel-country-code" [(ngModel)]="updatedHousehold.beneficiaries[0].phone.code" placeholder="Code" 
+                                        <input matInput type="tel-country-code" [(ngModel)]="updatedHousehold.beneficiaries[0].phone.code" placeholder="Code"
                                         [matAutocomplete]="autoCountry" (input)="reloadCountryCodes(0)">
                                         <mat-autocomplete #autoCountry="matAutocomplete">
                                             <mat-option *ngFor="let choice of filteredCountryCodesList" [value]="choice">
@@ -185,7 +185,7 @@
                                 </div>
                             </div>
                             <div class="lign-container">
-                                <mat-checkbox color='primary' *ngFor="let vulnerability of vulnerabilityList, let vulIndex=index" 
+                                <mat-checkbox color='primary' *ngFor="let vulnerability of vulnerabilityList, let vulIndex=index"
                                 [checked]="updatedHousehold.beneficiaries[0].vulnerabilities[vulIndex]"
                                 (change)="updatedHousehold.beneficiaries[0].vulnerabilities[vulIndex] = !updatedHousehold.beneficiaries[0].vulnerabilities[vulIndex]">
                                     {{vulnerability.field_string}}
@@ -233,7 +233,7 @@
                                     <div class="column-container">
                                         <mat-form-field>
                                             <mat-select placeholder={{Text.add_beneficiary_getGender}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].gender" required>
-                                                <mat-option *ngFor="let type of genderList" [value]="type"> 
+                                                <mat-option *ngFor="let type of genderList" [value]="type">
                                                     {{type}}
                                                 </mat-option>
                                             </mat-select>
@@ -246,7 +246,7 @@
                                             <mat-datepicker #birthHeadComputer (selectedChanged)="formatDate(memberIndex)"></mat-datepicker>
                                         </mat-form-field>
                                         <mat-form-field class="datepicker-mobile" required>
-                                        <input #DateOfBirthHead matInput [matDatepicker]="birthHeadMobile" 
+                                        <input #DateOfBirthHead matInput [matDatepicker]="birthHeadMobile"
                                             placeholder={{Text.add_beneficiary_getDateOfBirth}}
                                             [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].birth_date">
                                             <mat-datepicker-toggle matSuffix [for]="birthHeadMobile"></mat-datepicker-toggle>
@@ -256,8 +256,8 @@
                                     <div class="column-container">
                                         <mat-form-field>
                                            <mat-select placeholder={{Text.add_beneficiary_getTypeNationalId}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].national_id.type">
-                                                <mat-option *ngFor="let type of typeNationalIdList" [value]="type"> 
-                                                    {{type}} 
+                                                <mat-option *ngFor="let type of typeNationalIdList" [value]="type">
+                                                    {{type}}
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>
@@ -268,14 +268,14 @@
                                     <div class="column-container">
                                         <mat-form-field>
                                            <mat-select placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.type">
-                                                <mat-option *ngFor="let type of typePhoneList" [value]="type"> 
-                                                    {{type}} 
+                                                <mat-option *ngFor="let type of typePhoneList" [value]="type">
+                                                    {{type}}
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                         <div class="combo">
                                             <mat-form-field>
-                                                <input matInput type="tel-country-code" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.code" placeholder="Code" 
+                                                <input matInput type="tel-country-code" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.code" placeholder="Code"
                                                 [matAutocomplete]="autoCountry" (input)="reloadCountryCodes(memberIndex)">
                                                 <mat-autocomplete #autoCountry="matAutocomplete">
                                                     <mat-option *ngFor="let choice of filteredCountryCodesList" [value]="choice">
@@ -289,7 +289,7 @@
                                         </div>
                                     </div>
                                     <div class="lign-container">
-                                        <mat-checkbox color='primary' *ngFor="let vulnerability of vulnerabilityList, let vulIndex=index" 
+                                        <mat-checkbox color='primary' *ngFor="let vulnerability of vulnerabilityList, let vulIndex=index"
                                         [checked]="updatedHousehold.beneficiaries[memberIndex].vulnerabilities[vulIndex]"
                                         (change)="updatedHousehold.beneficiaries[memberIndex].vulnerabilities[vulIndex] = !updatedHousehold.beneficiaries[memberIndex].vulnerabilities[vulIndex]">
                                             {{vulnerability.field_string}}
@@ -325,23 +325,23 @@
                             <h3>Household information summary :</h3>
                             <div class="info-resume">
                                 <div class="info-container" *ngIf="updatedHousehold.livelihood">
-                                    <h4 class='summary-title'>Livelihood: </h4> 
+                                    <h4 class='summary-title'>Livelihood: </h4>
                                     <p class="summary-title-value">{{updatedHousehold.livelihood}}</p>
                                 </div>
                                 <div class="info-container" *ngIf="updatedHousehold.address_number && updatedHousehold.address_postcode && updatedHousehold.address_street">
-                                    <h4 class='summary-title'> Full household address: </h4> 
+                                    <h4 class='summary-title'> Full household address: </h4>
                                     <p class="summary-title-value">
-                                        {{updatedHousehold.address_number}}  
+                                        {{updatedHousehold.address_number}}
                                         {{updatedHousehold.address_street}},
                                         {{updatedHousehold.address_postcode}}
                                     </p>
                                 </div>
                                 <div class="info-container" *ngIf="updatedHousehold.location.adm1">
-                                    <h4 class='summary-title'> Household Location: </h4> 
+                                    <h4 class='summary-title'> Household Location: </h4>
                                     <p class="summary-title-value">
                                         {{getFullLocation()}}
                                     </p>
-                                </div>                 
+                                </div>
                             </div>
                             <h3> Beneficiaries: </h3>
                             <table mat-table [dataSource]="tableData" class="mat-elevation-z8 summary">
@@ -349,17 +349,17 @@
                                     <th mat-header-cell *matHeaderCellDef> {{ tableColumns[0] }} </th>
                                     <td mat-cell *matCellDef="let element"> {{element.given_name}} </td>
                                 </ng-container>
-                                
+
                                 <ng-container [matColumnDef]=tableColumns[1]>
                                     <th mat-header-cell *matHeaderCellDef> {{ tableColumns[1] }} </th>
                                     <td mat-cell *matCellDef="let element"> {{element.family_name}} </td>
                                 </ng-container>
-                                
+
                                 <ng-container [matColumnDef]=tableColumns[2]>
                                     <th mat-header-cell *matHeaderCellDef> {{ tableColumns[2] }} </th>
                                     <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
                                 </ng-container>
-                                
+
                                 <ng-container [matColumnDef]=tableColumns[3]>
                                     <th mat-header-cell *matHeaderCellDef> {{ tableColumns[3] }} </th>
                                     <td mat-cell *matCellDef="let element"> {{ this.formatDate(element.birth_date) }} </td>
@@ -367,18 +367,18 @@
 
                                 <ng-container [matColumnDef]=tableColumns[4]>
                                     <th mat-header-cell *matHeaderCellDef> {{ tableColumns[4] }} </th>
-                                    <td mat-cell *matCellDef="let element">     
+                                    <td mat-cell *matCellDef="let element">
                                         <p *ngIf="element.phone.number">
                                             {{ element.phone.code.split(')')[1] }}{{ element.phone.number }}
-                                        </p> 
+                                        </p>
                                     </td>
                                 </ng-container>
-                                
+
                                 <ng-container [matColumnDef]=tableColumns[5]>
                                     <th mat-header-cell *matHeaderCellDef> {{ tableColumns[5] }} </th>
                                     <td mat-cell *matCellDef="let element"> {{element.national_id.number}} </td>
                                 </ng-container>
-                                
+
                                 <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
                                 <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
                             </table>

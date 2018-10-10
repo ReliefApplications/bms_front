@@ -52,7 +52,6 @@ import { AddDistributionComponent } from '../modules/projects/add-distribution/a
 import { SettingsComponent } from '../modules/settings/settings.component';
 import { BeneficiariesImportComponent } from '../modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
 import { DataValidationComponent } from '../modules/beneficiary/data-validation/data-validation.component';
-import { AddBeneficiaryComponent } from '../modules/beneficiary/add-beneficiary/addBeneficiary.component';
 import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
 import { ImportDistributionComponent } from '../modules/projects/distributions/import-distribution/import-distribution.component';
 import { TransactionTableComponent } from '../components/table/transaction-table/transaction-table.component';
@@ -141,7 +140,6 @@ declarations: [
     BoxComponent,
     BoxPropertiesComponent,
     DataValidationComponent,
-    AddBeneficiaryComponent,
     DistributionsComponent,
     ImportDistributionComponent,
     PlaceholderSummaryComponent,
@@ -223,7 +221,6 @@ exports: [
     MatListModule,
     MatProgressSpinnerModule,
     MatTabsModule,
-    AddBeneficiaryComponent,
     MatSidenavModule,
     MatToolbarModule,
     MatAutocompleteModule,

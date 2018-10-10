@@ -18,19 +18,18 @@ import { CountrySpecific } from '../../../model/country-specific';
 import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-update-beneficiary',
     templateUrl: './update-beneficiary.component.html',
     styleUrls: ['./update-beneficiary.component.scss']
 })
-export class UpdateBeneficiaryComponent implements OnInit, DoCheck, DesactivationGuarded {
+export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded {
 
     // Mode
     public mode : string;
-
-    // Test var
-    public changedBeneficiary;
+    public validationLoading = false;
 
     // Translate
     public Text = GlobalText.TEXTS;
@@ -50,6 +49,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
     public vulnerabilityList = [];
     public projectList = [];
     public countrySpecificsList = [];
+
+    // Country Codes (PhoneNumber lib)
+    private CodesMethods = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+    private getCountryISO2 = require("country-iso-3-to-2");
+    public countryCodesList = [];
+    public filteredCountryCodesList: Observable<any[]>;
 
     // Constant lists
     public genderList: string[] = ['F', 'M'];
@@ -73,6 +78,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
         public dialog: MatDialog,
         public snackBar: MatSnackBar,
         public router: Router,
+        private datePipe: DatePipe
     ) { }
 
     ngOnInit() {
@@ -86,19 +92,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
         // Get lists
         this.livelihoodsList = LIVELIHOOD;
         this.getVulnerabilityCriteria();
+        this.getCountryCodes();
         this.getProvince();
         this.getProjects();
 
         // Prefill
         this.initiateHousehold();
-    }
-
-    // For tests
-    ngDoCheck() {
-        if(this.changedBeneficiary !== Object.values(this.updatedHousehold)) {
-            console.log('HH : ', this.updatedHousehold);
-            this.changedBeneficiary = Object.values( this.updatedHousehold ); 
-        }
     }
 
     /**
@@ -127,8 +126,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
         
         // Set the Head if the user is creating
         if(this.mode === 'create') {
-            this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
             this.countryISO3 = this._cacheService.get(CacheService.PROJECTS)[0].iso3;
+            this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
             this.getCountrySpecifics();
             this.updatedHousehold.specificAnswers = this.countrySpecificsList;
         }
@@ -141,7 +140,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                         this._householdsService.getOne(result['id']).subscribe(
                             result => {
                                 this.originalHousehold = result;
-                                console.log("Household from Back : ", this.originalHousehold);
+                                // console.log("Household from Back : ", this.originalHousehold);
 
                                 this.formatHouseholdForForm();
                             }
@@ -226,93 +225,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
         );
     }
 
-    // MAJ location
-    refreshLocation(adm: number) {
-        switch(adm) {
-            case 1: this.getDistrict(this.updatedHousehold.location.adm1);
-                break;
-            case 2: this.getCommune(this.updatedHousehold.location.adm2);
-                break;
-            case 3: this.getVillage(this.updatedHousehold.location.adm3);
-                break;
-            default:
-                break;
-        }
-    }
-
     /**
-     * Returns a formated Beneficiary readable for the inputs from an instance of backend beneficiary.
-     * @param beneficiary 
+     * Format beneficiary date to a short string.
      */
-    pushBeneficiary(beneficiary?: any) {
+    formatDate(date: Date) {
+        let pipedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
 
-        let formatedBeneficiary = {
-            // Format of a beneficiary for Form
-            id: undefined,
-            birth_date: '',
-            family_name: '',
-            given_name: '',
-            gender: '',
-            national_id: {
-                number: '',
-                type: 'card'
-            },
-            phone: {
-                number: '',
-                type: 'mobile'
-            },
-            vulnerabilities: []
-        };
-
-        if (beneficiary) {
-            formatedBeneficiary.id = beneficiary.id;
-            formatedBeneficiary.birth_date = beneficiary.date_of_birth;
-            formatedBeneficiary.family_name = beneficiary.family_name;
-            formatedBeneficiary.given_name = beneficiary.given_name;
-
-            if (beneficiary.gender == 0) {
-                formatedBeneficiary.gender = 'F';
-            } else if (beneficiary.gender == 1) {
-                formatedBeneficiary.gender = 'M';
-            }
-        }
-
-        if (beneficiary && beneficiary.national_ids[0]) {
-            formatedBeneficiary.national_id.number = beneficiary.national_ids[0].id_number;
-            formatedBeneficiary.national_id.type = beneficiary.national_ids[0].type;
-        }
-
-        if (beneficiary && beneficiary.phones[0]) {
-            formatedBeneficiary.phone.number = beneficiary.phones[0].id_number;
-            formatedBeneficiary.phone.type = beneficiary.phones[0].type;
-        }
-
-        this.vulnerabilityList.forEach(
-            element => {
-                formatedBeneficiary.vulnerabilities.push(false);
-                if (beneficiary && beneficiary.vulnerability_criteria) {
-                    beneficiary.vulnerability_criteria.forEach(
-                        vulnerability => {
-                            if (element.field_string === vulnerability.field_string) {
-                                formatedBeneficiary.vulnerabilities[this.vulnerabilityList.indexOf(element)] = true;
-                            }
-                        });
-                }
-            });
-
-        this.tableData = new MatTableDataSource(this.updatedHousehold.beneficiaries);
-        
-        return (formatedBeneficiary);
-    }
-
-    /**
-     * To delete a beneficiary from the actual household.
-     * @param index 
-     */
-    removeBeneficiary(index: number) {
-        if(index < this.updatedHousehold.beneficiaries.length) {
-            this.updatedHousehold.beneficiaries.splice(index, 1);
-        }
+        return(pipedDate);
     }
 
     /**
@@ -325,8 +244,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
         let finalBeneficiaries = this.updatedHousehold.beneficiaries.slice(0);
         let dataHousehold;
 
-        console.log("final", finalBeneficiaries);
-        console.log("updated", this.updatedHousehold.beneficiaries);
         dataHousehold = {
             address_number: '',
             address_postcode: '',
@@ -344,17 +261,16 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
         if(finalHousehold.address_number && finalHousehold.address_postcode && finalHousehold.address_street
             && finalBeneficiaries[0] && finalBeneficiaries[0].family_name && finalBeneficiaries[0].given_name
             && finalBeneficiaries[0].gender && finalHousehold.projects[0] && finalHousehold.location.adm1) {
-            // Format & Go
             
+            // Format address & basic fields
             dataHousehold.address_number = finalHousehold.address_number;
             dataHousehold.address_postcode = finalHousehold.address_postcode;
             dataHousehold.address_street = finalHousehold.address_street;
             dataHousehold.livelihood = this.livelihoodsList.indexOf(finalHousehold.livelihood);
             dataHousehold.notes = finalHousehold.notes;
-            // dataHousehold.id = finalHousehold.id;
+                // dataHousehold.id = finalHousehold.id;
             
             // Beneficiaries
-            console.log(finalBeneficiaries.length);
             finalBeneficiaries.forEach(
                 element => {
                     let beneficiary = {
@@ -362,7 +278,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                         family_name: '',
                         gender: 0,
                         given_name: '',
-                        id: undefined,
                         national_ids: [],
                         phones: [],
                         profile: {
@@ -372,7 +287,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                         updated_on: new Date(),
                         vulnerability_criteria: [],
                     }
-                    beneficiary.date_of_birth = element.birth_date;
+                    beneficiary.date_of_birth = this.formatDate(element.birth_date);
                     beneficiary.family_name = element.family_name;
                     
                     if(element.gender === 'F') {
@@ -384,7 +299,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                     beneficiary.given_name = element.given_name;
 
                     if(element.id) {
-                        beneficiary.id = element.id;
+                        beneficiary['id'] = element.id;
                     }
 
                     if(finalBeneficiaries.indexOf(element) === 0) {
@@ -393,26 +308,26 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                         beneficiary.status = 0;
                     }
 
-                    if(element.national_id.number)
+                    if(element.national_id.number && element.national_id.type)
                     beneficiary.national_ids.push(
                         {
                             id: undefined,
                             id_number: element.national_id.number,
-                            type_number: element.national_id.type,
+                            id_type: element.national_id.type,
                         }
                     )
-                    if(element.phone.number)
+                    if(element.phone.number && element.phone.type && element.phone.code)
                     beneficiary.phones.push(
                         {
                             id: undefined,
-                            number: element.phone.number,
+                            number: element.phone.code.split(') ')[1] + element.phone.number,
                             type: element.phone.type,
                         }
                     )
                     if(this.originalHousehold)
                     this.originalHousehold.beneficiaries.forEach(
                         element => {
-                            if(element.id === beneficiary.id) {
+                            if( beneficiary['id'] && element.id === beneficiary['id']) {
                                 beneficiary.profile = element.profile;
                             }
                         }
@@ -478,7 +393,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                     );
                 }
             );
-            console.log('Household for Api: ', dataHousehold);
+            // console.log('Household for Api: ', dataHousehold);
             return(dataHousehold);
         }
         else {
@@ -487,6 +402,112 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
             return(undefined);
         }
         
+    }
+
+    /**
+     * Returns a formated Beneficiary readable for the inputs from an instance of backend beneficiary.
+     * @param beneficiary 
+     */
+    pushBeneficiary(beneficiary?: any) {
+
+        let formatedBeneficiary = {
+            // Format of a beneficiary for Form
+            id: undefined,
+            birth_date: new Date(),
+            family_name: this.updatedHousehold.beneficiaries[0] ? this.updatedHousehold.beneficiaries[0].family_name : '',
+            given_name: '',
+            gender: '',
+            national_id: {
+                number: '',
+                type: 'card'
+            },
+            phone: {
+                code: this.getUserPhoneCode(),
+                number: '',
+                type: 'mobile'
+            },
+            vulnerabilities: []
+        };
+
+        if (beneficiary) {
+            formatedBeneficiary.id = beneficiary.id;
+            formatedBeneficiary.family_name = beneficiary.family_name;
+            formatedBeneficiary.given_name = beneficiary.given_name;
+
+            if (beneficiary.gender == 0) {
+                formatedBeneficiary.gender = 'F';
+            } else if (beneficiary.gender == 1) {
+                formatedBeneficiary.gender = 'M';
+            }
+        }
+
+        if (beneficiary && beneficiary.date_of_birth) {
+            let benefDate = beneficiary.date_of_birth.split('-');
+            formatedBeneficiary.birth_date = new Date(benefDate[0], benefDate[1]-1, benefDate[2], 0, 0);
+        }
+
+        if (beneficiary && beneficiary.national_ids[0]) {
+            formatedBeneficiary.national_id.number = beneficiary.national_ids[0].id_number;
+            formatedBeneficiary.national_id.type = beneficiary.national_ids[0].id_type;
+        }
+
+        if (beneficiary && beneficiary.phones[0]) {
+            formatedBeneficiary.phone.number = beneficiary.phones[0].number;
+            formatedBeneficiary.phone.type = beneficiary.phones[0].type;
+            // TODO : set back the coresponding code and split number to original !?
+        }
+
+        this.vulnerabilityList.forEach(
+            element => {
+                formatedBeneficiary.vulnerabilities.push(false);
+                if (beneficiary && beneficiary.vulnerability_criteria) {
+                    beneficiary.vulnerability_criteria.forEach(
+                        vulnerability => {
+                            if (element.field_string === vulnerability.field_string) {
+                                formatedBeneficiary.vulnerabilities[this.vulnerabilityList.indexOf(element)] = true;
+                            }
+                        });
+                }
+            });
+
+        this.tableData = new MatTableDataSource(this.updatedHousehold.beneficiaries);
+        
+        return (formatedBeneficiary);
+    }
+
+    /**
+     * To delete a beneficiary from the actual household.
+     * @param index 
+     */
+    removeBeneficiary(index: number) {
+        if(index < this.updatedHousehold.beneficiaries.length) {
+            this.updatedHousehold.beneficiaries.splice(index, 1);
+        }
+    }
+
+    /**
+     * Get child locations again list when an adm is selected.
+     */
+    reloadLocation(adm: number) {
+        switch(adm) {
+            case 1: this.getDistrict(this.updatedHousehold.location.adm1);
+                break;
+            case 2: this.getCommune(this.updatedHousehold.location.adm2);
+                break;
+            case 3: this.getVillage(this.updatedHousehold.location.adm3);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Get correct list of country codes matching the user input.
+     */
+    reloadCountryCodes(index: number) {
+        let typed = this.updatedHousehold.beneficiaries[index].phone.code;
+
+        this.filteredCountryCodesList = this.filter(String(typed), this.countryCodesList);
     }
 
     /**
@@ -499,17 +520,24 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
             project => {
                 selectedProjectsIds.push( project.split(' - ')[0]);
             }
-        )
+        );
         if(body) {
-            this._householdsService.add2(body, selectedProjectsIds).toPromise()
+            this.validationLoading = true;
+            this._householdsService.add(body, selectedProjectsIds).toPromise()
             .then(
                 success => {
-                    this.snackBar.open('Created successfuly : ' + success, '', {duration: 3000, horizontalPosition: 'center'});
+                    if(success) {
+                        this.snackBar.open('Created successfuly !', '', {duration: 3000, horizontalPosition: 'center'});
+                        this.leave();
+                    } else {
+                        this.validationLoading = false;
+                    }
                 }
             )
             .catch(
                 error => {
                     this.snackBar.open('Error while creating : ' + error, '', {duration: 3000, horizontalPosition: 'center'});
+                    this.validationLoading = false;
                 }
             )
         }
@@ -520,12 +548,37 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
      */
     update() {
         let body = this.formatHouseholdForApi();
-
-        // TODO : create route to update with beneficiary id (several projects)
+        let selectedProjectsIds = new Array<string>();
+        this.updatedHousehold.projects.forEach(
+            project => {
+                selectedProjectsIds.push( project.split(' - ')[0]);
+            }
+        );
+        if(body) {
+            this.validationLoading = true;
+            this._householdsService.edit(this.updateId, body, selectedProjectsIds).toPromise()
+            .then(
+                success => {
+                    if(success) {
+                        this.snackBar.open('Updated successfuly !', '', {duration: 3000, horizontalPosition: 'center'});
+                        this.leave();
+                    } else {
+                        this.validationLoading = false;
+                    }
+                }
+            )
+            .catch(
+                error => {
+                    this.snackBar.open('Error while updating : ' + error, '', {duration: 3000, horizontalPosition: 'center'});
+                    this.validationLoading = false;
+                }
+            )
+        }
     }
 
     /**
-     * 
+     * Verify the needed forms before going next step : Blocks if any error (empty/bad type/format).
+     * TODO : bind stepper steps in order to control navigation.
      */
     nextValidation(step: number, stepper: MatStepper) {
         if(step === 1) {
@@ -539,8 +592,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                 this.snackBar.open('You must enter your address number', '', {duration: 3000, horizontalPosition: 'center'});
             } else if (!hh.address_postcode) {
                 this.snackBar.open('You must enter your address street', '', {duration: 3000, horizontalPosition: 'center'});
-            } else if(!hh.address_street) {
+            } else if (isNaN(Number(hh.address_postcode))) {
+                this.snackBar.open('PostCode must be only digits', '', {duration: 3000, horizontalPosition: 'center'});
+            } else if (!hh.address_street) {
                 this.snackBar.open('You must enter your address postcode', '', {duration: 3000, horizontalPosition: 'center'});
+            } else if (hh.livelihood && !this.elementExists(hh.livelihood, this.livelihoodsList)) {
+                this.snackBar.open('Please select an existing livelihood from the list', '', {duration: 3000, horizontalPosition: 'center'});
             } else {
                 stepper.next();
             }
@@ -553,7 +610,14 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                 this.snackBar.open('You must enter a given name', '', {duration: 3000, horizontalPosition: 'center'});
             } else if (!head.gender) {
                 this.snackBar.open('You must select a gender', '', {duration: 3000, horizontalPosition: 'center'});
-            } else {
+            } else if (head.phone.number && isNaN(Number(head.phone.number)))  {
+                this.snackBar.open('Phone can only be composed by digits', '', {duration: 3000, horizontalPosition: 'center'});
+            } else if (head.phone.number && head.phone.code && !this.elementExists(head.phone.code, this.countryCodesList) || head.phone.number && !head.phone.code) {
+                this.snackBar.open('Please select an existing country code from the list', '', {duration: 3000, horizontalPosition: 'center'});
+            } else if (head.birth_date && head.birth_date.getTime() > (new Date()).getTime()) {
+                this.snackBar.open('Please select a valid birth date', '', {duration: 3000, horizontalPosition: 'center'});
+            }
+            else {
                 stepper.next();
             }
         } else if (step === 3) {
@@ -569,6 +633,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                     this.snackBar.open('You must enter a given name for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
                 } else if(!members[i].gender) {
                     this.snackBar.open('You must select a gender for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
+                } else if (members[i].phone.number && isNaN(Number(members[i].phone.number)))  {
+                    this.snackBar.open('Phone can only be composed by digits for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
+                } else if (members[i].phone.number && members[i].phone.code && !this.elementExists(members[i].phone.code, this.countryCodesList) 
+                    || members[i].phone.number && !members[i].phone.code) {
+                    this.snackBar.open('Please select an existing country code from the list', '', {duration: 3000, horizontalPosition: 'center'});
+                } else if (members[i].birth_date && members[i].birth_date.getTime() > (new Date()).getTime()) {
+                    this.snackBar.open('Please select a valid birth date for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
                 } else {
                     gotError = false;
                     counter++;
@@ -586,13 +657,23 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
      */
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
-        if (this.updatedHousehold) {
+        if (this.updatedHousehold && !this.validationLoading) {
             const dialogRef = this.dialog.open(ModalLeaveComponent, {});
 
             return dialogRef.afterClosed();
         } else {
             return (true);
         }
+    }
+
+    /**
+     * Filter a list according to what the user types (needs formControl)
+     */
+    filter(value: string, element: any) {
+
+        const filterValue = value.toLowerCase();
+
+        return element.filter(option => option.toLowerCase().includes(filterValue));
     }
 
     /**
@@ -618,12 +699,15 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
     }
 
     /**
-     * Filter a list according to what the user types (needs formControl)
+     * Get list of all country codes and put it in the list
      */
-    filter(value: string, element: any) {
-        const filterValue = value.toLowerCase();
-        // console.log(element.filter(option => option.toLowerCase().includes(filterValue)))
-        return element.filter(option => option.toLowerCase().includes(filterValue));
+    getCountryCodes() {
+        this.countryCodesList = this.CodesMethods.getSupportedRegions();
+
+        for (let i = 0; i < this.countryCodesList.length; i++) {
+            this.countryCodesList[i] = '(' + this.countryCodesList[i] + ')'
+            + ' +' + this.CodesMethods.getCountryCodeForRegion(this.countryCodesList[i]).toString();
+        }
     }
 
     /**
@@ -727,7 +811,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
             promise.toPromise().then(response => {
                 const responseCountrySpecifics = CountrySpecific.formatArray(response);
                 responseCountrySpecifics.forEach(element => {
-                    console.log(element);
+                    // console.log(element);
                     this.countrySpecificsList.push(
                         {
                             answer:'',
@@ -745,10 +829,43 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
     }
 
     /**
+     * Set default phone code depending on the user adm1 country
+     */
+    getUserPhoneCode(): string {
+        let phoneCode;
+
+        if (this.countryISO3) {
+            phoneCode = String(this.getCountryISO2(String(this.countryISO3)));
+            phoneCode = '+' + this.CodesMethods.getCountryCodeForRegion(phoneCode);
+            return (this.filter(phoneCode, this.countryCodesList)[0]);
+        } else {
+            return '';
+        }
+    }
+
+    /**
      * alow to return in household page and abort the creation of household
      */
-    cancel() {
+    leave() {
         this.router.navigate(['/beneficiaries']);
     }
 
+    /**
+     * Returns true if an element is part of an array (permits to verify that autocomplete choices are part of the matched list)
+     * @param element 
+     * @param array 
+     */
+    elementExists(element: any, array: any[]) : boolean {
+        let exists = false;
+
+        array.forEach(
+            instance => {
+                if(instance === element) {
+                    exists = true;
+                }
+            }
+        )
+
+        return(exists);
+    }
 }

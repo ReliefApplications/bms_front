@@ -12,6 +12,7 @@ import { CriteriaService } from '../../core/api/criteria.service';
 import { ModalitiesService } from '../../core/api/modalities.service';
 import { isArray } from 'util';
 import { User } from '../../model/user';
+import { UserService } from '../../core/api/user.service';
 
 @Component({
   selector: 'modal',
@@ -49,6 +50,7 @@ export class ModalComponent implements OnInit {
     public criteriaService: CriteriaService,
     public modalitiesService: ModalitiesService,
     public snackBar: MatSnackBar,
+    public userService: UserService,
     @Inject(MAT_DIALOG_DATA) public data: any) { 
     }
 

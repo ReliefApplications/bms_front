@@ -59,6 +59,7 @@ export class User {
         if (instance !== undefined) {
             this.id = instance.id;
             this.username = instance.username;
+            this.password = instance.password;
             this.email = instance.email;
             this.salted_password = instance.salted_password;
             this.rights = instance.rights;
@@ -106,7 +107,9 @@ export class User {
 
         return {
             username: selfinstance.username,
-            rights: selfinstance.rights
+            rights: selfinstance.rights,
+            projects: selfinstance.projects,
+            country: selfinstance.country
         }
     }
 
@@ -119,6 +122,7 @@ export class User {
 
         return {
             username: selfinstance.username,
+            password: selfinstance.password,
             rights: selfinstance.rights,
             projects: selfinstance.projects,
             country: selfinstance.country
@@ -134,6 +138,7 @@ export class User {
 
         return {
             username: selfinstance.username,
+            password: selfinstance.password,
             rights: selfinstance.rights,
             projects: selfinstance.projects,
             country: selfinstance.country
@@ -156,6 +161,7 @@ export class User {
     getModalTypeProperties(selfinstance): Object {
         return {
             username: "email",
+            password: "password",
             rights: "selectSingle",
             projects: "selectProjects",
             country: "inputCountry",
@@ -168,6 +174,7 @@ export class User {
     static translator(): Object {
         return {
             username: GlobalText.TEXTS.model_user_username,
+            password: GlobalText.TEXTS.model_user_password,
             rights: GlobalText.TEXTS.model_user_rights,
             projects: GlobalText.TEXTS.model_project,
             country: GlobalText.TEXTS.model_country_specific_countryIso3,
@@ -236,11 +243,7 @@ export class User {
               {
                 'id': "ROLE_REGIONAL_MANAGER",
                 'name': GlobalText.TEXTS.role_user_regional_manager,
-              },
-              {
-                'id': "ROLE_GLOBAL_ADMIN",
-                'name': GlobalText.TEXTS.role_user_global_admin,
-              },
+              }
         ];
     }
 }

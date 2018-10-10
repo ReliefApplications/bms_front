@@ -101,7 +101,7 @@
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
                         <button mat-raised-button class="button-background-primary" (click)="nextValidation(1, stepper)">
-                            <span>{{Text.add_beneficiary_next}}</span>
+                            {{Text.add_beneficiary_next}}
                         </button>
                     </div>
                 </div>
@@ -195,7 +195,7 @@
                         <div class="content-button-footer">
                             <mat-progress-bar mode="determinate" value="35"></mat-progress-bar>
                             <button mat-raised-button class="button-background-primary" (click)='nextValidation(2, stepper)'>
-                                <span>{{Text.add_beneficiary_next}}</span>
+                                {{Text.add_beneficiary_next}}
                             </button>
                         </div>
                     </div>
@@ -301,12 +301,15 @@
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="70"></mat-progress-bar>
-                        <button mat-raised-button (click)="updatedHousehold.beneficiaries.push( pushBeneficiary() )" class="add-button">
-                            <span>Add </span>
-                        </button>
-                        <button mat-raised-button class="button-background-primary" (click)='nextValidation(3, stepper)'>
-                            <span>{{Text.add_beneficiary_next}}</span>
-                        </button>
+                        <div class="action-buttons">
+                          <button mat-raised-button (click)="updatedHousehold.beneficiaries.push( pushBeneficiary() )" class="button-background-accent">
+                            <mat-icon>add</mat-icon>
+                            Add
+                          </button>
+                          <button mat-raised-button class="button-background-primary" (click)='nextValidation(3, stepper)'>
+                            {{Text.add_beneficiary_next}}
+                          </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -386,10 +389,12 @@
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
-                        <button mat-raised-button class="button-background-cancel" (click)="leave()">{{Text.add_beneficiary_cancel}}</button>
+                        <div class="action-buttons">
+                          <button mat-button class="button-text-primary" (click)="leave()">{{Text.add_beneficiary_cancel}}</button>
 
-                        <button mat-raised-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading" (click)="create()">{{Text.add_beneficiary_create}}</button>
-                        <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.modal_update_title}}</button>
+                          <button mat-raised-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading" (click)="create()">{{Text.add_beneficiary_create}}</button>
+                          <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.modal_update_title}}</button>
+                        </div>
 
                     </div>
                 </div>

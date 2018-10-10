@@ -41,6 +41,7 @@ export class AuthenticationService {
             this.requestSalt(user.username).subscribe(success => {
                 let getSalt = success as SaltInterface;
                 user.salted_password = this._wsseService.saltPassword(getSalt.salt, user.password);
+                delete user.password;
                 this.logUser(user).subscribe(success => {
                     let data = success;
 
@@ -101,9 +102,10 @@ export class AuthenticationService {
 
 
     public createUser(body: any, salt: any) {
-        let saltedPassword = this._wsseService.saltPassword(salt, body.password);
+        let saltedPassword = this._wsseService.saltPassword(salt.salt, body.password);
         this._wsseService.setSalted(saltedPassword);
         body.password = saltedPassword;
+        body.salt = salt.salt;
 
         return this.http.put(URL_BMS_API + "/users", body);
     }

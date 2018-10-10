@@ -243,11 +243,7 @@ export class User {
               {
                 'id': "ROLE_REGIONAL_MANAGER",
                 'name': GlobalText.TEXTS.role_user_regional_manager,
-              },
-              {
-                'id': "ROLE_GLOBAL_ADMIN",
-                'name': GlobalText.TEXTS.role_user_global_admin,
-              },
+              }
         ];
     }
 }

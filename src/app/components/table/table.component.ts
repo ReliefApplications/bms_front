@@ -253,7 +253,7 @@ export class TableComponent implements OnChanges, DoCheck {
     if (this.entity.__classname__ == 'User') {
       this.authenticationService.requestSalt(updateElement['username']).subscribe(response => {
         if (response) {
-          let saltedPassword = this._wsseService.saltPassword(response, updateElement['password']);
+          let saltedPassword = this._wsseService.saltPassword(response['salt'], updateElement['password']);
           updateElement['password'] = saltedPassword;
 
           this.service.update(updateElement['id'], updateElement).subscribe(response => {

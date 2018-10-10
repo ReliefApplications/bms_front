@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { UserInterface, ErrorInterface } from '../../model/interfaces';
+import { User, ErrorInterface } from '../../model/user';
 
 import { GlobalText } from '../../../texts/global';
 import { MatSnackBar } from '@angular/material';
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
 	public nameComponent = GlobalText.TEXTS.login_title;
 	public login = GlobalText.TEXTS;
 
-	public user: UserInterface;
+	public user: User;
 	public forgotMessage: boolean = false;
 
 	constructor(
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
 
 	loginAction(): void {
 		this._authService.login(this.user)
-			.then((user: UserInterface) => {
+			.then((user: User) => {
 				if (user.loggedIn) {
 					//redirect
 					this.router.navigate(['/']);

@@ -1,7 +1,7 @@
 import { DistributionData                                  } from './distribution-data';
 import { Donor                                             } from './donor';
 import { Project                                           } from './project';
-import { UserInterface                                     } from './interfaces';
+import { User                                     } from './user';
 import { CountrySpecific                                   } from './country-specific';
 import { Households                                        } from './households';
 import { Criteria                                          } from './criteria';
@@ -20,7 +20,7 @@ export class FieldMapper {
             case 'country_specific' : return CountrySpecific.translator();
             case 'households' : return Households.translator();
             case 'project' : return Project.translator();
-            case 'user' : return UserInterface.translator();
+            case 'user' : return User.translator();
             case 'beneficiaries' : return Beneficiaries.translator();
             case 'imported_beneficiary' : return ImportedBeneficiary.translator();
         }

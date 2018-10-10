@@ -33,14 +33,14 @@ export class CountrySpecific {
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;
-            this.field = instance.field_string;
+            this.field = instance.field;
             this.type = instance.type;
             this.countryIso3 = instance.countryIso3;
             this.name = instance.name;
         }
     }
 
-    public static getDisplayedName(){
+    public static getDisplayedName() {
         return GlobalText.TEXTS.model_country_specific;
     }
 
@@ -125,7 +125,7 @@ export class CountrySpecific {
     getModalTypeProperties(selfinstance): Object {
         return {
             field: "text",
-            type: "text",
+            type: "selectSingle",
         }
     }
 
@@ -162,7 +162,20 @@ export class CountrySpecific {
     public static formatForApi(element: CountrySpecific): any {
         return new CountrySpecific(element);
     }
+
+    /**
+     * used in modal add
+     * @param element 
+     * @param loadedData 
+     */
+    public static formatFromModalAdd(element: any, loadedData: any): CountrySpecific {
+        let newObject = new CountrySpecific(element);
+    
+        return newObject;
+    }
 }
+
+
 
 
 export class CountrySpecificAnswer {
@@ -171,7 +184,7 @@ export class CountrySpecificAnswer {
      * Answer
      * @type { string}
      */
-    answer : string = '';
+    answer: string = '';
     /**
      * @type {CountrySpecific}
      */

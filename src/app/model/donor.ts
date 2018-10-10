@@ -106,7 +106,7 @@ export class Donor {
         return {
             fullname: selfinstance.fullname,
             shortname: selfinstance.shortname,
-            notes: selfinstance.notes,
+            notes: selfinstance.notes
         }
     }
 
@@ -132,8 +132,7 @@ export class Donor {
             name: "text",
             fullname: "text",
             shortname: "text",
-            notes: "text",
-            projects_name: "text"
+            notes: "text"
         }
     }
 
@@ -145,8 +144,7 @@ export class Donor {
             name: "text",
             fullname: "text",
             shortname: "text",
-            notes: "text",
-            projects_name: "select"
+            notes: "text"
         }
     }
 
@@ -186,5 +184,16 @@ export class Donor {
 
     public static formatForApi(element: Donor): any {
         return new Donor(element);
+    }
+
+    /**
+     * used in modal add
+     * @param element 
+     * @param loadedData 
+     */
+    public static formatFromModalAdd(element: any, loadedData: any): Donor {
+        let newObject = new Donor(element);
+    
+        return newObject;
     }
 }

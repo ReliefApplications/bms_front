@@ -14,7 +14,7 @@ import { Mapper } from '../../core/utils/mapper.service';
 import { DistributionData } from '../../model/distribution-data';
 import { Donor } from '../../model/donor';
 import { Project } from '../../model/project';
-import { UserInterface } from '../../model/interfaces';
+import { User } from '../../model/user';
 import { CountrySpecific } from '../../model/country-specific';
 
 import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
@@ -36,7 +36,7 @@ export class SettingsComponent implements OnInit {
     selectedTitle = '';
     isBoxClicked = false;
     loadingData = true;
-    
+
     public referedClassService;
     referedClassToken;
     data: MatTableDataSource<any>;
@@ -71,10 +71,10 @@ export class SettingsComponent implements OnInit {
         this.extensionType = 'xls';
     }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.checkSize();
-  }
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.checkSize();
+    }
 
     checkSize(): void {
         this.heightScreen = window.innerHeight;
@@ -118,7 +118,7 @@ export class SettingsComponent implements OnInit {
     getData(title) {
         switch (title) {
             case 'users':
-                this.referedClassToken = UserInterface;
+                this.referedClassToken = User;
                 this.referedClassService = this.userService;
                 break;
             case 'donors':
@@ -171,15 +171,26 @@ export class SettingsComponent implements OnInit {
 
     createElement(createElement: Object) {
         createElement = this.referedClassToken.formatForApi(createElement);
-        if (this.referedClassToken.__classname__ !== 'UserInterface') {
+        if (this.referedClassToken.__classname__ !== 'User') {
             this.referedClassService.create(createElement['id'], createElement).subscribe(response => {
+                this.snackBar.open(this.referedClassToken.__classname__ + ' created', '', { duration: 3000, horizontalPosition: 'right' });
                 this.selectTitle(this.selectedTitle);
             });
         } else {
             // for users, there are two step (one to get the salt and one to create the user)
             this.authenticationService.requestSalt(createElement['username']).subscribe(response => {
                 if (response) {
-                    this.authenticationService.createUser(createElement['id'], createElement, response).subscribe(response => {
+                    if (createElement['rights'] == "ROLE_PROJECT_MANAGER" || createElement['rights'] == "ROLE_PROJECT_OFFICER" || createElement['rights'] == "ROLE_FIELD_OFFICER")
+                        delete createElement['country'];
+                    else if (createElement['rights'] == "ROLE_REGIONAL_MANAGER" || createElement['rights'] == "ROLE_COUNTRY_MANAGER" || createElement['rights'] == "ROLE_READ_ONLY")
+                        delete createElement['projects'];
+                    else {
+                        delete createElement['country'];
+                        delete createElement['projects'];
+                    }
+                    
+                    this.authenticationService.createUser(createElement, response).subscribe(() => {
+                        this.snackBar.open(this.referedClassToken.__classname__ + ' created', '', { duration: 3000, horizontalPosition: 'right' });
                         this.selectTitle(this.selectedTitle);
                     });
                 }

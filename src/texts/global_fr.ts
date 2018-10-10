@@ -204,6 +204,7 @@ export const TEXT = {
     model_beneficiaries_location: 'Lieu',
     model_beneficiaries_dependents : 'Dépendents',
     model_beneficiaries_vulnerabilities : 'Vulnérabilités',
+    model_beneficiaries_projects : 'Projets',
     model_beneficiaries_gender : 'Genre',
     model_beneficiaries_dateofbirth : 'Date de naissance',
     model_beneficiaries_status: 'Satut',
@@ -261,5 +262,14 @@ export const TEXT = {
     forbidden_message: 'Désolé, vous n\'avez pas l\'autorisation d\'accéder à cette page',
     not_found: 'Page non trouvée',
     not_found_message: 'Désolé, cette page n\'est pas disponible',
-    back_to_homepage: 'Retour à la page d\'accueil'
+    back_to_homepage: 'Retour à la page d\'accueil',
+
+    role_user_admin: 'Administrateur',
+    role_user_read_only: 'Lecture seulement',
+    role_user_field_officer: 'Agent de terrain',
+    role_user_project_officer: 'Agent de projet',
+    role_user_project_manager: 'Responsable de projet',
+    role_user_country_manager: 'Responsable de pays',
+    role_user_regional_manager: 'Responsable de région',
+    role_user_global_admin: 'Administrateur général'
 };

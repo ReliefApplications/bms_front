@@ -93,27 +93,31 @@ export class ModalAddComponent extends ModalComponent {
     add(): any {
         //Check fields for Users settings
         if (this.newObject.username || this.newObject.username == '') {
-
             const checkMail = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
             if (!checkMail.test(this.newObject.username) || this.newObject.username == '') {
                 this.snackBar.open('Invalid field : Email', '', { duration: 3000, horizontalPosition: 'right' });
                 return;
             }
 
+            if(this.newObject.password == ''){
+                this.snackBar.open('You must define a password', '', { duration: 3000, horizontalPosition: 'right'});
+                return;
+            }
+
             if (this.newObject.rights == "") {
-                this.snackBar.open('You must defined a right', '', { duration: 3000, horizontalPosition: 'right' });
+                this.snackBar.open('You must define a right', '', { duration: 3000, horizontalPosition: 'right' });
                 return;
             }
             if (this.newObject.rights == "ROLE_PROJECT_MANAGER" || this.newObject.rights == "ROLE_PROJECT_OFFICER" || this.newObject.rights == "ROLE_FIELD_OFFICER") {
                 if (this.newObject.projects == undefined || Object.keys(this.newObject.projects).length == 0) {
-                    this.snackBar.open('You must defined at least a project with that role', '', { duration: 3000, horizontalPosition: 'right' });
+                    this.snackBar.open('You must define at least a project with that role', '', { duration: 3000, horizontalPosition: 'right' });
                     return;
                 }
             }
             else if (this.newObject.rights == "ROLE_REGIONAL_MANAGER" || this.newObject.rights == "ROLE_COUNTRY_MANAGER" || this.newObject.rights == "ROLE_READ_ONLY") {
                 this.newObject.country = "KHM";
                 if (this.newObject.country == undefined) {
-                    this.snackBar.open('You must defined a country with that role', '', { duration: 3000, horizontalPosition: 'right' });
+                    this.snackBar.open('You must define a country with that role', '', { duration: 3000, horizontalPosition: 'right' });
                     return;
                 }
             }

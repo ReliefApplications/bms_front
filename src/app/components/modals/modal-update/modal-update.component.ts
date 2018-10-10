@@ -60,16 +60,21 @@ export class ModalUpdateComponent extends ModalComponent {
   save(): any {
     //Check fields for Users settings
     if (this.updateObject.username) {
+      if (this.updateObject.password == '' || !this.updateObject.password){
+        this.snackBar.open('You must define a password', '', { duration: 3000, horizontalPosition: 'right' });
+          return;
+      }
+      
       if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER") {
         if (this.updateObject.projects == undefined || Object.keys(this.updateObject.projects).length == 0) {
-          this.snackBar.open('You must defined at least a project with that role', '', { duration: 3000, horizontalPosition: 'right' });
+          this.snackBar.open('You must define at least a project with that role', '', { duration: 3000, horizontalPosition: 'right' });
           return;
         }
       }
       else if (this.updateObject.rights == "ROLE_REGIONAL_MANAGER" || this.updateObject.rights == "ROLE_COUNTRY_MANAGER" || this.updateObject.rights == "ROLE_READ_ONLY") {
         this.updateObject.country = "KHM";
         if (this.updateObject.country == undefined) {
-          this.snackBar.open('You must defined a country with that role', '', { duration: 3000, horizontalPosition: 'right' });
+          this.snackBar.open('You must define a country with that role', '', { duration: 3000, horizontalPosition: 'right' });
           return;
         }
       }

@@ -210,6 +210,7 @@ export const TEXT = {
     model_beneficiaries_phones: 'Téléphones',
     model_user : 'Utilisateur',
     model_user_username: 'Email',
+    model_user_password: 'Mot de passe',
     model_user_rights: 'Rôles',
     model_project : 'Projet',
     model_project_name: 'Nom  du projet',

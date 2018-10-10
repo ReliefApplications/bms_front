@@ -18,6 +18,8 @@ import { dashCaseToCamelCase } from '@angular/animations/browser/src/util';
 import { Beneficiaries } from '../../model/beneficiary';
 import { id } from '@swimlane/ngx-charts/release/utils';
 import { DistributionData } from '../../model/distribution-data';
+import { AuthenticationService } from '../../core/authentication/authentication.service';
+import { WsseService } from '../../core/authentication/wsse.service';
 
 @Component({
   selector: 'app-table',
@@ -65,6 +67,8 @@ export class TableComponent implements OnChanges, DoCheck {
     public dialog: MatDialog,
     public _cacheService: CacheService,
     public snackBar: MatSnackBar,
+    public authenticationService: AuthenticationService,
+    public _wsseService: WsseService,
   ) { }
 
   ngOnChanges() {
@@ -162,19 +166,19 @@ export class TableComponent implements OnChanges, DoCheck {
    * Recover the right from the model
    * @param element 
    */
-  recoverRights(element){
-    if(element.rights){
+  recoverRights(element) {
+    if (element.rights) {
       let re = /\ /gi;
       element.rights = element.rights.replace(re, "");
       let finalRight;
-  
+
       this.entityInstance.getAllRights().forEach(rights => {
         let value = Object.values(rights);
-        if(value[0] == element.rights){
+        if (value[0] == element.rights) {
           finalRight = value[1];
         }
       });
-  
+
       return finalRight;
     }
   }
@@ -212,7 +216,6 @@ export class TableComponent implements OnChanges, DoCheck {
     if (dialogRef.componentInstance.onUpdate) {
       updateElement = dialogRef.componentInstance.onUpdate.subscribe(
         (data) => {
-          this.snackBar.open(this.entity.__classname__ + ' updated', '', { duration: 3000, horizontalPosition: 'right' });
           this.updateElement(data);
         });
     }
@@ -247,11 +250,29 @@ export class TableComponent implements OnChanges, DoCheck {
     }
 
     // console.log("update element 2:", updateElement);
-    this.service.update(updateElement['id'], updateElement).subscribe(response => {
-      this.updateData();
-    }, error => {
-      // console.error("err", error);
-    });
+    if (this.entity.__classname__ == 'User') {
+      this.authenticationService.requestSalt(updateElement['username']).subscribe(response => {
+        if (response) {
+          let saltedPassword = this._wsseService.saltPassword(response, updateElement['password']);
+          updateElement['password'] = saltedPassword;
+
+          this.service.update(updateElement['id'], updateElement).subscribe(response => {
+            this.snackBar.open(this.entity.__classname__ + ' updated', '', { duration: 3000, horizontalPosition: 'right' });
+            this.updateData();
+          }, error => {
+            // console.error("err", error);
+          });
+        }
+      });
+    }
+    else {
+      this.service.update(updateElement['id'], updateElement).subscribe(response => {
+        this.snackBar.open(this.entity.__classname__ + ' updated', '', { duration: 3000, horizontalPosition: 'right' });
+        this.updateData();
+      }, error => {
+        // console.error("err", error);
+      });
+    }
   }
 
   deleteElement(deleteElement: Object) {

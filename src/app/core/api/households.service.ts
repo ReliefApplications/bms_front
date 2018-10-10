@@ -33,6 +33,11 @@ export class HouseholdsService {
         return this.http.post(url, body);
     }
 
+    public getOne(beneficiaryId) {
+        const url = this.api + '/households/' + beneficiaryId;
+        return this.http.get(url);
+    }
+
     /**
      * Get the csv template to import household
      */
@@ -60,13 +65,32 @@ export class HouseholdsService {
     }
 
     /**
-     * To add an household
-     * @param body
-     * @param id_Project
+     * Add household.
+     * @param hh 
+     * @param projects_ids 
      */
-    public add(body: any, id_Project: string) {
-        const url = this.api + '/households/project/' + id_Project;
+    public add(hh: any, projects_ids: string[]) {
+        const url = this.api + '/households'
+        let body = {
+            household: hh,
+            projects: projects_ids
+        }
         return this.http.put(url, body);
+    }
+
+    /**
+     * Update household.
+     * @param householdId 
+     * @param hh 
+     * @param projects_ids 
+     */
+    public edit(householdId: number, hh: any, projects_ids: string[]) {
+        const url = this.api + '/households/' + householdId;
+        let body = {
+            household: hh,
+            projects: projects_ids
+        }
+        return this.http.post(url, body);
     }
 
     /**

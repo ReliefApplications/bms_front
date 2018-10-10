@@ -62,7 +62,7 @@ export class BeneficiariesComponent implements OnInit {
     this.referedClassService.get().subscribe( response => {
       response = this.referedClassToken.formatArray(response);
       this.households = new MatTableDataSource(response);
-      this.cacheService.set('HOUSEHOLDS', response);
+      this.cacheService.set(CacheService.HOUSEHOLDS, response);
       this.loadingBeneficiaries = false;
     });
   }
@@ -83,6 +83,10 @@ export class BeneficiariesComponent implements OnInit {
 
   addOneHousehold() {
     this.router.navigate(['/beneficiaries/add-beneficiaries']);
+  }
+
+  updateBeneficiary(event) {
+    this.router.navigate(['/beneficiaries/update-beneficiary', event]);
   }
 
   setType(choice: string) {

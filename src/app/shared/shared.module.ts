@@ -52,7 +52,6 @@ import { AddDistributionComponent } from '../modules/projects/add-distribution/a
 import { SettingsComponent } from '../modules/settings/settings.component';
 import { BeneficiariesImportComponent } from '../modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
 import { DataValidationComponent } from '../modules/beneficiary/data-validation/data-validation.component';
-import { AddBeneficiaryComponent } from '../modules/beneficiary/add-beneficiary/addBeneficiary.component';
 import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
 import { ImportDistributionComponent } from '../modules/projects/distributions/import-distribution/import-distribution.component';
 import { TransactionTableComponent } from '../components/table/transaction-table/transaction-table.component';
@@ -63,6 +62,8 @@ import { PlaceholderBoxlineComponent } from '../components/placeholders/placehol
 import { PlaceholderPanelComponent } from '../components/placeholders/placeholder-panel/placeholder-panel.component';
 import { PlaceholderStepperComponent } from '../components/placeholders/placeholder-stepper/placeholder-stepper.component';
 import { PlaceholderTitleComponent } from '../components/placeholders/placeholder-title/placeholder-title.component';
+import { TableBeneficiariesComponent } from '../components/table/table-beneficiaries/table-beneficiaries.component';
+import { UpdateBeneficiaryComponent } from '../modules/beneficiary/update-beneficiary/update-beneficiary.component';
 
 @NgModule({
 imports: [
@@ -126,6 +127,7 @@ declarations: [
     TableSmallMobileComponent,
     TableDashboardComponent,
     TableMobileDashboardComponent,
+    TableBeneficiariesComponent,
     TransactionTableComponent,
     ModalComponent,
     ModalDeleteComponent,
@@ -138,14 +140,14 @@ declarations: [
     BoxComponent,
     BoxPropertiesComponent,
     DataValidationComponent,
-    AddBeneficiaryComponent,
     DistributionsComponent,
     ImportDistributionComponent,
     PlaceholderSummaryComponent,
     PlaceholderBoxlineComponent,
     PlaceholderPanelComponent,
     PlaceholderStepperComponent,
-    PlaceholderTitleComponent
+    PlaceholderTitleComponent,
+    UpdateBeneficiaryComponent,
     
 ],
 entryComponents: [
@@ -181,6 +183,7 @@ exports: [
     TransactionTableComponent,
     TableDashboardComponent,
     TableMobileDashboardComponent,
+    TableBeneficiariesComponent,
     ModalComponent,
     ModalDeleteComponent,
     ModalUpdateComponent,
@@ -218,7 +221,6 @@ exports: [
     MatListModule,
     MatProgressSpinnerModule,
     MatTabsModule,
-    AddBeneficiaryComponent,
     MatSidenavModule,
     MatToolbarModule,
     MatAutocompleteModule,

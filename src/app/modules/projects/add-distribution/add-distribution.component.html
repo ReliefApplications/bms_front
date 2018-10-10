@@ -47,11 +47,11 @@
         </div>
 
         <div class="criteria-threshold">
-          <mat-form-field class="accordion-field" id="threshold">
+          <!-- <mat-form-field class="accordion-field" id="threshold">
             <mat-label>{{ distribution.add_distribution_threshold }}</mat-label>
             <input class="field-input" matInput type="number" [(ngModel)]="newObject.threshold" [formControl]="controlNumber"
               (input)="numberOnInput($event)" (change)="numberOnChange()">
-          </mat-form-field>
+          </mat-form-field> -->
 
           <div class="criteria-summary" *ngIf="criteriaArray.length != 0">
             <h3 class="summary-text" *ngIf="newObject.type == 'Beneficiary'">

@@ -17,15 +17,15 @@ import { DistributionService } from '../../../core/api/distribution.service';
 export class TransactionTableComponent extends TableComponent implements OnInit {
 
     loading = true;
-
-    constructor(
-        public mapperService: Mapper,
-        public dialog: MatDialog,
-        public _cacheService: CacheService,
-        public distributionService: DistributionService,
-        public snackBar: MatSnackBar) {
-            super(mapperService, dialog, _cacheService, snackBar);
-        }
+    //
+    // constructor(
+    //     public mapperService: Mapper,
+    //     public dialog: MatDialog,
+    //     public _cacheService: CacheService,
+    //     public distributionService: DistributionService,
+    //     public snackBar: MatSnackBar) {
+    //         super(mapperService, dialog, _cacheService, snackBar);
+    //     }
 
     ngOnInit() {
     }

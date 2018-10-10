@@ -21,6 +21,7 @@ import { ProfileComponent } from './modules/profile/profile.component';
 import { HeaderMobileComponent } from './components/headers/header-mobile/header-mobile.component';
 import { HeaderComponent } from './components/headers/header/header.component';
 import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
 	declarations: [
@@ -49,7 +50,8 @@ import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave
 		AppRouting
 	],
 	providers: [
-    httpInterceptorProviders
+        DatePipe,
+        httpInterceptorProviders
 	],
 	bootstrap: [AppComponent]
 })

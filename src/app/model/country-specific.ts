@@ -28,6 +28,7 @@ export class CountrySpecific {
      * @type {string}
      */
     countryIso3: string = '';
+    field_string: any;
 
     constructor(instance?) {
         if (instance !== undefined) {

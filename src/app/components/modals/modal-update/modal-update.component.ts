@@ -58,7 +58,51 @@ export class ModalUpdateComponent extends ModalComponent {
    * emit the object updated
    */
   save(): any {
-    if (this.updateObject.start_date) {
+    //Check fields for Users settings
+    if (this.updateObject.username) {
+      if (this.updateObject.password == '' || !this.updateObject.password){
+        this.snackBar.open('You must define a password', '', { duration: 3000, horizontalPosition: 'right' });
+          return;
+      }
+      
+      if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER") {
+        if (this.updateObject.projects == undefined || Object.keys(this.updateObject.projects).length == 0) {
+          this.snackBar.open('You must define at least a project with that role', '', { duration: 3000, horizontalPosition: 'right' });
+          return;
+        }
+      }
+      else if (this.updateObject.rights == "ROLE_REGIONAL_MANAGER" || this.updateObject.rights == "ROLE_COUNTRY_MANAGER" || this.updateObject.rights == "ROLE_READ_ONLY") {
+        this.updateObject.country = "KHM";
+        if (this.updateObject.country == undefined) {
+          this.snackBar.open('You must define a country with that role', '', { duration: 3000, horizontalPosition: 'right' });
+          return;
+        }
+      }
+    }
+
+    //Check fields for Country Specific options settings
+    else if ((this.updateObject.countryIso3 && this.updateObject.field && this.updateObject.type) || this.updateObject.countryIso3 == '' || this.updateObject.field == '' || this.updateObject.type == '') {
+      if (this.updateObject.field == '' || this.updateObject.type == '') {
+        this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
+        return;
+      }
+    }
+
+    //Check fields for Donors settings
+    else if ((this.updateObject.fullname && this.updateObject.shortname) || this.updateObject.fullname == '' || this.updateObject.shortname == '') {
+      if (this.updateObject.fullname == '' || this.updateObject.shortname == '' || this.updateObject.notes == '') {
+        this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
+        return;
+      }
+    }
+
+    //Check fields for Projects settings
+    else if ((this.updateObject.end_date && this.updateObject.start_date && this.updateObject.iso3)) {
+      if (!this.updateObject.end_date || !this.updateObject.name || !this.updateObject.start_date || !this.updateObject.value) {
+          this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
+          return;
+      }
+
       if (typeof this.updateObject.start_date == "object") {
         let day = this.updateObject.start_date.getDate();
         let month = this.updateObject.start_date.getMonth() + 1;
@@ -81,21 +125,6 @@ export class ModalUpdateComponent extends ModalComponent {
         if (month < 10)
           month = "0" + month;
         this.updateObject.end_date = year + "-" + month + "-" + day;
-      }
-    }
-    else if (this.updateObject.username) {
-      if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER") {
-        if (this.updateObject.projects == undefined) {
-          this.snackBar.open('You must defined at least a project with that role', '', { duration: 3000, horizontalPosition: 'right' });
-          return;
-        }
-      }
-      else if (this.updateObject.rights == "ROLE_REGIONAL_MANAGER" || this.updateObject.rights == "ROLE_COUNTRY_MANAGER" || this.updateObject.rights == "ROLE_READ_ONLY") {
-        this.updateObject.country = "KHM";
-        if (this.updateObject.country == undefined) {
-          this.snackBar.open('You must defined a country with that role', '', { duration: 3000, horizontalPosition: 'right' });
-          return;
-        }
       }
     }
 

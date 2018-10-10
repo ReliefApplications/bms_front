@@ -46,15 +46,6 @@ export class ModalAddComponent extends ModalComponent {
         } else if (this.oldEntity !== this.data.entity) {
             this.checkData();
         }
-
-        // if(this.oldRights && this.oldRights != this.newObject.rights)
-        //     this.newObject.rights = this.oldRights;
-
-        // console.log("newObject", this.newObject);
-        // console.log("loadedData", this.loadedData);
-        // console.log("properties", this.properties);
-        // console.log("propertiesTypes", this.propertiesTypes);
-        // console.log("oldRights", this.oldRights);
     }
 
     selected(event) {

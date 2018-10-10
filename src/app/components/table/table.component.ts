@@ -2,7 +2,7 @@
 import { Component, OnInit, Input, ViewChild, OnChanges, ElementRef, DoCheck } from '@angular/core';
 import {
   MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource,
-  MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner
+  MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner, MatSnackBar
 } from '@angular/material';
 
 import { Mapper } from '../../core/utils/mapper.service';
@@ -63,7 +63,8 @@ export class TableComponent implements OnChanges, DoCheck {
   constructor(
     public mapperService: Mapper,
     public dialog: MatDialog,
-    public _cacheService: CacheService
+    public _cacheService: CacheService,
+    public snackBar: MatSnackBar,
   ) { }
 
   ngOnChanges() {
@@ -158,6 +159,27 @@ export class TableComponent implements OnChanges, DoCheck {
   }
 
   /**
+   * Recover the right from the model
+   * @param element 
+   */
+  recoverRights(element){
+    if(element.rights){
+      let re = /\ /gi;
+      element.rights = element.rights.replace(re, "");
+      let finalRight;
+  
+      this.entityInstance.getAllRights().forEach(rights => {
+        let value = Object.values(rights);
+        if(value[0] == element.rights){
+          finalRight = value[1];
+        }
+      });
+  
+      return finalRight;
+    }
+  }
+
+  /**
   * open each modal dialog
   */
   openDialog(user_action, element): void {
@@ -181,6 +203,7 @@ export class TableComponent implements OnChanges, DoCheck {
     if (dialogRef.componentInstance.onDelete) {
       deleteElement = dialogRef.componentInstance.onDelete.subscribe(
         (data) => {
+          this.snackBar.open(this.entity.__classname__ + ' deleted', '', { duration: 3000, horizontalPosition: 'right' });
           this.deleteElement(data);
         });
     }
@@ -189,6 +212,7 @@ export class TableComponent implements OnChanges, DoCheck {
     if (dialogRef.componentInstance.onUpdate) {
       updateElement = dialogRef.componentInstance.onUpdate.subscribe(
         (data) => {
+          this.snackBar.open(this.entity.__classname__ + ' updated', '', { duration: 3000, horizontalPosition: 'right' });
           this.updateElement(data);
         });
     }
@@ -212,6 +236,15 @@ export class TableComponent implements OnChanges, DoCheck {
   updateElement(updateElement: Object) {
     // console.log("update element 1:", updateElement);
     updateElement = this.entity.formatForApi(updateElement);
+
+    if (updateElement['rights'] == "ROLE_PROJECT_MANAGER" || updateElement['rights'] == "ROLE_PROJECT_OFFICER" || updateElement['rights'] == "ROLE_FIELD_OFFICER")
+      delete updateElement['country'];
+    else if (updateElement['rights'] == "ROLE_REGIONAL_MANAGER" || updateElement['rights'] == "ROLE_COUNTRY_MANAGER" || updateElement['rights'] == "ROLE_READ_ONLY")
+      delete updateElement['projects'];
+    else {
+      delete updateElement['country'];
+      delete updateElement['projects'];
+    }
 
     // console.log("update element 2:", updateElement);
     this.service.update(updateElement['id'], updateElement).subscribe(response => {

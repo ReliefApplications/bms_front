@@ -22,7 +22,7 @@ export class CountrySpecificService{
 
     public update(id: number, body: any) {
         let url = this.api + "/country_specifics/"+id;
-        return this.http.put(url, body);
+        return this.http.post(url, body);
     }
 
     public create(id: number, body: any) {

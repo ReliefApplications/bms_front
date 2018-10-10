@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, ErrorStateMatcher } from '@angular/material';
-import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, ErrorStateMatcher, MatSnackBar } from '@angular/material';
+import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 
 import { CacheService } from '../../core/storage/cache.service';
 import { DonorService } from '../../core/api/donor.service';
@@ -11,6 +11,7 @@ import { GlobalText } from '../../../texts/global';
 import { CriteriaService } from '../../core/api/criteria.service';
 import { ModalitiesService } from '../../core/api/modalities.service';
 import { isArray } from 'util';
+import { User } from '../../model/user';
 
 @Component({
   selector: 'modal',
@@ -26,14 +27,19 @@ export class ModalComponent implements OnInit {
   public loadedData: any = [];
   newObject: any;
   public controls = new FormControl();
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
 
+  form = new FormGroup({
+    projectsControl: new FormControl({value: '', disabled: 'true'}),
+    countryControl: new FormControl({value: '', disabled: 'true'}),
+    emailFormControl: new FormControl('', [ Validators.required, Validators.email ]),
+  });
+
+  emailFormControl= new FormControl('', [ Validators.required, Validators.email ]);
+  
   public allCriteria = [];
 
   matcher = new MyErrorStateMatcher();
+  user = new User();
 
   constructor(public dialogRef: MatDialogRef<ModalComponent>,
     public _cacheService: CacheService,
@@ -42,6 +48,7 @@ export class ModalComponent implements OnInit {
     public projectService: ProjectService,
     public criteriaService: CriteriaService,
     public modalitiesService: ModalitiesService,
+    public snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any) { 
     }
 
@@ -64,7 +71,7 @@ export class ModalComponent implements OnInit {
   /**
    * load data for selects
    */
-  loadData() {
+  loadData(updateObject?) {
     if ((this.newObject && this.newObject.sectors) || (this.data.data && this.data.data.sectors)) {
       this.loadedData.sectors_name = this._cacheService.get(CacheService.SECTORS);
       if (!this.loadedData.sectors)
@@ -89,7 +96,43 @@ export class ModalComponent implements OnInit {
           this._cacheService.set(CacheService.PROJECTS, this.loadedData.projects_name);
         });
     }
+    
+    //Distribution in projects
+    if((updateObject && updateObject.date_distribution && updateObject.location_name && updateObject.name && updateObject.updated_on)){
+      this.loadedData.type = [
+        {
+          'id': '0',
+          'name': 'Households'
+        },
+        {
+          'id': '1',
+          'name': 'Beneficiaries'
+        }
+      ]
+    }
 
+    //User in settings
+    if((this.newObject && this.newObject.password == '') || (updateObject && updateObject.email && updateObject.rights)){
+      this.loadedData.rights = this.user.getAllRights();
+      this.projectService.get().subscribe(response => {
+        this.loadedData.projects = response;
+      });
+    }
+    
+    //Country specific option in settings
+    if((this.newObject && this.newObject.countryIso3 == '' && this.newObject.field == '' && this.newObject.name == '') || (updateObject && updateObject.field && updateObject.type)){
+      this.loadedData.type = [
+        {
+          'id': "text",
+          'name': 'text',
+        },
+        {
+          'id': "number",
+          'name': 'number',
+        }
+      ]
+    }
+    
     if(this.newObject && this.newObject.field_string == ''){
       // this.allCriteria = this._cacheService.get(CacheService.CRITERIAS);
       if(this.allCriteria.length === 0 )
@@ -99,7 +142,7 @@ export class ModalComponent implements OnInit {
           this._cacheService.set(CacheService.CRITERIAS, this.loadedData.field_string);
         });
     }
- 
+
     //for criterias
     if (this.newObject && this.newObject.kind_beneficiary == '') {
       this.loadedData.kind_beneficiary = [{ "field_string": this.modal.model_criteria_beneficiary }, { "field_string": this.modal.model_criteria_household }];

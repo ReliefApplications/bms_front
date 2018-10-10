@@ -37,7 +37,7 @@ export class Mapper {
                 return this.mapper.getEntityTranslator('criteria');
             case 'Project' :
                 return this.mapper.getEntityTranslator('project');
-            case 'UserInterface' :
+            case 'User' :
                 return this.mapper.getEntityTranslator('user');
             case 'CountrySpecific' :
                 return this.mapper.getEntityTranslator('country_specific');

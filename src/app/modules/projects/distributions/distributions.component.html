@@ -7,8 +7,8 @@
         <app-placeholder-title *ngIf="loadingDistribution"> </app-placeholder-title>
         <p *ngIf="actualDistribution && !loadingDistribution">
             {{actualDistribution.name | uppercase}}
-            <mat-icon class="valid" *ngIf="this.actualDistribution.validated==true">check_circle</mat-icon>
-            <mat-icon class="unvalid" *ngIf="this.actualDistribution.validated==false">check_circle_outline</mat-icon>
+            <mat-icon class="valid" *ngIf="this.actualDistribution.validated==true">lock</mat-icon>
+            <mat-icon class="unvalid" *ngIf="this.actualDistribution.validated==false">lock_open</mat-icon>
         </p>
     </div>
 
@@ -190,7 +190,10 @@
                             </app-table-mobile-search>
                         </div>
                         <div class="validation">
-                            <button mat-button class="ok" (click)="openDialog(validation)" [disabled]="actualDistribution.validated">Validate</button>
+                            <button mat-button class="ok" (click)="openDialog(validation)" [disabled]="actualDistribution.validated">
+                                <mat-icon >lock</mat-icon>
+                                 Validate
+                            </button>
                         </div>
                     </div>
                 </div>

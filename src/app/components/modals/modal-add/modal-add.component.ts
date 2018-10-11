@@ -23,6 +23,9 @@ export class ModalAddComponent extends ModalComponent {
     ngOnInit() {
         this.checkData();
         this.loadData();
+        console.log("newObject",this.newObject);
+        console.log("properties", this.properties);
+        console.error("types", this.propertiesTypes);
     }
 
     checkData() {

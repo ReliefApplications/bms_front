@@ -48,11 +48,11 @@ export class ModalAddComponent extends ModalComponent {
         }
     }
 
-    selected(event) {
-        if (event.modality) {
-            if (event.modality !== this.oldSelectedModality) {
-                this.getModalityType(event.modality);
-                this.oldSelectedModality = event.modality;
+    selected(event, newObject) {
+        if (newObject.modality) {
+            if (newObject.modality !== this.oldSelectedModality) {
+                this.getModalityType(newObject.modality);
+                this.oldSelectedModality = newObject.modality;
             }
         }
         else if (event.value == "ROLE_PROJECT_MANAGER" || event.value == "ROLE_PROJECT_OFFICER" || event.value == "ROLE_FIELD_OFFICER") {
@@ -124,7 +124,7 @@ export class ModalAddComponent extends ModalComponent {
         }
 
         //Check fields for Country Specific options settings
-        else if ((this.newObject.countryIso3 && this.newObject.field && this.newObject.type) || this.newObject.countryIso3 == '' || this.newObject.field == '' || this.newObject.type == '') {
+        else if ((this.newObject.countryIso3 && this.newObject.field && this.newObject.type) || this.newObject.countryIso3 == '' || this.newObject.field == '') {
             if (this.newObject.field == '' || this.newObject.type == '') {
                 this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
                 return;
@@ -140,7 +140,7 @@ export class ModalAddComponent extends ModalComponent {
         }
 
         //Check fields for Projects settings
-        else if ((this.newObject.donors && this.newObject.donors_name && this.newObject.name && this.newObject.sectors && this.newObject.sectors_name) || this.newObject.name == '' || Object.keys(this.newObject.sectors_name).length == 0 || Object.keys(this.newObject.sectors).length == 0) {
+        else if ((this.newObject.donors && this.newObject.donors_name && this.newObject.name && this.newObject.sectors && this.newObject.sectors_name) || this.newObject.name == '' || (this.newObject.sectors_name && Object.keys(this.newObject.sectors_name).length == 0) || (this.newObject.sectors && Object.keys(this.newObject.sectors).length == 0)) {
             if (!this.newObject.end_date || !this.newObject.name || !this.newObject.start_date || !this.newObject.value) {
                 this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
                 return;
@@ -171,6 +171,14 @@ export class ModalAddComponent extends ModalComponent {
             }
         }
 
+        //Check commodity in addDistribution
+        else if ((this.newObject.modality) || this.newObject.modality == '') {
+            if (this.newObject.modality == '' || this.newObject.type == '' || this.newObject.unit == '' || !this.newObject.value) {
+                this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
+                return;
+            }
+        }
+        
         // console.log('(dialog) Sent to format: ', this.newObject);
         const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
         // console.log('(dialog) Return from format: ', formatedObject);

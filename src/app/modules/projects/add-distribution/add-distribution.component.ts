@@ -326,8 +326,18 @@ export class AddDistributionComponent implements OnInit, DoCheck {
       }
 
       newDistribution.date_distribution = formatDateOfBirth[2] + '-' + formatDateOfBirth[0] + '-' + formatDateOfBirth[1];
-
-      newDistribution.name = this.getNameProject(this.queryParams.project) + '-' + this.newObject.adm1 + '-' + this.newObject.date_distribution + '-';
+      console.log(newDistribution.date_distribution);
+      let adm;
+      if(this.newObject.adm4) {
+          adm = this.newObject.adm4
+      } else if(this.newObject.adm3) {
+          adm = this.newObject.adm3;
+      } else if(this.newObject.adm2) {
+          adm= this.newObject.adm2;
+      } else {
+        adm = this.newObject.adm1;
+      }
+      newDistribution.name = adm + '-' + newDistribution.date_distribution;
 
       // console.log('NEW ONE : ', newDistribution);
 

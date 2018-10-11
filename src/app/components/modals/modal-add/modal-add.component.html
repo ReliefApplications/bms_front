@@ -30,7 +30,7 @@
             <input matInput *ngIf="propertiesTypes[p]=='inputCountry'" [(ngModel)]="newObject[p]" formControlName="countryControl"
               type="text" value="KHM">
 
-            <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'" matInput
+            <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'" matInput
               [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
               placeholder="{{data.mapper.mapTitle(p)}}">
             <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'"></mat-datepicker-toggle>
@@ -50,15 +50,6 @@
           </mat-form-field>
         </form>
       </th>
-      <!-- <th *ngIf="propertiesTypes[p]=='selectProjects'" [ngClass]="display ? 'visible' : 'hidden'" class="table-value">
-        <form class="form">
-          <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
-            <mat-select [(ngModel)]="newObject[p]" placeholder="Projects" [formControl]="controls">
-              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </form>
-      </th> -->
     </tr>
   </table>
   <div class="modal-button action-buttons">

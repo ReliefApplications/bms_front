@@ -6,7 +6,7 @@
 
     <app-placeholder-stepper *ngIf="!updatedHousehold"></app-placeholder-stepper>
 
-    <mat-horizontal-stepper linear #stepper *ngIf="mode == 'create' || (mode == 'update' && updatedHousehold.beneficiaries[0])">
+    <mat-horizontal-stepper #stepper *ngIf="mode == 'create' || (mode == 'update' && updatedHousehold.beneficiaries[0])">
         <ng-template matStepperIcon="done">
             <mat-icon>done</mat-icon>
         </ng-template>

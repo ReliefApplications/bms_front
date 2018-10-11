@@ -45,6 +45,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
   public commodityArray = [];
   public commodityData = new MatTableDataSource([]);
   public commodityNb = 0;
+  public saveCommodityNb = 0;
 
   public maxHeight = GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -85,7 +86,6 @@ export class AddDistributionComponent implements OnInit, DoCheck {
     this.getQueryParameter();
     this.loadProvince();
     this.newObject.type = 'Household';
-    this.newObject.threshold = '0';
   }
 
   /**
@@ -204,7 +204,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
   }
 
   /**
-   * Get the distribution type choosen by the user
+   * Get the distribution type choosen by the user and refresh the research
    */
   typeDistributionOnChange(event) {
     this.newObject.type = event.value;
@@ -212,8 +212,10 @@ export class AddDistributionComponent implements OnInit, DoCheck {
     if (this.criteriaArray.length != 0) {
       this.load = true;
       this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
-        this.criteriaNbBeneficiaries = response;
+        this.criteriaNbBeneficiaries = response.number;
+        this.commodityNb = this.saveCommodityNb * this.criteriaNbBeneficiaries;
         this.load = false;
+
       });
     }
   }
@@ -232,10 +234,13 @@ export class AddDistributionComponent implements OnInit, DoCheck {
     if (this.criteriaArray.length != 0) {
       this.load = true;
       this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
-        this.criteriaNbBeneficiaries = response;
+        this.criteriaNbBeneficiaries = response.number;
+        this.commodityNb = this.saveCommodityNb * this.criteriaNbBeneficiaries;
         this.load = false;
+
       });
     }
+
   }
 
   /**
@@ -383,7 +388,9 @@ export class AddDistributionComponent implements OnInit, DoCheck {
       this.load = true;
       this.criteriaArray.push(createElement);
       this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
-        this.criteriaNbBeneficiaries = response;
+        this.criteriaNbBeneficiaries = response.number;
+        this.commodityNb = this.saveCommodityNb * this.criteriaNbBeneficiaries;
+
         this.load = false;
       });
       this.criteriaData = new MatTableDataSource(this.criteriaArray);
@@ -411,7 +418,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
       if (index > -1) {
         this.commodityArray.splice(index, 1);
         this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
-          this.criteriaNbBeneficiaries = response;
+          this.criteriaNbBeneficiaries = response.number;
         });
         this.removeCommodities(removeElement);
         this.commodityData = new MatTableDataSource(this.commodityArray);
@@ -426,8 +433,10 @@ export class AddDistributionComponent implements OnInit, DoCheck {
   sumCommodities(createElement: Object) {
     const value = parseInt(createElement['value'], 10);
     if (value) {
-      this.commodityNb += value;
+      this.saveCommodityNb += value;
     }
+
+    this.commodityNb = this.saveCommodityNb * this.criteriaNbBeneficiaries;
   }
 
   /**

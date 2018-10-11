@@ -2,7 +2,8 @@
 .container-table {
     display: flex;
     flex-direction: column;
-
+    padding: 0px !important;
+    
     //import
     .content-head {
         text-align: right;
@@ -12,7 +13,7 @@
     
     .content-table {
         width: 100%;
-        padding: 0px;
+        padding: 0px ;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -39,6 +40,7 @@
     }
     
     .card-drag-and-drop {
+        padding: 0px !important;
         width: 100%;
         display: flex;
         justify-content: center;
@@ -162,7 +164,6 @@
         z-index: 100;
     }
 }
-
 
 //for mobile screen
 @media only screen and (max-width: 750px){

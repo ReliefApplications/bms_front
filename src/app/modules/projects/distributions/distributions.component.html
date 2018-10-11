@@ -1,6 +1,6 @@
 <div class="page-container">
 
-    
+
 
     <div class="title">
         <h2> {{TEXT.model_distribution | titlecase}} </h2>
@@ -199,27 +199,27 @@
         </mat-step>
     </mat-horizontal-stepper>
 
-            <div class="container-table" *ngIf="actualDistribution.validated">
-                <div class="container-content">
-                    <div class="content-button">
-                        <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity"
-                            [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
-                    </div>
-                    <div class="container-empty" *ngIf="!finalBeneficiaryData && !loadingFinalStep">
-                    </div>
-                    <div class="waitingDataContainer" *ngIf="loadingTransaction">
-                        <mat-spinner></mat-spinner>
-                    </div>
-                    <div class="content-table" *ngIf="transactionData">
-                        <app-transaction-table [parentObject]="actualDistribution" [entity]="importedBeneficiaryEntity"
-                            [service]="distributionService" [data]="transactionData" [editable]="false">
-                        </app-transaction-table>
-                    </div>
-                    <div class="validation">
-                        <button mat-button class="transact" (click)="openDialog(transaction)">Transaction</button>
-                    </div>
-                </div>
+    <div class="container-table" *ngIf="actualDistribution.validated">
+        <div class="container-content">
+            <div class="content-button">
+                <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity"
+                    [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
             </div>
+            <div class="container-empty" *ngIf="!finalBeneficiaryData && !loadingFinalStep">
+            </div>
+            <div class="waitingDataContainer" *ngIf="loadingTransaction">
+                <mat-spinner></mat-spinner>
+            </div>
+            <div class="content-table" *ngIf="transactionData">
+                <app-transaction-table [parentObject]="actualDistribution" [entity]="importedBeneficiaryEntity"
+                    [service]="distributionService" [data]="transactionData" [editable]="false">
+                </app-transaction-table>
+            </div>
+            <div class="validation">
+                <button mat-button class="transact" (click)="openDialog(transaction)">Transaction</button>
+            </div>
+        </div>
+    </div>
 
 </div>
 

@@ -327,7 +327,7 @@ export class DistributionData {
         }
 
         let distType;
-        if (selfinstance.type === 0) {
+        if (selfinstance.type === 1) {
             distType = 'Individual';
         } else {
             distType = 'Household';

@@ -35,7 +35,6 @@ export class ModalUpdateComponent extends ModalComponent {
       if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER")
         this.form.controls['projectsControl'].enable();
     }
-
   }
 
   selected(event) {
@@ -60,11 +59,11 @@ export class ModalUpdateComponent extends ModalComponent {
   save(): any {
     //Check fields for Users settings
     if (this.updateObject.username) {
-      if (this.updateObject.password == '' || !this.updateObject.password){
+      if (this.updateObject.password == '' || !this.updateObject.password) {
         this.snackBar.open('You must define a password', '', { duration: 3000, horizontalPosition: 'right' });
-          return;
+        return;
       }
-      
+
       if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER") {
         if (this.updateObject.projects == undefined || Object.keys(this.updateObject.projects).length == 0) {
           this.snackBar.open('You must define at least a project with that role', '', { duration: 3000, horizontalPosition: 'right' });
@@ -81,7 +80,7 @@ export class ModalUpdateComponent extends ModalComponent {
     }
 
     //Check fields for Country Specific options settings
-    else if ((this.updateObject.countryIso3 && this.updateObject.field && this.updateObject.type) || this.updateObject.countryIso3 == '' || this.updateObject.field == '' || this.updateObject.type == '') {
+    else if ((this.updateObject.countryIso3 && this.updateObject.field && this.updateObject.type) || this.updateObject.countryIso3 == '' || this.updateObject.field == '') {
       if (this.updateObject.field == '' || this.updateObject.type == '') {
         this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
         return;
@@ -99,8 +98,8 @@ export class ModalUpdateComponent extends ModalComponent {
     //Check fields for Projects settings
     else if ((this.updateObject.end_date && this.updateObject.start_date && this.updateObject.iso3)) {
       if (!this.updateObject.end_date || !this.updateObject.name || !this.updateObject.start_date || !this.updateObject.value) {
-          this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
-          return;
+        this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
+        return;
       }
 
       if (typeof this.updateObject.start_date == "object") {
@@ -125,6 +124,26 @@ export class ModalUpdateComponent extends ModalComponent {
         if (month < 10)
           month = "0" + month;
         this.updateObject.end_date = year + "-" + month + "-" + day;
+      }
+    }
+
+    //Check fields for update distribution
+    else if (this.updateObject.date_distribution) {
+      if (!this.updateObject.date_distribution || !this.updateObject.name) {
+        this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
+        return;
+      }
+
+      if (typeof this.updateObject.date_distribution == "object") {
+        let day = this.updateObject.date_distribution.getDate();
+        let month = this.updateObject.date_distribution.getMonth() + 1;
+        const year = this.updateObject.date_distribution.getFullYear();
+
+        if (day < 10)
+          day = "0" + day;
+        if (month < 10)
+          month = "0" + month;
+        this.updateObject.date_distribution = year + "-" + month + "-" + day;
       }
     }
 

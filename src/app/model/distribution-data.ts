@@ -386,6 +386,7 @@ export class DistributionData {
             name: 'text',
             location_name: 'text',
             type: 'selectSingle',
+            date_distribution: 'date',
         };
     }
 

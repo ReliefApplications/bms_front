@@ -33,10 +33,10 @@
             <input matInput *ngIf="propertiesTypes[p]=='inputCountry'" [(ngModel)]="updateObject[p]" formControlName="countryControl"
               type="text" value="KHM">
 
-            <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'" matInput
+            <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'" matInput
               [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
               placeholder="{{data.mapper.mapTitle(p)}}">
-            <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'"></mat-datepicker-toggle>
+            <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'  || propertiesTypes[p]=='date'"></mat-datepicker-toggle>
             <mat-datepicker #dateDistribution></mat-datepicker>
           </mat-form-field>
           <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">

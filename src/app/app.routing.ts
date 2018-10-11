@@ -27,7 +27,7 @@ export const routes: Routes = [
 
 	{ path: 'projects', component: ProjectComponent },
 
-    { path: 'project/add-distribution', component: AddDistributionComponent },
+    { path: 'projects/add-distribution', component: AddDistributionComponent },
 
 	{ path: 'projects/distributions/:id', component: DistributionsComponent },
 

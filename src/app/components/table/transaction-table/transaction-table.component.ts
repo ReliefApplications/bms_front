@@ -29,5 +29,4 @@ export class TransactionTableComponent extends TableComponent implements OnInit 
 
     ngOnInit() {
     }
-
 }

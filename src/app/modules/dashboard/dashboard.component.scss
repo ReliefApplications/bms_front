@@ -2,7 +2,7 @@
 
 .container-boxes{
     width:100%;
-
+    margin: 10px;
     app-placeholder-summary {
         min-width: 100%;
     }
@@ -17,7 +17,7 @@ app-placeholder-panel {
     display: flex;
     flex-grow: 5;
     flex-direction:column;
-    padding : 20px;
+    padding : 10px;
     min-height: 350px;
 
     .map-title{
@@ -56,7 +56,7 @@ app-placeholder-panel {
     display: flex;
     flex-grow: 1;
     flex-direction:column;
-    padding : 20px;
+    padding : 10px;
     min-height: 350px;
 
     .summary-title{

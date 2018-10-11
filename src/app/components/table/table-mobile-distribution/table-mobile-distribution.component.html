@@ -14,7 +14,7 @@
     <div *ngIf="filled">
         <table *ngFor="let element of data._renderData._value" class="box-element">
             <tbody>
-                <tr *ngFor="let property of properties">
+                <tr *ngFor="let property of properties" routerLink="/projects/distributions/{{element.id}}" class="cursor-pointer">
                     <td class="element-value">
                         <span> {{mapperService.mapTitle(property)}}</span>
                     </td>
@@ -42,15 +42,15 @@
                         <mat-icon inline=true>search</mat-icon>
                     </button>
                     <button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" mat-button
-                        class="light-red" (click)="openDialog('update', element)">
+                        class="light-red" (click)="openDialog('update', element); $event.stopPropagation()">
                         <mat-icon inline=true>edit</mat-icon>
                     </button>
                     <button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" mat-button
-                        class="red" (click)="openDialog('delete', element)">
+                        class="red" (click)="openDialog('delete', element); $event.stopPropagation()">
                         <mat-icon inline=true>close</mat-icon>
                     </button>
             </tfoot>
         </table>
     </div>
-    <mat-paginator *ngIf="filled" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator *ngIf="filled" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="50" showFirstLastButtons></mat-paginator>
 </div>

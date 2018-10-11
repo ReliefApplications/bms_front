@@ -20,6 +20,7 @@ import { id } from '@swimlane/ngx-charts/release/utils';
 import { DistributionData } from '../../model/distribution-data';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
+import { DistributionService } from '../../core/api/distribution.service';
 
 @Component({
   selector: 'app-table',
@@ -69,6 +70,7 @@ export class TableComponent implements OnChanges, DoCheck {
     public snackBar: MatSnackBar,
     public authenticationService: AuthenticationService,
     public _wsseService: WsseService,
+    public distributionService: DistributionService,
   ) { }
 
   ngOnChanges() {
@@ -117,17 +119,30 @@ export class TableComponent implements OnChanges, DoCheck {
   }
 
   updateData() {
+    if (this.entity.__classname__ == 'DistributionData') {
+      this.distributionService.getByProject(this.data.data[0].project.id).subscribe(response => {
+        this.data = new MatTableDataSource(this.entity.formatArray(response));
+        // update cache associated variable
+        const key = (<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + 'S'];
+        this._cacheService.set(key, response);
 
-    this.service.get().subscribe(response => {
-      this.data = new MatTableDataSource(this.entity.formatArray(response));
-      // update cache associated variable
-      const key = (<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + 'S'];
-      this._cacheService.set(key, response);
+        this.setDataTableProperties();
+      }, error => {
+        console.error('error', error);
+      });
+    }
+    else {
+      this.service.get().subscribe(response => {
+        this.data = new MatTableDataSource(this.entity.formatArray(response));
+        // update cache associated variable
+        const key = (<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + 'S'];
+        this._cacheService.set(key, response);
 
-      this.setDataTableProperties();
-    }, error => {
-      console.error('error', error);
-    });
+        this.setDataTableProperties();
+      }, error => {
+        console.error('error', error);
+      });
+    }
   }
 
   setDataTableProperties() {

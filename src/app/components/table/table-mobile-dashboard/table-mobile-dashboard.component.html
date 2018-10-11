@@ -9,7 +9,7 @@
     <div *ngIf="filled">
       <table *ngFor="let element of data.filteredData" class="box-element">
         <tbody>
-          <tr *ngFor="let property of properties">
+          <tr *ngFor="let property of properties" (click)="openDialog('details', element)">
             <td class="element-title">
               <span> {{mapperService.mapTitle(property)}}</span>
             </td>
@@ -25,13 +25,13 @@
           </tr>
         </tbody>
         <tfoot>
-            <button mat-button (click)="openDialog('details', element)" class="green">
+            <button mat-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
               <mat-icon inline=true>search</mat-icon>
               </button>
-              <button mat-button (click)="openDialog('update', element)" class="light-red">
+              <button mat-button (click)="openDialog('update', element); $event.stopPropagation()" class="light-red">
                 <mat-icon inline=true>edit</mat-icon>
               </button>
-              <button mat-button (click)="openDialog('delete', element)" class="red">
+              <button mat-button (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
                 <mat-icon inline=true>close</mat-icon>
               </button>
         </tfoot>

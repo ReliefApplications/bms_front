@@ -36,10 +36,10 @@
             <button mat-icon-button class="green" routerLink="/projects/distributions/{{element.id}}">
                 <mat-icon>group_add</mat-icon>
             </button>
-            <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="light-red" (click)="openDialog('update', element)">
+            <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="light-red" (click)="openDialog('update', element); $event.stopPropagation()">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="red" (click)="openDialog('delete', element)" >
+            <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="red" (click)="openDialog('delete', element); $event.stopPropagation()" >
                 <mat-icon>close</mat-icon>
             </button>
           </div>
@@ -47,7 +47,7 @@
       </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="propertiesActions" class="header-row"></tr>
-      <tr mat-row *matRowDef="let row; columns: propertiesActions;" class="single-row distribution-details"></tr>
+      <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row distribution-details" routerLink="/projects/distributions/{{element.id}}"></tr>
     </table>
     <mat-paginator *ngIf="filled" [pageSizeOptions]="[5, 10, 20, 50]" [pageSize]="50" showFirstLastButtons></mat-paginator>
   </div>

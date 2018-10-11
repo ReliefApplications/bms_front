@@ -30,20 +30,20 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
         <td mat-cell class="content-cell" *matCellDef="let element">
-          <button mat-icon-button (click)="openDialog('details', element)" class="green">
+          <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
             <mat-icon>search</mat-icon>
           </button>
-          <button *ngIf="editable && checkEntityUpdateRights()" mat-icon-button (click)="update(element)" class="light-red">
+          <button *ngIf="editable && checkEntityUpdateRights()" mat-icon-button (click)="update(element); $event.stopPropagation()" class="light-red">
             <mat-icon>edit</mat-icon>
           </button>
-          <button *ngIf="editable" mat-icon-button (click)="openDialog('delete', element)" class="red">
+          <button *ngIf="editable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
             <mat-icon>close</mat-icon>
           </button>
         </td>
       </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="propertiesActions" class="header-row"></tr>
-      <tr mat-row *matRowDef="let row; columns: propertiesActions;" class="single-row"></tr>
+      <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row" (click)="openDialog('details', element)"></tr>
     </table>
     <mat-paginator *ngIf="filled==true" [pageSizeOptions]="[5, 10, 20, 50]" [pageSize]="50" showFirstLastButtons></mat-paginator>
   </div>

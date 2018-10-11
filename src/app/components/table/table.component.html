@@ -22,19 +22,19 @@
           <div class="validated-distribution" *ngIf="element.validated" routerLink="/projects/distributions/{{element.id}}">
               <mat-icon>done</mat-icon>
           </div>
-        <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('details', element)" class="green">
+        <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('details', element); $event.stopPropagation()" class="green">
           <mat-icon>search</mat-icon>
         </button>
-        <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('update', element)" class="light-red">
+        <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('update', element); $event.stopPropagation()" class="light-red">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('delete', element)" class="red">
+        <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
           <mat-icon>close</mat-icon>
         </button>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="propertiesActions"></tr>
-    <tr mat-row *matRowDef="let row; columns: propertiesActions;" class="distribution-details" ></tr>
+    <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="distribution-details" (click)="openDialog('details', element)"></tr>
   </table>
 </div>

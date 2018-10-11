@@ -15,12 +15,12 @@
   <app-placeholder-panel class="container-table" *ngIf="loadingDistributions"></app-placeholder-panel>
   <div class="container-table" *ngIf="!loadingDistributions">
     <div class="container-content box-green" *ngIf="isBoxClicked">
-      <div class="content-button">
+      <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
         <button mat-fab (click)="addDistribution()" class="add-button">
           <mat-icon>add</mat-icon>
         </button>
         <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService" [componentDisplayed]="selectedProject"></app-box-properties>
-        <div class="action-buttons">
+        <div class="action-buttons" *ngIf="distributionData.data.length>0">
             <button mat-raised-button class="button-background-primary" (click)="export()">
               <mat-icon>get_app</mat-icon>
               <span>{{distribution.beneficiaries_export | uppercase}}</span>
@@ -37,7 +37,13 @@
             </div>
           </div>
       </div>
-      <div class="content-table">
+      <div class="empty-project" *ngIf="selectedProject.number_of_households == '0' ">
+        <p> This project does not contain any household. Please add some beneficiaries first, then you whill be able to manage some distributions (go to beneficiaries > Add)</p>
+      </div>
+      <div class="empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData.data.length==0">
+        <p> This project does not contain any distribution. Create your first one !</p>
+      </div>
+      <div class="content-table" *ngIf="distributionData.data.length>0">
         <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
         <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile" [entity]="distributionClass" [service]="distributionService"
           [data]="distributionData"></app-table-mobile-distribution>

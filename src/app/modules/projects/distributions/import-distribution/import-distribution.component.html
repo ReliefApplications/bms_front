@@ -91,11 +91,11 @@
 
     <mat-spinner  [diameter]="35" *ngIf="loadUpdate"></mat-spinner>
     <div class="footer-content">
-        <button mat-raised-button class="back" (click)="goBack()">
+        <button mat-button class="button-text-accent" (click)="goBack()">
             <mat-icon>arrow_back</mat-icon>
             <span>Back</span>
         </button>
-        <button mat-raised-button class="submit" (click)="updateDistribution(2)">
+        <button mat-raised-button class="button-background-accent" (click)="updateDistribution(2)">
             <mat-icon>check_circle</mat-icon>
             <span>Update</span>
         </button>

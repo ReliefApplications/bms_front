@@ -131,15 +131,6 @@
         button {
             font-weight: bold;
             margin-right: 5px;
-
-            &.submit {
-                background-color: $bms_red;
-                color: white;
-            }
-            &.back {
-                background-color: white;
-                color: $bms_red;
-            }
         }
     }
 }

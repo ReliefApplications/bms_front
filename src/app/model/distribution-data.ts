@@ -146,7 +146,7 @@ export class DistributionData {
         // console.log("formatArray before :", distributionDatas);
         instance.forEach(element => {
             if (Boolean(instance.archived) === false) {
-                if ( !element.archived && element && element.id && element.location && element.project && element.name ) {
+                if (!element.archived && element && element.id && element.location && element.project && element.name) {
                     distributionDatas.push(this.formatFromApi(element));
                 }
             }
@@ -341,16 +341,16 @@ export class DistributionData {
         }
 
         let commodity = '';
-        if(selfinstance.commodities && selfinstance.commodities.length>0) {
+        if (selfinstance.commodities && selfinstance.commodities.length > 0) {
             selfinstance.commodities.forEach(
                 com => { commodity = '' + commodity + com }
             )
         } else if (selfinstance.commodities) {
-            commodity = selfinstance.commodities[0].modality;            
+            commodity = selfinstance.commodities[0].modality;
         } else {
             commodity = 'none';
         }
-        
+
         return {
             date_distribution: selfinstance.date_distribution,
             location_name: location,

@@ -141,7 +141,7 @@ export class SettingsComponent implements OnInit {
     // TO DO : get from cache
     load(title): void {
         this.referedClassService.get().subscribe(response => {
-            if (response && response[0].email && response[0].username && response[0].roles) 
+            if (response && response[0] && response[0].email && response[0].username && response[0].roles) 
                 response.forEach(element => {
                     element.projects = new Array<number>();
                     element.country = '';

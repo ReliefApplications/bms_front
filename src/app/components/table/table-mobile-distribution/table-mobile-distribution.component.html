@@ -39,7 +39,7 @@
                     <mat-icon>done</mat-icon>
                 </div>
                     <button mat-icon-button class="green" *ngIf="!element.validated" routerLink="/projects/distributions/{{element.id}}">
-                        <mat-icon inline=true>group_add</mat-icon>
+                        <mat-icon inline=true>search</mat-icon>
                     </button>
                     <button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" mat-button
                         class="light-red" (click)="openDialog('update', element)">

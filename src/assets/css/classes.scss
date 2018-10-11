@@ -109,10 +109,13 @@
 }
 
 .add-button {
-  color: $bms_white !important;
-  background-color: $bms_red !important;
+    color: $bms_white !important;
+    background-color: $bms_red !important;
+    position: fixed !important;
+    bottom: 2vh;
+    right: 3vh;
+    z-index: 1000;
 }
-
 .button-text-primary {
   color: $bms_green !important;
 }
@@ -209,12 +212,6 @@
 
   .container-table {
       flex-direction: column;
-      .add-button {
-        position: fixed;
-        bottom: 2vh;
-        right: 2vh;
-        z-index: 1000;
-      }
 
       .content-table {
         padding: 0px !important;
@@ -223,6 +220,10 @@
       .content-button {
           flex-direction: column;
       }
+
+    .add-button {
+        right: 2vh;
+    }
 
       .stepInMobile {
           display: flex;

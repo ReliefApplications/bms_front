@@ -37,8 +37,8 @@
       <div class="forms-criteria">
         <div class="criteria-text">
           <h1 class="criteria-title">{{distribution.add_distribution_selection_criteria | titlecase}}</h1>
-          <button mat-icon-button (click)="openDialog(criteriaAction)" class="add-button">
-            <mat-icon>add</mat-icon>
+          <button mat-stroked-button class="button-text-accent" (click)="openDialog(criteriaAction)">
+            <span>ADD</span>
           </button>
         </div>
 
@@ -71,8 +71,8 @@
       <div class="forms-commodity">
         <div class="commodity-text">
           <h1 class="commodity-title">{{distribution.add_distribution_distributed_commodity | titlecase}}</h1>
-          <button mat-icon-button (click)="openDialog(commodityAction)" class="add-button">
-            <mat-icon>add</mat-icon>
+          <button mat-stroked-button class="button-text-accent" (click)="openDialog(commodityAction)">
+            <span>ADD</span>
           </button>
         </div>
         <div class="commodity-form" *ngIf="widthScreen > maxWidthMobile">

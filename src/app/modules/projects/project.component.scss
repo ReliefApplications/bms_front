@@ -50,6 +50,37 @@ app-placeholder-panel {
     }
 }
 
+.undisplay {
+    padding: 20px;
+    text-align: center;
+    width: 80%;
+    font-weight: bold;
+
+    mat-icon {
+        font-size: 60px;
+    }
+
+    i {
+        padding-left: 10px;
+        font-weight: 500;
+        vertical-align: middle;
+
+        mat-icon {
+            font-size: 15px;
+            padding-top: 5px;
+            vertical-align: middle;
+        }
+    }
+
+    &.new-project {
+
+    }
+    
+    &.empty-project {
+    
+    }
+}
+
 //for mobile screen
 @media only screen and (max-width: 750px){
     .content-button{

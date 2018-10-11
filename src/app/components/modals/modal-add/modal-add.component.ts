@@ -4,6 +4,7 @@ import { GlobalText } from '../../../../texts/global';
 import { Criteria } from '../../../model/criteria';
 import { Commodity } from '../../../model/commodity';
 import { count } from '@swimlane/ngx-charts';
+import { Project } from '../../../model/project';
 
 @Component({
     selector: 'app-modal-add',
@@ -23,6 +24,7 @@ export class ModalAddComponent extends ModalComponent {
     ngOnInit() {
         this.checkData();
         this.loadData();
+        this.prefill();
     }
 
     checkData() {
@@ -45,6 +47,24 @@ export class ModalAddComponent extends ModalComponent {
             this.entityDisplayedName = this.data.entity.getDisplayedName();
         } else if (this.oldEntity !== this.data.entity) {
             this.checkData();
+        }
+    }
+    
+    prefill() {
+        if (this.data.entity === Project) {
+
+            this.properties.forEach(
+                (element, index) => {
+                    if(element === 'start_date') {
+                        this.newObject[element] = new Date();
+                    }
+                    else if(element === 'end_date') {
+                        let date = new Date();
+                        date.setMonth(date.getMonth()+3);
+                        this.newObject[element] = date;
+                    }
+                }
+            )
         }
     }
 

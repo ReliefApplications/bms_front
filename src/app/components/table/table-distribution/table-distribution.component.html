@@ -47,7 +47,7 @@
       </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="propertiesActions" class="header-row"></tr>
-      <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row distribution-details" routerLink="/projects/distributions/{{element.id}}"></tr>
+      <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row distribution-details cursor-pointer" routerLink="/projects/distributions/{{element.id}}"></tr>
     </table>
     <mat-paginator *ngIf="filled" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="50" showFirstLastButtons></mat-paginator>
   </div>

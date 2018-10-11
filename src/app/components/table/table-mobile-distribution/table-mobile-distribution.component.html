@@ -14,7 +14,7 @@
     <div *ngIf="filled">
         <table *ngFor="let element of data._renderData._value" class="box-element">
             <tbody>
-                <tr *ngFor="let property of properties" routerLink="/projects/distributions/{{element.id}}">
+                <tr *ngFor="let property of properties" routerLink="/projects/distributions/{{element.id}}" class="cursor-pointer">
                     <td class="element-value">
                         <span> {{mapperService.mapTitle(property)}}</span>
                     </td>

@@ -9,7 +9,7 @@
     <div *ngIf="filled">
       <table *ngFor="let element of data.filteredData" class="box-element">
         <tbody>
-          <tr *ngFor="let property of properties" (click)="openDialog('details', element)">
+          <tr *ngFor="let property of properties" (click)="openDialog('details', element)" class="cursor-pointer">
             <td class="element-title">
               <span> {{mapperService.mapTitle(property)}}</span>
             </td>

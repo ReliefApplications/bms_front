@@ -35,6 +35,6 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="propertiesActions"></tr>
-    <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="distribution-details" (click)="openDialog('details', element)"></tr>
+    <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="distribution-details cursor-pointer" (click)="openDialog('details', element)"></tr>
   </table>
 </div>

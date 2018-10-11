@@ -52,16 +52,13 @@ export class ModalAddComponent extends ModalComponent {
     
     prefill() {
         if (this.data.entity === Project) {
-            console.log('hi');
+
             this.properties.forEach(
                 (element, index) => {
-                    console.log(index, element);
                     if(element === 'start_date') {
-                        console.log('start date');
                         this.newObject[element] = new Date();
                     }
                     else if(element === 'end_date') {
-                        console.log('end date');
                         let date = new Date();
                         date.setMonth(date.getMonth()+3);
                         this.newObject[element] = date;

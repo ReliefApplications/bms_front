@@ -82,7 +82,6 @@ export class ProjectComponent implements OnInit {
       this.distribution = GlobalText.TEXTS;
       this.nameComponent = GlobalText.TEXTS.distribution_title;
     }
-    console.log(this.selectedProject);
   }
 
   /**

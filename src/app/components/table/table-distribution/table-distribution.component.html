@@ -34,7 +34,7 @@
           </div>
           <div class="unvalidated-distribution" *ngIf="!element.validated">
             <button mat-icon-button class="green" routerLink="/projects/distributions/{{element.id}}">
-                <mat-icon>group_add</mat-icon>
+                <mat-icon>search</mat-icon>
             </button>
             <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="light-red" (click)="openDialog('update', element)">
                 <mat-icon>edit</mat-icon>

@@ -37,11 +37,16 @@
             </div>
           </div>
       </div>
-      <div class="empty-project" *ngIf="selectedProject.number_of_households == '0' ">
-        <p> This project does not contain any household. Please add some beneficiaries first, then you whill be able to manage some distributions (go to beneficiaries > Add)</p>
+      <div class="undisplay new-project" *ngIf="selectedProject.number_of_households == '0' ">
+        <mat-icon>group_add</mat-icon>
+        <p> This project does not contain any household. </p>
+        <p> Please add some beneficiaries first ! Then you will be able to manage some distributions... </p>
+        <i> <mat-icon>info</mat-icon >Go to <strong> Beneficiaries > Add </strong> and select this project on <strong>step 1</strong> </i>
       </div>
-      <div class="empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData.data.length==0">
+      <div class="undisplay empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData.data.length==0">
+        <mat-icon>find_in_page</mat-icon>
         <p> This project does not contain any distribution. Create your first one !</p>
+        <i> Click on <mat-icon>add_circle</mat-icon > </i>
       </div>
       <div class="content-table" *ngIf="distributionData.data.length>0">
         <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>

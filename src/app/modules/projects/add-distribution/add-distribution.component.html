@@ -55,13 +55,14 @@
 
           <div class="criteria-summary" *ngIf="criteriaArray.length != 0">
             <h3 class="summary-text" *ngIf="newObject.type == 'Beneficiary'">
-              <span *ngIf="!load">{{criteriaNbBeneficiaries.number}}</span><span *ngIf="load"><mat-spinner [diameter]="25"></mat-spinner></span>{{distribution.add_distribution_beneficiaries_reached |
+              <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span><span *ngIf="load"><mat-spinner [diameter]="25"></mat-spinner></span>{{distribution.add_distribution_beneficiaries_reached |
               uppercase}}</h3>
             <h3 class="summary-text" *ngIf="newObject.type == 'Household'">
-              <span *ngIf="!load">{{criteriaNbBeneficiaries.number}}</span><span *ngIf="load"><mat-spinner [diameter]="25"></mat-spinner></span>{{distribution.add_distribution_households_reached |
+              <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span><span *ngIf="load"><mat-spinner [diameter]="25"></mat-spinner></span>{{distribution.add_distribution_households_reached |
               uppercase}}</h3>
           </div>
         </div>
+        <small id="text-explanation">{{ distribution.add_distribution_text_explanation }}</small>
 
         <div class="criteria-form" *ngIf="widthScreen < maxWidthMobile">
           <app-table-small-mobile (onRemove)="removeElement($event, criteriaAction)" [entity]="criteriaClass" [data]="criteriaData"></app-table-small-mobile>

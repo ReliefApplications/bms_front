@@ -97,7 +97,7 @@ export class DistributionData {
      * Distribution data's threshold
      * @type {number}
      */
-    threshold: number;
+    threshold: number = 1;
 
     constructor(instance?) {
         if (instance !== undefined && instance != null) {

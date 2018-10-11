@@ -248,6 +248,11 @@
     max-width: 30%;
 }
 
+#text-explanation{
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
 @media only screen and (max-width: 750px),(max-height: 700px){
     .container-fields{
         flex-direction: column !important;

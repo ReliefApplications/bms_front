@@ -97,7 +97,7 @@ export class DistributionData {
      * Distribution data's threshold
      * @type {number}
      */
-    threshold: number;
+    threshold: number = 1;
 
     constructor(instance?) {
         if (instance !== undefined && instance != null) {
@@ -327,7 +327,7 @@ export class DistributionData {
         }
 
         let distType;
-        if (selfinstance.type === 0) {
+        if (selfinstance.type === 1) {
             distType = 'Individual';
         } else {
             distType = 'Household';

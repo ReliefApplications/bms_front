@@ -42,7 +42,7 @@ export class Criteria {
      * Criteria's weight
      * @type {number};
      */
-    weight: number;
+    weight: number = 1;
 
     constructor(instance?) {
         if (instance !== undefined) {

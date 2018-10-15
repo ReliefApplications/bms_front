@@ -37,15 +37,15 @@ export class AddDistributionComponent implements OnInit, DoCheck {
   public criteriaAction = 'addCriteria';
   public criteriaArray = [];
   public criteriaData = new MatTableDataSource([]);
-  public criteriaNbBeneficiaries = 0;
+  public criteriaNbBeneficiaries: number = 0;
   public load: boolean = false;
 
   public commodityClass = Commodity;
   public commodityAction = 'addCommodity';
   public commodityArray = [];
   public commodityData = new MatTableDataSource([]);
-  public commodityNb = 0;
-  public saveCommodityNb = 0;
+  public commodityNb: number = 0;
+  public saveCommodityNb: number = 0;
 
   public maxHeight = GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -304,7 +304,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
    * create the new distribution object before send it to the back
    */
   add() {
-    if (this.newObject.type && this.newObject.threshold && this.criteriaArray && this.commodityArray && this.newObject.date_distribution) {
+    if (this.newObject.type && this.criteriaArray && this.commodityArray && this.newObject.date_distribution) {
       this.loadingCreation = true;
       const newDistribution: DistributionData = new DistributionData;
       newDistribution.type = this.newObject.type;
@@ -427,10 +427,14 @@ export class AddDistributionComponent implements OnInit, DoCheck {
       const index = this.commodityArray.findIndex((item) => item === removeElement);
       if (index > -1) {
         this.commodityArray.splice(index, 1);
-        this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
-          this.criteriaNbBeneficiaries = response.number;
-        });
-        this.removeCommodities(removeElement);
+
+        this.saveCommodityNb -= removeElement['value'];
+        this.commodityNb = this.saveCommodityNb * this.criteriaNbBeneficiaries;
+        
+        if (this.commodityNb <= 0){
+          this.commodityNb = 0;
+        }
+
         this.commodityData = new MatTableDataSource(this.commodityArray);
       }
     }
@@ -447,16 +451,5 @@ export class AddDistributionComponent implements OnInit, DoCheck {
     }
 
     this.commodityNb = this.saveCommodityNb * this.criteriaNbBeneficiaries;
-  }
-
-  /**
-   * remove of the total the remove commodity
-   * @param removeElement
-   */
-  removeCommodities(removeElement: Object) {
-    const value = parseInt(removeElement['value'], 10);
-    if (value) {
-      this.commodityNb -= value;
-    }
   }
 }

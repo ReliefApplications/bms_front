@@ -119,6 +119,7 @@ export class TableComponent implements OnChanges, DoCheck {
   }
 
   updateData() {
+
     if (this.entity.__classname__ == 'DistributionData') {
       this.distributionService.getByProject(this.data.data[0].project.id).subscribe(response => {
         this.data = new MatTableDataSource(this.entity.formatArray(response));
@@ -130,6 +131,13 @@ export class TableComponent implements OnChanges, DoCheck {
       }, error => {
         console.error('error', error);
       });
+    }
+    else if (this.entity.__classname__ == 'Beneficiaries'){
+      this.distributionService.getBeneficiaries(this.parentId).subscribe(
+        response => {
+          this.data = new MatTableDataSource(Beneficiaries.formatArray(response));
+        }
+      );
     }
     else {
       this.service.get().subscribe(response => {
@@ -222,7 +230,6 @@ export class TableComponent implements OnChanges, DoCheck {
     if (dialogRef.componentInstance.onDelete) {
       deleteElement = dialogRef.componentInstance.onDelete.subscribe(
         (data) => {
-          this.snackBar.open(this.entity.__classname__ + ' deleted', '', { duration: 3000, horizontalPosition: 'right' });
           this.deleteElement(data);
         });
     }
@@ -294,10 +301,12 @@ export class TableComponent implements OnChanges, DoCheck {
     if (this.entity === Beneficiaries) {
       // console.log('delete: ', this.deleteElement['id']);
       this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
+        this.snackBar.open(this.entity.__classname__ + ' deleted', '', { duration: 3000, horizontalPosition: 'right' });
         this.updateData();
       });
     } else {
       this.service.delete(deleteElement['id']).subscribe(response => {
+        this.snackBar.open(this.entity.__classname__ + ' deleted', '', { duration: 3000, horizontalPosition: 'right' });
         this.updateData();
       });
     }

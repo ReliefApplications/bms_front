@@ -173,6 +173,9 @@ export class ModalAddComponent extends ModalComponent {
 
         //Check commodity in addDistribution
         else if ((this.newObject.modality) || this.newObject.modality == '') {
+            if(this.newObject.unit && this.newObject.value && this.newObject.modality == 1)
+                this.newObject.type = 1;
+
             if (this.newObject.modality == '' || this.newObject.type == '' || this.newObject.unit == '' || !this.newObject.value) {
                 this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
                 return;

@@ -39,9 +39,11 @@ export class BeneficiariesService {
     return this.http.put(url, beneficiary);
   }
 
-  public getAllFromProject(projectId: number) {
+  public getAllFromProject(projectId: number, target: string) {
+    const body = {'target': target};
+
     const url = this.api + '/distributions/beneficiaries/project/' + projectId;
-    return this.http.get(url);
+    return this.http.post(url, body);
   }
 
   public import(distributionId: number, file: any, step: number) {

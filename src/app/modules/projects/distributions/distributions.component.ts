@@ -60,6 +60,7 @@ export class DistributionsComponent implements OnInit {
     beneficiaryForm = new FormControl();
     beneficiaryList = new Array<Beneficiaries>();
     selectedBeneficiary = new Beneficiaries();
+    target: string = "";
 
     // Stepper forms.
     form1: FormGroup;
@@ -123,31 +124,31 @@ export class DistributionsComponent implements OnInit {
      */
     getSelectedDistribution() {
         this.distributionService.getOne(this.distributionId)
-        .subscribe(
-            result => { // Get from Back
-                this.actualDistribution = result;
-                // console.log('Got distribution from back :', this.actualDistribution);
+            .subscribe(
+                result => { // Get from Back
+                    this.actualDistribution = result;
+                    // console.log('Got distribution from back :', this.actualDistribution);
 
-                if (this.actualDistribution.validated) {
-                    this.getDistributionBeneficiaries('transaction');
-                }
-                this.loadingDistribution = false;
-            },
-            error => {
-                if (!this.actualDistribution) { // Get from Cache
-                    const distributionsList: DistributionData[] = this.cacheService.get(CacheService.DISTRIBUTIONS);
-                    if (distributionsList) {
-                        distributionsList.forEach(element => {
-                            if (Number(element.id) === Number(this.distributionId)) {
-                                this.actualDistribution = element;
-                            } else {
-                                // console.log('fail');
-                            }
-                        });
+                    if (this.actualDistribution.validated) {
+                        this.getDistributionBeneficiaries('transaction');
                     }
-                    // console.log('Got distribution from cache :', this.actualDistribution, 'because of error : ', error);
-                }
-            });
+                    this.loadingDistribution = false;
+                },
+                error => {
+                    if (!this.actualDistribution) { // Get from Cache
+                        const distributionsList: DistributionData[] = this.cacheService.get(CacheService.DISTRIBUTIONS);
+                        if (distributionsList) {
+                            distributionsList.forEach(element => {
+                                if (Number(element.id) === Number(this.distributionId)) {
+                                    this.actualDistribution = element;
+                                } else {
+                                    // console.log('fail');
+                                }
+                            });
+                        }
+                        // console.log('Got distribution from cache :', this.actualDistribution, 'because of error : ', error);
+                    }
+                });
     }
 
     /**
@@ -194,7 +195,7 @@ export class DistributionsComponent implements OnInit {
 
                     this.generateRandom();
 
-                    if(this.loadingDatas == true) {
+                    if (this.loadingDatas == true) {
                         this.loadingDatas = false;
                     }
                 },
@@ -214,7 +215,11 @@ export class DistributionsComponent implements OnInit {
     getProjectBeneficiaries() {
         let allBeneficiaries;
 
-        this.beneficiariesService.getAllFromProject(this.actualDistribution.project.id)
+        let entityInstance = Object.create(this.distributionEntity.prototype);
+        entityInstance.constructor.apply(entityInstance);
+        this.target = entityInstance.getMapperBox(this.actualDistribution).type;
+
+        this.beneficiariesService.getAllFromProject(this.actualDistribution.project.id, this.target)
             .subscribe(
                 result => {
                     allBeneficiaries = result;
@@ -230,9 +235,9 @@ export class DistributionsComponent implements OnInit {
     setType(step, choice) {
 
         switch (step) {
-            case 1 : this.extensionTypeStep1 = choice;
+            case 1: this.extensionTypeStep1 = choice;
                 break;
-            case 3 : this.extensionTypeStep3 = choice;
+            case 3: this.extensionTypeStep3 = choice;
                 break;
             default:
                 break;
@@ -258,9 +263,9 @@ export class DistributionsComponent implements OnInit {
         }
 
         if (this.finalBeneficiaryData) {
-            return Math.ceil( (this.sampleSize / 100) * this.finalBeneficiaryData.data.length );
+            return Math.ceil((this.sampleSize / 100) * this.finalBeneficiaryData.data.length);
         } else {
-            return Math.ceil( (this.sampleSize / 100) * this.initialBeneficiaryData.data.length );
+            return Math.ceil((this.sampleSize / 100) * this.initialBeneficiaryData.data.length);
         }
 
     }
@@ -274,13 +279,13 @@ export class DistributionsComponent implements OnInit {
 
         if (sampleLength > 0) {
             this.beneficiariesService.getRandom(this.distributionId, sampleLength)
-            .subscribe(
-                response => {
-                    const data = Beneficiaries.formatArray(response);
-                    this.randomSampleData = new MatTableDataSource(data);
-                    this.loadingThirdStep = false;
-                }
-            );
+                .subscribe(
+                    response => {
+                        const data = Beneficiaries.formatArray(response);
+                        this.randomSampleData = new MatTableDataSource(data);
+                        this.loadingThirdStep = false;
+                    }
+                );
         }
     }
 
@@ -303,19 +308,19 @@ export class DistributionsComponent implements OnInit {
      * To confirm on Validation dialog
      */
     confirmValidation() {
-            this.distributionService.setValidation(this.distributionId)
-                .subscribe(
-                    success => {
-                        this.actualDistribution.validated = true;
-                        this.snackBar.open('Distribution has been validated', '', { duration: 3000, horizontalPosition: 'center' });
-                        this.validateActualDistributionInCache();
-                        this.getDistributionBeneficiaries('transaction');
-                    },
-                    error => {
-                        this.actualDistribution.validated = false;
-                        this.snackBar.open('Distribution could not be validated', '', { duration: 3000, horizontalPosition: 'center' });
-                    }
-                );
+        this.distributionService.setValidation(this.distributionId)
+            .subscribe(
+                success => {
+                    this.actualDistribution.validated = true;
+                    this.snackBar.open('Distribution has been validated', '', { duration: 3000, horizontalPosition: 'center' });
+                    this.validateActualDistributionInCache();
+                    this.getDistributionBeneficiaries('transaction');
+                },
+                error => {
+                    this.actualDistribution.validated = false;
+                    this.snackBar.open('Distribution could not be validated', '', { duration: 3000, horizontalPosition: 'center' });
+                }
+            );
 
         this.dialog.closeAll();
     }
@@ -344,7 +349,7 @@ export class DistributionsComponent implements OnInit {
 
         const newDistributionsList = new Array<DistributionData>();
         this.distributionService.get()
-            .subscribe( result => {
+            .subscribe(result => {
                 const oldDistributionsList = result;
                 oldDistributionsList.forEach(
                     element => {
@@ -359,9 +364,9 @@ export class DistributionsComponent implements OnInit {
                 );
                 this.cacheService.set(CacheService.DISTRIBUTIONS, newDistributionsList);
             },
-            error => {
-                // console.log('could not refresh :', error);
-            });
+                error => {
+                    // console.log('could not refresh :', error);
+                });
     }
 
     /**
@@ -381,6 +386,12 @@ export class DistributionsComponent implements OnInit {
         this.beneficiariesService.add(this.distributionId, Beneficiaries.formatForApi(this.selectedBeneficiary))
             .subscribe(
                 success => {
+                    this.distributionService.getBeneficiaries(this.distributionId)
+                        .subscribe(
+                            response => {
+                                this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(response));
+                            }
+                        );
                     this.snackBar.open('Beneficiary added', '', { duration: 3000, horizontalPosition: 'center' });
                     this.getDistributionBeneficiaries('final');
                 },

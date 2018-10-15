@@ -33,7 +33,6 @@ export class HeaderComponent implements OnInit {
                 if (this.currentRoute.indexOf("?") > -1) {
                     this.currentRoute = this.currentRoute.substring(0, this.currentRoute.indexOf('?'));
                 }
-                console.log(event);
                 this.updateBreadcrumb();
 
             }
@@ -68,7 +67,6 @@ export class HeaderComponent implements OnInit {
                 }
             }
         });
-        console.log('parsed: ', this.breadcrumb);
     }
 
     logOut(): void {

@@ -49,6 +49,7 @@ export class BeneficiariesImportComponent implements OnInit {
   public number = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
   public paramToSend = {};
   public provider: string;
+  extensionType: string;
 
   constructor(
     public _householdsService: HouseholdsService,
@@ -62,6 +63,7 @@ export class BeneficiariesImportComponent implements OnInit {
   ngOnInit() {
     this.getProjects();
     this.getAPINames();
+    this.extensionType = 'xls';
   }
 
   /**
@@ -85,6 +87,10 @@ export class BeneficiariesImportComponent implements OnInit {
         this.projectList.push(concat);
       });
     });
+  }
+
+  setType(choice: string) {
+    this.extensionType = choice;
   }
 
   /**
@@ -133,7 +139,7 @@ export class BeneficiariesImportComponent implements OnInit {
     //       saveAs(blob, response[1]);
     //     }
     //   });
-    this._householdsService.exportTemplate('xls');
+    this._householdsService.exportTemplate(this.extensionType);
   }
 
   /**

@@ -10,6 +10,7 @@ import { Households } from '../../model/households';
 import { Project } from '../../model/project';
 import { Location } from '../../model/location';
 import { Sector } from '../../model/sector';
+import { saveAs      } from 'file-saver/FileSaver';
 
 
 @Injectable({
@@ -43,7 +44,10 @@ export class HouseholdsService {
      */
     public getTemplate() {
         const url = this.api + '/csv/households/export';
-        return this.http.get(url);
+        return this.http.get(url).toPromise()
+        .then(response => {
+            saveAs(response, 'households_template' + '.' + 'xls');
+        });
     }
 
     /**
@@ -100,6 +104,15 @@ export class HouseholdsService {
      */
     public export (extensionType: string) {
         return this.exportService.export('beneficiaries', true, extensionType);
+    }
+
+    /**
+     * Export householdsTemplate
+     * @param  extensionType type of file to export
+     * @return               file
+     */
+    public exportTemplate (extensionType: string) {
+        return this.exportService.export('householdsTemplate', true, extensionType);
     }
 
 }

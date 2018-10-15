@@ -161,6 +161,7 @@ export const TEXT = {
     table_next_page : 'Page suivante',
     table_last_page : 'Fin',
     table_of_page : 'sur',
+    table_quantity : 'quantité',
 
     modal_details_title : 'Détails',
     modal_update_title : 'Modifier',
@@ -241,6 +242,8 @@ export const TEXT = {
     model_commodity_unit: 'Unité',
     model_commodity_value: 'Quantité',
     model_commodity_currency: 'Somme',
+    model_beneficiaries_state: 'état',
+    model_beneficiaries_values: 'Valeur',
     sample_choose_size: 'Taille d\'échantillon',
 
     import_added: 'Ajout',
@@ -252,6 +255,9 @@ export const TEXT = {
     distribution_details_import: 'importer & comparer',
     distribution_details_random: 'échantillon aléatoire',
     distribution_details_validate: 'valider',
+    transaction_ammount_total: 'Quantité totale',
+    transaction_ammount_done: 'Quantité envoyée',
+    transaction_ammount_waiting: 'Reste à envoyer',
 
     profile_user_information: 'Informations utilisateur',
     profile_user_change_password: 'Changer mon mot de passe',

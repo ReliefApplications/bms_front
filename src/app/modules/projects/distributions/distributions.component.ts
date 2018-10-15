@@ -14,6 +14,7 @@ import { saveAs } from 'file-saver/FileSaver';
 import { Mapper } from '../../../core/utils/mapper.service';
 import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
 import { AnimationRendererFactory } from '@angular/platform-browser/animations/src/animation_renderer';
+import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
 
 @Component({
     selector: 'app-distributions',
@@ -42,6 +43,7 @@ export class DistributionsComponent implements OnInit {
     beneficiaryEntity = Beneficiaries;
     distributionEntity = DistributionData;
     importedBeneficiaryEntity = ImportedBeneficiary;
+    transactionBeneficiaryEntity = TransactionBeneficiary;
 
     // Datas.
     initialBeneficiaryData: MatTableDataSource<any>;
@@ -105,6 +107,7 @@ export class DistributionsComponent implements OnInit {
         });
 
         this.getSelectedDistribution();
+
         this.getDistributionBeneficiaries('initial');
     }
 
@@ -126,7 +129,7 @@ export class DistributionsComponent implements OnInit {
         .subscribe(
             result => { // Get from Back
                 this.actualDistribution = result;
-                // console.log('Got distribution from back :', this.actualDistribution);
+                 console.log('Got distribution from back :', this.actualDistribution);
 
                 if (this.actualDistribution.validated) {
                     this.getDistributionBeneficiaries('transaction');
@@ -188,10 +191,11 @@ export class DistributionsComponent implements OnInit {
                         this.loadingFinalStep = false;
                     } else if (type === 'transaction') {
                         // console.log('Getting transaction data');
-                        this.transactionData = new MatTableDataSource(ImportedBeneficiary.formatArray(data));
+                        this.transactionData = new MatTableDataSource(TransactionBeneficiary.formatArray(data, this.actualDistribution.commodities));
                         this.loadingTransaction = false;
                     }
 
+                    if(!this.actualDistribution.validated)
                     this.generateRandom();
 
                     if(this.loadingDatas == true) {
@@ -310,6 +314,7 @@ export class DistributionsComponent implements OnInit {
                         this.snackBar.open('Distribution has been validated', '', { duration: 3000, horizontalPosition: 'center' });
                         this.validateActualDistributionInCache();
                         this.getDistributionBeneficiaries('transaction');
+                        // TODO : Check if phone number exists for all head of households.
                     },
                     error => {
                         this.actualDistribution.validated = false;
@@ -327,8 +332,18 @@ export class DistributionsComponent implements OnInit {
         const actualUser = this.cacheService.get(CacheService.USER);
 
         if (this.enteredEmail && actualUser.username === this.enteredEmail) {
-
-            // transaction
+            this.distributionService.transaction(this.distributionId).subscribe(
+                success => {
+                    success.forEach(
+                        beneficiary => {
+                            // ...
+                        }
+                    )
+                },
+                error => {
+                    this.snackBar.open('Transaction could not be done', '', { duration: 3000, horizontalPosition: 'center' });
+                }
+            )
 
         } else {
             this.snackBar.open('Wrong email', '', { duration: 3000, horizontalPosition: 'center' });
@@ -406,6 +421,49 @@ export class DistributionsComponent implements OnInit {
         for (let i = 0; i < 2; i++) {
             stepper.previous();
         }
+    }
+
+    /**
+     * Calculate commodity distribution quantities & values.
+     */
+    getAmmount(type: string, commodity: any) : number {
+
+        let ammount: number;
+
+        if(type === 'total') {
+            ammount = commodity.value * this.transactionData.data.length;
+        } else if(type === 'done') {
+            ammount = 0;
+            this.transactionData.data.forEach(
+                element => {
+                    if(element.state === 1 || element.state === 2) {
+                        ammount += commodity.value;
+                    }
+                }
+            );
+        } else if(type === 'waiting') {
+            ammount = 0;
+            this.transactionData.data.forEach(
+                element => {
+                    if(element.state === -1 || element.state === 0) {
+                        ammount += commodity.value;
+                    }
+                }
+            );
+        } else if (type === 'ratio') {
+            let done = 0;
+            this.transactionData.data.forEach(
+                element => {
+                    if(element.state === 1 || element.state === 2) {
+                        done += commodity.value;
+                    }
+                }
+            );
+
+            ammount = ( done / (commodity.value * this.transactionData.data.length) )*100;
+        }
+
+        return(ammount);
     }
 
     /**

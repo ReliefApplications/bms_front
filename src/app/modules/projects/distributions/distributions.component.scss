@@ -138,7 +138,7 @@ button{
     .transact {
         background-color: $bms_red;
         font-weight: bold;
-        width: 100px;
+        width: 125px;
         height: 45px;
         margin: 20px;
 
@@ -146,6 +146,35 @@ button{
             background-color: darkgrey;
         }
     }
+}
+
+.progression {
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h4, h5 {
+        margin: 5px !important;
+    }
+
+    .commodities {
+        width: 90%;
+        margin-top: 20px;        
+
+        mat-progress-bar {
+            display: inline-block !important;
+            height: 5px;
+        }
+    
+        .details {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+    }
+   
 }
 
 .content-table {

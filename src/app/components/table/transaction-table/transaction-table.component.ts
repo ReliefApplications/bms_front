@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { TableComponent } from '../table.component';
 import { DistributionData } from '../../../model/distribution-data';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
@@ -8,6 +8,7 @@ import { MatDialog, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { CacheService } from '../../../core/storage/cache.service';
 import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
 import { DistributionService } from '../../../core/api/distribution.service';
+import { Commodity } from '../../../model/commodity';
 
 @Component({
   selector: 'app-transaction-table',

@@ -1,6 +1,13 @@
-<div class="box-content">
-  <div *ngFor="let p of properties" class="content-info">
-      <h5 class="info-title">{{mapperObject[p] | uppercase}}</h5>
-      {{elementObject[p]}}
-  </div>
-</div>
+<mat-grid-list [cols]="numColumns" gutterSize="10" rowHeight="80">
+  <mat-grid-tile *ngFor="let p of properties" colspan="1" rowspan="1">
+    <mat-card>
+      <h5>{{mapperObject[p] | uppercase}}</h5>
+      <span *ngIf="!isArray(elementObject[p])">
+          {{elementObject[p]}}
+        </span>
+      <span *ngIf="isArray(elementObject[p])" class="sector-icons">
+          <app-icon-svg class="icon" *ngFor="let image of elementObject[p]" [name]="image"></app-icon-svg>
+        </span>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

@@ -194,12 +194,11 @@ export class Project {
         if (!selfinstance) {
             return selfinstance;
         }
-
         return {
             start_date: selfinstance.start_date,
             end_date: selfinstance.end_date,
             donors_name: selfinstance.donors_name,
-            sectors_name: selfinstance.sectors_name,
+            sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
             value: selfinstance.value,
         };
     }

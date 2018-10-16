@@ -15,8 +15,7 @@ app-table-mobile-distribution {
 }
 
 .properties-displayed {
-    display: flex;
-    flex-grow: 1;
+    width: 100%;
 }
 
 .waitingDataContainer {
@@ -75,9 +74,9 @@ app-placeholder-panel {
     &.new-project {
 
     }
-    
+
     &.empty-project {
-    
+
     }
 }
 

@@ -49,6 +49,7 @@ export class BeneficiariesImportComponent implements OnInit {
   public number = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
   public paramToSend = {};
   public provider: string;
+  extensionType: string;
 
   constructor(
     public _householdsService: HouseholdsService,
@@ -62,6 +63,7 @@ export class BeneficiariesImportComponent implements OnInit {
   ngOnInit() {
     this.getProjects();
     this.getAPINames();
+    this.extensionType = 'xls';
   }
 
   /**
@@ -85,6 +87,10 @@ export class BeneficiariesImportComponent implements OnInit {
         this.projectList.push(concat);
       });
     });
+  }
+
+  setType(choice: string) {
+    this.extensionType = choice;
   }
 
   /**
@@ -120,18 +126,20 @@ export class BeneficiariesImportComponent implements OnInit {
    * to save it or just to open it in the computer
    */
   exportTemplate() {
-    this._householdsService.getTemplate().toPromise()
-      .then(response => {
-        const arrExport = [];
-        const reponse = response;
-        if (!(reponse instanceof Array)) {
-          this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'center' });
-        } else {
-          arrExport.push(response[0]); // 0 represente le fichier csv et 1 son nom
-          const blob = new Blob(arrExport, { type: 'text/csv' });
-          saveAs(blob, response[1]);
-        }
-      });
+    // this._householdsService.getTemplate().subscribe(response => {
+    //   console.log("test");
+    //     const arrExport = [];
+    //     const reponse = response;
+    //     console.log("test");
+    //     if (!(reponse instanceof Array)) {
+    //       this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'center' });
+    //     } else {
+    //       arrExport.push(response[0]); // 0 represente le fichier csv et 1 son nom
+    //       const blob = new Blob(arrExport, { type: 'text/csv' });
+    //       saveAs(blob, response[1]);
+    //     }
+    //   });
+    this._householdsService.exportTemplate(this.extensionType);
   }
 
   /**

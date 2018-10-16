@@ -18,8 +18,23 @@
                         <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()">{{household.beneficiaries_import_csv
-                    | uppercase }}</button>
+                <div class="action-buttons">
+                    <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()">{{household.beneficiaries_import_csv
+                        | uppercase }}</button>
+                    <div class="extension">
+                        <div mat-button class="template pointer" [matMenuTriggerFor]="exportType">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                        </div>
+                        <mat-menu #exportType>
+                            <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
+                            </button>
+                            <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
+                            </button>
+                            <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
+                            </button>
+                        </mat-menu>
+                    </div>
+                </div>
             </div>
             <div class="content-table">
                 <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
@@ -71,7 +86,8 @@
                     <div class="content-select">
                         <h3>{{household.beneficiaries_select_api | uppercase}}</h3>
                         <mat-radio-group (change)='onChangeRadioAPI($event)' class="content-select">
-                            <mat-radio-button *ngFor="let name of APINames;" value="{{ name }}" color="primary">{{ name }}</mat-radio-button>
+                            <mat-radio-button *ngFor="let name of APINames;" value="{{ name }}" color="primary">{{ name
+                                }}</mat-radio-button>
                         </mat-radio-group>
                     </div>
 

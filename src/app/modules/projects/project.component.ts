@@ -1,12 +1,12 @@
-import { Component, OnInit, HostListener                          } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
 
-import { GlobalText                                               } from '../../../texts/global';
+import { GlobalText } from '../../../texts/global';
 
-import { Project                                                  } from '../../model/project';
+import { Project } from '../../model/project';
 
-import { ProjectService                                           } from '../../core/api/project.service';
-import { CacheService                                             } from '../../core/storage/cache.service';
+import { ProjectService } from '../../core/api/project.service';
+import { CacheService } from '../../core/storage/cache.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { DistributionData } from '../../model/distribution-data';
 import { Mapper } from '../../core/utils/mapper.service';
@@ -32,7 +32,7 @@ export class ProjectComponent implements OnInit {
 
   // loading
   loadingDistributions = true;
-  loadingCreation : boolean;
+  loadingCreation: boolean;
   loadingProjects = true;
 
   selectedTitle = '';
@@ -40,7 +40,7 @@ export class ProjectComponent implements OnInit {
   isBoxClicked = false;
   extensionType: string;
 
-  public maxHeight =  GlobalText.maxHeight;
+  public maxHeight = GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;
   public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
   public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
@@ -98,7 +98,7 @@ export class ProjectComponent implements OnInit {
 
   setType(choice: string) {
     this.extensionType = choice;
-}
+  }
 
   // TO DO : get from cache
   /**
@@ -130,7 +130,7 @@ export class ProjectComponent implements OnInit {
   }
 
   addDistribution() {
-    this.router.navigate(['projects/add-distribution'], {queryParams: {project: this.selectedProject.id}});
+    this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.id } });
   }
 
   /**
@@ -141,31 +141,31 @@ export class ProjectComponent implements OnInit {
   }
 
   openNewProjectDialog() {
-        this.loadingCreation = true;
-        const dialogRef = this.dialog.open(
-            ModalAddComponent, {
-                data : {
-                    data : [],
-                    entity: Project,
-                    service: this.projectService,
-                    mapper: this.mapperService
-                }
-            }
+    this.loadingCreation = true;
+    const dialogRef = this.dialog.open(
+      ModalAddComponent, {
+        data: {
+          data: [],
+          entity: Project,
+          service: this.projectService,
+          mapper: this.mapperService
+        }
+      }
+    );
+    const create = dialogRef.componentInstance.onCreate.subscribe(
+      (data) => {
+        // console.log('got from dialog: ', data);
+        this.projectService.create(data['id'], data).subscribe(
+          response => {
+            this.getProjects();
+          },
         );
-        const create = dialogRef.componentInstance.onCreate.subscribe(
-            (data) => {
-                // console.log('got from dialog: ', data);
-                this.projectService.create(data['id'], data).subscribe(
-                    response => {
-                        this.getProjects();
-                    },
-                );
-            }
-        );
-        dialogRef.afterClosed().subscribe(
-            () => {
-                this.loadingCreation = false;
-            }
-        );
-    }
+      }
+    );
+    dialogRef.afterClosed().subscribe(
+      () => {
+        this.loadingCreation = false;
+      }
+    );
+  }
 }

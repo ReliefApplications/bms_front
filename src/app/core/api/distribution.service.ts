@@ -75,7 +75,7 @@ export class DistributionService {
     }
 
     public transaction(id: number) {
-        const url = this.api + 'transaction/distribution/' + id + '/send';
+        const url = this.api + '/transaction/distribution/' + id + '/send';
         let body = '';
         return this.http.post(url, body);
     }

@@ -4,6 +4,11 @@ export class TransactionBeneficiary {
     static __classname__ = 'TransactionBeneficiary';
 
     /**
+     * Beneficiary id.
+     */
+    id: number;
+
+    /**
      * Beneficiary givenName
      * @type {string}
      */
@@ -16,7 +21,12 @@ export class TransactionBeneficiary {
     familyName: string;
 
     /**
-     * Status : -1. not sent / 0. fail to send / 1.Successfully sent / 2. already sent
+     * Phone number of beneficiary.
+     */
+    phone: string;
+
+    /**
+     * Status : -2. not sent / -1. no phone / 0. fail to send / 1.Successfully sent / 2. already sent
      */
     state: number;
 
@@ -27,9 +37,11 @@ export class TransactionBeneficiary {
 
     constructor(instance?) {
         if (instance !== undefined) {
+            this.id = instance.id;
             this.givenName = instance.givenName;
             this.familyName = instance.familyName;
-            this.state = instance.state? instance.state : -1;
+            this.phone = instance.phone;
+            this.state = instance.state ? instance.state : -2;
             this.values = instance.values;
         }
     }
@@ -43,87 +55,74 @@ export class TransactionBeneficiary {
     /**
     * return Households properties name displayed
     */
-   static translator(): Object {
-    return {
-        givenName : GlobalText.TEXTS.model_beneficiaries_firstName,
-        familyName : GlobalText.TEXTS.model_beneficiaries_familyName,
-        state : GlobalText.TEXTS.model_beneficiaries_state,
-        values: GlobalText.TEXTS.model_beneficiaries_values,
-    };
-}
+    static translator(): Object {
+        return {
+            givenName: GlobalText.TEXTS.model_beneficiaries_firstName,
+            familyName: GlobalText.TEXTS.model_beneficiaries_familyName,
+            phone: GlobalText.TEXTS.add_beneficiary_getPhone,
+            state: GlobalText.TEXTS.model_beneficiaries_state,
+            values: GlobalText.TEXTS.model_beneficiaries_values,
+        };
+    }
 
-public static formatArray(instance: any, commodityList?: any[]): TransactionBeneficiary[] {
-    const beneficiaries: TransactionBeneficiary[] = [];
-    console.log('before format : ', instance);
-    instance.forEach(
-        element => {
-            let commodities = '';
-            if(commodityList) {
-                commodityList.forEach(
-                    (commodity, index) => {
-                        if(index>0) {
-                            commodities += ', ';
+    public static formatArray(instance: any, commodityList?: any[]): TransactionBeneficiary[] {
+        const beneficiaries: TransactionBeneficiary[] = [];
+        console.log('before format : ', instance);
+        instance.forEach(
+            element => {
+                let commodities = '';
+                if (commodityList) {
+                    commodityList.forEach(
+                        (commodity, index) => {
+                            if (index > 0) {
+                                commodities += ', ';
+                            }
+                            commodities += commodity.value + ' ' + commodity.unit;
                         }
-                        commodities += commodity.value + ' ' + commodity.unit;
-                    }
-                )
-            } 
-            beneficiaries.push(this.formatElement(element, commodities));
-        }
-    );
-    console.log('after format : ', beneficiaries);
-    return(beneficiaries);
-}
+                    )
+                }
+                beneficiaries.push(this.formatElement(element, commodities));
+            }
+        );
+        console.log('after format : ', beneficiaries);
+        return (beneficiaries);
+    }
 
-public static formatElement(instance: any, com: string): TransactionBeneficiary {
-    const beneficiary = new TransactionBeneficiary();
+    public static formatElement(instance: any, com: string): TransactionBeneficiary {
+        const beneficiary = new TransactionBeneficiary();
 
-    beneficiary.givenName = instance.given_name;
-    beneficiary.familyName = instance.family_name;
-    beneficiary.state = instance.state ? instance.state : -1;
-    beneficiary.values = com;
+        beneficiary.id = instance.id;
+        beneficiary.givenName = instance.given_name;
+        beneficiary.familyName = instance.family_name;
+        beneficiary.phone = instance.phones[0] ? instance.phones[0].number : undefined;
+        beneficiary.state = instance.state ? instance.state : -2;
+        beneficiary.values = com;
 
-    return(beneficiary);
-}
+        return (beneficiary);
+    }
 
-public static formatForApi(instance: any) {
+    public static formatForApi(instance: any) {
 
-    const beneficiary = {
-        givenName : instance.givenName,
-        familyName : instance.familyName,
-    };
+        const beneficiary = {
+            id: instance.id,
+            givenName: instance.givenName,
+            familyName: instance.familyName,
+            phone: instance.phone
+        };
 
-    return(beneficiary);
-}
+        return (beneficiary);
+    }
 
     mapAllProperties(selfinstance): Object {
         if (!selfinstance) {
             return selfinstance;
         }
 
-        let stateString;
-        switch(selfinstance.state) {
-            case -1:
-                stateString = 'Not sent';
-                break;
-            case 0:
-                stateString = 'Sending failed';                
-                break;
-            case 1:
-                stateString = 'Sent';
-                break;
-            case 2:
-                stateString = 'Already Sent';
-                break;
-            default:
-                stateString = 'Not sent';
-                break;
-        }
-
         return {
-            givenName : selfinstance.givenName,
-            familyName : selfinstance.familyName,
-            state : stateString,
+            givenName: selfinstance.givenName,
+            familyName: selfinstance.familyName,
+            phone: selfinstance.phone,
+            state: selfinstance.state,
             values: selfinstance.values,
         };
     }
@@ -137,18 +136,21 @@ public static formatForApi(instance: any) {
         }
 
         let stateString;
-        switch(selfinstance.state) {
-            case -1:
+        switch (selfinstance.state) {
+            case -2:
                 stateString = 'Not sent';
                 break;
+            case -1:
+                stateString = 'No phone';
+                break;
             case 0:
-                stateString = 'Sending failed';                
+                stateString = 'Sending failed';
                 break;
             case 1:
                 stateString = 'Sent';
                 break;
             case 2:
-                stateString = 'Already Sent';
+                stateString = 'Already sent';
                 break;
             default:
                 stateString = 'Not sent';
@@ -156,9 +158,10 @@ public static formatForApi(instance: any) {
         }
 
         return {
-            givenName : selfinstance.givenName,
-            familyName : selfinstance.familyName,
-            state : stateString,
+            givenName: selfinstance.givenName,
+            familyName: selfinstance.familyName,
+            phone: selfinstance.phone ? selfinstance.phone : 'none',
+            state: stateString,
             values: selfinstance.values,
         };
     }
@@ -172,27 +175,32 @@ public static formatForApi(instance: any) {
         }
 
         let stateString;
-        switch(selfinstance.state) {
-            case undefined:
+        switch (selfinstance.state) {
+            case -2:
                 stateString = 'Not sent';
                 break;
+            case -1:
+                stateString = 'No phone';
+                break;
             case 0:
-                stateString = 'Sending failed';                
+                stateString = 'Sending failed';
                 break;
             case 1:
                 stateString = 'Sent';
                 break;
             case 2:
-                stateString = 'Already Sent';
+                stateString = 'Already sent';
                 break;
             default:
                 stateString = 'Not sent';
+                break;
         }
 
         return {
-            givenName : selfinstance.givenName,
-            familyName : selfinstance.familyName,
-            state : selfinstance.state,
+            givenName: selfinstance.givenName,
+            familyName: selfinstance.familyName,
+            phone: selfinstance.phone ? selfinstance.phone : 'none',
+            state: stateString,
             values: selfinstance.values,
         };
     }
@@ -206,9 +214,7 @@ public static formatForApi(instance: any) {
         }
 
         return {
-            givenName : selfinstance.givenName,
-            familyName : selfinstance.familyName,
-            state : selfinstance.state,
+            number: selfinstance.number
         };
     }
 
@@ -217,9 +223,10 @@ public static formatForApi(instance: any) {
     */
     getTypeProperties(selfinstance): Object {
         return {
-            givenName : 'text',
-            familyName : 'text',
-            state : 'text',
+            givenName: 'text',
+            familyName: 'text',
+            phone: 'text',
+            state: 'text',
             values: 'text',
         };
     }
@@ -229,13 +236,38 @@ public static formatForApi(instance: any) {
     */
     getModalTypeProperties(selfinstance): Object {
         return {
-            givenName : 'text',
-            familyName : 'text',
-            state : 'text',
+            givenName: 'text',
+            familyName: 'text',
+            phone: 'text',
+            state: 'text',
             values: 'text',
         };
     }
 
+    updateState(state: string) {
+        let stateNumber;
 
+        switch(state) {
+            case 'Not sent': 
+                stateNumber = -2;
+                break;
+            case 'No phone':
+                stateNumber = -1;
+                break;
+            case 'Sending failed':
+                stateNumber = 0;
+                break;
+            case 'Sent':
+                stateNumber = 1;
+                break;
+            case 'Already sent':
+                stateNumber = 2;
+                break;
+            default:
+                stateNumber = -2;
+        }
+
+        this.state = stateNumber;
+    }
 
 }

@@ -331,11 +331,41 @@ export class DistributionsComponent implements OnInit {
         if (this.enteredEmail && actualUser.username === this.enteredEmail) {
             this.distributionService.transaction(this.distributionId).subscribe(
                 success => {
-                    success.forEach(
-                        beneficiary => {
-                            // ...
+                    this.transactionData.data.forEach(
+                        (element, index) => {
+                            success.already_sent.push({ id:0 });
+                            success.sent.push({ id:0 });
+
+                            success.already_sent.forEach(
+                                beneficiary => {
+                                    if(element.id === beneficiary.id || element.id === 2) {
+                                        this.transactionData.data[index].updateState('Already sent');
+                                    }
+                                }
+                            )
+                            success.failure.forEach(
+                                beneficiary => {
+                                    if(element.id === beneficiary.id) {
+                                        this.transactionData.data[index].updateState('Sending failed');
+                                    }
+                                }
+                            )
+                            success.no_mobile.forEach(
+                                beneficiary => {
+                                    if(element.id === beneficiary.id && element.id >3) {
+                                        this.transactionData.data[index].updateState('No phone');
+                                    }
+                                }
+                            )
+                            success.sent.forEach(
+                                beneficiary => {
+                                    if(element.id === beneficiary.id || element.id === 3) {
+                                        this.transactionData.data[index].updateState('Sent');
+                                    }
+                                }
+                            )
                         }
-                    )
+                    );
                 },
                 error => {
                     this.snackBar.open('Transaction could not be done', '', { duration: 3000, horizontalPosition: 'center' });
@@ -377,14 +407,6 @@ export class DistributionsComponent implements OnInit {
     }
 
     /**
-     * To cancel on Validation dialog
-     */
-    exitValidation() {
-        this.snackBar.open('Transaction canceled', '', { duration: 3000, horizontalPosition: 'center' });
-        this.dialog.closeAll();
-    }
-
-    /**
      * To confirm on AddBeneficiary dialog
      */
     confirmAdding() {
@@ -403,11 +425,11 @@ export class DistributionsComponent implements OnInit {
     }
 
     /**
-     * To cancel on AddBeneficiary dialog
+     * To cancel on a dialog
      */
-    exitAdding() {
+    exit(message: string) {
+        this.snackBar.open(message, '', { duration: 3000, horizontalPosition: 'center' });
         this.dialog.closeAll();
-        this.snackBar.open('Adding canceled', '', { duration: 3000, horizontalPosition: 'center' });
     }
 
     /**
@@ -417,37 +439,42 @@ export class DistributionsComponent implements OnInit {
 
         let ammount: number;
 
-        if(type === 'total') {
-            ammount = commodity.value * this.transactionData.data.length;
-        } else if(type === 'done') {
+        if(!this.transactionData) {
             ammount = 0;
-            this.transactionData.data.forEach(
-                element => {
-                    if(element.state === 1 || element.state === 2) {
-                        ammount += commodity.value;
-                    }
-                }
-            );
-        } else if(type === 'waiting') {
-            ammount = 0;
-            this.transactionData.data.forEach(
-                element => {
-                    if(element.state === -1 || element.state === 0) {
-                        ammount += commodity.value;
-                    }
-                }
-            );
-        } else if (type === 'ratio') {
-            let done = 0;
-            this.transactionData.data.forEach(
-                element => {
-                    if(element.state === 1 || element.state === 2) {
-                        done += commodity.value;
-                    }
-                }
-            );
+        } else {
 
-            ammount = ( done / (commodity.value * this.transactionData.data.length) )*100;
+            if(type === 'total') {
+                ammount = commodity.value * this.transactionData.data.length;
+            } else if(type === 'done') {
+                ammount = 0;
+                this.transactionData.data.forEach(
+                    element => {
+                        if(element.state === 1 || element.state === 2) {
+                            ammount += commodity.value;
+                        }
+                    }
+                );
+            } else if(type === 'waiting') {
+                ammount = 0;
+                this.transactionData.data.forEach(
+                    element => {
+                        if(element.state === -2 ||element.state === -1 || element.state === 0) {
+                            ammount += commodity.value;
+                        }
+                    }
+                );
+            } else if (type === 'ratio') {
+                let done = 0;
+                this.transactionData.data.forEach(
+                    element => {
+                        if(element.state === 1 || element.state === 2) {
+                            done += commodity.value;
+                        }
+                    }
+                );
+
+                ammount = ( done / (commodity.value * this.transactionData.data.length) )*100;
+            }
         }
 
         return(ammount);

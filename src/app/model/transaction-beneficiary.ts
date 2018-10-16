@@ -52,20 +52,22 @@ export class TransactionBeneficiary {
     };
 }
 
-public static formatArray(instance: any, commodityList: any[]): TransactionBeneficiary[] {
+public static formatArray(instance: any, commodityList?: any[]): TransactionBeneficiary[] {
     const beneficiaries: TransactionBeneficiary[] = [];
     console.log('before format : ', instance);
     instance.forEach(
         element => {
             let commodities = '';
-            commodityList.forEach(
-                (commodity, index) => {
-                    if(index>0) {
-                        commodities += ', ';
+            if(commodityList) {
+                commodityList.forEach(
+                    (commodity, index) => {
+                        if(index>0) {
+                            commodities += ', ';
+                        }
+                        commodities += commodity.value + ' ' + commodity.unit;
                     }
-                    commodities += commodity.value + ' ' + commodity.unit;
-                }
-            )
+                )
+            } 
             beneficiaries.push(this.formatElement(element, commodities));
         }
     );

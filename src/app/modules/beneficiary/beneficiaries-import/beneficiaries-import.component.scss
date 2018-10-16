@@ -29,6 +29,10 @@
     flex-direction: column;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 // for mobile screen
 @media only screen and (max-width: 750px) {
     .mat-form-field {

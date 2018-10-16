@@ -267,7 +267,7 @@ export class DistributionData {
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
             date_distribution: selfinstance.date_distribution,
-            type: selfinstance.type
+            type: selfinstance.type===0 ? 'Household' : 'Beneficiary',
         };
     }
 

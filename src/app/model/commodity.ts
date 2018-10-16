@@ -176,4 +176,10 @@ export class ModalityType {
      */
     id: number;
 
+    /**
+     * Eventually modality name
+     * @type {string}
+     */
+    name: string;
+
 }

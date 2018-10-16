@@ -61,6 +61,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public typePhoneList: string[] = ['mobile', 'landline'];
     public typeNationalIdList: string[] = ['type1', 'card'];
 
+    // Checkpoint
+    validStep1 = false;
+    validStep2 = false;
+    validStep3 = false;
+
     // Table
     public tableColumns: string[] = ['Given name', 'Family name', 'Gender', 'Birth date', 'Phone', 'National id'];
     public tableData: MatTableDataSource<any>;
@@ -579,47 +584,57 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Verify the needed forms before going next step : Blocks if any error (empty/bad type/format).
      * TODO : bind stepper steps in order to control navigation.
      */
-    nextValidation(step: number, stepper: MatStepper) {
-        if(step === 1) {
+    nextValidation(step: number, stepper: MatStepper, final?: boolean) : boolean {
+        let validSteps = 0;
+        let message =  '';
+        if(!final) {
+            final = false;
+        }
+
+        if (step === 1 || final) {
             let hh = this.updatedHousehold;
 
             if(!hh.location.adm1) {
-
+                message = 'You must select a location';
             } else if (!hh.projects[0]) {
-                this.snackBar.open('You must select at least one project', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'You must select at least one project';
             } else if (!hh.address_number) {
-                this.snackBar.open('You must enter your address number', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'You must enter an address number';
             } else if (!hh.address_postcode) {
-                this.snackBar.open('You must enter your address street', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'You must enter an address postcode';
             } else if (isNaN(Number(hh.address_postcode))) {
-                this.snackBar.open('PostCode must be only digits', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'PostCode must be only digits';
             } else if (!hh.address_street) {
-                this.snackBar.open('You must enter your address postcode', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'You must enter an address street';
             } else if (hh.livelihood && !this.elementExists(hh.livelihood, this.livelihoodsList)) {
-                this.snackBar.open('Please select an existing livelihood from the list', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'Please select an existing livelihood from the list';
             } else {
-                stepper.next();
+                final? validSteps++ : stepper.next();
             }
-        } else if (step === 2) {
+        }
+        if (step === 2 || final) {
             let head = this.updatedHousehold.beneficiaries[0];
 
             if(!head.family_name) {
-                this.snackBar.open('You must enter a family name', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'You must enter a family name';
             } else if (!head.given_name) {
-                this.snackBar.open('You must enter a given name', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'You must enter a given name';
             } else if (!head.gender) {
-                this.snackBar.open('You must select a gender', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'You must select a gender';
             } else if (head.phone.number && isNaN(Number(head.phone.number)))  {
-                this.snackBar.open('Phone can only be composed by digits', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'Phone can only be composed by digits';
+            } else if(!head.phone.number) {
+                message = 'Please insert the head phone number';            
             } else if (head.phone.number && head.phone.code && !this.elementExists(head.phone.code, this.countryCodesList) || head.phone.number && !head.phone.code) {
-                this.snackBar.open('Please select an existing country code from the list', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'Please select an existing country code from the list';
             } else if (head.birth_date && head.birth_date.getTime() > (new Date()).getTime()) {
-                this.snackBar.open('Please select a valid birth date', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'Please select a valid birth date';
             }
             else {
-                stepper.next();
+                final? validSteps++ : stepper.next();
             }
-        } else if (step === 3) {
+        } 
+        if (step === 3 || final) {
             let counter = 1;
             let gotError = false;
             let members = this.updatedHousehold.beneficiaries;
@@ -627,28 +642,35 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             for(let i=1; i<members.length && !gotError; i++) {
                 gotError = true;
                 if(!members[i].family_name) {
-                    this.snackBar.open('You must enter a family name for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
+                    message = 'You must enter a family name for member ' + i;
                 } else if(!members[i].given_name) {
-                    this.snackBar.open('You must enter a given name for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
+                    message = 'You must enter a given name for member ' + i;
                 } else if(!members[i].gender) {
-                    this.snackBar.open('You must select a gender for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
+                    message = 'You must select a gender for member ' + i;
                 } else if (members[i].phone.number && isNaN(Number(members[i].phone.number)))  {
-                    this.snackBar.open('Phone can only be composed by digits for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
+                    message = 'Phone can only be composed by digits for member ' + i;
                 } else if (members[i].phone.number && members[i].phone.code && !this.elementExists(members[i].phone.code, this.countryCodesList)
                     || members[i].phone.number && !members[i].phone.code) {
-                    this.snackBar.open('Please select an existing country code from the list', '', {duration: 3000, horizontalPosition: 'center'});
+                    message = 'Please select an existing country code from the list for member' + i;
                 } else if (members[i].birth_date && members[i].birth_date.getTime() > (new Date()).getTime()) {
-                    this.snackBar.open('Please select a valid birth date for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
+                    message = 'Please select a valid birth date for member ' + i;
                 } else {
                     gotError = false;
                     counter++;
                 }
             }
             if(counter === members.length) {
-                stepper.next();
+                final? validSteps++ : stepper.next();
             }
         }
 
+        if(final) {
+            return validSteps === 3 ;
+        } else if (message !== '') {
+            this.snackBar.open(message, '', {duration: 3000, horizontalPosition: 'center'});
+        }
+
+        return(false);
     }
 
     /**

@@ -1,7 +1,5 @@
 <div class="page-container">
 
-
-
     <div class="title">
         <h2> {{TEXT.model_distribution | titlecase}} </h2>
         <app-placeholder-title *ngIf="loadingDistribution"> </app-placeholder-title>
@@ -208,18 +206,40 @@
                 <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity"
                     [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
             </div>
+            <div class="progression">
+                <div class="commodities" *ngFor="let commodity of actualDistribution.commodities">
+                    <h4>{{commodity.modality_type.name}} commodity distribution progress : {{getAmmount('ratio', commodity)}} % </h4>
+                    <mat-progress-bar mode="determinate" color="warn" [value]="getAmmount('ratio', commodity)"></mat-progress-bar>
+                    <div class="details">
+                        <div class="info_1">
+                            <h5>{{TEXT.transaction_ammount_total | uppercase}}</h5>
+                            {{ getAmmount('total', commodity) }} {{commodity.unit}}
+                        </div>
+                        <div class="info_2">
+                            <h5>{{TEXT.transaction_ammount_done | uppercase}}</h5>
+                            {{ getAmmount('done', commodity) }} {{commodity.unit}}
+                        </div>
+                        <div class="info_3">
+                            <h5>{{TEXT.transaction_ammount_waiting | uppercase}}</h5>
+                            {{ getAmmount('waiting', commodity) }} {{commodity.unit}}
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="container-empty" *ngIf="!finalBeneficiaryData && !loadingFinalStep">
             </div>
             <div class="waitingDataContainer" *ngIf="loadingTransaction">
                 <mat-spinner></mat-spinner>
             </div>
             <div class="content-table" *ngIf="transactionData">
-                <app-transaction-table [parentObject]="actualDistribution" [entity]="importedBeneficiaryEntity"
-                    [service]="distributionService" [data]="transactionData" [editable]="false">
+                <app-transaction-table [parentObject]="actualDistribution" [entity]="transactionBeneficiaryEntity"
+                    [service]="BeneficiariesService" [data]="transactionData" [editable]="false">
                 </app-transaction-table>
             </div>
             <div class="validation">
-                <button mat-button class="transact" (click)="openDialog(transaction)">Transaction</button>
+                <button mat-button class="transact" (click)="openDialog(transaction)">
+                    <mat-icon>send</mat-icon> Transaction
+                </button>
             </div>
         </div>
     </div>
@@ -238,8 +258,8 @@
             </mat-form-field>
         </div>
         <div class="modal-footer action">
-            <button mat-button class="cancel" (click)="exitValidation()">Cancel</button>
-            <button mat-button class="confirm" (click)="confirmValidation()">Confirm</button>
+            <button mat-button class="cancel" (click)="exit('Transaction canceled')">Cancel</button>
+            <button mat-button class="confirm" (click)="confirmTransaction()">Confirm</button>
         </div>
     </div>
 </ng-template>
@@ -253,7 +273,7 @@
             <p> Do you really want to validate this distribution ? You won't be able to modify it anymore. </p>
         </div>
         <div class="modal-footer action">
-            <button mat-button class="cancel" (click)="exitValidation()">Cancel</button>
+            <button mat-button class="cancel" (click)="exit('Validation canceled')">Cancel</button>
             <button mat-button class="confirm" (click)="confirmValidation()">Confirm</button>
         </div>
     </div>
@@ -277,7 +297,7 @@
             </div>
         </div>
         <div class="modal-footer action">
-            <button mat-button class="cancel" (click)="exitAdding()">Cancel</button>
+            <button mat-button class="cancel" (click)="exit('Adding canceled')">Cancel</button>
             <button mat-button class="confirm" (click)="confirmAdding()">Confirm</button>
         </div>
     </div>

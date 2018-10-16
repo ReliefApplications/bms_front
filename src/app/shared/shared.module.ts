@@ -43,7 +43,6 @@ import { ModalAddComponent } from '../components/modals/modal-add/modal-add.comp
 import { ModalAddLineComponent } from '../components/modals/modal-add/modal-add-line/modal-add-line.component';
 import { ModalLanguageComponent } from '../components/modals/modal-language/modal-language.component';
 
-
 import { LoginComponent } from '../modules/public/login.component';
 import { DashboardComponent } from '../modules/dashboard/dashboard.component';
 import { BeneficiariesComponent } from '../modules/beneficiary/beneficiaries.component';
@@ -99,6 +98,7 @@ imports: [
     MatListModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatSidenavModule,
     MatTabsModule,
     MatChipsModule,
@@ -201,6 +201,7 @@ exports: [
     MatSortModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,

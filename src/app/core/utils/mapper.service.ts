@@ -49,6 +49,8 @@ export class Mapper {
                 return this.mapper.getEntityTranslator('beneficiaries');
             case 'ImportedBeneficiary' :
                 return this.mapper.getEntityTranslator('imported_beneficiary');
+            case 'TransactionBeneficiary' :
+                return this.mapper.getEntityTranslator('transaction_beneficiary');
             default: return;
         }
     }

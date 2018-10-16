@@ -172,7 +172,7 @@
                                 <div class="combo">
                                     <mat-form-field>
                                         <input matInput type="tel-country-code" [(ngModel)]="updatedHousehold.beneficiaries[0].phone.code" placeholder="Code"
-                                        [matAutocomplete]="autoCountry" (input)="reloadCountryCodes(0)">
+                                        [matAutocomplete]="autoCountry" (input)="reloadCountryCodes(0)" required>
                                         <mat-autocomplete #autoCountry="matAutocomplete">
                                             <mat-option *ngFor="let choice of filteredCountryCodesList" [value]="choice">
                                                 {{choice}}
@@ -180,7 +180,7 @@
                                         </mat-autocomplete>
                                     </mat-form-field>
                                     <mat-form-field>
-                                        <input matInput type="tel" placeholder={{Text.add_beneficiary_getPhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone.number">
+                                        <input matInput type="tel" placeholder={{Text.add_beneficiary_getPhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone.number" required>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -203,7 +203,7 @@
             </div>
         </mat-step>
 
-        <mat-step>
+        <mat-step >
             <ng-template class="step" matStepLabel>{{Text.add_beneficiary_step3}}</ng-template>
             <div class="container-table">
                 <div class="stepInMobile">

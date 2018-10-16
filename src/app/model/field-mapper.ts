@@ -8,6 +8,7 @@ import { Criteria                                          } from './criteria';
 import { Commodity                                         } from './commodity';
 import { Beneficiaries                                     } from './beneficiary';
 import { ImportedBeneficiary                               } from './imported-beneficiary';
+import { TransactionBeneficiary } from './transaction-beneficiary';
 
 export class FieldMapper {
 
@@ -23,6 +24,7 @@ export class FieldMapper {
             case 'user' : return User.translator();
             case 'beneficiaries' : return Beneficiaries.translator();
             case 'imported_beneficiary' : return ImportedBeneficiary.translator();
+            case 'transaction_beneficiary' : return TransactionBeneficiary.translator();
         }
     }
 }

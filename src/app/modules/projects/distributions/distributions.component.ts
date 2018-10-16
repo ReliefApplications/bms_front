@@ -68,7 +68,6 @@ export class DistributionsComponent implements OnInit {
     form2: FormGroup;
     form3: FormGroup;
     form4: FormGroup;
-    form5: FormGroup;
 
     constructor(
         public distributionService: DistributionService,
@@ -95,8 +94,6 @@ export class DistributionsComponent implements OnInit {
         this.extensionTypeStep3 = 'xls';
 
         // Steps Forms.
-        this.form5 = this.formBuilder.group({
-        });
         this.form1 = this.formBuilder.group({
         });
         this.form2 = this.formBuilder.group({

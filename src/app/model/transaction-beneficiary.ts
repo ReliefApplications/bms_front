@@ -67,7 +67,7 @@ export class TransactionBeneficiary {
 
     public static formatArray(instance: any, commodityList?: any[]): TransactionBeneficiary[] {
         const beneficiaries: TransactionBeneficiary[] = [];
-        console.log('before format : ', instance);
+        // console.log('before format : ', instance);
         instance.forEach(
             element => {
                 let commodities = '';
@@ -84,7 +84,7 @@ export class TransactionBeneficiary {
                 beneficiaries.push(this.formatElement(element, commodities));
             }
         );
-        console.log('after format : ', beneficiaries);
+        // console.log('after format : ', beneficiaries);
         return (beneficiaries);
     }
 

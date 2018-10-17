@@ -28,6 +28,7 @@ export class DistributionsComponent implements OnInit {
 
     loadingDatas = true;
     loadingDistribution = true;
+    transacting = false;
 
     // Control variables.
     loadingFirstStep: boolean;
@@ -192,8 +193,9 @@ export class DistributionsComponent implements OnInit {
                         this.loadingTransaction = false;
                     }
 
-                    if(!this.actualDistribution.validated)
-                    this.generateRandom();
+                    if(!this.actualDistribution.validated) {
+                        this.generateRandom();
+                    }
 
                     if(this.loadingDatas == true) {
                         this.loadingDatas = false;
@@ -228,6 +230,11 @@ export class DistributionsComponent implements OnInit {
             );
     }
 
+    /**
+     * Set the export type.
+     * @param step 
+     * @param choice 
+     */
     setType(step, choice) {
 
         switch (step) {
@@ -329,6 +336,8 @@ export class DistributionsComponent implements OnInit {
         const actualUser = this.cacheService.get(CacheService.USER);
 
         if (this.enteredEmail && actualUser.username === this.enteredEmail) {
+            
+            this.transacting = true;
             this.distributionService.transaction(this.distributionId).subscribe(
                 success => {
                     this.transactionData.data.forEach(
@@ -338,7 +347,7 @@ export class DistributionsComponent implements OnInit {
 
                             success.already_sent.forEach(
                                 beneficiary => {
-                                    if(element.id === beneficiary.id || element.id === 2) {
+                                    if(element.id === beneficiary.id) {
                                         this.transactionData.data[index].updateState('Already sent');
                                     }
                                 }
@@ -352,23 +361,24 @@ export class DistributionsComponent implements OnInit {
                             )
                             success.no_mobile.forEach(
                                 beneficiary => {
-                                    if(element.id === beneficiary.id && element.id >3) {
+                                    if(element.id === beneficiary.id) {
                                         this.transactionData.data[index].updateState('No phone');
                                     }
                                 }
                             )
                             success.sent.forEach(
                                 beneficiary => {
-                                    if(element.id === beneficiary.id || element.id === 3) {
+                                    if(element.id === beneficiary.id) {
                                         this.transactionData.data[index].updateState('Sent');
                                     }
                                 }
                             )
                         }
                     );
+                    this.transacting = false;
                 },
-                error => {
-                    this.snackBar.open('Transaction could not be done', '', { duration: 3000, horizontalPosition: 'center' });
+                () => {
+                    this.transacting = false;
                 }
             )
 
@@ -435,13 +445,22 @@ export class DistributionsComponent implements OnInit {
     /**
      * Calculate commodity distribution quantities & values.
      */
-    getAmmount(type: string, commodity: any) : number {
+    getAmmount(type: string, commodity?: any) : number {
 
         let ammount: number;
 
         if(!this.transactionData) {
             ammount = 0;
-        } else {
+        } else if (type === 'people') {
+            ammount = 0;
+            this.transactionData.data.forEach(
+                element => {
+                    if(element.state === -1 || element.state === -2 || element.state === 0) {
+                        ammount++;
+                    }
+                }
+            )
+        } else if(commodity) {
 
             if(type === 'total') {
                 ammount = commodity.value * this.transactionData.data.length;
@@ -472,16 +491,12 @@ export class DistributionsComponent implements OnInit {
                         }
                     }
                 );
-
-                ammount = ( done / (commodity.value * this.transactionData.data.length) )*100;
+                ammount = Math.round( ( done / (commodity.value * this.transactionData.data.length) )*100 );
             }
         }
+        console.log(type, ammount);
 
         return(ammount);
     }
-
-    /**
-     * Transaction
-     */
 
 }

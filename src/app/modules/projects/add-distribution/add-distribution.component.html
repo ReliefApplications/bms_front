@@ -80,7 +80,7 @@
         </div>
         <div class="commodity-summary" *ngIf="commodityArray.length != 0">
           <h3 class="commodity-text">
-            <span>{{commodityNb}}</span>{{distribution.add_distribution_commodities_delivered | uppercase}}</h3>
+            <span>{{commodityNb}}</span>{{commodityData.data[0].unit}} {{distribution.add_distribution_commodities_delivered | uppercase}}</h3>
         </div>
         <div class="commodity-form" *ngIf="widthScreen < maxWidthMobile">
           <app-table-small-mobile (onRemove)="removeElement($event, commodityAction)" [entity]="commodityClass" [data]="commodityData"></app-table-small-mobile>

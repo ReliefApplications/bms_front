@@ -21,6 +21,17 @@
   100% {opacity: 0.3;}
 }
 
+@keyframes button-slide-in {
+    from { 
+            transform: translate(0px, 60px);
+            opacity: 0; 
+        }
+    to { 
+        transform: translate(0px, 0px); 
+        opacity: 1;
+    }
+  }
+
 @keyframes rotate-down {
   0%   {transform: rotate(0deg) ;}
   100% {transform: rotate(90deg);}

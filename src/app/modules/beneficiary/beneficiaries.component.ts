@@ -30,6 +30,9 @@ export class BeneficiariesComponent implements OnInit {
     public snackBar: MatSnackBar
   ) { }
 
+    //addButtons
+    addToggled = false;
+
   // For windows size
   public maxHeight = 700;
   public maxWidthMobile = 750;
@@ -101,5 +104,8 @@ export class BeneficiariesComponent implements OnInit {
     this.householdsService.export(this.extensionType);
   }
 
+  toggleAddButtons() {
+    this.addToggled = !this.addToggled;
+  }
 
 }

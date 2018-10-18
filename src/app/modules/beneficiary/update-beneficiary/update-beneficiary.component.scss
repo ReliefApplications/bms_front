@@ -1,4 +1,4 @@
-@import '../../../../assets/css/variable.scss'; 
+@import '../../../../assets/css/variable.scss';
 
 app-placeholder-stepper {
     width: 100% !important;
@@ -39,14 +39,10 @@ mat-divider {
         .combo {
             display: flex;
             flex-direction: row;
-            flex-grow: 1;
-
+            align-items: center;
             mat-form-field:first-child {
-                width: 30%;
-            }
-            mat-form-field:last-child {
-                margin-left: 5px;
-                width: 70%;
+                flex-grow: 1;
+                margin-right: 10px;
             }
         }
     }
@@ -83,11 +79,11 @@ mat-divider {
             flex-grow: 1;
             margin-left: 10px;
             margin-right: 10px;
-            
+
             p {
                 margin-left: 20px;
             }
-    
+
         }
     }
 
@@ -96,7 +92,7 @@ mat-divider {
         flex-direction: column;
         flex-grow: 1;
         padding: 0px !important;
-        
+
         tr {
             display: flex;
             flex-direction: row;
@@ -114,7 +110,7 @@ mat-divider {
         }
     }
 
-    .button-container {  
+    .button-container {
         text-align: right;
         width: 100%;
         margin-bottom: 5px;

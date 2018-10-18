@@ -127,7 +127,7 @@ export class DistributionsComponent implements OnInit {
         .subscribe(
             result => { // Get from Back
                 this.actualDistribution = result;
-                 console.log('Got distribution from back :', this.actualDistribution);
+                // console.log('Got distribution from back :', this.actualDistribution);
 
                 if (this.actualDistribution.validated) {
                     this.getDistributionBeneficiaries('transaction');
@@ -494,7 +494,7 @@ export class DistributionsComponent implements OnInit {
                 ammount = Math.round( ( done / (commodity.value * this.transactionData.data.length) )*100 );
             }
         }
-        console.log(type, ammount);
+        // console.log(type, ammount);
 
         return(ammount);
     }

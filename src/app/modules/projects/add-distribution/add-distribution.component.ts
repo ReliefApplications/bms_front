@@ -304,7 +304,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
    * create the new distribution object before send it to the back
    */
   add() {
-    if (this.newObject.type && this.criteriaArray && this.commodityArray && this.newObject.date_distribution) {
+    if (this.newObject.type && this.criteriaArray && this.newObject.date_distribution && this.commodityArray && this.commodityArray[0]) {
       this.loadingCreation = true;
       const newDistribution: DistributionData = new DistributionData;
       newDistribution.type = this.newObject.type;

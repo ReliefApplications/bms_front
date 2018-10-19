@@ -66,9 +66,6 @@ export class ModalAddComponent extends ModalComponent {
                 }
             )
         }
-        if(this.data.entity === Criteria) {
-            console.log("Crit: ", this.newObject);
-        }
     }
 
     selected(event, newObject) {

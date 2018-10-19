@@ -37,13 +37,20 @@ export class ModalAddLineComponent extends ModalAddComponent {
             else {
                 this.newObject.kind_beneficiary = 1;
             }
-
+            
             this.checkType = this.newObject.kind_beneficiary;
 
             this.checkDataCriteria = this.loadedData.field_string[this.newObject.field_string - 1];
             this.loadedData.condition_string = this.checkCondition(this.checkDataCriteria);
+
+            // Prefill for dateOfBirth
+            if(this.newObject.field_string===2) {
+                console.log('got it');
+                this.newObject.condition_string = 2;
+            }
+
             this.checkCriteria = this.newObject.field_string;
-            console.log(this.checkCriteria, this.checkDataCriteria);
+
         }
         else {
             this.loadedData.field_string = this.allCriteria;
@@ -95,10 +102,18 @@ export class ModalAddLineComponent extends ModalAddComponent {
 
     //emit the new object
     add(): any {
-        let newObject = Object.assign({}, this.newObject);
-        if(newObject)
-        this.onCreate.emit(this.data.entity.formatFromModalAdd(newObject, this.loadedData));
+
+        let newObject = this.data.entity.formatFromModalAdd( Object.assign({}, this.newObject), this.loadedData) ;
+
+        if(newObject && newObject.value_string && newObject.value_string === "null") {
+            this.snackBar.open('You need to enter a value', '', {duration: 3000, horizontalPosition: 'center'});
+        } else if(!newObject) {
+            this.snackBar.open('Failed to create the criteria', '', {duration: 3000, horizontalPosition: 'center'});
+            this.closeDialog();       
+        } else {
+            this.onCreate.emit(newObject);
+            this.closeDialog();
+        }
         console.log(newObject);
-        this.closeDialog();
     }
 }

@@ -261,9 +261,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             notes: '',
         }
 
-        if(finalHousehold.address_number && finalHousehold.address_postcode && finalHousehold.address_street
-            && finalBeneficiaries[0] && finalBeneficiaries[0].family_name && finalBeneficiaries[0].given_name
-            && finalBeneficiaries[0].gender && finalHousehold.projects[0] && finalHousehold.location.adm1) {
+        if(this.nextValidation(0, null, true)) {
 
             // Format address & basic fields
             dataHousehold.address_number = finalHousehold.address_number;
@@ -399,7 +397,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
         else {
             // Minimum data not filled -> Error !
-            this.snackBar.open('Minimum required data is not complete : please check previous steps', '', {duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open('Required data incomplete or unvalid: please check previous steps', '', {duration: 3000, horizontalPosition: 'center' });
             return(undefined);
         }
 
@@ -621,14 +619,17 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 message = 'You must select a gender';
             } else if (head.phone.number && isNaN(Number(head.phone.number)))  {
                 message = 'Phone can only be composed by digits';
-            } else if(!head.phone.number) {
-                message = 'Please insert the head phone number';
-            // } else if (head.phone.number && head.phone.code && !this.elementExists(head.phone.code, this.countryCodesList) || head.phone.number && !head.phone.code) {
+            } else if(!head.phone.number || head.phone.number === '') {
+                message = 'Please insert the head phone number';            
+            } 
+            // else if (head.phone.number && head.phone.code && !this.elementExists(head.phone.code, this.countryCodesList)) {
             //     message = 'Please select an existing country code from the list';
-            } else if (head.birth_date && head.birth_date.getTime() > (new Date()).getTime()) {
+            // } else if((head.phone.number && !head.phone.code) || (head.phone.number && head.phone.code === '')) {
+            //     message = 'Please select a country code for the phone number';
+            // } 
+            else if (head.birth_date && head.birth_date.getTime() > (new Date()).getTime()) {
                 message = 'Please select a valid birth date';
-            }
-            else {
+            } else {
                 final? validSteps++ : stepper.next();
             }
         }
@@ -647,10 +648,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     message = 'You must select a gender for member ' + i;
                 } else if (members[i].phone.number && isNaN(Number(members[i].phone.number)))  {
                     message = 'Phone can only be composed by digits for member ' + i;
-                // } else if (members[i].phone.number && members[i].phone.code && !this.elementExists(members[i].phone.code, this.countryCodesList)
-                //     || members[i].phone.number && !members[i].phone.code) {
-                //     message = 'Please select an existing country code from the list for member' + i;
-                } else if (members[i].birth_date && members[i].birth_date.getTime() > (new Date()).getTime()) {
+                } 
+                // else if (members[i].phone.number && members[i].phone.code && !this.elementExists(members[i].phone.code, this.countryCodesList)) {
+                //     message = 'Please select an existing country code from the list for member ' + i;
+                // } else if((members[i].phone.number && !members[i].phone.code) || (members[i].phone.number && members[i].phone.code === '')) {
+                //     message = 'Please select a country code for the phone number of member ' + i;
+                // } 
+                else if (members[i].birth_date && members[i].birth_date.getTime() > (new Date()).getTime()) {
                     message = 'Please select a valid birth date for member ' + i;
                 } else {
                     gotError = false;
@@ -663,7 +667,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
 
         if(final) {
-            return validSteps === 3 ;
+            return (validSteps === 3) ;
         } else if (message !== '') {
             this.snackBar.open(message, '', {duration: 3000, horizontalPosition: 'center'});
         }

@@ -1,7 +1,8 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { TableComponent } from '../table.component';
 import { Beneficiaries } from '../../../model/beneficiary';
 import { emit } from 'cluster';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-table-beneficiaries',
@@ -11,9 +12,16 @@ import { emit } from 'cluster';
 export class TableBeneficiariesComponent extends TableComponent {
 
     @Output() updating = new EventEmitter<number>();
+    @Output() selected = new EventEmitter<number[]>();
+
+    selectedList;
+
+    ngOnInit() {
+        super.checkData();
+        this.sendSortedData();
+    }
 
     getImageName(t2: String) {
-
         return( t2.substring(25).split('.')[0] );
     }
 
@@ -22,4 +30,22 @@ export class TableBeneficiariesComponent extends TableComponent {
         this.updating.emit(selectedBeneficiary.id);
     }
 
+    sendSelectedBeneficiaries(benefId: any) {
+        this.selectedList.push(benefId);
+        // 
+    }
+
+    sendSortedData() {
+        this.selectedList = new Array();
+
+        if(this.data && this.data.filteredData) {
+            this.data.filteredData.forEach(
+                element => {
+                    this.selectedList.push(element.id);
+                }
+            )
+        }
+
+        this.selected.emit(this.selectedList);
+    }
 }

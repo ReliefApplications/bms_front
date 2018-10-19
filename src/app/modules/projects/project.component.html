@@ -19,9 +19,11 @@
       <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService" [componentDisplayed]="selectedProject"></app-box-properties>
       <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
         <h3>Distributions</h3>
-        <button mat-fab (click)="addDistribution()" class="add-button">
-          <mat-icon>add</mat-icon>
-        </button>
+        <div class="add-buttons">
+            <button mat-fab (click)="addDistribution()" class="add-button">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
         <div class="action-buttons" *ngIf="distributionData.data.length>0">
             <button mat-raised-button class="button-background-primary" (click)="export()">
               <mat-icon>get_app</mat-icon>

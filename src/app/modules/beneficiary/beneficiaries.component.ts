@@ -16,6 +16,7 @@ import { FormControl } from '@angular/forms';
     styleUrls: ['./beneficiaries.component.scss']
 })
 export class BeneficiariesComponent implements OnInit {
+
     public household = GlobalText.TEXTS;
     public nameComponent = 'beneficiaries_title';
 
@@ -24,6 +25,9 @@ export class BeneficiariesComponent implements OnInit {
     households: MatTableDataSource<Households>;
     loadingBeneficiaries: boolean = true;
     public extensionType: string;
+
+    //addButtons
+    addToggled = false;
 
     constructor(
         private cacheService: CacheService,
@@ -67,6 +71,18 @@ export class BeneficiariesComponent implements OnInit {
     }
 
     /**
+     * Listener and function use in case where windows is resize
+     * @param event
+     */
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.checkSize();
+    }
+
+    toggleAddButtons() {
+        this.addToggled = !this.addToggled;
+    }
+    /**
      * Get list of all households and display it
      */
     checkHouseholds(): void {
@@ -77,15 +93,6 @@ export class BeneficiariesComponent implements OnInit {
             this.cacheService.set(CacheService.HOUSEHOLDS, response);
             this.loadingBeneficiaries = false;
         });
-    }
-
-    /**
-     * Listener and function use in case where windows is resize
-     * @param event
-     */
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.checkSize();
     }
 
     checkSize(): void {
@@ -119,7 +126,7 @@ export class BeneficiariesComponent implements OnInit {
     }
 
     getProjects() {
-        if(!this.projectsList || this.projectsList.length===0) {
+        if (!this.projectsList || this.projectsList.length === 0) {
             this.projectService.get().subscribe(
                 success => {
                     success.forEach(
@@ -136,13 +143,14 @@ export class BeneficiariesComponent implements OnInit {
     }
 
     confirmAdding() {
-        if(this.projectsList && this.selection) {
+        if (this.projectsList && this.selection) {
             this.projectService.addBeneficiaries(this.selectedProject, this.selection).subscribe(
                 success => {
-                    this.snackBar.open('Beneficiairies added to the selected project', '', {duration: 3000, horizontalPosition: 'center'});
+                    this.snackBar.open('Beneficiairies added to the selected project', '', { duration: 3000, horizontalPosition: 'center' });
                 }
             );
         }
+        this.dialog.closeAll();
     }
 
     updateSelection(data: any) {

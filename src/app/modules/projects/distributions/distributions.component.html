@@ -23,10 +23,12 @@
                       <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity"
                       [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
                         <div class="content-button">
-                            <button mat-icon-button class="add-button" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)"
-                                [disabled]="actualDistribution.validated">
-                                <mat-icon>add</mat-icon>
-                            </button>
+                            <div class="add-buttons">
+                                <button mat-icon-button class="add-button" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)"
+                                    [disabled]="actualDistribution.validated">
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                            </div>
                             <div class="action-buttons">
                                 <button mat-raised-button class="export-button" (click)="export()">
                                     <mat-icon>get_app</mat-icon>

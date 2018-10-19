@@ -6,10 +6,21 @@
     <div class="container-table" *ngIf="!loadingBeneficiaries">
         <div class="container-content box-green">
             <div class="content-button">
-                <button mat-fab class="add-button" (click)="addOneHousehold()">
-                    <mat-icon>add</mat-icon>
-                </button>
-
+                <div class="add-buttons">
+                    <div class="toggled-buttons" [ngClass]="{'toggled':addToggled}">
+                        <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries/import">
+                            <mat-icon>publish</mat-icon>
+                            <span>{{household.beneficiaries_import | uppercase}}</span>
+                        </button>
+                        <button mat-raised-button class="button-background-primary" (click)="addOneHousehold()">
+                            <mat-icon>group_add</mat-icon>
+                            <span>{{household.add_beneficiary_title | uppercase}}</span>
+                        </button>
+                    </div>
+                    <button mat-fab class="add-button" (click)="toggleAddButtons()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
                 <div class="action-buttons">
                     <div class="extension">
                         <button mat-raised-button class="button-background-primary" (click)="export()">
@@ -28,10 +39,6 @@
                             </button>
                         </mat-menu>
                     </div>
-                    <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries/import">
-                        <mat-icon>publish</mat-icon>
-                        <span>{{household.beneficiaries_import | uppercase}}</span>
-                    </button>
                 </div>
                 <button mat-raised-button class="selectingBeneficiaries button-background-primary" 
                 (click)="addToProject(addBeneficiaries)" [matBadge]="selection.length">

@@ -89,7 +89,7 @@ export class ModalUpdateComponent extends ModalComponent {
 
     //Check fields for Donors settings
     else if ((this.updateObject.fullname && this.updateObject.shortname) || this.updateObject.fullname == '' || this.updateObject.shortname == '') {
-      if (this.updateObject.fullname == '' || this.updateObject.shortname == '' || this.updateObject.notes == '') {
+      if (this.updateObject.fullname == '' || this.updateObject.shortname == '') {
         this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
         return;
       }

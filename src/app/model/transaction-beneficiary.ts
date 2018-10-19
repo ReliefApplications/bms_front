@@ -95,7 +95,21 @@ export class TransactionBeneficiary {
         beneficiary.givenName = instance.given_name;
         beneficiary.familyName = instance.family_name;
         beneficiary.phone = instance.phones[0] ? instance.phones[0].number : undefined;
-        beneficiary.state = instance.state ? instance.state : -2;
+
+        if(instance.distribution_beneficiary && instance.distribution_beneficiary[0] && instance.distribution_beneficiary[0].transaction) {
+            switch(instance.distribution_beneficiary[0].transaction.transaction_status) {
+                case 0: beneficiary.updateState('Sending failed');
+                    break;
+                case 1: beneficiary.updateState('Already sent');
+                    break;
+                case 2: beneficiary.updateState('No phone');
+                    break;
+                default : beneficiary.updateState('Not sent');
+                    break;
+            }
+        } else {
+            beneficiary.state = -2;
+        }
         beneficiary.values = com;
 
         return (beneficiary);

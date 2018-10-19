@@ -40,13 +40,41 @@
                         </mat-menu>
                     </div>
                 </div>
+                <button mat-raised-button class="selectingBeneficiaries button-background-primary" 
+                (click)="addToProject(addBeneficiaries)" [matBadge]="selection.length">
+                    Add this list to a project
+                </button>
             </div>
             <div class="content-table">
-                <app-table-beneficiaries *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
-                    [data]="households" [editable]="true" (updating)="updateBeneficiary($event)"></app-table-beneficiaries>
+                <app-table-beneficiaries #benefTable *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
+                    [data]="households" [editable]="true" (updating)="updateBeneficiary($event)" (selected)="updateSelection($event)"></app-table-beneficiaries>
                 <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
                     [data]="households" [editable]="true"></app-table-mobile-search>
             </div>
         </div>
     </div>
 </div>
+
+<ng-template #addBeneficiaries>
+    <div class="dialog-template">
+        <div class="modal-header">
+            <h2>Add beneficiaries to this distribution</h2>
+        </div>
+        <div class="modal-body">
+            <p> Please select the project(s) in which you would like to add the {{selection.length}} selected beneficiaries:</p>
+            <div class="selectBeneficiaries">
+                <mat-form-field>
+                    <mat-select placeholder="Projects" [formControl]="projectForm" [(ngModel)]="selectedProject">
+                        <mat-option class="options" *ngFor="let project of projectsList" [value]="project.id">
+                            {{project.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="modal-footer action">
+            <button mat-button class="cancel" (click)="dialog.closeAll()">Cancel</button>
+            <button mat-button class="confirm" (click)="confirmAdding()">Confirm</button>
+        </div>
+    </div>
+</ng-template>

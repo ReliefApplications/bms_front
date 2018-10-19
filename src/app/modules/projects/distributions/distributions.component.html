@@ -5,8 +5,9 @@
         <app-placeholder-title *ngIf="loadingDistribution"> </app-placeholder-title>
         <p *ngIf="actualDistribution && !loadingDistribution">
             {{actualDistribution.name | uppercase}}
-            <mat-icon class="valid" *ngIf="this.actualDistribution.validated==true">lock</mat-icon>
-            <mat-icon class="unvalid" *ngIf="this.actualDistribution.validated==false">lock_open</mat-icon>
+            <mat-icon class="valid" *ngIf="actualDistribution.validated==true">lock</mat-icon>
+            <mat-icon class="unvalid" *ngIf="actualDistribution.validated==false">lock_open</mat-icon>
+            <mat-icon class="valid" *ngIf="actualDistribution.validated==true && !loadingTransaction && getAmmount('people')==0">done</mat-icon>
         </p>
     </div>
 
@@ -202,7 +203,7 @@
         </mat-step>
     </mat-horizontal-stepper>
 
-    <div class="container-table" *ngIf="actualDistribution.validated">
+    <div class="container-table" *ngIf="actualDistribution.validated && !loadingDatas">
         <div class="container-content">
             <div class="content-button">
                 <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity"
@@ -228,18 +229,18 @@
                     </div>
                 </div>
             </div>
-            <div class="container-empty" *ngIf="!finalBeneficiaryData && !loadingFinalStep">
-            </div>
             <div class="waitingDataContainer" *ngIf="loadingTransaction">
                 <mat-spinner></mat-spinner>
             </div>
-            <div class="content-table" *ngIf="transactionData">
+            <div class="content-table" *ngIf="!loadingTransaction">
                 <app-transaction-table [parentObject]="actualDistribution" [entity]="transactionBeneficiaryEntity"
                     [service]="BeneficiariesService" [data]="transactionData" [editable]="false">
                 </app-transaction-table>
             </div>
             <div class="validation">
-                <button mat-button class="transact" (click)="openDialog(transaction)">
+                <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
+                <button mat-button class="transact" (click)="openDialog(transaction)" *ngIf="!transacting"
+                [matBadge]="getAmmount('people')" matBadgePosition="before" matBadgeColor="primary">
                     <mat-icon>send</mat-icon> Transaction
                 </button>
             </div>
@@ -249,7 +250,7 @@
 </div>
 
 <ng-template #transaction>
-    <div class="validate">
+    <div class="dialog-template">
         <div class="modal-header">
             <h2>Confirm the transaction</h2>
         </div>
@@ -267,7 +268,7 @@
 </ng-template>
 
 <ng-template #validation>
-    <div class="validate">
+    <div class="dialog-template">
         <div class="modal-header">
             <h2>Confirm the validation</h2>
         </div>
@@ -282,7 +283,7 @@
 </ng-template>
 
 <ng-template #addBeneficiary>
-    <div class="adding">
+    <div class="dialog-template">
         <div class="modal-header">
             <h2>Add beneficiaries to this distribution</h2>
         </div>

@@ -236,7 +236,7 @@ export class DistributionsComponent implements OnInit {
      * @param choice 
      */
     setType(step, choice) {
-
+        console.log('change: ', step, choice);
         switch (step) {
             case 1 : this.extensionTypeStep1 = choice;
                 break;
@@ -245,12 +245,14 @@ export class DistributionsComponent implements OnInit {
             default:
                 break;
         }
+        console.log("   step1:", this.extensionTypeStep1, "    step3:", this.extensionTypeStep3);
     }
 
     /**
      * Handles the csv export of the data table
      */
     export() {
+        console.log('type: ', this.extensionTypeStep1);
         this.distributionService.export('distribution', this.extensionTypeStep1, this.distributionId);
     }
 

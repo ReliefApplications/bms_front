@@ -147,6 +147,7 @@ export class Criteria {
      */
     public static formatFromModalAdd(element: any, loadedData: any): Criteria {
         let newObject = new Criteria(loadedData.field_string[element.field_string - 1]);
+        console.log("element before format:", element, "object before format: ", loadedData);
         if (!element.kind_beneficiary)
             element.kind_beneficiary = 1;
         if (!element.condition_string)
@@ -155,6 +156,8 @@ export class Criteria {
         newObject.condition_string = loadedData.condition_string[element.condition_string - 1].field_string;
         newObject.value_string = element.value_string;
         newObject.weight = element.weight;
+        console.log("element after format:", element, "object after format: ", newObject);
+
         return newObject;
     }
 

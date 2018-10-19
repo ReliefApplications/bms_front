@@ -146,7 +146,7 @@ export const TEXT = {
     add_distribution_distributed_commodity : 'distributed commodity',
     add_distribution_beneficiaries_reached: 'Beneficiaries reached',
     add_distribution_households_reached: 'Households reached',
-    add_distribution_commodities_delivered: 'Commodities delivered',
+    add_distribution_commodities_delivered: 'delivered',
     add_distribution_threshold: 'Minimum selection score',
     add_distribution_text_explanation: 'The system will only select beneficiaries/households that have a score higher than the minimum selection score',
     add_distribution_female: 'Woman',

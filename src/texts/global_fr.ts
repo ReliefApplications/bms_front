@@ -146,7 +146,7 @@ export const TEXT = {
     add_distribution_distributed_commodity : 'ressource distribuée',
     add_distribution_beneficiaries_reached: 'Bénéficaires atteints',
     add_distribution_households_reached: 'Ménages atteints',
-    add_distribution_commodities_delivered: 'Ressources délivrées',
+    add_distribution_commodities_delivered: 'délivrées',
     add_distribution_threshold: 'Score minimum de sélection',
     add_distribution_text_explanation: 'Le système va seulement sélectionner les bénéficiaires/ménages avec un score supérieur que le score minimum de sélection',
     add_distribution_female: 'Femme',

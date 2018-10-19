@@ -111,7 +111,6 @@ export class ModalAddComponent extends ModalComponent {
 
     // emit the new object
     add(): any {
-        console.log("cc");
 
         //Check fields for Users settings
         if (this.newObject.username || this.newObject.username == '') {

@@ -25,11 +25,9 @@ export class ModalAddLineComponent extends ModalAddComponent {
             this.modal = GlobalText.TEXTS;
             this.entityDisplayedName = this.data.entity.getDisplayedName();
         } else if (this.oldEntity != this.data.entity) {
-            console.log('1');
             this.checkData();
         }
         if (this.newObject.field_string && (this.checkCriteria != this.newObject.field_string)) {
-            console.log('2');
             if (this.newObject.field_string == 8 || this.newObject.field_string == 9) {
                 //Set kind beneficiary to 1 == Household
                 this.newObject.kind_beneficiary = 2;
@@ -45,7 +43,6 @@ export class ModalAddLineComponent extends ModalAddComponent {
 
             // Prefill for dateOfBirth
             if(this.newObject.field_string===2) {
-                console.log('got it');
                 this.newObject.condition_string = 2;
             }
 
@@ -62,7 +59,6 @@ export class ModalAddLineComponent extends ModalAddComponent {
      * @param event
      */
     genderOnChange(event) {
-        console.log("cc");
         this.newObject.value_string = event.value;
     }
 
@@ -114,6 +110,6 @@ export class ModalAddLineComponent extends ModalAddComponent {
             this.onCreate.emit(newObject);
             this.closeDialog();
         }
-        console.log(newObject);
+        // console.log(newObject);
     }
 }

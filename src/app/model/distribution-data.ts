@@ -282,9 +282,7 @@ export class DistributionData {
         return {
             name: selfinstance.name,
             location_name: selfinstance.location_name,
-            date_distribution: selfinstance.date_distribution,
-            commodities: selfinstance.commodities,
-            type: selfinstance.type,
+            date_distribution: selfinstance.date_distribution
         };
     }
 

@@ -56,8 +56,8 @@
                                 [parentId]="distributionId">
                             </app-table-mobile-search>
                         </div>
-                        <div class="next-container">
-                            <button class="next" mat-button matStepperNext (click)="this.getDistributionBeneficiaries('both')">Next</button>
+                        <div class="content-button content-button-footer">
+                            <button mat-raised-button class="button-background-primary" matStepperNext (click)="this.getDistributionBeneficiaries('both')">Next</button>
                         </div>
                     </div>
                 </div>
@@ -87,8 +87,8 @@
                                 You can't update this distribution.
                             </p>
                         </div>
-                        <div class="next-container">
-                            <button class="next" mat-button matStepperNext>Next</button>
+                        <div class="content-button content-button-footer">
+                            <button mat-raised-button class="button-background-primary" matStepperNext>Next</button>
                         </div>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                     <div class="container-content">
                         <div class="content-button">
                             <div class="sample-size-input">
-                                <button mat-icon-button class="random-button" (click)="generateRandom()">
+                                <button mat-fab class="button-background-accent" (click)="generateRandom()">
                                     <mat-icon>shuffle</mat-icon>
                                 </button>
                                 <mat-form-field>
@@ -133,7 +133,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="container-empty" *ngIf="!randomSampleData">
+                        <div class="container-empty" *ngIf="!randomSampleData && !loadingThirdStep">
                             <p>
                                 <mat-icon>clear</mat-icon>
                                 Random sample can't be generated...
@@ -150,8 +150,8 @@
                                 [service]="beneficiariesService" [data]="randomSampleData" [parentId]="distributionId">
                             </app-table-mobile-search>
                         </div>
-                        <div class="next-container">
-                            <button class="next" mat-button matStepperNext>Next</button>
+                        <div class="content-button content-button-footer">
+                            <button mat-raised-button class="button-background-primary" matStepperNext>Next</button>
                         </div>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                                 <mat-icon>edit</mat-icon>
                                 This distribution has not been modified so far.
                             </p>
-                            <button mat-raised-button class="show" (click)="getDistributionBeneficiaries('final')">
+                            <button mat-raised-button class="button-background-primary" (click)="getDistributionBeneficiaries('final')">
                                 Show data anyway </button>
                         </div>
                         <div class="waitingDataContainer" *ngIf="loadingFinalStep">
@@ -189,8 +189,8 @@
                                 [parentId]="distributionId">
                             </app-table-mobile-search>
                         </div>
-                        <div class="validation">
-                            <button mat-button class="ok" (click)="openDialog(validation)" [disabled]="actualDistribution.validated">
+                        <div class="content-button content-button-footer">
+                            <button mat-raised-button class="button-background-accent" (click)="openDialog(validation)" [disabled]="actualDistribution.validated">
                                 <mat-icon >lock</mat-icon>
                                  Validate
                             </button>
@@ -211,7 +211,7 @@
             <div class="progression">
                 <div class="commodities" *ngFor="let commodity of actualDistribution.commodities">
                     <h4>{{commodity.modality_type.name}} commodity distribution progress : {{getAmmount('ratio', commodity)}} % </h4>
-                    <mat-progress-bar mode="determinate" color="warn" [value]="getAmmount('ratio', commodity)"></mat-progress-bar>
+                    <mat-progress-bar mode="determinate" [value]="getAmmount('ratio', commodity)"></mat-progress-bar>
                     <div class="details">
                         <div class="info_1">
                             <h5>{{TEXT.transaction_ammount_total | uppercase}}</h5>
@@ -236,9 +236,9 @@
                     [service]="BeneficiariesService" [data]="transactionData" [editable]="false">
                 </app-transaction-table>
             </div>
-            <div class="validation">
+            <div class="content-button content-button-footer">
                 <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
-                <button mat-button class="transact" (click)="openDialog(transaction)" *ngIf="!transacting"
+                <button mat-raised-button class="button-background-accent"  (click)="openDialog(transaction)" *ngIf="!transacting"
                 [matBadge]="getAmmount('people')" matBadgePosition="before" matBadgeColor="primary">
                     <mat-icon>send</mat-icon> Transaction
                 </button>

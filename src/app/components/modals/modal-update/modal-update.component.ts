@@ -59,10 +59,10 @@ export class ModalUpdateComponent extends ModalComponent {
   save(): any {
     //Check fields for Users settings
     if (this.updateObject.username) {
-      if (this.updateObject.password == '' || !this.updateObject.password) {
-        this.snackBar.open('You must define a password', '', { duration: 3000, horizontalPosition: 'right' });
-        return;
-      }
+    //   if (this.updateObject.password == '' || !this.updateObject.password) {
+    //     this.snackBar.open('You must define a password', '', { duration: 3000, horizontalPosition: 'right' });
+    //     return;
+    //   }
 
       if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER") {
         if (this.updateObject.projects == undefined || Object.keys(this.updateObject.projects).length == 0) {
@@ -89,7 +89,7 @@ export class ModalUpdateComponent extends ModalComponent {
 
     //Check fields for Donors settings
     else if ((this.updateObject.fullname && this.updateObject.shortname) || this.updateObject.fullname == '' || this.updateObject.shortname == '') {
-      if (this.updateObject.fullname == '' || this.updateObject.shortname == '' || this.updateObject.notes == '') {
+      if (this.updateObject.fullname == '' || this.updateObject.shortname == '') {
         this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
         return;
       }
@@ -149,6 +149,7 @@ export class ModalUpdateComponent extends ModalComponent {
 
 
     this.onUpdate.emit(this.updateObject);
+    console.log("updateObject:", this.updateObject);
     this.closeDialog();
   }
 }

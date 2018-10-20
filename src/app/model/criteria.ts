@@ -151,10 +151,21 @@ export class Criteria {
             element.kind_beneficiary = 1;
         if (!element.condition_string)
             element.condition_string = 1;
+
         newObject.kind_beneficiary = loadedData.kind_beneficiary[element.kind_beneficiary - 1].field_string;
         newObject.condition_string = loadedData.condition_string[element.condition_string - 1].field_string;
-        newObject.value_string = element.value_string;
+
+        if (newObject.field_string == "gender" || newObject.field_string == "dateOfBirth" 
+        || newObject.field_string == "ID Poor" || newObject.field_string == "WASH") {
+            if(element.value_string) {
+                newObject.value_string = element.value_string; 
+            } else {
+                newObject.value_string = "null";
+            }
+        }
+
         newObject.weight = element.weight;
+
         return newObject;
     }
 

@@ -131,7 +131,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         // Set the Head if the user is creating
         if(this.mode === 'create') {
-            this.countryISO3 = this._cacheService.get(CacheService.PROJECTS)[0].iso3;
+            let cacheProjects = this._cacheService.get(CacheService.PROJECTS);
+            // TODO : get from back / save in 'user' cache.
+            if(cacheProjects && cacheProjects[0]) {
+                this.countryISO3 = this._cacheService.get(CacheService.PROJECTS)[0].iso3;
+            } else {
+                this.countryISO3 = "KHM";
+            }
             this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
             this.getCountrySpecifics();
             this.updatedHousehold.specificAnswers = this.countrySpecificsList;
@@ -285,7 +291,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                             photo: '',
                         },
                         status: 0,
-                        updated_on: new Date(),
+                        //updated_on: new Date(),
                         vulnerability_criteria: [],
                     }
                     beneficiary.date_of_birth = this.formatDate(element.birth_date);

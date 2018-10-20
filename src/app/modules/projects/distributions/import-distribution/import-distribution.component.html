@@ -1,5 +1,5 @@
 <div class="container-table" *ngIf="!comparing">
-      
+
       <div class="content-head">
       </div>
 
@@ -37,7 +37,6 @@
 </div>
 
 <div class="container-table" *ngIf="comparing">
-
     <mat-tab-group class="tabs">
         <mat-tab>
             <ng-template mat-tab-label>
@@ -75,15 +74,15 @@
             <ng-template mat-tab-label>
                 <div class="badge">
                     <label>
-                        {{ TEXT.import_errors | uppercase }}
+                        {{ TEXT.import_created | uppercase }}
                     </label>
                     <mat-chip-list><mat-chip>{{numberErrors}}</mat-chip></mat-chip-list>
                 </div>
             </ng-template>
             <div class="table-content">
-                <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="errorsData" [editable]="false">
+                <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="createData" [editable]="false">
                 </app-table-search>
-                <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="errorsData" [editable]="false">
+                <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="createData" [editable]="false">
                     </app-table-mobile-search>
             </div>
         </mat-tab>
@@ -100,5 +99,4 @@
             <span>Update</span>
         </button>
     </div>
-
 </div>

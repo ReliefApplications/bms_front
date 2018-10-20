@@ -42,10 +42,11 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     removingData: MatTableDataSource<any>;
     createData: MatTableDataSource<any>;
 
-    // data infos
+    // data info
     numberAdded = 0;
     numberRemoved = 0;
     numberCreated = 0;
+    noChanges = true;
 
     // Screen display variables.
     dragAreaClass = 'dragarea';
@@ -110,46 +111,52 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
      * Upload csv and import the new distribution (list of beneficiaries)
      */
     updateDistribution(step: number) {
-
         const data = new FormData();
         data.append('file', this.csv);
 
         if (this.csv && step === IMPORT_COMPARE) {
             this.loadFile = true;
-
-            this.beneficiaryService.import(this.distribution.id, data, IMPORT_COMPARE).toPromise()
-                .then(result => {
+            this.beneficiaryService.import(this.distribution.id, data, IMPORT_COMPARE).subscribe(
+              result => {
                     this.comparing = true;
+                    this.loadFile = false;
                     this.importedData = result;
 
                     const createList = ImportedBeneficiary.formatArray(this.importedData.created);
-                    const addList = Beneficiaries.formatArray(tables.added);
-                    const removeList = Beneficiaries.formatArray(tables.deleted);
+                    const addList = Beneficiaries.formatArray(this.importedData.added);
+                    const removeList = Beneficiaries.formatArray(this.importedData.deleted);
 
                     this.numberCreated = createList ? createList.length : 0;
                     this.numberAdded = addList ? addList.length : 0;
                     this.numberRemoved = removeList ? removeList.length : 0;
+                    this.noChanges = (this.numberCreated + this.numberAdded + this.numberRemoved === 0);
 
                     this.createData = new MatTableDataSource(createList);
                     this.addingData = new MatTableDataSource(addList);
                     this.removingData = new MatTableDataSource(removeList);
-                    this.loadFile = false;
+
                     this.csv = null;
-                }).error(
-                  this.loadFile = false,
-                );
+              },
+              error => {
+                this.loadFile = false,
+                this.csv = null;
+              }
+            );
         } else if (this.importedData && step === IMPORT_UPDATE) {
             this.loadUpdate = true;
-            this.beneficiaryService.import(this.distribution.id, {data: this.importedData}, IMPORT_UPDATE)
-                .subscribe(
-                    success => {
-                        this.snackBar.open('Distribution updated', '', { duration: 3000, horizontalPosition: 'center' });
-                        this.success.emit(true);
-                        this.loadUpdate = false;
-                        this.importedData = null;
-                    }
-                );
-            this.comparing = false;
+            this.beneficiaryService.import(this.distribution.id, {data: this.importedData}, IMPORT_UPDATE).subscribe(
+                success => {
+                    this.snackBar.open('Distribution updated', '', { duration: 3000, horizontalPosition: 'center' });
+                    this.success.emit(true);
+                    this.loadUpdate = false;
+                    this.importedData = null;
+                    this.comparing = false;
+                },
+                error => {
+                  this.loadUpdate = false,
+                  this.comparing = false;
+                }
+            );
         }
     }
 

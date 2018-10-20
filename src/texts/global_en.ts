@@ -250,7 +250,7 @@ export const TEXT = {
     import_added: 'Will be added',
     import_deleted: 'Will be deleted',
     import_created: 'Will be created',
-    import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing. Any unknown beneficiary will be ignored',
+    import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.',
 
     distribution_details_export: 'export',
     distribution_details_import: 'import & compare',

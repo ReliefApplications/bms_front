@@ -50,10 +50,13 @@ export class TableComponent implements OnChanges, DoCheck {
     // For Transaction Beneficiaries
     @Input() parentObject: any;
 
+    @Input() totalLength;
+
     @Input() entity;
     public oldEntity;
     @Input() data: any;
     @Input() service;
+    
     sortedData: any;
     allData: any = undefined;
     properties: any;
@@ -89,6 +92,10 @@ export class TableComponent implements OnChanges, DoCheck {
             this.table = GlobalText.TEXTS;
             this.setDataTableProperties();
             this.mapperService.setMapperObject(this.entity);
+        }
+        if (this.data.paginator) {
+            this.paginator.length = this.totalLength;
+            this.paginator._length = this.totalLength;
         }
     }
 

@@ -13,7 +13,8 @@ export class TableBeneficiariesComponent extends TableComponent {
 
     @Output() updating = new EventEmitter<number>();
     @Output() selected = new EventEmitter<number[]>();
-
+    @Output() pageNumberAndSize = new EventEmitter<any>();
+    
     selectedList;
 
     ngOnInit() {
@@ -47,5 +48,9 @@ export class TableBeneficiariesComponent extends TableComponent {
         }
 
         this.selected.emit(this.selectedList);
+    }
+
+    pageOnChange(event) {
+        this.pageNumberAndSize.emit({pageSize: event.pageSize, pageIndex: event.pageIndex});
     }
 }

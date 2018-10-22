@@ -23,6 +23,7 @@ export class BeneficiariesComponent implements OnInit {
     public referedClassService;
     referedClassToken = Households;
     households: MatTableDataSource<Households>;
+    length: number;
     loadingBeneficiaries: boolean = true;
     public extensionType: string;
 
@@ -57,7 +58,7 @@ export class BeneficiariesComponent implements OnInit {
 
     ngOnInit() {
         this.checkSize();
-        this.checkHouseholds();
+        this.checkHouseholds(0, 50);
         this.extensionType = 'xls';
     }
 
@@ -82,15 +83,17 @@ export class BeneficiariesComponent implements OnInit {
     toggleAddButtons() {
         this.addToggled = !this.addToggled;
     }
+
     /**
      * Get list of all households and display it
      */
-    checkHouseholds(): void {
+    checkHouseholds(pageIndex, pageSize): void {
         this.referedClassService = this.householdsService;
-        this.referedClassService.get().subscribe(response => {
-            response = this.referedClassToken.formatArray(response);
-            this.households = new MatTableDataSource(response);
-            this.cacheService.set(CacheService.HOUSEHOLDS, response);
+        this.referedClassService.get(pageIndex, pageSize).subscribe(response => {
+            response[1] = this.referedClassToken.formatArray(response[1]);
+            this.households = new MatTableDataSource(response[1]);
+            this.length = response[0];
+            this.cacheService.set(CacheService.HOUSEHOLDS, response[1]);
             this.loadingBeneficiaries = false;
         });
     }
@@ -157,4 +160,7 @@ export class BeneficiariesComponent implements OnInit {
         this.selection = data;
     }
 
+    updateData(event) {
+        this.checkHouseholds(event.pageIndex, event.pageSize);
+    }
 }

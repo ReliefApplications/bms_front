@@ -29,9 +29,9 @@ export class HouseholdsService {
      * Get all households
      * @param body any
      */
-    public get(body?: any) {
+    public get(pageIndex: number, pageSize: number) {
         const url = this.api + '/households/get/all';
-        return this.http.post(url, body);
+        return this.http.post(url, {pageIndex, pageSize});
     }
 
     public getOne(beneficiaryId) {

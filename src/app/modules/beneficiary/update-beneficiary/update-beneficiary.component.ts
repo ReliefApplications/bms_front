@@ -51,15 +51,20 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public countrySpecificsList = [];
 
     // Country Codes (PhoneNumber lib)
-    private CodesMethods = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-    private getCountryISO2 = require("country-iso-3-to-2");
-    public countryCodesList = [];
-    public filteredCountryCodesList: Observable<any[]>;
+    // private CodesMethods = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+    // private getCountryISO2 = require("country-iso-3-to-2");
+    // public countryCodesList = [];
+    // public filteredCountryCodesList: Observable<any[]>;
 
     // Constant lists
     public genderList: string[] = ['F', 'M'];
-    public typePhoneList: string[] = ['mobile', 'landline'];
-    public typeNationalIdList: string[] = ['type1', 'card'];
+    public typePhoneList: string[] = ['Mobile', 'Landline'];
+    public typeNationalIdList: string[] = ['Passport', 'ID Card'];
+
+    // Checkpoint
+    validStep1 = false;
+    validStep2 = false;
+    validStep3 = false;
 
     // Table
     public tableColumns: string[] = ['Given name', 'Family name', 'Gender', 'Birth date', 'Phone', 'National id'];
@@ -92,7 +97,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         // Get lists
         this.livelihoodsList = LIVELIHOOD;
         this.getVulnerabilityCriteria();
-        this.getCountryCodes();
+        // this.getCountryCodes();
         this.getProvince();
         this.getProjects();
 
@@ -126,7 +131,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         // Set the Head if the user is creating
         if(this.mode === 'create') {
-            this.countryISO3 = this._cacheService.get(CacheService.PROJECTS)[0].iso3;
+            let cacheProjects = this._cacheService.get(CacheService.PROJECTS);
+            // TODO : get from back / save in 'user' cache.
+            if(cacheProjects && cacheProjects[0]) {
+                this.countryISO3 = this._cacheService.get(CacheService.PROJECTS)[0].iso3;
+            } else {
+                this.countryISO3 = "KHM";
+            }
             this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
             this.getCountrySpecifics();
             this.updatedHousehold.specificAnswers = this.countrySpecificsList;
@@ -140,8 +151,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                         this._householdsService.getOne(result['id']).subscribe(
                             result => {
                                 this.originalHousehold = result;
-                                // console.log("Household from Back : ", this.originalHousehold);
-
                                 this.formatHouseholdForForm();
                             }
                         );
@@ -258,9 +267,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             notes: '',
         }
 
-        if(finalHousehold.address_number && finalHousehold.address_postcode && finalHousehold.address_street
-            && finalBeneficiaries[0] && finalBeneficiaries[0].family_name && finalBeneficiaries[0].given_name
-            && finalBeneficiaries[0].gender && finalHousehold.projects[0] && finalHousehold.location.adm1) {
+        if(this.nextValidation(0, null, true)) {
 
             // Format address & basic fields
             dataHousehold.address_number = finalHousehold.address_number;
@@ -284,7 +291,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                             photo: '',
                         },
                         status: 0,
-                        updated_on: new Date(),
+                        //updated_on: new Date(),
                         vulnerability_criteria: [],
                     }
                     beneficiary.date_of_birth = this.formatDate(element.birth_date);
@@ -316,12 +323,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                             id_type: element.national_id.type,
                         }
                     )
-                    if(element.phone.number && element.phone.type && element.phone.code)
+                    if(element.phone.number && element.phone.type)
                     beneficiary.phones.push(
                         {
                             id: undefined,
-                            number: element.phone.code.split(') ')[1] + element.phone.number,
+                            number: element.phone.number,
                             type: element.phone.type,
+                            proxy: element.phone.proxy
                         }
                     )
                     if(this.originalHousehold)
@@ -344,7 +352,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                             }
                         }
                     );
-                    console.log(beneficiary);
                     dataHousehold.beneficiaries.push(beneficiary);
                 }
             );
@@ -392,12 +399,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     );
                 }
             );
-            // console.log('Household for Api: ', dataHousehold);
             return(dataHousehold);
         }
         else {
             // Minimum data not filled -> Error !
-            this.snackBar.open('Minimum required data is not complete : please check previous steps', '', {duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open('Required data incomplete or unvalid: please check previous steps', '', {duration: 3000, horizontalPosition: 'center' });
             return(undefined);
         }
 
@@ -421,9 +427,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 type: 'card'
             },
             phone: {
-                code: this.getUserPhoneCode(),
+                // code: this.getUserPhoneCode(),
                 number: '',
-                type: 'mobile'
+                type: 'Mobile',
+                proxy: false
             },
             vulnerabilities: []
         };
@@ -453,7 +460,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         if (beneficiary && beneficiary.phones[0]) {
             formatedBeneficiary.phone.number = beneficiary.phones[0].number;
             formatedBeneficiary.phone.type = beneficiary.phones[0].type;
-            // TODO : set back the coresponding code and split number to original !?
+            formatedBeneficiary.phone.proxy = beneficiary.phones[0].proxy;
         }
 
         this.vulnerabilityList.forEach(
@@ -503,11 +510,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Get correct list of country codes matching the user input.
      */
-    reloadCountryCodes(index: number) {
-        let typed = this.updatedHousehold.beneficiaries[index].phone.code;
-
-        this.filteredCountryCodesList = this.filter(String(typed), this.countryCodesList);
-    }
+    // reloadCountryCodes(index: number) {
+    //     let typed = this.updatedHousehold.beneficiaries[index].phone.code;
+    //
+    //     this.filteredCountryCodesList = this.filter(String(typed), this.countryCodesList);
+    // }
 
     /**
      * Call backend to create a new household with filled data.
@@ -579,47 +586,60 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Verify the needed forms before going next step : Blocks if any error (empty/bad type/format).
      * TODO : bind stepper steps in order to control navigation.
      */
-    nextValidation(step: number, stepper: MatStepper) {
-        if(step === 1) {
+    nextValidation(step: number, stepper: MatStepper, final?: boolean) : boolean {
+        let validSteps = 0;
+        let message =  '';
+        if(!final) {
+            final = false;
+        }
+
+        if (step === 1 || final) {
             let hh = this.updatedHousehold;
 
             if(!hh.location.adm1) {
-
+                message = 'You must select a location';
             } else if (!hh.projects[0]) {
-                this.snackBar.open('You must select at least one project', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'You must select at least one project';
             } else if (!hh.address_number) {
-                this.snackBar.open('You must enter your address number', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'You must enter an address number';
             } else if (!hh.address_postcode) {
-                this.snackBar.open('You must enter your address street', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'You must enter an address postcode';
             } else if (isNaN(Number(hh.address_postcode))) {
-                this.snackBar.open('PostCode must be only digits', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'PostCode must be only digits';
             } else if (!hh.address_street) {
-                this.snackBar.open('You must enter your address postcode', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'You must enter an address street';
             } else if (hh.livelihood && !this.elementExists(hh.livelihood, this.livelihoodsList)) {
-                this.snackBar.open('Please select an existing livelihood from the list', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'Please select an existing livelihood from the list';
             } else {
-                stepper.next();
+                final? validSteps++ : stepper.next();
             }
-        } else if (step === 2) {
+        }
+        if (step === 2 || final) {
             let head = this.updatedHousehold.beneficiaries[0];
 
             if(!head.family_name) {
-                this.snackBar.open('You must enter a family name', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'You must enter a family name';
             } else if (!head.given_name) {
-                this.snackBar.open('You must enter a given name', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'You must enter a given name';
             } else if (!head.gender) {
-                this.snackBar.open('You must select a gender', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'You must select a gender';
             } else if (head.phone.number && isNaN(Number(head.phone.number)))  {
-                this.snackBar.open('Phone can only be composed by digits', '', {duration: 3000, horizontalPosition: 'center'});
-            } else if (head.phone.number && head.phone.code && !this.elementExists(head.phone.code, this.countryCodesList) || head.phone.number && !head.phone.code) {
-                this.snackBar.open('Please select an existing country code from the list', '', {duration: 3000, horizontalPosition: 'center'});
-            } else if (head.birth_date && head.birth_date.getTime() > (new Date()).getTime()) {
-                this.snackBar.open('Please select a valid birth date', '', {duration: 3000, horizontalPosition: 'center'});
+                message = 'Phone can only be composed by digits';
+            } else if(!head.phone.number || head.phone.number === '') {
+                message = 'Please insert the head phone number';            
+            } 
+            // else if (head.phone.number && head.phone.code && !this.elementExists(head.phone.code, this.countryCodesList)) {
+            //     message = 'Please select an existing country code from the list';
+            // } else if((head.phone.number && !head.phone.code) || (head.phone.number && head.phone.code === '')) {
+            //     message = 'Please select a country code for the phone number';
+            // } 
+            else if (head.birth_date && head.birth_date.getTime() > (new Date()).getTime()) {
+                message = 'Please select a valid birth date';
+            } else {
+                final? validSteps++ : stepper.next();
             }
-            else {
-                stepper.next();
-            }
-        } else if (step === 3) {
+        }
+        if (step === 3 || final) {
             let counter = 1;
             let gotError = false;
             let members = this.updatedHousehold.beneficiaries;
@@ -627,28 +647,38 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             for(let i=1; i<members.length && !gotError; i++) {
                 gotError = true;
                 if(!members[i].family_name) {
-                    this.snackBar.open('You must enter a family name for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
+                    message = 'You must enter a family name for member ' + i;
                 } else if(!members[i].given_name) {
-                    this.snackBar.open('You must enter a given name for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
+                    message = 'You must enter a given name for member ' + i;
                 } else if(!members[i].gender) {
-                    this.snackBar.open('You must select a gender for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
+                    message = 'You must select a gender for member ' + i;
                 } else if (members[i].phone.number && isNaN(Number(members[i].phone.number)))  {
-                    this.snackBar.open('Phone can only be composed by digits for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
-                } else if (members[i].phone.number && members[i].phone.code && !this.elementExists(members[i].phone.code, this.countryCodesList)
-                    || members[i].phone.number && !members[i].phone.code) {
-                    this.snackBar.open('Please select an existing country code from the list', '', {duration: 3000, horizontalPosition: 'center'});
-                } else if (members[i].birth_date && members[i].birth_date.getTime() > (new Date()).getTime()) {
-                    this.snackBar.open('Please select a valid birth date for member ' + i, '', {duration: 3000, horizontalPosition: 'center'});
+                    message = 'Phone can only be composed by digits for member ' + i;
+                } 
+                // else if (members[i].phone.number && members[i].phone.code && !this.elementExists(members[i].phone.code, this.countryCodesList)) {
+                //     message = 'Please select an existing country code from the list for member ' + i;
+                // } else if((members[i].phone.number && !members[i].phone.code) || (members[i].phone.number && members[i].phone.code === '')) {
+                //     message = 'Please select a country code for the phone number of member ' + i;
+                // } 
+                else if (members[i].birth_date && members[i].birth_date.getTime() > (new Date()).getTime()) {
+                    message = 'Please select a valid birth date for member ' + i;
                 } else {
                     gotError = false;
                     counter++;
                 }
             }
             if(counter === members.length) {
-                stepper.next();
+                final? validSteps++ : stepper.next();
             }
         }
 
+        if(final) {
+            return (validSteps === 3) ;
+        } else if (message !== '') {
+            this.snackBar.open(message, '', {duration: 3000, horizontalPosition: 'center'});
+        }
+
+        return(false);
     }
 
     /**
@@ -700,14 +730,14 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Get list of all country codes and put it in the list
      */
-    getCountryCodes() {
-        this.countryCodesList = this.CodesMethods.getSupportedRegions();
-
-        for (let i = 0; i < this.countryCodesList.length; i++) {
-            this.countryCodesList[i] = '(' + this.countryCodesList[i] + ')'
-            + ' +' + this.CodesMethods.getCountryCodeForRegion(this.countryCodesList[i]).toString();
-        }
-    }
+    // getCountryCodes() {
+    //     this.countryCodesList = this.CodesMethods.getSupportedRegions();
+    //
+    //     for (let i = 0; i < this.countryCodesList.length; i++) {
+    //         this.countryCodesList[i] = '(' + this.countryCodesList[i] + ')'
+    //         + ' +' + this.CodesMethods.getCountryCodeForRegion(this.countryCodesList[i]).toString();
+    //     }
+    // }
 
     /**
      * Get list of all project and put it in the project selector
@@ -810,7 +840,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             promise.toPromise().then(response => {
                 const responseCountrySpecifics = CountrySpecific.formatArray(response);
                 responseCountrySpecifics.forEach(element => {
-                    // console.log(element);
                     this.countrySpecificsList.push(
                         {
                             answer:'',
@@ -830,17 +859,17 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Set default phone code depending on the user adm1 country
      */
-    getUserPhoneCode(): string {
-        let phoneCode;
-
-        if (this.countryISO3) {
-            phoneCode = String(this.getCountryISO2(String(this.countryISO3)));
-            phoneCode = '+' + this.CodesMethods.getCountryCodeForRegion(phoneCode);
-            return (this.filter(phoneCode, this.countryCodesList)[0]);
-        } else {
-            return '';
-        }
-    }
+    // getUserPhoneCode(): string {
+    //     let phoneCode;
+    //
+    //     if (this.countryISO3) {
+    //         phoneCode = String(this.getCountryISO2(String(this.countryISO3)));
+    //         phoneCode = '+' + this.CodesMethods.getCountryCodeForRegion(phoneCode);
+    //         return (this.filter(phoneCode, this.countryCodesList)[0]);
+    //     } else {
+    //         return '';
+    //     }
+    // }
 
     /**
      * alow to return in household page and abort the creation of household

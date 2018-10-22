@@ -326,7 +326,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
       }
 
       newDistribution.date_distribution = formatDateOfBirth[2] + '-' + formatDateOfBirth[0] + '-' + formatDateOfBirth[1];
-
+      // console.log(newDistribution.date_distribution);
       let adm;
       if(this.newObject.adm4) {
           adm = this.newObject.adm4

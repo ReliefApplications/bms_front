@@ -111,6 +111,7 @@ export class ModalAddComponent extends ModalComponent {
 
     // emit the new object
     add(): any {
+
         //Check fields for Users settings
         if (this.newObject.username || this.newObject.username == '') {
             const checkMail = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -153,12 +154,11 @@ export class ModalAddComponent extends ModalComponent {
 
         //Check fields for Donors settings
         else if ((this.newObject.fullname && this.newObject.shortname) || this.newObject.fullname == '' || this.newObject.shortname == '') {
-            if (this.newObject.fullname == '' || this.newObject.shortname == '' || this.newObject.notes == '') {
+            if (this.newObject.fullname == '' || this.newObject.shortname == '') {
                 this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
                 return;
             }
         }
-
         //Check fields for Projects settings
         else if ((this.newObject.donors && this.newObject.donors_name && this.newObject.name && this.newObject.sectors && this.newObject.sectors_name) || this.newObject.name == '' || (this.newObject.sectors_name && Object.keys(this.newObject.sectors_name).length == 0) || (this.newObject.sectors && Object.keys(this.newObject.sectors).length == 0)) {
             if (!this.newObject.end_date || !this.newObject.name || !this.newObject.start_date || !this.newObject.value) {

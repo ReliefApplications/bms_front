@@ -40,19 +40,17 @@ export class ImportedBeneficiary {
 
 public static formatArray(instance: any): ImportedBeneficiary[] {
     const beneficiaries: ImportedBeneficiary[] = [];
-    // cconsole.log('before format : ', instance);
     instance.forEach(element => {
         beneficiaries.push(this.formatElement(element));
     });
-    // console.log('after format : ', beneficiaries);
     return(beneficiaries);
 }
 
 public static formatElement(instance: any): ImportedBeneficiary {
     const beneficiary = new ImportedBeneficiary();
 
-    beneficiary.givenName = instance.given_name;
-    beneficiary.familyName = instance.family_name;
+    beneficiary.givenName = instance.given_name ? instance.given_name : instance[11];
+    beneficiary.familyName = instance.family_name ? instance.family_name : instance[12];
 
     return(beneficiary);
 }

@@ -342,10 +342,13 @@ export class DistributionData {
         let commodity = '';
         if (selfinstance.commodities && selfinstance.commodities.length > 0) {
             selfinstance.commodities.forEach(
-                com => { commodity = '' + commodity + com }
+                com => {
+                    if(com.modality_type.name === 'Mobile') {
+                        com.modality_type.name = 'Mobile Cash';
+                    }
+                    commodity = '' + commodity + com.modality_type.name 
+                }
             )
-        } else if (selfinstance.commodities) {
-            commodity = selfinstance.commodities[0].modality;
         } else {
             commodity = 'none';
         }

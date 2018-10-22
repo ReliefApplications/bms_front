@@ -52,39 +52,11 @@ app-table-mobile{
     margin: 15px;
     text-align: center;
     font-size: 18px;
-
-    .show {
-        background-color: $bms_green;
-    }
 }
 
-.properties-displayed{
-    display: flex;
-    flex-grow: 1;
-}
-
-button{
-    color: $bms_white;
-    background-color: $bms_red;
-
-    &.import-button{
-        background-color: $bms_green !important;
-        height: 40px;
-    }
-
-    &.add-button, &.random-button, &.refresh-button {
-        width: 50px;
-        height: 50px;
-    }
-
-    span{
-        font-family: $bms_font_text;
-        padding-left:20px;
-    }
-
-    &:disabled {
-        background-color: darkgrey;
-    }
+.properties-displayed {
+    margin-top: 20px;
+    width: 100%;
 }
 
 .generator {
@@ -104,13 +76,8 @@ button{
     margin: 10px;
 
     .next {
+        color: $bms_white;
         background-color: $bms_green;
-    }
-
-    .back {
-        float: left;
-        color: black;
-        background-color: lightgray;
     }
 }
 
@@ -138,14 +105,51 @@ button{
     .transact {
         background-color: $bms_red;
         font-weight: bold;
-        width: 100px;
+        width: 125px;
         height: 45px;
         margin: 20px;
 
+        & span {
+            padding-left: 0px;
+        }
         &:disabled {
             background-color: darkgrey;
         }
     }
+
+    mat-spinner {
+        float : right;
+        margin: 10px;
+    }
+}
+
+.progression {
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h4, h5 {
+        margin: 5px !important;
+    }
+
+    .commodities {
+        width: 90%;
+        margin-top: 20px;
+
+        mat-progress-bar {
+            display: inline-block !important;
+            height: 5px;
+        }
+
+        .details {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+    }
+
 }
 
 .content-table {
@@ -159,34 +163,6 @@ button{
     text-align: center;
     margin-left: 45%;
     font-size: 20px;
-}
-
-.validate, .adding {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    mat-form-field {
-        width: 100%;
-    }
-    .action {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        width: 100%;
-        margin: 10px;
-
-        .cancel {
-            background-color: $bms_white;
-            color: $bms_red;
-            margin-right: 5px;
-        }
-        .confirm {
-            background-color: $bms_red;
-            color: $bms_white;
-        }
-    }
 }
 
 .sample-size-input {

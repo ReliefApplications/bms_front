@@ -1,16 +1,16 @@
-@import '../../../../../assets/css/variable.scss'; 
+@import '../../../../../assets/css/variable.scss';
 .container-table {
     display: flex;
     flex-direction: column;
     padding: 0px !important;
-    
+
     //import
     .content-head {
         text-align: right;
         margin: 10px;
         padding-bottom: 10px;
     }
-    
+
     .content-table {
         width: 100%;
         padding: 0px ;
@@ -18,17 +18,17 @@
         flex-direction: column;
         justify-content: center;
     }
-    
+
     .content-button-footer{
         justify-content: left !important;
         padding: 0px;
         margin-left: 10px;
     }
-    
+
     .upload-zone {
         width: 100%;
     }
-    
+
     .content-drag-and-drop {
         display: flex;
         width: 100%;
@@ -38,21 +38,21 @@
             font-style: italic;
         }
     }
-    
+
     .card-drag-and-drop {
-        padding: 0px !important;
+        padding: 10px !important;
         width: 100%;
         display: flex;
         justify-content: center;
         flex-direction: column;
         align-items: center;
     }
-    
+
     .img-folder {
         height: 11vh;
         padding: 5%;
     }
-    
+
     .upload-button{
 
         height: 40px;
@@ -60,13 +60,13 @@
         margin-left: 2vh;
         background-color: $bms_red;
         color: white;
-        
+
     }
     span{
         font-family: $bms_font_text;
         padding-left:10px;
     }
-    
+
     app-box-setting {
         justify-content: end;
         display: flex;
@@ -79,24 +79,27 @@
           margin-right: 0px !important;
         }
     }
-    
+
     .box-green{
         border-top: solid 12px $bms_green;
     }
-    
+
     .box-red{
         border-top: solid 12px $bms_red;
     }
-    
+
     .button-add-file {
         background-color: white;
     }
-    
+
     .mat-spinner {
         margin-bottom: 2vh;
     }
 
-    
+    .no-data-box {
+      width: unset;
+    }
+
     //compare
     .buttonTitles{
         width: 100%;
@@ -122,7 +125,7 @@
             font-weight: bold;
         }
     }
-    
+
     .footer-content
     {
         width: 100%;
@@ -146,7 +149,7 @@
     label {
         margin-right: 5px;
     }
-    
+
     mat-chip-list-wrapper {
         background-color: $bms_green;
     }

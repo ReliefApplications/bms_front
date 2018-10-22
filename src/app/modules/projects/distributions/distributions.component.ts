@@ -14,6 +14,7 @@ import { saveAs } from 'file-saver/FileSaver';
 import { Mapper } from '../../../core/utils/mapper.service';
 import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
 import { AnimationRendererFactory } from '@angular/platform-browser/animations/src/animation_renderer';
+import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
 
 @Component({
     selector: 'app-distributions',
@@ -27,6 +28,7 @@ export class DistributionsComponent implements OnInit {
 
     loadingDatas = true;
     loadingDistribution = true;
+    transacting = false;
 
     // Control variables.
     loadingFirstStep: boolean;
@@ -42,6 +44,7 @@ export class DistributionsComponent implements OnInit {
     beneficiaryEntity = Beneficiaries;
     distributionEntity = DistributionData;
     importedBeneficiaryEntity = ImportedBeneficiary;
+    transactionBeneficiaryEntity = TransactionBeneficiary;
 
     // Datas.
     initialBeneficiaryData: MatTableDataSource<any>;
@@ -67,7 +70,6 @@ export class DistributionsComponent implements OnInit {
     form2: FormGroup;
     form3: FormGroup;
     form4: FormGroup;
-    form5: FormGroup;
 
     constructor(
         public distributionService: DistributionService,
@@ -94,8 +96,6 @@ export class DistributionsComponent implements OnInit {
         this.extensionTypeStep3 = 'xls';
 
         // Steps Forms.
-        this.form5 = this.formBuilder.group({
-        });
         this.form1 = this.formBuilder.group({
         });
         this.form2 = this.formBuilder.group({
@@ -106,6 +106,7 @@ export class DistributionsComponent implements OnInit {
         });
 
         this.getSelectedDistribution();
+
         this.getDistributionBeneficiaries('initial');
     }
 
@@ -189,11 +190,13 @@ export class DistributionsComponent implements OnInit {
                         this.loadingFinalStep = false;
                     } else if (type === 'transaction') {
                         // console.log('Getting transaction data');
-                        this.transactionData = new MatTableDataSource(ImportedBeneficiary.formatArray(data));
+                        this.transactionData = new MatTableDataSource(TransactionBeneficiary.formatArray(data, this.actualDistribution.commodities));
                         this.loadingTransaction = false;
                     }
 
-                    this.generateRandom();
+                    if(!this.actualDistribution.validated) {
+                        this.generateRandom();
+                    }
 
                     if (this.loadingDatas == true) {
                         this.loadingDatas = false;
@@ -232,8 +235,13 @@ export class DistributionsComponent implements OnInit {
             );
     }
 
+    /**
+     * Set the export type.
+     * @param step 
+     * @param choice 
+     */
     setType(step, choice) {
-
+        // console.log('change: ', step, choice);
         switch (step) {
             case 1: this.extensionTypeStep1 = choice;
                 break;
@@ -242,12 +250,14 @@ export class DistributionsComponent implements OnInit {
             default:
                 break;
         }
+        // console.log("   step1:", this.extensionTypeStep1, "    step3:", this.extensionTypeStep3);
     }
 
     /**
      * Handles the csv export of the data table
      */
     export() {
+        // console.log('type: ', this.extensionTypeStep1);
         this.distributionService.export('distribution', this.extensionTypeStep1, this.distributionId);
     }
 
@@ -308,19 +318,20 @@ export class DistributionsComponent implements OnInit {
      * To confirm on Validation dialog
      */
     confirmValidation() {
-        this.distributionService.setValidation(this.distributionId)
-            .subscribe(
-                success => {
-                    this.actualDistribution.validated = true;
-                    this.snackBar.open('Distribution has been validated', '', { duration: 3000, horizontalPosition: 'center' });
-                    this.validateActualDistributionInCache();
-                    this.getDistributionBeneficiaries('transaction');
-                },
-                error => {
-                    this.actualDistribution.validated = false;
-                    this.snackBar.open('Distribution could not be validated', '', { duration: 3000, horizontalPosition: 'center' });
-                }
-            );
+            this.distributionService.setValidation(this.distributionId)
+                .subscribe(
+                    success => {
+                        this.actualDistribution.validated = true;
+                        this.snackBar.open('Distribution has been validated', '', { duration: 3000, horizontalPosition: 'center' });
+                        this.validateActualDistributionInCache();
+                        this.getDistributionBeneficiaries('transaction');
+                        // TODO : Check if phone number exists for all head of households.
+                    },
+                    error => {
+                        this.actualDistribution.validated = false;
+                        this.snackBar.open('Distribution could not be validated', '', { duration: 3000, horizontalPosition: 'center' });
+                    }
+                );
 
         this.dialog.closeAll();
     }
@@ -332,8 +343,51 @@ export class DistributionsComponent implements OnInit {
         const actualUser = this.cacheService.get(CacheService.USER);
 
         if (this.enteredEmail && actualUser.username === this.enteredEmail) {
+            
+            this.transacting = true;
+            this.distributionService.transaction(this.distributionId).subscribe(
+                success => {
+                    this.transactionData.data.forEach(
+                        (element, index) => {
+                            success.already_sent.push({ id:0 });
+                            success.sent.push({ id:0 });
 
-            // transaction
+                            success.already_sent.forEach(
+                                beneficiary => {
+                                    if(element.id === beneficiary.id) {
+                                        this.transactionData.data[index].updateState('Already sent');
+                                    }
+                                }
+                            )
+                            success.failure.forEach(
+                                beneficiary => {
+                                    if(element.id === beneficiary.id) {
+                                        this.transactionData.data[index].updateState('Sending failed');
+                                    }
+                                }
+                            )
+                            success.no_mobile.forEach(
+                                beneficiary => {
+                                    if(element.id === beneficiary.id) {
+                                        this.transactionData.data[index].updateState('No phone');
+                                    }
+                                }
+                            )
+                            success.sent.forEach(
+                                beneficiary => {
+                                    if(element.id === beneficiary.id) {
+                                        this.transactionData.data[index].updateState('Sent');
+                                    }
+                                }
+                            )
+                        }
+                    );
+                    this.transacting = false;
+                },
+                () => {
+                    this.transacting = false;
+                }
+            )
 
         } else {
             this.snackBar.open('Wrong email', '', { duration: 3000, horizontalPosition: 'center' });
@@ -370,14 +424,6 @@ export class DistributionsComponent implements OnInit {
     }
 
     /**
-     * To cancel on Validation dialog
-     */
-    exitValidation() {
-        this.snackBar.open('Transaction canceled', '', { duration: 3000, horizontalPosition: 'center' });
-        this.dialog.closeAll();
-    }
-
-    /**
      * To confirm on AddBeneficiary dialog
      */
     confirmAdding() {
@@ -402,25 +448,68 @@ export class DistributionsComponent implements OnInit {
     }
 
     /**
-     * To cancel on AddBeneficiary dialog
+     * To cancel on a dialog
      */
-    exitAdding() {
+    exit(message: string) {
+        this.snackBar.open(message, '', { duration: 3000, horizontalPosition: 'center' });
         this.dialog.closeAll();
-        this.snackBar.open('Adding canceled', '', { duration: 3000, horizontalPosition: 'center' });
     }
 
     /**
-     * Go back to step 1 when validating
-     * @param stepper
+     * Calculate commodity distribution quantities & values.
      */
-    goToTransaction(stepper: MatStepper) {
-        for (let i = 0; i < 2; i++) {
-            stepper.previous();
+    getAmmount(type: string, commodity?: any) : number {
+
+        let ammount: number;
+
+        if(!this.transactionData) {
+            ammount = 0;
+        } else if (type === 'people') {
+            ammount = 0;
+            this.transactionData.data.forEach(
+                element => {
+                    if(element.state === -1 || element.state === -2 || element.state === 0) {
+                        ammount++;
+                    }
+                }
+            )
+        } else if(commodity) {
+
+            if(type === 'total') {
+                ammount = commodity.value * this.transactionData.data.length;
+            } else if(type === 'done') {
+                ammount = 0;
+                this.transactionData.data.forEach(
+                    element => {
+                        if(element.state === 1 || element.state === 2) {
+                            ammount += commodity.value;
+                        }
+                    }
+                );
+            } else if(type === 'waiting') {
+                ammount = 0;
+                this.transactionData.data.forEach(
+                    element => {
+                        if(element.state === -2 ||element.state === -1 || element.state === 0) {
+                            ammount += commodity.value;
+                        }
+                    }
+                );
+            } else if (type === 'ratio') {
+                let done = 0;
+                this.transactionData.data.forEach(
+                    element => {
+                        if(element.state === 1 || element.state === 2) {
+                            done += commodity.value;
+                        }
+                    }
+                );
+                ammount = Math.round( ( done / (commodity.value * this.transactionData.data.length) )*100 );
+            }
         }
-    }
+        // console.log(type, ammount);
 
-    /**
-     * Transaction
-     */
+        return(ammount);
+    }
 
 }

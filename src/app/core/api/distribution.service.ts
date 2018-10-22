@@ -74,6 +74,12 @@ export class DistributionService {
         }
     }
 
+    public transaction(id: number) {
+        const url = this.api + '/transaction/distribution/' + id + '/send';
+        let body = {};
+        return this.http.post(url, body);
+    }
+
     public exportSample(sample: any, extensionType: string) {
         return this.exportService.export('distributionSample', true, extensionType, {sample: sample});
 

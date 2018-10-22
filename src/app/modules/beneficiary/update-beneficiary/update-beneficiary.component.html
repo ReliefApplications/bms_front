@@ -170,18 +170,19 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <div class="combo">
-                                    <mat-form-field>
+                                    <!-- <mat-form-field>
                                         <input matInput type="tel-country-code" [(ngModel)]="updatedHousehold.beneficiaries[0].phone.code" placeholder="Code"
-                                        [matAutocomplete]="autoCountry" (input)="reloadCountryCodes(0)">
+                                        [matAutocomplete]="autoCountry" (input)="reloadCountryCodes(0)" required>
                                         <mat-autocomplete #autoCountry="matAutocomplete">
                                             <mat-option *ngFor="let choice of filteredCountryCodesList" [value]="choice">
                                                 {{choice}}
                                             </mat-option>
                                         </mat-autocomplete>
-                                    </mat-form-field>
+                                    </mat-form-field> -->
                                     <mat-form-field>
-                                        <input matInput type="tel" placeholder={{Text.add_beneficiary_getPhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone.number">
+                                        <input matInput type="tel" placeholder={{Text.add_beneficiary_getPhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone.number" required>
                                     </mat-form-field>
+                                    <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[0].phone.proxy">Proxy</mat-checkbox>
                                 </div>
                             </div>
                             <div class="lign-container">
@@ -203,7 +204,7 @@
             </div>
         </mat-step>
 
-        <mat-step>
+        <mat-step >
             <ng-template class="step" matStepLabel>{{Text.add_beneficiary_step3}}</ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
@@ -274,7 +275,7 @@
                                             </mat-select>
                                         </mat-form-field>
                                         <div class="combo">
-                                            <mat-form-field>
+                                            <!-- <mat-form-field>
                                                 <input matInput type="tel-country-code" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.code" placeholder="Code"
                                                 [matAutocomplete]="autoCountry" (input)="reloadCountryCodes(memberIndex)">
                                                 <mat-autocomplete #autoCountry="matAutocomplete">
@@ -282,10 +283,11 @@
                                                         {{choice}}
                                                     </mat-option>
                                                 </mat-autocomplete>
-                                            </mat-form-field>
+                                            </mat-form-field> -->
                                             <mat-form-field>
                                                 <input matInput type="tel" placeholder={{Text.add_beneficiary_getPhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.number">
                                             </mat-form-field>
+                                            <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.proxy">Proxy</mat-checkbox>
                                         </div>
                                     </div>
                                     <div class="lign-container">
@@ -372,7 +374,7 @@
                                     <th mat-header-cell *matHeaderCellDef> {{ tableColumns[4] }} </th>
                                     <td mat-cell *matCellDef="let element">
                                         <p *ngIf="element.phone.number">
-                                            {{ element.phone.code.split(')')[1] }}{{ element.phone.number }}
+                                            {{ element.phone.number }}
                                         </p>
                                     </td>
                                 </ng-container>

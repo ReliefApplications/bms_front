@@ -14,6 +14,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSortModule } from '@angular/material/sort';
+import {MatGridListModule} from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material';
@@ -24,7 +25,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
 import { BoxDashboardComponent } from '../components/box/box-dashboard/box-dashboard.component';
 import { BoxSettingComponent } from '../components/box/box-setting/box-setting.component';
-import { BoxComponent } from '../components/box/box.component';
 import { BoxPropertiesComponent } from '../components/box/box-properties/box-properties.component';
 import { TableComponent } from '../components/table/table.component';
 import { TableSearchComponent } from '../components/table/table-search/table-search.component';
@@ -42,7 +42,6 @@ import { ModalDetailsComponent } from '../components/modals/modal-details/modal-
 import { ModalAddComponent } from '../components/modals/modal-add/modal-add.component';
 import { ModalAddLineComponent } from '../components/modals/modal-add/modal-add-line/modal-add-line.component';
 import { ModalLanguageComponent } from '../components/modals/modal-language/modal-language.component';
-
 
 import { LoginComponent } from '../modules/public/login.component';
 import { DashboardComponent } from '../modules/dashboard/dashboard.component';
@@ -99,11 +98,13 @@ imports: [
     MatListModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatSidenavModule,
     MatTabsModule,
     MatChipsModule,
     MatToolbarModule,
     MatAutocompleteModule,
+    MatGridListModule,
 ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
 ],
 declarations: [
@@ -137,7 +138,6 @@ declarations: [
     ModalLanguageComponent,
     ModalAddLineComponent,
     BoxSettingComponent,
-    BoxComponent,
     BoxPropertiesComponent,
     DataValidationComponent,
     DistributionsComponent,
@@ -148,7 +148,7 @@ declarations: [
     PlaceholderStepperComponent,
     PlaceholderTitleComponent,
     UpdateBeneficiaryComponent,
-    
+
 ],
 entryComponents: [
     ModalComponent,
@@ -192,7 +192,6 @@ exports: [
     ModalAddComponent,
     ModalAddLineComponent,
     BoxSettingComponent,
-    BoxComponent,
     MatCheckboxModule,
     MatTooltipModule,
     MatSelectModule,
@@ -202,6 +201,7 @@ exports: [
     MatSortModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,

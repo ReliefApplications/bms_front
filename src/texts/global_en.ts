@@ -146,7 +146,7 @@ export const TEXT = {
     add_distribution_distributed_commodity : 'distributed commodity',
     add_distribution_beneficiaries_reached: 'Beneficiaries reached',
     add_distribution_households_reached: 'Households reached',
-    add_distribution_commodities_delivered: 'Commodities delivered',
+    add_distribution_commodities_delivered: 'delivered',
     add_distribution_threshold: 'Minimum selection score',
     add_distribution_text_explanation: 'The system will only select beneficiaries/households that have a score higher than the minimum selection score',
     add_distribution_female: 'Woman',
@@ -161,6 +161,7 @@ export const TEXT = {
     table_next_page : 'Next page',
     table_last_page : 'Last page',
     table_of_page : 'of',
+    table_quantity : 'quantity',
 
     modal_details_title : 'Details',
     modal_update_title : 'Update',
@@ -241,18 +242,23 @@ export const TEXT = {
     model_commodity_unit: 'Unit',
     model_commodity_value: 'Quantity',
     model_commodity_currency: 'Currency',
+    model_beneficiaries_state: 'State',
+    model_beneficiaries_values: 'Value',
     sample_choose_size: 'Sample size',
 
 
     import_added: 'Will be added',
     import_deleted: 'Will be deleted',
-    import_errors: 'Will be ignored',
-    import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing. Any unknown beneficiary will be ignored',
+    import_created: 'Will be created',
+    import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.',
 
     distribution_details_export: 'export',
     distribution_details_import: 'import & compare',
     distribution_details_random: 'export random sample',
     distribution_details_validate: 'validate',
+    transaction_ammount_total: 'Total ammount',
+    transaction_ammount_done: 'Ammount sent',
+    transaction_ammount_waiting: 'Still to be sent',
 
     profile_user_information: 'User information',
     profile_user_change_password: 'Change password',

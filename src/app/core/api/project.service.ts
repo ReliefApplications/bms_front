@@ -33,4 +33,12 @@ export class ProjectService{
         let url = this.api + "/projects/"+id;
         return this.http.delete(url, body);
     }
+
+    public addBeneficiaries(projectId: number, benef: number[]) {
+        let url = this.api + "/projects/" + projectId + "/beneficiaries/add";
+        let body = {
+            beneficiaries : benef
+        }
+        return this.http.post(url, body);
+    }
 }

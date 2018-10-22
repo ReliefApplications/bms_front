@@ -27,6 +27,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     // upload
     response = '';
     public csv = null;
+    public importedData = null;
     comparing: boolean;
 
     // indicators
@@ -36,15 +37,16 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     public loadFile = false;
     public loadUpdate = false;
 
-    // datas
+    // data
     addingData: MatTableDataSource<any>;
     removingData: MatTableDataSource<any>;
-    errorsData: MatTableDataSource<any>;
+    createData: MatTableDataSource<any>;
 
-    // datas infos
+    // data info
     numberAdded = 0;
     numberRemoved = 0;
-    numberErrors = 0;
+    numberCreated = 0;
+    noChanges = true;
 
     // Screen display variables.
     dragAreaClass = 'dragarea';
@@ -65,7 +67,6 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     ngOnInit() {
         this.comparing = false;
         this.checkSize();
-        // console.log(this.distribution);
     }
 
     @HostListener('window:resize', ['$event'])
@@ -110,65 +111,52 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
      * Upload csv and import the new distribution (list of beneficiaries)
      */
     updateDistribution(step: number) {
-
         const data = new FormData();
         data.append('file', this.csv);
 
         if (this.csv && step === IMPORT_COMPARE) {
-            this.comparing = true;
             this.loadFile = true;
-            let tables;
+            this.beneficiaryService.import(this.distribution.id, data, IMPORT_COMPARE).subscribe(
+              result => {
+                    this.comparing = true;
+                    this.loadFile = false;
+                    this.importedData = result;
 
-            this.beneficiaryService.import(this.distribution.id, data, IMPORT_COMPARE).toPromise()
-                .then(
-                    result => {
-                        tables = result;
+                    const createList = ImportedBeneficiary.formatArray(this.importedData.created);
+                    const addList = Beneficiaries.formatArray(this.importedData.added);
+                    const removeList = Beneficiaries.formatArray(this.importedData.deleted);
 
-                        const errorList = ImportedBeneficiary.formatArray(tables.errors);
-                        const addList = ImportedBeneficiary.formatArray(tables.added);
-                        const removeList = ImportedBeneficiary.formatArray(tables.deleted);
+                    this.numberCreated = createList ? createList.length : 0;
+                    this.numberAdded = addList ? addList.length : 0;
+                    this.numberRemoved = removeList ? removeList.length : 0;
+                    this.noChanges = (this.numberCreated + this.numberAdded + this.numberRemoved === 0);
 
-                        if (errorList && errorList.length > 0) {
-                            this.numberErrors = errorList.length;
-                        } else {
-                            this.numberErrors = 0;
-                        }
-                        if (addList && addList.length > 0) {
-                            this.numberAdded = addList.length;
-                        } else {
-                            this.numberAdded = 0;
-                        }
-                        if (removeList && removeList.length > 0) {
-                            this.numberRemoved = removeList.length;
-                        } else {
-                            this.numberRemoved = 0;
-                        }
+                    this.createData = new MatTableDataSource(createList);
+                    this.addingData = new MatTableDataSource(addList);
+                    this.removingData = new MatTableDataSource(removeList);
 
-                        this.errorsData = new MatTableDataSource(errorList);
-                        this.addingData = new MatTableDataSource(addList);
-                        this.removingData = new MatTableDataSource(removeList);
-                        this.loadFile = false;
-                    }
-                )
-                .catch(
-                    error => {
-                        // console.log('error: ', error);
-                    }
-                );
-        } else if (this.csv && step === IMPORT_UPDATE) {
+                    this.csv = null;
+              },
+              error => {
+                this.loadFile = false,
+                this.csv = null;
+              }
+            );
+        } else if (this.importedData && step === IMPORT_UPDATE) {
             this.loadUpdate = true;
-            this.beneficiaryService.import(this.distribution.id, data, IMPORT_UPDATE)
-                .subscribe(
-                    success => {
-                        this.snackBar.open('Distribution updated', '', { duration: 3000, horizontalPosition: 'center' });
-                        this.success.emit(true);
-                        this.loadUpdate = false;
-                    }
-                );
-            this.csv = null;
-            this.comparing = false;
-        } else {
-            // console.log('Error / empty csv');
+            this.beneficiaryService.import(this.distribution.id, {data: this.importedData}, IMPORT_UPDATE).subscribe(
+                success => {
+                    this.snackBar.open('Distribution updated', '', { duration: 3000, horizontalPosition: 'center' });
+                    this.success.emit(true);
+                    this.loadUpdate = false;
+                    this.importedData = null;
+                    this.comparing = false;
+                },
+                error => {
+                  this.loadUpdate = false,
+                  this.comparing = false;
+                }
+            );
         }
     }
 

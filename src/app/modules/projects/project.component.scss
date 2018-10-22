@@ -15,8 +15,7 @@ app-table-mobile-distribution {
 }
 
 .properties-displayed {
-    display: flex;
-    flex-grow: 1;
+    width: 100%;
 }
 
 .waitingDataContainer {
@@ -70,14 +69,6 @@ app-placeholder-panel {
             padding-top: 5px;
             vertical-align: middle;
         }
-    }
-
-    &.new-project {
-
-    }
-    
-    &.empty-project {
-    
     }
 }
 

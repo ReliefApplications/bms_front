@@ -1,5 +1,27 @@
-@import '../../../../assets/css/variable.scss'; 
-
+@import '../../../../assets/css/variable.scss';
+.mat-grid-list {
+  margin: 0 20px;
+  .mat-grid-tile {
+    overflow: initial !important;
+    .mat-card {
+      padding: 10px !important;
+      width: 130px;
+      height: 50px;
+      border-bottom: 5px solid $bms_red;
+      display: flex;
+      flex-direction: column;
+      h5 {
+        margin-bottom: 0;
+        flex-grow: 1;
+      }
+      .sector-icons {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+      }
+    }
+  }
+}
 
 .box-content{
     width: 100%;
@@ -15,7 +37,7 @@
             text-align: left;
             font-family: $bms_font_text;
             padding:15px;
-    
+
             .info-title{
                 font-size : 1.5vh;
                 line-height : 1.5vh;

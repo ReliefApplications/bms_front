@@ -26,7 +26,7 @@
               <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element, property)}}</span>
             </td>
           </ng-container>
-      
+
           <ng-container matColumnDef="actions">
             <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
             <td mat-cell class="content-cell" *matCellDef="let element">

@@ -232,8 +232,8 @@ export class DistributionsComponent implements OnInit {
 
     /**
      * Set the export type.
-     * @param step 
-     * @param choice 
+     * @param step
+     * @param choice
      */
     setType(step, choice) {
         // console.log('change: ', step, choice);
@@ -338,7 +338,7 @@ export class DistributionsComponent implements OnInit {
         const actualUser = this.cacheService.get(CacheService.USER);
 
         if (this.enteredEmail && actualUser.username === this.enteredEmail) {
-            
+
             this.transacting = true;
             this.distributionService.transaction(this.distributionId).subscribe(
                 success => {
@@ -379,7 +379,7 @@ export class DistributionsComponent implements OnInit {
                     );
                     this.transacting = false;
                 },
-                () => {
+                error => {
                     this.transacting = false;
                 }
             )

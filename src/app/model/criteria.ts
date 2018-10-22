@@ -142,8 +142,8 @@ export class Criteria {
 
     /**
      * used in modal line
-     * @param element 
-     * @param loadedData 
+     * @param element
+     * @param loadedData
      */
     public static formatFromModalAdd(element: any, loadedData: any): Criteria {
         let newObject = new Criteria(loadedData.field_string[element.field_string - 1]);
@@ -155,10 +155,10 @@ export class Criteria {
         newObject.kind_beneficiary = loadedData.kind_beneficiary[element.kind_beneficiary - 1].field_string;
         newObject.condition_string = loadedData.condition_string[element.condition_string - 1].field_string;
 
-        if (newObject.field_string == "gender" || newObject.field_string == "dateOfBirth" 
-        || newObject.field_string == "ID Poor" || newObject.field_string == "WASH") {
+        if (newObject.field_string == "gender" || newObject.field_string == "dateOfBirth"
+        || newObject.field_string == "IDPoor" || newObject.field_string == "equityCardNo") {
             if(element.value_string) {
-                newObject.value_string = element.value_string; 
+                newObject.value_string = element.value_string;
             } else {
                 newObject.value_string = "null";
             }

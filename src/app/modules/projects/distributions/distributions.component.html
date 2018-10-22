@@ -79,7 +79,10 @@
                             [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
                         <div class="import-content">
                             <app-import-distribution *ngIf="!actualDistribution.validated" [distribution]="this.actualDistribution"
-                                (success)="this.getDistributionBeneficiaries('final')"></app-import-distribution>
+                                (success)=" this.getDistributionBeneficiaries('final');
+                                            this.getDistributionBeneficiaries('initial');
+                                            jumpStep(myStepper)">
+                            </app-import-distribution>
                         </div>
                         <div class="container-empty" *ngIf="actualDistribution.validated">
                             <p>

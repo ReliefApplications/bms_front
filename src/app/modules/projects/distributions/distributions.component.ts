@@ -501,4 +501,8 @@ export class DistributionsComponent implements OnInit {
         return(ammount);
     }
 
+    jumpStep(stepper : MatStepper) {
+        stepper.next();
+    }
+
 }

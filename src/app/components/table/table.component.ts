@@ -131,16 +131,22 @@ export class TableComponent implements OnChanges, DoCheck {
                 console.error('error', error);
             });
         }
+        else if (this.entity.__classname__ == 'Beneficiaries') {
+            this.distributionService.getBeneficiaries(this.parentId).subscribe(
+                response => {
+                    this.data = new MatTableDataSource(Beneficiaries.formatArray(response));
+                    // update cache associated variable
+                    const key = (<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + 'S'];
+                    this._cacheService.set(key, response);
+                }
+            );
+        }
         else {
             this.service.get().subscribe(response => {
                 this.data = new MatTableDataSource(this.entity.formatArray(response));
                 // update cache associated variable
                 const key = (<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + 'S'];
                 this._cacheService.set(key, response);
-
-                this.setDataTableProperties();
-            }, error => {
-                console.error('error', error);
             });
         }
     }
@@ -157,6 +163,7 @@ export class TableComponent implements OnChanges, DoCheck {
             this.data.paginator = this.paginator;
         }
     }
+
 
     checkData() {
         if (!this.data) {
@@ -266,7 +273,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
         // console.log("update element 2:", updateElement);
         if (this.entity.__classname__ == 'User') {
-            if(updateElement['password'] && updateElement['password'].length>0) {
+            if (updateElement['password'] && updateElement['password'].length > 0) {
                 this.authenticationService.requestSalt(updateElement['username']).subscribe(response => {
                     if (response) {
 
@@ -307,15 +314,19 @@ export class TableComponent implements OnChanges, DoCheck {
         if (this.entity === Beneficiaries) {
             // console.log('delete: ', this.deleteElement['id']);
             this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
+                this.snackBar.open(this.entity.__classname__ + ' deleted', '', { duration: 3000, horizontalPosition: 'right' });
                 this.updateData();
             });
         } else {
             this.service.delete(deleteElement['id']).subscribe(response => {
+                this.snackBar.open(this.entity.__classname__ + ' deleted', '', { duration: 3000, horizontalPosition: 'right' });
                 this.updateData();
             });
         }
     }
 }
+
+
 
 const rangeLabel = (page: number, pageSize: number, length: number) => {
     const table = GlobalText.TEXTS;

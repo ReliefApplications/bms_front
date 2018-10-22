@@ -343,7 +343,6 @@ export class DistributionsComponent implements OnInit {
         const actualUser = this.cacheService.get(CacheService.USER);
 
         if (this.enteredEmail && actualUser.username === this.enteredEmail) {
-            console.log('hey: ', this.actualDistribution);
             if(this.actualDistribution.commodities && this.actualDistribution.commodities[0]
                 && this.actualDistribution.commodities[0].modality_type && this.actualDistribution.commodities[0].modality_type.name === "Mobile Cash")
                 {

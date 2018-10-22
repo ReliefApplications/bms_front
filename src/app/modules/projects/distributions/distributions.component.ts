@@ -15,6 +15,7 @@ import { Mapper } from '../../../core/utils/mapper.service';
 import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
 import { AnimationRendererFactory } from '@angular/platform-browser/animations/src/animation_renderer';
 import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-distributions',
@@ -116,6 +117,7 @@ export class DistributionsComponent implements OnInit {
     }
 
     checkSize(): void {
+        console.log('resize');
         this.heightScreen = window.innerHeight;
         this.widthScreen = window.innerWidth;
     }
@@ -347,7 +349,12 @@ export class DistributionsComponent implements OnInit {
                 && this.actualDistribution.commodities[0].modality_type && this.actualDistribution.commodities[0].modality_type.name === "Mobile Cash")
                 {
                 this.transacting = true;
-                this.distributionService.transaction(this.distributionId).subscribe(
+                this.distributionService.transaction(this.distributionId)
+                .pipe(
+                    finalize(
+                        () => this.transacting = false
+                    )
+                ).subscribe(
                     success => {
                         this.transactionData.data.forEach(
                             (element, index) => {
@@ -384,10 +391,6 @@ export class DistributionsComponent implements OnInit {
                                 )
                             }
                         );
-                        this.transacting = false;
-                    },
-                    error => {
-                        this.transacting = false;
                     }
                 )
                 } else {

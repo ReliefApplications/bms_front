@@ -1,4 +1,7 @@
 @import '../../../../assets/css/variable.scss';
+@import '../../../../assets/css/animations.scss';
+
+
 .mat-grid-list {
   margin: 0 20px;
   .mat-grid-tile {
@@ -44,6 +47,10 @@
                 margin: 0 !important;
             }
         }
+}
+
+mat-grid-list {
+    animation: box-pop-in 0.3s;
 }
 
 //for mobile screen

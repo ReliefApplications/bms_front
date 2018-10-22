@@ -21,6 +21,17 @@
   100% {opacity: 0.3;}
 }
 
+@keyframes box-pop-in {
+    from {
+        transform: translate(0px, -20px);
+        opacity: 0;
+    }
+    to {
+        transform: translate(0px, 0px);
+        opacity: 1;
+    }
+}
+
 @keyframes button-slide-in {
     from { 
             transform: translate(0px, 60px);
@@ -30,7 +41,7 @@
         transform: translate(0px, 0px); 
         opacity: 1;
     }
-  }
+}
 
 @keyframes rotate-down {
   0%   {transform: rotate(0deg) ;}

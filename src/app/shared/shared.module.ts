@@ -53,7 +53,7 @@ import { BeneficiariesImportComponent } from '../modules/beneficiary/beneficiari
 import { DataValidationComponent } from '../modules/beneficiary/data-validation/data-validation.component';
 import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
 import { ImportDistributionComponent } from '../modules/projects/distributions/import-distribution/import-distribution.component';
-import { TransactionTableComponent } from '../components/table/transaction-table/transaction-table.component';
+import { TransactionTableMobileComponent } from '../components/table/transaction-table-mobile/transaction-table-mobile.component';
 import { ModalLeaveComponent } from '../components/modals/modal-leave/modal-leave.component';
 import { TableMobileDashboardComponent } from '../components/table/table-mobile-dashboard/table-mobile-dashboard.component';
 import { PlaceholderSummaryComponent } from '../components/placeholders/placeholder-summary/placeholder-summary.component';
@@ -63,6 +63,8 @@ import { PlaceholderStepperComponent } from '../components/placeholders/placehol
 import { PlaceholderTitleComponent } from '../components/placeholders/placeholder-title/placeholder-title.component';
 import { TableBeneficiariesComponent } from '../components/table/table-beneficiaries/table-beneficiaries.component';
 import { UpdateBeneficiaryComponent } from '../modules/beneficiary/update-beneficiary/update-beneficiary.component';
+import { TransactionTableComponent } from '../components/table/transaction-table/transaction-table.component';
+import { TableMobileBeneficiariesComponent } from '../components/table/table-mobile-beneficiaries/table-mobile-beneficiaries.component';
 
 @NgModule({
 imports: [
@@ -129,6 +131,8 @@ declarations: [
     TableDashboardComponent,
     TableMobileDashboardComponent,
     TableBeneficiariesComponent,
+    TransactionTableMobileComponent,
+    TableMobileBeneficiariesComponent,
     TransactionTableComponent,
     ModalComponent,
     ModalDeleteComponent,
@@ -180,10 +184,12 @@ exports: [
     TableMobileDistributionComponent,
     TableSmallComponent,
     TableSmallMobileComponent,
+    TableMobileBeneficiariesComponent,
     TransactionTableComponent,
     TableDashboardComponent,
     TableMobileDashboardComponent,
     TableBeneficiariesComponent,
+    TransactionTableMobileComponent,
     ModalComponent,
     ModalDeleteComponent,
     ModalUpdateComponent,

@@ -1,12 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TableComponent } from '../table.component';
 
+
 @Component({
-  selector: 'app-transaction-table',
-  templateUrl: './transaction-table.component.html',
-  styleUrls: ['./transaction-table.component.scss']
+  selector: 'app-transaction-table-mobile',
+  templateUrl: './transaction-table-mobile.component.html',
+  styleUrls: ['./transaction-table-mobile.component.scss']
 })
-export class TransactionTableComponent extends TableComponent implements OnInit {
+export class TransactionTableMobileComponent extends TableComponent implements OnInit {
 
     loading = true;
     //

@@ -78,12 +78,24 @@ export class Households {
         if (!selfinstance)
             return selfinstance;
 
+        let vulnerabilityString = '';
+        if(selfinstance.vulnerabilities[0]) {
+            selfinstance.vulnerabilities.forEach(
+                (element, index) => {
+                    if(index>0) {
+                        vulnerabilityString += ', ';                        
+                    }
+                    vulnerabilityString += element.substring(25).split('.')[0];
+                }
+            )
+        }
+
         return {
             familyName: selfinstance.familyName,
             firstName: selfinstance.firstName,
             location: selfinstance.location,
             dependents: selfinstance.dependents,
-            vulnerabilities: selfinstance.vulnerabilities,
+            vulnerabilities: vulnerabilityString,
             projects: selfinstance.projects,
         }
     }

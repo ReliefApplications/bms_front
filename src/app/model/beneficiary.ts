@@ -239,6 +239,17 @@ public static formatForApi(instance: any) {
         if (!selfinstance) {
             return selfinstance;
         }
+        let vulnerabilityString = '';
+        if(selfinstance.vulnerabilities[0]) {
+            selfinstance.vulnerabilities.forEach(
+                (element, index) => {
+                    if(index>0) {
+                        vulnerabilityString += ', ';                        
+                    }
+                    vulnerabilityString += element.substring(25).split('.')[0];
+                }
+            )
+        }
 
         return {
             given_name : selfinstance.given_name,
@@ -248,7 +259,7 @@ public static formatForApi(instance: any) {
             status : selfinstance.status,
             national_ids : selfinstance.national_ids,
             phones : selfinstance.phones,
-            vulnerabilities : selfinstance.vulnerabilities,
+            vulnerabilities : vulnerabilityString,
         };
     }
 

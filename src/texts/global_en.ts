@@ -153,7 +153,7 @@ export const TEXT = {
     add_distribution_male: 'Man',
     add_project: 'Create a project',
 
-    table_filter : 'Filter',
+    table_filter : 'Search by keyword',
     table_actions : 'Actions',
     table_items_per_page : 'Items per page',
     table_first_page : 'First page',

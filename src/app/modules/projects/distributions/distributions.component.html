@@ -13,7 +13,7 @@
 
     <app-placeholder-stepper *ngIf="loadingDatas"></app-placeholder-stepper>
 
-    <mat-horizontal-stepper linear #myStepper *ngIf="!loadingDatas && !actualDistribution.validated">
+    <mat-horizontal-stepper #myStepper *ngIf="!loadingDatas && !actualDistribution.validated">
 
         <mat-step label="{{ TEXT.distribution_details_export | uppercase }}" [stepControl]="form1">
             <form [formGroup]="form1">

@@ -82,6 +82,7 @@ export class BeneficiariesComponent implements OnInit {
     toggleAddButtons() {
         this.addToggled = !this.addToggled;
     }
+
     /**
      * Get list of all households and display it
      */

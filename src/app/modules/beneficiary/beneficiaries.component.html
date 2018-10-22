@@ -6,13 +6,13 @@
     <div class="container-table" *ngIf="!loadingBeneficiaries">
         <div class="container-content box-green">
             <div class="content-button">
-                <div class="add-buttons">
+                <div class="add-buttons" (mouseenter)="widthScreen > maxWidthMobile && this.addToggled = true" (mouseleave)="widthScreen > maxWidthMobile && this.addToggled = false">
                     <div class="toggled-buttons" [ngClass]="{'toggled':addToggled}">
-                        <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries/import">
+                        <button mat-raised-button class="button-background-accent" routerLink="/beneficiaries/import">
                             <mat-icon>publish</mat-icon>
                             <span>{{household.beneficiaries_import | uppercase}}</span>
                         </button>
-                        <button mat-raised-button class="button-background-primary" (click)="addOneHousehold()">
+                        <button mat-raised-button class="button-background-accent" (click)="addOneHousehold()">
                             <mat-icon>group_add</mat-icon>
                             <span>{{household.add_beneficiary_title | uppercase}}</span>
                         </button>
@@ -40,7 +40,7 @@
                         </mat-menu>
                     </div>
                 </div>
-                <button mat-raised-button class="selectingBeneficiaries button-background-primary" 
+                <button mat-raised-button class="selectingBeneficiaries button-background-primary"
                 (click)="addToProject(addBeneficiaries)" [matBadge]="selection.length">
                     Add this list to a project
                 </button>

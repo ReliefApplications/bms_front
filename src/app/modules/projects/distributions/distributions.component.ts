@@ -343,51 +343,57 @@ export class DistributionsComponent implements OnInit {
         const actualUser = this.cacheService.get(CacheService.USER);
 
         if (this.enteredEmail && actualUser.username === this.enteredEmail) {
+            console.log('hey: ', this.actualDistribution);
+            if(this.actualDistribution.commodities && this.actualDistribution.commodities[0]
+                && this.actualDistribution.commodities[0].modality_type && this.actualDistribution.commodities[0].modality_type.name === "Mobile Cash")
+                {
+                this.transacting = true;
+                this.distributionService.transaction(this.distributionId).subscribe(
+                    success => {
+                        this.transactionData.data.forEach(
+                            (element, index) => {
+                                success.already_sent.push({ id:0 });
+                                success.sent.push({ id:0 });
 
-            this.transacting = true;
-            this.distributionService.transaction(this.distributionId).subscribe(
-                success => {
-                    this.transactionData.data.forEach(
-                        (element, index) => {
-                            success.already_sent.push({ id:0 });
-                            success.sent.push({ id:0 });
-
-                            success.already_sent.forEach(
-                                beneficiary => {
-                                    if(element.id === beneficiary.id) {
-                                        this.transactionData.data[index].updateState('Already sent');
+                                success.already_sent.forEach(
+                                    beneficiary => {
+                                        if(element.id === beneficiary.id) {
+                                            this.transactionData.data[index].updateState('Already sent');
+                                        }
                                     }
-                                }
-                            )
-                            success.failure.forEach(
-                                beneficiary => {
-                                    if(element.id === beneficiary.id) {
-                                        this.transactionData.data[index].updateState('Sending failed');
+                                )
+                                success.failure.forEach(
+                                    beneficiary => {
+                                        if(element.id === beneficiary.id) {
+                                            this.transactionData.data[index].updateState('Sending failed');
+                                        }
                                     }
-                                }
-                            )
-                            success.no_mobile.forEach(
-                                beneficiary => {
-                                    if(element.id === beneficiary.id) {
-                                        this.transactionData.data[index].updateState('No phone');
+                                )
+                                success.no_mobile.forEach(
+                                    beneficiary => {
+                                        if(element.id === beneficiary.id) {
+                                            this.transactionData.data[index].updateState('No phone');
+                                        }
                                     }
-                                }
-                            )
-                            success.sent.forEach(
-                                beneficiary => {
-                                    if(element.id === beneficiary.id) {
-                                        this.transactionData.data[index].updateState('Sent');
+                                )
+                                success.sent.forEach(
+                                    beneficiary => {
+                                        if(element.id === beneficiary.id) {
+                                            this.transactionData.data[index].updateState('Sent');
+                                        }
                                     }
-                                }
-                            )
-                        }
-                    );
-                    this.transacting = false;
-                },
-                error => {
-                    this.transacting = false;
+                                )
+                            }
+                        );
+                        this.transacting = false;
+                    },
+                    error => {
+                        this.transacting = false;
+                    }
+                )
+                } else {
+                    this.snackBar.open('No valid commodity detected for this distribution.', '', { duration: 3000, horizontalPosition: 'center' });
                 }
-            )
 
         } else {
             this.snackBar.open('Wrong email', '', { duration: 3000, horizontalPosition: 'center' });

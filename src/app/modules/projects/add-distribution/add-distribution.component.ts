@@ -378,7 +378,6 @@ export class AddDistributionComponent implements OnInit, DoCheck {
     }
     if (dialogRef) {
       const create = dialogRef.componentInstance.onCreate.subscribe((data: Criteria) => {
-        // data.kind_beneficiary = this.newObject.type;
         this.createElement(data, user_action);
       });
 
@@ -430,7 +429,7 @@ export class AddDistributionComponent implements OnInit, DoCheck {
 
         this.saveCommodityNb -= removeElement['value'];
         this.commodityNb = this.saveCommodityNb * this.criteriaNbBeneficiaries;
-        
+
         if (this.commodityNb <= 0){
           this.commodityNb = 0;
         }

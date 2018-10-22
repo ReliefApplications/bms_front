@@ -54,7 +54,7 @@ export class ModalAddComponent extends ModalComponent {
         if (this.data.entity === Project) {
 
             this.properties.forEach(
-                (element, index) => {
+                (element) => {
                     if(element === 'start_date') {
                         this.newObject[element] = new Date();
                     }
@@ -62,6 +62,14 @@ export class ModalAddComponent extends ModalComponent {
                         let date = new Date();
                         date.setMonth(date.getMonth()+3);
                         this.newObject[element] = date;
+                    }
+                }
+            )
+        } else if (this.data.entity === Commodity) {
+            this.properties.forEach(
+                (element) => {
+                    if(element === 'unit') {
+                        this.newObject[element] = 'USD';
                     }
                 }
             )

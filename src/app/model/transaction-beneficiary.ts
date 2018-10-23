@@ -105,16 +105,16 @@ export class TransactionBeneficiary {
 
         if( instance.transaction && !isNull(instance.transaction.transaction_status) && isNumber(instance.transaction.transaction_status) ) {
             switch(instance.transaction.transaction_status) {
-                case 0: 
+                case 0:
                     beneficiary.updateState('Sending failed');
                     break;
-                case 1: 
+                case 1:
                     beneficiary.updateState('Already sent');
                     break;
-                case 2: 
+                case 2:
                     beneficiary.updateState('No phone');
                     break;
-                default : 
+                default :
                     beneficiary.updateState('Not sent');
                     break;
             }
@@ -273,7 +273,7 @@ export class TransactionBeneficiary {
         let stateNumber;
 
         switch(state) {
-            case 'Not sent': 
+            case 'Not sent':
                 stateNumber = -2;
                 break;
             case 'No phone':

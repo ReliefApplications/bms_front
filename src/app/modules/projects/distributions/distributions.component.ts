@@ -15,6 +15,7 @@ import { Mapper } from '../../../core/utils/mapper.service';
 import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
 import { AnimationRendererFactory } from '@angular/platform-browser/animations/src/animation_renderer';
 import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-distributions',
@@ -116,6 +117,7 @@ export class DistributionsComponent implements OnInit {
     }
 
     checkSize(): void {
+        // console.log('resize');
         this.heightScreen = window.innerHeight;
         this.widthScreen = window.innerWidth;
     }
@@ -343,51 +345,57 @@ export class DistributionsComponent implements OnInit {
         const actualUser = this.cacheService.get(CacheService.USER);
 
         if (this.enteredEmail && actualUser.username === this.enteredEmail) {
+            if(this.actualDistribution.commodities && this.actualDistribution.commodities[0]
+                && this.actualDistribution.commodities[0].modality_type && this.actualDistribution.commodities[0].modality_type.name === "Mobile Cash")
+                {
+                this.transacting = true;
+                this.distributionService.transaction(this.distributionId)
+                .pipe(
+                    finalize(
+                        () => this.transacting = false
+                    )
+                ).subscribe(
+                    success => {
+                        this.transactionData.data.forEach(
+                            (element, index) => {
+                                //success.already_sent.push({ id:0 });
+                                //success.sent.push({ id:0 });
 
-            this.transacting = true;
-            this.distributionService.transaction(this.distributionId).subscribe(
-                success => {
-                    this.transactionData.data.forEach(
-                        (element, index) => {
-                            success.already_sent.push({ id:0 });
-                            success.sent.push({ id:0 });
-
-                            success.already_sent.forEach(
-                                beneficiary => {
-                                    if(element.id === beneficiary.id) {
-                                        this.transactionData.data[index].updateState('Already sent');
+                                success.already_sent.forEach(
+                                    beneficiary => {
+                                        if(element.id === beneficiary.beneficiary.id) {
+                                            this.transactionData.data[index].updateState('Already sent');
+                                        }
                                     }
-                                }
-                            )
-                            success.failure.forEach(
-                                beneficiary => {
-                                    if(element.id === beneficiary.id) {
-                                        this.transactionData.data[index].updateState('Sending failed');
+                                )
+                                success.failure.forEach(
+                                    beneficiary => {
+                                        if(element.id === beneficiary.beneficiary.id) {
+                                            this.transactionData.data[index].updateState('Sending failed');
+                                        }
                                     }
-                                }
-                            )
-                            success.no_mobile.forEach(
-                                beneficiary => {
-                                    if(element.id === beneficiary.id) {
-                                        this.transactionData.data[index].updateState('No phone');
+                                )
+                                success.no_mobile.forEach(
+                                    beneficiary => {
+                                        if(element.id === beneficiary.beneficiary.id) {
+                                            this.transactionData.data[index].updateState('No phone');
+                                        }
                                     }
-                                }
-                            )
-                            success.sent.forEach(
-                                beneficiary => {
-                                    if(element.id === beneficiary.id) {
-                                        this.transactionData.data[index].updateState('Sent');
+                                )
+                                success.sent.forEach(
+                                    beneficiary => {
+                                        if(element.id === beneficiary.beneficiary.id) {
+                                            this.transactionData.data[index].updateState('Sent');
+                                        }
                                     }
-                                }
-                            )
-                        }
-                    );
-                    this.transacting = false;
-                },
-                error => {
-                    this.transacting = false;
+                                )
+                            }
+                        );
+                    }
+                )
+                } else {
+                    this.snackBar.open('No valid commodity detected for this distribution.', '', { duration: 3000, horizontalPosition: 'center' });
                 }
-            )
 
         } else {
             this.snackBar.open('Wrong email', '', { duration: 3000, horizontalPosition: 'center' });
@@ -458,40 +466,40 @@ export class DistributionsComponent implements OnInit {
     /**
      * Calculate commodity distribution quantities & values.
      */
-    getAmmount(type: string, commodity?: any) : number {
+    getAmount(type: string, commodity?: any) : number {
 
-        let ammount: number;
+        let amount: number;
 
         if(!this.transactionData) {
-            ammount = 0;
+            amount = 0;
         } else if (type === 'people') {
-            ammount = 0;
+            amount = 0;
             this.transactionData.data.forEach(
                 element => {
                     if(element.state === -1 || element.state === -2 || element.state === 0) {
-                        ammount++;
+                        amount++;
                     }
                 }
             )
         } else if(commodity) {
 
             if(type === 'total') {
-                ammount = commodity.value * this.transactionData.data.length;
+                amount = commodity.value * this.transactionData.data.length;
             } else if(type === 'done') {
-                ammount = 0;
+                amount = 0;
                 this.transactionData.data.forEach(
                     element => {
                         if(element.state === 1 || element.state === 2) {
-                            ammount += commodity.value;
+                            amount += commodity.value;
                         }
                     }
                 );
             } else if(type === 'waiting') {
-                ammount = 0;
+                amount = 0;
                 this.transactionData.data.forEach(
                     element => {
                         if(element.state === -2 ||element.state === -1 || element.state === 0) {
-                            ammount += commodity.value;
+                            amount += commodity.value;
                         }
                     }
                 );
@@ -504,12 +512,12 @@ export class DistributionsComponent implements OnInit {
                         }
                     }
                 );
-                ammount = Math.round( ( done / (commodity.value * this.transactionData.data.length) )*100 );
+                amount = Math.round( ( done / (commodity.value * this.transactionData.data.length) )*100 );
             }
         }
-        // console.log(type, ammount);
+        // console.log(type, amount);
 
-        return(ammount);
+        return(amount);
     }
 
     jumpStep(stepper : MatStepper) {

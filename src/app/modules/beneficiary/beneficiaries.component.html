@@ -6,13 +6,13 @@
     <div class="container-table">
         <div class="container-content box-green">
             <div class="content-button">
-                <div class="add-buttons">
+                <div class="add-buttons" (mouseenter)="widthScreen > maxWidthMobile && this.addToggled = true" (mouseleave)="widthScreen > maxWidthMobile && this.addToggled = false">
                     <div class="toggled-buttons" [ngClass]="{'toggled':addToggled}">
-                        <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries/import">
+                        <button mat-raised-button class="button-background-accent" routerLink="/beneficiaries/import">
                             <mat-icon>publish</mat-icon>
                             <span>{{household.beneficiaries_import | uppercase}}</span>
                         </button>
-                        <button mat-raised-button class="button-background-primary" (click)="addOneHousehold()">
+                        <button mat-raised-button class="button-background-accent" (click)="addOneHousehold()">
                             <mat-icon>group_add</mat-icon>
                             <span>{{household.add_beneficiary_title | uppercase}}</span>
                         </button>
@@ -47,9 +47,9 @@
             </div>
             <div class="content-table">
                 <app-table-beneficiaries #benefTable *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
-                    [data]="dataSource" [totalLength]="length" [editable]="true" (updating)="updateBeneficiary($event)" (selected)="updateSelection($event)" (pageNumberAndSize)="loadHouseholdsPage($event)"></app-table-beneficiaries>
-                <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
-                    [data]="households" [editable]="true"></app-table-mobile-search>
+                    [data]="households" [editable]="true" (updating)="updateBeneficiary($event)" (selected)="updateSelection($event)"></app-table-beneficiaries>
+                <app-table-mobile-beneficiaries #benefTable *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
+                    [data]="households" [editable]="true" (updating)="updateBeneficiary($event)" (selected)="updateSelection($event)"></app-table-mobile-beneficiaries>
             </div>
         </div>
     </div>

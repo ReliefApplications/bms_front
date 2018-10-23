@@ -1,5 +1,6 @@
 import { GlobalText } from '../../texts/global';
 import { isNumber } from '@swimlane/ngx-charts/release/utils';
+import { isNull } from 'util';
 
 export class TransactionBeneficiary {
     static __classname__ = 'TransactionBeneficiary';
@@ -102,7 +103,7 @@ export class TransactionBeneficiary {
         beneficiary.familyName = instance.beneficiary.family_name;
         beneficiary.phone = instance.beneficiary.phones[0] ? instance.beneficiary.phones[0].number : undefined;
 
-        if( isNumber(instance.transaction.transaction_status) ) {
+        if( instance.transaction && !isNull(instance.transaction.transaction_status) && isNumber(instance.transaction.transaction_status) ) {
             switch(instance.transaction.transaction_status) {
                 case 0: 
                     beneficiary.updateState('Sending failed');

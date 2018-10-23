@@ -255,9 +255,9 @@ export const TEXT = {
     distribution_details_import: 'importer & comparer',
     distribution_details_random: 'échantillon aléatoire',
     distribution_details_validate: 'valider',
-    transaction_ammount_total: 'Quantité totale',
-    transaction_ammount_done: 'Quantité envoyée',
-    transaction_ammount_waiting: 'Reste à envoyer',
+    transaction_amount_total: 'Quantité totale',
+    transaction_amount_done: 'Quantité envoyée',
+    transaction_amount_waiting: 'Reste à envoyer',
 
     profile_user_information: 'Informations utilisateur',
     profile_user_change_password: 'Changer mon mot de passe',

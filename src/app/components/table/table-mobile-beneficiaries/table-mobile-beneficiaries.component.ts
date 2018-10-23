@@ -3,11 +3,11 @@ import { TableComponent } from '../table.component';
 import { Beneficiaries } from '../../../model/beneficiary';
 
 @Component({
-  selector: 'app-table-beneficiaries',
-  templateUrl: './table-beneficiaries.component.html',
-  styleUrls: ['./table-beneficiaries.component.scss']
+  selector: 'app-table-mobile-beneficiaries',
+  templateUrl: './table-mobile-beneficiaries.component.html',
+  styleUrls: ['./table-mobile-beneficiaries.component.scss']
 })
-export class TableBeneficiariesComponent extends TableComponent {
+export class TableMobileBeneficiariesComponent extends TableComponent {
 
     @Output() updating = new EventEmitter<number>();
     @Output() selected = new EventEmitter<number[]>();

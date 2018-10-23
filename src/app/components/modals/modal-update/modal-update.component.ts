@@ -149,7 +149,7 @@ export class ModalUpdateComponent extends ModalComponent {
 
 
     this.onUpdate.emit(this.updateObject);
-    console.log("updateObject:", this.updateObject);
+    // console.log("updateObject:", this.updateObject);
     this.closeDialog();
   }
 }

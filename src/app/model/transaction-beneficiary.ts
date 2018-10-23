@@ -1,4 +1,5 @@
 import { GlobalText } from '../../texts/global';
+import { isNumber } from '@swimlane/ngx-charts/release/utils';
 
 export class TransactionBeneficiary {
     static __classname__ = 'TransactionBeneficiary';
@@ -31,7 +32,7 @@ export class TransactionBeneficiary {
     state: number;
 
     /**
-     * Values for each beneficiary (from commodities)
+     * Values(ammount of money) for each beneficiary (from commodities)
      */
     values: string;
 
@@ -67,48 +68,57 @@ export class TransactionBeneficiary {
 
     public static formatArray(instance: any, commodityList?: any[]): TransactionBeneficiary[] {
         const beneficiaries: TransactionBeneficiary[] = [];
+
         // console.log('before format : ', instance);
+
+        let commodities = '';
+        if (commodityList) {
+            commodityList.forEach(
+                (commodity, index) => {
+                    if (index > 0) {
+                        commodities += ', ';
+                    }
+                    commodities += commodity.value + ' ' + commodity.unit;
+                }
+            )
+        }
+
         instance.forEach(
             element => {
-                let commodities = '';
-                if (commodityList) {
-                    commodityList.forEach(
-                        (commodity, index) => {
-                            if (index > 0) {
-                                commodities += ', ';
-                            }
-                            commodities += commodity.value + ' ' + commodity.unit;
-                        }
-                    )
-                }
                 beneficiaries.push(this.formatElement(element, commodities));
             }
         );
+
         // console.log('after format : ', beneficiaries);
+
         return (beneficiaries);
     }
 
     public static formatElement(instance: any, com: string): TransactionBeneficiary {
         const beneficiary = new TransactionBeneficiary();
 
-        beneficiary.id = instance.id;
-        beneficiary.givenName = instance.given_name;
-        beneficiary.familyName = instance.family_name;
-        beneficiary.phone = instance.phones[0] ? instance.phones[0].number : undefined;
+        beneficiary.id = instance.beneficiary.id;
+        beneficiary.givenName = instance.beneficiary.given_name;
+        beneficiary.familyName = instance.beneficiary.family_name;
+        beneficiary.phone = instance.beneficiary.phones[0] ? instance.beneficiary.phones[0].number : undefined;
 
-        if(instance.distribution_beneficiary && instance.distribution_beneficiary[0] && instance.distribution_beneficiary[0].transaction) {
-            switch(instance.distribution_beneficiary[0].transaction.transaction_status) {
-                case 0: beneficiary.updateState('Sending failed');
+        if( isNumber(instance.transaction.transaction_status) ) {
+            switch(instance.transaction.transaction_status) {
+                case 0: 
+                    beneficiary.updateState('Sending failed');
                     break;
-                case 1: beneficiary.updateState('Already sent');
+                case 1: 
+                    beneficiary.updateState('Already sent');
                     break;
-                case 2: beneficiary.updateState('No phone');
+                case 2: 
+                    beneficiary.updateState('No phone');
                     break;
-                default : beneficiary.updateState('Not sent');
+                default : 
+                    beneficiary.updateState('Not sent');
                     break;
             }
         } else {
-            beneficiary.state = -2;
+            beneficiary.updateState('Not sent');
         }
         beneficiary.values = com;
 
@@ -279,6 +289,7 @@ export class TransactionBeneficiary {
                 break;
             default:
                 stateNumber = -2;
+                break;
         }
 
         this.state = stateNumber;

@@ -32,6 +32,17 @@
     }
 }
 
+@keyframes box-right-in {
+    from {
+        transform: translate(-20px, 0px);
+        opacity: 0;
+    }
+    to {
+        transform: translate(0px, 0px);
+        opacity: 1;
+    }
+}
+
 @keyframes button-slide-in {
     from { 
             transform: translate(0px, 60px);

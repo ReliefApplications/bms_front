@@ -117,7 +117,7 @@ export class DistributionsComponent implements OnInit {
     }
 
     checkSize(): void {
-        console.log('resize');
+        // console.log('resize');
         this.heightScreen = window.innerHeight;
         this.widthScreen = window.innerWidth;
     }

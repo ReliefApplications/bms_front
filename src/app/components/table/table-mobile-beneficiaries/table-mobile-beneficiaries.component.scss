@@ -1,0 +1,148 @@
+@import '../../../../assets/css/variable.scss'; 
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 40px;
+
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+}
+
+table {
+  overflow: auto;
+  width: 100%;  
+}
+
+.box-element{
+  margin-bottom :20px;
+  padding: 0px !important;
+  tbody{
+    background-color: $bms_white;
+  }
+  tr{
+    display: flex;
+    padding :5px;
+    td{
+      display: flex;
+      width:100%;
+      justify-content: center;
+      
+      span{
+        font-size : 3vh; 
+        font-family: $bms_font_header;  
+        text-align: center;     
+      }
+
+      &.element-title{
+        padding :3px;
+        font-weight: bold;
+        justify-content: space-between !important;
+      }
+
+
+      &.element-value{
+        flex-grow: 1;
+        max-width: 160px;
+        font-family: $bms_font_header;       
+        word-wrap:break-word;
+        border: none;
+        display:inline-block;
+      }
+
+      app-icon-svg{
+        display: flex;
+        width: 4.5vh;
+        height: 4.5vh;
+      }
+    }
+  }
+
+  tfoot{
+      display:flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: stretch;
+      
+      button{
+        display:flex;   
+        flex-wrap: wrap;
+        flex-grow: 1;
+        justify-content: center;
+        align-self: center;
+        height: 25px;     
+        margin: 0 !important ;
+        border-radius: 0 !important;
+        width: 33%;
+        color: white;
+        flex-grow: 1;
+
+        mat-icon{
+            display:flex;   
+        }
+      }
+  }
+  
+}
+
+button{
+    // color: $bms_white;
+    margin: 0.5vh;
+  
+    mat-icon {
+      font-weight: 800  !important;
+      font-size: 25px;
+    }
+
+    &:hover {
+        background-color: $bms_light_grey;
+    }
+  }
+        .green{
+            background-color: $bms_light_blue;
+        }
+        
+        .red{
+            background-color: $bms_red;
+        }
+        
+        .light-red{
+            background-color: $bms_light_red;
+        }
+
+.container-header {
+  padding: 20px;
+}
+
+.mat-paginator {
+  margin: 3vw;
+}
+
+
+.png {
+  display: flex;
+  height: 5vh;
+}
+
+.mat-button {
+  line-height: normal;
+}
+
+.noDataContainer {
+  text-align: center;
+  margin: 10px auto;
+  font-size: 20px;
+}
+
+.waitingDataContainer {
+  text-align: center;
+  margin: 10px auto;
+  font-size: 20px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

@@ -123,7 +123,11 @@ public static formatArray(instance: any): Beneficiaries[] {
     const beneficiaries: Beneficiaries[] = [];
     // console.log("before format : ", instance);
     instance.forEach(element => {
-        beneficiaries.push(this.formatElement(element));
+        if(element.beneficiary) {
+            beneficiaries.push(this.formatElement(element.beneficiary));
+        } else {
+            beneficiaries.push(this.formatElement(element));
+        }
     });
     // console.log("after format : ", beneficiaries);
     return(beneficiaries);
@@ -139,22 +143,27 @@ public static formatElement(instance: any): Beneficiaries {
     beneficiary.status = instance.status;
     beneficiary.id = instance.id;
 
-    instance.national_ids.forEach(
-        element => {
-            beneficiary.national_ids.push(element.id_number);
-        }
-    );
-    instance.phones.forEach(
-        element => {
-            beneficiary.phones.push(element.number);
-        }
-    );
-    instance.vulnerability_criteria.forEach(
-        element => {
-            beneficiary.vulnerabilities.push(this.mapVulnerability(element.field_string));
-        }
-    );
-
+    if(instance.national_ids) {
+        instance.national_ids.forEach(
+            element => {
+                beneficiary.national_ids.push(element.id_number);
+            }
+        );
+    }
+    if(instance.phones) {
+        instance.phones.forEach(
+            element => {
+                beneficiary.phones.push(element.number);
+            }
+        );
+    }
+    if(instance.vulnerability_criteria) {
+        instance.vulnerability_criteria.forEach(
+            element => {
+                beneficiary.vulnerabilities.push(this.mapVulnerability(element.field_string));
+            }
+        );
+    }
     return(beneficiary);
 }
 
@@ -239,6 +248,17 @@ public static formatForApi(instance: any) {
         if (!selfinstance) {
             return selfinstance;
         }
+        let vulnerabilityString = '';
+        if(selfinstance.vulnerabilities[0]) {
+            selfinstance.vulnerabilities.forEach(
+                (element, index) => {
+                    if(index>0) {
+                        vulnerabilityString += ', ';                        
+                    }
+                    vulnerabilityString += element.substring(25).split('.')[0];
+                }
+            )
+        }
 
         return {
             given_name : selfinstance.given_name,
@@ -248,7 +268,7 @@ public static formatForApi(instance: any) {
             status : selfinstance.status,
             national_ids : selfinstance.national_ids,
             phones : selfinstance.phones,
-            vulnerabilities : selfinstance.vulnerabilities,
+            vulnerabilities : vulnerabilityString,
         };
     }
 

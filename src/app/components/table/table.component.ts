@@ -292,9 +292,7 @@ export class TableComponent implements OnChanges, DoCheck {
                     }
                 });
             } else {
-                console.log('if:', this.updateElement['password']);
                 updateElement['password'] = this._cacheService.get(CacheService.USER).salted_password;
-                console.log('then:', updateElement['password']);
                 this.service.update(updateElement['id'], updateElement).subscribe(response => {
                     this.snackBar.open(this.entity.__classname__ + ' updated', '', { duration: 3000, horizontalPosition: 'right' });
                     this.updateData();

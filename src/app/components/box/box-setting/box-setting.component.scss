@@ -1,4 +1,5 @@
 @import '../../../../assets/css/variable.scss'; 
+@import '../../../../assets/css/animations.scss'; 
 
 $box-content: 80px;
 
@@ -8,6 +9,7 @@ $box-content: 80px;
     height: $box-content;
     border-radius: 3px;
     overflow: hidden;
+    animation: box-right-in 0.3s;
 
     .content-icon{
         background-color: $bms_menu;

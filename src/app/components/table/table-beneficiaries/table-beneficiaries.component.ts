@@ -73,12 +73,26 @@ export class TableBeneficiariesComponent extends TableComponent {
     sendSortedData() {
         this.selectedList = new Array();
 
-        if(this.data && this.data.filteredData) {
-            this.data.filteredData.forEach(
-                element => {
-                    this.selectedList.push(element.id);
-                }
-            )
+        if(this.data && this.data.filter || this.data.filter == '') {
+            console.log("data", this.data.filter);
+            this.paginator.pageIndex = 0;
+            this.data.loadHouseholds(
+                {
+                    filter: this.data.filter,
+                    filtred: 'firstName'
+                },
+                {
+                    sort: this.sort.active,
+                    direction: this.sort.direction
+                },
+                this.paginator.pageIndex,
+                this.paginator.pageSize,
+            );
+            // this.data.filter.forEach(
+            //     element => {
+            //         this.selectedList.push(element.id);
+            //     }
+            // )
         }
 
         this.selected.emit(this.selectedList);

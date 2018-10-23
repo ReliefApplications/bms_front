@@ -163,8 +163,4 @@ export class BeneficiariesComponent implements OnInit {
     updateSelection(data: any) {
         this.selection = data;
     }
-
-    updateData(event) {
-        this.checkHouseholds(event.pageIndex, event.pageSize);
-    }
 }

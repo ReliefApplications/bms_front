@@ -256,9 +256,9 @@ export const TEXT = {
     distribution_details_import: 'import & compare',
     distribution_details_random: 'export random sample',
     distribution_details_validate: 'validate',
-    transaction_ammount_total: 'Total ammount',
-    transaction_ammount_done: 'Ammount sent',
-    transaction_ammount_waiting: 'Still to be sent',
+    transaction_amount_total: 'Total amount',
+    transaction_amount_done: 'Amount sent',
+    transaction_amount_waiting: 'Still to be sent',
 
     profile_user_information: 'User information',
     profile_user_change_password: 'Change password',

@@ -358,33 +358,33 @@ export class DistributionsComponent implements OnInit {
                     success => {
                         this.transactionData.data.forEach(
                             (element, index) => {
-                                success.already_sent.push({ id:0 });
-                                success.sent.push({ id:0 });
+                                //success.already_sent.push({ id:0 });
+                                //success.sent.push({ id:0 });
 
                                 success.already_sent.forEach(
                                     beneficiary => {
-                                        if(element.id === beneficiary.id) {
+                                        if(element.id === beneficiary.beneficiary.id) {
                                             this.transactionData.data[index].updateState('Already sent');
                                         }
                                     }
                                 )
                                 success.failure.forEach(
                                     beneficiary => {
-                                        if(element.id === beneficiary.id) {
+                                        if(element.id === beneficiary.beneficiary.id) {
                                             this.transactionData.data[index].updateState('Sending failed');
                                         }
                                     }
                                 )
                                 success.no_mobile.forEach(
                                     beneficiary => {
-                                        if(element.id === beneficiary.id) {
+                                        if(element.id === beneficiary.beneficiary.id) {
                                             this.transactionData.data[index].updateState('No phone');
                                         }
                                     }
                                 )
                                 success.sent.forEach(
                                     beneficiary => {
-                                        if(element.id === beneficiary.id) {
+                                        if(element.id === beneficiary.beneficiary.id) {
                                             this.transactionData.data[index].updateState('Sent');
                                         }
                                     }
@@ -466,40 +466,40 @@ export class DistributionsComponent implements OnInit {
     /**
      * Calculate commodity distribution quantities & values.
      */
-    getAmmount(type: string, commodity?: any) : number {
+    getAmount(type: string, commodity?: any) : number {
 
-        let ammount: number;
+        let amount: number;
 
         if(!this.transactionData) {
-            ammount = 0;
+            amount = 0;
         } else if (type === 'people') {
-            ammount = 0;
+            amount = 0;
             this.transactionData.data.forEach(
                 element => {
                     if(element.state === -1 || element.state === -2 || element.state === 0) {
-                        ammount++;
+                        amount++;
                     }
                 }
             )
         } else if(commodity) {
 
             if(type === 'total') {
-                ammount = commodity.value * this.transactionData.data.length;
+                amount = commodity.value * this.transactionData.data.length;
             } else if(type === 'done') {
-                ammount = 0;
+                amount = 0;
                 this.transactionData.data.forEach(
                     element => {
                         if(element.state === 1 || element.state === 2) {
-                            ammount += commodity.value;
+                            amount += commodity.value;
                         }
                     }
                 );
             } else if(type === 'waiting') {
-                ammount = 0;
+                amount = 0;
                 this.transactionData.data.forEach(
                     element => {
                         if(element.state === -2 ||element.state === -1 || element.state === 0) {
-                            ammount += commodity.value;
+                            amount += commodity.value;
                         }
                     }
                 );
@@ -512,12 +512,12 @@ export class DistributionsComponent implements OnInit {
                         }
                     }
                 );
-                ammount = Math.round( ( done / (commodity.value * this.transactionData.data.length) )*100 );
+                amount = Math.round( ( done / (commodity.value * this.transactionData.data.length) )*100 );
             }
         }
-        // console.log(type, ammount);
+        // console.log(type, amount);
 
-        return(ammount);
+        return(amount);
     }
 
     jumpStep(stepper : MatStepper) {

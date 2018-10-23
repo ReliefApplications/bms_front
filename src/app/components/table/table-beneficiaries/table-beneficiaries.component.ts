@@ -7,15 +7,14 @@ import { tap } from 'rxjs/operators';
 
 
 @Component({
-  selector: 'app-table-beneficiaries',
-  templateUrl: './table-beneficiaries.component.html',
-  styleUrls: ['./table-beneficiaries.component.scss']
+    selector: 'app-table-beneficiaries',
+    templateUrl: './table-beneficiaries.component.html',
+    styleUrls: ['./table-beneficiaries.component.scss']
 })
 export class TableBeneficiariesComponent extends TableComponent {
 
     @Output() updating = new EventEmitter<number>();
     @Output() selected = new EventEmitter<number[]>();
-    @Output() pageNumberAndSize = new EventEmitter<any>();
 
     selectedList;
 
@@ -26,10 +25,19 @@ export class TableBeneficiariesComponent extends TableComponent {
 
     ngAfterViewInit() {
         this.sort.sortChange.subscribe(() => {
-          this.paginator.pageIndex = 0;
-          if (this.sort.direction != '')
+            let filter;
+            if (this.data.filter != '')
+                filter = this.data.filter;
+
+            if (this.sort.direction != 'asc' && this.sort.direction != 'desc')
+                this.sort.active = ''
+
+            this.paginator.pageIndex = 0;
             this.data.loadHouseholds(
-                [],
+                {
+                    filter: filter,
+                    filtered: 'vulnerabilities'
+                },
                 {
                     sort: this.sort.active,
                     direction: this.sort.direction
@@ -37,6 +45,7 @@ export class TableBeneficiariesComponent extends TableComponent {
                 this.paginator.pageIndex,
                 this.paginator.pageSize,
             );
+
         });
         this.paginator.page
             .pipe(
@@ -46,18 +55,25 @@ export class TableBeneficiariesComponent extends TableComponent {
     }
 
     loadHouseholdsPage() {
+        let filter;
+        if (this.data.filter != '')
+            filter = this.data.filter;
+
         this.data.loadHouseholds(
-            [],
             {
-              sort: this.sort.active,
-              direction: this.sort.direction
+                filter: filter,
+                filtered: 'vulnerabilities'
+            },
+            {
+                sort: this.sort.active,
+                direction: this.sort.direction
             },
             this.paginator.pageIndex,
             this.paginator.pageSize);
     }
 
     getImageName(t2: String) {
-        return( t2.substring(25).split('.')[0] );
+        return (t2.substring(25).split('.')[0]);
     }
 
     update(selectedBeneficiary: Beneficiaries) {
@@ -73,13 +89,15 @@ export class TableBeneficiariesComponent extends TableComponent {
     sendSortedData() {
         this.selectedList = new Array();
 
-        if(this.data && this.data.filter || this.data.filter == '') {
-            console.log("data", this.data.filter);
+        if (this.data && this.data.filter || this.data.filter == '') {
+            //if (!isNaN(this.data.filter) && this.data.filtered == "vulnerabilities")
+            //return snack;
+
             this.paginator.pageIndex = 0;
             this.data.loadHouseholds(
                 {
                     filter: this.data.filter,
-                    filtred: 'firstName'
+                    filtered: 'vulnerabilities'
                 },
                 {
                     sort: this.sort.active,
@@ -96,9 +114,5 @@ export class TableBeneficiariesComponent extends TableComponent {
         }
 
         this.selected.emit(this.selectedList);
-    }
-
-    pageOnChange(event) {
-        this.pageNumberAndSize.emit({pageSize: event.pageSize, pageIndex: event.pageIndex});
     }
 }

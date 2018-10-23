@@ -47,7 +47,7 @@
             </div>
             <div class="content-table">
                 <app-table-beneficiaries #benefTable *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
-                    [data]="households" [editable]="true" (updating)="updateBeneficiary($event)" (selected)="updateSelection($event)"></app-table-beneficiaries>
+                    [data]="dataSource" [editable]="true" (updating)="updateBeneficiary($event)" (selected)="updateSelection($event)"></app-table-beneficiaries>
                 <app-table-mobile-beneficiaries #benefTable *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
                     [data]="households" [editable]="true" (updating)="updateBeneficiary($event)" (selected)="updateSelection($event)"></app-table-mobile-beneficiaries>
             </div>

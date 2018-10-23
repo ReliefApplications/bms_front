@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <button mat-raised-button class="selectingBeneficiaries button-background-primary"
-                (click)="addToProject(addBeneficiaries)" [matBadge]="selection.length">
+                (click)="addToProject(addBeneficiaries)" [matBadge]="dataSource.lengthSubject.value">
                     Add this list to a project
                 </button>
             </div>
@@ -49,7 +49,7 @@
                 <app-table-beneficiaries #benefTable *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
                     [data]="dataSource" [editable]="true" (updating)="updateBeneficiary($event)" (selected)="updateSelection($event)"></app-table-beneficiaries>
                 <app-table-mobile-beneficiaries #benefTable *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
-                    [data]="households" [editable]="true" (updating)="updateBeneficiary($event)" (selected)="updateSelection($event)"></app-table-mobile-beneficiaries>
+                    [data]="dataSource" [editable]="true" (updating)="updateBeneficiary($event)" (selected)="updateSelection($event)"></app-table-mobile-beneficiaries>
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
             <h2>Add beneficiaries to this distribution</h2>
         </div>
         <div class="modal-body">
-            <p> Please select the project(s) in which you would like to add the {{selection.length}} selected beneficiaries:</p>
+            <p> Please select the project(s) in which you would like to add the {{dataSource.lengthSubject.value}} selected beneficiaries:</p>
             <div class="selectBeneficiaries">
                 <mat-form-field>
                     <mat-select placeholder="Projects" [formControl]="projectForm" [(ngModel)]="selectedProject">

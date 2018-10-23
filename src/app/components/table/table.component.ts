@@ -258,7 +258,11 @@ export class TableComponent implements OnChanges, DoCheck {
     applyFilter(filterValue: string): void {
         filterValue = filterValue.trim(); // Remove whitespace
         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-        this.data.filter = filterValue;
+        if(this.data.filter && (this.data.filter.filter || this.data.filter.filter === ''))  {
+            this.data.setFilter(filterValue);
+        } else {
+            this.data.filter = filterValue;
+        }
     }
 
     updateElement(updateElement: Object) {

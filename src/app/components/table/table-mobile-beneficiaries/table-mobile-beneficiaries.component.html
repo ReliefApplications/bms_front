@@ -7,12 +7,21 @@
         </h3>
     </div>
     <div *ngIf="filled" class="container-header">
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value); sendSortedData()" placeholder="{{table.table_filter}}">
-      </mat-form-field>
+      <div class="filter-combo">
+            <mat-form-field class="select-filter">
+                <mat-select [(ngModel)]="selectedFilter" (selectionChange)="data.setFiltered(selectedFilter)">
+                    <mat-option *ngFor="let property of properties" [value]="property">
+                        {{ mapperService.mapTitle(property) }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="input-filter">
+                <input matInput (keyup)="applyFilter($event.target.value); sendSortedData()" placeholder="{{table.table_filter}}">
+            </mat-form-field>
+        </div>
     </div>
     <div *ngIf="filled">
-      <table *ngFor="let element of data._renderData._value" class="box-element">
+      <table *ngFor="let element of data.householdsSubject.value" class="box-element">
         <tbody>
           <tr *ngFor="let property of properties" (click)="openDialog('details', element)" class="cursor-pointer">
             <td class="element-value">
@@ -44,5 +53,5 @@
         </tfoot>
       </table>
     </div>
-    <mat-paginator *ngIf="filled" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="50" showFirstLastButtons></mat-paginator>
+    <mat-paginator *ngIf="filled" [length]="data.lengthSubject.value" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="50" showFirstLastButtons></mat-paginator>
   </div>

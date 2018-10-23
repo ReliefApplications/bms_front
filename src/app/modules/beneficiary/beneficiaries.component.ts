@@ -52,7 +52,7 @@ export class BeneficiariesComponent implements OnInit {
     public widthScreen;
 
     // Beneficiaries
-    public selection = new Array<number>();
+    public selectionLength = 0;
 
     // Add Beneficiaries To Project Dialog variables.
     projectForm = new FormControl();
@@ -73,6 +73,7 @@ export class BeneficiariesComponent implements OnInit {
         if (this.household !== GlobalText.TEXTS) {
             this.household = GlobalText.TEXTS;
         }
+        console.log(this.dataSource.filter);
     }
 
     /**
@@ -150,8 +151,8 @@ export class BeneficiariesComponent implements OnInit {
     }
 
     confirmAdding() {
-        if (this.projectsList && this.selection) {
-            this.projectService.addBeneficiaries(this.selectedProject, this.selection).subscribe(
+        if (this.projectsList && this.selectionLength) {
+            this.projectService.addBeneficiaries(this.selectedProject, this.selectionLength).subscribe(
                 success => {
                     this.snackBar.open('Beneficiairies added to the selected project', '', { duration: 3000, horizontalPosition: 'center' });
                 }
@@ -161,6 +162,6 @@ export class BeneficiariesComponent implements OnInit {
     }
 
     updateSelection(data: any) {
-        this.selection = data;
+        this.selectionLength = data;
     }
 }

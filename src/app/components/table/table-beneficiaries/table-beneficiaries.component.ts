@@ -14,9 +14,7 @@ import { tap } from 'rxjs/operators';
 export class TableBeneficiariesComponent extends TableComponent {
 
     @Output() updating = new EventEmitter<number>();
-    @Output() selected = new EventEmitter<number[]>();
 
-    selectedList;
     selectedFilter;
     testLoading = true;
 
@@ -35,19 +33,13 @@ export class TableBeneficiariesComponent extends TableComponent {
 
     ngAfterViewInit() {
         this.sort.sortChange.subscribe(() => {
-            let filter;
-            if (this.data.filter != '')
-                filter = this.data.filter;
 
             if (this.sort.direction != 'asc' && this.sort.direction != 'desc')
                 this.sort.active = ''
 
             this.paginator.pageIndex = 0;
             this.data.loadHouseholds(
-                {
-                    filter: filter,
-                    filtered: 'vulnerabilities'
-                },
+                this.data.filter,
                 {
                     sort: this.sort.active,
                     direction: this.sort.direction
@@ -65,15 +57,8 @@ export class TableBeneficiariesComponent extends TableComponent {
     }
 
     loadHouseholdsPage() {
-        let filter;
-        if (this.data.filter != '')
-            filter = this.data.filter;
-
         this.data.loadHouseholds(
-            {
-                filter: filter,
-                filtered: 'vulnerabilities'
-            },
+            this.data.filter,
             {
                 sort: this.sort.active,
                 direction: this.sort.direction
@@ -91,39 +76,31 @@ export class TableBeneficiariesComponent extends TableComponent {
         this.updating.emit(selectedBeneficiary.id);
     }
 
-    sendSelectedBeneficiaries(benefId: any) {
-        this.selectedList.push(benefId);
-        //
-    }
-
     sendSortedData() {
-        this.selectedList = new Array();
 
-        if (this.data && this.data.filter || this.data.filter == '') {
+        if (this.data.filter && ( this.data.filter.filter || this.data.filter.filter == '') ) {
             //if (!isNaN(this.data.filter) && this.data.filtered == "vulnerabilities")
             //return snack;
-
-            this.paginator.pageIndex = 0;
-            this.data.loadHouseholds(
-                {
-                    filter: this.data.filter,
-                    filtered: 'vulnerabilities'
-                },
-                {
-                    sort: this.sort.active,
-                    direction: this.sort.direction
-                },
-                this.paginator.pageIndex,
-                this.paginator.pageSize,
-            );
+            
+            if (this.paginator) {
+                this.paginator.pageIndex = 0;
+                this.data.loadHouseholds(
+                    this.data.filter,
+                    {
+                        sort: this.sort.active,
+                        direction: this.sort.direction
+                    },
+                    this.paginator.pageIndex,
+                    this.paginator.pageSize,
+                );
+            }
+            
             // this.data.filter.forEach(
             //     element => {
             //         this.selectedList.push(element.id);
             //     }
             // )
         }
-
-        this.selected.emit(this.selectedList);
     }
 
     dataIsLoading() {

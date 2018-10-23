@@ -34,7 +34,7 @@ export class ProjectService{
         return this.http.delete(url, body);
     }
 
-    public addBeneficiaries(projectId: number, benef: number[]) {
+    public addBeneficiaries(projectId: number, benef: number) {
         let url = this.api + "/projects/" + projectId + "/beneficiaries/add";
         let body = {
             beneficiaries : benef

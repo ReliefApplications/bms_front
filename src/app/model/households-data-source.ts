@@ -9,10 +9,15 @@ export class HouseholdsDataSource implements DataSource<Households> {
     private householdsSubject = new BehaviorSubject<Households[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
     private lengthSubject = new BehaviorSubject<number>(0);
-
+    public filter;
     public loading$ = this.loadingSubject.asObservable();
 
-    constructor(private householdsService: HouseholdsService) {}
+    constructor(private householdsService: HouseholdsService) {
+        this.filter = {
+            filter : '',
+            filtered: 'familyName'
+        }
+    }
 
     connect(collectionViewer: CollectionViewer): Observable<Households[]> {
         return this.householdsSubject.asObservable();
@@ -24,7 +29,7 @@ export class HouseholdsDataSource implements DataSource<Households> {
     }
 
     loadHouseholds(
-      filter = [],
+      filter = {},
       sort = {sort: 'familyName', direction: 'asc'},
       pageIndex = 0,
       pageSize = 50
@@ -39,6 +44,14 @@ export class HouseholdsDataSource implements DataSource<Households> {
           this.householdsSubject.next(households);
           this.lengthSubject.next(response[0]);
         });
+    }
+
+    setFiltered(filtered : String) {
+        this.filter.filtered = filtered; 
+    }
+    
+    setFilter(filter : String) {
+        this.filter.filter = filter; 
     }
 
     getLoadingState() {

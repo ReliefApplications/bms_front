@@ -18,10 +18,20 @@ export class TableBeneficiariesComponent extends TableComponent {
     @Output() pageNumberAndSize = new EventEmitter<any>();
 
     selectedList;
+    selectedFilter;
+    testLoading = true;
 
     ngOnInit() {
         super.checkData();
         this.sendSortedData();
+        this.data.loading$.subscribe(
+            result => {
+                if(result != this.testLoading) {
+                    this.testLoading = result;
+                }
+            }
+        );
+        this.selectedFilter= this.properties[0];
     }
 
     ngAfterViewInit() {
@@ -98,7 +108,12 @@ export class TableBeneficiariesComponent extends TableComponent {
         this.selected.emit(this.selectedList);
     }
 
-    pageOnChange(event) {
-        this.pageNumberAndSize.emit({pageSize: event.pageSize, pageIndex: event.pageIndex});
+    dataIsLoading() {
+        this.data.getLoadingState().subscribe(
+            result => {
+                return(result);
+            }
+        )
     }
+
 }

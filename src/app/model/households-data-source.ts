@@ -40,4 +40,8 @@ export class HouseholdsDataSource implements DataSource<Households> {
           this.lengthSubject.next(response[0]);
         });
     }
+
+    getLoadingState() {
+        return this.loading$;
+    }
 }

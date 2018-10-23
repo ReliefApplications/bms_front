@@ -9,6 +9,7 @@ import { saveAs } from 'file-saver/FileSaver';
 import { ExportInterface } from '../../model/export.interface';
 import { ProjectService } from '../../core/api/project.service';
 import { FormControl } from '@angular/forms';
+import { HouseholdsDataSource } from '../../model/households-data-source';
 
 @Component({
     selector: 'app-beneficiaries',
@@ -26,6 +27,8 @@ export class BeneficiariesComponent implements OnInit {
     length: number;
     loadingBeneficiaries: boolean = true;
     public extensionType: string;
+
+    dataSource: HouseholdsDataSource;
 
     //addButtons
     addToggled = false;
@@ -58,8 +61,10 @@ export class BeneficiariesComponent implements OnInit {
 
     ngOnInit() {
         this.checkSize();
-        this.checkHouseholds(0, 50);
+        // this.checkHouseholds(0, 50);
         this.extensionType = 'xls';
+        this.dataSource = new HouseholdsDataSource(this.householdsService);
+        this.dataSource.loadHouseholds();
     }
 
     /**
@@ -89,11 +94,11 @@ export class BeneficiariesComponent implements OnInit {
      */
     checkHouseholds(pageIndex, pageSize): void {
         this.referedClassService = this.householdsService;
-        this.referedClassService.get(pageIndex, pageSize).subscribe(response => {
+        this.referedClassService.get([], {sort: '', direction: ''}, pageIndex, pageSize).subscribe(response => {
             response[1] = this.referedClassToken.formatArray(response[1]);
             this.households = new MatTableDataSource(response[1]);
             this.length = response[0];
-            this.cacheService.set(CacheService.HOUSEHOLDS, response[1]);
+            // this.cacheService.set(CacheService.HOUSEHOLDS, response[1]);
             this.loadingBeneficiaries = false;
         });
     }

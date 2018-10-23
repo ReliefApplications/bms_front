@@ -3,6 +3,8 @@ import { TableComponent } from '../table.component';
 import { Beneficiaries } from '../../../model/beneficiary';
 import { emit } from 'cluster';
 import { element } from 'protractor';
+import { tap } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-table-beneficiaries',
@@ -14,12 +16,35 @@ export class TableBeneficiariesComponent extends TableComponent {
     @Output() updating = new EventEmitter<number>();
     @Output() selected = new EventEmitter<number[]>();
     @Output() pageNumberAndSize = new EventEmitter<any>();
-    
+
     selectedList;
 
     ngOnInit() {
         super.checkData();
         this.sendSortedData();
+    }
+
+    ngAfterViewInit() {
+        this.sort.sortChange.subscribe(() => {
+          this.paginator.pageIndex = 0;
+        });
+        this.paginator.page
+            .pipe(
+                tap(() => this.loadHouseholdsPage())
+            )
+            .subscribe();
+    }
+
+    loadHouseholdsPage() {
+      console.log(this.sort.active);
+        this.data.loadHouseholds(
+            [],
+            {
+              sort: this.sort.active,
+              direction: this.sort.direction
+            },
+            this.paginator.pageIndex,
+            this.paginator.pageSize);
     }
 
     getImageName(t2: String) {
@@ -33,7 +58,7 @@ export class TableBeneficiariesComponent extends TableComponent {
 
     sendSelectedBeneficiaries(benefId: any) {
         this.selectedList.push(benefId);
-        // 
+        //
     }
 
     sendSortedData() {

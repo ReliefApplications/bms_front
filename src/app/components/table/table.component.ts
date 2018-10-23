@@ -29,13 +29,13 @@ import { DistributionService } from '../../core/api/distribution.service';
 })
 export class TableComponent implements OnChanges, DoCheck {
     public table = GlobalText.TEXTS;
-    private paginator: MatPaginator;
+    public paginator: MatPaginator;
+    public sort;
 
     @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
         this.paginator = mp;
     }
 
-    sort;
     @ViewChild(MatSort) set content(content: ElementRef<MatSort>) {
         this.sort = content;
         if (this.sort) {
@@ -56,7 +56,7 @@ export class TableComponent implements OnChanges, DoCheck {
     public oldEntity;
     @Input() data: any;
     @Input() service;
-    
+
     sortedData: any;
     allData: any = undefined;
     properties: any;
@@ -193,7 +193,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
     /**
      * Recover the right from the model
-     * @param element 
+     * @param element
      */
     recoverRights(element) {
         if (element.rights) {

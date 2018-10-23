@@ -93,10 +93,6 @@ export class TableComponent implements OnChanges, DoCheck {
             this.setDataTableProperties();
             this.mapperService.setMapperObject(this.entity);
         }
-        if (this.data.paginator) {
-            this.paginator.length = this.totalLength;
-            this.paginator._length = this.totalLength;
-        }
     }
 
     checkEntityUpdateRights() {

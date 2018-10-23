@@ -61,7 +61,6 @@ export class BeneficiariesComponent implements OnInit {
 
     ngOnInit() {
         this.checkSize();
-        // this.checkHouseholds(0, 50);
         this.extensionType = 'xls';
         this.dataSource = new HouseholdsDataSource(this.householdsService);
         this.dataSource.loadHouseholds();

@@ -27,6 +27,16 @@ export class TableBeneficiariesComponent extends TableComponent {
     ngAfterViewInit() {
         this.sort.sortChange.subscribe(() => {
           this.paginator.pageIndex = 0;
+          if (this.sort.direction != '')
+            this.data.loadHouseholds(
+                [],
+                {
+                    sort: this.sort.active,
+                    direction: this.sort.direction
+                },
+                this.paginator.pageIndex,
+                this.paginator.pageSize,
+            );
         });
         this.paginator.page
             .pipe(
@@ -36,7 +46,6 @@ export class TableBeneficiariesComponent extends TableComponent {
     }
 
     loadHouseholdsPage() {
-      console.log(this.sort.active);
         this.data.loadHouseholds(
             [],
             {

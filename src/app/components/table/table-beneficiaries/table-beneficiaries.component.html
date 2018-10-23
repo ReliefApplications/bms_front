@@ -51,7 +51,7 @@
       <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row cursor-pointer" (click)="openDialog('details', element)"></tr>
     </table>
 
-    <mat-paginator *ngIf="filled==true" [length]="totalLength" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="50" showFirstLastButtons></mat-paginator>
+    <mat-paginator *ngIf="filled==true" [length]="data.lengthSubject.value" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="50" showFirstLastButtons></mat-paginator>
   </div>
 
   <td mat-cell *matCellDef="let element">

@@ -4,6 +4,10 @@ export class ImportedBeneficiary {
     static __classname__ = 'ImportedBeneficiary';
 
     /**
+     * Id of the beneficiary (if not new)
+     */
+    id: number;
+    /**
      * Beneficiary givenName
      * @type {string}
      */
@@ -17,6 +21,7 @@ export class ImportedBeneficiary {
 
     constructor(instance?) {
         if (instance !== undefined) {
+            this.id = instance.id ? instance.id : null;
             this.givenName = instance.givenName;
             this.familyName = instance.familyName;
         }
@@ -49,8 +54,9 @@ public static formatArray(instance: any): ImportedBeneficiary[] {
 public static formatElement(instance: any): ImportedBeneficiary {
     const beneficiary = new ImportedBeneficiary();
 
-    beneficiary.givenName = instance.given_name ? instance.given_name : instance[11];
-    beneficiary.familyName = instance.family_name ? instance.family_name : instance[12];
+    beneficiary.id = instance.id ? instance.id : null;
+    beneficiary.givenName = instance.given_name ? instance.given_name : instance.givenName;
+    beneficiary.familyName = instance.family_name ? instance.family_name : instance.familyName;
 
     return(beneficiary);
 }
@@ -58,6 +64,7 @@ public static formatElement(instance: any): ImportedBeneficiary {
 public static formatForApi(instance: any) {
 
     const beneficiary = {
+        id : instance.id,
         givenName : instance.givenName,
         familyName : instance.familyName
     };

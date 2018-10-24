@@ -239,6 +239,8 @@ export class BeneficiariesImportComponent implements OnInit {
         });
 
         this.chosenItem = this.APINames[0];
+        this.ParamsToDisplay.push({'paramType': this.APIParams[0].paramType, 'paramName': this.APIParams[0].paramName});
+        this.provider = this.chosenItem;
       });
   }
 

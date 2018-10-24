@@ -1,4 +1,4 @@
-MagicBox contributing guidelines
+BMS contributing guidelines
 ================================
 
 Thank you for your interest in contributing to a UNICEF project! UNICEF believes
@@ -9,6 +9,13 @@ help contribute to our mission, and we'd love your help!
 
 ## Table of contents
 
+* **[What is this?](https://github.com/ReliefApplications/bms_front/blob/dev/CONTRIBUTING.md#what-is-this)**
+* **[Contribute what?](https://github.com/ReliefApplications/bms_front/blob/dev/CONTRIBUTING.md#contribute-what)**
+* **[Ground rules](https://github.com/ReliefApplications/bms_front/blob/dev/CONTRIBUTING.md#ground-rules)**
+* **[Getting started](https://github.com/ReliefApplications/bms_front/blob/dev/CONTRIBUTING.md#getting-started)**
+* **[Report a bug](https://github.com/ReliefApplications/bms_front/blob/dev/CONTRIBUTING.md#report-a-bug)**
+* **[Code review process](https://github.com/ReliefApplications/bms_front/blob/dev/CONTRIBUTING.md#code-review-process)**
+* **[Community](https://github.com/ReliefApplications/bms_front/blob/dev/CONTRIBUTING.md#community)**
 
 
 ## What is this?
@@ -87,5 +94,4 @@ To be determined!
 <!--
     We need to figure out how and where to build a community. :-)
  -->
-
 

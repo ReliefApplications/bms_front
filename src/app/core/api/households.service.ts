@@ -29,9 +29,9 @@ export class HouseholdsService {
      * Get all households
      * @param body any
      */
-    public get(body?: any) {
+    public get(filter: any, sort: any, pageIndex: number, pageSize: number) {
         const url = this.api + '/households/get/all';
-        return this.http.post(url, body);
+        return this.http.post(url, {filter, sort, pageIndex, pageSize});
     }
 
     public getOne(beneficiaryId) {
@@ -70,8 +70,8 @@ export class HouseholdsService {
 
     /**
      * Add household.
-     * @param hh 
-     * @param projects_ids 
+     * @param hh
+     * @param projects_ids
      */
     public add(hh: any, projects_ids: string[]) {
         const url = this.api + '/households'
@@ -84,9 +84,9 @@ export class HouseholdsService {
 
     /**
      * Update household.
-     * @param householdId 
-     * @param hh 
-     * @param projects_ids 
+     * @param householdId
+     * @param hh
+     * @param projects_ids
      */
     public edit(householdId: number, hh: any, projects_ids: string[]) {
         const url = this.api + '/households/' + householdId;

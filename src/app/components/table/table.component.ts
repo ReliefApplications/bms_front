@@ -29,13 +29,13 @@ import { DistributionService } from '../../core/api/distribution.service';
 })
 export class TableComponent implements OnChanges, DoCheck {
     public table = GlobalText.TEXTS;
-    private paginator: MatPaginator;
+    public paginator: MatPaginator;
+    public sort;
 
     @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
         this.paginator = mp;
     }
 
-    sort;
     @ViewChild(MatSort) set content(content: ElementRef<MatSort>) {
         this.sort = content;
         if (this.sort) {
@@ -50,10 +50,13 @@ export class TableComponent implements OnChanges, DoCheck {
     // For Transaction Beneficiaries
     @Input() parentObject: any;
 
+    @Input() totalLength;
+
     @Input() entity;
     public oldEntity;
     @Input() data: any;
     @Input() service;
+
     sortedData: any;
     allData: any = undefined;
     properties: any;
@@ -186,7 +189,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
     /**
      * Recover the right from the model
-     * @param element 
+     * @param element
      */
     recoverRights(element) {
         if (element.rights) {
@@ -255,7 +258,11 @@ export class TableComponent implements OnChanges, DoCheck {
     applyFilter(filterValue: string): void {
         filterValue = filterValue.trim(); // Remove whitespace
         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-        this.data.filter = filterValue;
+        if(this.data.filter && (this.data.filter.filter || this.data.filter.filter === ''))  {
+            this.data.setFilter(filterValue);
+        } else {
+            this.data.filter = filterValue;
+        }
     }
 
     updateElement(updateElement: Object) {

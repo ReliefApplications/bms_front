@@ -1,49 +1,53 @@
 import { Component, Output, EventEmitter, Input, OnChanges } from '@angular/core';
-import { TableComponent } from '../table.component';
+import { TableBeneficiariesComponent } from '../table-beneficiaries/table-beneficiaries.component';
 import { Beneficiaries } from '../../../model/beneficiary';
+import { emit } from 'cluster';
+import { element } from 'protractor';
+import { tap } from 'rxjs/operators';
+
 
 @Component({
-  selector: 'app-table-mobile-beneficiaries',
-  templateUrl: './table-mobile-beneficiaries.component.html',
-  styleUrls: ['./table-mobile-beneficiaries.component.scss']
+    selector: 'app-table-mobile-beneficiaries',
+    templateUrl: './table-mobile-beneficiaries.component.html',
+    styleUrls: ['./table-mobile-beneficiaries.component.scss']
 })
-export class TableMobileBeneficiariesComponent extends TableComponent {
+export class TableMobileBeneficiariesComponent extends TableBeneficiariesComponent {
 
-    @Output() updating = new EventEmitter<number>();
-    @Output() selected = new EventEmitter<number[]>();
-
-    selectedList;
-
-    ngOnInit() {
-        super.checkData();
-        this.sendSortedData();
+    ngAfterViewInit() {
+        this.paginator.page
+            .pipe(
+                tap(() => this.loadHouseholdsPage())
+            )
+            .subscribe();
     }
 
-    getImageName(t2: String) {
-        return( t2.substring(25).split('.')[0] );
-    }
-
-    update(selectedBeneficiary: Beneficiaries) {
-
-        this.updating.emit(selectedBeneficiary.id);
-    }
-
-    sendSelectedBeneficiaries(benefId: any) {
-        this.selectedList.push(benefId);
-        // 
+    loadHouseholdsPage() {
+        this.data.loadHouseholds(
+            this.data.filter,
+            {},
+            this.paginator.pageIndex,
+            this.paginator.pageSize
+        );
     }
 
     sendSortedData() {
-        this.selectedList = new Array();
-
-        if(this.data && this.data.filteredData) {
-            this.data.filteredData.forEach(
-                element => {
-                    this.selectedList.push(element.id);
-                }
-            )
+        // Cancel preexisting timout process
+        if (this._timeout) {
+            window.clearTimeout(this._timeout);
         }
-
-        this.selected.emit(this.selectedList);
+        this._timeout = window.setTimeout(() => {
+            if (this.data.filter && ( this.data.filter.filter || this.data.filter.filter == '') ) {
+              if (this.paginator) {
+                this.paginator.pageIndex = 0;
+                this.data.loadHouseholds(
+                  this.data.filter,
+                  {},
+                  this.paginator.pageIndex,
+                  this.paginator.pageSize,
+                );
+              }
+            }
+            this._timeout = null;
+        }, 1000);
     }
 }

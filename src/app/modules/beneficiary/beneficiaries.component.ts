@@ -9,6 +9,7 @@ import { saveAs } from 'file-saver/FileSaver';
 import { ExportInterface } from '../../model/export.interface';
 import { ProjectService } from '../../core/api/project.service';
 import { FormControl } from '@angular/forms';
+import { HouseholdsDataSource } from '../../model/households-data-source';
 
 @Component({
     selector: 'app-beneficiaries',
@@ -23,8 +24,10 @@ export class BeneficiariesComponent implements OnInit {
     public referedClassService;
     referedClassToken = Households;
     households: MatTableDataSource<Households>;
-    loadingBeneficiaries: boolean = true;
+    length: number;
     public extensionType: string;
+
+    dataSource: HouseholdsDataSource;
 
     //addButtons
     addToggled = false;
@@ -47,9 +50,6 @@ export class BeneficiariesComponent implements OnInit {
     public heightScreen;
     public widthScreen;
 
-    // Beneficiaries
-    public selection = new Array<number>();
-
     // Add Beneficiaries To Project Dialog variables.
     projectForm = new FormControl();
     projectsList = new Array();
@@ -57,8 +57,9 @@ export class BeneficiariesComponent implements OnInit {
 
     ngOnInit() {
         this.checkSize();
-        this.checkHouseholds();
         this.extensionType = 'xls';
+        this.dataSource = new HouseholdsDataSource(this.householdsService);
+        this.dataSource.loadHouseholds();
     }
 
     /**
@@ -81,19 +82,6 @@ export class BeneficiariesComponent implements OnInit {
 
     toggleAddButtons() {
         this.addToggled = !this.addToggled;
-    }
-
-    /**
-     * Get list of all households and display it
-     */
-    checkHouseholds(): void {
-        this.referedClassService = this.householdsService;
-        this.referedClassService.get().subscribe(response => {
-            response = this.referedClassToken.formatArray(response);
-            this.households = new MatTableDataSource(response);
-            this.cacheService.set(CacheService.HOUSEHOLDS, response);
-            this.loadingBeneficiaries = false;
-        });
     }
 
     checkSize(): void {
@@ -144,8 +132,8 @@ export class BeneficiariesComponent implements OnInit {
     }
 
     confirmAdding() {
-        if (this.projectsList && this.selection) {
-            this.projectService.addBeneficiaries(this.selectedProject, this.selection).subscribe(
+        if (this.projectsList && this.dataSource) {
+            this.projectService.addBeneficiaries(this.selectedProject, this.dataSource.filter).subscribe(
                 success => {
                     this.snackBar.open('Beneficiairies added to the selected project', '', { duration: 3000, horizontalPosition: 'center' });
                 }
@@ -153,9 +141,4 @@ export class BeneficiariesComponent implements OnInit {
         }
         this.dialog.closeAll();
     }
-
-    updateSelection(data: any) {
-        this.selection = data;
-    }
-
 }

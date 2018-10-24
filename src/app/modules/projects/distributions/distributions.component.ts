@@ -457,7 +457,7 @@ export class DistributionsComponent implements OnInit {
                     this.getDistributionBeneficiaries('final');
                 },
                 error => {
-                    console.log('cc', this.selectedBeneficiaries);
+                    // console.log('cc', this.selectedBeneficiaries);
                     this.snackBar.open('Beneficiary could not be added', '', { duration: 3000, horizontalPosition: 'center' });
                 });
     }

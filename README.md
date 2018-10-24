@@ -47,7 +47,11 @@ To understand BMS better:
 An architecture diagram of how these components are connected to one another is coming soon.
 
 
-# BmsFront
+
+========================================================
+on day we will split that into two repos ;-)
+
+# BmsFront tech doc
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.3.
 

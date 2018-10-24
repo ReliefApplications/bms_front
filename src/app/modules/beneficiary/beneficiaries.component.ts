@@ -132,10 +132,7 @@ export class BeneficiariesComponent implements OnInit {
     }
 
     confirmAdding() {
-        console.log(this.projectsList);
-        console.log(this.dataSource.length$);
         if (this.projectsList && this.dataSource) {
-          console.log(this.dataSource);
             this.projectService.addBeneficiaries(this.selectedProject, this.dataSource.filter).subscribe(
                 success => {
                     this.snackBar.open('Beneficiairies added to the selected project', '', { duration: 3000, horizontalPosition: 'center' });

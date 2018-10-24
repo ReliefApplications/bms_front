@@ -45,6 +45,8 @@ export class BeneficiariesImportComponent implements OnInit {
   public APINames: string[] = [];
   public APIParams: any = [];
   public ParamsToDisplay: any = [];
+  public chosenItem: string;
+
   public text = new FormControl('', [Validators.pattern('[a-zA-Z ]*'), Validators.required]);
   public number = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
   public paramToSend = {};
@@ -235,6 +237,8 @@ export class BeneficiariesImportComponent implements OnInit {
 
           this.APIParams.push(param);
         });
+
+        this.chosenItem = this.APINames[0];
       });
   }
 

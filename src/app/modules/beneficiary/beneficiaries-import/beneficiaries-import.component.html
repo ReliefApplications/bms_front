@@ -85,7 +85,7 @@
                 <div class="api-information">
                     <div class="content-select">
                         <h3>{{household.beneficiaries_select_api | uppercase}}</h3>
-                        <mat-radio-group (change)='onChangeRadioAPI($event)' class="content-select">
+                        <mat-radio-group (change)='onChangeRadioAPI($event)' class="content-select" [(ngModel)]='chosenItem'>
                             <mat-radio-button *ngFor="let name of APINames;" value="{{ name }}" color="primary">{{ name
                                 }}</mat-radio-button>
                         </mat-radio-group>

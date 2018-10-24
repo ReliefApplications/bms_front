@@ -33,7 +33,7 @@ export class BeneficiariesService {
     return this.http.get(url);
   }
 
-  public add(distributionId: number, beneficiary: any) {
+  public add(distributionId: number, beneficiary: any[]) {
     const url = this.api + '/distributions/' + distributionId + '/beneficiary';
     // console.log(beneficiary);
     return this.http.put(url, beneficiary);

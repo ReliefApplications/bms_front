@@ -55,8 +55,8 @@ public static formatElement(instance: any): ImportedBeneficiary {
     const beneficiary = new ImportedBeneficiary();
 
     beneficiary.id = instance.id ? instance.id : null;
-    beneficiary.givenName = instance.given_name;
-    beneficiary.familyName = instance.family_name;
+    beneficiary.givenName = instance.given_name ? instance.given_name : instance.givenName;
+    beneficiary.familyName = instance.family_name ? instance.family_name : instance.familyName;
 
     return(beneficiary);
 }

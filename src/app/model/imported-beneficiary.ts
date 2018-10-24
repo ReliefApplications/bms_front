@@ -64,6 +64,7 @@ public static formatElement(instance: any): ImportedBeneficiary {
 public static formatForApi(instance: any) {
 
     const beneficiary = {
+        id : instance.id,
         givenName : instance.givenName,
         familyName : instance.familyName
     };

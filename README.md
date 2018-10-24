@@ -26,7 +26,7 @@ applications with new features, optimizing the technical tools and algorithms
 involved to accommodate humanitarian challenges, and bringing our work closer to
 the public to leverage their inputs via blog posts and tutorials.
 
-* Please read our [contribution guidelines](https://github.com/ReliefApplications/bms_api/blob/master/.github/CONTRIBUTING.md) 
+* Please read our [contribution guidelines](https://github.com/ReliefApplications/bms_front/blob/dev/CONTRIBUTING.md) 
 for details on what and how you can contribute.
 * Check out our Trello [Development Project Board](https://trello.com/b/DqrwMZsv/bms).
 * Look for tasks labelled `good first issues` under the Issues tab in each repo.

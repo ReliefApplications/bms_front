@@ -8,7 +8,7 @@ export class HouseholdsDataSource implements DataSource<Households> {
 
     private householdsSubject = new BehaviorSubject<Households[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
-    private lengthSubject = new BehaviorSubject<number>(0);
+    public lengthSubject = new BehaviorSubject<number>(0);
     public filter;
     public length$ = this.lengthSubject.asObservable();
     public loading$ = this.loadingSubject.asObservable();

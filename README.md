@@ -7,7 +7,7 @@ A platform that allows humanitarian organisations to manage relief items (Food, 
 
 BMS is the first fully open-source relief platform for humanitarian actors to efficiently manage relief operations after a disaster, during a war or in response to long term crises. 
 
-If you're an experienced dev and you'd like to get involved, contact us [here](https://reliefapps.org/career.php).
+If you're an experienced dev and you'd like to get involved, contact us on twitter by DM : @reliefapps [or here](https://twitter.com/Reliefapps).
 
 ## What's here
 

@@ -1,13 +1,11 @@
 Beneficiary Management System (BMS)
 ========
- A platform that allows humanitarian organisations to manage relief items (Food, Non Food Items, CASH) to people in needs for life-saving humanitarian responses to emergency situations
+A platform that allows humanitarian organisations to manage relief items (Food, Non Food Items, CASH) to people in needs for life-saving humanitarian responses to emergency situations
 
 
 ## About
 
-MagicBox is an open-source platform that uses real-time information to inform
-life-saving humanitarian responses to emergency situations. It's composed of
-multiple GitHub repositories designed to ingest, aggregate, and serve data.
+BMS is the first fully open-source relief platform for humanitarian actors to efficiently manage relief operations after a disaster, during a war or in response to long term crises. 
 
 If you're an experienced dev and you'd like to get involved, contact us [here](https://reliefapps.org/career.php).
 

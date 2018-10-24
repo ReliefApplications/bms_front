@@ -34,7 +34,6 @@ export class TableBeneficiariesComponent extends TableComponent {
 
     ngAfterViewInit() {
         this.sort.sortChange.subscribe(() => {
-
             if (this.sort.direction != 'asc' && this.sort.direction != 'desc')
                 this.sort.active = ''
 
@@ -65,7 +64,8 @@ export class TableBeneficiariesComponent extends TableComponent {
                 direction: this.sort.direction
             },
             this.paginator.pageIndex,
-            this.paginator.pageSize);
+            this.paginator.pageSize
+        );
     }
 
     getImageName(t2: String) {

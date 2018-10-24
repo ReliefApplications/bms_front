@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, Input, OnChanges } from '@angular/core';
-import { TableComponent } from '../table.component';
+import { TableBeneficiariesComponent } from '../table-beneficiaries/table-beneficiaries.component';
 import { Beneficiaries } from '../../../model/beneficiary';
 import { emit } from 'cluster';
 import { element } from 'protractor';
@@ -11,25 +11,7 @@ import { tap } from 'rxjs/operators';
     templateUrl: './table-mobile-beneficiaries.component.html',
     styleUrls: ['./table-mobile-beneficiaries.component.scss']
 })
-export class TableMobileBeneficiariesComponent extends TableComponent {
-
-    @Output() updating = new EventEmitter<number>();
-
-    selectedFilter;
-    testLoading = true;
-    _timeout: any = null;
-
-    ngOnInit() {
-        super.checkData();
-        this.data.loading$.subscribe(
-            result => {
-                if (result != this.testLoading) {
-                    this.testLoading = result;
-                }
-            }
-        );
-        this.selectedFilter = this.properties[0];
-    }
+export class TableMobileBeneficiariesComponent extends TableBeneficiariesComponent {
 
     ngAfterViewInit() {
         this.paginator.page
@@ -40,23 +22,12 @@ export class TableMobileBeneficiariesComponent extends TableComponent {
     }
 
     loadHouseholdsPage() {
-
         this.data.loadHouseholds(
             this.data.filter,
-            {
-            },
+            {},
             this.paginator.pageIndex,
             this.paginator.pageSize
-            );
-    }
-
-    getImageName(t2: String) {
-        return (t2.substring(25).split('.')[0]);
-    }
-
-    update(selectedBeneficiary: Beneficiaries) {
-
-        this.updating.emit(selectedBeneficiary.id);
+        );
     }
 
     sendSortedData() {
@@ -70,10 +41,7 @@ export class TableMobileBeneficiariesComponent extends TableComponent {
                 this.paginator.pageIndex = 0;
                 this.data.loadHouseholds(
                   this.data.filter,
-                  {
-                    sort: this.sort.active,
-                    direction: this.sort.direction
-                  },
+                  {},
                   this.paginator.pageIndex,
                   this.paginator.pageSize,
                 );
@@ -81,13 +49,5 @@ export class TableMobileBeneficiariesComponent extends TableComponent {
             }
             this._timeout = null;
         }, 1000);
-    }
-
-    dataIsLoading() {
-        this.data.getLoadingState().subscribe(
-            result => {
-                return (result);
-            }
-        )
     }
 }

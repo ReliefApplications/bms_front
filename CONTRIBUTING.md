@@ -1,9 +1,8 @@
 BMS contributing guidelines
 ================================
 
-Thank you for your interest in contributing to a UNICEF project! UNICEF believes
-in new approaches, partnerships, and technologies that support realizing
-children's rights are critical to improving their lives. People like you can
+Thank you for your interest in contributing to a Relief Apps project! We believes
+in new approaches, partnerships, and technologies that we will transform the humanitarian sector . People like you can
 help contribute to our mission, and we'd love your help!
 
 
@@ -94,4 +93,6 @@ To be determined!
 <!--
     We need to figure out how and where to build a community. :-)
  -->
+
+
 

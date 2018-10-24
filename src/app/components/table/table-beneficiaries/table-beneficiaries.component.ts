@@ -17,6 +17,7 @@ export class TableBeneficiariesComponent extends TableComponent {
 
     selectedFilter;
     testLoading = true;
+    _timeout: any = null;
 
     ngOnInit() {
         super.checkData();
@@ -32,23 +33,25 @@ export class TableBeneficiariesComponent extends TableComponent {
     }
 
     ngAfterViewInit() {
-        this.sort.sortChange.subscribe(() => {
-
+        if (this.sort) {
+          this.sort.sortChange.subscribe(() => {
             if (this.sort.direction != 'asc' && this.sort.direction != 'desc')
-                this.sort.active = ''
+            this.sort.active = ''
 
             this.paginator.pageIndex = 0;
             this.data.loadHouseholds(
-                this.data.filter,
-                {
-                    sort: this.sort.active,
-                    direction: this.sort.direction
-                },
-                this.paginator.pageIndex,
-                this.paginator.pageSize,
+              this.data.filter,
+              {
+                sort: this.sort.active,
+                direction: this.sort.direction
+              },
+              this.paginator.pageIndex,
+              this.paginator.pageSize,
             );
 
-        });
+          });
+        }
+
         this.paginator.page
             .pipe(
                 tap(() => this.loadHouseholdsPage())
@@ -60,11 +63,12 @@ export class TableBeneficiariesComponent extends TableComponent {
         this.data.loadHouseholds(
             this.data.filter,
             {
-                sort: this.sort.active,
-                direction: this.sort.direction
+                sort: this.sort ? this.sort.active : null,
+                direction: this.sort ? this.sort.direction : null
             },
             this.paginator.pageIndex,
-            this.paginator.pageSize);
+            this.paginator.pageSize
+        );
     }
 
     getImageName(t2: String) {
@@ -77,30 +81,27 @@ export class TableBeneficiariesComponent extends TableComponent {
     }
 
     sendSortedData() {
-
-        if (this.data.filter && ( this.data.filter.filter || this.data.filter.filter == '') ) {
-            //if (!isNaN(this.data.filter) && this.data.filtered == "vulnerabilities")
-            //return snack;
-            
-            if (this.paginator) {
+        // Cancel preexisting timout process
+        if (this._timeout) {
+            window.clearTimeout(this._timeout);
+        }
+        this._timeout = window.setTimeout(() => {
+            if (this.data.filter && ( this.data.filter.filter || this.data.filter.filter == '') ) {
+              if (this.paginator) {
                 this.paginator.pageIndex = 0;
                 this.data.loadHouseholds(
-                    this.data.filter,
-                    {
-                        sort: this.sort.active,
-                        direction: this.sort.direction
-                    },
-                    this.paginator.pageIndex,
-                    this.paginator.pageSize,
+                  this.data.filter,
+                  {
+                    sort: this.sort ? this.sort.active : null,
+                    direction: this.sort ? this.sort.direction : null
+                  },
+                  this.paginator.pageIndex,
+                  this.paginator.pageSize,
                 );
+              }
             }
-            
-            // this.data.filter.forEach(
-            //     element => {
-            //         this.selectedList.push(element.id);
-            //     }
-            // )
-        }
+            this._timeout = null;
+        }, 1000);
     }
 
     dataIsLoading() {

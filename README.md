@@ -1,3 +1,52 @@
+Beneficiary Management System (BMS)
+========
+ A platform that allows humanitarian organisations to manage relief items (Food, Non Food Items, CASH) to people in needs for life-saving humanitarian responses to emergency situations
+
+
+## About
+
+MagicBox is an open-source platform that uses real-time information to inform
+life-saving humanitarian responses to emergency situations. It's composed of
+multiple GitHub repositories designed to ingest, aggregate, and serve data.
+
+If you're an experienced dev and you'd like to get involved, contact us [here](https://reliefapps.org/career.php).
+
+## What's here
+
+This repo is the "master" repo for all BMS-related projects. It hosts 
+the documentation, the frontend and other misc. Code for other
+projects, like the [API](https://github.com/ReliefApplications/bms_api) is hosted in other 
+repositories. 
+
+## Contributing
+
+**We are looking for collaboration from the Open Source community!** There's
+so much we want to do, including but not limited to: enhancing existing 
+applications with new features, optimizing the technical tools and algorithms 
+involved to accommodate humanitarian challenges, and bringing our work closer to
+the public to leverage their inputs via blog posts and tutorials.
+
+* Please read our [contribution guidelines](https://github.com/ReliefApplications/bms_api/blob/master/.github/CONTRIBUTING.md) 
+for details on what and how you can contribute.
+* Check out our Trello [Development Project Board](https://trello.com/b/DqrwMZsv/bms).
+* Look for tasks labelled `good first issues` under the Issues tab in each repo.
+
+
+## Documentation
+
+We are hoping to
+establish a more user-friendly version soon, one that is readable by our potential users 
+(e.g. developpers and humanitarian actors).
+
+
+## Resources
+
+To understand BMS better:
+
+* Read the README for each repo (full list is [UNDER DEV](https://reliefapps.org)). 
+An architecture diagram of how these components are connected to one another is coming soon.
+
+
 # BmsFront
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.3.

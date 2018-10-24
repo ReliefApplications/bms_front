@@ -53,5 +53,5 @@
         </tfoot>
       </table>
     </div>
-    <mat-paginator *ngIf="filled" [length]="data.lengthSubject.value" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="50" showFirstLastButtons></mat-paginator>
+    <mat-paginator *ngIf="filled" [length]="data.length$ | async" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="50" showFirstLastButtons></mat-paginator>
   </div>

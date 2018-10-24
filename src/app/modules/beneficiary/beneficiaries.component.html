@@ -2,7 +2,6 @@
     <div class="container-title">
         <h2>{{household.beneficiaries_title | titlecase}}</h2>
     </div>
-    <!-- <app-placeholder-panel class="container-table" *ngIf="!loadingBeneficiaries"></app-placeholder-panel> -->
     <div class="container-table">
         <div class="container-content box-green">
             <div class="content-button">
@@ -41,7 +40,7 @@
                     </div>
                 </div>
                 <button mat-raised-button class="selectingBeneficiaries button-background-primary"
-                (click)="addToProject(addBeneficiaries)" [matBadge]="dataSource.lengthSubject.value">
+                (click)="addToProject(addBeneficiaries)" [matBadge]="dataSource.length$ | async">
                     Add this list to a project
                 </button>
             </div>
@@ -61,7 +60,7 @@
             <h2>Add beneficiaries to this distribution</h2>
         </div>
         <div class="modal-body">
-            <p> Please select the project(s) in which you would like to add the {{dataSource.lengthSubject.value}} selected beneficiaries:</p>
+            <p> Please select the project(s) in which you would like to add the {{dataSource.length$ | async}} selected beneficiaries:</p>
             <div class="selectBeneficiaries">
                 <mat-form-field>
                     <mat-select placeholder="Projects" [formControl]="projectForm" [(ngModel)]="selectedProject">

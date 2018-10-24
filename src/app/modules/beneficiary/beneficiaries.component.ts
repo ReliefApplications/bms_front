@@ -25,7 +25,6 @@ export class BeneficiariesComponent implements OnInit {
     referedClassToken = Households;
     households: MatTableDataSource<Households>;
     length: number;
-    loadingBeneficiaries: boolean = true;
     public extensionType: string;
 
     dataSource: HouseholdsDataSource;
@@ -51,9 +50,6 @@ export class BeneficiariesComponent implements OnInit {
     public heightScreen;
     public widthScreen;
 
-    // Beneficiaries
-    public selectionLength = 0;
-
     // Add Beneficiaries To Project Dialog variables.
     projectForm = new FormControl();
     projectsList = new Array();
@@ -73,7 +69,6 @@ export class BeneficiariesComponent implements OnInit {
         if (this.household !== GlobalText.TEXTS) {
             this.household = GlobalText.TEXTS;
         }
-        console.log(this.dataSource.filter);
     }
 
     /**
@@ -87,20 +82,6 @@ export class BeneficiariesComponent implements OnInit {
 
     toggleAddButtons() {
         this.addToggled = !this.addToggled;
-    }
-
-    /**
-     * Get list of all households and display it
-     */
-    checkHouseholds(pageIndex, pageSize): void {
-        this.referedClassService = this.householdsService;
-        this.referedClassService.get([], {sort: '', direction: ''}, pageIndex, pageSize).subscribe(response => {
-            response[1] = this.referedClassToken.formatArray(response[1]);
-            this.households = new MatTableDataSource(response[1]);
-            this.length = response[0];
-            // this.cacheService.set(CacheService.HOUSEHOLDS, response[1]);
-            this.loadingBeneficiaries = false;
-        });
     }
 
     checkSize(): void {
@@ -151,17 +132,16 @@ export class BeneficiariesComponent implements OnInit {
     }
 
     confirmAdding() {
-        if (this.projectsList && this.selectionLength) {
-            this.projectService.addBeneficiaries(this.selectedProject, this.selectionLength).subscribe(
+        console.log(this.projectsList);
+        console.log(this.dataSource.length$);
+        if (this.projectsList && this.dataSource) {
+          console.log(this.dataSource);
+            this.projectService.addBeneficiaries(this.selectedProject, this.dataSource.filter).subscribe(
                 success => {
                     this.snackBar.open('Beneficiairies added to the selected project', '', { duration: 3000, horizontalPosition: 'center' });
                 }
             );
         }
         this.dialog.closeAll();
-    }
-
-    updateSelection(data: any) {
-        this.selectionLength = data;
     }
 }

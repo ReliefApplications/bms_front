@@ -10,6 +10,7 @@ export class HouseholdsDataSource implements DataSource<Households> {
     private loadingSubject = new BehaviorSubject<boolean>(false);
     private lengthSubject = new BehaviorSubject<number>(0);
     public filter;
+    public length$ = this.lengthSubject.asObservable();
     public loading$ = this.loadingSubject.asObservable();
 
     constructor(private householdsService: HouseholdsService) {
@@ -47,11 +48,11 @@ export class HouseholdsDataSource implements DataSource<Households> {
     }
 
     setFiltered(filtered : String) {
-        this.filter.filtered = filtered; 
+        this.filter.filtered = filtered;
     }
-    
+
     setFilter(filter : String) {
-        this.filter.filter = filter; 
+        this.filter.filter = filter;
     }
 
     getLoadingState() {

@@ -17,6 +17,7 @@ export class TableMobileBeneficiariesComponent extends TableComponent {
 
     selectedFilter;
     testLoading = true;
+    _timeout: any = null;
 
     ngOnInit() {
         super.checkData();
@@ -59,24 +60,27 @@ export class TableMobileBeneficiariesComponent extends TableComponent {
     }
 
     sendSortedData() {
-
-        if (this.data.filter && ( this.data.filter.filter || this.data.filter.filter == '') ) {
-            //if (!isNaN(this.data.filter) && this.data.filtered == "vulnerabilities")
-            //return snack;
-            
-            this.paginator.pageIndex = 0;
-            this.data.loadHouseholds(
-                this.data.filter,
-                {},
-                this.paginator.pageIndex,
-                this.paginator.pageSize,
-            );
-            // this.data.filter.forEach(
-            //     element => {
-            //         this.selectedList.push(element.id);
-            //     }
-            // )
+        // Cancel preexisting timout process
+        if (this._timeout) {
+            window.clearTimeout(this._timeout);
         }
+        this._timeout = window.setTimeout(() => {
+            if (this.data.filter && ( this.data.filter.filter || this.data.filter.filter == '') ) {
+              if (this.paginator) {
+                this.paginator.pageIndex = 0;
+                this.data.loadHouseholds(
+                  this.data.filter,
+                  {
+                    sort: this.sort.active,
+                    direction: this.sort.direction
+                  },
+                  this.paginator.pageIndex,
+                  this.paginator.pageSize,
+                );
+              }
+            }
+            this._timeout = null;
+        }, 1000);
     }
 
     dataIsLoading() {

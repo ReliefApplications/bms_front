@@ -18,7 +18,7 @@ export const TEXT = {
     header_projects : 'Projects',
     'header_add-distribution' : 'Add Distribution',
     'header_distributions' : 'Distribution',
-    'header_update-beneficiary' : 'Update',
+    'header_update-beneficiary' : 'Update Beneficiaries',
     header_beneficiaries : 'Beneficiaries',
     header_resports : 'Reports',
     header_settings : 'Settings',
@@ -26,7 +26,7 @@ export const TEXT = {
     header_profile : 'Profile',
     header_import : 'Import',
     'header_data-validation' : 'Data Validation',
-    'header_add-beneficiaries' : 'Add Household',
+    'header_add-beneficiaries' : 'Add Beneficiaries',
     header_disconnect : 'log out',
     header_language : 'language',
 

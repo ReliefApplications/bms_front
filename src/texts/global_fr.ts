@@ -71,8 +71,8 @@ export const TEXT = {
     beneficiaries_export : 'export',
 
     beneficiaries_import : 'import',
-    beneficiaries_import_file : 'import de fichier',
-    beneficiaries_import_api : 'import par api',
+    beneficiaries_import_file : 'import depuis un fichier',
+    beneficiaries_import_api : 'import depuis une source externe',
     beneficiaries_select_api : 'Sélectionner une API',
     beneficiaries_import_title: 'import de ménages',
     beneficiaries_import_getProject: 'Projets',

@@ -88,6 +88,24 @@
         </app-table-mobile-search>
       </div>
     </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="badge">
+            <label>
+              {{ TEXT.import_updated | uppercase }}
+            </label>
+            <mat-chip-list>
+              <mat-chip>{{numberUpdated}}</mat-chip>
+            </mat-chip-list>
+          </div>
+        </ng-template>
+        <div class="table-content">
+          <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="updateData" [editable]="false">
+          </app-table-search>
+          <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="updateData" [editable]="false">
+          </app-table-mobile-search>
+        </div>
+      </mat-tab>
   </mat-tab-group>
   <div *ngIf="noChanges" class="no-data-box">
     <h2 class="box-title">

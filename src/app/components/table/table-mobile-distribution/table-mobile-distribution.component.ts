@@ -5,7 +5,7 @@ import { TableComponent                                       } from '../table.c
 @Component({
   selector: 'app-table-mobile-distribution',
   templateUrl: './table-mobile-distribution.component.html',
-  styleUrls: ['./table-mobile-distribution.component.scss']
+  styleUrls: ['../table-mobile/table-mobile.component.scss']
 })
 export class TableMobileDistributionComponent extends TableComponent {
 }

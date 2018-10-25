@@ -37,6 +37,7 @@ export class AppComponent {
     this.getUser();
   }
 
+
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.checkSize();

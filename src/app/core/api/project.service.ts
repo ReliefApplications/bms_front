@@ -1,18 +1,18 @@
-import { Injectable                                 } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { URL_BMS_API                                } from '../../../environments/environment';
+import { URL_BMS_API } from '../../../environments/environment';
 
-import { HttpService                                } from './http.service';
+import { HttpService } from './http.service';
 
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
-export class ProjectService{
+export class ProjectService {
     readonly api = URL_BMS_API;
 
     constructor(
-        private http : HttpService
-    ){
+        private http: HttpService,
+    ) {
     }
     public get() {
         let url = this.api + "/projects";
@@ -20,7 +20,7 @@ export class ProjectService{
     }
 
     public update(id: number, body: any) {
-        let url = this.api + "/projects/"+id;
+        let url = this.api + "/projects/" + id;
         return this.http.post(url, body);
     }
 
@@ -30,14 +30,14 @@ export class ProjectService{
     }
 
     public delete(id: number, body: any) {
-        let url = this.api + "/projects/"+id;
+        let url = this.api + "/projects/" + id;
         return this.http.delete(url, body);
     }
 
     public addBeneficiaries(projectId: number, filter: any) {
         let url = this.api + "/projects/" + projectId + "/beneficiaries/add";
         let body = {
-            filter : filter
+            filter: filter
         }
         return this.http.post(url, body);
     }

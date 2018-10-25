@@ -255,58 +255,58 @@
 </div>
 
 <ng-template #transaction>
-    <div class="dialog-template">
-        <div class="modal-header">
-            <h2>Confirm the transaction</h2>
+    <mat-dialog-content class="modal-container">
+        <h4 class="modal-title underline-accent">Confirm the transaction</h4>
+        <div class="dialog-template">
+            <div class="modal-body">
+                <p> Please enter your email to confirm that you want to validate the transaction of this distribution. </p>
+                <mat-form-field>
+                    <input matInput placeholder="Email" [(ngModel)]="this.enteredEmail">
+                </mat-form-field>
+            </div>
+            <div class="modal-footer action">
+                <button mat-button class="cancel" (click)="exit('Transaction canceled')">Cancel</button>
+                <button mat-button class="confirm" (click)="confirmTransaction()">Confirm</button>
+            </div>
         </div>
-        <div class="modal-body">
-            <p> Please enter your email to confirm that you want to validate the transaction of this distribution. </p>
-            <mat-form-field>
-                <input matInput placeholder="Email" [(ngModel)]="this.enteredEmail">
-            </mat-form-field>
-        </div>
-        <div class="modal-footer action">
-            <button mat-button class="cancel" (click)="exit('Transaction canceled')">Cancel</button>
-            <button mat-button class="confirm" (click)="confirmTransaction()">Confirm</button>
-        </div>
-    </div>
+    </mat-dialog-content>
 </ng-template>
 
 <ng-template #validation>
-    <div class="dialog-template">
-        <div class="modal-header">
-            <h2>Confirm the validation</h2>
+    <mat-dialog-content class="modal-container">
+        <h4 class="modal-title underline-accent" >Confirm the validation</h4>
+        <div class="dialog-template">
+            <div class="modal-body">
+                <p> Do you really want to validate this distribution ? You won't be able to modify it anymore. </p>
+            </div>
+            <div class="modal-footer action">
+                <button mat-button class="cancel" (click)="exit('Validation canceled')">Cancel</button>
+                <button mat-button class="confirm" (click)="confirmValidation()">Confirm</button>
+            </div>
         </div>
-        <div class="modal-body">
-            <p> Do you really want to validate this distribution ? You won't be able to modify it anymore. </p>
-        </div>
-        <div class="modal-footer action">
-            <button mat-button class="cancel" (click)="exit('Validation canceled')">Cancel</button>
-            <button mat-button class="confirm" (click)="confirmValidation()">Confirm</button>
-        </div>
-    </div>
+    </mat-dialog-content>
 </ng-template>
 
 <ng-template #addBeneficiary>
-    <div class="dialog-template">
-        <div class="modal-header">
-            <h2>Add beneficiaries to this distribution</h2>
-        </div>
-        <div class="modal-body">
-            <p> Please select the beneficiaries from the project <strong> {{actualDistribution.project.name}} </strong>
-                that you want to add to the <strong> {{actualDistribution.name}} </strong> distribution.</p>
-            <div class="selectBeneficiaries">
-                <mat-form-field>
-                    <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" [(ngModel)]="selectedBeneficiary">
-                        <mat-option class="options" *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">{{beneficiary.given_name}}
-                            {{beneficiary.family_name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
+    <mat-dialog-content class="modal-container">
+        <h4 class="modal-title underline-accent">Add beneficiaries to this distribution</h4>
+        <div class="dialog-template">
+            <div class="modal-body">
+                <p> Please select the beneficiaries from the project <strong> {{actualDistribution.project.name}} </strong>
+                    that you want to add to the <strong> {{actualDistribution.name}} </strong> distribution.</p>
+                <div class="selectBeneficiaries">
+                    <mat-form-field>
+                        <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" [(ngModel)]="selectedBeneficiary">
+                            <mat-option class="options" *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">{{beneficiary.given_name}}
+                                {{beneficiary.family_name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="modal-footer action">
+                <button mat-button class="cancel" (click)="exit('Adding canceled')">Cancel</button>
+                <button mat-button class="confirm" (click)="confirmAdding()">Confirm</button>
             </div>
         </div>
-        <div class="modal-footer action">
-            <button mat-button class="cancel" (click)="exit('Adding canceled')">Cancel</button>
-            <button mat-button class="confirm" (click)="confirmAdding()">Confirm</button>
-        </div>
-    </div>
+    </mat-dialog-content>
 </ng-template>

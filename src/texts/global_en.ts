@@ -78,7 +78,7 @@ export const TEXT = {
     beneficiaries_import_getProject: 'Projects',
     beneficiaries_import_csv: 'download csv template',
     beneficiaries_import_addFile: 'add file or drag and drop',
-    beneficiaries_import_upload: 'upload',
+    beneficiaries_import_upload: 'import',
 
     add_beneficiary_title: 'add beneficiary',
     add_beneficiary_step1: 'Information',

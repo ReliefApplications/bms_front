@@ -36,6 +36,9 @@ export class DashboardComponent implements OnInit {
 
   public summary = [];
 
+  hasRights: boolean = false;
+  hasRightsEdit: boolean = false;
+
   constructor(
     private http: HttpClient,
     private _authenticationService: AuthenticationService,
@@ -58,6 +61,7 @@ export class DashboardComponent implements OnInit {
     this.getSummary();
     this.checkDistributions();
     this.checkSize();
+    this.checkPermission();
   }
 
   /**
@@ -106,6 +110,16 @@ export class DashboardComponent implements OnInit {
       this.summary = response;
       this.loadingSummary = false;
     });
+  }
+
+  checkPermission() {
+    const voters = this._cacheService.get('user').voters;
+
+    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
+      this.hasRights = true;
+
+    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_PROJECT_OFFICER")
+      this.hasRightsEdit = true;
   }
 
 }

@@ -29,6 +29,10 @@ export class BeneficiariesComponent implements OnInit {
 
     dataSource: HouseholdsDataSource;
 
+    hasRights: boolean = false;
+    hasRightsDelete: boolean = false;
+    hasRightsExport: boolean = false;
+
     //addButtons
     addToggled = false;
 
@@ -60,6 +64,7 @@ export class BeneficiariesComponent implements OnInit {
         this.extensionType = 'xls';
         this.dataSource = new HouseholdsDataSource(this.householdsService);
         this.dataSource.loadHouseholds();
+        this.checkPermission();
     }
 
     /**
@@ -140,5 +145,18 @@ export class BeneficiariesComponent implements OnInit {
             );
         }
         this.dialog.closeAll();
+    }
+
+    checkPermission() {
+        const voters = this.cacheService.get('user').voters;
+
+        if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_PROJECT_OFFICER")
+            this.hasRights = true;
+
+        if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER")
+            this.hasRightsDelete = true;
+
+        if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_COUNTRY_MANAGER")
+            this.hasRightsExport = true;
     }
 }

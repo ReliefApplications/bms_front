@@ -93,10 +93,8 @@ export class AuthenticationService {
     }
 
     rightAccessDefinition(user: User) {
-        let voters: any = {};
-        // user.role.forEach((item: string, index: number, array) => {
-        //add voters
-        // })
+        let voters: string = '';
+        voters = user.voters;
         return voters;
     }
 

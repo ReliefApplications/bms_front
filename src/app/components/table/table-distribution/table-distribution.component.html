@@ -36,10 +36,10 @@
             <button mat-icon-button class="green" routerLink="/projects/distributions/{{element.id}}">
                 <mat-icon>search</mat-icon>
             </button>
-            <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="light-red" (click)="openDialog('update', element); $event.stopPropagation()">
+            <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rightsEdit" class="light-red" (click)="openDialog('update', element); $event.stopPropagation()">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="red" (click)="openDialog('delete', element); $event.stopPropagation()" >
+            <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rights" class="red" (click)="openDialog('delete', element); $event.stopPropagation()" >
                 <mat-icon>close</mat-icon>
             </button>
           </div>

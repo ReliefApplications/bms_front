@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="add-buttons">
-                    <button mat-fab class="add-button" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)"
+                    <button mat-fab class="add-button" *ngIf="hasRights" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)"
                         [disabled]="actualDistribution.validated">
                         <mat-icon>add</mat-icon>
                     </button>
@@ -78,7 +78,7 @@
                         <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity"
                             [mapperService]="mapperService" [componentDisplayed]="actualDistribution"></app-box-properties>
                         <div class="import-content">
-                            <app-import-distribution *ngIf="!actualDistribution.validated" [distribution]="this.actualDistribution"
+                            <app-import-distribution *ngIf="!actualDistribution.validated" [distribution]="this.actualDistribution" [rights]="hasRights"
                                 (success)=" this.getDistributionBeneficiaries('final');
                                             this.getDistributionBeneficiaries('initial');
                                             jumpStep(myStepper)">

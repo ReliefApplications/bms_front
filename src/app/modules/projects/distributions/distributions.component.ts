@@ -72,6 +72,9 @@ export class DistributionsComponent implements OnInit {
     form3: FormGroup;
     form4: FormGroup;
 
+    hasRights: boolean = false;
+    hasRightsTransaction: boolean = false;
+
     constructor(
         public distributionService: DistributionService,
         public cacheService: CacheService,
@@ -109,6 +112,7 @@ export class DistributionsComponent implements OnInit {
         this.getSelectedDistribution();
 
         this.getDistributionBeneficiaries('initial');
+        this.checkPermission();
     }
 
     @HostListener('window:resize', ['$event'])
@@ -196,7 +200,7 @@ export class DistributionsComponent implements OnInit {
                         this.loadingTransaction = false;
                     }
 
-                    if(!this.actualDistribution.validated) {
+                    if (!this.actualDistribution.validated) {
                         this.generateRandom();
                     }
 
@@ -320,6 +324,7 @@ export class DistributionsComponent implements OnInit {
      * To confirm on Validation dialog
      */
     confirmValidation() {
+        if (this.hasRights) {
             this.distributionService.setValidation(this.distributionId)
                 .subscribe(
                     success => {
@@ -335,6 +340,10 @@ export class DistributionsComponent implements OnInit {
                     }
                 );
 
+        }
+        else
+            this.snackBar.open("You haven't the right to validate the distribution, ask to your project manager", '', { duration: 3000, horizontalPosition: 'right' });
+
         this.dialog.closeAll();
     }
 
@@ -342,64 +351,67 @@ export class DistributionsComponent implements OnInit {
      * To transact
      */
     confirmTransaction() {
-        const actualUser = this.cacheService.get(CacheService.USER);
+        if (this.hasRightsTransaction) {
+            const actualUser = this.cacheService.get(CacheService.USER);
 
-        if (this.enteredEmail && actualUser.username === this.enteredEmail) {
-            if(this.actualDistribution.commodities && this.actualDistribution.commodities[0]
-                && this.actualDistribution.commodities[0].modality_type && this.actualDistribution.commodities[0].modality_type.name === "Mobile Cash")
-                {
-                this.transacting = true;
-                this.distributionService.transaction(this.distributionId)
-                .pipe(
-                    finalize(
-                        () => this.transacting = false
-                    )
-                ).subscribe(
-                    success => {
-                        this.transactionData.data.forEach(
-                            (element, index) => {
-                                //success.already_sent.push({ id:0 });
-                                //success.sent.push({ id:0 });
+            if (this.enteredEmail && actualUser.username === this.enteredEmail) {
+                if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]
+                    && this.actualDistribution.commodities[0].modality_type && this.actualDistribution.commodities[0].modality_type.name === "Mobile Cash") {
+                    this.transacting = true;
+                    this.distributionService.transaction(this.distributionId)
+                        .pipe(
+                            finalize(
+                                () => this.transacting = false
+                            )
+                        ).subscribe(
+                            success => {
+                                this.transactionData.data.forEach(
+                                    (element, index) => {
+                                        //success.already_sent.push({ id:0 });
+                                        //success.sent.push({ id:0 });
 
-                                success.already_sent.forEach(
-                                    beneficiary => {
-                                        if(element.id === beneficiary.beneficiary.id) {
-                                            this.transactionData.data[index].updateState('Already sent');
-                                        }
+                                        success.already_sent.forEach(
+                                            beneficiary => {
+                                                if (element.id === beneficiary.beneficiary.id) {
+                                                    this.transactionData.data[index].updateState('Already sent');
+                                                }
+                                            }
+                                        )
+                                        success.failure.forEach(
+                                            beneficiary => {
+                                                if (element.id === beneficiary.beneficiary.id) {
+                                                    this.transactionData.data[index].updateState('Sending failed');
+                                                }
+                                            }
+                                        )
+                                        success.no_mobile.forEach(
+                                            beneficiary => {
+                                                if (element.id === beneficiary.beneficiary.id) {
+                                                    this.transactionData.data[index].updateState('No phone');
+                                                }
+                                            }
+                                        )
+                                        success.sent.forEach(
+                                            beneficiary => {
+                                                if (element.id === beneficiary.beneficiary.id) {
+                                                    this.transactionData.data[index].updateState('Sent');
+                                                }
+                                            }
+                                        )
                                     }
-                                )
-                                success.failure.forEach(
-                                    beneficiary => {
-                                        if(element.id === beneficiary.beneficiary.id) {
-                                            this.transactionData.data[index].updateState('Sending failed');
-                                        }
-                                    }
-                                )
-                                success.no_mobile.forEach(
-                                    beneficiary => {
-                                        if(element.id === beneficiary.beneficiary.id) {
-                                            this.transactionData.data[index].updateState('No phone');
-                                        }
-                                    }
-                                )
-                                success.sent.forEach(
-                                    beneficiary => {
-                                        if(element.id === beneficiary.beneficiary.id) {
-                                            this.transactionData.data[index].updateState('Sent');
-                                        }
-                                    }
-                                )
+                                );
                             }
-                        );
-                    }
-                )
+                        )
                 } else {
                     this.snackBar.open('No valid commodity detected for this distribution.', '', { duration: 3000, horizontalPosition: 'center' });
                 }
 
-        } else {
-            this.snackBar.open('Wrong email', '', { duration: 3000, horizontalPosition: 'center' });
+            } else {
+                this.snackBar.open('Wrong email', '', { duration: 3000, horizontalPosition: 'center' });
+            }
         }
+        else
+            this.snackBar.open("You haven't the right to realize the transaction, ask to your project manager or your country manager", '', { duration: 3000, horizontalPosition: 'right' });
 
         this.dialog.closeAll();
     }
@@ -466,39 +478,39 @@ export class DistributionsComponent implements OnInit {
     /**
      * Calculate commodity distribution quantities & values.
      */
-    getAmount(type: string, commodity?: any) : number {
+    getAmount(type: string, commodity?: any): number {
 
         let amount: number;
 
-        if(!this.transactionData) {
+        if (!this.transactionData) {
             amount = 0;
         } else if (type === 'people') {
             amount = 0;
             this.transactionData.data.forEach(
                 element => {
-                    if(element.state === -1 || element.state === -2 || element.state === 0) {
+                    if (element.state === -1 || element.state === -2 || element.state === 0) {
                         amount++;
                     }
                 }
             )
-        } else if(commodity) {
+        } else if (commodity) {
 
-            if(type === 'total') {
+            if (type === 'total') {
                 amount = commodity.value * this.transactionData.data.length;
-            } else if(type === 'done') {
+            } else if (type === 'done') {
                 amount = 0;
                 this.transactionData.data.forEach(
                     element => {
-                        if(element.state === 1 || element.state === 2) {
+                        if (element.state === 1 || element.state === 2) {
                             amount += commodity.value;
                         }
                     }
                 );
-            } else if(type === 'waiting') {
+            } else if (type === 'waiting') {
                 amount = 0;
                 this.transactionData.data.forEach(
                     element => {
-                        if(element.state === -2 ||element.state === -1 || element.state === 0) {
+                        if (element.state === -2 || element.state === -1 || element.state === 0) {
                             amount += commodity.value;
                         }
                     }
@@ -507,21 +519,30 @@ export class DistributionsComponent implements OnInit {
                 let done = 0;
                 this.transactionData.data.forEach(
                     element => {
-                        if(element.state === 1 || element.state === 2) {
+                        if (element.state === 1 || element.state === 2) {
                             done += commodity.value;
                         }
                     }
                 );
-                amount = Math.round( ( done / (commodity.value * this.transactionData.data.length) )*100 );
+                amount = Math.round((done / (commodity.value * this.transactionData.data.length)) * 100);
             }
         }
         // console.log(type, amount);
 
-        return(amount);
+        return (amount);
     }
 
-    jumpStep(stepper : MatStepper) {
+    jumpStep(stepper: MatStepper) {
         stepper.next();
     }
 
+    checkPermission() {
+        const voters = this.cacheService.get('user').voters;
+
+        if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
+            this.hasRights = true;
+
+        if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == 'ROLE_COUNTRY_MANAGER')
+            this.hasRightsTransaction = true;
+    }
 }

@@ -37,11 +37,11 @@
         <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
           <mat-icon>search</mat-icon>
         </button>
-        <button *ngIf="editable && checkEntityUpdateRights()" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()"
+        <button *ngIf="editable && checkEntityUpdateRights() && rights" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()"
           class="light-red">
           <mat-icon>edit</mat-icon>
         </button>
-        <button *ngIf="editable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
+        <button *ngIf="editable && rights" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
           <mat-icon>close</mat-icon>
         </button>
       </td>

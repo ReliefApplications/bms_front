@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { User } from './model/user';
 import { AuthenticationService } from './core/authentication/authentication.service';
+import { CacheService } from './core/storage/cache.service';
 import { GlobalText } from '../texts/global';
 
 import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
@@ -26,9 +27,11 @@ export class AppComponent {
   public isShowing = false;
   public menu = GlobalText.TEXTS;
 
-
+  hasRights: boolean = false;
+  
   constructor(
     private _authenticationService: AuthenticationService,
+    private _cacheService: CacheService,
     public dialog: MatDialog
   ) { }
 
@@ -121,6 +124,9 @@ export class AppComponent {
     if(this.logOut){
       this.getUser();
     }
+    else
+      this.checkPermission();
+
   }
 
   clickOnTopMenu(e): void{
@@ -133,5 +139,13 @@ export class AppComponent {
    */
   onActivate(e){
     this.currentComponent = e.nameComponent;
+  }
+
+  checkPermission() {
+    this.hasRights = false;
+
+    const voters = this._cacheService.get('user').voters;
+    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_COUNTRY_MANAGER")
+      this.hasRights = true;
   }
 }

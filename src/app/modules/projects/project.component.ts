@@ -39,6 +39,8 @@ export class ProjectComponent implements OnInit {
   selectedProject = null;
   isBoxClicked = false;
   extensionType: string;
+  hasRights: boolean = false;
+  hasRightsEdit: boolean = false;
 
   public maxHeight = GlobalText.maxHeight;
   public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -61,6 +63,7 @@ export class ProjectComponent implements OnInit {
   ngOnInit() {
     this.getProjects();
     this.checkSize();
+    this.checkPermission();
     this.extensionType = 'xls';
   }
 
@@ -167,5 +170,15 @@ export class ProjectComponent implements OnInit {
         this.loadingCreation = false;
       }
     );
+  }
+
+  checkPermission() {
+    const voters = this._cacheService.get('user').voters;
+
+    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
+      this.hasRights = true;
+
+    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_PROJECT_OFFICER")
+      this.hasRightsEdit = true;
   }
 }

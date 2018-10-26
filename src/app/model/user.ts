@@ -53,7 +53,7 @@ export class User {
      */
     country: number[] = undefined;
 
-    voters: any = {};
+    voters: string = '';
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -219,10 +219,6 @@ export class User {
             {
                 'id': "ROLE_ADMIN",
                 'name': GlobalText.TEXTS.role_user_admin,
-              },
-              {
-                'id': "ROLE_READ_ONLY",
-                'name': GlobalText.TEXTS.role_user_read_only,
               },
               {
                 'id': "ROLE_FIELD_OFFICER",

@@ -129,6 +129,13 @@ export class ProjectComponent implements OnInit {
     this.distributionService.getByProject(projectId).subscribe(response => {
       const distribution = DistributionData.formatArray(response);
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + 'S'], distribution);
+
+      distribution.sort(function(a,b){
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(a.date_distribution).getTime() - new Date(b.date_distribution).getTime();
+      });
+
       this.distributionData = new MatTableDataSource(distribution);
       this.loadingDistributions = false;
     });

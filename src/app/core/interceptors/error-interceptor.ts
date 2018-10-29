@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { URL_BMS_API } from '../../../environments/environment';
 import { MatSnackBar } from '@angular/material';
+import { NetworkService } from '../api/network.service';
 
 const api = URL_BMS_API;
 
@@ -13,7 +14,8 @@ const api = URL_BMS_API;
 export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(
-        public snackbar : MatSnackBar
+        public snackbar : MatSnackBar,
+        private networkService : NetworkService,
     ){}
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
@@ -32,14 +34,16 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     snackErrors(response : any) {
-        if (response.message || (response.status && response.statusText && response.error) ) {
+        if(response.status === 0 && !this.networkService.getStatus()) {
+            this.snackbar.open('No network connection', '', {duration: 4000, horizontalPosition: 'center'});            
+        } else if (response.message || (response.status && response.statusText && response.error) ) {
             if(response.status && response.statusText && response.error) {
-                this.snackbar.open(response.statusText + ' (' + response.status + ') - ' + response.error, '', {duration: 3000, horizontalPosition: 'center'});
+                this.snackbar.open(response.statusText + ' (' + response.status + ') - ' + response.error, '', {duration: 4000, horizontalPosition: 'center'});
             } else {
-                this.snackbar.open(response.message, '', {duration: 3000, horizontalPosition: 'center'});
+                this.snackbar.open(response.message, '', {duration: 4000, horizontalPosition: 'center'});
             }
         } else {
-            this.snackbar.open('An error occured, request has failed (Empty back response).', '', {duration: 3000, horizontalPosition: 'center'});
+            this.snackbar.open('An error occured, request has failed (Empty back response).', '', {duration: 4000, horizontalPosition: 'center'});
         }
     }
 

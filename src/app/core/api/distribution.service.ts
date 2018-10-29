@@ -1,5 +1,5 @@
 import { Injectable                                 } from '@angular/core';
-import { of                                         } from 'rxjs';
+import { of, Observable                                         } from 'rxjs';
 
 import { URL_BMS_API                                } from '../../../environments/environment';
 
@@ -12,6 +12,8 @@ import { Sector                                     } from '../../model/sector';
 import { Beneficiaries                              } from '../../model/beneficiary';
 
 import { ExportService                              } from './export.service';
+import { CacheService } from '../storage/cache.service';
+import { NetworkService } from './network.service';
 
 
 @Injectable({
@@ -22,18 +24,93 @@ export class DistributionService {
 
     constructor(
         private http: HttpService,
-        private exportService: ExportService
+        private exportService: ExportService,
+        private cacheService: CacheService,
+        private networkService: NetworkService,
     ) {
     }
 
     public get() {
+
         const url = this.api + '/distributions';
-        return this.http.get(url);
+
+        let data = new Observable(
+            (observer) => {
+
+                let cacheData = this.cacheService.get(CacheService.DISTRIBUTIONS);
+                
+                if(cacheData) {
+                    observer.next(cacheData);
+                }
+
+                if(this.networkService.getStatus()) {
+
+                    let backData;
+
+                    this.http.get(url).subscribe(
+                        result => {
+
+                            backData = result;
+
+                            if(backData && backData !== cacheData) {
+                                observer.next(backData);
+                                this.cacheService.set(CacheService.DISTRIBUTIONS, backData);
+                            }
+                            observer.complete();                            
+                        }
+                    )
+                } else {
+                    observer.complete();
+                }
+
+            }
+        );
+
+        return(data);
     }
 
     public getOne(id: number) {
+
         const url = this.api + '/distributions/' + id;
-        return this.http.get(url);
+
+        let data = new Observable(
+            (observer) => {
+
+                let cacheData = this.cacheService.get(CacheService.DISTRIBUTIONS);
+                
+                if(cacheData) {
+                    cacheData.forEach(
+                        element => {
+                            if(element.id === id) {
+                                observer.next(element);
+                            }
+                        }
+                    )
+                }
+
+                if(this.networkService.getStatus()) {
+
+                    let backData;
+
+                    this.http.get(url).subscribe(
+                        result => {
+
+                            backData = result;
+
+                            if(backData && backData !== cacheData) {
+                                observer.next(backData);
+                            }
+                            observer.complete();                            
+                        }
+                    )
+                } else {
+                    observer.complete();
+                }
+
+            }
+        );
+
+        return(data);
     }
 
     public getByProject(idProject) {

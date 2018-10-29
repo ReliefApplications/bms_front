@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { URL_BMS_API } from '../../../environments/environment';
 
 import { HttpService } from './http.service';
+import { CacheService } from '../storage/cache.service';
+import { NetworkService } from './network.service';
 
 
 @Injectable({
@@ -13,7 +15,9 @@ export class LocationService {
     readonly api = URL_BMS_API;
 
     constructor(
-        private http: HttpService
+        private http: HttpService,
+        private cacheService: CacheService,
+        private networkService: NetworkService,
     ) {
     }
 
@@ -22,7 +26,39 @@ export class LocationService {
      */
     public getAdm1() {
         let url = this.api + "/location/adm1";
-        return this.http.get(url);
+
+        let data = new Observable(
+            (observer) => {
+
+                let cacheData = this.cacheService.get(CacheService.ADM1);
+                
+                if(cacheData) {
+                    observer.next(cacheData);
+                }
+
+                if(this.networkService.getStatus()) {
+
+                    let backData;
+
+                    this.http.get(url).subscribe(
+                        result => {
+
+                            backData = result;
+
+                            if(backData && backData !== cacheData) {
+                                observer.next(backData);
+                                this.cacheService.set(CacheService.ADM1, backData);
+                            }
+                            observer.complete();                            
+                        }
+                    )
+                } else {
+                    observer.complete();
+                }
+            }
+        );
+
+        return(data);
     }
 
     /**
@@ -31,7 +67,39 @@ export class LocationService {
      */
     public getAdm2(body?: any) {
         let url = this.api + "/location/adm2";
-        return this.http.post(url, body);
+        
+        let data = new Observable(
+            (observer) => {
+
+                let cacheData = this.cacheService.get(CacheService.ADM2);
+                
+                if(cacheData) {
+                    observer.next(cacheData);
+                }
+
+                if(this.networkService.getStatus()) {
+
+                    let backData;
+
+                    this.http.get(url).subscribe(
+                        result => {
+
+                            backData = result;
+
+                            if(backData && backData !== cacheData) {
+                                observer.next(backData);
+                                this.cacheService.set(CacheService.ADM2, backData);
+                            }
+                            observer.complete();                            
+                        }
+                    )
+                } else {
+                    observer.complete();
+                }
+            }
+        );
+
+        return(data);
     }
 
     /**
@@ -40,7 +108,39 @@ export class LocationService {
      */
     public getAdm3(body?: any) {
         let url = this.api + "/location/adm3";
-        return this.http.post(url, body);
+        
+        let data = new Observable(
+            (observer) => {
+
+                let cacheData = this.cacheService.get(CacheService.ADM3);
+                
+                if(cacheData) {
+                    observer.next(cacheData);
+                }
+
+                if(this.networkService.getStatus()) {
+
+                    let backData;
+
+                    this.http.get(url).subscribe(
+                        result => {
+
+                            backData = result;
+
+                            if(backData && backData !== cacheData) {
+                                observer.next(backData);
+                                this.cacheService.set(CacheService.ADM3, backData);
+                            }
+                            observer.complete();                            
+                        }
+                    )
+                } else {
+                    observer.complete();
+                }
+            }
+        );
+
+        return(data);
     }
 
     /**
@@ -49,7 +149,39 @@ export class LocationService {
      */
     public getAdm4(body?: any) {
         let url = this.api + "/location/adm4";
-        return this.http.post(url, body);
+        
+        let data = new Observable(
+            (observer) => {
+
+                let cacheData = this.cacheService.get(CacheService.ADM4);
+                
+                if(cacheData) {
+                    observer.next(cacheData);
+                }
+
+                if(this.networkService.getStatus()) {
+
+                    let backData;
+
+                    this.http.get(url).subscribe(
+                        result => {
+
+                            backData = result;
+
+                            if(backData && backData !== cacheData) {
+                                observer.next(backData);
+                                this.cacheService.set(CacheService.ADM4, backData);
+                            }
+                            observer.complete();                            
+                        }
+                    )
+                } else {
+                    observer.complete();
+                }
+            }
+        );
+
+        return(data);
     }
 
     public getUpcomingDistributionCode() {

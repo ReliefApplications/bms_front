@@ -7,6 +7,8 @@ import { WsseService } from '../authentication/wsse.service';
 import { User, ErrorInterface } from '../../model/user';
 import { SaltInterface } from '../../model/salt';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { CacheService } from '../storage/cache.service';
+import { NetworkService } from './network.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -18,13 +20,48 @@ export class UserService {
 		private http: HttpService,
 		private wsseService: WsseService,
 		private userService: UserService,
-		private authenticationService: AuthenticationService
+		private authenticationService: AuthenticationService,
+        private cacheService: CacheService,
+        private networkService: NetworkService,
 	) {
 	}
 
 	public get() {
-		let url = this.api + "/users";
-		return this.http.get(url);
+        let url = this.api + "/users";
+        
+		let data = new Observable(
+            (observer) => {
+
+                let cacheData = this.cacheService.get(CacheService.USERS);
+                
+                if(cacheData) {
+                    observer.next(cacheData);
+                }
+
+                if(this.networkService.getStatus()) {
+
+                    let backData;
+
+                    this.http.get(url).subscribe(
+                        result => {
+
+                            backData = result;
+
+                            if(backData && backData !== cacheData) {
+                                observer.next(backData);
+                                this.cacheService.set(CacheService.USERS, backData);
+                            }
+                            observer.complete();                            
+                        }
+                    )
+                } else {
+                    observer.complete();
+                }
+
+            }
+        );
+
+        return(data);
 	}
 
 	public update(id: number, body: any) {

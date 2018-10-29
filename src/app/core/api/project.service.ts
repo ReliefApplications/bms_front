@@ -23,11 +23,6 @@ export class ProjectService {
     ) {
     }
 
-    public test() {
-
-        
-    }
-
     public get() {
 
         let url = this.api + "/projects";

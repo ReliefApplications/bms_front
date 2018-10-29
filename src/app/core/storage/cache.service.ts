@@ -14,7 +14,8 @@ export class CacheService {
 	private defaultStorage: any;
 
 	// KEYS
-	static readonly USER 						= 'user';
+    static readonly USER 						= 'user';
+	static readonly USERS 						= 'users';    
 	static readonly DISTRIBUTIONS              	= 'distributions';
 	static readonly DONORS		              	= 'donors';
 	static readonly PROJECTS		            = 'projects';
@@ -26,7 +27,9 @@ export class CacheService {
 	static readonly ADM2						= 'adm2';
 	static readonly ADM3						= 'adm3';
 	static readonly ADM4						= 'adm4';
-	static readonly MAPSDATA					= 'mapsData';
+    static readonly MAPSDATA					= 'mapsData';
+    static readonly SPECIFICS                   = 'specifics';
+    static readonly MODALITIES                  = 'modalities';
 
 	constructor() {
 		this.defaultStorage = localStorage;

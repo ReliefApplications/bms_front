@@ -20,7 +20,7 @@ export class AppComponent {
   public logOut = true;
   public openTopMenu = false;
   public smallScreenMode;
-  public maxHeight = 700;
+  public maxHeight = 600;
   public maxWidth = 750;
 
   public isShowing = false;
@@ -36,6 +36,7 @@ export class AppComponent {
     this.checkSize();
     this.getUser();
   }
+
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -132,6 +133,10 @@ export class AppComponent {
    * @param e
    */
   onActivate(e){
-    this.currentComponent = e.nameComponent;
+        if( !e.nameComponent || e.nameComponent ==='project_title' || e.nameComponent ==='beneficiaries_title' 
+        || e.nameComponent ==='report_title' || e.nameComponent ==='settings_title') 
+        {
+            this.currentComponent = e.nameComponent;
+        }
   }
 }

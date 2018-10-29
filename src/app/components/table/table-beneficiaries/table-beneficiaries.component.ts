@@ -9,7 +9,7 @@ import { tap } from 'rxjs/operators';
 @Component({
     selector: 'app-table-beneficiaries',
     templateUrl: './table-beneficiaries.component.html',
-    styleUrls: ['./table-beneficiaries.component.scss']
+    styleUrls: ['../table.component.scss'],
 })
 export class TableBeneficiariesComponent extends TableComponent {
 

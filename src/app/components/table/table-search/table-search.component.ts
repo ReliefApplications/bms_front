@@ -4,8 +4,8 @@ import { TableComponent                                       } from '../table.c
 
 @Component({
   selector: 'app-table-search',
-  templateUrl: './table-search.component.html',
-  styleUrls: ['./table-search.component.scss']
+  templateUrl: './table-search.component.html',  
+  styleUrls: ['../table.component.scss'],
 })
 export class TableSearchComponent extends TableComponent {
 

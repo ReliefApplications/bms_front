@@ -55,25 +55,25 @@
 </div>
 
 <ng-template #addBeneficiaries>
-    <div class="dialog-template">
-        <div class="modal-header">
-            <h2>Add beneficiaries to this distribution</h2>
-        </div>
-        <div class="modal-body">
-            <p> Please select the project(s) in which you would like to add the {{dataSource.length$ | async}} selected beneficiaries:</p>
-            <div class="selectBeneficiaries">
-                <mat-form-field>
-                    <mat-select placeholder="Projects" [formControl]="projectForm" [(ngModel)]="selectedProject">
-                        <mat-option class="options" *ngFor="let project of projectsList" [value]="project.id">
-                            {{project.name}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+    <mat-dialog-content class="modal-container">
+        <h4 class="modal-title underline-accent">Add beneficiaries to this distribution</h4>
+        <div class="dialog-template">
+            <div class="modal-body">
+                <p> Please select the project(s) in which you would like to add the {{dataSource.length$ | async}} selected beneficiaries:</p>
+                <div class="selectBeneficiaries">
+                    <mat-form-field>
+                        <mat-select placeholder="Projects" [formControl]="projectForm" [(ngModel)]="selectedProject">
+                            <mat-option class="options" *ngFor="let project of projectsList" [value]="project.id">
+                                {{project.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="modal-footer action">
+                <button mat-button class="cancel" (click)="dialog.closeAll()">Cancel</button>
+                <button mat-raised-button class="confirm" (click)="confirmAdding()">Confirm</button>
             </div>
         </div>
-        <div class="modal-footer action">
-            <button mat-button class="cancel" (click)="dialog.closeAll()">Cancel</button>
-            <button mat-button class="confirm" (click)="confirmAdding()">Confirm</button>
-        </div>
-    </div>
+    </mat-dialog-content>
 </ng-template>

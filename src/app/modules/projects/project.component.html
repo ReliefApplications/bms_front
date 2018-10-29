@@ -6,14 +6,14 @@
         <span>NEW</span>
     </button>
   </div>
-  <app-placeholder-boxline *ngIf="loadingProjects" class="container-boxes"></app-placeholder-boxline>
+  <app-placeholder-boxline *ngIf="loadingProjects && projects != undefined" class="container-boxes"></app-placeholder-boxline>
   <div class="container-boxes" *ngIf="!loadingProjects">
     <app-box-setting *ngFor="let project of projects" (emitClickedTitle)="selectTitle($event, project)" [selectedTitle]="selectedTitle"
       [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'>
     </app-box-setting>
   </div>
   <app-placeholder-panel class="container-table" *ngIf="loadingDistributions"></app-placeholder-panel>
-  <div class="container-table" *ngIf="!loadingDistributions">
+  <div class="container-table" *ngIf="!loadingDistributions && projects != undefined">
     <div class="container-content box-green" *ngIf="isBoxClicked">
       <h3>{{selectedProject.name | uppercase}}</h3>
       <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService" [componentDisplayed]="selectedProject"></app-box-properties>
@@ -24,7 +24,7 @@
                 <mat-icon>add</mat-icon>
             </button>
         </div>
-        <div class="action-buttons" *ngIf="distributionData.data.length>0">
+        <div class="action-buttons" *ngIf="distributionData && distributionData.data.length>0">
             <button mat-raised-button class="button-background-primary" (click)="export()">
               <mat-icon>get_app</mat-icon>
               <span>{{distribution.beneficiaries_export | uppercase}}</span>
@@ -49,15 +49,28 @@
             Go to Beneficiaries
         </button>
       </div>
-      <div class="undisplay empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData.data.length==0">
+      <div class="undisplay empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData && distributionData.data.length==0">
         <mat-icon>find_in_page</mat-icon>
         <p> This project does not contain any distribution. Create your first one !</p>
         <i> Click on <mat-icon>add_circle</mat-icon > </i>
       </div>
-      <div class="content-table" *ngIf="distributionData.data.length>0">
+      <div class="content-table" *ngIf="distributionData && distributionData.data.length>0">
         <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
         <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile" [entity]="distributionClass" [service]="distributionService"
           [data]="distributionData"></app-table-mobile-distribution>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container-table" *ngIf="!loadingDistributions && projects == undefined">
+    <div class="container-content box-green">
+      <div class="undisplay new-project">
+        <mat-icon>note_add</mat-icon>
+        <p> This country does not contain any project. </p>
+        <p> Please add some projects first ! Then you will be able to manage some distributions... </p>
+        <button mat-raised-button class="button-background-primary" (click)="openNewProjectDialog()">
+            Create a new project
+        </button>
       </div>
     </div>
   </div>

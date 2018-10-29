@@ -18,7 +18,7 @@ export const TEXT = {
     header_projects : 'Projects',
     'header_add-distribution' : 'Add Distribution',
     'header_distributions' : 'Distribution',
-    'header_update-beneficiary' : 'Update',
+    'header_update-beneficiary' : 'Update Beneficiaries',
     header_beneficiaries : 'Beneficiaries',
     header_resports : 'Reports',
     header_settings : 'Settings',
@@ -26,7 +26,7 @@ export const TEXT = {
     header_profile : 'Profile',
     header_import : 'Import',
     'header_data-validation' : 'Data Validation',
-    'header_add-beneficiaries' : 'Add Household',
+    'header_add-beneficiaries' : 'Add Beneficiaries',
     header_disconnect : 'log out',
     header_language : 'language',
 
@@ -71,14 +71,14 @@ export const TEXT = {
     beneficiaries_export : 'export',
 
     beneficiaries_import : 'import',
-    beneficiaries_import_file : 'file import',
-    beneficiaries_import_api : 'api import',
+    beneficiaries_import_file : ' import from file',
+    beneficiaries_import_api : 'import from external data source',
     beneficiaries_select_api : 'Select API',
     beneficiaries_import_title: 'import households data',
     beneficiaries_import_getProject: 'Projects',
     beneficiaries_import_csv: 'download csv template',
     beneficiaries_import_addFile: 'add file or drag and drop',
-    beneficiaries_import_upload: 'upload',
+    beneficiaries_import_upload: 'import',
 
     add_beneficiary_title: 'add beneficiary',
     add_beneficiary_step1: 'Information',
@@ -250,6 +250,7 @@ export const TEXT = {
     import_added: 'Will be added',
     import_deleted: 'Will be deleted',
     import_created: 'Will be created',
+    import_updated: 'Will be updated',
     import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.',
 
     distribution_details_export: 'export',

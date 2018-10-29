@@ -403,7 +403,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
         else {
             // Minimum data not filled -> Error !
-            this.snackBar.open('Required data incomplete or unvalid: please check previous steps', '', {duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open('Required data incomplete or unvalid: please check all steps', '', {duration: 3000, horizontalPosition: 'center' });
             return(undefined);
         }
 

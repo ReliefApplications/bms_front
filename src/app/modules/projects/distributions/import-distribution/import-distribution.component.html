@@ -8,22 +8,22 @@
         </div>
         <div class="select-file">
           <a class="fenetre-selection" href="javascript:void(0)" (click)="file.click()">
-            <button mat-button color="primary" class="button-add-file">{{TEXT.beneficiaries_import_addFile | uppercase}}</button>
+            <button mat-stroked-button color="primary">{{TEXT.beneficiaries_import_addFile | uppercase}}</button>
           </a>
           <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
         </div>
       </mat-card>
     </div>
-    <mat-list *ngIf="csv">
-      <mat-list-item>
-        <mat-icon mat-list-icon>insert_drive_file</mat-icon>
-        <h4 mat-line class="text">{{ csv.name }}</h4>
-        <p mat-line class="text">{{ csv.size }} bytes, {{ csv.lastModifiedDate | date: ddMMyyyy}} </p>
-      </mat-list-item>
-    </mat-list>
   </div>
 
   <div class="content-button content-button-footer">
+  <mat-list *ngIf="csv">
+    <mat-list-item>
+      <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+      <h4 mat-line class="text">{{ csv.name }}</h4>
+      <p mat-line class="text">{{ csv.size }} bytes, {{ csv.lastModifiedDate | date: ddMMyyyy}} </p>
+    </mat-list-item>
+  </mat-list>
     <mat-spinner [diameter]="35" *ngIf="loadFile"></mat-spinner>
     <button mat-raised-button class="upload-button" (click)="updateDistribution(1)" *ngIf="csv && !loadFile">
       <mat-icon>publish</mat-icon>
@@ -88,6 +88,24 @@
         </app-table-mobile-search>
       </div>
     </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="badge">
+            <label>
+              {{ TEXT.import_updated | uppercase }}
+            </label>
+            <mat-chip-list>
+              <mat-chip>{{numberUpdated}}</mat-chip>
+            </mat-chip-list>
+          </div>
+        </ng-template>
+        <div class="table-content">
+          <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="updateData" [editable]="false">
+          </app-table-search>
+          <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="updateData" [editable]="false">
+          </app-table-mobile-search>
+        </div>
+      </mat-tab>
   </mat-tab-group>
   <div *ngIf="noChanges" class="no-data-box">
     <h2 class="box-title">

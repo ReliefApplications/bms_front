@@ -176,6 +176,7 @@ export const TEXT = {
     modal_save : 'Save',
     modal_delete : 'Delete',
     modal_create : 'Create',
+    modal_add : 'Add',
     modal_valid_email : 'Please enter a valid email address',
     modal_email_is : 'Email is',
     modal_email_placeholder : 'Email',

@@ -68,7 +68,7 @@ export class User {
         }
     }
 
-    public static getDisplayedName(){
+    public static getDisplayedName() {
         return GlobalText.TEXTS.model_user;
     }
 
@@ -105,9 +105,20 @@ export class User {
         if (!selfinstance)
             return selfinstance;
 
+        let finalRight;
+        let re = /\ /gi;
+        selfinstance.rights = selfinstance.rights.replace(re, "");
+
+        this.getAllRights().forEach(rights => {
+            let value = Object.values(rights);
+            if (value[0] == selfinstance.rights) {
+                finalRight = value[1];
+            }
+        });
+        
         return {
             username: selfinstance.username,
-            rights: selfinstance.rights,
+            rights: finalRight,
             projects: selfinstance.projects,
             country: selfinstance.country
         }
@@ -214,36 +225,32 @@ export class User {
         return new User(element);
     }
 
-    public getAllRights(){
+    public getAllRights() {
         return [
             {
                 'id': "ROLE_ADMIN",
                 'name': GlobalText.TEXTS.role_user_admin,
-              },
-              {
-                'id': "ROLE_READ_ONLY",
-                'name': GlobalText.TEXTS.role_user_read_only,
-              },
-              {
+            },
+            {
                 'id': "ROLE_FIELD_OFFICER",
                 'name': GlobalText.TEXTS.role_user_field_officer,
-              },
-              {
+            },
+            {
                 'id': "ROLE_PROJECT_OFFICER",
                 'name': GlobalText.TEXTS.role_user_project_officer,
-              },
-              {
+            },
+            {
                 'id': "ROLE_PROJECT_MANAGER",
                 'name': GlobalText.TEXTS.role_user_project_manager,
-              },
-              {
+            },
+            {
                 'id': "ROLE_COUNTRY_MANAGER",
                 'name': GlobalText.TEXTS.role_user_country_manager,
-              },
-              {
+            },
+            {
                 'id': "ROLE_REGIONAL_MANAGER",
                 'name': GlobalText.TEXTS.role_user_regional_manager,
-              }
+            }
         ];
     }
 }

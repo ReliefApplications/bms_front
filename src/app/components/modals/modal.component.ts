@@ -165,6 +165,27 @@ export class ModalComponent implements OnInit {
       }
     }
   }
+
+  /**
+     * Recover the right from the model
+     * @param element
+     */
+    recoverRights(element) {
+      if (element.rights) {
+          let re = /\ /gi;
+          element.rights = element.rights.replace(re, "");
+          let finalRight;
+
+          this.entityInstance.getAllRights().forEach(rights => {
+              let value = Object.values(rights);
+              if (value[0] == element.rights) {
+                  finalRight = value[1];
+              }
+          });
+
+          return finalRight;
+      }
+  }
 }
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {

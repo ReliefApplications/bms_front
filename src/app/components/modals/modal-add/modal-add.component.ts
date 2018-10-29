@@ -18,6 +18,8 @@ export class ModalAddComponent extends ModalComponent {
 
     display = false;
     oldSelectedModality = 0;
+    displayAdd: boolean = false;
+
     @Input() data: any;
     @Output() onCreate = new EventEmitter();
 
@@ -25,6 +27,9 @@ export class ModalAddComponent extends ModalComponent {
         this.checkData();
         this.loadData();
         this.prefill();
+
+        if ((this.properties[0] == 'modality' && this.properties[2] == 'unit'))
+            this.displayAdd = true;
     }
 
     checkData() {

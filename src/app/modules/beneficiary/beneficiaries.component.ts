@@ -117,7 +117,7 @@ export class BeneficiariesComponent implements OnInit {
     getProjects() {
         if (!this.projectsList || this.projectsList.length === 0) {
             this.projectService.get().subscribe(
-                success => {
+                (success : any[]) => {
                     success.forEach(
                         element => {
                             this.projectsList.push(element);

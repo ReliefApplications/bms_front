@@ -296,7 +296,7 @@
                     that you want to add to the <strong> {{actualDistribution.name}} </strong> distribution.</p>
                 <div class="selectBeneficiaries">
                     <mat-form-field>
-                        <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" [(ngModel)]="selectedBeneficiary">
+                        <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" [(ngModel)]="selectedBeneficiaries" multiple>
                             <mat-option class="options" *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">{{beneficiary.given_name}}
                                 {{beneficiary.family_name}}</mat-option>
                         </mat-select>

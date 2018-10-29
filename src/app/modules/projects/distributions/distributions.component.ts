@@ -63,7 +63,7 @@ export class DistributionsComponent implements OnInit {
     // AddBeneficiary Dialog variables.
     beneficiaryForm = new FormControl();
     beneficiaryList = new Array<Beneficiaries>();
-    selectedBeneficiary = new Beneficiaries();
+    selectedBeneficiaries = new Array<Beneficiaries>();
     target: string = "";
 
     // Stepper forms.
@@ -437,7 +437,14 @@ export class DistributionsComponent implements OnInit {
     confirmAdding() {
         this.dialog.closeAll();
 
-        this.beneficiariesService.add(this.distributionId, Beneficiaries.formatForApi(this.selectedBeneficiary))
+        let beneficiariesArray = new Array();
+        this.selectedBeneficiaries.forEach(
+            element => {
+                beneficiariesArray.push(Beneficiaries.formatForApi(element));
+            }
+        )
+
+        this.beneficiariesService.add(this.distributionId, beneficiariesArray)
             .subscribe(
                 success => {
                     this.distributionService.getBeneficiaries(this.distributionId)
@@ -450,7 +457,7 @@ export class DistributionsComponent implements OnInit {
                     this.getDistributionBeneficiaries('final');
                 },
                 error => {
-                    // console.log('cc', this.selectedBeneficiary);
+                    // console.log('cc', this.selectedBeneficiaries);
                     this.snackBar.open('Beneficiary could not be added', '', { duration: 3000, horizontalPosition: 'center' });
                 });
     }

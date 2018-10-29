@@ -54,18 +54,18 @@ export class ModalAddComponent extends ModalComponent {
             this.checkData();
         }
     }
-    
+
     prefill() {
         if (this.data.entity === Project) {
 
             this.properties.forEach(
                 (element) => {
-                    if(element === 'start_date') {
+                    if (element === 'start_date') {
                         this.newObject[element] = new Date();
                     }
-                    else if(element === 'end_date') {
+                    else if (element === 'end_date') {
                         let date = new Date();
-                        date.setMonth(date.getMonth()+3);
+                        date.setMonth(date.getMonth() + 3);
                         this.newObject[element] = date;
                     }
                 }
@@ -73,7 +73,7 @@ export class ModalAddComponent extends ModalComponent {
         } else if (this.data.entity === Commodity) {
             this.properties.forEach(
                 (element) => {
-                    if(element === 'unit') {
+                    if (element === 'unit') {
                         this.newObject[element] = 'USD';
                     }
                 }
@@ -133,8 +133,8 @@ export class ModalAddComponent extends ModalComponent {
                 return;
             }
 
-            if(this.newObject.password == ''){
-                this.snackBar.open('You must define a password', '', { duration: 3000, horizontalPosition: 'right'});
+            if (this.newObject.password == '') {
+                this.snackBar.open('You must define a password', '', { duration: 3000, horizontalPosition: 'right' });
                 return;
             }
 
@@ -174,10 +174,17 @@ export class ModalAddComponent extends ModalComponent {
         }
         //Check fields for Projects settings
         else if ((this.newObject.donors && this.newObject.donors_name && this.newObject.name && this.newObject.sectors && this.newObject.sectors_name) || this.newObject.name == '' || (this.newObject.sectors_name && Object.keys(this.newObject.sectors_name).length == 0) || (this.newObject.sectors && Object.keys(this.newObject.sectors).length == 0)) {
+            
             if (!this.newObject.end_date || !this.newObject.name || !this.newObject.start_date || !this.newObject.value || this.newObject.value < 0) {
                 this.snackBar.open('Invalid fields : check you filled every fields and budget is more than 0', '', { duration: 3000, horizontalPosition: 'right' });
                 return;
             }
+
+            if (new Date(this.newObject.start_date).getTime() > new Date(this.newObject.end_date).getTime()) {
+                this.snackBar.open('Invalid fields : Your start date cannot be older than the end date and vice versa', '', { duration: 3000, horizontalPosition: 'right' });
+                return;
+            }
+
 
             if (typeof this.newObject.start_date == "object") {
                 let day = this.newObject.start_date.getDate();
@@ -206,7 +213,7 @@ export class ModalAddComponent extends ModalComponent {
 
         //Check commodity in addDistribution
         else if ((this.newObject.modality) || this.newObject.modality == '') {
-            if(this.newObject.unit && this.newObject.value && this.newObject.modality == 1)
+            if (this.newObject.unit && this.newObject.value && this.newObject.modality == 1)
                 this.newObject.type = 1;
 
             if (this.newObject.modality == '' || this.newObject.type == '' || this.newObject.unit == '' || !this.newObject.value || this.newObject.value < 0) {
@@ -214,7 +221,7 @@ export class ModalAddComponent extends ModalComponent {
                 return;
             }
         }
-        
+
         // console.log('(dialog) Sent to format: ', this.newObject);
         const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
         // console.log('(dialog) Return from format: ', formatedObject);

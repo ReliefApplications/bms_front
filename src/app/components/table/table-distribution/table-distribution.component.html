@@ -40,7 +40,7 @@
                 <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="red" (click)="openDialog('delete', element); $event.stopPropagation()" >
-                <mat-icon>close</mat-icon>
+                <mat-icon>delete</mat-icon>
             </button>
           </div>
         </td>

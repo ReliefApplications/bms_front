@@ -111,10 +111,15 @@ export class ProjectComponent implements OnInit {
     const promise = this.projectService.get();
     if (promise) {
       promise.toPromise().then(response => {
-        this.projects = this.projectClass.formatArray(response).reverse();
-        this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + 'S'], this.projects);
-        this.selectTitle(this.projects[0].name, this.projects[0]);
-        this.loadingProjects = false;
+        if (response.length > 0) {
+          this.projects = this.projectClass.formatArray(response).reverse();
+          this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + 'S'], this.projects);
+          this.selectTitle(this.projects[0].name, this.projects[0]);
+          this.loadingProjects = false;
+        }
+        else
+          this.loadingDistributions = false;
+
       });
     }
   }

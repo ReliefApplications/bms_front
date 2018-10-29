@@ -4,7 +4,7 @@ import { TableComponent } from '../table.component';
 @Component({
   selector: 'app-transaction-table',
   templateUrl: './transaction-table.component.html',
-  styleUrls: ['./transaction-table.component.scss']
+  styleUrls: ['../table.component.scss'],
 })
 export class TransactionTableComponent extends TableComponent implements OnInit {
 

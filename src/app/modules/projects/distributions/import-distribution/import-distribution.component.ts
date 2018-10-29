@@ -43,11 +43,13 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     addingData: MatTableDataSource<any>;
     removingData: MatTableDataSource<any>;
     createData: MatTableDataSource<any>;
+    updateData: MatTableDataSource<any>;
 
     // data info
     numberAdded = 0;
     numberRemoved = 0;
     numberCreated = 0;
+    numberUpdated = 0;
     noChanges = true;
 
     // Screen display variables.

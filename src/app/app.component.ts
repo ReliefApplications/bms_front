@@ -40,6 +40,7 @@ export class AppComponent {
     this.getUser();
   }
 
+
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.checkSize();
@@ -138,7 +139,11 @@ export class AppComponent {
    * @param e
    */
   onActivate(e){
-    this.currentComponent = e.nameComponent;
+        if( !e.nameComponent || e.nameComponent ==='project_title' || e.nameComponent ==='beneficiaries_title' 
+        || e.nameComponent ==='report_title' || e.nameComponent ==='settings_title') 
+        {
+            this.currentComponent = e.nameComponent;
+        }
   }
 
   checkPermission() {

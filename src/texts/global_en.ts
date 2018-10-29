@@ -194,7 +194,7 @@ export const TEXT = {
     model_distribution_sectors_name: 'Sectors',
     model_distribution_adm1: 'Province',
     model_distribution_adm2: 'District',
-    model_distribution_adm3: 'Community',
+    model_distribution_adm3: 'Commune',
     model_distribution_adm4: 'Village',
     model_distribution_date: 'Date of distribution',
     model_donor : 'Donor',

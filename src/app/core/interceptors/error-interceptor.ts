@@ -25,7 +25,6 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(
             catchError(
                 (error: any, caught: Observable<HttpEvent<any>>) => {
-                    console.log(error);
                     this.snackErrors(error);
                     return of(error);
                 }

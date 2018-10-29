@@ -18,6 +18,8 @@ export class ModalAddComponent extends ModalComponent {
 
     display = false;
     oldSelectedModality = 0;
+    displayAdd: boolean = false;
+
     @Input() data: any;
     @Output() onCreate = new EventEmitter();
 
@@ -25,6 +27,9 @@ export class ModalAddComponent extends ModalComponent {
         this.checkData();
         this.loadData();
         this.prefill();
+
+        if ((this.properties[0] == 'modality' && this.properties[2] == 'unit'))
+            this.displayAdd = true;
     }
 
     checkData() {
@@ -169,8 +174,8 @@ export class ModalAddComponent extends ModalComponent {
         }
         //Check fields for Projects settings
         else if ((this.newObject.donors && this.newObject.donors_name && this.newObject.name && this.newObject.sectors && this.newObject.sectors_name) || this.newObject.name == '' || (this.newObject.sectors_name && Object.keys(this.newObject.sectors_name).length == 0) || (this.newObject.sectors && Object.keys(this.newObject.sectors).length == 0)) {
-            if (!this.newObject.end_date || !this.newObject.name || !this.newObject.start_date || !this.newObject.value) {
-                this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
+            if (!this.newObject.end_date || !this.newObject.name || !this.newObject.start_date || !this.newObject.value || this.newObject.value < 0) {
+                this.snackBar.open('Invalid fields : check you filled every fields and budget is more than 0', '', { duration: 3000, horizontalPosition: 'right' });
                 return;
             }
 
@@ -204,8 +209,8 @@ export class ModalAddComponent extends ModalComponent {
             if(this.newObject.unit && this.newObject.value && this.newObject.modality == 1)
                 this.newObject.type = 1;
 
-            if (this.newObject.modality == '' || this.newObject.type == '' || this.newObject.unit == '' || !this.newObject.value) {
-                this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
+            if (this.newObject.modality == '' || this.newObject.type == '' || this.newObject.unit == '' || !this.newObject.value || this.newObject.value < 0) {
+                this.snackBar.open('Invalid fields : check you filled every fields and quantity more than 0', '', { duration: 3000, horizontalPosition: 'right' });
                 return;
             }
         }

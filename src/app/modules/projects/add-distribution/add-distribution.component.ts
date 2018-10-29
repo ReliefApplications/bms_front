@@ -322,7 +322,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
      * create the new distribution object before send it to the back
      */
     add() {
-        if (this.newObject.type && this.criteriaArray.length != 0 && this.commodityArray && this.commodityArray[0] && this.newObject.date_distribution) {
+        if (this.newObject.type && this.criteriaArray.length != 0 && this.commodityArray && this.commodityArray[0] && this.newObject.date_distribution && this.newObject.threshold > 0) {
             this.loadingCreation = true;
             const newDistribution: DistributionData = new DistributionData;
             newDistribution.type = this.newObject.type;
@@ -370,7 +370,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 this.loadingCreation = false;
             }
         } else {
-            this.snackBar.open('Fill new distribution\'s information before, including the commodity.', '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open('Fill new distribution\'s information before, including the commodity and a threshold\'s value more than 0.', '', { duration: 3000, horizontalPosition: 'center' });
         }
 
     }

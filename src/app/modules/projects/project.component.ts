@@ -62,6 +62,7 @@ export class ProjectComponent implements OnInit {
     this.getProjects();
     this.checkSize();
     this.extensionType = 'xls';
+    
   }
 
   @HostListener('window:resize', ['$event'])

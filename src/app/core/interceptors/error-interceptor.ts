@@ -23,6 +23,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(
             catchError(
                 (error: any, caught: Observable<HttpEvent<any>>) => {
+                    console.log(error);
                     this.snackErrors(error);
                     return of(error);
                 }
@@ -31,8 +32,12 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     snackErrors(response : any) {
-        if (response.message) {
-            this.snackbar.open(response.message, '', {duration: 3000, horizontalPosition: 'center'});
+        if (response.message || (response.status && response.statusText && response.error) ) {
+            if(response.status && response.statusText && response.error) {
+                this.snackbar.open(response.statusText + ' (' + response.status + ') - ' + response.error, '', {duration: 3000, horizontalPosition: 'center'});
+            } else {
+                this.snackbar.open(response.message, '', {duration: 3000, horizontalPosition: 'center'});
+            }
         } else {
             this.snackbar.open('An error occured, request has failed (Empty back response).', '', {duration: 3000, horizontalPosition: 'center'});
         }

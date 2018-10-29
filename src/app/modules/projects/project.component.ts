@@ -130,10 +130,6 @@ export class ProjectComponent implements OnInit {
       const distribution = DistributionData.formatArray(response);
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + 'S'], distribution);
 
-      distribution.sort(function(a,b){
-        return new Date(a.date_distribution).getTime() - new Date(b.date_distribution).getTime();
-      });
-
       this.distributionData = new MatTableDataSource(distribution);
       this.loadingDistributions = false;
     });

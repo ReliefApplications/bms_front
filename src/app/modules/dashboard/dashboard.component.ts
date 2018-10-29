@@ -88,10 +88,6 @@ export class DashboardComponent implements OnInit {
       let distribs;
     this._distributionService.get().subscribe(
         response => {
-          
-            response.sort(function(a,b){
-              return new Date(a.date_distribution).getTime() - new Date(b.date_distribution).getTime();
-            });
             distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
 
             this.distributions = distribs;

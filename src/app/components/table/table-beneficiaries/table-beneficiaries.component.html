@@ -33,8 +33,7 @@
         <span *ngIf="propertiesTypes[property]=='png'">
           <img [matTooltip]="getImageName(image)" *ngFor="let image of mapperService.mapValue(element, property)" class="png" [src]="image">
         </span>
-        <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element,
-                        property)}}</span>
+        <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element, property)}}</span>
       </td>
     </ng-container>
 

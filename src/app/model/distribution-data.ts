@@ -89,6 +89,11 @@ export class DistributionData {
      * @type {Array}
      */
     commodities: Array<Commodity>;
+     /**
+     * Distribution data's commodity
+     * @type {Array}
+     */
+    commodity: string;
     /**
      * validated or not
      */
@@ -114,6 +119,9 @@ export class DistributionData {
             this.date_distribution = instance.date_distribution;
             this.validated = instance.validated;
             this.threshold = instance.threshold;
+            
+            if (instance.commodities)
+                this.commodity = this.mapCommodity(instance.commodities[0].modality_type.name);
         }
     }
 
@@ -121,7 +129,18 @@ export class DistributionData {
         return GlobalText.TEXTS.model_distribution;
     }
 
-
+    public mapCommodity(name: string): string {
+        if (!name) {
+            return "";
+        }
+        switch (name) {
+            case "Mobile":
+                name = 'assets/images/commodities/dollar.png';
+                break;
+            default: return name;
+        }
+        return name;
+    }
     /**
     * return DistributionData properties name displayed
     */
@@ -136,6 +155,7 @@ export class DistributionData {
             adm4: GlobalText.TEXTS.model_distribution_adm4,
             date_distribution: GlobalText.TEXTS.model_distribution_date,
             commodities: GlobalText.TEXTS.model_commodity,
+            commodity: GlobalText.TEXTS.model_commodity,
             type: 'Target'
         };
     }
@@ -146,7 +166,7 @@ export class DistributionData {
         // console.log("formatArray before :", distributionDatas);
         instance.forEach(element => {
             if (Boolean(instance.archived) === false) {
-                if (!element.archived && element && element.id && element.location && element.project && element.name) {
+                if (!element.archived && element && element.id && element.location && element.project && element.name && element.commodities) {
                     distributionDatas.push(this.formatFromApi(element));
                 }
             }
@@ -250,7 +270,8 @@ export class DistributionData {
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
             date_distribution: selfinstance.date_distribution,
-            type: type
+            type: type,
+            commodity: selfinstance.commodity
         };
     }
 
@@ -376,7 +397,8 @@ export class DistributionData {
             adm4: 'select',
             date_distribution: 'date',
             commodities: 'select',
-            type: 'radio'
+            type: 'radio',
+            commodity: 'png',
         };
     }
 

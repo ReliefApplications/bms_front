@@ -6,7 +6,7 @@ import { TableComponent                                       } from '../table.c
 @Component({
   selector: 'app-table-distribution',
   templateUrl: './table-distribution.component.html',
-  styleUrls: ['./table-distribution.component.scss']
+  styleUrls: ['../table.component.scss'],
 })
 export class TableDistributionComponent extends TableComponent {
 

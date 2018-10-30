@@ -1,0 +1,14 @@
+<div class="box-content">
+    <button (click)="emitTitle(info.value)" style="text-decoration: none;" [class.selected]="info.value === selectedTitle">
+        <div class="box-content-content">
+            <div class="content-icon" [class.box-green]="info.color == 'green' && info.value == selectedTitle"
+                [class.box-red]="info.color == 'red' && info.value == selectedTitle">
+                <img src="assets/images/{{info.icon}}.png">
+            </div>
+            <div class="content-info">
+                <h3 class="info-title">{{info.label | uppercase}}</h3>
+                <h4 class="info-subtitle">{{info.subtitle}}</h4>
+            </div>
+        </div>
+    </button>
+</div>

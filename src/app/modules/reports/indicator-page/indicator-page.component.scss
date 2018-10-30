@@ -1,9 +1,5 @@
   @import "../../../../assets/css/variable.scss";
 
-.container-boxes {
-    width: 100%;
-}
-
 app-placeholder-boxline {
     width: 100% !important;
     margin-bottom: 30px;
@@ -16,7 +12,6 @@ button-filter-items{
   margin-bottom: 10px;
   flex-grow: 1;
   width : 100%;
-  height : 80px;
   min-width: 150px;
   &.isLast{
     margin-right: 0px !important;

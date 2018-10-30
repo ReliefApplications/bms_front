@@ -68,11 +68,11 @@ $box-content: 80px;
         img{
             padding: 5px;
             display:inline-block;
-            color:white;
+            color: $bms_white;
             text-align: center;
             vertical-align: bottom;
             -webkit-filter: invert(1);
-            height: 5vh;
+            height: 3em;
         }
     }
 

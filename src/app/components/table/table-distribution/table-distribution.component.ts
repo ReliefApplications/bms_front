@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild                         } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { TableComponent                                       } from '../table.component';
+import { TableComponent } from '../table.component';
 
 
 @Component({
@@ -9,5 +9,9 @@ import { TableComponent                                       } from '../table.c
   styleUrls: ['../table.component.scss'],
 })
 export class TableDistributionComponent extends TableComponent {
+
+  getImageName(t2: String) {
+    return (t2.substring(26).split('.')[0]);
+  }
 
 }

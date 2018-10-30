@@ -41,7 +41,7 @@ $box-content: 80px;
         font-family: $bms_font_text;
         width :100%;
         padding:15px;
-        color : $bms_white;
+        color : $bms_grey;
 
         .info-title{
             display: flex;
@@ -68,7 +68,7 @@ $box-content: 80px;
         img{
             padding: 5px;
             display:inline-block;
-            color: $bms_white;
+            color: $bms_grey;
             text-align: center;
             vertical-align: bottom;
             -webkit-filter: invert(1);
@@ -88,7 +88,7 @@ $box-content: 80px;
 }
 
 .selected{
-    background-color: $bms_light_grey !important;
+    background-color: $bms_white !important;
     .content-info {
         color: $bms_black;
     }

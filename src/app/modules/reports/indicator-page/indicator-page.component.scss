@@ -147,7 +147,7 @@ app-placeholder-panel {
 }
 
 .button-export {
-  color: $bms_white;
+  color: $bms_grey;
 }
 
 button-filter-date{
@@ -159,7 +159,7 @@ button-filter-date{
 
 // .clicked {
 //   background-color: $bms_dark_grey !important;
-//   color: $bms_white;
+//   color: $bms_grey;
 // }
 
 .panel-frequency{
@@ -182,7 +182,7 @@ button-filter-date{
     }
     .apply-period {
       background-color: $bms_green !important;
-      color: $bms_white;
+      color: $bms_grey;
     }
   }
 }
@@ -281,7 +281,7 @@ button-filter-date{
       }
       .apply-period-mobile {
         background-color: $bms_green !important;
-        color: $bms_white;
+        color: $bms_grey;
         font-size: 3vw;
         min-width: 70px;
         width: 50% !important;

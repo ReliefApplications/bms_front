@@ -37,7 +37,7 @@
             width : 30vh;
         }
         mat-list-item {
-          color: $bms_light_grey;
+          color: $bms_white;
           span {
             margin-left: 1.5em;
           }
@@ -55,7 +55,7 @@
     }
 
     mat-toolbar {
-      background: $bms_white;
+      background: $bms_grey;
       &.mobile {
         background-color: $bms_black;
       }

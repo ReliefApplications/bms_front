@@ -254,10 +254,10 @@ export const TEXT = {
     import_updated: 'Will be updated',
     import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.',
 
-    distribution_details_export: 'export',
+    distribution_details_export: 'distribution list',
     distribution_details_import: 'import & compare',
     distribution_details_random: 'export random sample',
-    distribution_details_validate: 'validate',
+    distribution_details_validate: 'validate & lock',
     transaction_amount_total: 'Total amount',
     transaction_amount_done: 'Amount sent',
     transaction_amount_waiting: 'Still to be sent',

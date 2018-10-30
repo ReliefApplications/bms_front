@@ -253,10 +253,10 @@ export const TEXT = {
     import_updated: 'Mis à jour',
     import_description: 'Importez le fichier contenant la distribution après modifications. La base de donnée sera mise à jour lorsque vous cliquerez sur "upload" après validation de l\'import. Les bénéficiaires inconnus seront ignorés.',
 
-    distribution_details_export: 'exporter',
+    distribution_details_export: 'liste de distribution',
     distribution_details_import: 'importer & comparer',
     distribution_details_random: 'échantillon aléatoire',
-    distribution_details_validate: 'valider',
+    distribution_details_validate: 'valider & verouiller',
     transaction_amount_total: 'Quantité totale',
     transaction_amount_done: 'Quantité envoyée',
     transaction_amount_waiting: 'Reste à envoyer',

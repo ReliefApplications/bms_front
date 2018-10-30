@@ -7,7 +7,7 @@ $box-content: 80px;
 
 .box-content{
     width :95%;
-    background-color: $bms_light_grey;
+    background-color: $bms_white;
     height: $box-content;
     display: flex;
     flex-grow: 1;
@@ -82,5 +82,5 @@ $box-content: 80px;
         background-color: $bms_black;
     }
     background-color: $bms_dark_grey !important;
-    color: $bms_white;
+    color: $bms_grey;
 }

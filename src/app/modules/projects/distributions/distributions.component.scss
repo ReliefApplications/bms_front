@@ -76,7 +76,7 @@ app-table-mobile{
     margin: 10px;
 
     .next {
-        color: $bms_white;
+        color: $bms_grey;
         background-color: $bms_green;
     }
 }
@@ -212,7 +212,7 @@ app-table-mobile{
             padding: 2px !important;
             border-top-right-radius: 2px;
             border-bottom-right-radius: 2px;
-            border-left: solid 1px $bms_light_grey;
+            border-left: solid 1px $bms_white;
             box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3);
             display: flex;
             justify-content: center;

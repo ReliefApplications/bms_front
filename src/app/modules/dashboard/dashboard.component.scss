@@ -28,7 +28,7 @@ app-placeholder-panel {
         margin-bottom: 0.5vh !important;
     }
     .map-content{
-        background-color: $bms_light_grey;
+        background-color: $bms_white;
         height: 90%;
         display: flex;
         padding: 5px;
@@ -100,7 +100,7 @@ app-placeholder-panel {
         display: flex;
         margin-bottom: 50px;
         padding: 5px;
-        background-color: $bms_light_grey;
+        background-color: $bms_white;
         box-shadow: $bms_shadow;
 
         app-table{

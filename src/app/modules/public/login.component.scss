@@ -34,7 +34,7 @@
                 .logo-image{
                     width: 150px;
                     height: 150px;
-                    background-color: $bms_white;
+                    background-color: $bms_grey;
                     border-radius : 100px;
                 }
             }
@@ -47,7 +47,7 @@
                 .title-text{
                         display: flex;
                         font-family: $bms_font_header;
-                        color : $bms_white;
+                        color : $bms_grey;
                         font-weight: bold;
                         font-size: 20px;
                         text-align: center;
@@ -93,7 +93,7 @@
                     width: 25%;
                     height : 40px;
                     background-color: $bms_green;
-                    color: $bms_white;
+                    color: $bms_grey;
                     border-radius: 5px;
                     border:none;
 

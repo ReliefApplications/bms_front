@@ -12,7 +12,7 @@ $box-content: 80px;
     animation: box-right-in 0.3s;
 
     .content-icon{
-        background-color: $bms_menu;
+        background-color: $bms_black;
     }
     button{
         width :100%;
@@ -90,7 +90,7 @@ $box-content: 80px;
 .selected{
     background-color: $bms_light_grey !important;
     .content-info {
-        color: $bms_menu;
+        color: $bms_black;
     }
 
 

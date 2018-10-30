@@ -11,4 +11,8 @@ const RECENT_DIST_LENGTH = 5;
 })
 export class TableMobileDashboardComponent extends TableDashboardComponent implements DoCheck {
 
+  getImageName(t2: String) {
+    return (t2.substring(26).split('.')[0]);
+  }
+  
 }

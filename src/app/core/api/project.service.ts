@@ -41,4 +41,9 @@ export class ProjectService {
         }
         return this.http.post(url, body);
     }
+
+    public getDates(projectId: number) {
+        let url = this.api + "/projects/" + projectId + "/dates";
+        return this.http.get(url);
+    }
 }

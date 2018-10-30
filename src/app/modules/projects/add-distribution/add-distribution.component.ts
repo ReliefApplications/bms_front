@@ -21,6 +21,7 @@ import { DistributionService } from '../../../core/api/distribution.service';
 import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
+import { ProjectService } from 'src/app/core/api/project.service';
 
 @Component({
     selector: 'app-add-distribution',
@@ -63,7 +64,8 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     public controlNumber = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
 
     public loadedData: any = [];
-    public loadingCreation : boolean;
+    public loadingCreation: boolean;
+    public projectInfo: any = { startDate: '', endDate: '' };
 
     step = '';
 
@@ -76,6 +78,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         private locationService: LocationService,
         private _cacheService: CacheService,
         private _distributionService: DistributionService,
+        private _projectService: ProjectService,
         private snackBar: MatSnackBar
     ) { }
 
@@ -90,8 +93,9 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         this.getQueryParameter();
         this.loadProvince();
         this.newObject.type = 'Household';
+        this.getProjectDates();
     }
- 
+
     /**
     * Verify if modifications have been made to prevent the user from leaving and display dialog to confirm we wiwhes to delete them
     */
@@ -323,51 +327,57 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
      */
     add() {
         if (this.newObject.type && this.criteriaArray.length != 0 && this.commodityArray && this.commodityArray[0] && this.newObject.date_distribution && this.newObject.threshold > 0) {
-            this.loadingCreation = true;
-            const newDistribution: DistributionData = new DistributionData;
-            newDistribution.type = this.newObject.type;
-            newDistribution.threshold = this.newObject.threshold;
-            newDistribution.project.id = this.queryParams.project;
-            newDistribution.location.adm1 = this.newObject.adm1;
-            newDistribution.location.adm2 = this.newObject.adm2;
-            newDistribution.location.adm3 = this.newObject.adm3;
-            newDistribution.location.adm4 = this.newObject.adm3;
-            newDistribution.selection_criteria = this.criteriaArray;
-            newDistribution.commodities = this.commodityArray;
-
-            const formatDateOfBirth = this.newObject.date_distribution.split('/');
-            if (formatDateOfBirth[0].length < 2) {
-                formatDateOfBirth[0] = '0' + formatDateOfBirth[0];
+            if (this.newObject.date_distribution < this.projectInfo.startDate && this.newObject.date_distribution > this.projectInfo.endDate) {
+                this.snackBar.open('Error while creating new distribution, your distribution date have to be inside the project dates', '', { duration: 3000, horizontalPosition: 'center' });
+                return;
             }
-            if (formatDateOfBirth[1].length < 2) {
-                formatDateOfBirth[1] = '0' + formatDateOfBirth[1];
-            }
+            else {
+                this.loadingCreation = true;
+                const newDistribution: DistributionData = new DistributionData;
+                newDistribution.type = this.newObject.type;
+                newDistribution.threshold = this.newObject.threshold;
+                newDistribution.project.id = this.queryParams.project;
+                newDistribution.location.adm1 = this.newObject.adm1;
+                newDistribution.location.adm2 = this.newObject.adm2;
+                newDistribution.location.adm3 = this.newObject.adm3;
+                newDistribution.location.adm4 = this.newObject.adm3;
+                newDistribution.selection_criteria = this.criteriaArray;
+                newDistribution.commodities = this.commodityArray;
 
-            newDistribution.date_distribution = formatDateOfBirth[2] + '-' + formatDateOfBirth[0] + '-' + formatDateOfBirth[1];
-            // console.log(newDistribution.date_distribution);
-            let adm;
-            if (this.newObject.adm4) {
-                adm = this.newObject.adm4
-            } else if (this.newObject.adm3) {
-                adm = this.newObject.adm3;
-            } else if (this.newObject.adm2) {
-                adm = this.newObject.adm2;
-            } else {
-                adm = this.newObject.adm1;
-            }
-            newDistribution.name = adm + '-' + newDistribution.date_distribution;
+                const formatDateOfBirth = this.newObject.date_distribution.split('/');
+                if (formatDateOfBirth[0].length < 2) {
+                    formatDateOfBirth[0] = '0' + formatDateOfBirth[0];
+                }
+                if (formatDateOfBirth[1].length < 2) {
+                    formatDateOfBirth[1] = '0' + formatDateOfBirth[1];
+                }
 
-            // console.log('NEW ONE : ', newDistribution);
+                newDistribution.date_distribution = formatDateOfBirth[2] + '-' + formatDateOfBirth[0] + '-' + formatDateOfBirth[1];
+                // console.log(newDistribution.date_distribution);
+                let adm;
+                if (this.newObject.adm4) {
+                    adm = this.newObject.adm4
+                } else if (this.newObject.adm3) {
+                    adm = this.newObject.adm3;
+                } else if (this.newObject.adm2) {
+                    adm = this.newObject.adm2;
+                } else {
+                    adm = this.newObject.adm1;
+                }
+                newDistribution.name = adm + '-' + newDistribution.date_distribution;
 
-            const promise = this._distributionService.add(newDistribution);
-            if (promise) {
-                promise.toPromise().then(response => {
-                    this.snackBar.open('distribution : ' + response.distribution.name + ' was created', '', { duration: 3000, horizontalPosition: 'center' });
-                    this.router.navigate(['projects/distributions/' + response.distribution.id]);
-                });
-            } else {
-                this.snackBar.open('Error while creating new distribution', '', { duration: 3000, horizontalPosition: 'center' });
-                this.loadingCreation = false;
+                // console.log('NEW ONE : ', newDistribution);
+
+                const promise = this._distributionService.add(newDistribution);
+                if (promise) {
+                    promise.toPromise().then(response => {
+                        this.snackBar.open('distribution : ' + response.distribution.name + ' was created', '', { duration: 3000, horizontalPosition: 'center' });
+                        this.router.navigate(['projects/distributions/' + response.distribution.id]);
+                    });
+                } else {
+                    this.snackBar.open('Error while creating new distribution', '', { duration: 3000, horizontalPosition: 'center' });
+                    this.loadingCreation = false;
+                }
             }
         } else {
             this.snackBar.open('Fill new distribution\'s information before, including the commodity and a threshold\'s value more than 0.', '', { duration: 3000, horizontalPosition: 'center' });
@@ -468,5 +478,20 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         }
 
         this.commodityNb = this.saveCommodityNb * this.criteriaNbBeneficiaries;
+    }
+
+    getProjectDates() {
+        const projects = this._cacheService.get(CacheService.PROJECTS);
+        let keyForProject;
+
+        Object.keys(projects).forEach(key => {
+            if (projects[key].id == this.queryParams.project) {
+                keyForProject = key;
+                return;
+            }
+        });
+
+        this.projectInfo.startDate = projects[keyForProject].start_date;
+        this.projectInfo.endDate = projects[keyForProject].end_date;
     }
 }

@@ -32,7 +32,7 @@
 
     .page-menu-wrapper {
         height: 100%;
-        background: $bms_menu;
+        background: $bms_black;
         &.show {
             width : 30vh;
         }
@@ -57,7 +57,7 @@
     mat-toolbar {
       background: $bms_white;
       &.mobile {
-        background-color: $bms_menu;
+        background-color: $bms_black;
       }
       app-header, app-header-mobile {
         width: 100%;

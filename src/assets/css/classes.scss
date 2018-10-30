@@ -28,10 +28,10 @@
         app-box-setting {
             flex-grow: 0;
             display: flex;
-            margin-right: 10px;
+            margin-right: 20px;
             margin-bottom: 10px;
-            width : 300px;
-            min-width: 300px;
+            width : 200px;
+            min-width: 200px;
             height : 80px;
             box-shadow: $bms_shadow;
         }
@@ -284,7 +284,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    
+
         mat-form-field {
             width: 100%;
         }
@@ -294,7 +294,7 @@
             justify-content: flex-end;
             width: 100%;
             margin: 10px;
-    
+
             .cancel {
                 background-color: $bms_white;
                 color: $bms_red;
@@ -325,6 +325,13 @@
   .mat-stepper-horizontal {
     .container-table {
       width: unset !important;
+    }
+  }
+
+  .container-boxes {
+    app-box-setting {
+      width : 150px !important;
+      min-width: 150px !important;
     }
   }
 

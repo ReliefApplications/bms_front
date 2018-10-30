@@ -125,7 +125,11 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     }
 
     selectDate(event) {
-        this.newObject.date_distribution = event.value.toLocaleDateString();
+        if (event.value) 
+            this.newObject.date_distribution = event.value.toLocaleDateString();
+        else
+            this.snackBar.open('Error while saving the date, check that the format is like mm/dd/yyyy', '', { duration: 3000, horizontalPosition: 'center' });
+
     }
 
     /**
@@ -327,7 +331,10 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
      */
     add() {
         if (this.newObject.type && this.criteriaArray.length != 0 && this.commodityArray && this.commodityArray[0] && this.newObject.date_distribution && this.newObject.threshold > 0) {
-            if (this.newObject.date_distribution < this.projectInfo.startDate && this.newObject.date_distribution > this.projectInfo.endDate) {
+            let dateObjectDistribution = new Date(this.newObject.date_distribution);
+            dateObjectDistribution.setDate(dateObjectDistribution.getDate() + 1);
+
+            if (dateObjectDistribution.getTime() <= new Date(this.projectInfo.startDate).getTime() || dateObjectDistribution.getTime() >= new Date(this.projectInfo.endDate).getTime()) {
                 this.snackBar.open('Error while creating new distribution, your distribution date have to be inside the project dates', '', { duration: 3000, horizontalPosition: 'center' });
                 return;
             }

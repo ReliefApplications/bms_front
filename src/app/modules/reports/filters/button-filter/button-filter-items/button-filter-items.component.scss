@@ -19,7 +19,7 @@ $box-content: 80px;
         height: 100%;
         border:0;
         background: none;
-        box-shadow: $bms_shadow;    
+        box-shadow: $bms_shadow;
         padding: 0 !important;
         &:hover{
             cursor: pointer;
@@ -66,7 +66,7 @@ $box-content: 80px;
             -webkit-filter: invert(1);
             height: 5vh;
         }
-    } 
+    }
 }
 
 .box-green{
@@ -79,9 +79,8 @@ $box-content: 80px;
 
 .clicked{
     .content-icon{
-        background-color: $bms_menu;
+        background-color: $bms_black;
     }
     background-color: $bms_dark_grey !important;
     color: $bms_white;
 }
-

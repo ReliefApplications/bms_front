@@ -197,7 +197,7 @@ export class Project {
         return {
             start_date: selfinstance.start_date,
             end_date: selfinstance.end_date,
-            donors_name: selfinstance.donors_name,
+            donors_name: this.mapDonors(selfinstance.donors_name),
             sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
             value: selfinstance.value,
         };
@@ -297,5 +297,14 @@ export class Project {
 
     public static getAddDescription() : String {
         return 'You will be able to modify project\'s name until your first distribution.';
+    }
+
+    mapDonors(donors: any){
+        let donorString: string = '';
+        donors.forEach(donor => {
+            donorString = donorString == '' ? donor : ', ' + donor;
+        });
+
+        return donorString;
     }
 }

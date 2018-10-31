@@ -100,9 +100,10 @@
                     </div>
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
-                        <button mat-raised-button class="button-background-primary" (click)="nextValidation(1, stepper)">
+                        <button mat-raised-button class="button-background-primary margin-right" (click)="nextValidation(1, stepper)">
                             {{Text.add_beneficiary_next}}
                         </button>
+                        <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.modal_update_title}}</button>
                     </div>
                 </div>
             </div>
@@ -195,9 +196,10 @@
                         </div>
                         <div class="content-button-footer">
                             <mat-progress-bar mode="determinate" value="35"></mat-progress-bar>
-                            <button mat-raised-button class="button-background-primary" (click)='nextValidation(2, stepper)'>
+                            <button mat-raised-button class="button-background-primary margin-right" (click)='nextValidation(2, stepper)'>
                                 {{Text.add_beneficiary_next}}
                             </button>
+                            <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.modal_update_title}}</button>
                         </div>
                     </div>
                 </div>
@@ -220,7 +222,7 @@
                                             {{memberIndex}}
                                         </div>
                                         <button mat-mini-fab color='warn' class='delete' (click)="removeBeneficiary(memberIndex)">
-                                            <mat-icon>delete</mat-icon>
+                                            <mat-icon>delete_outline</mat-icon>
                                         </button>
                                     </div>
                                     <div class="column-container">
@@ -308,9 +310,10 @@
                             <mat-icon>add</mat-icon>
                             Add
                           </button>
-                          <button mat-raised-button class="button-background-primary" (click)='nextValidation(3, stepper)'>
+                          <button mat-raised-button class="button-background-primary margin-right" (click)='nextValidation(3, stepper)'>
                             {{Text.add_beneficiary_next}}
                           </button>
+                          <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.modal_update_title}}</button>
                         </div>
                     </div>
                 </div>

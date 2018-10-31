@@ -6,7 +6,7 @@ const RECENT_DIST_LENGTH = 5;
 @Component({
   selector: 'app-table-dashboard',
   templateUrl: './table-dashboard.component.html',
-  styleUrls: ['./table-dashboard.component.scss']
+  styleUrls: ['../table.component.scss'],
 })
 export class TableDashboardComponent extends TableComponent implements DoCheck {
 

@@ -108,10 +108,15 @@ export class ProjectComponent implements OnInit {
     const promise = this.projectService.get();
     if (promise) {
       promise.toPromise().then(response => {
-        this.projects = this.projectClass.formatArray(response).reverse();
-        this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + 'S'], this.projects);
-        this.selectTitle(this.projects[0].name, this.projects[0]);
-        this.loadingProjects = false;
+        if (response.length > 0) {
+          this.projects = this.projectClass.formatArray(response).reverse();
+          this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + 'S'], this.projects);
+          this.selectTitle(this.projects[0].name, this.projects[0]);
+          this.loadingProjects = false;
+        }
+        else
+          this.loadingDistributions = false;
+
       });
     }
   }
@@ -124,6 +129,7 @@ export class ProjectComponent implements OnInit {
     this.distributionService.getByProject(projectId).subscribe(response => {
       const distribution = DistributionData.formatArray(response);
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + 'S'], distribution);
+
       this.distributionData = new MatTableDataSource(distribution);
       this.loadingDistributions = false;
     });

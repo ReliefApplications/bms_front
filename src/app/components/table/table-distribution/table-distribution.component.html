@@ -11,7 +11,7 @@
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
       </mat-form-field>
     </div>
-    <table *ngIf="filled" mat-table [dataSource]="data" matSort>
+    <table *ngIf="filled" mat-table [dataSource]="data" matSort matSortActive="date_distribution" matSortDirection="desc">
 
       <ng-container *ngFor="let property of properties" matColumnDef="{{property}}" [class.little]="p==dependents">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{mapperService.mapTitle(property)}}</th>
@@ -20,7 +20,7 @@
             <app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)" [name]="image"></app-icon-svg>
           </span>
           <span *ngIf="propertiesTypes[property]=='png'">
-            <img *ngFor="let image of mapperService.mapValue(element, property)" class="png" src={{mapperService.mapValue(element,property)}}>
+            <img [matTooltip]="getImageName(mapperService.mapValue(element, property))" class="png" [src]="mapperService.mapValue(element, property)">
           </span>
           <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element, property)}}</span>
         </td>
@@ -40,7 +40,7 @@
                 <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated" class="red" (click)="openDialog('delete', element); $event.stopPropagation()" >
-                <mat-icon>close</mat-icon>
+                <mat-icon>delete_outline</mat-icon>
             </button>
           </div>
         </td>
@@ -49,7 +49,7 @@
       <tr mat-header-row *matHeaderRowDef="propertiesActions" class="header-row"></tr>
       <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row distribution-details cursor-pointer" routerLink="/projects/distributions/{{element.id}}"></tr>
     </table>
-    <mat-paginator *ngIf="filled" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="50" showFirstLastButtons></mat-paginator>
+    <mat-paginator *ngIf="filled" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
   </div>
   
   

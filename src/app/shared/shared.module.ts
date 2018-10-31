@@ -65,6 +65,7 @@ import { TableBeneficiariesComponent } from '../components/table/table-beneficia
 import { UpdateBeneficiaryComponent } from '../modules/beneficiary/update-beneficiary/update-beneficiary.component';
 import { TransactionTableComponent } from '../components/table/transaction-table/transaction-table.component';
 import { TableMobileBeneficiariesComponent } from '../components/table/table-mobile-beneficiaries/table-mobile-beneficiaries.component';
+import { CountoModule }  from 'angular2-counto';
 
 @NgModule({
 imports: [
@@ -107,6 +108,7 @@ imports: [
     MatToolbarModule,
     MatAutocompleteModule,
     MatGridListModule,
+    CountoModule,
 ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
 ],
 declarations: [

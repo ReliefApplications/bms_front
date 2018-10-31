@@ -1,5 +1,5 @@
-@import '../../../../assets/css/variable.scss'; 
-@import '../../../../assets/css/animations.scss'; 
+@import '../../../../assets/css/variable.scss';
+@import '../../../../assets/css/animations.scss';
 
 $box-content: 80px;
 
@@ -12,7 +12,7 @@ $box-content: 80px;
     animation: box-right-in 0.3s;
 
     .content-icon{
-        background-color: $bms_menu;
+        background-color: $bms_black;
     }
     button{
         width :100%;
@@ -20,8 +20,8 @@ $box-content: 80px;
         border:0;
         background: none;
         padding: 0 !important;
-        box-shadow: $bms_shadow;    
-        
+        box-shadow: $bms_shadow;
+
         &:hover{
             cursor: pointer;
         }
@@ -41,11 +41,10 @@ $box-content: 80px;
         font-family: $bms_font_text;
         width :100%;
         padding:15px;
-        color : $bms_white;
+        color : $bms_grey;
 
         .info-title{
             display: flex;
-            font-size : 1.5vh;
             margin: 0 !important;
             word-break: break-word;
             hyphens: auto;
@@ -69,15 +68,15 @@ $box-content: 80px;
         img{
             padding: 5px;
             display:inline-block;
-            color:white;
+            color: $bms_grey;
             text-align: center;
             vertical-align: bottom;
             -webkit-filter: invert(1);
-            height: 5vh;
+            height: 3em;
         }
     }
 
-    
+
 }
 
 .box-green{
@@ -89,17 +88,16 @@ $box-content: 80px;
 }
 
 .selected{
-    background-color: $bms_light_grey !important; 
+    background-color: $bms_white !important;
     .content-info {
-        color: $bms_menu;
-    }   
+        color: $bms_black;
+    }
 
-   
+
 }
 
 //for mobile screen
 @media only screen and (max-width: 750px){
     .info-title{
-        font-size : 2.5vh !important;
     }
 }

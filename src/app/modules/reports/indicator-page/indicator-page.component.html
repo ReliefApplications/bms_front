@@ -4,7 +4,7 @@
     </div>
 
     <app-placeholder-boxline *ngIf="indicatorsLoading" class="container-boxes"></app-placeholder-boxline>
-    <div class="container-boxes" *ngIf="!indicatorsLoading">
+    <div *ngIf="!indicatorsLoading">
         <!-- button to change view (viewcountry, project or distribution) -->
         <button-filter-items [id]="'bms'" [page]="'reporting'" (emitFilter)="onFilter($event)"
             [data]="dataFilter2" [referenceKey]="'bms_search'"></button-filter-items>

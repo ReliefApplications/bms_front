@@ -28,10 +28,10 @@
         app-box-setting {
             flex-grow: 0;
             display: flex;
-            margin-right: 10px;
+            margin-right: 20px;
             margin-bottom: 10px;
-            width : 300px;
-            min-width: 300px;
+            width : 200px;
+            min-width: 200px;
             height : 80px;
             box-shadow: $bms_shadow;
         }
@@ -54,7 +54,7 @@
             flex-wrap: wrap;
             justify-content: center;
             width: 100%;
-            background-color: $bms_light_grey;
+            background-color: $bms_white;
             box-shadow: $bms_shadow;
             border-radius: 3px;
 
@@ -98,7 +98,7 @@
 
 // Buttons
 .mat-raised-button {
-  color: $bms_white !important;
+  color: $bms_grey !important;
   height: 40px !important;
   .mat-button-wrapper {
     span {
@@ -109,7 +109,7 @@
 }
 
 .add-buttons {
-    color: $bms_white !important;
+    color: $bms_grey !important;
     position: fixed !important;
     bottom: 2vh;
     right: 3vh;
@@ -144,11 +144,11 @@
 
 .button-background-primary {
   background-color: $bms_green !important;
-  color: $bms_white !important;
+  color: $bms_grey !important;
 }
 .button-background-accent {
   background-color: $bms_red !important;
-  color: $bms_white !important;
+  color: $bms_grey !important;
 }
 
 .action-buttons {
@@ -167,7 +167,7 @@
             padding: 2px;
             border-top-right-radius: 2px;
             border-bottom-right-radius: 2px;
-            border-left: solid 1px $bms_light_grey;
+            border-left: solid 1px $bms_white;
             box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3);
             display: flex;
             justify-content: center;
@@ -177,14 +177,14 @@
 
             mat-icon {
                 margin: auto;
-                color: $bms_white;
+                color: $bms_grey;
             }
         }
 
         .mat-menu-item {
             &:hover {
                 background-color: $bms_green;
-                color: $bms_white;
+                color: $bms_grey;
                 font-weight: bold;
             }
             mat-icon {
@@ -198,33 +198,6 @@
 }
 
 
-.dialog-template {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    mat-form-field {
-        width: 100%;
-    }
-    .action {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        width: 100%;
-        margin: 10px;
-
-        .cancel {
-            background-color: $bms_white;
-            color: $bms_red;
-            margin-right: 5px;
-        }
-        .confirm {
-            background-color: $bms_red;
-            color: $bms_white;
-        }
-    }
-}
 
 // TODO check addBeneficiary (done) and distributions (next)
 .box-green, .box-red {
@@ -248,6 +221,101 @@
     }
 }
 
+.modal-container {
+    height: 100% !important;
+    width: 100% !important;
+    min-width: 40vw;
+    display: block;
+    .modal-title {
+        display: flex;
+        flex-grow: 1;
+        padding: 5px;
+        font-family: $bms_font_header;
+        font-size: 1.5em;
+    }
+
+    .underline-primary {
+      border-bottom: solid 1px $bms_green;
+    }
+
+    .underline-accent {
+      border-bottom: solid 1px $bms_red;
+    }
+
+    .modal-table {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 5px;
+        font-family: $bms_font_text;
+        flex-direction: column;
+
+        .modal-row {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            align-items: baseline;
+
+            .table-title {
+                text-align: left;
+                display: flex;
+                width: 35vw;
+            }
+
+            .table-value {
+                text-align: left;
+                display: flex;
+                width: 100%;
+
+                .form {
+                    min-width: 150px;
+                    max-width: 500px;
+                    width: 100%;
+
+                  .full-width {
+                    width: 100%;
+                  }
+                }
+            }
+        }
+    }
+
+    .dialog-template {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        mat-form-field {
+            width: 100%;
+        }
+        .action {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            width: 100%;
+            margin: 10px;
+
+            .cancel {
+                background-color: $bms_grey;
+                color: $bms_red;
+                margin-right: 5px;
+            }
+            .confirm {
+                background-color: $bms_red;
+                color: $bms_grey;
+            }
+        }
+    }
+
+    .modal-button {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100% !important;
+        padding-top: 20px;
+        justify-content: flex-end;
+    }
+}
+
 .stepInMobile {
     display : none;
 }
@@ -257,6 +325,13 @@
   .mat-stepper-horizontal {
     .container-table {
       width: unset !important;
+    }
+  }
+
+  .container-boxes {
+    app-box-setting {
+      width : 150px !important;
+      min-width: 150px !important;
     }
   }
 
@@ -283,7 +358,7 @@
               height: 24px;
               width: 24px;
               background-color: $bms_black;
-              color: $bms_white;
+              color: $bms_grey;
               border-radius: 50%;
               display: flex;
               justify-content: center;
@@ -291,6 +366,14 @@
               margin-right: 1em;
           }
       }
+  }
+
+  .modal-container {
+    width: 100%;
+
+    .modal-row {
+      flex-direction: column !important;
+    }
   }
 
   .no-data-box {

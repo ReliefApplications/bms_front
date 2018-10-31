@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit, Input } from '@angular/core';
 import { GlobalText } from '../../../../texts/global';
 import { FieldMapper } from '../../../model/field-mapper';
+import { CountoModule }  from 'angular2-counto';
 
 @Component({
   selector: 'app-box-properties',
@@ -50,6 +51,10 @@ export class BoxPropertiesComponent {
 
   isArray(obj : any) {
     return Array.isArray(obj)
+  }
+
+  isNumber(obj: any) {
+    return (typeof(obj) === "number")
   }
 
   numberOfColumns(): void {

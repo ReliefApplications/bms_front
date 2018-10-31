@@ -12,6 +12,8 @@
             <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry'"
               [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
 
+            <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="0">
+
             <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
               [formControl]="controls" multiple>
               <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
@@ -59,6 +61,7 @@
   </table>
   <div class="modal-button action-buttons">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.modal_cancel}}</button>
-    <button mat-raised-button (click)="add()" class="button-background-accent">{{modal.modal_create}}</button>
+    <button mat-raised-button *ngIf="!displayAdd" (click)="add()" class="button-background-accent">{{modal.modal_create}}</button>
+    <button mat-raised-button *ngIf="displayAdd" (click)="add()" class="button-background-accent">{{modal.modal_add}}</button>
   </div>
 </mat-dialog-content>

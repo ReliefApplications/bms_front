@@ -141,16 +141,16 @@ export class SettingsComponent implements OnInit {
     // TO DO : get from cache
     load(title): void {
         this.referedClassService.get().subscribe(response => {
-            if (response && response[0] && response[0].email && response[0].username && response[0].roles) 
+            if (response && response[0] && response[0].email && response[0].username && response[0].roles)
                 response.forEach(element => {
                     element.projects = new Array<number>();
                     element.country = '';
 
-                    for (let i = 0; i < element.user_projects.length; i++) 
+                    for (let i = 0; i < element.user_projects.length; i++)
                         element.projects[i] = element.user_projects[i].project.name;
 
-                    for (let i = 0; i < element.countries.length; i++) 
-                        element.country = element.countries[i].iso3;   
+                    for (let i = 0; i < element.countries.length; i++)
+                        element.country = element.countries[i].iso3;
                 });
 
             response = this.referedClassToken.formatArray(response);
@@ -172,7 +172,18 @@ export class SettingsComponent implements OnInit {
             });
         }
         const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
-            this.createElement(data);
+            let exists: boolean = false;
+
+            this.data.data.forEach(element => {
+                if (element.name == data.name) {
+                    this.snackBar.open('A project with this name already exists', '', { duration: 3000, horizontalPosition: 'right' });
+                    exists = true;
+                    return;
+                }
+            });
+
+            if (exists == false)
+                this.createElement(data);
         });
 
         dialogRef.afterClosed().subscribe(result => {

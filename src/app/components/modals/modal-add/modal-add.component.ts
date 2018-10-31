@@ -25,7 +25,6 @@ export class ModalAddComponent extends ModalComponent {
         this.checkData();
         this.loadData();
         this.prefill();
-        console.log("loadedData", this.loadedData);
     }
 
     checkData() {
@@ -36,10 +35,6 @@ export class ModalAddComponent extends ModalComponent {
         this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
         this.propertiesTypes = this.newObject.getModalTypeProperties(this.newObject);
         this.oldEntity = this.data.entity;
-
-        console.log("properties", this.properties);
-        console.log("type", this.propertiesTypes);
-
     }
 
     /**
@@ -215,9 +210,7 @@ export class ModalAddComponent extends ModalComponent {
             }
         }
         
-        // console.log('(dialog) Sent to format: ', this.newObject);
         const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
-        // console.log('(dialog) Return from format: ', formatedObject);
         this.onCreate.emit(formatedObject);
         this.closeDialog();
     }

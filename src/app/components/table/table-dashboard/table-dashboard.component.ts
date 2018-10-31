@@ -16,4 +16,8 @@ export class TableDashboardComponent extends TableComponent implements DoCheck {
     }
   }
 
+  getImageName(t2: String) {
+    return (t2.substring(26).split('.')[0]);
+  }
+
 }

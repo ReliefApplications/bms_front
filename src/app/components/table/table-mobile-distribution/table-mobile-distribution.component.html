@@ -24,13 +24,10 @@
                                 [name]="image"></app-icon-svg>
                         </span>
                         <span *ngIf="propertiesTypes[property]=='png'">
-                            <img *ngFor="let image of mapperService.mapValue(element, property)" class="png" src={{mapperService.mapValue(element,property)}}>
-                        </span>
+                            <img [matTooltip]="getImageName(mapperService.mapValue(element, property))" class="png" [src]="mapperService.mapValue(element, property)">
+                          </span>
                         <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element,
                             property)}}</span>
-                    </td>
-                    <td *ngIf="propertiesTypes[property]=='png'">
-                        <img class="png" src={{mapperService.mapValue(element,property)}}>
                     </td>
                 </tr>
             </tbody>

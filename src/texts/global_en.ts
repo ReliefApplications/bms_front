@@ -191,7 +191,7 @@ export const TEXT = {
     model_distribution : 'Distribution',
     model_distribution_name: 'Name',
     model_distribution_location_name: 'Location',
-    model_distribution_number_beneficiaries: 'n° Beneficiaries',
+    model_distribution_number_beneficiaries: 'Beneficiaries',
     model_distribution_sectors_name: 'Sectors',
     model_distribution_adm1: 'Province',
     model_distribution_adm2: 'District',

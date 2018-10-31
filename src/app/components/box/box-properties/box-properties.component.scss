@@ -15,7 +15,11 @@
       flex-direction: column;
       h5 {
         margin-bottom: 0;
-        flex-grow: 1;
+        height: 25px;
+      }
+      h3 {
+        margin-top: 0;
+        margin-bottom: 0;
       }
       .sector-icons {
         display: flex;

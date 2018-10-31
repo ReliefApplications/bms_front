@@ -65,8 +65,6 @@ import { TableBeneficiariesComponent } from '../components/table/table-beneficia
 import { UpdateBeneficiaryComponent } from '../modules/beneficiary/update-beneficiary/update-beneficiary.component';
 import { TransactionTableComponent } from '../components/table/transaction-table/transaction-table.component';
 import { TableMobileBeneficiariesComponent } from '../components/table/table-mobile-beneficiaries/table-mobile-beneficiaries.component';
-import { BoxReportComponent } from '../components/box/box-report/box-report.component';
-
 
 @NgModule({
 imports: [
@@ -145,7 +143,6 @@ declarations: [
     ModalAddLineComponent,
     BoxSettingComponent,
     BoxPropertiesComponent,
-    BoxReportComponent,
     DataValidationComponent,
     DistributionsComponent,
     ImportDistributionComponent,
@@ -201,7 +198,6 @@ exports: [
     ModalAddComponent,
     ModalAddLineComponent,
     BoxSettingComponent,
-    BoxReportComponent,
     MatCheckboxModule,
     MatTooltipModule,
     MatSelectModule,

@@ -1,4 +1,7 @@
 <div class="container-boxes">
-    <app-box-report *ngFor="let item of data" class="level0" [info]="item" (emitClickedTitle)="filter(item.value)" [selectedTitle]="selectedItem">
-    </app-box-report>
+    <app-box-setting *ngFor="let item of data"
+      (emitClickedTitle)="filter(item.value)"
+      [selectedTitle]="selectedItem"
+      [info]='{icon: item.icon, color: item.color, title: item.label, ref: item.value}'>
+    </app-box-setting>
 </div>

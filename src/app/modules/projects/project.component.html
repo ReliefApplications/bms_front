@@ -2,7 +2,7 @@
   <div class="container-title">
     <h2>{{distribution.menu_projects | titlecase}}</h2>
     <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
-    <button mat-stroked-button class="button-text-accent" *ngIf="!loadingCreation" (click)="openNewProjectDialog()">
+    <button mat-stroked-button class="button-text-accent" *ngIf="!loadingCreation && hasRights" (click)="openNewProjectDialog()">
         <span>NEW</span>
     </button>
   </div>
@@ -20,7 +20,7 @@
       <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
         <h3>Distributions</h3>
         <div class="add-buttons">
-            <button mat-fab (click)="addDistribution()" class="add-button">
+            <button mat-fab *ngIf="hasRights" (click)="addDistribution()" class="add-button">
                 <mat-icon>add</mat-icon>
             </button>
         </div>
@@ -54,9 +54,9 @@
         <p> This project does not contain any distribution. Create your first one !</p>
         <i> Click on <mat-icon>add_circle</mat-icon > </i>
       </div>
-      <div class="content-table" *ngIf="distributionData && distributionData.data.length>0">
-        <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
-        <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile" [entity]="distributionClass" [service]="distributionService"
+      <div class="content-table" *ngIf="distributionData.data.length>0">
+        <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
+        <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [entity]="distributionClass" [service]="distributionService"
           [data]="distributionData"></app-table-mobile-distribution>
       </div>
     </div>

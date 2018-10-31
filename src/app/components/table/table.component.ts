@@ -57,6 +57,15 @@ export class TableComponent implements OnChanges, DoCheck {
     @Input() data: any;
     @Input() service;
 
+    // To activate/desactivate action buttons
+    @Input() rights: boolean;
+
+    // To activate/desactivate action buttons
+    @Input() rightsEdit: boolean;
+
+    // To activate/desactivate action buttons
+    @Input() rightsDelete: boolean;
+
     sortedData: any;
     allData: any = undefined;
     properties: any;

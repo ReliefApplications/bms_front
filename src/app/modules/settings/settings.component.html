@@ -15,7 +15,7 @@
         <div class="container-content box-green" *ngIf="isBoxClicked">
             <div class="content-button">
                 <div class="add-buttons">
-                    <button mat-fab (click)="openDialog('add')" class="add-button">
+                    <button mat-fab *ngIf="hasRights" (click)="openDialog('add')" class="add-button">
                         <mat-icon>add</mat-icon>
                     </button>
                 </div>
@@ -41,9 +41,9 @@
             </div>
             <div class="content-table">
                 <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
-                    [data]="data" [editable]="true"></app-table-search>
+                    [data]="data" [editable]="true" [rights]='hasRights'></app-table-search>
                 <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
-                    [data]="data" [editable]="true"></app-table-mobile-search>
+                    [data]="data" [editable]="true" [rights]='hasRights'></app-table-mobile-search>
             </div>
         </div>
     </div>

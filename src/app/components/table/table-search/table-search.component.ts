@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild                         } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 
-import { TableComponent                                       } from '../table.component';
+import { TableComponent } from '../table.component';
 
 @Component({
   selector: 'app-table-search',
@@ -10,6 +10,6 @@ import { TableComponent                                       } from '../table.c
 export class TableSearchComponent extends TableComponent {
 
     getImageName(t2: String) {
-        return( t2.substring(25).split('.')[0] );
+        return (t2.substring(25).split('.')[0]);
     }
 }

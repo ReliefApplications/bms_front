@@ -25,10 +25,10 @@
           <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('details', element); $event.stopPropagation()" class="green">
             <mat-icon>search</mat-icon>
           </button>
-          <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('update', element); $event.stopPropagation()" class="light-red">
+          <button mat-icon-button *ngIf="checkItemStateRights(element) && rightsEdit" (click)="openDialog('update', element); $event.stopPropagation()" class="light-red">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
+          <button mat-icon-button *ngIf="checkItemStateRights(element) && rights" (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
             <mat-icon>delete_outline</mat-icon>
           </button>
         </td>

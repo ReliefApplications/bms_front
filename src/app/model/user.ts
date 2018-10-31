@@ -53,7 +53,7 @@ export class User {
      */
     country: number[] = undefined;
 
-    voters: any = {};
+    voters: string = '';
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -115,7 +115,7 @@ export class User {
                 finalRight = value[1];
             }
         });
-        
+
         return {
             username: selfinstance.username,
             rights: finalRight,

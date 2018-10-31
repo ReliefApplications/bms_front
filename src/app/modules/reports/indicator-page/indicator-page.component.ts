@@ -31,6 +31,8 @@ export class IndicatorPageComponent implements OnInit {
   @ViewChildren(MatOption) matoption: QueryList<MatOption>;
   @ViewChildren(ButtonFilterDateComponent) buttonFilters: QueryList<ButtonFilterDateComponent>;
 
+  @Output() emitFilter: EventEmitter<FilterEvent> = new EventEmitter();
+
   public type = "Country";
   public oldType = "Country";
   public filters: Map<string, FilterInterface> = new Map<string, FilterInterface>();
@@ -64,11 +66,7 @@ export class IndicatorPageComponent implements OnInit {
     { level: '1', label: this.indicator.report_filter_chose_periode.toUpperCase(), value: 'Period', active: false },
   ]
 
-  public dataFilter2: Array<ButtonFilterData> = [
-    { level: '0', icon: 'settings/api', color: 'red', label: this.indicator.report_country_report.toLocaleUpperCase(), value: 'Country', active: true },
-    { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: 'Project', active: false },
-    { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: false },
-  ]
+  public dataFilter2: Array<ButtonFilterData> = [];
 
   //variable for display name of project and distribution in selectors
   public projectList: string[] = [];
@@ -88,6 +86,7 @@ export class IndicatorPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkPermission();
     this.checkSize();
     this.getProjects();
 
@@ -104,6 +103,7 @@ export class IndicatorPageComponent implements OnInit {
         this.indicatorsLoading = false;
       });
     }
+
   }
 
   ngAfterViewInit() {
@@ -152,20 +152,20 @@ export class IndicatorPageComponent implements OnInit {
       });
 
     //Verify the type (here : Country, Project, Distribution) to display the good charts
-    if(e.id === "bms") {
+    if (e.id === "bms") {
       this.dataFilter2.forEach(filter => {
         if (filter['active']) {
           this.type = filter['value'];
           this.selectedProject = [];
           if (this.type == 'Distribution') {
             this.display = false;
-          } 
+          }
           else {
             this.display = true;
           }
         }
       });
-    } else if( e.id === "frequency") {
+    } else if (e.id === "frequency") {
       //Verify the frequency selected
       this.dataFilter1.forEach(filter => {
         if (filter['active']) {
@@ -181,7 +181,7 @@ export class IndicatorPageComponent implements OnInit {
     }
 
 
-    
+
   }
 
   /**
@@ -288,7 +288,7 @@ export class IndicatorPageComponent implements OnInit {
           }
         });
       });
-      
+
       var project = event.value.split(" - ");
       this.selectedProject.push(project[0]);
       this.selectedDistribution = [];
@@ -334,22 +334,53 @@ export class IndicatorPageComponent implements OnInit {
 
   applyPeriod(from, to) {
     var dateFrom = from.split('/');
-    if(dateFrom[0].length < 2) {
-      dateFrom[0] = "0"+dateFrom[0];
+    if (dateFrom[0].length < 2) {
+      dateFrom[0] = "0" + dateFrom[0];
     }
-    if(dateFrom[1].length < 2) {
-      dateFrom[1] = "0"+dateFrom[1];
+    if (dateFrom[1].length < 2) {
+      dateFrom[1] = "0" + dateFrom[1];
     }
 
     var dateTo = to.split('/');
-    if(dateTo[0].length < 2) {
-      dateTo[0] = "0"+dateTo[0];
+    if (dateTo[0].length < 2) {
+      dateTo[0] = "0" + dateTo[0];
     }
-    if(dateTo[1].length < 2) {
-      dateTo[1] = "0"+dateTo[1];
+    if (dateTo[1].length < 2) {
+      dateTo[1] = "0" + dateTo[1];
     }
     from = dateFrom[0] + '/' + dateFrom[1] + '/' + dateFrom[2];
     to = dateTo[0] + '/' + dateTo[1] + '/' + dateTo[2];
     this.selectedPeriodFrequency = from + '-' + to;
+  }
+
+  checkPermission() {
+    const voters = this.cacheService.get('user').voters;
+
+    if (voters == "ROLE_ADMIN" || voters == 'ROLE_REGIONAL_MANAGER' || voters == 'ROLE_COUNTRY_MANAGER'){
+      this.dataFilter2 = [
+        { level: '0', icon: 'settings/api', color: 'red', label: this.indicator.report_country_report.toLocaleUpperCase(), value: 'Country', active: true },
+        { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: 'Project', active: false },
+        { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: false },
+      ];
+      
+      this.onFilter(new FilterEvent( 'bms', 'reporting', 'Country' ));
+    }
+
+
+    else if (voters == "ROLE_PROJECT_OFFICER" || voters == "ROLE_PROJECT_MANAGER") {
+      this.dataFilter2 = [
+        { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: 'Project', active: true },
+        { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: false },
+      ];
+      
+      this.onFilter(new FilterEvent( 'bms', 'reporting', 'Project' ));
+    }
+    else {
+      this.dataFilter2 = [
+        { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: true },
+      ];
+      
+      this.onFilter(new FilterEvent( 'bms', 'reporting', 'Distribution' ));
+    }
   }
 }

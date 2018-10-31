@@ -50,6 +50,7 @@ export class SettingsComponent implements OnInit {
     public maxWidth = GlobalText.maxWidth;
     public heightScreen;
     public widthScreen;
+    hasRights: boolean;
 
     constructor(
         public dialog: MatDialog,
@@ -140,6 +141,8 @@ export class SettingsComponent implements OnInit {
 
     // TO DO : get from cache
     load(title): void {
+        this.hasRights = false;
+
         this.referedClassService.get().subscribe(response => {
             if (response && response[0] && response[0].email && response[0].username && response[0].roles)
                 response.forEach(element => {
@@ -156,6 +159,25 @@ export class SettingsComponent implements OnInit {
             response = this.referedClassToken.formatArray(response);
             this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.referedClassToken.__classname__.toUpperCase() + 'S'], response);
             this.data = new MatTableDataSource(response);
+
+            const voters = this._cacheService.get('user').voters;
+
+            if (this.referedClassToken.__classname__ == 'User')
+                if (voters == 'ROLE_ADMIN')
+                    this.hasRights = true;
+
+            if (this.referedClassToken.__classname__ == 'CountrySpecific')
+                if (voters == "ROLE_ADMIN" || voters == 'ROLE_COUNTRY_MANAGER' || voters == 'ROLE_PROJECT_MANAGER')
+                    this.hasRights = true;
+
+            if (this.referedClassToken.__classname__ == 'Donor')
+                if (voters == 'ROLE_ADMIN')
+                    this.hasRights = true;
+
+            if (this.referedClassToken.__classname__ == 'Project')
+                if (voters == "ROLE_ADMIN" || voters == 'ROLE_COUNTRY_MANAGER' || voters == 'ROLE_PROJECT_MANAGER')
+                    this.hasRights = true;
+
             this.loadingData = false;
         });
     }

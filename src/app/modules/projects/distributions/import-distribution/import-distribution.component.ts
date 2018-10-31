@@ -22,6 +22,8 @@ const IMPORT_UPDATE = 2;
 export class ImportDistributionComponent implements OnInit, DoCheck {
 
     @Input() distribution: DistributionData;
+    @Input() rights: DistributionData;
+
     @Output() success = new EventEmitter<boolean>();
 
     // upload
@@ -73,12 +75,12 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
-      this.checkSize();
+        this.checkSize();
     }
 
     checkSize(): void {
-      this.heightScreen = window.innerHeight;
-      this.widthScreen = window.innerWidth;
+        this.heightScreen = window.innerHeight;
+        this.widthScreen = window.innerWidth;
     }
 
     /**
@@ -113,56 +115,58 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
      * Upload csv and import the new distribution (list of beneficiaries)
      */
     updateDistribution(step: number) {
-        const data = new FormData();
-        data.append('file', this.csv);
+        if (this.rights) {
+            
+            const data = new FormData();
+            data.append('file', this.csv);
 
-        if (this.csv && step === IMPORT_COMPARE) {
-            this.loadFile = true;
-            this.beneficiaryService.import(this.distribution.id, data, IMPORT_COMPARE).subscribe(
-              result => {
-                    this.comparing = true;
-                    this.loadFile = false;
-                    this.importedData = result;
+            if (this.csv && step === IMPORT_COMPARE) {
+                this.loadFile = true;
+                this.beneficiaryService.import(this.distribution.id, data, IMPORT_COMPARE).subscribe(
+                    result => {
+                        this.comparing = true;
+                        this.loadFile = false;
+                        this.importedData = result;
 
-                    const createList = ImportedBeneficiary.formatArray(this.importedData.created);
-                    const addList = ImportedBeneficiary.formatArray(this.importedData.added);
-                    const removeList = ImportedBeneficiary.formatArray(this.importedData.deleted);
-                    const updateList = ImportedBeneficiary.formatArray(this.importedData.updated);
+                        const createList = ImportedBeneficiary.formatArray(this.importedData.created);
+                        const addList = ImportedBeneficiary.formatArray(this.importedData.added);
+                        const removeList = ImportedBeneficiary.formatArray(this.importedData.deleted);
 
-                    this.numberCreated = createList ? createList.length : 0;
-                    this.numberAdded = addList ? addList.length : 0;
-                    this.numberRemoved = removeList ? removeList.length : 0;
-                    this.numberUpdated = updateList ? updateList.length : 0;
-                    this.noChanges = (this.numberCreated + this.numberAdded + this.numberRemoved === 0);
+                        this.numberCreated = createList ? createList.length : 0;
+                        this.numberAdded = addList ? addList.length : 0;
+                        this.numberRemoved = removeList ? removeList.length : 0;
+                        this.noChanges = (this.numberCreated + this.numberAdded + this.numberRemoved === 0);
 
-                    this.createData = new MatTableDataSource(createList);
-                    this.updateData = new MatTableDataSource(updateList);
-                    this.addingData = new MatTableDataSource(addList);
-                    this.removingData = new MatTableDataSource(removeList);
+                        this.createData = new MatTableDataSource(createList);
+                        this.addingData = new MatTableDataSource(addList);
+                        this.removingData = new MatTableDataSource(removeList);
 
-                    this.csv = null;
-              },
-              error => {
-                this.loadFile = false,
-                this.csv = null;
-              }
-            );
-        } else if (this.importedData && step === IMPORT_UPDATE) {
-            this.loadUpdate = true;
-            this.beneficiaryService.import(this.distribution.id, {data: this.importedData}, IMPORT_UPDATE).subscribe(
-                success => {
-                    this.snackBar.open('Distribution updated', '', { duration: 3000, horizontalPosition: 'center' });
-                    this.success.emit(true);
-                    this.loadUpdate = false;
-                    this.importedData = null;
-                    this.comparing = false;
-                },
-                error => {
-                  this.loadUpdate = false,
-                  this.comparing = false;
-                }
-            );
+                        this.csv = null;
+                    },
+                    error => {
+                        this.loadFile = false,
+                            this.csv = null;
+                    }
+                );
+            } else if (this.importedData && step === IMPORT_UPDATE) {
+                this.loadUpdate = true;
+                this.beneficiaryService.import(this.distribution.id, { data: this.importedData }, IMPORT_UPDATE).subscribe(
+                    success => {
+                        this.snackBar.open('Distribution updated', '', { duration: 3000, horizontalPosition: 'center' });
+                        this.success.emit(true);
+                        this.loadUpdate = false;
+                        this.importedData = null;
+                        this.comparing = false;
+                    },
+                    error => {
+                        this.loadUpdate = false,
+                            this.comparing = false;
+                    }
+                );
+            }
         }
+        else 
+            this.snackBar.open("You haven't the right to update the distribution, ask to your project manager", '', { duration: 3000, horizontalPosition: 'right' });
     }
 
     goBack() {

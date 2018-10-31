@@ -172,7 +172,7 @@ export class ModalAddComponent extends ModalComponent {
         else if ((this.newObject.donors && this.newObject.donors_name && this.newObject.name && this.newObject.sectors && this.newObject.sectors_name) || this.newObject.name == '' || (this.newObject.sectors_name && Object.keys(this.newObject.sectors_name).length == 0) || (this.newObject.sectors && Object.keys(this.newObject.sectors).length == 0)) {
 
             if (!this.newObject.end_date || !this.newObject.name || !this.newObject.start_date || !this.newObject.value || this.newObject.value < 0) {
-                this.snackBar.open('Invalid fields : check you filled every fields and budget is more than 0', '', { duration: 3000, horizontalPosition: 'right' });
+                this.snackBar.open('Invalid fields : check you filled every fields and the amount to be distributed is greater than 0', '', { duration: 3000, horizontalPosition: 'right' });
                 return;
             }
 
@@ -213,7 +213,7 @@ export class ModalAddComponent extends ModalComponent {
                 this.newObject.type = 1;
 
             if (this.newObject.modality == '' || this.newObject.type == '' || this.newObject.unit == '' || !this.newObject.value || this.newObject.value < 0) {
-                this.snackBar.open('Invalid fields : check you filled every fields and quantity more than 0', '', { duration: 3000, horizontalPosition: 'right' });
+                this.snackBar.open('Invalid fields : check you filled every fields and quantity greater than 0', '', { duration: 3000, horizontalPosition: 'right' });
                 return;
             }
         }

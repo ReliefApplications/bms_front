@@ -111,6 +111,6 @@ export class ModalAddLineComponent extends ModalAddComponent {
             }
         }
         else 
-            this.snackBar.open('The weight should be more than 0', '', {duration: 3000, horizontalPosition: 'center'});   
+            this.snackBar.open('The weight should be greater than 0', '', {duration: 3000, horizontalPosition: 'center'});   
     }
 }

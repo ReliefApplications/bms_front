@@ -387,7 +387,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 }
             }
         } else {
-            this.snackBar.open('Fill new distribution\'s information before, including the commodity and a threshold\'s value more than 0.', '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open('Fill new distribution\'s information before, including the commodity and a threshold\'s value greater than 0.', '', { duration: 3000, horizontalPosition: 'center' });
         }
 
     }

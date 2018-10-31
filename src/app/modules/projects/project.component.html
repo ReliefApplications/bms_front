@@ -39,6 +39,7 @@
                     <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon> </button>
                 </mat-menu>
             </div>
+            <button mat-raised-button class='button-background-primary' (click)="test()">Cache Test!</button>
           </div>
       </div>
       <div class="undisplay new-project" *ngIf="selectedProject.number_of_households == '0' ">

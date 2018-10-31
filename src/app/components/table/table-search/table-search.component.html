@@ -42,7 +42,7 @@
           <mat-icon>edit</mat-icon>
         </button>
         <button *ngIf="editable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
-          <mat-icon>delete</mat-icon>
+          <mat-icon>delete_outline</mat-icon>
         </button>
       </td>
     </ng-container>
@@ -50,7 +50,7 @@
     <tr mat-header-row *matHeaderRowDef="propertiesActions" class="header-row"></tr>
     <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row cursor-pointer" (click)="openDialog('details', element)"></tr>
   </table>
-  <mat-paginator *ngIf="filled==true" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="50" showFirstLastButtons></mat-paginator>
+  <mat-paginator *ngIf="filled==true" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
 </div>
 
 

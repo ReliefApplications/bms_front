@@ -1,0 +1,16 @@
+{
+  "short_name": "BMS",
+  "name": "Beneficiary Management System",
+  "icons": [
+    {
+      "src": "./assets/images/bms_logo.png",
+      "type": "image/png",
+      "sizes": "115x109"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#EFEFEF",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#EFEFEF"
+}

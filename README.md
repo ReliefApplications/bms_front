@@ -7,7 +7,7 @@ A platform that allows humanitarian organisations to manage relief items (Food, 
 
 BMS is the first fully open-source relief platform for humanitarian actors to efficiently manage relief operations after a disaster, during a war or in response to long term crises. 
 
-If you're an experienced dev and you'd like to get involved, contact us on twitter by DM : @reliefapps [or here](https://twitter.com/Reliefapps).
+If you're an experienced dev and you'd like to get involved, contact us on twitter by DM : @reliefapps or [here](https://twitter.com/Reliefapps).
 
 ## What's here
 
@@ -34,7 +34,7 @@ for details on what and how you can contribute.
 
 We are hoping to
 establish a more user-friendly version soon, one that is readable by our potential users 
-(e.g. developpers and humanitarian actors).
+(e.g. developers and humanitarian actors).
 
 
 ## Resources
@@ -67,6 +67,8 @@ You need to set up a s3 bucket and make sure "Static website hosting" is enabled
 A simple tutorial for reference: https://medium.com/codefactory/angular2-s3-love-deploy-to-cloud-in-6-steps-3f312647a659
 
 To push the build code to S3 Bucket: `aws s3 cp ./dist/bms-front s3://front.bmstaging.info --recursive --acl public-read`
+
+A [script](build-deploy.sh) has been created to compress and upload the project to the S3 bucket.
 
 ## Running unit tests
 

@@ -302,7 +302,7 @@ export class Project {
     mapDonors(donors: any){
         let donorString: string = '';
         donors.forEach(donor => {
-            donorString = donorString == '' ? donor : ', ' + donor;
+            donorString = donorString == '' ? donor : donorString + ', ' + donor;
         });
 
         return donorString;

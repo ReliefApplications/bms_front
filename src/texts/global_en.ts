@@ -6,7 +6,7 @@ export const TEXT = {
     dashboard_summary_2 : 'active projects',
     dashboard_summary_3 : 'enrolled beneficiaries',
     dashboard_summary_4 : 'total value transactions',
-    dashboard_recent_distributions : 'recent distributions',
+    dashboard_recent_distributions : 'upcoming distributions',
 
     menu_home : 'home',
     menu_projects : 'projects',

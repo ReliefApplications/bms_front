@@ -1,9 +1,5 @@
   @import "../../../../assets/css/variable.scss";
 
-.container-boxes {
-    width: 100%;
-}
-
 app-placeholder-boxline {
     width: 100% !important;
     margin-bottom: 30px;
@@ -16,7 +12,6 @@ button-filter-items{
   margin-bottom: 10px;
   flex-grow: 1;
   width : 100%;
-  height : 80px;
   min-width: 150px;
   &.isLast{
     margin-right: 0px !important;
@@ -147,7 +142,7 @@ app-placeholder-panel {
 }
 
 .button-export {
-  color: $bms_white;
+  color: $bms_grey;
 }
 
 button-filter-date{
@@ -159,7 +154,7 @@ button-filter-date{
 
 // .clicked {
 //   background-color: $bms_dark_grey !important;
-//   color: $bms_white;
+//   color: $bms_grey;
 // }
 
 .panel-frequency{
@@ -182,7 +177,7 @@ button-filter-date{
     }
     .apply-period {
       background-color: $bms_green !important;
-      color: $bms_white;
+      color: $bms_grey;
     }
   }
 }
@@ -281,7 +276,7 @@ button-filter-date{
       }
       .apply-period-mobile {
         background-color: $bms_green !important;
-        color: $bms_white;
+        color: $bms_grey;
         font-size: 3vw;
         min-width: 70px;
         width: 50% !important;

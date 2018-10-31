@@ -36,7 +36,7 @@ table {
 }
 
 button{
-    // color: $bms_white;
+    // color: $bms_grey;
     margin: 0.5vh;
   
     mat-icon {
@@ -45,7 +45,7 @@ button{
     }
 
     &:hover {
-        background-color: $bms_light_grey;
+        background-color: $bms_white;
     }
   }
   
@@ -58,7 +58,7 @@ button{
   }
   
   .light-red{
-    color: $bms_light_red;
+    color: $bms_dark_blue;
   }
 .icon {
   height: 5vh;

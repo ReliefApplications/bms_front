@@ -17,7 +17,7 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: $bms_white !important;
+  background-color: $bms_grey !important;
 }
 
 // Override Leaflet theme
@@ -28,20 +28,20 @@ body {
 
 // Override Material theme
 .mat-stepper-horizontal {
-  background-color: $bms_white !important;
+  background-color: $bms_grey !important;
   width: calc(100% - 40px);
 }
 
 .mat-drawer-container {
-  background-color: $bms_white !important;
+  background-color: $bms_grey !important;
 }
 
 .mat-step-icon {
-  color: $bms_white !important;
+  color: $bms_grey !important;
 }
 
 .mat-step-icon-not-touched {
-  color: $bms_white !important;
+  color: $bms_grey !important;
 }
 
 .mat-horizontal-content-container {

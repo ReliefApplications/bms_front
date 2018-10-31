@@ -194,7 +194,18 @@ export class SettingsComponent implements OnInit {
             });
         }
         const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
-            this.createElement(data);
+            let exists: boolean = false;
+
+            this.data.data.forEach(element => {
+                if (element.name == data.name) {
+                    this.snackBar.open('A project with this name already exists', '', { duration: 3000, horizontalPosition: 'right' });
+                    exists = true;
+                    return;
+                }
+            });
+
+            if (exists == false)
+                this.createElement(data);
         });
 
         dialogRef.afterClosed().subscribe(result => {

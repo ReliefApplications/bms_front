@@ -8,4 +8,9 @@ import { TableComponent                                       } from '../table.c
   styleUrls: ['../table-mobile/table-mobile.component.scss']
 })
 export class TableMobileDistributionComponent extends TableComponent {
+
+  getImageName(t2: String) {
+    return (t2.substring(26).split('.')[0]);
+  }
+  
 }

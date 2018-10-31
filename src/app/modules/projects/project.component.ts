@@ -132,6 +132,7 @@ export class ProjectComponent implements OnInit {
     this.distributionService.getByProject(projectId).subscribe(response => {
       const distribution = DistributionData.formatArray(response);
       this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + 'S'], distribution);
+
       this.distributionData = new MatTableDataSource(distribution);
       this.loadingDistributions = false;
     });

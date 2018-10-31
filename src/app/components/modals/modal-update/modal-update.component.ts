@@ -59,10 +59,10 @@ export class ModalUpdateComponent extends ModalComponent {
   save(): any {
     //Check fields for Users settings
     if (this.updateObject.username) {
-    //   if (this.updateObject.password == '' || !this.updateObject.password) {
-    //     this.snackBar.open('You must define a password', '', { duration: 3000, horizontalPosition: 'right' });
-    //     return;
-    //   }
+      //   if (this.updateObject.password == '' || !this.updateObject.password) {
+      //     this.snackBar.open('You must define a password', '', { duration: 3000, horizontalPosition: 'right' });
+      //     return;
+      //   }
 
       if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER") {
         if (this.updateObject.projects == undefined || Object.keys(this.updateObject.projects).length == 0) {
@@ -99,6 +99,11 @@ export class ModalUpdateComponent extends ModalComponent {
     else if ((this.updateObject.end_date && this.updateObject.start_date && this.updateObject.iso3)) {
       if (!this.updateObject.end_date || !this.updateObject.name || !this.updateObject.start_date || !this.updateObject.value) {
         this.snackBar.open('Invalid fields : check you filled every fields', '', { duration: 3000, horizontalPosition: 'right' });
+        return;
+      }
+
+      if (new Date(this.updateObject.start_date).getTime() > new Date(this.updateObject.end_date).getTime()) {
+        this.snackBar.open('Invalid fields : Your start date cannot be older than the end date and vice versa', '', { duration: 3000, horizontalPosition: 'right' });
         return;
       }
 

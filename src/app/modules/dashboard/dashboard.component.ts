@@ -92,7 +92,6 @@ export class DashboardComponent implements OnInit {
       let distribs;
     this._distributionService.get().subscribe(
         response => {
-
             distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
 
             this.distributions = distribs;

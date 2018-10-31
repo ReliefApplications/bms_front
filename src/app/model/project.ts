@@ -226,7 +226,7 @@ export class Project {
             sectors_name: 'select',
             start_date: 'date',
             end_date: 'date',
-            donors_name: 'select',
+            donors_name: 'selectDonor',
             value: 'number',
         };
     }

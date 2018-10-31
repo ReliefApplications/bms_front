@@ -92,10 +92,6 @@ export class ModalAddComponent extends ModalComponent {
             this.form.controls['projectsControl'].enable();
             this.form.controls['countryControl'].disable();
         }
-        // else if (event.value == "ROLE_REGIONAL_MANAGER" || event.value == "ROLE_COUNTRY_MANAGER" || event.value == "ROLE_READ_ONLY") {
-        //     this.form.controls['projectsControl'].disable();
-        //     this.form.controls['countryControl'].enable();
-        // }
         else {
             this.form.controls['projectsControl'].disable();
             this.form.controls['countryControl'].disable();
@@ -174,7 +170,7 @@ export class ModalAddComponent extends ModalComponent {
         }
         //Check fields for Projects settings
         else if ((this.newObject.donors && this.newObject.donors_name && this.newObject.name && this.newObject.sectors && this.newObject.sectors_name) || this.newObject.name == '' || (this.newObject.sectors_name && Object.keys(this.newObject.sectors_name).length == 0) || (this.newObject.sectors && Object.keys(this.newObject.sectors).length == 0)) {
-            
+
             if (!this.newObject.end_date || !this.newObject.name || !this.newObject.start_date || !this.newObject.value || this.newObject.value < 0) {
                 this.snackBar.open('Invalid fields : check you filled every fields and budget is more than 0', '', { duration: 3000, horizontalPosition: 'right' });
                 return;
@@ -222,9 +218,7 @@ export class ModalAddComponent extends ModalComponent {
             }
         }
 
-        // console.log('(dialog) Sent to format: ', this.newObject);
         const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
-        // console.log('(dialog) Return from format: ', formatedObject);
         this.onCreate.emit(formatedObject);
         this.closeDialog();
     }

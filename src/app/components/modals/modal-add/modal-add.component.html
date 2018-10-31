@@ -9,7 +9,7 @@
       <th class="table-value">
         <form class="form" [formGroup]="form">
           <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
-            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry' && propertiesTypes[p] != 'number'"
+            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry'"
               [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
 
             <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="0">
@@ -17,6 +17,11 @@
             <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
               [formControl]="controls" multiple>
               <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
+            </mat-select>
+
+            <mat-select *ngIf="propertiesTypes[p]=='selectDonor'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
+              [formControl]="controls" multiple>
+              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.shortname}}</mat-option>
             </mat-select>
 
             <mat-select *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"

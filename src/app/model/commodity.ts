@@ -117,6 +117,7 @@ export class Commodity {
 
     public static formatArray(instance): Commodity[] {
         let commoditys: Commodity[] = [];
+        if(instance)
         instance.forEach(element => {
             commoditys.push(this.formatFromApi(element));
         });

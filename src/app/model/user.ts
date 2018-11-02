@@ -194,6 +194,7 @@ export class User {
 
     public static formatArray(instance): User[] {
         let users: User[] = [];
+        if(instance)
         instance.forEach(element => {
             users.push(this.formatFromApi(element));
         });

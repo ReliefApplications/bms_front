@@ -91,15 +91,6 @@ export class ProjectComponent implements OnInit {
         }
     }
 
-    test() {
-
-        this.projectService.get().subscribe(
-            response => {
-                console.log(response);
-            }
-        )
-    }
-
     /**
      * update current project and its distributions when a other project box is clicked
      * @param title
@@ -123,7 +114,6 @@ export class ProjectComponent implements OnInit {
     getProjects(): void {
         this.projectService.get().subscribe(
             response => {
-                console.log(response);
                 if (response && response.length > 0) {
                     this.projects = this.projectClass.formatArray(response).reverse();
                     this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + 'S'], this.projects);

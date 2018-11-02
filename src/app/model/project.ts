@@ -249,6 +249,7 @@ export class Project {
 
     public static formatArray(instance): Project[] {
         const projects: Project[] = [];
+        if(instance)
         instance.forEach(element => {
             projects.push(this.formatProject(element));
         });

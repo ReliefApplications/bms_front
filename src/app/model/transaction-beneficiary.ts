@@ -83,7 +83,8 @@ export class TransactionBeneficiary {
                 }
             )
         }
-
+        
+        if(instance)
         instance.forEach(
             element => {
                 beneficiaries.push(this.formatElement(element, commodities));

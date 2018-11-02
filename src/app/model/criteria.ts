@@ -128,6 +128,7 @@ export class Criteria {
 
     public static formatArray(instance): Criteria[] {
         let criterias: Criteria[] = [];
+        if(instance)
         instance.forEach(element => {
             criterias.push(this.formatFromApi(element));
         });

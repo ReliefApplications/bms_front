@@ -14,7 +14,8 @@ export class AsyncacheService {
     readonly MSTIMEOUT                          = this.SECTIMEOUT*1000;
 
     // Keys
-	static readonly USER 						= 'user';
+    static readonly USER 						= 'user';
+	static readonly USERS 						= 'users';    
 	static readonly DISTRIBUTIONS              	= 'distributions';
 	static readonly DONORS		              	= 'donors';
 	static readonly PROJECTS		            = 'projects';
@@ -27,7 +28,9 @@ export class AsyncacheService {
 	static readonly ADM3						= 'adm3';
 	static readonly ADM4						= 'adm4';
     static readonly MAPSDATA					= 'mapsData';
-    static readonly TEST                        = 'test';
+    static readonly SPECIFICS                   = 'specifics';
+    static readonly MODALITIES                  = 'modalities';
+    static readonly VULNERABILITIES             = 'vulnerabilities';
 
     constructor(
         protected localStorage : LocalStorage,

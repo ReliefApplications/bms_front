@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { ExportInterface } from '../../model/export.interface';
 import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { delay } from 'rxjs/operators';
 
 
 @Component({
@@ -63,11 +64,11 @@ export class ProjectComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        //this.asyncache.set(AsyncacheService.PROJECTS, { id : 2, description : "this is a test" } );
         this.getProjects();
         this.checkSize();
         this.checkPermission();
         this.extensionType = 'xls';
-        this.asyncache.set(AsyncacheService.TEST, { id : 2, description : "this is a test" } );
     }
 
     @HostListener('window:resize', ['$event'])
@@ -91,9 +92,10 @@ export class ProjectComponent implements OnInit {
     }
 
     test() {
-        this.asyncache.get(AsyncacheService.TEST).subscribe(
-            result => {
-                console.log(result);
+
+        this.projectService.get().subscribe(
+            response => {
+                console.log(response);
             }
         )
     }
@@ -119,10 +121,10 @@ export class ProjectComponent implements OnInit {
      * get all projects
      */
     getProjects(): void {
-        const promise = this.projectService.get();
-        if (promise) {
-            promise.toPromise().then(response => {
-                if (response.length > 0) {
+        this.projectService.get().subscribe(
+            response => {
+                console.log(response);
+                if (response && response.length > 0) {
                     this.projects = this.projectClass.formatArray(response).reverse();
                     this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + 'S'], this.projects);
                     this.selectTitle(this.projects[0].name, this.projects[0]);
@@ -131,8 +133,8 @@ export class ProjectComponent implements OnInit {
                 else
                     this.loadingDistributions = false;
 
-            });
-        }
+            }
+        );
     }
 
     /**
@@ -140,13 +142,15 @@ export class ProjectComponent implements OnInit {
      * @param projectId
      */
     getDistributionsByProject(projectId: number): void {
-        this.distributionService.getByProject(projectId).subscribe(response => {
-            const distribution = DistributionData.formatArray(response);
-            this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + 'S'], distribution);
+        this.distributionService.getByProject(projectId).subscribe(
+            response => {
+                const distribution = DistributionData.formatArray(response);
+                this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + 'S'], distribution);
 
-            this.distributionData = new MatTableDataSource(distribution);
-            this.loadingDistributions = false;
-        });
+                this.distributionData = new MatTableDataSource(distribution);
+                this.loadingDistributions = false;
+            }
+        );
     }
 
     addDistribution() {

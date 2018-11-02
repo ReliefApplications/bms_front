@@ -46,10 +46,18 @@ export class AsyncacheService {
             this.storage.getItem(key).pipe(
                 map(
                     (result: CachedItemInterface) => {
-                        if(result.storageTime + result.limit > (new Date).getTime()) {
-
+                        if(result && result.storageTime + result.limit < (new Date).getTime()) {
+                            if(result.canBeDeleted) {
+                                this.remove(key);
+                            }
+                            return null ;
+                        } else if(result) {
+                            console.log('GET (', key, '): ', result.value);
+                            return result.value;
+                        } else {
+                            return null;
                         }
-                        result.value
+                    }
                 )
             )
         );
@@ -68,14 +76,12 @@ export class AsyncacheService {
         let object: CachedItemInterface = {
 			storageTime: (new Date()).getTime(), //in milliseconds
 			value: value,
-			limit: this.MSTIMEOUT, // in seconds
+			limit: this.MSTIMEOUT, // in milliseconds
 			canBeDeleted: options.canBeDeleted
         }
-        console.log(key);
-        console.log(object);
         this.localStorage.setItem(key, object).subscribe(
             result => {
-                console.log(result);
+                console.log('SET (', key, '): ', object);
             }
         );
     }
@@ -85,7 +91,12 @@ export class AsyncacheService {
         this.storage.removeItemSubscribe(key);
     }
 
-    deletable() {
-        
+    clear(force : boolean = false) {
+        if(force) {
+            this.storage.clearSubscribe();
+        } else {
+            // TODO: find optimal code to adapt database clearing with deletable test.
+        }
     }
+
 }

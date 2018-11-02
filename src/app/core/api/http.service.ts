@@ -33,6 +33,7 @@ export class HttpService {
             url = url.split(URL_BMS_API)[1];
 
             switch(url) {
+                case '/login' : return(AsyncacheService.USER)
                 case '/projects' : return(AsyncacheService.PROJECTS)
                 case '/distributions' : return(AsyncacheService.DISTRIBUTIONS)
                 case '/country_specifics' : return(AsyncacheService.SPECIFICS)

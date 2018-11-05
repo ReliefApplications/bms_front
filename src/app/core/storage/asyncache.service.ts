@@ -55,7 +55,7 @@ export class AsyncacheService {
                             }
                             return null ;
                         } else if(result) {
-                            console.log('GET (', key, '): ', result.value);
+                            // console.log('GET (', key, '): ', result.value);
                             return result.value;
                         } else {
                             return null;
@@ -84,7 +84,7 @@ export class AsyncacheService {
         }
         this.localStorage.setItem(key, object).subscribe(
             result => {
-                console.log('SET (', key, '): ', object);
+                // console.log('SET (', key, '): ', object);
             }
         );
     }

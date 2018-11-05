@@ -60,7 +60,7 @@ export class HttpService {
         let connected = this.networkService.getStatus();
         let cacheData : any;
         // Test logs
-        console.log('--', itemKey, '--');
+        // console.log('--', itemKey, '--');
 
         // If this item is cachable & user is connected
         if(itemKey && connected) {
@@ -90,7 +90,7 @@ export class HttpService {
             return this.http.get(url, options);
         } 
         // If user offline but this item can be accessed from the cache
-        else if (itemKey) {
+        else if (itemKey != null) {
             return this.cacheService.get(itemKey);
         }
         // If disconnected and item uncachable
@@ -106,15 +106,33 @@ export class HttpService {
     }
 
     post(url, body, options = {}) : Observable<any> {
-        return this.http.post(url, body, options);
+        let connected = this.networkService.getStatus();
+
+        if(connected) {
+            return this.http.post(url, body, options);
+        } else {
+            this.snackbar.open('No network connection to update data', '', {duration:1000, horizontalPosition: 'center'});
+        }
     }
 
     put(url, body, options = {}) : Observable<any> {
-        return this.http.put(url, body, options);
+        let connected = this.networkService.getStatus();
+
+        if(connected) {
+            return this.http.put(url, body, options);
+        } else {
+            this.snackbar.open('No network connection to create data', '', {duration:1000, horizontalPosition: 'center'});
+        }
     }
 
     delete(url, options = {}) : Observable<any> {
-        return this.http.delete(url, options);
+        let connected = this.networkService.getStatus();
+
+        if(connected) {
+            return this.http.delete(url, options);
+        } else {
+            this.snackbar.open('No network connection to delete data', '', {duration:1000, horizontalPosition: 'center'});
+        }
     }
 
 }

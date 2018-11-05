@@ -60,11 +60,9 @@ export class ProjectComponent implements OnInit {
         private _cacheService: CacheService,
         public snackBar: MatSnackBar,
         public dialog: MatDialog,
-        public asyncache: AsyncacheService,
     ) { }
 
     ngOnInit() {
-        //this.asyncache.set(AsyncacheService.PROJECTS, { id : 2, description : "this is a test" } );
         this.getProjects();
         this.checkSize();
         this.checkPermission();
@@ -168,7 +166,6 @@ export class ProjectComponent implements OnInit {
         );
         const create = dialogRef.componentInstance.onCreate.subscribe(
             (data) => {
-                // console.log('got from dialog: ', data);
                 this.projectService.create(data['id'], data).subscribe(
                     response => {
                         this.getProjects();

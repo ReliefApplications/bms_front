@@ -264,7 +264,15 @@ export class TableComponent implements OnChanges, DoCheck {
         });
     }
 
-    applyFilter(filterValue: string): void {
+    applyFilter(filterValue: any): void {
+        if (Array.isArray(filterValue)) {
+            let tmpFilterValue = '';
+            filterValue.forEach(filter => {
+                tmpFilterValue = tmpFilterValue == '' ? filter : tmpFilterValue + ', ' + filter;
+            });
+
+            filterValue = tmpFilterValue;
+        }
         filterValue = filterValue.trim(); // Remove whitespace
         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
         if(this.data.filter && (this.data.filter.filter || this.data.filter.filter === ''))  {

@@ -9,7 +9,7 @@
   <div *ngIf="filled" class="container-header">
     <div class="filter-combo">
       <mat-form-field class="select-filter">
-        <mat-select [(ngModel)]="selectedFilter" (selectionChange)="data.setFiltered(selectedFilter)">
+        <mat-select [(ngModel)]="selectedFilter" (selectionChange)="data.setCategory(selectedFilter)">
           <mat-option *ngFor="let property of properties" [value]="property">
             {{ mapperService.mapTitle(property) }}
           </mat-option>

@@ -14,6 +14,7 @@ import { tap } from 'rxjs/operators';
 export class TableBeneficiariesComponent extends TableComponent {
 
     @Output() updating = new EventEmitter<number>();
+    @Output() selected = new EventEmitter<string>();
 
     selectedFilter;
     testLoading = true;
@@ -110,6 +111,10 @@ export class TableBeneficiariesComponent extends TableComponent {
                 return(result);
             }
         )
+    }
+
+    getForSelect(selection) {
+        this.selected.emit(selection);
     }
 
 }

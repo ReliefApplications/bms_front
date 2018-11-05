@@ -119,7 +119,7 @@ export class BeneficiariesComponent implements OnInit {
         this.dialog.open(template);
     }
 
-    getProjects() {
+    getProjects(target?) {
         if (!this.projectsList || this.projectsList.length === 0) {
             this.projectService.get().subscribe(
                 success => {
@@ -128,6 +128,15 @@ export class BeneficiariesComponent implements OnInit {
                             this.projectsList.push(element);
                         }
                     );
+
+                    if (target && target == 'updateSelection') {
+                        let tmpProjects: any = [];
+                        this.projectsList.forEach(project => {
+                            tmpProjects.push(project.name)                
+                        });
+            
+                        this.dataSource.gotData.next(tmpProjects);
+                    }
                 },
                 error => {
                     this.projectsList = new Array();
@@ -158,5 +167,15 @@ export class BeneficiariesComponent implements OnInit {
 
         if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_COUNTRY_MANAGER")
             this.hasRightsExport = true;
+    }
+
+    updateSelection(selection) {
+        if (selection == 'location')
+            this.dataSource.gotData.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
+        else if (selection == 'vulnerabilities')
+            this.dataSource.gotData.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
+        else if (selection == 'projects') {
+            this.getProjects('updateSelection');
+        }
     }
 }

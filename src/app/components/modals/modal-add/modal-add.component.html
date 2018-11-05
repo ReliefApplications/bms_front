@@ -9,7 +9,7 @@
       <th class="table-value">
         <form class="form" [formGroup]="form">
           <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
-            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry'"
+            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry'"
               [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
 
             <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="0">

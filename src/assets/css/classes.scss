@@ -151,6 +151,20 @@
   color: $bms_grey !important;
 }
 
+.no-data {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    mat-icon, span {
+        margin-right: 10px;
+        font-size: 20px;
+    }
+
+    color: darkgrey;
+}
+
 .action-buttons {
     display: flex;
     justify-content: flex-end;

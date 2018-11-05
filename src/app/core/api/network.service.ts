@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, merge, of, fromEvent } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 import { componentRefresh } from '@angular/core/src/render3/instructions';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatIcon } from '@angular/material';
+import { IconSvgComponent } from 'src/app/components/icon-svg/icon-svg.component';
 
 @Injectable({
     providedIn: 'root'

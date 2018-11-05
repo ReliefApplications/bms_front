@@ -284,5 +284,7 @@ export const TEXT = {
     role_user_project_manager: 'Project manager',
     role_user_country_manager: 'Country manager',
     role_user_regional_manager: 'Regional manager',
-    role_user_global_admin: 'Global admin'
+    role_user_global_admin: 'Global admin',
+
+    no_data: 'No data',
 };

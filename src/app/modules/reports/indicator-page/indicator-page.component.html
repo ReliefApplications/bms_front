@@ -117,9 +117,18 @@
                     </div>
                 </div>
 
-                <div *ngIf="(indicators.length == 0) && !indicatorsLoading" class="no-data-box">
+                <div *ngIf="indicators && (indicators.length == 0) && !indicatorsLoading" class="no-data-box">
                     <h1 class="box-title">{{indicator.report_upcoming_reporting}}</h1>
                 </div>
+
+                <div class="no-data-container" *ngIf="!indicators">
+                    <div class="loadingContent">
+                        <h4 class="no-data">
+                            <mat-icon>cloud_off</mat-icon>
+                            <span> No data </span>
+                        </h4>
+                    </div>
+                </div> 
 
                 <div *ngIf="indicatorsLoading" class="container-fluid">
                     <mat-spinner></mat-spinner>

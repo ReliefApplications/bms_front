@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { ExportInterface } from '../../model/export.interface';
 import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { delay } from 'rxjs/operators';
+import { delay, finalize } from 'rxjs/operators';
 
 
 @Component({
@@ -36,6 +36,7 @@ export class ProjectComponent implements OnInit {
     loadingDistributions = true;
     loadingCreation: boolean;
     loadingProjects = true;
+    noNetworkData = false;
 
     selectedTitle = '';
     selectedProject = null;
@@ -110,16 +111,19 @@ export class ProjectComponent implements OnInit {
      * get all projects
      */
     getProjects(): void {
-        this.projectService.get().subscribe(
+        this.projectService.get().pipe(
+            finalize(
+                () => {
+                    this.loadingProjects = false;
+                },
+            )
+        ).subscribe(
             response => {
                 if (response && response.length > 0) {
                     this.projects = this.projectClass.formatArray(response).reverse();
                     this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + 'S'], this.projects);
                     this.selectTitle(this.projects[0].name, this.projects[0]);
-                    this.loadingProjects = false;
                 }
-                else
-                    this.loadingDistributions = false;
 
             }
         );
@@ -130,15 +134,33 @@ export class ProjectComponent implements OnInit {
      * @param projectId
      */
     getDistributionsByProject(projectId: number): void {
-        this.distributionService.getByProject(projectId).subscribe(
-            response => {
-                const distribution = DistributionData.formatArray(response);
-                this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + 'S'], distribution);
+        this.distributionService.
+            getByProject(projectId).pipe(
+                finalize(
+                    () => {
+                        this.loadingDistributions = false;
+                    },
+                )
+            ).toPromise().then(
+                response => {
+                    if (response || response === []) {
+                        this.noNetworkData = false;
+                        const distribution = DistributionData.formatArray(response);
+                        this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + 'S'], distribution);
 
-                this.distributionData = new MatTableDataSource(distribution);
-                this.loadingDistributions = false;
-            }
-        );
+                        this.distributionData = new MatTableDataSource(distribution);
+                    } else {
+                        this.distributionData = null;
+                        this.noNetworkData = true;
+                    }
+                }
+            )
+            .catch(
+                error => {
+                    this.distributionData = null;
+                    this.noNetworkData = true;
+                }
+            )
     }
 
     addDistribution() {

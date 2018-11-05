@@ -164,15 +164,19 @@ export class DistributionData {
     public static formatArray(instance): DistributionData[] {
         const distributionDatas: DistributionData[] = [];
         // console.log("formatArray before :", distributionDatas);
-        if(instance)
-        instance.forEach(element => {
-            if (Boolean(instance.archived) === false) {
-                if (!element.archived && element && element.id && element.location && element.project && element.name && element.commodities) {
-                    distributionDatas.push(this.formatFromApi(element));
+        if(instance) {
+            instance.forEach(element => {
+                if (Boolean(instance.archived) === false) {
+                    if (!element.archived && element && element.id && element.location && element.project && element.name && element.commodities) {
+                        distributionDatas.push(this.formatFromApi(element));
+                    }
                 }
-            }
-        });
-        return distributionDatas;
+            });
+            return distributionDatas;
+        }
+        else {
+            return null;
+        }
     }
 
     // Json -> DistributionData

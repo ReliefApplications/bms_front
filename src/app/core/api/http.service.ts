@@ -6,7 +6,7 @@ import { Router                                     } from '@angular/router';
 
 //Services
 import { WsseService                                } from '../authentication/wsse.service';
-import { Observable, concat } from 'rxjs';
+import { Observable, concat, of } from 'rxjs';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { map } from 'rxjs/operators';
 import { NetworkService } from './network.service';
@@ -90,7 +90,7 @@ export class HttpService {
             return this.http.get(url, options);
         } 
         // If user offline but this item can be accessed from the cache
-        else if (itemKey != null) {
+        else if (itemKey) {
             return this.cacheService.get(itemKey);
         }
         // If disconnected and item uncachable
@@ -98,7 +98,7 @@ export class HttpService {
             return this.http.get(url, options).pipe(
                 map(
                     () => {
-                        return(new Error('No network connection'));
+                        return([]);
                     }
                 )
             )
@@ -112,6 +112,7 @@ export class HttpService {
             return this.http.post(url, body, options);
         } else {
             this.snackbar.open('No network connection to update data', '', {duration:1000, horizontalPosition: 'center'});
+            return of(null);
         }
     }
 
@@ -122,6 +123,7 @@ export class HttpService {
             return this.http.put(url, body, options);
         } else {
             this.snackbar.open('No network connection to create data', '', {duration:1000, horizontalPosition: 'center'});
+            return of(null);
         }
     }
 
@@ -132,6 +134,7 @@ export class HttpService {
             return this.http.delete(url, options);
         } else {
             this.snackbar.open('No network connection to delete data', '', {duration:1000, horizontalPosition: 'center'});
+            return of(null);
         }
     }
 

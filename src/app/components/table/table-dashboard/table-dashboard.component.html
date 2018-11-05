@@ -37,4 +37,14 @@
       <tr mat-header-row *matHeaderRowDef="propertiesActions"></tr>
       <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="distribution-details cursor-pointer" (click)="openDialog('details', element)"></tr>
     </table>
+
+    <div class="no-data-container" *ngIf="!data">
+        <div class="loadingContent">
+            <h4 class="no-data">
+                <mat-icon>cloud_off</mat-icon>
+                <span> No data </span>
+            </h4>
+        </div>
+    </div>
+
   </div>

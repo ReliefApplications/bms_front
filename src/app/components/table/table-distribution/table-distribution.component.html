@@ -49,6 +49,16 @@
       <tr mat-header-row *matHeaderRowDef="propertiesActions" class="header-row"></tr>
       <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row distribution-details cursor-pointer" routerLink="/projects/distributions/{{element.id}}"></tr>
     </table>
+
+    <div class="no-data-container" *ngIf="this.data.length === 0">
+            <div class="loadingContent">
+                <h4 class="no-data">
+                    <mat-icon>cloud_off</mat-icon>
+                    <span> No data </span>
+                </h4>
+            </div>
+        </div>
+
     <mat-paginator *ngIf="filled" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
   </div>
 

@@ -14,6 +14,6 @@ export class TableSearchComponent extends TableComponent {
     }
 
     ngOnChanges() {
-        console.log(this.data);
+        // console.log(this.data);
     }
 }

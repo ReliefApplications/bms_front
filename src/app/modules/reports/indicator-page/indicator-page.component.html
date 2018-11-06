@@ -109,7 +109,7 @@
 
             <!-- where we display charts, loader or information text when no charts exists -->
             <div class="content-table">
-                <div *ngIf="indicators.length" class="container-indicator">
+                <div *ngIf="indicators && indicators.length" class="container-indicator">
                     <div *ngFor="let indicator of indicators; let i = index">
                         <app-indicator *ngIf="type == indicator['type'] && display" [indicator]="indicator"
                             [chartDimensions]="chartDimensions" [filters]="findFilter(indicator['filter'])" [project]="selectedProject"

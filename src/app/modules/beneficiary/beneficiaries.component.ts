@@ -66,6 +66,9 @@ export class BeneficiariesComponent implements OnInit {
         this.extensionType = 'xls';
         this.dataSource = new HouseholdsDataSource(this.householdsService);
         this.dataSource.loadHouseholds();
+        this.getLocations();
+        this.dataSource.vulnerabilities.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
+        this.getProjects('updateSelection');
         this.checkPermission();
     }
 
@@ -134,10 +137,10 @@ export class BeneficiariesComponent implements OnInit {
                     if (target && target == 'updateSelection') {
                         let tmpProjects: any = [];
                         this.projectsList.forEach(project => {
-                            tmpProjects.push(project.name)                
+                            tmpProjects.push(project.name)
                         });
-            
-                        this.dataSource.gotData.next(tmpProjects);
+
+                        this.dataSource.projects.next(tmpProjects);
                     }
                 },
                 error => {
@@ -150,11 +153,11 @@ export class BeneficiariesComponent implements OnInit {
     getLocations() {
         this.locationService.getLocationByHouseholds().subscribe(
             locations => {
-                const filter = locations.filter(function(elem, index, self) {
+                const filter = locations.filter(function (elem, index, self) {
                     return index === self.indexOf(elem);
                 });
 
-                this.dataSource.gotData.next(filter);
+                this.dataSource.locations.next(filter);
             }
         );
     }
@@ -181,15 +184,5 @@ export class BeneficiariesComponent implements OnInit {
 
         if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_COUNTRY_MANAGER")
             this.hasRightsExport = true;
-    }
-
-    updateSelection(selection) {
-        if (selection == 'location') 
-            this.getLocations();
-        else if (selection == 'vulnerabilities')
-            this.dataSource.gotData.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
-        else if (selection == 'projects') {
-            this.getProjects('updateSelection');
-        }
     }
 }

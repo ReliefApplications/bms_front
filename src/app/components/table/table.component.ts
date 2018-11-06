@@ -264,21 +264,26 @@ export class TableComponent implements OnChanges, DoCheck {
         });
     }
 
-    applyFilter(filterValue: any): void {
-        if (Array.isArray(filterValue)) {
-            let tmpFilterValue = '';
-            filterValue.forEach(filter => {
-                tmpFilterValue = tmpFilterValue == '' ? filter : tmpFilterValue + ', ' + filter;
-            });
-
-            filterValue = tmpFilterValue;
+    applyFilter(filterValue: any, category: string): void {
+        if (category == 'familyName') {
+            if (filterValue.length != 0 || filterValue != "") {
+                filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+                filterValue = filterValue.split(', ');
+            }
         }
-        filterValue = filterValue.trim(); // Remove whitespace
-        filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-        if(this.data.filter && (this.data.filter.filter || this.data.filter.filter === ''))  {
-            this.data.setFilter(filterValue);
-        } else {
-            this.data.filter = filterValue;
+
+        const index = this.data.filter.findIndex(function(value) {
+            return value.category == category;
+        });
+
+        if (index >= 0)
+            if (filterValue.length == 0 || filterValue == "")
+                this.data.filter.splice(index, 1); 
+            else
+                this.data.filter[index] = {filter: filterValue, category: category};
+        else {
+            if (filterValue.length != 0 || filterValue != "")
+                this.data.filter.push({filter: filterValue, category: category});
         }
     }
 

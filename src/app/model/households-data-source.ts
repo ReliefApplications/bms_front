@@ -12,13 +12,15 @@ export class HouseholdsDataSource implements DataSource<Households> {
     public filter;
     public length$ = this.lengthSubject.asObservable();
     public loading$ = this.loadingSubject.asObservable();
-    public gotData = new BehaviorSubject<any[]>([]);
+    public locations = new BehaviorSubject<any[]>([]);
+    public projects = new BehaviorSubject<any[]>([]);
+    public vulnerabilities = new BehaviorSubject<any[]>([]);
 
     constructor(private householdsService: HouseholdsService) {
-        this.filter = {
-            filter : '',
+        this.filter = [{
+            filter : [],
             category: 'familyName'
-        }
+        }];
     }
 
     connect(collectionViewer: CollectionViewer): Observable<Households[]> {
@@ -50,10 +52,6 @@ export class HouseholdsDataSource implements DataSource<Households> {
 
     setCategory(category : String) {
         this.filter.category = category;
-    }
-
-    setFilter(filter : String) {
-        this.filter.filter = filter;
     }
 
     getLoadingState() {

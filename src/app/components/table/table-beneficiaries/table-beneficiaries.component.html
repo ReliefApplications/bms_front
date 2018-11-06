@@ -8,21 +8,28 @@
   </div>
 
   <div class="container-header" *ngIf="filled">
-    <div class="filter-combo">
-      <mat-form-field class="select-filter">
-        <mat-select [(ngModel)]="selectedFilter" (selectionChange)="data.setCategory(selectedFilter); getForSelect(selectedFilter);">
-          <mat-option *ngFor="let property of properties" [value]="property">
-            {{ mapperService.mapTitle(property) }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="input-filter" *ngIf="selectedFilter != 'location' && selectedFilter != 'vulnerabilities' && selectedFilter != 'projects'">
-        <input matInput (keyup)="applyFilter($event.target.value); sendSortedData()" placeholder="{{table.table_filter}}">
-      </mat-form-field>
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value, 'familyName'); sendSortedData()" placeholder="{{table.table_filter}}">
+    </mat-form-field>
 
-      <ng-select *ngIf="selectedFilter == 'location' || selectedFilter == 'vulnerabilities' || selectedFilter == 'projects'" class="input-filter" bindLabel="name"
-        [items]="data.gotData.value" [multiple]="true" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event); sendSortedData()">
-      </ng-select>
+    <div class="filter-combo">
+      <div>
+        <ng-select class="input-filter" bindLabel="name" [items]="data.projects.value" [multiple]="true" placeholder="Projects"
+          [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
+        </ng-select>
+      </div>
+
+      <div>
+        <ng-select class="input-filter" bindLabel="name" [items]="data.locations.value" [multiple]="true" placeholder="Locations"
+          [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'locations'); sendSortedData()">
+        </ng-select>
+      </div>
+
+      <div>
+        <ng-select class="input-filter" bindLabel="name" [items]="data.vulnerabilities.value" [multiple]="true" placeholder="Vulnerabilities"
+          [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
+        </ng-select>
+      </div>
     </div>
   </div>
 

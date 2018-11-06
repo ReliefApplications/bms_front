@@ -50,8 +50,4 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
             this._timeout = null;
         }, 1000);
     }
-
-    getForSelect(selection) {
-        this.selected.emit(selection);
-    }
 }

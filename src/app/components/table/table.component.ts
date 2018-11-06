@@ -264,26 +264,33 @@ export class TableComponent implements OnChanges, DoCheck {
         });
     }
 
-    applyFilter(filterValue: any, category: string): void {
-        if (category == 'familyName') {
-            if (filterValue.length != 0 || filterValue != "") {
-                filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-                filterValue = filterValue.split(', ');
+    applyFilter(filterValue: any, category?: string): void {
+        if (category) {
+            if (category == 'familyName') {
+                if (filterValue.length != 0 || filterValue != "") {
+                    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+                    filterValue = filterValue.split(', ');
+                }
+            }
+
+            const index = this.data.filter.findIndex(function (value) {
+                return value.category == category;
+            });
+
+            if (index >= 0)
+                if (filterValue.length == 0 || filterValue == "")
+                    this.data.filter.splice(index, 1);
+                else
+                    this.data.filter[index] = { filter: filterValue, category: category };
+            else {
+                if (filterValue.length != 0 || filterValue != "")
+                    this.data.filter.push({ filter: filterValue, category: category });
             }
         }
-
-        const index = this.data.filter.findIndex(function(value) {
-            return value.category == category;
-        });
-
-        if (index >= 0)
-            if (filterValue.length == 0 || filterValue == "")
-                this.data.filter.splice(index, 1); 
-            else
-                this.data.filter[index] = {filter: filterValue, category: category};
         else {
-            if (filterValue.length != 0 || filterValue != "")
-                this.data.filter.push({filter: filterValue, category: category});
+            filterValue = filterValue.trim(); // Remove whitespace
+            filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+            this.data.filter = filterValue;
         }
     }
 

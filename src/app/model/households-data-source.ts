@@ -17,10 +17,7 @@ export class HouseholdsDataSource implements DataSource<Households> {
     public vulnerabilities = new BehaviorSubject<any[]>([]);
 
     constructor(private householdsService: HouseholdsService) {
-        this.filter = [{
-            filter : [],
-            category: 'familyName'
-        }];
+        this.filter = [];
     }
 
     connect(collectionViewer: CollectionViewer): Observable<Households[]> {

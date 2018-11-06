@@ -111,7 +111,6 @@ imports: [
     MatGridListModule,
     CountoModule,
     NgSelectModule,
-    
 ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
 ],
 declarations: [

@@ -56,4 +56,9 @@ export class LocationService {
         let url = this.api + "/location/upcoming_distribution";
         return this.http.get(url);
     }
+
+    public getLocationByHouseholds() {
+        let url = this.api + "/location/households";
+        return this.http.get(url);
+    }
 }

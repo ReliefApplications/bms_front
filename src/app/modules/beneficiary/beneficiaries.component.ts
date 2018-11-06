@@ -10,6 +10,7 @@ import { ExportInterface } from '../../model/export.interface';
 import { ProjectService } from '../../core/api/project.service';
 import { FormControl } from '@angular/forms';
 import { HouseholdsDataSource } from '../../model/households-data-source';
+import { LocationService } from 'src/app/core/api/location.service';
 
 @Component({
     selector: 'app-beneficiaries',
@@ -43,6 +44,7 @@ export class BeneficiariesComponent implements OnInit {
         public snackBar: MatSnackBar,
         public projectService: ProjectService,
         public dialog: MatDialog,
+        public locationService: LocationService,
     ) { }
 
     // For windows size
@@ -145,6 +147,18 @@ export class BeneficiariesComponent implements OnInit {
         }
     }
 
+    getLocations() {
+        this.locationService.getLocationByHouseholds().subscribe(
+            locations => {
+                const filter = locations.filter(function(elem, index, self) {
+                    return index === self.indexOf(elem);
+                });
+
+                this.dataSource.gotData.next(filter);
+            }
+        );
+    }
+
     confirmAdding() {
         if (this.projectsList && this.dataSource) {
             this.projectService.addBeneficiaries(this.selectedProject, this.dataSource.filter).subscribe(
@@ -170,8 +184,8 @@ export class BeneficiariesComponent implements OnInit {
     }
 
     updateSelection(selection) {
-        if (selection == 'location')
-            this.dataSource.gotData.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
+        if (selection == 'location') 
+            this.getLocations();
         else if (selection == 'vulnerabilities')
             this.dataSource.gotData.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
         else if (selection == 'projects') {

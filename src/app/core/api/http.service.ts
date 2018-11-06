@@ -46,6 +46,7 @@ export class HttpService {
                 case '/distributions/criteria' : return(AsyncacheService.CRITERIAS)
                 case '/modalities' : return(AsyncacheService.MODALITIES)
                 case '/vulnerability_criteria' : return(AsyncacheService.VULNERABILITIES)
+                case '/distributions/projects/'+/\d{1,4}/ : return (AsyncacheService.DISTRIBUTIONS + '_' + url.split('/distributions/projects/')[1]);
                 default: return(null);
             }
         } else {
@@ -59,6 +60,7 @@ export class HttpService {
         let itemKey = this.resolveItemKey(url);
         let connected = this.networkService.getStatus();
         let cacheData : any;
+
         // Test logs
         // console.log('--', itemKey, '--');
 
@@ -84,7 +86,7 @@ export class HttpService {
                     )
                 )
             );
-        } 
+        }
         // If user is connected but cache doesn't manage this item
         else if (connected) {
             return this.http.get(url, options);

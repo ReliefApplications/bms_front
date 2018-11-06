@@ -2,6 +2,7 @@ import { Injectable }                   from '@angular/core';
 import { LocalStorage }                 from '@ngx-pwa/local-storage';
 import { CachedItemInterface }          from './cached-item.interface';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -45,24 +46,62 @@ export class AsyncacheService {
     get(key: string) {
         key = this.formatKey(key);
 
-        return(
-            this.storage.getItem(key).pipe(
-                map(
-                    (result: CachedItemInterface) => {
-                        if(result && result.storageTime + result.limit < (new Date).getTime()) {
-                            if(result.canBeDeleted) {
-                                this.remove(key);
+        // if(key === this.formatKey(AsyncacheService.DISTRIBUTIONS)) {
+        //     return this.getAllDistributions();
+        // } 
+        // else {
+            return(
+                this.storage.getItem(key).pipe(
+                    map(
+                        (result: CachedItemInterface) => {
+                            if(result && result.storageTime + result.limit < (new Date).getTime()) {
+                                if(result.canBeDeleted) {
+                                    this.remove(key);
+                                }
+                                return null ;
+                            } else if(result) {
+                                // console.log('GET (', key, '): ', result.value);
+                                return result.value;
+                            } else {
+                                return null;
                             }
-                            return null ;
-                        } else if(result) {
-                            // console.log('GET (', key, '): ', result.value);
-                            return result.value;
-                        } else {
-                            return null;
                         }
+                    )
+                )
+            );
+        // }
+    }
+
+    getAllDistributions() {
+        let allDistributions = new Array();
+
+        return new Observable(
+            (observer) => {
+                this.get(AsyncacheService.PROJECTS).subscribe(
+                    result => {
+                        if(result) {
+                            result.forEach(
+                                (project, index) => {
+                                    this.get(AsyncacheService.DISTRIBUTIONS + '_' + project.id).subscribe(
+                                        distributions => {
+                                            allDistributions.push(distributions);
+
+                                            observer.next(allDistributions);
+                                            if(index === result.length-1) {
+                                                observer.complete();
+                                            }
+                                        }
+                                    )
+                                }
+                            )
+                        }
+                    },
+                    error => {
+                        observer.next(null);
+                        observer.complete();
                     }
                 )
-            )
+            }
         );
     }
 

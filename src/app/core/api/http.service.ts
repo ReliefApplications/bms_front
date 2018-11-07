@@ -2,7 +2,7 @@ import { Injectable                                 } from '@angular/core';
 import { RequestOptions                             } from '@angular/http';
 import { HttpClient, HttpParams                     } from '@angular/common/http';
 import { URL_BMS_API } from '../../../environments/environment';
-import { Router                                     } from '@angular/router';
+import { Router, UrlHandlingStrategy                                     } from '@angular/router';
 
 //Services
 import { WsseService                                } from '../authentication/wsse.service';
@@ -11,6 +11,7 @@ import { AsyncacheService } from '../storage/asyncache.service';
 import { map } from 'rxjs/operators';
 import { NetworkService } from './network.service';
 import { MatSnackBar } from '@angular/material';
+import { type } from 'os';
 
 @Injectable({
 	providedIn: 'root'
@@ -46,8 +47,11 @@ export class HttpService {
                 case '/distributions/criteria' : return(AsyncacheService.CRITERIAS)
                 case '/modalities' : return(AsyncacheService.MODALITIES)
                 case '/vulnerability_criteria' : return(AsyncacheService.VULNERABILITIES)
-                case '/distributions/projects/'+/\d{1,4}/ : return (AsyncacheService.DISTRIBUTIONS + '_' + url.split('/distributions/projects/')[1]);
-                default: return(null);
+                default:
+                    if(url.substring(0,24) === '/distributions/projects/')
+                        return(AsyncacheService.DISTRIBUTIONS + '_' + url.split('/distributions/projects/')[1]);
+                    else
+                        return(null);
             }
         } else {
             return(null);
@@ -56,13 +60,13 @@ export class HttpService {
     }
 
     get(url, options = {}) : Observable<any> {
+        console.log('-(', url,')-');
 
         let itemKey = this.resolveItemKey(url);
         let connected = this.networkService.getStatus();
         let cacheData : any;
-
         // Test logs
-        // console.log('--', itemKey, '--');
+        console.log('--', itemKey, '--');
 
         // If this item is cachable & user is connected
         if(itemKey && connected) {
@@ -78,8 +82,13 @@ export class HttpService {
                 this.http.get(url, options).pipe( 
                     map(
                         result => {
-                            if( result && cacheData !== result) {
-                                this.cacheService.set(itemKey, result);
+                            if(result !== undefined) {
+                                if(Array.isArray(result) && Array.isArray(cacheData)) {
+                                    if(JSON.stringify(result) !== JSON.stringify(cacheData))
+                                        this.cacheService.set(itemKey, result);
+                                } else if(result !== cacheData) {
+                                    this.cacheService.set(itemKey, result);
+                                }
                             }
                             return(result);
                         }

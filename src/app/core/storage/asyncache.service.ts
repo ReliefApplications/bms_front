@@ -46,10 +46,17 @@ export class AsyncacheService {
     get(key: string) {
         key = this.formatKey(key);
 
-        // if(key === this.formatKey(AsyncacheService.DISTRIBUTIONS)) {
-        //     return this.getAllDistributions();
-        // } 
-        // else {
+        if(key === this.formatKey(AsyncacheService.DISTRIBUTIONS)) {
+            return this.getAllDistributions().pipe(
+                map(
+                    (result) => {
+                        console.log('alldist: ', result);
+                        return result
+                    }
+                )
+            );
+        } 
+        else {
             return(
                 this.storage.getItem(key).pipe(
                     map(
@@ -60,7 +67,7 @@ export class AsyncacheService {
                                 }
                                 return null ;
                             } else if(result) {
-                                // console.log('GET (', key, '): ', result.value);
+                                console.log('GET (', key, '): ', result.value);
                                 return result.value;
                             } else {
                                 return null;
@@ -69,9 +76,12 @@ export class AsyncacheService {
                     )
                 )
             );
-        // }
+        }
     }
 
+    /**
+     * Gets the list of distributions for each project in the cache and adds it in an observable array asynchronously.
+     */
     getAllDistributions() {
         let allDistributions = new Array();
 
@@ -84,10 +94,15 @@ export class AsyncacheService {
                                 (project, index) => {
                                     this.get(AsyncacheService.DISTRIBUTIONS + '_' + project.id).subscribe(
                                         distributions => {
-                                            allDistributions.push(distributions);
-
-                                            observer.next(allDistributions);
+                                            if(distributions && distributions.length>0) {
+                                                distributions.forEach(
+                                                    distrib => {
+                                                        allDistributions.push(distrib);
+                                                    }
+                                                )
+                                            }
                                             if(index === result.length-1) {
+                                                observer.next(allDistributions);
                                                 observer.complete();
                                             }
                                         }
@@ -103,6 +118,13 @@ export class AsyncacheService {
                 )
             }
         );
+    }
+
+    /** 
+     * Waits for asynchronous user value to return it synchronously.
+    */
+    async getUser() {
+        return await this.get(AsyncacheService.USER).toPromise();
     }
 
     set(key: string, value: any, options: any = {}) {
@@ -123,7 +145,7 @@ export class AsyncacheService {
         }
         this.localStorage.setItem(key, object).subscribe(
             result => {
-                // console.log('SET (', key, '): ', object);
+                console.log('SET (', key, '): ', object);
             }
         );
     }

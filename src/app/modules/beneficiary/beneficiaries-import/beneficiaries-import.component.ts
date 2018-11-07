@@ -128,19 +128,6 @@ export class BeneficiariesImportComponent implements OnInit {
    * to save it or just to open it in the computer
    */
   exportTemplate() {
-    // this._householdsService.getTemplate().subscribe(response => {
-    //   console.log("test");
-    //     const arrExport = [];
-    //     const reponse = response;
-    //     console.log("test");
-    //     if (!(reponse instanceof Array)) {
-    //       this.snackBar.open('No data to export', '', { duration: 3000, horizontalPosition: 'center' });
-    //     } else {
-    //       arrExport.push(response[0]); // 0 represente le fichier csv et 1 son nom
-    //       const blob = new Blob(arrExport, { type: 'text/csv' });
-    //       saveAs(blob, response[1]);
-    //     }
-    //   });
     this._householdsService.exportTemplate(this.extensionType);
   }
 
@@ -158,7 +145,7 @@ export class BeneficiariesImportComponent implements OnInit {
   addHouseholds() {
     const data = new FormData();
     if (!this.csv || !this.selectedProject || this.load) {
-      this.snackBar.open('You must select a project and add a file before uploading', '', { duration: 3000, horizontalPosition: 'center' });
+      this.snackBar.open(this.household.beneficiaries_import_select_project, '', { duration: 3000, horizontalPosition: 'center' });
     } else {
       const project = this.selectedProject.split(' - ');
       data.append('file', this.csv);
@@ -173,7 +160,7 @@ export class BeneficiariesImportComponent implements OnInit {
         .catch(
           () => {
             this.load = false;
-            this.snackBar.open('Error while importing data', '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.household.beneficiaries_import_error_importing, '', { duration: 3000, horizontalPosition: 'center' });
           }
         );
     }
@@ -278,13 +265,13 @@ export class BeneficiariesImportComponent implements OnInit {
             delete this.paramToSend['provider'];
           }
           else {
-            this.snackBar.open(response.message + ' beneficiaries inserted', '', { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 3000, horizontalPosition: 'right' });
             this.router.navigate(['/beneficiaries']);
           }
         });
     }
     else
-      this.snackBar.open('A field is empty or unset, please fill all inputs and select a project', '', { duration: 3000, horizontalPosition: 'right' });
+      this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 3000, horizontalPosition: 'right' });
   }
 
 }

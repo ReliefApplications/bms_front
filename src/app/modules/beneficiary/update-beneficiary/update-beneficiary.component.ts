@@ -403,7 +403,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
         else {
             // Minimum data not filled -> Error !
-            this.snackBar.open('Required data incomplete or unvalid: please check all steps', '', {duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.Text.update_beneficiary_check_steps, '', {duration: 3000, horizontalPosition: 'center' });
             return(undefined);
         }
 
@@ -533,7 +533,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             .then(
                 success => {
                     if(success) {
-                        this.snackBar.open('Created successfuly !', '', {duration: 3000, horizontalPosition: 'center'});
+                        this.snackBar.open(this.Text.update_beneficiary_created_successfully, '', {duration: 3000, horizontalPosition: 'center'});
                         this.leave();
                     } else {
                         this.validationLoading = false;
@@ -542,7 +542,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             )
             .catch(
                 error => {
-                    this.snackBar.open('Error while creating : ' + error, '', {duration: 3000, horizontalPosition: 'center'});
+                    this.snackBar.open(this.Text.update_beneficiary_error_creating + error, '', {duration: 3000, horizontalPosition: 'center'});
                     this.validationLoading = false;
                 }
             )
@@ -566,7 +566,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             .then(
                 success => {
                     if(success) {
-                        this.snackBar.open('Updated successfuly !', '', {duration: 3000, horizontalPosition: 'center'});
+                        this.snackBar.open(this.Text.update_beneficiary_updated_successfully, '', {duration: 3000, horizontalPosition: 'center'});
                         this.leave();
                     } else {
                         this.validationLoading = false;
@@ -575,7 +575,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             )
             .catch(
                 error => {
-                    this.snackBar.open('Error while updating : ' + error, '', {duration: 3000, horizontalPosition: 'center'});
+                    this.snackBar.open(this.Text.update_beneficiary_error_updated + error, '', {duration: 3000, horizontalPosition: 'center'});
                     this.validationLoading = false;
                 }
             )

@@ -391,7 +391,7 @@ export class DataValidationComponent implements OnInit {
                 this.getData();
             }, () => {
                 this.load = false;
-                this.snackBar.open('Error processing data ', '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.verification.data_verification_error, '', { duration: 3000, horizontalPosition: 'center' });
             });
 
         }

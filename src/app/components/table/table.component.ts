@@ -241,7 +241,7 @@ export class TableComponent implements OnChanges, DoCheck {
         if (dialogRef.componentInstance.onDelete) {
             deleteElement = dialogRef.componentInstance.onDelete.subscribe(
                 (data) => {
-                    this.snackBar.open(this.entity.__classname__ + ' deleted', '', { duration: 3000, horizontalPosition: 'right' });
+                    this.snackBar.open(this.entity.__classname__ + this.table.table_element_deleted, '', { duration: 3000, horizontalPosition: 'right' });
                     this.deleteElement(data);
                 });
         }
@@ -297,7 +297,7 @@ export class TableComponent implements OnChanges, DoCheck {
                         updateElement['password'] = saltedPassword;
 
                         this.service.update(updateElement['id'], updateElement).subscribe(response => {
-                            this.snackBar.open(this.entity.__classname__ + ' updated', '', { duration: 3000, horizontalPosition: 'right' });
+                            this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated, '', { duration: 3000, horizontalPosition: 'right' });
                             this.updateData();
                         }, error => {
                             // console.error("err", error);
@@ -307,7 +307,7 @@ export class TableComponent implements OnChanges, DoCheck {
             } else {
                 updateElement['password'] = this._cacheService.get(CacheService.USER).salted_password;
                 this.service.update(updateElement['id'], updateElement).subscribe(response => {
-                    this.snackBar.open(this.entity.__classname__ + ' updated', '', { duration: 3000, horizontalPosition: 'right' });
+                    this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated, '', { duration: 3000, horizontalPosition: 'right' });
                     this.updateData();
                 }, error => {
                     // console.error("err", error);
@@ -316,7 +316,7 @@ export class TableComponent implements OnChanges, DoCheck {
         }
         else {
             this.service.update(updateElement['id'], updateElement).subscribe(response => {
-                this.snackBar.open(this.entity.__classname__ + ' updated', '', { duration: 3000, horizontalPosition: 'right' });
+                this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated, '', { duration: 3000, horizontalPosition: 'right' });
                 this.updateData();
             }, error => {
                 // console.error("err", error);
@@ -328,12 +328,12 @@ export class TableComponent implements OnChanges, DoCheck {
         if (this.entity === Beneficiaries) {
             // console.log('delete: ', this.deleteElement['id']);
             this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
-                this.snackBar.open(this.entity.__classname__ + ' deleted', '', { duration: 3000, horizontalPosition: 'right' });
+                this.snackBar.open(this.entity.__classname__ + this.table.table_element_deleted, '', { duration: 3000, horizontalPosition: 'right' });
                 this.updateData();
             });
         } else {
             this.service.delete(deleteElement['id']).subscribe(response => {
-                this.snackBar.open(this.entity.__classname__ + ' deleted', '', { duration: 3000, horizontalPosition: 'right' });
+                this.snackBar.open(this.entity.__classname__ + this.table.table_element_deleted, '', { duration: 3000, horizontalPosition: 'right' });
                 this.updateData();
             });
         }

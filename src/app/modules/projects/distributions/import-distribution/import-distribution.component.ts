@@ -152,7 +152,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                 this.loadUpdate = true;
                 this.beneficiaryService.import(this.distribution.id, { data: this.importedData }, IMPORT_UPDATE).subscribe(
                     success => {
-                        this.snackBar.open('Distribution updated', '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.TEXT.import_distribution_updated, '', { duration: 3000, horizontalPosition: 'center' });
                         this.success.emit(true);
                         this.loadUpdate = false;
                         this.importedData = null;
@@ -166,7 +166,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
             }
         }
         else 
-            this.snackBar.open("You haven't the right to update the distribution, ask to your project manager", '', { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open(this.TEXT.import_distribution_no_right_update, '', { duration: 3000, horizontalPosition: 'right' });
     }
 
     goBack() {

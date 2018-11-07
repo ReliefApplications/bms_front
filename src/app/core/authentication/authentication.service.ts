@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { WsseService } from './wsse.service';
-import { CacheService } from '../storage/cache.service';
 
 import { URL_BMS_API } from '../../../environments/environment';
 import { User, ErrorInterface } from '../../model/user';
@@ -86,12 +85,12 @@ export class AuthenticationService {
 
     setUser(user: User) {
         this.user = user;
-        this._cacheService.set(CacheService.USER, user);
+        this._cacheService.set(AsyncacheService.USER, user);
     }
 
     resetUser() {
         this.user = new User();
-        this._cacheService.remove(CacheService.USER);
+        this._cacheService.remove(AsyncacheService.USER);
     }
 
     rightAccessDefinition(user: User) {

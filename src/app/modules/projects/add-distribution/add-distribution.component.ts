@@ -16,12 +16,12 @@ import { ModalAddComponent } from '../../../components/modals/modal-add/modal-ad
 import { FormControl, Validators } from '@angular/forms';
 import { LocationService } from '../../../core/api/location.service';
 import { Project } from '../../../model/project';
-import { CacheService } from '../../../core/storage/cache.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
 import { ProjectService } from 'src/app/core/api/project.service';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-add-distribution',
@@ -76,7 +76,6 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         private criteriaService: CriteriaService,
         private route: ActivatedRoute,
         private locationService: LocationService,
-        private _cacheService: CacheService,
         private _distributionService: DistributionService,
         private _projectService: ProjectService,
         private snackBar: MatSnackBar
@@ -116,7 +115,6 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     loadProvince() {
         this.locationService.getAdm1().subscribe(response => {
             this.loadedData.adm1 = response;
-            this._cacheService.set(CacheService.ADM1, this.loadedData.adm1);
 
         });
         this.loadedData.adm2 = [];
@@ -139,7 +137,6 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     loadDistrict(adm1) {
         this.locationService.getAdm2(adm1).subscribe(response => {
             this.loadedData.adm2 = response;
-            this._cacheService.set(CacheService.ADM2, this.loadedData.adm2);
 
         });
         this.loadedData.adm3 = [];
@@ -153,7 +150,6 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     loadCommunity(adm2) {
         this.locationService.getAdm3(adm2).subscribe(response => {
             this.loadedData.adm3 = response;
-            this._cacheService.set(CacheService.ADM3, this.loadedData.adm3);
 
         });
         this.loadedData.adm4 = [];
@@ -166,7 +162,6 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     loadVillage(adm3) {
         this.locationService.getAdm4(adm3).subscribe(response => {
             this.loadedData.adm4 = response;
-            this._cacheService.set(CacheService.ADM4, this.loadedData.adm4);
 
         });
     }
@@ -275,55 +270,79 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
      */
     getAdmID(adm: string) {
         if (adm === 'adm1') {
-            const adm1 = this._cacheService.get(CacheService.ADM1);
-            if (this.newObject.adm1) {
-                for (let i = 0; i < adm1.length; i++) {
-                    if (adm1[i].name === this.newObject.adm1) {
-                        return adm1[i].id;
+            this.locationService.getAdm1().subscribe(
+                result => {
+                    const adm1 = result;
+                    if (this.newObject.adm1) {
+                        for (let i = 0; i < adm1.length; i++) {
+                            if (adm1[i].name === this.newObject.adm1) {
+                                return adm1[i].id;
+                            }
+                        }
                     }
                 }
-            }
+            );
+            
         } else if (adm === 'adm2') {
-            const adm2 = this._cacheService.get(CacheService.ADM2);
-            if (this.newObject.adm2) {
-                for (let i = 0; i < adm2.length; i++) {
-                    if (adm2[i].name === this.newObject.adm2) {
-                        return adm2[i].id;
+            this.locationService.getAdm2().subscribe(
+                result => {
+                    const adm2 = result;
+                    if (this.newObject.adm2) {
+                        for (let i = 0; i < adm2.length; i++) {
+                            if (adm2[i].name === this.newObject.adm2) {
+                                return adm2[i].id;
+                            }
+                        }
                     }
                 }
-            }
+            );
+            
         } else if (adm === 'adm3') {
-            const adm3 = this._cacheService.get(CacheService.ADM3);
-            if (this.newObject.adm3) {
-                for (let i = 0; i < adm3.length; i++) {
-                    if (adm3[i].name === this.newObject.adm3) {
-                        return adm3[i].id;
+            this.locationService.getAdm3().subscribe(
+                result => {
+                    const adm3 = result;
+                    if (this.newObject.adm3) {
+                        for (let i = 0; i < adm3.length; i++) {
+                            if (adm3[i].name === this.newObject.adm3) {
+                                return adm3[i].id;
+                            }
+                        }
                     }
                 }
-            }
+            );
+            
         } else if (adm === 'adm4') {
-            const adm4 = this._cacheService.get(CacheService.ADM4);
-            if (this.newObject.adm4) {
-                for (let i = 0; i < adm4.length; i++) {
-                    if (adm4[i].name === this.newObject.adm4) {
-                        return adm4[i].id;
+            this.locationService.getAdm4().subscribe(
+                result => {
+                    const adm4 = result;
+                    if (this.newObject.adm4) {
+                        for (let i = 0; i < adm4.length; i++) {
+                            if (adm4[i].name === this.newObject.adm4) {
+                                return adm4[i].id;
+                            }
+                        }
                     }
                 }
-            }
+            );
         }
     }
 
-    getNameProject(id): string {
-        const projects = this._cacheService.get(CacheService.PROJECTS);
-        let name = '';
-
-        projects.forEach(element => {
-            if (element.id === id) {
-                name = element.name;
-            }
-        });
-        return name;
-
+    getNameProject(id): Observable<string> {
+        return this._projectService.get().pipe(
+            map(
+                result => {
+                    const projects = result; 
+                    let name = '';
+    
+                    projects.forEach(element => {
+                        if (element.id === id) {
+                            name = element.name;
+                        }
+                    });
+                    return name;
+                }
+            )
+        );
     }
 
     /**
@@ -488,17 +507,21 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     }
 
     getProjectDates() {
-        const projects = this._cacheService.get(CacheService.PROJECTS);
-        let keyForProject;
+        this._projectService.get().subscribe(
+            result => {
+                const projects = result;
+                let keyForProject;
 
-        Object.keys(projects).forEach(key => {
-            if (projects[key].id == this.queryParams.project) {
-                keyForProject = key;
-                return;
+                Object.keys(projects).forEach(key => {
+                    if (projects[key].id == this.queryParams.project) {
+                        keyForProject = key;
+                        return;
+                    }
+                });
+
+                this.projectInfo.startDate = projects[keyForProject].start_date;
+                this.projectInfo.endDate = projects[keyForProject].end_date;
             }
-        });
-
-        this.projectInfo.startDate = projects[keyForProject].start_date;
-        this.projectInfo.endDate = projects[keyForProject].end_date;
+        );
     }
 }

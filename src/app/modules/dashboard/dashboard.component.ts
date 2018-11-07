@@ -6,7 +6,6 @@ import { MatTableDataSource } from '@angular/material';
 import { URL_BMS_API } from '../../../environments/environment';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { LeafletService } from '../../core/external/leaflet.service';
-import { CacheService } from '../../core/storage/cache.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';
 
@@ -14,6 +13,7 @@ import { DistributionData } from '../../model/distribution-data';
 
 import { GlobalText } from '../../../texts/global';
 import { finalize } from 'rxjs/operators';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 
 @Component({
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
         private _authenticationService: AuthenticationService,
         private router: Router,
         private serviceMap: LeafletService,
-        private _cacheService: CacheService,
+        private _cacheService: AsyncacheService,
         public _distributionService: DistributionService,
         public _generalService: GeneralService,
 
@@ -108,7 +108,6 @@ export class DashboardComponent implements OnInit {
                 response => {
                     distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
                     this.distributions = distribs;
-                    this._cacheService.set(CacheService.DISTRIBUTIONS, response);
                 });
     }
 
@@ -130,13 +129,18 @@ export class DashboardComponent implements OnInit {
     }
 
     checkPermission() {
-        const voters = this._cacheService.get('user').voters;
+        this._cacheService.getUser().subscribe(
+            result => {
+                if(result && result.voters) {
+                    const voters = result.voters;
+                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
+                    this.hasRights = true;
 
-        if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
-            this.hasRights = true;
-
-        if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_PROJECT_OFFICER")
-            this.hasRightsEdit = true;
+                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_PROJECT_OFFICER")
+                        this.hasRightsEdit = true;
+                }
+            }
+        );
     }
 
 }

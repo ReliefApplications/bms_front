@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, SimpleChanges, ElementRef, ViewChildren, 
 import { IndicatorService } from '../services/indicator.service';
 import { FilterEvent, FilterInterface, AbstractFilter } from '../../../model/filter';
 import { Indicator } from '../../../model/indicator';
-import { CacheService } from '../../../core/storage/cache.service';
 import { ButtonFilterData, ButtonFilterComponent } from '../filters/button-filter/button-filter.component';
 import { ChartRegistration, RegisteredItem } from '../services/chart-registration.service';
 import { forEach } from '@angular/router/src/utils/collection';
@@ -16,6 +15,7 @@ import { DistributionData } from '../../../model/distribution-data';
 import { filterQueryId } from '@angular/core/src/view/util';
 import { ButtonFilterDateComponent } from '../filters/button-filter/button-filter-data/button-filter-date.component';
 import { finalize } from 'rxjs/operators';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 
 @Component({
@@ -79,7 +79,7 @@ export class IndicatorPageComponent implements OnInit {
 
     constructor(
         public indicatorService: IndicatorService,
-        public cacheService: CacheService,
+        public cacheService: AsyncacheService,
         public chartRegistrationService: ChartRegistration,
         public projectService: ProjectService,
         public distribtutionService: DistributionService
@@ -377,33 +377,39 @@ export class IndicatorPageComponent implements OnInit {
     }
 
     checkPermission() {
-        const voters = this.cacheService.get('user').voters;
+        this.cacheService.getUser().subscribe(
+            result => {
+                if(result && result.voters) {
+                    const voters = result.voters;
 
-        if (voters == "ROLE_ADMIN" || voters == 'ROLE_REGIONAL_MANAGER' || voters == 'ROLE_COUNTRY_MANAGER') {
-            this.dataFilter2 = [
-                { level: '0', icon: 'settings/api', color: 'red', label: this.indicator.report_country_report.toLocaleUpperCase(), value: 'Country', active: true },
-                { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: 'Project', active: false },
-                { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: false },
-            ];
-
-            this.onFilter(new FilterEvent('bms', 'reporting', 'Country'));
-        }
-
-
-        else if (voters == "ROLE_PROJECT_OFFICER" || voters == "ROLE_PROJECT_MANAGER") {
-            this.dataFilter2 = [
-                { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: 'Project', active: true },
-                { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: false },
-            ];
-
-            this.onFilter(new FilterEvent('bms', 'reporting', 'Project'));
-        }
-        else {
-            this.dataFilter2 = [
-                { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: true },
-            ];
-
-            this.onFilter(new FilterEvent('bms', 'reporting', 'Distribution'));
-        }
+                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_REGIONAL_MANAGER' || voters == 'ROLE_COUNTRY_MANAGER') {
+                        this.dataFilter2 = [
+                            { level: '0', icon: 'settings/api', color: 'red', label: this.indicator.report_country_report.toLocaleUpperCase(), value: 'Country', active: true },
+                            { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: 'Project', active: false },
+                            { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: false },
+                        ];
+            
+                        this.onFilter(new FilterEvent('bms', 'reporting', 'Country'));
+                    }
+            
+            
+                    else if (voters == "ROLE_PROJECT_OFFICER" || voters == "ROLE_PROJECT_MANAGER") {
+                        this.dataFilter2 = [
+                            { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: 'Project', active: true },
+                            { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: false },
+                        ];
+            
+                        this.onFilter(new FilterEvent('bms', 'reporting', 'Project'));
+                    }
+                    else {
+                        this.dataFilter2 = [
+                            { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: true },
+                        ];
+            
+                        this.onFilter(new FilterEvent('bms', 'reporting', 'Distribution'));
+                    }
+                }
+            }
+        )
     }
 }

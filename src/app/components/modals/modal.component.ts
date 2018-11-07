@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, ErrorStateMatcher, MatSnackBar } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 
-import { CacheService } from '../../core/storage/cache.service';
 import { DonorService } from '../../core/api/donor.service';
 import { ProjectService } from '../../core/api/project.service';
 import { SectorService } from '../../core/api/sector.service';
@@ -13,6 +12,7 @@ import { ModalitiesService } from '../../core/api/modalities.service';
 import { isArray } from 'util';
 import { User } from '../../model/user';
 import { UserService } from '../../core/api/user.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
   selector: 'modal',
@@ -43,7 +43,7 @@ export class ModalComponent implements OnInit {
   user = new User();
 
   constructor(public dialogRef: MatDialogRef<ModalComponent>,
-    public _cacheService: CacheService,
+    public _cacheService: AsyncacheService,
     public donorService: DonorService,
     public sectorService: SectorService,
     public projectService: ProjectService,
@@ -75,28 +75,26 @@ export class ModalComponent implements OnInit {
    */
   loadData(updateObject?) {
     if ((this.newObject && this.newObject.sectors) || (this.data.data && this.data.data.sectors)) {
-      this.loadedData.sectors_name = this._cacheService.get(CacheService.SECTORS);
-      if (!this.loadedData.sectors)
-        this.sectorService.get().subscribe(response => {
-          this.loadedData.sectors_name = response;
-          this._cacheService.set(CacheService.SECTORS, this.loadedData.sectors_name);
-        });
+      this.sectorService.get().subscribe(
+          result => {
+            this.loadedData.sectors_name = result;
+          }
+      );
+      
     }
     if ((this.newObject && this.newObject.donors) || (this.data.data && this.data.data.donors)) {
-      this.loadedData.donors_name = this._cacheService.get(CacheService.DONORS);
-      if (!this.loadedData.donors_name)
-        this.donorService.get().subscribe(response => {
-          this.loadedData.donors_name = response;
-          this._cacheService.set(CacheService.DONORS, this.loadedData.donors_name);
-        });
+        this.donorService.get().subscribe(
+          result => {
+            this.loadedData.donors_name = result;
+          }
+      );
     }
     if ((this.data.data && this.data.data.projects)) {
-      this.loadedData.projects_name = this._cacheService.get(CacheService.PROJECTS);
-      if (!this.loadedData.projects)
-        this.projectService.get().subscribe(response => {
-          this.loadedData.projects_name = response;
-          this._cacheService.set(CacheService.PROJECTS, this.loadedData.projects_name);
-        });
+      this.projectService.get().subscribe(
+          result => {
+            this.loadedData.projects_name = result;
+          }
+      );
     }
     
     //Distribution in projects
@@ -136,12 +134,12 @@ export class ModalComponent implements OnInit {
     }
     
     if(this.newObject && this.newObject.field_string == ''){
-      // this.allCriteria = this._cacheService.get(CacheService.CRITERIAS);
+      // this.allCriteria = this._cacheService.get(AsyncacheService.CRITERIAS);
       if(this.allCriteria.length === 0 )
         this.criteriaService.get().subscribe(response => {
           this.allCriteria  = response;
           this.loadedData.field_string = [];
-          this._cacheService.set(CacheService.CRITERIAS, this.loadedData.field_string);
+          this._cacheService.set(AsyncacheService.CRITERIAS, this.loadedData.field_string);
         });
     }
 
@@ -151,7 +149,7 @@ export class ModalComponent implements OnInit {
     }
 
     if (this.newObject && this.newObject.modality == '') {
-      this.loadedData.modality = this._cacheService.get(CacheService.COMMODITY);
+      this.loadedData.modality = this._cacheService.get(AsyncacheService.COMMODITY);
       if (!this.loadedData.modality) {
         this.modalitiesService.getModalities().subscribe(response => {
             this.loadedData.modality = response;
@@ -160,7 +158,7 @@ export class ModalComponent implements OnInit {
                     this.loadedData.modality[i].name = 'Cash';
                 }
             }
-            this._cacheService.set(CacheService.COMMODITY, this.loadedData.modality);
+            this._cacheService.set(AsyncacheService.COMMODITY, this.loadedData.modality);
         })
       }
     }

@@ -6,7 +6,6 @@ import { GlobalText } from '../../../texts/global';
 import { Project } from '../../model/project';
 
 import { ProjectService } from '../../core/api/project.service';
-import { CacheService } from '../../core/storage/cache.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { DistributionData } from '../../model/distribution-data';
 import { Mapper } from '../../core/utils/mapper.service';
@@ -58,7 +57,7 @@ export class ProjectComponent implements OnInit {
         public distributionService: DistributionService,
         public mapperService: Mapper,
         private router: Router,
-        private _cacheService: CacheService,
+        private _cacheService: AsyncacheService,
         public snackBar: MatSnackBar,
         public dialog: MatDialog,
     ) { }
@@ -121,7 +120,6 @@ export class ProjectComponent implements OnInit {
             response => {
                 if (response && response.length > 0) {
                     this.projects = this.projectClass.formatArray(response).reverse();
-                    this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + 'S'], this.projects);
                     this.selectTitle(this.projects[0].name, this.projects[0]);
                 }
 
@@ -146,7 +144,6 @@ export class ProjectComponent implements OnInit {
                     if (response || response === []) {
                         this.noNetworkData = false;
                         const distribution = DistributionData.formatArray(response);
-                        this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + 'S'], distribution);
 
                         this.distributionData = new MatTableDataSource(distribution);
                     } else {
@@ -203,12 +200,17 @@ export class ProjectComponent implements OnInit {
     }
 
     checkPermission() {
-        const voters = this._cacheService.get('user').voters;
+        this._cacheService.getUser().subscribe(
+            result => {
+                const voters = result.voters;
+                if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
+                    this.hasRights = true;
 
-        if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
-            this.hasRights = true;
+                if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_PROJECT_OFFICER")
+                    this.hasRightsEdit = true;
+            }
+        )
 
-        if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_PROJECT_OFFICER")
-            this.hasRightsEdit = true;
+        
     }
 }

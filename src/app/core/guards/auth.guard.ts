@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import { CacheService } from '../storage/cache.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 
 @Injectable({

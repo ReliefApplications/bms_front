@@ -1,6 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { MatTableDataSource, MatSnackBar, MatDialog } from '@angular/material';
-import { CacheService } from '../../core/storage/cache.service';
 import { Households } from '../../model/households';
 import { HouseholdsService } from '../../core/api/households.service';
 import { GlobalText } from '../../../texts/global';
@@ -10,6 +9,7 @@ import { ExportInterface } from '../../model/export.interface';
 import { ProjectService } from '../../core/api/project.service';
 import { FormControl } from '@angular/forms';
 import { HouseholdsDataSource } from '../../model/households-data-source';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
     selector: 'app-beneficiaries',
@@ -37,7 +37,7 @@ export class BeneficiariesComponent implements OnInit {
     addToggled = false;
 
     constructor(
-        private cacheService: CacheService,
+        private cacheService: AsyncacheService,
         public householdsService: HouseholdsService,
         private router: Router,
         public snackBar: MatSnackBar,
@@ -148,15 +148,21 @@ export class BeneficiariesComponent implements OnInit {
     }
 
     checkPermission() {
-        const voters = this.cacheService.get('user').voters;
+        this.cacheService.get('user').subscribe(
+            result => {
+                if(result && result.voters) {
+                    const voters = result.voters;
+                    if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_PROJECT_OFFICER")
+                        this.hasRights = true;
+            
+                    if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER")
+                        this.hasRightsDelete = true;
+            
+                    if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_COUNTRY_MANAGER")
+                        this.hasRightsExport = true;
+                }
+            }
+        )
 
-        if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_PROJECT_OFFICER")
-            this.hasRights = true;
-
-        if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER")
-            this.hasRightsDelete = true;
-
-        if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_COUNTRY_MANAGER")
-            this.hasRightsExport = true;
     }
 }

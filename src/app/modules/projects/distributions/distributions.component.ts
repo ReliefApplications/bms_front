@@ -5,7 +5,6 @@ import { Households } from '../../../model/households';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DistributionData } from '../../../model/distribution-data';
-import { CacheService } from '../../../core/storage/cache.service';
 import { Beneficiaries } from '../../../model/beneficiary';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { MatTableDataSource, MatSnackBar, MatDialog, MatFormField, MatStepper } from '@angular/material';
@@ -143,20 +142,9 @@ export class DistributionsComponent implements OnInit {
                     this.loadingDistribution = false;
                 },
                 error => {
-                    if (!this.actualDistribution) { // Get from Cache
-                        const distributionsList: DistributionData[] = this.cacheService.get(CacheService.DISTRIBUTIONS);
-                        if (distributionsList) {
-                            distributionsList.forEach(element => {
-                                if (Number(element.id) === Number(this.distributionId)) {
-                                    this.actualDistribution = element;
-                                } else {
-                                    // console.log('fail');
-                                }
-                            });
-                        }
-                        // console.log('Got distribution from cache :', this.actualDistribution, 'because of error : ', error);
-                    }
-                });
+                    //
+                }
+            );
     }
 
     /**
@@ -444,7 +432,6 @@ export class DistributionsComponent implements OnInit {
                         newDistributionsList.push(distrib);
                     }
                 );
-                this.cacheService.set(CacheService.DISTRIBUTIONS, newDistributionsList);
             },
                 error => {
                     // console.log('could not refresh :', error);
@@ -552,12 +539,17 @@ export class DistributionsComponent implements OnInit {
     }
 
     checkPermission() {
-        const voters = this.cacheService.get('user').voters;
+        this.cacheService.getUser().subscribe(
+            result => {
+                if(result && result.voters) {
+                    const voters = result.voters;
+                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
+                        this.hasRights = true;
 
-        if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
-            this.hasRights = true;
-
-        if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == 'ROLE_COUNTRY_MANAGER')
-            this.hasRightsTransaction = true;
+                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == 'ROLE_COUNTRY_MANAGER')
+                        this.hasRightsTransaction = true;
+                }
+            }
+        )
     }
 }

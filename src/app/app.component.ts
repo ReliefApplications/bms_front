@@ -1,13 +1,12 @@
 import { Component, HostListener } from '@angular/core';
 import { User } from './model/user';
 import { AuthenticationService } from './core/authentication/authentication.service';
-import { CacheService } from './core/storage/cache.service';
 import { GlobalText } from '../texts/global';
 
 import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
 import { MatDialog, MatSidenav } from '@angular/material';
 import { AsyncacheService } from './core/storage/asyncache.service';
-import { interval } from 'rxjs';
+import { interval, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -42,13 +41,13 @@ export class AppComponent {
         this.checkSize();
         this.getUser();
 
-        interval(1000).pipe(
+        timer(0, 1000).pipe(
             map(
                 () => {
-                    this.getUser();
+                    this.checkPermission();
                 }
             )
-        )
+        ).subscribe();
     }
 
 
@@ -156,8 +155,9 @@ export class AppComponent {
     }
 
     checkPermission() {
-        const voters = this._cacheService.getUser().subscribe(
+        this._cacheService.getUser().subscribe(
             result => {
+                console.log('trter', result.voters);
                 if(result && result.voters) {
                     const voters = result.voters;
                     if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_COUNTRY_MANAGER")

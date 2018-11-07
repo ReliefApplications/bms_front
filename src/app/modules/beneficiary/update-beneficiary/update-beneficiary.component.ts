@@ -8,7 +8,6 @@ import { CriteriaService } from '../../../core/api/criteria.service';
 import { CountrySpecificService } from '../../../core/api/country-specific.service';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog, MatSnackBar, MatTableDataSource, MatStepper } from '@angular/material';
-import { CacheService } from '../../../core/storage/cache.service';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { LIVELIHOOD } from '../../../model/livelihood';
 import { Location } from '../../../model/location';
@@ -19,6 +18,7 @@ import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
 import { DatePipe } from '@angular/common';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
     selector: 'app-update-beneficiary',
@@ -76,7 +76,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         public _locationService: LocationService,
         public _criteriaService: CriteriaService,
         public _countrySpecificsService: CountrySpecificService,
-        public _cacheService: CacheService,
+        public _cacheService: AsyncacheService,
         public _householdsService: HouseholdsService,
         public _beneficiariesService: BeneficiariesService,
         public formBuilder: FormBuilder,
@@ -131,16 +131,20 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         // Set the Head if the user is creating
         if(this.mode === 'create') {
-            let cacheProjects = this._cacheService.get(CacheService.PROJECTS);
-            // TODO : get from back / save in 'user' cache.
-            if(cacheProjects && cacheProjects[0]) {
-                this.countryISO3 = this._cacheService.get(CacheService.PROJECTS)[0].iso3;
-            } else {
-                this.countryISO3 = "KHM";
-            }
-            this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
-            this.getCountrySpecifics();
-            this.updatedHousehold.specificAnswers = this.countrySpecificsList;
+            this._projectService.get().subscribe(
+                result => {
+                    let cacheProjects = result;
+                    // TODO : get from back / save in 'user' cache.
+                    if(cacheProjects && cacheProjects[0]) {
+                        this.countryISO3 = cacheProjects[0].iso3;
+                    } else {
+                        this.countryISO3 = "KHM";
+                    }
+                    this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
+                    this.getCountrySpecifics();
+                    this.updatedHousehold.specificAnswers = this.countrySpecificsList;
+                }
+            );
         }
 
         // Get the selected household if the user is updating

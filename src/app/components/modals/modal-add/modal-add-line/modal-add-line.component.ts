@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChildren, QueryList, Input } from '@angular/core
 import { ModalAddComponent } from '../modal-add.component';
 import { GlobalText } from '../../../../../texts/global';
 import { ConditionCriteriaMapper } from '../../../../model/condition-criteria-mapper';
-import { CacheService } from '../../../../core/storage/cache.service';
 
 @Component({
     selector: 'app-modal-add-line',

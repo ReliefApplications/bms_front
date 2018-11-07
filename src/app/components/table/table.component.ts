@@ -6,7 +6,6 @@ import {
 } from '@angular/material';
 
 import { Mapper } from '../../core/utils/mapper.service';
-import { CacheService } from '../../core/storage/cache.service';
 
 import { ModalDetailsComponent } from '../modals/modal-details/modal-details.component';
 import { ModalComponent } from '../modals/modal.component';
@@ -21,6 +20,7 @@ import { DistributionData } from '../../model/distribution-data';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
 import { DistributionService } from '../../core/api/distribution.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
     selector: 'app-table',
@@ -78,7 +78,7 @@ export class TableComponent implements OnChanges, DoCheck {
     constructor(
         public mapperService: Mapper,
         public dialog: MatDialog,
-        public _cacheService: CacheService,
+        public _cacheService: AsyncacheService,
         public snackBar: MatSnackBar,
         public authenticationService: AuthenticationService,
         public _wsseService: WsseService,
@@ -134,9 +134,6 @@ export class TableComponent implements OnChanges, DoCheck {
         if (this.entity.__classname__ == 'DistributionData') {
             this.distributionService.getByProject(this.data.data[0].project.id).subscribe(response => {
                 this.data = new MatTableDataSource(this.entity.formatArray(response));
-                // update cache associated variable
-                const key = (<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + 'S'];
-                this._cacheService.set(key, response);
 
                 this.setDataTableProperties();
             }, error => {
@@ -147,18 +144,12 @@ export class TableComponent implements OnChanges, DoCheck {
             this.distributionService.getBeneficiaries(this.parentId).subscribe(
                 response => {
                     this.data = new MatTableDataSource(Beneficiaries.formatArray(response));
-                    // update cache associated variable
-                    const key = (<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + 'S'];
-                    this._cacheService.set(key, response);
                 }
             );
         }
         else {
             this.service.get().subscribe(response => {
                 this.data = new MatTableDataSource(this.entity.formatArray(response));
-                // update cache associated variable
-                const key = (<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + 'S'];
-                this._cacheService.set(key, response);
             });
         }
     }
@@ -305,7 +296,12 @@ export class TableComponent implements OnChanges, DoCheck {
                     }
                 });
             } else {
-                updateElement['password'] = this._cacheService.get(CacheService.USER).salted_password;
+                this._cacheService.get(AsyncacheService.USER).subscribe(
+                    result => {
+                        if(result && result.salted_password)
+                            updateElement['password'] = result.salted_password;
+                    }
+                )
                 this.service.update(updateElement['id'], updateElement).subscribe(response => {
                     this.snackBar.open(this.entity.__classname__ + ' updated', '', { duration: 3000, horizontalPosition: 'right' });
                     this.updateData();

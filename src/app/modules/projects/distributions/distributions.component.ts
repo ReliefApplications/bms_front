@@ -16,6 +16,7 @@ import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
 import { AnimationRendererFactory } from '@angular/platform-browser/animations/src/animation_renderer';
 import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
 import { finalize } from 'rxjs/operators';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
     selector: 'app-distributions',
@@ -77,7 +78,7 @@ export class DistributionsComponent implements OnInit {
 
     constructor(
         public distributionService: DistributionService,
-        public cacheService: CacheService,
+        public cacheService: AsyncacheService,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private beneficiariesService: BeneficiariesService,
@@ -352,63 +353,70 @@ export class DistributionsComponent implements OnInit {
      */
     confirmTransaction() {
         if (this.hasRightsTransaction) {
-            const actualUser = this.cacheService.get(CacheService.USER);
+            this.cacheService.getUser().subscribe(
+                result => {
+                    const actualUser = result;
 
-            if (this.enteredEmail && actualUser.username === this.enteredEmail) {
-                if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]
-                    && this.actualDistribution.commodities[0].modality_type && this.actualDistribution.commodities[0].modality_type.name === "Mobile Cash") {
-                    this.transacting = true;
-                    this.distributionService.transaction(this.distributionId)
-                        .pipe(
-                            finalize(
-                                () => this.transacting = false
-                            )
-                        ).subscribe(
-                            success => {
-                                this.transactionData.data.forEach(
-                                    (element, index) => {
-                                        //success.already_sent.push({ id:0 });
-                                        //success.sent.push({ id:0 });
-
-                                        success.already_sent.forEach(
-                                            beneficiary => {
-                                                if (element.id === beneficiary.beneficiary.id) {
-                                                    this.transactionData.data[index].updateState('Already sent');
-                                                }
+                    if (this.enteredEmail && actualUser.username === this.enteredEmail) {
+                        if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]
+                            && this.actualDistribution.commodities[0].modality_type && this.actualDistribution.commodities[0].modality_type.name === "Mobile Cash") {
+                            this.transacting = true;
+                            this.distributionService.transaction(this.distributionId)
+                                .pipe(
+                                    finalize(
+                                        () => this.transacting = false
+                                    )
+                                ).subscribe(
+                                    success => {
+                                        this.transactionData.data.forEach(
+                                            (element, index) => {
+                                                //success.already_sent.push({ id:0 });
+                                                //success.sent.push({ id:0 });
+        
+                                                success.already_sent.forEach(
+                                                    beneficiary => {
+                                                        if (element.id === beneficiary.beneficiary.id) {
+                                                            this.transactionData.data[index].updateState('Already sent');
+                                                        }
+                                                    }
+                                                )
+                                                success.failure.forEach(
+                                                    beneficiary => {
+                                                        if (element.id === beneficiary.beneficiary.id) {
+                                                            this.transactionData.data[index].updateState('Sending failed');
+                                                        }
+                                                    }
+                                                )
+                                                success.no_mobile.forEach(
+                                                    beneficiary => {
+                                                        if (element.id === beneficiary.beneficiary.id) {
+                                                            this.transactionData.data[index].updateState('No phone');
+                                                        }
+                                                    }
+                                                )
+                                                success.sent.forEach(
+                                                    beneficiary => {
+                                                        if (element.id === beneficiary.beneficiary.id) {
+                                                            this.transactionData.data[index].updateState('Sent');
+                                                        }
+                                                    }
+                                                )
                                             }
-                                        )
-                                        success.failure.forEach(
-                                            beneficiary => {
-                                                if (element.id === beneficiary.beneficiary.id) {
-                                                    this.transactionData.data[index].updateState('Sending failed');
-                                                }
-                                            }
-                                        )
-                                        success.no_mobile.forEach(
-                                            beneficiary => {
-                                                if (element.id === beneficiary.beneficiary.id) {
-                                                    this.transactionData.data[index].updateState('No phone');
-                                                }
-                                            }
-                                        )
-                                        success.sent.forEach(
-                                            beneficiary => {
-                                                if (element.id === beneficiary.beneficiary.id) {
-                                                    this.transactionData.data[index].updateState('Sent');
-                                                }
-                                            }
-                                        )
+                                        );
                                     }
-                                );
-                            }
-                        )
-                } else {
-                    this.snackBar.open('No valid commodity detected for this distribution.', '', { duration: 3000, horizontalPosition: 'center' });
+                                )
+                        } else {
+                            this.snackBar.open('No valid commodity detected for this distribution.', '', { duration: 3000, horizontalPosition: 'center' });
+                        }
+        
+                    } else {
+                        this.snackBar.open('Wrong email', '', { duration: 3000, horizontalPosition: 'center' });
+                    }
                 }
+                
+            );
 
-            } else {
-                this.snackBar.open('Wrong email', '', { duration: 3000, horizontalPosition: 'center' });
-            }
+            
         }
         else
             this.snackBar.open("You haven't the right to realize the transaction, ask to your project manager or your country manager", '', { duration: 3000, horizontalPosition: 'right' });

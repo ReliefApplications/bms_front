@@ -8,6 +8,8 @@ import { CacheService } from '../storage/cache.service';
 import { URL_BMS_API } from '../../../environments/environment';
 import { User, ErrorInterface } from '../../model/user';
 import { SaltInterface } from '../../model/salt';
+import { AsyncacheService } from '../storage/asyncache.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +19,7 @@ export class AuthenticationService {
     private user: User;
     constructor(
         public _wsseService: WsseService,
-        public _cacheService: CacheService,
+        public _cacheService: AsyncacheService,
         public http: HttpClient,
         public router: Router
     ) { }
@@ -78,8 +80,8 @@ export class AuthenticationService {
         this._cacheService.clear();
     }
 
-    getUser(): User {
-        return this._cacheService.get(CacheService.USER) || new User();
+    getUser(): Observable<User> {
+        return this._cacheService.getUser();
     }
 
     setUser(user: User) {

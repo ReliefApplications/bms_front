@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 
 import { CacheService } from '../storage/cache.service';
+import { AsyncacheService } from '../storage/asyncache.service';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -16,7 +18,7 @@ export class WsseService {
 	private b64pad = '=';
 
 	constructor(
-		public cache: CacheService
+		public cache: AsyncacheService
 	) { }
 
 	setUsername(username) {
@@ -43,22 +45,30 @@ export class WsseService {
 
 	// Get headers for HTTP request
 	getHeaderValue(user?) {
-		let cachedUser = this.cache.get(CacheService.USER);
-		if (cachedUser) {
-			this.username = cachedUser.username;
-			this.salted = cachedUser.salted_password;
-		} else {
-			this.username = user.username;
-			this.salted = user.salted_password;
-		}
+		return this.cache.getUser().pipe(
+            map(
+                result => {
+                    let cachedUser = result;
 
-		let nonce = this.generateNonce(16);
-		let created = this.getDate(new Date());
-		let nonce64 = this.base64encode(nonce);
-		let digest = this.getDigest(nonce, created, this.salted);
-
-		let header = 'UsernameToken Username=\"' + this.username + '\", PasswordDigest=\"' + digest + '\", Nonce=\"' + nonce64 + '\", Created=\"' + created + '\"';
-		return header;
+                    if (cachedUser) {
+                        this.username = cachedUser.username;
+                        this.salted = cachedUser.salted_password;
+                    } else {
+                        this.username = user.username;
+                        this.salted = user.salted_password;
+                    }
+            
+                    let nonce = this.generateNonce(16);
+                    let created = this.getDate(new Date());
+                    let nonce64 = this.base64encode(nonce);
+                    let digest = this.getDigest(nonce, created, this.salted);
+            
+                    let header = 'UsernameToken Username=\"' + this.username + '\", PasswordDigest=\"' + digest + '\", Nonce=\"' + nonce64 + '\", Created=\"' + created + '\"';
+                    return header;
+                }
+            )
+        );
+		
 	}
 
 	//------------------------------------------------------------------------//

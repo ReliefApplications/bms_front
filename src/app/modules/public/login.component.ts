@@ -26,12 +26,22 @@ export class LoginComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.user = this._authService.getUser();
-		this.user.username = "tester";
-		this.user.password = "tester";
-		if (this.user.loggedIn) {
-			this.router.navigate(['/']);
-		}
+		this._authService.getUser().subscribe(
+            result => {
+                this.user = result;
+                if(this.user) {
+                    this.user.username = "tester";
+                    this.user.password = "tester";
+                    if (this.user.loggedIn) {
+                        this.router.navigate(['/']);
+                    }
+                    console.log('initialised user --', this.user);
+                }
+            },
+            error => {
+                this.user = null;
+            }
+        );
 	}
 
 	/**

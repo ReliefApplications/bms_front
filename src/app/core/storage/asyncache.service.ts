@@ -3,6 +3,7 @@ import { LocalStorage }                 from '@ngx-pwa/local-storage';
 import { CachedItemInterface }          from './cached-item.interface';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { User } from 'src/app/model/user';
 
 @Injectable({
 	providedIn: 'root'
@@ -123,8 +124,21 @@ export class AsyncacheService {
     /** 
      * Waits for asynchronous user value to return it synchronously.
     */
-    async getUser() {
-        return await this.get(AsyncacheService.USER).toPromise();
+    getUser() : Observable<User> {
+        return this.get(AsyncacheService.USER).pipe(
+            map(
+                result => {
+                    if(!result) {
+                        return new User();
+                    } else {
+                        return result;
+                    }
+                },
+                error => {
+                    return new User();
+                }
+            )
+        )
     }
 
     set(key: string, value: any, options: any = {}) {

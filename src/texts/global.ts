@@ -20,22 +20,16 @@ export class GlobalText {
                 GlobalText.TEXTS = TEXT_EN;
                 document.getElementsByTagName('html')[0].setAttribute('dir', '');
                 document.getElementsByTagName("mat-sidenav-content")[0].style.margin = "0px 0px 0px 64px";
-                document.getElementsByClassName("add-buttons")[0].style.right = "3vh";
-                document.getElementsByClassName("add-buttons")[0].style.left = "inherit";
                 break;
             case 'fr':
                 GlobalText.TEXTS = TEXT_FR;
                 document.getElementsByTagName('html')[0].setAttribute('dir', '');
                 document.getElementsByTagName("mat-sidenav-content")[0].style.margin = "0px 0px 0px 64px";
-                document.getElementsByClassName("add-buttons")[0].style.right = "3vh";
-                document.getElementsByClassName("add-buttons")[0].style.left = "inherit";
                 break;
             case 'ar':
                 GlobalText.TEXTS = TEXT_AR;
                 document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
                 document.getElementsByTagName("mat-sidenav-content")[0].style.margin = "0px 64px 0px 0px";
-                document.getElementsByClassName("add-buttons")[0].style.right = "inherit";
-                document.getElementsByClassName("add-buttons")[0].style.left = "3vh";
                 break;
             default: GlobalText.TEXTS = TEXT_EN; break;
         }

@@ -26,6 +26,7 @@ export class AppComponent {
 
   public isShowing = false;
   public menu = GlobalText.TEXTS;
+  private language = GlobalText.language;
 
   hasRights: boolean = false;
   

@@ -59,6 +59,7 @@ export class DistributionsComponent implements OnInit {
     public heightScreen;
     public widthScreen;
     TEXT = GlobalText.TEXTS;
+    public language = GlobalText.language;
 
     // AddBeneficiary Dialog variables.
     beneficiaryForm = new FormControl();
@@ -124,6 +125,14 @@ export class DistributionsComponent implements OnInit {
         // console.log('resize');
         this.heightScreen = window.innerHeight;
         this.widthScreen = window.innerWidth;
+    }
+
+    /**
+   * check if the langage has changed
+   */
+    ngDoCheck() {
+        if (this.language !== GlobalText.language)
+            this.language = GlobalText.language;
     }
 
     /**
@@ -329,20 +338,20 @@ export class DistributionsComponent implements OnInit {
                 .subscribe(
                     success => {
                         this.actualDistribution.validated = true;
-                        this.snackBar.open('Distribution has been validated', '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.TEXT.distribution_validated, '', { duration: 3000, horizontalPosition: 'center' });
                         this.validateActualDistributionInCache();
                         this.getDistributionBeneficiaries('transaction');
                         // TODO : Check if phone number exists for all head of households.
                     },
                     error => {
                         this.actualDistribution.validated = false;
-                        this.snackBar.open('Distribution could not be validated', '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.TEXT.distribution_not_validated, '', { duration: 3000, horizontalPosition: 'center' });
                     }
                 );
 
         }
         else
-            this.snackBar.open("You haven't the right to validate the distribution, ask to your project manager", '', { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open(this.TEXT.distribution_no_right_validate, '', { duration: 3000, horizontalPosition: 'right' });
 
         this.dialog.closeAll();
     }
@@ -403,15 +412,15 @@ export class DistributionsComponent implements OnInit {
                             }
                         )
                 } else {
-                    this.snackBar.open('No valid commodity detected for this distribution.', '', { duration: 3000, horizontalPosition: 'center' });
+                    this.snackBar.open(this.TEXT.distribution_no_valid_commodity, '', { duration: 3000, horizontalPosition: 'center' });
                 }
 
             } else {
-                this.snackBar.open('Wrong email', '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.TEXT.distribution_wrong_mail, '', { duration: 3000, horizontalPosition: 'center' });
             }
         }
         else
-            this.snackBar.open("You haven't the right to realize the transaction, ask to your project manager or your country manager", '', { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 3000, horizontalPosition: 'right' });
 
         this.dialog.closeAll();
     }
@@ -465,12 +474,12 @@ export class DistributionsComponent implements OnInit {
                                 this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(response));
                             }
                         );
-                    this.snackBar.open('Beneficiary added', '', { duration: 3000, horizontalPosition: 'center' });
+                    this.snackBar.open(this.TEXT.distribution_beneficiary_added, '', { duration: 3000, horizontalPosition: 'center' });
                     this.getDistributionBeneficiaries('final');
                 },
                 error => {
                     // console.log('cc', this.selectedBeneficiaries);
-                    this.snackBar.open('Beneficiary could not be added', '', { duration: 3000, horizontalPosition: 'center' });
+                    this.snackBar.open(this.TEXT.distribution_beneficiary_not_added, '', { duration: 3000, horizontalPosition: 'center' });
                 });
     }
 

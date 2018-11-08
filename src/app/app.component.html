@@ -1,5 +1,5 @@
 <mat-sidenav-container class="app-component" disableClose="!smallScreenMode" [hasBackdrop]="false">
-	<mat-sidenav #sidenav class="page-menu-wrapper" [ngClass]="{show: isShowing}" [opened]="!smallScreenMode && user.loggedIn" (mouseenter)="change()" (mouseleave)="change()" mode="over" [style.marginTop.px]="smallScreenMode ? 56 : 0">
+	<mat-sidenav #sidenav class="page-menu-wrapper" [ngClass]="{show: isShowing}" [opened]="!smallScreenMode && user.loggedIn" (mouseenter)="change()" (mouseleave)="change()" mode="side" [style.marginTop.px]="smallScreenMode ? 56 : 0">
 		<mat-nav-list>
       <mat-list-item routerLink="/" (click)="setCurrentRoute('')" *ngIf="!smallScreenMode">
         <img src="assets/images/bms_logo.png" mat-list-icon>

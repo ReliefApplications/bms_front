@@ -83,17 +83,24 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     ) { }
 
     ngOnInit() {
-        this.loadingCreation = false;
-        this.newObject = Object.create(this.entity.prototype);
-        this.newObject.constructor.apply(this.newObject);
-        this.mapperObject = this.mapper.findMapperObject(this.entity);
-        this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
-        this.propertiesTypes = this.newObject.getTypeProperties(this.newObject);
-        this.checkSize();
-        this.getQueryParameter();
-        this.loadProvince();
-        this.newObject.type = 'Household';
-        this.getProjectDates();
+        const voters = this._cacheService.get('user').voters;
+        if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER') {
+            this.snackBar.open(this.distribution.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
+            this.router.navigate(['']);
+        }
+        else {
+            this.loadingCreation = false;
+            this.newObject = Object.create(this.entity.prototype);
+            this.newObject.constructor.apply(this.newObject);
+            this.mapperObject = this.mapper.findMapperObject(this.entity);
+            this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
+            this.propertiesTypes = this.newObject.getTypeProperties(this.newObject);
+            this.checkSize();
+            this.getQueryParameter();
+            this.loadProvince();
+            this.newObject.type = 'Household';
+            this.getProjectDates();
+        }
     }
 
     /**
@@ -125,10 +132,10 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     }
 
     selectDate(event) {
-        if (event.value) 
+        if (event.value)
             this.newObject.date_distribution = event.value.toLocaleDateString();
         else
-            this.snackBar.open('Error while saving the date, check that the format is like mm/dd/yyyy', '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.distribution.add_distribution_check_date, '', { duration: 3000, horizontalPosition: 'center' });
 
     }
 
@@ -335,7 +342,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
             dateObjectDistribution.setDate(dateObjectDistribution.getDate() + 1);
 
             if (dateObjectDistribution.getTime() <= new Date(this.projectInfo.startDate).getTime() || dateObjectDistribution.getTime() >= new Date(this.projectInfo.endDate).getTime()) {
-                this.snackBar.open('Error while creating new distribution, your distribution date have to be inside the project dates', '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.distribution.add_distribution_date_inside_project, '', { duration: 3000, horizontalPosition: 'center' });
                 return;
             }
             else {
@@ -378,16 +385,16 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 const promise = this._distributionService.add(newDistribution);
                 if (promise) {
                     promise.toPromise().then(response => {
-                        this.snackBar.open('distribution : ' + response.distribution.name + ' was created', '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.distribution.add_distribution_distribution + response.distribution.name + this.distribution.add_distribution_created, '', { duration: 3000, horizontalPosition: 'center' });
                         this.router.navigate(['projects/distributions/' + response.distribution.id]);
                     });
                 } else {
-                    this.snackBar.open('Error while creating new distribution', '', { duration: 3000, horizontalPosition: 'center' });
+                    this.snackBar.open(this.distribution.add_distribution_error_creating, '', { duration: 3000, horizontalPosition: 'center' });
                     this.loadingCreation = false;
                 }
             }
         } else {
-            this.snackBar.open('Fill new distribution\'s information before, including the commodity and a threshold\'s value greater than 0.', '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.distribution.add_distribution_check_fields, '', { duration: 3000, horizontalPosition: 'center' });
         }
 
     }

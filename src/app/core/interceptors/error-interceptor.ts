@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { URL_BMS_API } from '../../../environments/environment';
 import { MatSnackBar } from '@angular/material';
+import { GlobalText } from '../../../texts/global';
 
 const api = URL_BMS_API;
 
@@ -38,7 +39,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 this.snackbar.open(response.message, '', {duration: 3000, horizontalPosition: 'center'});
             }
         } else {
-            this.snackbar.open('An error occured, request has failed (Empty back response).', '', {duration: 3000, horizontalPosition: 'center'});
+            this.snackbar.open(GlobalText.TEXTS.error_interceptor_msg, '', {duration: 3000, horizontalPosition: 'center'});
         }
     }
 

@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit, Input } from '@angular/core';
 import { GlobalText } from '../../../../texts/global';
 import { FieldMapper } from '../../../model/field-mapper';
-import { CountoModule }  from 'angular2-counto';
+import { CountoModule } from 'angular2-counto';
 
 @Component({
   selector: 'app-box-properties',
@@ -17,10 +17,11 @@ export class BoxPropertiesComponent {
   @Input() componentDisplayed;
   @Input() mapperService;
   @Input() entity;
+  @Input() data;
   private oldComponentDisplayed = null;
   public properties: any;
   public numColumns = 0;
-
+  public displayLength: number;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -41,20 +42,25 @@ export class BoxPropertiesComponent {
       this.box = GlobalText.TEXTS;
       this.oldComponentDisplayed = null;
     }
-    if(this.componentDisplayed != this.oldComponentDisplayed){
+    if (this.componentDisplayed != this.oldComponentDisplayed) {
       let entityInstance = Object.create(this.entity.prototype);
       entityInstance.constructor.apply(entityInstance);
       this.elementObject = entityInstance.getMapperBox(this.componentDisplayed);
       this.oldComponentDisplayed = this.componentDisplayed;
     }
+
+    if (this.data && this.elementObject.number_beneficiaries != this.data.length) {
+      this.elementObject.number_beneficiaries = this.data.length;
+      this.componentDisplayed.distribution_beneficiaries = this.data;
+    }
   }
 
-  isArray(obj : any) {
+  isArray(obj: any) {
     return Array.isArray(obj)
   }
 
   isNumber(obj: any) {
-    return (typeof(obj) === "number")
+    return (typeof (obj) === "number")
   }
 
   numberOfColumns(): void {
@@ -63,10 +69,10 @@ export class BoxPropertiesComponent {
       this.numColumns = length;
     }
     else if (window.innerWidth > 400 && window.innerWidth < 700) {
-      this.numColumns = length/2;
+      this.numColumns = length / 2;
     }
     else {
-      this.numColumns = length/3;
+      this.numColumns = length / 3;
     }
   }
 }

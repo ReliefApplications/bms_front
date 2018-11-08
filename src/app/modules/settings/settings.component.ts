@@ -23,6 +23,7 @@ import { GlobalText } from '../../../texts/global';
 import { SettingsService } from '../../core/api/settings.service';
 import { ExportInterface } from '../../model/export.interface';
 import { saveAs } from 'file-saver/FileSaver';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-settings',
@@ -48,6 +49,7 @@ export class SettingsComponent implements OnInit {
     public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
     public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
     public maxWidth = GlobalText.maxWidth;
+    public language = GlobalText.language;
     public heightScreen;
     public widthScreen;
     hasRights: boolean;
@@ -64,12 +66,28 @@ export class SettingsComponent implements OnInit {
         private _cacheService: CacheService,
         private _settingsService: SettingsService,
         private snackBar: MatSnackBar,
+        private router: Router
     ) { }
 
     ngOnInit() {
-        this.checkSize();
-        this.selectTitle('users');
-        this.extensionType = 'xls';
+        const voters = this._cacheService.get('user').voters;
+        if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_COUNTRY_MANAGER") {
+            this.snackBar.open(this.settings.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
+            this.router.navigate(['']);
+        }
+        else {
+            this.checkSize();
+            this.selectTitle('users');
+            this.extensionType = 'xls';
+        }
+    }
+
+    /**
+     * check if the langage has changed
+     */
+    ngDoCheck() {
+        if (this.language !== GlobalText.language)
+            this.language = GlobalText.language;
     }
 
     @HostListener('window:resize', ['$event'])
@@ -194,17 +212,21 @@ export class SettingsComponent implements OnInit {
             });
         }
         const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
-            let exists: boolean = false;
+            if (this.referedClassToken.__classname__ == 'Project') {
+                let exists: boolean = false;
 
-            this.data.data.forEach(element => {
-                if (element.name == data.name) {
-                    this.snackBar.open('A project with this name already exists', '', { duration: 3000, horizontalPosition: 'right' });
-                    exists = true;
-                    return;
-                }
-            });
+                this.data.data.forEach(element => {
+                    if (element.name == data.name) {
+                        this.snackBar.open(this.settings.settings_project_exists, '', { duration: 3000, horizontalPosition: 'right' });
+                        exists = true;
+                        return;
+                    }
+                });
 
-            if (exists == false)
+                if (exists == false)
+                    this.createElement(data);
+            }
+            else
                 this.createElement(data);
         });
 
@@ -218,7 +240,7 @@ export class SettingsComponent implements OnInit {
         createElement = this.referedClassToken.formatForApi(createElement);
         if (this.referedClassToken.__classname__ !== 'User') {
             this.referedClassService.create(createElement['id'], createElement).subscribe(response => {
-                this.snackBar.open(this.referedClassToken.__classname__ + ' created', '', { duration: 3000, horizontalPosition: 'right' });
+                this.snackBar.open(this.referedClassToken.__classname__ + this.settings.settings_created, '', { duration: 3000, horizontalPosition: 'right' });
                 this.selectTitle(this.selectedTitle);
             });
         } else {
@@ -235,7 +257,7 @@ export class SettingsComponent implements OnInit {
                     }
 
                     this.authenticationService.createUser(createElement, response).subscribe(() => {
-                        this.snackBar.open(this.referedClassToken.__classname__ + ' created', '', { duration: 3000, horizontalPosition: 'right' });
+                        this.snackBar.open(this.referedClassToken.__classname__ + this.settings.settings_created, '', { duration: 3000, horizontalPosition: 'right' });
                         this.selectTitle(this.selectedTitle);
                     });
                 }

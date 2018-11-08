@@ -15,21 +15,23 @@ export class GlobalText {
 
     public static changeLanguage(language: string) {
         GlobalText.language = language;
+        const element = document.getElementsByTagName("mat-sidenav-content") as HTMLCollectionOf<HTMLElement>;
         switch (language) {
             case 'en':
                 GlobalText.TEXTS = TEXT_EN;
                 document.getElementsByTagName('html')[0].setAttribute('dir', '');
-                document.getElementsByTagName("mat-sidenav-content")[0].style.margin = "0px 0px 0px 64px";
+                element[0].style.margin = "0px 0px 0px 64px";
+
                 break;
             case 'fr':
                 GlobalText.TEXTS = TEXT_FR;
                 document.getElementsByTagName('html')[0].setAttribute('dir', '');
-                document.getElementsByTagName("mat-sidenav-content")[0].style.margin = "0px 0px 0px 64px";
+                element[0].style.margin = "0px 0px 0px 64px";
                 break;
             case 'ar':
                 GlobalText.TEXTS = TEXT_AR;
                 document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
-                document.getElementsByTagName("mat-sidenav-content")[0].style.margin = "0px 64px 0px 0px";
+                element[0].style.margin = "0px 64px 0px 0px";
                 break;
             default: GlobalText.TEXTS = TEXT_EN; break;
         }

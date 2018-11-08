@@ -284,5 +284,60 @@ export const TEXT = {
     role_user_project_manager: 'Project manager',
     role_user_country_manager: 'Country manager',
     role_user_regional_manager: 'Regional manager',
-    role_user_global_admin: 'Global admin'
+    role_user_global_admin: 'Global admin',
+
+    modal_add_no_value: 'You need to enter a value',
+    modal_add_fail_criteria: 'Failed to create the criteria',
+    modal_add_bad_weight: 'The weight should be greater than 0',
+    modal_add_invalid_mail: 'You must define an email',
+    modal_add_no_password: 'You must define a password',
+    modal_add_no_right: 'You must define a right',
+    modal_no_project: 'You must define at least a project with that role',
+    modal_no_country: 'You must define a country with that role',
+    modal_check_fields: 'Invalid fields : check you filled every fields',
+    modal_add_check_fields_budget: 'Invalid fields : check you filled every fields and budget is greater than 0',
+    modal_check_date: 'Invalid fields : Your start date cannot be older than the end date and vice versa',
+    modal_add_check_fields_quantity: 'Invalid fields : check you filled every fields and quantity greater than 0',
+
+    table_element_deleted: ' deleted',
+    table_element_updated: ' updated',
+
+    error_interceptor_msg: 'An error occured, request has failed (Empty back response).',
+
+    beneficiaries_import_select_project: 'You must select a project and add a file before uploading',
+    beneficiaries_import_error_importing: 'Error while importing data',
+    beneficiaries_import_beneficiaries_imported: ' beneficiaries inserted',
+    beneficiaries_import_check_fields: 'A field is empty or unset, please fill all inputs and select a project',
+
+    beneficiaries_added: 'Beneficiairies added to the selected project',
+
+    data_verification_error: 'Error processing data',
+
+    update_beneficiary_check_steps: 'Required data incomplete or unvalid: please check all steps',
+    update_beneficiary_created_successfully: 'Created successfuly !',
+    update_beneficiary_error_creating: 'Error while creating : ',
+    update_beneficiary_updated_successfully: 'Updated successfuly !',
+    update_beneficiary_error_updated: 'Error while updating : ',
+
+    add_distribution_check_date: 'Error while saving the date, check that the format is like mm/dd/yyyy',
+    add_distribution_date_inside_project: 'Error while creating new distribution, your distribution date have to be inside the project dates',
+    add_distribution_distribution: 'distribution : ',
+    add_distribution_created: ' was created',
+    add_distribution_error_creating: 'Error while creating new distribution',
+    add_distribution_check_fields: 'Fill new distribution\'s information before, including the commodity and a threshold\'s value greater than 0.',
+
+    distribution_validated: 'Distribution has been validated',
+    distribution_not_validated: 'Distribution could not be validated',
+    distribution_no_right_validate: 'You haven\'t the right to validate the distribution, ask to your project manager',
+    distribution_no_valid_commodity: 'No valid commodity detected for this distribution.',
+    distribution_wrong_mail: 'Wrong email',
+    distribution_no_right_transaction: 'You haven\'t the right to realize the transaction, ask to your project manager or your country manager',
+    distribution_beneficiary_added: 'Beneficiary added',
+    distribution_beneficiary_not_added: 'Beneficiary could not be added',
+
+    import_distribution_updated: 'Distribution updated',
+    import_distribution_no_right_update: 'You haven\'t the right to update the distribution, ask to your project manager',
+
+    settings_project_exists: 'A project with this name already exists',
+    settings_created: ' created',
 };

@@ -10,6 +10,7 @@ import { Project } from '../../../model/project';
 import { GlobalText } from '../../../../texts/global';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { CacheService } from 'src/app/core/storage/cache.service';
 
 @Component({
   selector: 'beneficiaries-import',
@@ -59,13 +60,21 @@ export class BeneficiariesImportComponent implements OnInit {
     public _projectService: ProjectService,
     public _beneficiariesService: BeneficiariesService,
     private router: Router,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    private _cacheService: CacheService
   ) { }
 
   ngOnInit() {
-    this.getProjects();
-    this.getAPINames();
-    this.extensionType = 'xls';
+    const voters = this._cacheService.get('user').voters;
+    if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
+      this.snackBar.open(this.household.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
+      this.router.navigate(['']);
+    }
+    else {
+      this.getProjects();
+      this.getAPINames();
+      this.extensionType = 'xls';
+    }
   }
 
   /**
@@ -211,10 +220,10 @@ export class BeneficiariesImportComponent implements OnInit {
           this.APINames.push(listAPI['APIName']);
 
           for (let j = 0; j < listAPI['params'].length; j++) {
-            if(listAPI['params'][j].paramType == 'string'){
+            if (listAPI['params'][j].paramType == 'string') {
               param['paramType'] = "text";
             }
-            else if(listAPI['params'][j].paramType == 'int'){
+            else if (listAPI['params'][j].paramType == 'int') {
               param['paramType'] = "number";
             }
 
@@ -226,16 +235,16 @@ export class BeneficiariesImportComponent implements OnInit {
         });
 
         this.chosenItem = this.APINames[0];
-        this.ParamsToDisplay.push({'paramType': this.APIParams[0].paramType, 'paramName': this.APIParams[0].paramName});
+        this.ParamsToDisplay.push({ 'paramType': this.APIParams[0].paramType, 'paramName': this.APIParams[0].paramName });
         this.provider = this.chosenItem;
       });
   }
 
   //Get the index of the radiogroup to display the right inputs
-  onChangeRadioAPI(event){
+  onChangeRadioAPI(event) {
     this.ParamsToDisplay = [];
     const index = this.APINames.indexOf(event.value);
-    this.ParamsToDisplay.push({'paramType': this.APIParams[index].paramType, 'paramName': this.APIParams[index].paramName});
+    this.ParamsToDisplay.push({ 'paramType': this.APIParams[index].paramType, 'paramName': this.APIParams[index].paramName });
     this.provider = event.value;
   }
 
@@ -243,7 +252,7 @@ export class BeneficiariesImportComponent implements OnInit {
   getValue(event, paramName) {
     const text = event.target.value;
 
-    this.paramToSend["params"] = {[paramName]: text};
+    this.paramToSend["params"] = { [paramName]: text };
   }
 
   //Check if all fields are set, and import all the beneficiaries

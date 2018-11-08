@@ -303,7 +303,7 @@ export const TEXT = {
 
     error_interceptor_msg: 'Un erreur est survenue, la requête n\'a pas abouti (La réponse de retour est vide).',
 
-    beneficiaries_import_select_project: 'Vous devez selectionner un projet et ajouter un fichier avant l\importation',
+    beneficiaries_import_select_project: 'Vous devez selectionner un projet et ajouter un fichier avant l\'importation',
     beneficiaries_import_error_importing: 'Erreur lors de l\'importation des données',
     beneficiaries_import_beneficiaries_imported: ' bénéficiaires insérés',
     beneficiaries_import_check_fields: 'Un champs est vide, s\'il vous plaît remplissez tous les champs et sélectionner un projet',
@@ -312,7 +312,7 @@ export const TEXT = {
 
     data_verification_error: 'Erreur lors du parcours des données',
 
-    update_beneficiary_check_steps: 'Les données requises sont incomplètes ou invalides: s\il vous plait vérifier toutes les étapes',
+    update_beneficiary_check_steps: 'Les données requises sont incomplètes ou invalides: s\'il vous plait vérifier toutes les étapes',
     update_beneficiary_created_successfully: 'Créé avec succès !',
     update_beneficiary_error_creating: 'Erreur lors de la création : ',
     update_beneficiary_updated_successfully: 'Modifié avec succès !',

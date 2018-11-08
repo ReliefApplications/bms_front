@@ -23,6 +23,7 @@ import { GlobalText } from '../../../texts/global';
 import { SettingsService } from '../../core/api/settings.service';
 import { ExportInterface } from '../../model/export.interface';
 import { saveAs } from 'file-saver/FileSaver';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-settings',
@@ -64,12 +65,20 @@ export class SettingsComponent implements OnInit {
         private _cacheService: CacheService,
         private _settingsService: SettingsService,
         private snackBar: MatSnackBar,
+        private router: Router
     ) { }
 
     ngOnInit() {
-        this.checkSize();
-        this.selectTitle('users');
-        this.extensionType = 'xls';
+        const voters = this._cacheService.get('user').voters;
+        if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_COUNTRY_MANAGER") {
+            this.snackBar.open(this.settings.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
+            this.router.navigate(['']);
+        }
+        else {
+            this.checkSize();
+            this.selectTitle('users');
+            this.extensionType = 'xls';
+        }
     }
 
     @HostListener('window:resize', ['$event'])

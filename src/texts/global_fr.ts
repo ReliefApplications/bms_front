@@ -227,7 +227,7 @@ export const TEXT = {
     model_project_number_of_households: 'Nombre de ménages',
     model_project_donors_name: 'Donneurs',
     model_project_notes: 'Notes',
-    model_project_value: 'Budget',
+    model_project_value: 'Montant à distribuer',
     model_sector : 'Secteur',
     model_criteria : 'Critère',
     model_criteria_kind_beneficiary : 'Groupe',

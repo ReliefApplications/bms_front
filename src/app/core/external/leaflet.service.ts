@@ -5,6 +5,8 @@ import * as LeafletOmnivore from '@mapbox/leaflet-omnivore';
 
 import * as $ from 'jquery';
 import { LocationService } from '../api/location.service';
+import { CacheService } from '../storage/cache.service';
+import { AsyncacheService } from '../storage/asyncache.service';
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +19,7 @@ export class LeafletService {
 
     constructor(
         private _locationService: LocationService,
-
+        private _cacheService: AsyncacheService,
     ) { }
 
     //------------------------------------------------------------------------//
@@ -41,7 +43,6 @@ export class LeafletService {
         });
 
         this.map.once('click', () => { this.map.scrollWheelZoom.enable(); });
-        this._locationService.getUpcomingDistributionCode().subscribe();
         this.addTileLayer();
         this.addKML();
     }
@@ -68,6 +69,7 @@ export class LeafletService {
 
             //get in the cache the list of upcoming distribution
             let upcomingDistribution;
+
             this._locationService.getUpcomingDistributionCode().subscribe(
                 result => {
                     upcomingDistribution = result;

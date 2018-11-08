@@ -8,8 +8,8 @@
                 <h1 class="title-text">{{login.login_bms | titlecase}}</h1>
             </div>
             <div class="login-user">
-                <input *ngIf="user" type="text" class="user-input" aria-describedby="basic-addon1" placeholder="{{login.login_username | uppercase}}" [(ngModel)]="user.username">
-                <input *ngIf="user" type="password" class="user-input" aria-describedby="basic-addon1" placeholder="{{login.login_password | uppercase}}" [(ngModel)]="user.password">
+                <input type="text" class="user-input" aria-describedby="basic-addon1" placeholder="{{login.login_username | uppercase}}" [(ngModel)]="user.username">
+                <input type="password" class="user-input" aria-describedby="basic-addon1" placeholder="{{login.login_password | uppercase}}" [(ngModel)]="user.password">
                 <h5 *ngIf="forgotMessage" class="user-forgot-password">{{login.login_forgot_password}}</h5>
             </div>
             <div class="login-button">

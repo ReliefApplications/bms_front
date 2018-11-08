@@ -134,7 +134,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             this._projectService.get().subscribe(
                 result => {
                     let cacheProjects = result;
-                    // TODO : get from back / save in 'user' cache.
                     if(cacheProjects && cacheProjects[0]) {
                         this.countryISO3 = cacheProjects[0].iso3;
                     } else {

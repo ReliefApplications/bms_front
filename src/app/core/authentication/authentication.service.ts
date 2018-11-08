@@ -8,7 +8,7 @@ import { URL_BMS_API } from '../../../environments/environment';
 import { User, ErrorInterface } from '../../model/user';
 import { SaltInterface } from '../../model/salt';
 import { AsyncacheService } from '../storage/asyncache.service';
-import { Observable } from 'rxjs';
+import { Observable, timer } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 export class AuthenticationService {
 
     private user: User;
+
     constructor(
         public _wsseService: WsseService,
         public _cacheService: AsyncacheService,
@@ -32,6 +33,7 @@ export class AuthenticationService {
     logUser(user) {
         return this.http.post(URL_BMS_API + '/login', user);
     }
+
 
     checkCredentials() {
         return this.http.get<any>(URL_BMS_API + '/check');
@@ -98,7 +100,6 @@ export class AuthenticationService {
         voters = user.voters;
         return voters;
     }
-
 
     public createUser(body: any, salt: any) {
         let saltedPassword = this._wsseService.saltPassword(salt.salt, body.password);

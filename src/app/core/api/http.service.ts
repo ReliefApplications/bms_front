@@ -37,6 +37,7 @@ export class HttpService {
                 case '/login' : return(AsyncacheService.USER)
                 case '/projects' : return(AsyncacheService.PROJECTS)
                 case '/distributions' : return(AsyncacheService.DISTRIBUTIONS)
+                case '/location/upcoming_distribution' : return(AsyncacheService.UPCOMING)
                 case '/country_specifics' : return(AsyncacheService.SPECIFICS)
                 case '/users' : return(AsyncacheService.USERS)
                 case '/donors' : return(AsyncacheService.DONORS)
@@ -60,13 +61,13 @@ export class HttpService {
     }
 
     get(url, options = {}) : Observable<any> {
-        console.log('-(', url,')-');
+        //console.log('-(', url,')-');
 
         let itemKey = this.resolveItemKey(url);
         let connected = this.networkService.getStatus();
         let cacheData : any;
         // Test logs
-        console.log('--', itemKey, '--');
+        //console.log('--', itemKey, '--');
 
         // If this item is cachable & user is connected
         if(itemKey && connected) {

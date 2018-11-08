@@ -52,23 +52,13 @@ export class DashboardComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this._authenticationService.getUser().subscribe(
-            result => {
-                const user = result;
-                
-                if (!user.loggedIn) {
-                    this.router.navigate(['/login']);
-                }
+        this.serviceMap.createMap('map');
+        this.serviceMap.addTileLayer();
 
-                this.serviceMap.createMap('map');
-                this.serviceMap.addTileLayer();
-        
-                this.getSummary();
-                this.checkDistributions();
-                this.checkSize();
-                this.checkPermission();
-            }
-        );
+        this.getSummary();
+        this.checkDistributions();
+        this.checkSize();
+        this.checkPermission();
     }
 
     /**

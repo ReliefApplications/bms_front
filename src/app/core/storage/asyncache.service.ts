@@ -18,7 +18,8 @@ export class AsyncacheService {
     // Keys
     static readonly USER 						= 'user';
 	static readonly USERS 						= 'users';    
-	static readonly DISTRIBUTIONS              	= 'distributions';
+    static readonly DISTRIBUTIONS              	= 'distributions';
+    static readonly UPCOMING                    = 'upcoming';
 	static readonly DONORS		              	= 'donors';
 	static readonly PROJECTS		            = 'projects';
 	static readonly SECTORS		              	= 'sectors';
@@ -51,7 +52,7 @@ export class AsyncacheService {
             return this.getAllDistributions().pipe(
                 map(
                     (result) => {
-                        console.log('alldist: ', result);
+                        //console.log('alldist: ', result);
                         return result
                     }
                 )
@@ -68,7 +69,7 @@ export class AsyncacheService {
                                 }
                                 return null ;
                             } else if(result) {
-                                console.log('GET (', key, '): ', result.value);
+                                //console.log('GET (', key, '): ', result.value);
                                 return result.value;
                             } else {
                                 return null;
@@ -128,17 +129,15 @@ export class AsyncacheService {
         return this.get(AsyncacheService.USER).pipe(
             map(
                 result => {
-                    if(!result) {
+                    let cachedUser = result;
+                    if(!cachedUser) {
                         return new User();
                     } else {
-                        return result;
+                        return cachedUser;
                     }
-                },
-                error => {
-                    return new User();
                 }
             )
-        )
+        );
     }
 
     set(key: string, value: any, options: any = {}) {
@@ -159,7 +158,7 @@ export class AsyncacheService {
         }
         this.localStorage.setItem(key, object).subscribe(
             result => {
-                console.log('SET (', key, '): ', object);
+                //console.log('SET (', key, '): ', object);
             }
         );
     }

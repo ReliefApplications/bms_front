@@ -21,7 +21,8 @@ import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
 import { ProjectService } from 'src/app/core/api/project.service';
-import { map } from 'rxjs/operators';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
     selector: 'app-add-distribution',
@@ -67,6 +68,11 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     public loadingCreation: boolean;
     public projectInfo: any = { startDate: '', endDate: '' };
 
+    // Save adm ids for requests.
+    lastAdm1;
+    lastAdm2;
+    lastAdm3;
+
     step = '';
 
     constructor(
@@ -75,6 +81,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         private router: Router,
         private criteriaService: CriteriaService,
         private route: ActivatedRoute,
+        private cacheService: AsyncacheService,
         private locationService: LocationService,
         private _distributionService: DistributionService,
         private _projectService: ProjectService,
@@ -134,35 +141,59 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
      *  Get adm2 from the back or from the cache service with the key ADM2
      * @param adm1
      */
-    loadDistrict(adm1) {
-        this.locationService.getAdm2(adm1).subscribe(response => {
+    loadDistrict(adm1$) {
+        adm1$.pipe(
+            switchMap(
+                (value) => {
+                    const body = {
+                        adm1 : value
+                    };
+                    return this.locationService.getAdm2(body)
+                }
+            )
+        ).subscribe(response => {
             this.loadedData.adm2 = response;
-
+            this.loadedData.adm3 = [];
+            this.loadedData.adm4 = [];
         });
-        this.loadedData.adm3 = [];
-        this.loadedData.adm4 = [];
     }
 
     /**
      * Get adm3 from the back or from the cahce service with the key ADM3
      * @param adm2
      */
-    loadCommunity(adm2) {
-        this.locationService.getAdm3(adm2).subscribe(response => {
+    loadCommunity(adm2$) {
+        adm2$.pipe(
+            switchMap(
+                (value) => {
+                    const body = {
+                        adm2 : value
+                    };
+                    return this.locationService.getAdm3(body)
+                }
+            )
+        ).subscribe(response => {
             this.loadedData.adm3 = response;
-
+            this.loadedData.adm4 = [];
         });
-        this.loadedData.adm4 = [];
     }
 
     /**
      *  Get adm4 from the back or from the cahce service with the key ADM4
      * @param adm3
      */
-    loadVillage(adm3) {
-        this.locationService.getAdm4(adm3).subscribe(response => {
+    loadVillage(adm3$) {
+        adm3$.pipe(
+            switchMap(
+                (value) => {
+                    const body = {
+                        adm3 : value
+                    };
+                    return this.locationService.getAdm4(body)
+                }
+            )
+        ).subscribe(response => {
             this.loadedData.adm4 = response;
-
         });
     }
 
@@ -172,18 +203,16 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
      * @param index
      */
     selected(index) {
+        let adm$;
         if (index === 'adm1') {
-            const body = {};
-            body['adm1'] = this.getAdmID('adm1');
-            this.loadDistrict(body);
+            adm$ = this.getAdmID('adm1');
+            this.loadDistrict(adm$);
         } else if (index === 'adm2') {
-            const body = {};
-            body['adm2'] = this.getAdmID('adm2');
-            this.loadCommunity(body);
+            adm$ = this.getAdmID('adm2');
+            this.loadCommunity(adm$);
         } else if (index === 'adm3') {
-            const body = {};
-            body['adm3'] = this.getAdmID('adm3');
-            this.loadVillage(body);
+            adm$ = this.getAdmID('adm3');
+            this.loadVillage(adm$);
         }
     }
 
@@ -206,6 +235,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     }
 
     /**
+            this.loadedData.adm4 = [];
      * check if the langage has changed
      */
     ngDoCheck() {
@@ -269,62 +299,79 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
      * @param adm
      */
     getAdmID(adm: string) {
-        if (adm === 'adm1') {
-            this.locationService.getAdm1().subscribe(
-                result => {
-                    const adm1 = result;
-                    if (this.newObject.adm1) {
-                        for (let i = 0; i < adm1.length; i++) {
-                            if (adm1[i].name === this.newObject.adm1) {
-                                return adm1[i].id;
+        //console.log(this.newObject);
+        return new Observable ( 
+            observer => {
+                const body = {};
+                if (adm === 'adm1') {
+                    this.locationService.getAdm1().subscribe(
+                        result => {
+                            const adm1 = result;
+                            if (this.newObject.adm1) {
+                                for (let i = 0; i < adm1.length; i++) {
+                                    if (adm1[i].name === this.newObject.adm1) {
+                                        this.lastAdm1 = adm1[i].id;
+                                        observer.next(adm1[i].id);
+                                        observer.complete();
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-            );
-            
-        } else if (adm === 'adm2') {
-            this.locationService.getAdm2().subscribe(
-                result => {
-                    const adm2 = result;
-                    if (this.newObject.adm2) {
-                        for (let i = 0; i < adm2.length; i++) {
-                            if (adm2[i].name === this.newObject.adm2) {
-                                return adm2[i].id;
+                    );
+                    
+                } else if (adm === 'adm2') {
+                    body['adm1'] = this.lastAdm1;
+                    this.locationService.getAdm2(body).subscribe(
+                        result => {
+                            const adm2 = result;
+                            if (this.newObject.adm2) {
+                                for (let i = 0; i < adm2.length; i++) {
+                                    if (adm2[i].name === this.newObject.adm2) {
+                                        this.lastAdm2 = adm2[i].id;
+                                        observer.next(adm2[i].id);
+                                        observer.complete();
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-            );
-            
-        } else if (adm === 'adm3') {
-            this.locationService.getAdm3().subscribe(
-                result => {
-                    const adm3 = result;
-                    if (this.newObject.adm3) {
-                        for (let i = 0; i < adm3.length; i++) {
-                            if (adm3[i].name === this.newObject.adm3) {
-                                return adm3[i].id;
+                    );
+                    
+                } else if (adm === 'adm3') {
+                    body['adm2'] = this.lastAdm2;
+                    this.locationService.getAdm3(body).subscribe(
+                        result => {
+                            const adm3 = result;
+                            if (this.newObject.adm3) {
+                                for (let i = 0; i < adm3.length; i++) {
+                                    if (adm3[i].name === this.newObject.adm3) {
+                                        this.lastAdm3 = adm3[i].id;
+                                        observer.next(adm3[i].id);
+                                        observer.complete();
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-            );
-            
-        } else if (adm === 'adm4') {
-            this.locationService.getAdm4().subscribe(
-                result => {
-                    const adm4 = result;
-                    if (this.newObject.adm4) {
-                        for (let i = 0; i < adm4.length; i++) {
-                            if (adm4[i].name === this.newObject.adm4) {
-                                return adm4[i].id;
+                    );
+                    
+                } else if (adm === 'adm4') {
+                    body['adm3'] = this.lastAdm3;
+                    this.locationService.getAdm4(body).subscribe(
+                        result => {
+                            const adm4 = result;
+                            if (this.newObject.adm4) {
+                                for (let i = 0; i < adm4.length; i++) {
+                                    if (adm4[i].name === this.newObject.adm4) {
+                                        observer.next(adm4[i].id);
+                                        observer.complete();
+                                    }
+                                }
                             }
                         }
-                    }
+                    );
                 }
-            );
-        }
+            }
+        );
+        
     }
 
     getNameProject(id): Observable<string> {

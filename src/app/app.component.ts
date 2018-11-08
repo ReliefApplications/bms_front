@@ -6,8 +6,9 @@ import { GlobalText } from '../texts/global';
 import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
 import { MatDialog, MatSidenav } from '@angular/material';
 import { AsyncacheService } from './core/storage/asyncache.service';
-import { interval, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { interval, timer, Observable } from 'rxjs';
+import { map, mapTo, switchMap,  } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-root',
@@ -17,10 +18,10 @@ import { map } from 'rxjs/operators';
 export class AppComponent {
 
     user: User = new User();
+
     public currentRoute = "";
     public currentComponent;
     public menuHover = false;
-    public logOut = true;
     public openTopMenu = false;
     public smallScreenMode;
     public maxHeight = 600;
@@ -33,27 +34,40 @@ export class AppComponent {
 
     constructor(
         private _authenticationService: AuthenticationService,
-        private _cacheService: AsyncacheService,
+        private router: Router,
         public dialog: MatDialog
     ) { }
 
     ngOnInit() {
         this.checkSize();
-        this.getUser();
-
-        timer(0, 1000).pipe(
-            map(
-                () => {
-                    this.checkPermission();
-                }
-            )
-        ).subscribe();
+        this.checkUser();
     }
 
+    ngDoCheck() {
+        if(this.user.loggedIn && this.currentComponent === 'login') {
+            this.router.navigate(['/login']);
+        } 
+        else if(!this.user.loggedIn && this.currentComponent !== 'login') {
+            this.router.navigate(['/']);
+        }
+    }
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
         this.checkSize();
+    }
+
+    checkUser() {
+        this._authenticationService.getUser()
+        .subscribe(
+            result => {
+                this.user = result;
+            }
+        )
+    }
+
+    test() {
+        console.log('###############');
     }
 
     change() {
@@ -88,27 +102,6 @@ export class AppComponent {
         }
     }
 
-    getUser(): User {
-        this._authenticationService.getUser().subscribe(
-            result => {
-                if (this.user.id) {
-                    if (!this.user.loggedIn) {
-                        this.logOut = true;
-                    } else {
-                        this.logOut = false;
-                    }
-                }
-                this.user = result;
-                if (!this.user.loggedIn) {
-                    this.logOut = true;
-                } else {
-                    this.logOut = false;
-                }
-            }
-        );
-        return this.user;
-    }
-
     hoverMenu(): void {
         this.menuHover = true;
     }
@@ -130,13 +123,6 @@ export class AppComponent {
     onLogOut(e): void {
         this.user.loggedIn = false;
         this._authenticationService.logout();
-        this.getUser();
-    }
-
-    ngDoCheck(): void {
-        if (this.logOut) {
-            this.getUser();
-        }
     }
 
     clickOnTopMenu(e): void {
@@ -149,26 +135,21 @@ export class AppComponent {
      */
     onActivate(e) {
         if (!e.nameComponent || e.nameComponent === 'project_title' || e.nameComponent === 'beneficiaries_title'
-            || e.nameComponent === 'report_title' || e.nameComponent === 'settings_title') {
+            || e.nameComponent === 'report_title' || e.nameComponent === 'settings_title' || e.nameComponent === 'login') {
             this.currentComponent = e.nameComponent;
         }
     }
 
-    checkPermission() {
-        this._cacheService.getUser().subscribe(
-            result => {
-                console.log('trter', result.voters);
-                if(result && result.voters) {
-                    const voters = result.voters;
-                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_COUNTRY_MANAGER")
-                        this.hasRights = true;
-                    else
-                        this.hasRights = false;
-                } else {
-                    this.hasRights = false;
-                }
-            }
-        )
-        
+    checkPermission(cachedUser) {
+        //console.log('voters: ', cachedUser.voters);
+        if(cachedUser && cachedUser.voters) {
+            const voters = cachedUser.voters;
+            if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_COUNTRY_MANAGER")
+                this.hasRights = true;
+            else
+                this.hasRights = false;
+        } else {
+            this.hasRights = false;
+        }
     }
 }

@@ -61,7 +61,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="add-buttons">
+                <div [ngClass]="{'add-buttons': language != 'ar', 'add-buttons-arabic': language == 'ar'}">
                     <button mat-fab class="add-button" *ngIf="hasRights" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)"
                         [disabled]="actualDistribution.validated">
                         <mat-icon>add</mat-icon>

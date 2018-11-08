@@ -14,7 +14,7 @@
     <div class="container-table" *ngIf="!loadingData">
         <div class="container-content box-green" *ngIf="isBoxClicked">
             <div class="content-button">
-                <div class="add-buttons">
+                <div [ngClass]="{'add-buttons': language != 'ar', 'add-buttons-arabic': language == 'ar'}">
                     <button mat-fab *ngIf="hasRights" (click)="openDialog('add')" class="add-button">
                         <mat-icon>add</mat-icon>
                     </button>

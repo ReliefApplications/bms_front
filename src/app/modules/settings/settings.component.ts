@@ -49,6 +49,7 @@ export class SettingsComponent implements OnInit {
     public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
     public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
     public maxWidth = GlobalText.maxWidth;
+    public language = GlobalText.language;
     public heightScreen;
     public widthScreen;
     hasRights: boolean;
@@ -79,6 +80,14 @@ export class SettingsComponent implements OnInit {
             this.selectTitle('users');
             this.extensionType = 'xls';
         }
+    }
+
+    /**
+     * check if the langage has changed
+     */
+    ngDoCheck() {
+        if (this.language !== GlobalText.language)
+            this.language = GlobalText.language;
     }
 
     @HostListener('window:resize', ['$event'])

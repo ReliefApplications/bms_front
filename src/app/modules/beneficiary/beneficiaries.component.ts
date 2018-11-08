@@ -53,6 +53,7 @@ export class BeneficiariesComponent implements OnInit {
     public maxWidth = 750;
     public heightScreen;
     public widthScreen;
+    public language = GlobalText.language;
 
     // Add Beneficiaries To Project Dialog variables.
     projectForm = new FormControl();
@@ -74,6 +75,9 @@ export class BeneficiariesComponent implements OnInit {
         if (this.household !== GlobalText.TEXTS) {
             this.household = GlobalText.TEXTS;
         }
+
+        if (this.language !== GlobalText.language)
+            this.language = GlobalText.language;
     }
 
     /**

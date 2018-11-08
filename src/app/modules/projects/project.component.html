@@ -19,7 +19,7 @@
       <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService" [componentDisplayed]="selectedProject"></app-box-properties>
       <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
         <h3>Distributions</h3>
-        <div class="add-buttons">
+        <div [ngClass]="{'add-buttons': language != 'ar', 'add-buttons-arabic': language == 'ar'}">
             <button mat-fab *ngIf="hasRights" (click)="addDistribution()" class="add-button">
                 <mat-icon>add</mat-icon>
             </button>

@@ -59,6 +59,7 @@ export class DistributionsComponent implements OnInit {
     public heightScreen;
     public widthScreen;
     TEXT = GlobalText.TEXTS;
+    public language = GlobalText.language;
 
     // AddBeneficiary Dialog variables.
     beneficiaryForm = new FormControl();
@@ -124,6 +125,14 @@ export class DistributionsComponent implements OnInit {
         // console.log('resize');
         this.heightScreen = window.innerHeight;
         this.widthScreen = window.innerWidth;
+    }
+
+    /**
+   * check if the langage has changed
+   */
+    ngDoCheck() {
+        if (this.language !== GlobalText.language)
+            this.language = GlobalText.language;
     }
 
     /**

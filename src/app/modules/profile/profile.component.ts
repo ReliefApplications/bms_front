@@ -46,9 +46,10 @@ export class ProfileComponent implements OnInit, DoCheck {
         this.authenticationService.getUser().subscribe(
             result => {
                 this.actualUser = result;
-                this.profileForm.patchValue({
-                    email: this.actualUser.username
-                });
+                if(this.actualUser)
+                    this.profileForm.patchValue({
+                        email: this.actualUser.username
+                    });
             }
         );
 

@@ -136,9 +136,9 @@ export const TEXT = {
     data_verification_snackbar_less_corrected: 'Bénéficiaires supprimer avec succès',
     data_verification_snackbar_more_corrected: 'Bénéficiaires ajouter avec succès',
 
-    distribution_title : 'projets',
+    distribution_title : 'distributions',
     distribution_export : 'export',
-    project_title: 'porjets',
+    project_title: 'projets',
 
     add_project_title : 'nouveau projet',
     add_project_new_distribution : 'nouvelle distribution',
@@ -339,4 +339,10 @@ export const TEXT = {
 
     settings_project_exists: 'Un projet avec le même nom existe déjà',
     settings_created: ' créé(e)',
+
+    model_distribution_type: 'Cible',
+
+    projects_distribution_title: 'Distributions',
+
+    beneficiaries_add_list: 'Ajouter cette liste au projet',
 };

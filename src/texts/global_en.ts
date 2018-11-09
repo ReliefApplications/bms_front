@@ -340,4 +340,10 @@ export const TEXT = {
 
     settings_project_exists: 'A project with this name already exists',
     settings_created: ' created',
+
+    model_distribution_type: 'Target',
+
+    projects_distribution_title: 'Distributions',
+
+    beneficiaries_add_list: 'Add this list to a project',
 };

@@ -25,6 +25,7 @@ import { delay, finalize } from 'rxjs/operators';
 export class ProjectComponent implements OnInit {
     public nameComponent = 'project_title';
     public distribution = GlobalText.TEXTS;
+    public language = GlobalText.language;
 
     projects: Project[];
     distributionData: MatTableDataSource<any>;
@@ -84,9 +85,12 @@ export class ProjectComponent implements OnInit {
      */
     ngDoCheck() {
         if (this.distribution !== GlobalText.TEXTS) {
-            this.distribution = GlobalText.TEXTS;
-            this.nameComponent = GlobalText.TEXTS.distribution_title;
-        }
+        this.distribution = GlobalText.TEXTS;
+        this.nameComponent = GlobalText.TEXTS.distribution_title;
+      }
+      
+      if (this.language !== GlobalText.language)
+        this.language = GlobalText.language;
     }
 
     /**

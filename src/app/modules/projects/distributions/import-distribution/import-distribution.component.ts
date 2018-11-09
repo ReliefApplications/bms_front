@@ -10,6 +10,7 @@ import { DistributionService } from '../../../../core/api/distribution.service';
 import { Beneficiaries } from '../../../../model/beneficiary';
 import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
 import { ImportedBeneficiary } from '../../../../model/imported-beneficiary';
+import { finalize } from "rxjs/operators";
 
 const IMPORT_COMPARE = 1;
 const IMPORT_UPDATE = 2;
@@ -150,9 +151,13 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                 );
             } else if (this.importedData && step === IMPORT_UPDATE) {
                 this.loadUpdate = true;
-                this.beneficiaryService.import(this.distribution.id, { data: this.importedData }, IMPORT_UPDATE).subscribe(
+                this.beneficiaryService.import(this.distribution.id, { data: this.importedData }, IMPORT_UPDATE).pipe(
+                    finalize(() => {
+                        this.loadUpdate = false;
+                    })
+                ).subscribe(
                     success => {
-                        this.snackBar.open('Distribution updated', '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.TEXT.import_distribution_updated, '', { duration: 3000, horizontalPosition: 'center' });
                         this.success.emit(true);
                         this.loadUpdate = false;
                         this.importedData = null;
@@ -166,7 +171,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
             }
         }
         else 
-            this.snackBar.open("You haven't the right to update the distribution, ask to your project manager", '', { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open(this.TEXT.import_distribution_no_right_update, '', { duration: 3000, horizontalPosition: 'right' });
     }
 
     goBack() {

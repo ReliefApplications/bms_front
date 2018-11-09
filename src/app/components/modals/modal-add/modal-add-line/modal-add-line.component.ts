@@ -100,9 +100,9 @@ export class ModalAddLineComponent extends ModalAddComponent {
         if (this.newObject.weight > 0) {
             let newObject = this.data.entity.formatFromModalAdd( Object.assign({}, this.newObject), this.loadedData) ;
             if(newObject && (newObject.value_string && newObject.value_string === "null")) {
-                this.snackBar.open('You need to enter a value', '', {duration: 3000, horizontalPosition: 'center'});
+                this.snackBar.open(this.modal.modal_add_no_value, '', {duration: 3000, horizontalPosition: 'center'});
             } else if(!newObject) {
-                this.snackBar.open('Failed to create the criteria', '', {duration: 3000, horizontalPosition: 'center'});
+                this.snackBar.open(this.modal.modal_add_fail_criteria, '', {duration: 3000, horizontalPosition: 'center'});
                 this.closeDialog();
             } else {
                 this.onCreate.emit(newObject);
@@ -110,6 +110,6 @@ export class ModalAddLineComponent extends ModalAddComponent {
             }
         }
         else 
-            this.snackBar.open('The weight should be more than 0', '', {duration: 3000, horizontalPosition: 'center'});   
+            this.snackBar.open(this.modal.modal_add_bad_weight, '', {duration: 3000, horizontalPosition: 'center'});   
     }
 }

@@ -146,7 +146,7 @@ export const TEXT = {
     add_distribution_distributed_commodity : 'ressource distribuée',
     add_distribution_beneficiaries_reached: 'Bénéficaires atteints',
     add_distribution_households_reached: 'Ménages atteints',
-    add_distribution_commodities_delivered: 'délivrées',
+    add_distribution_commodities_delivered: 'a être délivrées',
     add_distribution_threshold: 'Score minimum de sélection',
     add_distribution_text_explanation: 'Le système va seulement sélectionner les bénéficiaires/ménages avec un score supérieur que le score minimum de sélection',
     add_distribution_female: 'Femme',
@@ -227,7 +227,7 @@ export const TEXT = {
     model_project_number_of_households: 'Nombre de ménages',
     model_project_donors_name: 'Donneurs',
     model_project_notes: 'Notes',
-    model_project_value: 'Budget',
+    model_project_value: 'Montant à distribuer',
     model_sector : 'Secteur',
     model_criteria : 'Critère',
     model_criteria_kind_beneficiary : 'Groupe',
@@ -286,4 +286,59 @@ export const TEXT = {
     role_user_global_admin: 'Administrateur général',
     
     no_data: 'Pas de données',
+
+    modal_add_no_value: 'Vous devez entrer une valeur',
+    modal_add_fail_criteria: 'Erreur lors de la création du critère',
+    modal_add_bad_weight: 'Le score du poids doit être supérieur à 0',
+    modal_add_invalid_mail: 'Vous devez définir un email',
+    modal_add_no_password: 'Vous devez définir un mot de passe',
+    modal_add_no_right: 'Vous devez définir un droit',
+    modal_no_project: 'Vous devez définir au moins un projet pour ce rôle',
+    modal_no_country: 'Vous devez définir au moins une ville pour ce rôle',
+    modal_check_fields: 'Champs invalides: vérifiez que vous avez rempli tous les champs',
+    modal_add_check_fields_budget: 'Champs invalides: vérifiez que vous avez rempli tous les champs et que le budget est supérieur à 0',
+    modal_check_date: 'Champs invalides: La date de début ne peut pas être plus ancienne que la date de fin et vice versa',
+    modal_add_check_fields_quantity: 'Champs invalides: vérifiez que vous avez rempli tous les champs et que la quantité est supérieur à 0',
+
+    table_element_deleted: ' supprimé(e)',
+    table_element_updated: ' modifié(e)',
+
+    error_interceptor_msg: 'Un erreur est survenue, la requête n\'a pas abouti (La réponse de retour est vide).',
+
+    beneficiaries_import_select_project: 'Vous devez selectionner un projet et ajouter un fichier avant l\'importation',
+    beneficiaries_import_error_importing: 'Erreur lors de l\'importation des données',
+    beneficiaries_import_beneficiaries_imported: ' bénéficiaires insérés',
+    beneficiaries_import_check_fields: 'Un champs est vide, s\'il vous plaît remplissez tous les champs et sélectionner un projet',
+
+    beneficiaries_added: 'Les bénéficiaires ont été ajouté au projet sélectionné',
+
+    data_verification_error: 'Erreur lors du parcours des données',
+
+    update_beneficiary_check_steps: 'Les données requises sont incomplètes ou invalides: s\'il vous plait vérifier toutes les étapes',
+    update_beneficiary_created_successfully: 'Créé avec succès !',
+    update_beneficiary_error_creating: 'Erreur lors de la création : ',
+    update_beneficiary_updated_successfully: 'Modifié avec succès !',
+    update_beneficiary_error_updated: 'Erreur lors de la modification : ',
+
+    add_distribution_check_date: 'Erreur lors de la sauvegarde de la date, vérifiez que le format est mm/dd/yyyy',
+    add_distribution_date_inside_project: 'Erreur lors de la création d\'une nouvelle distribution, la date de la distribution doit être comprise entre les dates du projet',
+    add_distribution_distribution: 'distribution : ',
+    add_distribution_created: ' a été créée',
+    add_distribution_error_creating: 'Erreur lors de la création de la nouvelle distribution',
+    add_distribution_check_fields: 'Remplissez les informations de la nouvelle distribution avant, incluant les commodités et le score minimum de sélection supérieur à 0.',
+
+    distribution_validated: 'La distribution a été validée',
+    distribution_not_validated: 'La distribution n\'a pas pu être validée',
+    distribution_no_right_validate: 'Vous n\'avez pas le droit nécessaire pour valider la distribution, demandez à votre responsable de projet',
+    distribution_no_valid_commodity: 'Aucune commodité valide detectée pour cette distribution.',
+    distribution_wrong_mail: 'Mauvais email',
+    distribution_no_right_transaction: 'Vous n\'avait pas le droit nécessaire pour réaliser la transaction, demandez à votre responsable de projet ou à votre responsable de pays',
+    distribution_beneficiary_added: 'Bénéficiaire ajouté',
+    distribution_beneficiary_not_added: 'Le bénéficiaire n\'a pas pu être ajouté',
+
+    import_distribution_updated: 'Distribution modifiée',
+    import_distribution_no_right_update: 'Vous n\'avez pas le droit nécessaire pour modifier la distribution, demandez à votre reponsable de projet',
+
+    settings_project_exists: 'Un projet avec le même nom existe déjà',
+    settings_created: ' créé(e)',
 };

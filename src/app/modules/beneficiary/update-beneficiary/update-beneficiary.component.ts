@@ -28,7 +28,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded {
 
     // Mode
-    public mode : string;
+    public mode: string;
     public validationLoading = false;
 
     // Translate
@@ -87,22 +87,29 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     ) { }
 
     ngOnInit() {
-        // Set right mode (update or create)
-        if(this.router.url.split('/')[2] === 'update-beneficiary') {
-            this.mode = 'update';
-        } else {
-            this.mode = 'create';
+        const voters = this._cacheService.get('user').voters;
+        if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
+            this.snackBar.open(this.Text.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
+            this.router.navigate(['']);
         }
+        else {
+            // Set right mode (update or create)
+            if (this.router.url.split('/')[2] === 'update-beneficiary') {
+                this.mode = 'update';
+            } else {
+                this.mode = 'create';
+            }
 
-        // Get lists
-        this.livelihoodsList = LIVELIHOOD;
-        this.getVulnerabilityCriteria();
-        // this.getCountryCodes();
-        this.getProvince();
-        this.getProjects();
+            // Get lists
+            this.livelihoodsList = LIVELIHOOD;
+            this.getVulnerabilityCriteria();
+            // this.getCountryCodes();
+            this.getProvince();
+            this.getProjects();
 
-        // Prefill
-        this.initiateHousehold();
+            // Prefill
+            this.initiateHousehold();
+        }
     }
 
     /**
@@ -111,7 +118,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     initiateHousehold() {
 
         this.updatedHousehold = {
-        // First set the format of a Household for Input Forms
+            // First set the format of a Household for Input Forms
             // id: 0,
             address_number: '',
             address_postcode: '',
@@ -147,7 +154,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
 
         // Get the selected household if the user is updating
-        if(this.mode === 'update') {
+        if (this.mode === 'update') {
             this.route.params.subscribe(
                 result => {
                     if (result['id']) {
@@ -177,17 +184,17 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         this.updatedHousehold.livelihood = this.livelihoodsList[this.originalHousehold.livelihood];
 
         // CountrySpecifics
-        if(this.originalHousehold.country_specific_answers) {
+        if (this.originalHousehold.country_specific_answers) {
             this.originalHousehold.country_specific_answers.forEach(
                 element => {
                     this.updatedHousehold.specificAnswers.push(
                         {
                             // Country Specific format for Form
-                            answer : element.answer,
-                            countryIso3 : element.country_specific.country_iso3,
-                            field_string : element.country_specific.field_string,
-                            id : element.country_specific.id,
-                            type : element.country_specific.type
+                            answer: element.answer,
+                            countryIso3: element.country_specific.country_iso3,
+                            field_string: element.country_specific.field_string,
+                            id: element.country_specific.id,
+                            type: element.country_specific.type
                         }
                     )
                 }
@@ -243,13 +250,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     formatDate(date: Date) {
         let pipedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
 
-        return(pipedDate);
+        return (pipedDate);
     }
 
     /**
      * Formats all the changes in the updatedHousehold object linked to the forms into a Household object readable by the Backend.
      */
-    formatHouseholdForApi() : any {
+    formatHouseholdForApi(): any {
 
         let finalHousehold = this.updatedHousehold;
 
@@ -270,7 +277,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             notes: '',
         }
 
-        if(this.nextValidation(0, null, true)) {
+        if (this.nextValidation(0, null, true)) {
 
             // Format address & basic fields
             dataHousehold.address_number = finalHousehold.address_number;
@@ -278,7 +285,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             dataHousehold.address_street = finalHousehold.address_street;
             dataHousehold.livelihood = this.livelihoodsList.indexOf(finalHousehold.livelihood);
             dataHousehold.notes = finalHousehold.notes;
-                // dataHousehold.id = finalHousehold.id;
+            // dataHousehold.id = finalHousehold.id;
 
             // Beneficiaries
             finalBeneficiaries.forEach(
@@ -300,52 +307,52 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     beneficiary.date_of_birth = this.formatDate(element.birth_date);
                     beneficiary.family_name = element.family_name;
 
-                    if(element.gender === 'F') {
+                    if (element.gender === 'F') {
                         beneficiary.gender = 0;
-                    } else if(element.gender === 'M') {
+                    } else if (element.gender === 'M') {
                         beneficiary.gender = 1;
                     }
 
                     beneficiary.given_name = element.given_name;
 
-                    if(element.id) {
+                    if (element.id) {
                         beneficiary['id'] = element.id;
                     }
 
-                    if(finalBeneficiaries.indexOf(element) === 0) {
+                    if (finalBeneficiaries.indexOf(element) === 0) {
                         beneficiary.status = 1;
                     } else {
                         beneficiary.status = 0;
                     }
 
-                    if(element.national_id.number && element.national_id.type)
-                    beneficiary.national_ids.push(
-                        {
-                            id: undefined,
-                            id_number: element.national_id.number,
-                            id_type: element.national_id.type,
-                        }
-                    )
-                    if(element.phone.number && element.phone.type)
-                    beneficiary.phones.push(
-                        {
-                            id: undefined,
-                            number: element.phone.number,
-                            type: element.phone.type,
-                            proxy: element.phone.proxy
-                        }
-                    )
-                    if(this.originalHousehold)
-                    this.originalHousehold.beneficiaries.forEach(
-                        element => {
-                            if( beneficiary['id'] && element.id === beneficiary['id']) {
-                                beneficiary.profile = element.profile;
+                    if (element.national_id.number && element.national_id.type)
+                        beneficiary.national_ids.push(
+                            {
+                                id: undefined,
+                                id_number: element.national_id.number,
+                                id_type: element.national_id.type,
                             }
-                        }
-                    )
+                        )
+                    if (element.phone.number && element.phone.type)
+                        beneficiary.phones.push(
+                            {
+                                id: undefined,
+                                number: element.phone.number,
+                                type: element.phone.type,
+                                proxy: element.phone.proxy
+                            }
+                        )
+                    if (this.originalHousehold)
+                        this.originalHousehold.beneficiaries.forEach(
+                            element => {
+                                if (beneficiary['id'] && element.id === beneficiary['id']) {
+                                    beneficiary.profile = element.profile;
+                                }
+                            }
+                        )
                     element.vulnerabilities.forEach(
                         (vulnerability, index) => {
-                            if(vulnerability === true) {
+                            if (vulnerability === true) {
                                 beneficiary.vulnerability_criteria.push(
                                     {
                                         id: this.vulnerabilityList[index].id_field,
@@ -365,13 +372,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             let copyAdm3 = undefined;
             let copyAdm4 = undefined;
 
-            if(finalHousehold.location.adm2) {
+            if (finalHousehold.location.adm2) {
                 copyAdm2 = finalHousehold.location.adm2.split(' - ')[1];
             }
-            if(finalHousehold.location.adm3) {
+            if (finalHousehold.location.adm3) {
                 copyAdm3 = finalHousehold.location.adm3.split(' - ')[1];
             }
-            if(finalHousehold.location.adm4) {
+            if (finalHousehold.location.adm4) {
                 copyAdm4 = finalHousehold.location.adm4.split(' - ')[1];
             }
 
@@ -402,12 +409,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     );
                 }
             );
-            return(dataHousehold);
+            return (dataHousehold);
         }
         else {
             // Minimum data not filled -> Error !
-            this.snackBar.open('Required data incomplete or unvalid: please check all steps', '', {duration: 3000, horizontalPosition: 'center' });
-            return(undefined);
+            this.snackBar.open(this.Text.update_beneficiary_check_steps, '', { duration: 3000, horizontalPosition: 'center' });
+            return (undefined);
         }
 
     }
@@ -452,7 +459,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         if (beneficiary && beneficiary.date_of_birth) {
             let benefDate = beneficiary.date_of_birth.split('-');
-            formatedBeneficiary.birth_date = new Date(benefDate[0], benefDate[1]-1, benefDate[2], 0, 0);
+            formatedBeneficiary.birth_date = new Date(benefDate[0], benefDate[1] - 1, benefDate[2], 0, 0);
         }
 
         if (beneficiary && beneficiary.national_ids[0]) {
@@ -489,7 +496,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * @param index
      */
     removeBeneficiary(index: number) {
-        if(index < this.updatedHousehold.beneficiaries.length) {
+        if (index < this.updatedHousehold.beneficiaries.length) {
             this.updatedHousehold.beneficiaries.splice(index, 1);
         }
     }
@@ -498,7 +505,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Get child locations again list when an adm is selected.
      */
     reloadLocation(adm: number) {
-        switch(adm) {
+        switch (adm) {
             case 1: this.getDistrict(this.updatedHousehold.location.adm1);
                 break;
             case 2: this.getCommune(this.updatedHousehold.location.adm2);
@@ -527,28 +534,28 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         let selectedProjectsIds = new Array<string>();
         this.updatedHousehold.projects.forEach(
             project => {
-                selectedProjectsIds.push( project.split(' - ')[0]);
+                selectedProjectsIds.push(project.split(' - ')[0]);
             }
         );
-        if(body) {
+        if (body) {
             this.validationLoading = true;
             this._householdsService.add(body, selectedProjectsIds).toPromise()
-            .then(
-                success => {
-                    if(success) {
-                        this.snackBar.open('Created successfuly !', '', {duration: 3000, horizontalPosition: 'center'});
-                        this.leave();
-                    } else {
+                .then(
+                    success => {
+                        if (success) {
+                            this.snackBar.open(this.Text.update_beneficiary_created_successfully, '', { duration: 3000, horizontalPosition: 'center' });
+                            this.leave();
+                        } else {
+                            this.validationLoading = false;
+                        }
+                    }
+                )
+                .catch(
+                    error => {
+                        this.snackBar.open(this.Text.update_beneficiary_error_creating + error, '', { duration: 3000, horizontalPosition: 'center' });
                         this.validationLoading = false;
                     }
-                }
-            )
-            .catch(
-                error => {
-                    this.snackBar.open('Error while creating : ' + error, '', {duration: 3000, horizontalPosition: 'center'});
-                    this.validationLoading = false;
-                }
-            )
+                )
         }
     }
 
@@ -560,28 +567,28 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         let selectedProjectsIds = new Array<string>();
         this.updatedHousehold.projects.forEach(
             project => {
-                selectedProjectsIds.push( project.split(' - ')[0]);
+                selectedProjectsIds.push(project.split(' - ')[0]);
             }
         );
-        if(body) {
+        if (body) {
             this.validationLoading = true;
             this._householdsService.edit(this.updateId, body, selectedProjectsIds).toPromise()
-            .then(
-                success => {
-                    if(success) {
-                        this.snackBar.open('Updated successfuly !', '', {duration: 3000, horizontalPosition: 'center'});
-                        this.leave();
-                    } else {
+                .then(
+                    success => {
+                        if (success) {
+                            this.snackBar.open(this.Text.update_beneficiary_updated_successfully, '', { duration: 3000, horizontalPosition: 'center' });
+                            this.leave();
+                        } else {
+                            this.validationLoading = false;
+                        }
+                    }
+                )
+                .catch(
+                    error => {
+                        this.snackBar.open(this.Text.update_beneficiary_error_updated + error, '', { duration: 3000, horizontalPosition: 'center' });
                         this.validationLoading = false;
                     }
-                }
-            )
-            .catch(
-                error => {
-                    this.snackBar.open('Error while updating : ' + error, '', {duration: 3000, horizontalPosition: 'center'});
-                    this.validationLoading = false;
-                }
-            )
+                )
         }
     }
 
@@ -589,17 +596,17 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Verify the needed forms before going next step : Blocks if any error (empty/bad type/format).
      * TODO : bind stepper steps in order to control navigation.
      */
-    nextValidation(step: number, stepper: MatStepper, final?: boolean) : boolean {
+    nextValidation(step: number, stepper: MatStepper, final?: boolean): boolean {
         let validSteps = 0;
-        let message =  '';
-        if(!final) {
+        let message = '';
+        if (!final) {
             final = false;
         }
 
         if (step === 1 || final) {
             let hh = this.updatedHousehold;
 
-            if(!hh.location.adm1) {
+            if (!hh.location.adm1) {
                 message = 'You must select a location';
             } else if (!hh.projects[0]) {
                 message = 'You must select at least one project';
@@ -614,23 +621,23 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             } else if (hh.livelihood && !this.elementExists(hh.livelihood, this.livelihoodsList)) {
                 message = 'Please select an existing livelihood from the list';
             } else {
-                final? validSteps++ : stepper.next();
+                final ? validSteps++ : stepper.next();
             }
         }
         if (step === 2 || final) {
             let head = this.updatedHousehold.beneficiaries[0];
 
-            if(!head.family_name) {
+            if (!head.family_name) {
                 message = 'You must enter a family name';
             } else if (!head.given_name) {
                 message = 'You must enter a given name';
             } else if (!head.gender) {
                 message = 'You must select a gender';
-            } else if (head.phone.number && isNaN(Number(head.phone.number)))  {
+            } else if (head.phone.number && isNaN(Number(head.phone.number))) {
                 message = 'Phone can only be composed by digits';
-            } else if(!head.phone.number || head.phone.number === '') {
-                message = 'Please insert the head phone number';            
-            } 
+            } else if (!head.phone.number || head.phone.number === '') {
+                message = 'Please insert the head phone number';
+            }
             // else if (head.phone.number && head.phone.code && !this.elementExists(head.phone.code, this.countryCodesList)) {
             //     message = 'Please select an existing country code from the list';
             // } else if((head.phone.number && !head.phone.code) || (head.phone.number && head.phone.code === '')) {
@@ -639,7 +646,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             else if (head.birth_date && head.birth_date.getTime() > (new Date()).getTime()) {
                 message = 'Please select a valid birth date';
             } else {
-                final? validSteps++ : stepper.next();
+                final ? validSteps++ : stepper.next();
             }
         }
         if (step === 3 || final) {
@@ -647,17 +654,17 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             let gotError = false;
             let members = this.updatedHousehold.beneficiaries;
 
-            for(let i=1; i<members.length && !gotError; i++) {
+            for (let i = 1; i < members.length && !gotError; i++) {
                 gotError = true;
-                if(!members[i].family_name) {
+                if (!members[i].family_name) {
                     message = 'You must enter a family name for member ' + i;
-                } else if(!members[i].given_name) {
+                } else if (!members[i].given_name) {
                     message = 'You must enter a given name for member ' + i;
-                } else if(!members[i].gender) {
+                } else if (!members[i].gender) {
                     message = 'You must select a gender for member ' + i;
-                } else if (members[i].phone.number && isNaN(Number(members[i].phone.number)))  {
+                } else if (members[i].phone.number && isNaN(Number(members[i].phone.number))) {
                     message = 'Phone can only be composed by digits for member ' + i;
-                } 
+                }
                 // else if (members[i].phone.number && members[i].phone.code && !this.elementExists(members[i].phone.code, this.countryCodesList)) {
                 //     message = 'Please select an existing country code from the list for member ' + i;
                 // } else if((members[i].phone.number && !members[i].phone.code) || (members[i].phone.number && members[i].phone.code === '')) {
@@ -670,18 +677,18 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     counter++;
                 }
             }
-            if(counter === members.length) {
-                final? validSteps++ : stepper.next();
+            if (counter === members.length) {
+                final ? validSteps++ : stepper.next();
             }
         }
 
-        if(final) {
-            return (validSteps === 3) ;
+        if (final) {
+            return (validSteps === 3);
         } else if (message !== '') {
-            this.snackBar.open(message, '', {duration: 3000, horizontalPosition: 'center'});
+            this.snackBar.open(message, '', { duration: 3000, horizontalPosition: 'center' });
         }
 
-        return(false);
+        return (false);
     }
 
     /**
@@ -712,22 +719,22 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Creates a string to display the full location
      */
     getFullLocation() {
-        let fullLocation : string;
+        let fullLocation: string;
         let actualLocation = this.updatedHousehold.location;
 
-        if(actualLocation.adm1) {
+        if (actualLocation.adm1) {
             fullLocation = actualLocation.adm1.split('-')[1];
         }
-        if(actualLocation.adm2) {
+        if (actualLocation.adm2) {
             fullLocation += ', ' + actualLocation.adm2.split('-')[1];
         }
-        if(actualLocation.adm3) {
+        if (actualLocation.adm3) {
             fullLocation += ', ' + actualLocation.adm3.split('-')[1];
         }
-        if(actualLocation.adm4) {
+        if (actualLocation.adm4) {
             fullLocation += ', ' + actualLocation.adm4.split('-')[1];
         }
-        return(fullLocation);
+        return (fullLocation);
     }
 
     /**
@@ -845,7 +852,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 responseCountrySpecifics.forEach(element => {
                     this.countrySpecificsList.push(
                         {
-                            answer:'',
+                            answer: '',
                             countryIso3: this.countryISO3,
                             field_string: element.field,
                             id: element.id,
@@ -886,17 +893,17 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * @param element
      * @param array
      */
-    elementExists(element: any, array: any[]) : boolean {
+    elementExists(element: any, array: any[]): boolean {
         let exists = false;
 
         array.forEach(
             instance => {
-                if(instance === element) {
+                if (instance === element) {
                     exists = true;
                 }
             }
         )
 
-        return(exists);
+        return (exists);
     }
 }

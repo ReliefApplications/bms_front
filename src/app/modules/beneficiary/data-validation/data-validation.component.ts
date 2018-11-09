@@ -5,6 +5,8 @@ import { MatSnackBar, MatStepper } from '@angular/material';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { VerifiedData, FormatDuplicatesData, FormatMore, FormatLess } from '../../../model/data-validation';
 import { GlobalText } from '../../../../texts/global';
+import { CacheService } from 'src/app/core/storage/cache.service';
+import { Router } from '@angular/router';
 
 
 
@@ -45,12 +47,21 @@ export class DataValidationComponent implements OnInit {
         public _importService: ImportService,
         public _householdsService: HouseholdsService,
         public snackBar: MatSnackBar,
+        private _cacheService: CacheService,
+        private router: Router
     ) {
 
     }
 
     ngOnInit() {
-        this.getData();
+        const voters = this._cacheService.get('user').voters;
+        if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
+            this.snackBar.open(this.verification.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
+            this.router.navigate(['']);
+        }
+        else {
+            this.getData();
+        }
     }
 
     /**
@@ -296,7 +307,7 @@ export class DataValidationComponent implements OnInit {
      * @param idBeneficiary number
      * @param idOld number
      */
-    step4Less(idBeneficiary: number, idOld: number, idCache : number) {
+    step4Less(idBeneficiary: number, idOld: number, idCache: number) {
         let beneficiaryToAdd = new FormatLess;
         let householdFind = false;
         let beneficiaryFind = false;
@@ -365,7 +376,7 @@ export class DataValidationComponent implements OnInit {
 
             });
         }
-        
+
         if (this.step === 1 && this.typoIssues.length != length) {
             this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected, '', { duration: 3000, horizontalPosition: 'center' });
         } else if (this.step === 2 && this.duplicates.length != length) {
@@ -391,7 +402,7 @@ export class DataValidationComponent implements OnInit {
                 this.getData();
             }, () => {
                 this.load = false;
-                this.snackBar.open('Error processing data ', '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.verification.data_verification_error, '', { duration: 3000, horizontalPosition: 'center' });
             });
 
         }

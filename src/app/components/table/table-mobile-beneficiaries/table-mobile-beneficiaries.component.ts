@@ -13,6 +13,8 @@ import { tap } from 'rxjs/operators';
 })
 export class TableMobileBeneficiariesComponent extends TableBeneficiariesComponent {
 
+    @Output() selectedAdm = new EventEmitter<any>();
+
     ngAfterViewInit() {
         this.paginator.page
             .pipe(
@@ -49,5 +51,26 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
             }
             this._timeout = null;
         }, 1000);
+    }
+
+    selected(index) {
+        if (index == 'adm1') {
+            if (this.newObject.adm1 == null)
+                return;
+        }
+        else if (index == 'adm2') {
+            if (this.newObject.adm2 == null)
+                return;
+        }
+        else if (index == 'adm3') {
+            if (this.newObject.adm3 == null)
+                return;
+        }
+        else if (index == 'adm4') {
+            if (this.newObject.adm4 == null)
+                return;
+        }
+
+        this.selectedAdm.emit({ index: index, object: this.newObject });
     }
 }

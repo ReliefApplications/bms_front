@@ -21,6 +21,7 @@ import { DistributionData } from '../../model/distribution-data';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
 import { DistributionService } from '../../core/api/distribution.service';
+import { LocationService } from 'src/app/core/api/location.service';
 
 @Component({
     selector: 'app-table',
@@ -83,6 +84,7 @@ export class TableComponent implements OnChanges, DoCheck {
         public authenticationService: AuthenticationService,
         public _wsseService: WsseService,
         public distributionService: DistributionService,
+        public locationService: LocationService
     ) { }
 
     ngOnChanges() {
@@ -264,33 +266,49 @@ export class TableComponent implements OnChanges, DoCheck {
         });
     }
 
-    applyFilter(filterValue: any, category?: string): void {
-        if (category) {
-            if (category == 'familyName') {
-                if (filterValue.length != 0 || filterValue != "") {
-                    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-                    filterValue = filterValue.split(', ');
-                }
-            }
+    applyFilter(filterValue: any, category?: string, suppress?: boolean): void {
 
+        if (suppress) {
             const index = this.data.filter.findIndex(function (value) {
                 return value.category == category;
             });
 
-            if (index >= 0)
-                if (filterValue.length == 0 || filterValue == "")
-                    this.data.filter.splice(index, 1);
-                else
-                    this.data.filter[index] = { filter: filterValue, category: category };
-            else {
-                if (filterValue.length != 0 || filterValue != "")
-                    this.data.filter.push({ filter: filterValue, category: category });
-            }
+            this.data.filter.splice(index, 1);
         }
         else {
-            filterValue = filterValue.trim(); // Remove whitespace
-            filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-            this.data.filter = filterValue;
+            if (filterValue) {
+                if (category) {
+                    if (category == 'familyName') {
+                        if (filterValue.length != 0 || filterValue != "") {
+                            filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+                            filterValue = filterValue.split(', ');
+                        }
+                    }
+
+                    if (category == 'locations') {
+                        filterValue = filterValue.name;
+                    }
+
+                    const index = this.data.filter.findIndex(function (value) {
+                        return value.category == category;
+                    });
+
+                    if (index >= 0)
+                        if (filterValue.length == 0 || filterValue == "")
+                            this.data.filter.splice(index, 1);
+                        else
+                            this.data.filter[index] = { filter: filterValue, category: category };
+                    else
+                        if (filterValue.length != 0 || filterValue != "")
+                            this.data.filter.push({ filter: filterValue, category: category });
+
+                }
+                else {
+                    filterValue = filterValue.trim(); // Remove whitespace
+                    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+                    this.data.filter = filterValue;
+                }
+            }
         }
     }
 

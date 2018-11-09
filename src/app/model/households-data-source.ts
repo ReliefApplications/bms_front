@@ -12,7 +12,10 @@ export class HouseholdsDataSource implements DataSource<Households> {
     public filter;
     public length$ = this.lengthSubject.asObservable();
     public loading$ = this.loadingSubject.asObservable();
-    public locations = new BehaviorSubject<any[]>([]);
+    public adm1 = new BehaviorSubject<any[]>(null);
+    public adm2 = new BehaviorSubject<any[]>(null);
+    public adm3 = new BehaviorSubject<any[]>(null);
+    public adm4 = new BehaviorSubject<any[]>(null);
     public projects = new BehaviorSubject<any[]>([]);
     public vulnerabilities = new BehaviorSubject<any[]>([]);
 

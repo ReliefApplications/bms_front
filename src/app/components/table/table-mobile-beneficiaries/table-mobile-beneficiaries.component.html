@@ -6,33 +6,40 @@
       No data available
     </h3>
   </div>
-  
+
   <div class="container-header" *ngIf="filled">
     <mat-form-field>
       <input matInput (keyup)="applyFilter($event.target.value, 'familyName'); sendSortedData()" placeholder="{{table.table_filter}}">
     </mat-form-field>
 
     <div class="filter-combo">
-      <div>
-        <ng-select class="input-filter" bindLabel="name" [items]="data.projects.value" [multiple]="true" placeholder="Projects"
-          [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
-        </ng-select>
-      </div>
+      <ng-select class="input-filter" bindLabel="name" [items]="data.projects.value" [multiple]="true" placeholder="Projects"
+        [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
+      </ng-select>
 
-      <div>
-        <ng-select class="input-filter" bindLabel="name" [items]="data.locations.value" [multiple]="true" placeholder="Locations"
-          [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'locations'); sendSortedData()">
-        </ng-select>
-      </div>
+      <ng-select class="input-filter" bindLabel="name" [items]="data.adm1.value" [closeOnSelect]="false" [searchable]="true"
+        placeholder="{{mapperObject['adm1']}}" (clear)="applyFilter($event, 'locations', true)" [(ngModel)]="newObject['adm1']"
+        (change)="selected('adm1'); applyFilter($event, 'locations'); sendSortedData()">
+      </ng-select>
 
-      <div>
-        <ng-select class="input-filter" bindLabel="name" [items]="data.vulnerabilities.value" [multiple]="true" placeholder="Vulnerabilities"
-          [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
-        </ng-select>
-      </div>
+      <ng-select class="input-filter" bindLabel="name" [items]="data.adm2.value" [closeOnSelect]="false" [searchable]="true"
+        placeholder="{{mapperObject['adm2']}}" [(ngModel)]="newObject['adm2']" (change)="selected('adm2'); applyFilter($event, 'locations', false); sendSortedData()">
+      </ng-select>
+
+      <ng-select class="input-filter" bindLabel="name" [items]="data.adm3.value" [closeOnSelect]="false" [searchable]="true"
+        placeholder="{{mapperObject['adm3']}}" [(ngModel)]="newObject['adm3']" (change)="selected('adm3'); applyFilter($event, 'locations'); sendSortedData()">
+      </ng-select>
+
+      <ng-select class="input-filter" bindLabel="name" [items]="data.adm4.value" [closeOnSelect]="false" [searchable]="true"
+        placeholder="{{mapperObject['adm4']}}" [(ngModel)]="newObject['adm4']" (change)="selected('adm4'); applyFilter($event, 'locations'); sendSortedData()">
+      </ng-select>
+
+      <ng-select class="input-filter" bindLabel="name" [items]="data.vulnerabilities.value" [multiple]="true"
+        placeholder="Vulnerabilities" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
+      </ng-select>
     </div>
   </div>
-  
+
   <div *ngIf="filled && !testLoading">
     <table *ngFor="let element of data.householdsSubject.value" class="box-element">
       <tbody>
@@ -57,7 +64,8 @@
         <button mat-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
           <mat-icon inline=true>search</mat-icon>
         </button>
-        <button mat-button *ngIf="editable && checkEntityUpdateRights()" (click)="openDialog('update', element); $event.stopPropagation()" class="light-red">
+        <button mat-button *ngIf="editable && checkEntityUpdateRights()" (click)="openDialog('update', element); $event.stopPropagation()"
+          class="light-red">
           <mat-icon inline=true>edit</mat-icon>
         </button>
         <button mat-button *ngIf="editable" (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
@@ -71,5 +79,6 @@
       <mat-spinner></mat-spinner>
     </div>
   </div>
-  <mat-paginator *ngIf="filled" [length]="data.length$ | async" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+  <mat-paginator *ngIf="filled" [length]="data.length$ | async" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10"
+    showFirstLastButtons></mat-paginator>
 </div>

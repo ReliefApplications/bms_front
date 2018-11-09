@@ -13,23 +13,29 @@
     </mat-form-field>
 
     <div class="filter-combo">
-      <div>
-        <ng-select class="input-filter" bindLabel="name" [items]="data.projects.value" [multiple]="true" placeholder="Projects"
-          [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
-        </ng-select>
-      </div>
+      <ng-select class="input-filter" bindLabel="name" [items]="data.projects.value" [multiple]="true" placeholder="Projects"
+        [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
+      </ng-select>
 
-      <div>
-        <ng-select class="input-filter" bindLabel="name" [items]="data.locations.value" [multiple]="true" placeholder="Locations"
-          [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'locations'); sendSortedData()">
-        </ng-select>
-      </div>
+      <ng-select class="input-filter" bindLabel="name" [items]="data.adm1.value" [closeOnSelect]="false" [searchable]="true"
+        placeholder="{{mapperObject['adm1']}}" (clear)="applyFilter($event, 'locations', true)" [(ngModel)]="newObject['adm1']" (change)="selected('adm1'); applyFilter($event, 'locations'); sendSortedData()">
+      </ng-select>
 
-      <div>
-        <ng-select class="input-filter" bindLabel="name" [items]="data.vulnerabilities.value" [multiple]="true" placeholder="Vulnerabilities"
-          [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
-        </ng-select>
-      </div>
+      <ng-select class="input-filter" bindLabel="name" [items]="data.adm2.value" [closeOnSelect]="false" [searchable]="true"
+        placeholder="{{mapperObject['adm2']}}" [(ngModel)]="newObject['adm2']" (change)="selected('adm2'); applyFilter($event, 'locations', false); sendSortedData()">
+      </ng-select>
+
+      <ng-select class="input-filter" bindLabel="name" [items]="data.adm3.value" [closeOnSelect]="false" [searchable]="true"
+        placeholder="{{mapperObject['adm3']}}" [(ngModel)]="newObject['adm3']" (change)="selected('adm3'); applyFilter($event, 'locations'); sendSortedData()">
+      </ng-select>
+
+      <ng-select class="input-filter" bindLabel="name" [items]="data.adm4.value" [closeOnSelect]="false" [searchable]="true"
+        placeholder="{{mapperObject['adm4']}}" [(ngModel)]="newObject['adm4']" (change)="selected('adm4'); applyFilter($event, 'locations'); sendSortedData()">
+      </ng-select>
+
+      <ng-select class="input-filter" bindLabel="name" [items]="data.vulnerabilities.value" [multiple]="true"
+        placeholder="Vulnerabilities" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
+      </ng-select>
     </div>
   </div>
 

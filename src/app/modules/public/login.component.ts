@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+        GlobalText.resetMenuMargin();
         this.initLoginUser();
 	}
 
@@ -82,6 +83,7 @@ export class LoginComponent implements OnInit {
 			.then(
                 (user: User) => {
                 this.router.navigate(['/']);
+                GlobalText.changeLanguage();
 			})
 			.catch((error: ErrorInterface) => {
 				this.snackBar.open(error.message, '', { duration: 3000, horizontalPosition: "center" });

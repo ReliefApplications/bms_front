@@ -89,7 +89,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     ) { }
 
     ngOnInit() {
-        const voters = this._cacheService.get('user').voters;
+        const voters = this.cacheService.get('user').voters;
         if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER') {
             this.snackBar.open(this.distribution.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
             this.router.navigate(['']);

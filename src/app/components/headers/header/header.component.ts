@@ -40,6 +40,7 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.language = GlobalText.language;
     }
 
     /**

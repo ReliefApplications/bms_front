@@ -140,12 +140,12 @@ export class AppComponent {
 
     /**
      * Check if user is logged in and redirect if necessary.
-     * @param cachedUser 
      */
     checkLoggedUser(cachedUser) {
-        if(!this.user.loggedIn && this.currentComponent !== 'login') {
+        if(!cachedUser.loggedIn && this.currentComponent !== 'login') {
             this.router.navigate(['/login']);
-        } else if(this.user.loggedIn && this.currentComponent === 'login') {
+            GlobalText.resetMenuMargin();
+        } else if(cachedUser.loggedIn && this.currentComponent === 'login') {
             this.router.navigate(['/']);
         }
         

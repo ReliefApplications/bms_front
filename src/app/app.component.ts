@@ -40,34 +40,11 @@ export class AppComponent {
 
     ngOnInit() {
         this.checkSize();
-        this.checkUser();
-    }
-
-    ngDoCheck() {
-        if(this.user.loggedIn && this.currentComponent === 'login') {
-            this.router.navigate(['/login']);
-        } 
-        else if(!this.user.loggedIn && this.currentComponent !== 'login') {
-            this.router.navigate(['/']);
-        }
     }
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
         this.checkSize();
-    }
-
-    checkUser() {
-        this._authenticationService.getUser()
-        .subscribe(
-            result => {
-                this.user = result;
-            }
-        )
-    }
-
-    test() {
-        console.log('###############');
     }
 
     change() {
@@ -121,8 +98,11 @@ export class AppComponent {
     }
 
     onLogOut(e): void {
-        this.user.loggedIn = false;
-        this._authenticationService.logout();
+        this._authenticationService.logout().subscribe(
+            disconnectedUser => {
+                this.user = disconnectedUser;
+            }   
+        );
     }
 
     clickOnTopMenu(e): void {
@@ -133,15 +113,49 @@ export class AppComponent {
      * get the name of the current page component (if it exists)
      * @param e
      */
-    onActivate(e) {
+    onActivate(event) {
+        // Update the new component name.
+        this.refreshCurrentComponent(event);
+        // Verify the user.
+        this._authenticationService.getUser().subscribe(
+            user => { 
+                this.user = user;
+                this.checkLoggedUser(user);
+                this.checkPermission(user);
+            }
+        )        
+    }
+
+    /**
+     * Changes the name of the new component to actualize menu etc.
+     */
+    refreshCurrentComponent(e) {
+        // console.log('changed : ', e.nameComponent);
+
         if (!e.nameComponent || e.nameComponent === 'project_title' || e.nameComponent === 'beneficiaries_title'
             || e.nameComponent === 'report_title' || e.nameComponent === 'settings_title' || e.nameComponent === 'login') {
             this.currentComponent = e.nameComponent;
         }
     }
 
+    /**
+     * Check if user is logged in and redirect if necessary.
+     * @param cachedUser 
+     */
+    checkLoggedUser(cachedUser) {
+        if(!this.user.loggedIn && this.currentComponent !== 'login') {
+            this.router.navigate(['/login']);
+        } else if(this.user.loggedIn && this.currentComponent === 'login') {
+            this.router.navigate(['/']);
+        }
+        
+    }
+    
+    /**
+     *  Check again Permissions on each page navigation.
+     * @param cachedUser 
+     */
     checkPermission(cachedUser) {
-        //console.log('voters: ', cachedUser.voters);
         if(cachedUser && cachedUser.voters) {
             const voters = cachedUser.voters;
             if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_COUNTRY_MANAGER")

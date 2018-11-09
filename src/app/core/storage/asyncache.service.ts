@@ -52,8 +52,9 @@ export class AsyncacheService {
             return this.getAllDistributions().pipe(
                 map(
                     (result) => {
-                        //console.log('alldist: ', result);
-                        return result
+                        if(result) {
+                            return result;
+                        }
                     }
                 )
             );
@@ -111,6 +112,9 @@ export class AsyncacheService {
                                     )
                                 }
                             )
+                        } else {
+                            observer.next(null);
+                            observer.complete();
                         }
                     },
                     error => {
@@ -168,7 +172,15 @@ export class AsyncacheService {
         this.storage.removeItemSubscribe(key);
     }
 
-    clear(force : boolean = false) {
+    clear(force : boolean = true) {
+        if(force) {
+            return this.storage.clear();
+        } else {
+            // TODO: find optimal code to adapt database clearing with deletable test.
+        }
+    }
+
+    autoClear(force : boolean = true) {
         if(force) {
             this.storage.clearSubscribe();
         } else {

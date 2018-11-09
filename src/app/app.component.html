@@ -39,7 +39,7 @@
             <app-header-mobile (emitLogOut)="onLogOut($event)" (emitCurrentRoute)="setCurrentRoute($event)"
                 (emitToggle)="sidenav.toggle()"></app-header-mobile>
         </mat-toolbar>
-        <router-outlet (activate)="onActivate($event)" (changedUser)='test()'></router-outlet>
+        <router-outlet (activate)="onActivate($event)"></router-outlet>
     </mat-sidenav-content>
 
 </mat-sidenav-container>

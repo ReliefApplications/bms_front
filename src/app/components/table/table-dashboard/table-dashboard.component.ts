@@ -11,7 +11,7 @@ const RECENT_DIST_LENGTH = 5;
 export class TableDashboardComponent extends TableComponent implements DoCheck {
 
   ngDoCheck() {
-    if (this.data.data.length > RECENT_DIST_LENGTH) {
+    if (this.data.data && this.data.data.length > RECENT_DIST_LENGTH) {
         this.data.data = this.data.data.slice(-RECENT_DIST_LENGTH);
     }
   }

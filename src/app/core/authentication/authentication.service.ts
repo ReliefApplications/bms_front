@@ -9,6 +9,7 @@ import { User, ErrorInterface } from '../../model/user';
 import { SaltInterface } from '../../model/salt';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { Observable, timer } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -75,10 +76,14 @@ export class AuthenticationService {
         });
     }
 
-    logout() {
+    logout() : Observable<User> {
         this.resetUser();
         this.user.loggedIn = false;
-        this._cacheService.clear();
+        return this._cacheService.clear().pipe(
+            map(
+                () => { return this.user }
+            )
+        );
     }
 
     getUser(): Observable<User> {

@@ -107,13 +107,8 @@ export class HttpService {
         }
         // If disconnected and item uncachable
         else {
-            return this.http.get(url, options).pipe(
-                map(
-                    () => {
-                        return([]);
-                    }
-                )
-            )
+            this.snackbar.open( 'This data can\'t be accessed offline', '', {duration:1000, horizontalPosition: 'center'});
+            return of([]);
         }
     }
 

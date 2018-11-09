@@ -336,7 +336,7 @@ export class DistributionData {
      * return a Project after formatting its properties for the property box
      */
     getMapperBox(selfinstance): Object {
-        if (!selfinstance) {
+        if (!selfinstance || !selfinstance.location || !selfinstance.commodities || !selfinstance.type || !selfinstance.distribution_beneficiaries) {
             return selfinstance;
         }
 

@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <table mat-table *ngIf="filled && !testLoading" [dataSource]="data" matSort>
+    <table mat-table *ngIf="filled && !testLoading && data.data" [dataSource]="data" matSort>
         <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
             <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="{'integered':propertiesTypes[property]=='number'}">
                 {{mapperService.mapTitle(property)}}</th>

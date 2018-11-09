@@ -1,5 +1,5 @@
 import { Injectable                                 } from '@angular/core';
-import { of                                         } from 'rxjs';
+import { of, concat                                         } from 'rxjs';
 
 import { URL_BMS_API                                } from '../../../environments/environment';
 
@@ -12,6 +12,8 @@ import { Sector                                     } from '../../model/sector';
 import { Beneficiaries                              } from '../../model/beneficiary';
 
 import { ExportService                              } from './export.service';
+import { map } from 'rxjs/operators';
+import { AsyncacheService } from '../storage/asyncache.service';
 
 
 @Injectable({
@@ -22,7 +24,8 @@ export class DistributionService {
 
     constructor(
         private http: HttpService,
-        private exportService: ExportService
+        private exportService: ExportService,
+        private asyncache: AsyncacheService
     ) {
     }
 

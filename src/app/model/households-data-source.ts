@@ -15,7 +15,7 @@ export class HouseholdsDataSource implements DataSource<Households> {
 
     constructor(private householdsService: HouseholdsService) {
         this.filter = {
-            filter : '',
+            filter: '',
             filtered: 'familyName'
         }
     }
@@ -30,28 +30,32 @@ export class HouseholdsDataSource implements DataSource<Households> {
     }
 
     loadHouseholds(
-      filter = {},
-      sort = {sort: 'familyName', direction: 'asc'},
-      pageIndex = 0,
-      pageSize = 50
+        filter = {},
+        sort = { sort: 'familyName', direction: 'asc' },
+        pageIndex = 0,
+        pageSize = 50
     ) {
         this.loadingSubject.next(true);
         this.householdsService.get(filter, sort, pageIndex, pageSize).pipe(
             catchError(() => of([])),
             finalize(() => this.loadingSubject.next(false))
         )
-        .subscribe(response => {
-          let households = Households.formatArray(response[1]);
-          this.householdsSubject.next(households);
-          this.lengthSubject.next(response[0]);
-        });
+            .subscribe(response => {
+                let households = [];
+                if(response) {
+                    households = Households.formatArray(response[1]);
+                    this.householdsSubject.next(households);
+                    this.lengthSubject.next(response[0]);
+                }
+                
+            });
     }
 
-    setFiltered(filtered : String) {
+    setFiltered(filtered: String) {
         this.filter.filtered = filtered;
     }
 
-    setFilter(filter : String) {
+    setFilter(filter: String) {
         this.filter.filter = filter;
     }
 

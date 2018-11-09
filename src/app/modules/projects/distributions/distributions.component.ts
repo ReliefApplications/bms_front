@@ -134,15 +134,28 @@ export class DistributionsComponent implements OnInit {
             .subscribe(
                 result => { // Get from Back
                     this.actualDistribution = result;
-                    // console.log('Got distribution from back :', this.actualDistribution);
-
+                    if(!this.actualDistribution) {
+                        // console.log('fail');
+                        // // Particular case to search in cache distribution list if there is no api response.
+                        // this.cacheService.get(AsyncacheService.DISTRIBUTIONS)
+                        // .subscribe(
+                        //     (result: any[]) => {
+                        //         if(result) {
+                        //             result.forEach( element => {
+                        //                 if(element.id === this.distributionId) {
+                        //                     this.actualDistribution = element;
+                        //                 }
+                        //             });
+                        //         }
+                        //     }
+                        // );
+                    }
                     if (this.actualDistribution.validated) {
                         this.getDistributionBeneficiaries('transaction');
                     }
                     this.loadingDistribution = false;
                 },
                 error => {
-                    //
                 }
             );
     }

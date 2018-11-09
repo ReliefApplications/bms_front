@@ -15,8 +15,6 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class LoginComponent implements OnInit {
 
-    @Output() changedUser : EventEmitter<boolean> = new EventEmitter();
-
 	public nameComponent = GlobalText.TEXTS.login_title;
 	public login = GlobalText.TEXTS;
     private authUser$ : Subscription;
@@ -47,7 +45,7 @@ export class LoginComponent implements OnInit {
                 if(this.user) {
                     this.user.username = "tester";
                     this.user.password = "tester";
-                    console.log('initialised user --', this.user);
+                    // console.log('initialised user --', this.user);
                 } else {
                     this.blankUser();
                 }
@@ -58,6 +56,9 @@ export class LoginComponent implements OnInit {
         );
     }
 
+    /**
+     * Reset the user to empty.
+     */
     blankUser() {
         this.user = new User();
         this.user.username = '';
@@ -73,12 +74,14 @@ export class LoginComponent implements OnInit {
 		}
 	}
 
+    /**
+     * When the user hits login
+     */
 	loginAction(): void {
 		this._authService.login(this.user)
 			.then(
                 (user: User) => {
-                console.log('login!!!');
-                this.changedUser.emit(user.loggedIn);
+                this.router.navigate(['/']);
 			})
 			.catch((error: ErrorInterface) => {
 				this.snackBar.open(error.message, '', { duration: 3000, horizontalPosition: "center" });

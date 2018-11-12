@@ -87,29 +87,22 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     ) { }
 
     ngOnInit() {
-        const voters = this._cacheService.get('user').voters;
-        if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
-            this.snackBar.open(this.Text.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
-            this.router.navigate(['']);
+        // Set right mode (update or create)
+        if (this.router.url.split('/')[2] === 'update-beneficiary') {
+            this.mode = 'update';
+        } else {
+            this.mode = 'create';
         }
-        else {
-            // Set right mode (update or create)
-            if (this.router.url.split('/')[2] === 'update-beneficiary') {
-                this.mode = 'update';
-            } else {
-                this.mode = 'create';
-            }
 
-            // Get lists
-            this.livelihoodsList = LIVELIHOOD;
-            this.getVulnerabilityCriteria();
-            // this.getCountryCodes();
-            this.getProvince();
-            this.getProjects();
+        // Get lists
+        this.livelihoodsList = LIVELIHOOD;
+        this.getVulnerabilityCriteria();
+        // this.getCountryCodes();
+        this.getProvince();
+        this.getProjects();
 
-            // Prefill
-            this.initiateHousehold();
-        }
+        // Prefill
+        this.initiateHousehold();
     }
 
     /**

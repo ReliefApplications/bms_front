@@ -89,24 +89,17 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     ) { }
 
     ngOnInit() {
-        const voters = this.cacheService.get('user').voters;
-        if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER') {
-            this.snackBar.open(this.distribution.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
-            this.router.navigate(['']);
-        }
-        else {
-            this.loadingCreation = false;
-            this.newObject = Object.create(this.entity.prototype);
-            this.newObject.constructor.apply(this.newObject);
-            this.mapperObject = this.mapper.findMapperObject(this.entity);
-            this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
-            this.propertiesTypes = this.newObject.getTypeProperties(this.newObject);
-            this.checkSize();
-            this.getQueryParameter();
-            this.loadProvince();
-            this.newObject.type = 'Household';
-            this.getProjectDates();
-        }
+        this.loadingCreation = false;
+        this.newObject = Object.create(this.entity.prototype);
+        this.newObject.constructor.apply(this.newObject);
+        this.mapperObject = this.mapper.findMapperObject(this.entity);
+        this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
+        this.propertiesTypes = this.newObject.getTypeProperties(this.newObject);
+        this.checkSize();
+        this.getQueryParameter();
+        this.loadProvince();
+        this.newObject.type = 'Household';
+        this.getProjectDates();
     }
 
     /**

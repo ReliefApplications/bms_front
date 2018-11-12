@@ -7,7 +7,7 @@
     <div class="container-profile">
       <form class="profile-field" [formGroup]="profileForm" (ngSubmit)="onProfileFormSubmit()">
         <h2> {{ profilePage.profile_user_information | uppercase }} </h2>
-        <mat-form-field>
+        <mat-form-field *ngIf='actualUser && actualUser.email'>
           <input matInput placeholder={{actualUser.email}} formControlName="email" [disabled]="true">
         </mat-form-field>
 

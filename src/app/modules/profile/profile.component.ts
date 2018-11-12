@@ -17,6 +17,8 @@ import { MatSnackBar } from '@angular/material';
 export class ProfileComponent implements OnInit, DoCheck {
 
     profilePage = GlobalText.TEXTS;
+    nameComponent = 'profile_title';
+
     actualUser: User;
     profileForm = new FormGroup({
         email: new FormControl({ value: '', disabled: 'true' }),
@@ -46,10 +48,13 @@ export class ProfileComponent implements OnInit, DoCheck {
         this.authenticationService.getUser().subscribe(
             result => {
                 this.actualUser = result;
-                if(this.actualUser)
+                if(this.actualUser) {
                     this.profileForm.patchValue({
                         email: this.actualUser.username
                     });
+                } else {
+                    //...
+                }
             }
         );
 

@@ -23,7 +23,8 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 })
 export class DashboardComponent implements OnInit {
     public dashboard = GlobalText.TEXTS;
-
+    public nameComponent = 'dashboard_title';
+    
     referedClassToken = DistributionData;
     distributions: MatTableDataSource<DistributionData>;
 

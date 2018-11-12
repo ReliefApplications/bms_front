@@ -281,7 +281,7 @@ export class TableComponent implements OnChanges, DoCheck {
                     if (category == 'familyName') {
                         if (filterValue.length != 0 || filterValue != "") {
                             filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-                            filterValue = filterValue.split(', ');
+                            filterValue = filterValue.split(/[\s,]+/);
                         }
                     }
 

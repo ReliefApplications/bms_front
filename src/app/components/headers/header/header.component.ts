@@ -42,6 +42,11 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
     }
 
+    ngDoCheck() {
+        if (this.header !== GlobalText.TEXTS)
+            this.header = GlobalText.TEXTS;
+    }
+
     /**
      * Update the breadcrumb according to the current route
      */

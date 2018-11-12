@@ -41,7 +41,7 @@
                 </div>
                 <button mat-raised-button *ngIf="hasRightsDelete" class="selectingBeneficiaries button-background-primary"
                 (click)="addToProject(addBeneficiaries)" [matBadge]="dataSource.length$ | async">
-                    Add this list to a project
+                    {{household.beneficiaries_add_list}}
                 </button>
             </div>
             <div class="content-table">

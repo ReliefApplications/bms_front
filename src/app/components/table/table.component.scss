@@ -150,22 +150,22 @@ button{
   background-color: #424242;
 }
 
-.ng-select-focused.custom ::ng-deep {
+.ng-select-focused ::ng-deep {
   .ng-select-container::after {
       border-color: #424242;
       border-width: 2px;
   }
 }
 
-.ng-select-focused.custom ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
+.ng-select-focused ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
   color: #424242;
 }
 
-.ng-select-focused.custom ::ng-deep .ng-arrow {
+.ng-select-focused ::ng-deep .ng-arrow {
   color: #424242 !important;
 }
 
-.ng-select-opened.custom ::ng-deep .ng-option-selected {
-  color: #424242;
+.ng-select-opened ::ng-deep .ng-option-selected {
+  color: #424242 !important;
 }
     

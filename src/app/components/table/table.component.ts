@@ -309,6 +309,15 @@ export class TableComponent implements OnChanges, DoCheck {
                     this.data.filter = filterValue;
                 }
             }
+            else {
+                if (category && category == 'familyName') {
+                    const index = this.data.filter.findIndex(function (value) {
+                        return value.category == category;
+                    });
+
+                    this.data.filter.splice(index, 1);
+                }
+            }
         }
     }
 

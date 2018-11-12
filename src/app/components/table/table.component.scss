@@ -145,3 +145,27 @@ button{
         align-items: center;
     }
 }
+
+.ng-select.custom ::ng-deep .ng-select-container .ng-value-container .ng-value {
+  background-color: #424242;
+}
+
+.ng-select-focused.custom ::ng-deep {
+  .ng-select-container::after {
+      border-color: #424242;
+      border-width: 2px;
+  }
+}
+
+.ng-select-focused.custom ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
+  color: #424242;
+}
+
+.ng-select-focused.custom ::ng-deep .ng-arrow {
+  color: #424242 !important;
+}
+
+.ng-select-opened.custom ::ng-deep .ng-option-selected {
+  color: #424242;
+}
+    

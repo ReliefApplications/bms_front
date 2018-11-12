@@ -1,6 +1,5 @@
 export const TEXT = {
     dashboard_distribution_map : 'خريطة التوزيع',
-    dashboard_country_program : 'برامج كمبودييا',
     dashboard_summary : 'ملخص',
     dashboard_summary_1 : 'مجموع المستفيدين',
     dashboard_summary_2 : 'المشاريع النشطة',

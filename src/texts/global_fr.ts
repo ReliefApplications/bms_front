@@ -1,6 +1,5 @@
 export const TEXT = {
     dashboard_distribution_map : 'repartition des distributions',
-    dashboard_country_program : 'programmes au Cambodge',
     dashboard_summary : 'sommaire',
     dashboard_summary_1 : 'total de bénéficiaires',
     dashboard_summary_2 : 'projets en cours',

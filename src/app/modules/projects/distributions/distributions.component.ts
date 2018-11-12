@@ -292,7 +292,10 @@ export class DistributionsComponent implements OnInit {
         if (this.finalBeneficiaryData) {
             return Math.ceil((this.sampleSize / 100) * this.finalBeneficiaryData.data.length);
         } else {
-            return Math.ceil((this.sampleSize / 100) * this.initialBeneficiaryData.data.length);
+            if(this.initialBeneficiaryData)
+                return Math.ceil((this.sampleSize / 100) * this.initialBeneficiaryData.data.length);
+            else
+                return(1);
         }
 
     }
@@ -378,41 +381,43 @@ export class DistributionsComponent implements OnInit {
                                     )
                                 ).subscribe(
                                     success => {
-                                        this.transactionData.data.forEach(
-                                            (element, index) => {
-                                                //success.already_sent.push({ id:0 });
-                                                //success.sent.push({ id:0 });
-        
-                                                success.already_sent.forEach(
-                                                    beneficiary => {
-                                                        if (element.id === beneficiary.beneficiary.id) {
-                                                            this.transactionData.data[index].updateState('Already sent');
+                                        if(this.transactionData) {
+                                            this.transactionData.data.forEach(
+                                                (element, index) => {
+                                                    //success.already_sent.push({ id:0 });
+                                                    //success.sent.push({ id:0 });
+            
+                                                    success.already_sent.forEach(
+                                                        beneficiary => {
+                                                            if (element.id === beneficiary.beneficiary.id) {
+                                                                this.transactionData.data[index].updateState('Already sent');
+                                                            }
                                                         }
-                                                    }
-                                                )
-                                                success.failure.forEach(
-                                                    beneficiary => {
-                                                        if (element.id === beneficiary.beneficiary.id) {
-                                                            this.transactionData.data[index].updateState('Sending failed');
+                                                    )
+                                                    success.failure.forEach(
+                                                        beneficiary => {
+                                                            if (element.id === beneficiary.beneficiary.id) {
+                                                                this.transactionData.data[index].updateState('Sending failed');
+                                                            }
                                                         }
-                                                    }
-                                                )
-                                                success.no_mobile.forEach(
-                                                    beneficiary => {
-                                                        if (element.id === beneficiary.beneficiary.id) {
-                                                            this.transactionData.data[index].updateState('No phone');
+                                                    )
+                                                    success.no_mobile.forEach(
+                                                        beneficiary => {
+                                                            if (element.id === beneficiary.beneficiary.id) {
+                                                                this.transactionData.data[index].updateState('No phone');
+                                                            }
                                                         }
-                                                    }
-                                                )
-                                                success.sent.forEach(
-                                                    beneficiary => {
-                                                        if (element.id === beneficiary.beneficiary.id) {
-                                                            this.transactionData.data[index].updateState('Sent');
+                                                    )
+                                                    success.sent.forEach(
+                                                        beneficiary => {
+                                                            if (element.id === beneficiary.beneficiary.id) {
+                                                                this.transactionData.data[index].updateState('Sent');
+                                                            }
                                                         }
-                                                    }
-                                                )
-                                            }
-                                        );
+                                                    )
+                                                }
+                                            );
+                                        }
                                     }
                                 )
                         } else {

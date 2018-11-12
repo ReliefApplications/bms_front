@@ -46,7 +46,7 @@
                 </button>
             </tfoot>
         </table>
-        <div class="no-data-container" *ngIf="!this.data.data">
+        <div class="no-data-container" *ngIf="!this.data._data || !this.data._data.value">
             <div class="loadingContent">
                 <h4 class="no-data">
                     <mat-icon>cloud_off</mat-icon>

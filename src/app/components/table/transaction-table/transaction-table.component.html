@@ -12,7 +12,7 @@
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
         </mat-form-field>
     </div>
-    <table mat-table *ngIf="filled==true && data.data" [dataSource]="data" matSort>
+    <table mat-table *ngIf="filled==true && data && data.data" [dataSource]="data" matSort>
 
         <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{mapperService.mapTitle(property)}}</th>
@@ -49,7 +49,7 @@
         <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row cursor-pointer"
             (click)="openDialog('details', element)"></tr>
     </table>
-    <div class="no-data-container" *ngIf="!this.data.data">
+    <div class="no-data-container" *ngIf="!data || !data._data || !data._data.value">
         <div class="loadingContent">
             <h4 class="no-data">
                 <mat-icon>cloud_off</mat-icon>

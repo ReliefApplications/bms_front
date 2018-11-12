@@ -20,7 +20,7 @@
 
                 <div class="container-table">
                     <div class="container-content">
-                      <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity"
+                      <app-box-properties *ngIf="actualDistribution && initialBeneficiaryData" class="properties-displayed" [entity]="distributionEntity"
                       [mapperService]="mapperService" [componentDisplayed]="actualDistribution" [data]="initialBeneficiaryData.data"></app-box-properties>
                         <div class="content-button">
                             <div class="action-buttons">
@@ -75,7 +75,7 @@
 
                 <div class="container-table">
                     <div class="container-content">
-                        <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity"
+                        <app-box-properties *ngIf="actualDistribution && initialBeneficiaryData" class="properties-displayed" [entity]="distributionEntity"
                             [mapperService]="mapperService" [componentDisplayed]="actualDistribution" [data]="initialBeneficiaryData.data"></app-box-properties>
                         <div class="import-content">
                             <app-import-distribution *ngIf="!actualDistribution.validated" [distribution]="this.actualDistribution" [rights]="hasRights"
@@ -168,8 +168,8 @@
                 <div class="container-table">
                     <div class="container-content">
                         <div class="content-button">
-                            <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [entity]="distributionEntity"
-                                [mapperService]="mapperService" [componentDisplayed]="actualDistribution" [data]="initialBeneficiaryData.data"></app-box-properties>
+                            <app-box-properties *ngIf="actualDistribution && finalBeneficiaryData" class="properties-displayed" [entity]="distributionEntity"
+                                [mapperService]="mapperService" [componentDisplayed]="actualDistribution" [data]="finalBeneficiaryData.data"></app-box-properties>
                         </div>
                         <div class="container-empty" *ngIf="!finalBeneficiaryData && !loadingFinalStep">
                             <p>

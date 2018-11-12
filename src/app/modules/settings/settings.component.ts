@@ -73,16 +73,9 @@ export class SettingsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        const voters = this._cacheService.get('user').voters;
-        if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_COUNTRY_MANAGER") {
-            this.snackBar.open(this.settings.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
-            this.router.navigate(['']);
-        }
-        else {
-            this.checkSize();
-            this.selectTitle('users');
-            this.extensionType = 'xls';
-        }
+        this.checkSize();
+        this.selectTitle('users');
+        this.extensionType = 'xls';
     }
 
     /**

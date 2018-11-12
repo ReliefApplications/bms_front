@@ -23,7 +23,7 @@ export class AppComponent {
     public currentComponent;
     public menuHover = false;
     public openTopMenu = false;
-    public smallScreenMode;
+    public smallScreenMode = false;
     public maxHeight = 600;
     public maxWidth = 750;
 
@@ -69,12 +69,16 @@ export class AppComponent {
     }
 
     checkSize(): void {
-        if ((window.innerHeight < this.maxHeight) || (window.innerWidth < this.maxWidth)) {
+        if ( this.smallScreenMode === false && ( (window.innerHeight < this.maxHeight) || (window.innerWidth < this.maxWidth) ) ) {
             this.smallScreenMode = true;
             this.isShowing = true;
+            GlobalText.resetMenuMargin();
         }
-        else {
+        else if ( this.smallScreenMode === true && (window.innerHeight > this.maxHeight) && (window.innerWidth > this.maxWidth) ) {
             this.smallScreenMode = false;
+            GlobalText.changeLanguage();
+        }
+        if( (window.innerHeight > this.maxHeight) && (window.innerWidth > this.maxWidth) ) {
             this.isShowing = false;
         }
     }
@@ -123,7 +127,7 @@ export class AppComponent {
                 this.checkLoggedUser(user);
                 this.checkPermission(user);
             }
-        )        
+        );        
     }
 
     /**
@@ -132,10 +136,17 @@ export class AppComponent {
     refreshCurrentComponent(e) {
         // console.log('changed : ', e.nameComponent);
 
+        if (e.nameComponent === 'settings_title' && !this.hasRights) {
+            this.router.navigate(['']);
+            e.nameComponent = '';
+        }
+
         if (!e.nameComponent || e.nameComponent === 'project_title' || e.nameComponent === 'beneficiaries_title'
             || e.nameComponent === 'report_title' || e.nameComponent === 'settings_title' || e.nameComponent === 'login') {
             this.currentComponent = e.nameComponent;
         }
+
+        
     }
 
     /**

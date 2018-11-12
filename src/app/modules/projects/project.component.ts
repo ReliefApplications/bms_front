@@ -125,6 +125,8 @@ export class ProjectComponent implements OnInit {
                 if (response && response.length > 0) {
                     this.projects = this.projectClass.formatArray(response).reverse();
                     this.selectTitle(this.projects[0].name, this.projects[0]);
+                } else if(response === null){
+                    this.projects = null;
                 }
 
             }
@@ -145,6 +147,7 @@ export class ProjectComponent implements OnInit {
                 )
             ).toPromise().then(
                 response => {
+                    //console.log(response);
                     if (response || response === []) {
                         this.noNetworkData = false;
                         const distribution = DistributionData.formatArray(response);

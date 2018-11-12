@@ -84,12 +84,15 @@ export class TransactionBeneficiary {
             )
         }
         
-        if(instance)
-        instance.forEach(
-            element => {
-                beneficiaries.push(this.formatElement(element, commodities));
-            }
-        );
+        if(instance) {
+            instance.forEach(
+                element => {
+                    beneficiaries.push(this.formatElement(element, commodities));
+                }
+            );
+        } else {
+            return null;
+        }
 
         // console.log('after format : ', beneficiaries);
 

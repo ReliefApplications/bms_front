@@ -71,9 +71,6 @@
                 <span> No data </span>
             </h4>
         </div>
-        <tr mat-header-row *matHeaderRowDef="propertiesActions" class="header-row"></tr>
-        <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row cursor-pointer"
-            (click)="openDialog('details', element)"></tr>
     </div>
 
     <mat-paginator *ngIf="filled==true" [length]="data.length$ | async" [pageSizeOptions]="[10, 20, 50, 100]"

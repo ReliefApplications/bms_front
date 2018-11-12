@@ -86,7 +86,8 @@ export class TableComponent implements OnChanges, DoCheck {
     ) { }
 
     ngOnChanges() {
-        this.checkData();
+        if(this.data && this.data._data && this.data._data.value)
+            this.checkData();
     }
 
     ngDoCheck() {

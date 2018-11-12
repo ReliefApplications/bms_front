@@ -97,6 +97,7 @@ export class DashboardComponent implements OnInit {
             ).subscribe(
                 response => {
                     distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
+                    //console.log(distribs);
                     this.distributions = distribs;
                 });
     }
@@ -121,10 +122,10 @@ export class DashboardComponent implements OnInit {
     checkPermission() {
         this._cacheService.getUser().subscribe(
             result => {
-                if(result && result.voters) {
+                if (result && result.voters) {
                     const voters = result.voters;
                     if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
-                    this.hasRights = true;
+                        this.hasRights = true;
 
                     if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_PROJECT_OFFICER")
                         this.hasRightsEdit = true;

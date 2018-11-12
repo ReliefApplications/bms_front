@@ -53,7 +53,7 @@
             (click)="openDialog('details', element)"></tr>
     </table>
 
-    <div class="no-data-container" *ngIf="!data.data">
+    <div class="no-data-container" *ngIf="!data || !data._data || !data._data.value">
         <div class="loadingContent">
             <h4 class="no-data">
                 <mat-icon>cloud_off</mat-icon>

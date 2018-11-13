@@ -2,10 +2,10 @@ import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, KeyValue
 import { ChartDataLoaderService } from '../../services/chart-data-loader.service';
 import { ChartInterface, ChartSchemeClass, ChartTitleClass, ChartAxisClass, ChartLegendClass, ChartIndicatorConfigClass } from './chart.interface';
 import { FilterInterface } from '../../../../model/filter';
-import { CacheService } from '../../../../core/storage/cache.service';
 import { timeout } from 'q';
 import { FilterService } from '../../services/filter.service';
 import { ChartRegistration, RegisteredItem } from '../../services/chart-registration.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
   selector: 'app-chart',
@@ -55,7 +55,7 @@ export class ChartComponent implements OnInit, ChartInterface {
 
   constructor(
     protected differs: KeyValueDiffers,
-    public _cacheService: CacheService,
+    public _cacheService: AsyncacheService,
     protected chartRegistrationService: ChartRegistration,
     protected _chartDataLoaderService?: ChartDataLoaderService,
   ) {

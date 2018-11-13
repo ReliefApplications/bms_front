@@ -3,7 +3,7 @@ import { TableComponent } from '../table.component';
 import { Beneficiaries } from '../../../model/beneficiary';
 import { emit } from 'cluster';
 import { element } from 'protractor';
-import { tap } from 'rxjs/operators';
+import { tap, finalize } from 'rxjs/operators';
 import { DistributionData } from '../../../model/distribution-data';
 
 
@@ -26,7 +26,14 @@ export class TableBeneficiariesComponent extends TableComponent {
     ngOnInit() {
         super.checkData();
         this.sendSortedData();
-        this.data.loading$.subscribe(
+        this.data.loading$
+        .pipe(
+            finalize(
+                () => {
+                    this.testLoading = false;
+                }
+            )
+        ).subscribe(
             result => {
                 if (result != this.testLoading) {
                     this.testLoading = result;

@@ -142,6 +142,7 @@ export class CountrySpecific {
 
     public static formatArray(instance): CountrySpecific[] {
         let countrySpecific: CountrySpecific[] = [];
+        if(instance)
         instance.forEach(element => {
             countrySpecific.push(this.formatFromApiCountrySpecific(element));
         });

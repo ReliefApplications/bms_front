@@ -45,6 +45,7 @@ export class ImportedBeneficiary {
 
 public static formatArray(instance: any): ImportedBeneficiary[] {
     const beneficiaries: ImportedBeneficiary[] = [];
+    if(instance)
     instance.forEach(element => {
         beneficiaries.push(this.formatElement(element));
     });

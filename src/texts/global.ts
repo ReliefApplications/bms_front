@@ -13,7 +13,7 @@ export class GlobalText {
     static maxWidthSecondRow = 800;
     static maxWidth = 750;
 
-    public static changeLanguage(language: string) {
+    public static changeLanguage(language : string = this.language) {
         GlobalText.language = language;
         const element = document.getElementsByTagName("mat-sidenav-content") as HTMLCollectionOf<HTMLElement>;
         switch (language) {
@@ -35,5 +35,10 @@ export class GlobalText {
                 break;
             default: GlobalText.TEXTS = TEXT_EN; break;
         }
+    }
+
+    public static resetMenuMargin() {
+        const element = document.getElementsByTagName("mat-sidenav-content") as HTMLCollectionOf<HTMLElement>;
+        element[0].style.margin = "0px 0px 0px 0px";
     }
 }

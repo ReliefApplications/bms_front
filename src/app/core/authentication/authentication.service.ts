@@ -3,11 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { WsseService } from './wsse.service';
-import { CacheService } from '../storage/cache.service';
 
 import { URL_BMS_API } from '../../../environments/environment';
 import { User, ErrorInterface } from '../../model/user';
 import { SaltInterface } from '../../model/salt';
+import { AsyncacheService } from '../storage/asyncache.service';
+import { Observable, timer } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -15,9 +17,10 @@ import { SaltInterface } from '../../model/salt';
 export class AuthenticationService {
 
     private user: User;
+
     constructor(
         public _wsseService: WsseService,
-        public _cacheService: CacheService,
+        public _cacheService: AsyncacheService,
         public http: HttpClient,
         public router: Router
     ) { }
@@ -31,6 +34,7 @@ export class AuthenticationService {
     logUser(user) {
         return this.http.post(URL_BMS_API + '/login', user);
     }
+
 
     checkCredentials() {
         return this.http.get<any>(URL_BMS_API + '/check');
@@ -72,24 +76,28 @@ export class AuthenticationService {
         });
     }
 
-    logout() {
+    logout() : Observable<User> {
         this.resetUser();
         this.user.loggedIn = false;
-        this._cacheService.clear();
+        return this._cacheService.clear().pipe(
+            map(
+                () => { return this.user }
+            )
+        );
     }
 
-    getUser(): User {
-        return this._cacheService.get(CacheService.USER) || new User();
+    getUser(): Observable<User> {
+        return this._cacheService.getUser();
     }
 
     setUser(user: User) {
         this.user = user;
-        this._cacheService.set(CacheService.USER, user);
+        this._cacheService.set(AsyncacheService.USER, user);
     }
 
     resetUser() {
         this.user = new User();
-        this._cacheService.remove(CacheService.USER);
+        this._cacheService.remove(AsyncacheService.USER);
     }
 
     rightAccessDefinition(user: User) {
@@ -97,7 +105,6 @@ export class AuthenticationService {
         voters = user.voters;
         return voters;
     }
-
 
     public createUser(body: any, salt: any) {
         let saltedPassword = this._wsseService.saltPassword(salt.salt, body.password);

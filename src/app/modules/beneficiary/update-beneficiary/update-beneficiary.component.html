@@ -118,7 +118,7 @@
                 </div>
                 <div class="container-content box-green">
                     <div class="content-table">
-                        <div class="step2 head">
+                        <div class="step2 head" *ngIf="updatedHousehold.beneficiaries[0]">
                             <div class="column-container">
                                 <mat-form-field>
                                     <input matInput type="text" placeholder={{Text.add_beneficiary_getFamilyName}} [(ngModel)]="updatedHousehold.beneficiaries[0].family_name" required>

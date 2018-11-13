@@ -39,6 +39,7 @@ export class Indicator {
 
     public static FormatArray(instance: any): Indicator[] {
         let indicators: Indicator[] = [];
+        if(instance)
         instance.forEach(element => {
             indicators.push(this.formatIndicator(element));
         });

@@ -1,48 +1,59 @@
 <!-- TABLE -->
 <div class="table-container">
-  <div class="noDataContainer" *ngIf="!filled">
-      <h3>
-          <mat-icon>clear</mat-icon>
-          No data available
-      </h3>
-  </div>
-  <div *ngIf="filled" class="container-header">
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
-    </mat-form-field>
-  </div>
-  <div *ngIf="filled">
-    <table *ngFor="let element of data._renderData._value" class="box-element">
-      <tbody>
-        <tr *ngFor="let property of properties" (click)="openDialog('details', element)" class="cursor-pointer">
-          <td class="element-value">
-            <span> {{mapperService.mapTitle(property)}}</span>
-          </td>
-          <td>
-            <span *ngIf="propertiesTypes[property]=='image'">
-              <app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)" [name]="image"></app-icon-svg>
-            </span>
-          </td>
-          <td *ngIf="propertiesTypes[property]=='png'">
-            <img *ngFor="let image of mapperService.mapValue(element, property)" class="png" [src]=image>
-          </td>
-          <td *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">
-            <span>{{mapperService.mapValue(element, property)}}</span>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <button mat-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
-          <mat-icon inline=true>search</mat-icon>
-        </button>
-        <button mat-button *ngIf="editable && checkEntityUpdateRights() && rights" (click)="openDialog('update', element); $event.stopPropagation()" class="light-red">
-          <mat-icon inline=true>edit</mat-icon>
-        </button>
-        <button mat-button  *ngIf="editable && rights" (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
-          <mat-icon inline=true>close</mat-icon>
-        </button>
-      </tfoot>
-    </table>
-  </div>
-  <mat-paginator *ngIf="filled" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+    <div class="noDataContainer" *ngIf="!filled">
+        <h3>
+            <mat-icon>clear</mat-icon>
+            No data available
+        </h3>
+    </div>
+    <div *ngIf="filled" class="container-header">
+        <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
+        </mat-form-field>
+    </div>
+    <div *ngIf="filled">
+        <table *ngFor="let element of data._renderData._value" class="box-element">
+            <tbody>
+                <tr *ngFor="let property of properties" (click)="openDialog('details', element)" class="cursor-pointer">
+                    <td class="element-value">
+                        <span> {{mapperService.mapTitle(property)}}</span>
+                    </td>
+                    <td>
+                        <span *ngIf="propertiesTypes[property]=='image'">
+                            <app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)"
+                                [name]="image"></app-icon-svg>
+                        </span>
+                    </td>
+                    <td *ngIf="propertiesTypes[property]=='png'">
+                        <img *ngFor="let image of mapperService.mapValue(element, property)" class="png" [src]=image>
+                    </td>
+                    <td *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">
+                        <span>{{mapperService.mapValue(element, property)}}</span>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <button mat-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
+                    <mat-icon inline=true>search</mat-icon>
+                </button>
+                <button mat-button *ngIf="editable && checkEntityUpdateRights() && rights" (click)="openDialog('update', element); $event.stopPropagation()"
+                    class="light-red">
+                    <mat-icon inline=true>edit</mat-icon>
+                </button>
+                <button mat-button *ngIf="editable && rights" (click)="openDialog('delete', element); $event.stopPropagation()"
+                    class="red">
+                    <mat-icon inline=true>close</mat-icon>
+                </button>
+            </tfoot>
+        </table>
+        <div class="no-data-container" *ngIf="!this.data._data || !this.data._data.value">
+            <div class="loadingContent">
+                <h4 class="no-data">
+                    <mat-icon>cloud_off</mat-icon>
+                    <span> No data </span>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <mat-paginator *ngIf="filled" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
 </div>

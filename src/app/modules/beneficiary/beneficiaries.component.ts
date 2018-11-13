@@ -1,6 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { MatTableDataSource, MatSnackBar, MatDialog } from '@angular/material';
-import { CacheService } from '../../core/storage/cache.service';
 import { Households } from '../../model/households';
 import { HouseholdsService } from '../../core/api/households.service';
 import { GlobalText } from '../../../texts/global';
@@ -10,6 +9,7 @@ import { ExportInterface } from '../../model/export.interface';
 import { ProjectService } from '../../core/api/project.service';
 import { FormControl } from '@angular/forms';
 import { HouseholdsDataSource } from '../../model/households-data-source';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { LocationService } from 'src/app/core/api/location.service';
 
 @Component({
@@ -38,7 +38,7 @@ export class BeneficiariesComponent implements OnInit {
     addToggled = false;
 
     constructor(
-        private cacheService: CacheService,
+        private cacheService: AsyncacheService,
         public householdsService: HouseholdsService,
         private router: Router,
         public snackBar: MatSnackBar,
@@ -166,16 +166,22 @@ export class BeneficiariesComponent implements OnInit {
     }
 
     checkPermission() {
-        const voters = this.cacheService.get('user').voters;
+        this.cacheService.get('user').subscribe(
+            result => {
+                if(result && result.voters) {
+                    const voters = result.voters;
+                    if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_PROJECT_OFFICER")
+                        this.hasRights = true;
+            
+                    if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER")
+                        this.hasRightsDelete = true;
+            
+                    if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_COUNTRY_MANAGER")
+                        this.hasRightsExport = true;
+                }
+            }
+        )
 
-        if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_PROJECT_OFFICER")
-            this.hasRights = true;
-
-        if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER")
-            this.hasRightsDelete = true;
-
-        if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_COUNTRY_MANAGER")
-            this.hasRightsExport = true;
     }
 
     /**
@@ -208,7 +214,6 @@ export class BeneficiariesComponent implements OnInit {
     loadProvince() {
         this.locationService.getAdm1().subscribe(response => {
             this.dataSource.adm1.next(response);
-            this.cacheService.set(CacheService.ADM1, this.dataSource.adm1.value);
         });
     }
 
@@ -219,8 +224,6 @@ export class BeneficiariesComponent implements OnInit {
     loadDistrict(adm1) {
         this.locationService.getAdm2(adm1).subscribe(response => {
             this.dataSource.adm2.next(response);
-            this.cacheService.set(CacheService.ADM2, this.dataSource.adm2.value);
-
         });
     }
 
@@ -231,8 +234,6 @@ export class BeneficiariesComponent implements OnInit {
     loadCommunity(adm2) {
         this.locationService.getAdm3(adm2).subscribe(response => {
             this.dataSource.adm3.next(response);
-            this.cacheService.set(CacheService.ADM3, this.dataSource.adm3.value);
-
         });
     }
 
@@ -243,8 +244,6 @@ export class BeneficiariesComponent implements OnInit {
     loadVillage(adm3) {
         this.locationService.getAdm4(adm3).subscribe(response => {
             this.dataSource.adm4.next(response);
-            this.cacheService.set(CacheService.ADM4, this.dataSource.adm4.value);
-
         });
     }
 }

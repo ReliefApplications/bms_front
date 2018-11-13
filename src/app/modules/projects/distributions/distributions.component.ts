@@ -5,7 +5,6 @@ import { Households } from '../../../model/households';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DistributionData } from '../../../model/distribution-data';
-import { CacheService } from '../../../core/storage/cache.service';
 import { Beneficiaries } from '../../../model/beneficiary';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { MatTableDataSource, MatSnackBar, MatDialog, MatFormField, MatStepper } from '@angular/material';
@@ -16,6 +15,7 @@ import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
 import { AnimationRendererFactory } from '@angular/platform-browser/animations/src/animation_renderer';
 import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
 import { finalize } from 'rxjs/operators';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
     selector: 'app-distributions',
@@ -78,7 +78,7 @@ export class DistributionsComponent implements OnInit {
 
     constructor(
         public distributionService: DistributionService,
-        public cacheService: CacheService,
+        public cacheService: AsyncacheService,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private beneficiariesService: BeneficiariesService,
@@ -143,28 +143,30 @@ export class DistributionsComponent implements OnInit {
             .subscribe(
                 result => { // Get from Back
                     this.actualDistribution = result;
-                    // console.log('Got distribution from back :', this.actualDistribution);
-
+                    if(!this.actualDistribution) {
+                        // console.log('fail');
+                        // // Particular case to search in cache distribution list if there is no api response.
+                        // this.cacheService.get(AsyncacheService.DISTRIBUTIONS)
+                        // .subscribe(
+                        //     (result: any[]) => {
+                        //         if(result) {
+                        //             result.forEach( element => {
+                        //                 if(element.id === this.distributionId) {
+                        //                     this.actualDistribution = element;
+                        //                 }
+                        //             });
+                        //         }
+                        //     }
+                        // );
+                    }
                     if (this.actualDistribution.validated) {
                         this.getDistributionBeneficiaries('transaction');
                     }
                     this.loadingDistribution = false;
                 },
                 error => {
-                    if (!this.actualDistribution) { // Get from Cache
-                        const distributionsList: DistributionData[] = this.cacheService.get(CacheService.DISTRIBUTIONS);
-                        if (distributionsList) {
-                            distributionsList.forEach(element => {
-                                if (Number(element.id) === Number(this.distributionId)) {
-                                    this.actualDistribution = element;
-                                } else {
-                                    // console.log('fail');
-                                }
-                            });
-                        }
-                        // console.log('Got distribution from cache :', this.actualDistribution, 'because of error : ', error);
-                    }
-                });
+                }
+            );
     }
 
     /**
@@ -290,7 +292,10 @@ export class DistributionsComponent implements OnInit {
         if (this.finalBeneficiaryData) {
             return Math.ceil((this.sampleSize / 100) * this.finalBeneficiaryData.data.length);
         } else {
-            return Math.ceil((this.sampleSize / 100) * this.initialBeneficiaryData.data.length);
+            if(this.initialBeneficiaryData)
+                return Math.ceil((this.sampleSize / 100) * this.initialBeneficiaryData.data.length);
+            else
+                return(1);
         }
 
     }
@@ -361,63 +366,69 @@ export class DistributionsComponent implements OnInit {
      */
     confirmTransaction() {
         if (this.hasRightsTransaction) {
-            const actualUser = this.cacheService.get(CacheService.USER);
+            this.cacheService.getUser().subscribe(
+                result => {
+                    const actualUser = result;
 
-            if (this.enteredEmail && actualUser.username === this.enteredEmail) {
-                if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]
-                    && this.actualDistribution.commodities[0].modality_type && this.actualDistribution.commodities[0].modality_type.name === "Mobile Cash") {
-                    this.transacting = true;
-                    this.distributionService.transaction(this.distributionId)
-                        .pipe(
-                            finalize(
-                                () => this.transacting = false
-                            )
-                        ).subscribe(
-                            success => {
-                                this.transactionData.data.forEach(
-                                    (element, index) => {
-                                        //success.already_sent.push({ id:0 });
-                                        //success.sent.push({ id:0 });
-
-                                        success.already_sent.forEach(
-                                            beneficiary => {
-                                                if (element.id === beneficiary.beneficiary.id) {
-                                                    this.transactionData.data[index].updateState('Already sent');
+                    if (this.enteredEmail && actualUser.username === this.enteredEmail) {
+                        if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]
+                            && this.actualDistribution.commodities[0].modality_type && this.actualDistribution.commodities[0].modality_type.name === "Mobile Cash") {
+                            this.transacting = true;
+                            this.distributionService.transaction(this.distributionId)
+                                .pipe(
+                                    finalize(
+                                        () => this.transacting = false
+                                    )
+                                ).subscribe(
+                                    success => {
+                                        if(this.transactionData) {
+                                            this.transactionData.data.forEach(
+                                                (element, index) => {
+                                                    //success.already_sent.push({ id:0 });
+                                                    //success.sent.push({ id:0 });
+            
+                                                    success.already_sent.forEach(
+                                                        beneficiary => {
+                                                            if (element.id === beneficiary.beneficiary.id) {
+                                                                this.transactionData.data[index].updateState('Already sent');
+                                                            }
+                                                        }
+                                                    )
+                                                    success.failure.forEach(
+                                                        beneficiary => {
+                                                            if (element.id === beneficiary.beneficiary.id) {
+                                                                this.transactionData.data[index].updateState('Sending failed');
+                                                            }
+                                                        }
+                                                    )
+                                                    success.no_mobile.forEach(
+                                                        beneficiary => {
+                                                            if (element.id === beneficiary.beneficiary.id) {
+                                                                this.transactionData.data[index].updateState('No phone');
+                                                            }
+                                                        }
+                                                    )
+                                                    success.sent.forEach(
+                                                        beneficiary => {
+                                                            if (element.id === beneficiary.beneficiary.id) {
+                                                                this.transactionData.data[index].updateState('Sent');
+                                                            }
+                                                        }
+                                                    )
                                                 }
-                                            }
-                                        )
-                                        success.failure.forEach(
-                                            beneficiary => {
-                                                if (element.id === beneficiary.beneficiary.id) {
-                                                    this.transactionData.data[index].updateState('Sending failed');
-                                                }
-                                            }
-                                        )
-                                        success.no_mobile.forEach(
-                                            beneficiary => {
-                                                if (element.id === beneficiary.beneficiary.id) {
-                                                    this.transactionData.data[index].updateState('No phone');
-                                                }
-                                            }
-                                        )
-                                        success.sent.forEach(
-                                            beneficiary => {
-                                                if (element.id === beneficiary.beneficiary.id) {
-                                                    this.transactionData.data[index].updateState('Sent');
-                                                }
-                                            }
-                                        )
+                                            );
+                                        }
                                     }
-                                );
-                            }
-                        )
-                } else {
-                    this.snackBar.open(this.TEXT.distribution_no_valid_commodity, '', { duration: 3000, horizontalPosition: 'center' });
+                                )
+                        } else {
+                            this.snackBar.open(this.TEXT.distribution_no_valid_commodity, '', { duration: 3000, horizontalPosition: 'center' });
+                        }
+        
+                    } else {
+                        this.snackBar.open(this.TEXT.distribution_wrong_mail, '', { duration: 3000, horizontalPosition: 'center' });
+                    }
                 }
-
-            } else {
-                this.snackBar.open(this.TEXT.distribution_wrong_mail, '', { duration: 3000, horizontalPosition: 'center' });
-            }
+            );
         }
         else
             this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 3000, horizontalPosition: 'right' });
@@ -445,7 +456,6 @@ export class DistributionsComponent implements OnInit {
                         newDistributionsList.push(distrib);
                     }
                 );
-                this.cacheService.set(CacheService.DISTRIBUTIONS, newDistributionsList);
             },
                 error => {
                     // console.log('could not refresh :', error);
@@ -553,12 +563,17 @@ export class DistributionsComponent implements OnInit {
     }
 
     checkPermission() {
-        const voters = this.cacheService.get('user').voters;
+        this.cacheService.getUser().subscribe(
+            result => {
+                if(result && result.voters) {
+                    const voters = result.voters;
+                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
+                        this.hasRights = true;
 
-        if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
-            this.hasRights = true;
-
-        if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == 'ROLE_COUNTRY_MANAGER')
-            this.hasRightsTransaction = true;
+                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == 'ROLE_COUNTRY_MANAGER')
+                        this.hasRightsTransaction = true;
+                }
+            }
+        )
     }
 }

@@ -162,6 +162,7 @@ export class Donor {
 
     public static formatArray(instance): Donor[] {
         let donors: Donor[] = [];
+        if(instance)
         instance.forEach(element => {
             donors.push(this.formatFromApi(element));
         });

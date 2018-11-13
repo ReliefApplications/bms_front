@@ -6,7 +6,6 @@ import {
 } from '@angular/material';
 
 import { Mapper } from '../../core/utils/mapper.service';
-import { CacheService } from '../../core/storage/cache.service';
 
 import { ModalDetailsComponent } from '../modals/modal-details/modal-details.component';
 import { ModalComponent } from '../modals/modal.component';
@@ -21,6 +20,7 @@ import { DistributionData } from '../../model/distribution-data';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
 import { DistributionService } from '../../core/api/distribution.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { LocationService } from 'src/app/core/api/location.service';
 
 @Component({
@@ -39,7 +39,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
     @ViewChild(MatSort) set content(content: ElementRef<MatSort>) {
         this.sort = content;
-        if (this.sort) {
+        if (this.sort && this.data) {
             this.data.sort = this.sort;
         }
     }
@@ -79,7 +79,7 @@ export class TableComponent implements OnChanges, DoCheck {
     constructor(
         public mapperService: Mapper,
         public dialog: MatDialog,
-        public _cacheService: CacheService,
+        public _cacheService: AsyncacheService,
         public snackBar: MatSnackBar,
         public authenticationService: AuthenticationService,
         public _wsseService: WsseService,
@@ -88,22 +88,25 @@ export class TableComponent implements OnChanges, DoCheck {
     ) { }
 
     ngOnChanges() {
-        this.checkData();
-        // this.checkTable();
+        if(this.data && this.data._data && this.data._data.value)
+            this.checkData();
     }
 
     ngDoCheck() {
-        if (this.entity !== this.oldEntity) {
-            this.checkData();
+        if(this.data && this.data.data) {
+            if (this.entity !== this.oldEntity) {
+                this.checkData();
+            }
+            if (!this.data.paginator) {
+                this.data.paginator = this.paginator;
+            }
+            if (this.table !== GlobalText.TEXTS) {
+                this.table = GlobalText.TEXTS;
+                this.setDataTableProperties();
+                this.mapperService.setMapperObject(this.entity);
+            }
         }
-        if (!this.data.paginator) {
-            this.data.paginator = this.paginator;
-        }
-        if (this.table !== GlobalText.TEXTS) {
-            this.table = GlobalText.TEXTS;
-            this.setDataTableProperties();
-            this.mapperService.setMapperObject(this.entity);
-        }
+        
     }
 
     checkEntityUpdateRights() {
@@ -125,7 +128,7 @@ export class TableComponent implements OnChanges, DoCheck {
     }
 
     checkTable() {
-        if (this.data.data && this.data.data.length > 0) {
+        if (this.data && this.data.data && this.data.data.length > 0) {
             this.filled = true;
         } else {
             this.filled = false;
@@ -133,55 +136,51 @@ export class TableComponent implements OnChanges, DoCheck {
     }
 
     updateData() {
-        if (this.entity.__classname__ == 'DistributionData') {
-            this.distributionService.getByProject(this.data.data[0].project.id).subscribe(response => {
-                this.data = new MatTableDataSource(this.entity.formatArray(response));
-                // update cache associated variable
-                const key = (<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + 'S'];
-                this._cacheService.set(key, response);
-
-                this.setDataTableProperties();
-            }, error => {
-                console.error('error', error);
-            });
-        }
-        else if (this.entity.__classname__ == 'Beneficiaries') {
-            this.distributionService.getBeneficiaries(this.parentId).subscribe(
-                response => {
-                    this.data = new MatTableDataSource(Beneficiaries.formatArray(response));
-                    // update cache associated variable
-                    const key = (<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + 'S'];
-                    this._cacheService.set(key, response);
-                }
-            );
-        }
-        else {
-            this.service.get().subscribe(response => {
-                this.data = new MatTableDataSource(this.entity.formatArray(response));
-                // update cache associated variable
-                const key = (<typeof CacheService>this._cacheService.constructor)[this.entity.__classname__.toUpperCase() + 'S'];
-                this._cacheService.set(key, response);
-            });
+        if(this.data.data) {
+            if (this.entity.__classname__ == 'DistributionData') {
+                this.distributionService.getByProject(this.data.data[0].project.id).subscribe(response => {
+                    this.data = new MatTableDataSource(this.entity.formatArray(response));
+    
+                    this.setDataTableProperties();
+                }, error => {
+                    console.error('error', error);
+                });
+            }
+            else if (this.entity.__classname__ == 'Beneficiaries') {
+                this.distributionService.getBeneficiaries(this.parentId).subscribe(
+                    response => {
+                        this.data = new MatTableDataSource(Beneficiaries.formatArray(response));
+                    }
+                );
+            }
+            else {
+                this.service.get().subscribe(response => {
+                    this.data = new MatTableDataSource(this.entity.formatArray(response));
+                });
+            }
         }
     }
 
     setDataTableProperties() {
-        this.data.sort = this.sort;
-        if (this.paginator) {
-            this.paginator._intl.itemsPerPageLabel = this.table.table_items_per_page;
-            this.paginator._intl.firstPageLabel = this.table.table_first_page;
-            this.paginator._intl.previousPageLabel = this.table.table_previous_page;
-            this.paginator._intl.nextPageLabel = this.table.table_next_page;
-            this.paginator._intl.lastPageLabel = this.table.table_last_page;
-            this.paginator._intl.getRangeLabel = rangeLabel;
-            this.data.paginator = this.paginator;
+        if(this.data && this.data._data && this.data._data.value) {
+            this.data.sort = this.sort;
+            if (this.paginator) {
+                this.paginator._intl.itemsPerPageLabel = this.table.table_items_per_page;
+                this.paginator._intl.firstPageLabel = this.table.table_first_page;
+                this.paginator._intl.previousPageLabel = this.table.table_previous_page;
+                this.paginator._intl.nextPageLabel = this.table.table_next_page;
+                this.paginator._intl.lastPageLabel = this.table.table_last_page;
+                this.paginator._intl.getRangeLabel = rangeLabel;
+                this.data.paginator = this.paginator;
+            }
         }
+        
     }
 
 
     checkData() {
-        if (!this.data) {
-            this.data = new MatTableDataSource([]);
+        if (!this.data.data) {
+            this.data.data = new MatTableDataSource([]);
         }
         this.setDataTableProperties();
         if (this.entity) {
@@ -267,55 +266,56 @@ export class TableComponent implements OnChanges, DoCheck {
     }
 
     applyFilter(filterValue: any, category?: string, suppress?: boolean): void {
-
-        if (suppress) {
-            const index = this.data.filter.findIndex(function (value) {
-                return value.category == category;
-            });
-
-            this.data.filter.splice(index, 1);
-        }
-        else {
-            if (filterValue) {
-                if (category) {
-                    if (category == 'familyName') {
-                        if (filterValue.length != 0 || filterValue != "") {
-                            filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-                            filterValue = filterValue.split(/[\s,]+/);
-                        }
-                    }
-
-                    if (category == 'locations') {
-                        filterValue = filterValue.name;
-                    }
-
-                    const index = this.data.filter.findIndex(function (value) {
-                        return value.category == category;
-                    });
-
-                    if (index >= 0)
-                        if (filterValue.length == 0 || filterValue == "")
-                            this.data.filter.splice(index, 1);
-                        else
-                            this.data.filter[index] = { filter: filterValue, category: category };
-                    else
-                        if (filterValue.length != 0 || filterValue != "")
-                            this.data.filter.push({ filter: filterValue, category: category });
-
-                }
-                else {
-                    filterValue = filterValue.trim(); // Remove whitespace
-                    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-                    this.data.filter = filterValue;
-                }
+        if(this.data && this.data._data) {
+            if (suppress) {
+                const index = this.data.filter.findIndex(function (value) {
+                    return value.category == category;
+                });
+    
+                this.data.filter.splice(index, 1);
             }
             else {
-                if (category && category == 'familyName') {
-                    const index = this.data.filter.findIndex(function (value) {
-                        return value.category == category;
-                    });
-
-                    this.data.filter.splice(index, 1);
+                if (filterValue) {
+                    if (category) {
+                        if (category == 'familyName') {
+                            if (filterValue.length != 0 || filterValue != "") {
+                                filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+                                filterValue = filterValue.split(/[\s,]+/);
+                            }
+                        }
+    
+                        if (category == 'locations') {
+                            filterValue = filterValue.name;
+                        }
+    
+                        const index = this.data.filter.findIndex(function (value) {
+                            return value.category == category;
+                        });
+    
+                        if (index >= 0)
+                            if (filterValue.length == 0 || filterValue == "")
+                                this.data.filter.splice(index, 1);
+                            else
+                                this.data.filter[index] = { filter: filterValue, category: category };
+                        else
+                            if (filterValue.length != 0 || filterValue != "")
+                                this.data.filter.push({ filter: filterValue, category: category });
+    
+                    }
+                    else {
+                        filterValue = filterValue.trim(); // Remove whitespace
+                        filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+                        this.data.filter = filterValue;
+                    }
+                }
+                else {
+                    if (category && category == 'familyName') {
+                        const index = this.data.filter.findIndex(function (value) {
+                            return value.category == category;
+                        });
+    
+                        this.data.filter.splice(index, 1);
+                    }
                 }
             }
         }
@@ -335,7 +335,7 @@ export class TableComponent implements OnChanges, DoCheck {
         }
 
         // console.log("update element 2:", updateElement);
-        if (this.entity.__classname__ == 'User') {
+        if (this.entity.__classname__ == 'User' && updateElement) {
             if (updateElement['password'] && updateElement['password'].length > 0) {
                 this.authenticationService.requestSalt(updateElement['username']).subscribe(response => {
                     if (response) {
@@ -352,7 +352,12 @@ export class TableComponent implements OnChanges, DoCheck {
                     }
                 });
             } else {
-                updateElement['password'] = this._cacheService.get(CacheService.USER).salted_password;
+                this._cacheService.get(AsyncacheService.USER).subscribe(
+                    result => {
+                        if(result && result.salted_password)
+                            updateElement['password'] = result.salted_password;
+                    }
+                )
                 this.service.update(updateElement['id'], updateElement).subscribe(response => {
                     this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated, '', { duration: 3000, horizontalPosition: 'right' });
                     this.updateData();

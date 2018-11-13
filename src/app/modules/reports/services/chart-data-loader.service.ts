@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 
-
-import { CacheService } from '../../../core/storage/cache.service';
 import { HttpService } from '../../../core/api/http.service';
 
 //Constants

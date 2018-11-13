@@ -283,6 +283,8 @@ export const TEXT = {
     role_user_country_manager: 'Responsable de pays',
     role_user_regional_manager: 'Responsable de région',
     role_user_global_admin: 'Administrateur général',
+    
+    no_data: 'Pas de données',
 
     modal_add_no_value: 'Vous devez entrer une valeur',
     modal_add_fail_criteria: 'Erreur lors de la création du critère',

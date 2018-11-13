@@ -122,13 +122,18 @@ public static mapVulnerability(name: string): string {
 public static formatArray(instance: any): Beneficiaries[] {
     const beneficiaries: Beneficiaries[] = [];
     // console.log("before format : ", instance);
-    instance.forEach(element => {
-        if(element.beneficiary) {
-            beneficiaries.push(this.formatElement(element.beneficiary));
-        } else {
-            beneficiaries.push(this.formatElement(element));
-        }
-    });
+    if(instance) {
+        instance.forEach(element => {
+            if(element.beneficiary) {
+                beneficiaries.push(this.formatElement(element.beneficiary));
+            } else {
+                beneficiaries.push(this.formatElement(element));
+            }
+        });
+    }
+    else {
+        return null;
+    }
     // console.log("after format : ", beneficiaries);
     return(beneficiaries);
 }

@@ -10,6 +10,11 @@ import { TableComponent } from '../table.component';
 export class TableSearchComponent extends TableComponent {
 
     getImageName(t2: String) {
-        return (t2.substring(25).split('.')[0]);
+        if(t2)
+            return (t2.substring(25).split('.')[0]);
+    }
+
+    ngOnChanges() {
+        // console.log(this.data);
     }
 }

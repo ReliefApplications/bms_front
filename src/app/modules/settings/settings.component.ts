@@ -3,7 +3,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackB
 
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { DistributionService } from '../../core/api/distribution.service';
-import { CacheService } from '../../core/storage/cache.service';
 import { DonorService } from '../../core/api/donor.service';
 import { ProjectService } from '../../core/api/project.service';
 import { UserService } from '../../core/api/user.service';
@@ -23,6 +22,9 @@ import { GlobalText } from '../../../texts/global';
 import { SettingsService } from '../../core/api/settings.service';
 import { ExportInterface } from '../../model/export.interface';
 import { saveAs } from 'file-saver/FileSaver';
+import { finalize } from 'rxjs/operators';
+import { LocationService } from 'src/app/core/api/location.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -63,23 +65,17 @@ export class SettingsComponent implements OnInit {
         public projectService: ProjectService,
         public userService: UserService,
         public countrySpecificService: CountrySpecificService,
-        private _cacheService: CacheService,
+        private _cacheService: AsyncacheService,
+        private locationService: LocationService,
         private _settingsService: SettingsService,
         private snackBar: MatSnackBar,
         private router: Router
     ) { }
 
     ngOnInit() {
-        const voters = this._cacheService.get('user').voters;
-        if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_COUNTRY_MANAGER") {
-            this.snackBar.open(this.settings.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
-            this.router.navigate(['']);
-        }
-        else {
-            this.checkSize();
-            this.selectTitle('users');
-            this.extensionType = 'xls';
-        }
+        this.checkSize();
+        this.selectTitle('users');
+        this.extensionType = 'xls';
     }
 
     /**
@@ -126,12 +122,21 @@ export class SettingsComponent implements OnInit {
                 break;
             case 'projects':
                 category = 'projects';
-                country = this._cacheService.get(CacheService.ADM1)[0].country_i_s_o3;
+                
                 break;
             default:
                 break;
         }
-        return this._settingsService.export(this.extensionType, category, country);
+        if(category = 'projects') {
+            country = this.locationService.getAdm1().subscribe(
+                result => {
+                    country = result[0].country_i_s_o3;
+                    return this._settingsService.export(this.extensionType, category, country);
+                }
+            );
+        } else {
+            return this._settingsService.export(this.extensionType, category, country);
+        }
     }
 
     getData(title) {
@@ -161,43 +166,63 @@ export class SettingsComponent implements OnInit {
     load(title): void {
         this.hasRights = false;
 
-        this.referedClassService.get().subscribe(response => {
-            if (response && response[0] && response[0].email && response[0].username && response[0].roles)
-                response.forEach(element => {
-                    element.projects = new Array<number>();
-                    element.country = '';
+        this.referedClassService.get().
+        pipe(
+            finalize(
+                () => {
+                    this.loadingData = false;
+                }
+            )
+        ).toPromise().then(response => {
+            if(response) {
+                if (response && response[0] && response[0].email && response[0].username && response[0].roles)
+                    response.forEach(element => {
+                        element.projects = new Array<number>();
+                        element.country = '';
 
-                    for (let i = 0; i < element.user_projects.length; i++)
-                        element.projects[i] = element.user_projects[i].project.name;
+                        for (let i = 0; i < element.user_projects.length; i++)
+                            element.projects[i] = element.user_projects[i].project.name;
 
-                    for (let i = 0; i < element.countries.length; i++)
-                        element.country = element.countries[i].iso3;
-                });
+                        for (let i = 0; i < element.countries.length; i++)
+                            element.country = element.countries[i].iso3;
+                    });
 
-            response = this.referedClassToken.formatArray(response);
-            this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.referedClassToken.__classname__.toUpperCase() + 'S'], response);
-            this.data = new MatTableDataSource(response);
+                response = this.referedClassToken.formatArray(response);
+                this.data = new MatTableDataSource(response);
 
-            const voters = this._cacheService.get('user').voters;
+                this._cacheService.getUser().subscribe(
+                    result => {
+                        if(result && result.voters) {
+                            const voters = result.voters;
 
-            if (this.referedClassToken.__classname__ == 'User')
-                if (voters == 'ROLE_ADMIN')
-                    this.hasRights = true;
+                            if (this.referedClassToken.__classname__ == 'User')
+                            if (voters == 'ROLE_ADMIN')
+                                this.hasRights = true;
+        
+                            if (this.referedClassToken.__classname__ == 'CountrySpecific')
+                                if (voters == "ROLE_ADMIN" || voters == 'ROLE_COUNTRY_MANAGER' || voters == 'ROLE_PROJECT_MANAGER')
+                                    this.hasRights = true;
+            
+                            if (this.referedClassToken.__classname__ == 'Donor')
+                                if (voters == 'ROLE_ADMIN')
+                                    this.hasRights = true;
+            
+                            if (this.referedClassToken.__classname__ == 'Project')
+                                if (voters == "ROLE_ADMIN" || voters == 'ROLE_COUNTRY_MANAGER' || voters == 'ROLE_PROJECT_MANAGER')
+                                    this.hasRights = true;
+                        }
+                    }
+                );
 
-            if (this.referedClassToken.__classname__ == 'CountrySpecific')
-                if (voters == "ROLE_ADMIN" || voters == 'ROLE_COUNTRY_MANAGER' || voters == 'ROLE_PROJECT_MANAGER')
-                    this.hasRights = true;
-
-            if (this.referedClassToken.__classname__ == 'Donor')
-                if (voters == 'ROLE_ADMIN')
-                    this.hasRights = true;
-
-            if (this.referedClassToken.__classname__ == 'Project')
-                if (voters == "ROLE_ADMIN" || voters == 'ROLE_COUNTRY_MANAGER' || voters == 'ROLE_PROJECT_MANAGER')
-                    this.hasRights = true;
-
-            this.loadingData = false;
-        });
+            } else {
+                this.data = new MatTableDataSource(null);
+            }
+        })
+        .catch(
+            () => { 
+                this.data = new MatTableDataSource(null);
+            }
+        );
     }
 
     /**

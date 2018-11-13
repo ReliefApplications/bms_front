@@ -6,7 +6,6 @@ import { GlobalText } from '../../../texts/global';
 import { Project } from '../../model/project';
 
 import { ProjectService } from '../../core/api/project.service';
-import { CacheService } from '../../core/storage/cache.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { DistributionData } from '../../model/distribution-data';
 import { Mapper } from '../../core/utils/mapper.service';
@@ -14,181 +13,211 @@ import { Router } from '@angular/router';
 
 import { ExportInterface } from '../../model/export.interface';
 import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { delay, finalize } from 'rxjs/operators';
 
 
 @Component({
-  selector: 'app-project',
-  templateUrl: './project.component.html',
-  styleUrls: ['./project.component.scss']
+    selector: 'app-project',
+    templateUrl: './project.component.html',
+    styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
-  public nameComponent = 'project_title';
-  public distribution = GlobalText.TEXTS;
-  public language = GlobalText.language;
+    public nameComponent = 'project_title';
+    public distribution = GlobalText.TEXTS;
+    public language = GlobalText.language;
 
-  projects: Project[];
-  distributionData: MatTableDataSource<any>;
-  distributionClass = DistributionData;
-  projectClass = Project;
+    projects: Project[];
+    distributionData: MatTableDataSource<any>;
+    distributionClass = DistributionData;
+    projectClass = Project;
 
-  // loading
-  loadingDistributions = true;
-  loadingCreation: boolean;
-  loadingProjects = true;
+    // loading
+    loadingDistributions = true;
+    loadingCreation: boolean;
+    loadingProjects = true;
+    noNetworkData = false;
 
-  selectedTitle = '';
-  selectedProject = null;
-  isBoxClicked = false;
-  extensionType: string;
-  hasRights: boolean = false;
-  hasRightsEdit: boolean = false;
+    selectedTitle = '';
+    selectedProject = null;
+    isBoxClicked = false;
+    extensionType: string;
+    hasRights: boolean = false;
+    hasRightsEdit: boolean = false;
 
-  public maxHeight = GlobalText.maxHeight;
-  public maxWidthMobile = GlobalText.maxWidthMobile;
-  public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
-  public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
-  public maxWidth = GlobalText.maxWidth;
-  public heightScreen;
-  public widthScreen;
+    public maxHeight = GlobalText.maxHeight;
+    public maxWidthMobile = GlobalText.maxWidthMobile;
+    public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
+    public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
+    public maxWidth = GlobalText.maxWidth;
+    public heightScreen;
+    public widthScreen;
 
-  constructor(
-    public projectService: ProjectService,
-    public distributionService: DistributionService,
-    public mapperService: Mapper,
-    private router: Router,
-    private _cacheService: CacheService,
-    public snackBar: MatSnackBar,
-    public dialog: MatDialog,
-  ) { }
+    constructor(
+        public projectService: ProjectService,
+        public distributionService: DistributionService,
+        public mapperService: Mapper,
+        private router: Router,
+        private _cacheService: AsyncacheService,
+        public snackBar: MatSnackBar,
+        public dialog: MatDialog,
+    ) { }
 
-  ngOnInit() {
-    this.getProjects();
-    this.checkSize();
-    this.checkPermission();
-    this.extensionType = 'xls';
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.checkSize();
-  }
-
-  checkSize(): void {
-    this.heightScreen = window.innerHeight;
-    this.widthScreen = window.innerWidth;
-  }
-
-  /**
-   * check if the langage has changed
-   */
-  ngDoCheck() {
-    if (this.distribution !== GlobalText.TEXTS) {
-      this.distribution = GlobalText.TEXTS;
-      this.nameComponent = GlobalText.TEXTS.distribution_title;
+    ngOnInit() {
+        this.getProjects();
+        this.checkSize();
+        this.checkPermission();
+        this.extensionType = 'xls';
     }
-    
-    if (this.language !== GlobalText.language)
-      this.language = GlobalText.language;
-  }
 
-  /**
-   * update current project and its distributions when a other project box is clicked
-   * @param title
-   * @param project
-   */
-  selectTitle(title, project): void {
-    this.isBoxClicked = true;
-    this.selectedTitle = title;
-    this.selectedProject = project;
-    this.getDistributionsByProject(project.id);
-  }
-
-  setType(choice: string) {
-    this.extensionType = choice;
-  }
-
-  // TO DO : get from cache
-  /**
-   * get all projects
-   */
-  getProjects(): void {
-    const promise = this.projectService.get();
-    if (promise) {
-      promise.toPromise().then(response => {
-        if (response.length > 0) {
-          this.projects = this.projectClass.formatArray(response).reverse();
-          this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[this.projectClass.__classname__.toUpperCase() + 'S'], this.projects);
-          this.selectTitle(this.projects[0].name, this.projects[0]);
-          this.loadingProjects = false;
-        }
-        else
-          this.loadingDistributions = false;
-
-      });
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.checkSize();
     }
-  }
 
-  /**
-   * get all distributions of a project
-   * @param projectId
-   */
-  getDistributionsByProject(projectId: number): void {
-    this.distributionService.getByProject(projectId).subscribe(response => {
-      const distribution = DistributionData.formatArray(response);
-      this._cacheService.set((<typeof CacheService>this._cacheService.constructor)[DistributionData.__classname__.toUpperCase() + 'S'], distribution);
+    checkSize(): void {
+        this.heightScreen = window.innerHeight;
+        this.widthScreen = window.innerWidth;
+    }
 
-      this.distributionData = new MatTableDataSource(distribution);
-      this.loadingDistributions = false;
-    });
-  }
-
-  addDistribution() {
-    this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.id } });
-  }
-
-  /**
-   * Export distribution data
-   */
-  export() {
-    this.distributionService.export('project', this.extensionType, this.selectedProject.id);
-  }
-
-  openNewProjectDialog() {
-    this.loadingCreation = true;
-    const dialogRef = this.dialog.open(
-      ModalAddComponent, {
-        data: {
-          data: [],
-          entity: Project,
-          service: this.projectService,
-          mapper: this.mapperService
-        }
+    /**
+     * check if the langage has changed
+     */
+    ngDoCheck() {
+        if (this.distribution !== GlobalText.TEXTS) {
+        this.distribution = GlobalText.TEXTS;
+        this.nameComponent = GlobalText.TEXTS.distribution_title;
       }
-    );
-    const create = dialogRef.componentInstance.onCreate.subscribe(
-      (data) => {
-        // console.log('got from dialog: ', data);
-        this.projectService.create(data['id'], data).subscribe(
-          response => {
-            this.getProjects();
-          },
+      
+      if (this.language !== GlobalText.language)
+        this.language = GlobalText.language;
+    }
+
+    /**
+     * update current project and its distributions when a other project box is clicked
+     * @param title
+     * @param project
+     */
+    selectTitle(title, project): void {
+        this.isBoxClicked = true;
+        this.selectedTitle = title;
+        this.selectedProject = project;
+        this.getDistributionsByProject(project.id);
+    }
+
+    setType(choice: string) {
+        this.extensionType = choice;
+    }
+
+    // TO DO : get from cache
+    /**
+     * get all projects
+     */
+    getProjects(): void {
+        this.projectService.get().pipe(
+            finalize(
+                () => {
+                    this.loadingProjects = false;
+                },
+            )
+        ).subscribe(
+            response => {
+                if (response && response.length > 0) {
+                    this.projects = this.projectClass.formatArray(response).reverse();
+                    this.selectTitle(this.projects[0].name, this.projects[0]);
+                } else if(response === null){
+                    this.projects = null;
+                }
+
+            }
         );
-      }
-    );
-    dialogRef.afterClosed().subscribe(
-      () => {
-        this.loadingCreation = false;
-      }
-    );
-  }
+    }
 
-  checkPermission() {
-    const voters = this._cacheService.get('user').voters;
+    /**
+     * get all distributions of a project
+     * @param projectId
+     */
+    getDistributionsByProject(projectId: number): void {
+        this.distributionService.
+            getByProject(projectId).pipe(
+                finalize(
+                    () => {
+                        this.loadingDistributions = false;
+                    },
+                )
+            ).toPromise().then(
+                response => {
+                    //console.log(response);
+                    if (response || response === []) {
+                        this.noNetworkData = false;
+                        const distribution = DistributionData.formatArray(response);
 
-    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
-      this.hasRights = true;
+                        this.distributionData = new MatTableDataSource(distribution);
+                    } else {
+                        this.distributionData = null;
+                        this.noNetworkData = true;
+                    }
+                }
+            )
+            .catch(
+                error => {
+                    this.distributionData = null;
+                    this.noNetworkData = true;
+                }
+            )
+    }
 
-    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_PROJECT_OFFICER")
-      this.hasRightsEdit = true;
-  }
+    addDistribution() {
+        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.id } });
+    }
+
+    /**
+     * Export distribution data
+     */
+    export() {
+        this.distributionService.export('project', this.extensionType, this.selectedProject.id);
+    }
+
+    openNewProjectDialog() {
+        this.loadingCreation = true;
+        const dialogRef = this.dialog.open(
+            ModalAddComponent, {
+                data: {
+                    data: [],
+                    entity: Project,
+                    service: this.projectService,
+                    mapper: this.mapperService
+                }
+            }
+        );
+        const create = dialogRef.componentInstance.onCreate.subscribe(
+            (data) => {
+                this.projectService.create(data['id'], data).subscribe(
+                    response => {
+                        this.getProjects();
+                    },
+                );
+            }
+        );
+        dialogRef.afterClosed().subscribe(
+            () => {
+                this.loadingCreation = false;
+            }
+        );
+    }
+
+    checkPermission() {
+        this._cacheService.getUser().subscribe(
+            result => {
+                const voters = result.voters;
+                if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
+                    this.hasRights = true;
+
+                if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_PROJECT_OFFICER")
+                    this.hasRightsEdit = true;
+            }
+        )
+
+        
+    }
 }

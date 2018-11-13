@@ -1,11 +1,11 @@
 <!-- TABLE -->
 <div class="table-container">
-  <div *ngIf="!filled" class="noDataContainer">
-    <h3>
-      <mat-icon>clear</mat-icon>
-      No data available
-    </h3>
-  </div>
+    <div *ngIf="!filled" class="noDataContainer">
+        <h3>
+            <mat-icon>clear</mat-icon>
+            No data available
+        </h3>
+    </div>
 
   <div class="container-header" *ngIf="filled">
     <mat-form-field>
@@ -37,7 +37,6 @@
         placeholder="Vulnerabilities" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
       </ng-select>
     </div>
-  </div>
 
   <table mat-table *ngIf="filled && !testLoading" [dataSource]="data" matSort>
     <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
@@ -73,17 +72,22 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="propertiesActions" class="header-row"></tr>
-    <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row cursor-pointer" (click)="openDialog('details', element)"></tr>
-  </table>
+        <tr mat-header-row *matHeaderRowDef="propertiesActions" class="header-row"></tr>
+        <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row cursor-pointer"
+            (click)="openDialog('details', element)"></tr>
+    </table>
 
-  <div class="spinner-container" *ngIf="testLoading">
-    <div class="loadingSpinner">
-      <mat-spinner></mat-spinner>
+    <div class="no-data-container" *ngIf="testLoading || this.data.householdsSubject._value.length === 0">
+        <div *ngIf="testLoading && this.data.householdsSubject._value.length>0" class="loadingContent">
+            <mat-spinner></mat-spinner>
+        </div>
+        <div *ngIf="this.data.householdsSubject._value.length === 0" class="loadingContent">
+            <h4 class="no-data">
+                <mat-icon>cloud_off</mat-icon>
+                <span> No data </span>
+            </h4>
+        </div>
     </div>
-    <tr mat-header-row *matHeaderRowDef="propertiesActions" class="header-row"></tr>
-    <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row cursor-pointer" (click)="openDialog('details', element)"></tr>
-  </div>
 
   <mat-paginator *ngIf="filled==true" [length]="data.length$ | async" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10"
     showFirstLastButtons></mat-paginator>

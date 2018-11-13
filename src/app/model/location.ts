@@ -51,6 +51,7 @@ export class Location {
 
     public static formatAdm(instance): any[] {
         var adm = [];
+        if(instance)
         instance.forEach(element => {
             adm.push( this.formatOneAdm(element) );
         });

@@ -1,13 +1,17 @@
 <div class="box-content">
-  <button (click)="changeRoute(info.ref)" style="text-decoration: none;">
-    <div class="box-content-content">
-      <div class="content-icon box-{{info.color}}">
-        <img src="assets/images/{{info.icon}}.png">
-      </div>
-      <div class="content-info">
-        <h5 class="info-title">{{info.title | uppercase}}</h5>
-        <h4 class="info-subtitle">{{info.subtitle}}</h4>
-      </div>
-    </div>
-  </button>
+    <button (click)="changeRoute(info.ref)" style="text-decoration: none;">
+        <div class="box-content-content">
+            <div class="content-icon box-{{info.color}}">
+                <img src="assets/images/{{info.icon}}.png">
+            </div>
+            <div class="content-info">
+                <h5 class="info-title">{{info.title | uppercase}}</h5>
+                <h4 *ngIf="info.subtitle || info.subtitle == 0" class="info-subtitle">{{info.subtitle}}</h4>
+                <h4 *ngIf="!info.subtitle && info.subtitle !== 0" class="info-subtitle no-data">
+                    <mat-icon>cloud_off</mat-icon>
+                    <span> No data </span>
+                </h4>
+            </div>
+        </div>
+    </button>
 </div>

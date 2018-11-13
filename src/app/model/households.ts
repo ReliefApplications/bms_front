@@ -156,6 +156,7 @@ export class Households {
     public static formatArray(instance : any): Households[] {
         let households: Households[] = [];
         //console.log("before format : ", instance);
+        if(instance)
         instance.forEach(element => {
             households.push(this.formatElement(element));
         });

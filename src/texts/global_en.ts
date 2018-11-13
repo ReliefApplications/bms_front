@@ -285,6 +285,7 @@ export const TEXT = {
     role_user_regional_manager: 'Regional manager',
     role_user_global_admin: 'Global admin',
 
+    no_data: 'No data',
     modal_add_no_value: 'You need to enter a value',
     modal_add_fail_criteria: 'Failed to create the criteria',
     modal_add_bad_weight: 'The weight should be greater than 0',

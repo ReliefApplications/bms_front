@@ -6,7 +6,7 @@ import { TableComponent } from '../table.component';
   templateUrl: './transaction-table.component.html',
   styleUrls: ['../table.component.scss'],
 })
-export class TransactionTableComponent extends TableComponent implements OnInit {
+export class TransactionTableComponent extends TableComponent {
 
     loading = true;
     //
@@ -19,6 +19,4 @@ export class TransactionTableComponent extends TableComponent implements OnInit 
     //         super(mapperService, dialog, _cacheService, snackBar);
     //     }
 
-    ngOnInit() {
-    }
 }

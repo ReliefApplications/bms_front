@@ -4,6 +4,7 @@ import {
 } from '@angular/common/http';
 
 import { WsseService } from '../authentication/wsse.service';
+import { map, concat, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -23,13 +24,18 @@ export class AuthInterceptor implements HttpInterceptor {
 					salted_password: req.body.salted_password
 				};
 			}
+            
 			// Get the auth token from the service.
-			const header = this._wsseService.getHeaderValue(user);
-			// Clone the request and replace the original headers with
-			// cloned headers, updated with the authorization.
-			const authReq = req.clone({ setHeaders: { 'x-wsse': header } });
-			// send cloned request with header to the next handler.
-			return next.handle(authReq);
+			return this._wsseService.getHeaderValue(user).pipe(
+                switchMap(
+                    header => {
+			            // Clone the request & replace original headers with cloned headers, updated with the authorization.
+                        const authReq = req.clone({ setHeaders: { 'x-wsse': header } });
+                        // Send cloned request with header to the next handler.
+                        return next.handle(authReq);
+                    }
+                )
+            );
 		}
 
 		return next.handle(req);

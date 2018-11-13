@@ -8,17 +8,34 @@
   </div>
 
   <div class="container-header" *ngIf="filled">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value, 'familyName'); sendSortedData()" placeholder="{{table.table_filter}}">
+    </mat-form-field>
+
     <div class="filter-combo">
-      <mat-form-field class="select-filter">
-        <mat-select [(ngModel)]="selectedFilter" (selectionChange)="data.setFiltered(selectedFilter)">
-          <mat-option *ngFor="let property of properties" [value]="property">
-            {{ mapperService.mapTitle(property) }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="input-filter">
-        <input matInput (keyup)="applyFilter($event.target.value); sendSortedData()" placeholder="{{table.table_filter}}">
-      </mat-form-field>
+      <ng-select class="input-filter custom" bindLabel="name" [items]="data.projects.value" [multiple]="true" placeholder="Projects"
+        [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
+      </ng-select>
+
+      <ng-select class="input-filter" bindLabel="name" [items]="data.adm1.value" [closeOnSelect]="false" [searchable]="true"
+        placeholder="{{mapperObject['adm1']}}" (clear)="applyFilter($event, 'locations', true)" [(ngModel)]="newObject['adm1']" (change)="selected('adm1'); applyFilter($event, 'locations'); sendSortedData()">
+      </ng-select>
+
+      <ng-select class="input-filter" bindLabel="name" [items]="data.adm2.value" [closeOnSelect]="false" [searchable]="true"
+        placeholder="{{mapperObject['adm2']}}" [(ngModel)]="newObject['adm2']" (change)="selected('adm2'); applyFilter($event, 'locations', false); sendSortedData()">
+      </ng-select>
+
+      <ng-select class="input-filter" bindLabel="name" [items]="data.adm3.value" [closeOnSelect]="false" [searchable]="true"
+        placeholder="{{mapperObject['adm3']}}" [(ngModel)]="newObject['adm3']" (change)="selected('adm3'); applyFilter($event, 'locations'); sendSortedData()">
+      </ng-select>
+
+      <ng-select class="input-filter" bindLabel="name" [items]="data.adm4.value" [closeOnSelect]="false" [searchable]="true"
+        placeholder="{{mapperObject['adm4']}}" [(ngModel)]="newObject['adm4']" (change)="selected('adm4'); applyFilter($event, 'locations'); sendSortedData()">
+      </ng-select>
+
+      <ng-select class="input-filter custom" bindLabel="name" [items]="data.vulnerabilities.value" [multiple]="true"
+        placeholder="Vulnerabilities" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
+      </ng-select>
     </div>
   </div>
 
@@ -31,9 +48,11 @@
           <app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)" [name]="image"></app-icon-svg>
         </span>
         <span *ngIf="propertiesTypes[property]=='png'">
-          <img [matTooltip]="getImageName(image)" *ngFor="let image of mapperService.mapValue(element, property)" class="png" [src]="image">
+          <img [matTooltip]="getImageName(image)" *ngFor="let image of mapperService.mapValue(element, property)" class="png"
+            [src]="image">
         </span>
-        <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element, property)}}</span>
+        <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element,
+          property)}}</span>
       </td>
     </ng-container>
 
@@ -43,10 +62,12 @@
         <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
           <mat-icon>search</mat-icon>
         </button>
-        <button *ngIf="editable && checkEntityUpdateRights() && rights" mat-icon-button (click)="update(element); $event.stopPropagation()" class="light-red">
+        <button *ngIf="editable && checkEntityUpdateRights() && rights" mat-icon-button (click)="update(element); $event.stopPropagation()"
+          class="light-red">
           <mat-icon>edit</mat-icon>
         </button>
-        <button *ngIf="editable && rightsDelete" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
+        <button *ngIf="editable && rightsDelete" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
+          class="red">
           <mat-icon>delete_outline</mat-icon>
         </button>
       </td>
@@ -64,7 +85,8 @@
     <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row cursor-pointer" (click)="openDialog('details', element)"></tr>
   </div>
 
-  <mat-paginator *ngIf="filled==true" [length]="data.length$ | async" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+  <mat-paginator *ngIf="filled==true" [length]="data.length$ | async" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10"
+    showFirstLastButtons></mat-paginator>
 </div>
 
 <td mat-cell *matCellDef="let element">
@@ -73,5 +95,5 @@
     <img src={{mapperService.mapValue(element,property)}}>
   </span>
   <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element,
-        property)}}</span>
+    property)}}</span>
 </td>

@@ -10,6 +10,7 @@ import { ExportInterface } from '../../model/export.interface';
 import { ProjectService } from '../../core/api/project.service';
 import { FormControl } from '@angular/forms';
 import { HouseholdsDataSource } from '../../model/households-data-source';
+import { LocationService } from 'src/app/core/api/location.service';
 
 @Component({
     selector: 'app-beneficiaries',
@@ -43,6 +44,7 @@ export class BeneficiariesComponent implements OnInit {
         public snackBar: MatSnackBar,
         public projectService: ProjectService,
         public dialog: MatDialog,
+        public locationService: LocationService,
     ) { }
 
     // For windows size
@@ -65,7 +67,10 @@ export class BeneficiariesComponent implements OnInit {
         this.extensionType = 'xls';
         this.dataSource = new HouseholdsDataSource(this.householdsService);
         this.dataSource.loadHouseholds();
+        this.dataSource.vulnerabilities.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
+        this.getProjects('updateSelection');
         this.checkPermission();
+        this.loadProvince();
     }
 
     /**
@@ -123,7 +128,7 @@ export class BeneficiariesComponent implements OnInit {
         this.dialog.open(template);
     }
 
-    getProjects() {
+    getProjects(target?) {
         if (!this.projectsList || this.projectsList.length === 0) {
             this.projectService.get().subscribe(
                 success => {
@@ -132,6 +137,15 @@ export class BeneficiariesComponent implements OnInit {
                             this.projectsList.push(element);
                         }
                     );
+
+                    if (target && target == 'updateSelection') {
+                        let tmpProjects: any = [];
+                        this.projectsList.forEach(project => {
+                            tmpProjects.push(project.name)
+                        });
+
+                        this.dataSource.projects.next(tmpProjects);
+                    }
                 },
                 error => {
                     this.projectsList = new Array();
@@ -162,5 +176,75 @@ export class BeneficiariesComponent implements OnInit {
 
         if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_COUNTRY_MANAGER")
             this.hasRightsExport = true;
+    }
+
+    /**
+     * Check which adm is selected to load the list of adm link to it
+     * fro example : if adm1 (province) selected load adm2
+     * @param index
+     */
+    selected(index) {
+        let newObject = index.object;
+        index = index.index;
+
+        if (index === 'adm1') {
+            const body = {};
+            body['adm1'] = newObject.adm1.id;
+            this.loadDistrict(body);
+        } else if (index === 'adm2') {
+            const body = {};
+            body['adm2'] = newObject.adm2.id;
+            this.loadCommunity(body);
+        } else if (index === 'adm3') {
+            const body = {};
+            body['adm3'] = newObject.adm3.id;
+            this.loadVillage(body);
+        }
+    }
+
+    /**
+     * Get adm1 from the back or from the cache service with the key ADM1
+     */
+    loadProvince() {
+        this.locationService.getAdm1().subscribe(response => {
+            this.dataSource.adm1.next(response);
+            this.cacheService.set(CacheService.ADM1, this.dataSource.adm1.value);
+        });
+    }
+
+    /**
+     *  Get adm2 from the back or from the cache service with the key ADM2
+     * @param adm1
+     */
+    loadDistrict(adm1) {
+        this.locationService.getAdm2(adm1).subscribe(response => {
+            this.dataSource.adm2.next(response);
+            this.cacheService.set(CacheService.ADM2, this.dataSource.adm2.value);
+
+        });
+    }
+
+    /**
+     * Get adm3 from the back or from the cahce service with the key ADM3
+     * @param adm2
+     */
+    loadCommunity(adm2) {
+        this.locationService.getAdm3(adm2).subscribe(response => {
+            this.dataSource.adm3.next(response);
+            this.cacheService.set(CacheService.ADM3, this.dataSource.adm3.value);
+
+        });
+    }
+
+    /**
+     *  Get adm4 from the back or from the cahce service with the key ADM4
+     * @param adm3
+     */
+    loadVillage(adm3) {
+        this.locationService.getAdm4(adm3).subscribe(response => {
+            this.dataSource.adm4.next(response);
+            this.cacheService.set(CacheService.ADM4, this.dataSource.adm4.value);
+
+        });
     }
 }

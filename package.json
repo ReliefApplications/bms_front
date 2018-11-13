@@ -26,6 +26,7 @@
     "@angular/service-worker": "^6.1.9",
     "@mapbox/leaflet-omnivore": "^0.3.4",
     "@ngx-pwa/local-storage": "^6.2.0",
+    "@ng-select/ng-select": "^2.11.2",
     "@ngx-translate/core": "^10.0.2",
     "@swimlane/ngx-charts": "^8.1.0",
     "angular2-counto": "^1.2.5",

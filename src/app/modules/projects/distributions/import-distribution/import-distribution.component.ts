@@ -132,15 +132,18 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                         const createList = ImportedBeneficiary.formatArray(this.importedData.created);
                         const addList = ImportedBeneficiary.formatArray(this.importedData.added);
                         const removeList = ImportedBeneficiary.formatArray(this.importedData.deleted);
+                        const updateList = ImportedBeneficiary.formatArray(this.importedData.updated);
 
                         this.numberCreated = createList ? createList.length : 0;
                         this.numberAdded = addList ? addList.length : 0;
                         this.numberRemoved = removeList ? removeList.length : 0;
-                        this.noChanges = (this.numberCreated + this.numberAdded + this.numberRemoved === 0);
+                        this.numberUpdated = updateList ? updateList.length : 0;
+                        this.noChanges = (this.numberCreated + this.numberAdded + this.numberRemoved + this.numberUpdated === 0);
 
                         this.createData = new MatTableDataSource(createList);
                         this.addingData = new MatTableDataSource(addList);
                         this.removingData = new MatTableDataSource(removeList);
+                        this.updateData = new MatTableDataSource(updateList);
 
                         this.csv = null;
                     },

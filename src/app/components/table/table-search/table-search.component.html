@@ -12,7 +12,7 @@
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
         </mat-form-field>
     </div>
-    <table mat-table *ngIf="filled==true && data.data" [dataSource]="data" matSort>
+    <table mat-table *ngIf="filled==true && data && data.data" [dataSource]="data" matSort>
 
         <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
             <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="{'integered':propertiesTypes[property]=='number'}">

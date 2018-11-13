@@ -89,10 +89,10 @@ export class DistributionData {
      * @type {Array}
      */
     commodities: Array<Commodity>;
-     /**
-     * Distribution data's commodity
-     * @type {Array}
-     */
+    /**
+    * Distribution data's commodity
+    * @type {Array}
+    */
     commodity: string;
     /**
      * validated or not
@@ -119,7 +119,7 @@ export class DistributionData {
             this.date_distribution = instance.date_distribution;
             this.validated = instance.validated;
             this.threshold = instance.threshold;
-            
+
             if (instance.commodities)
                 this.commodity = this.mapCommodity(instance.commodities[0].modality_type.name);
         }
@@ -156,7 +156,8 @@ export class DistributionData {
             date_distribution: GlobalText.TEXTS.model_distribution_date,
             commodities: GlobalText.TEXTS.model_commodity,
             commodity: GlobalText.TEXTS.model_commodity,
-            type: GlobalText.TEXTS.model_distribution_type
+            type: GlobalText.TEXTS.model_distribution_type,
+            project: GlobalText.TEXTS.model_project,
         };
     }
 
@@ -164,7 +165,7 @@ export class DistributionData {
     public static formatArray(instance): DistributionData[] {
         const distributionDatas: DistributionData[] = [];
         // console.log("formatArray before :", distributionDatas);
-        if(instance) {
+        if (instance) {
             instance.forEach(element => {
                 if (Boolean(instance.archived) === false) {
                     if (!element.archived && element && element.id && element.location && element.project && element.name && element.commodities) {
@@ -293,7 +294,7 @@ export class DistributionData {
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
             date_distribution: selfinstance.date_distribution,
-            type: selfinstance.type===0 ? 'Household' : 'Beneficiary',
+            type: selfinstance.type === 0 ? 'Household' : 'Beneficiary',
         };
     }
 
@@ -336,19 +337,35 @@ export class DistributionData {
      * return a Project after formatting its properties for the property box
      */
     getMapperBox(selfinstance): Object {
-        if (!selfinstance || !selfinstance.location || !selfinstance.commodities || !selfinstance.type || !selfinstance.distribution_beneficiaries) {
+        if (!selfinstance || !selfinstance.location || !selfinstance.commodities || !selfinstance.distribution_beneficiaries) {
+            if (selfinstance.location)
+                delete selfinstance.location;
+            if (selfinstance.threshold)
+                delete selfinstance.threshold;
+            if (selfinstance.name || selfinstance.name == '')
+                delete selfinstance.name;
+            
             return selfinstance;
         }
 
         let location;
+        let adm1 = "none";
+        let adm2 = "none";
+        let adm3 = "none";
+        let adm4 = "none";
+
         if (selfinstance.location.adm1) {
             location = selfinstance.location.adm1.name;
+            adm1 = selfinstance.location.adm1.name;
         } else if (selfinstance.location.adm2) {
             location = selfinstance.location.adm2.name;
+            adm2 = selfinstance.location.adm2.name;
         } else if (selfinstance.location.adm3) {
             location = selfinstance.location.adm3.name;
+            adm3 = selfinstance.location.adm3.name;
         } else if (selfinstance.location.adm4) {
             location = selfinstance.location.adm4.name;
+            adm4 = selfinstance.location.adm4.name;
         }
 
         let distType;
@@ -369,10 +386,10 @@ export class DistributionData {
         if (selfinstance.commodities && selfinstance.commodities.length > 0) {
             selfinstance.commodities.forEach(
                 com => {
-                    if(com.modality_type.name === 'Mobile') {
+                    if (com.modality_type.name === 'Mobile') {
                         com.modality_type.name = 'Mobile Cash';
                     }
-                    commodity = '' + commodity + com.modality_type.name 
+                    commodity = '' + commodity + com.modality_type.name
                 }
             )
         } else {
@@ -385,6 +402,11 @@ export class DistributionData {
             number_beneficiaries: num,
             commodities: commodity,
             type: distType,
+            project: selfinstance.project.name,
+            adm1: adm1,
+            adm2: adm2,
+            adm3: adm3,
+            adm4: adm4
         };
     }
 

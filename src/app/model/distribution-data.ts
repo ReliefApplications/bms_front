@@ -156,7 +156,7 @@ export class DistributionData {
             date_distribution: GlobalText.TEXTS.model_distribution_date,
             commodities: GlobalText.TEXTS.model_commodity,
             commodity: GlobalText.TEXTS.model_commodity,
-            type: 'Target'
+            type: GlobalText.TEXTS.model_distribution_type
         };
     }
 

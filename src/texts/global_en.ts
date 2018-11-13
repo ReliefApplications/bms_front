@@ -1,6 +1,5 @@
 export const TEXT = {
     dashboard_distribution_map : 'distribution map',
-    dashboard_country_program : 'cambodia programs',
     dashboard_summary : 'summary',
     dashboard_summary_1 : 'total beneficiaries',
     dashboard_summary_2 : 'active projects',
@@ -341,4 +340,10 @@ export const TEXT = {
 
     settings_project_exists: 'A project with this name already exists',
     settings_created: ' created',
+
+    model_distribution_type: 'Target',
+
+    projects_distribution_title: 'Distributions',
+
+    beneficiaries_add_list: 'Add this list to a project',
 };

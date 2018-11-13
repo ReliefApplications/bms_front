@@ -1,4 +1,5 @@
 <div class="page-container">
+<<<<<<< HEAD
     <div class="container-title">
         <h2>{{distribution.menu_projects | titlecase}}</h2>
         <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
@@ -18,6 +19,41 @@
                         <mat-icon>cloud_off</mat-icon>
                         <span> No data </span>
                     </h4>
+=======
+  <div class="container-title">
+    <h2>{{distribution.menu_projects | titlecase}}</h2>
+    <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
+    <button mat-stroked-button class="button-text-accent" *ngIf="!loadingCreation && hasRights" (click)="openNewProjectDialog()">
+        <span>NEW</span>
+    </button>
+  </div>
+  <app-placeholder-boxline *ngIf="loadingProjects && projects != undefined" class="container-boxes"></app-placeholder-boxline>
+  <div class="container-boxes" *ngIf="!loadingProjects">
+    <app-box-setting *ngFor="let project of projects" (emitClickedTitle)="selectTitle($event, project)" [selectedTitle]="selectedTitle"
+      [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'>
+    </app-box-setting>
+  </div>
+  <app-placeholder-panel class="container-table" *ngIf="loadingDistributions"></app-placeholder-panel>
+  <div class="container-table" *ngIf="!loadingDistributions && projects != undefined">
+    <div class="container-content box-green" *ngIf="isBoxClicked">
+      <h3>{{selectedProject.name | uppercase}}</h3>
+      <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService" [componentDisplayed]="selectedProject"></app-box-properties>
+      <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
+        <h3>{{distribution.projects_distribution_title}}</h3>
+        <div [ngClass]="{'add-buttons': language != 'ar', 'add-buttons-arabic': language == 'ar'}">
+            <button mat-fab *ngIf="hasRights" (click)="addDistribution()" class="add-button">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        <div class="action-buttons" *ngIf="distributionData && distributionData.data.length>0">
+            <button mat-raised-button class="button-background-primary" (click)="export()">
+              <mat-icon>get_app</mat-icon>
+              <span>{{distribution.beneficiaries_export | uppercase}}</span>
+            </button>
+            <div class="extension">
+                <div mat-button class="dropdown" [matMenuTriggerFor]="exportType">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+>>>>>>> dev
                 </div>
             </div>
         </div>

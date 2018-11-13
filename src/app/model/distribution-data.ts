@@ -360,12 +360,18 @@ export class DistributionData {
         } else if (selfinstance.location.adm2) {
             location = selfinstance.location.adm2.name;
             adm2 = selfinstance.location.adm2.name;
+            adm1 = selfinstance.location.adm2.adm1.name;
         } else if (selfinstance.location.adm3) {
             location = selfinstance.location.adm3.name;
             adm3 = selfinstance.location.adm3.name;
+            adm2 = selfinstance.location.adm3.adm2.name;
+            adm1 = selfinstance.location.adm3.adm2.adm1.name;
         } else if (selfinstance.location.adm4) {
             location = selfinstance.location.adm4.name;
             adm4 = selfinstance.location.adm4.name;
+            adm3 = selfinstance.location.adm4.adm3.name;
+            adm2 = selfinstance.location.adm4.adm3.adm2.name;
+            adm1 = selfinstance.location.adm4.adm3.adm2.adm1.name;
         }
 
         let distType;

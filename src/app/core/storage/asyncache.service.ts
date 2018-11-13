@@ -129,7 +129,7 @@ export class AsyncacheService {
     /** 
      * Waits for asynchronous user value to return it synchronously.
     */
-    getUser() : Observable<User> {
+    getUser() : Observable<any>{
         return this.get(AsyncacheService.USER).pipe(
             map(
                 result => {

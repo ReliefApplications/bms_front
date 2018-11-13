@@ -231,6 +231,14 @@
                     </div>
                 </div>
             </div>
+            <div class="content-button">
+                    <div class="action-buttons">
+                        <button mat-raised-button class="export-button" (click)="refreshStatuses()">
+                            <mat-icon>refresh</mat-icon>
+                            <span>Refresh transaction statuses</span>
+                        </button>
+                    </div>
+                </div>
             <div class="waitingDataContainer" *ngIf="loadingTransaction">
                 <mat-spinner></mat-spinner>
             </div>
@@ -244,8 +252,8 @@
             </div>
             <div class="content-button content-button-footer">
                 <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
-                <button mat-raised-button class="button-background-accent"  (click)="openDialog(transaction)" *ngIf="!transacting"
-                [matBadge]="getAmount('people')" matBadgePosition="before" matBadgeColor="primary">
+                <button mat-raised-button *ngIf="!transacting"  (click)="openDialog(transaction); codeVerif();"
+                class="button-background-accent" [matBadge]="getAmount('people')" matBadgePosition="before" matBadgeColor="primary">
                     <mat-icon>send</mat-icon> Transaction
                 </button>
             </div>
@@ -259,14 +267,20 @@
         <h4 class="modal-title underline-accent">Confirm the transaction</h4>
         <div class="dialog-template">
             <div class="modal-body">
-                <p> Please enter your email to confirm that you want to validate the transaction of this distribution. </p>
-                <mat-form-field>
-                    <input matInput placeholder="Email" [(ngModel)]="this.enteredEmail">
-                </mat-form-field>
+                <p> An email containing your validation code has been sent to : {{actualUser.email | uppercase}}. </p>
+                <p> Please paste the code here and click on 'Confirm' to proceed with the transaction : </p>
+                <br/>
+                <div class="lign-container">
+                    <button mat-stroked-button class='button-text-primary sendCode-button' (click)='codeVerif()'>Send again</button>
+                    <mat-form-field>
+                        <input matInput placeholder="Code" [(ngModel)]="enteredCode">
+                    </mat-form-field>
+                </div>
+                <br/>
             </div>
             <div class="modal-footer action">
                 <button mat-button class="cancel" (click)="exit('Transaction canceled')">Cancel</button>
-                <button mat-button class="confirm" (click)="confirmTransaction()">Confirm</button>
+                <button mat-button class="confirm" [ngClass]="{'disabled': enteredCode.length<1}" (click)="confirmTransaction()">Confirm</button>
             </div>
         </div>
     </mat-dialog-content>

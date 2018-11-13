@@ -16,6 +16,8 @@ import { AnimationRendererFactory } from '@angular/platform-browser/animations/s
 import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
 import { finalize } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { User } from 'src/app/model/user';
+import { UserService } from 'src/app/core/api/user.service';
 
 @Component({
     selector: 'app-distributions',
@@ -73,6 +75,9 @@ export class DistributionsComponent implements OnInit {
     form3: FormGroup;
     form4: FormGroup;
 
+    // Transaction.
+    actualUser = new User();
+    enteredCode = '';
     hasRights: boolean = false;
     hasRightsTransaction: boolean = false;
 
@@ -82,6 +87,7 @@ export class DistributionsComponent implements OnInit {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private beneficiariesService: BeneficiariesService,
+        private userService : UserService,
         public snackBar: MatSnackBar,
         public mapperService: Mapper,
         private dialog: MatDialog,
@@ -361,6 +367,18 @@ export class DistributionsComponent implements OnInit {
         this.dialog.closeAll();
     }
 
+    codeVerif() {
+        this.distributionService.sendCode(this.distributionId).subscribe(
+            result => {
+                if(result === true) {
+                    this.snackBar.open('Verification code has been sent at ' + this.actualUser.email, '' ,{duration: 3000, horizontalPosition: 'center'});
+                } else {
+                    this.snackBar.open('Verification code could not be sent', '' ,{duration: 3000, horizontalPosition: 'center'});
+                }
+            }
+        )
+    }
+
     /**
      * To transact
      */
@@ -368,13 +386,13 @@ export class DistributionsComponent implements OnInit {
         if (this.hasRightsTransaction) {
             this.cacheService.getUser().subscribe(
                 result => {
-                    const actualUser = result;
+                    this.actualUser = result;
 
-                    if (this.enteredEmail && actualUser.username === this.enteredEmail) {
+                    if (this.enteredEmail && this.actualUser.username === this.enteredEmail) {
                         if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]
                             && this.actualDistribution.commodities[0].modality_type && this.actualDistribution.commodities[0].modality_type.name === "Mobile Cash") {
                             this.transacting = true;
-                            this.distributionService.transaction(this.distributionId)
+                            this.distributionService.transaction(this.distributionId, this.enteredCode)
                                 .pipe(
                                     finalize(
                                         () => this.transacting = false
@@ -418,6 +436,9 @@ export class DistributionsComponent implements OnInit {
                                                 }
                                             );
                                         }
+                                    },
+                                    error => {
+                                        //...
                                     }
                                 )
                         } else {
@@ -434,6 +455,14 @@ export class DistributionsComponent implements OnInit {
             this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 3000, horizontalPosition: 'right' });
 
         this.dialog.closeAll();
+    }
+
+    refreshStatuses() {
+        this.distributionService.refreshTransaction(this.distributionId).subscribe(
+            result => {
+                //...
+            }
+        )
     }
 
     /**
@@ -565,6 +594,8 @@ export class DistributionsComponent implements OnInit {
     checkPermission() {
         this.cacheService.getUser().subscribe(
             result => {
+                console.log('cu:', result);
+                this.setUser(result.user_id);
                 if(result && result.voters) {
                     const voters = result.voters;
                     if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
@@ -572,6 +603,22 @@ export class DistributionsComponent implements OnInit {
 
                     if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == 'ROLE_COUNTRY_MANAGER')
                         this.hasRightsTransaction = true;
+                }
+            }
+        )
+    }
+
+    setUser(userId) {
+        this.userService.get().subscribe(
+            result => {
+                if(result) {
+                    result.forEach(
+                        element => {
+                            if(element.id === userId) {
+                                this.actualUser = element;
+                            }
+                        }
+                    )
                 }
             }
         )

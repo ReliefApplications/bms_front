@@ -38,7 +38,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
     @ViewChild(MatSort) set content(content: ElementRef<MatSort>) {
         this.sort = content;
-        if (this.sort) {
+        if (this.sort && this.data) {
             this.data.sort = this.sort;
         }
     }
@@ -160,7 +160,7 @@ export class TableComponent implements OnChanges, DoCheck {
     }
 
     setDataTableProperties() {
-        if(this.data.data) {
+        if(this.data && this.data._data && this.data._data.value) {
             this.data.sort = this.sort;
             if (this.paginator) {
                 this.paginator._intl.itemsPerPageLabel = this.table.table_items_per_page;

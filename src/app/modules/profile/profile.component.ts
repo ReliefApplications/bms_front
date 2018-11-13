@@ -53,7 +53,6 @@ export class ProfileComponent implements OnInit, DoCheck {
                         email: this.actualUser.username
                     });
                 } else {
-                    //...
                 }
             }
         );

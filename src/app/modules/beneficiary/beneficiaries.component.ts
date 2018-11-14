@@ -66,7 +66,6 @@ export class BeneficiariesComponent implements OnInit {
         this.checkSize();
         this.extensionType = 'xls';
         this.dataSource = new HouseholdsDataSource(this.householdsService);
-        this.dataSource.loadHouseholds();
         this.dataSource.vulnerabilities.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
         this.getProjects('updateSelection');
         this.checkPermission();

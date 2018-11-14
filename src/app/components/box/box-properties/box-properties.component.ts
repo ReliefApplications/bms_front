@@ -35,7 +35,6 @@ export class BoxPropertiesComponent {
         this.properties = Object.getOwnPropertyNames(entityInstance.getMapperBox(entityInstance));
         this.numberOfColumns();
         this.elementObject = entityInstance.getMapperBox(this.componentDisplayed);
-        // console.log('properties:', this.properties);
     }
 
     ngDoCheck() {

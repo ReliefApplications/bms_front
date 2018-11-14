@@ -115,4 +115,8 @@ export class HouseholdsService {
         return this.exportService.export('householdsTemplate', true, extensionType);
     }
 
+    public delete(householdId: number) {
+        const url = this.api + '/households/' + householdId;
+        return this.http.delete(url);
+    }
 }

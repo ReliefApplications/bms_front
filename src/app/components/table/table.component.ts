@@ -22,6 +22,7 @@ import { WsseService } from '../../core/authentication/wsse.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { LocationService } from 'src/app/core/api/location.service';
+import { HouseholdsService } from 'src/app/core/api/households.service';
 
 @Component({
     selector: 'app-table',
@@ -84,16 +85,17 @@ export class TableComponent implements OnChanges, DoCheck {
         public authenticationService: AuthenticationService,
         public _wsseService: WsseService,
         public distributionService: DistributionService,
-        public locationService: LocationService
+        public locationService: LocationService,
+        public householdsService: HouseholdsService
     ) { }
 
     ngOnChanges() {
-        if(this.data && this.data._data && this.data._data.value)
+        if (this.data && this.data._data && this.data._data.value)
             this.checkData();
     }
 
     ngDoCheck() {
-        if(this.data && this.data.data) {
+        if (this.data && this.data.data) {
             if (this.entity !== this.oldEntity) {
                 this.checkData();
             }
@@ -106,7 +108,7 @@ export class TableComponent implements OnChanges, DoCheck {
                 this.mapperService.setMapperObject(this.entity);
             }
         }
-        
+
     }
 
     checkEntityUpdateRights() {
@@ -136,11 +138,11 @@ export class TableComponent implements OnChanges, DoCheck {
     }
 
     updateData() {
-        if(this.data.data) {
+        if (this.data.data) {
             if (this.entity.__classname__ == 'DistributionData') {
                 this.distributionService.getByProject(this.data.data[0].project.id).subscribe(response => {
                     this.data = new MatTableDataSource(this.entity.formatArray(response));
-    
+
                     this.setDataTableProperties();
                 }, error => {
                     console.error('error', error);
@@ -153,6 +155,17 @@ export class TableComponent implements OnChanges, DoCheck {
                     }
                 );
             }
+            else if (this.entity.__classname__ == 'Households') {
+                this.data.loadHouseholds(
+                    this.data.filter,
+                    {
+                        sort: this.sort ? this.sort.active : null,
+                        direction: this.sort ? this.sort.direction : null
+                    },
+                    this.paginator.pageIndex,
+                    this.paginator.pageSize
+                );
+            }
             else {
                 this.service.get().subscribe(response => {
                     this.data = new MatTableDataSource(this.entity.formatArray(response));
@@ -162,7 +175,7 @@ export class TableComponent implements OnChanges, DoCheck {
     }
 
     setDataTableProperties() {
-        if(this.data && this.data._data && this.data._data.value) {
+        if (this.data && this.data._data && this.data._data.value) {
             this.data.sort = this.sort;
             if (this.paginator) {
                 this.paginator._intl.itemsPerPageLabel = this.table.table_items_per_page;
@@ -174,7 +187,7 @@ export class TableComponent implements OnChanges, DoCheck {
                 this.data.paginator = this.paginator;
             }
         }
-        
+
     }
 
 
@@ -266,12 +279,12 @@ export class TableComponent implements OnChanges, DoCheck {
     }
 
     applyFilter(filterValue: any, category?: string, suppress?: boolean): void {
-        if(this.data && this.data._data) {
+        if (this.data && this.data._data) {
             if (suppress) {
                 const index = this.data.filter.findIndex(function (value) {
                     return value.category == category;
                 });
-    
+
                 this.data.filter.splice(index, 1);
             }
             else {
@@ -283,15 +296,15 @@ export class TableComponent implements OnChanges, DoCheck {
                                 filterValue = filterValue.split(/[\s,]+/);
                             }
                         }
-    
+
                         if (category == 'locations') {
                             filterValue = filterValue.name;
                         }
-    
+
                         const index = this.data.filter.findIndex(function (value) {
                             return value.category == category;
                         });
-    
+
                         if (index >= 0)
                             if (filterValue.length == 0 || filterValue == "")
                                 this.data.filter.splice(index, 1);
@@ -300,7 +313,7 @@ export class TableComponent implements OnChanges, DoCheck {
                         else
                             if (filterValue.length != 0 || filterValue != "")
                                 this.data.filter.push({ filter: filterValue, category: category });
-    
+
                     }
                     else {
                         filterValue = filterValue.trim(); // Remove whitespace
@@ -313,7 +326,7 @@ export class TableComponent implements OnChanges, DoCheck {
                         const index = this.data.filter.findIndex(function (value) {
                             return value.category == category;
                         });
-    
+
                         this.data.filter.splice(index, 1);
                     }
                 }
@@ -354,7 +367,7 @@ export class TableComponent implements OnChanges, DoCheck {
             } else {
                 this._cacheService.get(AsyncacheService.USER).subscribe(
                     result => {
-                        if(result && result.salted_password)
+                        if (result && result.salted_password)
                             updateElement['password'] = result.salted_password;
                     }
                 )
@@ -380,6 +393,12 @@ export class TableComponent implements OnChanges, DoCheck {
         if (this.entity === Beneficiaries) {
             // console.log('delete: ', this.deleteElement['id']);
             this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
+                this.snackBar.open(this.entity.__classname__ + this.table.table_element_deleted, '', { duration: 3000, horizontalPosition: 'right' });
+                this.updateData();
+            });
+        }
+        else if (this.entity.__classname__ == 'Households') {
+            this.householdsService.delete(deleteElement['id']).subscribe(response => {
                 this.snackBar.open(this.entity.__classname__ + this.table.table_element_deleted, '', { duration: 3000, horizontalPosition: 'right' });
                 this.updateData();
             });

@@ -132,12 +132,13 @@ export class BeneficiariesComponent implements OnInit {
         if (!this.projectsList || this.projectsList.length === 0) {
             this.projectService.get().subscribe(
                 success => {
+                    this.projectsList = [];
+                    
                     success.forEach(
                         element => {
                             this.projectsList.push(element);
                         }
                     );
-
                     if (target && target == 'updateSelection') {
                         let tmpProjects: any = [];
                         this.projectsList.forEach(project => {

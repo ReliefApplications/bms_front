@@ -244,7 +244,7 @@
             </div>
             <div class="content-button content-button-footer">
                 <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
-                <button mat-raised-button class="button-background-accent"  (click)="openDialog(transaction)" *ngIf="!transacting"
+                <button mat-raised-button class="button-background-accent"  (click)="openDialog(transaction)" *ngIf="hasRightsTransaction && !transacting"
                 [matBadge]="getAmount('people')" matBadgePosition="before" matBadgeColor="primary">
                     <mat-icon>send</mat-icon> Transaction
                 </button>

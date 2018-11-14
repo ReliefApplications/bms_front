@@ -139,15 +139,16 @@ export class AppComponent {
         if (e.nameComponent === 'project_title' || e.nameComponent === 'beneficiaries_title'
             || e.nameComponent === 'report_title' || e.nameComponent === 'settings_title' || e.nameComponent === 'login') {
             this.currentComponent = e.nameComponent;
-        } 
+        }
         else if (e.nameComponent === 'dashboard_title') {
             this.currentComponent = null;
         } else {
-            if(!this.hasRights && e.nameComponent !== 'profile_title') {
+            if(!this.hasRights && e.nameComponent !== 'profile_title' && e.nameComponent !== 'distribution_title') {
                 this.router.navigate(['']);
                 e.nameComponent = '';
             }
         }
+
         if (!this.hasRights && e.nameComponent === 'settings_title') {
             this.router.navigate(['']);
             e.nameComponent = '';

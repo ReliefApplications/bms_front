@@ -280,7 +280,7 @@
             </div>
             <div class="modal-footer action">
                 <button mat-button class="cancel" (click)="exit('Transaction canceled')">Cancel</button>
-                <button mat-button class="confirm" [ngClass]="{'disabled': enteredCode.length<1}" (click)="confirmTransaction()">Confirm</button>
+                <button mat-button class="confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()">Confirm</button>
             </div>
         </div>
     </mat-dialog-content>

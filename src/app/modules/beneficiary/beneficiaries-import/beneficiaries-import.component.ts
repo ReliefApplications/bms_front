@@ -92,6 +92,7 @@ export class BeneficiariesImportComponent implements OnInit {
   getProjects() {
     this.referedClassService = this._projectService;
     this.referedClassService.get().subscribe(response => {
+      this.projectList = [];
       response = this.referedClassToken.formatArray(response);
       response.forEach(element => {
         const concat = element.id + ' - ' + element.name;

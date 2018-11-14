@@ -11,7 +11,7 @@
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
         </mat-form-field>
     </div>
-    <div *ngIf="filled">
+    <div *ngIf="filled && data">
         <table *ngFor="let element of data._renderData._value" class="box-element">
             <tbody>
                 <tr *ngFor="let property of properties" (click)="openDialog('details', element)" class="cursor-pointer">

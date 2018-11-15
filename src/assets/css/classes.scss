@@ -193,6 +193,11 @@
     color: darkgrey;
 }
 
+.disabled {
+    pointer-events: none;
+    background-color: grey !important;
+}
+
 .action-buttons {
     display: flex;
     justify-content: flex-end;

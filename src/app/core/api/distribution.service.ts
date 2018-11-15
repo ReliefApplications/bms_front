@@ -76,9 +76,20 @@ export class DistributionService {
             return this.exportService.export('beneficiariesInDistribution', id, extensionType);
         }
     }
-
-    public transaction(id: number) {
+    public refreshTransaction(id: number) {
+        const url = this.api + '/transaction/distribution/' + id + '/email';
+        return this.http.get(url);
+    }
+    public transaction(id: number, code: string) {
         const url = this.api + '/transaction/distribution/' + id + '/send';
+        let body = {
+            code : code
+        };
+        return this.http.post(url, body);
+    }
+
+    public sendCode(id: number) {
+        const url = this.api + '/transaction/distribution/' + id + '/email';
         let body = {};
         return this.http.post(url, body);
     }

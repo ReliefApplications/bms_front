@@ -44,6 +44,15 @@ app-table-mobile{
     height: 100%;
 }
 
+.lign-container {
+    display: flex;
+    align-items: center;
+
+    button {
+        margin-right: 15px;
+    }
+}
+
 .container-content {
     border-top: solid 12px $bms_green;
 }
@@ -184,6 +193,10 @@ app-table-mobile{
             width: 47px;
         }
     }
+}
+
+.sendCode-button {
+    width: 150px !important;
 }
 
 .action-buttons {

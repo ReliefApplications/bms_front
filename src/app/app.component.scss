@@ -64,4 +64,12 @@
         align-items: center;
       }
     }
+    
+}
+
+
+@media only screen and (max-width: 750px) {
+    .page-content-wrapper {
+        margin-left: 0px !important;
+    }
 }

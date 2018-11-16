@@ -40,6 +40,7 @@ export class AppComponent {
 
     ngOnInit() {
         this.checkSize();
+        GlobalText.changeLanguage();
     }
 
     @HostListener('window:resize', ['$event'])

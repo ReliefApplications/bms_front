@@ -376,7 +376,6 @@ export class DistributionsComponent implements OnInit {
                     () => {
                         this.lastCodeSentTime = (new Date()).getTime();
                         this.snackBar.open('Verification code has been sent at ' + this.actualUser.email, '', { duration: 3000, horizontalPosition: 'center' });
-                        console.log('cc');
                     }
                 )
             ).subscribe();
@@ -593,7 +592,6 @@ export class DistributionsComponent implements OnInit {
     checkPermission() {
         this.cacheService.getUser().subscribe(
             result => {
-                console.log('cu:', result);
                 this.setUser(result.user_id);
                 if (result && result.voters) {
                     const voters = result.voters;

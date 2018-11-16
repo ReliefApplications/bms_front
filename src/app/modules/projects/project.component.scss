@@ -66,6 +66,18 @@ app-placeholder-panel {
         font-size: 60px;
     }
 
+    .resume {
+        display: flex;
+        justify-content: center;
+
+        p {
+            width: fit-content;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: $bms-highlight;
+        }
+    }
+
     i {
         padding-left: 10px;
         font-weight: 500;

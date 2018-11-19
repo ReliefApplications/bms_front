@@ -40,17 +40,21 @@
           span {
             margin-left: 1.5em;
           }
-        }
-        mat-list-item:nth-of-type(odd) {
           &.selected {
-            color: $bms_red;
+              color: $menu_select_color;
+              background-color: $menu_select_bg;
           }
         }
-        mat-list-item:nth-of-type(even) {
-          &.selected {
-            color: $bms_green;
-          }
-        }
+        // mat-list-item:nth-of-type(odd) {
+        //   &.selected {
+        //     color: $bms_red;
+        //   }
+        // }
+        // mat-list-item:nth-of-type(even) {
+        //   &.selected {
+        //     color: $bms_green;
+        //   }
+        // }
     }
 
     mat-toolbar {

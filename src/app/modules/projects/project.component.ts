@@ -102,6 +102,7 @@ export class ProjectComponent implements OnInit {
         this.isBoxClicked = true;
         this.selectedTitle = title;
         this.selectedProject = project;
+        this.loadingDistributions = true;
         this.getDistributionsByProject(project.id);
     }
 

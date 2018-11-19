@@ -160,7 +160,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                     })
                 ).subscribe(
                     success => {
-                        this.snackBar.open(this.TEXT.import_distribution_updated, '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.TEXT.import_distribution_updated, '', { duration: 5000, horizontalPosition: 'center' });
                         this.success.emit(true);
                         this.loadUpdate = false;
                         this.importedData = null;
@@ -174,7 +174,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
             }
         }
         else 
-            this.snackBar.open(this.TEXT.import_distribution_no_right_update, '', { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open(this.TEXT.import_distribution_no_right_update, '', { duration: 5000, horizontalPosition: 'right' });
     }
 
     goBack() {

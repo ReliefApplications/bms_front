@@ -242,7 +242,7 @@ export class SettingsComponent implements OnInit {
 
                 this.data.data.forEach(element => {
                     if (element.name == data.name) {
-                        this.snackBar.open(this.settings.settings_project_exists, '', { duration: 3000, horizontalPosition: 'right' });
+                        this.snackBar.open(this.settings.settings_project_exists, '', { duration: 5000, horizontalPosition: 'right' });
                         exists = true;
                         return;
                     }
@@ -265,7 +265,7 @@ export class SettingsComponent implements OnInit {
         createElement = this.referedClassToken.formatForApi(createElement);
         if (this.referedClassToken.__classname__ !== 'User') {
             this.referedClassService.create(createElement['id'], createElement).subscribe(response => {
-                this.snackBar.open(this.referedClassToken.__classname__ + this.settings.settings_created, '', { duration: 3000, horizontalPosition: 'right' });
+                this.snackBar.open(this.referedClassToken.__classname__ + this.settings.settings_created, '', { duration: 5000, horizontalPosition: 'right' });
                 this.selectTitle(this.selectedTitle);
             });
         } else {
@@ -282,7 +282,7 @@ export class SettingsComponent implements OnInit {
                     }
 
                     this.authenticationService.createUser(createElement, response).subscribe(() => {
-                        this.snackBar.open(this.referedClassToken.__classname__ + this.settings.settings_created, '', { duration: 3000, horizontalPosition: 'right' });
+                        this.snackBar.open(this.referedClassToken.__classname__ + this.settings.settings_created, '', { duration: 5000, horizontalPosition: 'right' });
                         this.selectTitle(this.selectedTitle);
                     });
                 }

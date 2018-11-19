@@ -133,7 +133,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         if (event.value)
             this.newObject.date_distribution = event.value.toLocaleDateString();
         else
-            this.snackBar.open(this.distribution.add_distribution_check_date, '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.distribution.add_distribution_check_date, '', { duration: 5000, horizontalPosition: 'center' });
 
     }
 
@@ -401,7 +401,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
             dateObjectDistribution.setDate(dateObjectDistribution.getDate() + 1);
 
             if (dateObjectDistribution.getTime() <= new Date(this.projectInfo.startDate).getTime() || dateObjectDistribution.getTime() >= new Date(this.projectInfo.endDate).getTime()) {
-                this.snackBar.open(this.distribution.add_distribution_date_inside_project, '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.distribution.add_distribution_date_inside_project, '', { duration: 5000, horizontalPosition: 'center' });
                 return;
             }
             else {
@@ -444,16 +444,16 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 const promise = this._distributionService.add(newDistribution);
                 if (promise) {
                     promise.toPromise().then(response => {
-                        this.snackBar.open(this.distribution.add_distribution_distribution + response.distribution.name + this.distribution.add_distribution_created, '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.distribution.add_distribution_distribution + response.distribution.name + this.distribution.add_distribution_created, '', { duration: 5000, horizontalPosition: 'center' });
                         this.router.navigate(['projects/distributions/' + response.distribution.id]);
                     });
                 } else {
-                    this.snackBar.open(this.distribution.add_distribution_error_creating, '', { duration: 3000, horizontalPosition: 'center' });
+                    this.snackBar.open(this.distribution.add_distribution_error_creating, '', { duration: 5000, horizontalPosition: 'center' });
                     this.loadingCreation = false;
                 }
             }
         } else {
-            this.snackBar.open(this.distribution.add_distribution_check_fields, '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.distribution.add_distribution_check_fields, '', { duration: 5000, horizontalPosition: 'center' });
         }
 
     }

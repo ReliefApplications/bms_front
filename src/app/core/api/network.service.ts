@@ -30,7 +30,7 @@ export class NetworkService {
             status => {
                 if (this.CONNECTED !== status) {
                     let newStatusNotification = status ? 'connected to the network' : 'disconnected from the network';
-                    this.snackbar.open('You are now ' + newStatusNotification, '', {duration: 3000, horizontalPosition: 'center'});
+                    this.snackbar.open('You are now ' + newStatusNotification, '', {duration: 5000, horizontalPosition: 'center'});
                     this.CONNECTED = status;
                 }
             }

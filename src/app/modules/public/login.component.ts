@@ -6,32 +6,34 @@ import { User, ErrorInterface } from '../../model/user';
 
 import { GlobalText } from '../../../texts/global';
 import { MatSnackBar } from '@angular/material';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, from } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Component({
-	selector: 'app-login',
-	templateUrl: './login.component.html',
-	styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
 
-	public nameComponent = GlobalText.TEXTS.login_title;
-	public login = GlobalText.TEXTS;
-    private authUser$ : Subscription;
+    public nameComponent = GlobalText.TEXTS.login_title;
+    public login = GlobalText.TEXTS;
+    private authUser$: Subscription;
 
-	public user: User;
-	public forgotMessage: boolean = false;
+    public user: User;
+    public forgotMessage: boolean = false;
+    public loader: boolean = false;
 
-	constructor(
-		public _authService: AuthenticationService,
-		public router: Router,
-		public snackBar: MatSnackBar
-	) { }
+    constructor(
+        public _authService: AuthenticationService,
+        public router: Router,
+        public snackBar: MatSnackBar
+    ) { }
 
-	ngOnInit() {
+    ngOnInit() {
         GlobalText.resetMenuMargin();
         this.initLoginUser();
-	}
+    }
 
     /**
      * Preaload the component
@@ -40,10 +42,10 @@ export class LoginComponent implements OnInit {
         // Preapre the User variable.
         this.blankUser();
         // Get the real user.
-		this.authUser$ = this._authService.getUser().subscribe(
+        this.authUser$ = this._authService.getUser().subscribe(
             result => {
                 this.user = result;
-                if(this.user) {
+                if (this.user) {
                     this.user.username = "tester";
                     this.user.password = "tester";
                     // console.log('initialised user --', this.user);
@@ -69,28 +71,37 @@ export class LoginComponent implements OnInit {
 	/**
    	* check if the langage has changed
    	*/
-	ngDoCheck() {
-		if (this.login != GlobalText.TEXTS) {
-			this.login = GlobalText.TEXTS;
-		}
-	}
+    ngDoCheck() {
+        if (this.login != GlobalText.TEXTS) {
+            this.login = GlobalText.TEXTS;
+        }
+    }
 
     /**
      * When the user hits login
      */
-	loginAction(): void {
-		this._authService.login(this.user)
-			.then(
+    loginAction(): void {
+        this.loader = true;
+        const subscription = from(this._authService.login(this.user));
+        subscription
+        .pipe(
+            finalize(
+                () => {
+                    this.loader = false;
+                }
+            )
+        )
+            .subscribe(
                 (user: User) => {
-                this.router.navigate(['/']);
-                GlobalText.changeLanguage();
-			})
-			.catch((error: ErrorInterface) => {
-				this.snackBar.open(error.message, '', { duration: 3000, horizontalPosition: "center" });
-				this.forgotMessage = true;
-			});
+                    this.router.navigate(['/']);
+                    GlobalText.changeLanguage();
+                },
+                (error: ErrorInterface) => {
+                    this.snackBar.open(error.message, '', { duration: 3000, horizontalPosition: "center" });
+                    this.forgotMessage = true;
+                });
     }
-    
+
     ngOnDestroy() {
         this.authUser$.unsubscribe();
     }

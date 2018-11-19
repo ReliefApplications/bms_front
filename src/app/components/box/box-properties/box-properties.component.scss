@@ -10,21 +10,27 @@
       padding: 10px !important;
       width: 130px;
       height: 50px;
-      border-bottom: 5px solid $bms_red;
       display: flex;
       flex-direction: column;
+      box-shadow: none;
+
       h5 {
         margin-bottom: 0;
-        height: 25px;
+        height: 30px;
+        text-align: center;
+        border-bottom: solid 3px $bms_light_blue;
       }
       h3 {
         margin-top: 0;
         margin-bottom: 0;
+        text-align: center;
+        padding-top: 5px;
       }
       .sector-icons {
         display: flex;
         align-items: baseline;
         justify-content: space-between;
+        padding-top: 5px;
       }
     }
   }

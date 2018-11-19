@@ -12,7 +12,6 @@ export class TableDashboardComponent extends TableComponent implements DoCheck {
 
   ngDoCheck() {
     if (this.data && this.data.data && this.data.data.length > RECENT_DIST_LENGTH) {
-        console.log(this.data.data);
         this.data.data = this.data.data.slice(-RECENT_DIST_LENGTH);
     }
   }

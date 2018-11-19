@@ -34,6 +34,7 @@
             min-width: 200px;
             height : 80px;
             box-shadow: $bms_shadow;
+            border-radius: 8px;
         }
     }
 
@@ -43,7 +44,7 @@
         padding: 20px;
 
         .box-green {
-              border-top: solid 12px $bms_green;
+              border-top: solid 12px $bms_dark_blue;
         }
         .box-red {
               border-top: solid 12px $bms_red;

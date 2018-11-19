@@ -57,7 +57,7 @@
             </div>
             <div class="undisplay new-project" *ngIf="selectedProject.number_of_households == '0' &&  !noNetworkData">
                 <mat-icon>group_add</mat-icon>
-                <p> This project does not contain any household. </p>
+                <div class="resume"><p> This project does not contain any household.</p> </div>
                 <p> Please add some beneficiaries first ! Then you will be able to manage some distributions...
                 </p>
                 <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries">
@@ -66,7 +66,7 @@
             </div>
             <div class="undisplay empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData && distributionData.data.length==0 && !noNetworkData">
                 <mat-icon>find_in_page</mat-icon>
-                <p> This project does not contain any distribution. Create your first one !</p>
+                <div class="resume"><p> This project does not contain any distribution. Create your first one !</p></div>
                 <i> Click on <mat-icon>add_circle</mat-icon> </i>
             </div>
             <div class="content-table" *ngIf="(distributionData && distributionData.data.length>0) && !noNetworkData">
@@ -88,7 +88,7 @@
                 <div class="container-content box-green">
                     <div class="undisplay new-project">
                         <mat-icon>note_add</mat-icon>
-                        <p> This country does not contain any project. </p>
+                        <div class="resume"><p> This country does not contain any project.</p> </div>
                         <p> Please add some projects first ! Then you will be able to manage some distributions... </p>
                         <button mat-raised-button class="button-background-primary" (click)="openNewProjectDialog()">
                             Create a new project

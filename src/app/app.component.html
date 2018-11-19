@@ -11,7 +11,7 @@
             </mat-list-item>
             <mat-list-item [ngClass]="{selected: currentComponent==='project_title'}" routerLink="/projects" (click)="setCurrentRoute('projects'); toggle(sidenav)">
                 <span class="full-width" *ngIf="isShowing">{{menu.menu_projects | titlecase}}</span>
-                <mat-icon mat-list-icon>local_shipping</mat-icon>
+                <mat-icon mat-list-icon>assignment</mat-icon>
             </mat-list-item>
             <mat-list-item [ngClass]="{selected: currentComponent==='beneficiaries_title'}" routerLink="/beneficiaries"
                 (click)="setCurrentRoute('beneficiaries'); toggle(sidenav)">

@@ -6,8 +6,8 @@ import { User, ErrorInterface } from '../../model/user';
 
 import { GlobalText } from '../../../texts/global';
 import { MatSnackBar } from '@angular/material';
-import { Observable, Subscription, from } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { Observable, Subscription, from, of } from 'rxjs';
+import { finalize, catchError } from 'rxjs/operators';
 
 @Component({
     selector: 'app-login',
@@ -85,6 +85,10 @@ export class LoginComponent implements OnInit {
         const subscription = from(this._authService.login(this.user));
         subscription
         .pipe(
+            catchError((error: any) => {
+                this.changeLoader(false);
+                return of(error);
+            }),
             finalize(
                 () => {
                     this.loader = false;
@@ -106,4 +110,7 @@ export class LoginComponent implements OnInit {
         this.authUser$.unsubscribe();
     }
 
+    changeLoader(bool) {
+        this.loader = bool;
+    }
 }

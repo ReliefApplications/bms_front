@@ -122,11 +122,14 @@ export class ProjectComponent implements OnInit {
             )
         ).subscribe(
             response => {
+                console.log(response);
                 if (response && response.length > 0) {
                     this.projects = this.projectClass.formatArray(response).reverse();
                     this.selectTitle(this.projects[0].name, this.projects[0]);
+                    this.loadingProjects = false;
                 } else if(response === null){
                     this.projects = null;
+                    this.loadingProjects = false;
                 }
 
             }
@@ -145,26 +148,28 @@ export class ProjectComponent implements OnInit {
                         this.loadingDistributions = false;
                     },
                 )
-            ).toPromise().then(
+            ).subscribe(
                 response => {
                     //console.log(response);
                     if (response || response === []) {
                         this.noNetworkData = false;
                         const distribution = DistributionData.formatArray(response);
+                        this.loadingDistributions = false;
 
                         this.distributionData = new MatTableDataSource(distribution);
                     } else {
                         this.distributionData = null;
+                        this.loadingDistributions = false;
                         this.noNetworkData = true;
                     }
                 }
             )
-            .catch(
-                error => {
-                    this.distributionData = null;
-                    this.noNetworkData = true;
-                }
-            )
+            // .catch(
+            //     error => {
+            //         this.distributionData = null;
+            //         this.noNetworkData = true;
+            //     }
+            // )
     }
 
     addDistribution() {

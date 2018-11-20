@@ -173,8 +173,9 @@ export class SettingsComponent implements OnInit {
                     this.loadingData = false;
                 }
             )
-        ).toPromise().then(response => {
+        ).subscribe( response => {
             if(response) {
+                this.loadingData = false;
                 if (response && response[0] && response[0].email && response[0].username && response[0].roles)
                     response.forEach(element => {
                         element.projects = new Array<number>();
@@ -216,13 +217,14 @@ export class SettingsComponent implements OnInit {
 
             } else {
                 this.data = new MatTableDataSource(null);
+                this.loadingData = false;
             }
         })
-        .catch(
-            () => { 
-                this.data = new MatTableDataSource(null);
-            }
-        );
+        // .catch(
+        //     () => { 
+        //         this.data = new MatTableDataSource(null);
+        //     }
+        // );
     }
 
     /**

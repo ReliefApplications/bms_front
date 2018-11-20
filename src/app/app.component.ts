@@ -43,6 +43,12 @@ export class AppComponent {
         GlobalText.changeLanguage();
     }
 
+    ngDoCheck() {
+        if(this.menu !== GlobalText.TEXTS) {
+            this.menu = GlobalText.TEXTS;
+        }
+    }
+
     @HostListener('window:resize', ['$event'])
     onResize(event) {
         this.checkSize();

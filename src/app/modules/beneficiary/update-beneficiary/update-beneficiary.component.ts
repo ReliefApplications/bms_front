@@ -825,7 +825,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     getVulnerabilityCriteria() {
         const promise = this._criteriaService.getVulnerabilityCriteria();
         if (promise) {
-            promise.toPromise().then(response => {
+            promise.subscribe(
+                response => {
                 const responseCriteria = Criteria.formatArray(response);
                 responseCriteria.forEach(element => {
                     this.vulnerabilityList.push(element);
@@ -840,7 +841,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     getCountrySpecifics() {
         const promise = this._countrySpecificsService.get();
         if (promise) {
-            promise.toPromise().then(response => {
+            promise.subscribe(response => {
                 const responseCountrySpecifics = CountrySpecific.formatArray(response);
                 responseCountrySpecifics.forEach(element => {
                     this.countrySpecificsList.push(

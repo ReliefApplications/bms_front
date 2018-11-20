@@ -44,8 +44,10 @@ export class HeaderComponent implements OnInit {
     }
 
     ngDoCheck() {
-        if (this.header !== GlobalText.TEXTS)
+        if (this.header !== GlobalText.TEXTS) {
             this.header = GlobalText.TEXTS;
+            this.updateBreadcrumb();
+        }
     }
 
     /**

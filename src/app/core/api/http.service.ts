@@ -6,7 +6,7 @@ import { Router, UrlHandlingStrategy                                     } from 
 
 //Services
 import { WsseService                                } from '../authentication/wsse.service';
-import { Observable, concat, of } from 'rxjs';
+import { Observable, concat, of, merge } from 'rxjs';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { map } from 'rxjs/operators';
 import { NetworkService } from './network.service';

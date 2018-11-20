@@ -100,6 +100,7 @@ export class DashboardComponent implements OnInit {
                     distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
                     //console.log(distribs);
                     this.distributions = distribs;
+                    this.loadingTable = false;
                 });
     }
 
@@ -112,6 +113,7 @@ export class DashboardComponent implements OnInit {
             .pipe(
                 finalize(
                     () => {
+                        this.loadingSummary = false
                         this.loadingSummary = false
                     },
                 )

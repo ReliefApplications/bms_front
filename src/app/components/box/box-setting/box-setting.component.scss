@@ -9,7 +9,7 @@ $box-content: 80px;
     border-radius: 8px;
     overflow: hidden;
     animation: box-right-in 0.3s;
-    background-color: bms_white;
+    background-color: $bms_white;
 
     .content-icon{
         background-color: $bms_green;

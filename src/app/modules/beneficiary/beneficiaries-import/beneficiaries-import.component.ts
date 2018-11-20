@@ -67,7 +67,7 @@ export class BeneficiariesImportComponent implements OnInit {
   ngOnInit() {
     const voters = this._cacheService.get('user').voters;
     if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
-      this.snackBar.open(this.household.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
+      this.snackBar.open(this.household.forbidden_message, '', { duration: 5000, horizontalPosition: 'center' });
       this.router.navigate(['']);
     }
     else {
@@ -154,7 +154,7 @@ export class BeneficiariesImportComponent implements OnInit {
   addHouseholds() {
     const data = new FormData();
     if (!this.csv || !this.selectedProject || this.load) {
-      this.snackBar.open(this.household.beneficiaries_import_select_project, '', { duration: 3000, horizontalPosition: 'center' });
+      this.snackBar.open(this.household.beneficiaries_import_select_project, '', { duration: 5000, horizontalPosition: 'center' });
     } else {
       const project = this.selectedProject.split(' - ');
       data.append('file', this.csv);
@@ -164,12 +164,12 @@ export class BeneficiariesImportComponent implements OnInit {
         this.router.navigate(['/beneficiaries/import/data-validation']);
       }, (err) => {
         this.load = false;
-        this.snackBar.open(err.message, '', { duration: 3000, horizontalPosition: 'center' });
+        this.snackBar.open(err.message, '', { duration: 5000, horizontalPosition: 'center' });
       })
         .catch(
           () => {
             this.load = false;
-            this.snackBar.open(this.household.beneficiaries_import_error_importing, '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.household.beneficiaries_import_error_importing, '', { duration: 5000, horizontalPosition: 'center' });
           }
         );
     }
@@ -265,22 +265,22 @@ export class BeneficiariesImportComponent implements OnInit {
         .subscribe(response => {
           if (response.error) {
             this.load = false;
-            this.snackBar.open(response.error, '', { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open(response.error, '', { duration: 5000, horizontalPosition: 'right' });
             delete this.paramToSend['provider'];
           }
           else if (response.exist) {
             this.load = false;
-            this.snackBar.open(response.exist, '', { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open(response.exist, '', { duration: 5000, horizontalPosition: 'right' });
             delete this.paramToSend['provider'];
           }
           else {
-            this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 5000, horizontalPosition: 'right' });
             this.router.navigate(['/beneficiaries']);
           }
         });
     }
     else
-      this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 3000, horizontalPosition: 'right' });
+      this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
   }
 
 }

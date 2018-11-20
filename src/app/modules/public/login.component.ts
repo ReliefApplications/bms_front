@@ -101,7 +101,7 @@ export class LoginComponent implements OnInit {
                     GlobalText.changeLanguage();
                 },
                 (error: ErrorInterface) => {
-                    this.snackBar.open(error.message, '', { duration: 3000, horizontalPosition: "center" });
+                    this.snackBar.open(error.message, '', { duration: 5000, horizontalPosition: "center" });
                     this.forgotMessage = true;
                 });
     }

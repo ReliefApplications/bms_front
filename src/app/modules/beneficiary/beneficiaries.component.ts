@@ -158,7 +158,7 @@ export class BeneficiariesComponent implements OnInit {
         if (this.projectsList && this.dataSource) {
             this.projectService.addBeneficiaries(this.selectedProject, this.dataSource.filter).subscribe(
                 success => {
-                    this.snackBar.open(this.household.beneficiaries_added, '', { duration: 3000, horizontalPosition: 'center' });
+                    this.snackBar.open(this.household.beneficiaries_added, '', { duration: 5000, horizontalPosition: 'center' });
                 }
             );
         }

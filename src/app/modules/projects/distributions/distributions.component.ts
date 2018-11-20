@@ -362,20 +362,20 @@ export class DistributionsComponent implements OnInit {
                 .subscribe(
                     success => {
                         this.actualDistribution.validated = true;
-                        this.snackBar.open(this.TEXT.distribution_validated, '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.TEXT.distribution_validated, '', { duration: 5000, horizontalPosition: 'center' });
                         this.validateActualDistributionInCache();
                         this.getDistributionBeneficiaries('transaction');
                         // TODO : Check if phone number exists for all head of households.
                     },
                     error => {
                         this.actualDistribution.validated = false;
-                        this.snackBar.open(this.TEXT.distribution_not_validated, '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.TEXT.distribution_not_validated, '', { duration: 5000, horizontalPosition: 'center' });
                     }
                 );
 
         }
         else
-            this.snackBar.open(this.TEXT.distribution_no_right_validate, '', { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open(this.TEXT.distribution_no_right_validate, '', { duration: 5000, horizontalPosition: 'right' });
 
         this.dialog.closeAll();
     }
@@ -386,12 +386,12 @@ export class DistributionsComponent implements OnInit {
                 finalize(
                     () => {
                         this.lastCodeSentTime = (new Date()).getTime();
-                        this.snackBar.open('Verification code has been sent at ' + this.actualUser.email, '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open('Verification code has been sent at ' + this.actualUser.email, '', { duration: 5000, horizontalPosition: 'center' });
                     }
                 )
             ).subscribe();
         } else {
-            this.snackBar.open('The last code was sent less than 10 seconds ago, you should wait.', '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open('The last code was sent less than 10 seconds ago, you should wait.', '', { duration: 5000, horizontalPosition: 'center' });
         }
     }
 
@@ -455,13 +455,13 @@ export class DistributionsComponent implements OnInit {
                                 //err
                             )
                     } else {
-                        this.snackBar.open(this.TEXT.distribution_no_valid_commodity, '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.TEXT.distribution_no_valid_commodity, '', { duration: 5000, horizontalPosition: 'center' });
                     }
                 }
             );
         }
         else
-            this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 5000, horizontalPosition: 'right' });
 
         this.dialog.closeAll();
     }
@@ -522,12 +522,12 @@ export class DistributionsComponent implements OnInit {
                                 this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(response));
                             }
                         );
-                    this.snackBar.open(this.TEXT.distribution_beneficiary_added, '', { duration: 3000, horizontalPosition: 'center' });
+                    this.snackBar.open(this.TEXT.distribution_beneficiary_added, '', { duration: 5000, horizontalPosition: 'center' });
                     this.getDistributionBeneficiaries('final');
                 },
                 error => {
                     // console.log('cc', this.selectedBeneficiaries);
-                    this.snackBar.open(this.TEXT.distribution_beneficiary_not_added, '', { duration: 3000, horizontalPosition: 'center' });
+                    this.snackBar.open(this.TEXT.distribution_beneficiary_not_added, '', { duration: 5000, horizontalPosition: 'center' });
                 });
     }
 
@@ -535,7 +535,7 @@ export class DistributionsComponent implements OnInit {
      * To cancel on a dialog
      */
     exit(message: string) {
-        this.snackBar.open(message, '', { duration: 3000, horizontalPosition: 'center' });
+        this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
         this.dialog.closeAll();
     }
 

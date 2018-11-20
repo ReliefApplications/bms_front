@@ -56,7 +56,7 @@ export class DataValidationComponent implements OnInit {
     ngOnInit() {
         const voters = this._cacheService.get('user').voters;
         if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
-            this.snackBar.open(this.verification.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.verification.forbidden_message, '', { duration: 5000, horizontalPosition: 'center' });
             this.router.navigate(['']);
         }
         else {
@@ -378,22 +378,22 @@ export class DataValidationComponent implements OnInit {
         }
 
         if (this.step === 1 && this.typoIssues.length != length) {
-            this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected, '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected, '', { duration: 5000, horizontalPosition: 'center' });
         } else if (this.step === 2 && this.duplicates.length != length) {
-            this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected, '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected, '', { duration: 5000, horizontalPosition: 'center' });
         } else {
             this.load = true;
             if (this.step === 1) {
-                this.snackBar.open(this.verification.data_verification_snackbar_typo_corrected, '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.verification.data_verification_snackbar_typo_corrected, '', { duration: 5000, horizontalPosition: 'center' });
                 this.typoDone = true;
             } else if (this.step === 2) {
-                this.snackBar.open(this.verification.data_verification_snackbar_duplicate_corrected, '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.verification.data_verification_snackbar_duplicate_corrected, '', { duration: 5000, horizontalPosition: 'center' });
                 this.duplicateDone = true;
             } else if (this.step === 3) {
-                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 5000, horizontalPosition: 'center' });
                 this.moreDone = true;
             } else if (this.step === 4) {
-                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 5000, horizontalPosition: 'center' });
                 this.lessDone = true;
             }
             this.step = this.step + 1;
@@ -402,7 +402,7 @@ export class DataValidationComponent implements OnInit {
                 this.getData();
             }, () => {
                 this.load = false;
-                this.snackBar.open(this.verification.data_verification_error, '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.verification.data_verification_error, '', { duration: 5000, horizontalPosition: 'center' });
             });
 
         }

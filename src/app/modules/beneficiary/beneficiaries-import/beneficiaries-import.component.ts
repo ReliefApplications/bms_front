@@ -68,16 +68,10 @@ export class BeneficiariesImportComponent implements OnInit {
     ngOnInit() {
         const voters = this._cacheService.get('user').voters;
         if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
-            this.snackBar.open(this.household.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.household.forbidden_message, '', { duration: 5000, horizontalPosition: 'center' });
             this.router.navigate(['']);
         }
-        else {
-            this.getProjects();
-            this.getAPINames();
-            this.extensionType = 'xls';
-        }
     }
-
     /**
    * check if the langage has changed
    */
@@ -92,7 +86,7 @@ export class BeneficiariesImportComponent implements OnInit {
      */
     getProjects() {
         this.referedClassService = this._projectService;
-        this.referedClassService.get().subscribe(response => {
+        this.referedClassService.get().toPromise().then(response => {
             response = this.referedClassToken.formatArray(response);
             response.forEach(element => {
                 const concat = element.id + ' - ' + element.name;
@@ -160,7 +154,7 @@ export class BeneficiariesImportComponent implements OnInit {
     addHouseholds() {
         const data = new FormData();
         if (!this.csv || !this.selectedProject || this.load) {
-            this.snackBar.open(this.household.beneficiaries_import_select_project, '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.household.beneficiaries_import_select_project, '', { duration: 5000, horizontalPosition: 'center' });
         } else {
             const project = this.selectedProject.split(' - ');
             data.append('file', this.csv);
@@ -170,12 +164,12 @@ export class BeneficiariesImportComponent implements OnInit {
                 this.router.navigate(['/beneficiaries/import/data-validation']);
             }, (err) => {
                 this.load = false;
-                this.snackBar.open(err.message, '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(err.message, '', { duration: 5000, horizontalPosition: 'center' });
             })
                 .catch(
                     () => {
                         this.load = false;
-                        this.snackBar.open(this.household.beneficiaries_import_error_importing, '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.household.beneficiaries_import_error_importing, '', { duration: 5000, horizontalPosition: 'center' });
                     }
                 );
         }
@@ -205,45 +199,9 @@ export class BeneficiariesImportComponent implements OnInit {
     @HostListener('drop', ['$event']) onDrop(event) {
         this.dragAreaClass = 'dragarea';
 
-        // setting the data is required by firefox
-        event.dataTransfer.setData('text', 'firefox');
-
-        event.preventDefault();
-        event.stopPropagation();
-
-        this.fileChange(event, 'dataTransfer');
-    }
-
-    /************************************* API IMPORT  ******************************************************/
-    //Recover all the API available for the actual country
-    getAPINames() {
-        this._beneficiariesService.listApi()
-            .subscribe(names => {
-                names = names['listAPI'];
-                let param = {};
-
-                Object.values(names).forEach(listAPI => {
-                    this.APINames.push(listAPI['APIName']);
-
-                    for (let j = 0; j < listAPI['params'].length; j++) {
-                        if (listAPI['params'][j].paramType == 'string') {
-                            param['paramType'] = "text";
-                        }
-                        else if (listAPI['params'][j].paramType == 'int') {
-                            param['paramType'] = "number";
-                        }
-
-                        param['paramName'] = listAPI['params'][j].paramName;
-
-                    }
-
-                    this.APIParams.push(param);
-                });
-
-                this.chosenItem = this.APINames[0];
-                this.ParamsToDisplay.push({ 'paramType': this.APIParams[0].paramType, 'paramName': this.APIParams[0].paramName });
-                this.provider = this.chosenItem;
-            });
+        this.chosenItem = this.APINames[0];
+        this.ParamsToDisplay.push({ 'paramType': this.APIParams[0].paramType, 'paramName': this.APIParams[0].paramName });
+        this.provider = this.chosenItem;
     }
 
     //Get the index of the radiogroup to display the right inputs
@@ -271,22 +229,22 @@ export class BeneficiariesImportComponent implements OnInit {
                 .subscribe(response => {
                     if (response.error) {
                         this.load = false;
-                        this.snackBar.open(response.error, '', { duration: 3000, horizontalPosition: 'right' });
+                        this.snackBar.open(response.error, '', { duration: 5000, horizontalPosition: 'right' });
                         delete this.paramToSend['provider'];
                     }
                     else if (response.exist) {
                         this.load = false;
-                        this.snackBar.open(response.exist, '', { duration: 3000, horizontalPosition: 'right' });
+                        this.snackBar.open(response.exist, '', { duration: 5000, horizontalPosition: 'right' });
                         delete this.paramToSend['provider'];
                     }
                     else {
-                        this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 3000, horizontalPosition: 'right' });
+                        this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 5000, horizontalPosition: 'right' });
                         this.router.navigate(['/beneficiaries']);
                     }
                 });
         }
         else
-            this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
     }
 
 }

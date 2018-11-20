@@ -39,6 +39,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public updatedHousehold: any;
     public countryISO3;
     public updateId;
+    public loader: boolean = true;
 
     // DB Lists
     public provinceList = [];
@@ -109,7 +110,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Gets household from backend and loads the method that will fill our 'updatedHousehold' attribute for input display and update.
      */
     initiateHousehold() {
-
         this.updatedHousehold = {
             // First set the format of a Household for Input Forms
             // id: 0,
@@ -155,6 +155,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                             result => {
                                 this.originalHousehold = result;
                                 this.formatHouseholdForForm();
+                                this.loader = false;
                             }
                         );
                     }
@@ -406,7 +407,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
         else {
             // Minimum data not filled -> Error !
-            this.snackBar.open(this.Text.update_beneficiary_check_steps, '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.Text.update_beneficiary_check_steps, '', { duration: 5000, horizontalPosition: 'center' });
             return (undefined);
         }
 
@@ -536,7 +537,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 .then(
                     success => {
                         if (success) {
-                            this.snackBar.open(this.Text.update_beneficiary_created_successfully, '', { duration: 3000, horizontalPosition: 'center' });
+                            this.snackBar.open(this.Text.update_beneficiary_created_successfully, '', { duration: 5000, horizontalPosition: 'center' });
                             this.leave();
                         } else {
                             this.validationLoading = false;
@@ -545,7 +546,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 )
                 .catch(
                     error => {
-                        this.snackBar.open(this.Text.update_beneficiary_error_creating + error, '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.Text.update_beneficiary_error_creating + error, '', { duration: 5000, horizontalPosition: 'center' });
                         this.validationLoading = false;
                     }
                 )
@@ -569,7 +570,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 .then(
                     success => {
                         if (success) {
-                            this.snackBar.open(this.Text.update_beneficiary_updated_successfully, '', { duration: 3000, horizontalPosition: 'center' });
+                            this.snackBar.open(this.Text.update_beneficiary_updated_successfully, '', { duration: 5000, horizontalPosition: 'center' });
                             this.leave();
                         } else {
                             this.validationLoading = false;
@@ -578,7 +579,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 )
                 .catch(
                     error => {
-                        this.snackBar.open(this.Text.update_beneficiary_error_updated + error, '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.Text.update_beneficiary_error_updated + error, '', { duration: 5000, horizontalPosition: 'center' });
                         this.validationLoading = false;
                     }
                 )
@@ -678,7 +679,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         if (final) {
             return (validSteps === 3);
         } else if (message !== '') {
-            this.snackBar.open(message, '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
         }
 
         return (false);

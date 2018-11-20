@@ -3,8 +3,11 @@
   <div class="modal-table" cdkFocusRegionstart>
     <span class="language-text">{{modal.modal_language_actual}}</span>
     <div class="select-container">
-      <mat-select [(ngModel)]="language" [formControl]="controls" class="button-flag">
-        <mat-option *ngFor="let l of languages" [value]="l">{{l | uppercase}}</mat-option>
+      <mat-select [(ngModel)]="language" [formControl]="controls" class="button-flag" [ngClass]="language">
+        <mat-option *ngFor="let l of languages" [value]="l">
+          <img width="20" height="10" src="assets/images/{{ l }}.jpg"/>
+          {{l | uppercase}}
+        </mat-option>
       </mat-select>
     </div>
   </div>

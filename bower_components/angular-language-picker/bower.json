@@ -1,0 +1,11 @@
+{
+  "name": "angular-language-picker",
+  "homepage": "https://github.com/k88hudson/angular-language-picker",
+  "authors": [
+    "Kate Hudson <k88hudson@gmail.com>"
+  ],
+  "license": "MPL-2.0",
+  "devDependencies": {
+    "langmap": "~0.0.8"
+  }
+}

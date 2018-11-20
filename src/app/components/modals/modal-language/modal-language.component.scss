@@ -1,0 +1,41 @@
+.modal-title {
+    width: 90%;
+}
+
+.modal-table {
+    width: 90%;
+
+    .language-text {
+        padding-bottom: 10px;
+    }
+
+    .mat-select {
+        width: 90%;
+    }
+
+    .fr{
+        background:  url("../../../../assets/images/fr.jpg")  left / contain no-repeat;
+        background-size: 30px 20px;
+        white-space: nowrap;
+        padding-left: 40px;
+    }  
+      
+    .en{
+        background:  url("../../../../assets/images/en.jpg")  left / contain no-repeat;
+        background-size: 30px 20px;
+        white-space: nowrap;
+        padding-left: 40px;
+    }
+
+    .ar{
+        background:  url("../../../../assets/images/ar.jpg")  left / contain no-repeat;
+        background-size: 30px 20px;
+        white-space: nowrap;
+        padding-left: 40px;
+    }
+}
+
+.modal-button {
+    width: 90% !important;
+}
+

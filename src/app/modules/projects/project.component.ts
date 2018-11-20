@@ -124,7 +124,7 @@ export class ProjectComponent implements OnInit {
             )
         ).subscribe(
             response => {
-                console.log(response);
+                // console.log(response);
                 if (response && response.length > 0) {
                     this.projects = this.projectClass.formatArray(response).reverse();
                     this.selectTitle(this.projects[0].name, this.projects[0]);

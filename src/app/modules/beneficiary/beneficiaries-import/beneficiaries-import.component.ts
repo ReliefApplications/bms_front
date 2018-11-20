@@ -71,7 +71,13 @@ export class BeneficiariesImportComponent implements OnInit {
             this.snackBar.open(this.household.forbidden_message, '', { duration: 5000, horizontalPosition: 'center' });
             this.router.navigate(['']);
         }
+        else {
+            this.getProjects();
+            this.getAPINames();
+            this.extensionType = 'xls';
+        }
     }
+
     /**
    * check if the langage has changed
    */
@@ -86,8 +92,9 @@ export class BeneficiariesImportComponent implements OnInit {
      */
     getProjects() {
         this.referedClassService = this._projectService;
-        this.referedClassService.get().toPromise().then(response => {
+        this.referedClassService.get().subscribe(response => {
             response = this.referedClassToken.formatArray(response);
+            this.projectList = [];
             response.forEach(element => {
                 const concat = element.id + ' - ' + element.name;
                 this.projectList.push(concat);
@@ -199,9 +206,45 @@ export class BeneficiariesImportComponent implements OnInit {
     @HostListener('drop', ['$event']) onDrop(event) {
         this.dragAreaClass = 'dragarea';
 
-        this.chosenItem = this.APINames[0];
-        this.ParamsToDisplay.push({ 'paramType': this.APIParams[0].paramType, 'paramName': this.APIParams[0].paramName });
-        this.provider = this.chosenItem;
+        // setting the data is required by firefox
+        event.dataTransfer.setData('text', 'firefox');
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.fileChange(event, 'dataTransfer');
+    }
+
+    /************************************* API IMPORT  ******************************************************/
+    //Recover all the API available for the actual country
+    getAPINames() {
+        this._beneficiariesService.listApi()
+            .subscribe(names => {
+                names = names['listAPI'];
+                let param = {};
+
+                Object.values(names).forEach(listAPI => {
+                    this.APINames.push(listAPI['APIName']);
+
+                    for (let j = 0; j < listAPI['params'].length; j++) {
+                        if (listAPI['params'][j].paramType == 'string') {
+                            param['paramType'] = "text";
+                        }
+                        else if (listAPI['params'][j].paramType == 'int') {
+                            param['paramType'] = "number";
+                        }
+
+                        param['paramName'] = listAPI['params'][j].paramName;
+
+                    }
+
+                    this.APIParams.push(param);
+                });
+
+                this.chosenItem = this.APINames[0];
+                this.ParamsToDisplay.push({ 'paramType': this.APIParams[0].paramType, 'paramName': this.APIParams[0].paramName });
+                this.provider = this.chosenItem;
+            });
     }
 
     //Get the index of the radiogroup to display the right inputs

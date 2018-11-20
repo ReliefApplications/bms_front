@@ -19,9 +19,10 @@
                     </mat-select>
                 </mat-form-field>
                 <div class="action-buttons">
-                    <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()">{{household.beneficiaries_import_csv
+                    <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">{{household.beneficiaries_import_csv
                         | uppercase }}</button>
-                    <div class="extension">
+                    <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+                    <div class="extension" *ngIf="!loadingExport">
                         <div mat-button class="template pointer" [matMenuTriggerFor]="exportType">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </div>

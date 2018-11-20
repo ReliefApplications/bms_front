@@ -26,7 +26,8 @@ export class ProjectComponent implements OnInit {
     public nameComponent = 'project_title';
     public distribution = GlobalText.TEXTS;
     public language = GlobalText.language;
-
+    loadingExport = false;
+    
     projects: Project[];
     distributionData: MatTableDataSource<any>;
     distributionClass = DistributionData;
@@ -180,7 +181,12 @@ export class ProjectComponent implements OnInit {
      * Export distribution data
      */
     export() {
-        this.distributionService.export('project', this.extensionType, this.selectedProject.id);
+        this.loadingExport = true;
+        this.distributionService.export('project', this.extensionType, this.selectedProject.id).then(
+            () => { this.loadingExport = false }
+        ).catch(
+            () => { this.loadingExport = false }
+        )
     }
 
     openNewProjectDialog() {

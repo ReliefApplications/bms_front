@@ -11,6 +11,7 @@ import { GlobalText } from '../../../../texts/global';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { CacheService } from 'src/app/core/storage/cache.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
     selector: 'beneficiaries-import',
@@ -62,20 +63,25 @@ export class BeneficiariesImportComponent implements OnInit {
         public _beneficiariesService: BeneficiariesService,
         private router: Router,
         public snackBar: MatSnackBar,
-        private _cacheService: CacheService
+        private _cacheService: AsyncacheService
     ) { }
 
     ngOnInit() {
-        const voters = this._cacheService.get('user').voters;
-        if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
-            this.snackBar.open(this.household.forbidden_message, '', { duration: 5000, horizontalPosition: 'center' });
-            this.router.navigate(['']);
-        }
-        else {
-            this.getProjects();
-            this.getAPINames();
-            this.extensionType = 'xls';
-        }
+        let voters;
+        this._cacheService.get('user').subscribe(
+            result => {
+                voters = result.voters;
+                if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
+                    this.snackBar.open(this.household.forbidden_message, '', { duration: 5000, horizontalPosition: 'center' });
+                    this.router.navigate(['']);
+                }
+                else {
+                    this.getProjects();
+                    this.getAPINames();
+                    this.extensionType = 'xls';
+                }
+            }
+        );
     }
 
     /**

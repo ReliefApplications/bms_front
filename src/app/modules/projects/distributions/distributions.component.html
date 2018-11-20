@@ -24,11 +24,12 @@
                       [mapperService]="mapperService" [componentDisplayed]="actualDistribution" [data]="initialBeneficiaryData.data"></app-box-properties>
                         <div class="content-button">
                             <div class="action-buttons">
-                                <button mat-raised-button class="export-button" (click)="export()">
+                                <button mat-raised-button class="export-button" (click)="export()" *ngIf="!loadingExport">
                                     <mat-icon>get_app</mat-icon>
                                     <span>{{TEXT.beneficiaries_export | uppercase}}</span>
                                 </button>
-                                <div class="extension">
+                                <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+                                <div class="extension" *ngIf="!loadingExport">
                                     <div mat-button class="dropdown" [matMenuTriggerFor]="exportType1">
                                         <mat-icon>keyboard_arrow_down</mat-icon>
                                     </div>
@@ -117,12 +118,13 @@
                                 </mat-form-field>
                             </div>
                             <div class="action-buttons">
-                                <button mat-raised-button class="export-button" (click)="exportSample()">
+                                <button mat-raised-button class="export-button" (click)="exportSample()" *ngIf="!loadingExport">
                                     <mat-icon>get_app</mat-icon>
                                     <span>{{TEXT.beneficiaries_export | uppercase}}</span>
                                 </button>
+                                <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                                 <div class="extension">
-                                    <div mat-button class="dropdown" [matMenuTriggerFor]="exportType3">
+                                    <div mat-button class="dropdown" *ngIf="!loadingExport" [matMenuTriggerFor]="exportType3">
                                         <mat-icon>keyboard_arrow_down</mat-icon>
                                     </div>
                                     <mat-menu #exportType3>

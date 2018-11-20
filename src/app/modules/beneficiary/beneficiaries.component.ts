@@ -21,6 +21,7 @@ export class BeneficiariesComponent implements OnInit {
 
     public household = GlobalText.TEXTS;
     public nameComponent = 'beneficiaries_title';
+    public loadingExport = false;
 
     public referedClassService;
     referedClassToken = Households;
@@ -119,7 +120,12 @@ export class BeneficiariesComponent implements OnInit {
      * @return file
      */
     export() {
-        this.householdsService.export(this.extensionType);
+        this.loadingExport = true;
+        this.householdsService.export(this.extensionType).then(
+            () => { this.loadingExport = false }
+        ).catch(
+            () => { this.loadingExport = false }
+        );
     }
 
     addToProject(template) {

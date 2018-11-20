@@ -28,6 +28,7 @@ export class DistributionsComponent implements OnInit {
     public nameComponent = 'distribution_title';
     distributionId: number;
     actualDistribution = new DistributionData();
+    loadingExport = false;
 
     loadingDatas = true;
     loadingDistribution = true;
@@ -282,8 +283,13 @@ export class DistributionsComponent implements OnInit {
      * Handles the csv export of the data table
      */
     export() {
+        this.loadingExport = true;
         // console.log('type: ', this.extensionTypeStep1);
-        this.distributionService.export('distribution', this.extensionTypeStep1, this.distributionId);
+        this.distributionService.export('distribution', this.extensionTypeStep1, this.distributionId).then(
+            () => { this.loadingExport = false }
+        ).catch(
+            () => { this.loadingExport = false }
+        )
     }
 
     /**
@@ -331,7 +337,12 @@ export class DistributionsComponent implements OnInit {
      * Requests Back-end a csv containing the sample to export it
      */
     exportSample() {
-        this.distributionService.exportSample(this.randomSampleData.data, this.extensionTypeStep3);
+        this.loadingExport = true;
+        this.distributionService.exportSample(this.randomSampleData.data, this.extensionTypeStep3).then(
+            () => { this.loadingExport = false }
+        ).catch(
+            () => { this.loadingExport = false }
+        )
     }
 
     /**

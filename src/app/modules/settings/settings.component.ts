@@ -35,6 +35,7 @@ import { Router } from '@angular/router';
 export class SettingsComponent implements OnInit {
     public nameComponent = 'settings_title';
     public settings = GlobalText.TEXTS;
+    loadingExport = false;
 
     selectedTitle = '';
     isBoxClicked = false;
@@ -109,6 +110,7 @@ export class SettingsComponent implements OnInit {
     export() {
         let category: string;
         let country = null;
+        this.loadingExport = true;
 
         switch (this.selectedTitle) {
             case 'users':
@@ -131,11 +133,19 @@ export class SettingsComponent implements OnInit {
             country = this.locationService.getAdm1().subscribe(
                 result => {
                     country = result[0].country_i_s_o3;
-                    return this._settingsService.export(this.extensionType, category, country);
+                    return this._settingsService.export(this.extensionType, category, country).then(
+                        () => { this.loadingExport = false }
+                    ).catch(
+                        () => { this.loadingExport = false }
+                    );
                 }
             );
         } else {
-            return this._settingsService.export(this.extensionType, category, country);
+            return this._settingsService.export(this.extensionType, category, country).then(
+                () => { this.loadingExport = false }
+            ).catch(
+                () => { this.loadingExport = false }
+            )
         }
     }
 
@@ -173,8 +183,9 @@ export class SettingsComponent implements OnInit {
                     this.loadingData = false;
                 }
             )
-        ).toPromise().then(response => {
+        ).subscribe( response => {
             if(response) {
+                this.loadingData = false;
                 if (response && response[0] && response[0].email && response[0].username && response[0].roles)
                     response.forEach(element => {
                         element.projects = new Array<number>();
@@ -216,13 +227,14 @@ export class SettingsComponent implements OnInit {
 
             } else {
                 this.data = new MatTableDataSource(null);
+                this.loadingData = false;
             }
         })
-        .catch(
-            () => { 
-                this.data = new MatTableDataSource(null);
-            }
-        );
+        // .catch(
+        //     () => { 
+        //         this.data = new MatTableDataSource(null);
+        //     }
+        // );
     }
 
     /**

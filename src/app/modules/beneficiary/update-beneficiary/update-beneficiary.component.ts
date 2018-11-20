@@ -39,6 +39,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public updatedHousehold: any;
     public countryISO3;
     public updateId;
+    public loader: boolean = true;
 
     // DB Lists
     public provinceList = [];
@@ -109,7 +110,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Gets household from backend and loads the method that will fill our 'updatedHousehold' attribute for input display and update.
      */
     initiateHousehold() {
-
         this.updatedHousehold = {
             // First set the format of a Household for Input Forms
             // id: 0,
@@ -155,6 +155,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                             result => {
                                 this.originalHousehold = result;
                                 this.formatHouseholdForForm();
+                                this.loader = false;
                             }
                         );
                     }

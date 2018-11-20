@@ -85,7 +85,7 @@ export class SettingsComponent implements OnInit {
     ngDoCheck() {
         if (this.language !== GlobalText.language)
             this.language = GlobalText.language;
-        console.log(this.selectedTitle);
+        // console.log(this.selectedTitle);
     }
 
     @HostListener('window:resize', ['$event'])
@@ -129,7 +129,7 @@ export class SettingsComponent implements OnInit {
             default:
                 break;
         }
-        console.log('#####- ', category);
+        // console.log('#####- ', category);
         if(category === 'projects') {
             let exported = false;
             country = this.locationService.getAdm1().subscribe(

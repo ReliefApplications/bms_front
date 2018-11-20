@@ -269,6 +269,10 @@
     }
 }
 
+.mat-dialog-container {
+    overflow-x: hidden !important;
+}
+
 .modal-container {
     height: 100% !important;
     width: 100% !important;

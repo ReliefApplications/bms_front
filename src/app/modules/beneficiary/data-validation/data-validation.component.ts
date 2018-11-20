@@ -5,12 +5,8 @@ import { MatSnackBar, MatStepper } from '@angular/material';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { VerifiedData, FormatDuplicatesData, FormatMore, FormatLess } from '../../../model/data-validation';
 import { GlobalText } from '../../../../texts/global';
-import { CacheService } from 'src/app/core/storage/cache.service';
 import { Router } from '@angular/router';
-
-
-
-
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
     selector: 'app-data-validation',
@@ -47,21 +43,26 @@ export class DataValidationComponent implements OnInit {
         public _importService: ImportService,
         public _householdsService: HouseholdsService,
         public snackBar: MatSnackBar,
-        private _cacheService: CacheService,
+        private _cacheService: AsyncacheService,
         private router: Router
     ) {
 
     }
 
     ngOnInit() {
-        const voters = this._cacheService.get('user').voters;
-        if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
-            this.snackBar.open(this.verification.forbidden_message, '', { duration: 5000, horizontalPosition: 'center' });
-            this.router.navigate(['']);
-        }
-        else {
-            this.getData();
-        }
+        let voters;
+        this._cacheService.get('user').subscribe(
+            result => {
+                voters = result.voters;
+                if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
+                    this.snackBar.open(this.verification.forbidden_message, '', { duration: 5000, horizontalPosition: 'center' });
+                    this.router.navigate(['']);
+                }
+                else {
+                    this.getData();
+                }
+            }
+        );
     }
 
     /**

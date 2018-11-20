@@ -83,34 +83,20 @@ export class LoginComponent implements OnInit {
     loginAction(): void {
         this.loader = true;
         const subscription = from(this._authService.login(this.user));
-        subscription
-        .pipe(
-            catchError((error: any) => {
-                this.changeLoader(false);
-                return of(error);
-            }),
-            finalize(
-                () => {
-                    this.loader = false;
-                }
-            )
-        )
-            .subscribe(
+        subscription.subscribe(
                 (user: User) => {
                     this.router.navigate(['/']);
                     GlobalText.changeLanguage();
+                    this.loader = false;
                 },
                 (error: ErrorInterface) => {
                     this.snackBar.open(error.message, '', { duration: 5000, horizontalPosition: "center" });
                     this.forgotMessage = true;
+                    this.loader = false;
                 });
     }
 
     ngOnDestroy() {
         this.authUser$.unsubscribe();
-    }
-
-    changeLoader(bool) {
-        this.loader = bool;
     }
 }

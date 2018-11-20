@@ -25,7 +25,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             catchError(
                 (error: any, caught: Observable<HttpEvent<any>>) => {
                     this.snackErrors(error);
-                    return of(error);
+                    return new Observable<HttpEvent<any>>(error);
                 }
             )
         );

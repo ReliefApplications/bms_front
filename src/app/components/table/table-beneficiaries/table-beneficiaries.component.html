@@ -79,7 +79,7 @@
     </table>
 
     <div class="no-data-container" *ngIf="testLoading || this.data.householdsSubject._value.length === 0">
-      <div *ngIf="testLoading && this.data.householdsSubject._value.length>0" class="loadingContent">
+      <div *ngIf="this.data.loadingSubject" class="loadingContent">
         <mat-spinner></mat-spinner>
       </div>
       <div *ngIf="this.data.householdsSubject._value.length === 0 && !this.data.loadingSubject" class="loadingContent">
@@ -88,9 +88,6 @@
           <span> No data </span>
         </h4>
       </div>
-      
-      <app-placeholder-panel class="loadingContent" *ngIf="this.data.loadingSubject"></app-placeholder-panel>
-
     </div>
 
     <mat-paginator *ngIf="filled==true" [length]="data.length$ | async" [pageSizeOptions]="[10, 20, 50, 100]"

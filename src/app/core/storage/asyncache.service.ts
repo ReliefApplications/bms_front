@@ -34,6 +34,7 @@ export class AsyncacheService {
     static readonly SPECIFICS                   = 'specifics';
     static readonly MODALITIES                  = 'modalities';
     static readonly VULNERABILITIES             = 'vulnerabilities';
+    static readonly SUMMARY                     = 'summary';
 
     constructor(
         protected localStorage : LocalStorage,

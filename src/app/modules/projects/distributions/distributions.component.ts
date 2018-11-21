@@ -14,7 +14,7 @@ import { Mapper } from '../../../core/utils/mapper.service';
 import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
 import { AnimationRendererFactory } from '@angular/platform-browser/animations/src/animation_renderer';
 import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
-import { finalize } from 'rxjs/operators';
+import { finalize, last, map } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/core/api/user.service';
@@ -123,6 +123,7 @@ export class DistributionsComponent implements OnInit {
 
         this.getDistributionBeneficiaries('initial');
         this.checkPermission();
+
     }
 
     @HostListener('window:resize', ['$event'])
@@ -217,6 +218,7 @@ export class DistributionsComponent implements OnInit {
                     } else if (type === 'transaction') {
                         // console.log('Getting transaction data');
                         this.transactionData = new MatTableDataSource(TransactionBeneficiary.formatArray(data, this.actualDistribution.commodities));
+                        this.refreshStatuses()
                         this.loadingTransaction = false;
                     }
 
@@ -403,8 +405,7 @@ export class DistributionsComponent implements OnInit {
             this.cacheService.getUser().subscribe(
                 result => {
                     this.actualUser = result;
-                    if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]
-                        && this.actualDistribution.commodities[0].modality_type && this.actualDistribution.commodities[0].modality_type.name === "Mobile") {
+                    if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]) {
                         this.transacting = true;
                         this.distributionService.transaction(this.distributionId, this.enteredCode)
                             .pipe(

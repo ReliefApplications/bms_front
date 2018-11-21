@@ -48,6 +48,7 @@ export class HttpService {
                 case '/distributions/criteria' : return(AsyncacheService.CRITERIAS)
                 case '/modalities' : return(AsyncacheService.MODALITIES)
                 case '/vulnerability_criteria' : return(AsyncacheService.VULNERABILITIES)
+                case '/summary' : return(AsyncacheService.SUMMARY)
                 default:
                     if(url.substring(0,24) === '/distributions/projects/')
                         return(AsyncacheService.DISTRIBUTIONS + '_' + url.split('/distributions/projects/')[1]);

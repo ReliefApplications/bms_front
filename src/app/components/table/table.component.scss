@@ -169,3 +169,11 @@ button{
   color: #424242 !important;
 }
     
+.loadingContent {
+    display: flex;
+    justify-content: center;
+    
+    mat-spinner {
+        margin-top: 30px;
+    }
+}

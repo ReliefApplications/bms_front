@@ -133,6 +133,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         if(this.mode === 'create') {
             this._projectService.get().subscribe(
                 result => {
+                    this.loader = false;
                     let cacheProjects = result;
                     if(cacheProjects && cacheProjects[0]) {
                         this.countryISO3 = cacheProjects[0].iso3;
@@ -748,6 +749,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      */
     getProjects() {
         this._projectService.get().subscribe(response => {
+            this.projectList = [];
             const responseProject = Project.formatArray(response);
             responseProject.forEach(element => {
                 const concat = element.id + ' - ' + element.name;
@@ -765,6 +767,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         this.communeList = [];
         this.villageList = [];
         this._locationService.getAdm1().subscribe(response => {
+            this.provinceList = [];
             const responseAdm1 = Location.formatAdm(response);
             responseAdm1.forEach(element => {
                 this.provinceList.push(element);
@@ -782,6 +785,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         const body = {};
         body['adm1'] = adm1;
         this._locationService.getAdm2(body).subscribe(response => {
+            this.districtList = [];
             const responseAdm2 = Location.formatAdm(response);
             responseAdm2.forEach(element => {
                 this.districtList.push(element);
@@ -798,6 +802,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         const body = {};
         body['adm2'] = adm2;
         this._locationService.getAdm3(body).subscribe(response => {
+            this.communeList = [];
             const responseAdm3 = Location.formatAdm(response);
             responseAdm3.forEach(element => {
                 this.communeList.push(element);
@@ -813,6 +818,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         const body = {};
         body['adm3'] = adm3;
         this._locationService.getAdm4(body).subscribe(response => {
+            this.villageList = [];
             const responseAdm4 = Location.formatAdm(response);
             responseAdm4.forEach(element => {
                 this.villageList.push(element);
@@ -828,8 +834,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         if (promise) {
             promise.subscribe(
                 response => {
-                const responseCriteria = Criteria.formatArray(response);
-                responseCriteria.forEach(element => {
+                    this.vulnerabilityList = [];
+                    const responseCriteria = Criteria.formatArray(response);
+                    responseCriteria.forEach(element => {
                     this.vulnerabilityList.push(element);
                 });
             });
@@ -843,6 +850,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         const promise = this._countrySpecificsService.get();
         if (promise) {
             promise.subscribe(response => {
+                this.countrySpecificsList = [];
                 const responseCountrySpecifics = CountrySpecific.formatArray(response);
                 responseCountrySpecifics.forEach(element => {
                     this.countrySpecificsList.push(

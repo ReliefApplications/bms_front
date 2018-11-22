@@ -16,7 +16,6 @@
                     <span>{{verification.data_verification_step_1}}</span>
                 </div>
                 <div class="container-content box-green">
-                    <h3 *ngIf="typoIssues.length !== 0">{{verification.data_verification_step_4}}</h3>
                     <div class="content-table" *ngIf="typoIssues.length > 0">
                         <mat-card class="issues" *ngFor="let typoIssue of typoIssues, index as i">
                             <mat-chip-list>
@@ -93,7 +92,6 @@
                     <span>{{verification.data_verification_step_2}}</span>
                 </div>
                 <div class="container-content box-green">
-                    <h3 *ngIf="duplicates.length !== 0">{{verification.data_verification_step_2}}</h3>
                     <div class="content-table" *ngIf="duplicates.length > 0">
                         <div class="issues" *ngFor="let duplicate of duplicates, index as i">
                             <mat-card class="content-issue" *ngFor="let isDuplicate of duplicate.data, index as j">
@@ -158,8 +156,7 @@
                     <span class="dot">3</span>
                     <span>{{verification.data_verification_step_3}}</span>
                 </div>
-                <div class="container-content box-green">
-                    <h3 *ngIf="more.length !== 0">{{verification.data_verification_step_3}}</h3>                    
+                <div class="container-content box-green">                   
                     <div class="content-table" *ngIf="more.length > 0">
                         <mat-card class="issues" *ngFor="let data of more">
                             <mat-card-content>
@@ -236,7 +233,6 @@
                     <span>{{verification.data_verification_step_4}}</span>
                 </div>
                 <div class="container-content box-green">
-                    <h3 *ngIf="less.length !== 0">{{verification.data_verification_step_4}}</h3>
                     <div class="content-table" *ngIf="less.length > 0">
                         <mat-card class="issues" *ngFor="let data of less">
                             <mat-card-content>

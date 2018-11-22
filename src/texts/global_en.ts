@@ -313,6 +313,10 @@ export const TEXT = {
 
     data_verification_error: 'Error processing data',
     data_verification_chip_actual: 'Household targeted',
+    data_verification_description1: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    data_verification_description2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    data_verification_description3: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    data_verification_description4: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
 
     update_beneficiary_check_steps: 'Required data incomplete or unvalid: please check all steps',
     update_beneficiary_created_successfully: 'Created successfuly !',

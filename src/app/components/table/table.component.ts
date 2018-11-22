@@ -279,56 +279,54 @@ export class TableComponent implements OnChanges, DoCheck {
     }
 
     applyFilter(filterValue: any, category?: string, suppress?: boolean): void {
-        if (this.data && this.data._data) {
-            if (suppress) {
-                const index = this.data.filter.findIndex(function (value) {
-                    return value.category == category;
-                });
+        if (suppress) {
+            const index = this.data.filter.findIndex(function (value) {
+                return value.category == category;
+            });
 
-                this.data.filter.splice(index, 1);
-            }
-            else {
-                if (filterValue) {
-                    if (category) {
-                        if (category == 'familyName') {
-                            if (filterValue.length != 0 || filterValue != "") {
-                                filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-                                filterValue = filterValue.split(/[\s,]+/);
-                            }
+            this.data.filter.splice(index, 1);
+        }
+        else {
+            if (filterValue) {
+                if (category) {
+                    if (category == 'familyName') {
+                        if (filterValue.length != 0 || filterValue != "") {
+                            filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+                            filterValue = filterValue.split(/[\s,]+/);
                         }
+                    }
 
-                        if (category == 'locations') {
-                            filterValue = filterValue.name;
-                        }
+                    if (category == 'locations') {
+                        filterValue = filterValue.name;
+                    }
 
-                        const index = this.data.filter.findIndex(function (value) {
-                            return value.category == category;
-                        });
+                    const index = this.data.filter.findIndex(function (value) {
+                        return value.category == category;
+                    });
 
-                        if (index >= 0)
-                            if (filterValue.length == 0 || filterValue == "")
-                                this.data.filter.splice(index, 1);
-                            else
-                                this.data.filter[index] = { filter: filterValue, category: category };
+                    if (index >= 0)
+                        if (filterValue.length == 0 || filterValue == "")
+                            this.data.filter.splice(index, 1);
                         else
-                            if (filterValue.length != 0 || filterValue != "")
-                                this.data.filter.push({ filter: filterValue, category: category });
+                            this.data.filter[index] = { filter: filterValue, category: category };
+                    else
+                        if (filterValue.length != 0 || filterValue != "")
+                            this.data.filter.push({ filter: filterValue, category: category });
 
-                    }
-                    else {
-                        filterValue = filterValue.trim(); // Remove whitespace
-                        filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-                        this.data.filter = filterValue;
-                    }
                 }
                 else {
-                    if (category && category == 'familyName') {
-                        const index = this.data.filter.findIndex(function (value) {
-                            return value.category == category;
-                        });
+                    filterValue = filterValue.trim(); // Remove whitespace
+                    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+                    this.data.filter = filterValue;
+                }
+            }
+            else {
+                if (category && category == 'familyName') {
+                    const index = this.data.filter.findIndex(function (value) {
+                        return value.category == category;
+                    });
 
-                        this.data.filter.splice(index, 1);
-                    }
+                    this.data.filter.splice(index, 1);
                 }
             }
         }

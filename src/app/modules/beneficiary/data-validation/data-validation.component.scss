@@ -2,55 +2,80 @@
 
 .issues {
     display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
+    width: auto;
+    min-width: 50%;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
+
+    .mat-card-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .mat-divider {
+            position: relative !important;
+            margin: 10px 0px 10px 0px;
+        }
+        .householdData {
+            width: 100%;
+            text-align: center;
+            flex-grow: 1;
+            height: 50%;
+            flex-direction: row;
+
+            .mat-checkbox {
+                display: flex;
+            }
+
+            .content-householdData {
+                width: 100%
+            }
+            .content-beneficiariesData {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
+
+            &.head {
+                background-color: rgba($bms_neutral_grey, 0.4);
+                border-radius: 4px;
+                padding: 6px;
+                font-weight: bold;
+                .mat-chip-list {
+                    justify-content: flex-start;
+                    .mat-chip {
+                        background-color: $bms_white !important;
+                        font-size: 1.1em;
+                        padding: 3px 10px;
+                    }
+                }           
+            }
+        }
+
+        .mat-chip-list {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+            .mat-chip {
+                font-size: 0.9em;
+                padding: 1px 8px;
+            }
+        }
+    }
 
     .content-issue {
         width: 100%;
         margin: 10px;
-
-        .mat-card-content {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-
-            .mat-divider {
-                position: relative !important;
-                margin: 10px 0px 10px 0px;
-            }
-            .householdData {
-                width: 100%;
-                text-align: center;
-                flex-grow: 1;
-                height: 50%;
-                flex-direction: row;
-
-                .mat-checkbox {
-                    display: flex;
-                }
-                .mat-chip-list {
-                    width: 100%;
-                    display: flex;
-                    justify-content: flex-end;
-                    .mat-chip {
-                        font-size: 0.9em;
-                        padding: 1px 8px;
-                    }
-                }
-
-                .content-householdData {
-                    width: 100%
-                }
-                .content-beneficiariesData {
-                    display: flex;
-                    justify-content: center;
-                    width: 100%;
-                }
-            }
-        }
     }
+}
+
+.sendbutton {
+    margin-top: 15px;
 }
 
 //for mobile screen

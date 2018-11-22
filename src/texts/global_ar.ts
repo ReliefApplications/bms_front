@@ -312,6 +312,7 @@ export const TEXT = {
     beneficiaries_added: 'Beneficiairies added to the selected project',
 
     data_verification_error: 'Error processing data',
+    data_verification_chip_actual: 'Household targeted',
 
     update_beneficiary_check_steps: 'Required data incomplete or unvalid: please check all steps',
     update_beneficiary_created_successfully: 'Created successfuly !',

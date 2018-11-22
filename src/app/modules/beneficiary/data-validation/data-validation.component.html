@@ -16,14 +16,14 @@
                     <span>{{verification.data_verification_step_1}}</span>
                 </div>
                 <div class="container-content box-green">
-
+                    <h3 *ngIf="typoIssues.length !== 0">{{verification.data_verification_step_4}}</h3>
                     <div class="content-table" *ngIf="typoIssues.length > 0">
                         <mat-card class="issues" *ngFor="let typoIssue of typoIssues, index as i">
                             <mat-chip-list>
                                 <mat-chip>{{verification.data_verification_chip_old}}</mat-chip>
                             </mat-chip-list>
                             <mat-card-content>
-                                <div class="householdData">
+                                <div class="householdData head">
                                     <mat-checkbox color="primary" (change)="step1TypoIssues(typoIssue, 'old', i)">
                                     </mat-checkbox>
                                     <div class="content-householdData">
@@ -93,12 +93,12 @@
                     <span>{{verification.data_verification_step_2}}</span>
                 </div>
                 <div class="container-content box-green">
-
+                    <h3 *ngIf="duplicates.length !== 0">{{verification.data_verification_step_2}}</h3>
                     <div class="content-table" *ngIf="duplicates.length > 0">
                         <div class="issues" *ngFor="let duplicate of duplicates, index as i">
                             <mat-card class="content-issue" *ngFor="let isDuplicate of duplicate.data, index as j">
                                 <mat-card-content>
-                                    <div class="householdData">
+                                    <div class="householdData head">
                                         <mat-chip-list>
                                             <mat-chip>{{verification.data_verification_chip_old}}</mat-chip>
                                         </mat-chip-list>
@@ -159,10 +159,14 @@
                     <span>{{verification.data_verification_step_3}}</span>
                 </div>
                 <div class="container-content box-green">
+                    <h3 *ngIf="more.length !== 0">{{verification.data_verification_step_3}}</h3>                    
                     <div class="content-table" *ngIf="more.length > 0">
                         <mat-card class="issues" *ngFor="let data of more">
                             <mat-card-content>
-                                <div class="householdData">
+                                <div class="householdData head">
+                                    <mat-chip-list>
+                                        <mat-chip>{{verification.data_verification_chip_actual}}</mat-chip>
+                                    </mat-chip-list>
                                     <div class="content-householdData">
                                         <div class="dataToCompare">{{data.old.nameHead}}</div>
                                         <div class="dataToCompare">{{data.old.households.address_number}} {{data.old.households.address_street}}</div>
@@ -173,7 +177,7 @@
                                         <div class="dataToCompare">{{data.old.households.location.adm1}}</div>
                                     </div>
                                 </div>
-                                <div *ngIf="data.old.households.beneficiaries.length > 1">
+                                <div class="householdData" *ngIf="data.old.households.beneficiaries.length > 1">
                                     <mat-divider></mat-divider>
                                     <mat-chip-list>
                                         <mat-chip>{{verification.data_verification_chip_existing}}</mat-chip>
@@ -232,10 +236,14 @@
                     <span>{{verification.data_verification_step_4}}</span>
                 </div>
                 <div class="container-content box-green">
+                    <h3 *ngIf="less.length !== 0">{{verification.data_verification_step_4}}</h3>
                     <div class="content-table" *ngIf="less.length > 0">
                         <mat-card class="issues" *ngFor="let data of less">
                             <mat-card-content>
-                                <div class="householdData">
+                                <div class="householdData head">
+                                    <mat-chip-list>
+                                        <mat-chip>{{verification.data_verification_chip_actual}}</mat-chip>
+                                    </mat-chip-list>
                                     <div class="content-householdData">
                                         <div class="dataToCompare">{{data.old.nameHead}}</div>
                                         <div class="dataToCompare">{{data.old.households.address_number}} {{data.old.households.address_street}}</div>
@@ -247,7 +255,7 @@
                                     </div>
                                 </div>
 
-                                <div *ngIf="data.new.households.beneficiaries.length > 1">
+                                <div class="householdData" *ngIf="data.new.households.beneficiaries.length > 1">
                                     <mat-divider></mat-divider>
                                     <mat-chip-list>
                                         <mat-chip>{{verification.data_verification_chip_new}}</mat-chip>
@@ -310,7 +318,7 @@
                             {{verification.data_verification_done}}
                             <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
                             <a routerLink="/beneficiaries">
-                                <button mat-raised-button class="button-background-primary" (click)="stepper.reset()">{{verification.data_verification_send}}</button>
+                                <button mat-raised-button class="button-background-primary sendbutton" (click)="stepper.reset()">{{verification.data_verification_send}}</button>
                             </a>
                         </div>
 

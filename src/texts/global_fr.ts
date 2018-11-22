@@ -312,6 +312,7 @@ export const TEXT = {
     beneficiaries_added: 'Les bénéficiaires ont été ajouté au projet sélectionné',
 
     data_verification_error: 'Erreur lors du parcours des données',
+    data_verification_chip_actual: 'Ménage ciblé',
 
     update_beneficiary_check_steps: 'Les données requises sont incomplètes ou invalides: s\'il vous plait vérifier toutes les étapes',
     update_beneficiary_created_successfully: 'Créé avec succès !',

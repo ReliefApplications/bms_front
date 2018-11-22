@@ -9,7 +9,8 @@
     overflow: initial !important;
 
     .mat-card {
-      padding: 10px !important;
+        padding: 10px !important;
+        background-color: $bms_white !important;
       width: 130px;
       height: 100px;
       display: flex;
@@ -23,7 +24,7 @@
         border-bottom: solid 3px $bms_light_blue;
         display: flex;
         justify-content: center;
-        align-items: end;
+        align-items: flex-end;
         padding-bottom: 5px;
       }
       h3 {

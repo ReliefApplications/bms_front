@@ -247,10 +247,10 @@ export const TEXT = {
     sample_choose_size: 'حجم العينة',
 
 
-    import_added: 'سيتم إضافتها',
+    import_added: 'Added from existing beneficiaries',
     import_deleted: 'سبتم حذفها',
-    import_created: 'سيتم إنشاؤها',
-    import_updated: 'سيتم تحديثها',
+    import_created: 'Newly created',
+    import_updated: 'Accept Changes',
     import_description: 'قم باستيراد الملف الذي يحتوي على التوزيع المعدّل. سيتم تحديث قاعدة البيانات بقائمة المستفيدين الجديدة لهذا التوزيع عندما تنقر على ""تحديث"" بعد الاستيراد.',
 
     distribution_details_export: 'قائمة التوزيع',

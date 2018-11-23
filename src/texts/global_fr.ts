@@ -313,10 +313,10 @@ export const TEXT = {
 
     data_verification_error: 'Erreur lors du parcours des données',
     data_verification_chip_actual: 'Ménage ciblé',
-    data_verification_description1: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    data_verification_description2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    data_verification_description3: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    data_verification_description4: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    data_verification_description1: 'These issues are meant to show you the typo errors in your excel file. Any suspect field is reported here, it could be a wrong date format, a character entree in a numeric field...',
+    data_verification_description2: 'The following duplicates issues will show you any beneficiary existing in your file who\'s already in the database. You have the choice between keeping the old beneficiary information or updating it with your file data.',
+    data_verification_description3: 'The \'To Add\' Beneficiaries are listed here to allow you having a global view of the new beneficiaries that are going to be added in the database.',
+    data_verification_description4: 'The \'To Remove\' Beneficiaries are listed here to allow you having a global view of the new beneficiaries that are going to be removed in the database.',
 
     update_beneficiary_check_steps: 'Les données requises sont incomplètes ou invalides: s\'il vous plait vérifier toutes les étapes',
     update_beneficiary_created_successfully: 'Créé avec succès !',

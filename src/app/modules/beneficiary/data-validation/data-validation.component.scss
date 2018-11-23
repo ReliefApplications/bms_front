@@ -1,10 +1,15 @@
 @import '../../../../assets/css/variable.scss';
 @import '../../../../assets/css/animations.scss';
 
+.content-table {
+    padding-top : 20px !important;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+}
 .issues {
     display: flex;
-    width: auto;
-    min-width: 50%;
+    margin: 10px;
+    width: 200px;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
@@ -46,7 +51,7 @@
                 border-radius: 4px;
                 padding: 8px;
                 font-weight: bold;
-                .mat-chip-list {
+                .mat-chip-list:not(.old) {
                     justify-content: flex-start;
                     .mat-chip {
                         background-color: $bms_white !important;
@@ -55,20 +60,18 @@
                     }
                 }           
             }
-        }
-
-        .mat-chip-list {
-            width: 100%;
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 10px;
-            .mat-chip {
-                font-size: 0.9em;
-                padding: 1px 8px;
-            }
+        } 
+    }
+    .mat-chip-list, .old {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+        .mat-chip {
+            font-size: 0.9em;
+            padding: 1px 8px;
         }
     }
-
     .content-issue {
         width: 100%;
         margin: 10px;
@@ -79,7 +82,6 @@ mat-horizontal-stepper {
     mat-icon {
         font-size: 20px !important;
     }
-    width: 100%;
     
 }
 
@@ -138,7 +140,7 @@ mat-horizontal-stepper {
         width: 90% !important;
     }
     .done {
-        width: 90% !important;
+        width: 95% !important;
         padding: 20px !important;
     }
 }

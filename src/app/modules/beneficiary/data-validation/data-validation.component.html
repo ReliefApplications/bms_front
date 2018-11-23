@@ -26,7 +26,7 @@
                 <div class="container-content box-green">
                     <div class="content-table" *ngIf="typoIssues.length > 0">
                         <mat-card class="issues" *ngFor="let typoIssue of typoIssues, index as i">
-                            <mat-chip-list>
+                            <mat-chip-list class="old">
                                 <mat-chip>{{verification.data_verification_chip_old}}</mat-chip>
                             </mat-chip-list>
                             <mat-card-content>
@@ -114,8 +114,8 @@
                             <mat-card class="content-issue" *ngFor="let isDuplicate of duplicate.data, index as j">
                                 <mat-card-content>
                                     <div class="householdData head">
-                                        <mat-chip-list>
-                                            <mat-chip>{{verification.data_verification_chip_old}}</mat-chip>
+                                        <mat-chip-list mat-chip class="old" >
+                                            <mat-chip >{{verification.data_verification_chip_old}}</mat-chip>
                                         </mat-chip-list>
                                         <mat-checkbox [checked]="isDuplicate.old.isHead" [disabled]='isDuplicate.old.isHead' color="primary" (change)="step2Duplicates(isDuplicate, 'old', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
                                         </mat-checkbox>

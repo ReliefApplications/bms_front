@@ -18,6 +18,7 @@ import { finalize, last, map } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/core/api/user.service';
+import { element } from '@angular/core/src/render3/instructions';
 
 @Component({
     selector: 'app-distributions',
@@ -80,7 +81,7 @@ export class DistributionsComponent implements OnInit {
     lastCodeSentTime = 0; //ms
     actualUser = new User();
     enteredCode = '';
-    
+
     hasRights: boolean = false;
     hasRightsTransaction: boolean = false;
 
@@ -383,7 +384,7 @@ export class DistributionsComponent implements OnInit {
     }
 
     codeVerif() {
-        if( (new Date()).getTime()-this.lastCodeSentTime > this.SENDING_CODE_FREQ ) {
+        if ((new Date()).getTime() - this.lastCodeSentTime > this.SENDING_CODE_FREQ) {
             this.distributionService.sendCode(this.distributionId).pipe(
                 finalize(
                     () => {
@@ -468,9 +469,23 @@ export class DistributionsComponent implements OnInit {
     }
 
     refreshStatuses() {
-        this.distributionService.refreshTransaction(this.distributionId).subscribe(
+        this.distributionService.refreshPickup(this.distributionId).subscribe(
             result => {
-                //...
+                if (result) {
+                    this.transactionData.data.forEach(
+                        (transaction, index) => {
+                            if (transaction.state > 0) {
+                                result.forEach(
+                                    element => {
+                                        if (transaction.id === element.id) {
+                                            this.transactionData.data[index].updateForPickup(element.moneyReceived)
+                                        }
+                                    }
+                                );
+                            }
+                        }
+                    )
+                }
             }
         )
     }

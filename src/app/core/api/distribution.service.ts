@@ -76,8 +76,8 @@ export class DistributionService {
             return this.exportService.export('beneficiariesInDistribution', id, extensionType);
         }
     }
-    public refreshTransaction(id: number) {
-        const url = this.api + '/transaction/distribution/' + id + '/email';
+    public refreshPickup(id: number) {
+        const url = this.api + '/transaction/distribution/' + id + '/pickup';
         return this.http.get(url);
     }
     public transaction(id: number, code: string) {

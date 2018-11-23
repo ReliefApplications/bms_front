@@ -37,6 +37,11 @@ export class TransactionBeneficiary {
      */
     values: string;
 
+    /**
+     * Date if picked up.
+     */
+    pickupDate: string;
+
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;
@@ -45,6 +50,7 @@ export class TransactionBeneficiary {
             this.phone = instance.phone;
             this.state = instance.state ? instance.state : -2;
             this.values = instance.values;
+            this.pickupDate = instance.pickupDate ? instance.pickupDate : null;
         }
     }
 
@@ -64,6 +70,7 @@ export class TransactionBeneficiary {
             phone: GlobalText.TEXTS.add_beneficiary_getPhone,
             state: GlobalText.TEXTS.model_beneficiaries_state,
             values: GlobalText.TEXTS.model_beneficiaries_values,
+            date: GlobalText.TEXTS.model_beneficiaries_pickupDate
         };
     }
 
@@ -83,8 +90,8 @@ export class TransactionBeneficiary {
                 }
             )
         }
-        
-        if(instance) {
+
+        if (instance) {
             instance.forEach(
                 element => {
                     beneficiaries.push(this.formatElement(element, commodities));
@@ -107,8 +114,8 @@ export class TransactionBeneficiary {
         beneficiary.familyName = instance.beneficiary.family_name;
         beneficiary.phone = instance.beneficiary.phones[0] ? instance.beneficiary.phones[0].number : undefined;
 
-        if( instance.transactions && isNumber(instance.transactions[0].transaction_status) ) {
-            switch(instance.transactions[instance.transactions.length-1].transaction_status) {
+        if (instance.transactions && isNumber(instance.transactions[0].transaction_status)) {
+            switch (instance.transactions[instance.transactions.length - 1].transaction_status) {
                 case 0:
                     beneficiary.updateState('Sending failed');
                     break;
@@ -118,7 +125,9 @@ export class TransactionBeneficiary {
                 case 2:
                     beneficiary.updateState('No phone');
                     break;
-                default :
+                case 3:
+                    beneficiary.updateState('Picked up');
+                default:
                     beneficiary.updateState('Not sent');
                     break;
             }
@@ -152,6 +161,7 @@ export class TransactionBeneficiary {
             familyName: selfinstance.familyName,
             phone: selfinstance.phone,
             state: selfinstance.state,
+            date: selfinstance.pickupDate,
             values: selfinstance.values,
         };
     }
@@ -180,6 +190,9 @@ export class TransactionBeneficiary {
                 break;
             case 2:
                 stateString = 'Already sent';
+                break;
+            case 3:
+                stateString = 'Picked up';
                 break;
             default:
                 stateString = 'Not sent';
@@ -220,18 +233,32 @@ export class TransactionBeneficiary {
             case 2:
                 stateString = 'Already sent';
                 break;
+            case 3:
+                stateString = 'Picked up';
+                break;
             default:
                 stateString = 'Not sent';
                 break;
         }
 
-        return {
-            givenName: selfinstance.givenName,
-            familyName: selfinstance.familyName,
-            phone: selfinstance.phone ? selfinstance.phone : 'none',
-            state: stateString,
-            values: selfinstance.values,
-        };
+        if(true) {
+            return {
+                givenName: selfinstance.givenName,
+                familyName: selfinstance.familyName,
+                phone: selfinstance.phone ? selfinstance.phone : 'none',
+                state: stateString,
+                date: selfinstance.pickupDate,
+                values: selfinstance.values,
+            };
+        } else {
+            return {
+                givenName: selfinstance.givenName,
+                familyName: selfinstance.familyName,
+                phone: selfinstance.phone ? selfinstance.phone : 'none',
+                state: stateString,
+                values: selfinstance.values,
+            };
+        }
     }
 
     /**
@@ -276,7 +303,7 @@ export class TransactionBeneficiary {
     updateState(state: string) {
         let stateNumber;
 
-        switch(state) {
+        switch (state) {
             case 'Not sent':
                 stateNumber = -2;
                 break;
@@ -298,6 +325,14 @@ export class TransactionBeneficiary {
         }
 
         this.state = stateNumber;
+    }
+
+    updateForPickup(received: boolean, date) {
+        if (received) {
+            this.state = 3;
+            this.pickupDate = date;
+            //ammount?
+        }
     }
 
 }

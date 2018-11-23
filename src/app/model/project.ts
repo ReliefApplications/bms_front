@@ -200,6 +200,7 @@ export class Project {
             donors_name: this.mapDonors(selfinstance.donors_name),
             sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
             value: selfinstance.value,
+            number_of_households: selfinstance.number_of_households,
         };
     }
 

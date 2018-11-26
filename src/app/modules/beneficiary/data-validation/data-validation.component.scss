@@ -6,6 +6,7 @@
     flex-direction: row !important;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: stretch;
 }
 .issues {
     display: flex;
@@ -152,12 +153,10 @@ mat-horizontal-stepper {
 
 @media only screen and (max-width: 750px) and (min-width: 450px) { 
     .container-table {
-        width: 90vw !important;
     }
     .step-info {
         width: 100% !important;
         div {
-            width: 90vw;
             box-sizing: border-box;
         }
     }

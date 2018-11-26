@@ -146,3 +146,9 @@ mat-horizontal-stepper {
         padding: 20px !important;
     }
 }
+
+@media only screen and (max-width: 750px) and (min-width: 450px) { 
+    .container-table {
+        width: 90vw !important;
+    }
+}

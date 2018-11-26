@@ -5,6 +5,7 @@
     padding-top : 20px !important;
     flex-direction: row !important;
     flex-wrap: wrap;
+    justify-content: center;
 }
 .issues {
     display: flex;
@@ -137,7 +138,8 @@ mat-horizontal-stepper {
         }
     }
     .step-info {
-        width: 90% !important;
+       //width: 90% !important;
+       box-sizing: border-box;
     }
     .done {
         width: 95% !important;

@@ -151,4 +151,11 @@ mat-horizontal-stepper {
     .container-table {
         width: 90vw !important;
     }
+    .step-info {
+        width: 100% !important;
+        div {
+            width: 90vw;
+            box-sizing: border-box;
+        }
+    }
 }

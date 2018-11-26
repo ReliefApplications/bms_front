@@ -51,6 +51,15 @@ export class HouseholdsService {
     }
 
     /**
+     * Get all households
+     * @param body any
+     */
+    public getImported(newHouseholds: any) {
+        const url = this.api + '/households/get/imported';
+        return this.http.post(url, {households: newHouseholds});
+    }
+
+    /**
      * Upload CSV  and data validation to import new household
      * @param body any
      * @param idProject number

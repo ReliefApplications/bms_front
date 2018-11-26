@@ -28,6 +28,7 @@ export const TEXT = {
     'header_add-beneficiaries' : 'إضافة المستفيدين',
     header_disconnect : 'تسجيل الخروج',
     header_language : 'اللغة',
+    header_imported: 'Imported beneficiaries data',
 
     login_title : 'تسجيل الدخول',
     login_bms : 'نظام إدارة المستفيدين',

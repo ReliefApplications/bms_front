@@ -9,9 +9,10 @@ import { FormControl, Validators } from '@angular/forms';
 import { Project } from '../../../model/project';
 import { GlobalText } from '../../../../texts/global';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
-import { CacheService } from 'src/app/core/storage/cache.service';
+import { MatSnackBar, MatTableDataSource } from '@angular/material';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { Households } from 'src/app/model/households';
+import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
 
 @Component({
     selector: 'beneficiaries-import',
@@ -55,6 +56,7 @@ export class BeneficiariesImportComponent implements OnInit {
     public paramToSend = {};
     public provider: string;
     extensionType: string;
+    public newHouseholds: any = {};
 
     constructor(
         public _householdsService: HouseholdsService,
@@ -63,7 +65,8 @@ export class BeneficiariesImportComponent implements OnInit {
         public _beneficiariesService: BeneficiariesService,
         private router: Router,
         public snackBar: MatSnackBar,
-        private _cacheService: AsyncacheService
+        private _cacheService: AsyncacheService,
+        private importedDataService: ImportedDataService,
     ) { }
 
     ngOnInit() {
@@ -92,6 +95,7 @@ export class BeneficiariesImportComponent implements OnInit {
             this.household = GlobalText.TEXTS;
         }
     }
+
 
     /**
      * Get list of all project and put it in the project selector
@@ -288,12 +292,13 @@ export class BeneficiariesImportComponent implements OnInit {
                     }
                     else {
                         this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 5000, horizontalPosition: 'right' });
-                        this.router.navigate(['/beneficiaries']);
+                        this.newHouseholds = response.households;
+                        this.importedDataService.data = this.newHouseholds;
+                        this.router.navigate(['/beneficiaries/imported/data']);
                     }
                 });
         }
         else
             this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
     }
-
 }

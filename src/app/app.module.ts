@@ -24,6 +24,8 @@ import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave
 import { DatePipe } from '@angular/common';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { ImportedDataService } from './core/utils/imported-data.service';
+import { ImportedDataComponent } from './modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
 
 @NgModule({
 	declarations: [
@@ -34,7 +36,6 @@ import { environment } from '../environments/environment';
     	HeaderMobileComponent,
 		HeaderComponent,
 		ModalLeaveComponent,
-
 	],
 	imports: [
 		// Modules
@@ -55,7 +56,8 @@ import { environment } from '../environments/environment';
 	],
 	providers: [
         DatePipe,
-        httpInterceptorProviders
+		httpInterceptorProviders,
+		ImportedDataService,
 	],
 	bootstrap: [AppComponent]
 })

@@ -13,7 +13,7 @@
     width: 200px;
     flex-direction: column;
     justify-content: space-around;
-    align-items: center;
+    align-items: stretch;
 
     .mat-card-content {
         width: 100%;
@@ -64,10 +64,13 @@
         } 
     }
     .mat-chip-list, .old {
+        background-color: $bms_white !important;
+        padding: 0;
         width: 100%;
         display: flex;
         justify-content: flex-end;
         margin-bottom: 10px;
+
         .mat-chip {
             font-size: 0.9em;
             padding: 1px 8px;

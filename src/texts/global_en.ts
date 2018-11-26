@@ -313,10 +313,10 @@ export const TEXT = {
 
     data_verification_error: 'Error processing data',
     data_verification_chip_actual: 'Household targeted',
-    data_verification_description1: 'These issues are meant to show you the typo errors in your excel file. Any suspect field is reported here when his name is aproximatively the same as another one...',
-    data_verification_description2: 'The following duplicates issues will show you any beneficiary existing in your file who\'s already in the database. You have the choice between keeping the old beneficiary information or updating it with your file data.',
-    data_verification_description3: 'The \'To Add\' Beneficiaries are listed here to allow you having a global view of the new beneficiaries that are going to be added in the database.',
-    data_verification_description4: 'The \'To Remove\' Beneficiaries are listed here to allow you having a global view of the new beneficiaries that are going to be removed in the database.',
+    data_verification_description1: 'This panel will display any suspected typos concerning beneficiaries in your file: if an imported beneficiary closely matches another one already in the database it will be displayed here. You can choose to either keep the existing one, update it with the imported data or save both as separate beneficiaries.',
+    data_verification_description2: 'The duplicate panel displays the beneficiaries in the file that are already in the database, in another household. If the existing beneficiary is not a head of household, you can delete one or the other, or save both as different beneficiaries if you are sure they are different people.',
+    data_verification_description3: 'Here are listed households that already existed in the database but with fewer beneficiaries than in the imported file. You can check and select those you want to import in the household.',
+    data_verification_description4: 'Here are listed households that already existed in the database but with more beneficiaries than in the imported file. You can check and select those you want to delete from the household.',
 
     update_beneficiary_check_steps: 'Required data incomplete or unvalid: please check all steps',
     update_beneficiary_created_successfully: 'Created successfuly !',

@@ -313,10 +313,10 @@ export const TEXT = {
 
     data_verification_error: 'Erreur lors du parcours des données',
     data_verification_chip_actual: 'Ménage ciblé',
-    data_verification_description1: 'These issues are meant to show you the typo errors in your excel file. Any suspect field is reported here when his name is aproximatively the same as another one...',
-    data_verification_description2: 'The following duplicates issues will show you any beneficiary existing in your file who\'s already in the database. You have the choice between keeping the old beneficiary information or updating it with your file data.',
-    data_verification_description3: 'The \'To Add\' Beneficiaries are listed here to allow you having a global view of the new beneficiaries that are going to be added in the database.',
-    data_verification_description4: 'The \'To Remove\' Beneficiaries are listed here to allow you having a global view of the new beneficiaries that are going to be removed in the database.',
+    data_verification_description1: 'Ci-dessous seront affichées les typos suspectes des bénéficiaires listés dans le fichier: S\'il s\'avère qu\'un bénéficiaire est presque identique à un autre dans la base de données, il sera affiché ici. Vous pouvez choisir entre remplacer les valeurs par le bénéficiaire qui est importé, conserver celui déjà présent, ou les sauvegarder comme deux bénéficiaires distincts',
+    data_verification_description2: 'Ici sont affichés les bénéficiaires de votre fichier qui existent déjà dans la base de données comme membres d\'un foyer. Si le bénéficiaire n\'est pas un chef de famille, vous pouvez choisir de supprimer l\'un ou l\'autre, ou de conserver les deux dans le cas où vous êtes sûr qu\'il s\'agit de deux personnes différentes.',
+    data_verification_description3: 'Ci-dessous sont listés les foyers déjà existants dans la base de données mais avec moins de bénéficiaires que dans le fichier importé. Vous pouvez vérifier les informations et ajouter ceux que vous désirez au foyer présent dans la base de données.',
+    data_verification_description4: 'Ci-dessous sont listés les foyers déjà existants dans la base de données mais avec plus de bénéficiaires que dans le fichier importé. Vous pouvez vérifier les informations et supprimer ceux que vous désirez au foyer présent dans la base de données.',
 
     update_beneficiary_check_steps: 'Les données requises sont incomplètes ou invalides: s\'il vous plait vérifier toutes les étapes',
     update_beneficiary_created_successfully: 'Créé avec succès !',

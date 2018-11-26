@@ -113,10 +113,10 @@
                         <div class="issues" *ngFor="let duplicate of duplicates, index as i">
                             <mat-card class="content-issue" *ngFor="let isDuplicate of duplicate.data, index as j">
                                 <mat-card-content>
+                                    <mat-chip-list mat-chip class="old">
+                                        <mat-chip >{{verification.data_verification_chip_old}}</mat-chip>
+                                    </mat-chip-list>
                                     <div class="householdData head">
-                                        <mat-chip-list mat-chip class="old" >
-                                            <mat-chip >{{verification.data_verification_chip_old}}</mat-chip>
-                                        </mat-chip-list>
                                         <mat-checkbox [checked]="isDuplicate.old.isHead" [disabled]='isDuplicate.old.isHead' color="primary" (change)="step2Duplicates(isDuplicate, 'old', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
                                         </mat-checkbox>
                                         <div class="content-householdData">

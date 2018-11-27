@@ -293,12 +293,26 @@ export class BeneficiariesImportComponent implements OnInit {
                     else {
                         this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 5000, horizontalPosition: 'right' });
                         this.newHouseholds = response.households;
-                        this.importedDataService.data = this.newHouseholds;
+
+                        this.importedHouseholds();
                         this.router.navigate(['/beneficiaries/imported/data']);
                     }
                 });
         }
         else
             this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+    }
+
+
+    //Get imported households
+    importedHouseholds() {
+        this._householdsService.getImported(this.newHouseholds)
+            .subscribe(
+                response => {
+                    this.newHouseholds = response;
+                    this.newHouseholds = Households.formatArray(this.newHouseholds);
+                    this.importedDataService.data = this.newHouseholds;
+                }
+            );
     }
 }

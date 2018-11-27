@@ -38,8 +38,12 @@ export class ImportedDataComponent implements OnInit {
   ngOnInit() {
     this.checkSize();
 
+    console.log("imported2", this.importedDataService.data);
     this.newHouseholds = this.importedDataService.data;
-    this.importedHouseholds();
+    console.log("new2", this.newHouseholds);
+    
+    this.data = new MatTableDataSource(this.newHouseholds);
+    this.loadingTable = false;
   }
 
 
@@ -55,19 +59,6 @@ export class ImportedDataComponent implements OnInit {
   checkSize(): void {
     this.heightScreen = window.innerHeight;
     this.widthScreen = window.innerWidth;
-  }
-
-  //Get imported households
-  importedHouseholds() {
-    this._householdsService.getImported(this.newHouseholds)
-      .subscribe(
-        response => {
-          this.newHouseholds = response;
-          this.newHouseholds = Households.formatArray(this.newHouseholds);
-          this.data = new MatTableDataSource(this.newHouseholds);
-          this.loadingTable = false;
-        }
-      );
   }
 
   goBeneficiaries() {

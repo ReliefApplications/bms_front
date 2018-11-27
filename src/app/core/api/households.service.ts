@@ -52,11 +52,19 @@ export class HouseholdsService {
 
     /**
      * Get all households
-     * @param body any
+     * @param newHouseholds any
      */
     public getImported(newHouseholds: any) {
         const url = this.api + '/households/get/imported';
         return this.http.post(url, {households: newHouseholds});
+    }
+
+    /**
+     * Get all households
+     */
+    public getCachedHouseholds() {
+        const url = this.api + '/households/get/cached';
+        return this.http.get(url);
     }
 
     /**

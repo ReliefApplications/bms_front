@@ -25,7 +25,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             catchError(
                 (error: any, caught: Observable<HttpEvent<any>>) => {
                     this.snackErrors(error);
-                    return of(error);
+                    return new Observable<HttpEvent<any>>(error);
                 }
             )
         );
@@ -34,12 +34,12 @@ export class ErrorInterceptor implements HttpInterceptor {
     snackErrors(response : any) {
         if (response.message || (response.status && response.statusText && response.error) ) {
             if(response.status && response.statusText && response.error) {
-                this.snackbar.open(response.statusText + ' (' + response.status + ') - ' + response.error, '', {duration: 3000, horizontalPosition: 'center'});
+                this.snackbar.open(response.statusText + ' (' + response.status + ') - ' + response.error, '', {duration: 5000, horizontalPosition: 'center'});
             } else {
-                this.snackbar.open(response.message, '', {duration: 3000, horizontalPosition: 'center'});
+                this.snackbar.open(response.message, '', {duration: 5000, horizontalPosition: 'center'});
             }
         } else {
-            this.snackbar.open(GlobalText.TEXTS.error_interceptor_msg, '', {duration: 3000, horizontalPosition: 'center'});
+            this.snackbar.open(GlobalText.TEXTS.error_interceptor_msg, '', {duration: 5000, horizontalPosition: 'center'});
         }
     }
 

@@ -15,25 +15,37 @@ export class GlobalText {
 
     public static changeLanguage(language : string = this.language) {
         GlobalText.language = language;
-        const element = document.getElementsByTagName("mat-sidenav-content") as HTMLCollectionOf<HTMLElement>;
+
         switch (language) {
             case 'en':
                 GlobalText.TEXTS = TEXT_EN;
-                document.getElementsByTagName('html')[0].setAttribute('dir', '');
-                element[0].style.margin = "0px 0px 0px 64px";
-
                 break;
             case 'fr':
                 GlobalText.TEXTS = TEXT_FR;
-                document.getElementsByTagName('html')[0].setAttribute('dir', '');
-                element[0].style.margin = "0px 0px 0px 64px";
                 break;
             case 'ar':
                 GlobalText.TEXTS = TEXT_AR;
+                break;
+            default: GlobalText.TEXTS = TEXT_EN; 
+                break;
+        }
+        this.language = language;
+        this.adaptMargin();
+    }
+
+    private static adaptMargin() {
+        const element = document.getElementsByTagName("mat-sidenav-content") as HTMLCollectionOf<HTMLElement>;
+
+        if(window.innerHeight > this.maxHeight || window.innerWidth > this.maxWidth) {
+            if(this.language === 'ar') {
                 document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
                 element[0].style.margin = "0px 64px 0px 0px";
-                break;
-            default: GlobalText.TEXTS = TEXT_EN; break;
+            } else {
+                document.getElementsByTagName('html')[0].setAttribute('dir', '');
+                element[0].style.margin = "0px 0px 0px 64px";
+            }
+        } else {
+            this.resetMenuMargin();
         }
     }
 

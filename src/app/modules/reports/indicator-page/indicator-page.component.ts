@@ -257,19 +257,18 @@ export class IndicatorPageComponent implements OnInit {
      * Get list of all project and put it in the project selector
      */
     getProjects() {
-        this.projectService.get().toPromise()
-        .then(response => {
+        this.projectService.get().subscribe( response => {
             let Projectresponse = Project.formatArray(response);
             Projectresponse.forEach(element => {
                 var concat = element.id + " - " + element.name;
                 this.projectList.push(concat);
             });
         })
-        .catch(
-            () => {
-                this.projectList = null;
-            }
-        );
+        // .catch(
+        //     () => {
+        //         this.projectList = null;
+        //     }
+        // );
 
     }
 
@@ -278,19 +277,18 @@ export class IndicatorPageComponent implements OnInit {
      */
     getDistributions() {
         this.distributionList = [];
-        this.distribtutionService.getByProject(this.selectedProject[0]).toPromise()
-        .then(response => {
+        this.distribtutionService.getByProject(this.selectedProject[0]).subscribe(response => {
             let distributionResponse = DistributionData.formatArray(response);
             distributionResponse.forEach(element => {
                 var concat = element.id + " - " + element.name;
                 this.distributionList.push(concat);
             });
         })
-        .catch(
-            () => {
-                this.distributionList = null;
-            }
-        );
+        // .catch(
+        //     () => {
+        //         this.distributionList = null;
+        //     }
+        // );
 
 
     }

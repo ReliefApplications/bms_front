@@ -6,7 +6,7 @@ import { Router, UrlHandlingStrategy                                     } from 
 
 //Services
 import { WsseService                                } from '../authentication/wsse.service';
-import { Observable, concat, of } from 'rxjs';
+import { Observable, concat, of, merge } from 'rxjs';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { map } from 'rxjs/operators';
 import { NetworkService } from './network.service';
@@ -48,6 +48,7 @@ export class HttpService {
                 case '/distributions/criteria' : return(AsyncacheService.CRITERIAS)
                 case '/modalities' : return(AsyncacheService.MODALITIES)
                 case '/vulnerability_criteria' : return(AsyncacheService.VULNERABILITIES)
+                case '/summary' : return(AsyncacheService.SUMMARY)
                 default:
                     if(url.substring(0,24) === '/distributions/projects/')
                         return(AsyncacheService.DISTRIBUTIONS + '_' + url.split('/distributions/projects/')[1]);

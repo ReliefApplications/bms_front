@@ -39,6 +39,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public updatedHousehold: any;
     public countryISO3;
     public updateId;
+    public loader: boolean = true;
 
     // DB Lists
     public provinceList = [];
@@ -109,7 +110,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Gets household from backend and loads the method that will fill our 'updatedHousehold' attribute for input display and update.
      */
     initiateHousehold() {
-
         this.updatedHousehold = {
             // First set the format of a Household for Input Forms
             // id: 0,
@@ -133,6 +133,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         if(this.mode === 'create') {
             this._projectService.get().subscribe(
                 result => {
+                    this.loader = false;
                     let cacheProjects = result;
                     if(cacheProjects && cacheProjects[0]) {
                         this.countryISO3 = cacheProjects[0].iso3;
@@ -155,6 +156,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                             result => {
                                 this.originalHousehold = result;
                                 this.formatHouseholdForForm();
+                                this.loader = false;
                             }
                         );
                     }
@@ -406,7 +408,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
         else {
             // Minimum data not filled -> Error !
-            this.snackBar.open(this.Text.update_beneficiary_check_steps, '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.Text.update_beneficiary_check_steps, '', { duration: 5000, horizontalPosition: 'center' });
             return (undefined);
         }
 
@@ -536,7 +538,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 .then(
                     success => {
                         if (success) {
-                            this.snackBar.open(this.Text.update_beneficiary_created_successfully, '', { duration: 3000, horizontalPosition: 'center' });
+                            this.snackBar.open(this.Text.update_beneficiary_created_successfully, '', { duration: 5000, horizontalPosition: 'center' });
                             this.leave();
                         } else {
                             this.validationLoading = false;
@@ -545,7 +547,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 )
                 .catch(
                     error => {
-                        this.snackBar.open(this.Text.update_beneficiary_error_creating + error, '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.Text.update_beneficiary_error_creating + error, '', { duration: 5000, horizontalPosition: 'center' });
                         this.validationLoading = false;
                     }
                 )
@@ -569,7 +571,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 .then(
                     success => {
                         if (success) {
-                            this.snackBar.open(this.Text.update_beneficiary_updated_successfully, '', { duration: 3000, horizontalPosition: 'center' });
+                            this.snackBar.open(this.Text.update_beneficiary_updated_successfully, '', { duration: 5000, horizontalPosition: 'center' });
                             this.leave();
                         } else {
                             this.validationLoading = false;
@@ -578,7 +580,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 )
                 .catch(
                     error => {
-                        this.snackBar.open(this.Text.update_beneficiary_error_updated + error, '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.Text.update_beneficiary_error_updated + error, '', { duration: 5000, horizontalPosition: 'center' });
                         this.validationLoading = false;
                     }
                 )
@@ -678,7 +680,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         if (final) {
             return (validSteps === 3);
         } else if (message !== '') {
-            this.snackBar.open(message, '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
         }
 
         return (false);
@@ -747,6 +749,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      */
     getProjects() {
         this._projectService.get().subscribe(response => {
+            this.projectList = [];
             const responseProject = Project.formatArray(response);
             responseProject.forEach(element => {
                 const concat = element.id + ' - ' + element.name;
@@ -764,6 +767,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         this.communeList = [];
         this.villageList = [];
         this._locationService.getAdm1().subscribe(response => {
+            this.provinceList = [];
             const responseAdm1 = Location.formatAdm(response);
             responseAdm1.forEach(element => {
                 this.provinceList.push(element);
@@ -781,6 +785,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         const body = {};
         body['adm1'] = adm1;
         this._locationService.getAdm2(body).subscribe(response => {
+            this.districtList = [];
             const responseAdm2 = Location.formatAdm(response);
             responseAdm2.forEach(element => {
                 this.districtList.push(element);
@@ -797,6 +802,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         const body = {};
         body['adm2'] = adm2;
         this._locationService.getAdm3(body).subscribe(response => {
+            this.communeList = [];
             const responseAdm3 = Location.formatAdm(response);
             responseAdm3.forEach(element => {
                 this.communeList.push(element);
@@ -812,6 +818,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         const body = {};
         body['adm3'] = adm3;
         this._locationService.getAdm4(body).subscribe(response => {
+            this.villageList = [];
             const responseAdm4 = Location.formatAdm(response);
             responseAdm4.forEach(element => {
                 this.villageList.push(element);
@@ -825,9 +832,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     getVulnerabilityCriteria() {
         const promise = this._criteriaService.getVulnerabilityCriteria();
         if (promise) {
-            promise.toPromise().then(response => {
-                const responseCriteria = Criteria.formatArray(response);
-                responseCriteria.forEach(element => {
+            promise.subscribe(
+                response => {
+                    this.vulnerabilityList = [];
+                    const responseCriteria = Criteria.formatArray(response);
+                    responseCriteria.forEach(element => {
                     this.vulnerabilityList.push(element);
                 });
             });
@@ -840,7 +849,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     getCountrySpecifics() {
         const promise = this._countrySpecificsService.get();
         if (promise) {
-            promise.toPromise().then(response => {
+            promise.subscribe(response => {
+                this.countrySpecificsList = [];
                 const responseCountrySpecifics = CountrySpecific.formatArray(response);
                 responseCountrySpecifics.forEach(element => {
                     this.countrySpecificsList.push(

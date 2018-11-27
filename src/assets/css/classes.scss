@@ -34,6 +34,7 @@
             min-width: 200px;
             height : 80px;
             box-shadow: $bms_shadow;
+            border-radius: 8px;
         }
     }
 
@@ -43,7 +44,7 @@
         padding: 20px;
 
         .box-green {
-              border-top: solid 12px $bms_green;
+              border-top: solid 12px $bms_dark_blue;
         }
         .box-red {
               border-top: solid 12px $bms_red;
@@ -193,6 +194,11 @@
     color: darkgrey;
 }
 
+.disabled {
+    pointer-events: none;
+    background-color: grey !important;
+}
+
 .action-buttons {
     display: flex;
     justify-content: flex-end;
@@ -234,6 +240,13 @@
             }
         }
     }
+
+    mat-spinner {
+        margin: 10px;
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+
     button:last-child {
       margin-left: 20px;
     }
@@ -261,6 +274,10 @@
             }
         }
     }
+}
+
+.mat-dialog-container {
+    overflow-x: hidden !important;
 }
 
 .modal-container {

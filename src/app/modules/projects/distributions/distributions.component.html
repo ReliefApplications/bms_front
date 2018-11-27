@@ -24,11 +24,12 @@
                       [mapperService]="mapperService" [componentDisplayed]="actualDistribution" [data]="initialBeneficiaryData.data"></app-box-properties>
                         <div class="content-button">
                             <div class="action-buttons">
-                                <button mat-raised-button class="export-button" (click)="export()">
+                                <button mat-raised-button class="export-button" (click)="export()" *ngIf="!loadingExport">
                                     <mat-icon>get_app</mat-icon>
                                     <span>{{TEXT.beneficiaries_export | uppercase}}</span>
                                 </button>
-                                <div class="extension">
+                                <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+                                <div class="extension" *ngIf="!loadingExport">
                                     <div mat-button class="dropdown" [matMenuTriggerFor]="exportType1">
                                         <mat-icon>keyboard_arrow_down</mat-icon>
                                     </div>
@@ -117,12 +118,13 @@
                                 </mat-form-field>
                             </div>
                             <div class="action-buttons">
-                                <button mat-raised-button class="export-button" (click)="exportSample()">
+                                <button mat-raised-button class="export-button" (click)="exportSample()" *ngIf="!loadingExport">
                                     <mat-icon>get_app</mat-icon>
                                     <span>{{TEXT.beneficiaries_export | uppercase}}</span>
                                 </button>
+                                <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                                 <div class="extension">
-                                    <div mat-button class="dropdown" [matMenuTriggerFor]="exportType3">
+                                    <div mat-button class="dropdown" *ngIf="!loadingExport" [matMenuTriggerFor]="exportType3">
                                         <mat-icon>keyboard_arrow_down</mat-icon>
                                     </div>
                                     <mat-menu #exportType3>
@@ -231,6 +233,14 @@
                     </div>
                 </div>
             </div>
+            <div class="content-button">
+                    <div class="action-buttons">
+                        <button mat-raised-button class="export-button" (click)="refreshStatuses()">
+                            <mat-icon>refresh</mat-icon>
+                            <span>Refresh transaction statuses</span>
+                        </button>
+                    </div>
+                </div>
             <div class="waitingDataContainer" *ngIf="loadingTransaction">
                 <mat-spinner></mat-spinner>
             </div>
@@ -244,8 +254,8 @@
             </div>
             <div class="content-button content-button-footer">
                 <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
-                <button mat-raised-button class="button-background-accent"  (click)="openDialog(transaction)" *ngIf="!transacting"
-                [matBadge]="getAmount('people')" matBadgePosition="before" matBadgeColor="primary">
+                <button mat-raised-button *ngIf="hasRightsTransaction && !transacting"  (click)="openDialog(transaction); codeVerif();"
+                class="button-background-accent" [matBadge]="getAmount('people')" matBadgePosition="before" matBadgeColor="primary">
                     <mat-icon>send</mat-icon> Transaction
                 </button>
             </div>
@@ -259,14 +269,20 @@
         <h4 class="modal-title underline-accent">Confirm the transaction</h4>
         <div class="dialog-template">
             <div class="modal-body">
-                <p> Please enter your email to confirm that you want to validate the transaction of this distribution. </p>
-                <mat-form-field>
-                    <input matInput placeholder="Email" [(ngModel)]="this.enteredEmail">
-                </mat-form-field>
+                <p> An email containing your validation code has been sent to : {{actualUser.email | uppercase}}. </p>
+                <p> Please paste the code here and click on 'Confirm' to proceed with the transaction : </p>
+                <br/>
+                <div class="lign-container">
+                    <button mat-stroked-button class='button-text-primary sendCode-button' (click)='codeVerif()'>Send again</button>
+                    <mat-form-field>
+                        <input matInput placeholder="Code" [(ngModel)]="enteredCode">
+                    </mat-form-field>
+                </div>
+                <br/>
             </div>
             <div class="modal-footer action">
                 <button mat-button class="cancel" (click)="exit('Transaction canceled')">Cancel</button>
-                <button mat-button class="confirm" (click)="confirmTransaction()">Confirm</button>
+                <button mat-button class="confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()">Confirm</button>
             </div>
         </div>
     </mat-dialog-content>

@@ -19,9 +19,10 @@
                     </mat-select>
                 </mat-form-field>
                 <div class="action-buttons">
-                    <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()">{{household.beneficiaries_import_csv
+                    <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">{{household.beneficiaries_import_csv
                         | uppercase }}</button>
-                    <div class="extension">
+                    <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+                    <div class="extension" *ngIf="!loadingExport">
                         <div mat-button class="template pointer" [matMenuTriggerFor]="exportType">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </div>
@@ -56,7 +57,8 @@
                     <mat-list-item>
                         <mat-icon mat-list-icon>insert_drive_file</mat-icon>
                         <h4 mat-line class="text">{{ csv.name }}</h4>
-                        <p mat-line class="text">{{ csv.size }} bytes, {{ csv.lastModifiedDate | date: ddMMyyyy}} </p>
+                        <p mat-line class="text">{{ csv.size }} bytes, {{ csv.lastModifiedDate | date: ddMMyyyy}}
+                        </p>
                     </mat-list-item>
                 </mat-list>
 
@@ -86,7 +88,8 @@
                     <div class="content-select">
                         <h3>{{household.beneficiaries_select_api | uppercase}}</h3>
                         <mat-radio-group (change)='onChangeRadioAPI($event)' class="content-select" [(ngModel)]='chosenItem'>
-                            <mat-radio-button *ngFor="let name of APINames;" value="{{ name }}" color="primary">{{ name
+                            <mat-radio-button *ngFor="let name of APINames;" value="{{ name }}" color="primary">{{
+                                name
                                 }}</mat-radio-button>
                         </mat-radio-group>
                     </div>

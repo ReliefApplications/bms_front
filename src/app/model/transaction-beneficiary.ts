@@ -107,8 +107,8 @@ export class TransactionBeneficiary {
         beneficiary.familyName = instance.beneficiary.family_name;
         beneficiary.phone = instance.beneficiary.phones[0] ? instance.beneficiary.phones[0].number : undefined;
 
-        if( instance.transaction && !isNull(instance.transaction.transaction_status) && isNumber(instance.transaction.transaction_status) ) {
-            switch(instance.transaction.transaction_status) {
+        if( instance.transactions && isNumber(instance.transactions[0].transaction_status) ) {
+            switch(instance.transactions[instance.transactions.length-1].transaction_status) {
                 case 0:
                     beneficiary.updateState('Sending failed');
                     break;

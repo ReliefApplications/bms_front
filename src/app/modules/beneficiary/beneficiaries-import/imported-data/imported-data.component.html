@@ -1,0 +1,27 @@
+<div class="page-container">
+  <div class="container-title">
+    <h2>{{household.header_imported | titlecase}}</h2>
+  </div>
+
+  <app-placeholder-panel *ngIf='loadingTable' class="container-table"></app-placeholder-panel>
+
+  <div class="container-table" *ngIf="!loadingTable">
+    <div class="container-content box-red">
+      <div class="content-table">
+        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
+          [data]="data" [editable]="true">
+        </app-table-search>
+        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
+          [data]="data" [editable]="true">
+        </app-table-mobile-search>
+      </div>
+
+      <div class="content-button content-button-footer">
+        <button mat-raised-button class="button-background-accent" (click)="goBeneficiaries()">
+          <mat-icon>arrow_back</mat-icon>
+          <span>Back</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

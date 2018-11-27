@@ -60,20 +60,20 @@ export class ModalUpdateComponent extends ModalComponent {
     //Check fields for Users settings
     if (this.updateObject.username) {
       //   if (this.updateObject.password == '' || !this.updateObject.password) {
-      //     this.snackBar.open(this.modal.modal_add_no_password, '', { duration: 3000, horizontalPosition: 'right' });
+      //     this.snackBar.open(this.modal.modal_add_no_password, '', { duration: 5000, horizontalPosition: 'right' });
       //     return;
       //   }
 
       if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER") {
         if (this.updateObject.projects == undefined || Object.keys(this.updateObject.projects).length == 0) {
-          this.snackBar.open(this.modal.modal_no_project, '', { duration: 3000, horizontalPosition: 'right' });
+          this.snackBar.open(this.modal.modal_no_project, '', { duration: 5000, horizontalPosition: 'right' });
           return;
         }
       }
       else if (this.updateObject.rights == "ROLE_REGIONAL_MANAGER" || this.updateObject.rights == "ROLE_COUNTRY_MANAGER" || this.updateObject.rights == "ROLE_READ_ONLY") {
         this.updateObject.country = "KHM";
         if (this.updateObject.country == undefined) {
-          this.snackBar.open(this.modal.modal_no_country, '', { duration: 3000, horizontalPosition: 'right' });
+          this.snackBar.open(this.modal.modal_no_country, '', { duration: 5000, horizontalPosition: 'right' });
           return;
         }
       }
@@ -82,7 +82,7 @@ export class ModalUpdateComponent extends ModalComponent {
     //Check fields for Country Specific options settings
     else if ((this.updateObject.countryIso3 && this.updateObject.field && this.updateObject.type) || this.updateObject.countryIso3 == '' || this.updateObject.field == '') {
       if (this.updateObject.field == '' || this.updateObject.type == '') {
-        this.snackBar.open(this.modal.modal_check_fields, '', { duration: 3000, horizontalPosition: 'right' });
+        this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
         return;
       }
     }
@@ -90,7 +90,7 @@ export class ModalUpdateComponent extends ModalComponent {
     //Check fields for Donors settings
     else if ((this.updateObject.fullname && this.updateObject.shortname) || this.updateObject.fullname == '' || this.updateObject.shortname == '') {
       if (this.updateObject.fullname == '' || this.updateObject.shortname == '') {
-        this.snackBar.open(this.modal.modal_check_fields, '', { duration: 3000, horizontalPosition: 'right' });
+        this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
         return;
       }
     }
@@ -98,12 +98,12 @@ export class ModalUpdateComponent extends ModalComponent {
     //Check fields for Projects settings
     else if ((this.updateObject.end_date && this.updateObject.start_date && this.updateObject.iso3)) {
       if (!this.updateObject.end_date || !this.updateObject.name || !this.updateObject.start_date || !this.updateObject.value) {
-        this.snackBar.open(this.modal.modal_check_fields, '', { duration: 3000, horizontalPosition: 'right' });
+        this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
         return;
       }
 
       if (new Date(this.updateObject.start_date).getTime() > new Date(this.updateObject.end_date).getTime()) {
-        this.snackBar.open(this.modal.modal_check_date, '', { duration: 3000, horizontalPosition: 'right' });
+        this.snackBar.open(this.modal.modal_check_date, '', { duration: 5000, horizontalPosition: 'right' });
         return;
       }
 
@@ -135,7 +135,7 @@ export class ModalUpdateComponent extends ModalComponent {
     //Check fields for update distribution
     else if (this.updateObject.date_distribution) {
       if (!this.updateObject.date_distribution || !this.updateObject.name) {
-        this.snackBar.open(this.modal.modal_check_fields, '', { duration: 3000, horizontalPosition: 'right' });
+        this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
         return;
       }
 

@@ -34,6 +34,7 @@ export class AsyncacheService {
     static readonly SPECIFICS                   = 'specifics';
     static readonly MODALITIES                  = 'modalities';
     static readonly VULNERABILITIES             = 'vulnerabilities';
+    static readonly SUMMARY                     = 'summary';
 
     constructor(
         protected localStorage : LocalStorage,
@@ -129,7 +130,7 @@ export class AsyncacheService {
     /** 
      * Waits for asynchronous user value to return it synchronously.
     */
-    getUser() : Observable<User> {
+    getUser() : Observable<any>{
         return this.get(AsyncacheService.USER).pipe(
             map(
                 result => {

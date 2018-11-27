@@ -13,6 +13,7 @@ import { tap } from 'rxjs/operators';
 })
 export class TableMobileBeneficiariesComponent extends TableBeneficiariesComponent {
 
+    @Output() updating = new EventEmitter<number>();
     @Output() selectedAdm = new EventEmitter<any>();
 
     ngAfterViewInit() {
@@ -53,6 +54,10 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
         }, 1000);
     }
 
+    update(selectedBeneficiary: Beneficiaries) {
+        this.updating.emit(selectedBeneficiary.id);
+    }
+    
     selected(index) {
         if (index == 'adm1') {
             if (this.newObject.adm1 == null)

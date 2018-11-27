@@ -21,6 +21,7 @@ export class BeneficiariesComponent implements OnInit {
 
     public household = GlobalText.TEXTS;
     public nameComponent = 'beneficiaries_title';
+    public loadingExport = false;
 
     public referedClassService;
     referedClassToken = Households;
@@ -66,7 +67,6 @@ export class BeneficiariesComponent implements OnInit {
         this.checkSize();
         this.extensionType = 'xls';
         this.dataSource = new HouseholdsDataSource(this.householdsService);
-        this.dataSource.loadHouseholds();
         this.dataSource.vulnerabilities.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
         this.getProjects('updateSelection');
         this.checkPermission();
@@ -120,7 +120,12 @@ export class BeneficiariesComponent implements OnInit {
      * @return file
      */
     export() {
-        this.householdsService.export(this.extensionType);
+        this.loadingExport = true;
+        this.householdsService.export(this.extensionType).then(
+            () => { this.loadingExport = false }
+        ).catch(
+            () => { this.loadingExport = false }
+        );
     }
 
     addToProject(template) {
@@ -159,7 +164,7 @@ export class BeneficiariesComponent implements OnInit {
         if (this.projectsList && this.dataSource) {
             this.projectService.addBeneficiaries(this.selectedProject, this.dataSource.filter).subscribe(
                 success => {
-                    this.snackBar.open(this.household.beneficiaries_added, '', { duration: 3000, horizontalPosition: 'center' });
+                    this.snackBar.open(this.household.beneficiaries_added, '', { duration: 5000, horizontalPosition: 'center' });
                 }
             );
         }

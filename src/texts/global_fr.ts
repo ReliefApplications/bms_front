@@ -28,6 +28,7 @@ export const TEXT = {
     'header_add-beneficiaries' : 'Ajouter un ménage',
     header_disconnect : 'déconnexion',
     header_language : 'langue',
+    header_imported: 'Données des bénéficiaires importés',
 
     login_title : 'Connexion',
     login_bms : 'Beneficiary management system',

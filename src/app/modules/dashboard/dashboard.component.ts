@@ -35,6 +35,7 @@ export class DashboardComponent implements OnInit {
     public maxWidthMobile = 750;
     public heightScreen;
     public widthScreen;
+    private static firstLog = true;
 
     public summary = [];
 
@@ -53,12 +54,14 @@ export class DashboardComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.serviceMap.createMap('map');
-        this.serviceMap.addTileLayer();
+        if(!DashboardComponent.firstLog) {
+            this.serviceMap.createMap('map');
+            this.serviceMap.addTileLayer();
 
-        this.getSummary();
-        this.checkDistributions();
-        this.checkSize();
+            this.getSummary();
+            this.checkDistributions();
+            this.checkSize();
+        }
         this.checkPermission();
     }
 
@@ -100,6 +103,7 @@ export class DashboardComponent implements OnInit {
                     distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
                     //console.log(distribs);
                     this.distributions = distribs;
+                    this.loadingTable = false;
                 });
     }
 
@@ -112,10 +116,11 @@ export class DashboardComponent implements OnInit {
             .pipe(
                 finalize(
                     () => {
-                        this.loadingSummary = false
+                        this.loadingSummary = false;
                     },
                 )
             ).subscribe(response => {
+                this.loadingSummary = false
                 this.summary = response;
             });
     }
@@ -125,6 +130,10 @@ export class DashboardComponent implements OnInit {
             result => {
                 if (result && result.voters) {
                     const voters = result.voters;
+                    if(DashboardComponent.firstLog === true) {
+                        DashboardComponent.firstLog = false;
+                        this.ngOnInit();
+                    }
                     if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
                         this.hasRights = true;
 

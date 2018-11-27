@@ -79,11 +79,11 @@ export class Households {
             return selfinstance;
 
         let vulnerabilityString = '';
-        if(selfinstance.vulnerabilities[0]) {
+        if (selfinstance.vulnerabilities[0]) {
             selfinstance.vulnerabilities.forEach(
                 (element, index) => {
-                    if(index>0) {
-                        vulnerabilityString += ', ';                        
+                    if (index > 0) {
+                        vulnerabilityString += ', ';
                     }
                     vulnerabilityString += element.substring(25).split('.')[0];
                 }
@@ -111,7 +111,7 @@ export class Households {
             dependents: "number",
             vulnerabilities: "png",
             projects: "text",
-        } 
+        }
     }
 
     /**
@@ -153,14 +153,12 @@ export class Households {
         return name;
     }
 
-    public static formatArray(instance : any): Households[] {
+    public static formatArray(instance: any): Households[] {
         let households: Households[] = [];
-        //console.log("before format : ", instance);
-        if(instance)
-        instance.forEach(element => {
-            households.push(this.formatElement(element));
-        });
-        //console.log("after format : ", households);
+        if (instance)
+            instance.forEach(element => {
+                households.push(this.formatElement(element));
+            });
         return households;
     }
 
@@ -170,17 +168,19 @@ export class Households {
         let projectString = "";
 
         household.id = element.id;
-        
+
         element.beneficiaries.forEach(beneficiary => {
-            household.familyName = beneficiary.family_name;
-            household.firstName = beneficiary.given_name;
+            if (beneficiary.status == true) {
+                household.familyName = beneficiary.family_name;
+                household.firstName = beneficiary.given_name;
+            }
             beneficiary.vulnerability_criteria.forEach(vulnerability => {
                 household.vulnerabilities.push(this.mapVulnerability(vulnerability.field_string))
             });
         });
 
         element.projects.forEach(project => {
-            if(projectString == "")
+            if (projectString == "")
                 projectString = project.name;
             else
                 projectString = projectString + ", " + project.name;

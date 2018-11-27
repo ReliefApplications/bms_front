@@ -35,6 +35,7 @@ import { Router } from '@angular/router';
 export class SettingsComponent implements OnInit {
     public nameComponent = 'settings_title';
     public settings = GlobalText.TEXTS;
+    loadingExport = false;
 
     selectedTitle = '';
     isBoxClicked = false;
@@ -84,6 +85,7 @@ export class SettingsComponent implements OnInit {
     ngDoCheck() {
         if (this.language !== GlobalText.language)
             this.language = GlobalText.language;
+        // console.log(this.selectedTitle);
     }
 
     @HostListener('window:resize', ['$event'])
@@ -109,6 +111,7 @@ export class SettingsComponent implements OnInit {
     export() {
         let category: string;
         let country = null;
+        this.loadingExport = true;
 
         switch (this.selectedTitle) {
             case 'users':
@@ -122,20 +125,33 @@ export class SettingsComponent implements OnInit {
                 break;
             case 'projects':
                 category = 'projects';
-                
                 break;
             default:
                 break;
         }
-        if(category = 'projects') {
+        // console.log('#####- ', category);
+        if(category === 'projects') {
+            let exported = false;
             country = this.locationService.getAdm1().subscribe(
                 result => {
-                    country = result[0].country_i_s_o3;
-                    return this._settingsService.export(this.extensionType, category, country);
+                    if(!exported) {
+                        exported = true;
+                    
+                        country = result[0].country_i_s_o3;
+                        return this._settingsService.export(this.extensionType, category, country).then(
+                            () => { this.loadingExport = false }
+                        ).catch(
+                            () => { this.loadingExport = false }
+                        );
+                    }
                 }
             );
         } else {
-            return this._settingsService.export(this.extensionType, category, country);
+            return this._settingsService.export(this.extensionType, category, country).then(
+                () => { this.loadingExport = false }
+            ).catch(
+                () => { this.loadingExport = false }
+            )
         }
     }
 
@@ -173,8 +189,9 @@ export class SettingsComponent implements OnInit {
                     this.loadingData = false;
                 }
             )
-        ).toPromise().then(response => {
+        ).subscribe( response => {
             if(response) {
+                this.loadingData = false;
                 if (response && response[0] && response[0].email && response[0].username && response[0].roles)
                     response.forEach(element => {
                         element.projects = new Array<number>();
@@ -216,13 +233,14 @@ export class SettingsComponent implements OnInit {
 
             } else {
                 this.data = new MatTableDataSource(null);
+                this.loadingData = false;
             }
         })
-        .catch(
-            () => { 
-                this.data = new MatTableDataSource(null);
-            }
-        );
+        // .catch(
+        //     () => { 
+        //         this.data = new MatTableDataSource(null);
+        //     }
+        // );
     }
 
     /**
@@ -242,7 +260,7 @@ export class SettingsComponent implements OnInit {
 
                 this.data.data.forEach(element => {
                     if (element.name == data.name) {
-                        this.snackBar.open(this.settings.settings_project_exists, '', { duration: 3000, horizontalPosition: 'right' });
+                        this.snackBar.open(this.settings.settings_project_exists, '', { duration: 5000, horizontalPosition: 'right' });
                         exists = true;
                         return;
                     }
@@ -265,7 +283,7 @@ export class SettingsComponent implements OnInit {
         createElement = this.referedClassToken.formatForApi(createElement);
         if (this.referedClassToken.__classname__ !== 'User') {
             this.referedClassService.create(createElement['id'], createElement).subscribe(response => {
-                this.snackBar.open(this.referedClassToken.__classname__ + this.settings.settings_created, '', { duration: 3000, horizontalPosition: 'right' });
+                this.snackBar.open(this.referedClassToken.__classname__ + this.settings.settings_created, '', { duration: 5000, horizontalPosition: 'right' });
                 this.selectTitle(this.selectedTitle);
             });
         } else {
@@ -282,7 +300,7 @@ export class SettingsComponent implements OnInit {
                     }
 
                     this.authenticationService.createUser(createElement, response).subscribe(() => {
-                        this.snackBar.open(this.referedClassToken.__classname__ + this.settings.settings_created, '', { duration: 3000, horizontalPosition: 'right' });
+                        this.snackBar.open(this.referedClassToken.__classname__ + this.settings.settings_created, '', { duration: 5000, horizontalPosition: 'right' });
                         this.selectTitle(this.selectedTitle);
                     });
                 }

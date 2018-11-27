@@ -5,12 +5,11 @@ import { MatSnackBar, MatStepper } from '@angular/material';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { VerifiedData, FormatDuplicatesData, FormatMore, FormatLess } from '../../../model/data-validation';
 import { GlobalText } from '../../../../texts/global';
-import { CacheService } from 'src/app/core/storage/cache.service';
 import { Router } from '@angular/router';
-
-
-
-
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { Households } from 'src/app/model/households';
+import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-data-validation',
@@ -43,25 +42,42 @@ export class DataValidationComponent implements OnInit {
     public lessDone = false;
     public load: boolean = false;
 
+    public newHouseholds: any = {};
+    public email: string;
+
     constructor(
         public _importService: ImportService,
         public _householdsService: HouseholdsService,
         public snackBar: MatSnackBar,
-        private _cacheService: CacheService,
-        private router: Router
+        private _cacheService: AsyncacheService,
+        private router: Router,
+        private importedDataService: ImportedDataService,
     ) {
 
     }
 
     ngOnInit() {
-        const voters = this._cacheService.get('user').voters;
-        if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
-            this.snackBar.open(this.verification.forbidden_message, '', { duration: 3000, horizontalPosition: 'center' });
-            this.router.navigate(['']);
-        }
-        else {
-            this.getData();
-        }
+        let voters;
+        this._cacheService.get('user').subscribe(
+            result => {
+                voters = result.voters;
+                if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
+                    this.snackBar.open(this.verification.forbidden_message, '', { duration: 5000, horizontalPosition: 'center' });
+                    this.router.navigate(['']);
+                }
+                else {
+                    this.getData();
+                }
+            }
+        );
+    
+        this._cacheService.getUser()
+            .subscribe(
+                response => {
+                    this.email = response.username;
+                    this.email = this.email.replace("@", '');
+                }
+            )
     }
 
     /**
@@ -378,33 +394,49 @@ export class DataValidationComponent implements OnInit {
         }
 
         if (this.step === 1 && this.typoIssues.length != length) {
-            this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected, '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected, '', { duration: 5000, horizontalPosition: 'center' });
         } else if (this.step === 2 && this.duplicates.length != length) {
-            this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected, '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected, '', { duration: 5000, horizontalPosition: 'center' });
         } else {
             this.load = true;
             if (this.step === 1) {
-                this.snackBar.open(this.verification.data_verification_snackbar_typo_corrected, '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.verification.data_verification_snackbar_typo_corrected, '', { duration: 5000, horizontalPosition: 'center' });
                 this.typoDone = true;
             } else if (this.step === 2) {
-                this.snackBar.open(this.verification.data_verification_snackbar_duplicate_corrected, '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.verification.data_verification_snackbar_duplicate_corrected, '', { duration: 5000, horizontalPosition: 'center' });
                 this.duplicateDone = true;
             } else if (this.step === 3) {
-                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 5000, horizontalPosition: 'center' });
                 this.moreDone = true;
             } else if (this.step === 4) {
-                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 5000, horizontalPosition: 'center' });
                 this.lessDone = true;
             }
             this.step = this.step + 1;
-            this._importService.sendData(this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
+            this._importService.sendData(this.email, this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
                 this.stepper.next();
                 this.getData();
             }, () => {
                 this.load = false;
-                this.snackBar.open(this.verification.data_verification_error, '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackBar.open(this.verification.data_verification_error, '', { duration: 5000, horizontalPosition: 'center' });
             });
 
         }
+    }
+
+    addBeneficiaries() {
+        this.cachedHouseholds();
+    }
+
+    cachedHouseholds() {
+        this._householdsService.getCachedHouseholds(this.email)
+            .subscribe(
+                response => {
+                    this.newHouseholds = response;
+                    this.newHouseholds = Households.formatArray(this.newHouseholds);
+                    this.importedDataService.data = this.newHouseholds;
+                    this.router.navigate(['/beneficiaries/imported/data']);
+                }
+            );
     }
 }

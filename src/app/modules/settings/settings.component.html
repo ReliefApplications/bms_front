@@ -10,7 +10,7 @@
             (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/donors", color: "green", title:settings.settings_donors, ref:"donors"}'></app-box-setting>
         <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "red", title:settings.settings_projects, ref:"projects"}'></app-box-setting>
     </div>
-    <app-placeholder-panel *ngIf="loadingData"></app-placeholder-panel>
+    <app-placeholder-panel class="container-table" *ngIf="loadingData"></app-placeholder-panel>
     <div class="container-table" *ngIf="!loadingData">
         <div class="container-content box-green" *ngIf="isBoxClicked">
             <div class="content-button">
@@ -20,12 +20,13 @@
                     </button>
                 </div>
                 <div class="action-buttons">
-                    <button mat-raised-button class="button-background-primary" (click)="export()">
+                    <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{settings.beneficiaries_export | uppercase}}</span>
                     </button>
+                    <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension">
-                        <div mat-button class="dropdown" [matMenuTriggerFor]="exportType">
+                        <div mat-button class="dropdown" *ngIf="!loadingExport" [matMenuTriggerFor]="exportType">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </div>
                         <mat-menu #exportType>

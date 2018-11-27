@@ -14,8 +14,10 @@ import { Mapper } from '../../../core/utils/mapper.service';
 import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
 import { AnimationRendererFactory } from '@angular/platform-browser/animations/src/animation_renderer';
 import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
-import { finalize } from 'rxjs/operators';
+import { finalize, last, map } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { User } from 'src/app/model/user';
+import { UserService } from 'src/app/core/api/user.service';
 
 @Component({
     selector: 'app-distributions',
@@ -26,6 +28,7 @@ export class DistributionsComponent implements OnInit {
     public nameComponent = 'distribution_title';
     distributionId: number;
     actualDistribution = new DistributionData();
+    loadingExport = false;
 
     loadingDatas = true;
     loadingDistribution = true;
@@ -36,7 +39,6 @@ export class DistributionsComponent implements OnInit {
     loadingThirdStep: boolean;
     loadingFinalStep: boolean;
     loadingTransaction: boolean;
-    enteredEmail: string;
     sampleSize: number; // %
     extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods
     extensionTypeStep3: string; // 1.xls / 2.csv / 3.ods
@@ -73,6 +75,12 @@ export class DistributionsComponent implements OnInit {
     form3: FormGroup;
     form4: FormGroup;
 
+    // Transaction.
+    readonly SENDING_CODE_FREQ = 10000; //ms
+    lastCodeSentTime = 0; //ms
+    actualUser = new User();
+    enteredCode = '';
+    
     hasRights: boolean = false;
     hasRightsTransaction: boolean = false;
 
@@ -82,6 +90,7 @@ export class DistributionsComponent implements OnInit {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private beneficiariesService: BeneficiariesService,
+        private userService: UserService,
         public snackBar: MatSnackBar,
         public mapperService: Mapper,
         private dialog: MatDialog,
@@ -114,6 +123,7 @@ export class DistributionsComponent implements OnInit {
 
         this.getDistributionBeneficiaries('initial');
         this.checkPermission();
+
     }
 
     @HostListener('window:resize', ['$event'])
@@ -143,7 +153,7 @@ export class DistributionsComponent implements OnInit {
             .subscribe(
                 result => { // Get from Back
                     this.actualDistribution = result;
-                    if(!this.actualDistribution) {
+                    if (!this.actualDistribution) {
                         // console.log('fail');
                         // // Particular case to search in cache distribution list if there is no api response.
                         // this.cacheService.get(AsyncacheService.DISTRIBUTIONS)
@@ -208,6 +218,7 @@ export class DistributionsComponent implements OnInit {
                     } else if (type === 'transaction') {
                         // console.log('Getting transaction data');
                         this.transactionData = new MatTableDataSource(TransactionBeneficiary.formatArray(data, this.actualDistribution.commodities));
+                        this.refreshStatuses()
                         this.loadingTransaction = false;
                     }
 
@@ -274,8 +285,13 @@ export class DistributionsComponent implements OnInit {
      * Handles the csv export of the data table
      */
     export() {
+        this.loadingExport = true;
         // console.log('type: ', this.extensionTypeStep1);
-        this.distributionService.export('distribution', this.extensionTypeStep1, this.distributionId);
+        this.distributionService.export('distribution', this.extensionTypeStep1, this.distributionId).then(
+            () => { this.loadingExport = false }
+        ).catch(
+            () => { this.loadingExport = false }
+        )
     }
 
     /**
@@ -292,10 +308,10 @@ export class DistributionsComponent implements OnInit {
         if (this.finalBeneficiaryData) {
             return Math.ceil((this.sampleSize / 100) * this.finalBeneficiaryData.data.length);
         } else {
-            if(this.initialBeneficiaryData)
+            if (this.initialBeneficiaryData)
                 return Math.ceil((this.sampleSize / 100) * this.initialBeneficiaryData.data.length);
             else
-                return(1);
+                return (1);
         }
 
     }
@@ -323,7 +339,12 @@ export class DistributionsComponent implements OnInit {
      * Requests Back-end a csv containing the sample to export it
      */
     exportSample() {
-        this.distributionService.exportSample(this.randomSampleData.data, this.extensionTypeStep3);
+        this.loadingExport = true;
+        this.distributionService.exportSample(this.randomSampleData.data, this.extensionTypeStep3).then(
+            () => { this.loadingExport = false }
+        ).catch(
+            () => { this.loadingExport = false }
+        )
     }
 
     /**
@@ -343,22 +364,37 @@ export class DistributionsComponent implements OnInit {
                 .subscribe(
                     success => {
                         this.actualDistribution.validated = true;
-                        this.snackBar.open(this.TEXT.distribution_validated, '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.TEXT.distribution_validated, '', { duration: 5000, horizontalPosition: 'center' });
                         this.validateActualDistributionInCache();
                         this.getDistributionBeneficiaries('transaction');
                         // TODO : Check if phone number exists for all head of households.
                     },
                     error => {
                         this.actualDistribution.validated = false;
-                        this.snackBar.open(this.TEXT.distribution_not_validated, '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.TEXT.distribution_not_validated, '', { duration: 5000, horizontalPosition: 'center' });
                     }
                 );
 
         }
         else
-            this.snackBar.open(this.TEXT.distribution_no_right_validate, '', { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open(this.TEXT.distribution_no_right_validate, '', { duration: 5000, horizontalPosition: 'right' });
 
         this.dialog.closeAll();
+    }
+
+    codeVerif() {
+        if( (new Date()).getTime()-this.lastCodeSentTime > this.SENDING_CODE_FREQ ) {
+            this.distributionService.sendCode(this.distributionId).pipe(
+                finalize(
+                    () => {
+                        this.lastCodeSentTime = (new Date()).getTime();
+                        this.snackBar.open('Verification code has been sent at ' + this.actualUser.email, '', { duration: 5000, horizontalPosition: 'center' });
+                    }
+                )
+            ).subscribe();
+        } else {
+            this.snackBar.open('The last code was sent less than 10 seconds ago, you should wait.', '', { duration: 5000, horizontalPosition: 'center' });
+        }
     }
 
     /**
@@ -368,72 +404,75 @@ export class DistributionsComponent implements OnInit {
         if (this.hasRightsTransaction) {
             this.cacheService.getUser().subscribe(
                 result => {
-                    const actualUser = result;
-
-                    if (this.enteredEmail && actualUser.username === this.enteredEmail) {
-                        if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]
-                            && this.actualDistribution.commodities[0].modality_type && this.actualDistribution.commodities[0].modality_type.name === "Mobile Cash") {
-                            this.transacting = true;
-                            this.distributionService.transaction(this.distributionId)
-                                .pipe(
-                                    finalize(
-                                        () => this.transacting = false
-                                    )
-                                ).subscribe(
-                                    success => {
-                                        if(this.transactionData) {
-                                            this.transactionData.data.forEach(
-                                                (element, index) => {
-                                                    //success.already_sent.push({ id:0 });
-                                                    //success.sent.push({ id:0 });
-            
-                                                    success.already_sent.forEach(
-                                                        beneficiary => {
-                                                            if (element.id === beneficiary.beneficiary.id) {
-                                                                this.transactionData.data[index].updateState('Already sent');
-                                                            }
-                                                        }
-                                                    )
-                                                    success.failure.forEach(
-                                                        beneficiary => {
-                                                            if (element.id === beneficiary.beneficiary.id) {
-                                                                this.transactionData.data[index].updateState('Sending failed');
-                                                            }
-                                                        }
-                                                    )
-                                                    success.no_mobile.forEach(
-                                                        beneficiary => {
-                                                            if (element.id === beneficiary.beneficiary.id) {
-                                                                this.transactionData.data[index].updateState('No phone');
-                                                            }
-                                                        }
-                                                    )
-                                                    success.sent.forEach(
-                                                        beneficiary => {
-                                                            if (element.id === beneficiary.beneficiary.id) {
-                                                                this.transactionData.data[index].updateState('Sent');
-                                                            }
-                                                        }
-                                                    )
-                                                }
-                                            );
-                                        }
-                                    }
+                    this.actualUser = result;
+                    if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]) {
+                        this.transacting = true;
+                        this.distributionService.transaction(this.distributionId, this.enteredCode)
+                            .pipe(
+                                finalize(
+                                    () => this.transacting = false
                                 )
-                        } else {
-                            this.snackBar.open(this.TEXT.distribution_no_valid_commodity, '', { duration: 3000, horizontalPosition: 'center' });
-                        }
-        
+                            ).toPromise().then(
+                                success => {
+                                    if (this.transactionData) {
+                                        this.transactionData.data.forEach(
+                                            (element, index) => {
+                                                //success.already_sent.push({ id:0 });
+                                                //success.sent.push({ id:0 });
+
+                                                success.already_sent.forEach(
+                                                    beneficiary => {
+                                                        if (element.id === beneficiary.beneficiary.id) {
+                                                            this.transactionData.data[index].updateState('Already sent');
+                                                        }
+                                                    }
+                                                )
+                                                success.failure.forEach(
+                                                    beneficiary => {
+                                                        if (element.id === beneficiary.beneficiary.id) {
+                                                            this.transactionData.data[index].updateState('Sending failed');
+                                                        }
+                                                    }
+                                                )
+                                                success.no_mobile.forEach(
+                                                    beneficiary => {
+                                                        if (element.id === beneficiary.beneficiary.id) {
+                                                            this.transactionData.data[index].updateState('No phone');
+                                                        }
+                                                    }
+                                                )
+                                                success.sent.forEach(
+                                                    beneficiary => {
+                                                        if (element.id === beneficiary.beneficiary.id) {
+                                                            this.transactionData.data[index].updateState('Sent');
+                                                        }
+                                                    }
+                                                )
+                                            }
+                                        );
+                                    }
+                                }
+                            ).catch(
+                                //err
+                            )
                     } else {
-                        this.snackBar.open(this.TEXT.distribution_wrong_mail, '', { duration: 3000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.TEXT.distribution_no_valid_commodity, '', { duration: 5000, horizontalPosition: 'center' });
                     }
                 }
             );
         }
         else
-            this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 3000, horizontalPosition: 'right' });
+            this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 5000, horizontalPosition: 'right' });
 
         this.dialog.closeAll();
+    }
+
+    refreshStatuses() {
+        this.distributionService.refreshTransaction(this.distributionId).subscribe(
+            result => {
+                //...
+            }
+        )
     }
 
     /**
@@ -484,12 +523,12 @@ export class DistributionsComponent implements OnInit {
                                 this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(response));
                             }
                         );
-                    this.snackBar.open(this.TEXT.distribution_beneficiary_added, '', { duration: 3000, horizontalPosition: 'center' });
+                    this.snackBar.open(this.TEXT.distribution_beneficiary_added, '', { duration: 5000, horizontalPosition: 'center' });
                     this.getDistributionBeneficiaries('final');
                 },
                 error => {
                     // console.log('cc', this.selectedBeneficiaries);
-                    this.snackBar.open(this.TEXT.distribution_beneficiary_not_added, '', { duration: 3000, horizontalPosition: 'center' });
+                    this.snackBar.open(this.TEXT.distribution_beneficiary_not_added, '', { duration: 5000, horizontalPosition: 'center' });
                 });
     }
 
@@ -497,7 +536,7 @@ export class DistributionsComponent implements OnInit {
      * To cancel on a dialog
      */
     exit(message: string) {
-        this.snackBar.open(message, '', { duration: 3000, horizontalPosition: 'center' });
+        this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
         this.dialog.closeAll();
     }
 
@@ -565,13 +604,30 @@ export class DistributionsComponent implements OnInit {
     checkPermission() {
         this.cacheService.getUser().subscribe(
             result => {
-                if(result && result.voters) {
+                this.setUser(result.user_id);
+                if (result && result.voters) {
                     const voters = result.voters;
                     if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
                         this.hasRights = true;
 
                     if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == 'ROLE_COUNTRY_MANAGER')
                         this.hasRightsTransaction = true;
+                }
+            }
+        )
+    }
+
+    setUser(userId) {
+        this.userService.get().subscribe(
+            result => {
+                if (result) {
+                    result.forEach(
+                        element => {
+                            if (element.id === userId) {
+                                this.actualUser = element;
+                            }
+                        }
+                    )
                 }
             }
         )

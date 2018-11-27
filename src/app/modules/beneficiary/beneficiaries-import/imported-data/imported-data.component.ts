@@ -38,9 +38,7 @@ export class ImportedDataComponent implements OnInit {
   ngOnInit() {
     this.checkSize();
 
-    console.log("imported2", this.importedDataService.data);
     this.newHouseholds = this.importedDataService.data;
-    console.log("new2", this.newHouseholds);
     
     this.data = new MatTableDataSource(this.newHouseholds);
     this.loadingTable = false;

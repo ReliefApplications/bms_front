@@ -425,9 +425,7 @@ export class DataValidationComponent implements OnInit {
                 response => {
                     this.newHouseholds = response;
                     this.newHouseholds = Households.formatArray(this.newHouseholds);
-                    console.log("new", this.newHouseholds);
                     this.importedDataService.data = this.newHouseholds;
-                    console.log("imported", this.importedDataService.data);
                     this.router.navigate(['/beneficiaries/imported/data']);
                 }
             );

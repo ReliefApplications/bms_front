@@ -23,8 +23,6 @@ export class HttpService {
         private cacheService: AsyncacheService,
         private networkService: NetworkService,
         private snackbar: MatSnackBar,
-        private router : Router,
-        private _wsseService : WsseService
     ){
     }
 

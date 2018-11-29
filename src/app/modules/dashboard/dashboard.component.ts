@@ -120,8 +120,10 @@ export class DashboardComponent implements OnInit {
                     },
                 )
             ).subscribe(response => {
-                this.loadingSummary = false
-                this.summary = response;
+                if(response) {
+                    this.loadingSummary = false;
+                    this.summary = response;
+                } 
             });
     }
 

@@ -216,7 +216,7 @@ export const TEXT = {
     model_beneficiaries_phones: 'الهاتف',
     model_user : 'المستخدم',
     model_beneficiaries_pickupDate: 'Pick up date',
-    model_beneficiaries_message: 'message',
+    model_beneficiaries_message: 'Message',
     model_user_username: 'الريد الاكتروني',
     model_user_password: 'كلمة المرور',
     model_user_rights: 'الحقوق',

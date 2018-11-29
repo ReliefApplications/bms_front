@@ -295,6 +295,7 @@ export class TransactionBeneficiary {
             phone: 'text',
             state: 'text',
             values: 'text',
+            message: 'textarea',
         };
     }
 
@@ -308,6 +309,7 @@ export class TransactionBeneficiary {
             phone: 'text',
             state: 'text',
             values: 'text',
+            message: 'textarea',
         };
     }
 

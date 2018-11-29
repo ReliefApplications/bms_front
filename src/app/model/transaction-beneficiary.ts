@@ -42,6 +42,11 @@ export class TransactionBeneficiary {
      */
     pickupDate: string;
 
+    /**
+     * Last message from API.
+     */
+    message: string;
+
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;
@@ -51,6 +56,7 @@ export class TransactionBeneficiary {
             this.state = instance.state ? instance.state : -2;
             this.values = instance.values;
             this.pickupDate = instance.pickupDate ? instance.pickupDate : null;
+            this.message = instance.message;
         }
     }
 
@@ -70,7 +76,8 @@ export class TransactionBeneficiary {
             phone: GlobalText.TEXTS.add_beneficiary_getPhone,
             state: GlobalText.TEXTS.model_beneficiaries_state,
             values: GlobalText.TEXTS.model_beneficiaries_values,
-            date: GlobalText.TEXTS.model_beneficiaries_pickupDate
+            date: GlobalText.TEXTS.model_beneficiaries_pickupDate,
+            message: GlobalText.TEXTS.model_beneficiaries_message
         };
     }
 
@@ -131,6 +138,7 @@ export class TransactionBeneficiary {
                     beneficiary.updateState('Not sent');
                     break;
             }
+            beneficiary.message = instance.transactions[instance.transactions.length - 1].message ? instance.transactions[instance.transactions.length - 1].message : '';
         } else {
             beneficiary.updateState('Not sent');
         }
@@ -162,6 +170,7 @@ export class TransactionBeneficiary {
             phone: selfinstance.phone,
             state: selfinstance.state,
             date: selfinstance.pickupDate,
+            message: selfinstance.message,
             values: selfinstance.values,
         };
     }
@@ -241,13 +250,14 @@ export class TransactionBeneficiary {
                 break;
         }
 
-        if(true) {
+        if(selfinstance.state === 3) {
             return {
                 givenName: selfinstance.givenName,
                 familyName: selfinstance.familyName,
                 phone: selfinstance.phone ? selfinstance.phone : 'none',
                 state: stateString,
                 date: selfinstance.pickupDate,
+                message: selfinstance.message,
                 values: selfinstance.values,
             };
         } else {
@@ -256,6 +266,7 @@ export class TransactionBeneficiary {
                 familyName: selfinstance.familyName,
                 phone: selfinstance.phone ? selfinstance.phone : 'none',
                 state: stateString,
+                message: selfinstance.message,
                 values: selfinstance.values,
             };
         }

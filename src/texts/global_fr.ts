@@ -215,6 +215,7 @@ export const TEXT = {
     model_beneficiaries_nationalids: 'Numéro d\'identification',
     model_beneficiaries_phones: 'Téléphones',
     model_beneficiaries_pickupDate: 'Date de récupération',
+    model_beneficiaries_message: 'message',
     model_user : 'Utilisateur',
     model_user_username: 'Email',
     model_user_password: 'Mot de passe',

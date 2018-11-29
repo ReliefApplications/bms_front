@@ -425,6 +425,7 @@ export class DistributionsComponent implements OnInit {
                                                     beneficiary => {
                                                         if (element.id === beneficiary.beneficiary.id) {
                                                             this.transactionData.data[index].updateState('Already sent');
+                                                            this.setTransactionMessage(beneficiary, index);
                                                         }
                                                     }
                                                 )
@@ -432,6 +433,7 @@ export class DistributionsComponent implements OnInit {
                                                     beneficiary => {
                                                         if (element.id === beneficiary.beneficiary.id) {
                                                             this.transactionData.data[index].updateState('Sending failed');
+                                                            this.setTransactionMessage(beneficiary, index);
                                                         }
                                                     }
                                                 )
@@ -439,6 +441,7 @@ export class DistributionsComponent implements OnInit {
                                                     beneficiary => {
                                                         if (element.id === beneficiary.beneficiary.id) {
                                                             this.transactionData.data[index].updateState('No phone');
+                                                            this.setTransactionMessage(beneficiary, index);
                                                         }
                                                     }
                                                 )
@@ -446,6 +449,7 @@ export class DistributionsComponent implements OnInit {
                                                     beneficiary => {
                                                         if (element.id === beneficiary.beneficiary.id) {
                                                             this.transactionData.data[index].updateState('Sent');
+                                                            this.setTransactionMessage(beneficiary, index);
                                                         }
                                                     }
                                                 )
@@ -466,6 +470,12 @@ export class DistributionsComponent implements OnInit {
             this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 5000, horizontalPosition: 'right' });
 
         this.dialog.closeAll();
+    }
+
+    setTransactionMessage(beneficiary, i) {
+         
+        this.transactionData.data[i].message = beneficiary.transactions[beneficiary.transactions.length-1].message ?
+            beneficiary.transactions[beneficiary.transactions.length].message : '';
     }
 
     refreshStatuses() {

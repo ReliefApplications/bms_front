@@ -27,6 +27,9 @@ export class NetworkService {
         updates.available.subscribe(event => {
             this.snackbar.open('Current BMS version is' + event.current, '', { duration: 5000, horizontalPosition: 'center' });
             this.snackbar.open('Available BMS version is' + event.available, '', { duration: 5000, horizontalPosition: 'center' });
+            // if (promptUser(event)) {
+            //     updates.activateUpdate().then(() => document.location.reload());
+            // }
         });
         updates.activated.subscribe(event => {
             this.snackbar.open('Old BMS version was' + event.previous, '', { duration: 5000, horizontalPosition: 'center' });

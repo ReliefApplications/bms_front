@@ -385,14 +385,24 @@ export class DistributionsComponent implements OnInit {
 
     codeVerif() {
         if ((new Date()).getTime() - this.lastCodeSentTime > this.SENDING_CODE_FREQ) {
-            this.distributionService.sendCode(this.distributionId).pipe(
-                finalize(
-                    () => {
+            this.distributionService.sendCode(this.distributionId).toPromise()
+            .then(
+                anwser => {
+                    if(anwser === "Email sent") {
                         this.lastCodeSentTime = (new Date()).getTime();
                         this.snackBar.open('Verification code has been sent at ' + this.actualUser.email, '', { duration: 5000, horizontalPosition: 'center' });
                     }
-                )
-            ).subscribe();
+                },
+                () => {
+                    this.lastCodeSentTime = (new Date()).getTime();
+                    this.snackBar.open('Verification code has been sent at ' + this.actualUser.email, '', { duration: 5000, horizontalPosition: 'center' });
+                }
+            )
+            .catch(
+                (err) => {
+                    this.snackBar.open('Could not send code :' + err, '', { duration: 5000, horizontalPosition: 'center' });
+                }
+            );
         } else {
             this.snackBar.open('The last code was sent less than 10 seconds ago, you should wait.', '', { duration: 5000, horizontalPosition: 'center' });
         }

@@ -31,6 +31,7 @@ export class DataValidationComponent implements OnInit {
 
     //indicate the step in process
     public step: number = 1;
+    public showedInfo: boolean = true;
 
     //boolean to prevent user to go in next step if this step isn't complete
     public typoDone = false;
@@ -352,6 +353,10 @@ export class DataValidationComponent implements OnInit {
         }
     }
 
+    reloadInfo() {
+        this.showedInfo = true;
+    }
+
     /**
      * used to send data to back with correction after every step
      * Data could be send only if all data is verify
@@ -398,6 +403,7 @@ export class DataValidationComponent implements OnInit {
                 this.lessDone = true;
             }
             this.step = this.step + 1;
+
             this._importService.sendData(this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
                 this.stepper.next();
                 this.getData();
@@ -406,6 +412,7 @@ export class DataValidationComponent implements OnInit {
                 this.snackBar.open(this.verification.data_verification_error, '', { duration: 5000, horizontalPosition: 'center' });
             });
 
+            this.reloadInfo();
         }
     }
 }

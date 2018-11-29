@@ -82,7 +82,7 @@ export class IndicatorPageComponent implements OnInit {
         public cacheService: AsyncacheService,
         public chartRegistrationService: ChartRegistration,
         public projectService: ProjectService,
-        public distribtutionService: DistributionService
+        public distributionService: DistributionService
     ) {
     }
 
@@ -257,7 +257,8 @@ export class IndicatorPageComponent implements OnInit {
      * Get list of all project and put it in the project selector
      */
     getProjects() {
-        this.projectService.get().subscribe( response => {
+        this.projectService.get().toPromise().then( response => {
+            this.projectList = [];
             let Projectresponse = Project.formatArray(response);
             Projectresponse.forEach(element => {
                 var concat = element.id + " - " + element.name;
@@ -277,7 +278,8 @@ export class IndicatorPageComponent implements OnInit {
      */
     getDistributions() {
         this.distributionList = [];
-        this.distribtutionService.getByProject(this.selectedProject[0]).subscribe(response => {
+        this.distributionService.getByProject(this.selectedProject[0]).toPromise().then(response => {
+            this.distributionList = [];
             let distributionResponse = DistributionData.formatArray(response);
             distributionResponse.forEach(element => {
                 var concat = element.id + " - " + element.name;

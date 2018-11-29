@@ -487,7 +487,7 @@ export class DistributionsComponent implements OnInit {
                     )
                 }
             }
-        )
+        );
     }
 
     /**

@@ -114,7 +114,7 @@ export class TransactionBeneficiary {
         beneficiary.familyName = instance.beneficiary.family_name;
         beneficiary.phone = instance.beneficiary.phones[0] ? instance.beneficiary.phones[0].number : undefined;
 
-        if (instance.transactions && isNumber(instance.transactions[0].transaction_status)) {
+        if (instance.transactions && instance.transactions.length>0 && isNumber(instance.transactions[0].transaction_status)) {
             switch (instance.transactions[instance.transactions.length - 1].transaction_status) {
                 case 0:
                     beneficiary.updateState('Sending failed');
@@ -327,10 +327,10 @@ export class TransactionBeneficiary {
         this.state = stateNumber;
     }
 
-    updateForPickup(received: boolean, date) {
-        if (received) {
+    updateForPickup(pickupState) {
+        if (pickupState.moneyReceived) {
             this.state = 3;
-            this.pickupDate = date;
+            this.pickupDate = pickupState.date;
             //ammount?
         }
     }

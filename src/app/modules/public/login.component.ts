@@ -46,8 +46,6 @@ export class LoginComponent implements OnInit {
             result => {
                 this.user = result;
                 if (this.user) {
-                    this.user.username = "tester";
-                    this.user.password = "tester";
                     // console.log('initialised user --', this.user);
                 } else {
                     this.blankUser();

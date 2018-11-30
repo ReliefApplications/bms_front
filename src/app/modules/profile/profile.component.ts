@@ -64,8 +64,9 @@ export class ProfileComponent implements OnInit, DoCheck {
         if (this.profileForm.value.newPassword1.length > 1 &&
             this.profileForm.value.newPassword1 == this.profileForm.value.newPassword2) {
             this.userService.updatePassword(this.actualUser, this.profileForm.value.oldPassword, this.profileForm.value.newPassword1)
-                .then((user: User) => {
-                    //console.log(user)
+                .then(
+                    (user) => {
+                    // console.log(user);
                     // SNACKBAR
                     this.snackBar.open(this.profilePage.snackbar_change_password_done, '', { duration: 5000, horizontalPosition: 'center' });
                 })

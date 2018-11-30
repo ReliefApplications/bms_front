@@ -18,6 +18,7 @@ import { finalize, last, map } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/core/api/user.service';
+import { element } from '@angular/core/src/render3/instructions';
 
 @Component({
     selector: 'app-distributions',
@@ -80,7 +81,7 @@ export class DistributionsComponent implements OnInit {
     lastCodeSentTime = 0; //ms
     actualUser = new User();
     enteredCode = '';
-    
+
     hasRights: boolean = false;
     hasRightsTransaction: boolean = false;
 
@@ -383,15 +384,25 @@ export class DistributionsComponent implements OnInit {
     }
 
     codeVerif() {
-        if( (new Date()).getTime()-this.lastCodeSentTime > this.SENDING_CODE_FREQ ) {
-            this.distributionService.sendCode(this.distributionId).pipe(
-                finalize(
-                    () => {
+        if ((new Date()).getTime() - this.lastCodeSentTime > this.SENDING_CODE_FREQ) {
+            this.distributionService.sendCode(this.distributionId).toPromise()
+            .then(
+                anwser => {
+                    if(anwser === "Email sent") {
                         this.lastCodeSentTime = (new Date()).getTime();
                         this.snackBar.open('Verification code has been sent at ' + this.actualUser.email, '', { duration: 5000, horizontalPosition: 'center' });
                     }
-                )
-            ).subscribe();
+                },
+                () => {
+                    this.lastCodeSentTime = (new Date()).getTime();
+                    this.snackBar.open('Verification code has been sent at ' + this.actualUser.email, '', { duration: 5000, horizontalPosition: 'center' });
+                }
+            )
+            .catch(
+                (err) => {
+                    this.snackBar.open('Could not send code :' + err, '', { duration: 5000, horizontalPosition: 'center' });
+                }
+            );
         } else {
             this.snackBar.open('The last code was sent less than 10 seconds ago, you should wait.', '', { duration: 5000, horizontalPosition: 'center' });
         }
@@ -424,6 +435,7 @@ export class DistributionsComponent implements OnInit {
                                                     beneficiary => {
                                                         if (element.id === beneficiary.beneficiary.id) {
                                                             this.transactionData.data[index].updateState('Already sent');
+                                                            this.setTransactionMessage(beneficiary, index);
                                                         }
                                                     }
                                                 )
@@ -431,6 +443,7 @@ export class DistributionsComponent implements OnInit {
                                                     beneficiary => {
                                                         if (element.id === beneficiary.beneficiary.id) {
                                                             this.transactionData.data[index].updateState('Sending failed');
+                                                            this.setTransactionMessage(beneficiary, index);
                                                         }
                                                     }
                                                 )
@@ -438,6 +451,7 @@ export class DistributionsComponent implements OnInit {
                                                     beneficiary => {
                                                         if (element.id === beneficiary.beneficiary.id) {
                                                             this.transactionData.data[index].updateState('No phone');
+                                                            this.setTransactionMessage(beneficiary, index);
                                                         }
                                                     }
                                                 )
@@ -445,6 +459,7 @@ export class DistributionsComponent implements OnInit {
                                                     beneficiary => {
                                                         if (element.id === beneficiary.beneficiary.id) {
                                                             this.transactionData.data[index].updateState('Sent');
+                                                            this.setTransactionMessage(beneficiary, index);
                                                         }
                                                     }
                                                 )
@@ -467,12 +482,32 @@ export class DistributionsComponent implements OnInit {
         this.dialog.closeAll();
     }
 
+    setTransactionMessage(beneficiary, i) {
+         
+        this.transactionData.data[i].message = beneficiary.transactions[beneficiary.transactions.length-1].message ?
+            beneficiary.transactions[beneficiary.transactions.length].message : '';
+    }
+
     refreshStatuses() {
-        this.distributionService.refreshTransaction(this.distributionId).subscribe(
+        this.distributionService.refreshPickup(this.distributionId).subscribe(
             result => {
-                //...
+                if (result) {
+                    this.transactionData.data.forEach(
+                        (transaction, index) => {
+                            if (transaction.state > 0) {
+                                result.forEach(
+                                    element => {
+                                        if (transaction.id === element.id) {
+                                            this.transactionData.data[index].updateForPickup(element.moneyReceived)
+                                        }
+                                    }
+                                );
+                            }
+                        }
+                    )
+                }
             }
-        )
+        );
     }
 
     /**

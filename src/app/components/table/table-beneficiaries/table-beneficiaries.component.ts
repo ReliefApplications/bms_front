@@ -19,6 +19,7 @@ export class TableBeneficiariesComponent extends TableComponent {
 
     selectedFilter;
     testLoading = true;
+    displayNoData: boolean = false;
     _timeout: any = null;
     mapperObject = null;
     public newObject: any;
@@ -31,6 +32,7 @@ export class TableBeneficiariesComponent extends TableComponent {
             finalize(
                 () => {
                     this.testLoading = false;
+                    this.displayNoData = true;
                 }
             )
         ).subscribe(
@@ -41,6 +43,12 @@ export class TableBeneficiariesComponent extends TableComponent {
             }
         );
 
+        setTimeout(
+            () => {
+                this.displayNoData = true;
+            }, 1000
+        );
+        
         this.selectedFilter = this.properties[0];
         this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
         this.mapperObject = this.mapperService.findMapperObject(DistributionData);

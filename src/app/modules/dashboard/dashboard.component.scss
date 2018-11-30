@@ -1,8 +1,10 @@
 @import '../../../assets/css/variable.scss';
+@import '../../../assets/css/animations.scss';
 
 .container-boxes{
     width:100%;
     margin: 10px;
+    display: flex;
     app-placeholder-summary {
         min-width: 100%;
     }
@@ -18,8 +20,8 @@ app-table-dashboard {
 
 .boxes-map{
     display: flex;
-    flex-grow: 5;
     flex-direction:column;
+    flex-grow: 1;
     padding : 10px;
     min-height: 350px;
 
@@ -37,6 +39,9 @@ app-table-dashboard {
         padding: 5px;
         box-shadow: $bms_shadow;
         z-index: 0;
+        border-radius: 4px;
+        overflow: hidden;
+
         #map {
             width:100% !important;
             }
@@ -57,8 +62,9 @@ app-table-dashboard {
 }
 .boxes-summary{
     display: flex;
-    flex-grow: 1;
+    width: 40%;
     flex-direction:column;
+    overflow: hidden;
     padding : 10px;
     min-height: 350px;
 
@@ -66,19 +72,68 @@ app-table-dashboard {
         display: flex;
         font-family: $bms_font_header;
         font-size: 25px;
-        margin: 0;
-        margin-bottom: 0.5vh !important;
+        margin: 0 0 0.5vh 10px !important;
     }
 
     .summary-content{
-        height: 90%;
+        height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
+        align-items: center;
 
-        app-box-dashboard{
+        .lign-container {
             width: 100%;
-            margin-bottom :5px;
+            height: auto;
+            display:flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            .summary-header {
+                height: 50px;
+                width: 100%;
+                background-color: $bms_white;
+                margin: 0px 10px 0px 10px;
+                border-radius: 4px;
+                box-shadow: $bms_shadow;
+                border-top: solid 5px $bms_dark_blue;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-around;
+                flex-wrap: wrap;
+                overflow: hidden;
+                animation: box-pop-in 0.5s;
+
+                .group {
+                    width: auto;
+                    height: 100%;
+                    font-family: $bms_font_text;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-around;
+                    font-size : 1.4vh !important;
+                
+                    p {
+                        margin: 0 0 0 5px!important;
+                    }
+                    mat-icon {
+                        display: flex;
+                        align-items: center;
+                        font-size : 2.2vh !important;
+                    }
+                }
+            }
+
+            app-box-dashboard{
+                width: 50%;
+                height: 100%;
+                margin: 20px 10px 0px 10px;;
+                min-height: 90px;
+                animation: box-right-in 0.5s;
+            }
         }
     }
 }

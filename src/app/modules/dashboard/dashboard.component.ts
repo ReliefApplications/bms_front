@@ -14,6 +14,7 @@ import { DistributionData } from '../../model/distribution-data';
 import { GlobalText } from '../../../texts/global';
 import { finalize } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { User } from 'src/app/model/user';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class DashboardComponent implements OnInit {
     
     referedClassToken = DistributionData;
     distributions: MatTableDataSource<DistributionData>;
-
+    public userData;
     // Loaders
     loadingTable = true;
     loadingSummary = true;
@@ -43,9 +44,6 @@ export class DashboardComponent implements OnInit {
     hasRightsEdit: boolean = false;
 
     constructor(
-        private http: HttpClient,
-        private _authenticationService: AuthenticationService,
-        private router: Router,
         private serviceMap: LeafletService,
         private _cacheService: AsyncacheService,
         public _distributionService: DistributionService,
@@ -130,6 +128,9 @@ export class DashboardComponent implements OnInit {
     checkPermission() {
         this._cacheService.getUser().subscribe(
             result => {
+                this.userData = result;
+                console.log(result)
+
                 if (result && result.voters) {
                     const voters = result.voters;
                     if(DashboardComponent.firstLog === true) {

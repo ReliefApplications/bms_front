@@ -9,6 +9,7 @@ import { AsyncacheService } from './core/storage/asyncache.service';
 import { interval, timer, Observable } from 'rxjs';
 import { map, mapTo, switchMap,  } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { UpdateService } from './core/api/update.service';
 
 @Component({
     selector: 'app-root',
@@ -34,6 +35,7 @@ export class AppComponent {
 
     constructor(
         private _authenticationService: AuthenticationService,
+        private updateService: UpdateService,
         private router: Router,
         public dialog: MatDialog
     ) { }

@@ -24,8 +24,8 @@ import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave
 import { DatePipe } from '@angular/common';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { UpdateService } from './core/api/update.service';
 import { ImportedDataService } from './core/utils/imported-data.service';
-import { ImportedDataComponent } from './modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
 
 @NgModule({
 	declarations: [
@@ -51,12 +51,12 @@ import { ImportedDataComponent } from './modules/beneficiary/beneficiaries-impor
 
 		// Routing
 		AppRouting,
-
 		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
 	],
 	providers: [
         DatePipe,
-		httpInterceptorProviders,
+        UpdateService,
+        httpInterceptorProviders,
 		ImportedDataService,
 	],
 	bootstrap: [AppComponent]

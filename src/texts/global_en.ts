@@ -214,6 +214,8 @@ export const TEXT = {
     model_beneficiaries_status : 'Satus',
     model_beneficiaries_nationalids: 'ID number',
     model_beneficiaries_phones: 'Phones',
+    model_beneficiaries_pickupDate: 'Pick up date',
+    model_beneficiaries_message: 'Message',
     model_user : 'User',
     model_user_username: 'Email',
     model_user_password: 'Password',

@@ -7,6 +7,7 @@ import { WsseService } from '../authentication/wsse.service';
 import { User, ErrorInterface } from '../../model/user';
 import { SaltInterface } from '../../model/salt';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root'

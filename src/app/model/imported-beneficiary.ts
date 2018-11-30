@@ -19,11 +19,25 @@ export class ImportedBeneficiary {
      */
     familyName: string;
 
+    /**
+     * Beneficiary date of birth
+     * @type {Date}
+     */
+    date_of_birth: Date;
+
+    /**
+     * Beneficiary gender
+     * @type {string}
+     */
+    gender: string;
+
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id ? instance.id : null;
             this.givenName = instance.givenName;
             this.familyName = instance.familyName;
+            this.date_of_birth = instance.date_of_birth;
+            this.gender = instance.gender;
         }
     }
 
@@ -40,6 +54,8 @@ export class ImportedBeneficiary {
     return {
         givenName : GlobalText.TEXTS.model_beneficiaries_firstName,
         familyName : GlobalText.TEXTS.model_beneficiaries_familyName,
+        date_of_birth : GlobalText.TEXTS.model_beneficiaries_dateofbirth,
+        gender : GlobalText.TEXTS.model_beneficiaries_gender,
     };
 }
 
@@ -58,6 +74,8 @@ public static formatElement(instance: any): ImportedBeneficiary {
     beneficiary.id = instance.id ? instance.id : null;
     beneficiary.givenName = instance.given_name ? instance.given_name : instance.givenName;
     beneficiary.familyName = instance.family_name ? instance.family_name : instance.familyName;
+    beneficiary.date_of_birth = instance.date_of_birth ? instance.date_of_birth : instance.dateOfBirth;
+    beneficiary.gender = instance.gender;
 
     return(beneficiary);
 }
@@ -67,7 +85,9 @@ public static formatForApi(instance: any) {
     const beneficiary = {
         id : instance.id,
         givenName : instance.givenName,
-        familyName : instance.familyName
+        familyName : instance.familyName,
+        date_of_birth : instance.date_of_birth,
+        gender : instance.gender,
     };
 
     return(beneficiary);
@@ -81,6 +101,8 @@ public static formatForApi(instance: any) {
         return {
             givenName : selfinstance.givenName,
             familyName : selfinstance.familyName,
+            date_of_birth : selfinstance.date_of_birth,
+            gender : selfinstance.gender,
         };
     }
 
@@ -92,9 +114,20 @@ public static formatForApi(instance: any) {
             return selfinstance;
         }
 
+        let stringGender;
+        if (selfinstance.gender === 0) {
+            stringGender = 'Female';
+        } else if (selfinstance.gender === 1) {
+            stringGender = 'Male';
+        } else {
+            stringGender = 'Other';
+        }
+
         return {
             givenName : selfinstance.givenName,
             familyName : selfinstance.familyName,
+            date_of_birth : selfinstance.date_of_birth,
+            gender : stringGender,
         };
     }
 
@@ -109,6 +142,8 @@ public static formatForApi(instance: any) {
         return {
             givenName : selfinstance.givenName,
             familyName : selfinstance.familyName,
+            date_of_birth : selfinstance.date_of_birth,
+            gender : selfinstance.gender,
         };
     }
 
@@ -123,6 +158,8 @@ public static formatForApi(instance: any) {
         return {
             givenName : selfinstance.givenName,
             familyName : selfinstance.familyName,
+            date_of_birth : selfinstance.date_of_birth,
+            gender : selfinstance.gender,
         };
     }
 
@@ -133,6 +170,8 @@ public static formatForApi(instance: any) {
         return {
             givenName : 'text',
             familyName : 'text',
+            date_of_birth : 'date',
+            gender : 'text',
         };
     }
 
@@ -143,6 +182,8 @@ public static formatForApi(instance: any) {
         return {
             givenName : 'text',
             familyName : 'text',
+            date_of_birth : 'date',
+            gender : 'number',
         };
     }
 

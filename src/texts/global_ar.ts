@@ -248,7 +248,6 @@ export const TEXT = {
     model_beneficiaries_values: 'القيمة',
     sample_choose_size: 'حجم العينة',
 
-
     import_added: 'تم إضافتها',
     import_deleted: 'تم حذفها',
     import_created: 'تم إنشاؤها',

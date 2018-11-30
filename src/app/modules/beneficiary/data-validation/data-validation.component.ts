@@ -7,6 +7,9 @@ import { VerifiedData, FormatDuplicatesData, FormatMore, FormatLess } from '../.
 import { GlobalText } from '../../../../texts/global';
 import { Router } from '@angular/router';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { Households } from 'src/app/model/households';
+import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-data-validation',
@@ -40,12 +43,16 @@ export class DataValidationComponent implements OnInit {
     public lessDone = false;
     public load: boolean = false;
 
+    public newHouseholds: any = {};
+    public email: string;
+
     constructor(
         public _importService: ImportService,
         public _householdsService: HouseholdsService,
         public snackBar: MatSnackBar,
         private _cacheService: AsyncacheService,
-        private router: Router
+        private router: Router,
+        private importedDataService: ImportedDataService,
     ) {
 
     }
@@ -64,6 +71,14 @@ export class DataValidationComponent implements OnInit {
                 }
             }
         );
+    
+        this._cacheService.getUser()
+            .subscribe(
+                response => {
+                    this.email = response.username;
+                    this.email = this.email.replace("@", '');
+                }
+            )
     }
 
     /**
@@ -403,8 +418,7 @@ export class DataValidationComponent implements OnInit {
                 this.lessDone = true;
             }
             this.step = this.step + 1;
-
-            this._importService.sendData(this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
+            this._importService.sendData(this.email, this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
                 this.stepper.next();
                 this.getData();
             }, () => {
@@ -414,5 +428,21 @@ export class DataValidationComponent implements OnInit {
 
             this.reloadInfo();
         }
+    }
+
+    addBeneficiaries() {
+        this.cachedHouseholds();
+    }
+
+    cachedHouseholds() {
+        this._householdsService.getCachedHouseholds(this.email)
+            .subscribe(
+                response => {
+                    this.newHouseholds = response;
+                    this.newHouseholds = Households.formatArray(this.newHouseholds);
+                    this.importedDataService.data = this.newHouseholds;
+                    this.router.navigate(['/beneficiaries/imported/data']);
+                }
+            );
     }
 }

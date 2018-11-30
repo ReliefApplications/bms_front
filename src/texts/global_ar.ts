@@ -28,6 +28,7 @@ export const TEXT = {
     'header_add-beneficiaries' : 'إضافة المستفيد',
     header_disconnect :  'تسجيل الخروج من الحساب',
     header_language : 'اللغة',
+    header_imported: 'Imported beneficiaries data',
 
     login_title : ' تسجيل الدخول الى الحساب',
     login_bms : 'نظام إدارة المستفيدين',
@@ -247,7 +248,6 @@ export const TEXT = {
     model_beneficiaries_state: 'الحالة',
     model_beneficiaries_values: 'القيمة',
     sample_choose_size: 'حجم العينة',
-
 
     import_added: 'تم إضافتها',
     import_deleted: 'تم حذفها',

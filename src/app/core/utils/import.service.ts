@@ -30,7 +30,7 @@ export class ImportService {
      * @param step number
      * @param token string
      */
-    sendData(data: any, project: string, step: number, token?: string) {
+    sendData(email: string, data: any, project: string, step: number, token?: string) {
         return new Promise<any[]>((resolve, reject) => {
             this.data = [];
             this.referedClassService = this._householdsService;
@@ -38,7 +38,7 @@ export class ImportService {
             // token don't exist in the step 1 (sending the csv)
             if (!token) {
                 this.referedClassToken = FormatDataNewOld;
-                this.referedClassService.sendDataToValidation(data, project, step).subscribe(response => {
+                this.referedClassService.sendDataToValidation(email, data, project, step).subscribe(response => {
 
                     if(typeof response == "string")
                         reject({'message': response});
@@ -58,7 +58,7 @@ export class ImportService {
             } else {
                 if (step === 2) {
                     this.referedClassToken = FormatDuplicatesData;
-                    this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
+                    this.referedClassService.sendDataToValidation(email, data, project, step, token).subscribe(response => {
 
                         // use function to format and type data
                         const responseFormatted = this.referedClassToken.formatDuplicates(response, step);
@@ -73,7 +73,7 @@ export class ImportService {
                     });
                 } else if (step === 3 || step === 4) {
                     this.referedClassToken = FormatDataNewOld;
-                    this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
+                    this.referedClassService.sendDataToValidation(email, data, project, step, token).subscribe(response => {
 
                         // use function to format and type data
                         const responseFormatted = this.referedClassToken.formatIssues(response, step);
@@ -87,7 +87,7 @@ export class ImportService {
                         reject({ 'message': 'Error while adding or removing beneficiairies' });
                     });
                 } else if (step === 5) {
-                    this.referedClassService.sendDataToValidation(data, project, step, token).subscribe(response => {
+                    this.referedClassService.sendDataToValidation(email, data, project, step, token).subscribe(response => {
                         resolve([this.data, response]);
                     }, error => {
                         reject({ 'message': 'Error while adding all import data' });

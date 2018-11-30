@@ -67,6 +67,7 @@ import { TransactionTableComponent } from '../components/table/transaction-table
 import { TableMobileBeneficiariesComponent } from '../components/table/table-mobile-beneficiaries/table-mobile-beneficiaries.component';
 import { CountoModule }  from 'angular2-counto';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ImportedDataComponent } from '../modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
 
 @NgModule({
 imports: [
@@ -156,7 +157,7 @@ declarations: [
     PlaceholderStepperComponent,
     PlaceholderTitleComponent,
     UpdateBeneficiaryComponent,
-
+    ImportedDataComponent,
 ],
 entryComponents: [
     ModalComponent,
@@ -242,7 +243,7 @@ exports: [
     PlaceholderBoxlineComponent,
     PlaceholderPanelComponent,
     PlaceholderStepperComponent,
-    PlaceholderTitleComponent
+    PlaceholderTitleComponent,
 ],
 providers: [
 { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }

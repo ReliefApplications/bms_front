@@ -28,6 +28,7 @@ export const TEXT = {
     'header_add-beneficiaries' : 'Add Beneficiaries',
     header_disconnect : 'log out',
     header_language : 'language',
+    header_imported: 'Imported beneficiaries data',
 
     login_title : 'login',
     login_bms : 'Beneficiary management system',
@@ -249,10 +250,10 @@ export const TEXT = {
     sample_choose_size: 'Sample size',
 
 
-    import_added: 'Will be added',
+    import_added: 'Added from existing beneficiaries',
     import_deleted: 'Will be deleted',
-    import_created: 'Will be created',
-    import_updated: 'Will be updated',
+    import_created: 'Newly created',
+    import_updated: 'Accept Changes',
     import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.',
 
     distribution_details_export: 'distribution list',

@@ -6,12 +6,15 @@ $box-content: 80px;
     position: relative;
     width :100%;
     background-color: $bms_white;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: $bms_shadow;
+
     button{
         width :100%;
         border:0;
         background: none;
         padding: 0 !important;
-        box-shadow: $bms_shadow;
     }
 }
 
@@ -37,6 +40,10 @@ $box-content: 80px;
             font-size : 2.5vh;
             margin: 0 !important;
             padding-top:10px;
+        }
+
+        h5 {
+            height: 36px;
         }
     }
 

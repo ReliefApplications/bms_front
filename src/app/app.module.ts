@@ -25,6 +25,7 @@ import { DatePipe } from '@angular/common';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { UpdateService } from './core/api/update.service';
+import { ImportedDataService } from './core/utils/imported-data.service';
 
 @NgModule({
 	declarations: [
@@ -35,7 +36,6 @@ import { UpdateService } from './core/api/update.service';
     	HeaderMobileComponent,
 		HeaderComponent,
 		ModalLeaveComponent,
-
 	],
 	imports: [
 		// Modules
@@ -56,7 +56,8 @@ import { UpdateService } from './core/api/update.service';
 	providers: [
         DatePipe,
         UpdateService,
-        httpInterceptorProviders
+        httpInterceptorProviders,
+		ImportedDataService,
 	],
 	bootstrap: [AppComponent]
 })

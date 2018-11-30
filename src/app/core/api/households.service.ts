@@ -51,20 +51,38 @@ export class HouseholdsService {
     }
 
     /**
+     * Get all households
+     * @param newHouseholds any
+     */
+    public getImported(newHouseholds: any) {
+        const url = this.api + '/households/get/imported';
+        return this.http.post(url, {households: newHouseholds});
+    }
+
+    /**
+     * Get all households
+     */
+    public getCachedHouseholds(email: string) {
+        const url = this.api + '/households/get/cached?email=' + email;
+        return this.http.get(url);
+    }
+
+    /**
      * Upload CSV  and data validation to import new household
      * @param body any
      * @param idProject number
      * @param step number
      * @param token string
      */
-    public sendDataToValidation(body: any, idProject: number, step: number, token?: string) {
+    public sendDataToValidation(email: string, body: any, idProject: number, step: number, token?: string) {
         let url;
         if (token) {
-            url = this.api + '/import/households/project/' + idProject + '?step=' + step + '&token=' + token;
+            url = this.api + '/import/households/project/' + idProject + '?step=' + step + '&token=' + token + "&email=" + email;
         } else {
-            url = this.api + '/import/households/project/' + idProject + '?step=' + step;
+            url = this.api + '/import/households/project/' + idProject + '?step=' + step + "&email=" + email;
 
         }
+
         return this.http.post(url, body);
     }
 

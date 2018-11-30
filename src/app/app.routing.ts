@@ -20,6 +20,7 @@ import { AuthGuard 																		} from './core/guards/auth.guard';
 import { DeactivateGuard                                                                } from './core/guards/deactivate.guard';
 import { DistributionsComponent } from './modules/projects/distributions/distributions.component';
 import { UpdateBeneficiaryComponent } from './modules/beneficiary/update-beneficiary/update-beneficiary.component';
+import { ImportedDataComponent } from './modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
 
 // Do not change the order of the routes, it matters
 export const routes: Routes = [
@@ -40,6 +41,7 @@ export const routes: Routes = [
 	{ path: 'profile', component: ProfileComponent },
 
 	{ path: 'beneficiaries/import', component: BeneficiariesImportComponent },
+	{ path: 'beneficiaries/imported/data', component: ImportedDataComponent },
 
 	{ path: 'beneficiaries/import/data-validation', component: DataValidationComponent },
 

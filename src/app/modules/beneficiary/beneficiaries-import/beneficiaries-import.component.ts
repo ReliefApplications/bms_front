@@ -9,9 +9,10 @@ import { FormControl, Validators } from '@angular/forms';
 import { Project } from '../../../model/project';
 import { GlobalText } from '../../../../texts/global';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
-import { CacheService } from 'src/app/core/storage/cache.service';
+import { MatSnackBar, MatTableDataSource } from '@angular/material';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { Households } from 'src/app/model/households';
+import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
 
 @Component({
     selector: 'beneficiaries-import',
@@ -55,6 +56,8 @@ export class BeneficiariesImportComponent implements OnInit {
     public paramToSend = {};
     public provider: string;
     extensionType: string;
+    public newHouseholds: any = {};
+    public email: string;
 
     constructor(
         public _householdsService: HouseholdsService,
@@ -63,7 +66,8 @@ export class BeneficiariesImportComponent implements OnInit {
         public _beneficiariesService: BeneficiariesService,
         private router: Router,
         public snackBar: MatSnackBar,
-        private _cacheService: AsyncacheService
+        private _cacheService: AsyncacheService,
+        private importedDataService: ImportedDataService,
     ) { }
 
     ngOnInit() {
@@ -82,6 +86,14 @@ export class BeneficiariesImportComponent implements OnInit {
                 }
             }
         );
+
+        this._cacheService.getUser()
+            .subscribe(
+                response => {
+                    this.email = response.username;
+                    this.email = this.email.replace("@", '');
+                }
+            )
     }
 
     /**
@@ -99,8 +111,8 @@ export class BeneficiariesImportComponent implements OnInit {
     getProjects() {
         this.referedClassService = this._projectService;
         this.referedClassService.get().subscribe(response => {
-            response = this.referedClassToken.formatArray(response);
             this.projectList = [];
+            response = this.referedClassToken.formatArray(response);
             response.forEach(element => {
                 const concat = element.id + ' - ' + element.name;
                 this.projectList.push(concat);
@@ -173,7 +185,7 @@ export class BeneficiariesImportComponent implements OnInit {
             data.append('file', this.csv);
             const step = 1;
             this.load = true;
-            this._importService.sendData(data, project[0], step).then(() => {
+            this._importService.sendData(this.email, data, project[0], step).then(() => {
                 this.router.navigate(['/beneficiaries/import/data-validation']);
             }, (err) => {
                 this.load = false;
@@ -288,7 +300,9 @@ export class BeneficiariesImportComponent implements OnInit {
                     }
                     else {
                         this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 5000, horizontalPosition: 'right' });
-                        this.router.navigate(['/beneficiaries']);
+                        this.newHouseholds = response.households;
+
+                        this.importedHouseholds();
                     }
                 });
         }
@@ -296,4 +310,18 @@ export class BeneficiariesImportComponent implements OnInit {
             this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
     }
 
+
+    //Get imported households
+    importedHouseholds() {
+        this._householdsService.getImported(this.newHouseholds)
+            .subscribe(
+                response => {
+                    this.newHouseholds = response;
+                    this.newHouseholds = Households.formatArray(this.newHouseholds);
+                    this.importedDataService.data = this.newHouseholds;
+
+                    this.router.navigate(['/beneficiaries/imported/data']);
+                }
+            );
+    }
 }

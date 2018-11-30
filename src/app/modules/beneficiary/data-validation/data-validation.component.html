@@ -348,8 +348,13 @@
                         <div class="done">
                             {{verification.data_verification_done}}
                             <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+<<<<<<< HEAD
+                            <a>
+                                <button mat-raised-button class="button-background-primary" (click)="addBeneficiaries()">{{verification.data_verification_send}}</button>
+=======
                             <a routerLink="/beneficiaries">
                                 <button mat-raised-button class="button-background-primary sendbutton" (click)="stepper.reset()">{{verification.data_verification_send}}</button>
+>>>>>>> dev
                             </a>
                         </div>
 

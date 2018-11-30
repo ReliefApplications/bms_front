@@ -108,7 +108,6 @@ export class TableComponent implements OnChanges, DoCheck {
                 this.mapperService.setMapperObject(this.entity);
             }
         }
-
     }
 
     checkEntityUpdateRights() {

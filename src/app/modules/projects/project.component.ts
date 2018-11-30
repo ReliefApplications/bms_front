@@ -133,7 +133,6 @@ export class ProjectComponent implements OnInit {
                     this.projects = null;
                     this.loadingProjects = false;
                 }
-
             }
         );
     }

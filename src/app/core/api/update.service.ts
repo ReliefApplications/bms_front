@@ -10,10 +10,9 @@ export class UpdateService {
         private snackbar: MatSnackBar,
         private updates: SwUpdate,
     ) {
-        console.log('update check launched');
         this.updates.available.subscribe(
             event => {
-                const snack = this.snackbar.open('Update Available', 'Reload');
+                const snack = this.snackbar.open('BMS Update is available', 'Reload');
 
                 snack
                     .onAction()

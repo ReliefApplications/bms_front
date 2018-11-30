@@ -13,14 +13,17 @@ export class UpdateService {
         console.log('update check launched');
         this.updates.available.subscribe(
             event => {
-                let response = confirm('A new version of the application is available, do you want to load it?');
-                if (response) {
-                    this.updates.activateUpdate().then(
-                        () => {
-                            document.location.reload();
-                        }
-                    );
-                }
+                const snack = this.snackbar.open('Update Available', 'Reload');
+
+                snack
+                    .onAction()
+                    .subscribe(() => {
+                    window.location.reload();
+                    });
+
+                setTimeout(() => {
+                    snack.dismiss();
+                }, 6000);
             }
         );
     }

@@ -22,7 +22,7 @@ import { HeaderMobileComponent } from './components/headers/header-mobile/header
 import { HeaderComponent } from './components/headers/header/header.component';
 import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave.component';
 import { DatePipe } from '@angular/common';
-import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { UpdateService } from './core/api/update.service';
 import { ImportedDataService } from './core/utils/imported-data.service';

@@ -22,8 +22,9 @@ import { HeaderMobileComponent } from './components/headers/header-mobile/header
 import { HeaderComponent } from './components/headers/header/header.component';
 import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave.component';
 import { DatePipe } from '@angular/common';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { UpdateService } from './core/api/update.service';
 
 @NgModule({
 	declarations: [
@@ -50,11 +51,11 @@ import { environment } from '../environments/environment';
 
 		// Routing
 		AppRouting,
-
 		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
 	],
 	providers: [
         DatePipe,
+        UpdateService,
         httpInterceptorProviders
 	],
 	bootstrap: [AppComponent]

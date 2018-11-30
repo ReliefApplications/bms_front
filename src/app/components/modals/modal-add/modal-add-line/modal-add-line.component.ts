@@ -14,6 +14,8 @@ export class ModalAddLineComponent extends ModalAddComponent {
 
     public checkType = "";
     public myForm;
+    public displayWeight: boolean = false;
+    public iconAdvanced: string = "arrow_drop_down";
 
     /**
      * check if the langage has changed
@@ -93,6 +95,19 @@ export class ModalAddLineComponent extends ModalAddComponent {
             type = checkData.type.toLowerCase();
 
         return ConditionCriteriaMapper.mapConditionCriteria(type);
+    }
+
+    /**
+     * Function to change the value of the displayWeight variable
+     * and the icon used
+     */
+    changeDisplay() {
+        this.displayWeight = !this.displayWeight;
+
+        if (this.displayWeight)
+            this.iconAdvanced = "arrow_drop_up";
+        else
+            this.iconAdvanced = "arrow_drop_down";
     }
 
     //emit the new object

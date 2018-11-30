@@ -7,10 +7,11 @@
 
   .mat-grid-tile {
     overflow: initial !important;
+    height: calc(75px);
 
     .mat-card {
-        padding: 10px !important;
-        background-color: $bms_white !important;
+      padding: 10px !important;
+      background-color: $bms_white !important;
       width: 130px;
       height: 100px;
       display: flex;
@@ -32,12 +33,14 @@
         margin-bottom: 0;
         text-align: center;
         padding-top: 5px;
+        height: 40px;
       }
       .sector-icons {
         display: flex;
         align-items: baseline;
         justify-content: space-between;
         padding-top: 5px;
+        height: 40px;
       }
     }
   }

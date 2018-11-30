@@ -129,7 +129,7 @@ export class DashboardComponent implements OnInit {
         this._cacheService.getUser().subscribe(
             result => {
                 this.userData = result;
-                console.log(result)
+                //console.log(result)
 
                 if (result && result.voters) {
                     const voters = result.voters;

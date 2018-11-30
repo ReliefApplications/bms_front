@@ -418,12 +418,7 @@ export class DataValidationComponent implements OnInit {
                 this.lessDone = true;
             }
             this.step = this.step + 1;
-<<<<<<< HEAD
             this._importService.sendData(this.email, this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
-=======
-
-            this._importService.sendData(this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
->>>>>>> dev
                 this.stepper.next();
                 this.getData();
             }, () => {

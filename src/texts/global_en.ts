@@ -215,6 +215,8 @@ export const TEXT = {
     model_beneficiaries_status : 'Satus',
     model_beneficiaries_nationalids: 'ID number',
     model_beneficiaries_phones: 'Phones',
+    model_beneficiaries_pickupDate: 'Pick up date',
+    model_beneficiaries_message: 'Message',
     model_user : 'User',
     model_user_username: 'Email',
     model_user_password: 'Password',
@@ -313,6 +315,11 @@ export const TEXT = {
     beneficiaries_added: 'Beneficiairies added to the selected project',
 
     data_verification_error: 'Error processing data',
+    data_verification_chip_actual: 'Household targeted',
+    data_verification_description1: 'This panel will display any suspected typos concerning beneficiaries in your file: if an imported beneficiary closely matches another one already in the database it will be displayed here. You can choose to either keep the existing one, update it with the imported data or save both as separate beneficiaries.',
+    data_verification_description2: 'The duplicate panel displays the beneficiaries in the file that are already in the database, in another household. If the existing beneficiary is not a head of household, you can delete one or the other, or save both as different beneficiaries if you are sure they are different people.',
+    data_verification_description3: 'Here are listed households that already existed in the database but with fewer beneficiaries than in the imported file. You can check and select those you want to import in the household.',
+    data_verification_description4: 'Here are listed households that already existed in the database but with more beneficiaries than in the imported file. You can check and select those you want to delete from the household.',
 
     update_beneficiary_check_steps: 'Required data incomplete or unvalid: please check all steps',
     update_beneficiary_created_successfully: 'Created successfuly !',

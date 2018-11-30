@@ -79,10 +79,10 @@
     </table>
 
     <div class="no-data-container" *ngIf="testLoading || this.data.householdsSubject._value.length === 0">
-      <div *ngIf="this.data.loadingSubject" class="loadingContent">
+      <div *ngIf="this.data.loadingSubject.value || !displayNoData" class="loadingContent">
         <mat-spinner></mat-spinner>
       </div>
-      <div *ngIf="this.data.householdsSubject._value.length === 0 && !this.data.loadingSubject" class="loadingContent">
+      <div *ngIf="this.data.householdsSubject._value.length === 0 && !this.data.loadingSubject.value && displayNoData" class="loadingContent">
         <h4 class="no-data">
           <mat-icon>cloud_off</mat-icon>
           <span> No data </span>

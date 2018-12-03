@@ -88,6 +88,11 @@ export class DistributionService {
         return this.http.post(url, body);
     }
 
+    public logs(id: number) {
+        const url = this.api + '/distributions/' + id + '/logs';
+        return this.http.get(url);
+    }
+
     public sendCode(id: number) {
         const url = this.api + '/transaction/distribution/' + id + '/email';
         let body = {};

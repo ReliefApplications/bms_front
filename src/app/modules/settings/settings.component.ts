@@ -26,6 +26,7 @@ import { finalize } from 'rxjs/operators';
 import { LocationService } from 'src/app/core/api/location.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 @Component({
     selector: 'app-settings',
@@ -46,6 +47,10 @@ export class SettingsComponent implements OnInit {
     data: MatTableDataSource<any>;
     public user_action = '';
     public extensionType;
+
+    //logs
+    userLogForm = new FormControl();
+    private selectedUserId : number = null;
 
     public maxHeight = GlobalText.maxHeight;
     public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -85,7 +90,6 @@ export class SettingsComponent implements OnInit {
     ngDoCheck() {
         if (this.language !== GlobalText.language)
             this.language = GlobalText.language;
-        // console.log(this.selectedTitle);
     }
 
     @HostListener('window:resize', ['$event'])
@@ -106,6 +110,24 @@ export class SettingsComponent implements OnInit {
 
     setType(choice) {
         this.extensionType = choice;
+    }
+
+    requestLogs(template) {
+        this.dialog.open(template);
+    }
+
+    confirmRequest() {
+        if(this.selectedTitle === 'users' && this.selectedUserId) {
+            this.userService.requestLogs(this.selectedUserId).toPromise()
+            .then(
+                () => { this.snackBar.open('Logs have been sent', '', {duration: 5000, horizontalPosition: 'center'}) }
+            )
+            .catch(
+                (e) => {
+                    this.snackBar.open('Logs could not be sent : ' +e, '', {duration: 5000, horizontalPosition: 'center'})
+                }
+            )
+        }
     }
 
     export() {

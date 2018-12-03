@@ -341,6 +341,7 @@ export const TEXT = {
     distribution_no_right_transaction: 'You haven\'t the right to realize the transaction, ask to your project manager or your country manager',
     distribution_beneficiary_added: 'Beneficiary added',
     distribution_beneficiary_not_added: 'Beneficiary could not be added',
+    distribution_request_logs: 'Get logs',
 
     import_distribution_updated: 'Distribution updated',
     import_distribution_no_right_update: 'You haven\'t the right to update the distribution, ask to your project manager',

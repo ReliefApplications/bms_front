@@ -43,6 +43,11 @@ export class UserService {
 		return this.http.post(url, body);
 	}
 
+    public requestLogs(id: number) {
+        let url = '/users/' + id + '/logs';
+        return this.http.get(url);
+    }
+
 	public updatePassword(user: any, clearOldPassword: any, clearNewPassword: any) {
 		return new Promise<User | ErrorInterface | null>((resolve, reject) => {
 			this.authenticationService.requestSalt(user.username).subscribe(success => {

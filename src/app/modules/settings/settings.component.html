@@ -37,6 +37,10 @@
                             <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
                             </button>
                         </mat-menu>
+                        <button mat-raised-button class="request-logs button-background-primary" (click)="requestLogs(getUserLogs)" *ngIf="(selectedTitle === 'users') && hasRights">
+                            <mat-icon>history</mat-icon>
+                            <span>{{settings.distribution_request_logs}}</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -49,3 +53,27 @@
         </div>
     </div>
 </div>
+
+<ng-template #getUserLogs>
+        <mat-dialog-content class="modal-container">
+            <h4 class="modal-title underline-accent">{{settings.distribution_request_logs}}</h4>
+            <div class="dialog-template">
+                <div class="modal-body">
+                    <p> Please select the user you would like to see the logs from:</p>
+                    <div class="selectUser">
+                        <mat-form-field>
+                            <mat-select placeholder="Users" [formControl]="userLogForm" [(ngModel)]="selectedUserId">
+                                <mat-option class="options" *ngFor="let user of data.data" [value]="user.id">
+                                    {{user.email}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="modal-footer action">
+                    <button mat-button class="cancel" (click)="dialog.closeAll()">Cancel</button>
+                    <button mat-raised-button class="confirm" (click)="confirmRequest()">Confirm</button>
+                </div>
+            </div>
+        </mat-dialog-content>
+    </ng-template>

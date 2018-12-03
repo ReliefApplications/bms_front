@@ -7,9 +7,19 @@
         margin: 0 auto;
         padding: 15px;
 
-        h2 {
-            text-align: left;
+        .first-line-title {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            h2 {
+                text-align: left;
+            }
+            button {
+                border-radius: 8px;
+            }
         }
+        
         p {
             margin-top : 10px;
             font-size: 18px;

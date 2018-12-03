@@ -636,6 +636,22 @@ export class DistributionsComponent implements OnInit {
         stepper.next();
     }
 
+    requestLogs() {
+        if (this.hasRights) {
+            this.distributionService.logs(this.distributionId).toPromise()
+            .then(
+                () => { this.snackBar.open('Logs have been sent', '', { duration: 5000, horizontalPosition: 'center' }); }
+            )
+            .catch(
+                (e) => {
+                    this.snackBar.open('Logs could not be sent : ' +e, '', { duration: 5000, horizontalPosition: 'center' });
+                }
+            )
+        } else {
+            this.snackBar.open('Not enough rights to request logs', '', { duration: 5000, horizontalPosition: 'center' });
+        }
+    }
+
     checkPermission() {
         this.cacheService.getUser().subscribe(
             result => {

@@ -573,6 +573,7 @@ export class DistributionsComponent implements OnInit {
      */
     exit(message: string) {
         this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
+        this.chartAccepted = false;
         this.dialog.closeAll();
     }
 

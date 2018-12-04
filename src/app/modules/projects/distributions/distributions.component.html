@@ -271,15 +271,11 @@
             <div class="modal-body" *ngIf="!chartAccepted">
                 <p> {{TEXT.transaction_prevention}}</p>
                 <div class="lign-container">
-                    <mat-checkbox [(ngModel)]="chartAccepted"></mat-checkbox>
+                    <mat-checkbox color="primary" [(ngModel)]="chartAccepted"></mat-checkbox>
                     <span> {{TEXT.transaction_accept_prevention}} </span>
                 </div>
             </div>
             <div class="modal-body" *ngIf="chartAccepted">
-                <div class="lign-container">
-                    <mat-checkbox [(ngModel)]="chartAccepted"></mat-checkbox>
-                    <span> {{TEXT.transaction_accept_prevention}} </span>
-                </div>
                 <p> An email containing your validation code has been sent to : {{actualUser.email | uppercase}}. </p>
                 <p> Please paste the code here and click on 'Confirm' to proceed with the transaction : </p>
                 <br/>

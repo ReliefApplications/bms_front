@@ -44,6 +44,14 @@ app-table-mobile{
     height: 100%;
 }
 
+mat-dialog-content {
+    width: 70vw !important;
+
+    * {
+        max-width: 70vw;
+    }
+}
+
 .lign-container {
     display: flex;
     align-items: center;

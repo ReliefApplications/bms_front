@@ -262,8 +262,8 @@ export const TEXT = {
     transaction_amount_total: 'الكمية الإجمالية',
     transaction_amount_done: 'الكمية المرسلة',
     transaction_amount_waiting: 'ما زال يتعين إرسالها',
-    transaction_prevention: 'This BMS plateform is still in development state. You should know that functionnalities like transactions could not be stable and may fail. In case of an error, we are not responsible of any money loss or inconvenience. You are then agreeing by ticking the box below that you are sure of what you are doing and will be the only responsible of any action on the following steps',
-    transaction_accept_prevention: 'I agree with this terms.',
+    transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',
+    transaction_accept_prevention: 'I agree to these terms.',
 
     profile_user_information: 'معلومات المستخدم',
     profile_user_change_password: 'تغيير كلمة المرور',

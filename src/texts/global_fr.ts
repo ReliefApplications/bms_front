@@ -344,6 +344,7 @@ export const TEXT = {
     distribution_no_right_transaction: 'Vous n\'avait pas le droit nécessaire pour réaliser la transaction, demandez à votre responsable de projet ou à votre responsable de pays',
     distribution_beneficiary_added: 'Bénéficiaire ajouté',
     distribution_beneficiary_not_added: 'Le bénéficiaire n\'a pas pu être ajouté',
+    distribution_request_logs: 'Get logs',
 
     import_distribution_updated: 'Distribution modifiée',
     import_distribution_no_right_update: 'Vous n\'avez pas le droit nécessaire pour modifier la distribution, demandez à votre reponsable de projet',

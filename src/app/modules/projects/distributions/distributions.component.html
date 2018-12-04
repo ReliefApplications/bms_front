@@ -1,7 +1,13 @@
 <div class="page-container">
 
     <div class="title">
-        <h2> {{TEXT.model_distribution | titlecase}} </h2>
+        <div class='first-line-title'>
+            <h2> {{TEXT.model_distribution | titlecase}} </h2>
+            <button mat-raised-button class="request-logs button-background-primary" *ngIf="hasRights" (click)="requestLogs()">
+                <mat-icon>history</mat-icon>
+                <span>{{TEXT.distribution_request_logs}}</span>
+            </button>
+        </div>
         <app-placeholder-title *ngIf="loadingDistribution"> </app-placeholder-title>
         <p *ngIf="actualDistribution && !loadingDistribution">
             {{actualDistribution.name | uppercase}}

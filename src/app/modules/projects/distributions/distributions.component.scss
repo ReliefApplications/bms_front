@@ -45,10 +45,9 @@ app-table-mobile{
 }
 
 mat-dialog-content {
-    width: 70vw !important;
-
-    * {
-        max-width: 70vw;
+    p {
+        text-align: justify;
+        max-width: 50vw;
     }
 }
 

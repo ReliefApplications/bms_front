@@ -254,7 +254,7 @@
             </div>
             <div class="content-button content-button-footer">
                 <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
-                <button mat-raised-button *ngIf="hasRightsTransaction && !transacting"  (click)="openDialog(transaction); codeVerif();"
+                <button mat-raised-button *ngIf="hasRightsTransaction && !transacting"  (click)="openDialog(transaction);"
                 class="button-background-accent" [matBadge]="getAmount('people')" matBadgePosition="before" matBadgeColor="primary">
                     <mat-icon>send</mat-icon> Transaction
                 </button>
@@ -271,7 +271,7 @@
             <div class="modal-body" *ngIf="!chartAccepted">
                 <p> {{TEXT.transaction_prevention}}</p>
                 <div class="lign-container">
-                    <mat-checkbox color="primary" [(ngModel)]="chartAccepted"></mat-checkbox>
+                    <mat-checkbox color="primary" [(ngModel)]="chartAccepted" (change)="codeVerif();"></mat-checkbox>
                     <span> {{TEXT.transaction_accept_prevention}} </span>
                 </div>
             </div>

@@ -45,6 +45,8 @@ app-table-mobile{
 }
 
 mat-dialog-content {
+    max-width: 80vw;
+    
     p {
         text-align: justify;
         max-width: 50vw;
@@ -315,6 +317,14 @@ app-import-distribution {
 
     .mat-raised-button{
         font-size: 2vh;
+    }
+
+    mat-dialog-content {
+        width: 70vw;
+        * {
+            text-align: left !important;
+            max-width: 70vw !important;
+        }
     }
 
     .mat-stepper-horizontal {

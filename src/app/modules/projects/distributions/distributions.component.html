@@ -288,7 +288,7 @@
                 <br/>
             </div>
             <div class="modal-footer action">
-                <button mat-button class="cancel" (click)="exit('Transaction canceled')">Cancel</button>
+                <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')">Cancel</button>
                 <button mat-button class="confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()" *ngIf="chartAccepted">Confirm</button>
             </div>
         </div>
@@ -303,7 +303,7 @@
                 <p> Do you really want to validate this distribution ? You won't be able to modify it anymore. </p>
             </div>
             <div class="modal-footer action">
-                <button mat-button class="cancel" (click)="exit('Validation canceled')">Cancel</button>
+                <button mat-button class="cancel button-text-accent" (click)="exit('Validation canceled')">Cancel</button>
                 <button mat-button class="confirm" (click)="confirmValidation()">Confirm</button>
             </div>
         </div>
@@ -327,7 +327,7 @@
                 </div>
             </div>
             <div class="modal-footer action">
-                <button mat-button class="cancel" (click)="exit('Adding canceled')">Cancel</button>
+                <button mat-button class="cancel button-text-accent" (click)="exit('Adding canceled')">Cancel</button>
                 <button mat-button class="confirm" (click)="confirmAdding()">Confirm</button>
             </div>
         </div>

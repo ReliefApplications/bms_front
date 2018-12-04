@@ -219,7 +219,7 @@ export class DistributionsComponent implements OnInit {
                     } else if (type === 'transaction') {
                         // console.log('Getting transaction data');
                         this.transactionData = new MatTableDataSource(TransactionBeneficiary.formatArray(data, this.actualDistribution.commodities));
-                        this.refreshStatuses()
+                        this.refreshStatuses();
                         this.loadingTransaction = false;
                     }
 

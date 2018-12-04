@@ -262,6 +262,8 @@ export const TEXT = {
     transaction_amount_total: 'Quantité totale',
     transaction_amount_done: 'Quantité envoyée',
     transaction_amount_waiting: 'Reste à envoyer',
+    transaction_prevention: 'This BMS plateform is still in development state. You should know that functionnalities like transactions could not be stable and may fail. In case of an error, we are not responsible of any money loss or inconvenience. You are then agreeing by ticking the box below that you are sure of what you are doing and will be the only responsible of any action on the following steps',
+    transaction_accept_prevention: 'I agree with this terms.',
 
     profile_user_information: 'Informations utilisateur',
     profile_user_change_password: 'Changer mon mot de passe',

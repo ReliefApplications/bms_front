@@ -268,21 +268,28 @@
     <mat-dialog-content class="modal-container">
         <h4 class="modal-title underline-accent">Confirm the transaction</h4>
         <div class="dialog-template">
-            <div class="modal-body">
+            <div class="modal-body" *ngIf="!chartAccepted">
+                <p> {{TEXT.transaction_prevention}}</p>
+                <div class="lign-container">
+                    <mat-checkbox [(ngModel)]="chartAccepted"></mat-checkbox>
+                    <span> {{TEXT.transaction_agree_prevention}} </span>
+                </div>
+            </div>
+            <div class="modal-body" *ngIf="chartAccepted">
                 <p> An email containing your validation code has been sent to : {{actualUser.email | uppercase}}. </p>
                 <p> Please paste the code here and click on 'Confirm' to proceed with the transaction : </p>
                 <br/>
                 <div class="lign-container">
-                    <button mat-stroked-button class='button-text-primary sendCode-button' (click)='codeVerif()'>Send again</button>
                     <mat-form-field>
                         <input matInput placeholder="Code" [(ngModel)]="enteredCode">
                     </mat-form-field>
+                    <button mat-stroked-button class='button-text-primary sendCode-button' (click)='codeVerif()'>Send again</button>
                 </div>
                 <br/>
             </div>
             <div class="modal-footer action">
                 <button mat-button class="cancel" (click)="exit('Transaction canceled')">Cancel</button>
-                <button mat-button class="confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()">Confirm</button>
+                <button mat-button class="confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()" *ngIf="chartAccepted">Confirm</button>
             </div>
         </div>
     </mat-dialog-content>

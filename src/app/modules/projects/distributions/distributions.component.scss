@@ -47,9 +47,10 @@ app-table-mobile{
 .lign-container {
     display: flex;
     align-items: center;
+    justify-content: center;
 
-    button {
-        margin-right: 15px;
+    button, span {
+        margin-left: 15px;
     }
 }
 

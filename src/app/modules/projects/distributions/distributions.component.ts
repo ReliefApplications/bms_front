@@ -81,6 +81,7 @@ export class DistributionsComponent implements OnInit {
     lastCodeSentTime = 0; //ms
     actualUser = new User();
     enteredCode = '';
+    chartAccepted = false;
 
     hasRights: boolean = false;
     hasRightsTransaction: boolean = false;
@@ -219,7 +220,7 @@ export class DistributionsComponent implements OnInit {
                     } else if (type === 'transaction') {
                         // console.log('Getting transaction data');
                         this.transactionData = new MatTableDataSource(TransactionBeneficiary.formatArray(data, this.actualDistribution.commodities));
-                        this.refreshStatuses()
+                        this.refreshStatuses();
                         this.loadingTransaction = false;
                     }
 
@@ -572,6 +573,7 @@ export class DistributionsComponent implements OnInit {
      */
     exit(message: string) {
         this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
+        this.chartAccepted = false;
         this.dialog.closeAll();
     }
 

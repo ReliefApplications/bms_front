@@ -262,6 +262,8 @@ export const TEXT = {
     transaction_amount_total: 'Quantité totale',
     transaction_amount_done: 'Quantité envoyée',
     transaction_amount_waiting: 'Reste à envoyer',
+    transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',
+    transaction_accept_prevention: 'I agree to these terms.',
 
     profile_user_information: 'Informations utilisateur',
     profile_user_change_password: 'Changer mon mot de passe',

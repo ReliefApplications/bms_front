@@ -3,10 +3,6 @@
     <div class="title">
         <div class='first-line-title'>
             <h2> {{TEXT.model_distribution | titlecase}} </h2>
-            <button mat-raised-button class="request-logs button-background-primary" *ngIf="hasRights" (click)="requestLogs()">
-                <mat-icon>history</mat-icon>
-                <span>{{TEXT.distribution_request_logs}}</span>
-            </button>
         </div>
         <app-placeholder-title *ngIf="loadingDistribution"> </app-placeholder-title>
         <p *ngIf="actualDistribution && !loadingDistribution">
@@ -245,7 +241,11 @@
                             <mat-icon>refresh</mat-icon>
                             <span>Refresh transaction statuses</span>
                         </button>
-                    </div>
+                        <button mat-raised-button class="request-logs button-background-primary" *ngIf="hasRights" (click)="requestLogs()">
+                            <mat-icon>history</mat-icon>
+                            <span>{{TEXT.distribution_request_logs}}</span>
+                        </button>
+                    </div> 
                 </div>
             <div class="waitingDataContainer" *ngIf="loadingTransaction">
                 <mat-spinner></mat-spinner>

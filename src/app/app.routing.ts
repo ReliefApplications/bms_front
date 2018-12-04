@@ -30,7 +30,7 @@ export const routes: Routes = [
 
     { path: 'projects/add-distribution', component: AddDistributionComponent, canDeactivate : [DeactivateGuard] },
 
-	{ path: 'projects/distributions/:id', component: DistributionsComponent },
+	{ path: 'projects/distributions/:id', component: DistributionsComponent, canDeactivate : [DeactivateGuard] },
 
 	{ path: 'beneficiaries', component: BeneficiariesComponent },
 

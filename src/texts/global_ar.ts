@@ -89,7 +89,7 @@ export const TEXT = {
     add_beneficiary_create: 'إنشاء',
     add_beneficiary_cancel: 'إلغاء',
     add_beneficiary_next: 'التالي',
-    add_beneficiary_getProject: 'المشاريع'
+    add_beneficiary_getProject: 'المشاريع',
     add_beneficiary_getProvince: 'المحافظة',
     add_beneficiary_getDistrict: 'المنطقة',
     add_beneficiary_getCommune: 'البلدية',

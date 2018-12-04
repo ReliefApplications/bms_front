@@ -81,6 +81,7 @@ export class DistributionsComponent implements OnInit {
     lastCodeSentTime = 0; //ms
     actualUser = new User();
     enteredCode = '';
+    chartAccepted = false;
 
     hasRights: boolean = false;
     hasRightsTransaction: boolean = false;

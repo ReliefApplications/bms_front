@@ -1,8 +1,8 @@
 {
   "name": "Beneficiary Management System",
   "short_name": "BMS",
-  "theme_color": "#DC3D49",
-  "background_color": "#EFEFEF",
+  "theme_color": "#02617F",
+  "background_color": "#F1F1FB",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",

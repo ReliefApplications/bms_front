@@ -225,7 +225,7 @@ export const TEXT = {
     model_project_name: 'اسم المشروع',
     model_project_sectors_name: 'القطاعات',
     model_project_start_date: 'تاريخ البداية',
-    mdel_project_end_date: 'تاريخ الانتهاء',
+    model_project_end_date: 'تاريخ الانتهاء',
     model_project_number_of_households: 'عدد الأسر',
     model_project_donors_name: 'المانحون',
     model_project_notes: 'الملاحظات',

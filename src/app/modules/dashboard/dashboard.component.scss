@@ -79,15 +79,16 @@ app-table-dashboard {
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-evenly;
         align-items: center;
 
         .lign-container {
             width: 100%;
-            height: auto;
+            height: 50%;
+            padding: 10px 0px 10px 0px;
             display:flex;
             flex-direction: row;
-            justify-content: center;
+            justify-content: space-evenly;
             align-items: center;
 
             .summary-header {
@@ -130,9 +131,14 @@ app-table-dashboard {
             app-box-dashboard{
                 width: 50%;
                 height: 100%;
-                margin: 20px 10px 0px 10px;;
+                box-sizing: border-box;
+                margin: 0px 10px 0px 10px;
                 min-height: 90px;
                 animation: box-right-in 0.5s;
+                
+                * {
+                    height: 100%;
+                }
             }
         }
     }

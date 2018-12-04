@@ -138,7 +138,9 @@ export class TransactionBeneficiary {
                     beneficiary.updateState('Not sent');
                     break;
             }
-            beneficiary.message = instance.transactions[instance.transactions.length - 1].message ? instance.transactions[instance.transactions.length - 1].message : '';
+            if(instance.transactions[instance.transactions.length - 1]) {
+                beneficiary.message = instance.transactions[instance.transactions.length - 1].message ? instance.transactions[instance.transactions.length - 1].message : '';
+            }
         } else {
             beneficiary.updateState('Not sent');
         }

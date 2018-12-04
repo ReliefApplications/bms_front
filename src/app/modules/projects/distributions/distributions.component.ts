@@ -19,13 +19,16 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/core/api/user.service';
 import { element } from '@angular/core/src/render3/instructions';
+import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
+import { Observable } from 'rxjs';
+import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
 
 @Component({
     selector: 'app-distributions',
     templateUrl: './distributions.component.html',
     styleUrls: ['./distributions.component.scss']
 })
-export class DistributionsComponent implements OnInit {
+export class DistributionsComponent implements OnInit, DesactivationGuarded {
     public nameComponent = 'distribution_title';
     distributionId: number;
     actualDistribution = new DistributionData();
@@ -145,6 +148,20 @@ export class DistributionsComponent implements OnInit {
     ngDoCheck() {
         if (this.language !== GlobalText.language)
             this.language = GlobalText.language;
+    }
+
+       /**
+     * Verify if modifications have been made to prevent the user from leaving and display dialog to confirm we wiwhes to delete them
+     */
+    @HostListener('window:beforeunload')
+    canDeactivate(): Observable<boolean> | boolean {
+        if (this.transacting) {
+            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+
+            return dialogRef.afterClosed();
+        } else {
+            return (true);
+        }
     }
 
     /**
@@ -640,15 +657,14 @@ export class DistributionsComponent implements OnInit {
 
     requestLogs() {
         if (this.hasRights) {
-            this.distributionService.logs(this.distributionId).toPromise()
-            .then(
-                () => { this.snackBar.open('Logs have been sent', '', { duration: 5000, horizontalPosition: 'center' }); }
-            )
-            .catch(
-                (e) => {
-                    this.snackBar.open('Logs could not be sent : ' +e, '', { duration: 5000, horizontalPosition: 'center' });
-                }
-            )
+            try {
+                this.distributionService.logs(this.distributionId).subscribe(
+                    e => { this.snackBar.open(''+e, '', { duration: 5000, horizontalPosition: 'center' }); },
+                    () => { this.snackBar.open('Logs have been sent', '', { duration: 5000, horizontalPosition: 'center' }); },
+                )
+            } catch(e) {
+                this.snackBar.open('Logs could not be sent : ' +e, '', { duration: 5000, horizontalPosition: 'center' });        
+            }
         } else {
             this.snackBar.open('Not enough rights to request logs', '', { duration: 5000, horizontalPosition: 'center' });
         }

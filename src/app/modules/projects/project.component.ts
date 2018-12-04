@@ -27,7 +27,7 @@ export class ProjectComponent implements OnInit {
     public distribution = GlobalText.TEXTS;
     public language = GlobalText.language;
     loadingExport = false;
-    
+
     projects: Project[];
     distributionData: MatTableDataSource<any>;
     distributionClass = DistributionData;
@@ -86,12 +86,12 @@ export class ProjectComponent implements OnInit {
      */
     ngDoCheck() {
         if (this.distribution !== GlobalText.TEXTS) {
-        this.distribution = GlobalText.TEXTS;
-        this.nameComponent = GlobalText.TEXTS.distribution_title;
-      }
-      
-      if (this.language !== GlobalText.language)
-        this.language = GlobalText.language;
+            this.distribution = GlobalText.TEXTS;
+            this.nameComponent = GlobalText.TEXTS.distribution_title;
+        }
+
+        if (this.language !== GlobalText.language)
+            this.language = GlobalText.language;
     }
 
     /**
@@ -129,7 +129,7 @@ export class ProjectComponent implements OnInit {
                     this.projects = this.projectClass.formatArray(response).reverse();
                     this.selectTitle(this.projects[0].name, this.projects[0]);
                     this.loadingProjects = false;
-                } else if(response === null){
+                } else if (response === null) {
                     this.projects = null;
                     this.loadingProjects = false;
                 }
@@ -165,12 +165,12 @@ export class ProjectComponent implements OnInit {
                     }
                 }
             )
-            // .catch(
-            //     error => {
-            //         this.distributionData = null;
-            //         this.noNetworkData = true;
-            //     }
-            // )
+        // .catch(
+        //     error => {
+        //         this.distributionData = null;
+        //         this.noNetworkData = true;
+        //     }
+        // )
     }
 
     addDistribution() {
@@ -203,11 +203,23 @@ export class ProjectComponent implements OnInit {
         );
         const create = dialogRef.componentInstance.onCreate.subscribe(
             (data) => {
-                this.projectService.create(data['id'], data).subscribe(
-                    response => {
-                        this.getProjects();
-                    },
-                );
+                let exists: boolean = false;
+
+                this.projects.forEach(element => {
+                    if (element.name == data.name) {
+                        this.snackBar.open(this.distribution.settings_project_exists, '', { duration: 5000, horizontalPosition: 'right' });
+                        exists = true;
+                        return;
+                    }
+                });
+
+                if (exists == false) {
+                    this.projectService.create(data['id'], data).subscribe(
+                        response => {
+                            this.getProjects();
+                        },
+                    );
+                }
             }
         );
         dialogRef.afterClosed().subscribe(
@@ -229,6 +241,6 @@ export class ProjectComponent implements OnInit {
             }
         )
 
-        
+
     }
 }

@@ -345,6 +345,7 @@ export const TEXT = {
     distribution_beneficiary_added: 'Bénéficiaire ajouté',
     distribution_beneficiary_not_added: 'Le bénéficiaire n\'a pas pu être ajouté',
     distribution_request_logs: 'Recevoir l\'historique des transactions par mail',
+    refresh_transaction: 'Vérifier les retraits',
 
     import_distribution_updated: 'Distribution modifiée',
     import_distribution_no_right_update: 'Vous n\'avez pas le droit nécessaire pour modifier la distribution, demandez à votre reponsable de projet',

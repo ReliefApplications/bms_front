@@ -345,6 +345,7 @@ export const TEXT = {
     distribution_beneficiary_added: 'تم أضافة المستفيد',
     distribution_beneficiary_not_added: 'لم بتم أضافة المستفيد',
     distribution_request_logs: 'Send transaction logs by email',
+    refresh_transaction: 'Check pickup status',
 
     import_distribution_updated: 'تم تحديث التوزيع',
     import_distribution_no_right_update: 'لا يحق لك تحديث التوزيع ، اسأل مدير المشروع الخاص بك',

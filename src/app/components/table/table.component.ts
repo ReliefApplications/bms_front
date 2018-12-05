@@ -75,6 +75,7 @@ export class TableComponent implements OnChanges, DoCheck {
     propertiesActions: any;
     entityInstance = null;
     filled = true;
+
     public user_action = '';
 
     constructor(
@@ -105,6 +106,8 @@ export class TableComponent implements OnChanges, DoCheck {
             if (this.table !== GlobalText.TEXTS) {
                 this.table = GlobalText.TEXTS;
                 this.setDataTableProperties();
+                document.getElementsByClassName('mat-paginator-page-size-label')[0].innerHTML = this.table.table_items_per_page;
+                document.getElementsByClassName('mat-paginator-range-label')[0].innerHTML = this.rangeLabel(this.paginator.pageIndex, this.paginator.pageSize, this.paginator.length);
                 this.mapperService.setMapperObject(this.entity);
             }
         }
@@ -174,7 +177,7 @@ export class TableComponent implements OnChanges, DoCheck {
     }
 
     setDataTableProperties() {
-        if (this.data && this.data._data && this.data._data.value) {
+        if ((this.data && this.data._data && this.data._data.value) || (this.data && this.data.householdsSubject)) {
             this.data.sort = this.sort;
             if (this.paginator) {
                 this.paginator._intl.itemsPerPageLabel = this.table.table_items_per_page;
@@ -405,6 +408,23 @@ export class TableComponent implements OnChanges, DoCheck {
                 this.updateData();
             });
         }
+    }
+
+    rangeLabel(page: number, pageSize: number, length: number) {
+        const table = GlobalText.TEXTS;
+
+        if (length === 0 || pageSize === 0) { return `0 ` + table.table_of_page + ` ${length}`; }
+    
+        length = Math.max(length, 0);
+    
+        const startIndex = page * pageSize;
+    
+        // If the start index exceeds the list length, do not try and fix the end index to the end.
+        const endIndex = startIndex < length ?
+            Math.min(startIndex + pageSize, length) :
+            startIndex + pageSize;
+    
+        return `${startIndex + 1} - ${endIndex} ` + table.table_of_page + ` ${length}`;
     }
 }
 

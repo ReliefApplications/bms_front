@@ -219,6 +219,14 @@ mat-dialog-content {
     width: 150px !important;
 }
 
+.refresh-button {
+    background-color: $bms_green !important;
+    height: 40px;
+    margin-right: 0px;
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
 .action-buttons {
     display: flex;
     flex-direction: row;

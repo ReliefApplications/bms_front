@@ -26,8 +26,4 @@ export class UpdateService {
             }
         );
     }
-
-    ngOnInit() {
-        this.updates.checkForUpdate();        
-    }
 }

@@ -1,4 +1,7 @@
 export const TEXT = {
+    country_khm : 'Cambodia',
+    country_syr : 'Syria',
+    
     dashboard_distribution_map : 'خريطة التوزيع',
     dashboard_summary : 'الملخص',
     dashboard_summary_1 : 'مجموع المستفيدين',

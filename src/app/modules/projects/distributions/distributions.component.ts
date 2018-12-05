@@ -497,6 +497,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         else
             this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 5000, horizontalPosition: 'right' });
 
+        this.chartAccepted = false;
         this.dialog.closeAll();
     }
 

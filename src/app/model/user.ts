@@ -175,7 +175,7 @@ export class User {
             password: "password",
             rights: "selectSingle",
             projects: "selectProjects",
-            country: "inputCountry",
+            country: "selectCountry",
         }
     }
 
@@ -253,5 +253,18 @@ export class User {
                 'name': GlobalText.TEXTS.role_user_regional_manager,
             }
         ];
+    }
+
+    public getAllCountries() {
+        return [
+            {
+                'id': "KHM",
+                'name' : GlobalText.TEXTS.country_khm,
+            },
+            {
+                'id': "SYR",
+                'name': GlobalText.TEXTS.country_syr,
+            }
+        ]
     }
 }

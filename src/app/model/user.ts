@@ -51,7 +51,7 @@ export class User {
      * User's country
      * @type {number[]}
      */
-    country: number[] = undefined;
+    country: string[] = undefined;
 
     voters: string = '';
 
@@ -205,8 +205,16 @@ export class User {
         let user = new User(element);
         if (element.roles) {
             element.roles.forEach(element => {
-                user.rights = " " + element + " ";
+                user.rights = "" + element + "";
             });
+        }
+        if (element.countries) {
+            element.countries.forEach(
+                element => {
+                    user.country = [];
+                    user.country.push(element.iso3);
+                }
+            )
         }
         return user;
     }

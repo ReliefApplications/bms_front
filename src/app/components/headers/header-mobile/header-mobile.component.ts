@@ -18,6 +18,7 @@ export class HeaderMobileComponent implements OnInit {
   @Output() emitLogOut = new EventEmitter();
   @Output() emitCurrentRoute = new EventEmitter<string>();
   @Output() emitToggle = new EventEmitter();
+  @Input() actualUserId : number;
 
   constructor(
     public dialog: MatDialog

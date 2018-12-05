@@ -6,6 +6,10 @@ import { GlobalText } from '../../../../texts/global';
 
 import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { User } from 'src/app/model/user';
+import { UserService } from 'src/app/core/api/user.service';
+import { forEach } from '@angular/router/src/utils/collection';
+import { ProjectService } from 'src/app/core/api/project.service';
 
 @Component({
     selector: 'app-header',
@@ -16,7 +20,14 @@ export class HeaderComponent implements OnInit {
     public header = GlobalText.TEXTS;
     public language = "en";
 
+    // User countries
+    userData = new User();
+    requesting = false;
+    countries : string[] = [];
+    selectedCountry : string;
+
     @Output() emitLogOut = new EventEmitter();
+    @Input() actualUserId : number;
 
     public currentRoute = "/";
     public breadcrumb: Array<any> = [{
@@ -27,7 +38,8 @@ export class HeaderComponent implements OnInit {
     constructor(
         public dialog: MatDialog,
         public router: Router,
-        private asyncache: AsyncacheService,
+        private userService: UserService,
+        private projectService: ProjectService,
     ) {
         router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
@@ -50,6 +62,71 @@ export class HeaderComponent implements OnInit {
             this.header = GlobalText.TEXTS;
             this.updateBreadcrumb();
         }
+        this.refreshUserData();
+    }
+
+    refreshUserData() {
+        if( !this.requesting && this.actualUserId && Number(this.userData.id) !== Number(this.actualUserId)) {
+            this.requesting = true;
+            this.userService.get().subscribe(
+                result => {
+                    if(result) {
+                        result.forEach(
+                            element => {
+                                if(element.id === this.actualUserId) {
+                                    this.userData = User.formatFromApi(element);
+                                    console.log(this.userData)
+                                    this.requesting = false;
+                                }
+                            }
+                        );
+                        this.getCorrectCountries();
+                    }
+                }
+            )
+        }
+    }
+
+    getCorrectCountries() {
+        console.log('gets: ', this.userData.rights);
+        let countries = this.userData.getAllCountries();
+
+        this.countries = [];
+        if(this.userData.rights === "ROLE_ADMIN") {
+            countries.forEach( element => {
+                console.log
+                this.countries.push(element.id);
+            });
+        } else if(this.userData.rights === "ROLE_REGIONAL_MANAGER" || this.userData.rights === "ROLE_COUNTRY_MANAGER") {
+            this.userData.country.forEach( element => {
+                this.countries.push(element);
+            });
+        } else if(this.userData.rights === "ROLE_PROJECT_MANAGER" || this.userData.rights === "ROLE_PROJECT_OFFICER") {
+            this.userData.country.forEach( element => {
+                this.countries.push(element);
+            });
+        }
+        this.selectedCountry = this.countries[0];
+        console.log(this.countries);
+    }
+
+    selectCountry(c: string) {
+        if(c) {
+            this.selectedCountry = c;
+        }
+        // TODO: SET NEW COUNTRY IN CACHE TO ACCESS IT EVERYWHERE
+    }
+
+    getFlag(c: string) {
+        let url = '';
+
+        if(c) {
+            url = ("assets/images/" + c + ".png");
+        } else {
+            url = ("assets/images/defaultFlag.png");
+        }
+
+        return(url);
     }
 
     /**

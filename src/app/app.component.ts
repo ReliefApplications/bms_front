@@ -133,7 +133,7 @@ export class AppComponent {
         this._authenticationService.getUser().subscribe(
             user => { 
                 this.user = user;
-                console.log('user: ', user);
+                //console.log('user: ', user);
                 this.checkLoggedUser(user);
                 this.checkPermission(user);
             }

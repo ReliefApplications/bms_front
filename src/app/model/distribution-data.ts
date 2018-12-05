@@ -344,7 +344,7 @@ export class DistributionData {
                 delete selfinstance.threshold;
             if (selfinstance.name || selfinstance.name == '')
                 delete selfinstance.name;
-            
+
             return selfinstance;
         }
 

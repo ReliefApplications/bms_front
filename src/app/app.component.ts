@@ -114,7 +114,7 @@ export class AppComponent {
         this._authenticationService.logout().subscribe(
             disconnectedUser => {
                 this.user = disconnectedUser;
-            }   
+            }
         );
     }
 
@@ -131,13 +131,13 @@ export class AppComponent {
         this.refreshCurrentComponent(event);
         // Verify the user.
         this._authenticationService.getUser().subscribe(
-            user => { 
+            user => {
                 this.user = user;
                 console.log('user: ', user);
                 this.checkLoggedUser(user);
                 this.checkPermission(user);
             }
-        );        
+        );
     }
 
     /**
@@ -176,12 +176,12 @@ export class AppComponent {
         } else if(cachedUser.loggedIn && this.currentComponent === 'login') {
             this.router.navigate(['/']);
         }
-        
+
     }
-    
+
     /**
      *  Check again Permissions on each page navigation.
-     * @param cachedUser 
+     * @param cachedUser
      */
     checkPermission(cachedUser) {
         if(cachedUser && cachedUser.voters) {

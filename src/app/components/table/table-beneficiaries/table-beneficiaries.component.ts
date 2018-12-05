@@ -5,6 +5,7 @@ import { emit } from 'cluster';
 import { element } from 'protractor';
 import { tap, finalize } from 'rxjs/operators';
 import { DistributionData } from '../../../model/distribution-data';
+import { GlobalText } from '../../../../texts/global';
 
 
 @Component({
@@ -28,27 +29,27 @@ export class TableBeneficiariesComponent extends TableComponent {
         super.checkData();
         this.sendSortedData();
         this.data.loading$
-        .pipe(
-            finalize(
-                () => {
-                    this.testLoading = false;
-                    this.displayNoData = true;
+            .pipe(
+                finalize(
+                    () => {
+                        this.testLoading = false;
+                        this.displayNoData = true;
+                    }
+                )
+            ).subscribe(
+                result => {
+                    if (result != this.testLoading) {
+                        this.testLoading = result;
+                    }
                 }
-            )
-        ).subscribe(
-            result => {
-                if (result != this.testLoading) {
-                    this.testLoading = result;
-                }
-            }
-        );
+            );
 
         setTimeout(
             () => {
                 this.displayNoData = true;
             }, 1000
         );
-        
+
         this.selectedFilter = this.properties[0];
         this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
         this.mapperObject = this.mapperService.findMapperObject(DistributionData);

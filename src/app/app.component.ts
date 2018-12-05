@@ -42,7 +42,6 @@ export class AppComponent {
 
     ngOnInit() {
         this.checkSize();
-        this.updateService.checkForUpdate();
         GlobalText.changeLanguage();
     }
 

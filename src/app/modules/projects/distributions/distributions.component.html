@@ -236,16 +236,14 @@
                 </div>
             </div>
             <div class="content-button">
-                    <div class="action-buttons">
-                        <button mat-raised-button class="export-button" (click)="refreshStatuses()">
-                            <mat-icon>refresh</mat-icon>
-                            <span>Refresh transaction statuses</span>
-                        </button>
-                        <button mat-raised-button class="request-logs button-background-primary" *ngIf="hasRights" (click)="requestLogs()">
-                            <mat-icon>history</mat-icon>
-                            <span>{{TEXT.distribution_request_logs}}</span>
-                        </button>
-                    </div> 
+                    <button mat-raised-button class="refresh-button" (click)="refreshStatuses()">
+                        <mat-icon>refresh</mat-icon>
+                        <span>{{TEXT.refresh_transaction}}</span>
+                    </button>
+                    <button mat-raised-button class="request-logs button-background-primary" *ngIf="hasRights" (click)="requestLogs()">
+                        <mat-icon>history</mat-icon>
+                        <span>{{TEXT.distribution_request_logs}}</span>
+                    </button>
                 </div>
             <div class="waitingDataContainer" *ngIf="loadingTransaction">
                 <mat-spinner></mat-spinner>

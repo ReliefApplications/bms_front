@@ -44,7 +44,7 @@ export class UserService {
 	}
 
     public requestLogs(id: number) {
-        let url = '/users/' + id + '/logs';
+        let url = this.api + '/users/' + id + '/logs';
         return this.http.get(url);
     }
 

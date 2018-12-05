@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material';
 import { GlobalText } from '../../../../texts/global';
 
 import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
     selector: 'app-header',
@@ -25,7 +26,8 @@ export class HeaderComponent implements OnInit {
 
     constructor(
         public dialog: MatDialog,
-        public router: Router
+        public router: Router,
+        private asyncache: AsyncacheService,
     ) {
         router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {

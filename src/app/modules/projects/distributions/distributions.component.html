@@ -197,7 +197,8 @@
                             </app-table-mobile-search>
                         </div>
                         <div class="content-button content-button-footer">
-                            <button mat-raised-button class="button-background-accent" (click)="openDialog(validation)" [disabled]="actualDistribution.validated">
+                            <mat-spinner [diameter]="35" *ngIf="loaderValidation"></mat-spinner>
+                            <button mat-raised-button *ngIf="!loaderValidation" class="button-background-accent" (click)="openDialog(validation)" [disabled]="actualDistribution.validated">
                                 <mat-icon >lock</mat-icon>
                                  Validate
                             </button>

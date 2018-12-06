@@ -209,10 +209,18 @@ export class User {
             });
         }
         if (element.countries) {
+            user.country = [];
             element.countries.forEach(
                 element => {
-                    user.country = [];
                     user.country.push(element.iso3);
+                }
+            )
+        }
+        if (element.user_projects) {
+            user.projects = [];
+            element.user_projects.forEach(
+                element => {
+                    user.projects.push(element.project.name);
                 }
             )
         }
@@ -272,6 +280,10 @@ export class User {
             {
                 'id': "SYR",
                 'name': GlobalText.TEXTS.country_syr,
+            }
+            {
+                'id': "LBN",
+                'name' : GlobalText.TEXTS.country_lbn,
             }
         ]
     }

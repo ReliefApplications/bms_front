@@ -89,11 +89,16 @@ export class ModalAddComponent extends ModalComponent {
             }
         }
         else if (event.value == "ROLE_PROJECT_MANAGER" || event.value == "ROLE_PROJECT_OFFICER" || event.value == "ROLE_FIELD_OFFICER") {
+            this.newObject['country'] = [];
+            this.newObject['projects'] = [];
+            
             this.form.controls['projectsControl'].enable();
             this.form.controls['countryControl'].disable();
         }
         else if(event.value == "ROLE_COUNTRY_MANAGER" || event.value == "ROLE_REGIONAL_MANAGER") {
             this.newObject['country'] = [];
+            this.newObject['projects'] = [];
+
             this.form.controls['countryControl'].enable();
             this.form.controls['projectsControl'].disable();
         }

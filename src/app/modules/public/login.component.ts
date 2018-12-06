@@ -8,6 +8,7 @@ import { GlobalText } from '../../../texts/global';
 import { MatSnackBar } from '@angular/material';
 import { Observable, Subscription, from, of } from 'rxjs';
 import { finalize, catchError } from 'rxjs/operators';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
     selector: 'app-login',
@@ -26,12 +27,14 @@ export class LoginComponent implements OnInit {
 
     constructor(
         public _authService: AuthenticationService,
+        public asyncacheService: AsyncacheService,
         public router: Router,
         public snackBar: MatSnackBar
     ) { }
 
     ngOnInit() {
         GlobalText.resetMenuMargin();
+        this.initCountry();
         this.initLoginUser();
     }
 
@@ -55,6 +58,16 @@ export class LoginComponent implements OnInit {
                 this.user = null;
             }
         );
+    }
+
+    initCountry() {
+        this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(
+            result => {
+                if(!result) {
+                    this.asyncacheService.set(AsyncacheService.COUNTRY, 'KHM');
+                }
+            }
+        )
     }
 
     /**
@@ -83,6 +96,8 @@ export class LoginComponent implements OnInit {
         const subscription = from(this._authService.login(this.user));
         subscription.subscribe(
                 (user: User) => {
+                    console.log('cccccc');
+                    this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
                     this.router.navigate(['/']);
                     GlobalText.changeLanguage();
                     this.loader = false;

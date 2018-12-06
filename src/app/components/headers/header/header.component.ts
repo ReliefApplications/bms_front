@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
         public dialog: MatDialog,
         public router: Router,
         private userService: UserService,
-        private projectService: ProjectService,
+        private asyncacheService: AsyncacheService,
     ) {
         router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
@@ -94,7 +94,6 @@ export class HeaderComponent implements OnInit {
         this.countries = [];
         if(this.userData.rights === "ROLE_ADMIN") {
             countries.forEach( element => {
-                console.log
                 this.countries.push(element.id);
             });
         } else if(this.userData.rights === "ROLE_REGIONAL_MANAGER" || this.userData.rights === "ROLE_COUNTRY_MANAGER") {
@@ -106,15 +105,15 @@ export class HeaderComponent implements OnInit {
                 this.countries.push(element);
             });
         }
-        this.selectedCountry = this.countries[0];
-        console.log(this.countries);
+        this.selectCountry(this.countries[0]);
     }
 
     selectCountry(c: string) {
         if(c) {
             this.selectedCountry = c;
+            // TODO: SET NEW COUNTRY IN CACHE TO ACCESS IT EVERYWHERE
+            this.asyncacheService.set(AsyncacheService.COUNTRY, this.selectedCountry);
         }
-        // TODO: SET NEW COUNTRY IN CACHE TO ACCESS IT EVERYWHERE
     }
 
     getFlag(c: string) {

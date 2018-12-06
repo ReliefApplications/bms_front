@@ -105,7 +105,16 @@ export class HeaderComponent implements OnInit {
                 this.countries.push(element);
             });
         }
-        this.selectCountry(this.countries[0]);
+
+        this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(
+            result => {
+                if(result) {
+                    this.selectCountry(result);
+                } else {
+                    this.selectCountry(this.countries[0]);
+                }
+            }
+        )
     }
 
     selectCountry(c: string) {

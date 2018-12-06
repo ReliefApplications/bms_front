@@ -280,7 +280,7 @@ export class User {
             {
                 'id': "SYR",
                 'name': GlobalText.TEXTS.country_syr,
-            }
+            },
             {
                 'id': "LBN",
                 'name' : GlobalText.TEXTS.country_lbn,

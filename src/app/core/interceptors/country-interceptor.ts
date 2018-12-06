@@ -19,7 +19,7 @@ export class CountryInterceptor implements HttpInterceptor {
                 (cacheResult : string) =>
                     // Clone the request and add the country header.
                     // Send cloned request with header to the next handler.            
-                    next.handle( req.clone({ headers: req.headers.append('country', cacheResult }))
+                    next.handle( req.clone({ headers: req.headers.append('country', cacheResult )}))
             )
         );
 	}

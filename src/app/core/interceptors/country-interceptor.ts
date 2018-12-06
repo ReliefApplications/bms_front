@@ -13,7 +13,7 @@ export class CountryInterceptor implements HttpInterceptor {
     ) { }
 
 	intercept(req: HttpRequest<any>, next: HttpHandler) {
-        console.log('entered');
+        //console.log('entered');
         return this.asyncacheService.get(AsyncacheService.COUNTRY).pipe(
             concatMap(
                 (cacheResult : string) =>

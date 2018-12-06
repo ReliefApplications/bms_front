@@ -96,7 +96,6 @@ export class LoginComponent implements OnInit {
         const subscription = from(this._authService.login(this.user));
         subscription.subscribe(
                 (user: User) => {
-                    console.log('cccccc');
                     this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
                     this.router.navigate(['/']);
                     GlobalText.changeLanguage();

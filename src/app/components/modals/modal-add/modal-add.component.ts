@@ -166,7 +166,6 @@ export class ModalAddComponent extends ModalComponent {
                 }
             }
             else if (this.newObject.rights == "ROLE_REGIONAL_MANAGER" || this.newObject.rights == "ROLE_COUNTRY_MANAGER" || this.newObject.rights == "ROLE_READ_ONLY") {
-                //this.newObject.country = "KHM";
                 if (this.newObject.country == undefined) {
                     this.snackBar.open(this.modal.modal_no_country, '', { duration: 5000, horizontalPosition: 'right' });
                     return;

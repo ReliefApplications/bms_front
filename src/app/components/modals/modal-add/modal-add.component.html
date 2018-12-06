@@ -45,9 +45,6 @@
                             <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</mat-option>
                         </mat-select>
 
-                        <input matInput *ngIf="propertiesTypes[p]=='inputCountry'" [(ngModel)]="newObject[p]"
-                            formControlName="countryControl" type="text" value="KHM">
-
                         <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
                             matInput [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
                             placeholder="{{data.mapper.mapTitle(p)}}">

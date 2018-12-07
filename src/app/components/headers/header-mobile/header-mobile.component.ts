@@ -42,6 +42,10 @@ export class HeaderMobileComponent implements OnInit {
 
     ngDoCheck() {
         this.refreshUserData();
+
+        if(this.language !== GlobalText.language) {
+            this.language = GlobalText.language;
+        }
     }
 
     setCurrentRoute(route: string) {
@@ -100,7 +104,14 @@ export class HeaderMobileComponent implements OnInit {
             this.selectedCountry = c;
             // TODO: SET NEW COUNTRY IN CACHE TO ACCESS IT EVERYWHERE
             this.asyncacheService.set(AsyncacheService.COUNTRY, this.selectedCountry);
-        }
+            GlobalText.country = c;
+            
+            if(c === "SYR") {
+                GlobalText.changeLanguage('ar');
+            } else if(c === "KHM") {
+                GlobalText.changeLanguage('en');
+            }
+        }   
     }
 
     getFlag(c: string) {

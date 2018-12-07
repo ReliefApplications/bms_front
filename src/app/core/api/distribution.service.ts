@@ -25,7 +25,6 @@ export class DistributionService {
     constructor(
         private http: HttpService,
         private exportService: ExportService,
-        private asyncache: AsyncacheService
     ) {
     }
 

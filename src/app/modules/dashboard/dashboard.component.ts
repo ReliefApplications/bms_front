@@ -15,6 +15,7 @@ import { GlobalText } from '../../../texts/global';
 import { finalize } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
+import { timer } from 'rxjs';
 
 
 @Component({
@@ -25,6 +26,7 @@ import { User } from 'src/app/model/user';
 export class DashboardComponent implements OnInit {
     public dashboard = GlobalText.TEXTS;
     public nameComponent = 'dashboard_title';
+    public actualCountry : string;
     
     referedClassToken = DistributionData;
     distributions: MatTableDataSource<DistributionData>;
@@ -70,6 +72,14 @@ export class DashboardComponent implements OnInit {
         if (this.dashboard !== GlobalText.TEXTS) {
             this.dashboard = GlobalText.TEXTS;
         }
+
+        if(GlobalText.country && this.actualCountry !== GlobalText.country) {
+            this.actualCountry = GlobalText.country;
+            this.distributions = new MatTableDataSource();
+            this.checkDistributions();
+            this.getSummary();
+            this.serviceMap.addKML();
+        }
     }
 
     @HostListener('window:resize', ['$event'])
@@ -89,6 +99,7 @@ export class DashboardComponent implements OnInit {
 
     checkDistributions(): void {
         let distribs;
+        this.loadingTable = true;
         this._distributionService.get()
             .pipe(
                 finalize(
@@ -102,7 +113,12 @@ export class DashboardComponent implements OnInit {
                     //console.log(distribs);
                     this.distributions = distribs;
                     this.loadingTable = false;
-                });
+                },
+                () => {
+                    this.loadingTable = false;
+                    this.distributions = null;
+                }
+            );
     }
 
     /**

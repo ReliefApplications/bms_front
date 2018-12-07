@@ -63,6 +63,10 @@ export class HeaderComponent implements OnInit {
             this.updateBreadcrumb();
         }
         this.refreshUserData();
+
+        if(this.language !== GlobalText.language) {
+            this.ngOnInit();
+        }
     }
 
     refreshUserData() {
@@ -122,6 +126,13 @@ export class HeaderComponent implements OnInit {
             this.selectedCountry = c;
             // TODO: SET NEW COUNTRY IN CACHE TO ACCESS IT EVERYWHERE
             this.asyncacheService.set(AsyncacheService.COUNTRY, this.selectedCountry);
+            GlobalText.country = c;
+            
+            if(c === "SYR") {
+                GlobalText.changeLanguage('ar');
+            } else if(c === "KHM") {
+                GlobalText.changeLanguage('en');
+            }
         }
     }
 

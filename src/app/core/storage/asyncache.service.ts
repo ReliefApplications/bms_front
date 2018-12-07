@@ -57,7 +57,7 @@ export class AsyncacheService {
 
     formatKey(key : string) : string {
         if(key === AsyncacheService.COUNTRY || key === AsyncacheService.USER || key === AsyncacheService.USERS) {
-            return(this.PREFIX + '_' + key)
+            return this.PREFIX + '_' + key;
         } else {
             return this.PREFIX + '_' + AsyncacheService.actual_country + '_' + key;
         }

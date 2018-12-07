@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit {
     // Loaders
     loadingTable = true;
     loadingSummary = true;
+    loadingMap = true;
 
     public maxWidthMobile = 750;
     public heightScreen;
@@ -71,6 +72,10 @@ export class DashboardComponent implements OnInit {
     ngDoCheck() {
         if (this.dashboard !== GlobalText.TEXTS) {
             this.dashboard = GlobalText.TEXTS;
+        }
+
+        if(LeafletService.loading !== this.loadingMap) {
+            this.loadingMap = LeafletService.loading;
         }
 
         if(GlobalText.country && this.actualCountry !== GlobalText.country) {

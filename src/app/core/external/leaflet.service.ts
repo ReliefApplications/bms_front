@@ -16,6 +16,7 @@ export class LeafletService {
 
     private map: any;
     private tiles: any;
+    public static loading : boolean = false;
 
     constructor(
         private _locationService: LocationService,
@@ -66,6 +67,7 @@ export class LeafletService {
         this._cacheService.get(AsyncacheService.COUNTRY).subscribe(
             result => {
                 let country = result ? result : "KHM";
+                LeafletService.loading = true;
                 //Check if the map is already created
                 if (this.map) {
 
@@ -128,14 +130,15 @@ export class LeafletService {
                                             }
                                         });
                                     }
-                                })
+                                });
+                                LeafletService.loading = false;
                             })
                             admLayers.addTo(this.map);
                         }
                     )
+
                 }
             }
-        )
-        
+        );
     }
 }

@@ -4,6 +4,8 @@ import { ChartComponent     } from '../chart/chart.component';
 import { ChartDataLoaderService           } from '../../services/chart-data-loader.service';
 import { ChartRegistration } from '../../services/chart-registration.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { GlobalText } from '../../../../../texts/global';
+
 @Component({
   selector: 'bar-chart',
   templateUrl: './bar-chart.component.html',
@@ -11,6 +13,8 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 })
 export class BarChartComponent extends ChartComponent {
 
+  public Text = GlobalText.TEXTS;
+  
   constructor(
     protected differs: KeyValueDiffers,
     public _cacheService: AsyncacheService,

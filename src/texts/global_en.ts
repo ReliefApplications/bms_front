@@ -359,4 +359,52 @@ export const TEXT = {
 
     beneficiaries_add_list: 'Add this list to a project',
     projects_description: 'You will be able to modify project\'s name until your first distribution.',
+    next: 'Next',
+    distribution_cant_update: 'You can\'t update this distribution.',
+    distribution_no_random_sample: 'Random sample can\'t be generated...',
+    distribution_not_modified: 'This distribution has not been modified so far.',
+    distribution_show_data: 'Show data anyway',
+    distribution_validate: 'Validate',
+    transaction_progress: 'commodity distribution progress :',
+    transaction_transaction: 'Transaction',
+    transaction_confirm: 'Confirm the transaction',
+    transaction_email_code: 'An email containing your validation code has been sent to :',
+    transaction_paste_code: 'Please paste the code here and click on \'Confirm\' to proceed with the transaction : ',
+    transaction_again: 'Send again',
+    transaction_confirm_button: 'Confirm',
+    transaction_validation: 'Confirm the validation',
+    transaction_validate_distribution: 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.',
+    
+    distribution_add_beneficiaries: 'Add beneficiaries to this distribution',
+    distribution_select_beneficiaries: 'Please select the beneficiaries from the project',
+    distribution_want_add: 'that you want to add to the ',
+    distribution_distribution: 'distribution.',
+
+    back: 'Back',
+    add: 'Add',
+    new: 'New',
+
+    beneficiaries_step_info: 'Step info',
+    beneficiaries_proxy: 'Proxy',
+    beneficiaries_household_info: 'Household information summary :',
+    beneficiaries_livelihood: 'Livelihood:',
+    beneficiaries_full_address: 'Full household address:',
+    beneficiaries_location: 'Household Location:',
+    beneficiaries_add_distribution: 'Add beneficiaries to this distribution',
+    beneficiaries_add_project: 'Please select the project(s) in which you would like to add the',
+    beneficiaries_selected_project: 'selected beneficiaries:',
+
+    distribution_no_beneficiaries: 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.',
+
+    project_no_household: 'This project does not contain any household.',
+    project_add_household: 'Please add some beneficiaries first ! Then you will be able to manage some distributions...',
+    project_go_beneficiaries: 'Go to Beneficiaries',
+    project_no_distribution: 'This project does not contain any distribution. Create your first one !',
+    project_click: 'Click on',
+    project_no_projects: 'This country does not contain any project.',
+    project_add: 'Please add some projects first ! Then you will be able to manage some distributions...',
+    project_create: 'Create a new project',
+    
+    settings_logs: 'Please select the user you would like to see the logs from:',
+
 };

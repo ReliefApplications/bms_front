@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { GlobalText } from 'src/texts/global';
 
 @Component({
   selector: 'app-box-dashboard',
@@ -9,6 +10,8 @@ import { Router } from '@angular/router';
 export class BoxDashboardComponent {
   @Input() info: any;
 
+  public box = GlobalText.TEXTS;
+  
   constructor(
     private router: Router,
   ) { }

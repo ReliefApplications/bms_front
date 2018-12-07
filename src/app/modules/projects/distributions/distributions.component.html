@@ -60,7 +60,7 @@
                             </app-table-mobile-search>
                         </div>
                         <div class="content-button content-button-footer">
-                            <button mat-raised-button class="button-background-primary" matStepperNext (click)="this.getDistributionBeneficiaries('both')">Next</button>
+                            <button mat-raised-button class="button-background-primary" matStepperNext (click)="this.getDistributionBeneficiaries('both')">{{TEXT.next}}</button>
                         </div>
                     </div>
                 </div>
@@ -90,11 +90,11 @@
                         <div class="container-empty" *ngIf="actualDistribution.validated">
                             <p>
                                 <mat-icon>folder</mat-icon>
-                                You can't update this distribution.
+                                {{TEXT.distribution_cant_update}}
                             </p>
                         </div>
                         <div class="content-button content-button-footer">
-                            <button mat-raised-button class="button-background-primary" matStepperNext>Next</button>
+                            <button mat-raised-button class="button-background-primary" matStepperNext>{{TEXT.next}}</button>
                         </div>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
                         <div class="container-empty" *ngIf="!randomSampleData && !loadingThirdStep">
                             <p>
                                 <mat-icon>clear</mat-icon>
-                                Random sample can't be generated...
+                                {{TEXT.distribution_no_random_sample}}
                             </p>
                         </div>
                         <div class="waitingDataContainer" *ngIf="loadingThirdStep">
@@ -158,7 +158,7 @@
                             </app-table-mobile-search>
                         </div>
                         <div class="content-button content-button-footer">
-                            <button mat-raised-button class="button-background-primary" matStepperNext>Next</button>
+                            <button mat-raised-button class="button-background-primary" matStepperNext>{{TEXT.next}}</button>
                         </div>
                     </div>
                 </div>
@@ -178,10 +178,10 @@
                         <div class="container-empty" *ngIf="!finalBeneficiaryData && !loadingFinalStep">
                             <p>
                                 <mat-icon>edit</mat-icon>
-                                This distribution has not been modified so far.
+                                {{TEXT.distribution_not_modified}}
                             </p>
                             <button mat-raised-button class="button-background-primary" (click)="getDistributionBeneficiaries('final')">
-                                Show data anyway </button>
+                                {{TEXT.distribution_show_data}} </button>
                         </div>
                         <div class="waitingDataContainer" *ngIf="loadingFinalStep">
                             <mat-spinner></mat-spinner>
@@ -200,7 +200,7 @@
                             <mat-spinner [diameter]="35" *ngIf="loaderValidation"></mat-spinner>
                             <button mat-raised-button *ngIf="!loaderValidation" class="button-background-accent" (click)="openDialog(validation)" [disabled]="actualDistribution.validated">
                                 <mat-icon >lock</mat-icon>
-                                 Validate
+                                 {{TEXT.validate}}
                             </button>
                         </div>
                     </div>
@@ -218,7 +218,7 @@
             </div>
             <div class="progression">
                 <div class="commodities" *ngFor="let commodity of actualDistribution.commodities">
-                    <h4>{{commodity.modality_type.name}} commodity distribution progress : {{getAmount('ratio', commodity)}} % </h4>
+                    <h4>{{commodity.modality_type.name}} {{TEXT.transaction_progress}} {{getAmount('ratio', commodity)}} % </h4>
                     <mat-progress-bar mode="determinate" [value]="getAmount('ratio', commodity)"></mat-progress-bar>
                     <div class="details">
                         <div class="info_1">
@@ -261,7 +261,7 @@
                 <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
                 <button mat-raised-button *ngIf="hasRightsTransaction && !transacting"  (click)="openDialog(transaction);"
                 class="button-background-accent" [matBadge]="getAmount('people')" matBadgePosition="before" matBadgeColor="primary">
-                    <mat-icon>send</mat-icon> Transaction
+                    <mat-icon>send</mat-icon> {{TEXT.transaction_transaction}}
                 </button>
             </div>
         </div>
@@ -271,7 +271,7 @@
 
 <ng-template #transaction>
     <mat-dialog-content class="modal-container">
-        <h4 class="modal-title underline-accent">Confirm the transaction</h4>
+        <h4 class="modal-title underline-accent">{{TEXT.transaction_confirm}}</h4>
         <div class="dialog-template">
             <div class="modal-body" *ngIf="!chartAccepted">
                 <p> {{TEXT.transaction_prevention}}</p>
@@ -281,20 +281,20 @@
                 </div>
             </div>
             <div class="modal-body" *ngIf="chartAccepted">
-                <p> An email containing your validation code has been sent to : <br/> {{actualUser.email | uppercase}}. </p>
-                <p> Please paste the code here and click on 'Confirm' to proceed with the transaction : </p>
+                <p> {{TEXT.transaction_email_code}} <br/> {{actualUser.email | uppercase}}. </p>
+                <p> {{TEXT.transaction_paste_code}}</p>
                 <br/>
                 <div class="lign-container">
                     <mat-form-field>
                         <input matInput placeholder="Code" [(ngModel)]="enteredCode">
                     </mat-form-field>
-                    <button mat-stroked-button class='button-text-primary sendCode-button' (click)='codeVerif()'>Send again</button>
+                    <button mat-stroked-button class='button-text-primary sendCode-button' (click)='codeVerif()'>{{TEXT.transaction_again}}</button>
                 </div>
                 <br/>
             </div>
             <div class="modal-footer action">
-                <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')">Cancel</button>
-                <button mat-button class="confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()" *ngIf="chartAccepted">Confirm</button>
+                <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')">{{TEXT.modal_cancel}}</button>
+                <button mat-button class="confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()" *ngIf="chartAccepted">{{TEXT.transaction_confirm_button}}</button>
             </div>
         </div>
     </mat-dialog-content>
@@ -302,14 +302,14 @@
 
 <ng-template #validation>
     <mat-dialog-content class="modal-container">
-        <h4 class="modal-title underline-accent" >Confirm the validation</h4>
+        <h4 class="modal-title underline-accent" >{{TEXT.transaction_validation}}</h4>
         <div class="dialog-template">
             <div class="modal-body">
-                <p> Do you really want to validate this distribution ? You won't be able to modify it anymore. </p>
+                <p> {{TEXT.transaction_validate_distribution}} </p>
             </div>
             <div class="modal-footer action">
-                <button mat-button class="cancel button-text-accent" (click)="exit('Validation canceled')">Cancel</button>
-                <button mat-button class="confirm" (click)="confirmValidation()">Confirm</button>
+                <button mat-button class="cancel button-text-accent" (click)="exit('Validation canceled')">{{TEXT.modal_cancel}}</button>
+                <button mat-button class="confirm" (click)="confirmValidation()">{{TEXT.transaction_confirm_button}}</button>
             </div>
         </div>
     </mat-dialog-content>
@@ -317,11 +317,11 @@
 
 <ng-template #addBeneficiary>
     <mat-dialog-content class="modal-container">
-        <h4 class="modal-title underline-accent">Add beneficiaries to this distribution</h4>
+        <h4 class="modal-title underline-accent">{{TEXT.distribution_add_beneficiaries}}</h4>
         <div class="dialog-template">
             <div class="modal-body">
-                <p> Please select the beneficiaries from the project <strong> {{actualDistribution.project.name}} </strong>
-                    that you want to add to the <strong> {{actualDistribution.name}} </strong> distribution.</p>
+                <p> {{TEXT.distribution_select_beneficiaries}} <strong> {{actualDistribution.project.name}} </strong>
+                    {{TEXT.distribution_want_add}} <strong> {{actualDistribution.name}} </strong> {{TEXT.distribution_distribution}}</p>
                 <div class="selectBeneficiaries">
                     <mat-form-field>
                         <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" [(ngModel)]="selectedBeneficiaries" multiple>
@@ -332,8 +332,8 @@
                 </div>
             </div>
             <div class="modal-footer action">
-                <button mat-button class="cancel button-text-accent" (click)="exit('Adding canceled')">Cancel</button>
-                <button mat-button class="confirm" (click)="confirmAdding()">Confirm</button>
+                <button mat-button class="cancel button-text-accent" (click)="exit('Adding canceled')">{{TEXT.modal_cancel}}</button>
+                <button mat-button class="confirm" (click)="confirmAdding()">{{TEXT.transaction_confirm_button}}</button>
             </div>
         </div>
     </mat-dialog-content>

@@ -40,6 +40,7 @@ export class BoxPropertiesComponent {
     ngDoCheck() {
         if (this.box != GlobalText.TEXTS) {
             this.box = GlobalText.TEXTS;
+            this.mapperObject = this.mapperService.findMapperObject(this.entity);
             this.oldComponentDisplayed = null;
         }
         if (this.componentDisplayed != this.oldComponentDisplayed) {
@@ -60,7 +61,7 @@ export class BoxPropertiesComponent {
 
         this.properties.forEach(
             element => {
-                if( element && this.elementObject[element] !== '' && this.elementObject[element] !== {} && this.elementObject[element] !== undefined) {
+                if (element && this.elementObject[element] !== '' && this.elementObject[element] !== {} && this.elementObject[element] !== undefined) {
                     cleaned.push(element);
                 }
             }

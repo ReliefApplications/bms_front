@@ -24,5 +24,6 @@ echo "Compression complete"
 
 # deploy on aws
 aws s3 cp ./dist/bms-front_gzip s3://front.bmstaging.info --recursive --acl public-read --content-encoding gzip $*
+aws cloudfront create-invalidation --distribution-id E2CS9FD9XA4VY8 --paths '/*' $*
 echo "==="
 echo "Upload complete"

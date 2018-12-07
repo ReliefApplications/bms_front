@@ -59,7 +59,7 @@
             <h4 class="modal-title underline-accent">{{settings.distribution_request_logs}}</h4>
             <div class="dialog-template">
                 <div class="modal-body">
-                    <p> Please select the user you would like to see the logs from:</p>
+                    <p> {{settings.settings_logs}}</p>
                     <div class="selectUser">
                         <mat-form-field>
                             <mat-select placeholder="Users" [formControl]="userLogForm" [(ngModel)]="selectedUserId">
@@ -71,8 +71,8 @@
                     </div>
                 </div>
                 <div class="modal-footer action">
-                    <button mat-button class="cancel" (click)="dialog.closeAll()">Cancel</button>
-                    <button mat-raised-button class="confirm" (click)="confirmRequest()">Confirm</button>
+                    <button mat-button class="cancel" (click)="dialog.closeAll()">{{TEXT.modal_cancel}}</button>
+                    <button mat-raised-button class="confirm" (click)="confirmRequest()">{{TEXT.transaction_confirm_button}}</button>
                 </div>
             </div>
         </mat-dialog-content>

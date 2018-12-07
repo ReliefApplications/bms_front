@@ -362,4 +362,53 @@ export const TEXT = {
     projects_distribution_title: 'Distributions',
 
     beneficiaries_add_list: 'Ajouter cette liste au projet',
+    projects_description: 'Vous pourrez modifier le nom du projet jusqu\'à votre première distribution',
+    next: 'Suivant',
+    distribution_cant_update: 'Vous ne pouvez pas modifier cette distribution',
+    distribution_no_random_sample: 'L\'échantillon aléatoire ne peut pas être généré',
+    distribution_not_modified: 'Cette distribution n\'a pas été modifiée',
+    distribution_show_data: 'Afficher les données quand même',
+    distribution_validate: 'Valider',
+    transaction_progress: 'progrès de la distribution des produits :',
+    transaction_transaction: 'Transaction',
+    transaction_confirm: 'Confirmer la transaction',
+    transaction_email_code: 'Un email contenant votre code de validation a été envoyé à : ',
+    transaction_paste_code: 'S\'il vous plait, coller le code ici et cliquer sur \'Confirmer\' pour procéder à la transaction',
+    transaction_again: 'Renvoyer',
+    transaction_confirm_button: 'Confirmer',
+    transaction_validation: 'Confirmer la validation',
+    transaction_validate_distribution: 'Voulez vous vraiment valider la distribution ? Vous ne serez plus capable de la modifier',
+    
+    distribution_add_beneficiaries: 'Ajouter des bénéficiaires à cette distribution',
+    distribution_select_beneficiaries: 'S\'il vous plait, selectionner les bénéficiaires depuis le projet',
+    distribution_want_add: 'que vous souhaitez ajouter à la ',
+    distribution_distribution: 'distribution.',
+
+    back: 'Retour',
+    add: 'Ajouter',
+    new: 'Nouveau',
+
+    beneficiaries_step_info: 'Info de l\'étape',
+    beneficiaries_proxy: 'Proxy',
+    beneficiaries_household_info: 'Résumé des informations du ménage :',
+    beneficiaries_livelihood: 'Métier:',
+    beneficiaries_full_address: 'Adresse entière du ménage :',
+    beneficiaries_location: 'Location du ménage :',
+    beneficiaries_add_distribution: 'Ajouter les bénéficiaires à cette distribution',
+    beneficiaries_add_project: 'S\'il vous plait, sélectionnez le(s) projet(s) dans le(s)quel(s) vous voudriez ajouter les',
+    beneficiaries_selected_project: 'bénéficiaires sélectionnés :',
+
+    distribution_no_beneficiaries: 'Aucun bénéficiaire n\'a été ajouté ou supprimé. N\'importe quel changement fait aux bénéficiaires importés vont être mis à jour dans le système.',
+
+    project_no_household: 'Le projet ne contient aucun ménage.',
+    project_add_household: 'S\'il vous plait, ajouter des bénéficiaires avant tout ! Ensuite, vous pourrez gérer des distributions...',
+    project_go_beneficiaries: 'Aller aux bénéficiaires',
+    project_no_distribution: 'Le projet ne contient aucune distribution. Créer votre première !',
+    project_click: 'Cliquer sur ',
+    project_no_projects: 'Le pays ne contient aucun projet.',
+    project_add: 'S\'il vous plait, ajouter un projet avant tout ! Ensuite, vous pourrez gérer des distributions...',
+    project_create: 'Créer un nouveau projet',
+
+    settings_logs: 'S\'il vous plait, sélectionner l\'utilisateur pour lequel vous voudriez voir les logs :',
+
 };

@@ -3,7 +3,7 @@
   <div *ngIf="!filled" class="noDataContainer">
     <h3>
       <mat-icon>clear</mat-icon>
-      No data available
+      {{table.no_data}}
     </h3>
   </div>
 
@@ -14,28 +14,28 @@
 
     <div class="filter-combo">
       <ng-select class="input-filter custom" bindLabel="name" [items]="data.projects.value" [multiple]="true"
-        placeholder="Projects" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
+        placeholder="{{table.model_project}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter" bindLabel="name" [items]="data.adm1.value" [closeOnSelect]="false" [searchable]="true"
-        placeholder="{{mapperObject['adm1']}}" (clear)="applyFilter($event, 'locations', true)" [(ngModel)]="newObject['adm1']"
+        placeholder="{{table.model_distribution_adm1}}" (clear)="applyFilter($event, 'locations', true)" [(ngModel)]="newObject['adm1']"
         (change)="selected('adm1'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter" bindLabel="name" [items]="data.adm2.value" [closeOnSelect]="false" [searchable]="true"
-        placeholder="{{mapperObject['adm2']}}" [(ngModel)]="newObject['adm2']" (change)="selected('adm2'); applyFilter($event, 'locations', false); sendSortedData()">
+        placeholder="{{table.model_distribution_adm2}}" [(ngModel)]="newObject['adm2']" (change)="selected('adm2'); applyFilter($event, 'locations', false); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter" bindLabel="name" [items]="data.adm3.value" [closeOnSelect]="false" [searchable]="true"
-        placeholder="{{mapperObject['adm3']}}" [(ngModel)]="newObject['adm3']" (change)="selected('adm3'); applyFilter($event, 'locations'); sendSortedData()">
+        placeholder="{{table.model_distribution_adm3}}" [(ngModel)]="newObject['adm3']" (change)="selected('adm3'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter" bindLabel="name" [items]="data.adm4.value" [closeOnSelect]="false" [searchable]="true"
-        placeholder="{{mapperObject['adm4']}}" [(ngModel)]="newObject['adm4']" (change)="selected('adm4'); applyFilter($event, 'locations'); sendSortedData()">
+        placeholder="{{table.model_distribution_adm4}}" [(ngModel)]="newObject['adm4']" (change)="selected('adm4'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter custom" bindLabel="name" [items]="data.vulnerabilities.value" [multiple]="true"
-        placeholder="Vulnerabilities" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
+        placeholder="{{table.model_beneficiaries_vulnerabilities}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
       </ng-select>
     </div>
 
@@ -85,7 +85,7 @@
       <div *ngIf="this.data.householdsSubject._value.length === 0 && !this.data.loadingSubject.value && displayNoData" class="loadingContent">
         <h4 class="no-data">
           <mat-icon>cloud_off</mat-icon>
-          <span> No data </span>
+          <span> {{table.no_data}} </span>
         </h4>
       </div>
     </div>

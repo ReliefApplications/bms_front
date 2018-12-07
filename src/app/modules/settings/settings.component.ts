@@ -88,8 +88,10 @@ export class SettingsComponent implements OnInit {
      * check if the langage has changed
      */
     ngDoCheck() {
-        if (this.language !== GlobalText.language)
+        if (this.language !== GlobalText.language) {
             this.language = GlobalText.language;
+            this.settings = GlobalText.TEXTS;
+        }
     }
 
     @HostListener('window:resize', ['$event'])

@@ -298,7 +298,7 @@ export class Project {
     }
 
     public static getAddDescription() : String {
-        return 'You will be able to modify project\'s name until your first distribution.';
+        return GlobalText.TEXTS.projects_description;
     }
 
     mapDonors(donors: any){

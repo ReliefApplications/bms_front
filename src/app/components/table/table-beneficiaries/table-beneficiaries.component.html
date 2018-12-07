@@ -3,7 +3,7 @@
   <div *ngIf="!filled" class="noDataContainer">
     <h3>
       <mat-icon>clear</mat-icon>
-      No data available
+      {{table.no_data}}
     </h3>
   </div>
 
@@ -85,7 +85,7 @@
       <div *ngIf="this.data.householdsSubject._value.length === 0 && !this.data.loadingSubject.value && displayNoData" class="loadingContent">
         <h4 class="no-data">
           <mat-icon>cloud_off</mat-icon>
-          <span> No data </span>
+          <span> {{table.no_data}} </span>
         </h4>
       </div>
     </div>

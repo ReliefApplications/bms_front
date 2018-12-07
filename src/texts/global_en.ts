@@ -358,4 +358,5 @@ export const TEXT = {
     projects_distribution_title: 'Distributions',
 
     beneficiaries_add_list: 'Add this list to a project',
+    projects_description: 'You will be able to modify project\'s name until your first distribution.',
 };

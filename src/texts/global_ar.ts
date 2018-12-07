@@ -358,4 +358,5 @@ export const TEXT = {
     projects_distribution_title: 'العالمي',
 
     beneficiaries_add_list: 'العالمي',
+    projects_description: 'سوف يمكنك تعديل اسم المشروع حتى توزيعك الأول',
 };

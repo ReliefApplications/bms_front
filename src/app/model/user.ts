@@ -275,16 +275,12 @@ export class User {
         return [
             {
                 'id': "KHM",
-                'name' : GlobalText.TEXTS.country_khm,
+                'name' : "Cambodia",
             },
             {
                 'id': "SYR",
-                'name': GlobalText.TEXTS.country_syr,
-            },
-            {
-                'id': "LBN",
-                'name' : GlobalText.TEXTS.country_lbn,
+                'name': "Syria",
             }
-        ]
+        ];
     }
 }

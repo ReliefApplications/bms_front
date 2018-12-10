@@ -1,8 +1,4 @@
 export const TEXT = {
-    country_khm : 'Cambodia',
-    country_syr : 'Syria',
-    country_lbn : 'Lebanon',
-
     dashboard_distribution_map : 'distribution map',
     dashboard_summary : 'summary',
     dashboard_summary_1 : 'total beneficiaries',

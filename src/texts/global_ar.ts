@@ -395,6 +395,7 @@ export const TEXT = {
     beneficiaries_selected_project: 'selected beneficiaries:',
 
     distribution_no_beneficiaries: 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.',
+    distribution_accept_changed: 'Accept Changes',
 
     project_no_household: 'This project does not contain any household.',
     project_add_household: 'Please add some beneficiaries first ! Then you will be able to manage some distributions...',

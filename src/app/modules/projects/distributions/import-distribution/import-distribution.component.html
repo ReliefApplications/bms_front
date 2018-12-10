@@ -109,7 +109,7 @@
   </mat-tab-group>
   <div *ngIf="noChanges" class="no-data-box">
     <h2 class="box-title">
-       {{Text.distribution_no_beneficiaries}}
+       {{TEXT.distribution_no_beneficiaries}}
      </h2>
   </div>
 
@@ -117,11 +117,11 @@
   <div class="footer-content"  *ngIf="! loadUpdate">
     <button mat-button class="button-text-accent" (click)="goBack()">
       <mat-icon>arrow_back</mat-icon>
-      <span>{{Text.back}}</span>
+      <span>{{TEXT.back}}</span>
     </button>
     <button mat-raised-button class="button-background-accent" (click)="updateDistribution(2)">
       <mat-icon>check_circle</mat-icon>
-      <span>{{Text.modal_update_title}}</span>
+      <span>{{TEXT.distribution_accept_changed}}</span>
     </button>
   </div>
 </div>

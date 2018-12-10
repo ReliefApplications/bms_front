@@ -253,7 +253,7 @@ export const TEXT = {
     import_added: 'Added from existing beneficiaries',
     import_deleted: 'Will be deleted',
     import_created: 'Newly created',
-    import_updated: 'Accept Changes',
+    import_updated: 'Will be updated',
     import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.',
 
     distribution_details_export: 'distribution list',
@@ -395,7 +395,8 @@ export const TEXT = {
     beneficiaries_selected_project: 'selected beneficiaries:',
 
     distribution_no_beneficiaries: 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.',
-
+    distribution_accept_changed: 'Accept Changes',
+    
     project_no_household: 'This project does not contain any household.',
     project_add_household: 'Please add some beneficiaries first ! Then you will be able to manage some distributions...',
     project_go_beneficiaries: 'Go to Beneficiaries',

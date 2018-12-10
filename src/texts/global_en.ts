@@ -405,7 +405,6 @@ export const TEXT = {
     project_no_projects: 'This country does not contain any project.',
     project_add: 'Please add some projects first ! Then you will be able to manage some distributions...',
     project_create: 'Create a new project',
-    
-    settings_logs: 'Please select the user you would like to see the logs from:',
-    settings_log_button: 'Get this user logs by email',
+  
+    settings_log_button: 'Get user logs by email',
 };

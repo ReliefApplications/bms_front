@@ -76,7 +76,7 @@ export const TEXT = {
     beneficiaries_select_api : 'API اختر',
     beneficiaries_import_title: 'تحميل بيانات المستفيد',
     beneficiaries_import_getProject: 'المشاريع',
-    beneficiaries_import_csv: 'csv تنزيل ملف',
+    beneficiaries_import_csv: ' تنزيل ملف',
     beneficiaries_import_addFile: ' إضافة ملف أو وضع ملف ',
     beneficiaries_import_upload: 'تحميل',
 

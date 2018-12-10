@@ -76,7 +76,7 @@ export const TEXT = {
     beneficiaries_select_api : 'Select API',
     beneficiaries_import_title: 'import beneficiary data',
     beneficiaries_import_getProject: 'Projects',
-    beneficiaries_import_csv: 'download csv template',
+    beneficiaries_import_csv: 'download template',
     beneficiaries_import_addFile: 'add file or drag and drop',
     beneficiaries_import_upload: 'import',
 

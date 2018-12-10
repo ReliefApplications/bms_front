@@ -18,6 +18,16 @@
     }
 }
 
+.extension {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border: 1px solid black;
+    border-left: none;
+}
+
 .api-information {
     display: flex;
     justify-content: space-between;

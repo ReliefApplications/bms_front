@@ -406,5 +406,5 @@ export const TEXT = {
     project_add: 'Please add some projects first ! Then you will be able to manage some distributions...',
     project_create: 'Create a new project',
 
-    settings_logs: 'Please select the user you would like to see the logs from:',
+    settings_log_button: 'Get user logs by email',
 };

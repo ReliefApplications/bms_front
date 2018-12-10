@@ -76,7 +76,7 @@ export const TEXT = {
     beneficiaries_select_api : 'API اختر',
     beneficiaries_import_title: 'تحميل بيانات المستفيد',
     beneficiaries_import_getProject: 'المشاريع',
-    beneficiaries_import_csv: 'csv تنزيل ملف',
+    beneficiaries_import_csv: ' تنزيل ملف',
     beneficiaries_import_addFile: ' إضافة ملف أو وضع ملف ',
     beneficiaries_import_upload: 'تحميل',
 
@@ -395,6 +395,7 @@ export const TEXT = {
     beneficiaries_selected_project: 'selected beneficiaries:',
 
     distribution_no_beneficiaries: 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.',
+    distribution_accept_changed: 'Accept Changes',
 
     project_no_household: 'This project does not contain any household.',
     project_add_household: 'Please add some beneficiaries first ! Then you will be able to manage some distributions...',

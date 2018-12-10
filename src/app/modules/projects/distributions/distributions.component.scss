@@ -8,6 +8,7 @@
         padding: 15px;
 
         .first-line-title {
+            width: unset;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -346,19 +347,22 @@ app-import-distribution {
     }
 
     .mat-stepper-horizontal {
+        margin-top: 20px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin: 5px;
+        width: 100vw !important;
 
         .container-table {
-            padding: 0px !important;
+            width: 90vw !important;
 
             .container-content {
+                
                 margin:auto !important;
 
                 .content-table {
+                    box-sizing: border-box !important;
                     padding: 10px;
                 }
             }

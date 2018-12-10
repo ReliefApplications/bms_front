@@ -3,6 +3,7 @@
         <div class="boxes-map">
             <h1 class="map-title">{{dashboard.dashboard_distribution_map | titlecase}}</h1>
             <div class="map-content">
+                <app-placeholder-panel *ngIf="loadingMap"></app-placeholder-panel>
                 <div id="map"></div>
             </div>
         </div>
@@ -23,10 +24,10 @@
                             <p>KHM</p> <!-- TODO: get country-->
                         </div>
                         <div class="group">
-                                <mat-icon>security</mat-icon>
-                                <h5>{{dashboard.model_user_rights | uppercase}} :</h5>
-                                <p>{{userData.voters.split('ROLE_')[1]}}</p>
-                            </div>
+                            <mat-icon>security</mat-icon>
+                            <h5>{{dashboard.model_user_rights | uppercase}} :</h5>
+                            <p>{{userData.voters.split('ROLE_')[1]}}</p>
+                        </div>
                     </div>
                 </div>
                 <div class="lign-container">
@@ -44,8 +45,10 @@
         <h1 class="distribution-title">{{dashboard.dashboard_recent_distributions | titlecase}}</h1>
         <app-placeholder-panel *ngIf='loadingTable' class="distribution-content-placeholder"></app-placeholder-panel>
         <div class="distribution-content" *ngIf='!loadingTable'>
-            <app-table-dashboard *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-dashboard>
-            <app-table-mobile-dashboard *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-mobile-dashboard>
+            <app-table-dashboard *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit'
+                [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-dashboard>
+            <app-table-mobile-dashboard *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit'
+                [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-mobile-dashboard>
         </div>
     </div>
 </div>

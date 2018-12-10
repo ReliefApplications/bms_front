@@ -4,6 +4,7 @@ import { CachedItemInterface }          from './cached-item.interface';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user';
+import { GlobalText } from 'src/texts/global';
 
 @Injectable({
 	providedIn: 'root'
@@ -14,6 +15,9 @@ export class AsyncacheService {
     readonly PREFIX                             = 'bms';
     readonly SECTIMEOUT 						= 2592000; // 30 day in seconds
     readonly MSTIMEOUT                          = this.SECTIMEOUT*1000;
+
+    //  Country
+    static actual_country;
 
     // Keys
     static readonly USER 						= 'user';
@@ -35,6 +39,7 @@ export class AsyncacheService {
     static readonly MODALITIES                  = 'modalities';
     static readonly VULNERABILITIES             = 'vulnerabilities';
     static readonly SUMMARY                     = 'summary';
+    static readonly COUNTRY                     = 'country';
 
     constructor(
         protected localStorage : LocalStorage,
@@ -42,8 +47,20 @@ export class AsyncacheService {
         this.storage = localStorage;
     }
 
+    ngOnInit() {
+        this.get(AsyncacheService.COUNTRY).subscribe(
+            result => {
+                AsyncacheService.actual_country = result;
+            }
+        )
+    }
+
     formatKey(key : string) : string {
-        return this.PREFIX + '_' + key;
+        if(key === AsyncacheService.COUNTRY || key === AsyncacheService.USER || key === AsyncacheService.USERS) {
+            return this.PREFIX + '_' + key;
+        } else {
+            return this.PREFIX + '_' + AsyncacheService.actual_country + '_' + key;
+        }
     }
 
     get(key: string) {
@@ -166,6 +183,10 @@ export class AsyncacheService {
                 //console.log('SET (', key, '): ', object);
             }
         );
+
+        if(key === this.formatKey(AsyncacheService.COUNTRY)) {
+            AsyncacheService.actual_country = value;
+        }
     }
 
     remove(key: string) {

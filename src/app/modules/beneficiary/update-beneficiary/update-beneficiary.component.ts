@@ -131,12 +131,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         // Set the Head if the user is creating
         if(this.mode === 'create') {
-            this._projectService.get().subscribe(
+            this._cacheService.get(AsyncacheService.COUNTRY).subscribe(
                 result => {
                     this.loader = false;
-                    let cacheProjects = result;
-                    if(cacheProjects && cacheProjects[0]) {
-                        this.countryISO3 = cacheProjects[0].iso3;
+                    let cacheCountry = result;
+                    if(cacheCountry) {
+                        this.countryISO3 = cacheCountry;
                     } else {
                         this.countryISO3 = "KHM";
                     }

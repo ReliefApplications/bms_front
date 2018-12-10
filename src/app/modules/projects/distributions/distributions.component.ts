@@ -437,6 +437,9 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
             this.cacheService.getUser().subscribe(
                 result => {
                     this.actualUser = result;
+                    if(!this.actualUser.email && this.actualUser.username) {
+                        this.actualUser['email'] = this.actualUser.username;
+                    }
                     if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]) {
                         this.transacting = true;
                         this.distributionService.transaction(this.distributionId, this.enteredCode)
@@ -453,8 +456,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                                     if (this.transactionData) {
                                         this.transactionData.data.forEach(
                                             (element, index) => {
-                                                //success.already_sent.push({ id:0 });
-                                                //success.sent.push({ id:0 });
 
                                                 success.already_sent.forEach(
                                                     beneficiary => {
@@ -504,6 +505,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         else
             this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 5000, horizontalPosition: 'right' });
 
+        this.chartAccepted = false;
         this.dialog.closeAll();
     }
 

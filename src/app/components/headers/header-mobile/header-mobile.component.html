@@ -1,28 +1,37 @@
 <button mat-icon-button (click)="toggle()">
-  <mat-icon>menu</mat-icon>
+    <mat-icon>menu</mat-icon>
 </button>
 <span class="spacer"></span>
 <button mat-icon-button routerLink="/" (click)="setCurrentRoute('')">
-  <img src="assets/images/bms_logo.png">
+    <img src="assets/images/bms_logo.png">
 </button>
 <span class="spacer"></span>
-<button mat-icon-button>
-  <img src="assets/images/cambodia.png">
+<button mat-icon-button *ngIf="countries.length === 1">
+    <img [src]="getFlag(countries[0])">
 </button>
+<button mat-icon-button [matMenuTriggerFor]="country" *ngIf="countries.length > 1">
+    <img [src]="getFlag(selectedCountry)">
+</button>
+<mat-menu #country="matMenu" overlapTrigger=false>
+    <button class="flag-button" *ngFor="let c of countries" mat-menu-item (click)="selectCountry(c)">
+        <img [src]="getFlag(c)">
+        <span>{{c}}</span>
+    </button>
+</mat-menu>
 <button mat-icon-button [matMenuTriggerFor]="menu">
-  <mat-icon>perm_identity</mat-icon>
+    <mat-icon>perm_identity</mat-icon>
 </button>
 <mat-menu #menu="matMenu" overlapTrigger=false>
-  <button mat-menu-item (click)="openDialog('language')">
-    <mat-icon>language</mat-icon>
-    <span>{{header.header_language | uppercase}}</span>
-  </button>
-  <button mat-menu-item routerLink="/profile" (click)="setCurrentRoute('profile')">
-    <mat-icon>person_outline</mat-icon>
-    <span>{{header.header_profile | uppercase}}</span>
-  </button>
-  <button mat-menu-item (click)="logOut()" routerLink="/login">
-    <mat-icon>exit_to_app</mat-icon>
-    <span>{{header.header_disconnect | uppercase}}</span>
-  </button>
+    <button mat-menu-item (click)="openDialog('language')">
+        <mat-icon>language</mat-icon>
+        <span>{{header.header_language | uppercase}}</span>
+    </button>
+    <button mat-menu-item routerLink="/profile" (click)="setCurrentRoute('profile')">
+        <mat-icon>person_outline</mat-icon>
+        <span>{{header.header_profile | uppercase}}</span>
+    </button>
+    <button mat-menu-item (click)="logOut()" routerLink="/login">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>{{header.header_disconnect | uppercase}}</span>
+    </button>
 </mat-menu>

@@ -1,67 +1,75 @@
 <mat-dialog-content class="modal-container">
-  <h4 class="modal-title underline-accent">{{modal.modal_add_title}} {{entityDisplayedName | lowercase}}</h4>
-  <table class="modal-table">
-    <p *ngIf="this.data.entity.getAddDescription">{{this.data.entity.getAddDescription()}}</p>
-    <tr *ngFor="let p of properties" class="modal-row">
-      <th class="table-title" *ngIf=" mapperObject[p] !='Unit'">{{mapperObject[p]}}</th>
-      <th class="table-title" *ngIf=" (mapperObject[p]=='Unit') ">{{unitType()}}</th>
+    <h4 class="modal-title underline-accent">{{modal.modal_add_title}} {{entityDisplayedName | lowercase}}</h4>
+    <table class="modal-table">
+        <p *ngIf="this.data.entity.getAddDescription">{{this.data.entity.getAddDescription()}}</p>
+        <tr *ngFor="let p of properties" class="modal-row">
+            <th class="table-title" *ngIf=" mapperObject[p] !='Unit'">{{mapperObject[p]}}</th>
+            <th class="table-title" *ngIf=" (mapperObject[p]=='Unit') ">{{unitType()}}</th>
 
-      <th class="table-value">
-        <form class="form" [formGroup]="form">
-          <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
-            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry'"
-              [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
+            <th class="table-value">
+                <form class="form" [formGroup]="form">
+                    <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
+                        <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'selectCountry'"
+                            [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
 
-            <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="0">
+                        <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]"
+                            [ngModelOptions]="{standalone: true}" type="number" min="0">
 
-            <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
-              [formControl]="controls" multiple>
-              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
-            </mat-select>
+                        <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
+                            [formControl]="controls" multiple>
+                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname}}{{singleData.name}}</mat-option>
+                        </mat-select>
 
-            <mat-select *ngIf="propertiesTypes[p]=='selectDonor'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
-              [formControl]="controls" multiple>
-              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.shortname}}</mat-option>
-            </mat-select>
+                        <mat-select *ngIf="propertiesTypes[p]=='selectDonor'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
+                            [formControl]="controls" multiple>
+                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.shortname}}</mat-option>
+                        </mat-select>
 
-            <mat-select *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
-              [formControl]="controls" (selectionChange)="selected($event, newObject)">
-              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
-            </mat-select>
+                        <mat-select *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
+                            [formControl]="controls" (selectionChange)="selected($event, newObject)">
+                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
+                        </mat-select>
 
-            <mat-select *ngIf="propertiesTypes[p]=='selectProjects'" [(ngModel)]="newObject[p]" placeholder="Projects"
-              formControlName="projectsControl" multiple>
-              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
-            </mat-select>
+                        <mat-select *ngIf="propertiesTypes[p]=='selectProjects'" [(ngModel)]="newObject[p]" placeholder="Projects"
+                            formControlName="projectsControl" multiple>
+                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
+                        </mat-select>
 
-            <input matInput *ngIf="propertiesTypes[p]=='inputCountry'" [(ngModel)]="newObject[p]" formControlName="countryControl"
-              type="text" value="KHM">
+                        <mat-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] !== 'ROLE_COUNTRY_MANAGER'" [(ngModel)]="newObject[p]" placeholder="Countries"
+                            formControlName="countryControl" multiple>
+                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</mat-option>
+                        </mat-select>
 
-            <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'" matInput
-              [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
-              placeholder="{{data.mapper.mapTitle(p)}}">
-            <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"></mat-datepicker-toggle>
-            <mat-datepicker #dateDistribution></mat-datepicker>
-          </mat-form-field>
+                        <mat-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] == 'ROLE_COUNTRY_MANAGER'" [(ngModel)]="newObject[p]" placeholder="Countries"
+                            formControlName="countryControl">
+                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</mat-option>
+                        </mat-select>
 
-          <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">
-            <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.modal_email}}" formControlName="emailFormControl"
-              [errorStateMatcher]="matcher">
-            <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-              {{modal.modal_valid_email}}
-            </mat-error>
-            <mat-error *ngIf="emailFormControl.hasError('required')">
-              {{modal.modal_email_is}}
-              <strong>{{modal.modal_required}}</strong>
-            </mat-error>
-          </mat-form-field>
-        </form>
-      </th>
-    </tr>
-  </table>
-  <div class="modal-button action-buttons">
-    <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.modal_cancel}}</button>
-    <button mat-raised-button *ngIf="!displayAdd" (click)="add()" class="button-background-accent">{{modal.modal_create}}</button>
-    <button mat-raised-button *ngIf="displayAdd" (click)="add()" class="button-background-accent">{{modal.modal_add}}</button>
-  </div>
+                        <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
+                            matInput [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
+                            placeholder="{{data.mapper.mapTitle(p)}}">
+                        <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"></mat-datepicker-toggle>
+                        <mat-datepicker #dateDistribution></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">
+                        <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.modal_email}}" formControlName="emailFormControl"
+                            [errorStateMatcher]="matcher">
+                        <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                            {{modal.modal_valid_email}}
+                        </mat-error>
+                        <mat-error *ngIf="emailFormControl.hasError('required')">
+                            {{modal.modal_email_is}}
+                            <strong>{{modal.modal_required}}</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+            </th>
+        </tr>
+    </table>
+    <div class="modal-button action-buttons">
+        <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.modal_cancel}}</button>
+        <button mat-raised-button *ngIf="!displayAdd" (click)="add()" class="button-background-accent">{{modal.modal_create}}</button>
+        <button mat-raised-button *ngIf="displayAdd" (click)="add()" class="button-background-accent">{{modal.modal_add}}</button>
+    </div>
 </mat-dialog-content>

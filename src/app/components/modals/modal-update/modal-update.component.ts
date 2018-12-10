@@ -40,16 +40,29 @@ export class ModalUpdateComponent extends ModalComponent {
   selected(event) {
 
     if (event.value == "ROLE_PROJECT_MANAGER" || event.value == "ROLE_PROJECT_OFFICER" || event.value == "ROLE_FIELD_OFFICER") {
-      this.form.controls['projectsControl'].enable();
-      this.form.controls['countryControl'].disable();
+        
+        this.form.controls['projectsControl'].enable();
+        this.form.controls['countryControl'].disable();
     }
-    // else if (event.value == "ROLE_REGIONAL_MANAGER" || event.value == "ROLE_COUNTRY_MANAGER" || event.value == "ROLE_READ_ONLY") {
-    //   this.form.controls['projectsControl'].disable();
-    //   this.form.controls['countryControl'].enable();
-    // }
+    else if(event.value == "ROLE_COUNTRY_MANAGER" || event.value == "ROLE_REGIONAL_MANAGER") {
+
+        this.form.controls['countryControl'].enable();
+        this.form.controls['projectsControl'].disable();
+    }
     else {
-      this.form.controls['projectsControl'].disable();
-      this.form.controls['countryControl'].disable();
+        this.newObject['country'] = [];
+        this.newObject['projects'] = [];
+
+        this.form.controls['projectsControl'].disable();
+        this.form.controls['countryControl'].disable();
+    }
+
+    if(event.value == "ROLE_ADMIN") {
+        this.user.getAllCountries().forEach(
+            element => {
+                this.newObject['country'].push(element.id);
+            }
+        )
     }
 
   }

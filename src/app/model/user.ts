@@ -51,7 +51,7 @@ export class User {
      * User's country
      * @type {number[]}
      */
-    country: number[] = undefined;
+    country: string[] = undefined;
 
     voters: string = '';
 
@@ -175,7 +175,7 @@ export class User {
             password: "password",
             rights: "selectSingle",
             projects: "selectProjects",
-            country: "inputCountry",
+            country: "selectCountry",
         }
     }
 
@@ -205,8 +205,24 @@ export class User {
         let user = new User(element);
         if (element.roles) {
             element.roles.forEach(element => {
-                user.rights = " " + element + " ";
+                user.rights = "" + element + "";
             });
+        }
+        if (element.countries) {
+            user.country = [];
+            element.countries.forEach(
+                element => {
+                    user.country.push(element.iso3);
+                }
+            )
+        }
+        if (element.user_projects) {
+            user.projects = [];
+            element.user_projects.forEach(
+                element => {
+                    user.projects.push(element.project.name);
+                }
+            )
         }
         return user;
     }
@@ -251,6 +267,19 @@ export class User {
             {
                 'id': "ROLE_REGIONAL_MANAGER",
                 'name': GlobalText.TEXTS.role_user_regional_manager,
+            }
+        ];
+    }
+
+    public getAllCountries() {
+        return [
+            {
+                'id': "KHM",
+                'name' : "Cambodia",
+            },
+            {
+                'id': "SYR",
+                'name': "Syria",
             }
         ];
     }

@@ -1,35 +1,44 @@
 <div class="header-container">
-  <div class="container-routes">
-    <span *ngFor="let item of breadcrumb">
-      <span *ngIf="item.route !== '/'">
-        >
-      </span>
-      <a routerLink={{item.route}}>
-        {{item.name}}
-      </a>
-    </span>
-  </div>
-  <div class="container-buttons">
-    <div class="buttons">
-      <button mat-stroked-button class="button-language" (click)="openDialog('language')">
-        {{language | uppercase}}
-      </button>
-      <button class="round-button">
-        <img src="assets/images/cambodia.png">
-      </button>
-      <button [matMenuTriggerFor]="menu" class="round-button">
-        <img src="assets/images/profile.png">
-      </button>
-      <mat-menu #menu="matMenu" overlapTrigger=false>
-        <button mat-menu-item routerLink="/profile">
-          <mat-icon>person_outline</mat-icon>
-          <span>{{header.header_profile | uppercase}}</span>
-        </button>
-        <button mat-menu-item (click)="logOut()" routerLink="/login">
-          <mat-icon>exit_to_app</mat-icon>
-          <span>{{header.header_disconnect | uppercase}}</span>
-        </button>
-      </mat-menu>
+    <div class="container-routes">
+        <span *ngFor="let item of breadcrumb">
+            <span *ngIf="item.route !== '/'">
+                >
+            </span>
+            <a routerLink={{item.route}}>
+                {{item.name}}
+            </a>
+        </span>
     </div>
-  </div>
+    <div class="container-buttons">
+        <div class="buttons">
+            <button mat-stroked-button class="button-language" (click)="openDialog('language')">
+                {{language | uppercase}}
+            </button>
+            <button class="round-button" *ngIf="countries.length === 1">
+                <img [src]="getFlag(countries[0])">
+            </button>
+            <button class="round-button" [matMenuTriggerFor]="country" *ngIf="countries.length > 1">
+                <img [src]="getFlag(selectedCountry)">
+            </button>
+            <mat-menu #country="matMenu" overlapTrigger=false>
+                <button class="flag-button" *ngFor="let c of countries" mat-menu-item (click)="selectCountry(c)">
+                    <img [src]="getFlag(c)">
+                    <span>{{c}}</span>
+                </button>
+            </mat-menu>
+            <button [matMenuTriggerFor]="menu" class="round-button">
+                <img src="assets/images/profile.png">
+            </button>
+            <mat-menu #menu="matMenu" overlapTrigger=false>
+                <button mat-menu-item routerLink="/profile">
+                    <mat-icon>person_outline</mat-icon>
+                    <span>{{header.header_profile | uppercase}}</span>
+                </button>
+                <button mat-menu-item (click)="logOut()" routerLink="/login">
+                    <mat-icon>exit_to_app</mat-icon>
+                    <span>{{header.header_disconnect | uppercase}}</span>
+                </button>
+            </mat-menu>
+        </div>
+    </div>
 </div>

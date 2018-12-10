@@ -114,6 +114,7 @@ export class ModalComponent implements OnInit {
         //User in settings
         if ((this.newObject && this.newObject.password == '') || (updateObject && updateObject.email && updateObject.rights)) {
             this.loadedData.rights = this.user.getAllRights();
+            this.loadedData.country = this.user.getAllCountries();
             this.projectService.get().subscribe(response => {
                 this.loadedData.projects = response;
             });

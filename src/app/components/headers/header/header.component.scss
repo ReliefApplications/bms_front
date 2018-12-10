@@ -70,3 +70,14 @@
 
     }
 }
+
+    .flag-button {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        
+        img {
+            width: 30px !important;
+            height: 25px !important;
+        }
+    }

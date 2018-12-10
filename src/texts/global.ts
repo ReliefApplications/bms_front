@@ -6,6 +6,7 @@ export class GlobalText {
     static language = 'en';
     static languages = ['en', 'fr', 'ar'];
     static TEXTS = TEXT_EN;
+    static country;
 
     static maxHeight = 700;
     static maxWidthMobile = 750;

@@ -11,14 +11,23 @@
   }
 }
 
+.white-background {
+  background-color: white;
+  padding: 10px;
+}
+
 table {
   overflow: auto;
   width: 100%;  
 }
 
+.mat-elevation-z8 {
+  background-color: $bms_white;
+}
+
 .box-element{
   margin-bottom :20px;
-  padding: 0px !important;
+  padding: 10px !important;
   padding-bottom: 10px !important;
 
   tbody{
@@ -71,7 +80,7 @@ table {
         flex-grow: 1;
         justify-content: center;
         align-self: center;
-        height: 20px;     
+        height: 25px;     
         margin: 0 !important ;
         border-radius: 0 !important;
         i{
@@ -100,7 +109,8 @@ button{
   }
   
   .red{
-    color: $bms_red;
+    color: $bms_white;
+    background-color: $bms_red;
   }
   
   .light-red{

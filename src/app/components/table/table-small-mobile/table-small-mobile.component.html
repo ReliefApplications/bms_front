@@ -1,5 +1,6 @@
 <!-- TABLE -->
 <div class="table-container">
+  <div class="white-background">
     <table *ngFor="let element of data._renderData._value" class="box-element mat-elevation-z8">
       <tbody>
         <tr *ngFor="let property of properties">
@@ -12,9 +13,10 @@
         </tr>
       </tbody>
       <tfoot>
-        <button mat-button  (click)="remove(element)" class="green">
+        <button mat-button (click)="remove(element)" class="red">
           <mat-icon inline=true>close</mat-icon>
         </button>
       </tfoot>
     </table>
   </div>
+</div>

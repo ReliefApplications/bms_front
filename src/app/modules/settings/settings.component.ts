@@ -114,24 +114,6 @@ export class SettingsComponent implements OnInit {
         this.extensionType = choice;
     }
 
-    requestLogs(template) {
-        this.dialog.open(template);
-    }
-
-    confirmRequest() {
-        if(this.selectedTitle === 'users' && this.selectedUserId) {
-            this.userService.requestLogs(this.selectedUserId).toPromise()
-            .then(
-                () => { this.snackBar.open('Logs have been sent', '', {duration: 5000, horizontalPosition: 'center'}) }
-            )
-            .catch(
-                (e) => {
-                    this.snackBar.open('Logs could not be sent : ' +e, '', {duration: 5000, horizontalPosition: 'center'})
-                }
-            )
-        }
-    }
-
     export() {
         let category: string;
         let country = null;

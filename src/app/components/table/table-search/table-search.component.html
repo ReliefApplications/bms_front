@@ -34,6 +34,9 @@
         <ng-container matColumnDef="actions">
             <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
             <td mat-cell class="content-cell" *matCellDef="let element">
+                <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton" *ngIf="entityIsUser()" [matTooltip]="table.settings_log_button">
+                    <mat-icon>history</mat-icon>
+                </button>
                 <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
                     <mat-icon>search</mat-icon>
                 </button>

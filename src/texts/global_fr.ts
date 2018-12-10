@@ -407,5 +407,6 @@ export const TEXT = {
     project_create: 'Créer un nouveau projet',
 
     settings_logs: 'S\'il vous plait, sélectionner l\'utilisateur pour lequel vous voudriez voir les logs :',
+    settings_log_button: 'Get this user logs by email',
 
 };

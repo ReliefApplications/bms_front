@@ -406,7 +406,6 @@ export const TEXT = {
     project_add: 'S\'il vous plait, ajouter un projet avant tout ! Ensuite, vous pourrez gérer des distributions...',
     project_create: 'Créer un nouveau projet',
 
-    settings_logs: 'S\'il vous plait, sélectionner l\'utilisateur pour lequel vous voudriez voir les logs :',
-    settings_log_button: 'Get this user logs by email',
+    settings_log_button: 'Recevoir les logs de cet utilisateur par email',
 
 };

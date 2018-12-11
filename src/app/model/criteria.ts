@@ -119,9 +119,9 @@ export class Criteria {
     */
     static translator(): Object {
         return {
-            field_string: GlobalText.TEXTS.model_criteria_field,
+            field_string: GlobalText.TEXTS.model_criteria,
             condition_string: GlobalText.TEXTS.model_criteria_operator,
-            value_string: GlobalText.TEXTS.model_criteria_value,
+            value_string: GlobalText.TEXTS.model_value,
             weight: GlobalText.TEXTS.model_criteria_weight
         }
     }

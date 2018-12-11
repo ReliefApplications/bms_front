@@ -73,7 +73,7 @@ export class ModalUpdateComponent extends ModalComponent {
     //Check fields for Users settings
     if (this.updateObject.username) {
       //   if (this.updateObject.password == '' || !this.updateObject.password) {
-      //     this.snackBar.open(this.modal.modal_add_no_password, '', { duration: 5000, horizontalPosition: 'right' });
+      //     this.snackBar.open(this.modal.modal_no_password, '', { duration: 5000, horizontalPosition: 'right' });
       //     return;
       //   }
 

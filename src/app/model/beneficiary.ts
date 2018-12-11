@@ -74,7 +74,7 @@ export class Beneficiaries {
 
 
     public static getDisplayedName() {
-        return GlobalText.TEXTS.model_criteria_beneficiary;
+        return GlobalText.TEXTS.beneficiary;
     }
 
 
@@ -83,14 +83,14 @@ export class Beneficiaries {
     */
    static translator(): Object {
     return {
-        given_name : GlobalText.TEXTS.model_beneficiaries_firstName,
-        family_name : GlobalText.TEXTS.model_beneficiaries_familyName,
-        gender : GlobalText.TEXTS.model_beneficiaries_gender,
-        date_of_birth : GlobalText.TEXTS.model_beneficiaries_dateofbirth,
+        given_name : GlobalText.TEXTS.model_firstName,
+        family_name : GlobalText.TEXTS.model_familyName,
+        gender : GlobalText.TEXTS.gender,
+        date_of_birth : GlobalText.TEXTS.model_dateofbirth,
         status : GlobalText.TEXTS.model_beneficiaries_status,
         national_ids : GlobalText.TEXTS.model_beneficiaries_nationalids,
         phones : GlobalText.TEXTS.model_beneficiaries_phones,
-        vulnerabilities : GlobalText.TEXTS.model_beneficiaries_vulnerabilities,
+        vulnerabilities : GlobalText.TEXTS.model_vulnerabilities,
     };
 }
 

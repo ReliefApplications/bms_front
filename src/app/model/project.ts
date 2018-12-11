@@ -80,7 +80,7 @@ export class Project {
     }
 
     public static getDisplayedName() {
-        return GlobalText.TEXTS.model_project;
+        return GlobalText.TEXTS.project;
     }
 
     mapAllProperties(selfinstance): Object {
@@ -238,12 +238,12 @@ export class Project {
     static translator(): Object {
         return {
             name: GlobalText.TEXTS.model_project_name,
-            sectors_name: GlobalText.TEXTS.model_project_sectors_name,
+            sectors_name: GlobalText.TEXTS.model_sectors_name,
             start_date: GlobalText.TEXTS.model_project_start_date,
             end_date: GlobalText.TEXTS.model_project_end_date,
             number_of_households: GlobalText.TEXTS.model_project_number_of_households,
             donors_name: GlobalText.TEXTS.model_project_donors_name,
-            notes: GlobalText.TEXTS.model_project_notes,
+            notes: GlobalText.TEXTS.model_notes,
             value: GlobalText.TEXTS.model_project_value,
         };
     }
@@ -298,7 +298,7 @@ export class Project {
     }
 
     public static getAddDescription() : String {
-        return GlobalText.TEXTS.projects_description;
+        return GlobalText.TEXTS.project_description;
     }
 
     mapDonors(donors: any){

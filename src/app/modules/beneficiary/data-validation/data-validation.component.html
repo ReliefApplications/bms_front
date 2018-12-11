@@ -14,7 +14,7 @@
                     <mat-icon>close</mat-icon>
                 </div>
                 <div class="desc1">
-                    <h4> {{verification.data_verification_step_1}} {{verification.beneficiaries_step_info}}</h4>
+                    <h4> {{verification.data_verification_step_1}} {{verification.data_verification_step_info}}</h4>
                     <p>{{verification.data_verification_description1}}</p>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                                 </div>
                                 <mat-divider></mat-divider>
                                 <mat-chip-list>
-                                    <mat-chip>{{verification.data_verification_chip_new}}</mat-chip>
+                                    <mat-chip>{{verification.new}}</mat-chip>
                                 </mat-chip-list>
                                 <div class="householdData">
                                     <mat-checkbox color="primary" (change)="step1TypoIssues(typoIssue, 'new', i)">
@@ -85,7 +85,7 @@
                         <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
                         <button mat-raised-button class="button-background-primary" (click)=" sendCorrectedData()" *ngIf='!load'>
                             <mat-icon>navigate_next</mat-icon>
-                            <span>{{verification.data_verification_next}}</span>
+                            <span>{{verification.next}}</span>
                         </button>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                     <mat-icon>close</mat-icon>
                 </div>
                 <div class="desc2">
-                    <h4> {{verification.data_verification_step_2}} {{verification.beneficiaries_step_info}}</h4>
+                    <h4> {{verification.data_verification_step_2}} {{verification.data_verification_step_info}}</h4>
                     <p>{{verification.data_verification_description2}}</p>
                 </div>
             </div>
@@ -133,7 +133,7 @@
 
                                     <div class="householdData">
                                         <mat-chip-list>
-                                            <mat-chip>{{verification.data_verification_chip_new}}</mat-chip>
+                                            <mat-chip>{{verification.new}}</mat-chip>
                                         </mat-chip-list>
                                         <mat-checkbox color="primary" (change)="step2Duplicates(isDuplicate, 'new', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
                                         </mat-checkbox>
@@ -159,7 +159,7 @@
                         <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
                         <button mat-raised-button class="button-background-primary" (click)="sendCorrectedData()" *ngIf='!load'>
                             <mat-icon>navigate_next</mat-icon>
-                            <span>{{verification.data_verification_next}}</span>
+                            <span>{{verification.next}}</span>
                         </button>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                     <mat-icon>close</mat-icon>
                 </div>
                 <div class="desc3">
-                    <h4>{{verification.data_verification_step_3}} {{verification.beneficiaries_step_info}}</h4>
+                    <h4>{{verification.data_verification_step_3}} {{verification.data_verification_step_info}}</h4>
                     <p>{{verification.data_verification_description3}}</p>
                 </div>
             </div>
@@ -244,7 +244,7 @@
                         <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
                         <button mat-raised-button class="button-background-primary" (click)="sendCorrectedData()" *ngIf='!load'>
                             <mat-icon>navigate_next</mat-icon>
-                            <span>{{verification.data_verification_next}}</span>
+                            <span>{{verification.next}}</span>
                         </button>
                     </div>
                 </div>
@@ -258,7 +258,7 @@
                     <mat-icon>close</mat-icon>
                 </div>
                 <div class="desc4">
-                    <h4>{{verification.data_verification_step_4}} {{verification.beneficiaries_step_info}}</h4>
+                    <h4>{{verification.data_verification_step_4}} {{verification.data_verification_step_info}}</h4>
                     <p>{{verification.data_verification_description4}}</p>
                 </div>
             </div>
@@ -289,7 +289,7 @@
                                 <div class="householdData" *ngIf="data.new.households.beneficiaries.length > 1">
                                     <mat-divider></mat-divider>
                                     <mat-chip-list>
-                                        <mat-chip>{{verification.data_verification_chip_new}}</mat-chip>
+                                        <mat-chip>{{verification.new}}</mat-chip>
                                     </mat-chip-list>
                                     <div class="householdData">
                                         <div class="content-householdData">
@@ -329,7 +329,7 @@
                         <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
                         <button mat-raised-button class="button-background-primary" (click)="sendCorrectedData()" *ngIf='!load'>
                             <mat-icon>navigate_next</mat-icon>
-                            <span>{{verification.data_verification_next}}</span>
+                            <span>{{verification.next}}</span>
                         </button>
                     </div>
                 </div>
@@ -337,11 +337,11 @@
         </mat-step>
 
         <mat-step [editable]="true">
-            <ng-template matStepLabel>{{verification.data_verification_step_5}}</ng-template>
+            <ng-template matStepLabel>{{verification.done}}</ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">5</span>
-                    <span>{{verification.data_verification_step_5}}</span>
+                    <span>{{verification.done}}</span>
                 </div>
                 <div class="container-content box-green">
                     <div class="content-table">

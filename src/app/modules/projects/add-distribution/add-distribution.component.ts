@@ -242,7 +242,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         if (this.distribution !== GlobalText.TEXTS) {
             this.distribution = GlobalText.TEXTS;
             this.mapperObject = this.mapper.findMapperObject(this.entity);
-            this.nameComponent = GlobalText.TEXTS.distribution_title;
+            this.nameComponent = GlobalText.TEXTS.distributions;
             this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
         }
     }
@@ -444,7 +444,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 const promise = this._distributionService.add(newDistribution);
                 if (promise) {
                     promise.toPromise().then(response => {
-                        this.snackBar.open(this.distribution.add_distribution_distribution + response.distribution.name + this.distribution.add_distribution_created, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.distribution.report_distribution + ' : ' + response.distribution.name + this.distribution.add_distribution_created, '', { duration: 5000, horizontalPosition: 'center' });
                         this.router.navigate(['projects/distributions/' + response.distribution.id]);
                     });
                 } else {

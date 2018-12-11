@@ -27,7 +27,7 @@
     <mat-spinner [diameter]="35" *ngIf="loadFile"></mat-spinner>
     <button mat-raised-button class="upload-button" (click)="updateDistribution(1)" *ngIf="csv && !loadFile">
       <mat-icon>publish</mat-icon>
-      <span>{{TEXT.beneficiaries_import_upload | uppercase }}</span>
+      <span>{{TEXT.import | uppercase }}</span>
     </button>
   </div>
 </div>

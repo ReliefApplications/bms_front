@@ -23,7 +23,7 @@ import { delay, finalize } from 'rxjs/operators';
     styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
-    public nameComponent = 'project_title';
+    public nameComponent = 'projects';
     public distribution = GlobalText.TEXTS;
     public language = GlobalText.language;
     loadingExport = false;
@@ -87,7 +87,7 @@ export class ProjectComponent implements OnInit {
     ngDoCheck() {
         if (this.distribution !== GlobalText.TEXTS) {
             this.distribution = GlobalText.TEXTS;
-            this.nameComponent = GlobalText.TEXTS.distribution_title;
+            this.nameComponent = GlobalText.TEXTS.distributions;
         }
 
         if (this.language !== GlobalText.language)

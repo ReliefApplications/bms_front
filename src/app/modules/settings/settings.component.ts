@@ -34,7 +34,7 @@ import { FormControl } from '@angular/forms';
     styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-    public nameComponent = 'settings_title';
+    public nameComponent = 'settings';
     public settings = GlobalText.TEXTS;
     loadingExport = false;
 

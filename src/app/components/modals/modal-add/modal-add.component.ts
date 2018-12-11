@@ -151,7 +151,7 @@ export class ModalAddComponent extends ModalComponent {
             }
 
             if (this.newObject.password == '') {
-                this.snackBar.open(this.modal.modal_add_no_password, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackBar.open(this.modal.modal_no_password, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }
 

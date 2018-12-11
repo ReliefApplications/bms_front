@@ -37,14 +37,14 @@
                 <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton" *ngIf="entityIsUser()" [matTooltip]="table.settings_log_button">
                     <mat-icon>history</mat-icon>
                 </button>
-                <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green" [matTooltip]="table.modal_details_title">
+                <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green" [matTooltip]="table.details">
                     <mat-icon>search</mat-icon>
                 </button>
-                <button *ngIf="editable && checkEntityUpdateRights() && rights" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()" [matTooltip]="table.modal_update_title"
+                <button *ngIf="editable && checkEntityUpdateRights() && rights" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()" [matTooltip]="table.update"
                     class="light-red">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button *ngIf="editable && rights" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="table.modal_delete_title"
+                <button *ngIf="editable && rights" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="table.delete"
                     class="red">
                     <mat-icon>delete_outline</mat-icon>
                 </button>

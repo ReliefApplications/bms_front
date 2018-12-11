@@ -62,7 +62,7 @@ export class TransactionBeneficiary {
 
 
     public static getDisplayedName() {
-        return GlobalText.TEXTS.model_criteria_beneficiary;
+        return GlobalText.TEXTS.beneficiary;
     }
 
 
@@ -71,13 +71,13 @@ export class TransactionBeneficiary {
     */
     static translator(): Object {
         return {
-            givenName: GlobalText.TEXTS.model_beneficiaries_firstName,
-            familyName: GlobalText.TEXTS.model_beneficiaries_familyName,
-            phone: GlobalText.TEXTS.add_beneficiary_getPhone,
-            state: GlobalText.TEXTS.model_beneficiaries_state,
-            values: GlobalText.TEXTS.model_beneficiaries_values,
-            date: GlobalText.TEXTS.model_beneficiaries_pickupDate,
-            message: GlobalText.TEXTS.model_beneficiaries_message
+            givenName: GlobalText.TEXTS.model_firstName,
+            familyName: GlobalText.TEXTS.model_familyName,
+            phone: GlobalText.TEXTS.phone,
+            state: GlobalText.TEXTS.model_transaction_state,
+            values: GlobalText.TEXTS.model_value,
+            date: GlobalText.TEXTS.model_transaction_pickupDate,
+            message: GlobalText.TEXTS.model_transaction_message
         };
     }
 

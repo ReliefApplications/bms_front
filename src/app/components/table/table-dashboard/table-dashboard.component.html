@@ -27,15 +27,15 @@
                 <div class="validated-distribution" *ngIf="element.validated" routerLink="/projects/distributions/{{element.id}}">
                     <mat-icon>done</mat-icon>
                 </div>
-                <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('details', element); $event.stopPropagation()" [matTooltip]="table.modal_details_title"
+                <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('details', element); $event.stopPropagation()" [matTooltip]="table.details"
                     class="green">
                     <mat-icon>search</mat-icon>
                 </button>
-                <button mat-icon-button *ngIf="checkItemStateRights(element) && rightsEdit" (click)="openDialog('update', element); $event.stopPropagation()" [matTooltip]="table.modal_update_title"
+                <button mat-icon-button *ngIf="checkItemStateRights(element) && rightsEdit" (click)="openDialog('update', element); $event.stopPropagation()" [matTooltip]="table.update"
                     class="light-red">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button *ngIf="checkItemStateRights(element) && rights" (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="table.modal_delete_title"
+                <button mat-icon-button *ngIf="checkItemStateRights(element) && rights" (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="table.delete"
                     class="red">
                     <mat-icon>delete_outline</mat-icon>
                 </button>

@@ -53,7 +53,7 @@
                     </mat-form-field>
 
                     <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">
-                        <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.modal_email}}" formControlName="emailFormControl"
+                        <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.email}}" formControlName="emailFormControl"
                             [errorStateMatcher]="matcher">
                         <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
                             {{modal.modal_valid_email}}
@@ -68,8 +68,8 @@
         </tr>
     </table>
     <div class="modal-button action-buttons">
-        <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.modal_cancel}}</button>
-        <button mat-raised-button *ngIf="!displayAdd" (click)="add()" class="button-background-accent">{{modal.modal_create}}</button>
-        <button mat-raised-button *ngIf="displayAdd" (click)="add()" class="button-background-accent">{{modal.modal_add}}</button>
+        <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.cancel}}</button>
+        <button mat-raised-button *ngIf="!displayAdd" (click)="add()" class="button-background-accent">{{modal.create}}</button>
+        <button mat-raised-button *ngIf="displayAdd" (click)="add()" class="button-background-accent">{{modal.add}}</button>
     </div>
 </mat-dialog-content>

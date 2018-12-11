@@ -30,7 +30,6 @@
         </mat-nav-list>
     </mat-sidenav>
 
-
     <mat-sidenav-content class="page-content-wrapper" [ngClass]="{margin: !smallScreenMode && user.loggedIn}">
         <mat-toolbar *ngIf="!smallScreenMode && user.loggedIn">
             <app-header (emitLogOut)="onLogOut($event)" [actualUserId]="user.user_id"></app-header>

@@ -11,7 +11,10 @@ export const TEXT = {
     beneficiaries: 'Beneficiaries',
     beneficiary: 'Beneficiary',
     cancel: 'Cancel',
+    close: 'Close',
     create: 'Create',
+    delete: 'Delete',
+    details: 'Details',
     distribution: 'Distribution',
     distributions: 'Distributions',
     done: 'Done',
@@ -30,6 +33,7 @@ export const TEXT = {
     projects: 'Projects',
     reports: 'Reports',
     rights: 'Rights',
+    save: 'Save',
     settings: 'Settings',
     update: 'Update',
 
@@ -218,11 +222,8 @@ export const TEXT = {
     modal_add_title: 'Add a new ',
     modal_check_date: 'Invalid fields: Your start date cannot be older than the end date and vice versa',
     modal_check_fields: 'Invalid fields: check you filled every field',
-    modal_close: 'Close',
     modal_delete_sentence: 'You are about to delete ',
     modal_delete_sentence_2: '. Are you sure? ',
-    modal_delete_title: 'Delete',
-    modal_details_title: 'Details',
     modal_email_is: 'Email is',
     modal_leave: 'Leave',
     modal_language_actual: 'Current language: ',
@@ -232,7 +233,6 @@ export const TEXT = {
     modal_no_password: 'You must define a password',
     modal_no_project: 'You must define at least a project with that role',
     modal_required: 'required',
-    modal_save: 'Save',
     modal_valid_email: 'Please enter a valid email address',
 
     // Model

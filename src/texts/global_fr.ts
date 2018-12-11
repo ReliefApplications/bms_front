@@ -11,7 +11,10 @@ export const TEXT = {
     beneficiaries: 'Bénéficiaires',
     beneficiary: 'Bénéficiaire',
     cancel: 'Annuler',
+    close: 'Fermer',
     create: 'Créer',
+    delete: 'Supprimer',
+    details: 'Détails',
     distribution: 'Distribution',
     distributions: 'Distributions',
     done: 'Fin',
@@ -30,6 +33,7 @@ export const TEXT = {
     projects: 'Projets',
     reports: 'Rapports',
     rights: 'Rôles',
+    save: 'Enregistrer',
     settings: 'Paramètres',
     update: 'Modifier',
 
@@ -218,11 +222,8 @@ export const TEXT = {
     modal_add_title: 'Ajouter un nouveau',
     modal_check_date: 'Champs invalides: La date de début ne peut pas être plus ancienne que la date de fin et vice versa',
     modal_check_fields: 'Champs invalides: vérifiez que vous avez rempli tous les champs',
-    modal_close: 'Fermer',
     modal_delete_sentence: 'Vous êtes sur le point de supprimer ',
     modal_delete_sentence_2: '. ',
-    modal_delete_title: 'Supprimer',
-    modal_details_title: 'Détails',
     modal_email_is: 'Email ',
     modal_language_actual: 'Langue actuelle :',
     modal_language_title: 'Langage',
@@ -232,7 +233,6 @@ export const TEXT = {
     modal_no_password: 'Vous devez définir un mot de passe',
     modal_no_project: 'Vous devez définir au moins un projet pour ce rôle',
     modal_required: 'obligatoire',
-    modal_save: 'Enregistrer',
     modal_valid_email: 'Veuillez utiliser un mail valide',
 
     // Model

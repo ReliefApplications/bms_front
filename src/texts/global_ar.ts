@@ -11,7 +11,10 @@ export const TEXT = {
     beneficiaries: 'المستفيدون',
     beneficiary: 'المستفيد',
     cancel: 'إلغاء',
+    close: 'إغلاق',
     create: 'إنشاء',
+    delete: 'حذف',
+    details: 'تفاصيل',
     distribution: 'التوزيع',
     distributions: 'التوزيعات',
     done: 'النهاية',
@@ -30,6 +33,7 @@ export const TEXT = {
     projects: 'المشاريع',
     reports: 'التقارير',
     rights: 'الحقوق',
+    save: 'حفظ',
     settings: 'الإعدادات',
     update: 'تحديث',
 
@@ -218,11 +222,8 @@ export const TEXT = {
     modal_add_title: 'إضافة جديد',
     modal_check_date: 'الحقول غير الصالح: لا يمكن أن يكون تاريخ الانتهاء  أقدم من تاريخ البدء',
     modal_check_fields: 'تحقق جيدا انك أدخلت جميع المعطيات',
-    modal_close: 'إغلاق',
     modal_delete_sentence: 'أنت على وشك الحذف',
     modal_delete_sentence_2: 'هل أنت متأكد',
-    modal_delete_title: 'حذف',
-    modal_details_title: 'تفاصيل',
     modal_email_is: 'البريد الالكتروني هو',
     modal_language_actual: 'اللغة الحالية',
     modal_leave: 'المغادرة',
@@ -232,7 +233,6 @@ export const TEXT = {
     modal_no_password: 'عليك بادخال كلمة المرور ',
     modal_no_project: 'عليك بتحديد مشروع على الأقل يتعلق بالحق',
     modal_required: 'مطلوب',
-    modal_save: 'حفظ',
     modal_valid_email: 'من فضلك أدخل البريد الكتروني الصحيح',
 
     // Model

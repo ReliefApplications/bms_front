@@ -28,7 +28,7 @@
                             <mat-icon>get_app</mat-icon>
                             <span>{{household.export | uppercase}}</span>
                         </button>
-                        <div mat-button class="dropdown" [matMenuTriggerFor]="exportType">
+                        <div mat-button class="dropdown" [ngClass]="{'arabic':language==='ar'}" [matMenuTriggerFor]="exportType">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </div>
                         <mat-menu #exportType>

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { GlobalText } from '../../../../texts/global';
 
@@ -10,6 +10,8 @@ import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/core/api/user.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { ProjectService } from 'src/app/core/api/project.service';
+import { count } from 'rxjs/operators';
+import { timer } from 'rxjs';
 
 @Component({
     selector: 'app-header',
@@ -40,6 +42,7 @@ export class HeaderComponent implements OnInit {
         public router: Router,
         private userService: UserService,
         private asyncacheService: AsyncacheService,
+        private snackbar: MatSnackBar,
     ) {
         router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
@@ -121,15 +124,21 @@ export class HeaderComponent implements OnInit {
 
     selectCountry(c: string) {
         if(c) {
-            this.selectedCountry = c;
-            this.asyncacheService.set(AsyncacheService.COUNTRY, this.selectedCountry);
-            GlobalText.country = c;
-
-            if(c === "SYR") {
-                GlobalText.changeLanguage('ar');
-            } else if(c === "KHM") {
-                GlobalText.changeLanguage('en');
+            if(GlobalText.country && c !== this.selectedCountry) {
+                this.preventSnack(c);
             }
+
+            this.selectedCountry = c;
+            GlobalText.country = c;
+            this.asyncacheService.set(AsyncacheService.COUNTRY, this.selectedCountry);
+        }
+    }
+
+    autoLanguage(c: string) {
+        if(c === "SYR") {
+            GlobalText.changeLanguage('ar');
+        } else if(c === "KHM") {
+            GlobalText.changeLanguage('en');
         }
     }
 
@@ -143,6 +152,24 @@ export class HeaderComponent implements OnInit {
         }
 
         return(url);
+    }
+
+    preventSnack(country: string) {
+        const snack = this.snackbar.open('Page is going to reload in 3 sec to switch on ' + country + ' country. ', 'Reload now', {duration: 3000});
+
+        snack
+            .onAction()
+            .subscribe(() => {
+                window.location.reload()
+                this.autoLanguage(country);
+            });
+
+        snack
+            .afterDismissed()
+            .subscribe(() => {
+                window.location.reload();
+                this.autoLanguage(country);
+            });
     }
 
     /**

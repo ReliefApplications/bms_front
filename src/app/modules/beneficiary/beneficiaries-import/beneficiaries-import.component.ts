@@ -21,6 +21,7 @@ import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
 })
 export class BeneficiariesImportComponent implements OnInit {
     public nameComponent = 'beneficiaries_import_title';
+    public language = GlobalText.language;
     public household = GlobalText.TEXTS;
     loadingExport = false;
 
@@ -102,6 +103,9 @@ export class BeneficiariesImportComponent implements OnInit {
     ngDoCheck() {
         if (this.household !== GlobalText.TEXTS) {
             this.household = GlobalText.TEXTS;
+        }
+        else if(this.language !== GlobalText.language) {
+            this.language = GlobalText.language;
         }
     }
 

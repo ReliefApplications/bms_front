@@ -30,6 +30,7 @@ import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal
 })
 export class DistributionsComponent implements OnInit, DesactivationGuarded {
     public nameComponent = 'distribution_title';
+
     distributionId: number;
     actualDistribution = new DistributionData();
     loadingExport = false;

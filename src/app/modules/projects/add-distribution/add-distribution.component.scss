@@ -64,11 +64,11 @@
 
                 .title{
                     display: flex;
+                    align-items: center;
                     font-family: $bms_font_header;
                     font-size: 25px;
                     margin-right : 20px;
                     margin-left : 20px;
-                    margin-bottom: 0.5vh !important;
                 }
     
                 .add-button{

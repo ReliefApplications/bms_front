@@ -162,6 +162,9 @@
 
         button {
             margin-bottom: 10px;
+            mat-icon {
+                margin-left: 10px;
+            }
         }
     }
     .toggled {
@@ -170,7 +173,7 @@
     }
 
     .add-button {
-        float: right;
+        float: left;
         background-color: $bms_red !important;
     }
 }

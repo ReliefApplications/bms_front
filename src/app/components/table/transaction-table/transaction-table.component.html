@@ -31,14 +31,14 @@
         <ng-container matColumnDef="actions">
             <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
             <td mat-cell class="content-cell" *matCellDef="let element">
-                <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
+                <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green" [matTooltip]="table.modal_details_title">
                     <mat-icon>search</mat-icon>
                 </button>
-                <button *ngIf="editable && checkEntityUpdateRights()" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()"
+                <button *ngIf="editable && checkEntityUpdateRights()" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()" [matTooltip]="table.modal_update_title"
                     class="light-red">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button *ngIf="editable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
+                <button *ngIf="editable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="table.modal_delete_title"
                     class="red">
                     <mat-icon>delete_outline</mat-icon>
                 </button>

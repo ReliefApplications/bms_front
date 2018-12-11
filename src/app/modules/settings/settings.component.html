@@ -26,7 +26,7 @@
                     </button>
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension">
-                        <div mat-button class="dropdown" *ngIf="!loadingExport" [matMenuTriggerFor]="exportType">
+                        <div mat-button class="dropdown" *ngIf="!loadingExport" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':language==='ar'}">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </div>
                         <mat-menu #exportType>

@@ -25,7 +25,7 @@
                         <div class="step1 all-information">
                             <div class="column-container">
                                 <mat-form-field>
-                                    <mat-select #province placeholder={{Text.model_adm1}} [(ngModel)]="updatedHousehold.location.adm1"
+                                    <mat-select #province placeholder={{Text.adm1}} [(ngModel)]="updatedHousehold.location.adm1"
                                         (selectionChange)='reloadLocation(1)' required>
                                         <mat-option *ngFor="let province of provinceList" [value]="province">
                                             {{province}}
@@ -33,7 +33,7 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <mat-select #district placeholder={{Text.model_adm2}} [(ngModel)]="updatedHousehold.location.adm2"
+                                    <mat-select #district placeholder={{Text.adm2}} [(ngModel)]="updatedHousehold.location.adm2"
                                         (selectionChange)='reloadLocation(2)'>
                                         <mat-option *ngFor="let district of districtList" [value]="district">
                                             {{district}}
@@ -41,7 +41,7 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <mat-select #commune placeholder={{Text.model_adm3}} [(ngModel)]="updatedHousehold.location.adm3"
+                                    <mat-select #commune placeholder={{Text.adm3}} [(ngModel)]="updatedHousehold.location.adm3"
                                         (selectionChange)='reloadLocation(3)'>
                                         <mat-option *ngFor="let commune of communeList" [value]="commune">
                                             {{commune}}
@@ -49,7 +49,7 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <mat-select #village placeholder={{Text.model_adm4}} [(ngModel)]="updatedHousehold.location.adm4">
+                                    <mat-select #village placeholder={{Text.adm4}} [(ngModel)]="updatedHousehold.location.adm4">
                                         <mat-option *ngFor="let village of villageList" [value]="village">
                                             {{village}}
                                         </mat-option>
@@ -92,7 +92,7 @@
                             <div class="lign-container">
                                 <mat-form-field>
                                     <textarea matInput matTextareaAutosize="true" matAutosizeMinRows="5" matAutosizeMaxRows="5"
-                                        placeholder={{Text.model_donor_notes}} [(ngModel)]="updatedHousehold.notes" #Notes></textarea>
+                                        placeholder={{Text.model_notes}} [(ngModel)]="updatedHousehold.notes" #Notes></textarea>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -105,7 +105,7 @@
                         <button mat-raised-button class="button-background-primary margin-right" (click)="nextValidation(1, stepper)">
                             {{Text.next}}
                         </button>
-                        <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.modal_update_title}}</button>
+                        <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update_title}}</button>
                     </div>
                 </div>
             </div>
@@ -131,7 +131,7 @@
                             </div>
                             <div class="column-container">
                                 <mat-form-field>
-                                    <mat-select placeholder={{Text.add_beneficiary_getGender}} [(ngModel)]="updatedHousehold.beneficiaries[0].gender" required>
+                                    <mat-select placeholder={{Text.gender}} [(ngModel)]="updatedHousehold.beneficiaries[0].gender" required>
                                         <mat-option *ngFor="let type of genderList" [value]="type">
                                             {{type}}
                                         </mat-option>
@@ -183,7 +183,7 @@
                                         </mat-autocomplete>
                                     </mat-form-field> -->
                                     <mat-form-field>
-                                        <input matInput type="tel" placeholder={{Text.add_beneficiary_getPhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone.number" required>
+                                        <input matInput type="tel" placeholder={{Text.phone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone.number" required>
                                     </mat-form-field>
                                     <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[0].phone.proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
                                 </div>
@@ -201,7 +201,7 @@
                             <button mat-raised-button class="button-background-primary margin-right" (click)='nextValidation(2, stepper)'>
                                 {{Text.next}}
                             </button>
-                            <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.modal_update_title}}</button>
+                            <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update_title}}</button>
                         </div>
                     </div>
                 </div>
@@ -237,7 +237,7 @@
                                     </div>
                                     <div class="column-container">
                                         <mat-form-field>
-                                            <mat-select placeholder={{Text.add_beneficiary_getGender}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].gender" required>
+                                            <mat-select placeholder={{Text.gender}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].gender" required>
                                                 <mat-option *ngFor="let type of genderList" [value]="type">
                                                     {{type}}
                                                 </mat-option>
@@ -289,7 +289,7 @@
                                                 </mat-autocomplete>
                                             </mat-form-field> -->
                                             <mat-form-field>
-                                                <input matInput type="tel" placeholder={{Text.add_beneficiary_getPhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.number">
+                                                <input matInput type="tel" placeholder={{Text.phone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.number">
                                             </mat-form-field>
                                             <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
                                         </div>
@@ -315,7 +315,7 @@
                           <button mat-raised-button class="button-background-primary margin-right" (click)='nextValidation(3, stepper)'>
                             {{Text.next}}
                           </button>
-                          <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.modal_update_title}}</button>
+                          <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update_title}}</button>
                         </div>
                     </div>
                 </div>
@@ -400,7 +400,7 @@
                           <button mat-button class="button-text-primary" (click)="leave()">{{Text.cancel}}</button>
 
                           <button mat-raised-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading" (click)="create()">{{Text.create}}</button>
-                          <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.modal_update_title}}</button>
+                          <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update_title}}</button>
                         </div>
 
                     </div>

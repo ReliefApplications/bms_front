@@ -80,7 +80,7 @@ export class Project {
     }
 
     public static getDisplayedName() {
-        return GlobalText.TEXTS.model_project;
+        return GlobalText.TEXTS.project;
     }
 
     mapAllProperties(selfinstance): Object {
@@ -243,7 +243,7 @@ export class Project {
             end_date: GlobalText.TEXTS.model_project_end_date,
             number_of_households: GlobalText.TEXTS.model_project_number_of_households,
             donors_name: GlobalText.TEXTS.model_project_donors_name,
-            notes: GlobalText.TEXTS.model_donor_notes,
+            notes: GlobalText.TEXTS.model_notes,
             value: GlobalText.TEXTS.model_project_value,
         };
     }

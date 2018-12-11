@@ -149,15 +149,15 @@ export class DistributionData {
             name: GlobalText.TEXTS.model_distribution_name,
             location_name: GlobalText.TEXTS.location,
             number_beneficiaries: GlobalText.TEXTS.header_beneficiaries,
-            adm1: GlobalText.TEXTS.model_adm1,
-            adm2: GlobalText.TEXTS.model_adm2,
-            adm3: GlobalText.TEXTS.model_adm3,
-            adm4: GlobalText.TEXTS.model_adm4,
+            adm1: GlobalText.TEXTS.adm1,
+            adm2: GlobalText.TEXTS.adm2,
+            adm3: GlobalText.TEXTS.adm3,
+            adm4: GlobalText.TEXTS.adm4,
             date_distribution: GlobalText.TEXTS.model_distribution_date,
             commodities: GlobalText.TEXTS.model_commodity,
             commodity: GlobalText.TEXTS.model_commodity,
             type: GlobalText.TEXTS.model_distribution_type,
-            project: GlobalText.TEXTS.model_project,
+            project: GlobalText.TEXTS.project,
         };
     }
 

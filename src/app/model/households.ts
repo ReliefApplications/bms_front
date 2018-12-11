@@ -51,7 +51,7 @@ export class Households {
     }
 
     public static getDisplayedName() {
-        return GlobalText.TEXTS.model_households;
+        return GlobalText.TEXTS.households;
     }
 
     /**
@@ -119,11 +119,11 @@ export class Households {
     */
     static translator(): Object {
         return {
-            familyName: GlobalText.TEXTS.model_beneficiaries_familyName,
-            firstName: GlobalText.TEXTS.model_beneficiaries_firstName,
+            familyName: GlobalText.TEXTS.model_familyName,
+            firstName: GlobalText.TEXTS.model_firstName,
             location: GlobalText.TEXTS.location,
             dependents: GlobalText.TEXTS.model_beneficiaries_dependents,
-            vulnerabilities: GlobalText.TEXTS.model_beneficiaries_vulnerabilities,
+            vulnerabilities: GlobalText.TEXTS.model_vulnerabilities,
             projects: GlobalText.TEXTS.header_projects,
         }
     }

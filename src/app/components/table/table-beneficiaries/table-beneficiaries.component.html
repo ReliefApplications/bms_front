@@ -14,28 +14,28 @@
 
     <div class="filter-combo">
       <ng-select class="input-filter custom" bindLabel="name" [items]="data.projects.value" [multiple]="true"
-        placeholder="{{table.model_project}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
+        placeholder="{{table.project}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter" bindLabel="name" [items]="data.adm1.value" [closeOnSelect]="false" [searchable]="true"
-        placeholder="{{table.model_adm1}}" (clear)="applyFilter($event, 'locations', true)" [(ngModel)]="newObject['adm1']"
+        placeholder="{{table.adm1}}" (clear)="applyFilter($event, 'locations', true)" [(ngModel)]="newObject['adm1']"
         (change)="selected('adm1'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter" bindLabel="name" [items]="data.adm2.value" [closeOnSelect]="false" [searchable]="true"
-        placeholder="{{table.model_adm2}}" [(ngModel)]="newObject['adm2']" (change)="selected('adm2'); applyFilter($event, 'locations', false); sendSortedData()">
+        placeholder="{{table.adm2}}" [(ngModel)]="newObject['adm2']" (change)="selected('adm2'); applyFilter($event, 'locations', false); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter" bindLabel="name" [items]="data.adm3.value" [closeOnSelect]="false" [searchable]="true"
-        placeholder="{{table.model_adm3}}" [(ngModel)]="newObject['adm3']" (change)="selected('adm3'); applyFilter($event, 'locations'); sendSortedData()">
+        placeholder="{{table.adm3}}" [(ngModel)]="newObject['adm3']" (change)="selected('adm3'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter" bindLabel="name" [items]="data.adm4.value" [closeOnSelect]="false" [searchable]="true"
-        placeholder="{{table.model_adm4}}" [(ngModel)]="newObject['adm4']" (change)="selected('adm4'); applyFilter($event, 'locations'); sendSortedData()">
+        placeholder="{{table.adm4}}" [(ngModel)]="newObject['adm4']" (change)="selected('adm4'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter custom" bindLabel="name" [items]="data.vulnerabilities.value" [multiple]="true"
-        placeholder="{{table.model_beneficiaries_vulnerabilities}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
+        placeholder="{{table.model_vulnerabilities}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
       </ng-select>
     </div>
 

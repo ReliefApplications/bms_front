@@ -49,7 +49,7 @@ export class HeaderMobileComponent implements OnInit {
         this.refreshUserData();
 
         if(this.language !== GlobalText.language) {
-            this.ngOnInit();
+            this.language = GlobalText.language;
         }
     }
 

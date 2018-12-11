@@ -34,14 +34,14 @@
                     <mat-icon>done</mat-icon>
                 </div>
                 <div class="unvalidated-distribution" *ngIf="!element.validated">
-                    <button mat-icon-button class="green" routerLink="/projects/distributions/{{element.id}}">
+                    <button mat-icon-button class="green" routerLink="/projects/distributions/{{element.id}}" [matTooltip]="table.modal_details_title">
                         <mat-icon>search</mat-icon>
                     </button>
-                    <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rightsEdit"
+                    <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rightsEdit" [matTooltip]="table.modal_update_title"
                         class="light-red" (click)="openDialog('update', element); $event.stopPropagation()">
                         <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rights"
+                    <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rights" [matTooltip]="table.modal_delete_title"
                         class="red" (click)="openDialog('delete', element); $event.stopPropagation()">
                         <mat-icon>delete_outline</mat-icon>
                     </button>

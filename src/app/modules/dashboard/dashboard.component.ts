@@ -1,22 +1,12 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
-
-import { URL_BMS_API } from '../../../environments/environment';
-import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { LeafletService } from '../../core/external/leaflet.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';
-
 import { DistributionData } from '../../model/distribution-data';
-
 import { GlobalText } from '../../../texts/global';
 import { finalize } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { User } from 'src/app/model/user';
-import { timer } from 'rxjs';
-
 
 @Component({
     selector: 'app-dashboard',
@@ -77,14 +67,6 @@ export class DashboardComponent implements OnInit {
         if(LeafletService.loading !== this.loadingMap) {
             this.loadingMap = LeafletService.loading;
         }
-
-        if(GlobalText.country && this.actualCountry !== GlobalText.country) {
-            this.actualCountry = GlobalText.country;
-            this.distributions = new MatTableDataSource();
-            this.checkDistributions();
-            this.getSummary();
-            this.serviceMap.addKML();
-        }
     }
 
     @HostListener('window:resize', ['$event'])
@@ -106,13 +88,7 @@ export class DashboardComponent implements OnInit {
         let distribs;
         this.loadingTable = true;
         this._distributionService.get()
-            .pipe(
-                finalize(
-                    () => {
-                        this.loadingTable = false;
-                    },
-                )
-            ).subscribe(
+            .subscribe(
                 response => {
                     distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
                     //console.log(distribs);
@@ -120,8 +96,8 @@ export class DashboardComponent implements OnInit {
                     this.loadingTable = false;
                 },
                 () => {
-                    this.loadingTable = false;
                     this.distributions = null;
+                    this.loadingTable = false;
                 }
             );
     }
@@ -131,6 +107,7 @@ export class DashboardComponent implements OnInit {
      * @return array
      */
     getSummary(): void {
+        this.loadingSummary = true;
         this._generalService.getSummary()
             .pipe(
                 finalize(
@@ -142,7 +119,9 @@ export class DashboardComponent implements OnInit {
                 if(response) {
                     this.loadingSummary = false;
                     this.summary = response;
-                } 
+                } else {
+                    this.loadingSummary = false;
+                }
             });
     }
 

@@ -121,10 +121,10 @@ export class Households {
         return {
             familyName: GlobalText.TEXTS.model_beneficiaries_familyName,
             firstName: GlobalText.TEXTS.model_beneficiaries_firstName,
-            location: GlobalText.TEXTS.model_beneficiaries_location,
+            location: GlobalText.TEXTS.model_distribution_location_name,
             dependents: GlobalText.TEXTS.model_beneficiaries_dependents,
             vulnerabilities: GlobalText.TEXTS.model_beneficiaries_vulnerabilities,
-            projects: GlobalText.TEXTS.model_beneficiaries_projects,
+            projects: GlobalText.TEXTS.header_projects,
         }
     }
 

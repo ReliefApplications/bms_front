@@ -68,8 +68,8 @@
         </tr>
     </table>
     <div class="modal-button action-buttons">
-        <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.modal_cancel}}</button>
-        <button mat-raised-button *ngIf="!displayAdd" (click)="add()" class="button-background-accent">{{modal.modal_create}}</button>
-        <button mat-raised-button *ngIf="displayAdd" (click)="add()" class="button-background-accent">{{modal.modal_add}}</button>
+        <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.add_beneficiary_cancel}}</button>
+        <button mat-raised-button *ngIf="!displayAdd" (click)="add()" class="button-background-accent">{{modal.add_beneficiary_create}}</button>
+        <button mat-raised-button *ngIf="displayAdd" (click)="add()" class="button-background-accent">{{modal.add}}</button>
     </div>
 </mat-dialog-content>

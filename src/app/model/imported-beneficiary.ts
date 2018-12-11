@@ -55,7 +55,7 @@ export class ImportedBeneficiary {
         givenName : GlobalText.TEXTS.model_beneficiaries_firstName,
         familyName : GlobalText.TEXTS.model_beneficiaries_familyName,
         date_of_birth : GlobalText.TEXTS.model_beneficiaries_dateofbirth,
-        gender : GlobalText.TEXTS.model_beneficiaries_gender,
+        gender : GlobalText.TEXTS.add_beneficiary_getGender,
     };
 }
 

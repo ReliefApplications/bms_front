@@ -184,7 +184,7 @@ export class User {
     */
     static translator(): Object {
         return {
-            username: GlobalText.TEXTS.model_user_username,
+            username: GlobalText.TEXTS.modal_email_placeholder,
             password: GlobalText.TEXTS.model_user_password,
             rights: GlobalText.TEXTS.model_user_rights,
             projects: GlobalText.TEXTS.model_project,

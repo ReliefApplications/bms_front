@@ -85,7 +85,7 @@ export class Beneficiaries {
     return {
         given_name : GlobalText.TEXTS.model_beneficiaries_firstName,
         family_name : GlobalText.TEXTS.model_beneficiaries_familyName,
-        gender : GlobalText.TEXTS.model_beneficiaries_gender,
+        gender : GlobalText.TEXTS.add_beneficiary_getGender,
         date_of_birth : GlobalText.TEXTS.model_beneficiaries_dateofbirth,
         status : GlobalText.TEXTS.model_beneficiaries_status,
         national_ids : GlobalText.TEXTS.model_beneficiaries_nationalids,

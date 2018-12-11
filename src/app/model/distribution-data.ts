@@ -126,7 +126,7 @@ export class DistributionData {
     }
 
     public static getDisplayedName() {
-        return GlobalText.TEXTS.model_distribution;
+        return GlobalText.TEXTS.header_distributions;
     }
 
     public mapCommodity(name: string): string {
@@ -148,7 +148,7 @@ export class DistributionData {
         return {
             name: GlobalText.TEXTS.model_distribution_name,
             location_name: GlobalText.TEXTS.model_distribution_location_name,
-            number_beneficiaries: GlobalText.TEXTS.model_distribution_number_beneficiaries,
+            number_beneficiaries: GlobalText.TEXTS.header_beneficiaries,
             adm1: GlobalText.TEXTS.model_distribution_adm1,
             adm2: GlobalText.TEXTS.model_distribution_adm2,
             adm3: GlobalText.TEXTS.model_distribution_adm3,

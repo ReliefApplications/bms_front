@@ -146,8 +146,8 @@ export class AppComponent {
     refreshCurrentComponent(e) {
         // console.log('changed : ', e.nameComponent);
 
-        if (e.nameComponent === 'project_title' || e.nameComponent === 'beneficiaries_title'
-            || e.nameComponent === 'report_title' || e.nameComponent === 'settings_title' || e.nameComponent === 'login') {
+        if (e.nameComponent === 'menu_projects' || e.nameComponent === 'menu_beneficiaries'
+            || e.nameComponent === 'menu_reports' || e.nameComponent === 'menu_settings' || e.nameComponent === 'login') {
             this.currentComponent = e.nameComponent;
         }
         else if (e.nameComponent === 'dashboard_title') {
@@ -159,7 +159,7 @@ export class AppComponent {
             }
         }
 
-        if (!this.hasRights && e.nameComponent === 'settings_title') {
+        if (!this.hasRights && e.nameComponent === 'menu_settings') {
             this.router.navigate(['']);
             e.nameComponent = '';
         }

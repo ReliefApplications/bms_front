@@ -23,7 +23,7 @@ import { delay, finalize } from 'rxjs/operators';
     styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
-    public nameComponent = 'project_title';
+    public nameComponent = 'menu_projects';
     public distribution = GlobalText.TEXTS;
     public language = GlobalText.language;
     loadingExport = false;

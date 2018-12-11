@@ -1,6 +1,6 @@
 <div class="page-container">
     <div class="container-title">
-        <h2>{{household.beneficiaries_title | titlecase}}</h2>
+        <h2>{{household.menu_beneficiaries | titlecase}}</h2>
     </div>
     <div  class="container-table">
         <div class="container-content box-green">
@@ -26,7 +26,7 @@
                     <div class="extension" *ngIf='hasRightsExport && !loadingExport'>
                         <button mat-raised-button class="button-background-primary" (click)="export()">
                             <mat-icon>get_app</mat-icon>
-                            <span>{{household.beneficiaries_export | uppercase}}</span>
+                            <span>{{household.settings_export | uppercase}}</span>
                         </button>
                         <div mat-button class="dropdown" [matMenuTriggerFor]="exportType">
                             <mat-icon>keyboard_arrow_down</mat-icon>
@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="modal-footer action">
-                <button mat-button class="cancel" (click)="dialog.closeAll()">{{TEXT.modal_cancel}}</button>
+                <button mat-button class="cancel" (click)="dialog.closeAll()">{{TEXT.add_beneficiary_cancel}}</button>
                 <button mat-raised-button class="confirm" (click)="confirmAdding()">{{TEXT.transaction_confirm_button}}</button>
             </div>
         </div>

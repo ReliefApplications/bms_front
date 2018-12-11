@@ -9,20 +9,20 @@
                 <span class="full-width" *ngIf="isShowing">{{menu.menu_home | titlecase}}</span>
                 <mat-icon mat-list-icon>home</mat-icon>
             </mat-list-item>
-            <mat-list-item [ngClass]="{selected: currentComponent==='project_title'}" routerLink="/projects" (click)="setCurrentRoute('projects'); toggle(sidenav)">
+            <mat-list-item [ngClass]="{selected: currentComponent==='menu_projects'}" routerLink="/projects" (click)="setCurrentRoute('projects'); toggle(sidenav)">
                 <span class="full-width" *ngIf="isShowing">{{menu.menu_projects | titlecase}}</span>
                 <mat-icon mat-list-icon>assignment</mat-icon>
             </mat-list-item>
-            <mat-list-item [ngClass]="{selected: currentComponent==='beneficiaries_title'}" routerLink="/beneficiaries"
+            <mat-list-item [ngClass]="{selected: currentComponent==='menu_beneficiaries'}" routerLink="/beneficiaries"
                 (click)="setCurrentRoute('beneficiaries'); toggle(sidenav)">
                 <span class="full-width" *ngIf="isShowing">{{menu.menu_beneficiaries | titlecase}}</span>
                 <mat-icon mat-list-icon>supervisor_account</mat-icon>
             </mat-list-item>
-            <mat-list-item [ngClass]="{selected: currentComponent==='report_title'}" routerLink="/reports" (click)="setCurrentRoute('reports'); toggle(sidenav)">
+            <mat-list-item [ngClass]="{selected: currentComponent==='menu_reports'}" routerLink="/reports" (click)="setCurrentRoute('reports'); toggle(sidenav)">
                 <span class="full-width" *ngIf="isShowing">{{menu.menu_reports | titlecase}}</span>
                 <mat-icon mat-list-icon>timeline</mat-icon>
             </mat-list-item>
-            <mat-list-item *ngIf="hasRights" [ngClass]="{selected: currentComponent==='settings_title'}" routerLink="/settings"
+            <mat-list-item *ngIf="hasRights" [ngClass]="{selected: currentComponent==='menu_settings'}" routerLink="/settings"
                 (click)="setCurrentRoute('settings'); toggle(sidenav)">
                 <span class="full-width" *ngIf="isShowing">{{menu.menu_settings | titlecase}}</span>
                 <mat-icon mat-list-icon>settings</mat-icon>

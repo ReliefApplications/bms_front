@@ -25,7 +25,7 @@
                         <div class="step1 all-information">
                             <div class="column-container">
                                 <mat-form-field>
-                                    <mat-select #province placeholder={{Text.add_beneficiary_getProvince}} [(ngModel)]="updatedHousehold.location.adm1"
+                                    <mat-select #province placeholder={{Text.model_distribution_adm1}} [(ngModel)]="updatedHousehold.location.adm1"
                                         (selectionChange)='reloadLocation(1)' required>
                                         <mat-option *ngFor="let province of provinceList" [value]="province">
                                             {{province}}
@@ -33,7 +33,7 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <mat-select #district placeholder={{Text.add_beneficiary_getDistrict}} [(ngModel)]="updatedHousehold.location.adm2"
+                                    <mat-select #district placeholder={{Text.model_distribution_adm2}} [(ngModel)]="updatedHousehold.location.adm2"
                                         (selectionChange)='reloadLocation(2)'>
                                         <mat-option *ngFor="let district of districtList" [value]="district">
                                             {{district}}
@@ -41,7 +41,7 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <mat-select #commune placeholder={{Text.add_beneficiary_getCommune}} [(ngModel)]="updatedHousehold.location.adm3"
+                                    <mat-select #commune placeholder={{Text.model_distribution_adm3}} [(ngModel)]="updatedHousehold.location.adm3"
                                         (selectionChange)='reloadLocation(3)'>
                                         <mat-option *ngFor="let commune of communeList" [value]="commune">
                                             {{commune}}
@@ -49,7 +49,7 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field>
-                                    <mat-select #village placeholder={{Text.add_beneficiary_getVillage}} [(ngModel)]="updatedHousehold.location.adm4">
+                                    <mat-select #village placeholder={{Text.model_distribution_adm4}} [(ngModel)]="updatedHousehold.location.adm4">
                                         <mat-option *ngFor="let village of villageList" [value]="village">
                                             {{village}}
                                         </mat-option>
@@ -58,7 +58,7 @@
                             </div>
                             <div class="column-container">
                                 <mat-form-field>
-                                    <mat-select multiple #projects placeholder={{Text.add_beneficiary_getProject}} [(ngModel)]="updatedHousehold.projects" required>
+                                    <mat-select multiple #projects placeholder={{Text.header_projects}} [(ngModel)]="updatedHousehold.projects" required>
                                         <mat-option *ngFor="let project of projectList" [value]="project">
                                             {{project}}
                                         </mat-option>
@@ -92,7 +92,7 @@
                             <div class="lign-container">
                                 <mat-form-field>
                                     <textarea matInput matTextareaAutosize="true" matAutosizeMinRows="5" matAutosizeMaxRows="5"
-                                        placeholder={{Text.add_beneficiary_getNotes}} [(ngModel)]="updatedHousehold.notes" #Notes></textarea>
+                                        placeholder={{Text.model_donor_notes}} [(ngModel)]="updatedHousehold.notes" #Notes></textarea>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                     <div class="content-button-footer">
                         <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
                         <button mat-raised-button class="button-background-primary margin-right" (click)="nextValidation(1, stepper)">
-                            {{Text.add_beneficiary_next}}
+                            {{Text.next}}
                         </button>
                         <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.modal_update_title}}</button>
                     </div>
@@ -199,7 +199,7 @@
                         <div class="content-button-footer">
                             <mat-progress-bar mode="determinate" value="35"></mat-progress-bar>
                             <button mat-raised-button class="button-background-primary margin-right" (click)='nextValidation(2, stepper)'>
-                                {{Text.add_beneficiary_next}}
+                                {{Text.next}}
                             </button>
                             <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.modal_update_title}}</button>
                         </div>
@@ -313,7 +313,7 @@
                             {{ Text.add }}
                           </button>
                           <button mat-raised-button class="button-background-primary margin-right" (click)='nextValidation(3, stepper)'>
-                            {{Text.add_beneficiary_next}}
+                            {{Text.next}}
                           </button>
                           <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.modal_update_title}}</button>
                         </div>
@@ -335,7 +335,7 @@
                             <h3>{{Text.beneficiaries_household_info}}</h3>
                             <div class="info-resume">
                                 <div class="info-container" *ngIf="updatedHousehold.livelihood">
-                                    <h4 class='summary-title'>{{Text.beneficiaries_livelihood}} </h4>
+                                    <h4 class='summary-title'>{{Text.add_beneficiary_getOccupation}}: </h4>
                                     <p class="summary-title-value">{{updatedHousehold.livelihood}}</p>
                                 </div>
                                 <div class="info-container" *ngIf="updatedHousehold.address_number && updatedHousehold.address_postcode && updatedHousehold.address_street">

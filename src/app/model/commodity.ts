@@ -109,7 +109,7 @@ export class Commodity {
 
         return {
             modality: GlobalText.TEXTS.model_commodity_modality,
-            type: GlobalText.TEXTS.model_commodity_type,
+            type: GlobalText.TEXTS.model_country_specific_type,
             unit: GlobalText.TEXTS.model_commodity_unit,
             value: GlobalText.TEXTS.model_commodity_value,
         }

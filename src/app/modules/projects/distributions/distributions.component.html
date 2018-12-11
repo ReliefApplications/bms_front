@@ -2,7 +2,7 @@
 
     <div class="title">
         <div class='first-line-title'>
-            <h2> {{TEXT.model_distribution | titlecase}} </h2>
+            <h2> {{TEXT.header_distributions | titlecase}} </h2>
         </div>
         <app-placeholder-title *ngIf="loadingDistribution"> </app-placeholder-title>
         <p *ngIf="actualDistribution && !loadingDistribution">
@@ -28,7 +28,7 @@
                             <div class="action-buttons">
                                 <button mat-raised-button class="export-button" (click)="export()" *ngIf="!loadingExport">
                                     <mat-icon>get_app</mat-icon>
-                                    <span>{{TEXT.beneficiaries_export | uppercase}}</span>
+                                    <span>{{TEXT.settings_export | uppercase}}</span>
                                 </button>
                                 <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                                 <div class="extension" *ngIf="!loadingExport">
@@ -122,7 +122,7 @@
                             <div class="action-buttons">
                                 <button mat-raised-button class="export-button" (click)="exportSample()" *ngIf="!loadingExport">
                                     <mat-icon>get_app</mat-icon>
-                                    <span>{{TEXT.beneficiaries_export | uppercase}}</span>
+                                    <span>{{TEXT.settings_export | uppercase}}</span>
                                 </button>
                                 <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                                 <div class="extension">
@@ -293,7 +293,7 @@
                 <br/>
             </div>
             <div class="modal-footer action">
-                <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')">{{TEXT.modal_cancel}}</button>
+                <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')">{{TEXT.add_beneficiary_cancel}}</button>
                 <button mat-button class="confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()" *ngIf="chartAccepted">{{TEXT.transaction_confirm_button}}</button>
             </div>
         </div>
@@ -308,7 +308,7 @@
                 <p> {{TEXT.transaction_validate_distribution}} </p>
             </div>
             <div class="modal-footer action">
-                <button mat-button class="cancel button-text-accent" (click)="exit('Validation canceled')">{{TEXT.modal_cancel}}</button>
+                <button mat-button class="cancel button-text-accent" (click)="exit('Validation canceled')">{{TEXT.add_beneficiary_cancel}}</button>
                 <button mat-button class="confirm" (click)="confirmValidation()">{{TEXT.transaction_confirm_button}}</button>
             </div>
         </div>
@@ -321,7 +321,7 @@
         <div class="dialog-template">
             <div class="modal-body">
                 <p> {{TEXT.distribution_select_beneficiaries}} <strong> {{actualDistribution.project.name}} </strong>
-                    {{TEXT.distribution_want_add}} <strong> {{actualDistribution.name}} </strong> {{TEXT.distribution_distribution}}</p>
+                    {{TEXT.distribution_want_add}} <strong> {{actualDistribution.name}} </strong> {{TEXT.report_distribution}}.</p>
                 <div class="selectBeneficiaries">
                     <mat-form-field>
                         <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" [(ngModel)]="selectedBeneficiaries" multiple>
@@ -332,7 +332,7 @@
                 </div>
             </div>
             <div class="modal-footer action">
-                <button mat-button class="cancel button-text-accent" (click)="exit('Adding canceled')">{{TEXT.modal_cancel}}</button>
+                <button mat-button class="cancel button-text-accent" (click)="exit('Adding canceled')">{{TEXT.add_beneficiary_cancel}}</button>
                 <button mat-button class="confirm" (click)="confirmAdding()">{{TEXT.transaction_confirm_button}}</button>
             </div>
         </div>

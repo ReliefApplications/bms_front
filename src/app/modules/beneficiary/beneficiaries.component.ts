@@ -20,7 +20,7 @@ import { LocationService } from 'src/app/core/api/location.service';
 export class BeneficiariesComponent implements OnInit {
 
     public household = GlobalText.TEXTS;
-    public nameComponent = 'beneficiaries_title';
+    public nameComponent = 'menu_beneficiaries';
     public loadingExport = false;
 
     public referedClassService;

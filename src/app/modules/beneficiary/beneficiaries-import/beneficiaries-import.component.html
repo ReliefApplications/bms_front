@@ -13,7 +13,7 @@
 
             <div class="content-button">
                 <mat-form-field>
-                    <mat-select placeholder={{household.beneficiaries_import_getProject}} [formControl]="projects"
+                    <mat-select placeholder={{household.header_projects}} [formControl]="projects"
                         (selectionChange)="getProjectSelected($event)">
                         <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                     </mat-select>
@@ -67,7 +67,7 @@
                 <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
                 <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="addHouseholds()">
                     <mat-icon>publish</mat-icon>
-                    <span>{{household.beneficiaries_import_upload | uppercase }}</span>
+                    <span>{{household.beneficiaries_import | uppercase }}</span>
                 </button>
             </div>
         </div>
@@ -77,7 +77,7 @@
         <div class="container-content box-red">
             <div class="content-button">
                 <mat-form-field>
-                    <mat-select placeholder={{household.beneficiaries_import_getProject}} [formControl]="projects"
+                    <mat-select placeholder={{household.header_projects}} [formControl]="projects"
                         (selectionChange)="getProjectSelected($event)">
                         <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                     </mat-select>
@@ -108,7 +108,7 @@
                 <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
                 <button *ngIf="!load" mat-raised-button class="button-background-accent" (click)="addBeneficiaries()">
                     <mat-icon>publish</mat-icon>
-                    <span>{{household.beneficiaries_import_upload | uppercase }}</span>
+                    <span>{{household.beneficiaries_import | uppercase }}</span>
                 </button>
             </div>
         </div>

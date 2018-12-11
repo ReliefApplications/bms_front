@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
-  public nameComponent = "report_title";
+  public nameComponent = "menu_reports";
 
   constructor() { }
 

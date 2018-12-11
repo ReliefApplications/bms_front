@@ -13,7 +13,7 @@
                 <h5 *ngIf="forgotMessage" class="user-forgot-password">{{login.login_forgot_password}}</h5>
             </div>
             <div class="login-button">
-                <button *ngIf="!loader" (click)="loginAction()" class="button-login">{{login.login_login | uppercase}}</button>
+                <button *ngIf="!loader" (click)="loginAction()" class="button-login">{{login.login_title | uppercase}}</button>
                 <mat-spinner [diameter]="35" *ngIf="loader"></mat-spinner>
             </div>
         </div>

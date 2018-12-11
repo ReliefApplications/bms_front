@@ -75,7 +75,7 @@ export class TransactionBeneficiary {
             familyName: GlobalText.TEXTS.model_beneficiaries_familyName,
             phone: GlobalText.TEXTS.add_beneficiary_getPhone,
             state: GlobalText.TEXTS.model_beneficiaries_state,
-            values: GlobalText.TEXTS.model_criteria_value,
+            values: GlobalText.TEXTS.model_value,
             date: GlobalText.TEXTS.model_beneficiaries_pickupDate,
             message: GlobalText.TEXTS.model_beneficiaries_message
         };

@@ -121,7 +121,7 @@ export class Criteria {
         return {
             field_string: GlobalText.TEXTS.model_criteria,
             condition_string: GlobalText.TEXTS.model_criteria_operator,
-            value_string: GlobalText.TEXTS.model_criteria_value,
+            value_string: GlobalText.TEXTS.model_value,
             weight: GlobalText.TEXTS.model_criteria_weight
         }
     }

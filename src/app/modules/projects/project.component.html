@@ -38,7 +38,7 @@
                 <div class="action-buttons" *ngIf="distributionData && distributionData.data.length>0">
                     <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
-                        <span>{{distribution.settings_export | uppercase}}</span>
+                        <span>{{distribution.export | uppercase}}</span>
                     </button>
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension" *ngIf="!loadingExport">

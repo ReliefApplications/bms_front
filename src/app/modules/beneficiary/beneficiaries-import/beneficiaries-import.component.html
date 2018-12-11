@@ -67,7 +67,7 @@
                 <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
                 <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="addHouseholds()">
                     <mat-icon>publish</mat-icon>
-                    <span>{{household.beneficiaries_import | uppercase }}</span>
+                    <span>{{household.import | uppercase }}</span>
                 </button>
             </div>
         </div>
@@ -108,7 +108,7 @@
                 <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
                 <button *ngIf="!load" mat-raised-button class="button-background-accent" (click)="addBeneficiaries()">
                     <mat-icon>publish</mat-icon>
-                    <span>{{household.beneficiaries_import | uppercase }}</span>
+                    <span>{{household.import | uppercase }}</span>
                 </button>
             </div>
         </div>

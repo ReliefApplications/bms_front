@@ -18,20 +18,20 @@
       </ng-select>
 
       <ng-select class="input-filter" bindLabel="name" [items]="data.adm1.value" [closeOnSelect]="false" [searchable]="true"
-        placeholder="{{table.model_distribution_adm1}}" (clear)="applyFilter($event, 'locations', true)" [(ngModel)]="newObject['adm1']"
+        placeholder="{{table.model_adm1}}" (clear)="applyFilter($event, 'locations', true)" [(ngModel)]="newObject['adm1']"
         (change)="selected('adm1'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter" bindLabel="name" [items]="data.adm2.value" [closeOnSelect]="false" [searchable]="true"
-        placeholder="{{table.model_distribution_adm2}}" [(ngModel)]="newObject['adm2']" (change)="selected('adm2'); applyFilter($event, 'locations', false); sendSortedData()">
+        placeholder="{{table.model_adm2}}" [(ngModel)]="newObject['adm2']" (change)="selected('adm2'); applyFilter($event, 'locations', false); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter" bindLabel="name" [items]="data.adm3.value" [closeOnSelect]="false" [searchable]="true"
-        placeholder="{{table.model_distribution_adm3}}" [(ngModel)]="newObject['adm3']" (change)="selected('adm3'); applyFilter($event, 'locations'); sendSortedData()">
+        placeholder="{{table.model_adm3}}" [(ngModel)]="newObject['adm3']" (change)="selected('adm3'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter" bindLabel="name" [items]="data.adm4.value" [closeOnSelect]="false" [searchable]="true"
-        placeholder="{{table.model_distribution_adm4}}" [(ngModel)]="newObject['adm4']" (change)="selected('adm4'); applyFilter($event, 'locations'); sendSortedData()">
+        placeholder="{{table.model_adm4}}" [(ngModel)]="newObject['adm4']" (change)="selected('adm4'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter custom" bindLabel="name" [items]="data.vulnerabilities.value" [multiple]="true"

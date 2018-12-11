@@ -98,8 +98,8 @@
         </div>
     </div>
     <div class="container-buttons">
-        <button mat-button (click)="cancel()" class="button-cancel">{{distribution.add_beneficiary_cancel}}</button>
+        <button mat-button (click)="cancel()" class="button-cancel">{{distribution.cancel}}</button>
         <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
-        <button mat-button *ngIf="!loadingCreation" (click)="add()" class="button-create">{{distribution.add_beneficiary_create}}</button>
+        <button mat-button *ngIf="!loadingCreation" (click)="add()" class="button-create">{{distribution.create}}</button>
     </div>
 </div>

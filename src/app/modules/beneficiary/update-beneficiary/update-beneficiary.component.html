@@ -58,7 +58,7 @@
                             </div>
                             <div class="column-container">
                                 <mat-form-field>
-                                    <mat-select multiple #projects placeholder={{Text.header_projects}} [(ngModel)]="updatedHousehold.projects" required>
+                                    <mat-select multiple #projects placeholder={{Text.projects}} [(ngModel)]="updatedHousehold.projects" required>
                                         <mat-option *ngFor="let project of projectList" [value]="project">
                                             {{project}}
                                         </mat-option>
@@ -105,7 +105,7 @@
                         <button mat-raised-button class="button-background-primary margin-right" (click)="nextValidation(1, stepper)">
                             {{Text.next}}
                         </button>
-                        <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update_title}}</button>
+                        <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update}}</button>
                     </div>
                 </div>
             </div>
@@ -201,7 +201,7 @@
                             <button mat-raised-button class="button-background-primary margin-right" (click)='nextValidation(2, stepper)'>
                                 {{Text.next}}
                             </button>
-                            <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update_title}}</button>
+                            <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update}}</button>
                         </div>
                     </div>
                 </div>
@@ -315,7 +315,7 @@
                           <button mat-raised-button class="button-background-primary margin-right" (click)='nextValidation(3, stepper)'>
                             {{Text.next}}
                           </button>
-                          <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update_title}}</button>
+                          <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update}}</button>
                         </div>
                     </div>
                 </div>
@@ -353,7 +353,7 @@
                                     </p>
                                 </div>
                             </div>
-                            <h3> {{ Text.header_beneficiaries}} : </h3>
+                            <h3> {{ Text.beneficiaries}} : </h3>
                             <table mat-table [dataSource]="tableData" class="mat-elevation-z8 summary">
                                 <ng-container [matColumnDef]=tableColumns[0]>
                                     <th mat-header-cell *matHeaderCellDef> {{ tableColumns[0] }} </th>
@@ -400,7 +400,7 @@
                           <button mat-button class="button-text-primary" (click)="leave()">{{Text.cancel}}</button>
 
                           <button mat-raised-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading" (click)="create()">{{Text.create}}</button>
-                          <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update_title}}</button>
+                          <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update}}</button>
                         </div>
 
                     </div>

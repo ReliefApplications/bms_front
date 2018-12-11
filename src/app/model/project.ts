@@ -298,7 +298,7 @@ export class Project {
     }
 
     public static getAddDescription() : String {
-        return GlobalText.TEXTS.projects_description;
+        return GlobalText.TEXTS.project_description;
     }
 
     mapDonors(donors: any){

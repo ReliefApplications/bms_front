@@ -145,7 +145,7 @@ export class ModalComponent implements OnInit {
 
         //for criterias
         if (this.newObject && this.newObject.kind_beneficiary == '') {
-            this.loadedData.kind_beneficiary = [{ "field_string": this.modal.criteria_beneficiary }, { "field_string": this.modal.households }];
+            this.loadedData.kind_beneficiary = [{ "field_string": this.modal.beneficiary }, { "field_string": this.modal.households }];
         }
 
         if (this.newObject && this.newObject.modality == '') {

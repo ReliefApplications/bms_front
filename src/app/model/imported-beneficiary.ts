@@ -43,7 +43,7 @@ export class ImportedBeneficiary {
 
 
     public static getDisplayedName() {
-        return GlobalText.TEXTS.criteria_beneficiary;
+        return GlobalText.TEXTS.beneficiary;
     }
 
 

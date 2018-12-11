@@ -242,7 +242,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         if (this.distribution !== GlobalText.TEXTS) {
             this.distribution = GlobalText.TEXTS;
             this.mapperObject = this.mapper.findMapperObject(this.entity);
-            this.nameComponent = GlobalText.TEXTS.distribution_title;
+            this.nameComponent = GlobalText.TEXTS.distributions;
             this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
         }
     }

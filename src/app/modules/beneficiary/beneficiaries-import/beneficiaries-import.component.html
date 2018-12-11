@@ -13,7 +13,7 @@
 
             <div class="content-button">
                 <mat-form-field>
-                    <mat-select placeholder={{household.header_projects}} [formControl]="projects"
+                    <mat-select placeholder={{household.projects}} [formControl]="projects"
                         (selectionChange)="getProjectSelected($event)">
                         <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                     </mat-select>
@@ -77,7 +77,7 @@
         <div class="container-content box-red">
             <div class="content-button">
                 <mat-form-field>
-                    <mat-select placeholder={{household.header_projects}} [formControl]="projects"
+                    <mat-select placeholder={{household.projects}} [formControl]="projects"
                         (selectionChange)="getProjectSelected($event)">
                         <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                     </mat-select>

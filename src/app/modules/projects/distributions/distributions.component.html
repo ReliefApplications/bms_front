@@ -2,7 +2,7 @@
 
     <div class="title">
         <div class='first-line-title'>
-            <h2> {{TEXT.header_distributions | titlecase}} </h2>
+            <h2> {{TEXT.distribution | titlecase}} </h2>
         </div>
         <app-placeholder-title *ngIf="loadingDistribution"> </app-placeholder-title>
         <p *ngIf="actualDistribution && !loadingDistribution">
@@ -113,7 +113,7 @@
                                     <mat-icon>shuffle</mat-icon>
                                 </button>
                                 <mat-form-field>
-                                    {{TEXT.sample_choose_size | uppercase}} :
+                                    {{TEXT.distribution_details_sample_size | uppercase}} :
                                     <input matInput [(ngModel)]="this.sampleSize" [ngModelOptions]="{standalone: true}"
                                         min="0" max="100" type="number">
                                     %
@@ -239,7 +239,7 @@
             <div class="content-button">
                     <button mat-raised-button class="refresh-button" (click)="refreshStatuses()">
                         <mat-icon>refresh</mat-icon>
-                        <span>{{TEXT.refresh_transaction}}</span>
+                        <span>{{TEXT.transaction_refresh}}</span>
                     </button>
                     <button mat-raised-button class="request-logs button-background-primary" *ngIf="hasRights" (click)="requestLogs()">
                         <mat-icon>history</mat-icon>

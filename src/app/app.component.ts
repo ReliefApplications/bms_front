@@ -146,20 +146,20 @@ export class AppComponent {
     refreshCurrentComponent(e) {
         // console.log('changed : ', e.nameComponent);
 
-        if (e.nameComponent === 'menu_projects' || e.nameComponent === 'menu_beneficiaries'
-            || e.nameComponent === 'menu_reports' || e.nameComponent === 'menu_settings' || e.nameComponent === 'login') {
+        if (e.nameComponent === 'projects' || e.nameComponent === 'beneficiaries'
+            || e.nameComponent === 'reports' || e.nameComponent === 'settings' || e.nameComponent === 'login') {
             this.currentComponent = e.nameComponent;
         }
         else if (e.nameComponent === 'dashboard_title') {
             this.currentComponent = null;
         } else {
-            if(!this.hasRights && e.nameComponent !== 'profile_title' && e.nameComponent !== 'distribution_title') {
+            if(!this.hasRights && e.nameComponent !== 'profile_title' && e.nameComponent !== 'distributions') {
                 this.router.navigate(['']);
                 e.nameComponent = '';
             }
         }
 
-        if (!this.hasRights && e.nameComponent === 'menu_settings') {
+        if (!this.hasRights && e.nameComponent === 'settings') {
             this.router.navigate(['']);
             e.nameComponent = '';
         }

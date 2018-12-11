@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
     public currentRoute = "/";
     public breadcrumb: Array<any> = [{
         'route': "/",
-        'name': this.header.header_home
+        'name': this.header.home
     }];
 
     constructor(
@@ -79,7 +79,6 @@ export class HeaderComponent implements OnInit {
                             element => {
                                 if(element.id === this.actualUserId) {
                                     this.userData = User.formatFromApi(element);
-                                    // console.log(this.userData)
                                     this.requesting = false;
                                 }
                             }
@@ -92,7 +91,6 @@ export class HeaderComponent implements OnInit {
     }
 
     getCorrectCountries() {
-        // console.log('gets: ', this.userData.rights);
         let countries = this.userData.getAllCountries();
 
         this.countries = [];
@@ -124,10 +122,9 @@ export class HeaderComponent implements OnInit {
     selectCountry(c: string) {
         if(c) {
             this.selectedCountry = c;
-            // TODO: SET NEW COUNTRY IN CACHE TO ACCESS IT EVERYWHERE
             this.asyncacheService.set(AsyncacheService.COUNTRY, this.selectedCountry);
             GlobalText.country = c;
-            
+
             if(c === "SYR") {
                 GlobalText.changeLanguage('ar');
             } else if(c === "KHM") {
@@ -156,7 +153,7 @@ export class HeaderComponent implements OnInit {
 
         this.breadcrumb = [{
             'route': "/",
-            'name': this.header.header_home
+            'name': this.header.home
         }];
 
         parsedRoute.forEach((item, index) => {

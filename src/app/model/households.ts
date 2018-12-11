@@ -124,7 +124,7 @@ export class Households {
             location: GlobalText.TEXTS.location,
             dependents: GlobalText.TEXTS.model_beneficiaries_dependents,
             vulnerabilities: GlobalText.TEXTS.model_vulnerabilities,
-            projects: GlobalText.TEXTS.header_projects,
+            projects: GlobalText.TEXTS.projects,
         }
     }
 

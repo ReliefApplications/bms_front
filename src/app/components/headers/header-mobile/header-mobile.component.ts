@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { GlobalText } from '../../../../texts/global';
 
@@ -30,10 +30,12 @@ export class HeaderMobileComponent implements OnInit {
     constructor(
         public dialog: MatDialog,
         private userService: UserService,
-        private asyncacheService: AsyncacheService
+        private asyncacheService: AsyncacheService,
+        private snackbar: MatSnackBar
     ) { }
 
     ngOnInit() {
+        this.language = GlobalText.language;
     }
 
     logOut(): void {
@@ -41,10 +43,13 @@ export class HeaderMobileComponent implements OnInit {
     }
 
     ngDoCheck() {
+        if (this.header !== GlobalText.TEXTS) {
+            this.header = GlobalText.TEXTS;
+        }
         this.refreshUserData();
 
         if(this.language !== GlobalText.language) {
-            this.language = GlobalText.language;
+            this.ngOnInit();
         }
     }
 
@@ -65,7 +70,7 @@ export class HeaderMobileComponent implements OnInit {
                         result.forEach(
                             element => {
                                 if (element.id === this.actualUserId) {
-                                    this.userData = User.formatFromApi(element);
+                                this.userData = User.formatFromApi(element);
                                     //console.log(this.userData)
                                     this.requesting = false;
                                 }
@@ -96,22 +101,36 @@ export class HeaderMobileComponent implements OnInit {
                 this.countries.push(element);
             });
         }
-        this.selectCountry(this.countries[0]);
+        this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(
+            result => {
+                if(result) {
+                    this.selectCountry(result);
+                    this.autoLanguage(result);
+                } else {
+                    this.selectCountry(this.countries[0]);
+                }
+            }
+        )
     }
 
     selectCountry(c: string) {
-        if (c) {
-            this.selectedCountry = c;
-            // TODO: SET NEW COUNTRY IN CACHE TO ACCESS IT EVERYWHERE
-            this.asyncacheService.set(AsyncacheService.COUNTRY, this.selectedCountry);
-            GlobalText.country = c;
-            
-            if(c === "SYR") {
-                GlobalText.changeLanguage('ar');
-            } else if(c === "KHM") {
-                GlobalText.changeLanguage('en');
+        if(c) {
+            if(GlobalText.country && c !== this.selectedCountry) {
+                this.preventSnack(c);
             }
-        }   
+
+            this.selectedCountry = c;
+            GlobalText.country = c;
+            this.asyncacheService.set(AsyncacheService.COUNTRY, this.selectedCountry);
+        }
+    }
+
+    autoLanguage(c: string) {
+        if(c === "SYR") {
+            GlobalText.changeLanguage('ar');
+        } else if(c === "KHM") {
+            GlobalText.changeLanguage('en');
+        }
     }
 
     getFlag(c: string) {
@@ -124,6 +143,22 @@ export class HeaderMobileComponent implements OnInit {
         }
 
         return (url);
+    }
+
+    preventSnack(country: string) {
+        const snack = this.snackbar.open('Page is going to reload in 3 sec to switch on ' + country + ' country. ', 'Reload now', {duration: 3000});
+
+        snack
+            .onAction()
+            .subscribe(() => {
+                window.location.reload();
+            });
+
+        snack
+            .afterDismissed()
+            .subscribe(() => {
+                window.location.reload();
+            });
     }
 
     /**

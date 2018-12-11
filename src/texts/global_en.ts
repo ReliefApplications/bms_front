@@ -95,7 +95,7 @@ export const TEXT = {
 
     // Beneficiaries
     beneficiaries_add_distribution: 'Add beneficiaries to this distribution',
-    beneficiaries_add_list: 'Add this list to a projecي',
+    beneficiaries_add_list: 'Add this list to a project',
     beneficiaries_add_project: 'Please select the project(s) in which you would like to add the',
     beneficiaries_added: 'Beneficiairies added to the selected project',
     beneficiaries_full_address: 'Full household address:',

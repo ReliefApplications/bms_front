@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { GlobalText } from 'src/texts/global';
+import { HttpService } from '../api/http.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
 	providedIn: 'root'
@@ -40,9 +42,11 @@ export class AsyncacheService {
     static readonly VULNERABILITIES             = 'vulnerabilities';
     static readonly SUMMARY                     = 'summary';
     static readonly COUNTRY                     = 'country';
+    static readonly STORED_PUT                  = 'stored_put';
 
     constructor(
         protected localStorage : LocalStorage,
+        protected http: HttpClient,
     ) {
         this.storage = localStorage;
     }
@@ -56,7 +60,8 @@ export class AsyncacheService {
     }
 
     formatKey(key : string) : string {
-        if(key === AsyncacheService.COUNTRY || key === AsyncacheService.USER || key === AsyncacheService.USERS) {
+        if(key === AsyncacheService.COUNTRY || key === AsyncacheService.USER || key === AsyncacheService.USERS
+            || key === AsyncacheService.STORED_PUT) {
             return this.PREFIX + '_' + key;
         } else {
             return this.PREFIX + '_' + AsyncacheService.actual_country + '_' + key;
@@ -192,6 +197,47 @@ export class AsyncacheService {
     remove(key: string) {
         key = this.formatKey(key);
         this.storage.removeItemSubscribe(key);
+    }
+
+    storeRequest(type: string, request: Object) {
+        if(type === 'PUT') {
+            let storedRequests = new Array();
+            this.get(AsyncacheService.STORED_PUT).subscribe(
+                result => {
+                    if(!result) {
+                        storedRequests = [];
+                    } else {
+                        storedRequests = result;
+                    }
+                    storedRequests.push(request);
+                    this.set(AsyncacheService.STORED_PUT, storedRequests);
+                }
+            );
+        } else {
+            return null;
+        }
+    }
+
+    sendStoredRequests() {
+        // TODO : delete from cache when sent + improve display...
+        this.get(AsyncacheService.STORED_PUT).subscribe(
+            requests => {
+                if(requests) {
+                    requests.forEach(
+                        request => {
+                            this.http.put(request.url, request.body, request.options).subscribe(
+                                sent => {
+                                    console.log('Stored request (' + request.url + ') has been sent');
+                                },
+                                () => {
+                                    console.log('Failed to send stored (' + request.url + ')');
+                                }
+                            )
+                        }
+                    )
+                }
+            }
+        );
     }
 
     clear(force : boolean = true) {

@@ -38,6 +38,7 @@ export class HttpService {
                 case '/location/upcoming_distribution' : return(AsyncacheService.UPCOMING)
                 case '/country_specifics' : return(AsyncacheService.SPECIFICS)
                 case '/users' : return(AsyncacheService.USERS)
+                case '/sectors' : return(AsyncacheService.SECTORS)
                 case '/donors' : return(AsyncacheService.DONORS)
                 case '/location/adm1' : return(AsyncacheService.ADM1)
                 case '/location/adm2' : return(AsyncacheService.ADM2)
@@ -47,6 +48,7 @@ export class HttpService {
                 case '/modalities' : return(AsyncacheService.MODALITIES)
                 case '/vulnerability_criteria' : return(AsyncacheService.VULNERABILITIES)
                 case '/summary' : return(AsyncacheService.SUMMARY)
+                case '/households' : return(AsyncacheService.HOUSEHOLDS)
                 default:
                     if(url.substring(0,24) === '/distributions/projects/')
                         return(AsyncacheService.DISTRIBUTIONS + '_' + url.split('/distributions/projects/')[1]);
@@ -106,8 +108,32 @@ export class HttpService {
         }
         // If disconnected and item uncachable
         else {
-            this.snackbar.open( 'This data can\'t be accessed offline', '', {duration:1000, horizontalPosition: 'center'});
+            this.snackbar.open( 'This data can\'t be accessed offline', '', {duration:3000, horizontalPosition: 'center'});
             return of([]);
+        }
+    }
+
+    put(url, body, options = {}) : Observable<any> {
+        const AS = AsyncacheService;
+        let itemKey = this.resolveItemKey(url);
+        let connected = this.networkService.getStatus();
+
+        if(!connected) {
+            // If the Offline user is trying to create Distribution/Project/Household
+            if(itemKey === AS.DISTRIBUTIONS || itemKey === AS.PROJECTS || itemKey === AS.HOUSEHOLDS) {
+                let request = { url, body, options };
+                this.cacheService.storeRequest('PUT', request);
+                this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
+            }
+            // Otherwise
+            else {
+                this.snackbar.open('No network connection to create data', '', {duration:3000, horizontalPosition: 'center'});
+            }
+
+            return(of(null));
+        }
+        else {
+            return this.http.put(url, body, options);
         }
     }
 
@@ -117,18 +143,7 @@ export class HttpService {
         if(connected) {
             return this.http.post(url, body, options);
         } else {
-            this.snackbar.open('No network connection to update data', '', {duration:1000, horizontalPosition: 'center'});
-            return of(null);
-        }
-    }
-
-    put(url, body, options = {}) : Observable<any> {
-        let connected = this.networkService.getStatus();
-
-        if(connected) {
-            return this.http.put(url, body, options);
-        } else {
-            this.snackbar.open('No network connection to create data', '', {duration:1000, horizontalPosition: 'center'});
+            this.snackbar.open('No network connection to update data', '', {duration:3000, horizontalPosition: 'center'});
             return of(null);
         }
     }
@@ -139,7 +154,7 @@ export class HttpService {
         if(connected) {
             return this.http.delete(url, options);
         } else {
-            this.snackbar.open('No network connection to delete data', '', {duration:1000, horizontalPosition: 'center'});
+            this.snackbar.open('No network connection to delete data', '', {duration:3000, horizontalPosition: 'center'});
             return of(null);
         }
     }

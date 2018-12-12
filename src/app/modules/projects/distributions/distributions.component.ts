@@ -44,8 +44,8 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     loadingFinalStep: boolean;
     loadingTransaction: boolean;
     sampleSize: number; // %
-    extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods
-    extensionTypeStep3: string; // 1.xls / 2.csv / 3.ods
+    extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods / 4.pdf
+    extensionTypeStep3: string; // 1.xls / 2.csv / 3.ods / 4.pdf
 
     // Entities passed to table components.
     beneficiaryEntity = Beneficiaries;

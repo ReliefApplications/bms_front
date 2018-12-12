@@ -91,4 +91,9 @@ export class DistributionService {
         return this.exportService.export('distributionSample', true, extensionType, {sample: sample});
 
     }
+
+    public checkProgression(id: number) {
+        const url = this.api + '/transaction/distribution/' + id + '/progression';
+        return this.http.get(url);
+    }
 }

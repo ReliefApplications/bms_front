@@ -124,7 +124,10 @@ export class HeaderComponent implements OnInit {
 
     selectCountry(c: string) {
         if(c) {
-            if(GlobalText.country && c !== this.selectedCountry) {
+            if(!this.selectedCountry || !GlobalText.country) {
+                this.autoLanguage(c);
+            }
+            else if(GlobalText.country && this.selectedCountry && c !== this.selectedCountry) {
                 this.preventSnack(c);
             }
 
@@ -160,15 +163,13 @@ export class HeaderComponent implements OnInit {
         snack
             .onAction()
             .subscribe(() => {
-                window.location.reload()
-                this.autoLanguage(country);
+                window.location.reload();
             });
 
         snack
             .afterDismissed()
             .subscribe(() => {
                 window.location.reload();
-                this.autoLanguage(country);
             });
     }
 

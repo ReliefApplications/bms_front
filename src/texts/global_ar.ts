@@ -231,6 +231,7 @@ export const TEXT = {
     modal_language_title: 'اللغة',
     modal_no_country: 'عليك بتحديد بلد على الأقل يتعلق بالحق',
     modal_no_password: 'عليك بادخال كلمة المرور ',
+    modal_not_enough_strong: 'The password is not strong enough... Minimum required: 8 characters, 1 lowercase, 1 uppercase, 1 numeric',
     modal_no_project: 'عليك بتحديد مشروع على الأقل يتعلق بالحق',
     modal_required: 'مطلوب',
     modal_valid_email: 'من فضلك أدخل البريد الكتروني الصحيح',

@@ -68,6 +68,7 @@ import { TableMobileBeneficiariesComponent } from '../components/table/table-mob
 import { CountoModule }  from 'angular2-counto';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ImportedDataComponent } from '../modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
+import { RecaptchaModule } from 'angular-google-recaptcha';
 
 @NgModule({
 imports: [
@@ -112,8 +113,11 @@ imports: [
     MatGridListModule,
     CountoModule,
     NgSelectModule,
-ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
-],
+    RecaptchaModule.forRoot({
+        siteKey: '6LdJjIAUAAAAAFHrAB20mjuVhwRsLhTgfq4ioeaO',
+    }),
+    ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
+    ],
 declarations: [
     // Shared Components
     LoginComponent,

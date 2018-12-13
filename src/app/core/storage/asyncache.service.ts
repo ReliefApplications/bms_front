@@ -4,8 +4,6 @@ import { CachedItemInterface }          from './cached-item.interface';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user';
-import { GlobalText } from 'src/texts/global';
-import { HttpService } from '../api/http.service';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -14,12 +12,17 @@ import { HttpClient } from '@angular/common/http';
 export class AsyncacheService {
 
     private storage : any;
+
+    // Constants
     readonly PREFIX                             = 'bms';
     readonly SECTIMEOUT 						= 2592000; // 30 day in seconds
     readonly MSTIMEOUT                          = this.SECTIMEOUT*1000;
 
     //  Country
     static actual_country;
+
+    // Request storing
+    static pendingRequests: boolean = false;
 
     // Keys
     static readonly USER 						= 'user';
@@ -42,7 +45,7 @@ export class AsyncacheService {
     static readonly VULNERABILITIES             = 'vulnerabilities';
     static readonly SUMMARY                     = 'summary';
     static readonly COUNTRY                     = 'country';
-    static readonly STORED_PUT                  = 'stored_put';
+    static readonly PENDING_REQUESTS            = 'pending_requests';
 
     constructor(
         protected localStorage : LocalStorage,
@@ -61,7 +64,7 @@ export class AsyncacheService {
 
     formatKey(key : string) : string {
         if(key === AsyncacheService.COUNTRY || key === AsyncacheService.USER || key === AsyncacheService.USERS
-            || key === AsyncacheService.STORED_PUT) {
+            || key === AsyncacheService.PENDING_REQUESTS) {
             return this.PREFIX + '_' + key;
         } else {
             return this.PREFIX + '_' + AsyncacheService.actual_country + '_' + key;
@@ -200,29 +203,30 @@ export class AsyncacheService {
     }
 
     storeRequest(type: string, request: Object) {
-        if(type === 'PUT') {
-            let storedRequests = new Array();
-            this.get(AsyncacheService.STORED_PUT).subscribe(
-                result => {
-                    if(!result) {
-                        storedRequests = [];
-                    } else {
-                        storedRequests = result;
-                    }
-                    storedRequests.push(request);
-                    this.set(AsyncacheService.STORED_PUT, storedRequests);
+        let storedRequests = new Array();
+        this.get(AsyncacheService.PENDING_REQUESTS).subscribe(
+            result => {
+                if(!result) {
+                    storedRequests = [];
+                    storedRequests['PUT'] = [];
+                    storedRequests['POST'] = [];
+                    storedRequests['DELETE'] = [];
+                } else {
+                    storedRequests = result;
                 }
-            );
-        } else {
-            return null;
-        }
+                storedRequests[type].push(request);
+                this.set(AsyncacheService.PENDING_REQUESTS, storedRequests);
+            }
+        );
     }
 
     sendStoredRequests() {
         // TODO : delete from cache when sent + improve display...
-        this.get(AsyncacheService.STORED_PUT).subscribe(
+        this.get(AsyncacheService.PENDING_REQUESTS).subscribe(
             requests => {
                 if(requests) {
+                    let stillToBeSent = [];
+                    
                     requests.forEach(
                         request => {
                             this.http.put(request.url, request.body, request.options).subscribe(
@@ -231,10 +235,13 @@ export class AsyncacheService {
                                 },
                                 () => {
                                     console.log('Failed to send stored (' + request.url + ')');
+                                    stillToBeSent.push(request);
                                 }
                             )
                         }
-                    )
+                    );
+
+                    this.set(AsyncacheService.PENDING_REQUESTS, stillToBeSent);
                 }
             }
         );

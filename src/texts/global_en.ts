@@ -195,6 +195,8 @@ export const TEXT = {
     header_settings: 'Settings',
     'header_update-beneficiary': 'Update Beneficiaries',
 
+
+
     // Import
     import_added: 'Added from existing beneficiaries',
     import_created: 'Newly created',
@@ -232,6 +234,7 @@ export const TEXT = {
     modal_no_country: 'You must define a country with that role',
     modal_no_password: 'You must define a password',
     modal_no_project: 'You must define at least a project with that role',
+    modal_pending_requests: 'Pending Requests',
     modal_required: 'required',
     modal_valid_email: 'Please enter a valid email address',
 

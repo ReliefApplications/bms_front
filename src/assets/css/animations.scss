@@ -21,6 +21,15 @@
   100% {opacity: 0.3;}
 }
 
+@keyframes notification-blink {
+    from {
+        opacity: 0.9;
+    }
+    to {
+        opacity: 0.2;
+    }
+}
+
 @keyframes box-pop-in {
     from {
         transform: translate(0px, -20px);

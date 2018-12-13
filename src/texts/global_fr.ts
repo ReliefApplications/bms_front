@@ -232,6 +232,7 @@ export const TEXT = {
     modal_no_country: 'Vous devez définir au moins une ville pour ce rôle',
     modal_no_password: 'Vous devez définir un mot de passe',
     modal_no_project: 'Vous devez définir au moins un projet pour ce rôle',
+    modal_pending_requests: 'Pending Requests',
     modal_required: 'obligatoire',
     modal_valid_email: 'Veuillez utiliser un mail valide',
 

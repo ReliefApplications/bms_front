@@ -35,11 +35,15 @@ export class NetworkService {
                     this.CONNECTED = status;
                     // If the user user is newly connected
                     if(this.CONNECTED) {
-                        this.cacheService.sendStoredRequests();
+                        // this.cacheService.sendStoredRequests();
                     }
                 }
             }
-        )
+        );
+    }
+
+    public getOnlineObs() {
+        return this.online$;
     }
 
     public getStatus(): boolean {

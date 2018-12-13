@@ -8,10 +8,6 @@ import { ModalLanguageComponent } from '../../../components/modals/modal-languag
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/core/api/user.service';
-import { forEach } from '@angular/router/src/utils/collection';
-import { ProjectService } from 'src/app/core/api/project.service';
-import { count } from 'rxjs/operators';
-import { timer } from 'rxjs';
 
 @Component({
     selector: 'app-header',
@@ -51,7 +47,6 @@ export class HeaderComponent implements OnInit {
                     this.currentRoute = this.currentRoute.substring(0, this.currentRoute.indexOf('?'));
                 }
                 this.updateBreadcrumb();
-
             }
         })
     }

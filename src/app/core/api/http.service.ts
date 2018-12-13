@@ -1,17 +1,13 @@
 import { Injectable                                 } from '@angular/core';
-import { RequestOptions                             } from '@angular/http';
-import { HttpClient, HttpParams                     } from '@angular/common/http';
+import { HttpClient                                 } from '@angular/common/http';
 import { URL_BMS_API } from '../../../environments/environment';
-import { Router, UrlHandlingStrategy                                     } from '@angular/router';
 
 //Services
-import { WsseService                                } from '../authentication/wsse.service';
 import { Observable, concat, of, merge } from 'rxjs';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { map } from 'rxjs/operators';
 import { NetworkService } from './network.service';
 import { MatSnackBar } from '@angular/material';
-import { type } from 'os';
 
 @Injectable({
 	providedIn: 'root'
@@ -120,7 +116,7 @@ export class HttpService {
 
         if(!connected) {
             // If the Offline user is trying to create Distribution/Project/Household
-            if(itemKey === AS.DISTRIBUTIONS || itemKey === AS.PROJECTS || itemKey === AS.HOUSEHOLDS) {
+            if(itemKey) {
                 let request = { url, body, options };
                 this.cacheService.storeRequest('PUT', request);
                 this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
@@ -138,24 +134,50 @@ export class HttpService {
     }
 
     post(url, body, options = {}) : Observable<any> {
+        const AS = AsyncacheService;
+        let itemKey = this.resolveItemKey(url);
         let connected = this.networkService.getStatus();
 
-        if(connected) {
+        if(!connected) {
+            // If the Offline user is trying to create Distribution/Project/Household
+            if(itemKey) {
+                let request = { url, body, options };
+                this.cacheService.storeRequest('POST', request);
+                this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
+            }
+            // Otherwise
+            else {
+                this.snackbar.open('No network connection to create data', '', {duration:3000, horizontalPosition: 'center'});
+            }
+
+            return(of(null));
+        }
+        else {
             return this.http.post(url, body, options);
-        } else {
-            this.snackbar.open('No network connection to update data', '', {duration:3000, horizontalPosition: 'center'});
-            return of(null);
         }
     }
 
     delete(url, options = {}) : Observable<any> {
+        const AS = AsyncacheService;
+        let itemKey = this.resolveItemKey(url);
         let connected = this.networkService.getStatus();
 
-        if(connected) {
+        if(!connected) {
+            // If the Offline user is trying to create Distribution/Project/Household
+            if(itemKey) {
+                let request = { url, options };
+                this.cacheService.storeRequest('DELETE', request);
+                this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
+            }
+            // Otherwise
+            else {
+                this.snackbar.open('No network connection to create data', '', {duration:3000, horizontalPosition: 'center'});
+            }
+
+            return(of(null));
+        }
+        else {
             return this.http.delete(url, options);
-        } else {
-            this.snackbar.open('No network connection to delete data', '', {duration:3000, horizontalPosition: 'center'});
-            return of(null);
         }
     }
 

@@ -22,7 +22,7 @@ export class ModalRequestsComponent implements OnInit {
     public TEXTS = GlobalText.TEXTS;
 
     // Table constants.
-    public columnsToDisplay = ['method', 'target', 'date', 'send'];
+    public columnsToDisplay = ['icon','method', 'target', 'date', 'send'];
     public expandedElement: any | null;
 
     // Data.

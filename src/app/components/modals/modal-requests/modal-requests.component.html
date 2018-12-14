@@ -3,10 +3,21 @@
 
     <table mat-table [dataSource]="allRequestData" multiTemplateDataRows>
         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-            <th mat-header-cell *matHeaderCellDef> {{column | titlecase}} </th>
+            <th mat-header-cell *matHeaderCellDef> 
+                <h3 *ngIf="column !== 'icon'">
+                    {{column | titlecase}} 
+                </h3>
+            </th>
             <td mat-cell *matCellDef="let element">
+                <div *ngIf="column == 'icon'">
+                    <mat-icon *ngIf="element.method == 'PUT'">add</mat-icon>
+                    <mat-icon *ngIf="element.method == 'POST'">edit</mat-icon>
+                    <mat-icon *ngIf="element.method == 'DELETE'">clear</mat-icon>
+                </div>
                 <div *ngIf="column == 'method'">
-                    {{ element.method }}
+                    <strong>
+                        {{ element.method }}
+                    </strong>
                 </div>
                 <div *ngIf="column == 'target'">
                     {{ element.url.split('wsse/')[1] | titlecase }}
@@ -15,7 +26,12 @@
                     {{ formatDate(element.date) }}
                 </div>
                 <div *ngIf="column == 'send'">
-                    <button mat-button class="button-background-accent" (click)="sendRequest(element); $event.stopPropagation()">send</button>
+                    <button mat-button class="button-background-accent" (click)="sendRequest(element); $event.stopPropagation()">
+                        <mat-icon>send</mat-icon>
+                        <strong *ngIf="element.method == 'PUT'"> Create it</strong>
+                        <strong *ngIf="element.method == 'POST'"> Update it</strong>
+                        <strong *ngIf="element.method == 'DELETE'"> Delete it</strong>
+                    </button>
                 </div>
             </td>
         </ng-container>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../../core/authentication/authentication.service';
@@ -6,9 +6,10 @@ import { User, ErrorInterface } from '../../model/user';
 
 import { GlobalText } from '../../../texts/global';
 import { MatSnackBar } from '@angular/material';
-import { Observable, Subscription, from, of } from 'rxjs';
-import { finalize, catchError } from 'rxjs/operators';
+import { Subscription, from, of } from 'rxjs';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { FormControl } from '@angular/forms';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
     selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
     public user: User;
     public forgotMessage: boolean = false;
     public loader: boolean = false;
+    public loginCaptcha = false;
 
     constructor(
         public _authService: AuthenticationService,
@@ -49,7 +51,7 @@ export class LoginComponent implements OnInit {
             result => {
                 this.user = result;
                 if (this.user) {
-                    // console.log('initialised user --', this.user);
+                    console.log('Initialised user :', this.user);
                 } else {
                     this.blankUser();
                 }
@@ -96,18 +98,28 @@ export class LoginComponent implements OnInit {
         const subscription = from(this._authService.login(this.user));
         subscription.subscribe(
                 (user: User) => {
+                    console.log('User got on login subscribe :', user);
                     this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
                     this.router.navigate(['/']);
                     GlobalText.changeLanguage();
                     this.loader = false;
                 },
                 (error: ErrorInterface) => {
+                    console.log('Err: ', error);
                     this.forgotMessage = true;
                     this.loader = false;
                 });
     }
+ 
+    onScriptError() {
+        this.snackBar.open('Captcha failed', '', { duration: 5000, horizontalPosition: "center" });
+    }
 
     ngOnDestroy() {
         this.authUser$.unsubscribe();
+    }
+
+    prod() {
+        return(environment.production);
     }
 }

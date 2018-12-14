@@ -46,11 +46,12 @@ export class AuthenticationService {
                 let getSalt = success as SaltInterface;
                 user.salted_password = this._wsseService.saltPassword(getSalt.salt, user.password);
                 delete user.password;
+                console.log('Sending logUser request with: ', user);
                 this.logUser(user).subscribe(success => {
                     let data = success;
 
                     if (data) {
-                        // console.log("Successfully logged in", success);
+                        console.log("Successfully logged in", success);
 
                         this.user = data as User;
                         this.user.loggedIn = true;
@@ -65,6 +66,7 @@ export class AuthenticationService {
 
                         resolve(this.user)
                     } else {
+                        console.log('trouble');
                         reject({ message: 'Bad credentials' })
                     }
                 }, error => {

@@ -46,6 +46,11 @@ export class TransactionBeneficiary {
      * Last message from API.
      */
     message: string;
+    
+    /**
+     * Transaction id.
+     */
+    id_transaction: number;
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -57,6 +62,7 @@ export class TransactionBeneficiary {
             this.values = instance.values;
             this.pickupDate = instance.pickupDate ? instance.pickupDate : null;
             this.message = instance.message;
+            this.id_transaction = instance.id_transaction;
         }
     }
 
@@ -77,7 +83,8 @@ export class TransactionBeneficiary {
             state: GlobalText.TEXTS.model_transaction_state,
             values: GlobalText.TEXTS.model_value,
             date: GlobalText.TEXTS.model_transaction_pickupDate,
-            message: GlobalText.TEXTS.model_transaction_message
+            message: GlobalText.TEXTS.model_transaction_message,
+            id_transaction: GlobalText.TEXTS.transaction_transaction,
         };
     }
 
@@ -120,6 +127,7 @@ export class TransactionBeneficiary {
         beneficiary.givenName = instance.beneficiary.given_name;
         beneficiary.familyName = instance.beneficiary.family_name;
         beneficiary.phone = instance.beneficiary.phones[0] ? instance.beneficiary.phones[0].number : undefined;
+        beneficiary.id_transaction = instance.transactions[0].id;
 
         if (instance.transactions && instance.transactions.length>0 && isNumber(instance.transactions[0].transaction_status)) {
             switch (instance.transactions[instance.transactions.length - 1].transaction_status) {
@@ -251,9 +259,10 @@ export class TransactionBeneficiary {
                 stateString = 'Not sent';
                 break;
         }
-
+        
         if(selfinstance.state === 3) {
             return {
+                id_transaction: selfinstance.id_transaction,
                 givenName: selfinstance.givenName,
                 familyName: selfinstance.familyName,
                 phone: selfinstance.phone ? selfinstance.phone : 'none',
@@ -264,6 +273,7 @@ export class TransactionBeneficiary {
             };
         } else {
             return {
+                id_transaction: selfinstance.id_transaction,
                 givenName: selfinstance.givenName,
                 familyName: selfinstance.familyName,
                 phone: selfinstance.phone ? selfinstance.phone : 'none',

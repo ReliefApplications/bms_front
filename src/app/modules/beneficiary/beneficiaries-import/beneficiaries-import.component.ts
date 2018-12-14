@@ -193,7 +193,6 @@ export class BeneficiariesImportComponent implements OnInit {
                 this.router.navigate(['/beneficiaries/import/data-validation']);
             }, (err) => {
                 this.load = false;
-                this.snackBar.open(err.message, '', { duration: 5000, horizontalPosition: 'center' });
             })
                 .catch(
                     () => {

@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
             result => {
                 this.user = result;
                 if (this.user) {
-                    // console.log('initialised user --', this.user);
+                    console.log('Initialised user :', this.user);
                 } else {
                     this.blankUser();
                 }
@@ -98,12 +98,14 @@ export class LoginComponent implements OnInit {
         const subscription = from(this._authService.login(this.user));
         subscription.subscribe(
                 (user: User) => {
+                    console.log('User got on login subscribe :', user);
                     this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
                     this.router.navigate(['/']);
                     GlobalText.changeLanguage();
                     this.loader = false;
                 },
                 (error: ErrorInterface) => {
+                    console.log('Err: ', error);
                     this.forgotMessage = true;
                     this.loader = false;
                 });

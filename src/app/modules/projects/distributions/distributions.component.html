@@ -22,8 +22,9 @@
 
                 <div class="container-table">
                     <div class="container-content">
-                      <app-box-properties *ngIf="actualDistribution && initialBeneficiaryData" class="properties-displayed" [entity]="distributionEntity"
-                      [mapperService]="mapperService" [componentDisplayed]="actualDistribution" [data]="initialBeneficiaryData.data"></app-box-properties>
+                        <app-box-properties *ngIf="actualDistribution && initialBeneficiaryData" class="properties-displayed"
+                            [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"
+                            [data]="initialBeneficiaryData.data"></app-box-properties>
                         <div class="content-button">
                             <div class="action-buttons">
                                 <button mat-raised-button class="export-button" (click)="export()" *ngIf="!loadingExport">
@@ -80,11 +81,12 @@
 
                 <div class="container-table">
                     <div class="container-content">
-                        <app-box-properties *ngIf="actualDistribution && initialBeneficiaryData" class="properties-displayed" [entity]="distributionEntity"
-                            [mapperService]="mapperService" [componentDisplayed]="actualDistribution" [data]="initialBeneficiaryData.data"></app-box-properties>
+                        <app-box-properties *ngIf="actualDistribution && initialBeneficiaryData" class="properties-displayed"
+                            [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"
+                            [data]="initialBeneficiaryData.data"></app-box-properties>
                         <div class="import-content">
-                            <app-import-distribution *ngIf="!actualDistribution.validated" [distribution]="this.actualDistribution" [rights]="hasRights"
-                                (success)=" this.getDistributionBeneficiaries('final');
+                            <app-import-distribution *ngIf="!actualDistribution.validated" [distribution]="this.actualDistribution"
+                                [rights]="hasRights" (success)=" this.getDistributionBeneficiaries('final');
                                             this.getDistributionBeneficiaries('initial');
                                             jumpStep(myStepper)">
                             </app-import-distribution>
@@ -128,7 +130,8 @@
                                 </button>
                                 <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                                 <div class="extension">
-                                    <div mat-button class="dropdown" *ngIf="!loadingExport" [matMenuTriggerFor]="exportType3" [ngClass]="{'arabic':language==='ar'}">
+                                    <div mat-button class="dropdown" *ngIf="!loadingExport" [matMenuTriggerFor]="exportType3"
+                                        [ngClass]="{'arabic':language==='ar'}">
                                         <mat-icon>keyboard_arrow_down</mat-icon>
                                     </div>
                                     <mat-menu #exportType3>
@@ -176,8 +179,9 @@
                 <div class="container-table">
                     <div class="container-content">
                         <div class="content-button">
-                            <app-box-properties *ngIf="actualDistribution && finalBeneficiaryData" class="properties-displayed" [entity]="distributionEntity"
-                                [mapperService]="mapperService" [componentDisplayed]="actualDistribution" [data]="finalBeneficiaryData.data"></app-box-properties>
+                            <app-box-properties *ngIf="actualDistribution && finalBeneficiaryData" class="properties-displayed"
+                                [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"
+                                [data]="finalBeneficiaryData.data"></app-box-properties>
                         </div>
                         <div class="container-empty" *ngIf="!finalBeneficiaryData && !loadingFinalStep">
                             <p>
@@ -202,9 +206,10 @@
                         </div>
                         <div class="content-button content-button-footer">
                             <mat-spinner [diameter]="35" *ngIf="loaderValidation"></mat-spinner>
-                            <button mat-raised-button *ngIf="!loaderValidation" class="button-background-accent" (click)="openDialog(validation)" [disabled]="actualDistribution.validated">
-                                <mat-icon >lock</mat-icon>
-                                 {{TEXT.distribution_validate}}
+                            <button mat-raised-button *ngIf="!loaderValidation" class="button-background-accent"
+                                (click)="openDialog(validation)" [disabled]="actualDistribution.validated">
+                                <mat-icon>lock</mat-icon>
+                                {{TEXT.distribution_validate}}
                             </button>
                         </div>
                     </div>
@@ -222,8 +227,10 @@
             </div>
             <div class="progression">
                 <div class="commodities" *ngFor="let commodity of actualDistribution.commodities">
-                    <h4>{{commodity.modality_type.name}} {{TEXT.transaction_progress}} {{getAmount('ratio', commodity)}} % </h4>
-                    <mat-progress-bar mode="determinate" [value]="getAmount('ratio', commodity)"></mat-progress-bar>
+                    <h4>{{commodity.modality_type.name}} {{TEXT.transaction_progress}} {{getAmount('ratio',
+                        commodity)}} % </h4>
+                    <mat-progress-bar mode="determinate" [value]="getAmount('ratio',
+                    commodity)"></mat-progress-bar>
                     <div class="details">
                         <div class="info_1">
                             <h5>{{TEXT.transaction_amount_total | uppercase}}</h5>
@@ -241,30 +248,33 @@
                 </div>
             </div>
             <div class="content-button">
-                    <button mat-raised-button class="refresh-button" (click)="refreshStatuses()">
-                        <mat-icon>refresh</mat-icon>
-                        <span>{{TEXT.transaction_refresh}}</span>
-                    </button>
-                    <button mat-raised-button class="request-logs button-background-primary" *ngIf="hasRights" (click)="requestLogs()">
-                        <mat-icon>history</mat-icon>
-                        <span>{{TEXT.distribution_request_logs}}</span>
-                    </button>
-                </div>
+                <button mat-raised-button class="refresh-button" (click)="refreshStatuses()">
+                    <mat-icon>refresh</mat-icon>
+                    <span>{{TEXT.transaction_refresh}}</span>
+                </button>
+                <button mat-raised-button class="request-logs button-background-primary" *ngIf="hasRights" (click)="requestLogs()">
+                    <mat-icon>history</mat-icon>
+                    <span>{{TEXT.distribution_request_logs}}</span>
+                </button>
+            </div>
             <div class="waitingDataContainer" *ngIf="loadingTransaction">
                 <mat-spinner></mat-spinner>
             </div>
             <div class="content-table" *ngIf="!loadingTransaction">
-                <app-transaction-table *ngIf="widthScreen > maxWidthMobile" [parentObject]="actualDistribution" [entity]="transactionBeneficiaryEntity"
-                    [service]="BeneficiariesService" [data]="transactionData" [editable]="false" >
+                <app-transaction-table *ngIf="widthScreen > maxWidthMobile" [parentObject]="actualDistribution"
+                    [entity]="transactionBeneficiaryEntity" [service]="BeneficiariesService" [data]="transactionData"
+                    [editable]="false">
                 </app-transaction-table>
-                <app-transaction-table-mobile *ngIf="widthScreen < maxWidthMobile" [parentObject]="actualDistribution" [entity]="transactionBeneficiaryEntity"
-                    [service]="BeneficiariesService" [data]="transactionData" [editable]="false" >
+                <app-transaction-table-mobile *ngIf="widthScreen < maxWidthMobile" [parentObject]="actualDistribution"
+                    [entity]="transactionBeneficiaryEntity" [service]="BeneficiariesService" [data]="transactionData"
+                    [editable]="false">
                 </app-transaction-table-mobile>
             </div>
             <div class="content-button content-button-footer">
                 <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
-                <button mat-raised-button *ngIf="hasRightsTransaction && !transacting"  (click)="openDialog(transaction);"
-                class="button-background-accent" [matBadge]="getAmount('people')" matBadgePosition="before" matBadgeColor="primary">
+                <button mat-raised-button *ngIf="hasRightsTransaction && !transacting" (click)="openDialog(transaction);"
+                    class="button-background-accent" [matBadge]="getAmount('people')" matBadgePosition="before"
+                    matBadgeColor="primary">
                     <mat-icon>send</mat-icon> {{TEXT.transaction_transaction}}
                 </button>
             </div>
@@ -275,30 +285,36 @@
 
 <ng-template #transaction>
     <mat-dialog-content class="modal-container">
-        <h4 class="modal-title underline-accent">{{TEXT.transaction_confirm}}</h4>
+        <h4 *ngIf="!correctCode" class="modal-title underline-accent">{{TEXT.transaction_confirm}}</h4>
+        <h4 *ngIf="correctCode" class="modal-title underline-accent">{{TEXT.transaction_inProgress}}</h4>
         <div class="dialog-template">
-            <div class="modal-body" *ngIf="!chartAccepted">
+            <div class="modal-body" *ngIf="!chartAccepted && !correctCode">
                 <p> {{TEXT.transaction_prevention}}</p>
                 <div class="lign-container">
                     <mat-checkbox color="primary" [(ngModel)]="chartAccepted" (change)="codeVerif();"></mat-checkbox>
                     <span> {{TEXT.transaction_accept_prevention}} </span>
                 </div>
             </div>
-            <div class="modal-body" *ngIf="chartAccepted">
-                <p> {{TEXT.transaction_email_code}} <br/> {{actualUser.email | uppercase}}. </p>
+            <div class="modal-body" *ngIf="chartAccepted && !correctCode">
+                <p> {{TEXT.transaction_email_code}} <br /> {{actualUser.email | uppercase}}. </p>
                 <p> {{TEXT.transaction_paste_code}}</p>
-                <br/>
+                <br />
                 <div class="lign-container">
                     <mat-form-field>
                         <input matInput placeholder="Code" [(ngModel)]="enteredCode">
                     </mat-form-field>
                     <button mat-stroked-button class='button-text-primary sendCode-button' (click)='codeVerif()'>{{TEXT.transaction_again}}</button>
                 </div>
-                <br/>
+                <br />
+            </div>
+            <div class="modal-body progression-bar" *ngIf="correctCode">
+                <h4>{{ progression }} %</h4>
+                <mat-progress-bar mode="determinate" [value]="progression"></mat-progress-bar>
             </div>
             <div class="modal-footer action">
-                <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')">{{TEXT.cancel}}</button>
-                <button mat-button class="confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()" *ngIf="chartAccepted">{{TEXT.transaction_confirm_button}}</button>
+                <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')" *ngIf="!correctCode">{{TEXT.cancel}}</button>
+                <button mat-button class="confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()"
+                    *ngIf="chartAccepted && !correctCode">{{TEXT.transaction_confirm_button}}</button>
             </div>
         </div>
     </mat-dialog-content>
@@ -306,7 +322,7 @@
 
 <ng-template #validation>
     <mat-dialog-content class="modal-container">
-        <h4 class="modal-title underline-accent" >{{TEXT.transaction_validation}}</h4>
+        <h4 class="modal-title underline-accent">{{TEXT.transaction_validation}}</h4>
         <div class="dialog-template">
             <div class="modal-body">
                 <p> {{TEXT.transaction_validate_distribution}} </p>
@@ -325,10 +341,12 @@
         <div class="dialog-template">
             <div class="modal-body">
                 <p> {{TEXT.distribution_select_beneficiaries}} <strong> {{actualDistribution.project.name}} </strong>
-                    {{TEXT.distribution_want_add}} <strong> {{actualDistribution.name}} </strong> {{TEXT.report_distribution}}.</p>
+                    {{TEXT.distribution_want_add}} <strong> {{actualDistribution.name}} </strong>
+                    {{TEXT.report_distribution}}.</p>
                 <div class="selectBeneficiaries">
                     <mat-form-field>
-                        <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" [(ngModel)]="selectedBeneficiaries" multiple>
+                        <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" [(ngModel)]="selectedBeneficiaries"
+                            multiple>
                             <mat-option class="options" *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">{{beneficiary.given_name}}
                                 {{beneficiary.family_name}}</mat-option>
                         </mat-select>

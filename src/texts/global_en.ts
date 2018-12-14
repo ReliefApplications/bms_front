@@ -358,6 +358,7 @@ export const TEXT = {
     transaction_transaction: 'Transaction',
     transaction_validate_distribution: 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.',
     transaction_validation: 'Confirm the validation',
+    transaction_inProgress: 'Transaction in progress...',
 
     // Update beneficiary
     update_beneficiary_check_steps: 'Required data incomplete or unvalid: please check all steps',

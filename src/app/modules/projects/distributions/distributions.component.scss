@@ -272,6 +272,20 @@ mat-dialog-content {
     }
 }
 
+.progression-bar {
+
+    width: 100%;
+    
+    h4 {
+        text-align: center;
+    }
+
+    mat-progress-bar {
+        display: inline-block !important;
+        height: 5px;
+    }
+}
+
 .mat-menu-item {
     background-color: white;
     color: black;

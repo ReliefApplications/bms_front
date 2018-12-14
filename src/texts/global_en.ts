@@ -231,6 +231,7 @@ export const TEXT = {
     modal_language_title: 'Language',
     modal_no_country: 'You must define a country with that role',
     modal_no_password: 'You must define a password',
+    modal_not_enough_strong: 'The password is not strong enough... Minimum required: 8 characters, 1 lowercase, 1 uppercase, 1 numeric',
     modal_no_project: 'You must define at least a project with that role',
     modal_required: 'required',
     modal_valid_email: 'Please enter a valid email address',

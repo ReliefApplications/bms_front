@@ -155,6 +155,12 @@ export class ModalAddComponent extends ModalComponent {
                 return;
             }
 
+            const checkPass = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/);
+            if (!checkPass.test(this.newObject.password)) {
+                this.snackBar.open(this.modal.modal_not_enough_strong, '', { duration: 5000, horizontalPosition: 'right' });
+                return;
+            }
+
             if (this.newObject.rights == "") {
                 this.snackBar.open(this.modal.modal_add_no_right, '', { duration: 5000, horizontalPosition: 'right' });
                 return;

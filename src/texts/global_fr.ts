@@ -231,6 +231,7 @@ export const TEXT = {
     modal_leave_sentence: 'Souhaitez-vous réellement quitter sans enregistrer vos modifications ?',
     modal_no_country: 'Vous devez définir au moins une ville pour ce rôle',
     modal_no_password: 'Vous devez définir un mot de passe',
+    modal_not_enough_strong: 'Mot de passe insuffisant... Minimum requis: 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre',
     modal_no_project: 'Vous devez définir au moins un projet pour ce rôle',
     modal_required: 'obligatoire',
     modal_valid_email: 'Veuillez utiliser un mail valide',

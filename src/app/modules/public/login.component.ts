@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../../core/authentication/authentication.service';
@@ -6,9 +6,10 @@ import { User, ErrorInterface } from '../../model/user';
 
 import { GlobalText } from '../../../texts/global';
 import { MatSnackBar } from '@angular/material';
-import { Observable, Subscription, from, of } from 'rxjs';
-import { finalize, catchError } from 'rxjs/operators';
+import { Subscription, from, of } from 'rxjs';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { FormControl } from '@angular/forms';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
     selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
     public user: User;
     public forgotMessage: boolean = false;
     public loader: boolean = false;
+    public loginCaptcha = false;
 
     constructor(
         public _authService: AuthenticationService,
@@ -106,8 +108,16 @@ export class LoginComponent implements OnInit {
                     this.loader = false;
                 });
     }
+ 
+    onScriptError() {
+        this.snackBar.open('Captcha failed', '', { duration: 5000, horizontalPosition: "center" });
+    }
 
     ngOnDestroy() {
         this.authUser$.unsubscribe();
+    }
+
+    prod() {
+        return(environment.production);
     }
 }

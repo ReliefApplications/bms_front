@@ -1,14 +1,17 @@
 <mat-dialog-content class="modal-container">
-    <h4 class="modal-title underline-accent">{{TEXTS.modal_pending_requests}}</h4>
+    <h4 class="modal-title underline-accent">
+        {{TEXTS.modal_pending_requests}}
+        <button mat-raised-button class="send-all button-background-accent" (click)="sendAllRequests()">Send All</button>
+    </h4>
 
-    <table mat-table [dataSource]="allRequestData" multiTemplateDataRows>
+    <table mat-table [dataSource]="requests" multiTemplateDataRows *ngIf="requests && !loading">
         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-            <th mat-header-cell *matHeaderCellDef> 
-                <h3 *ngIf="column !== 'icon'">
+            <th mat-header-cell *matHeaderCellDef class="{{column}}"> 
+                <div *ngIf="column !== 'icon'">
                     {{column | titlecase}} 
-                </h3>
+                </div>
             </th>
-            <td mat-cell *matCellDef="let element">
+            <td mat-cell *matCellDef="let element" class="{{column}}">
                 <div *ngIf="column == 'icon'">
                     <mat-icon *ngIf="element.method == 'PUT'">add</mat-icon>
                     <mat-icon *ngIf="element.method == 'POST'">edit</mat-icon>
@@ -25,12 +28,14 @@
                 <div *ngIf="column == 'date'">
                     {{ formatDate(element.date) }}
                 </div>
-                <div *ngIf="column == 'send'">
-                    <button mat-button class="button-background-accent" (click)="sendRequest(element); $event.stopPropagation()">
-                        <mat-icon>send</mat-icon>
-                        <strong *ngIf="element.method == 'PUT'"> Create it</strong>
-                        <strong *ngIf="element.method == 'POST'"> Update it</strong>
-                        <strong *ngIf="element.method == 'DELETE'"> Delete it</strong>
+                <div *ngIf="column == 'actions'">
+                    <button mat-icon-button class="button-text-primary" (click)="sendRequest(element); $event.stopPropagation()">
+                        <mat-icon *ngIf="element.method == 'PUT'" matTooltip="Create it">send</mat-icon>
+                        <mat-icon *ngIf="element.method == 'POST'" matTooltip="Update it">send</mat-icon>
+                        <mat-icon *ngIf="element.method == 'DELETE'" matTooltip="Delete it">send</mat-icon>
+                    </button>
+                    <button mat-icon-button class="button-text-accent" (click)="removeRequest(element); $event.stopPropagation()">
+                        <mat-icon matTooltip="Remove request">clear</mat-icon>
                     </button>
                 </div>
             </td>
@@ -54,6 +59,9 @@
         </tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="req-detail-row"></tr>
     </table>
+    <div class="loading-container" *ngIf="loading">
+        <mat-spinner [diameter]="40"></mat-spinner>
+    </div>
 
     <div class="modal-button action-buttons">
         <button mat-button (click)="closeDialog()" class="button-text-accent">{{TEXTS.cancel}}</button>

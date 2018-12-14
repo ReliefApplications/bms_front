@@ -8,7 +8,7 @@ import { AsyncacheService } from '../storage/asyncache.service';
 import { map } from 'rxjs/operators';
 import { NetworkService } from './network.service';
 import { MatSnackBar } from '@angular/material';
-import { storedRequestInterface } from 'src/app/model/stored-request';
+import { StoredRequestInterface } from 'src/app/model/stored-request';
 
 @Injectable({
 	providedIn: 'root'
@@ -111,22 +111,20 @@ export class HttpService {
     }
 
     put(url, body, options = {}) : Observable<any> {
-        const AS = AsyncacheService;
-        let itemKey = this.resolveItemKey(url);
+        // const AS = AsyncacheService;
+        // let itemKey = this.resolveItemKey(url);
         let connected = this.networkService.getStatus();
 
         if(!connected) {
-            // If the Offline user is trying to create Distribution/Project/Household
-            if(itemKey) {
                 let date = new Date();
-                let request : storedRequestInterface = {url, body, options , date};
-                this.cacheService.storeRequest('PUT', request);
+                let method = "PUT";
+                let request : StoredRequestInterface = {method, url, body, options, date};
+                this.cacheService.storeRequest(request);
                 this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
-            }
             // Otherwise
-            else {
-                this.snackbar.open('No network connection to create data', '', {duration:3000, horizontalPosition: 'center'});
-            }
+            // else {
+            //     this.snackbar.open('No network connection to create data', '', {duration:3000, horizontalPosition: 'center'});
+            // }
 
             return(of(null));
         }
@@ -136,22 +134,21 @@ export class HttpService {
     }
 
     post(url, body, options = {}) : Observable<any> {
-        const AS = AsyncacheService;
-        let itemKey = this.resolveItemKey(url);
+        // const AS = AsyncacheService;
+        // let itemKey = this.resolveItemKey(url);
         let connected = this.networkService.getStatus();
 
         if(!connected) {
-            // If the Offline user is trying to create Distribution/Project/Household
-            if(itemKey) {
                 let date = new Date();
-                let request : storedRequestInterface = {url, body, options, date};
-                this.cacheService.storeRequest('POST', request);
+                let method = "POST";
+                let request : StoredRequestInterface = {method, url, body, options, date};
+                this.cacheService.storeRequest(request);
                 this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
-            }
+        
             // Otherwise
-            else {
-                this.snackbar.open('No network connection to create data', '', {duration:3000, horizontalPosition: 'center'});
-            }
+            // else {
+            //     this.snackbar.open('No network connection to create data', '', {duration:3000, horizontalPosition: 'center'});
+            // }
 
             return(of(null));
         }
@@ -161,22 +158,20 @@ export class HttpService {
     }
 
     delete(url, options = {}) : Observable<any> {
-        const AS = AsyncacheService;
-        let itemKey = this.resolveItemKey(url);
+        // const AS = AsyncacheService;
+        // let itemKey = this.resolveItemKey(url);
         let connected = this.networkService.getStatus();
 
         if(!connected) {
-            // If the Offline user is trying to create Distribution/Project/Household
-            if(itemKey) {
                 let date = new Date();
-                let request : storedRequestInterface = {url, options, date};
-                this.cacheService.storeRequest('DELETE', request);
+                let method = "DELETE";
+                let request : StoredRequestInterface = {method, url, options, date};
+                this.cacheService.storeRequest(request);
                 this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
-            }
             // Otherwise
-            else {
-                this.snackbar.open('No network connection to create data', '', {duration:3000, horizontalPosition: 'center'});
-            }
+            // else {
+            //     this.snackbar.open('No network connection to create data', '', {duration:3000, horizontalPosition: 'center'});
+            // }
 
             return(of(null));
         }

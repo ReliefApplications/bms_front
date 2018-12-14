@@ -5,8 +5,9 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { HttpClient } from '@angular/common/http';
-import { StoredRequests } from 'src/app/model/stored-request';
+import { StoredRequestInterface } from 'src/app/model/stored-request';
 import { SSL_OP_CISCO_ANYCONNECT } from 'constants';
+import { HttpMethod } from 'blocking-proxy/built/lib/webdriver_commands';
 
 @Injectable({
 	providedIn: 'root'
@@ -223,19 +224,17 @@ export class AsyncacheService {
      * @param type 
      * @param request 
      */
-    storeRequest(type: string, request: Object) {
-        let storedRequests = new StoredRequests();
+    storeRequest(request: StoredRequestInterface) {
+        let storedRequests : Array<StoredRequestInterface> = [];
 
         this.get(AsyncacheService.PENDING_REQUESTS).subscribe(
             result => {
                 if(!result) {
-                    storedRequests.PUT = [];
-                    storedRequests.POST = [];
-                    storedRequests.DELETE = [];
+                    storedRequests = [];
                 } else {
                     storedRequests = result;
                 }
-                storedRequests[type].push(request);
+                storedRequests.push(request);
                 this.set(AsyncacheService.PENDING_REQUESTS, storedRequests);
             }
         );
@@ -244,7 +243,7 @@ export class AsyncacheService {
     /**
      * To send all the stored requests when online.
      */
-    sendStoredRequests() {
+    sendAllStoredRequests() {
         // TODO : update with new data structure
         this.get(AsyncacheService.PENDING_REQUESTS).subscribe(
             requests => {
@@ -253,22 +252,51 @@ export class AsyncacheService {
                     
                     requests.forEach(
                         request => {
-                            this.http.put(request.url, request.body, request.options).subscribe(
-                                sent => {
-                                    console.log('Stored request (' + request.url + ') has been sent');
-                                },
-                                () => {
-                                    console.log('Failed to send stored (' + request.url + ')');
-                                    stillToBeSent.push(request);
-                                }
-                            )
+                            let method;
+
+                            if(request.method === "PUT") {
+                                method = this.http.put(request.url, request.body, request.options);
+                            } else if(request.method === "POST") {
+                                method = this.http.post(request.url, request.body, request.options);
+                            } else if(request.method === "DELETE") {
+                                method = this.http.delete(request.url, request.options);
+                            } else {
+                                method = null;
+                            }
+
+                            if(method) {
+                                method.subscribe(
+                                    sent => {
+                                        console.log('Stored request (' + request.url + ') has been sent');
+                                    },
+                                    () => {
+                                        console.log('Failed to send stored (' + request.url + ')');
+                                        stillToBeSent.push(request);
+                                    }
+                                );
+                            }
                         }
                     );
-
                     this.set(AsyncacheService.PENDING_REQUESTS, stillToBeSent);
                 }
             }
         );
+    }
+
+    useMethod(request: StoredRequestInterface) {
+        let httpMethod;
+
+            if(request.method === "PUT") {
+                httpMethod = this.http.put(request.url, request.body, request.options);
+            } else if(request.method === "POST") {
+                httpMethod = this.http.post(request.url, request.body, request.options);
+            } else if(request.method === "DELETE") {
+                httpMethod = this.http.delete(request.url, request.options);
+            } else {
+                httpMethod = null;
+            }
+
+        return httpMethod;
     }
 
     /**

@@ -3,7 +3,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { NetworkService } from 'src/app/core/api/network.service';
 import { ModalRequestsComponent } from 'src/app/components/modals/modal-requests/modal-requests.component';
 import { MatDialog } from '@angular/material';
-import { StoredRequests } from 'src/app/model/stored-request';
+import { StoredRequestInterface } from 'src/app/model/stored-request';
 
 @Component({
     selector: 'app-request-display',
@@ -13,7 +13,7 @@ import { StoredRequests } from 'src/app/model/stored-request';
 export class RequestDisplayComponent implements OnInit {
 
     public networkOn = true;
-    public storedRequests : StoredRequests;
+    public storedRequests : StoredRequestInterface[];
 
     constructor(
         private cacheService: AsyncacheService,
@@ -22,7 +22,7 @@ export class RequestDisplayComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.storedRequests = new StoredRequests();
+        this.storedRequests = new Array();
         this.loadStoredRequests();
 
         this.networkService.getOnlineObs().subscribe(
@@ -44,13 +44,17 @@ export class RequestDisplayComponent implements OnInit {
     loadStoredRequests() {
         this.cacheService.get(AsyncacheService.PENDING_REQUESTS).subscribe(
             (result) => {
-                this.storedRequests = new StoredRequests(result);
+                this.storedRequests = result;
                 console.log('Cached: ', result);
             }
         )
     }
 
     requestsArePending() : boolean {
-        return (this.networkOn && this.storedRequests.containsRequest());   
+        if(this.storedRequests && this.storedRequests.length > 0) {
+            return true
+        } else {
+            return false;
+        }
     }
 }

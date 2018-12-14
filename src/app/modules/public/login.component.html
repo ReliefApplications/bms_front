@@ -16,7 +16,7 @@
             <div class="login-button">
                 <button *ngIf="prod() && !loader && loginCaptcha && user.username && user.password" (click)="loginAction()" class="button-login">{{login.login_title | uppercase}}</button>
 
-                <button *ngIf="prod() && !loader && user.username && user.password" (click)="loginAction()" class="button-login">{{login.login_title | uppercase}}</button>
+                <button *ngIf="!prod() && !loader && user.username && user.password" (click)="loginAction()" class="button-login">{{login.login_title | uppercase}}</button>
 
                 <mat-spinner [diameter]="35" *ngIf="loader"></mat-spinner>
             </div>

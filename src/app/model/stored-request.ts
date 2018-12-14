@@ -28,4 +28,32 @@ export class StoredRequests {
             return false;
         }
     }
+
+    public mixRequests() {
+        let total = new Array();
+
+        this.PUT.forEach(
+            element => {
+                let request = element;
+                request['method'] = 'PUT';
+                total.push(request);
+            }
+        )
+        this.POST.forEach(
+            element => {
+                let request = element;
+                request['method'] = 'POST';
+                total.push(request);
+            }
+        )
+        this.DELETE.forEach(
+            element => {
+                let request = element;
+                request['method'] = 'DELETE';
+                total.push(request);
+            }
+        )
+
+        return total;
+    }
 }

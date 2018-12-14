@@ -22,11 +22,12 @@ export class ModalRequestsComponent implements OnInit {
     public TEXTS = GlobalText.TEXTS;
 
     // Table constants.
-    public tableColumns = ['Target', 'Date', 'Send'];
-    public expandedElement : StoredRequests | null;
+    public columnsToDisplay = ['method', 'target', 'date', 'send'];
+    public expandedElement: any | null;
 
     // Data.
     public requests: StoredRequests;
+    public allRequestData = [];
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -35,17 +36,19 @@ export class ModalRequestsComponent implements OnInit {
 
     ngOnInit() {
         this.requests = this.data.requests;
-        timer(1000).subscribe(res => { console.log(this.data.requests); });
+        this.allRequestData = this.requests.mixRequests();
+        console.log(this.allRequestData);
     }
 
     closeDialog(): void {
         this.dialogRef.close(true);
     }
 
-    formatDate(date: Date) : string{
-        let formated : string;
+    formatDate(date: Date): string {
+        let formated: string;
 
-        formated = ("0" + date.getMonth()).slice(-2) + '/' + ("0" + date.getDay()).slice(-2) + '/' + date.getFullYear();
+        formated = '' + date.toLocaleString("en-us", { month: "short" }) + ' ';
+        formated += ("0" + date.getDay()).slice(-2) + ', ' + date.getFullYear();
         formated += ' at ' + date.getHours() + ':' + date.getSeconds();
 
         return formated;
@@ -66,22 +69,26 @@ export class ModalRequestsComponent implements OnInit {
                     property = key + ' = ' + body[key];
                 }
                 else {
-                    property = key + ' = (';
-                    Object.keys(body[key]).forEach(
-                        (subKey, i) => {
-                            if (typeof (body[key][subKey] !== 'object')) {
-                                property += subKey + ' = ' + body[key][subKey];
-                            } else {
-                                property += subKey + ' = {...}';
+                    property = key + ' = ';
+                    if(body[key] && Object.keys(body[key]).length > 0) {
+                        property += '(';
+                        Object.keys(body[key]).forEach(
+                            (subKey, i) => {
+                                if (typeof (body[key][subKey] !== 'object')) {
+                                    property += body[key][subKey];
+                                } else {
+                                    property += subKey + ' : {..}';
+                                }
+    
+                                if( i < Object.keys(body[key]).length-1)
+                                    property += ', ';
                             }
-
-                            if (i === Object.keys(body[key]).length - 1) {
-                                property += ')';
-                            } else {
-                                property += ', ';
-                            }
-                        }
-                    )
+                        );
+                        property += ')';
+                    } else {
+                        property += ' ∅ ';
+                    }
+                    
                 }
 
                 details.push(property);

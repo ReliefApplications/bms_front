@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material';
 import { Subscription, from, of } from 'rxjs';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { FormControl } from '@angular/forms';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
     selector: 'app-login',
@@ -115,5 +116,9 @@ export class LoginComponent implements OnInit {
 
     ngOnDestroy() {
         this.authUser$.unsubscribe();
+    }
+
+    prod() {
+        return(environment.production);
     }
 }

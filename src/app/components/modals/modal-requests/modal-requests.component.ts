@@ -3,6 +3,7 @@ import { GlobalText } from 'src/texts/global';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { timer } from 'rxjs';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { StoredRequests } from 'src/app/model/stored-request';
 
 @Component({
     selector: 'app-modal-requests',
@@ -21,10 +22,11 @@ export class ModalRequestsComponent implements OnInit {
     public TEXTS = GlobalText.TEXTS;
 
     // Table constants.
-    public tableColumns = ['Target', 'Content', 'Send'];
+    public tableColumns = ['Target', 'Date', 'Send'];
+    public expandedElement : StoredRequests | null;
 
     // Data.
-    public requests: Array<any>;
+    public requests: StoredRequests;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -36,8 +38,17 @@ export class ModalRequestsComponent implements OnInit {
         timer(1000).subscribe(res => { console.log(this.data.requests); });
     }
 
-    public closeDialog(): void {
+    closeDialog(): void {
         this.dialogRef.close(true);
+    }
+
+    formatDate(date: Date) : string{
+        let formated : string;
+
+        formated = ("0" + date.getMonth()).slice(-2) + '/' + ("0" + date.getDay()).slice(-2) + '/' + date.getFullYear();
+        formated += ' at ' + date.getHours() + ':' + date.getSeconds();
+
+        return formated;
     }
 
     sendRequest(element: Object) {

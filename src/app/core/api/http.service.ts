@@ -8,6 +8,7 @@ import { AsyncacheService } from '../storage/asyncache.service';
 import { map } from 'rxjs/operators';
 import { NetworkService } from './network.service';
 import { MatSnackBar } from '@angular/material';
+import { storedRequestInterface } from 'src/app/model/stored-request';
 
 @Injectable({
 	providedIn: 'root'
@@ -117,7 +118,8 @@ export class HttpService {
         if(!connected) {
             // If the Offline user is trying to create Distribution/Project/Household
             if(itemKey) {
-                let request = { url, body, options };
+                let date = new Date();
+                let request : storedRequestInterface = {url, body, options , date};
                 this.cacheService.storeRequest('PUT', request);
                 this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
             }
@@ -141,7 +143,8 @@ export class HttpService {
         if(!connected) {
             // If the Offline user is trying to create Distribution/Project/Household
             if(itemKey) {
-                let request = { url, body, options };
+                let date = new Date();
+                let request : storedRequestInterface = {url, body, options, date};
                 this.cacheService.storeRequest('POST', request);
                 this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
             }
@@ -165,7 +168,8 @@ export class HttpService {
         if(!connected) {
             // If the Offline user is trying to create Distribution/Project/Household
             if(itemKey) {
-                let request = { url, options };
+                let date = new Date();
+                let request : storedRequestInterface = {url, options, date};
                 this.cacheService.storeRequest('DELETE', request);
                 this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
             }

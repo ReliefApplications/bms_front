@@ -25,14 +25,19 @@ mat-dialog-content {
         tr.detailed-row {
             height: 0;
         }
-        tr.extendable-row:not(.example-expanded-row):hover {
+        tr.extendable-row:not(.expanded-row):hover {
             background: #f5f5f5;
         }
-        tr.extendable-row:not(.example-expanded-row):active {
+        tr.extendable-row:not(.expanded-row):active {
             background: #efefef;
         }
         .extendable-row td {
             border-bottom-width: 0;
+        }
+        .element-detail {
+            height: 100px;
+            overflow: hidden;
+            display: flex;
         }
 
         .description {

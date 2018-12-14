@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { HttpClient } from '@angular/common/http';
+import { StoredRequests } from 'src/app/model/stored-request';
+import { SSL_OP_CISCO_ANYCONNECT } from 'constants';
 
 @Injectable({
 	providedIn: 'root'
@@ -71,6 +73,10 @@ export class AsyncacheService {
         }
     }
 
+    /**
+     * Get an item from the cache asynchronously.
+     * @param key 
+     */
     get(key: string) {
         key = this.formatKey(key);
 
@@ -170,6 +176,12 @@ export class AsyncacheService {
         );
     }
 
+    /**
+     * Set an item in the cache semi-asynchronously.
+     * @param key 
+     * @param value 
+     * @param options 
+     */
     set(key: string, value: any, options: any = {}) {
         key = this.formatKey(key);
         
@@ -197,20 +209,29 @@ export class AsyncacheService {
         }
     }
 
+    /**
+     * Removes an item with its key.
+     * @param key 
+     */
     remove(key: string) {
         key = this.formatKey(key);
         this.storage.removeItemSubscribe(key);
     }
 
+    /**
+     * When requesting offline, this method will permit to store a special request object to save wanted PUTs/POSTs/DELETEs.
+     * @param type 
+     * @param request 
+     */
     storeRequest(type: string, request: Object) {
-        let storedRequests = new Array();
+        let storedRequests = new StoredRequests();
+
         this.get(AsyncacheService.PENDING_REQUESTS).subscribe(
             result => {
                 if(!result) {
-                    storedRequests = [];
-                    storedRequests['PUT'] = [];
-                    storedRequests['POST'] = [];
-                    storedRequests['DELETE'] = [];
+                    storedRequests.PUT = [];
+                    storedRequests.POST = [];
+                    storedRequests.DELETE = [];
                 } else {
                     storedRequests = result;
                 }
@@ -220,8 +241,11 @@ export class AsyncacheService {
         );
     }
 
+    /**
+     * To send all the stored requests when online.
+     */
     sendStoredRequests() {
-        // TODO : delete from cache when sent + improve display...
+        // TODO : update with new data structure
         this.get(AsyncacheService.PENDING_REQUESTS).subscribe(
             requests => {
                 if(requests) {
@@ -247,6 +271,10 @@ export class AsyncacheService {
         );
     }
 
+    /**
+     * Clear all the cache.
+     * @param force 
+     */
     clear(force : boolean = true) {
         if(force) {
             return this.storage.clear();

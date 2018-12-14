@@ -3,6 +3,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { NetworkService } from 'src/app/core/api/network.service';
 import { ModalRequestsComponent } from 'src/app/components/modals/modal-requests/modal-requests.component';
 import { MatDialog } from '@angular/material';
+import { StoredRequests } from 'src/app/model/stored-request';
 
 @Component({
     selector: 'app-request-display',
@@ -12,7 +13,7 @@ import { MatDialog } from '@angular/material';
 export class RequestDisplayComponent implements OnInit {
 
     public networkOn = true;
-    public storedRequests = [];
+    public storedRequests : StoredRequests;
 
     constructor(
         private cacheService: AsyncacheService,
@@ -21,6 +22,7 @@ export class RequestDisplayComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.storedRequests = new StoredRequests();
         this.loadStoredRequests();
 
         this.networkService.getOnlineObs().subscribe(
@@ -41,26 +43,14 @@ export class RequestDisplayComponent implements OnInit {
 
     loadStoredRequests() {
         this.cacheService.get(AsyncacheService.PENDING_REQUESTS).subscribe(
-            result => {
-                this.storedRequests = result;
+            (result) => {
+                this.storedRequests = new StoredRequests(result);
                 console.log('Cached: ', result);
             }
         )
     }
 
     requestsArePending() : boolean {
-        if(this.networkOn && this.storedRequests) {
-            if(this.storedRequests['PUT'] && this.storedRequests['PUT'].length > 0) {
-                return true;
-            } else if(this.storedRequests['POST'] && this.storedRequests['POST'].length > 0) {
-                return true;
-            } else if(this.storedRequests['DELETE'] && this.storedRequests['DELETE'].length > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
+        return (this.networkOn && this.storedRequests.containsRequest());   
     }
 }

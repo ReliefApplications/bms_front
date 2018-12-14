@@ -11,7 +11,7 @@
                 <input type="text" class="user-input" aria-describedby="basic-addon1" placeholder="{{login.login_username | titlecase}}" [(ngModel)]="user.username">
                 <input type="password" class="user-input" aria-describedby="basic-addon1" placeholder="{{login.login_password | titlecase}}" [(ngModel)]="user.password">
                 <h5 *ngIf="forgotMessage" class="user-forgot-password">{{login.login_forgot_password}}</h5>
-                <recaptcha [(ngModel)]="loginCaptcha" (scriptError)="onScriptError()"> </recaptcha>
+                <recaptcha *ngIf="prod()" [(ngModel)]="loginCaptcha" (scriptError)="onScriptError()"> </recaptcha>
             </div>
             <div class="login-button">
                 <button *ngIf="prod() && !loader && loginCaptcha && user.username && user.password" (click)="loginAction()" class="button-login">{{login.login_title | uppercase}}</button>

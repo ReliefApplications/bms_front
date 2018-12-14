@@ -335,7 +335,7 @@ export class TableComponent implements OnChanges, DoCheck {
     }
 
     updateElement(updateElement: Object) {
-        // console.log("update element 1:", updateElement);
+        console.log("update element 1:", updateElement);
         updateElement = this.entity.formatForApi(updateElement);
 
         if (updateElement['rights'] == "ROLE_PROJECT_MANAGER" || updateElement['rights'] == "ROLE_PROJECT_OFFICER" || updateElement['rights'] == "ROLE_FIELD_OFFICER")
@@ -414,16 +414,16 @@ export class TableComponent implements OnChanges, DoCheck {
         const table = GlobalText.TEXTS;
 
         if (length === 0 || pageSize === 0) { return `0 ` + table.table_of_page + ` ${length}`; }
-    
+
         length = Math.max(length, 0);
-    
+
         const startIndex = page * pageSize;
-    
+
         // If the start index exceeds the list length, do not try and fix the end index to the end.
         const endIndex = startIndex < length ?
             Math.min(startIndex + pageSize, length) :
             startIndex + pageSize;
-    
+
         return `${startIndex + 1} - ${endIndex} ` + table.table_of_page + ` ${length}`;
     }
 }

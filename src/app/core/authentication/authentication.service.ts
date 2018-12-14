@@ -46,7 +46,6 @@ export class AuthenticationService {
                 let getSalt = success as SaltInterface;
                 user.salted_password = this._wsseService.saltPassword(getSalt.salt, user.password);
                 delete user.password;
-                console.log('Sending logUser request with: ', user);
                 this.logUser(user).subscribe(success => {
                     let data = success;
 

@@ -40,7 +40,7 @@ export class ModalUpdateComponent extends ModalComponent {
   selected(event) {
 
     if (event.value == "ROLE_PROJECT_MANAGER" || event.value == "ROLE_PROJECT_OFFICER" || event.value == "ROLE_FIELD_OFFICER") {
-        
+
         this.form.controls['projectsControl'].enable();
         this.form.controls['countryControl'].disable();
     }
@@ -84,7 +84,6 @@ export class ModalUpdateComponent extends ModalComponent {
         }
       }
       else if (this.updateObject.rights == "ROLE_REGIONAL_MANAGER" || this.updateObject.rights == "ROLE_COUNTRY_MANAGER" || this.updateObject.rights == "ROLE_READ_ONLY") {
-        this.updateObject.country = "KHM";
         if (this.updateObject.country == undefined) {
           this.snackBar.open(this.modal.modal_no_country, '', { duration: 5000, horizontalPosition: 'right' });
           return;

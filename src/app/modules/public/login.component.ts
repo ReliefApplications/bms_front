@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material';
 import { Subscription, from, of } from 'rxjs';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { FormControl } from '@angular/forms';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-login',
@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
             result => {
                 this.user = result;
                 if (this.user) {
-                    console.log('Initialised user :', this.user);
                 } else {
                     this.blankUser();
                 }
@@ -98,19 +97,22 @@ export class LoginComponent implements OnInit {
         const subscription = from(this._authService.login(this.user));
         subscription.subscribe(
                 (user: User) => {
-                    console.log('User got on login subscribe :', user);
-                    this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
+                    console.log(user);
+                    if (!user.country && user.voters === "ROLE_ADMIN") {
+                      this.initCountry();
+                    } else {
+                      this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
+                    }
                     this.router.navigate(['/']);
                     GlobalText.changeLanguage();
                     this.loader = false;
                 },
                 (error: ErrorInterface) => {
-                    console.log('Err: ', error);
                     this.forgotMessage = true;
                     this.loader = false;
                 });
     }
- 
+
     onScriptError() {
         this.snackBar.open('Captcha failed', '', { duration: 5000, horizontalPosition: "center" });
     }
@@ -120,6 +122,6 @@ export class LoginComponent implements OnInit {
     }
 
     prod() {
-        return(environment.production);
+        return environment.production;
     }
 }

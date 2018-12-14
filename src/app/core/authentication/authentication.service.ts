@@ -50,8 +50,6 @@ export class AuthenticationService {
                     let data = success;
 
                     if (data) {
-                        console.log("Successfully logged in", success);
-
                         this.user = data as User;
                         this.user.loggedIn = true;
                         let voters = this.rightAccessDefinition(this.user);
@@ -65,7 +63,6 @@ export class AuthenticationService {
 
                         resolve(this.user)
                     } else {
-                        console.log('trouble');
                         reject({ message: 'Bad credentials' })
                     }
                 }, error => {

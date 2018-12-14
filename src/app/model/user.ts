@@ -82,6 +82,8 @@ export class User {
             email: selfinstance.email,
             salted_password: selfinstance.salted_password,
             rights: selfinstance.rights,
+            projects: selfinstance.projects,
+            country: selfinstance.country
         }
     }
 
@@ -229,8 +231,8 @@ export class User {
 
     /**
      * used in modal add
-     * @param element 
-     * @param loadedData 
+     * @param element
+     * @param loadedData
      */
     public static formatFromModalAdd(element: any, loadedData: any): User {
         let newObject = new User(element);

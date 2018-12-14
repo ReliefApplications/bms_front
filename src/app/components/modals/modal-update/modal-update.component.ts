@@ -32,8 +32,13 @@ export class ModalUpdateComponent extends ModalComponent {
       let re = /\ /gi;
       this.updateObject.rights = this.updateObject.rights.replace(re, "");
 
-      if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER")
+      if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER") {
         this.form.controls['projectsControl'].enable();
+      }
+
+      if (this.updateObject.rights == "ROLE_COUNTRY_MANAGER" || this.updateObject.rights == "ROLE_REGIONAL_MANAGER") {
+        this.form.controls['countryControl'].enable();
+      }
     }
   }
 

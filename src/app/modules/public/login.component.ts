@@ -97,7 +97,6 @@ export class LoginComponent implements OnInit {
         const subscription = from(this._authService.login(this.user));
         subscription.subscribe(
                 (user: User) => {
-                    console.log(user);
                     if (!user.country && user.voters === "ROLE_ADMIN") {
                       this.initCountry();
                     } else {

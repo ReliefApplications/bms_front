@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
     public dashboard = GlobalText.TEXTS;
     public nameComponent = 'dashboard_title';
     public actualCountry : string;
-    
+
     referedClassToken = DistributionData;
     distributions: MatTableDataSource<DistributionData>;
     public userData;
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        if(!DashboardComponent.firstLog) {
+        if(DashboardComponent.firstLog) {
             this.serviceMap.createMap('map');
             this.serviceMap.addTileLayer();
 
@@ -91,7 +91,6 @@ export class DashboardComponent implements OnInit {
             .subscribe(
                 response => {
                     distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
-                    //console.log(distribs);
                     this.distributions = distribs;
                     this.loadingTable = false;
                 },
@@ -129,18 +128,17 @@ export class DashboardComponent implements OnInit {
         this._cacheService.getUser().subscribe(
             result => {
                 this.userData = result;
-                //console.log(result)
 
-                if (result && result.voters) {
-                    const voters = result.voters;
-                    if(DashboardComponent.firstLog === true) {
+                if (result && result.rights) {
+                    const rights = result.rights;
+                    if(DashboardComponent.firstLog) {
                         DashboardComponent.firstLog = false;
                         this.ngOnInit();
                     }
-                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
+                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER')
                         this.hasRights = true;
 
-                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_PROJECT_OFFICER")
+                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == "ROLE_PROJECT_OFFICER")
                         this.hasRightsEdit = true;
                 }
             }

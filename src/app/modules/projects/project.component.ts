@@ -232,11 +232,11 @@ export class ProjectComponent implements OnInit {
     checkPermission() {
         this._cacheService.getUser().subscribe(
             result => {
-                const voters = result.voters;
-                if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
+                const rights = result.rights;
+                if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER')
                     this.hasRights = true;
 
-                if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_PROJECT_OFFICER")
+                if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == "ROLE_PROJECT_OFFICER")
                     this.hasRightsEdit = true;
             }
         )

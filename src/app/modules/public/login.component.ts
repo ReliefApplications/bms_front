@@ -37,28 +37,7 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         GlobalText.resetMenuMargin();
         this.initCountry();
-        this.initLoginUser();
-    }
-
-    /**
-     * Preaload the component
-     */
-    initLoginUser() {
-        // Preapre the User variable.
         this.blankUser();
-        // Get the real user.
-        this.authUser$ = this._authService.getUser().subscribe(
-            result => {
-                this.user = result;
-                if (this.user) {
-                } else {
-                    this.blankUser();
-                }
-            },
-            error => {
-                this.user = null;
-            }
-        );
     }
 
     initCountry() {
@@ -96,28 +75,24 @@ export class LoginComponent implements OnInit {
         this.loader = true;
         const subscription = from(this._authService.login(this.user));
         subscription.subscribe(
-                (user: User) => {
-                    if (!user.country && user.voters === "ROLE_ADMIN") {
-                      this.initCountry();
-                    } else {
-                      this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
-                    }
-                    this.router.navigate(['/']);
-                    GlobalText.changeLanguage();
-                    this.loader = false;
-                },
-                (error: ErrorInterface) => {
-                    this.forgotMessage = true;
-                    this.loader = false;
-                });
+            (user: User) => {
+                if (!user.country && user.rights === "ROLE_ADMIN") {
+                  this.initCountry();
+                } else {
+                  this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
+                }
+                this.router.navigate(['/']);
+                GlobalText.changeLanguage();
+                this.loader = false;
+            },
+            (error: ErrorInterface) => {
+                this.forgotMessage = true;
+                this.loader = false;
+            });
     }
 
     onScriptError() {
         this.snackBar.open('Captcha failed', '', { duration: 5000, horizontalPosition: "center" });
-    }
-
-    ngOnDestroy() {
-        this.authUser$.unsubscribe();
     }
 
     prod() {

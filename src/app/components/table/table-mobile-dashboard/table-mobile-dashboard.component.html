@@ -6,7 +6,7 @@
             {{table.no_data}}
         </h3>
     </div>
-    <div *ngIf="filled">
+    <div *ngIf="filled && data">
         <table *ngFor="let element of data.filteredData" class="box-element">
             <tbody>
                 <tr *ngFor="let property of properties" (click)="openDialog('details', element)" class="cursor-pointer">

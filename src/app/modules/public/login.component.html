@@ -14,7 +14,7 @@
                 <recaptcha *ngIf="prod()" [(ngModel)]="loginCaptcha" (scriptError)="onScriptError()"> </recaptcha>
             </div>
             <div class="login-button">
-                <button *ngIf="prod() && !loader && loginCaptcha" [disabled]="!user.username || !user.password" (click)="loginAction()" class="button-login">{{login.login_title | uppercase}}</button>
+                <button *ngIf="prod() && !loader" [disabled]="!user.username || !user.password || !loginCaptcha" (click)="loginAction()" class="button-login">{{login.login_title | uppercase}}</button>
 
                 <button *ngIf="!prod() && !loader" [disabled]="!user.username || !user.password" (click)="loginAction()" class="button-login">{{login.login_title | uppercase}}</button>
 

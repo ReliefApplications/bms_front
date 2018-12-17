@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { GlobalText } from '../../../../texts/global';
@@ -8,10 +8,6 @@ import { ModalLanguageComponent } from '../../../components/modals/modal-languag
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
-import { forEach } from '@angular/router/src/utils/collection';
-import { ProjectService } from 'src/app/core/api/project.service';
-import { count } from 'rxjs/operators';
-import { timer } from 'rxjs';
 
 @Component({
     selector: 'app-header',
@@ -59,6 +55,14 @@ export class HeaderComponent implements OnInit {
         this.language = GlobalText.language;
         this.userData = new User(this.userData);
         this.getCorrectCountries();
+
+        if(this.breadcrumb.length === 1) {
+            this.currentRoute = this.router.url;
+            if (this.currentRoute.indexOf("?") > -1) {
+                this.currentRoute = this.currentRoute.substring(0, this.currentRoute.indexOf('?'));
+            }
+            this.updateBreadcrumb();
+        }
     }
 
     ngDoCheck() {

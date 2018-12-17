@@ -72,6 +72,7 @@ export const TEXT = {
     add_beneficiary_step2: 'Head',
     add_beneficiary_step3: 'Members',
     add_beneficiary_title: 'add beneficiary',
+    add_beneficiary_res_address: 'Resident Address',
 
     // Add distribution
     add_distribution_beneficiaries_reached: 'Beneficiaries reached',

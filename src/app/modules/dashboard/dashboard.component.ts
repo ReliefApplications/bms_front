@@ -9,140 +9,133 @@ import { finalize } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
-    selector: 'app-dashboard',
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.scss']
+	selector: 'app-dashboard',
+	templateUrl: './dashboard.component.html',
+	styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-    public dashboard = GlobalText.TEXTS;
-    public nameComponent = 'dashboard_title';
-    public actualCountry : string;
+	public dashboard = GlobalText.TEXTS;
+	public nameComponent = 'dashboard_title';
+	public actualCountry: string;
 
-    referedClassToken = DistributionData;
-    distributions: MatTableDataSource<DistributionData>;
-    public userData;
-    // Loaders
-    loadingTable = true;
-    loadingSummary = true;
-    loadingMap = true;
+	referedClassToken = DistributionData;
+	distributions: MatTableDataSource<DistributionData>;
+	public userData;
+	// Loaders
+	loadingTable = true;
+	loadingSummary = true;
+	loadingMap = true;
 
-    public maxWidthMobile = 750;
-    public heightScreen;
-    public widthScreen;
-    private static firstLog = true;
+	public maxWidthMobile = 750;
+	public heightScreen;
+	public widthScreen;
 
-    public summary = [];
+	public summary = [];
 
-    hasRights: boolean = false;
-    hasRightsEdit: boolean = false;
+	hasRights: boolean = false;
+	hasRightsEdit: boolean = false;
 
-    constructor(
-        private serviceMap: LeafletService,
-        private _cacheService: AsyncacheService,
-        public _distributionService: DistributionService,
-        public _generalService: GeneralService,
+	constructor(
+		private serviceMap: LeafletService,
+		private _cacheService: AsyncacheService,
+		public _distributionService: DistributionService,
+		public _generalService: GeneralService,
 
-    ) { }
+	) { }
 
-    ngOnInit() {
-        if(DashboardComponent.firstLog) {
-            this.serviceMap.createMap('map');
-            this.serviceMap.addTileLayer();
+	ngOnInit() {
+		this.serviceMap.createMap('map');
+		this.serviceMap.addTileLayer();
 
-            this.getSummary();
-            this.checkDistributions();
-            this.checkSize();
-        }
-        this.checkPermission();
-    }
+		this.getSummary();
+		this.checkDistributions();
+		this.checkSize();
+		this.checkPermission();
+	}
 
     /**
      * check if the langage has changed
      */
-    ngDoCheck() {
-        if (this.dashboard !== GlobalText.TEXTS) {
-            this.dashboard = GlobalText.TEXTS;
-        }
+	ngDoCheck() {
+		if (this.dashboard !== GlobalText.TEXTS) {
+			this.dashboard = GlobalText.TEXTS;
+		}
 
-        if(LeafletService.loading !== this.loadingMap) {
-            this.loadingMap = LeafletService.loading;
-        }
-    }
+		if (LeafletService.loading !== this.loadingMap) {
+			this.loadingMap = LeafletService.loading;
+		}
+	}
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.checkSize();
-    }
+	@HostListener('window:resize', ['$event'])
+	onResize(event) {
+		this.checkSize();
+	}
 
-    checkSize(): void {
-        this.heightScreen = window.innerHeight;
-        this.widthScreen = window.innerWidth;
-    }
+	checkSize(): void {
+		this.heightScreen = window.innerHeight;
+		this.widthScreen = window.innerWidth;
+	}
 
     /**
     * get the distributions list to display on dashboard
     * check if it is cached, otherwise get it from the api
     */
 
-    checkDistributions(): void {
-        let distribs;
-        this.loadingTable = true;
-        this._distributionService.get()
-            .subscribe(
-                response => {
-                    distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
-                    this.distributions = distribs;
-                    this.loadingTable = false;
-                },
-                () => {
-                    this.distributions = null;
-                    this.loadingTable = false;
-                }
-            );
-    }
+	checkDistributions(): void {
+		let distribs;
+		this.loadingTable = true;
+		this._distributionService.get()
+			.subscribe(
+				response => {
+					distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
+					this.distributions = distribs;
+					this.loadingTable = false;
+				},
+				() => {
+					this.distributions = null;
+					this.loadingTable = false;
+				}
+			);
+	}
 
     /**
      * Get summary information
      * @return array
      */
-    getSummary(): void {
-        this.loadingSummary = true;
-        this._generalService.getSummary()
-            .pipe(
-                finalize(
-                    () => {
-                        this.loadingSummary = false;
-                    },
-                )
-            ).subscribe(response => {
-                if(response) {
-                    this.loadingSummary = false;
-                    this.summary = response;
-                } else {
-                    this.loadingSummary = false;
-                }
-            });
-    }
+	getSummary(): void {
+		this.loadingSummary = true;
+		this._generalService.getSummary()
+			.pipe(
+				finalize(
+					() => {
+						this.loadingSummary = false;
+					},
+				)
+			).subscribe(response => {
+				if (response) {
+					this.loadingSummary = false;
+					this.summary = response;
+				} else {
+					this.loadingSummary = false;
+				}
+			});
+	}
 
-    checkPermission() {
-        this._cacheService.getUser().subscribe(
-            result => {
-                this.userData = result;
+	checkPermission() {
+		this._cacheService.getUser().subscribe(
+			result => {
+				this.userData = result;
 
-                if (result && result.rights) {
-                    const rights = result.rights;
-                    if(DashboardComponent.firstLog) {
-                        DashboardComponent.firstLog = false;
-                        this.ngOnInit();
-                    }
-                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER')
-                        this.hasRights = true;
+				if (result && result.rights) {
+					const rights = result.rights;
+					if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER')
+						this.hasRights = true;
 
-                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == "ROLE_PROJECT_OFFICER")
-                        this.hasRightsEdit = true;
-                }
-            }
-        );
-    }
+					if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == "ROLE_PROJECT_OFFICER")
+						this.hasRightsEdit = true;
+				}
+			}
+		);
+	}
 
 }

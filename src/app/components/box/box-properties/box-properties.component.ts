@@ -22,7 +22,7 @@ export class BoxPropertiesComponent {
     public properties: any;
     public numColumns = 0;
     public displayLength: number;
-    
+
     readonly MAX_PROP_LENGTH = 20;
 
     @HostListener('window:resize', ['$event'])
@@ -31,6 +31,7 @@ export class BoxPropertiesComponent {
     }
 
     ngOnInit() {
+      console.log(this.componentDisplayed)
         let entityInstance = Object.create(this.entity.prototype);
         entityInstance.constructor.apply(entityInstance);
         this.mapperObject = this.mapperService.findMapperObject(this.entity);

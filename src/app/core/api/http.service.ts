@@ -125,8 +125,6 @@ export class HttpService {
     }
 
     put(url, body, options = {}) : Observable<any> {
-        // const AS = AsyncacheService;
-        // let itemKey = this.resolveItemKey(url);
         let connected = this.networkService.getStatus();
 
         if(!connected) {
@@ -136,6 +134,8 @@ export class HttpService {
                 let request : StoredRequestInterface = {method, url, body, options, date};
                 this.cacheService.storeRequest(request);
                 this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
+
+                this.forceDataInCache(method, url, {});
             }
             // Otherwise
             else {
@@ -150,8 +150,6 @@ export class HttpService {
     }
 
     post(url, body, options = {}) : Observable<any> {
-        // const AS = AsyncacheService;
-        // let itemKey = this.resolveItemKey(url);
         let connected = this.networkService.getStatus();
 
         if(!connected) {
@@ -160,7 +158,9 @@ export class HttpService {
                 let method = "POST";
                 let request : StoredRequestInterface = {method, url, body, options, date};
                 this.cacheService.storeRequest(request);
-                this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
+                this.snackbar.open('No network - This data update will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
+
+                this.forceDataInCache(method, url, {});
             }
             // Otherwise
             else {
@@ -175,8 +175,6 @@ export class HttpService {
     }
 
     delete(url, options = {}) : Observable<any> {
-        // const AS = AsyncacheService;
-        // let itemKey = this.resolveItemKey(url);
         let connected = this.networkService.getStatus();
 
         if(!connected) {
@@ -185,7 +183,9 @@ export class HttpService {
                 let method = "DELETE";
                 let request : StoredRequestInterface = {method, url, options, date};
                 this.cacheService.storeRequest(request);
-                this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
+                this.snackbar.open('No network - This data deletion will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
+
+                this.forceDataInCache(method, url, {});
             }
             // Otherwise
             else {
@@ -196,6 +196,79 @@ export class HttpService {
         }
         else {
             return this.http.delete(url, options);
+        }
+    }
+
+    forceDataInCache(method, url, body?) {
+        let itemKey : string;
+        let id;
+
+        // TODO: fix id get / management of item's structure
+
+        switch(method) {
+            case 'PUT': itemKey = this.resolveItemKey(url);
+                break;
+            case 'POST': 
+                itemKey = this.resolveItemKey(url.substring(0, url.lastIndexOf('/')));
+                id = url.split(url.substring(0, url.lastIndexOf('/')[1]));
+                break;
+            case 'DELETE': 
+                itemKey = this.resolveItemKey(url.substring(0, url.lastIndexOf('/')));
+                id = url.split(url.substring(0, url.lastIndexOf('/')[1]));
+                break;
+            default:
+                itemKey = this.resolveItemKey(url);
+                break;
+        }
+
+        if(itemKey) {
+            let dataArray = new Array();
+
+            if(body && !body['id']) {
+                body['id'] = -1;
+            }
+
+            if(method === "PUT" && body) {
+                this.get(itemKey).subscribe(
+                    (result: Array<any>) => {
+                        dataArray = result;
+                        dataArray.push(body);
+                    }
+                )
+            } else if(method === "POST") {
+                this.get(itemKey).subscribe(
+                    (result:Array<any>) => {
+                        dataArray = result;
+                        dataArray.forEach(
+                            (item, index) => {
+                                if(item && item['id'] && item['id'] === id) {
+                                    dataArray[index] = item;
+                                }
+                            }
+                        )
+                    }
+                )
+            } else if(method === "DELETE") {
+                this.get(itemKey).subscribe(
+                    (result:Array<any>) => {
+                        dataArray = result;
+                        dataArray.forEach(
+                            (item, index) => {
+                                if(item && item['id'] && item['id'] === id) {
+                                    dataArray.splice(index, 1);
+                                }
+                            }
+                        )
+                    }
+                )
+            } else {
+                dataArray = [];
+            }
+
+            this.cacheService.set(itemKey, dataArray);
+            console.log('Forced ' + itemKey + ' of id=' + id + ' in cache');
+        } else {
+            this.snackbar.open('This item can\'t be manipulated offline', '', {duration:3000, horizontalPosition:'center'});
         }
     }
 

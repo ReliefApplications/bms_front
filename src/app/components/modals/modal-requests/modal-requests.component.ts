@@ -1,11 +1,10 @@
-import { Component, OnInit, Input, Inject, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { GlobalText } from 'src/texts/global';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { StoredRequestInterface } from 'src/app/model/stored-request';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { timer } from 'rxjs';
-import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-modal-requests',
@@ -32,7 +31,7 @@ export class ModalRequestsComponent implements OnInit {
     public loading = false;
 
     // When sending all.
-    public inProgress: boolean = false;
+    public inProgress = false;
     public progressLength : number = 0;
     public progressCountSuccess : number = 0;
     public progressCountFail : number = 0;
@@ -51,7 +50,8 @@ export class ModalRequestsComponent implements OnInit {
     }
 
     ngDoCheck() {
-        if(this.requests && this.requests.length === 0) {
+        if(this.requests && this.requests.length === 0 && !this.loading && !this.inProgress) {
+            console.log('finished');
             timer(1000).subscribe( 
                 result => {
                     this.closeDialog();
@@ -97,6 +97,7 @@ export class ModalRequestsComponent implements OnInit {
     }
 
     sendAllRequests() {
+        this.inProgress = true;
         let size = this.requests.length;
         let stillToBeSent = [];
 
@@ -104,7 +105,6 @@ export class ModalRequestsComponent implements OnInit {
         .subscribe(
             (result) => {
                 if(result) {
-                    this.inProgress = true;
                     this.progressLength = size;
                     this.errors = [];
 

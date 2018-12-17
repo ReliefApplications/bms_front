@@ -249,7 +249,7 @@ export class AsyncacheService {
                     if(requests) {
                         let totalObs : Observable<any>;   
                         requests.forEach(
-                            request => {
+                            (request:StoredRequestInterface) => {
                                 let method : Observable<any>;
     
                                 method = this.useMethod(request);

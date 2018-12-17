@@ -68,6 +68,7 @@ export const TEXT = {
     add_beneficiary_getOccupation: 'Livelihood',
     add_beneficiary_getTypeNationalId: 'Type of National ID Number',
     add_beneficiary_getTypePhone: 'Type phone',
+    add_beneficiary_res_address: 'Resident Address',
     add_beneficiary_step1: 'Information',
     add_beneficiary_step2: 'Head',
     add_beneficiary_step3: 'Members',
@@ -234,6 +235,7 @@ export const TEXT = {
     modal_language_title: 'Language',
     modal_no_country: 'You must define a country with that role',
     modal_no_password: 'You must define a password',
+    modal_not_enough_strong: 'The password is not strong enough... Minimum required: 8 characters, 1 lowercase, 1 uppercase, 1 numeric',
     modal_no_project: 'You must define at least a project with that role',
     modal_pending_requests: 'Pending Requests',
     modal_required: 'required',
@@ -363,6 +365,7 @@ export const TEXT = {
     transaction_transaction: 'Transaction',
     transaction_validate_distribution: 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.',
     transaction_validation: 'Confirm the validation',
+    transaction_inProgress: 'Transaction in progress...',
 
     // Update beneficiary
     update_beneficiary_check_steps: 'Required data incomplete or unvalid: please check all steps',

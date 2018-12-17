@@ -68,6 +68,7 @@ export const TEXT = {
     add_beneficiary_getOccupation: 'Métier',
     add_beneficiary_getTypeNationalId: 'Type d\'identifiant national',
     add_beneficiary_getTypePhone: 'Type de téléphone',
+    add_beneficiary_res_address: 'Adresse du résident',
     add_beneficiary_step1: 'Information',
     add_beneficiary_step2: 'Chef de famille',
     add_beneficiary_step3: 'Membres',
@@ -232,6 +233,7 @@ export const TEXT = {
     modal_leave_sentence: 'Souhaitez-vous réellement quitter sans enregistrer vos modifications ?',
     modal_no_country: 'Vous devez définir au moins une ville pour ce rôle',
     modal_no_password: 'Vous devez définir un mot de passe',
+    modal_not_enough_strong: 'Mot de passe insuffisant... Minimum requis: 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre',
     modal_no_project: 'Vous devez définir au moins un projet pour ce rôle',
     modal_pending_requests: 'Pending Requests',
     modal_success: 'Succès',
@@ -361,6 +363,7 @@ export const TEXT = {
     transaction_transaction: 'Transaction',
     transaction_validate_distribution: 'Voulez vous vraiment valider la distribution ? Vous ne serez plus capable de la modifier',
     transaction_validation: 'Confirmer la validation',
+    transaction_inProgress: 'Transaction en cours...',
 
     // Update beneficiary
     update_beneficiary_check_steps: 'Les données requises sont incomplètes ou invalides: s\'il vous plait vérifier toutes les étapes',

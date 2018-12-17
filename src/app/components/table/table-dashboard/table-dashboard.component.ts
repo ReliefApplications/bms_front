@@ -12,22 +12,24 @@ const RECENT_DIST_LENGTH = 5;
 export class TableDashboardComponent extends TableComponent implements DoCheck {
 
   ngDoCheck() {
-    if (this.data && this.data.data && this.data.data.length > RECENT_DIST_LENGTH) {
+    if (this.data) {
+      if (this.data.data && this.data.data.length > RECENT_DIST_LENGTH) {
         this.data.data = this.data.data.slice(-RECENT_DIST_LENGTH);
-    }
+      }
 
-    if (this.data && this.data.data) {
+      if (this.data.data) {
         if (this.entity !== this.oldEntity) {
-            this.checkData();
+          this.checkData();
         }
         if (!this.data.paginator) {
-            this.data.paginator = this.paginator;
+          this.data.paginator = this.paginator;
         }
         if (this.table !== GlobalText.TEXTS) {
-            this.table = GlobalText.TEXTS;
-            this.setDataTableProperties();
-            this.mapperService.setMapperObject(this.entity);
+          this.table = GlobalText.TEXTS;
+          this.setDataTableProperties();
+          this.mapperService.setMapperObject(this.entity);
         }
+      }
     }
   }
 

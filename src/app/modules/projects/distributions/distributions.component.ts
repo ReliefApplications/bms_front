@@ -44,8 +44,8 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     loadingFinalStep: boolean;
     loadingTransaction: boolean;
     sampleSize: number; // %
-    extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods
-    extensionTypeStep3: string; // 1.xls / 2.csv / 3.ods
+    extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods / 4.pdf
+    extensionTypeStep3: string; // 1.xls / 2.csv / 3.ods / 4.pdf
 
     // Entities passed to table components.
     beneficiaryEntity = Beneficiaries;
@@ -89,6 +89,10 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     hasRights: boolean = false;
     hasRightsTransaction: boolean = false;
     loaderValidation: boolean = false;
+
+    interval: any;
+    correctCode: boolean = false;
+    progression: number;
 
     constructor(
         public distributionService: DistributionService,
@@ -151,9 +155,9 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
             this.language = GlobalText.language;
     }
 
-       /**
-     * Verify if modifications have been made to prevent the user from leaving and display dialog to confirm we wiwhes to delete them
-     */
+    /**
+  * Verify if modifications have been made to prevent the user from leaving and display dialog to confirm we wiwhes to delete them
+  */
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
         if (this.transacting) {
@@ -407,23 +411,23 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     codeVerif() {
         if ((new Date()).getTime() - this.lastCodeSentTime > this.SENDING_CODE_FREQ) {
             this.distributionService.sendCode(this.distributionId).toPromise()
-            .then(
-                anwser => {
-                    if(anwser === "Email sent") {
+                .then(
+                    anwser => {
+                        if (anwser === "Email sent") {
+                            this.lastCodeSentTime = (new Date()).getTime();
+                            this.snackBar.open('Verification code has been sent at ' + this.actualUser.email, '', { duration: 5000, horizontalPosition: 'center' });
+                        }
+                    },
+                    () => {
                         this.lastCodeSentTime = (new Date()).getTime();
                         this.snackBar.open('Verification code has been sent at ' + this.actualUser.email, '', { duration: 5000, horizontalPosition: 'center' });
                     }
-                },
-                () => {
-                    this.lastCodeSentTime = (new Date()).getTime();
-                    this.snackBar.open('Verification code has been sent at ' + this.actualUser.email, '', { duration: 5000, horizontalPosition: 'center' });
-                }
-            )
-            .catch(
-                (err) => {
-                    this.snackBar.open('Could not send code :' + err, '', { duration: 5000, horizontalPosition: 'center' });
-                }
-            );
+                )
+                .catch(
+                    (err) => {
+                        this.snackBar.open('Could not send code :' + err, '', { duration: 5000, horizontalPosition: 'center' });
+                    }
+                );
         } else {
             this.snackBar.open('The last code was sent less than 10 seconds ago, you should wait.', '', { duration: 5000, horizontalPosition: 'center' });
         }
@@ -434,21 +438,27 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      */
     confirmTransaction() {
         if (this.hasRightsTransaction) {
+            this.progression = 0;
             this.cacheService.getUser().subscribe(
                 result => {
                     this.actualUser = result;
-                    if(!this.actualUser.email && this.actualUser.username) {
+                    if (!this.actualUser.email && this.actualUser.username) {
                         this.actualUser['email'] = this.actualUser.username;
                     }
                     if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]) {
                         this.transacting = true;
+                        this.correctCode = true;
                         this.distributionService.transaction(this.distributionId, this.enteredCode)
                             .pipe(
                                 finalize(
                                     () => {
-                                      this.transacting = false;
-                                      this.chartAccepted = false;
-                                      this.enteredCode = '';
+                                        this.transacting = false;
+                                        this.chartAccepted = false;
+                                        this.correctCode = false;
+                                        this.enteredCode = '';
+                                        this.dialog.closeAll();
+                                        clearInterval(this.interval);
+                                        this.refreshStatuses();
                                     }
                                 )
                             ).toPromise().then(
@@ -496,6 +506,26 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                             ).catch(
                                 //err
                             )
+
+                        let progression: number = 0;
+                        let peopleLeft = this.getAmount('waiting', this.actualDistribution.commodities[0]);
+                        peopleLeft = peopleLeft / this.actualDistribution.commodities[0].value;
+
+                        this.interval = setInterval(() => {
+                            this.distributionService.checkProgression(this.distributionId)
+                                .subscribe(
+                                    result => {
+                                        if (result) {
+                                            if (result != progression) {
+                                                progression = result;
+
+                                                this.progression = Math.floor((result/peopleLeft)*100);
+                                            }
+                                        }
+                                    }
+                                )
+                        }, 3000);
+
                     } else {
                         this.snackBar.open(this.TEXT.distribution_no_valid_commodity, '', { duration: 5000, horizontalPosition: 'center' });
                     }
@@ -506,12 +536,11 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
             this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 5000, horizontalPosition: 'right' });
 
         this.chartAccepted = false;
-        this.dialog.closeAll();
     }
-
+    
     setTransactionMessage(beneficiary, i) {
 
-        this.transactionData.data[i].message = beneficiary.transactions[beneficiary.transactions.length-1].message ?
+        this.transactionData.data[i].message = beneficiary.transactions[beneficiary.transactions.length - 1].message ?
             beneficiary.transactions[beneficiary.transactions.length].message : '';
     }
 
@@ -668,11 +697,11 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         if (this.hasRights) {
             try {
                 this.distributionService.logs(this.distributionId).subscribe(
-                    e => { this.snackBar.open(''+e, '', { duration: 5000, horizontalPosition: 'center' }); },
+                    e => { this.snackBar.open('' + e, '', { duration: 5000, horizontalPosition: 'center' }); },
                     () => { this.snackBar.open('Logs have been sent', '', { duration: 5000, horizontalPosition: 'center' }); },
                 )
-            } catch(e) {
-                this.snackBar.open('Logs could not be sent : ' +e, '', { duration: 5000, horizontalPosition: 'center' });
+            } catch (e) {
+                this.snackBar.open('Logs could not be sent : ' + e, '', { duration: 5000, horizontalPosition: 'center' });
             }
         } else {
             this.snackBar.open('Not enough rights to request logs', '', { duration: 5000, horizontalPosition: 'center' });
@@ -683,12 +712,12 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         this.cacheService.getUser().subscribe(
             result => {
                 this.setUser(result.user_id);
-                if (result && result.voters) {
-                    const voters = result.voters;
-                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
+                if (result && result.rights) {
+                    const rights = result.rights;
+                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER')
                         this.hasRights = true;
 
-                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == 'ROLE_COUNTRY_MANAGER')
+                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == 'ROLE_COUNTRY_MANAGER')
                         this.hasRightsTransaction = true;
                 }
             }

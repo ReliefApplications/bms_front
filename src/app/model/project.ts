@@ -88,6 +88,20 @@ export class Project {
             return selfinstance;
         }
 
+        let donorsArray = [];
+        if (selfinstance.donors) {
+            selfinstance.donors.forEach(element => {
+                donorsArray.push(element.id);  
+            });
+        }
+
+        let sectorsArray = [];
+        if (selfinstance.sectors) {
+            selfinstance.sectors.forEach(element => {
+                sectorsArray.push(element.id);              
+            });
+        }
+
         return {
             id: selfinstance.id,
             name: selfinstance.name,
@@ -96,6 +110,8 @@ export class Project {
             iso3: selfinstance.iso3,
             notes: selfinstance.notes,
             value: selfinstance.value,
+            donors_name: donorsArray,
+            sectors_name: sectorsArray
         };
     }
 
@@ -270,7 +286,7 @@ export class Project {
         return project;
     }
 
-    public static formatForApi(element: Project): any {
+    public static formatForApi(element): any {
         const project = new Project(element);
         if (element.sectors_name) {
             element.sectors_name.forEach(sector => {

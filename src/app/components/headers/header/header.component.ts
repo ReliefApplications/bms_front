@@ -7,7 +7,7 @@ import { GlobalText } from '../../../../texts/global';
 import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
-import { UserService } from 'src/app/core/api/user.service';
+import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 
 @Component({
     selector: 'app-header',
@@ -19,13 +19,12 @@ export class HeaderComponent implements OnInit {
     public language = "en";
 
     // User countries
-    userData = new User();
     requesting = false;
     countries : string[] = [];
     selectedCountry : string;
 
     @Output() emitLogOut = new EventEmitter();
-    @Input() actualUserId : number;
+    @Input() userData: User;
 
     public currentRoute = "/";
     public breadcrumb: Array<any> = [{
@@ -36,7 +35,7 @@ export class HeaderComponent implements OnInit {
     constructor(
         public dialog: MatDialog,
         public router: Router,
-        private userService: UserService,
+        private authService: AuthenticationService,
         private asyncacheService: AsyncacheService,
         private snackbar: MatSnackBar,
     ) {
@@ -53,6 +52,8 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.language = GlobalText.language;
+        this.userData = new User(this.userData);
+        this.getCorrectCountries();
     }
 
     ngDoCheck() {
@@ -60,47 +61,20 @@ export class HeaderComponent implements OnInit {
             this.header = GlobalText.TEXTS;
             this.updateBreadcrumb();
         }
-        this.refreshUserData();
 
         if(this.language !== GlobalText.language) {
-            this.ngOnInit();
-        }
-    }
-
-    refreshUserData() {
-        if( !this.requesting && this.actualUserId && Number(this.userData.id) !== Number(this.actualUserId)) {
-            this.requesting = true;
-            this.userService.get().subscribe(
-                result => {
-                    if(result) {
-                        result.forEach(
-                            element => {
-                                if(element.id === this.actualUserId) {
-                                    this.userData = User.formatFromApi(element);
-                                    this.requesting = false;
-                                }
-                            }
-                        );
-                        this.getCorrectCountries();
-                    }
-                }
-            )
-        }
+            this.language = GlobalText.language;        }
     }
 
     getCorrectCountries() {
         let countries = this.userData.getAllCountries();
 
         this.countries = [];
-        if(this.userData.rights === "ROLE_ADMIN") {
+        if (this.userData.rights === "ROLE_ADMIN") {
             countries.forEach( element => {
                 this.countries.push(element.id);
             });
-        } else if(this.userData.rights === "ROLE_REGIONAL_MANAGER" || this.userData.rights === "ROLE_COUNTRY_MANAGER") {
-            this.userData.country.forEach( element => {
-                this.countries.push(element);
-            });
-        } else if(this.userData.rights === "ROLE_PROJECT_MANAGER" || this.userData.rights === "ROLE_PROJECT_OFFICER") {
+        } else {
             this.userData.country.forEach( element => {
                 this.countries.push(element);
             });
@@ -153,7 +127,7 @@ export class HeaderComponent implements OnInit {
     }
 
     preventSnack(country: string) {
-        const snack = this.snackbar.open('Page is going to reload in 3 sec to switch on ' + country + ' country. ', 'Reload now', {duration: 3000});
+        const snack = this.snackbar.open('Page is going to reload in 3 sec to switch to ' + country + ' country. ', 'Reload now', {duration: 3000});
 
         snack
             .onAction()

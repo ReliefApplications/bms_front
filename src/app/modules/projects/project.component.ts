@@ -213,13 +213,8 @@ export class ProjectComponent implements OnInit {
                     }
                 });
 
-                if (exists == false) {
-                    this.projectService.create(data['id'], data).subscribe(
-                        response => {
-                            this.getProjects();
-                        },
-                    );
-                }
+                if (exists == false)
+                    this.createElement(data);
             }
         );
         dialogRef.afterClosed().subscribe(
@@ -229,14 +224,22 @@ export class ProjectComponent implements OnInit {
         );
     }
 
+    createElement(createElement: Object) {
+        createElement = Project.formatForApi(createElement);
+        this.projectService.create(createElement['id'], createElement).subscribe(response => {
+            this.snackBar.open("Project " + this.distribution.settings_created, '', { duration: 5000, horizontalPosition: 'right' });
+            this.getProjects();
+        });
+    }
+
     checkPermission() {
         this._cacheService.getUser().subscribe(
             result => {
-                const voters = result.voters;
-                if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
+                const rights = result.rights;
+                if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER')
                     this.hasRights = true;
 
-                if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_PROJECT_OFFICER")
+                if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == "ROLE_PROJECT_OFFICER")
                     this.hasRightsEdit = true;
             }
         )

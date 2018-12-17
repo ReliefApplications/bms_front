@@ -175,15 +175,15 @@ export class BeneficiariesComponent implements OnInit {
     checkPermission() {
         this.cacheService.get('user').subscribe(
             result => {
-                if(result && result.voters) {
-                    const voters = result.voters;
-                    if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_PROJECT_OFFICER")
+                if(result && result.rights) {
+                    const rights = result.rights;
+                    if (rights == "ROLE_ADMIN" || rights == "ROLE_PROJECT_MANAGER" || rights == "ROLE_PROJECT_OFFICER")
                         this.hasRights = true;
             
-                    if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER")
+                    if (rights == "ROLE_ADMIN" || rights == "ROLE_PROJECT_MANAGER")
                         this.hasRightsDelete = true;
             
-                    if (voters == "ROLE_ADMIN" || voters == "ROLE_PROJECT_MANAGER" || voters == "ROLE_COUNTRY_MANAGER")
+                    if (rights == "ROLE_ADMIN" || rights == "ROLE_PROJECT_MANAGER" || rights == "ROLE_COUNTRY_MANAGER")
                         this.hasRightsExport = true;
                 }
             }

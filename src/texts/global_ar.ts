@@ -68,6 +68,7 @@ export const TEXT = {
     add_beneficiary_getOccupation: 'الوظيفة',
     add_beneficiary_getTypeNationalId: 'نوع الهوية الوطنية',
     add_beneficiary_getTypePhone: 'نوع الهاتف',
+    add_beneficiary_res_address: 'Resident Address',
     add_beneficiary_step1: 'معلومات',
     add_beneficiary_step2: 'رب العائلة',
     add_beneficiary_step3:'أفراد العائلة',
@@ -232,6 +233,7 @@ export const TEXT = {
     modal_language_title: 'اللغة',
     modal_no_country: 'عليك بتحديد بلد على الأقل يتعلق بالحق',
     modal_no_password: 'عليك بادخال كلمة المرور ',
+    modal_not_enough_strong: 'The password is not strong enough... Minimum required: 8 characters, 1 lowercase, 1 uppercase, 1 numeric',
     modal_no_project: 'عليك بتحديد مشروع على الأقل يتعلق بالحق',
     modal_pending_requests: 'Pending Requests',
     modal_success: 'Success',
@@ -361,6 +363,7 @@ export const TEXT = {
     transaction_transaction: 'Transaction',
     transaction_validate_distribution: 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.',
     transaction_validation: 'Confirm the validation',
+    transaction_inProgress: 'Transaction in progress...',
 
     // Update beneficiary
     update_beneficiary_check_steps: 'البيانات المطلوبة غير كاملة أو غير صالح: يرجى التحقق من جميع المراحل',

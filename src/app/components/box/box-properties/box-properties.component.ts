@@ -22,7 +22,7 @@ export class BoxPropertiesComponent {
     public properties: any;
     public numColumns = 0;
     public displayLength: number;
-    
+
     readonly MAX_PROP_LENGTH = 20;
 
     @HostListener('window:resize', ['$event'])

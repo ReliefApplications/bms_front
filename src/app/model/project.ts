@@ -286,7 +286,7 @@ export class Project {
         return project;
     }
 
-    public static formatForApi(element: Project): any {
+    public static formatForApi(element): any {
         const project = new Project(element);
         if (element.sectors_name) {
             element.sectors_name.forEach(sector => {

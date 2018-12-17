@@ -213,13 +213,8 @@ export class ProjectComponent implements OnInit {
                     }
                 });
 
-                if (exists == false) {
-                    this.projectService.create(data['id'], data).subscribe(
-                        response => {
-                            this.getProjects();
-                        },
-                    );
-                }
+                if (exists == false)
+                    this.createElement(data);
             }
         );
         dialogRef.afterClosed().subscribe(
@@ -227,6 +222,14 @@ export class ProjectComponent implements OnInit {
                 this.loadingCreation = false;
             }
         );
+    }
+
+    createElement(createElement: Object) {
+        createElement = Project.formatForApi(createElement);
+        this.projectService.create(createElement['id'], createElement).subscribe(response => {
+            this.snackBar.open("Project " + this.distribution.settings_created, '', { duration: 5000, horizontalPosition: 'right' });
+            this.getProjects();
+        });
     }
 
     checkPermission() {

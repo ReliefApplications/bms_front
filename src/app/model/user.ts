@@ -76,12 +76,18 @@ export class User {
         if (!selfinstance)
             return selfinstance;
 
+        let projects = [];
+        selfinstance.projects.forEach(project => {
+            projects.push(project);
+        });
+
         return {
             id: selfinstance.id,
             username: selfinstance.username,
             email: selfinstance.email,
             salted_password: selfinstance.salted_password,
             rights: selfinstance.rights,
+            projects: projects
         }
     }
 
@@ -194,10 +200,10 @@ export class User {
 
     public static formatArray(instance): User[] {
         let users: User[] = [];
-        if(instance)
-        instance.forEach(element => {
-            users.push(this.formatFromApi(element));
-        });
+        if (instance)
+            instance.forEach(element => {
+                users.push(this.formatFromApi(element));
+            });
         return users;
     }
 
@@ -220,7 +226,7 @@ export class User {
             user.projects = [];
             element.user_projects.forEach(
                 element => {
-                    user.projects.push(element.project.name);
+                    user.projects.push(element.project.id);
                 }
             )
         }
@@ -275,7 +281,7 @@ export class User {
         return [
             {
                 'id': "KHM",
-                'name' : "Cambodia",
+                'name': "Cambodia",
             },
             {
                 'id': "SYR",

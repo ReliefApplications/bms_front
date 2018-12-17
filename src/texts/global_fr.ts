@@ -68,11 +68,11 @@ export const TEXT = {
     add_beneficiary_getOccupation: 'Métier',
     add_beneficiary_getTypeNationalId: 'Type d\'identifiant national',
     add_beneficiary_getTypePhone: 'Type de téléphone',
+    add_beneficiary_res_address: 'Adresse du résident',
     add_beneficiary_step1: 'Information',
     add_beneficiary_step2: 'Chef de famille',
     add_beneficiary_step3: 'Membres',
     add_beneficiary_title: 'Ajout d\'un bénéficiaire',
-    add_beneficiary_res_address: 'Adresse du résident',
 
     // Add distribution
     add_distribution_beneficiaries_reached: 'Bénéficaires atteints',

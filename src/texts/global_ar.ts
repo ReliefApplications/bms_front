@@ -68,11 +68,11 @@ export const TEXT = {
     add_beneficiary_getOccupation: 'الوظيفة',
     add_beneficiary_getTypeNationalId: 'نوع الهوية الوطنية',
     add_beneficiary_getTypePhone: 'نوع الهاتف',
+    add_beneficiary_res_address: 'Resident Address',
     add_beneficiary_step1: 'معلومات',
     add_beneficiary_step2: 'رب العائلة',
     add_beneficiary_step3:'أفراد العائلة',
     add_beneficiary_title: 'إضافة مستفيد',
-    add_beneficiary_res_address: 'Resident Address',
 
     // Add distribution
     add_distribution_beneficiaries_reached: 'المستفيدون الذين تم الوصول إليهم',

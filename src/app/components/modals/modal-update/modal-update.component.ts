@@ -14,7 +14,6 @@ export class ModalUpdateComponent extends ModalComponent {
   updateObject: any;
 
   ngOnInit() {
-
     this.entityInstance = this.data.mapper.instantiate(this.data.entity);
     // console.log(this.data);
     this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapperUpdate(this.entityInstance, this.data.data));
@@ -47,28 +46,28 @@ export class ModalUpdateComponent extends ModalComponent {
 
     if (event.value == "ROLE_PROJECT_MANAGER" || event.value == "ROLE_PROJECT_OFFICER" || event.value == "ROLE_FIELD_OFFICER") {
 
-        this.form.controls['projectsControl'].enable();
-        this.form.controls['countryControl'].disable();
+      this.form.controls['projectsControl'].enable();
+      this.form.controls['countryControl'].disable();
     }
-    else if(event.value == "ROLE_COUNTRY_MANAGER" || event.value == "ROLE_REGIONAL_MANAGER") {
+    else if (event.value == "ROLE_COUNTRY_MANAGER" || event.value == "ROLE_REGIONAL_MANAGER") {
 
-        this.form.controls['countryControl'].enable();
-        this.form.controls['projectsControl'].disable();
+      this.form.controls['countryControl'].enable();
+      this.form.controls['projectsControl'].disable();
     }
     else {
-        this.newObject['country'] = [];
-        this.newObject['projects'] = [];
+      this.newObject['country'] = [];
+      this.newObject['projects'] = [];
 
-        this.form.controls['projectsControl'].disable();
-        this.form.controls['countryControl'].disable();
+      this.form.controls['projectsControl'].disable();
+      this.form.controls['countryControl'].disable();
     }
 
-    if(event.value == "ROLE_ADMIN") {
-        this.user.getAllCountries().forEach(
-            element => {
-                this.newObject['country'].push(element.id);
-            }
-        )
+    if (event.value == "ROLE_ADMIN") {
+      this.user.getAllCountries().forEach(
+        element => {
+          this.newObject['country'].push(element.id);
+        }
+      )
     }
 
   }
@@ -78,10 +77,10 @@ export class ModalUpdateComponent extends ModalComponent {
   save(): any {
     //Check fields for Users settings
     if (this.updateObject.username) {
-      //   if (this.updateObject.password == '' || !this.updateObject.password) {
-      //     this.snackBar.open(this.modal.modal_no_password, '', { duration: 5000, horizontalPosition: 'right' });
-      //     return;
-      //   }
+      if (this.updateObject.password == '' || !this.updateObject.password) {
+        this.snackBar.open(this.modal.modal_no_password, '', { duration: 5000, horizontalPosition: 'right' });
+        return;
+      }
 
       if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER") {
         if (this.updateObject.projects == undefined || Object.keys(this.updateObject.projects).length == 0) {

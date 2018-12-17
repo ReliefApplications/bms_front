@@ -38,14 +38,17 @@ export class RequestDisplayComponent implements OnInit {
     }
 
     openDialog() {
-        this.dialog.open(ModalRequestsComponent, {data : {requests: this.storedRequests} });
+        let ref = this.dialog.open(ModalRequestsComponent, {data : {requests: this.storedRequests} });
+        ref.afterClosed().subscribe( () => {
+            this.loadStoredRequests();
+        });
     }
 
     loadStoredRequests() {
         this.cacheService.get(AsyncacheService.PENDING_REQUESTS).subscribe(
             (result) => {
                 this.storedRequests = result;
-                console.log('Cached: ', result);
+                //console.log('Cached: ', result);
             }
         )
     }

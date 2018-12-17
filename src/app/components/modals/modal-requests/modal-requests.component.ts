@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Inject, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { GlobalText } from 'src/texts/global';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { StoredRequestInterface } from 'src/app/model/stored-request';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { timer } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-modal-requests',
@@ -30,6 +31,13 @@ export class ModalRequestsComponent implements OnInit {
     public requests: StoredRequestInterface[];
     public loading = false;
 
+    // When sending all.
+    public inProgress: boolean = false;
+    public progressLength : number = 0;
+    public progressCountSuccess : number = 0;
+    public progressCountFail : number = 0;
+    public errors: Array<any>;
+
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         private dialogRef: MatDialogRef<ModalRequestsComponent>,
@@ -39,7 +47,17 @@ export class ModalRequestsComponent implements OnInit {
 
     ngOnInit() {
         this.requests = this.data.requests;
-        console.log(this.requests);
+        //console.log(this.requests);
+    }
+
+    ngDoCheck() {
+        if(this.requests && this.requests.length === 0) {
+            timer(1000).subscribe( 
+                result => {
+                    this.closeDialog();
+                }
+            );
+        }
     }
 
     closeDialog(): void {
@@ -75,20 +93,62 @@ export class ModalRequestsComponent implements OnInit {
             )
         }
 
-        console.log(element);
+        //console.log(element);
     }
 
     sendAllRequests() {
-        this.cacheService.sendAllStoredRequests();
-        this.requests = [];
-        this.closeDialog();
+        let size = this.requests.length;
+        let stillToBeSent = [];
+
+        this.cacheService.sendAllStoredRequests()
+        .subscribe(
+            (result) => {
+                if(result) {
+                    this.inProgress = true;
+                    this.progressLength = size;
+                    this.errors = [];
+
+                    result
+                    .subscribe(
+                        (msg) => {
+                            this.progressCountSuccess++;
+                            if(this.progressCountFail+this.progressCountSuccess === this.progressLength) {
+                                this.cacheService.set(AsyncacheService.PENDING_REQUESTS, stillToBeSent);
+                            }
+                        },
+                        (error) => {
+                            try {
+                                stillToBeSent.push(this.requests[this.progressCountFail+this.progressCountSuccess]);
+                                this.errors.push(error);
+                            } catch(e) {
+                                this.snackbar.open(e + '', "", {duration:3000, horizontalPosition:'center'});
+                            }
+
+                            this.progressCountFail++;
+                            if(this.progressCountFail+this.progressCountSuccess === this.progressLength) {
+                                this.cacheService.set(AsyncacheService.PENDING_REQUESTS, stillToBeSent);
+                            }
+                        }
+                    );
+                }
+            },
+            () => {
+                this.snackbar.open('An error occured when regrouping pending requests to be sent.', '', {duration: 3000, horizontalPosition: 'center'});
+            }
+        );
+
+        this.requests = stillToBeSent;
+    }
+
+    getProgressValue() {
+        return ((this.progressCountSuccess + this.progressCountFail) / this.progressLength) * 100;
     }
 
     removeRequest(element: StoredRequestInterface) {
         this.requests.splice(this.requests.indexOf(element), 1);
         this.cacheService.set(AsyncacheService.PENDING_REQUESTS, this.requests);
         this.loading = true;
-        timer(200).subscribe( result => { this.loading = false});
+        timer(200).subscribe( result => {this.loading = false});
     }
 
     expandBody(body: Object): Array<string> {

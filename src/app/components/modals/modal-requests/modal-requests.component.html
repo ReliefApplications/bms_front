@@ -4,7 +4,7 @@
         <button mat-raised-button class="send-all button-background-accent" (click)="sendAllRequests()">Send All</button>
     </h4>
 
-    <table mat-table [dataSource]="requests" multiTemplateDataRows *ngIf="requests && !loading">
+    <table mat-table [dataSource]="requests" multiTemplateDataRows *ngIf="requests && !loading && !inProgress && requests.length > 0">
         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
             <th mat-header-cell *matHeaderCellDef class="{{column}}"> 
                 <div *ngIf="column !== 'icon'">
@@ -62,8 +62,22 @@
     <div class="loading-container" *ngIf="loading">
         <mat-spinner [diameter]="40"></mat-spinner>
     </div>
+    <div class="progress" *ngIf="inProgress">
+        <h3>Sending {{progressLength}} requests:</h3>
+        <mat-progress-bar mode="determinate" [value]="getProgressValue()"></mat-progress-bar>
+        <div class="progress-info">
+            <span>{{TEXTS.modal_success}}: {{progressCountSuccess}}</span>
+            <span>{{TEXTS.modal_failure}}: {{progressCountFail}}</span>
+        </div>
+        <div class="progress-errors" *ngIf="errors && errors.length > 0">
+            <div class="error-row" *ngFor="let error of errors, i as index">
+                <p *ngIf="error.status && error.statusText && error.error"> <strong>{{i}}</strong> Error: {{error.status}} ({{error.statusText}}) : {{error.error}} </p>
+                <p *ngIf="!error.error && error.message"> <strong>{{i}}</strong> Error: {{error.message}} </p>
+            </div>
+        </div>
+    </div>
 
-    <div class="modal-button action-buttons">
-        <button mat-button (click)="closeDialog()" class="button-text-accent">{{TEXTS.cancel}}</button>
+    <div class="modal-button action-buttons" cdkFocusRegionstart>
+        <button mat-button (click)="closeDialog()" class="button-text-accent">{{TEXTS.modal_leave}}</button>
     </div>
 </mat-dialog-content>

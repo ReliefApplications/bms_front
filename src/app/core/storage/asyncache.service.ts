@@ -1,13 +1,11 @@
 import { Injectable }                   from '@angular/core';
 import { LocalStorage }                 from '@ngx-pwa/local-storage';
 import { CachedItemInterface }          from './cached-item.interface';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, concat } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { HttpClient } from '@angular/common/http';
 import { StoredRequestInterface } from 'src/app/model/stored-request';
-import { SSL_OP_CISCO_ANYCONNECT } from 'constants';
-import { HttpMethod } from 'blocking-proxy/built/lib/webdriver_commands';
 
 @Injectable({
 	providedIn: 'root'
@@ -245,41 +243,33 @@ export class AsyncacheService {
      */
     sendAllStoredRequests() {
         // TODO : update with new data structure
-        this.get(AsyncacheService.PENDING_REQUESTS).subscribe(
-            requests => {
-                if(requests) {
-                    let stillToBeSent = [];
-                    
-                    requests.forEach(
-                        request => {
-                            let method;
-
-                            if(request.method === "PUT") {
-                                method = this.http.put(request.url, request.body, request.options);
-                            } else if(request.method === "POST") {
-                                method = this.http.post(request.url, request.body, request.options);
-                            } else if(request.method === "DELETE") {
-                                method = this.http.delete(request.url, request.options);
-                            } else {
-                                method = null;
-                            }
-
-                            if(method) {
-                                method.subscribe(
-                                    sent => {
-                                        console.log('Stored request (' + request.url + ') has been sent');
-                                    },
-                                    () => {
-                                        console.log('Failed to send stored (' + request.url + ')');
-                                        stillToBeSent.push(request);
+        return this.get(AsyncacheService.PENDING_REQUESTS).pipe(
+            map(
+                (requests:Array<any>) => {
+                    if(requests) {
+                        let totalObs : Observable<any>;   
+                        requests.forEach(
+                            request => {
+                                let method : Observable<any>;
+    
+                                method = this.useMethod(request);
+                                if(method) {
+                                    if(!totalObs) {
+                                        totalObs = method;
+                                    } else {
+                                        totalObs = totalObs.pipe(
+                                            concat(method)
+                                        );
                                     }
-                                );
+                                }
                             }
-                        }
-                    );
-                    this.set(AsyncacheService.PENDING_REQUESTS, stillToBeSent);
+                        );
+                        return totalObs;
+                    } else {
+                        return of(null);
+                    }
                 }
-            }
+            )
         );
     }
 

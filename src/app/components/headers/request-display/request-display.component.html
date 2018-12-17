@@ -1,5 +1,5 @@
 <div class="notification-container">
-    <div class="notif pending" *ngIf="requestsArePending()" (click)="openDialog(); $event.stopPropagation();">
+    <div class="notif pending" *ngIf="requestsArePending() && networkOn" (click)="openDialog(); $event.stopPropagation();">
         <mat-icon>call_merge</mat-icon>
     </div>
     <div class="notif off" *ngIf="!networkOn">

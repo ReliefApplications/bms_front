@@ -227,6 +227,7 @@ export const TEXT = {
     modal_delete_sentence: 'You are about to delete ',
     modal_delete_sentence_2: '. Are you sure? ',
     modal_email_is: 'Email is',
+    modal_failure: 'Failure',
     modal_leave: 'Leave',
     modal_language_actual: 'Current language: ',
     modal_leave_sentence: 'Do you really want to leave with unsaved changes?',
@@ -236,6 +237,7 @@ export const TEXT = {
     modal_no_project: 'You must define at least a project with that role',
     modal_pending_requests: 'Pending Requests',
     modal_required: 'required',
+    modal_success: 'Success',
     modal_valid_email: 'Please enter a valid email address',
 
     // Model

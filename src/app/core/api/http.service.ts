@@ -58,6 +58,20 @@ export class HttpService {
         
     }
 
+    filteredPendingRequests(url: string) {
+        let filtered = false;
+
+        if (url.includes(URL_BMS_API, 0)) {
+            url = url.split(URL_BMS_API)[1];
+
+            if(url.substring(0,11) === '/indicators' || url === '/households/get/all') {
+                filtered = true;
+            }
+        }
+
+        return(filtered);
+    }
+
     get(url, options = {}) : Observable<any> {
         //console.log('-(', url,')-');
 
@@ -116,15 +130,17 @@ export class HttpService {
         let connected = this.networkService.getStatus();
 
         if(!connected) {
+            if(!this.filteredPendingRequests(url)) {
                 let date = new Date();
                 let method = "PUT";
                 let request : StoredRequestInterface = {method, url, body, options, date};
                 this.cacheService.storeRequest(request);
                 this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
+            }
             // Otherwise
-            // else {
-            //     this.snackbar.open('No network connection to create data', '', {duration:3000, horizontalPosition: 'center'});
-            // }
+            else {
+                this.snackbar.open('No network connection to join DB', '', {duration:3000, horizontalPosition: 'center'});
+            }
 
             return(of(null));
         }
@@ -139,16 +155,17 @@ export class HttpService {
         let connected = this.networkService.getStatus();
 
         if(!connected) {
+            if(!this.filteredPendingRequests(url)) {
                 let date = new Date();
                 let method = "POST";
                 let request : StoredRequestInterface = {method, url, body, options, date};
                 this.cacheService.storeRequest(request);
                 this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
-        
+            }
             // Otherwise
-            // else {
-            //     this.snackbar.open('No network connection to create data', '', {duration:3000, horizontalPosition: 'center'});
-            // }
+            else {
+                this.snackbar.open('No network connection to join DB', '', {duration:3000, horizontalPosition: 'center'});
+            }
 
             return(of(null));
         }
@@ -163,15 +180,17 @@ export class HttpService {
         let connected = this.networkService.getStatus();
 
         if(!connected) {
+            if(!this.filteredPendingRequests(url)) {
                 let date = new Date();
                 let method = "DELETE";
                 let request : StoredRequestInterface = {method, url, options, date};
                 this.cacheService.storeRequest(request);
                 this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
+            }
             // Otherwise
-            // else {
-            //     this.snackbar.open('No network connection to create data', '', {duration:3000, horizontalPosition: 'center'});
-            // }
+            else {
+                this.snackbar.open('No network connection to join DB', '', {duration:3000, horizontalPosition: 'center'});
+            }
 
             return(of(null));
         }

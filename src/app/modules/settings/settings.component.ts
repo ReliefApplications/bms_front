@@ -142,7 +142,7 @@ export class SettingsComponent implements OnInit {
                 result => {
                     if(!exported) {
                         exported = true;
-                    
+
                         country = result[0].country_i_s_o3;
                         return this._settingsService.export(this.extensionType, category, country).then(
                             () => { this.loadingExport = false }
@@ -215,23 +215,23 @@ export class SettingsComponent implements OnInit {
 
                 this._cacheService.getUser().subscribe(
                     result => {
-                        if(result && result.voters) {
-                            const voters = result.voters;
+                        if(result && result.rights) {
+                            const rights = result.rights;
 
                             if (this.referedClassToken.__classname__ == 'User')
-                            if (voters == 'ROLE_ADMIN')
+                            if (rights == 'ROLE_ADMIN')
                                 this.hasRights = true;
-        
+
                             if (this.referedClassToken.__classname__ == 'CountrySpecific')
-                                if (voters == "ROLE_ADMIN" || voters == 'ROLE_COUNTRY_MANAGER' || voters == 'ROLE_PROJECT_MANAGER')
+                                if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
                                     this.hasRights = true;
-            
+
                             if (this.referedClassToken.__classname__ == 'Donor')
-                                if (voters == 'ROLE_ADMIN')
+                                if (rights == 'ROLE_ADMIN')
                                     this.hasRights = true;
-            
+
                             if (this.referedClassToken.__classname__ == 'Project')
-                                if (voters == "ROLE_ADMIN" || voters == 'ROLE_COUNTRY_MANAGER' || voters == 'ROLE_PROJECT_MANAGER')
+                                if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
                                     this.hasRights = true;
                         }
                     }
@@ -243,7 +243,7 @@ export class SettingsComponent implements OnInit {
             }
         })
         // .catch(
-        //     () => { 
+        //     () => {
         //         this.data = new MatTableDataSource(null);
         //     }
         // );

@@ -14,18 +14,17 @@ import { User } from 'src/app/model/user';
     styleUrls: ['./header-mobile.component.scss']
 })
 export class HeaderMobileComponent implements OnInit {
-
     public header = GlobalText.TEXTS;
     public language = "en";
+
     private requesting = false;
-    private userData = new User();
     public countries = [ ];
     public selectedCountry: string;
 
     @Output() emitLogOut = new EventEmitter();
     @Output() emitCurrentRoute = new EventEmitter<string>();
     @Output() emitToggle = new EventEmitter();
-    @Input() actualUserId: number;
+    @Input() userData: User;
 
     constructor(
         public dialog: MatDialog,
@@ -36,6 +35,8 @@ export class HeaderMobileComponent implements OnInit {
 
     ngOnInit() {
         this.language = GlobalText.language;
+        this.userData = new User(this.userData);
+        this.getCorrectCountries();
     }
 
     logOut(): void {
@@ -46,7 +47,6 @@ export class HeaderMobileComponent implements OnInit {
         if (this.header !== GlobalText.TEXTS) {
             this.header = GlobalText.TEXTS;
         }
-        this.refreshUserData();
 
         if(this.language !== GlobalText.language) {
             this.language = GlobalText.language;
@@ -61,30 +61,7 @@ export class HeaderMobileComponent implements OnInit {
         this.emitToggle.emit();
     }
 
-    refreshUserData() {
-        if (!this.requesting && this.actualUserId && Number(this.userData.id) !== Number(this.actualUserId)) {
-            this.requesting = true;
-            this.userService.get().subscribe(
-                result => {
-                    if (result) {
-                        result.forEach(
-                            element => {
-                                if (element.id === this.actualUserId) {
-                                this.userData = User.formatFromApi(element);
-                                    //console.log(this.userData)
-                                    this.requesting = false;
-                                }
-                            }
-                        );
-                        this.getCorrectCountries();
-                    }
-                }
-            )
-        }
-    }
-
     getCorrectCountries() {
-        //console.log('gets: ', this.userData.rights);
         let countries = this.userData.getAllCountries();
 
         this.countries = [];
@@ -92,20 +69,16 @@ export class HeaderMobileComponent implements OnInit {
             countries.forEach(element => {
                 this.countries.push(element.id);
             });
-        } else if (this.userData.rights === "ROLE_REGIONAL_MANAGER" || this.userData.rights === "ROLE_COUNTRY_MANAGER") {
-            this.userData.country.forEach(element => {
-                this.countries.push(element);
-            });
-        } else if (this.userData.rights === "ROLE_PROJECT_MANAGER" || this.userData.rights === "ROLE_PROJECT_OFFICER") {
+        } else  {
             this.userData.country.forEach(element => {
                 this.countries.push(element);
             });
         }
+
         this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(
             result => {
                 if(result) {
                     this.selectCountry(result);
-                    this.autoLanguage(result);
                 } else {
                     this.selectCountry(this.countries[0]);
                 }
@@ -115,7 +88,10 @@ export class HeaderMobileComponent implements OnInit {
 
     selectCountry(c: string) {
         if(c) {
-            if(GlobalText.country && c !== this.selectedCountry) {
+            if(!this.selectedCountry || !GlobalText.country) {
+                this.autoLanguage(c);
+            }
+            else if(GlobalText.country && this.selectedCountry && c !== this.selectedCountry) {
                 this.preventSnack(c);
             }
 

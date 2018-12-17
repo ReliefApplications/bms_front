@@ -73,7 +73,6 @@ export class AppComponent {
         }
 
         dialogRef.afterClosed().subscribe(result => {
-            // console.log('The dialog was closed');
         });
     }
 
@@ -133,7 +132,6 @@ export class AppComponent {
         this._authenticationService.getUser().subscribe(
             user => {
                 this.user = user;
-                //console.log('user: ', user);
                 this.checkLoggedUser(user);
                 this.checkPermission(user);
             }
@@ -144,8 +142,6 @@ export class AppComponent {
      * Changes the name of the new component to actualize menu etc.
      */
     refreshCurrentComponent(e) {
-        // console.log('changed : ', e.nameComponent);
-
         if (e.nameComponent === 'projects' || e.nameComponent === 'beneficiaries'
             || e.nameComponent === 'reports' || e.nameComponent === 'settings' || e.nameComponent === 'login') {
             this.currentComponent = e.nameComponent;
@@ -184,9 +180,9 @@ export class AppComponent {
      * @param cachedUser
      */
     checkPermission(cachedUser) {
-        if(cachedUser && cachedUser.voters) {
-            const voters = cachedUser.voters;
-            if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_COUNTRY_MANAGER")
+        if(cachedUser && cachedUser.rights) {
+            const rights = cachedUser.rights;
+            if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == "ROLE_COUNTRY_MANAGER")
                 this.hasRights = true;
             else
                 this.hasRights = false;

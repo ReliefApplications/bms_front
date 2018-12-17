@@ -712,12 +712,12 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         this.cacheService.getUser().subscribe(
             result => {
                 this.setUser(result.user_id);
-                if (result && result.voters) {
-                    const voters = result.voters;
-                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
+                if (result && result.rights) {
+                    const rights = result.rights;
+                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER')
                         this.hasRights = true;
 
-                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == 'ROLE_COUNTRY_MANAGER')
+                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == 'ROLE_COUNTRY_MANAGER')
                         this.hasRightsTransaction = true;
                 }
             }

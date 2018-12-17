@@ -6,7 +6,7 @@
             {{table.no_data}}
         </h3>
     </div>
-    <table *ngIf="filled && data.data" mat-table [dataSource]="data" matSort matSortActive="date_distribution"
+    <table *ngIf="filled && data && data.data" mat-table [dataSource]="data" matSort matSortActive="date_distribution"
         matSortDirection="desc">
         <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>{{mapperService.mapTitle(property)}}</th>

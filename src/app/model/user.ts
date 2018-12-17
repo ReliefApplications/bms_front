@@ -53,8 +53,6 @@ export class User {
      */
     country: string[] = undefined;
 
-    voters: string = '';
-
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;
@@ -65,6 +63,7 @@ export class User {
             this.rights = instance.rights;
             this.projects = instance.projects;
             this.country = instance.country;
+            this.loggedIn = instance.loggedIn;
         }
     }
 
@@ -87,7 +86,8 @@ export class User {
             email: selfinstance.email,
             salted_password: selfinstance.salted_password,
             rights: selfinstance.rights,
-            projects: projects
+            projects: projects,
+            country: selfinstance.country
         }
     }
 
@@ -227,16 +227,25 @@ export class User {
             element.user_projects.forEach(
                 element => {
                     user.projects.push(element.project.id);
+                    if (! user.country.includes(element.project.iso3)) {
+                      user.country.push(element.project.iso3);
+                    }
                 }
             )
         }
+
+        if (element.password) {
+          user.password = '';
+          user.salted_password = element.password;
+        }
+
         return user;
     }
 
     /**
      * used in modal add
-     * @param element 
-     * @param loadedData 
+     * @param element
+     * @param loadedData
      */
     public static formatFromModalAdd(element: any, loadedData: any): User {
         let newObject = new User(element);

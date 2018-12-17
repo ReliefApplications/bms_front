@@ -46,27 +46,15 @@ export class AuthenticationService {
                 let getSalt = success as SaltInterface;
                 user.salted_password = this._wsseService.saltPassword(getSalt.salt, user.password);
                 delete user.password;
-                console.log('Sending logUser request with: ', user);
                 this.logUser(user).subscribe(success => {
                     let data = success;
-
                     if (data) {
-                        console.log("Successfully logged in", success);
-
                         this.user = data as User;
                         this.user.loggedIn = true;
-                        let voters = this.rightAccessDefinition(this.user);
-                        //add with voters definition
-                        // if (Object.keys(voters).length == 0) {
-                        //     reject({ message: 'Pas assez de droits' });
-                        // }
-
-                        this.user.voters = voters;
+                        this.user = User.formatFromApi(this.user);
                         this.setUser(this.user);
-
-                        resolve(this.user)
+                        resolve(this.user);
                     } else {
-                        console.log('trouble');
                         reject({ message: 'Bad credentials' })
                     }
                 }, error => {
@@ -100,12 +88,6 @@ export class AuthenticationService {
     resetUser() {
         this.user = new User();
         this._cacheService.remove(AsyncacheService.USER);
-    }
-
-    rightAccessDefinition(user: User) {
-        let voters: string = '';
-        voters = user.voters;
-        return voters;
     }
 
     public createUser(body: any, salt: any) {

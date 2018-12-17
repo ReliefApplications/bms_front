@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material';
 import { Subscription, from, of } from 'rxjs';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { FormControl } from '@angular/forms';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-login',
@@ -37,29 +37,7 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         GlobalText.resetMenuMargin();
         this.initCountry();
-        this.initLoginUser();
-    }
-
-    /**
-     * Preaload the component
-     */
-    initLoginUser() {
-        // Preapre the User variable.
         this.blankUser();
-        // Get the real user.
-        this.authUser$ = this._authService.getUser().subscribe(
-            result => {
-                this.user = result;
-                if (this.user) {
-                    console.log('Initialised user :', this.user);
-                } else {
-                    this.blankUser();
-                }
-            },
-            error => {
-                this.user = null;
-            }
-        );
     }
 
     initCountry() {
@@ -97,29 +75,27 @@ export class LoginComponent implements OnInit {
         this.loader = true;
         const subscription = from(this._authService.login(this.user));
         subscription.subscribe(
-                (user: User) => {
-                    console.log('User got on login subscribe :', user);
-                    this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
-                    this.router.navigate(['/']);
-                    GlobalText.changeLanguage();
-                    this.loader = false;
-                },
-                (error: ErrorInterface) => {
-                    console.log('Err: ', error);
-                    this.forgotMessage = true;
-                    this.loader = false;
-                });
+            (user: User) => {
+                if (!user.country && user.rights === "ROLE_ADMIN") {
+                  this.initCountry();
+                } else {
+                  this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
+                }
+                this.router.navigate(['/']);
+                GlobalText.changeLanguage();
+                this.loader = false;
+            },
+            (error: ErrorInterface) => {
+                this.forgotMessage = true;
+                this.loader = false;
+            });
     }
- 
+
     onScriptError() {
         this.snackBar.open('Captcha failed', '', { duration: 5000, horizontalPosition: "center" });
     }
 
-    ngOnDestroy() {
-        this.authUser$.unsubscribe();
-    }
-
     prod() {
-        return(environment.production);
+        return environment.production;
     }
 }

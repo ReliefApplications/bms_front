@@ -72,11 +72,11 @@ export class BeneficiariesImportComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        let voters;
+        let rights;
         this._cacheService.get('user').subscribe(
             result => {
-                voters = result.voters;
-                if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
+                rights = result.rights;
+                if (rights != "ROLE_ADMIN" && rights != 'ROLE_PROJECT_MANAGER' && rights != "ROLE_PROJECT_OFFICER") {
                     this.snackBar.open(this.household.forbidden_message, '', { duration: 5000, horizontalPosition: 'center' });
                     this.router.navigate(['']);
                 }

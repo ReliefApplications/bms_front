@@ -83,6 +83,6 @@ export class Mapper {
     * the formatting is for modal details
     */
     mapValueDetails(element, p) {
-        return this.entityInstance.getMapperDetails(element)[p];
+        return String(this.entityInstance.getMapperDetails(element)[p]);
     }
 }

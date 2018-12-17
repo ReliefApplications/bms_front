@@ -32,8 +32,13 @@ export class ModalUpdateComponent extends ModalComponent {
       let re = /\ /gi;
       this.updateObject.rights = this.updateObject.rights.replace(re, "");
 
-      if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER")
+      if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER") {
         this.form.controls['projectsControl'].enable();
+      }
+
+      if (this.updateObject.rights == "ROLE_COUNTRY_MANAGER" || this.updateObject.rights == "ROLE_REGIONAL_MANAGER") {
+        this.form.controls['countryControl'].enable();
+      }
     }
   }
 
@@ -84,7 +89,6 @@ export class ModalUpdateComponent extends ModalComponent {
         }
       }
       else if (this.updateObject.rights == "ROLE_REGIONAL_MANAGER" || this.updateObject.rights == "ROLE_COUNTRY_MANAGER" || this.updateObject.rights == "ROLE_READ_ONLY") {
-        this.updateObject.country = "KHM";
         if (this.updateObject.country == undefined) {
           this.snackBar.open(this.modal.modal_no_country, '', { duration: 5000, horizontalPosition: 'right' });
           return;

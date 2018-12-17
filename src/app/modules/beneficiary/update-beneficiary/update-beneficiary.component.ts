@@ -107,6 +107,15 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     }
 
     /**
+     * check if the langage has changed
+     */
+    ngDoCheck() {
+        if (this.Text !== GlobalText.TEXTS) {
+            this.Text = GlobalText.TEXTS;
+        }
+    }
+    
+    /**
      * Gets household from backend and loads the method that will fill our 'updatedHousehold' attribute for input display and update.
      */
     initiateHousehold() {

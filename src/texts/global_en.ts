@@ -68,6 +68,7 @@ export const TEXT = {
     add_beneficiary_getOccupation: 'Livelihood',
     add_beneficiary_getTypeNationalId: 'Type of National ID Number',
     add_beneficiary_getTypePhone: 'Type phone',
+    add_beneficiary_res_address: 'Resident Address',
     add_beneficiary_step1: 'Information',
     add_beneficiary_step2: 'Head',
     add_beneficiary_step3: 'Members',

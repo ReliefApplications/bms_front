@@ -285,7 +285,7 @@ export class SettingsComponent implements OnInit {
                 let exists: boolean = false;
 
                 this.data.data.forEach(element => {
-                    if (element.name == data.name) {
+                    if (element.name.toLowerCase() == data.name.toLowerCase()) {
                         this.snackBar.open(this.settings.settings_project_exists, '', { duration: 5000, horizontalPosition: 'right' });
                         exists = true;
                         return;

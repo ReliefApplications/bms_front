@@ -206,7 +206,7 @@ export class ProjectComponent implements OnInit {
                 let exists: boolean = false;
 
                 this.projects.forEach(element => {
-                    if (element.name == data.name) {
+                    if (element.name.toLowerCase() == data.name.toLowerCase()) {
                         this.snackBar.open(this.distribution.settings_project_exists, '', { duration: 5000, horizontalPosition: 'right' });
                         exists = true;
                         return;

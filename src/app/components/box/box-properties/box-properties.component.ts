@@ -31,7 +31,6 @@ export class BoxPropertiesComponent {
     }
 
     ngOnInit() {
-      console.log(this.componentDisplayed)
         let entityInstance = Object.create(this.entity.prototype);
         entityInstance.constructor.apply(entityInstance);
         this.mapperObject = this.mapperService.findMapperObject(this.entity);

@@ -9,6 +9,7 @@ import { Commodity                                         } from './commodity';
 import { Beneficiaries                                     } from './beneficiary';
 import { ImportedBeneficiary                               } from './imported-beneficiary';
 import { TransactionBeneficiary } from './transaction-beneficiary';
+import { Wing } from './wing';
 
 export class FieldMapper {
 
@@ -25,6 +26,7 @@ export class FieldMapper {
             case 'beneficiaries' : return Beneficiaries.translator();
             case 'imported_beneficiary' : return ImportedBeneficiary.translator();
             case 'transaction_beneficiary' : return TransactionBeneficiary.translator();
+            case 'wing' : return Wing.translator();
         }
     }
 }

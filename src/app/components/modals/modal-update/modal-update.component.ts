@@ -76,11 +76,11 @@ export class ModalUpdateComponent extends ModalComponent {
    */
   save(): any {
     //Check fields for Users settings
-    if (this.updateObject.username) {
-      if (this.updateObject.password == '' || !this.updateObject.password) {
-        this.snackBar.open(this.modal.modal_no_password, '', { duration: 5000, horizontalPosition: 'right' });
-        return;
-      }
+    if (this.updateObject.username && this.updateObject.rights) {
+      // if (this.updateObject.password == '' || !this.updateObject.password) {
+      //   this.snackBar.open(this.modal.modal_no_password, '', { duration: 5000, horizontalPosition: 'right' });
+      //   return;
+      // }
 
       if (this.updateObject.rights == "ROLE_PROJECT_MANAGER" || this.updateObject.rights == "ROLE_PROJECT_OFFICER" || this.updateObject.rights == "ROLE_FIELD_OFFICER") {
         if (this.updateObject.projects == undefined || Object.keys(this.updateObject.projects).length == 0) {
@@ -146,6 +146,14 @@ export class ModalUpdateComponent extends ModalComponent {
         if (month < 10)
           month = "0" + month;
         this.updateObject.end_date = year + "-" + month + "-" + day;
+      }
+    }
+
+    //Check fields for Financial Provider in settings
+    else if (this.updateObject && this.updateObject.username) {
+      if (this.updateObject.username == "" || this.updateObject.password == "" || !this.updateObject.password) {
+        this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+        return;
       }
     }
 

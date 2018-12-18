@@ -322,6 +322,7 @@ export const TEXT = {
     settings_country_specific_options: 'country specific options',
     settings_created: ' created',
     settings_donors: 'donors',
+    settings_financial_provider: 'Financial provider',
     settings_log_button: 'Get user logs by email',
     settings_project_exists: 'A project with this name already exists',
     settings_users: 'users',

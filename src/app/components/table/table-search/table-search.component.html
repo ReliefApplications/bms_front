@@ -44,7 +44,7 @@
                     class="light-red">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button *ngIf="editable && rights" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="table.delete"
+                <button *ngIf="editable && rights && deletable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="table.delete"
                     class="red">
                     <mat-icon>delete_outline</mat-icon>
                 </button>

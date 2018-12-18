@@ -1,9 +1,9 @@
-import { Injectable             } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { FieldMapper            } from '../../model/field-mapper';
+import { FieldMapper } from '../../model/field-mapper';
 
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
 export class Mapper {
     mapper: FieldMapper = new FieldMapper();
@@ -29,28 +29,30 @@ export class Mapper {
 
     findMapperObject(entity): Object {
         switch (entity.__classname__) {
-            case 'DistributionData' :
+            case 'DistributionData':
                 return this.mapper.getEntityTranslator('distribution_data');
-            case 'Donor' :
+            case 'Donor':
                 return this.mapper.getEntityTranslator('donor');
-            case 'Criteria' :
+            case 'Criteria':
                 return this.mapper.getEntityTranslator('criteria');
-            case 'Project' :
+            case 'Project':
                 return this.mapper.getEntityTranslator('project');
-            case 'User' :
+            case 'User':
                 return this.mapper.getEntityTranslator('user');
-            case 'CountrySpecific' :
+            case 'CountrySpecific':
                 return this.mapper.getEntityTranslator('country_specific');
-            case 'Households' :
+            case 'Households':
                 return this.mapper.getEntityTranslator('households');
-            case 'Commodity' :
+            case 'Commodity':
                 return this.mapper.getEntityTranslator('commodity');
-            case 'Beneficiaries' :
+            case 'Beneficiaries':
                 return this.mapper.getEntityTranslator('beneficiaries');
-            case 'ImportedBeneficiary' :
+            case 'ImportedBeneficiary':
                 return this.mapper.getEntityTranslator('imported_beneficiary');
-            case 'TransactionBeneficiary' :
+            case 'TransactionBeneficiary':
                 return this.mapper.getEntityTranslator('transaction_beneficiary');
+            case 'Wing':
+                return this.mapper.getEntityTranslator('wing');
             default: return;
         }
     }

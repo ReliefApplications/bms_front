@@ -3,12 +3,14 @@ import { HttpClient                                 } from '@angular/common/http
 import { URL_BMS_API } from '../../../environments/environment';
 
 //Services
-import { Observable, concat, of, merge } from 'rxjs';
+import { Observable, concat, of, merge, timer } from 'rxjs';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { map } from 'rxjs/operators';
 import { NetworkService } from './network.service';
 import { MatSnackBar } from '@angular/material';
 import { StoredRequestInterface } from 'src/app/model/stored-request';
+import { element } from '@angular/core/src/render3/instructions';
+import { keyframes } from '@angular/animations';
 
 @Injectable({
 	providedIn: 'root'
@@ -73,13 +75,12 @@ export class HttpService {
     }
 
     get(url, options = {}) : Observable<any> {
-        //console.log('-(', url,')-');
 
         let itemKey = this.resolveItemKey(url);
         let connected = this.networkService.getStatus();
         let cacheData : any;
         // Test logs
-        //console.log('--', itemKey, '--');
+        console.log('--', itemKey, '--');
 
         // If this item is cachable & user is connected
         if(itemKey && connected) {
@@ -135,7 +136,7 @@ export class HttpService {
                 this.cacheService.storeRequest(request);
                 this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
 
-                this.forceDataInCache(method, url, {});
+                this.forceDataInCache(method, url, body);
             }
             // Otherwise
             else {
@@ -160,7 +161,7 @@ export class HttpService {
                 this.cacheService.storeRequest(request);
                 this.snackbar.open('No network - This data update will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
 
-                this.forceDataInCache(method, url, {});
+                this.forceDataInCache(method, url, body);
             }
             // Otherwise
             else {
@@ -203,73 +204,88 @@ export class HttpService {
         let itemKey : string;
         let id;
 
-        // TODO: fix id get / management of item's structure
-
         switch(method) {
-            case 'PUT': itemKey = this.resolveItemKey(url);
+            case 'PUT': 
+                itemKey = this.resolveItemKey(url);
+                id = -1;
                 break;
             case 'POST': 
                 itemKey = this.resolveItemKey(url.substring(0, url.lastIndexOf('/')));
-                id = url.split(url.substring(0, url.lastIndexOf('/')[1]));
+                console.log(url);
+                id = url.substring(url.lastIndexOf('/')+1, );
                 break;
             case 'DELETE': 
                 itemKey = this.resolveItemKey(url.substring(0, url.lastIndexOf('/')));
-                id = url.split(url.substring(0, url.lastIndexOf('/')[1]));
+                id = url.substring(url.lastIndexOf('/')+1, );
                 break;
             default:
                 itemKey = this.resolveItemKey(url);
                 break;
         }
 
+        body = this.cleanBody(body);
+
         if(itemKey) {
-            let dataArray = new Array();
+            let dataArray = [];
 
-            if(body && !body['id']) {
-                body['id'] = -1;
-            }
-
-            if(method === "PUT" && body) {
-                this.get(itemKey).subscribe(
-                    (result: Array<any>) => {
-                        dataArray = result;
+            this.cacheService.get(itemKey).subscribe(
+                result => {
+                    if(method === "PUT" && body) {
+                        if(result) {
+                            dataArray = result;
+                        }
+                        body['id'] = -1;
+                        if(dataArray) {
+                            dataArray.forEach(
+                                element => {
+                                    if(element['id'] && element['id'] < body['id']) {
+                                        body['id'] = element['id']-1;
+                                    }
+                                }
+                            );
+                        }
                         dataArray.push(body);
+                    } else if(method === "POST" && body) {
+                                dataArray = result;
+                                dataArray.forEach(
+                                    (item, index) => {
+                                        if(item && item['id'] && item['id'] === id) {
+                                            dataArray[index] = item;
+                                        }
+                                    }
+                                )
+                    } else if(method === "DELETE") {
+                                dataArray = result;
+                                dataArray.forEach(
+                                    (item, index) => {
+                                        if(item && item['id'] && item['id'] === id) {
+                                            dataArray.splice(index, 1);
+                                        }
+                                    }
+                                )
+                    } else {
+                        dataArray = [];
                     }
-                )
-            } else if(method === "POST") {
-                this.get(itemKey).subscribe(
-                    (result:Array<any>) => {
-                        dataArray = result;
-                        dataArray.forEach(
-                            (item, index) => {
-                                if(item && item['id'] && item['id'] === id) {
-                                    dataArray[index] = item;
-                                }
-                            }
-                        )
-                    }
-                )
-            } else if(method === "DELETE") {
-                this.get(itemKey).subscribe(
-                    (result:Array<any>) => {
-                        dataArray = result;
-                        dataArray.forEach(
-                            (item, index) => {
-                                if(item && item['id'] && item['id'] === id) {
-                                    dataArray.splice(index, 1);
-                                }
-                            }
-                        )
-                    }
-                )
-            } else {
-                dataArray = [];
-            }
 
-            this.cacheService.set(itemKey, dataArray);
-            console.log('Forced ' + itemKey + ' of id=' + id + ' in cache');
+                    this.cacheService.set(itemKey, dataArray);
+                }
+            );
+
         } else {
             this.snackbar.open('This item can\'t be manipulated offline', '', {duration:3000, horizontalPosition:'center'});
         }
+    }
+
+    cleanBody(body: object) {
+        Object.keys(body).forEach(
+            key => {
+                if(!body[key]) {
+                    body[key] = "-";
+                }
+            }
+        )
+
+        return body;
     }
 
 }

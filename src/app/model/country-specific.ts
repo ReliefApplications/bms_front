@@ -1,4 +1,3 @@
-import { SectorMapper } from "./sector-mapper";
 import { GlobalText } from "../../texts/global";
 
 export class CountrySpecific {
@@ -152,10 +151,10 @@ export class CountrySpecific {
     public static formatFromApiCountrySpecific(element: any): CountrySpecific {
         let countrySpecific = new CountrySpecific();
         countrySpecific.id = element.id;
-        countrySpecific.field = element.field_string;
-        countrySpecific.type = element.type;
-        countrySpecific.countryIso3 = element.countryIso3;
-        countrySpecific.name = element.field;
+        countrySpecific.field = element.field_string? element.field_string : '';
+        countrySpecific.type = element.type? element.type : '';
+        countrySpecific.countryIso3 = element.countryIso3? element.countryIso3 : '';
+        countrySpecific.name = element.field? element.field : '';
 
         return countrySpecific;
     }

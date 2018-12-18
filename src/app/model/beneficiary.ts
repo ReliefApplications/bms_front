@@ -148,6 +148,10 @@ public static formatElement(instance: any): Beneficiaries {
     beneficiary.status = instance.status;
     beneficiary.id = instance.id;
 
+    beneficiary.national_ids = [];
+    beneficiary.phones = [];
+    beneficiary.vulnerabilities = [];
+
     if(instance.national_ids) {
         instance.national_ids.forEach(
             element => {

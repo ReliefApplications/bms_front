@@ -27,8 +27,8 @@ import { LocationService } from 'src/app/core/api/location.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { Wing } from 'src/app/model/wing';
-import { WingService } from 'src/app/core/api/wing';
+import { FinancialProvider } from 'src/app/model/financial-provider';
+import { FinancialProviderService } from 'src/app/core/api/financial-provider';
 
 @Component({
     selector: 'app-settings',
@@ -74,7 +74,7 @@ export class SettingsComponent implements OnInit {
         public projectService: ProjectService,
         public userService: UserService,
         public countrySpecificService: CountrySpecificService,
-        public wingService: WingService,
+        public financialProviderService: FinancialProviderService,
         private _cacheService: AsyncacheService,
         private locationService: LocationService,
         private _settingsService: SettingsService,
@@ -136,8 +136,8 @@ export class SettingsComponent implements OnInit {
             case 'projects':
                 category = 'projects';
                 break;
-            case 'wing':
-                category = 'wing';
+            case 'financialProvider':
+                category = 'financialProvider';
                 break;
             default:
                 break;
@@ -190,9 +190,9 @@ export class SettingsComponent implements OnInit {
                 this.referedClassService = this.countrySpecificService;
                 this.deletable = true;
                 break;
-            case 'wing':
-                this.referedClassToken = Wing;
-                this.referedClassService = this.wingService;
+            case 'financialProvider':
+                this.referedClassToken = FinancialProvider;
+                this.referedClassService = this.financialProviderService;
                 this.deletable = false;
                 break;
             default: break;
@@ -250,7 +250,7 @@ export class SettingsComponent implements OnInit {
                                     if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
                                         this.hasRights = true;
 
-                                if (this.referedClassToken.__classname__ == 'Wing')
+                                if (this.referedClassToken.__classname__ == 'Financial Provider')
                                     if (rights == "ROLE_ADMIN")
                                         this.hasRights = true;
                             }

@@ -6,7 +6,7 @@ import { HttpService } from './http.service';
 @Injectable({
 	providedIn: 'root'
 })
-export class WingService {
+export class FinancialProviderService {
 	readonly api = URL_BMS_API;
 
 	constructor(

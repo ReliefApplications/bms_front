@@ -4,10 +4,10 @@ export class ErrorInterface {
     message: string;
 }
 
-export class Wing {
-    static __classname__ = 'Wing';
+export class FinancialProvider {
+    static __classname__ = 'Financial Provider';
     /**
-     * Wing id
+     * FinancialProvider id
      * @type {string}
      */
     id: string = '';
@@ -46,25 +46,25 @@ export class Wing {
         }
     }
 
-    public static formatArray(instance): Wing[] {
-        let wing: Wing[] = [];
+    public static formatArray(instance): FinancialProvider[] {
+        let financialProvider: FinancialProvider[] = [];
         if (instance)
             instance.forEach(element => {
-                wing.push(this.formatFromApi(element));
+                financialProvider.push(this.formatFromApi(element));
             });
 
-        return wing;
+        return financialProvider;
     }
 
-    public static formatFromApi(element: any): Wing {
-        let wing = new Wing(element);
+    public static formatFromApi(element: any): FinancialProvider {
+        let financialProvider = new FinancialProvider(element);
 
         if (element.password) {
-            wing.password = '';
-            wing.salted_password = element.password;
+            financialProvider.password = '';
+            financialProvider.salted_password = element.password;
         }
 
-        return wing;
+        return financialProvider;
     }
 
     /**
@@ -89,7 +89,7 @@ export class Wing {
     }
 
     /**
-   * return a Wing after formatting its properties
+   * return a financial provider after formatting its properties
    */
     getMapper(selfinstance): Object {
         if (!selfinstance)
@@ -133,7 +133,7 @@ export class Wing {
         }
     }
 
-    public static formatForApi(element: Wing): any {
-        return new Wing(element);
+    public static formatForApi(element: FinancialProvider): any {
+        return new FinancialProvider(element);
     }
 }

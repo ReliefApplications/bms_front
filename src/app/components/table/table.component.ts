@@ -23,7 +23,7 @@ import { DistributionService } from '../../core/api/distribution.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { HouseholdsService } from 'src/app/core/api/households.service';
-import { WingService } from 'src/app/core/api/wing';
+import { FinancialProviderService } from 'src/app/core/api/financial-provider';
 
 @Component({
     selector: 'app-table',
@@ -86,7 +86,7 @@ export class TableComponent implements OnChanges, DoCheck {
         public snackBar: MatSnackBar,
         public authenticationService: AuthenticationService,
         public _wsseService: WsseService,
-        public wingService: WingService,
+        public financialProviderService: FinancialProviderService,
         public distributionService: DistributionService,
         public locationService: LocationService,
         public householdsService: HouseholdsService
@@ -381,7 +381,7 @@ export class TableComponent implements OnChanges, DoCheck {
                 });
             }
         }
-        else if (this.entity.__classname__ == 'Wing' && updateElement) {
+        else if (this.entity.__classname__ == 'Financial Provider' && updateElement) {
             const salted = btoa(updateElement['password']);
             updateElement['password'] = salted;
 

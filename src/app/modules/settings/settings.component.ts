@@ -27,6 +27,8 @@ import { LocationService } from 'src/app/core/api/location.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
+import { FinancialProvider } from 'src/app/model/financial-provider';
+import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 
 @Component({
     selector: 'app-settings',
@@ -50,7 +52,7 @@ export class SettingsComponent implements OnInit {
 
     //logs
     userLogForm = new FormControl();
-    private selectedUserId : number = null;
+    private selectedUserId: number = null;
 
     public maxHeight = GlobalText.maxHeight;
     public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -61,6 +63,7 @@ export class SettingsComponent implements OnInit {
     public heightScreen;
     public widthScreen;
     hasRights: boolean;
+    public deletable: boolean = true;
 
     constructor(
         public dialog: MatDialog,
@@ -71,6 +74,7 @@ export class SettingsComponent implements OnInit {
         public projectService: ProjectService,
         public userService: UserService,
         public countrySpecificService: CountrySpecificService,
+        public financialProviderService: FinancialProviderService,
         private _cacheService: AsyncacheService,
         private locationService: LocationService,
         private _settingsService: SettingsService,
@@ -132,15 +136,18 @@ export class SettingsComponent implements OnInit {
             case 'projects':
                 category = 'projects';
                 break;
+            case 'financialProvider':
+                category = 'financialProvider';
+                break;
             default:
                 break;
         }
         // console.log('#####- ', category);
-        if(category === 'projects') {
+        if (category === 'projects') {
             let exported = false;
             country = this.locationService.getAdm1().subscribe(
                 result => {
-                    if(!exported) {
+                    if (!exported) {
                         exported = true;
 
                         country = result[0].country_i_s_o3;
@@ -166,18 +173,27 @@ export class SettingsComponent implements OnInit {
             case 'users':
                 this.referedClassToken = User;
                 this.referedClassService = this.userService;
+                this.deletable = true;
                 break;
             case 'donors':
                 this.referedClassToken = Donor;
                 this.referedClassService = this.donorService;
+                this.deletable = true;
                 break;
             case 'projects':
                 this.referedClassToken = Project;
                 this.referedClassService = this.projectService;
+                this.deletable = true;
                 break;
             case 'country specific options':
                 this.referedClassToken = CountrySpecific;
                 this.referedClassService = this.countrySpecificService;
+                this.deletable = true;
+                break;
+            case 'financialProvider':
+                this.referedClassToken = FinancialProvider;
+                this.referedClassService = this.financialProviderService;
+                this.deletable = false;
                 break;
             default: break;
         }
@@ -189,59 +205,63 @@ export class SettingsComponent implements OnInit {
         this.hasRights = false;
 
         this.referedClassService.get().
-        pipe(
-            finalize(
-                () => {
+            pipe(
+                finalize(
+                    () => {
+                        this.loadingData = false;
+                    }
+                )
+            ).subscribe(response => {
+                if (response) {
+                    this.loadingData = false;
+                    if (response && response[0] && response[0].email && response[0].username && response[0].roles)
+                        response.forEach(element => {
+                            element.projects = new Array<number>();
+                            element.country = '';
+
+                            for (let i = 0; i < element.user_projects.length; i++)
+                                element.projects[i] = element.user_projects[i].project.name;
+
+                            for (let i = 0; i < element.countries.length; i++)
+                                element.country = element.countries[i].iso3;
+                        });
+
+                    response = this.referedClassToken.formatArray(response);
+                    this.data = new MatTableDataSource(response);
+
+                    this._cacheService.getUser().subscribe(
+                        result => {
+                            if (result && result.rights) {
+                                const rights = result.rights;
+
+                                if (this.referedClassToken.__classname__ == 'User')
+                                    if (rights == 'ROLE_ADMIN')
+                                        this.hasRights = true;
+
+                                if (this.referedClassToken.__classname__ == 'CountrySpecific')
+                                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
+                                        this.hasRights = true;
+
+                                if (this.referedClassToken.__classname__ == 'Donor')
+                                    if (rights == 'ROLE_ADMIN')
+                                        this.hasRights = true;
+
+                                if (this.referedClassToken.__classname__ == 'Project')
+                                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
+                                        this.hasRights = true;
+
+                                if (this.referedClassToken.__classname__ == 'Financial Provider')
+                                    if (rights == "ROLE_ADMIN")
+                                        this.hasRights = true;
+                            }
+                        }
+                    );
+
+                } else {
+                    this.data = new MatTableDataSource(null);
                     this.loadingData = false;
                 }
-            )
-        ).subscribe( response => {
-            if(response) {
-                this.loadingData = false;
-                if (response && response[0] && response[0].email && response[0].username && response[0].roles)
-                    response.forEach(element => {
-                        element.projects = new Array<number>();
-                        element.country = '';
-
-                        for (let i = 0; i < element.user_projects.length; i++)
-                            element.projects[i] = element.user_projects[i].project.name;
-
-                        for (let i = 0; i < element.countries.length; i++)
-                            element.country = element.countries[i].iso3;
-                    });
-
-                response = this.referedClassToken.formatArray(response);
-                this.data = new MatTableDataSource(response);
-
-                this._cacheService.getUser().subscribe(
-                    result => {
-                        if(result && result.rights) {
-                            const rights = result.rights;
-
-                            if (this.referedClassToken.__classname__ == 'User')
-                            if (rights == 'ROLE_ADMIN')
-                                this.hasRights = true;
-
-                            if (this.referedClassToken.__classname__ == 'CountrySpecific')
-                                if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
-                                    this.hasRights = true;
-
-                            if (this.referedClassToken.__classname__ == 'Donor')
-                                if (rights == 'ROLE_ADMIN')
-                                    this.hasRights = true;
-
-                            if (this.referedClassToken.__classname__ == 'Project')
-                                if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
-                                    this.hasRights = true;
-                        }
-                    }
-                );
-
-            } else {
-                this.data = new MatTableDataSource(null);
-                this.loadingData = false;
-            }
-        })
+            })
         // .catch(
         //     () => {
         //         this.data = new MatTableDataSource(null);

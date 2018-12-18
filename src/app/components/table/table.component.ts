@@ -23,6 +23,7 @@ import { DistributionService } from '../../core/api/distribution.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { HouseholdsService } from 'src/app/core/api/households.service';
+import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 
 @Component({
     selector: 'app-table',
@@ -85,6 +86,7 @@ export class TableComponent implements OnChanges, DoCheck {
         public snackBar: MatSnackBar,
         public authenticationService: AuthenticationService,
         public _wsseService: WsseService,
+        public financialProviderService: FinancialProviderService,
         public distributionService: DistributionService,
         public locationService: LocationService,
         public householdsService: HouseholdsService
@@ -378,6 +380,17 @@ export class TableComponent implements OnChanges, DoCheck {
                     // console.error("err", error);
                 });
             }
+        }
+        else if (this.entity.__classname__ == 'Financial Provider' && updateElement) {
+            const salted = btoa(updateElement['password']);
+            updateElement['password'] = salted;
+
+            this.service.update(updateElement).subscribe(response => {
+                this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated, '', { duration: 5000, horizontalPosition: 'right' });
+                this.updateData();
+            }, error => {
+                // console.error("err", error);
+            });
         }
         else {
             this.service.update(updateElement['id'], updateElement).subscribe(response => {

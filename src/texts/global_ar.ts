@@ -323,6 +323,7 @@ export const TEXT = {
     settings_country_specific_options: 'الخيارات حسب البلد',
     settings_created: 'تم انشاء ',
     settings_donors: 'المانحين',
+    settings_financial_provider: 'Financial provider',
     settings_log_button: 'Get user logs by email',
     settings_project_exists: 'مشروع بهذا الاسم يوجود بالفعل',
     settings_users: 'المستخدمون',

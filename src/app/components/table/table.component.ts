@@ -23,7 +23,7 @@ import { DistributionService } from '../../core/api/distribution.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { HouseholdsService } from 'src/app/core/api/households.service';
-import { FinancialProviderService } from 'src/app/core/api/financial-provider';
+import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 
 @Component({
     selector: 'app-table',

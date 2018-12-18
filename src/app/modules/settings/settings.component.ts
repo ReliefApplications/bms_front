@@ -28,7 +28,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { FinancialProvider } from 'src/app/model/financial-provider';
-import { FinancialProviderService } from 'src/app/core/api/financial-provider';
+import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 
 @Component({
     selector: 'app-settings',

@@ -365,6 +365,7 @@ export const TEXT = {
 
     // Tooltip
     tooltip_add_beneficiaries: 'Cette page est la page d\'ajout des bénéficiaires. C\'est un formulaire pour ajouter un nouveau ménage avec des champs obligatoires',
+    tooltip_add_distribution: 'Cette page est la page d\'ajout d\'une distribution. C\'est un formulaire pour ajouter une nouvelle distribution avec des champs obligatoires. Vous allez sélectionner des ménages ou des bénéficiaires en les triant selon un critère de sélection et ajouter un montant spécifique de commodités pour la distribution',
     tooltip_beneficiaries: 'Cette page est la page des bénéficiaires. Vous pouvez voir tous les ménages du pays. Si vous avez le droit, vous pouvez ajouter de nouveaux ménages avec le bouton "+", gérer des ménages et rechercher dans la liste',
     tooltip_dashboard: 'Cette page est le tableau de bord. Vous avez une vue générale de chiffres clés à propos du pays et de ses projets. Vous avez accès à une carte avec les distribution du pays ainsi qu\'un résumé des dernières distributions',
     tooltip_data: 'Cette page est la page d\'après importation des bénéficiaires. C\'est un résumé des ménages que vous avez importé',

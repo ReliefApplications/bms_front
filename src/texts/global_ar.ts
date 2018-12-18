@@ -365,6 +365,7 @@ export const TEXT = {
 
     // Tooltip
     tooltip_add_beneficiaries: 'This page is the add beneficiaries\' page. This is a form to add a new household with required fields',
+    tooltip_add_distribution: 'This page is the add distribution\'s page. This is a form to add a new distribution with required fields. You will select households or beneficiaries by sorting them by a selection criteria and add a specific amount of commodities to the distribution',
     tooltip_beneficiaries: 'This page is the beneficiaries\' page. You can see all beneficiaries of the country. If you have the right, you can add new beneficiaries with the "+" button, manage beneficiaries and research in the list',
     tooltip_dashboard: 'This page is the dashboard. You have a global view on some numbers about the country and its projects. You have access to a map with distributions of the country and summary of last distributions',
     tooltip_data: 'This page is the post import beneficiaries\' page. This is a summary of households you have imported',

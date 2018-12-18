@@ -215,11 +215,11 @@ export class HttpService {
                 object = body;
                 itemKey = this.resolveItemKey(url.substring(0, url.lastIndexOf('/')));
                 console.log(url);
-                id = url.substring(url.lastIndexOf('/')+1, );
+                id = Number(url.substring(url.lastIndexOf('/')+1, ));
                 break;
             case 'DELETE': 
                 itemKey = this.resolveItemKey(url.substring(0, url.lastIndexOf('/')));
-                id = url.substring(url.lastIndexOf('/')+1, );
+                id = Number(url.substring(url.lastIndexOf('/')+1, ));
                 break;
             default:
                 itemKey = this.resolveItemKey(url);
@@ -248,10 +248,13 @@ export class HttpService {
                         dataArray.push(object);
                     } else if(method === "POST" && object) {
                                 dataArray = result;
+                                console.log('searching id: ', id);
                                 dataArray.forEach(
                                     (item, index) => {
+                                        console.log('found: ', item);
                                         if(item && item['id'] && item['id'] === id) {
-                                            dataArray[index] = item;
+                                            console.log('got');
+                                            dataArray[index] = body;
                                         }
                                     }
                                 )
@@ -268,6 +271,7 @@ export class HttpService {
                         dataArray = [];
                     }
 
+                    console.log('updating ', itemKey, 'to : ', dataArray);
                     this.cacheService.set(itemKey, dataArray);
                 }
             );

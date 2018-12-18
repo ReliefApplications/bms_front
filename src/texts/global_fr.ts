@@ -239,6 +239,8 @@ export const TEXT = {
     modal_success: 'Succès',
     modal_required: 'obligatoire',
     modal_valid_email: 'Veuillez utiliser un mail valide',
+    modal_warning_pending_requests_1: 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.',
+    modal_warning_pending_requests_2: 'WARNING: Requests linked to an item you created offline will fail !',
 
     // Model
     model_beneficiaries_dependents: 'Dépendents',

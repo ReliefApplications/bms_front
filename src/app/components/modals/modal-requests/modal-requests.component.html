@@ -3,6 +3,17 @@
         {{TEXTS.modal_pending_requests}}
     </h4>
 
+    <div class="warning-info">
+        <div class="container">
+            <mat-icon>warning</mat-icon>
+            <div>
+                {{TEXTS.modal_warning_pending_requests_1}}
+                <br/>
+                <strong>{{TEXTS.modal_warning_pending_requests_2}}</strong>
+            </div>
+        </div>
+    </div>
+
     <table mat-table [dataSource]="requests" multiTemplateDataRows *ngIf="requests && !loading && !inProgress && requests.length > 0">
         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
             <th mat-header-cell *matHeaderCellDef class="{{column}}"> 

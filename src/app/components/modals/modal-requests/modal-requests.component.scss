@@ -9,6 +9,27 @@ mat-dialog-content {
         align-items: flex-end;
     }
 
+    .warning-info {
+        box-sizing: border-box;
+        width: 100%;
+        height: auto;
+        padding: 20px;
+
+        .container {
+            width: 100%;
+            height: auto;         
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            background-color: rgba($bms_green, 0.5);
+            border-radius: 8px;
+            
+            * {
+                margin: 10px;
+            }
+        }
+    }
+
     table {
         width: 100%;
       

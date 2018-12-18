@@ -202,14 +202,17 @@ export class HttpService {
 
     forceDataInCache(method, url, body?) {
         let itemKey : string;
+        let object = {};
         let id;
 
         switch(method) {
             case 'PUT': 
+                object = body;
                 itemKey = this.resolveItemKey(url);
                 id = -1;
                 break;
             case 'POST': 
+                object = body;
                 itemKey = this.resolveItemKey(url.substring(0, url.lastIndexOf('/')));
                 console.log(url);
                 id = url.substring(url.lastIndexOf('/')+1, );
@@ -223,29 +226,27 @@ export class HttpService {
                 break;
         }
 
-        body = this.cleanBody(body);
-
         if(itemKey) {
             let dataArray = [];
 
             this.cacheService.get(itemKey).subscribe(
                 result => {
-                    if(method === "PUT" && body) {
+                    if(method === "PUT" && object) {
                         if(result) {
                             dataArray = result;
                         }
-                        body['id'] = -1;
+                        object['id'] = -1;
                         if(dataArray) {
                             dataArray.forEach(
                                 element => {
-                                    if(element['id'] && element['id'] < body['id']) {
-                                        body['id'] = element['id']-1;
+                                    if(element['id'] && element['id'] <= object['id']) {
+                                        object['id'] = element['id']-1;
                                     }
                                 }
                             );
                         }
-                        dataArray.push(body);
-                    } else if(method === "POST" && body) {
+                        dataArray.push(object);
+                    } else if(method === "POST" && object) {
                                 dataArray = result;
                                 dataArray.forEach(
                                     (item, index) => {
@@ -274,18 +275,6 @@ export class HttpService {
         } else {
             this.snackbar.open('This item can\'t be manipulated offline', '', {duration:3000, horizontalPosition:'center'});
         }
-    }
-
-    cleanBody(body: object) {
-        Object.keys(body).forEach(
-            key => {
-                if(!body[key]) {
-                    body[key] = "-";
-                }
-            }
-        )
-
-        return body;
     }
 
 }

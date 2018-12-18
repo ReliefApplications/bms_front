@@ -125,6 +125,9 @@ export class ModalRequestsComponent implements OnInit {
                             }
 
                             this.progressCountFail++;
+                            if(!stillToBeSent) {
+                                stillToBeSent = [];
+                            }
                             if(this.progressCountFail+this.progressCountSuccess === this.progressLength) {
                                 this.cacheService.set(AsyncacheService.PENDING_REQUESTS, stillToBeSent);
                             }
@@ -136,7 +139,7 @@ export class ModalRequestsComponent implements OnInit {
                 this.snackbar.open('An error occured when regrouping pending requests to be sent.', '', {duration: 3000, horizontalPosition: 'center'});
             }
         );
-
+        
         this.requests = stillToBeSent;
     }
 
@@ -168,10 +171,10 @@ export class ModalRequestsComponent implements OnInit {
                             property += '(';
                             Object.keys(body[key]).forEach(
                                 (subKey, i) => {
-                                    if (typeof (body[key][subKey] !== 'object')) {
+                                    if (typeof(body[key][subKey]) !== 'object') {
                                         property += body[key][subKey];
                                     } else {
-                                        property += subKey + ' : {..}';
+                                        property += '{...}';
                                     }
         
                                     if( i < Object.keys(body[key]).length-1)

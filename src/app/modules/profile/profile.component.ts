@@ -60,21 +60,22 @@ export class ProfileComponent implements OnInit, DoCheck {
     }
 
     onProfileFormSubmit() {
-
-        if (this.profileForm.value.newPassword1.length > 1 &&
-            this.profileForm.value.newPassword1 == this.profileForm.value.newPassword2) {
-            this.userService.updatePassword(this.actualUser, this.profileForm.value.oldPassword, this.profileForm.value.newPassword1)
+        const checkPass = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/);
+        if (this.profileForm.value.newPassword1 == this.profileForm.value.newPassword2) {
+            if(checkPass.test(this.profileForm.value.newPassword1)) {
+                this.userService.updatePassword(this.actualUser, this.profileForm.value.oldPassword, this.profileForm.value.newPassword1)
                 .then(
                     (user) => {
-                    // console.log(user);
                     // SNACKBAR
                     this.snackBar.open(this.profilePage.snackbar_change_password_done, '', { duration: 5000, horizontalPosition: 'center' });
                 })
                 .catch((error: ErrorInterface) => {
-                    //console.log(error);
                     // SNACKBAR
                     this.snackBar.open(this.profilePage.snackbar_change_password_fail, '', { duration: 5000, horizontalPosition: 'center' });
                 });
+            } else {
+                this.snackBar.open(this.profilePage.modal_not_enough_strong, '', { duration: 5000, horizontalPosition: 'center' });
+            }
         }
         else {
             this.snackBar.open(this.profilePage.snackbar_change_password_not_possible, '', { duration: 5000, horizontalPosition: 'center' });

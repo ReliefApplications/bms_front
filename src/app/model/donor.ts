@@ -9,11 +9,6 @@ export class Donor {
      */
     id: number;
     /**
-     * Donor's name
-     * @type {string}
-     */
-    name: string = '';
-    /**
      * Donor's fullname
      * @type {string}
      */
@@ -59,7 +54,6 @@ export class Donor {
 
         return {
             id: selfinstance.id,
-            name: selfinstance.name,
             fullname: selfinstance.fullname,
             shortname: selfinstance.shortname,
             date_added: selfinstance.date_added,
@@ -129,7 +123,6 @@ export class Donor {
     */
     getTypeProperties(selfinstance): Object {
         return {
-            name: "text",
             fullname: "text",
             shortname: "text",
             notes: "text"
@@ -141,7 +134,6 @@ export class Donor {
     */
     getModalTypeProperties(selfinstance): Object {
         return {
-            name: "text",
             fullname: "text",
             shortname: "text",
             notes: "text"
@@ -176,6 +168,9 @@ export class Donor {
         donor.shortname = element.shortname;
         donor.notes = element.notes;
         donor.date_added = element.date_added;
+        if(!element.projects) {
+            element['projects'] = [];
+        }
         element.projects.forEach(element => {
             donor.projects_name.push(element.name);
         });

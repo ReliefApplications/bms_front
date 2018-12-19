@@ -227,6 +227,7 @@ export const TEXT = {
     modal_delete_sentence_2: 'هل أنت متأكد',
     modal_email_is: 'البريد الالكتروني هو',
     modal_language_actual: 'اللغة الحالية',
+    modal_failure: 'Failure',
     modal_leave: 'المغادرة',
     modal_leave_sentence: 'هل تريد حقا أن تغادر دون حفظ التغييرات',
     modal_language_title: 'اللغة',
@@ -234,8 +235,13 @@ export const TEXT = {
     modal_no_password: 'عليك بادخال كلمة المرور ',
     modal_not_enough_strong: 'The password is not strong enough... Minimum required: 8 characters, 1 lowercase, 1 uppercase, 1 numeric',
     modal_no_project: 'عليك بتحديد مشروع على الأقل يتعلق بالحق',
+    modal_pending_requests: 'Pending Requests',
+    modal_success: 'Success',
     modal_required: 'مطلوب',
     modal_valid_email: 'من فضلك أدخل البريد الكتروني الصحيح',
+    modal_warning_pending_requests_1: 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.',
+    modal_warning_pending_requests_2: 'WARNING: Requests linked to an item you created offline will fail !',
+
 
     // Model
     model_beneficiaries_dependents: 'التوابع',

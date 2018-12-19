@@ -1,10 +1,11 @@
 import { Injectable }                   from '@angular/core';
 import { LocalStorage }                 from '@ngx-pwa/local-storage';
 import { CachedItemInterface }          from './cached-item.interface';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, concat, catchError } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { User } from 'src/app/model/user';
-import { GlobalText } from 'src/texts/global';
+import { HttpClient } from '@angular/common/http';
+import { StoredRequestInterface, failedRequestInterface } from 'src/app/model/stored-request';
 
 @Injectable({
 	providedIn: 'root'
@@ -12,12 +13,17 @@ import { GlobalText } from 'src/texts/global';
 export class AsyncacheService {
 
     private storage : any;
+
+    // Constants
     readonly PREFIX                             = 'bms';
     readonly SECTIMEOUT 						= 2592000; // 30 day in seconds
     readonly MSTIMEOUT                          = this.SECTIMEOUT*1000;
 
     //  Country
     static actual_country;
+
+    // Request storing
+    static pendingRequests: boolean = false;
 
     // Keys
     static readonly USER 						= 'user';
@@ -40,9 +46,11 @@ export class AsyncacheService {
     static readonly VULNERABILITIES             = 'vulnerabilities';
     static readonly SUMMARY                     = 'summary';
     static readonly COUNTRY                     = 'country';
+    static readonly PENDING_REQUESTS            = 'pending_requests';
 
     constructor(
         protected localStorage : LocalStorage,
+        protected http: HttpClient,
     ) {
         this.storage = localStorage;
     }
@@ -56,13 +64,18 @@ export class AsyncacheService {
     }
 
     formatKey(key : string) : string {
-        if(key === AsyncacheService.COUNTRY || key === AsyncacheService.USER || key === AsyncacheService.USERS) {
+        if(key === AsyncacheService.COUNTRY || key === AsyncacheService.USER || key === AsyncacheService.USERS
+            || key === AsyncacheService.PENDING_REQUESTS) {
             return this.PREFIX + '_' + key;
         } else {
             return this.PREFIX + '_' + AsyncacheService.actual_country + '_' + key;
         }
     }
 
+    /**
+     * Get an item from the cache asynchronously.
+     * @param key 
+     */
     get(key: string) {
         key = this.formatKey(key);
 
@@ -162,6 +175,12 @@ export class AsyncacheService {
         );
     }
 
+    /**
+     * Set an item in the cache semi-asynchronously.
+     * @param key 
+     * @param value 
+     * @param options 
+     */
     set(key: string, value: any, options: any = {}) {
         key = this.formatKey(key);
         
@@ -189,11 +208,103 @@ export class AsyncacheService {
         }
     }
 
+    /**
+     * Removes an item with its key.
+     * @param key 
+     */
     remove(key: string) {
         key = this.formatKey(key);
         this.storage.removeItemSubscribe(key);
     }
 
+    /**
+     * When requesting offline, this method will permit to store a special request object to save wanted PUTs/POSTs/DELETEs.
+     * @param type 
+     * @param request 
+     */
+    storeRequest(request: StoredRequestInterface) {
+        let storedRequests : Array<StoredRequestInterface> = [];
+
+        this.get(AsyncacheService.PENDING_REQUESTS).subscribe(
+            result => {
+                if(!result) {
+                    storedRequests = [];
+                } else {
+                    storedRequests = result;
+                }
+                storedRequests.push(request);
+                this.set(AsyncacheService.PENDING_REQUESTS, storedRequests);
+            }
+        );
+    }
+
+    /**
+     * To send all the stored requests when online.
+     */
+    sendAllStoredRequests() {
+        // TODO : update with new data structure
+        return this.get(AsyncacheService.PENDING_REQUESTS).pipe(
+            map(
+                (requests:Array<any>) => {
+                    if(requests) {
+                        let totalObs : Observable<any>;   
+                        requests.forEach(
+                            (request:StoredRequestInterface) => {
+                                let method : Observable<any>;
+    
+                                method = this.useMethod(request)
+                                .pipe(
+                                    catchError(
+                                        error => {
+                                            const failedRequest : failedRequestInterface = {
+                                                fail: true,
+                                                request: request,
+                                                error: error,
+                                            }
+                                            return of(failedRequest);
+                                        }
+                                    )
+                                );
+                                if(method) {
+                                    if(!totalObs) {
+                                        totalObs = method;
+                                    } else {
+                                        totalObs = totalObs.pipe(
+                                            concat(method)
+                                        );
+                                    }
+                                }
+                            }
+                        );
+                        return totalObs;
+                    } else {
+                        return of(null);
+                    }
+                }
+            )
+        );
+    }
+
+    useMethod(request: StoredRequestInterface) {
+        let httpMethod;
+
+            if(request.method === "PUT") {
+                httpMethod = this.http.put(request.url, request.body, request.options);
+            } else if(request.method === "POST") {
+                httpMethod = this.http.post(request.url, request.body, request.options);
+            } else if(request.method === "DELETE") {
+                httpMethod = this.http.delete(request.url, request.options);
+            } else {
+                httpMethod = null;
+            }
+
+        return httpMethod;
+    }
+
+    /**
+     * Clear all the cache.
+     * @param force 
+     */
     clear(force : boolean = true) {
         if(force) {
             return this.storage.clear();

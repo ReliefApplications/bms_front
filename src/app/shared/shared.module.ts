@@ -68,6 +68,7 @@ import { TableMobileBeneficiariesComponent } from '../components/table/table-mob
 import { CountoModule }  from 'angular2-counto';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ImportedDataComponent } from '../modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
+import { ModalRequestsComponent } from '../components/modals/modal-requests/modal-requests.component';
 import { RecaptchaModule } from 'angular-google-recaptcha';
 
 @NgModule({
@@ -171,7 +172,8 @@ entryComponents: [
     ModalLanguageComponent,
     ModalAddComponent,
     ModalAddLineComponent,
-    ModalLeaveComponent
+    ModalLeaveComponent,
+    ModalRequestsComponent,
 ],
 exports: [
 // Shared Components

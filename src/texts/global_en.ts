@@ -196,6 +196,8 @@ export const TEXT = {
     header_settings: 'Settings',
     'header_update-beneficiary': 'Update Beneficiaries',
 
+
+
     // Import
     import_added: 'Added from existing beneficiaries',
     import_created: 'Newly created',
@@ -226,6 +228,7 @@ export const TEXT = {
     modal_delete_sentence: 'You are about to delete ',
     modal_delete_sentence_2: '. Are you sure? ',
     modal_email_is: 'Email is',
+    modal_failure: 'Failure',
     modal_leave: 'Leave',
     modal_language_actual: 'Current language: ',
     modal_leave_sentence: 'Do you really want to leave with unsaved changes?',
@@ -234,8 +237,12 @@ export const TEXT = {
     modal_no_password: 'You must define a password',
     modal_not_enough_strong: 'The password is not strong enough... Minimum required: 8 characters, 1 lowercase, 1 uppercase, 1 numeric',
     modal_no_project: 'You must define at least a project with that role',
+    modal_pending_requests: 'Pending Requests',
     modal_required: 'required',
+    modal_success: 'Success',
     modal_valid_email: 'Please enter a valid email address',
+    modal_warning_pending_requests_1: 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.',
+    modal_warning_pending_requests_2: 'WARNING: Requests linked to an item you created offline will fail !',
 
     // Model
     model_beneficiaries_dependents: 'Dependents',

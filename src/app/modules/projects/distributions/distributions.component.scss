@@ -228,6 +228,18 @@ mat-dialog-content {
     border-bottom-right-radius: 0px !important;
 }
 
+.action {
+    margin-right: 55px;
+}
+
+.text-button {
+    font-size: 12px;
+}
+
+.text-button:hover {
+    font-size: 14px;
+}
+
 .action-buttons {
     display: flex;
     flex-direction: row;

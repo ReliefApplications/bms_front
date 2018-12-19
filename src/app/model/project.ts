@@ -91,14 +91,14 @@ export class Project {
         let donorsArray = [];
         if (selfinstance.donors) {
             selfinstance.donors.forEach(element => {
-                donorsArray.push(element.id);  
+                donorsArray.push(element.id);
             });
         }
 
         let sectorsArray = [];
         if (selfinstance.sectors) {
             selfinstance.sectors.forEach(element => {
-                sectorsArray.push(element.id);              
+                sectorsArray.push(element.id);
             });
         }
 
@@ -174,14 +174,14 @@ export class Project {
     /**
     * return a Project after formatting its properties for the modal update
     */
-    getMapperUpdate(selfinstance: any, data? : any): Object {
+    getMapperUpdate(selfinstance: any, data?: any): Object {
         if (!selfinstance) {
             return selfinstance;
         }
 
         let obj;
 
-        if(data && Number(data.number_of_households) === 0) {
+        if (data && Number(data.number_of_households) === 0) {
             obj = {
                 name: selfinstance.name,
                 sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
@@ -266,10 +266,10 @@ export class Project {
 
     public static formatArray(instance): Project[] {
         const projects: Project[] = [];
-        if(instance)
-        instance.forEach(element => {
-            projects.push(this.formatProject(element));
-        });
+        if (instance)
+            instance.forEach(element => {
+                projects.push(this.formatProject(element));
+            });
         return projects;
     }
 
@@ -291,7 +291,6 @@ export class Project {
                 project.donors_name.push(donor.fullname);
             });
         }
-        
         return project;
     }
 
@@ -322,11 +321,11 @@ export class Project {
         return object;
     }
 
-    public static getAddDescription() : String {
+    public static getAddDescription(): String {
         return GlobalText.TEXTS.project_description;
     }
 
-    mapDonors(donors: any){
+    mapDonors(donors: any) {
         let donorString: string = '';
         donors.forEach(donor => {
             donorString = donorString == '' ? donor : donorString + ', ' + donor;

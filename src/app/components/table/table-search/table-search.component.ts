@@ -8,7 +8,15 @@ import { User } from 'src/app/model/user';
   templateUrl: './table-search.component.html',  
   styleUrls: ['../table.component.scss'],
 })
-export class TableSearchComponent extends TableComponent {
+export class TableSearchComponent extends TableComponent implements OnInit {
+
+    @Input() deletable;
+
+    ngOnInit() {
+        if (!this.deletable) {
+            this.deletable = true;
+        }
+    }
 
     getImageName(t2: String) {
         if(t2)

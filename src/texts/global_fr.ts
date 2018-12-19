@@ -328,6 +328,7 @@ export const TEXT = {
     settings_country_specific_options: 'options par pays',
     settings_created: ' créé(e)',
     settings_donors: 'donateurs',
+    settings_financial_provider: 'Service financier',
     settings_log_button: 'Recevoir les logs de cet utilisateur par email',
     settings_project_exists: 'Un projet avec le même nom existe déjà',
     settings_users: 'utilisateurs',
@@ -366,6 +367,21 @@ export const TEXT = {
     transaction_validate_distribution: 'Voulez vous vraiment valider la distribution ? Vous ne serez plus capable de la modifier',
     transaction_validation: 'Confirmer la validation',
     transaction_inProgress: 'Transaction en cours...',
+
+    // Tooltip
+    tooltip_add_beneficiaries: 'Cette page est la page d\'ajout des bénéficiaires. C\'est un formulaire pour ajouter un nouveau ménage avec des champs obligatoires.',
+    tooltip_add_distribution: 'Cette page est la page d\'ajout d\'une distribution. C\'est un formulaire pour ajouter une nouvelle distribution avec des champs obligatoires. Vous allez sélectionner des ménages ou des bénéficiaires en les triant selon un critère de sélection et ajouter un montant spécifique de commodités pour la distribution.',
+    tooltip_beneficiaries: 'Cette page est la page des bénéficiaires. Vous pouvez voir tous les ménages du pays. Si vous avez le droit, vous pouvez ajouter de nouveaux ménages avec le bouton "+", gérer des ménages et rechercher dans la liste.',
+    tooltip_dashboard: 'Cette page est le tableau de bord. Vous avez une vue générale de chiffres clés à propos du pays et de ses projets. Vous avez accès à une carte avec les distribution du pays ainsi qu\'un résumé des dernières distributions.',
+    tooltip_data: 'Cette page est la page d\'après importation des bénéficiaires. C\'est un résumé des ménages que vous avez importé.',
+    tooltip_data_validation: 'Cette page est la page d\'import des bénéficiaires en utilisant un fichier. Vous devez vérifier votre fichier en suivant les étapes.',
+    tooltip_distributions: 'Cette page est la page de distribution. Vous pouvez voir tous les ménages de la distribution. Si vous avez le droit, vous pouvez ajouter de nouveaux ménages en important un fichier ou en les sélectionnant dans la liste, gérer des ménages et valider la disitrbution pour devenir une transaction.',
+    tooltip_import: 'Cette page est la page d\'import des bénéficiaires. Vous pouvez choisir entre importer un nouveau ménage en utilisant un fichier ou l\'API (la source de données externe) pour importer tous les ménages d\'une commune spécifique.',
+    tooltip_profile: 'Cette page est la page de profil. Vous pouvez changer votre mot de passe.',
+    tooltip_projects: 'Cette page est la page des projets. Vous pouvez voir les projets du pays (seulement ceux dont vous avez le droit de voir). Si vous avez le droit, vous pouvez ajouter une nouvelle distribution avec des ménages qui sont dans le projet, gérer des distributions et des transactions.',
+    tooltip_reports: 'Cette page est la page des rapports. Cette page est utilisée pour voir les statistiques du pays, comme la moyenne des transactions d\'un projet, le nombre de distributions d\'un projet...',
+    tooltip_settings: 'Cette page est la page des paramètres. Dans cette page, vous pourrez ajouter un nouvel utilisateur, de nouvelle options pour le pays, de nouveaux donneurs, de nouveaux projets et changer les informations de connexion pour les transactions.',
+    tooltip_update_beneficiary: 'Cette page est la page de modification des bénéficiaires. C\'est un formulaire pour modifier le ménage selectionné avec des champs obligatoires.',
 
     // Update beneficiary
     update_beneficiary_check_steps: 'Les données requises sont incomplètes ou invalides: s\'il vous plait vérifier toutes les étapes',

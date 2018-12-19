@@ -46,7 +46,7 @@ export class TransactionBeneficiary {
      * Last message from API.
      */
     message: string;
-    
+
     /**
      * Transaction id.
      */
@@ -127,9 +127,10 @@ export class TransactionBeneficiary {
         beneficiary.givenName = instance.beneficiary.given_name;
         beneficiary.familyName = instance.beneficiary.family_name;
         beneficiary.phone = instance.beneficiary.phones[0] ? instance.beneficiary.phones[0].number : undefined;
-        beneficiary.id_transaction = instance.transactions[0].id;
 
-        if (instance.transactions && instance.transactions.length>0 && isNumber(instance.transactions[0].transaction_status)) {
+        if (instance.transactions && instance.transactions.length > 0 && isNumber(instance.transactions[0].transaction_status)) {
+            beneficiary.id_transaction = instance.transactions[0].id;
+
             switch (instance.transactions[instance.transactions.length - 1].transaction_status) {
                 case 0:
                     beneficiary.updateState('Sending failed');
@@ -146,7 +147,7 @@ export class TransactionBeneficiary {
                     beneficiary.updateState('Not sent');
                     break;
             }
-            if(instance.transactions[instance.transactions.length - 1]) {
+            if (instance.transactions[instance.transactions.length - 1]) {
                 beneficiary.message = instance.transactions[instance.transactions.length - 1].message ? instance.transactions[instance.transactions.length - 1].message : '';
             }
         } else {
@@ -259,8 +260,8 @@ export class TransactionBeneficiary {
                 stateString = 'Not sent';
                 break;
         }
-        
-        if(selfinstance.state === 3) {
+
+        if (selfinstance.state === 3) {
             return {
                 id_transaction: selfinstance.id_transaction,
                 givenName: selfinstance.givenName,

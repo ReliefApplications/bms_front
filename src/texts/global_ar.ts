@@ -329,6 +329,7 @@ export const TEXT = {
     settings_country_specific_options: 'الخيارات حسب البلد',
     settings_created: 'تم انشاء ',
     settings_donors: 'المانحين',
+    settings_financial_provider: 'Financial provider',
     settings_log_button: 'Get user logs by email',
     settings_project_exists: 'مشروع بهذا الاسم يوجود بالفعل',
     settings_users: 'المستخدمون',
@@ -367,6 +368,21 @@ export const TEXT = {
     transaction_validate_distribution: 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.',
     transaction_validation: 'Confirm the validation',
     transaction_inProgress: 'Transaction in progress...',
+
+    // Tooltip
+    tooltip_add_beneficiaries: 'This page is the add beneficiaries\' page. This is a form to add a new household with required fields.',
+    tooltip_add_distribution: 'This page is the add distribution\'s page. This is a form to add a new distribution with required fields. You will select households or beneficiaries by sorting them by a selection criteria and add a specific amount of commodities to the distribution.',
+    tooltip_beneficiaries: 'This page is the beneficiaries\' page. You can see all households of the country. If you have the right, you can add new households with the "+" button, manage households and research in the list.',
+    tooltip_dashboard: 'This page is the dashboard. You have a global view on some numbers about the country and its projects. You have access to a map with distributions of the country and summary of last distributions.',
+    tooltip_data: 'This page is the post import beneficiaries\' page. This is a summary of households you have imported.',
+    tooltip_data_validation: 'This page is the import beneficiaries\' page using a file. You have to verify your file by following the steps.',
+    tooltip_distributions: 'This page is the distribution\'s page. You can see all households of the distribution. If you have the right, you can add new households with a file or by selecting in the list, manage households and validate the distribution to a transaction.',
+    tooltip_import: 'This page is the import beneficiaries\' page. You can choose to import new households using a file or the API (the external data source) to import all the household of a specific commune.',
+    tooltip_profile: 'This page is the profile\'s page. You can change your password.',
+    tooltip_projects: 'This page is the projects\' page. You can see all projects of the country (only thoses that you have the right to see). If you have the right, you can add a new distribution with households whose are in the project, manage distributions and transactions.',
+    tooltip_reports: 'This page is the reports\' page. This page is used to see statistics of the country, like the average transactions of a projects, number of distributions...',
+    tooltip_settings: 'This page is the settings\' page. In this page, you\'ll be able to add a new user, new country specifics, new donors, a new project and change the credential for the transaction.',
+    tooltip_update_beneficiary: 'This page is the update beneficiaries\' page. This is a form to update the selected household with required fields.',
 
     // Update beneficiary
     update_beneficiary_check_steps: 'البيانات المطلوبة غير كاملة أو غير صالح: يرجى التحقق من جميع المراحل',

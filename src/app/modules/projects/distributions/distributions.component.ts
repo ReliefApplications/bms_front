@@ -46,6 +46,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     sampleSize: number; // %
     extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods / 4.pdf
     extensionTypeStep3: string; // 1.xls / 2.csv / 3.ods / 4.pdf
+    extensionTypeTransaction: string; // 1.xls / 2.csv / 3.ods / 4.pdf
 
     // Entities passed to table components.
     beneficiaryEntity = Beneficiaries;
@@ -118,6 +119,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         this.sampleSize = 10;
         this.extensionTypeStep1 = 'xls';
         this.extensionTypeStep3 = 'xls';
+        this.extensionTypeTransaction = 'xls';
 
         // Steps Forms.
         this.form1 = this.formBuilder.group({
@@ -299,6 +301,8 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                 break;
             case 3: this.extensionTypeStep3 = choice;
                 break;
+            case 5: this.extensionTypeTransaction = choice;
+                break;
             default:
                 break;
         }
@@ -365,6 +369,18 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     exportSample() {
         this.loadingExport = true;
         this.distributionService.exportSample(this.randomSampleData.data, this.extensionTypeStep3).then(
+            () => { this.loadingExport = false }
+        ).catch(
+            () => { this.loadingExport = false }
+        )
+    }
+
+    /**
+     * Requests back-end a file containing informations about the transaction
+     */
+    exportTransaction() {
+        this.loadingExport = true;
+        this.distributionService.export('transaction', this.extensionTypeTransaction, this.distributionId).then(
             () => { this.loadingExport = false }
         ).catch(
             () => { this.loadingExport = false }

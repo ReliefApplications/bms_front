@@ -63,6 +63,9 @@ export class DistributionService {
         } else if (option === 'distribution') {
             return this.exportService.export('beneficiariesInDistribution', id, extensionType);
         }
+        else if (option === 'transaction') {
+            return this.exportService.export('transaction', id, extensionType);
+        }
     }
     public refreshPickup(id: number) {
         const url = this.api + '/transaction/distribution/' + id + '/pickup';

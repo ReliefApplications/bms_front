@@ -70,12 +70,12 @@ export class Project {
         if (instance !== undefined) {
             this.id = instance.id;
             this.name = instance.name;
-            this.start_date = instance.start_date;
-            this.end_date = instance.end_date;
+            this.start_date = instance.start_date? instance.start_date : new Date();
+            this.end_date = instance.end_date? instance.end_date : new Date();
             this.number_of_households = instance.number_of_households;
-            this.iso3 = instance.iso3;
-            this.value = instance.value;
-            this.notes = instance.notes;
+            this.iso3 = instance.iso3? instance.iso3 : '';
+            this.value = instance.value? instance.value : 1000;
+            this.notes = instance.notes? instance.notes : '';
         }
     }
 
@@ -275,14 +275,23 @@ export class Project {
 
     public static formatProject(element: any): Project {
         const project = new Project(element);
-        element.sectors.forEach(sector => {
-            project.sectors.push(new Sector(sector));
-            project.sectors_name.push(sector.name);
-        });
-        element.donors.forEach(donor => {
-            project.donors.push(new Donor(donor));
-            project.donors_name.push(donor.fullname);
-        });
+        project.sectors = [];
+        project.donors = [];
+
+        if(element.sectors) {
+            element.sectors.forEach(sector => {
+                project.sectors.push(new Sector(sector));
+                project.sectors_name.push(sector.name);
+            });
+        }
+
+        if(element.donors) {
+            element.donors.forEach(donor => {
+                project.donors.push(new Donor(donor));
+                project.donors_name.push(donor.fullname);
+            });
+        }
+        
         return project;
     }
 

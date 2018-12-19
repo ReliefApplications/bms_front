@@ -1,0 +1,94 @@
+<mat-dialog-content class="modal-container">
+    <h4 class="modal-title underline-accent">
+        {{TEXTS.modal_pending_requests}}
+    </h4>
+
+    <div class="warning-info">
+        <div class="container">
+            <mat-icon>warning</mat-icon>
+            <div>
+                {{TEXTS.modal_warning_pending_requests_1}}
+                <br/>
+                <strong>{{TEXTS.modal_warning_pending_requests_2}}</strong>
+            </div>
+        </div>
+    </div>
+
+    <table mat-table [dataSource]="requests" multiTemplateDataRows *ngIf="requests && !loading && !inProgress && requests.length > 0">
+        <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+            <th mat-header-cell *matHeaderCellDef class="{{column}}"> 
+                <div *ngIf="column !== 'icon'">
+                    {{column | titlecase}} 
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let element" class="{{column}}">
+                <div *ngIf="column == 'icon'">
+                    <mat-icon *ngIf="element.method == 'PUT'">add</mat-icon>
+                    <mat-icon *ngIf="element.method == 'POST'">edit</mat-icon>
+                    <mat-icon *ngIf="element.method == 'DELETE'">clear</mat-icon>
+                </div>
+                <div *ngIf="column == 'method'">
+                    <strong>
+                        {{ element.method }}
+                    </strong>
+                </div>
+                <div *ngIf="column == 'target'">
+                    {{ element.url.split('wsse/')[1] | titlecase }}
+                </div>
+                <div *ngIf="column == 'date'">
+                    {{ formatDate(element.date) }}
+                </div>
+                <div *ngIf="column == 'actions'">
+                    <button mat-icon-button class="button-text-primary" (click)="sendRequest(element); $event.stopPropagation()">
+                        <mat-icon *ngIf="element.method == 'PUT'" matTooltip="Create it">send</mat-icon>
+                        <mat-icon *ngIf="element.method == 'POST'" matTooltip="Update it">send</mat-icon>
+                        <mat-icon *ngIf="element.method == 'DELETE'" matTooltip="Delete it">send</mat-icon>
+                    </button>
+                    <button mat-icon-button class="button-text-accent" (click)="removeRequest(element); $event.stopPropagation()">
+                        <mat-icon matTooltip="Remove request">clear</mat-icon>
+                    </button>
+                </div>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                <div class="req-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                    <div class="req-details-container">
+                        <div class="req-properties" *ngFor="let property of expandBody(element.body)">
+                            {{ property | titlecase}}
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="req-element-row"
+            [class.req-expanded-row]="expandedElement === element" (click)="expandedElement = expandedElement === element ? null : element">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="req-detail-row"></tr>
+    </table>
+    <div class="loading-container" *ngIf="loading">
+        <mat-spinner [diameter]="40"></mat-spinner>
+    </div>
+    <div class="progress" *ngIf="inProgress">
+        <h3>Sending {{progressLength}} requests:</h3>
+        <mat-progress-bar mode="determinate" [value]="getProgressValue()"></mat-progress-bar>
+        <div class="progress-info">
+            <span>{{TEXTS.modal_success}}: {{progressCountSuccess}}</span>
+            <span>{{TEXTS.modal_failure}}: {{progressCountFail}}</span>
+        </div>
+        <div class="progress-errors" *ngIf="errors && errors.length > 0">
+            <div class="error-row" *ngFor="let error of errors, i as index">
+                <p *ngIf="error.status && error.statusText && error.error"> <strong>{{i}}</strong> Error: {{error.status}} ({{error.statusText}}) : {{error.error}} </p>
+                <p *ngIf="!error.error && error.message"> <strong>{{i}}</strong> Error: {{error.message}} </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-button action-buttons" cdkFocusRegionstart>
+        <button mat-button (click)="closeDialog()" class="button-text-accent">{{TEXTS.modal_leave}}</button>
+        <button mat-raised-button class="send-all button-background-accent" (click)="sendAllRequests()" *ngIf="!inProgress">Send All</button>
+    </div>
+</mat-dialog-content>

@@ -9,8 +9,6 @@ import { UserService } from '../../core/api/user.service';
 import { CountrySpecificService } from '../../core/api/country-specific.service';
 
 import { Mapper } from '../../core/utils/mapper.service';
-
-import { DistributionData } from '../../model/distribution-data';
 import { Donor } from '../../model/donor';
 import { Project } from '../../model/project';
 import { User } from '../../model/user';
@@ -20,8 +18,6 @@ import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.c
 
 import { GlobalText } from '../../../texts/global';
 import { SettingsService } from '../../core/api/settings.service';
-import { ExportInterface } from '../../model/export.interface';
-import { saveAs } from 'file-saver/FileSaver';
 import { finalize } from 'rxjs/operators';
 import { LocationService } from 'src/app/core/api/location.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
@@ -79,7 +75,6 @@ export class SettingsComponent implements OnInit {
         private locationService: LocationService,
         private _settingsService: SettingsService,
         private snackBar: MatSnackBar,
-        private router: Router
     ) { }
 
     ngOnInit() {
@@ -286,7 +281,7 @@ export class SettingsComponent implements OnInit {
 
                 this.data.data.forEach(element => {
                     if (element.name.toLowerCase() == data.name.toLowerCase()) {
-                        this.snackBar.open(this.settings.settings_project_exists, '', { duration: 5000, horizontalPosition: 'right' });
+                        this.snackBar.open(this.settings.settings_project_exists, '', { duration: 5000, horizontalPosition: 'center' });
                         exists = true;
                         return;
                     }
@@ -308,9 +303,9 @@ export class SettingsComponent implements OnInit {
     createElement(createElement: Object) {
         createElement = this.referedClassToken.formatForApi(createElement);
         if (this.referedClassToken.__classname__ !== 'User') {
-            this.referedClassService.create(createElement['id'], createElement).subscribe(response => {
-                this.snackBar.open(this.referedClassToken.__classname__ + this.settings.settings_created, '', { duration: 5000, horizontalPosition: 'right' });
-                this.selectTitle(this.selectedTitle);
+            this.referedClassService.create(createElement['id'], createElement).subscribe(
+                response => {
+                    this.selectTitle(this.selectedTitle);
             });
         } else {
             // for users, there are two step (one to get the salt and one to create the user)
@@ -325,8 +320,8 @@ export class SettingsComponent implements OnInit {
                         delete createElement['projects'];
                     }
 
-                    this.authenticationService.createUser(createElement, response).subscribe(() => {
-                        this.snackBar.open(this.referedClassToken.__classname__ + this.settings.settings_created, '', { duration: 5000, horizontalPosition: 'right' });
+                    this.authenticationService.createUser(createElement, response).subscribe(
+                    () => {
                         this.selectTitle(this.selectedTitle);
                     });
                 }

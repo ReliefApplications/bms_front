@@ -1,17 +1,16 @@
 import { Injectable                                 } from '@angular/core';
-import { RequestOptions                             } from '@angular/http';
-import { HttpClient, HttpParams                     } from '@angular/common/http';
+import { HttpClient                                 } from '@angular/common/http';
 import { URL_BMS_API } from '../../../environments/environment';
-import { Router, UrlHandlingStrategy                                     } from '@angular/router';
 
 //Services
-import { WsseService                                } from '../authentication/wsse.service';
-import { Observable, concat, of, merge } from 'rxjs';
+import { Observable, concat, of, merge, timer } from 'rxjs';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { map } from 'rxjs/operators';
 import { NetworkService } from './network.service';
 import { MatSnackBar } from '@angular/material';
-import { type } from 'os';
+import { StoredRequestInterface } from 'src/app/model/stored-request';
+import { element } from '@angular/core/src/render3/instructions';
+import { keyframes } from '@angular/animations';
 
 @Injectable({
 	providedIn: 'root'
@@ -38,6 +37,7 @@ export class HttpService {
                 case '/location/upcoming_distribution' : return(AsyncacheService.UPCOMING)
                 case '/country_specifics' : return(AsyncacheService.SPECIFICS)
                 case '/users' : return(AsyncacheService.USERS)
+                case '/sectors' : return(AsyncacheService.SECTORS)
                 case '/donors' : return(AsyncacheService.DONORS)
                 case '/location/adm1' : return(AsyncacheService.ADM1)
                 case '/location/adm2' : return(AsyncacheService.ADM2)
@@ -47,6 +47,7 @@ export class HttpService {
                 case '/modalities' : return(AsyncacheService.MODALITIES)
                 case '/vulnerability_criteria' : return(AsyncacheService.VULNERABILITIES)
                 case '/summary' : return(AsyncacheService.SUMMARY)
+                case '/households' : return(AsyncacheService.HOUSEHOLDS)
                 default:
                     if(url.substring(0,24) === '/distributions/projects/')
                         return(AsyncacheService.DISTRIBUTIONS + '_' + url.split('/distributions/projects/')[1]);
@@ -59,8 +60,21 @@ export class HttpService {
         
     }
 
+    filteredPendingRequests(url: string) {
+        let filtered = false;
+
+        if (url.includes(URL_BMS_API, 0)) {
+            url = url.split(URL_BMS_API)[1];
+
+            if(url.substring(0,11) === '/indicators' || url === '/households/get/all') {
+                filtered = true;
+            }
+        }
+
+        return(filtered);
+    }
+
     get(url, options = {}) : Observable<any> {
-        //console.log('-(', url,')-');
 
         let itemKey = this.resolveItemKey(url);
         let connected = this.networkService.getStatus();
@@ -106,41 +120,164 @@ export class HttpService {
         }
         // If disconnected and item uncachable
         else {
-            this.snackbar.open( 'This data can\'t be accessed offline', '', {duration:1000, horizontalPosition: 'center'});
+            this.snackbar.open( 'This data can\'t be accessed offline', '', {duration:3000, horizontalPosition: 'center'});
             return of([]);
-        }
-    }
-
-    post(url, body, options = {}) : Observable<any> {
-        let connected = this.networkService.getStatus();
-
-        if(connected) {
-            return this.http.post(url, body, options);
-        } else {
-            this.snackbar.open('No network connection to update data', '', {duration:1000, horizontalPosition: 'center'});
-            return of(null);
         }
     }
 
     put(url, body, options = {}) : Observable<any> {
         let connected = this.networkService.getStatus();
 
-        if(connected) {
+        if(!connected) {
+            if(!this.filteredPendingRequests(url)) {
+                let date = new Date();
+                let method = "PUT";
+                let request : StoredRequestInterface = {method, url, body, options, date};
+                this.cacheService.storeRequest(request);
+                this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
+
+                this.forceDataInCache(method, url, body);
+            }
+            // Otherwise
+            else {
+                this.snackbar.open('No network connection to join DB', '', {duration:3000, horizontalPosition: 'center'});
+            }
+
+            return(of(null));
+        }
+        else {
             return this.http.put(url, body, options);
-        } else {
-            this.snackbar.open('No network connection to create data', '', {duration:1000, horizontalPosition: 'center'});
-            return of(null);
+        }
+    }
+
+    post(url, body, options = {}) : Observable<any> {
+        let connected = this.networkService.getStatus();
+
+        if(!connected) {
+            if(!this.filteredPendingRequests(url)) {
+                let date = new Date();
+                let method = "POST";
+                let request : StoredRequestInterface = {method, url, body, options, date};
+                this.cacheService.storeRequest(request);
+                this.snackbar.open('No network - This data update will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
+
+                this.forceDataInCache(method, url, body);
+            }
+            // Otherwise
+            else {
+                this.snackbar.open('No network connection to join DB', '', {duration:3000, horizontalPosition: 'center'});
+            }
+
+            return(of(null));
+        }
+        else {
+            return this.http.post(url, body, options);
         }
     }
 
     delete(url, options = {}) : Observable<any> {
         let connected = this.networkService.getStatus();
 
-        if(connected) {
+        if(!connected) {
+            if(!this.filteredPendingRequests(url)) {
+                let date = new Date();
+                let method = "DELETE";
+                let request : StoredRequestInterface = {method, url, options, date};
+                this.cacheService.storeRequest(request);
+                this.snackbar.open('No network - This data deletion will be sent to DB on next connection', '', {duration:3000, horizontalPosition: 'center'});
+
+                this.forceDataInCache(method, url, {});
+            }
+            // Otherwise
+            else {
+                this.snackbar.open('No network connection to join DB', '', {duration:3000, horizontalPosition: 'center'});
+            }
+
+            return(of(null));
+        }
+        else {
             return this.http.delete(url, options);
+        }
+    }
+
+    forceDataInCache(method, url, body?) {
+        let itemKey : string;
+        let object = {};
+        let id;
+
+        switch(method) {
+            case 'PUT': 
+                object = body;
+                itemKey = this.resolveItemKey(url);
+                id = -1;
+                break;
+            case 'POST': 
+                object = body;
+                itemKey = this.resolveItemKey(url.substring(0, url.lastIndexOf('/')));
+                //console.log(url);
+                id = Number(url.substring(url.lastIndexOf('/')+1, ));
+                break;
+            case 'DELETE': 
+                itemKey = this.resolveItemKey(url.substring(0, url.lastIndexOf('/')));
+                id = Number(url.substring(url.lastIndexOf('/')+1, ));
+                break;
+            default:
+                itemKey = this.resolveItemKey(url);
+                break;
+        }
+
+        if(itemKey) {
+            let dataArray = [];
+
+            this.cacheService.get(itemKey).subscribe(
+                result => {
+                    if(method === "PUT" && object) {
+                        if(result) {
+                            dataArray = result;
+                        }
+                        object['id'] = -1;
+                        if(dataArray) {
+                            dataArray.forEach(
+                                element => {
+                                    if(element['id'] && element['id'] <= object['id']) {
+                                        object['id'] = element['id']-1;
+                                    }
+                                }
+                            );
+                        }
+                        dataArray.push(object);
+                    } else if(method === "POST" && object) {
+                                dataArray = result;
+                                //console.log('searching id: ', id);
+                                dataArray.forEach(
+                                    (item, index) => {
+                                        //console.log('found: ', item);
+                                        if(item && item['id'] && item['id'] === id) {
+                                            //console.log('got');
+                                            dataArray[index] = body;
+                                        }
+                                    }
+                                )
+                    } else if(method === "DELETE") {
+                                dataArray = result;
+                                dataArray.forEach(
+                                    (item, index) => {
+                                        if(item && item['id'] && item['id'] === id) {
+                                            dataArray.splice(index, 1);
+                                        }
+                                    }
+                                )
+                    } else {
+                        dataArray = [];
+                    }
+
+                    //console.log('updating ', itemKey, 'to : ', dataArray);
+                    this.cacheService.set(itemKey, dataArray);
+                }
+            );
+
         } else {
-            this.snackbar.open('No network connection to delete data', '', {duration:1000, horizontalPosition: 'center'});
-            return of(null);
+            this.snackbar.open('This item can\'t be manipulated offline', '', {duration:3000, horizontalPosition:'center'});
         }
     }
 

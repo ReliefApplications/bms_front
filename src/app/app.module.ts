@@ -26,6 +26,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { UpdateService } from './core/api/update.service';
 import { ImportedDataService } from './core/utils/imported-data.service';
+import { RequestDisplayComponent } from './components/headers/request-display/request-display.component';
+import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
 
 @NgModule({
 	declarations: [
@@ -36,6 +38,8 @@ import { ImportedDataService } from './core/utils/imported-data.service';
     	HeaderMobileComponent,
 		HeaderComponent,
 		ModalLeaveComponent,
+		RequestDisplayComponent,
+		ModalRequestsComponent,
 	],
 	imports: [
 		// Modules

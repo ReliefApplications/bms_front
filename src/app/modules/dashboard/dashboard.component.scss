@@ -32,6 +32,12 @@ app-table-dashboard {
         margin: 0;
         margin-bottom: 0.5vh !important;
     }
+    app-placeholder-panel {
+        position : absolute;
+        width: 53.3% !important;
+        z-index: 1000;
+        background-color: $bms-white;
+    }
     .map-content {
         background-color: $bms_white;
         height: 90%;
@@ -43,7 +49,7 @@ app-table-dashboard {
         overflow: hidden;
 
         #map {
-            width:100% !important;
+            width:100%;
         }
         .content-text{
             display: flex;
@@ -58,13 +64,6 @@ app-table-dashboard {
                 text-align: center;
             }
         }
-    }
-    app-placeholder-panel {
-        position : absolute;
-        height: 100%;
-        width: 100%;
-        z-index: 1000;
-        background-color: $bms-white;
     }
 }
 .boxes-summary{

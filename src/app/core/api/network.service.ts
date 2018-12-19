@@ -42,11 +42,11 @@ export class NetworkService {
         );
     }
 
-    public getOnlineObs() {
+    getOnlineObs() {
         return this.online$;
     }
 
-    public getStatus(): boolean {
+    getStatus(): boolean {
         return (this.CONNECTED);
     }
 }

@@ -52,7 +52,7 @@ export class ModalRequestsComponent implements OnInit {
 
     ngDoCheck() {
         if(this.requests && this.requests.length === 0 && !this.loading && !this.inProgress) {
-            console.log('finished');
+            //console.log('finished');
             timer(1000).subscribe( 
                 result => {
                     this.closeDialog();
@@ -118,7 +118,7 @@ export class ModalRequestsComponent implements OnInit {
                             }
                             // Success.
                             else {
-                                console.log("msg", value);
+                                //console.log("msg", value);
                                 this.progressCountSuccess++;
                             }
                             // End.

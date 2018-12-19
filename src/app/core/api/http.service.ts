@@ -80,7 +80,7 @@ export class HttpService {
         let connected = this.networkService.getStatus();
         let cacheData : any;
         // Test logs
-        console.log('--', itemKey, '--');
+        //console.log('--', itemKey, '--');
 
         // If this item is cachable & user is connected
         if(itemKey && connected) {
@@ -214,7 +214,7 @@ export class HttpService {
             case 'POST': 
                 object = body;
                 itemKey = this.resolveItemKey(url.substring(0, url.lastIndexOf('/')));
-                console.log(url);
+                //console.log(url);
                 id = Number(url.substring(url.lastIndexOf('/')+1, ));
                 break;
             case 'DELETE': 
@@ -248,12 +248,12 @@ export class HttpService {
                         dataArray.push(object);
                     } else if(method === "POST" && object) {
                                 dataArray = result;
-                                console.log('searching id: ', id);
+                                //console.log('searching id: ', id);
                                 dataArray.forEach(
                                     (item, index) => {
-                                        console.log('found: ', item);
+                                        //console.log('found: ', item);
                                         if(item && item['id'] && item['id'] === id) {
-                                            console.log('got');
+                                            //console.log('got');
                                             dataArray[index] = body;
                                         }
                                     }
@@ -271,7 +271,7 @@ export class HttpService {
                         dataArray = [];
                     }
 
-                    console.log('updating ', itemKey, 'to : ', dataArray);
+                    //console.log('updating ', itemKey, 'to : ', dataArray);
                     this.cacheService.set(itemKey, dataArray);
                 }
             );

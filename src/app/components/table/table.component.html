@@ -3,7 +3,7 @@
   <div class="noDataContainer" *ngIf="!filled">
       <h3>
           <mat-icon>clear</mat-icon>
-          No data available
+          {{table.no_data}}
       </h3>
   </div>
   <table *ngIf="filled" mat-table [dataSource]="data" matSort matSortActive="date_distribution" matSortDirection="desc">

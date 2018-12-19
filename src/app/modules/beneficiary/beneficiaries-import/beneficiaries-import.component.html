@@ -13,7 +13,7 @@
 
             <div class="content-button">
                 <mat-form-field>
-                    <mat-select placeholder={{household.beneficiaries_import_getProject}} [formControl]="projects"
+                    <mat-select placeholder={{household.projects}} [formControl]="projects"
                         (selectionChange)="getProjectSelected($event)">
                         <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                     </mat-select>
@@ -22,7 +22,7 @@
                     <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">{{household.beneficiaries_import_csv
                         | uppercase }}</button>
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-                    <div class="extension" *ngIf="!loadingExport">
+                    <div class="extension" *ngIf="!loadingExport" [ngClass]="{'arabic':language==='ar'}">
                         <div mat-button class="template pointer" [matMenuTriggerFor]="exportType">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </div>
@@ -32,6 +32,8 @@
                             <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
                             </button>
                             <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
+                            </button>
+                            <button mat-menu-item (click)="setType('pdf')"> .pdf <mat-icon *ngIf="extensionType=='pdf'">done</mat-icon>
                             </button>
                         </mat-menu>
                     </div>
@@ -67,7 +69,7 @@
                 <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
                 <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="addHouseholds()">
                     <mat-icon>publish</mat-icon>
-                    <span>{{household.beneficiaries_import_upload | uppercase }}</span>
+                    <span>{{household.import | uppercase }}</span>
                 </button>
             </div>
         </div>
@@ -77,7 +79,7 @@
         <div class="container-content box-red">
             <div class="content-button">
                 <mat-form-field>
-                    <mat-select placeholder={{household.beneficiaries_import_getProject}} [formControl]="projects"
+                    <mat-select placeholder={{household.projects}} [formControl]="projects"
                         (selectionChange)="getProjectSelected($event)">
                         <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                     </mat-select>
@@ -108,7 +110,7 @@
                 <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
                 <button *ngIf="!load" mat-raised-button class="button-background-accent" (click)="addBeneficiaries()">
                     <mat-icon>publish</mat-icon>
-                    <span>{{household.beneficiaries_import_upload | uppercase }}</span>
+                    <span>{{household.import | uppercase }}</span>
                 </button>
             </div>
         </div>

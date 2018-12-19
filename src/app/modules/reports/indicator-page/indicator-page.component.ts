@@ -379,10 +379,10 @@ export class IndicatorPageComponent implements OnInit {
     checkPermission() {
         this.cacheService.getUser().subscribe(
             result => {
-                if(result && result.voters) {
-                    const voters = result.voters;
+                if(result && result.rights) {
+                    const rights = result.rights;
 
-                    if (voters == "ROLE_ADMIN" || voters == 'ROLE_REGIONAL_MANAGER' || voters == 'ROLE_COUNTRY_MANAGER') {
+                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_REGIONAL_MANAGER' || rights == 'ROLE_COUNTRY_MANAGER') {
                         this.dataFilter2 = [
                             { level: '0', icon: 'settings/api', color: 'red', label: this.indicator.report_country_report.toLocaleUpperCase(), value: 'Country', active: true },
                             { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: 'Project', active: false },
@@ -393,7 +393,7 @@ export class IndicatorPageComponent implements OnInit {
                     }
             
             
-                    else if (voters == "ROLE_PROJECT_OFFICER" || voters == "ROLE_PROJECT_MANAGER") {
+                    else if (rights == "ROLE_PROJECT_OFFICER" || rights == "ROLE_PROJECT_MANAGER") {
                         this.dataFilter2 = [
                             { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: 'Project', active: true },
                             { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: false },

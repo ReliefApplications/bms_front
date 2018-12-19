@@ -80,12 +80,26 @@ export class Project {
     }
 
     public static getDisplayedName() {
-        return GlobalText.TEXTS.model_project;
+        return GlobalText.TEXTS.project;
     }
 
     mapAllProperties(selfinstance): Object {
         if (!selfinstance) {
             return selfinstance;
+        }
+
+        let donorsArray = [];
+        if (selfinstance.donors) {
+            selfinstance.donors.forEach(element => {
+                donorsArray.push(element.id);  
+            });
+        }
+
+        let sectorsArray = [];
+        if (selfinstance.sectors) {
+            selfinstance.sectors.forEach(element => {
+                sectorsArray.push(element.id);              
+            });
         }
 
         return {
@@ -96,6 +110,8 @@ export class Project {
             iso3: selfinstance.iso3,
             notes: selfinstance.notes,
             value: selfinstance.value,
+            donors_name: donorsArray,
+            sectors_name: sectorsArray
         };
     }
 
@@ -238,12 +254,12 @@ export class Project {
     static translator(): Object {
         return {
             name: GlobalText.TEXTS.model_project_name,
-            sectors_name: GlobalText.TEXTS.model_project_sectors_name,
+            sectors_name: GlobalText.TEXTS.model_sectors_name,
             start_date: GlobalText.TEXTS.model_project_start_date,
             end_date: GlobalText.TEXTS.model_project_end_date,
             number_of_households: GlobalText.TEXTS.model_project_number_of_households,
             donors_name: GlobalText.TEXTS.model_project_donors_name,
-            notes: GlobalText.TEXTS.model_project_notes,
+            notes: GlobalText.TEXTS.model_notes,
             value: GlobalText.TEXTS.model_project_value,
         };
     }
@@ -270,7 +286,7 @@ export class Project {
         return project;
     }
 
-    public static formatForApi(element: Project): any {
+    public static formatForApi(element): any {
         const project = new Project(element);
         if (element.sectors_name) {
             element.sectors_name.forEach(sector => {
@@ -298,7 +314,7 @@ export class Project {
     }
 
     public static getAddDescription() : String {
-        return 'You will be able to modify project\'s name until your first distribution.';
+        return GlobalText.TEXTS.project_description;
     }
 
     mapDonors(donors: any){

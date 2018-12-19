@@ -89,12 +89,33 @@ export class ModalAddComponent extends ModalComponent {
             }
         }
         else if (event.value == "ROLE_PROJECT_MANAGER" || event.value == "ROLE_PROJECT_OFFICER" || event.value == "ROLE_FIELD_OFFICER") {
+            this.newObject['country'] = [];
+            this.newObject['projects'] = [];
+            
             this.form.controls['projectsControl'].enable();
             this.form.controls['countryControl'].disable();
         }
+        else if(event.value == "ROLE_COUNTRY_MANAGER" || event.value == "ROLE_REGIONAL_MANAGER") {
+            this.newObject['country'] = [];
+            this.newObject['projects'] = [];
+
+            this.form.controls['countryControl'].enable();
+            this.form.controls['projectsControl'].disable();
+        }
         else {
+            this.newObject['country'] = [];
+            this.newObject['projects'] = [];
+
             this.form.controls['projectsControl'].disable();
             this.form.controls['countryControl'].disable();
+        }
+
+        if(event.value == "ROLE_ADMIN") {
+            this.user.getAllCountries().forEach(
+                element => {
+                    this.newObject['country'].push(element.id);
+                }
+            )
         }
 
     }
@@ -130,7 +151,13 @@ export class ModalAddComponent extends ModalComponent {
             }
 
             if (this.newObject.password == '') {
-                this.snackBar.open(this.modal.modal_add_no_password, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackBar.open(this.modal.modal_no_password, '', { duration: 5000, horizontalPosition: 'right' });
+                return;
+            }
+
+            const checkPass = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/);
+            if (!checkPass.test(this.newObject.password)) {
+                this.snackBar.open(this.modal.modal_not_enough_strong, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }
 
@@ -145,7 +172,6 @@ export class ModalAddComponent extends ModalComponent {
                 }
             }
             else if (this.newObject.rights == "ROLE_REGIONAL_MANAGER" || this.newObject.rights == "ROLE_COUNTRY_MANAGER" || this.newObject.rights == "ROLE_READ_ONLY") {
-                this.newObject.country = "KHM";
                 if (this.newObject.country == undefined) {
                     this.snackBar.open(this.modal.modal_no_country, '', { duration: 5000, horizontalPosition: 'right' });
                     return;

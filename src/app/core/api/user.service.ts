@@ -18,7 +18,6 @@ export class UserService {
 	constructor(
 		private http: HttpService,
 		private wsseService: WsseService,
-		private userService: UserService,
 		private authenticationService: AuthenticationService
 	) {
 	}

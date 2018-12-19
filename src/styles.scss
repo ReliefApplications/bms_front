@@ -54,6 +54,12 @@ body {
     display: none !important;
 }
 
+.mat-sidenav-content {
+    width: 100vw !important;
+    box-sizing: border-box;
+    overflow-x: hidden !important;
+}
+
 @media only screen and (max-width: 750px) {
   .mat-stepper-horizontal {
     width: 100%;

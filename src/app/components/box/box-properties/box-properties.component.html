@@ -1,20 +1,23 @@
 <mat-grid-list [cols]="numColumns" gutterSize="10" rowHeight="80">
-  <mat-grid-tile *ngFor="let p of properties" colspan="1" rowspan="1">
-    <mat-card>
-      <h5>{{mapperObject[p] | uppercase}}</h5>
-      <span>
-        <h3 *ngIf="!isArray(elementObject[p]) && !isNumber(elementObject[p])">
-          {{elementObject[p]}}
-        </h3>
-      </span>
-      <span *ngIf="isNumber(elementObject[p])">
-        <h3 counto [step]="10" [countTo]="elementObject[p]" [countFrom]="0" [duration]="3" (countoChange)="intermediate = $event">
-          {{intermediate | number:'1.0-0'}}
-        </h3>
-      </span>
-      <span *ngIf="isArray(elementObject[p])" class="sector-icons">
-        <app-icon-svg class="icon" *ngFor="let image of elementObject[p]" [name]="image"></app-icon-svg>
-      </span>
-    </mat-card>
-  </mat-grid-tile>
+    <mat-grid-tile *ngFor="let p of properties" colspan="1" rowspan="1">
+        <mat-card>
+            <h5>{{mapperObject[p] | uppercase}}</h5>
+            <span>
+                <h3 *ngIf="!isArray(elementObject[p]) && !isNumber(elementObject[p]) && elementObject[p].length <= MAX_PROP_LENGTH">
+                    {{elementObject[p]}}
+                </h3>
+                <h3 *ngIf="!isArray(elementObject[p]) && !isNumber(elementObject[p]) && elementObject[p].length > MAX_PROP_LENGTH" [matTooltip]="elementObject[p]">
+                    {{elementObject[p].substring(0,MAX_PROP_LENGTH-1)}} ...
+                </h3>
+            </span>
+            <span *ngIf="isNumber(elementObject[p])">
+                <h3 counto [step]="10" [countTo]="elementObject[p]" [countFrom]="0" [duration]="2" (countoChange)="intermediate = $event">
+                    {{intermediate | number:'1.0-0'}}
+                </h3>
+            </span>
+            <span *ngIf="isArray(elementObject[p])" class="sector-icons">
+                <app-icon-svg class="icon" *ngFor="let image of elementObject[p]" [name]="image"></app-icon-svg>
+            </span>
+        </mat-card>
+    </mat-grid-tile>
 </mat-grid-list>

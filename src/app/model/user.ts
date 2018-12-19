@@ -51,9 +51,7 @@ export class User {
      * User's country
      * @type {number[]}
      */
-    country: number[] = undefined;
-
-    voters: string = '';
+    country: string[] = undefined;
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -65,6 +63,7 @@ export class User {
             this.rights = instance.rights;
             this.projects = instance.projects;
             this.country = instance.country;
+            this.loggedIn = instance.loggedIn;
         }
     }
 
@@ -76,12 +75,19 @@ export class User {
         if (!selfinstance)
             return selfinstance;
 
+        let projects = [];
+        selfinstance.projects.forEach(project => {
+            projects.push(project);
+        });
+
         return {
             id: selfinstance.id,
             username: selfinstance.username,
             email: selfinstance.email,
             salted_password: selfinstance.salted_password,
             rights: selfinstance.rights,
+            projects: projects,
+            country: selfinstance.country
         }
     }
 
@@ -175,7 +181,7 @@ export class User {
             password: "password",
             rights: "selectSingle",
             projects: "selectProjects",
-            country: "inputCountry",
+            country: "selectCountry",
         }
     }
 
@@ -184,20 +190,20 @@ export class User {
     */
     static translator(): Object {
         return {
-            username: GlobalText.TEXTS.model_user_username,
+            username: GlobalText.TEXTS.email,
             password: GlobalText.TEXTS.model_user_password,
-            rights: GlobalText.TEXTS.model_user_rights,
-            projects: GlobalText.TEXTS.model_project,
-            country: GlobalText.TEXTS.model_country_specific_countryIso3,
+            rights: GlobalText.TEXTS.rights,
+            projects: GlobalText.TEXTS.project,
+            country: GlobalText.TEXTS.model_countryIso3,
         }
     }
 
     public static formatArray(instance): User[] {
         let users: User[] = [];
-        if(instance)
-        instance.forEach(element => {
-            users.push(this.formatFromApi(element));
-        });
+        if (instance)
+            instance.forEach(element => {
+                users.push(this.formatFromApi(element));
+            });
         return users;
     }
 
@@ -205,16 +211,41 @@ export class User {
         let user = new User(element);
         if (element.roles) {
             element.roles.forEach(element => {
-                user.rights = " " + element + " ";
+                user.rights = "" + element + "";
             });
         }
+        if (element.countries) {
+            user.country = [];
+            element.countries.forEach(
+                element => {
+                    user.country.push(element.iso3);
+                }
+            )
+        }
+        if (element.user_projects) {
+            user.projects = [];
+            element.user_projects.forEach(
+                element => {
+                    user.projects.push(element.project.id);
+                    if (! user.country.includes(element.project.iso3)) {
+                      user.country.push(element.project.iso3);
+                    }
+                }
+            )
+        }
+
+        if (element.password) {
+          user.password = '';
+          user.salted_password = element.password;
+        }
+
         return user;
     }
 
     /**
      * used in modal add
-     * @param element 
-     * @param loadedData 
+     * @param element
+     * @param loadedData
      */
     public static formatFromModalAdd(element: any, loadedData: any): User {
         let newObject = new User(element);
@@ -251,6 +282,19 @@ export class User {
             {
                 'id': "ROLE_REGIONAL_MANAGER",
                 'name': GlobalText.TEXTS.role_user_regional_manager,
+            }
+        ];
+    }
+
+    public getAllCountries() {
+        return [
+            {
+                'id': "KHM",
+                'name': "Cambodia",
+            },
+            {
+                'id': "SYR",
+                'name': "Syria",
             }
         ];
     }

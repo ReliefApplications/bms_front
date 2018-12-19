@@ -11,25 +11,6 @@
             <h1 class="summary-title">{{dashboard.dashboard_summary | titlecase}}</h1>
             <app-placeholder-summary *ngIf="loadingSummary" class="summary-content"></app-placeholder-summary>
             <div class="summary-content" *ngIf="!loadingSummary">
-                <div class="lign-container" *ngIf="false">
-                    <div class="summary-header">
-                        <div class="group">
-                            <mat-icon>person</mat-icon>
-                            <h5>{{dashboard.login_username | uppercase}} :</h5>
-                            <p>{{userData.username}}</p>
-                        </div>
-                        <div class="group">
-                            <mat-icon>public</mat-icon>
-                            <h5>{{dashboard.model_distribution_location_name | uppercase}} :</h5>
-                            <p>KHM</p> <!-- TODO: get country-->
-                        </div>
-                        <div class="group">
-                                <mat-icon>security</mat-icon>
-                                <h5>{{dashboard.model_user_rights | uppercase}} :</h5>
-                                <p>{{userData.voters.split('ROLE_')[1]}}</p>
-                            </div>
-                    </div>
-                </div>
                 <div class="lign-container">
                     <app-box-dashboard [info]='{icon: "home", color: "green", title:dashboard.dashboard_summary_1, subtitle:summary[0], ref:""}'></app-box-dashboard>
                     <app-box-dashboard [info]='{icon: "project", color: "red", title:dashboard.dashboard_summary_2, subtitle:summary[1], undersubtitle:"",ref:""}'></app-box-dashboard>
@@ -45,8 +26,10 @@
         <h1 class="distribution-title">{{dashboard.dashboard_recent_distributions | titlecase}}</h1>
         <app-placeholder-panel *ngIf='loadingTable' class="distribution-content-placeholder"></app-placeholder-panel>
         <div class="distribution-content" *ngIf='!loadingTable'>
-            <app-table-dashboard *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-dashboard>
-            <app-table-mobile-dashboard *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-mobile-dashboard>
+            <app-table-dashboard *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit'
+                [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-dashboard>
+            <app-table-mobile-dashboard *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit'
+                [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-mobile-dashboard>
         </div>
     </div>
 </div>

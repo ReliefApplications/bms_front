@@ -23,6 +23,8 @@ export class BoxPropertiesComponent {
     public numColumns = 0;
     public displayLength: number;
 
+    readonly MAX_PROP_LENGTH = 20;
+
     @HostListener('window:resize', ['$event'])
     onResize(event) {
         this.numberOfColumns();

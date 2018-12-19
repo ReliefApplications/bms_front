@@ -1,19 +1,8 @@
 import { Injectable                                 } from '@angular/core';
-import { of, concat                                         } from 'rxjs';
-
 import { URL_BMS_API                                } from '../../../environments/environment';
-
 import { HttpService                                } from './http.service';
-
 import { DistributionData                           } from '../../model/distribution-data';
-import { Project                                    } from '../../model/project';
-import { Location                                   } from '../../model/location';
-import { Sector                                     } from '../../model/sector';
-import { Beneficiaries                              } from '../../model/beneficiary';
-
 import { ExportService                              } from './export.service';
-import { map } from 'rxjs/operators';
-import { AsyncacheService } from '../storage/asyncache.service';
 
 
 @Injectable({
@@ -25,7 +14,6 @@ export class DistributionService {
     constructor(
         private http: HttpService,
         private exportService: ExportService,
-        private asyncache: AsyncacheService
     ) {
     }
 
@@ -102,5 +90,10 @@ export class DistributionService {
     public exportSample(sample: any, extensionType: string) {
         return this.exportService.export('distributionSample', true, extensionType, {sample: sample});
 
+    }
+
+    public checkProgression(id: number) {
+        const url = this.api + '/transaction/distribution/' + id + '/progression';
+        return this.http.get(url);
     }
 }

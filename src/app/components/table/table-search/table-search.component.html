@@ -3,7 +3,7 @@
     <div *ngIf="filled==false" class="noDataContainer">
         <h3>
             <mat-icon>clear</mat-icon>
-            No data available
+            {{table.no_data}}
         </h3>
     </div>
 
@@ -34,20 +34,22 @@
         <ng-container matColumnDef="actions">
             <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
             <td mat-cell class="content-cell" *matCellDef="let element">
-                <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
+                <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton" *ngIf="entityIsUser()" [matTooltip]="table.settings_log_button">
+                    <mat-icon>history</mat-icon>
+                </button>
+                <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green" [matTooltip]="table.details">
                     <mat-icon>search</mat-icon>
                 </button>
-                <button *ngIf="editable && checkEntityUpdateRights() && rights" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()"
+                <button *ngIf="editable && checkEntityUpdateRights() && rights" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()" [matTooltip]="table.update"
                     class="light-red">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button *ngIf="editable && rights" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
+                <button *ngIf="editable && rights && deletable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="table.delete"
                     class="red">
                     <mat-icon>delete_outline</mat-icon>
                 </button>
             </td>
         </ng-container>
-
         <tr mat-header-row *matHeaderRowDef="propertiesActions" class="header-row"></tr>
         <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row cursor-pointer"
             (click)="openDialog('details', element)"></tr>
@@ -57,7 +59,7 @@
         <div class="loadingContent">
             <h4 class="no-data">
                 <mat-icon>cloud_off</mat-icon>
-                <span> No data </span>
+                <span> {{table.no_data}} </span>
             </h4>
         </div>
     </div>

@@ -21,6 +21,7 @@ import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
 })
 export class BeneficiariesImportComponent implements OnInit {
     public nameComponent = 'beneficiaries_import_title';
+    public language = GlobalText.language;
     public household = GlobalText.TEXTS;
     loadingExport = false;
 
@@ -71,11 +72,11 @@ export class BeneficiariesImportComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        let voters;
+        let rights;
         this._cacheService.get('user').subscribe(
             result => {
-                voters = result.voters;
-                if (voters != "ROLE_ADMIN" && voters != 'ROLE_PROJECT_MANAGER' && voters != "ROLE_PROJECT_OFFICER") {
+                rights = result.rights;
+                if (rights != "ROLE_ADMIN" && rights != 'ROLE_PROJECT_MANAGER' && rights != "ROLE_PROJECT_OFFICER") {
                     this.snackBar.open(this.household.forbidden_message, '', { duration: 5000, horizontalPosition: 'center' });
                     this.router.navigate(['']);
                 }
@@ -102,6 +103,9 @@ export class BeneficiariesImportComponent implements OnInit {
     ngDoCheck() {
         if (this.household !== GlobalText.TEXTS) {
             this.household = GlobalText.TEXTS;
+        }
+        else if(this.language !== GlobalText.language) {
+            this.language = GlobalText.language;
         }
     }
 
@@ -189,7 +193,6 @@ export class BeneficiariesImportComponent implements OnInit {
                 this.router.navigate(['/beneficiaries/import/data-validation']);
             }, (err) => {
                 this.load = false;
-                this.snackBar.open(err.message, '', { duration: 5000, horizontalPosition: 'center' });
             })
                 .catch(
                     () => {

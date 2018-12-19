@@ -3,7 +3,7 @@
     <div class="noDataContainer" *ngIf="!filled">
         <h3>
             <mat-icon>clear</mat-icon>
-            No data available
+            {{table.no_data}}
         </h3>
     </div>
     <div *ngIf="filled" class="container-header">
@@ -40,7 +40,7 @@
                     class="light-red">
                     <mat-icon inline=true>edit</mat-icon>
                 </button>
-                <button mat-button *ngIf="editable && rights" (click)="openDialog('delete', element); $event.stopPropagation()"
+                <button mat-button *ngIf="editable && rights && deletable" (click)="openDialog('delete', element); $event.stopPropagation()"
                     class="red">
                     <mat-icon inline=true>close</mat-icon>
                 </button>
@@ -50,7 +50,7 @@
             <div class="loadingContent">
                 <h4 class="no-data">
                     <mat-icon>cloud_off</mat-icon>
-                    <span> No data </span>
+                    <span> {{table.no_data}} </span>
                 </h4>
             </div>
         </div>

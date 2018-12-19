@@ -23,7 +23,7 @@ import { delay, finalize } from 'rxjs/operators';
     styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
-    public nameComponent = 'project_title';
+    public nameComponent = 'projects';
     public distribution = GlobalText.TEXTS;
     public language = GlobalText.language;
     loadingExport = false;
@@ -87,7 +87,7 @@ export class ProjectComponent implements OnInit {
     ngDoCheck() {
         if (this.distribution !== GlobalText.TEXTS) {
             this.distribution = GlobalText.TEXTS;
-            this.nameComponent = GlobalText.TEXTS.distribution_title;
+            this.nameComponent = GlobalText.TEXTS.distributions;
         }
 
         if (this.language !== GlobalText.language)
@@ -206,20 +206,15 @@ export class ProjectComponent implements OnInit {
                 let exists: boolean = false;
 
                 this.projects.forEach(element => {
-                    if (element.name == data.name) {
+                    if (element.name.toLowerCase() == data.name.toLowerCase()) {
                         this.snackBar.open(this.distribution.settings_project_exists, '', { duration: 5000, horizontalPosition: 'right' });
                         exists = true;
                         return;
                     }
                 });
 
-                if (exists == false) {
-                    this.projectService.create(data['id'], data).subscribe(
-                        response => {
-                            this.getProjects();
-                        },
-                    );
-                }
+                if (exists == false)
+                    this.createElement(data);
             }
         );
         dialogRef.afterClosed().subscribe(
@@ -229,14 +224,22 @@ export class ProjectComponent implements OnInit {
         );
     }
 
+    createElement(createElement: Object) {
+        createElement = Project.formatForApi(createElement);
+        this.projectService.create(createElement['id'], createElement).subscribe(response => {
+            this.snackBar.open("Project " + this.distribution.settings_created, '', { duration: 5000, horizontalPosition: 'right' });
+            this.getProjects();
+        });
+    }
+
     checkPermission() {
         this._cacheService.getUser().subscribe(
             result => {
-                const voters = result.voters;
-                if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER')
+                const rights = result.rights;
+                if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER')
                     this.hasRights = true;
 
-                if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_PROJECT_OFFICER")
+                if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == "ROLE_PROJECT_OFFICER")
                     this.hasRightsEdit = true;
             }
         )

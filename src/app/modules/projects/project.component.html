@@ -1,9 +1,9 @@
 <div class="page-container">
     <div class="container-title">
-        <h2>{{distribution.menu_projects | titlecase}}</h2>
+        <h2>{{distribution.projects | titlecase}}</h2>
         <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
         <button mat-stroked-button class="button-text-accent" *ngIf="!loadingCreation && hasRights" (click)="openNewProjectDialog()">
-            <span>NEW</span>
+            <span>{{distribution.new | uppercase}}</span>
         </button>
     </div>
     <app-placeholder-boxline *ngIf="loadingProjects && projects != undefined" class="container-boxes"></app-placeholder-boxline>
@@ -16,7 +16,7 @@
                 <div class="loadingContent">
                     <h4 class="no-data">
                         <mat-icon>cloud_off</mat-icon>
-                        <span> No data </span>
+                        <span> {{distribution.no_data}} </span>
                     </h4>
                 </div>
             </div>
@@ -29,7 +29,7 @@
             <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService"
                 [componentDisplayed]="selectedProject"></app-box-properties>
             <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
-                <h3>{{ distribution.projects_distribution_title }}</h3>
+                <h3>{{ distribution.distributions }}</h3>
                 <div [ngClass]="{'add-buttons': language != 'ar', 'add-buttons-arabic': language == 'ar'}">
                     <button mat-fab *ngIf="hasRights" (click)="addDistribution()" class="add-button">
                         <mat-icon>add</mat-icon>
@@ -38,11 +38,11 @@
                 <div class="action-buttons" *ngIf="distributionData && distributionData.data.length>0">
                     <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
-                        <span>{{distribution.beneficiaries_export | uppercase}}</span>
+                        <span>{{distribution.export | uppercase}}</span>
                     </button>
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension" *ngIf="!loadingExport">
-                        <div mat-button class="dropdown" [matMenuTriggerFor]="exportType">
+                        <div mat-button class="dropdown" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':language==='ar'}">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </div>
                         <mat-menu #exportType>
@@ -52,6 +52,8 @@
                             </button>
                             <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
                             </button>
+                            <button mat-menu-item (click)="setType('pdf')"> .pdf <mat-icon *ngIf="extensionType=='pdf'">done</mat-icon>
+                            </button>
                         </mat-menu>
                     </div>
                 </div>
@@ -59,20 +61,20 @@
             <div class="undisplay new-project" *ngIf="selectedProject.number_of_households == '0' &&  !noNetworkData">
                 <mat-icon>group_add</mat-icon>
                 <div class="resume">
-                    <p> This project does not contain any household.</p>
+                    <p> {{distribution.project_no_household}}</p>
                 </div>
-                <p> Please add some beneficiaries first ! Then you will be able to manage some distributions...
+                <p> {{distribution.project_add_household}}
                 </p>
                 <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries">
-                    Go to Beneficiaries
+                    {{distribution.project_go_beneficiaries}}
                 </button>
             </div>
             <div class="undisplay empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData && distributionData.data.length==0 && !noNetworkData">
                 <mat-icon>find_in_page</mat-icon>
                 <div class="resume">
-                    <p> This project does not contain any distribution. Create your first one !</p>
+                    <p> {{distribution.project_no_distribution}}</p>
                 </div>
-                <i> Click on <mat-icon>add_circle</mat-icon> </i>
+                <i> {{distribution.project_click}} <mat-icon>add_circle</mat-icon> </i>
             </div>
             <div class="content-table" *ngIf="(distributionData && distributionData.data.length>0) && !noNetworkData">
                 <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit'
@@ -87,7 +89,7 @@
                 <div class="loadingContent">
                     <h4 class="no-data">
                         <mat-icon>cloud_off</mat-icon>
-                        <span> No data </span>
+                        <span> {{distribution.no_data}} </span>
                     </h4>
                 </div>
             </div>
@@ -97,11 +99,11 @@
                     <div class="undisplay new-project">
                         <mat-icon>note_add</mat-icon>
                         <div class="resume">
-                            <p> This country does not contain any project.</p>
+                            <p> {{distribution.project_no_projects}}</p>
                         </div>
-                        <p> Please add some projects first ! Then you will be able to manage some distributions... </p>
+                        <p> {{distribution.project_add}} </p>
                         <button mat-raised-button class="button-background-primary" (click)="openNewProjectDialog()">
-                            Create a new project
+                            {{distribution.project_create}}
                         </button>
                     </div>
                 </div>

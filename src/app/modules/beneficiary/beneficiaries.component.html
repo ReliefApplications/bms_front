@@ -1,6 +1,6 @@
 <div class="page-container">
     <div class="container-title">
-        <h2>{{household.beneficiaries_title | titlecase}}</h2>
+        <h2>{{household.beneficiaries | titlecase}}</h2>
     </div>
     <div  class="container-table">
         <div class="container-content box-green">
@@ -10,7 +10,7 @@
                     <div class="toggled-buttons" [ngClass]="{'toggled':addToggled}">
                         <button mat-raised-button class="button-background-accent" routerLink="/beneficiaries/import">
                             <mat-icon>publish</mat-icon>
-                            <span>{{household.beneficiaries_import | uppercase}}</span>
+                            <span>{{household.import | uppercase}}</span>
                         </button>
                         <button mat-raised-button class="button-background-accent" (click)="addOneHousehold()">
                             <mat-icon>group_add</mat-icon>
@@ -26,9 +26,9 @@
                     <div class="extension" *ngIf='hasRightsExport && !loadingExport'>
                         <button mat-raised-button class="button-background-primary" (click)="export()">
                             <mat-icon>get_app</mat-icon>
-                            <span>{{household.beneficiaries_export | uppercase}}</span>
+                            <span>{{household.export | uppercase}}</span>
                         </button>
-                        <div mat-button class="dropdown" [matMenuTriggerFor]="exportType">
+                        <div mat-button class="dropdown" [ngClass]="{'arabic':language==='ar'}" [matMenuTriggerFor]="exportType">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </div>
                         <mat-menu #exportType>
@@ -37,6 +37,8 @@
                             <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
                             </button>
                             <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
+                            </button>
+                            <button mat-menu-item (click)="setType('pdf')"> .pdf <mat-icon *ngIf="extensionType=='pdf'">done</mat-icon>
                             </button>
                         </mat-menu>
                     </div>
@@ -60,11 +62,11 @@
 
 <ng-template #addBeneficiaries>
     <mat-dialog-content class="modal-container">
-        <h4 class="modal-title underline-accent">Add beneficiaries to this distribution</h4>
+        <h4 class="modal-title underline-accent">{{household.beneficiaries_add_distribution}}</h4>
         <div class="dialog-template">
             <div class="modal-body">
-                <p> Please select the project(s) in which you would like to add the {{dataSource.length$ | async}}
-                    selected beneficiaries:</p>
+                <p> {{household.beneficiaries_add_project}} {{dataSource.length$ | async}}
+                    {{household.beneficiaries_selected_project}}</p>
                 <div class="selectBeneficiaries">
                     <mat-form-field>
                         <mat-select placeholder="Projects" [formControl]="projectForm" [(ngModel)]="selectedProject">
@@ -76,8 +78,8 @@
                 </div>
             </div>
             <div class="modal-footer action">
-                <button mat-button class="cancel" (click)="dialog.closeAll()">Cancel</button>
-                <button mat-raised-button class="confirm" (click)="confirmAdding()">Confirm</button>
+                <button mat-button class="cancel" (click)="dialog.closeAll()">{{household.cancel}}</button>
+                <button mat-raised-button class="confirm" (click)="confirmAdding()">{{household.transaction_confirm_button}}</button>
             </div>
         </div>
     </mat-dialog-content>

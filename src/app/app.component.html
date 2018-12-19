@@ -6,38 +6,37 @@
                 <img src="assets/images/bms_logo.png" mat-list-icon>
             </mat-list-item>
             <mat-list-item [ngClass]="{selected: !currentComponent}" routerLink="/" (click)="setCurrentRoute(''); toggle(sidenav)">
-                <span class="full-width" *ngIf="isShowing">{{menu.menu_home | titlecase}}</span>
+                <span class="full-width" *ngIf="isShowing">{{menu.home | titlecase}}</span>
                 <mat-icon mat-list-icon>home</mat-icon>
             </mat-list-item>
-            <mat-list-item [ngClass]="{selected: currentComponent==='project_title'}" routerLink="/projects" (click)="setCurrentRoute('projects'); toggle(sidenav)">
-                <span class="full-width" *ngIf="isShowing">{{menu.menu_projects | titlecase}}</span>
+            <mat-list-item [ngClass]="{selected: currentComponent==='projects'}" routerLink="/projects" (click)="setCurrentRoute('projects'); toggle(sidenav)">
+                <span class="full-width" *ngIf="isShowing">{{menu.projects | titlecase}}</span>
                 <mat-icon mat-list-icon>assignment</mat-icon>
             </mat-list-item>
-            <mat-list-item [ngClass]="{selected: currentComponent==='beneficiaries_title'}" routerLink="/beneficiaries"
+            <mat-list-item [ngClass]="{selected: currentComponent==='beneficiaries'}" routerLink="/beneficiaries"
                 (click)="setCurrentRoute('beneficiaries'); toggle(sidenav)">
-                <span class="full-width" *ngIf="isShowing">{{menu.menu_beneficiaries | titlecase}}</span>
+                <span class="full-width" *ngIf="isShowing">{{menu.beneficiaries | titlecase}}</span>
                 <mat-icon mat-list-icon>supervisor_account</mat-icon>
             </mat-list-item>
-            <mat-list-item [ngClass]="{selected: currentComponent==='report_title'}" routerLink="/reports" (click)="setCurrentRoute('reports'); toggle(sidenav)">
-                <span class="full-width" *ngIf="isShowing">{{menu.menu_reports | titlecase}}</span>
+            <mat-list-item [ngClass]="{selected: currentComponent==='reports'}" routerLink="/reports" (click)="setCurrentRoute('reports'); toggle(sidenav)">
+                <span class="full-width" *ngIf="isShowing">{{menu.reports | titlecase}}</span>
                 <mat-icon mat-list-icon>timeline</mat-icon>
             </mat-list-item>
-            <mat-list-item *ngIf="hasRights" [ngClass]="{selected: currentComponent==='settings_title'}" routerLink="/settings"
+            <mat-list-item *ngIf="hasRights" [ngClass]="{selected: currentComponent==='settings'}" routerLink="/settings"
                 (click)="setCurrentRoute('settings'); toggle(sidenav)">
-                <span class="full-width" *ngIf="isShowing">{{menu.menu_settings | titlecase}}</span>
+                <span class="full-width" *ngIf="isShowing">{{menu.settings | titlecase}}</span>
                 <mat-icon mat-list-icon>settings</mat-icon>
             </mat-list-item>
         </mat-nav-list>
     </mat-sidenav>
 
-
     <mat-sidenav-content class="page-content-wrapper" [ngClass]="{margin: !smallScreenMode && user.loggedIn}">
         <mat-toolbar *ngIf="!smallScreenMode && user.loggedIn">
-            <app-header (emitLogOut)="onLogOut($event)"></app-header>
+            <app-header (emitLogOut)="onLogOut($event)" [userData]="user"></app-header>
         </mat-toolbar>
         <mat-toolbar *ngIf="smallScreenMode && user.loggedIn" class="mobile">
             <app-header-mobile (emitLogOut)="onLogOut($event)" (emitCurrentRoute)="setCurrentRoute($event)"
-                (emitToggle)="sidenav.toggle()"></app-header-mobile>
+                (emitToggle)="sidenav.toggle()" [userData]="user"></app-header-mobile>
         </mat-toolbar>
         <router-outlet (activate)="onActivate($event)"></router-outlet>
     </mat-sidenav-content>

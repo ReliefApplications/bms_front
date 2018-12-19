@@ -23,6 +23,7 @@ import { DistributionService } from '../../core/api/distribution.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { HouseholdsService } from 'src/app/core/api/households.service';
+import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 
 @Component({
     selector: 'app-table',
@@ -85,6 +86,7 @@ export class TableComponent implements OnChanges, DoCheck {
         public snackBar: MatSnackBar,
         public authenticationService: AuthenticationService,
         public _wsseService: WsseService,
+        public financialProviderService: FinancialProviderService,
         public distributionService: DistributionService,
         public locationService: LocationService,
         public householdsService: HouseholdsService
@@ -379,6 +381,17 @@ export class TableComponent implements OnChanges, DoCheck {
                 });
             }
         }
+        else if (this.entity.__classname__ == 'Financial Provider' && updateElement) {
+            const salted = btoa(updateElement['password']);
+            updateElement['password'] = salted;
+
+            this.service.update(updateElement).subscribe(response => {
+                this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated, '', { duration: 5000, horizontalPosition: 'right' });
+                this.updateData();
+            }, error => {
+                // console.error("err", error);
+            });
+        }
         else {
             this.service.update(updateElement['id'], updateElement).subscribe(response => {
                 this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated, '', { duration: 5000, horizontalPosition: 'right' });
@@ -414,16 +427,16 @@ export class TableComponent implements OnChanges, DoCheck {
         const table = GlobalText.TEXTS;
 
         if (length === 0 || pageSize === 0) { return `0 ` + table.table_of_page + ` ${length}`; }
-    
+
         length = Math.max(length, 0);
-    
+
         const startIndex = page * pageSize;
-    
+
         // If the start index exceeds the list length, do not try and fix the end index to the end.
         const endIndex = startIndex < length ?
             Math.min(startIndex + pageSize, length) :
             startIndex + pageSize;
-    
+
         return `${startIndex + 1} - ${endIndex} ` + table.table_of_page + ` ${length}`;
     }
 }

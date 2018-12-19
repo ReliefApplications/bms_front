@@ -27,8 +27,8 @@
                         </mat-form-field>
                         <mat-radio-group class="typeDistribution" (change)="typeDistributionOnChange($event)" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'"
                             [(ngModel)]="newObject[p]">
-                            <mat-radio-button checked='true' color="warn" value="Household" disabled='false'>Household</mat-radio-button>
-                            <mat-radio-button color="warn" value="Beneficiary">Beneficiary</mat-radio-button>
+                            <mat-radio-button checked='true' color="warn" value="Household" disabled='false'>{{distribution.households}}</mat-radio-button>
+                            <mat-radio-button color="warn" value="Beneficiary">{{distribution.beneficiaries}}</mat-radio-button>
                         </mat-radio-group>
                     </mat-expansion-panel>
                 </mat-accordion>
@@ -39,7 +39,7 @@
                 <div class="text">
                     <h1 class="title">{{distribution.add_distribution_selection_criteria | titlecase}}</h1>
                     <button mat-stroked-button class="button-text-accent" (click)="openDialog(criteriaAction)">
-                        <span>ADD</span>
+                        <span>{{ distribution.add | uppercase }}</span>
                     </button>
                 </div>
 
@@ -78,7 +78,7 @@
                 <div class="text">
                     <h1 class="title">{{distribution.add_distribution_distributed_commodity | titlecase}}</h1>
                     <button mat-stroked-button class="button-text-accent" (click)="openDialog(commodityAction)">
-                        <span>ADD</span>
+                        <span>{{ distribution.add | uppercase }}</span>
                     </button>
                 </div>
                 <div class="form" *ngIf="widthScreen > maxWidthMobile">
@@ -86,7 +86,7 @@
                         [data]="commodityData"></app-table-small>
                 </div>
                 <div class="summary" *ngIf="commodityArray.length != 0">
-                    <h3 class="text">
+                    <h3 class="summary-text">
                         <span>{{commodityNb}}</span>{{commodityData.data[0].unit}}
                         {{distribution.add_distribution_commodities_delivered | uppercase}}</h3>
                 </div>
@@ -98,8 +98,8 @@
         </div>
     </div>
     <div class="container-buttons">
-        <button mat-button (click)="cancel()" class="button-cancel">{{distribution.modal_cancel}}</button>
+        <button mat-button (click)="cancel()" class="button-cancel">{{distribution.cancel}}</button>
         <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
-        <button mat-button *ngIf="!loadingCreation" (click)="add()" class="button-create">{{distribution.modal_create}}</button>
+        <button mat-button *ngIf="!loadingCreation" (click)="add()" class="button-create">{{distribution.create}}</button>
     </div>
 </div>

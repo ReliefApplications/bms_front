@@ -78,6 +78,11 @@
                         margin-right: 10px;
                     }
                 }
+
+                button mat-icon {
+                    margin-left: 10px;
+                    margin-right: 10px;
+                }
             }
 
             .content-table {
@@ -162,6 +167,9 @@
 
         button {
             margin-bottom: 10px;
+            mat-icon {
+                margin-left: 10px;
+            }
         }
     }
     .toggled {
@@ -170,7 +178,7 @@
     }
 
     .add-button {
-        float: right;
+        float: left;
         background-color: $bms_red !important;
     }
 }
@@ -229,6 +237,16 @@
             box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3);
             display: flex;
             justify-content: center;
+
+            &.arabic {
+                border-top-right-radius: 0px;
+                border-bottom-right-radius: 0px;
+                border-top-left-radius: 2px;
+                border-bottom-left-radius: 2px;
+                border-right: solid 1px $bms_white;
+                border-left: none;
+
+            }
             &:hover {
                 cursor: pointer;
             }

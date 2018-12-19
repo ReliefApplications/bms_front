@@ -27,7 +27,7 @@
     <mat-spinner [diameter]="35" *ngIf="loadFile"></mat-spinner>
     <button mat-raised-button class="upload-button" (click)="updateDistribution(1)" *ngIf="csv && !loadFile">
       <mat-icon>publish</mat-icon>
-      <span>{{TEXT.beneficiaries_import_upload | uppercase }}</span>
+      <span>{{TEXT.import | uppercase }}</span>
     </button>
   </div>
 </div>
@@ -109,7 +109,7 @@
   </mat-tab-group>
   <div *ngIf="noChanges" class="no-data-box">
     <h2 class="box-title">
-       No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.
+       {{TEXT.distribution_no_beneficiaries}}
      </h2>
   </div>
 
@@ -117,11 +117,11 @@
   <div class="footer-content"  *ngIf="! loadUpdate">
     <button mat-button class="button-text-accent" (click)="goBack()">
       <mat-icon>arrow_back</mat-icon>
-      <span>Back</span>
+      <span>{{TEXT.back}}</span>
     </button>
     <button mat-raised-button class="button-background-accent" (click)="updateDistribution(2)">
       <mat-icon>check_circle</mat-icon>
-      <span>Update</span>
+      <span>{{TEXT.distribution_accept_changed}}</span>
     </button>
   </div>
 </div>

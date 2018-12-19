@@ -3,10 +3,10 @@
     <div class="noDataContainer" *ngIf="!filled">
         <h3>
             <mat-icon>clear</mat-icon>
-            No data available
+            {{table.no_data}}
         </h3>
     </div>
-    <table *ngIf="filled && data.data" mat-table [dataSource]="data" matSort matSortActive="date_distribution"
+    <table *ngIf="filled && data && data.data" mat-table [dataSource]="data" matSort matSortActive="date_distribution"
         matSortDirection="desc">
         <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>{{mapperService.mapTitle(property)}}</th>
@@ -27,15 +27,15 @@
                 <div class="validated-distribution" *ngIf="element.validated" routerLink="/projects/distributions/{{element.id}}">
                     <mat-icon>done</mat-icon>
                 </div>
-                <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('details', element); $event.stopPropagation()"
+                <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('details', element); $event.stopPropagation()" [matTooltip]="table.details"
                     class="green">
                     <mat-icon>search</mat-icon>
                 </button>
-                <button mat-icon-button *ngIf="checkItemStateRights(element) && rightsEdit" (click)="openDialog('update', element); $event.stopPropagation()"
+                <button mat-icon-button *ngIf="checkItemStateRights(element) && rightsEdit" (click)="openDialog('update', element); $event.stopPropagation()" [matTooltip]="table.update"
                     class="light-red">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button *ngIf="checkItemStateRights(element) && rights" (click)="openDialog('delete', element); $event.stopPropagation()"
+                <button mat-icon-button *ngIf="checkItemStateRights(element) && rights" (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="table.delete"
                     class="red">
                     <mat-icon>delete_outline</mat-icon>
                 </button>
@@ -47,11 +47,11 @@
             (click)="openDialog('details', element)"></tr>
     </table>
 
-    <div class="no-data-container" *ngIf="!data || !data.data || data._data._value == null">
+    <div class="no-data-container" *ngIf="!data || !data.data || data._data._value == null || data.data.length === 0">
         <div class="loadingContent">
             <h4 class="no-data">
                 <mat-icon>cloud_off</mat-icon>
-                <span> No data </span>
+                <span> {{table.no_data}} </span>
             </h4>
         </div>
     </div>

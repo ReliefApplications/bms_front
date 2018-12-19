@@ -50,7 +50,6 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     public commodityArray = [];
     public commodityData = new MatTableDataSource([]);
     public commodityNb: number = 0;
-    public saveCommodityNb: number = 0;
 
     public maxHeight = GlobalText.maxHeight;
     public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -242,7 +241,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         if (this.distribution !== GlobalText.TEXTS) {
             this.distribution = GlobalText.TEXTS;
             this.mapperObject = this.mapper.findMapperObject(this.entity);
-            this.nameComponent = GlobalText.TEXTS.distribution_title;
+            this.nameComponent = GlobalText.TEXTS.distributions;
             this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
         }
     }
@@ -264,7 +263,9 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
             this.load = true;
             this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
-                this.commodityNb = this.saveCommodityNb * this.criteriaNbBeneficiaries;
+                if (this.commodityArray.length > 0) {
+                    this.commodityNb = this.commodityArray[0].value * this.criteriaNbBeneficiaries;
+                }
                 this.load = false;
 
             });
@@ -286,7 +287,8 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
             this.load = true;
             this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
-                this.commodityNb = this.saveCommodityNb * this.criteriaNbBeneficiaries;
+                if (this.commodityArray.length > 0)
+                    this.commodityNb = this.commodityArray[0].value * this.criteriaNbBeneficiaries;
                 this.load = false;
 
             });
@@ -444,7 +446,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 const promise = this._distributionService.add(newDistribution);
                 if (promise) {
                     promise.toPromise().then(response => {
-                        this.snackBar.open(this.distribution.add_distribution_distribution + response.distribution.name + this.distribution.add_distribution_created, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.distribution.report_distribution + ' : ' + response.distribution.name + this.distribution.add_distribution_created, '', { duration: 5000, horizontalPosition: 'center' });
                         this.router.navigate(['projects/distributions/' + response.distribution.id]);
                     });
                 } else {
@@ -499,14 +501,14 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
             this.criteriaArray.push(createElement);
             this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
-                this.commodityNb = this.saveCommodityNb * this.criteriaNbBeneficiaries;
-
+                if (this.commodityArray.length > 0) 
+                    this.commodityNb = this.commodityArray[0].value * this.criteriaNbBeneficiaries;
                 this.load = false;
             });
             this.criteriaData = new MatTableDataSource(this.criteriaArray);
         } else if (user_action === this.commodityAction) {
             this.commodityArray.push(createElement);
-            this.sumCommodities(createElement);
+            this.commodityNb = this.commodityArray[0].value * this.criteriaNbBeneficiaries;
             this.commodityData = new MatTableDataSource(this.commodityArray);
         }
     }
@@ -528,29 +530,9 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
             if (index > -1) {
                 this.commodityArray.splice(index, 1);
 
-                this.saveCommodityNb -= removeElement['value'];
-                this.commodityNb = this.saveCommodityNb * this.criteriaNbBeneficiaries;
-
-                if (this.commodityNb <= 0) {
-                    this.commodityNb = 0;
-                }
-
                 this.commodityData = new MatTableDataSource(this.commodityArray);
             }
         }
-    }
-
-    /**
-     * add the number of all commodites to display the total
-     * @param createElement
-     */
-    sumCommodities(createElement: Object) {
-        const value = parseInt(createElement['value'], 10);
-        if (value) {
-            this.saveCommodityNb += value;
-        }
-
-        this.commodityNb = this.saveCommodityNb * this.criteriaNbBeneficiaries;
     }
 
     getProjectDates() {

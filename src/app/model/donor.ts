@@ -155,8 +155,8 @@ export class Donor {
         return {
             fullname: GlobalText.TEXTS.model_donor_fullname,
             shortname: GlobalText.TEXTS.model_donor_shortname,
-            notes: GlobalText.TEXTS.model_donor_notes,
-            projects_name: GlobalText.TEXTS.model_donor_projects_name,
+            notes: GlobalText.TEXTS.model_notes,
+            projects_name: GlobalText.TEXTS.projects,
         }
     }
 

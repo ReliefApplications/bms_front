@@ -3,7 +3,7 @@
     <div *ngIf="filled==false" class="noDataContainer">
         <h3>
             <mat-icon>clear</mat-icon>
-            No data available
+            {{table.no_data}}
         </h3>
     </div>
 
@@ -31,14 +31,14 @@
         <ng-container matColumnDef="actions">
             <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
             <td mat-cell class="content-cell" *matCellDef="let element">
-                <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
+                <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green" [matTooltip]="table.details">
                     <mat-icon>search</mat-icon>
                 </button>
-                <button *ngIf="editable && checkEntityUpdateRights()" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()"
+                <button *ngIf="editable && checkEntityUpdateRights()" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()" [matTooltip]="table.update"
                     class="light-red">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button *ngIf="editable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
+                <button *ngIf="editable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="table.delete"
                     class="red">
                     <mat-icon>delete_outline</mat-icon>
                 </button>
@@ -53,7 +53,7 @@
         <div class="loadingContent">
             <h4 class="no-data">
                 <mat-icon>cloud_off</mat-icon>
-                <span> No data </span>
+                <span> {{table.no_data}} </span>
             </h4>
         </div>
     </div>

@@ -3,7 +3,7 @@
     <div class="noDataContainer" *ngIf="!filled">
         <h3>
             <mat-icon>clear</mat-icon>
-            No data available
+            {{table.no_data}}
         </h3>
     </div>
     <div class="container-header" *ngIf="filled">
@@ -34,14 +34,14 @@
                     <mat-icon>done</mat-icon>
                 </div>
                 <div class="unvalidated-distribution" *ngIf="!element.validated">
-                    <button mat-icon-button class="green" routerLink="/projects/distributions/{{element.id}}">
+                    <button mat-icon-button class="green" routerLink="/projects/distributions/{{element.id}}" [matTooltip]="table.details">
                         <mat-icon>search</mat-icon>
                     </button>
-                    <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rightsEdit"
+                    <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rightsEdit" [matTooltip]="table.update"
                         class="light-red" (click)="openDialog('update', element); $event.stopPropagation()">
                         <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rights"
+                    <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rights" [matTooltip]="table.delete"
                         class="red" (click)="openDialog('delete', element); $event.stopPropagation()">
                         <mat-icon>delete_outline</mat-icon>
                     </button>
@@ -58,7 +58,7 @@
         <div class="loadingContent">
             <h4 class="no-data">
                 <mat-icon>cloud_off</mat-icon>
-                <span> No data </span>
+                <span> {{table.no_data}} </span>
             </h4>
         </div>
     </div>

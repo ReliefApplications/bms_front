@@ -73,7 +73,6 @@ export class AppComponent {
         }
 
         dialogRef.afterClosed().subscribe(result => {
-            // console.log('The dialog was closed');
         });
     }
 
@@ -143,22 +142,20 @@ export class AppComponent {
      * Changes the name of the new component to actualize menu etc.
      */
     refreshCurrentComponent(e) {
-        // console.log('changed : ', e.nameComponent);
-
-        if (e.nameComponent === 'project_title' || e.nameComponent === 'beneficiaries_title'
-            || e.nameComponent === 'report_title' || e.nameComponent === 'settings_title' || e.nameComponent === 'login') {
+        if (e.nameComponent === 'projects' || e.nameComponent === 'beneficiaries'
+            || e.nameComponent === 'reports' || e.nameComponent === 'settings' || e.nameComponent === 'login') {
             this.currentComponent = e.nameComponent;
         }
         else if (e.nameComponent === 'dashboard_title') {
             this.currentComponent = null;
         } else {
-            if(!this.hasRights && e.nameComponent !== 'profile_title' && e.nameComponent !== 'distribution_title') {
+            if(!this.hasRights && e.nameComponent !== 'profile_title' && e.nameComponent !== 'distributions') {
                 this.router.navigate(['']);
                 e.nameComponent = '';
             }
         }
 
-        if (!this.hasRights && e.nameComponent === 'settings_title') {
+        if (!this.hasRights && e.nameComponent === 'settings') {
             this.router.navigate(['']);
             e.nameComponent = '';
         }
@@ -183,9 +180,9 @@ export class AppComponent {
      * @param cachedUser
      */
     checkPermission(cachedUser) {
-        if(cachedUser && cachedUser.voters) {
-            const voters = cachedUser.voters;
-            if (voters == "ROLE_ADMIN" || voters == 'ROLE_PROJECT_MANAGER' || voters == "ROLE_COUNTRY_MANAGER")
+        if(cachedUser && cachedUser.rights) {
+            const rights = cachedUser.rights;
+            if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == "ROLE_COUNTRY_MANAGER")
                 this.hasRights = true;
             else
                 this.hasRights = false;

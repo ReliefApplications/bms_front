@@ -16,6 +16,7 @@ export class LeafletService {
 
     private map: any;
     private tiles: any;
+    public static loading : boolean = false;
 
     constructor(
         private _locationService: LocationService,
@@ -63,77 +64,81 @@ export class LeafletService {
 
     //add all layers to show the upcoming distribution in the map dashoard
     addKML() {
-        let country = "KHM";
-        //Check if the map is already created
-        if (this.map) {
+        this._cacheService.get(AsyncacheService.COUNTRY).subscribe(
+            result => {
+                let country = result ? result : "KHM";
+                LeafletService.loading = true;
+                //Check if the map is already created
+                if (this.map) {
 
-            //get in the cache the list of upcoming distribution
-            let upcomingDistribution;
+                    //get in the cache the list of upcoming distribution
+                    let upcomingDistribution;
 
-            this._locationService.getUpcomingDistributionCode().subscribe(
-                result => {
-                    upcomingDistribution = result;
-                    // call the KML file to get the layer
-                    let admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.toLowerCase() + '.kml').on("ready", () => {
-                        // center the map on the appropriate country
-                        let admGroup = Leaflet.featureGroup(admLayers.getLayers());
-                        this.map.fitBounds(admGroup.getBounds());
+                    this._locationService.getUpcomingDistributionCode().subscribe(
+                        result => {
+                            upcomingDistribution = result;
+                            // call the KML file to get the layer
+                            let admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.toLowerCase() + '.kml').on("ready", () => {
+                                // center the map on the appropriate country
+                                let admGroup = Leaflet.featureGroup(admLayers.getLayers());
+                                this.map.fitBounds(admGroup.getBounds());
 
-                        //delete the displaying layer
-                        admLayers.eachLayer(adm => {
-                            adm.setStyle({
-                                opacity: 0,
-                                weight: 0,
-                                fillOpacity: 0
-                            });
-                        });
+                                //delete the displaying layer
+                                admLayers.eachLayer(adm => {
+                                    adm.setStyle({
+                                        opacity: 0,
+                                        weight: 0,
+                                        fillOpacity: 0
+                                    });
+                                });
 
-                        //search in all layer which layer has a code begining with the location code of a upcoming distribution and set a color and a weigth of them
-                        admLayers.eachLayer(function (adm, index) {
-                            if (upcomingDistribution) {
-                                upcomingDistribution.forEach(element => {
-                                    if ((adm.feature.properties.ADM4_PCODE === element.code_location && element.adm_level === "adm4") ||
-                                        (adm.feature.properties.ADM3_PCODE === element.code_location && element.adm_level === "adm3") ||
-                                        (adm.feature.properties.ADM2_PCODE === element.code_location && element.adm_level === "adm2") ||
-                                        (adm.feature.properties.ADM1_PCODE === element.code_location && element.adm_level === "adm1")) {
+                                //search in all layer which layer has a code begining with the location code of a upcoming distribution and set a color and a weigth of them
+                                admLayers.eachLayer(function (adm, index) {
+                                    if (upcomingDistribution) {
+                                        upcomingDistribution.forEach(element => {
+                                            if ((adm.feature.properties.ADM4_PCODE === element.code_location && element.adm_level === "adm4") ||
+                                                (adm.feature.properties.ADM3_PCODE === element.code_location && element.adm_level === "adm3") ||
+                                                (adm.feature.properties.ADM2_PCODE === element.code_location && element.adm_level === "adm2") ||
+                                                (adm.feature.properties.ADM1_PCODE === element.code_location && element.adm_level === "adm1")) {
 
-                                        adm.setStyle({
-                                            color: '#51C9DF', // bms_light_blue
-                                            fillColor: '#51C9DF', // bms_light_blue
-                                            weight: 2,
-                                            fillOpacity: .8,
-                                            opacity: .8
-                                        });
+                                                adm.setStyle({
+                                                    color: '#51C9DF', // bms_light_blue
+                                                    fillColor: '#51C9DF', // bms_light_blue
+                                                    weight: 2,
+                                                    fillOpacity: .8,
+                                                    opacity: .8
+                                                });
 
-                                        let tooltipInformation = '';
-                                        element.distribution.forEach(function (data, index, element) {
-                                            tooltipInformation += "<p> Distribution : " + data.name + "</p>";
-                                            tooltipInformation += "<p> Location : " + data.location_name + "</p>"
+                                                let tooltipInformation = '';
+                                                element.distribution.forEach(function (data, index, element) {
+                                                    tooltipInformation += "<p> Distribution : " + data.name + "</p>";
+                                                    tooltipInformation += "<p> Location : " + data.location_name + "</p>"
 
-                                            //to display a divider between distribution in a same tooltip
-                                            //but don't put divider after thie last element
-                                            if (!Object.is(element.length - 1, index)) {
-                                                tooltipInformation += "<hr>";
+                                                    //to display a divider between distribution in a same tooltip
+                                                    //but don't put divider after thie last element
+                                                    if (!Object.is(element.length - 1, index)) {
+                                                        tooltipInformation += "<hr>";
+                                                    }
+
+                                                })
+
+                                                let tooltip = Leaflet.tooltip({
+                                                    permanent: false,
+                                                    interactive: true
+                                                }, adm).setContent(tooltipInformation);
+                                                adm.bindTooltip(tooltip);
                                             }
-
-                                        })
-
-                                        let tooltip = Leaflet.tooltip({
-                                            permanent: false,
-                                            interactive: true
-                                        }, adm).setContent(tooltipInformation);
-                                        adm.bindTooltip(tooltip);
+                                        });
                                     }
                                 });
-                            }
-                        })
-                    })
-                    admLayers.addTo(this.map);
+                                LeafletService.loading = false;
+                            })
+                            admLayers.addTo(this.map);
+                        }
+                    )
+
                 }
-            )
-
-
-
-        }
+            }
+        );
     }
 }

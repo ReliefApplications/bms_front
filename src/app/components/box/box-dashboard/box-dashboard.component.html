@@ -9,7 +9,7 @@
                 <h4 *ngIf="info.subtitle || info.subtitle == 0" class="info-subtitle">{{info.subtitle}}</h4>
                 <h4 *ngIf="!info.subtitle && info.subtitle !== 0" class="info-subtitle no-data">
                     <mat-icon>cloud_off</mat-icon>
-                    <span> No data </span>
+                    <span> {{box.no_data}} </span>
                 </h4>
             </div>
         </div>

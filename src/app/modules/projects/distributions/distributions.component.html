@@ -248,10 +248,30 @@
                 </div>
             </div>
             <div class="content-button">
-                <button mat-raised-button class="refresh-button" (click)="refreshStatuses()">
+                <!-- <button mat-raised-button class="refresh-button" (click)="refreshStatuses()">
                     <mat-icon>refresh</mat-icon>
                     <span>{{TEXT.transaction_refresh}}</span>
-                </button>
+                </button> -->
+
+                <div class="action-buttons">
+                    <button mat-raised-button class="refresh-button" [matMenuTriggerFor]="menu">
+                        <mat-icon>more_vert</mat-icon>
+                        <span>ACTION</span>
+                    </button>
+                    <div class="extension">
+                        <mat-menu #menu class="extMenu">
+                            <button mat-menu-item (click)="refreshStatuses()">
+                                <mat-icon>refresh</mat-icon>
+                                <span class="text-button">{{TEXT.transaction_refresh}}</span>
+                            </button>
+                            <button mat-menu-item *ngIf="hasRights" (click)="requestLogs()">
+                                <mat-icon>history</mat-icon>
+                                <span class="text-button">{{TEXT.distribution_request_logs}}</span>
+                            </button>
+                        </mat-menu>
+                    </div>
+                </div>
+
                 <div class="action-buttons">
                     <button mat-raised-button class="refresh-button" (click)="exportTransaction()" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
@@ -274,10 +294,10 @@
                         </mat-menu>
                     </div>
                 </div>
-                <button mat-raised-button class="request-logs button-background-primary" *ngIf="hasRights" (click)="requestLogs()">
+                <!-- <button mat-raised-button class="request-logs button-background-primary" *ngIf="hasRights" (click)="requestLogs()">
                     <mat-icon>history</mat-icon>
                     <span>{{TEXT.distribution_request_logs}}</span>
-                </button>
+                </button> -->
             </div>
             <div class="waitingDataContainer" *ngIf="loadingTransaction">
                 <mat-spinner></mat-spinner>

@@ -11,6 +11,9 @@
     </div>
     <div class="container-buttons">
         <div class="buttons">
+            <button mat-icon-button color=primary [matTooltip]="tooltip">
+                <mat-icon>help_outline</mat-icon>
+            </button>
             <button mat-stroked-button class="button-language" (click)="openDialog('language')">
                 {{language | uppercase}}
             </button>

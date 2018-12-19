@@ -32,6 +32,9 @@ export class HeaderComponent implements OnInit {
         'name': this.header.home
     }];
 
+    // Tooltip
+    public tooltip;
+
     constructor(
         public dialog: MatDialog,
         public router: Router,
@@ -46,7 +49,7 @@ export class HeaderComponent implements OnInit {
                     this.currentRoute = this.currentRoute.substring(0, this.currentRoute.indexOf('?'));
                 }
                 this.updateBreadcrumb();
-
+                this.updateTooltip();
             }
         })
     }
@@ -55,6 +58,7 @@ export class HeaderComponent implements OnInit {
         this.language = GlobalText.language;
         this.userData = new User(this.userData);
         this.getCorrectCountries();
+        this.updateTooltip();
 
         if(this.breadcrumb.length === 1) {
             this.currentRoute = this.router.url;
@@ -69,6 +73,7 @@ export class HeaderComponent implements OnInit {
         if (this.header !== GlobalText.TEXTS) {
             this.header = GlobalText.TEXTS;
             this.updateBreadcrumb();
+            this.updateTooltip();
         }
 
         if(this.language !== GlobalText.language) {
@@ -176,6 +181,19 @@ export class HeaderComponent implements OnInit {
                 }
             }
         });
+    }
+
+    /**
+     * Update the text of the tooltip
+     */
+    updateTooltip() {
+        let parsedRoute = this.currentRoute.split('/').filter(element => isNaN(parseInt(element)));
+        const page = parsedRoute[parsedRoute.length - 1];
+
+        if (page == '')
+            this.tooltip = this.header["tooltip_dashboard"];
+        else
+            this.tooltip = this.header["tooltip_" + page.replace('-', '_')];
     }
 
     logOut(): void {

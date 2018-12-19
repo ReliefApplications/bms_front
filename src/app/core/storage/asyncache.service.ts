@@ -1,11 +1,11 @@
 import { Injectable }                   from '@angular/core';
 import { LocalStorage }                 from '@ngx-pwa/local-storage';
 import { CachedItemInterface }          from './cached-item.interface';
-import { map, concat } from 'rxjs/operators';
+import { map, concat, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { HttpClient } from '@angular/common/http';
-import { StoredRequestInterface } from 'src/app/model/stored-request';
+import { StoredRequestInterface, failedRequestInterface } from 'src/app/model/stored-request';
 
 @Injectable({
 	providedIn: 'root'
@@ -252,7 +252,19 @@ export class AsyncacheService {
                             (request:StoredRequestInterface) => {
                                 let method : Observable<any>;
     
-                                method = this.useMethod(request);
+                                method = this.useMethod(request)
+                                .pipe(
+                                    catchError(
+                                        error => {
+                                            const failedRequest : failedRequestInterface = {
+                                                fail: true,
+                                                request: request,
+                                                error: error,
+                                            }
+                                            return of(failedRequest);
+                                        }
+                                    )
+                                );
                                 if(method) {
                                     if(!totalObs) {
                                         totalObs = method;

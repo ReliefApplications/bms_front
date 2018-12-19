@@ -88,7 +88,7 @@
     </div>
 
     <div class="modal-button action-buttons" cdkFocusRegionstart>
-        <button mat-raised-button class="send-all button-background-accent" (click)="sendAllRequests()" *ngIf="!inProgress">Send All</button>
         <button mat-button (click)="closeDialog()" class="button-text-accent">{{TEXTS.modal_leave}}</button>
+        <button mat-raised-button class="send-all button-background-accent" (click)="sendAllRequests()" *ngIf="!inProgress">Send All</button>
     </div>
 </mat-dialog-content>

@@ -6,3 +6,9 @@ export interface StoredRequestInterface {
     options: any;
     date: Date;
 }
+
+export interface failedRequestInterface {
+    fail: boolean,
+    request: StoredRequestInterface,
+    error: any,
+}

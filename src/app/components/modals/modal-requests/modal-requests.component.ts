@@ -4,7 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { StoredRequestInterface } from 'src/app/model/stored-request';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { timer } from 'rxjs';
+import { timer, of } from 'rxjs';
+import { switchMap, catchError, map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-modal-requests',
@@ -66,7 +67,6 @@ export class ModalRequestsComponent implements OnInit {
 
     formatDate(date: Date): string {
         let formated: string;
-        
         formated = '' + date.toLocaleString("en-us", { month: "short" }) + ' ';
         formated += date.toLocaleString("en-us", { day: "2-digit" }) + ', ' + date.getFullYear();
         formated += ' at ' + date.getHours() + ':' + date.toLocaleString("en-us", {minute: "2-digit" });
@@ -76,7 +76,6 @@ export class ModalRequestsComponent implements OnInit {
 
     sendRequest(element: StoredRequestInterface) {
         let method = this.cacheService.useMethod(element);
-
         if(method) {
             this.loading = true;
             method.subscribe(
@@ -110,27 +109,26 @@ export class ModalRequestsComponent implements OnInit {
 
                     result
                     .subscribe(
-                        (msg) => {
-                            this.progressCountSuccess++;
+                        (value) => {
+                            // FailedRequestInterface format.
+                            if(value && value.fail && value.request && value.error) {
+                                stillToBeSent.push(value.request);
+                                this.errors.push(value.error);
+                                this.progressCountFail++;
+                            }
+                            // Success.
+                            else {
+                                console.log("msg", value);
+                                this.progressCountSuccess++;
+                            }
+                            // End.
                             if(this.progressCountFail+this.progressCountSuccess === this.progressLength) {
                                 this.cacheService.set(AsyncacheService.PENDING_REQUESTS, stillToBeSent);
                             }
+                            
                         },
-                        (error) => {
-                            try {
-                                stillToBeSent.push(this.requests[this.progressCountFail+this.progressCountSuccess]);
-                                this.errors.push(error);
-                            } catch(e) {
-                                this.snackbar.open(e + '', "", {duration:3000, horizontalPosition:'center'});
-                            }
-
-                            this.progressCountFail++;
-                            if(!stillToBeSent) {
-                                stillToBeSent = [];
-                            }
-                            if(this.progressCountFail+this.progressCountSuccess === this.progressLength) {
-                                this.cacheService.set(AsyncacheService.PENDING_REQUESTS, stillToBeSent);
-                            }
+                        error => {
+                            this.snackbar.open(error, '', {duration: 3000, horizontalPosition: 'center'});   
                         }
                     );
                 }

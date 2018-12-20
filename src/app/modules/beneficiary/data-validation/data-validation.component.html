@@ -120,9 +120,9 @@
                     <span>{{verification.data_verification_step_2}}</span>
                 </div>
                 <div class="container-content box-green">
-                    <div class="content-table" *ngIf="duplicates.length > 0">
-                        <div class="issues" *ngFor="let duplicate of duplicates, index as i">
-                            <mat-card class="content-issue" *ngFor="let isDuplicate of duplicate.data, index as j">
+                    <div class="content-issue" *ngIf="duplicates.length > 0">
+                        <div class="content-table" *ngFor="let duplicate of duplicates, index as i">
+                            <mat-card class="issues" *ngFor="let isDuplicate of duplicate.data, index as j">
                                 <mat-card-content>
                                     <mat-chip-list mat-chip class="old">
                                         <mat-chip>{{verification.data_verification_chip_old}}</mat-chip>

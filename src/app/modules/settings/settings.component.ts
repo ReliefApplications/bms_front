@@ -209,7 +209,7 @@ export class SettingsComponent implements OnInit {
             ).subscribe(response => {
                 if (response) {
                     this.loadingData = false;
-                    console.log(response);
+                    //console.log(response);
                     if (response && response[0] && response[0].email && response[0].username && response[0].roles)
                         response.forEach(element => {
                             element.projects = new Array<number>();

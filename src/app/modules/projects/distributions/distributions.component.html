@@ -55,11 +55,11 @@
                             </div>
                             <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity"
                                 [service]="beneficiariesService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated"
-                                [parentId]="distributionId">
+                                [parentId]="distributionId" [rights]="hasRights">
                             </app-table-search>
                             <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity"
                                 [service]="beneficiariesService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated"
-                                [parentId]="distributionId">
+                                [parentId]="distributionId" [rights]="hasRights">
                             </app-table-mobile-search>
                         </div>
                         <div class="content-button content-button-footer">

@@ -40,7 +40,11 @@
             }
 
             .content-householdData {
-                width: 100%
+                width: 100%;
+
+                p {
+                    margin: 0;
+                }
             }
             .content-beneficiariesData {
                 display: flex;

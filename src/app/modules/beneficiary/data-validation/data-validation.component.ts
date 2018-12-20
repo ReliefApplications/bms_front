@@ -98,6 +98,8 @@ export class DataValidationComponent implements OnInit {
         this.load = false;
         if (this.step === 1) {
             this.typoIssues = this._importService.getData();
+        console.log("typo", this.typoIssues);
+
         }
         else if (this.step === 2) {
             this.correctedData = [];
@@ -421,9 +423,9 @@ export class DataValidationComponent implements OnInit {
             this._importService.sendData(this.email, this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
                 this.stepper.next();
                 this.getData();
-            }, () => {
+            }, (err) => {
                 this.load = false;
-                this.snackBar.open(this.verification.data_verification_error, '', { duration: 5000, horizontalPosition: 'center' });
+                this.step--;
             });
 
             this.reloadInfo();

@@ -90,7 +90,7 @@ export class ImportService {
                     this.referedClassService.sendDataToValidation(email, data, project, step, token).subscribe(response => {
                         resolve([this.data, response]);
                     }, error => {
-                        reject({ 'message': 'Error while adding all import data' });
+                        reject();
                     });
                 }
 

@@ -38,13 +38,15 @@
                                         <div class="dataToCompare">{{typoIssue.old.nameHead}}</div>
                                         <div class="dataToCompare">{{typoIssue.old.households.address_number}}
                                             {{typoIssue.old.households.address_street}}</div>
-                                        <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm4 != ''">{{typoIssue.old.households.address_postcode}}
-                                            {{typoIssue.old.households.location.adm4}}</div>
-                                        <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm4 == ''">{{typoIssue.old.households.address_postcode}}
+                                        <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm4">{{typoIssue.old.households.address_postcode}}
+                                            {{typoIssue.old.households.location.adm4.name}}</div>
+                                        <!-- <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm4 == ''">{{typoIssue.old.households.address_postcode}}
                                             {{typoIssue.old.households.location.adm3}}</div>
-                                        <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm4 != ''">{{typoIssue.old.households.location.adm3}}</div>
-                                        <div class="dataToCompare">{{typoIssue.old.households.location.adm2}}</div>
-                                        <div class="dataToCompare">{{typoIssue.old.households.location.adm1}}</div>
+                                        <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm4 != ''">{{typoIssue.old.households.location.adm3}}</div> -->
+                                        <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm3">{{typoIssue.old.households.address_postcode}}
+                                            <p>{{typoIssue.old.households.location.adm3.name}}</p></div>
+                                        <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm2">{{typoIssue.old.households.location.adm2.name}}</div>
+                                        <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm1">{{typoIssue.old.households.location.adm1.name}}</div>
                                         <div class="dataToCompare" *ngIf="typoIssue.old.households.beneficiaries.length > 1">
                                             <div class="dataToCompare" *ngFor="let beneficiary of typoIssue.old.households.beneficiaries">
                                                 <div class="dataToCompare" *ngIf="beneficiary.status == 0">

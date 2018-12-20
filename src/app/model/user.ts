@@ -207,40 +207,40 @@ export class User {
         return users;
     }
 
-    public static formatFromApi(element: any): User {
-        let user = new User(element);
-        if (element.roles) {
-            element.roles.forEach(element => {
-                user.rights = "" + element + "";
-            });
-        }
-        if (element.countries) {
-            user.country = [];
-            element.countries.forEach(
-                element => {
-                    user.country.push(element.iso3);
-                }
-            )
-        }
-        if (element.user_projects) {
-            user.projects = [];
-            element.user_projects.forEach(
-                element => {
-                    user.projects.push(element.project.name);
-                    if (! user.country.includes(element.project.iso3)) {
-                      user.country.push(element.project.iso3);
+        public static formatFromApi(element: any): User {
+            let user = new User(element);
+            if (element.roles) {
+                element.roles.forEach(element => {
+                    user.rights = "" + element + "";
+                });
+            }
+            if (element.countries) {
+                user.country = [];
+                element.countries.forEach(
+                    element => {
+                        user.country.push(element.iso3);
                     }
-                }
-            )
-        }
+                )
+            }
+            if (element.user_projects) {
+                user.projects = [];
+                element.user_projects.forEach(
+                    element => {
+                        user.projects.push(element.project.name);
+                        if (! user.country.includes(element.project.iso3)) {
+                        user.country.push(element.project.iso3);
+                        }
+                    }
+                )
+            }
 
-        if (element.password) {
-          user.password = '';
-          user.salted_password = element.password;
-        }
+            if (element.password) {
+            user.password = '';
+            user.salted_password = element.password;
+            }
 
-        return user;
-    }
+            return user;
+        }
 
     /**
      * used in modal add

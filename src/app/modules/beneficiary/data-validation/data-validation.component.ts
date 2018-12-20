@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { ImportService } from '../../../core/utils/import.service';
 import { HouseholdsService } from '../../../core/api/households.service';
-import { MatSnackBar, MatStepper } from '@angular/material';
+import { MatSnackBar, MatStepper, MatDialog } from '@angular/material';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { VerifiedData, FormatDuplicatesData, FormatMore, FormatLess } from '../../../model/data-validation';
 import { GlobalText } from '../../../../texts/global';
@@ -10,6 +10,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Households } from 'src/app/model/households';
 import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
 import { Observable } from 'rxjs';
+import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
 
 @Component({
     selector: 'app-data-validation',
@@ -53,6 +54,7 @@ export class DataValidationComponent implements OnInit {
         private _cacheService: AsyncacheService,
         private router: Router,
         private importedDataService: ImportedDataService,
+        private dialog: MatDialog,
     ) {
 
     }
@@ -90,6 +92,19 @@ export class DataValidationComponent implements OnInit {
         }
     }
 
+    /**
+    * Verify if modifications have been made to prevent the user from leaving and display dialog to confirm we wiwhes to delete them
+    */
+    @HostListener('window:beforeunload')
+    canDeactivate(): Observable<boolean> | boolean {
+        if (true) {
+            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+
+            return dialogRef.afterClosed();
+        } else {
+            return (true);
+        }
+    }
 
     /**
      * Get data which need verification and validation after import csv

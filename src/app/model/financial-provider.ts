@@ -41,7 +41,7 @@ export class FinancialProvider {
     */
     static translator(): Object {
         return {
-            username: GlobalText.TEXTS.email,
+            username: GlobalText.TEXTS.login_username,
             password: GlobalText.TEXTS.model_user_password,
         }
     }

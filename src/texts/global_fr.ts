@@ -134,6 +134,7 @@ export const TEXT = {
     data_verification_description2: 'Ici sont affichés les bénéficiaires de votre fichier qui existent déjà dans la base de données comme membres d\'un foyer. Si le bénéficiaire n\'est pas un chef de famille, vous pouvez choisir de supprimer l\'un ou l\'autre, ou de conserver les deux dans le cas où vous êtes sûr qu\'il s\'agit de deux personnes différentes.',
     data_verification_description3: 'Ci-dessous sont listés les foyers déjà existants dans la base de données mais avec moins de bénéficiaires que dans le fichier importé. Vous pouvez vérifier les informations et ajouter ceux que vous désirez au foyer présent dans la base de données.',
     data_verification_description4: 'Ci-dessous sont listés les foyers déjà existants dans la base de données mais avec plus de bénéficiaires que dans le fichier importé. Vous pouvez vérifier les informations et supprimer ceux que vous désirez au foyer présent dans la base de données.',
+    data_verification_description_end: 'Les modifications seront ajoutées à la base de donnée à chaque étape validée.',
     data_verification_done: 'Toutes les données ont été vérifiées',
     data_verification_error: 'Erreur lors du parcours des données',
     data_verification_send: 'Envoyer',

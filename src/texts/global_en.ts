@@ -134,6 +134,7 @@ export const TEXT = {
     data_verification_description2: 'The duplicate panel displays the beneficiaries in the file that are already in the database, in another household. If the existing beneficiary is not a head of household, you can delete one or the other, or save both as different beneficiaries if you are sure they are different people.',
     data_verification_description3: 'Here are listed households that already existed in the database but with fewer beneficiaries than in the imported file. You can check and select those you want to import in the household.',
     data_verification_description4: 'Here are listed households that already existed in the database but with more beneficiaries than in the imported file. You can check and select those you want to delete from the household.',
+    data_verification_description_end: 'Modifications will be added to the database on each step validation.',
     data_verification_done: 'Your data has been verified',
     data_verification_error: 'Error processing data',
     data_verification_send: 'Send',

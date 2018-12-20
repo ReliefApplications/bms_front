@@ -134,6 +134,7 @@ export const TEXT = {
     data_verification_description2: 'تعرض لوحة التكرار المستفيدين في الملف الموجودين بالفعل في قاعدة البيانات في منزل آخر. إذا كان المستفيد الحالي ليس رب أسرة ، يمكنك حذف احداهما ، أو حفظ كلاهما كمستفيدين مختلفين إذا كنت متأكداً من أنهم أشخاص مختلفون.',
     data_verification_description3: '.في ما يلي قائمة بالأسر المدرجة  في قاعدة البيانات ولكن مع عدد أقل من المستفيدين مقارنة بالملف المستورد. يمكنك التحقق وتحديد الذين تريد استيرادهم في المنزل',
     data_verification_description4: '.في ما يلي قائمة بالأسر المدرجة  في قاعدة البيانات ولكن مع عدد أكبر  من المستفيدين مقارنة بالملف المستورد. يمكنك التحقق وتحديد الذين تريد استيرادهم في المنزل',
+    data_verification_description_end: 'Modifications will be added to the database on each step validation.',
     data_verification_done: 'تم التحقق من بياناتك',
     data_verification_error: 'حدث خطأ في معالجة البيانات',
     data_verification_send: 'أرسل',

@@ -43,7 +43,7 @@ export const routes: Routes = [
 	{ path: 'beneficiaries/import', component: BeneficiariesImportComponent },
 	{ path: 'beneficiaries/imported/data', component: ImportedDataComponent },
 
-	{ path: 'beneficiaries/import/data-validation', component: DataValidationComponent },
+	{ path: 'beneficiaries/import/data-validation', component: DataValidationComponent, canDeactivate : [DeactivateGuard] },
 
     { path: 'beneficiaries/add-beneficiaries', component: UpdateBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
     { path: 'beneficiaries/update-beneficiary/:id', component: UpdateBeneficiaryComponent , canDeactivate : [DeactivateGuard]},

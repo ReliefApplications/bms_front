@@ -123,7 +123,6 @@ export class AppComponent {
      * @param e
      */
     onActivate(event) {
-        console.log('activated');
         // Update the new component name.
         this.refreshCurrentComponent(event);
         // Verify the user.
@@ -140,7 +139,6 @@ export class AppComponent {
      * Changes the name of the new component to actualize menu etc.
      */
     refreshCurrentComponent(e) {
-        console.log(e);
         if (e.nameComponent === 'projects' || e.nameComponent === 'beneficiaries'
             || e.nameComponent === 'reports' || e.nameComponent === 'settings' || e.nameComponent === 'login') {
             this.currentComponent = e.nameComponent;

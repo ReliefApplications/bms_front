@@ -5,9 +5,6 @@ import { GlobalText } from '../texts/global';
 
 import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
 import { MatDialog, MatSidenav } from '@angular/material';
-import { AsyncacheService } from './core/storage/asyncache.service';
-import { interval, timer, Observable } from 'rxjs';
-import { map, mapTo, switchMap,  } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { UpdateService } from './core/api/update.service';
 
@@ -152,6 +149,10 @@ export class AppComponent {
             if(!this.hasRights && e.nameComponent !== 'profile_title' && e.nameComponent !== 'distributions') {
                 this.router.navigate(['']);
                 e.nameComponent = '';
+            }
+
+            if(e.nameComponent === 'distributions') {
+                this.currentComponent = 'projects';
             }
         }
 

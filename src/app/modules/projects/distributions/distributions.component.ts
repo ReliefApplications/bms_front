@@ -1,24 +1,19 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { GlobalText } from '../../../../texts/global';
 import { DistributionService } from '../../../core/api/distribution.service';
-import { Households } from '../../../model/households';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DistributionData } from '../../../model/distribution-data';
 import { Beneficiaries } from '../../../model/beneficiary';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { MatTableDataSource, MatSnackBar, MatDialog, MatFormField, MatStepper } from '@angular/material';
-import { ExportInterface } from '../../../model/export.interface';
-import { saveAs } from 'file-saver/FileSaver';
 import { Mapper } from '../../../core/utils/mapper.service';
 import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
-import { AnimationRendererFactory } from '@angular/platform-browser/animations/src/animation_renderer';
 import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
 import { finalize, last, map } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/core/api/user.service';
-import { element } from '@angular/core/src/render3/instructions';
 import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
@@ -727,7 +722,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     checkPermission() {
         this.cacheService.getUser().subscribe(
             result => {
-                this.setUser(result.user_id);
+                this.actualUser = result;
                 if (result && result.rights) {
                     const rights = result.rights;
                     if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER')
@@ -735,22 +730,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
 
                     if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == 'ROLE_COUNTRY_MANAGER')
                         this.hasRightsTransaction = true;
-                }
-            }
-        )
-    }
-
-    setUser(userId) {
-        this.userService.get().subscribe(
-            result => {
-                if (result) {
-                    result.forEach(
-                        element => {
-                            if (element.id === userId) {
-                                this.actualUser = element;
-                            }
-                        }
-                    )
                 }
             }
         )

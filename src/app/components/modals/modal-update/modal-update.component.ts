@@ -83,7 +83,7 @@ export class ModalUpdateComponent extends ModalComponent {
             // }
                 if(this.updateObject.password && this.updateObject.password !== '') {
                     const checkPass = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/);
-                    if (!checkPass.test(this.newObject.password)) {
+                    if (!checkPass.test(this.updateObject.password)) {
                         this.snackBar.open(this.modal.modal_not_enough_strong, '', { duration: 5000, horizontalPosition: 'right' });
                         return;
                     }

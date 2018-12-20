@@ -98,8 +98,6 @@ export class DataValidationComponent implements OnInit {
         this.load = false;
         if (this.step === 1) {
             this.typoIssues = this._importService.getData();
-        console.log("typo", this.typoIssues);
-
         }
         else if (this.step === 2) {
             this.correctedData = [];

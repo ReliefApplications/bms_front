@@ -226,7 +226,7 @@ export class User {
             user.projects = [];
             element.user_projects.forEach(
                 element => {
-                    user.projects.push(element.project.id);
+                    user.projects.push(element.project.name);
                     if (! user.country.includes(element.project.iso3)) {
                       user.country.push(element.project.iso3);
                     }

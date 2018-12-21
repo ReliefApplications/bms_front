@@ -44,7 +44,8 @@
                                             {{typoIssue.old.households.location.adm3}}</div>
                                         <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm4 != ''">{{typoIssue.old.households.location.adm3}}</div> -->
                                         <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm3">{{typoIssue.old.households.address_postcode}}
-                                            <p>{{typoIssue.old.households.location.adm3.name}}</p></div>
+                                            <p>{{typoIssue.old.households.location.adm3.name}}</p>
+                                        </div>
                                         <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm2">{{typoIssue.old.households.location.adm2.name}}</div>
                                         <div class="dataToCompare" *ngIf="typoIssue.old.households.location.adm1">{{typoIssue.old.households.location.adm1.name}}</div>
                                         <div class="dataToCompare" *ngIf="typoIssue.old.households.beneficiaries.length > 1">
@@ -136,13 +137,13 @@
                                                 {{isDuplicate.old.households.beneficiaries[0].given_name}}</div>
                                             <div class="dataToCompare">{{isDuplicate.old.households.address_number}}
                                                 {{isDuplicate.old.households.address_street}}</div>
-                                            <div class="dataToCompare" *ngIf="isDuplicate.old.households.location.adm4 != ''">{{isDuplicate.old.households.address_postcode}}
-                                                {{isDuplicate.old.households.location.adm4}}</div>
-                                            <div class="dataToCompare" *ngIf="isDuplicate.old.households.location.adm4 == ''">{{isDuplicate.old.households.address_postcode}}
-                                                {{isDuplicate.old.households.location.adm3}}</div>
-                                            <div class="dataToCompare" *ngIf="isDuplicate.old.households.location.adm4 != ''">{{isDuplicate.old.households.location.adm3}}</div>
-                                            <div class="dataToCompare">{{isDuplicate.old.households.location.adm2}}</div>
-                                            <div class="dataToCompare">{{isDuplicate.old.households.location.adm1}}</div>
+                                                <div class="dataToCompare" *ngIf="isDuplicate.old.households.location.adm4">{{isDuplicate.old.households.address_postcode}}
+                                                    {{isDuplicate.old.households.location.adm4.name}}</div>
+                                                <div class="dataToCompare" *ngIf="isDuplicate.old.households.location.adm3">{{isDuplicate.old.households.address_postcode}}
+                                                    <p>{{isDuplicate.old.households.location.adm3.name}}</p>
+                                                </div>
+                                                <div class="dataToCompare" *ngIf="isDuplicate.old.households.location.adm2">{{isDuplicate.old.households.address_postcode}} <p>{{isDuplicate.old.households.location.adm2.name}}</p></div>
+                                                <div class="dataToCompare" *ngIf="isDuplicate.old.households.location.adm1">{{isDuplicate.old.households.address_postcode}}<p>{{isDuplicate.old.households.location.adm1.name}}</p></div>
                                         </div>
                                     </div>
                                     <mat-divider></mat-divider>
@@ -215,13 +216,13 @@
                                         <div class="dataToCompare">{{data.old.nameHead}}</div>
                                         <div class="dataToCompare">{{data.old.households.address_number}}
                                             {{data.old.households.address_street}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm4 != ''">{{data.old.households.address_postcode}}
-                                            {{data.old.households.location.adm4}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm4 == ''">{{data.old.households.address_postcode}}
-                                            {{data.old.households.location.adm3}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm4 != ''">{{data.old.households.location.adm3}}</div>
-                                        <div class="dataToCompare">{{data.old.households.location.adm2}}</div>
-                                        <div class="dataToCompare">{{data.old.households.location.adm1}}</div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm4">{{data.old.households.address_postcode}}
+                                                {{data.old.households.location.adm4.name}}</div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm3">{{data.old.households.address_postcode}}
+                                                <p>{{data.old.households.location.adm3.name}}</p>
+                                            </div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm2">{{data.old.households.address_postcode}} <p>{{data.old.households.location.adm2.name}}</p></div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm1">{{data.old.households.address_postcode}} <p>{{data.old.households.location.adm1.name}}</p></div>
                                     </div>
                                 </div>
                                 <div class="householdData" *ngIf="data.old.households.beneficiaries.length > 1">
@@ -304,13 +305,13 @@
                                         <div class="dataToCompare">{{data.old.nameHead}}</div>
                                         <div class="dataToCompare">{{data.old.households.address_number}}
                                             {{data.old.households.address_street}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm4 != ''">{{data.old.households.address_postcode}}
-                                            {{data.old.households.location.adm4}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm4 == ''">{{data.old.households.address_postcode}}
-                                            {{data.old.households.location.adm3}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm4 != ''">{{data.old.households.location.adm3}}</div>
-                                        <div class="dataToCompare">{{data.old.households.location.adm2}}</div>
-                                        <div class="dataToCompare">{{data.old.households.location.adm1}}</div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm4">{{data.old.households.address_postcode}}
+                                                {{data.old.households.location.adm4.name}}</div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm3">{{data.old.households.address_postcode}}
+                                                <p>{{data.old.households.location.adm3.name}}</p>
+                                            </div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm2">{{data.old.households.address_postcode}} <p>{{data.old.households.location.adm2.name}}</p></div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm1">{{data.old.households.address_postcode}} <p>{{data.old.households.location.adm1.name}}</p></div>
                                     </div>
                                 </div>
 

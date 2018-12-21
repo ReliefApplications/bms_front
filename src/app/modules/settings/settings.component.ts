@@ -314,7 +314,7 @@ export class SettingsComponent implements OnInit {
             });
         } else {
             // for users, there are two step (one to get the salt and one to create the user)
-            this.authenticationService.requestSalt(createElement['username'], false).subscribe(response => {
+            this.authenticationService.initializeUser(createElement['username']).subscribe(response => {
                 if (response) {
                     if (createElement['rights'] == "ROLE_PROJECT_MANAGER" || createElement['rights'] == "ROLE_PROJECT_OFFICER" || createElement['rights'] == "ROLE_FIELD_OFFICER")
                         delete createElement['country'];

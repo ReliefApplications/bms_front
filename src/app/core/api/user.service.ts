@@ -49,7 +49,7 @@ export class UserService {
 
 	public updatePassword(user: any, clearOldPassword: any, clearNewPassword: any) {
 		return new Promise<User | ErrorInterface | null>((resolve, reject) => {
-			this.authenticationService.requestSalt(user.username, false).subscribe(success => {
+			this.authenticationService.requestSalt(user.username).subscribe(success => {
 				let getSalt = success as SaltInterface;
 				let saltedOldPassword = this.wsseService.saltPassword(getSalt.salt, clearOldPassword);
 				let saltedNewPassword = this.wsseService.saltPassword(getSalt.salt, clearNewPassword);

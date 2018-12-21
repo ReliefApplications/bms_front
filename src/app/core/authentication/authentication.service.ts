@@ -26,13 +26,14 @@ export class AuthenticationService {
     ) { }
 
     // Request to the API to get the salt corresponding to a username
-    requestSalt(username, isLogin) {
-      const body = <any>{};
-      if (isLogin) {
-        body.is_login = true;
-      }
+    requestSalt(username) {
       this._wsseService.setUsername(username);
-      return this.http.post(URL_BMS_API + '/salt/' + username, body);
+      return this.http.get(URL_BMS_API + '/salt/' + username);
+    }
+
+    initializeUser(username) {
+      this._wsseService.setUsername(username);
+      return this.http.get(URL_BMS_API + '/initialize/' + username);
     }
 
     logUser(user) {
@@ -46,7 +47,7 @@ export class AuthenticationService {
 
     login(user: User) {
         return new Promise<User | ErrorInterface | null>((resolve, reject) => {
-            this.requestSalt(user.username, true).subscribe(success => {
+            this.requestSalt(user.username).subscribe(success => {
                 let getSalt = success as SaltInterface;
                 user.salted_password = this._wsseService.saltPassword(getSalt.salt, user.password);
                 delete user.password;

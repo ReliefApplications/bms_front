@@ -1,11 +1,8 @@
 import { Component, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { TableComponent } from '../table.component';
 import { Beneficiaries } from '../../../model/beneficiary';
-import { emit } from 'cluster';
-import { element } from 'protractor';
 import { tap, finalize } from 'rxjs/operators';
 import { DistributionData } from '../../../model/distribution-data';
-import { GlobalText } from '../../../../texts/global';
 
 
 @Component({

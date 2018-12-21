@@ -11,6 +11,7 @@ import { Households } from 'src/app/model/households';
 import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
 import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 
 @Component({
     selector: 'app-data-validation',
@@ -43,6 +44,7 @@ export class DataValidationComponent implements OnInit {
     public moreDone = false;
     public lessDone = false;
     public load: boolean = false;
+    public finished = false;
 
     public newHouseholds: any = {};
     public email: string;
@@ -97,7 +99,7 @@ export class DataValidationComponent implements OnInit {
     */
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
-        if (true) {
+        if (!this.finished && this._importService.getData()) {
             const dialogRef = this.dialog.open(ModalLeaveComponent, {});
 
             return dialogRef.afterClosed();

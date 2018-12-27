@@ -369,7 +369,7 @@ export const TEXT = {
     transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',
     transaction_progress: 'progrès de la distribution des produits:',
     transaction_refresh: 'Vérifier les retraits',
-    transaction_transaction: 'Transaction',
+    transaction_transaction: 'Démarrer la transaction',
     transaction_validate_distribution: 'Voulez vous vraiment valider la distribution ? Vous ne serez plus capable de la modifier',
     transaction_validation: 'Confirmer la validation',
     transaction_inProgress: 'Transaction en cours...',

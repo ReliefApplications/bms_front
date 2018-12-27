@@ -454,7 +454,20 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                     this.loadingCreation = false;
                 }
             }
-        } else {
+        } 
+        else  if (this.criteriaArray.length == 0) {
+            this.snackBar.open(this.distribution.add_distribution_missing_selection_criteria, '', { duration: 5000, horizontalPosition: 'center' });
+        }
+        else  if (!this.commodityArray[0]) {
+            this.snackBar.open(this.distribution.add_distribution_missing_commodity, '', { duration: 5000, horizontalPosition: 'center' });
+        }
+        else  if (!this.newObject.date_distribution) {
+            this.snackBar.open(this.distribution.add_distribution_missing_date, '', { duration: 5000, horizontalPosition: 'center' });
+        }
+        else  if (this.newObject.threshold <= 0) {
+            this.snackBar.open(this.distribution.add_distribution_missing_threshold, '', { duration: 5000, horizontalPosition: 'center' });
+        }
+        else {
             this.snackBar.open(this.distribution.add_distribution_check_fields, '', { duration: 5000, horizontalPosition: 'center' });
         }
 

@@ -28,7 +28,7 @@
                         <mat-radio-group class="typeDistribution" (change)="typeDistributionOnChange($event)" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'"
                             [(ngModel)]="newObject[p]">
                             <mat-radio-button checked='true' color="warn" value="Household" disabled='false'>{{distribution.households}}</mat-radio-button>
-                            <mat-radio-button color="warn" value="Beneficiary">{{distribution.beneficiaries}}</mat-radio-button>
+                            <mat-radio-button color="warn" value="Individual">{{distribution.individual}}</mat-radio-button>
                         </mat-radio-group>
                     </mat-expansion-panel>
                 </mat-accordion>
@@ -55,7 +55,7 @@
                     </mat-form-field>
 
                     <div class="summary" *ngIf="criteriaArray.length != 0">
-                        <h3 class="summary-text" *ngIf="newObject.type == 'Beneficiary'">
+                        <h3 class="summary-text" *ngIf="newObject.type == 'Individual'">
                             <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span><span *ngIf="load">
                                 <mat-spinner [diameter]="25"></mat-spinner>
                             </span>{{distribution.add_distribution_beneficiaries_reached |

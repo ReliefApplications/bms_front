@@ -499,6 +499,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         if (user_action === this.criteriaAction) {
             this.load = true;
             this.criteriaArray.push(createElement);
+
             this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
                 if (this.commodityArray.length > 0) 

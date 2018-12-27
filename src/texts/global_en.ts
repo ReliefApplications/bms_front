@@ -24,6 +24,7 @@ export const TEXT = {
     home: 'Home',
     households: 'Household',
     import: 'Import',
+    individual: 'Individual',
     location: 'Location',
     new: 'New',
     next: 'Next',

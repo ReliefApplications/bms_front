@@ -24,6 +24,7 @@ export const TEXT = {
     home: 'الصفحة الرئيسية',
     households: 'الأسرة',
     import: 'تحميل',
+    individual: 'Individual',
     location: 'الموقع',
     new: 'New',
     next: 'Next',

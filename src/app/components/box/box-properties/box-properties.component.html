@@ -11,7 +11,7 @@
                 </h3>
             </span>
             <span *ngIf="isNumber(elementObject[p])">
-                <h3 counto [step]="10" [countTo]="elementObject[p]" [countFrom]="0" [duration]="2" (countoChange)="intermediate = $event">
+                <h3 counto [step]="100" [countTo]="elementObject[p]" [countFrom]="0" [duration]="1" (countoChange)="intermediate = $event">
                     {{intermediate | number:'1.0-0'}}
                 </h3>
             </span>

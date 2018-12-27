@@ -281,7 +281,7 @@ export const TEXT = {
     model_sectors_name: 'Sectors',
     model_transaction_message: 'Message',
     model_transaction_pickupDate: 'Pick up date',
-    model_transaction_state: 'State',
+    model_transaction_state: 'Status',
     model_type: 'Type',
     model_user: 'User',
     model_user_password: 'Password',

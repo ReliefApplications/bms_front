@@ -279,7 +279,7 @@ export const TEXT = {
     model_sectors_name: 'Secteurs',
     model_transaction_message: 'Message',
     model_transaction_pickupDate: 'Date de récupération',
-    model_transaction_state: 'état',
+    model_transaction_state: 'État',
     model_type: 'Type',
     model_user: 'Utilisateur',
     model_user_password: 'Mot de passe',

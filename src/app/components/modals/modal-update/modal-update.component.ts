@@ -25,7 +25,6 @@ export class ModalUpdateComponent extends ModalComponent {
             console.error('the function mapAllProperties is not defined for the entity ', this.entityInstance);
         }
 
-        this.loadData(this.updateObject);
         if (this.updateObject.email && this.updateObject.username) {
             this.form.controls['emailFormControl'].disable();
 

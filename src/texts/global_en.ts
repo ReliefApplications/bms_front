@@ -151,7 +151,7 @@ export const TEXT = {
     data_verification_step_3: 'To add',
     data_verification_step_4: 'To remove',
     data_verification_step_1_no_issues: 'No typo issues',
-    data_verification_step_2_no_issues: 'No duplicate',
+    data_verification_step_2_no_issues: 'No duplicates',
     data_verification_step_3_no_issues: 'No beneficiaries to add',
     data_verification_step_4_no_issues: 'No beneficiaries to remove',
     data_verification_title: 'data verification and validation',

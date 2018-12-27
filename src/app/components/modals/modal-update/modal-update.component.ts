@@ -126,7 +126,7 @@ export class ModalUpdateComponent extends ModalComponent {
                     return;
                 }
 
-                if (new Date(this.updateObject.start_date).getTime() > new Date(this.updateObject.end_date).getTime()) {
+                if (new Date(this.updateObject.start_date).getTime() >= new Date(this.updateObject.end_date).getTime()) {
                     this.snackBar.open(this.modal.modal_check_date, '', { duration: 5000, horizontalPosition: 'right' });
                     return;
                 }

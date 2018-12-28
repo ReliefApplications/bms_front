@@ -329,7 +329,7 @@ export const TEXT = {
     settings_country_specific_options: 'options par pays',
     settings_created: ' créé(e)',
     settings_donors: 'donateurs',
-    settings_financial_provider: 'Service financier',
+    settings_financial_provider: 'Connexion tier',
     settings_log_button: 'Recevoir les logs de cet utilisateur par email',
     settings_project_exists: 'Un projet avec le même nom existe déjà',
     settings_users: 'utilisateurs',

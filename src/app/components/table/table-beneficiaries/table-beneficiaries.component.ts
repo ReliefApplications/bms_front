@@ -19,6 +19,7 @@ export class TableBeneficiariesComponent extends TableComponent {
     @Output() selectedAdm = new EventEmitter<any>();
 
     selectedFilter;
+    value:string;
     testLoading = true;
     displayNoData: boolean = false;
     _timeout: any = null;
@@ -103,6 +104,7 @@ export class TableBeneficiariesComponent extends TableComponent {
     }
 
     sendSortedData() {
+        console.log(this.data.filter);
         // Cancel preexisting timout process
         if (this._timeout) {
             window.clearTimeout(this._timeout);
@@ -132,6 +134,11 @@ export class TableBeneficiariesComponent extends TableComponent {
                 return (result);
             }
         )
+    }
+
+    clearSearch(){
+        this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
+
     }
 
     selected(index) {

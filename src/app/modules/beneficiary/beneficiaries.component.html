@@ -4,29 +4,30 @@
     </div>
     <div  class="container-table">
         <div class="container-content box-green">
-            <div class="content-button">
+            <div class="content-buttons">
                 <div [ngClass]="{'add-buttons': language != 'ar', 'add-buttons-arabic': language == 'ar'}" (mouseenter)="widthScreen > maxWidthMobile && this.addToggled = true"
                     (mouseleave)="widthScreen > maxWidthMobile && this.addToggled = false">
                     <div class="toggled-buttons" [ngClass]="{'toggled':addToggled}">
                         <button mat-raised-button class="button-background-accent" routerLink="/beneficiaries/import">
                             <mat-icon>publish</mat-icon>
-                            <span>{{household.import | uppercase}}</span>
+                            <span>{{household.import | titlecase}}</span>
                         </button>
                         <button mat-raised-button class="button-background-accent" (click)="addOneHousehold()">
                             <mat-icon>group_add</mat-icon>
-                            <span>{{household.add_beneficiary_title | uppercase}}</span>
+                            <span>{{household.add_beneficiary_title | titlecase}}</span>
                         </button>
                     </div>
-                    <button mat-fab class="add-button" *ngIf='hasRights' (click)="toggleAddButtons()">
-                        <mat-icon>add</mat-icon>
-                    </button>
                 </div>
-                <div class="action-buttons">
+                <button mat-raised-button class="add-button" *ngIf='hasRights' (click)="toggleAddButtons()">
+                        <mat-icon>add</mat-icon>
+                        {{household.create | uppercase}}
+                    </button>
+                <div class="action-buttons"> 
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension" *ngIf='hasRightsExport && !loadingExport'>
                         <button mat-raised-button class="button-background-primary" (click)="export()">
                             <mat-icon>get_app</mat-icon>
-                            <span>{{household.export | uppercase}}</span>
+                            <span>{{household.export | titlecase}}</span>
                         </button>
                         <div mat-button class="dropdown" [ngClass]="{'arabic':language==='ar'}" [matMenuTriggerFor]="exportType">
                             <mat-icon>keyboard_arrow_down</mat-icon>
@@ -42,11 +43,14 @@
                             </button>
                         </mat-menu>
                     </div>
-                </div>
+                    &nbsp;
                 <button mat-raised-button *ngIf="hasRightsDelete" class="selectingBeneficiaries button-background-primary"
                     (click)="addToProject(addBeneficiaries)" [matBadge]="dataSource.length$ | async">
                     {{household.beneficiaries_add_list}}
                 </button>
+                </div>
+                
+               
             </div>
             <div class="content-table">
                 <app-table-beneficiaries #benefTable *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights'

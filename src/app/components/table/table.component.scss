@@ -1,13 +1,22 @@
 @import '../../../assets/css/variable.scss';
 
 .table-container {
-  display: flex;
+  display: inline-block;
   flex-direction: column;
   width: 100%;
 
   .mat-form-field {
     font-size: 14px;
     width: 100%;
+  }
+
+  .container-header{
+      .clear{
+        background-color:#DC3D49;
+  
+      }
+  
+    
   }
   
   .filter-combo {
@@ -35,7 +44,7 @@ table {
     align-content: center;
     align-items: center;
     padding-right: 12px;
-    width: 300px;
+    //width: 50px;
 
     app-icon-svg{
       display: flex;
@@ -58,6 +67,7 @@ table {
 button{
     // color: $bms_grey;
     margin: 0.5vh;
+    display: inline-block;
 
     mat-icon {
       font-weight: 800  !important;
@@ -71,15 +81,19 @@ button{
 
   .green{
     color: $bms_light_blue;
+    
   }
 
   .red{
     color: $bms_red;
+  
   }
 
   .light-red{
     color: $bms_dark_blue;
+   
   }
+
 
 .png {
   height: 3vh;

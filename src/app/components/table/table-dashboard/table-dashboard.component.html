@@ -16,8 +16,14 @@
                 </span>
                 <span *ngIf="propertiesTypes[property]=='png'"><img [matTooltip]="getImageName(mapperService.mapValue(element, property))"
                         class="png" [src]="mapperService.mapValue(element, property)"></span>
-                <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element,
-                    property)}}</span>
+                <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'"> 
+                    <span>
+                            <mat-icon *ngIf="property=='name' &&  ! element.validated">lock_open</mat-icon> 
+                            <mat-icon *ngIf="property=='name' &&   element.validated">lock</mat-icon> 
+                    </span>
+                    
+                    {{mapperService.mapValue(element,property)}}
+                </span>
             </td>
         </ng-container>
 

@@ -39,7 +39,7 @@
                 <div class="text">
                     <h1 class="title">{{distribution.add_distribution_selection_criteria | titlecase}}</h1>
                     <button mat-stroked-button class="button-text-accent" (click)="openDialog(criteriaAction)">
-                        <span>{{ distribution.add | uppercase }}</span>
+                        <span>{{ distribution.add | titlecase }}</span>
                     </button>
                 </div>
 
@@ -59,12 +59,12 @@
                             <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span><span *ngIf="load">
                                 <mat-spinner [diameter]="25"></mat-spinner>
                             </span>{{distribution.add_distribution_beneficiaries_reached |
-                            uppercase}}</h3>
+                            titlecase}}</h3>
                         <h3 class="summary-text" *ngIf="newObject.type == 'Household'">
                             <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span><span *ngIf="load">
                                 <mat-spinner [diameter]="25"></mat-spinner>
                             </span>{{distribution.add_distribution_households_reached |
-                            uppercase}}</h3>
+                            titlecase}}</h3>
                     </div>
                 </div>
                 <small id="text-explanation">{{ distribution.add_distribution_text_explanation }}</small>
@@ -78,7 +78,7 @@
                 <div class="text">
                     <h1 class="title">{{distribution.add_distribution_distributed_commodity | titlecase}}</h1>
                     <button mat-stroked-button class="button-text-accent" (click)="openDialog(commodityAction)">
-                        <span>{{ distribution.add | uppercase }}</span>
+                        <span>{{ distribution.add | titlecase }}</span>
                     </button>
                 </div>
                 <div class="form" *ngIf="widthScreen > maxWidthMobile">
@@ -88,7 +88,7 @@
                 <div class="summary" *ngIf="commodityArray.length != 0">
                     <h3 class="summary-text">
                         <span>{{commodityNb}}</span>{{commodityData.data[0].unit}}
-                        {{distribution.add_distribution_commodities_delivered | uppercase}}</h3>
+                        {{distribution.add_distribution_commodities_delivered | titlecase}}</h3>
                 </div>
                 <div class="form" *ngIf="widthScreen < maxWidthMobile">
                     <app-table-small-mobile (onRemove)="removeElement($event, commodityAction)" [entity]="commodityClass"

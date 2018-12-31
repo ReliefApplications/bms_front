@@ -7,11 +7,15 @@
     </h3>
   </div>
 
-  <div class="container-header" *ngIf="filled">
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value, 'familyName'); sendSortedData()" placeholder="{{table.table_filter}}">
+  <div class="container-header" *ngIf="filled" >
+    <mat-form-field >
+      <input matInput (keyup)="applyFilter($event.target.value, 'familyName'); sendSortedData()" [ngModel]="value" placeholder="{{table.table_filter}}">
+      <button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="value=null; sendSortedData(); applyFilter('', 'familyName'); clearSearch() ; applyFilter(null, 'projects') ;
+      applyFilter(null, 'vulnerabilities') " >
+          <mat-icon>clear</mat-icon>
+      </button> 
     </mat-form-field>
-
+ 
     <div class="filter-combo">
       <ng-select class="input-filter custom" bindLabel="name" [items]="data.projects.value" [multiple]="true"
         placeholder="{{table.project}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
@@ -37,8 +41,10 @@
       <ng-select class="input-filter custom" bindLabel="name" [items]="data.vulnerabilities.value" [multiple]="true"
         placeholder="{{table.model_vulnerabilities}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
       </ng-select>
+       
+ 
     </div>
-
+    
     <table mat-table *ngIf="filled && !testLoading" [dataSource]="data" matSort>
       <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
         <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="{'integered':propertiesTypes[property]=='number'}">
@@ -57,20 +63,22 @@
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
-        <td mat-cell class="content-cell" *matCellDef="let element">
-          <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green" [matTooltip]="table.details">
-            <mat-icon>search</mat-icon>
-          </button>
-          <button *ngIf="editable && checkEntityUpdateRights() && rights" mat-icon-button (click)="update(element); $event.stopPropagation()" [matTooltip]="table.update"
-            class="light-red">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button *ngIf="editable && rightsDelete" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="table.delete"
-            class="red">
-            <mat-icon>delete_outline</mat-icon>
-          </button>
-        </td>
+            <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
+            <td mat-cell class="content-cell" *matCellDef="let element">
+              <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green" [matTooltip]="table.details">
+                <mat-icon>search</mat-icon>
+              </button>
+              &nbsp;
+              <button *ngIf="editable && checkEntityUpdateRights() && rights" mat-icon-button (click)="update(element); $event.stopPropagation()" [matTooltip]="table.update"
+                class="light-red">
+                <mat-icon>edit</mat-icon>
+              </button>
+              &nbsp;
+              <button *ngIf="editable && rightsDelete" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="table.delete"
+                class="red">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="propertiesActions" class="header-row"></tr>

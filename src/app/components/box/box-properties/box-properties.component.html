@@ -1,7 +1,7 @@
 <mat-grid-list [cols]="numColumns" gutterSize="10" rowHeight="80">
     <mat-grid-tile *ngFor="let p of properties" colspan="1" rowspan="1">
         <mat-card>
-            <h5>{{mapperObject[p] | uppercase}}</h5>
+            <h5>{{mapperObject[p] | titlecase}}</h5>
             <span>
                 <h3 *ngIf="elementObject[p] && !isArray(elementObject[p]) && !isNumber(elementObject[p]) && elementObject[p].length <= MAX_PROP_LENGTH">
                     {{elementObject[p]}}

@@ -16,7 +16,7 @@
                 <mat-icon>help_outline</mat-icon>
             </button>
             <button mat-stroked-button class="button-language" (click)="openDialog('language')">
-                {{language | uppercase}}
+                {{language | titlecase}}
             </button>
             <button class="round-button" *ngIf="countries.length === 1">
                 <img [src]="getFlag(countries[0])">
@@ -36,11 +36,11 @@
             <mat-menu #menu="matMenu" overlapTrigger=false>
                 <button mat-menu-item routerLink="/profile">
                     <mat-icon>person_outline</mat-icon>
-                    <span>{{header.header_profile | uppercase}}</span>
+                    <span>{{header.header_profile | titlecase}}</span>
                 </button>
                 <button mat-menu-item (click)="logOut()" routerLink="/login">
                     <mat-icon>exit_to_app</mat-icon>
-                    <span>{{header.header_disconnect | uppercase}}</span>
+                    <span>{{header.header_disconnect | titlecase}}</span>
                 </button>
             </mat-menu>
         </div>

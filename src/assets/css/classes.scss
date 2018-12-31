@@ -41,6 +41,24 @@
         }
     }
 
+    .container-project{
+        display: flex;
+        width: 100%;
+        padding: 20px;
+
+        .container-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            border-radius: 3px;
+            .mat-card{
+                background: transparent;
+            }          
+        }
+    }
+
+
     .container-table {
         display: flex;
         width: 100%;
@@ -62,7 +80,7 @@
             box-shadow: $bms_shadow;
             border-radius: 3px;
 
-            .content-button {
+            .content-buttons {
                 display: flex;
                 width: 100%;
                 padding-top : 20px;
@@ -71,6 +89,59 @@
                 padding-bottom: 0px;
                 align-items: center;
                 justify-content: space-between;
+                .add-button{
+                    background-color: #DC3D49;
+                    border-bottom-left-radius: 20px;
+                    border-top-left-radius: 20px;
+                    border-bottom-right-radius: 20px;
+                    border-top-right-radius: 20px;
+                    font-weight: bold;
+                    
+
+                
+                }
+
+                .action-buttons{
+                    .text{
+                       display: inline;
+                    }
+                  
+                }
+
+                *:not(.action-buttons) {
+                    &.button {
+                        margin-left: 10px;
+                        margin-right: 10px;
+                    }
+                }
+
+                button mat-icon {
+                    margin-left: 0px;
+                    margin-right: 5px;
+
+                }
+            }
+
+            .content-button {
+                //display: flex;
+                width: 100%;
+                padding-top : 20px;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-bottom: 0px;
+                align-items: center;
+                justify-content: space-between;
+                .add-button{
+                    background-color: #DC3D49;
+                
+                }
+
+                .action-buttons{
+                    .text{
+                       display: inline;
+                    }
+                  
+                }
 
                 *:not(.action-buttons) {
                     &.button {
@@ -82,6 +153,7 @@
                 button mat-icon {
                     margin-left: 10px;
                     margin-right: 10px;
+
                 }
             }
 
@@ -220,6 +292,10 @@
 .action-buttons {
     display: flex;
     justify-content: flex-end;
+
+    .add-button{
+        background-color: black;
+    }
 
     // Dropdown buttons
     .extension {

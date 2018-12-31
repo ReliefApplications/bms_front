@@ -5,7 +5,7 @@
                 <img src="assets/images/{{info.icon}}.png">
             </div>
             <div class="content-info">
-                <h5 class="info-title">{{info.title | uppercase}}</h5>
+                <h5 class="info-title">{{info.title | titlecase }}</h5>
                 <h4 *ngIf="info.subtitle || info.subtitle == 0" class="info-subtitle">{{info.subtitle}}</h4>
                 <h4 *ngIf="!info.subtitle && info.subtitle !== 0" class="info-subtitle no-data">
                     <mat-icon>cloud_off</mat-icon>

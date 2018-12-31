@@ -20,10 +20,13 @@ export class TableBeneficiariesComponent extends TableComponent {
 
     selectedFilter;
     value:string;
+    vulnerability:any = null ;
+    project:any=null;
     testLoading = true;
     displayNoData: boolean = false;
     _timeout: any = null;
     mapperObject = null;
+    beneficiary = GlobalText.TEXTS;
     public newObject: any;
 
     ngOnInit() {
@@ -137,8 +140,16 @@ export class TableBeneficiariesComponent extends TableComponent {
     }
 
     clearSearch(){
-        this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
-
+        while ( this.data.filter.length !== 0 ) {
+            this.project='';
+            this.vulnerability='';
+            this.value='';
+            this.applyFilter('', 'vulnerabilities') ; 
+            this.applyFilter('', 'familyName'); 
+            this.applyFilter('', 'projects');   
+            this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
+            this.sendSortedData();
+        }
     }
 
     selected(index) {

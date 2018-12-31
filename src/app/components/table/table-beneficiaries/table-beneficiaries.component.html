@@ -9,16 +9,12 @@
 
   <div class="container-header" *ngIf="filled" >
     <mat-form-field >
-      <input matInput (keyup)="applyFilter($event.target.value, 'familyName'); sendSortedData()" [ngModel]="value" placeholder="{{table.table_filter}}">
-      <button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="value=null; sendSortedData(); applyFilter('', 'familyName'); clearSearch() ; applyFilter(null, 'projects') ;
-      applyFilter(null, 'vulnerabilities') " >
-          <mat-icon>clear</mat-icon>
-      </button> 
+      <input matInput (keyup)="applyFilter($event.target.value, 'familyName'); sendSortedData()" [(ngModel)]="value" placeholder="{{table.table_filter}}">
     </mat-form-field>
  
     <div class="filter-combo">
       <ng-select class="input-filter custom" bindLabel="name" [items]="data.projects.value" [multiple]="true"
-        placeholder="{{table.project}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
+        placeholder="{{table.project}}" [(ngModel)]="project" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter" bindLabel="name" [items]="data.adm1.value" [closeOnSelect]="false" [searchable]="true"
@@ -38,12 +34,15 @@
         placeholder="{{table.adm4}}" [(ngModel)]="newObject['adm4']" (change)="selected('adm4'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
-      <ng-select class="input-filter custom" bindLabel="name" [items]="data.vulnerabilities.value" [multiple]="true"
+      <ng-select class="input-filter custom" bindLabel="name" [(ngModel)]="vulnerability" [items]="data.vulnerabilities.value" [multiple]="true"
         placeholder="{{table.model_vulnerabilities}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
       </ng-select>
        
- 
     </div>
+    <button mat-raised-button class="clear-all-button" aria-label="Clear" (click)="clearSearch()" >
+          <mat-icon>clear</mat-icon>
+          {{beneficiary.beneficiaries_clear_all_research | titlecase}}
+      </button>  
     
     <table mat-table *ngIf="filled && !testLoading" [dataSource]="data" matSort>
       <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">

@@ -99,6 +99,7 @@ export const TEXT = {
     beneficiaries_add_list: 'Ajouter cette liste au projet',
     beneficiaries_add_project: 'S\'il vous plait, sélectionnez le(s) projet(s) dans le(s)quel(s) vous voudriez ajouter les',
     beneficiaries_added: 'Les bénéficiaires ont été ajouté au projet sélectionné',
+    beneficiaries_clear_all_research:'Clear all', 
     beneficiaries_full_address: 'Adresse entière du ménage :',
     beneficiaries_household_info: 'Résumé des informations du ménage:',
     beneficiaries_import_addFile: 'ajouter un fichier ou glisser-déposer',

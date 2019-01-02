@@ -107,7 +107,6 @@ export class TableBeneficiariesComponent extends TableComponent {
     }
 
     sendSortedData() {
-        console.log(this.data.filter);
         // Cancel preexisting timout process
         if (this._timeout) {
             window.clearTimeout(this._timeout);

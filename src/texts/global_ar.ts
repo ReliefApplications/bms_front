@@ -360,9 +360,9 @@ export const TEXT = {
     // Transaction
     transaction_accept_prevention: 'I agree to these terms.',
     transaction_again: 'Send again',
-    transaction_amount_done: 'Amount picked up',
+    transaction_amount_done: 'Amount sent',
     transaction_amount_total: 'الكمية الإجمالية',
-    transaction_amount_waiting: 'Still to be picked up',
+    transaction_amount_waiting: 'Amount picked up',
     transaction_confirm: 'Confirm the transaction',
     transaction_confirm_button: 'Confirm',
     transaction_email_code: 'An email containing your validation code has been sent to:',

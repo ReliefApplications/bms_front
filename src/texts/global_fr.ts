@@ -166,6 +166,7 @@ export const TEXT = {
     distribution_details_random: 'échantillon aléatoire',
     distribution_details_sample_size: 'Taille d\'échantillon',
     distribution_details_validate: 'valider & verouiller',
+    distribution_error_validate: 'La distribution est vide, veuillez la remplir avant de la valider',
     distribution_no_beneficiaries: 'Aucun bénéficiaire n\'a été ajouté ou supprimé. N\'importe quel changement fait aux bénéficiaires importés vont être mis à jour dans le système.',
     distribution_no_random_sample: 'L\'échantillon aléatoire ne peut pas être généré',
     distribution_no_right_transaction: 'Vous n\'avait pas le droit nécessaire pour réaliser la transaction, demandez à votre responsable de projet ou à votre responsable de pays',

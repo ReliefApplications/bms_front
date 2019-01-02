@@ -678,7 +678,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                 amount = 0;
                 this.transactionData.data.forEach(
                     element => {
-                        if (element.state === -2 || element.state === -1 || element.state === 0) {
+                        if (element.state === -1 || element.state === 1) {
                             amount += commodity.value;
                         }
                     }

@@ -78,7 +78,7 @@ export const TEXT = {
     // Add distribution
     add_distribution_beneficiaries_reached: 'Beneficiaries reached',
     add_distribution_check_date: 'Error while saving the date, check that the format is like mm/dd/yyyy',
-    add_distribution_check_fields: 'Fill new distribution\'s information before, including the commodity and a threshold\'s value greater than 0.',
+    add_distribution_check_fields: 'Fill new distribution\'s information before, including the commodity and a minimum selection score\'s value greater than 0.',
     add_distribution_commodities_delivered: 'to be delivered',
     add_distribution_created: ' was created',
     add_distribution_date_inside_project: 'Error while creating new distribution, your distribution date have to be inside the project dates',
@@ -90,7 +90,7 @@ export const TEXT = {
     add_distribution_missing_commodity: 'A commodity is missing',
     add_distribution_missing_date: 'The date is missing',
     add_distribution_missing_selection_criteria: 'A selection criterion is missing',
-    add_distribution_missing_threshold: 'The threshold\'s value should be greater than 0',
+    add_distribution_missing_threshold: 'The minimum selection score\'s value should be greater than 0',
     add_distribution_selection_criteria: 'selection criteria',
     add_distribution_text_explanation: 'The system will only select beneficiaries/households that have a score higher than the minimum selection score',
     add_distribution_threshold: 'Minimum selection score',

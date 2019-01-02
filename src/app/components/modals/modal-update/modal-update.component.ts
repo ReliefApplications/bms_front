@@ -24,7 +24,6 @@ export class ModalUpdateComponent extends ModalComponent {
         } catch (e) {
             console.error('the function mapAllProperties is not defined for the entity ', this.entityInstance);
         }
-
         this.loadData(this.updateObject);
         if (this.updateObject.email && this.updateObject.username) {
             this.form.controls['emailFormControl'].disable();
@@ -126,7 +125,7 @@ export class ModalUpdateComponent extends ModalComponent {
                     return;
                 }
 
-                if (new Date(this.updateObject.start_date).getTime() > new Date(this.updateObject.end_date).getTime()) {
+                if (new Date(this.updateObject.start_date).getTime() >= new Date(this.updateObject.end_date).getTime()) {
                     this.snackBar.open(this.modal.modal_check_date, '', { duration: 5000, horizontalPosition: 'right' });
                     return;
                 }

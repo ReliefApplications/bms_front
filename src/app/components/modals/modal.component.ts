@@ -148,16 +148,17 @@ export class ModalComponent implements OnInit {
             this.loadedData.kind_beneficiary = [{ "field_string": this.modal.beneficiary }, { "field_string": this.modal.households }];
         }
 
+        //for commodities
         if (this.newObject && this.newObject.modality == '') {
             this.modalitiesService.getModalities().subscribe(
                 response => {
                     this.loadedData.modality = response;
-                    if(response)
-                    for (let i = 0; i < this.loadedData.modality.length; i++) {
-                        if (this.loadedData.modality[i].name == 'CTP') {
-                            this.loadedData.modality[i].name = 'Cash';
+                    if (response)
+                        for (let i = 0; i < this.loadedData.modality.length; i++) {
+                            if (this.loadedData.modality[i].name == 'CTP') {
+                                this.loadedData.modality[i].name = 'Cash';
+                            }
                         }
-                    }
                 }
             );
         }

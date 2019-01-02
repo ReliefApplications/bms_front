@@ -238,11 +238,11 @@
                         </div>
                         <div class="info_2">
                             <h5>{{TEXT.transaction_amount_done | uppercase}}</h5>
-                            {{ getAmount('done', commodity) }} {{commodity.unit}}
+                            {{ getAmount('sent', commodity) }} {{commodity.unit}}
                         </div>
                         <div class="info_3">
                             <h5>{{TEXT.transaction_amount_waiting | uppercase}}</h5>
-                            {{ getAmount('waiting', commodity) }} {{commodity.unit}}
+                            {{ getAmount('received', commodity) }} {{commodity.unit}}
                         </div>
                     </div>
                 </div>
@@ -384,7 +384,7 @@
             <div class="modal-body">
                 <p> {{TEXT.distribution_select_beneficiaries}} <strong> {{actualDistribution.project.name}} </strong>
                     {{TEXT.distribution_want_add}} <strong> {{actualDistribution.name}} </strong>
-                    {{TEXT.report_distribution}}.</p>
+                    {{TEXT.distribution | lowercase}}.</p>
                 <div class="selectBeneficiaries">
                     <mat-form-field>
                         <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" [(ngModel)]="selectedBeneficiaries"

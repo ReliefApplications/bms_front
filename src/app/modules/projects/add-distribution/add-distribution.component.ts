@@ -446,7 +446,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 const promise = this._distributionService.add(newDistribution);
                 if (promise) {
                     promise.toPromise().then(response => {
-                        this.snackBar.open(this.distribution.report_distribution + ' : ' + response.distribution.name + this.distribution.add_distribution_created, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.distribution.distribution + ' : ' + response.distribution.name + this.distribution.add_distribution_created, '', { duration: 5000, horizontalPosition: 'center' });
                         this.router.navigate(['projects/distributions/' + response.distribution.id]);
                     });
                 } else {
@@ -454,7 +454,20 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                     this.loadingCreation = false;
                 }
             }
-        } else {
+        } 
+        else  if (this.criteriaArray.length == 0) {
+            this.snackBar.open(this.distribution.add_distribution_missing_selection_criteria, '', { duration: 5000, horizontalPosition: 'center' });
+        }
+        else  if (!this.commodityArray[0]) {
+            this.snackBar.open(this.distribution.add_distribution_missing_commodity, '', { duration: 5000, horizontalPosition: 'center' });
+        }
+        else  if (!this.newObject.date_distribution) {
+            this.snackBar.open(this.distribution.add_distribution_missing_date, '', { duration: 5000, horizontalPosition: 'center' });
+        }
+        else  if (this.newObject.threshold <= 0) {
+            this.snackBar.open(this.distribution.add_distribution_missing_threshold, '', { duration: 5000, horizontalPosition: 'center' });
+        }
+        else {
             this.snackBar.open(this.distribution.add_distribution_check_fields, '', { duration: 5000, horizontalPosition: 'center' });
         }
 
@@ -499,6 +512,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         if (user_action === this.criteriaAction) {
             this.load = true;
             this.criteriaArray.push(createElement);
+
             this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
                 if (this.commodityArray.length > 0) 

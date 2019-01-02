@@ -73,6 +73,12 @@ export class ModalAddComponent extends ModalComponent {
         } else if (this.data.entity === Commodity) {
             this.properties.forEach(
                 (element) => {
+                    setTimeout(() => {
+                        if (element == 'modality')
+                           this.newObject[element] = 1;
+                           this.selected('', this.newObject);
+                    }, 0);
+
                     if (element === 'unit') {
                         this.newObject[element] = 'USD';
                     }
@@ -202,7 +208,7 @@ export class ModalAddComponent extends ModalComponent {
                 return;
             }
 
-            if (new Date(this.newObject.start_date).getTime() > new Date(this.newObject.end_date).getTime()) {
+            if (new Date(this.newObject.start_date).getTime() >= new Date(this.newObject.end_date).getTime()) {
                 this.snackBar.open(this.modal.modal_check_date, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }

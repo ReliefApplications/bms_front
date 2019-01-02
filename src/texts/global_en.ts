@@ -314,7 +314,6 @@ export const TEXT = {
     report_apply: 'apply',
     report_country: 'country',
     report_country_report: 'country report',
-    report_distribution: 'distribution',
     report_distribution_report: 'distribution report',
     report_filter_chose_periode: 'choose period',
     report_filter_per_month: 'per month',

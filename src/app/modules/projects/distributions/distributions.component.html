@@ -384,7 +384,7 @@
             <div class="modal-body">
                 <p> {{TEXT.distribution_select_beneficiaries}} <strong> {{actualDistribution.project.name}} </strong>
                     {{TEXT.distribution_want_add}} <strong> {{actualDistribution.name}} </strong>
-                    {{TEXT.report_distribution}}.</p>
+                    {{TEXT.distribution | lowercase}}.</p>
                 <div class="selectBeneficiaries">
                     <mat-form-field>
                         <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" [(ngModel)]="selectedBeneficiaries"

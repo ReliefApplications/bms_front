@@ -19,6 +19,7 @@ export class ModalAddComponent extends ModalComponent {
     display = false;
     oldSelectedModality = 0;
     displayAdd: boolean = false;
+    maxLength : number=35;
 
     @Input() data: any;
     @Output() onCreate = new EventEmitter();

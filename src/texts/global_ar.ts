@@ -171,6 +171,7 @@ export const TEXT = {
     distribution_details_random: 'عينة عشوائية للتحميل',
     distribution_details_sample_size: 'حجم العينة',
     distribution_details_validate: 'التحقق والقفل',
+    distribution_error_validate: 'The distribution is empty, please fill it before to validate it',
     distribution_no_beneficiaries: 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.',
     distribution_no_random_sample: 'Random sample can\'t be generated...',
     distribution_no_right_transaction: 'لا يحق لك أن تقوم بالصفقة ، اسأل مدير المشروع الخاص بك أو مدير بلدك',

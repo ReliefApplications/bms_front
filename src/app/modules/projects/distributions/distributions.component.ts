@@ -373,7 +373,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     /**
      * Requests back-end a file containing informations about the transaction
      */
-    exportTransaction() {
+    exportTransaction() {
         this.loadingExport = true;
         this.distributionService.export('transaction', this.extensionTypeTransaction, this.distributionId).then(
             () => { this.loadingExport = false }
@@ -395,23 +395,27 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      */
     confirmValidation() {
         if (this.hasRights) {
-            this.loaderValidation = true;
-            this.distributionService.setValidation(this.distributionId)
-                .subscribe(
-                    success => {
-                        this.actualDistribution.validated = true;
-                        this.snackBar.open(this.TEXT.distribution_validated, '', { duration: 5000, horizontalPosition: 'center' });
-                        this.validateActualDistributionInCache();
-                        this.getDistributionBeneficiaries('transaction');
-                        this.loaderValidation = false;
-                        // TODO : Check if phone number exists for all head of households.
-                    },
-                    error => {
-                        this.actualDistribution.validated = false;
-                        this.snackBar.open(this.TEXT.distribution_not_validated, '', { duration: 5000, horizontalPosition: 'center' });
-                    }
-                );
-
+            if (this.finalBeneficiaryData.data.length > 0) {
+                this.loaderValidation = true;
+                this.distributionService.setValidation(this.distributionId)
+                    .subscribe(
+                        success => {
+                            this.actualDistribution.validated = true;
+                            this.snackBar.open(this.TEXT.distribution_validated, '', { duration: 5000, horizontalPosition: 'center' });
+                            this.validateActualDistributionInCache();
+                            this.getDistributionBeneficiaries('transaction');
+                            this.loaderValidation = false;
+                            // TODO : Check if phone number exists for all head of households.
+                        },
+                        error => {
+                            this.actualDistribution.validated = false;
+                            this.snackBar.open(this.TEXT.distribution_not_validated, '', { duration: 5000, horizontalPosition: 'center' });
+                        }
+                    );
+            }
+            else {
+                this.snackBar.open(this.TEXT.distribution_error_validate, '', { duration: 5000, horizontalPosition: 'center' });
+            }
         }
         else
             this.snackBar.open(this.TEXT.distribution_no_right_validate, '', { duration: 5000, horizontalPosition: 'right' });
@@ -530,7 +534,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                                             if (result != progression) {
                                                 progression = result;
 
-                                                this.progression = Math.floor((result/peopleLeft)*100);
+                                                this.progression = Math.floor((result / peopleLeft) * 100);
                                             }
                                         }
                                     }
@@ -548,7 +552,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
 
         this.chartAccepted = false;
     }
-    
+
     setTransactionMessage(beneficiary, i) {
 
         this.transactionData.data[i].message = beneficiary.transactions[beneficiary.transactions.length - 1].message ?

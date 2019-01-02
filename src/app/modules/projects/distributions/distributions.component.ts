@@ -665,20 +665,20 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
 
             if (type === 'total') {
                 amount = commodity.value * this.transactionData.data.length;
-            } else if (type === 'done') {
+            } else if (type === 'sent') {
                 amount = 0;
                 this.transactionData.data.forEach(
                     element => {
-                        if (element.state === 1 || element.state === 2) {
+                        if (element.state === 1 || element.state === 2 || element.state === 3) {
                             amount += commodity.value;
                         }
                     }
                 );
-            } else if (type === 'waiting') {
+            } else if (type === 'received') {
                 amount = 0;
                 this.transactionData.data.forEach(
                     element => {
-                        if (element.state === -1 || element.state === 1) {
+                        if (element.state === 3) {
                             amount += commodity.value;
                         }
                     }
@@ -687,7 +687,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                 let done = 0;
                 this.transactionData.data.forEach(
                     element => {
-                        if (element.state === 1 || element.state === 2) {
+                        if (element.state === 1 || element.state === 2 || element.state === 3) {
                             done += commodity.value;
                         }
                     }

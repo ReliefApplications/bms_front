@@ -238,11 +238,11 @@
                         </div>
                         <div class="info_2">
                             <h5>{{TEXT.transaction_amount_done | uppercase}}</h5>
-                            {{ getAmount('done', commodity) }} {{commodity.unit}}
+                            {{ getAmount('sent', commodity) }} {{commodity.unit}}
                         </div>
                         <div class="info_3">
                             <h5>{{TEXT.transaction_amount_waiting | uppercase}}</h5>
-                            {{ getAmount('waiting', commodity) }} {{commodity.unit}}
+                            {{ getAmount('received', commodity) }} {{commodity.unit}}
                         </div>
                     </div>
                 </div>

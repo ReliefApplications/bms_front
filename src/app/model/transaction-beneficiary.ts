@@ -28,7 +28,7 @@ export class TransactionBeneficiary {
     phone: string;
 
     /**
-     * Status : -2. not sent / -1. no phone / 0. fail to send / 1.Successfully sent / 2. already sent
+     * Status : -2. not sent / -1. no phone / 0. fail to send / 1.Successfully sent / 2. already sent / 3. picked up
      */
     state: number;
 
@@ -130,23 +130,22 @@ export class TransactionBeneficiary {
 
         if (instance.transactions && instance.transactions.length > 0 && isNumber(instance.transactions[0].transaction_status)) {
             beneficiary.id_transaction = instance.transactions[0].id;
-
-            switch (instance.transactions[instance.transactions.length - 1].transaction_status) {
-                case 0:
-                    beneficiary.updateState('Sending failed');
-                    break;
-                case 1:
-                    beneficiary.updateState('Already sent');
-                    break;
-                case 2:
-                    beneficiary.updateState('No phone');
-                    break;
-                case 3:
-                    beneficiary.updateState('Picked up');
-                default:
-                    beneficiary.updateState('Not sent');
-                    break;
+            if (instance.transactions[instance.transactions.length - 1].transaction_status == 0) {
+                beneficiary.updateState('Sending failed');
             }
+            else if (instance.transactions[instance.transactions.length - 1].transaction_status == 1 && !instance.transactions[instance.transactions.length - 1].money_received) {
+                beneficiary.updateState('Already sent');
+            }
+            else if (instance.transactions[instance.transactions.length - 1].transaction_status == 2) {
+                beneficiary.updateState('No phone');
+            }
+            else if (instance.transactions[instance.transactions.length - 1].transaction_status == 1 && instance.transactions[instance.transactions.length - 1].money_received) {
+                beneficiary.updateState('Picked up');
+            }
+            else {
+                beneficiary.updateState('Not sent');
+            }
+
             if (instance.transactions[instance.transactions.length - 1]) {
                 beneficiary.message = instance.transactions[instance.transactions.length - 1].message ? instance.transactions[instance.transactions.length - 1].message : '';
             }
@@ -344,6 +343,9 @@ export class TransactionBeneficiary {
                 break;
             case 'Already sent':
                 stateNumber = 2;
+                break;
+            case 'Picked up':
+                stateNumber = 3;
                 break;
             default:
                 stateNumber = -2;

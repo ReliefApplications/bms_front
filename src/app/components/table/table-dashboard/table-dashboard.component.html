@@ -27,31 +27,50 @@
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="actions">
-            <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
-            <td mat-cell class="content-cell" *matCellDef="let element">
-                <div class="validated-distribution" *ngIf="element.validated" routerLink="/projects/distributions/{{element.id}}">
-                    <mat-icon>done</mat-icon>
-                </div>
-                <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('details', element); $event.stopPropagation()" [matTooltip]="table.details"
-                    class="green">
-                    <mat-icon>search</mat-icon>
-                </button>
-                <button mat-icon-button *ngIf="checkItemStateRights(element) && rightsEdit" (click)="openDialog('update', element); $event.stopPropagation()" [matTooltip]="table.update"
-                    class="light-red">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button *ngIf="checkItemStateRights(element) && rights" (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="table.delete"
-                    class="red">
-                    <mat-icon>delete_outline</mat-icon>
-                </button>
-            </td>
-        </ng-container>
+    <div *ngIf="filled && data && data.data" style="max-height: 370px; overflow: auto;">
+        <table mat-table [dataSource]="data" matSort matSortActive="date_distribution"
+            matSortDirection="desc">
+            <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{mapperService.mapTitle(property)}}</th>
+                <td mat-cell *matCellDef="let element">
+                    <span *ngIf="propertiesTypes[property]=='image'">
+                        <app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)"
+                            [name]="mapperService.mapValue(element, property)"></app-icon-svg>
+                    </span>
+                    <span *ngIf="propertiesTypes[property]=='png'"><img [matTooltip]="getImageName(mapperService.mapValue(element, property))"
+                            class="png" [src]="mapperService.mapValue(element, property)"></span>
+                    <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element,
+                        property)}}</span>
+                </td>
+            </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="propertiesActions"></tr>
-        <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="distribution-details cursor-pointer"
-            (click)="openDialog('details', element)"></tr>
-    </table>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
+                <td mat-cell class="content-cell" *matCellDef="let element">
+                    <div class="validated-distribution" *ngIf="element.validated" routerLink="/projects/distributions/{{element.id}}">
+                        <mat-icon>done</mat-icon>
+                    </div>
+                    <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('details', element); $event.stopPropagation()"
+                        [matTooltip]="table.details" class="green">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                    <button mat-icon-button *ngIf="checkItemStateRights(element) && rightsEdit" (click)="openDialog('update', element); $event.stopPropagation()"
+                        [matTooltip]="table.update" class="light-red">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button *ngIf="checkItemStateRights(element) && rights" (click)="openDialog('delete', element); $event.stopPropagation()"
+                        [matTooltip]="table.delete" class="red">
+                        <mat-icon>delete_outline</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="propertiesActions; sticky: true;"></tr>
+            <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="distribution-details cursor-pointer"
+                (click)="openDialog('details', element)"></tr>
+        </table>
+  
+
 
     <div class="no-data-container" *ngIf="!data || !data.data || data._data._value == null || data.data.length === 0">
         <div class="loadingContent">

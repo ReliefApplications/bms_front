@@ -253,7 +253,7 @@ export const TEXT = {
     // Model
     model_beneficiaries_dependents: 'التوابع',
     model_beneficiaries_nationalids: 'رقم الهوية',
-    model_beneficiaries_phones: 'الهاتف',
+    model_beneficiaries_phones: 'الهاتف (no country code)',
     model_beneficiaries_status: 'الرتبة في الأسرة',
     model_commodity: 'السلع',
     model_commodity_modality: 'القيد',

@@ -254,7 +254,7 @@ export const TEXT = {
     // Model
     model_beneficiaries_dependents: 'Dependents',
     model_beneficiaries_nationalids: 'ID number',
-    model_beneficiaries_phones: 'Phones',
+    model_beneficiaries_phones: 'Phones (no country code)',
     model_beneficiaries_status: 'Satus',
     model_commodity: 'Commodity',
     model_commodity_modality: 'Modality',

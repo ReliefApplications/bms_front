@@ -252,7 +252,7 @@ export const TEXT = {
     // Model
     model_beneficiaries_dependents: 'Dépendents',
     model_beneficiaries_nationalids: 'Numéro d\'identification',
-    model_beneficiaries_phones: 'Téléphones',
+    model_beneficiaries_phones: 'Téléphones (sans le code pays)',
     model_beneficiaries_status: 'Satut',
     model_commodity: 'Ressource',
     model_commodity_modality: 'Modalité',

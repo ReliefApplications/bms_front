@@ -10,11 +10,11 @@
                     <div class="toggled-buttons" [ngClass]="{'toggled':addToggled}">
                         <button mat-raised-button class="button-background-accent" routerLink="/beneficiaries/import">
                             <mat-icon>publish</mat-icon>
-                            <span>{{household.import | uppercase}}</span>
+                            <span>{{household.import | titlecase}}</span>
                         </button>
                         <button mat-raised-button class="button-background-accent" (click)="addOneHousehold()">
                             <mat-icon>group_add</mat-icon>
-                            <span>{{household.add_beneficiary_title | uppercase}}</span>
+                            <span>{{household.add_beneficiary_title | titlecase}}</span>
                         </button>
                     </div>
                     <button mat-fab class="add-button" *ngIf='hasRights' (click)="toggleAddButtons()">
@@ -26,7 +26,7 @@
                     <div class="extension" *ngIf='hasRightsExport && !loadingExport'>
                         <button mat-raised-button class="button-background-primary" (click)="export()">
                             <mat-icon>get_app</mat-icon>
-                            <span>{{household.export | uppercase}}</span>
+                            <span>{{household.export | titlecase}}</span>
                         </button>
                         <div mat-button class="dropdown" [ngClass]="{'arabic':language==='ar'}" [matMenuTriggerFor]="exportType">
                             <mat-icon>keyboard_arrow_down</mat-icon>

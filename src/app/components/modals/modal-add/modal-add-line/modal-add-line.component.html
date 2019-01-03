@@ -46,7 +46,10 @@
     </tr>
 
     <div class="advanced-icon">
-      <mat-icon (click)="changeDisplay()">{{ iconAdvanced }}</mat-icon>
+      <button mat-button class="button-text-accent" (click)="changeDisplay()">
+        <span>{{ modal.add_distribution_advanced_option }}</span>
+        <mat-icon>{{ iconAdvanced }}</mat-icon>
+      </button>
     </div>
 
     <tr *ngIf="displayWeight" class="modal-row">

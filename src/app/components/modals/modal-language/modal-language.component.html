@@ -5,7 +5,7 @@
     <div class="select-container">
       <mat-select [(ngModel)]="language" [formControl]="controls" class="button-flag">
         <mat-option *ngFor="let l of languages" [value]="l">
-          {{l | uppercase}}
+          {{l | titlecase}}
         </mat-option>
       </mat-select>
     </div>

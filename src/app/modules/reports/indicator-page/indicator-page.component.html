@@ -20,6 +20,11 @@
                     <button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1"
                         [referenceKey]="'frequency'"></button-filter-date>
                 </div>
+                
+                <div class="frequency">
+                    <button *ngIf="isDownloading" mat-raised-button class="button-background-primary"><mat-spinner [diameter]="20" style="margin: 0 auto"></mat-spinner></button>
+                    <button *ngIf="!isDownloading" mat-raised-button class="button-background-primary" (click)="downloadPDF()"><mat-icon>get_app</mat-icon></button>
+                </div>
             </div>
 
             <!-- datepicker which appear when button "choose a period" is clicked -->
@@ -38,7 +43,7 @@
                         <mat-datepicker #pickerTo></mat-datepicker>
                     </mat-form-field>
                     <button mat-raised-button *ngIf="!from.hasError('required') && !to.hasError('required')" class="apply-period"
-                        (click)="applyPeriod(inputFrom.value, inputTo.value)">{{indicator.report_apply | uppercase}}</button>
+                        (click)="applyPeriod(inputFrom.value, inputTo.value)">{{indicator.report_apply | titlecase}}</button>
                 </mat-card>
             </div>
 
@@ -99,7 +104,7 @@
                                         <mat-datepicker touchUi #pickerTo></mat-datepicker>
                                     </mat-form-field>
                                     <button mat-raised-button class="apply-period-mobile">{{indicator.report_apply |
-                                        uppercase}}</button>
+                                        titlecase}}</button>
                                 </div>
                             </div>
                         </div>

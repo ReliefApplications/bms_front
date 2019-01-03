@@ -8,7 +8,7 @@
         </div>
         <div class="select-file">
           <a class="fenetre-selection" href="javascript:void(0)" (click)="file.click()">
-            <button mat-stroked-button color="primary">{{TEXT.beneficiaries_import_addFile | uppercase}}</button>
+            <button mat-stroked-button color="primary">{{TEXT.beneficiaries_import_addFile | titlecase}}</button>
           </a>
           <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
         </div>
@@ -27,7 +27,7 @@
     <mat-spinner [diameter]="35" *ngIf="loadFile"></mat-spinner>
     <button mat-raised-button class="upload-button" (click)="updateDistribution(1)" *ngIf="csv && !loadFile">
       <mat-icon>publish</mat-icon>
-      <span>{{TEXT.import | uppercase }}</span>
+      <span>{{TEXT.import | titlecase }}</span>
     </button>
   </div>
 </div>
@@ -38,7 +38,7 @@
       <ng-template mat-tab-label>
         <div class="badge">
           <label>
-            {{ TEXT.import_added | uppercase }}
+            {{ TEXT.import_added | titlecase }}
           </label>
           <mat-chip-list>
             <mat-chip>{{numberAdded}}</mat-chip>
@@ -56,7 +56,7 @@
       <ng-template mat-tab-label>
         <div class="badge">
           <label>
-            {{ TEXT.import_deleted | uppercase }}
+            {{ TEXT.import_deleted | titlecase }}
           </label>
           <mat-chip-list>
             <mat-chip>{{numberRemoved}}</mat-chip>
@@ -74,7 +74,7 @@
       <ng-template mat-tab-label>
         <div class="badge">
           <label>
-            {{ TEXT.import_created | uppercase }}
+            {{ TEXT.import_created | titlecase }}
           </label>
           <mat-chip-list>
             <mat-chip>{{numberCreated}}</mat-chip>
@@ -92,7 +92,7 @@
         <ng-template mat-tab-label>
           <div class="badge">
             <label>
-              {{ TEXT.import_updated | uppercase }}
+              {{ TEXT.import_updated | titlecase }}
             </label>
             <mat-chip-list>
               <mat-chip>{{numberUpdated}}</mat-chip>

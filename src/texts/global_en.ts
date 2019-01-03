@@ -76,6 +76,7 @@ export const TEXT = {
     add_beneficiary_title: 'add beneficiary',
 
     // Add distribution
+    add_distribution_advanced_option: 'Advanced options',
     add_distribution_beneficiaries_reached: 'Beneficiaries reached',
     add_distribution_check_date: 'Error while saving the date, check that the format is like mm/dd/yyyy',
     add_distribution_check_fields: 'Fill new distribution\'s information before, including the commodity and a minimum selection score\'s value greater than 0.',
@@ -254,7 +255,7 @@ export const TEXT = {
     // Model
     model_beneficiaries_dependents: 'Dependents',
     model_beneficiaries_nationalids: 'ID number',
-    model_beneficiaries_phones: 'Phones',
+    model_beneficiaries_phones: 'Phones (no country code)',
     model_beneficiaries_status: 'Satus',
     model_commodity: 'Commodity',
     model_commodity_modality: 'Modality',

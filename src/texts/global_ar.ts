@@ -76,6 +76,7 @@ export const TEXT = {
     add_beneficiary_title: 'إضافة مستفيد',
 
     // Add distribution
+    add_distribution_advanced_option: 'Advanced options',
     add_distribution_beneficiaries_reached: 'المستفيدون الذين تم الوصول إليهم',
     add_distribution_check_date: '  mm / dd / yyyyy  حدث خطأ أثناء حفظ التاريخ ، تحقق من أن التنسيق يشبه',
     add_distribution_check_fields: 'إملء معلومات التوزيع الجديدة  قبل ، بما في ذلك قيمة السلع والقيمة الأدنى يجب أن تكون أعلى من 0.',
@@ -253,7 +254,7 @@ export const TEXT = {
     // Model
     model_beneficiaries_dependents: 'التوابع',
     model_beneficiaries_nationalids: 'رقم الهوية',
-    model_beneficiaries_phones: 'الهاتف',
+    model_beneficiaries_phones: 'الهاتف (no country code)',
     model_beneficiaries_status: 'الرتبة في الأسرة',
     model_commodity: 'السلع',
     model_commodity_modality: 'القيد',

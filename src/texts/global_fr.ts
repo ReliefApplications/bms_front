@@ -76,6 +76,7 @@ export const TEXT = {
     add_beneficiary_title: 'Ajout d\'un bénéficiaire',
 
     // Add distribution
+    add_distribution_advanced_option: 'Options avancées',
     add_distribution_beneficiaries_reached: 'Bénéficaires atteints',
     add_distribution_check_date: 'Erreur lors de la sauvegarde de la date, vérifiez que le format est mm/dd/yyyy',
     add_distribution_check_fields: 'Remplissez les informations de la nouvelle distribution avant, incluant les commodités et le score minimum de sélection supérieur à 0.',
@@ -252,7 +253,7 @@ export const TEXT = {
     // Model
     model_beneficiaries_dependents: 'Dépendents',
     model_beneficiaries_nationalids: 'Numéro d\'identification',
-    model_beneficiaries_phones: 'Téléphones',
+    model_beneficiaries_phones: 'Téléphones (sans le code pays)',
     model_beneficiaries_status: 'Satut',
     model_commodity: 'Ressource',
     model_commodity_modality: 'Modalité',

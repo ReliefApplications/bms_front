@@ -76,6 +76,7 @@ export const TEXT = {
     add_beneficiary_title: 'Ajout d\'un bénéficiaire',
 
     // Add distribution
+    add_distribution_advanced_option: 'Options avancées',
     add_distribution_beneficiaries_reached: 'Bénéficaires atteints',
     add_distribution_check_date: 'Erreur lors de la sauvegarde de la date, vérifiez que le format est mm/dd/yyyy',
     add_distribution_check_fields: 'Remplissez les informations de la nouvelle distribution avant, incluant les commodités et le score minimum de sélection supérieur à 0.',

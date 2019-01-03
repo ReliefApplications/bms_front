@@ -9,8 +9,17 @@
             <th class="table-value">
                 <form class="form" [formGroup]="form">
                     <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
-                        <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'selectCountry'"
-                            [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
+                        
+                        <input matInput [maxlength]="this.maxLength" *ngIf="propertiesTypes[p]=='text'"
+                            [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]" >
+
+                        <mat-hint align="start" *ngIf="propertiesTypes[p]=='text'" ><strong>DO NOT EXCEED 30 CHARAC</strong> </mat-hint>
+                        <mat-hint align="end"   *ngIf="newObject[p] && propertiesTypes[p]=='text'" > {{newObject[p].length}} / {{this.maxLength}} </mat-hint>
+                        <mat-error *ngIf="newObject[p] && newObject[p].length==12"></mat-error>
+    
+
+                        <input  matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'selectCountry' && propertiesTypes[p]!='text'"
+                            [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]" >
 
                         <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]"
                             [ngModelOptions]="{standalone: true}" type="number" min="0">

@@ -5,22 +5,22 @@
     <div  class="container-table">
         <div class="container-content box-green">
             <div class="content-buttons">
-                <div [ngClass]="{'add-buttons': language != 'ar', 'add-buttons-arabic': language == 'ar'}" (mouseenter)="widthScreen > maxWidthMobile && this.addToggled = true"
-                    (mouseleave)="widthScreen > maxWidthMobile && this.addToggled = false">
-                    <div class="toggled-buttons" [ngClass]="{'toggled':addToggled}">
-                        <button mat-raised-button class="button-background-accent" routerLink="/beneficiaries/import">
-                            <mat-icon>publish</mat-icon>
-                            <span>{{household.import | titlecase}}</span>
-                        </button>
-                        <button mat-raised-button class="button-background-accent" (click)="addOneHousehold()">
-                            <mat-icon>group_add</mat-icon>
-                            <span>{{household.add_beneficiary_title | titlecase}}</span>
-                        </button>
-                    </div>
-                </div>
-                <button mat-raised-button class="add-button" *ngIf='hasRights' (click)="toggleAddButtons()">
-                        <mat-icon>add</mat-icon>
-                        {{household.create | uppercase}}
+                    <button mat-raised-button class="add-button" *ngIf='hasRights' (click)="toggleAddButtons()">
+                            <mat-icon>add</mat-icon>
+                            <div [ngClass]="{'add-buttons': language != 'ar', 'add-buttons-arabic': language == 'ar'}" (mouseenter)="widthScreen > maxWidthMobile && this.addToggled = true"
+                                    (mouseleave)="widthScreen > maxWidthMobile && this.addToggled = false">
+                                    <div class="toggled-buttons" [ngClass]="{'toggled':addToggled}">
+                                        <button mat-raised-button class="button-background-accent" routerLink="/beneficiaries/import">
+                                            <mat-icon>publish</mat-icon>
+                                            <span>{{household.import | titlecase}}</span>
+                                        </button>
+                                        <button mat-raised-button class="button-background-accent" (click)="addOneHousehold()">
+                                            <mat-icon>group_add</mat-icon>
+                                            <span>{{household.add_beneficiary_title | titlecase}}</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            {{household.create | titlecase}}
                     </button>
                 <div class="action-buttons"> 
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
@@ -43,7 +43,6 @@
                             </button>
                         </mat-menu>
                     </div>
-                    &nbsp;
                 <button mat-raised-button *ngIf="hasRightsDelete" class="selectingBeneficiaries button-background-primary"
                     (click)="addToProject(addBeneficiaries)" [matBadge]="dataSource.length$ | async">
                     {{household.beneficiaries_add_list}}

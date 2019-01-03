@@ -58,7 +58,6 @@
         }
     }
 
-
     .container-table {
         display: flex;
         width: 100%;
@@ -95,10 +94,7 @@
                     border-top-left-radius: 20px;
                     border-bottom-right-radius: 20px;
                     border-top-right-radius: 20px;
-                    font-weight: bold;
-                    
-
-                
+                    font-weight: bold;   
                 }
 
                 .action-buttons{
@@ -199,15 +195,15 @@
 .add-buttons {
     color: $bms_grey !important;
     position: fixed !important;
-    bottom: 2vh;
-    right: 3vh;
+    bottom:4vh;
+    left:0vh;
     z-index: 1000;
 
     .toggled-buttons {
         display: none;
         flex-direction: column;
-        align-items: flex-end;
-        animation: 0.3s button-slide-in;
+        align-items: flex-start;
+        animation: 0.5s button-slide-in;
 
         button {
             margin-bottom: 10px;

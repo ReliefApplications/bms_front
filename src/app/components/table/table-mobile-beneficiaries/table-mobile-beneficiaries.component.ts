@@ -13,6 +13,10 @@ import { tap } from 'rxjs/operators';
 })
 export class TableMobileBeneficiariesComponent extends TableBeneficiariesComponent {
 
+   
+
+
+
     @Output() updating = new EventEmitter<number>();
     @Output() selectedAdm = new EventEmitter<any>();
 
@@ -78,4 +82,22 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
 
         this.selectedAdm.emit({ index: index, object: this.newObject });
     }
+
+    showAdvancedResearch(){
+        this.advancedResearch=!this.advancedResearch;
+    }
+
+    clearSearch(){
+        while ( this.data.filter.length !== 0 ) {
+            this.project='';
+            this.vulnerability='';
+            this.keyWords='';
+            this.applyFilter('', 'vulnerabilities') ; 
+            this.applyFilter('', 'familyName'); 
+            this.applyFilter('', 'projects');   
+            this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
+            this.sendSortedData();
+        }
+    }
+
 }

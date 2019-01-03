@@ -37,12 +37,12 @@
                         <mat-icon>done</mat-icon>
                     </div>
                     <div class="unvalidated-distribution" *ngIf="!element.validated">
-                        <button mat-icon-button class="green" routerLink="/projects/distributions/{{element.id}}"
+                        <button mat-icon-button class="green" (click)="openDialog('update', element); $event.stopPropagation()"
                             [matTooltip]="table.details">
                             <mat-icon>search</mat-icon>
                         </button>
                         <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rightsEdit"
-                            [matTooltip]="table.update" class="light-red" (click)="openDialog('update', element); $event.stopPropagation()">
+                            [matTooltip]="table.update" class="light-red" routerLink="/projects/distributions/{{element.id}}">
                             <mat-icon>edit</mat-icon>
                         </button>
                         <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rights"

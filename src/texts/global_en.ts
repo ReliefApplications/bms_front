@@ -104,7 +104,7 @@ export const TEXT = {
     beneficiaries_add_list: 'Add this list to a project',
     beneficiaries_add_project: 'Please select the project(s) in which you would like to add the',
     beneficiaries_added: 'Beneficiairies added to the selected project',
-    beneficiaries_advanced_research:'Advanced research',
+    beneficiaries_advanced_research:'Advanced search',
     beneficiaries_clear_all_research:'Clear all',
     beneficiaries_full_address: 'Full household address:',
     beneficiaries_household_info: 'Household information summary:',

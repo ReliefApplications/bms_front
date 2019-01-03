@@ -105,6 +105,8 @@ export const TEXT = {
     beneficiaries_add_list: 'العالمي',
     beneficiaries_add_project: 'Please select the project(s) in which you would like to add the',
     beneficiaries_added: 'تم إضافة المستفيدين الى المشروع',
+    beneficiaries_advanced_research:'Advanced search',
+    beneficiaries_clear_all_research:'Clear all',
     beneficiaries_full_address: 'Full household address:',
     beneficiaries_household_info: 'Household information summary:',
     beneficiaries_import_addFile: ' إضافة ملف أو وضع ملف ',

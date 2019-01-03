@@ -19,7 +19,12 @@ export class TableBeneficiariesComponent extends TableComponent {
     @Output() selectedAdm = new EventEmitter<any>();
 
     selectedFilter;
+    keyWords:string;
+    vulnerability:any = null ;
+    project:any=null;
     testLoading = true;
+    beneficiary = GlobalText.TEXTS;
+    advancedResearch:boolean = false;
     displayNoData: boolean = false;
     _timeout: any = null;
     mapperObject = null;
@@ -154,4 +159,22 @@ export class TableBeneficiariesComponent extends TableComponent {
 
         this.selectedAdm.emit({ index: index, object: this.newObject });
     }
+
+    showAdvancedResearch(){
+        this.advancedResearch=!this.advancedResearch;
+    }
+
+    clearSearch(){
+        while ( this.data.filter.length !== 0 ) {
+            this.project='';
+            this.vulnerability='';
+            this.keyWords='';
+            this.applyFilter('', 'vulnerabilities') ; 
+            this.applyFilter('', 'familyName'); 
+            this.applyFilter('', 'projects');   
+            this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
+            this.sendSortedData();
+        }
+    }
+
 }

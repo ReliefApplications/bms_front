@@ -20,6 +20,9 @@
                     <button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1"
                         [referenceKey]="'frequency'"></button-filter-date>
                 </div>
+                <div class="frequency">
+                    <button mat-raised-button class="button-background-primary" (click)="downloadPDF()"><mat-icon>get_app</mat-icon></button>
+                </div>
             </div>
 
             <!-- datepicker which appear when button "choose a period" is clicked -->
@@ -108,7 +111,7 @@
             </mat-accordion>
 
             <!-- where we display charts, loader or information text when no charts exists -->
-            <div class="content-table">
+            <div id="indicator-table" class="content-table">
                 <div *ngIf="indicators && indicators.length" class="container-indicator">
                     <div *ngFor="let indicator of indicators; let i = index">
                         <app-indicator *ngIf="type == indicator['type'] && display" [indicator]="indicator"

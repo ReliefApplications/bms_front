@@ -16,6 +16,8 @@ import { filterQueryId } from '@angular/core/src/view/util';
 import { ButtonFilterDateComponent } from '../filters/button-filter/button-filter-data/button-filter-date.component';
 import { finalize } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf';
 
 
 @Component({
@@ -411,5 +413,35 @@ export class IndicatorPageComponent implements OnInit {
                 }
             }
         )
+    }
+
+    // DOWNLOAD PDF OF GRAPHS
+    downloadPDF() {
+        let charts = document.getElementsByClassName('indicatorChart')
+        let doc = new jsPDF('l', 'px', 'a4');
+        let pageWidth = doc.internal.pageSize.getWidth();
+        let pageHeight = doc.internal.pageSize.getHeight();
+        let collection = []
+        let timestamp = new Date();
+
+        doc.setFontSize(20);
+        doc.text(`Reports By ${this.frequency}`, pageWidth / 2, 30, 'center');
+
+        for (let i = 0; i < charts.length; i++) {
+            let canvasImg = html2canvas(charts[i], {width: 800, height: 800, scale: 2})
+            collection.push(canvasImg)
+        }
+
+        Promise.all(collection)
+        .then(response => {
+            response.forEach((e, i) => {
+                let imgData = e.toDataURL('img/png');
+                doc.addImage(imgData, 'PNG', 110, 75, pageWidth, pageHeight + 100, null, 'FAST')
+                if (i !== response.length-1) {
+                    doc.addPage();
+                }
+            })
+        })
+        .then(() => doc.save(`${timestamp.getDate()}-${timestamp.getMonth()+1}-${timestamp.getFullYear()}.pdf`))
     }
 }

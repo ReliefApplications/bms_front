@@ -16,7 +16,7 @@ import { filterQueryId } from '@angular/core/src/view/util';
 import { ButtonFilterDateComponent } from '../filters/button-filter/button-filter-data/button-filter-date.component';
 import { finalize } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import html2canvas from 'html2canvas'
+import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
 

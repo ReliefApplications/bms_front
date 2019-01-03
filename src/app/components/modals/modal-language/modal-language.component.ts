@@ -10,12 +10,17 @@ import { GlobalText } from '../../../../texts/global';
 export class ModalLanguageComponent extends ModalComponent {
   public languages = GlobalText.languages;
   public language = GlobalText.language;
+  public isCheckedDefault = false;
 
   ngOnInit() {
   }
 
   choseLanguage(l : string){
     this.language = l;
+  }
+
+  saveDefault() {
+    !this.isCheckedDefault ? this.isCheckedDefault = true : this.isCheckedDefault = false;
   }
 
   save(){

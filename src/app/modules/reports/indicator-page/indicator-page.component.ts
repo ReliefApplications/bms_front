@@ -51,6 +51,7 @@ export class IndicatorPageComponent implements OnInit {
     public display: boolean = true;
     public selectedPeriodFrequency: string = 'Period';
     public allMatOption;
+    public isDownloading = false;
 
     //for responsive design
     public maxHeight = 700;
@@ -417,31 +418,61 @@ export class IndicatorPageComponent implements OnInit {
 
     // DOWNLOAD PDF OF GRAPHS
     downloadPDF() {
+        this.isDownloading = true;
         let charts = document.getElementsByClassName('indicatorChart')
         let doc = new jsPDF('l', 'px', 'a4');
         let pageWidth = doc.internal.pageSize.getWidth();
         let pageHeight = doc.internal.pageSize.getHeight();
         let collection = []
         let timestamp = new Date();
+        let projects:string[] = []
+        let distributions:string[] = []
 
+        // SETTING TITLE, PROJECT, AND DISTRIBUTION TEXT
         doc.setFontSize(20);
-        doc.text(`Reports By ${this.frequency}`, pageWidth / 2, 30, 'center');
+        doc.text(`${this.type} Report by ${this.frequency}`, pageWidth / 2, 30, 'center');
 
+        if (this.type == "Project" && this.selectedProject.length > 0 || this.type == "Distribution" && this.selectedProject.length > 0) {
+            this.projectList.map(e => {
+                let splitted = e.split(' -');
+                for (let i = 0; i < this.selectedProject.length; i++) {
+                    splitted[0] == this.selectedProject[i] ? projects.push(splitted[1]) : 0;
+                }
+            })
+            doc.setFontSize(15)
+            doc.text(`Projects: ${projects.map(e => {return e})}`, pageWidth / 2, 50, 'center')
+
+            if (this.type == 'Distribution' && this.selectedDistribution.length > 0) {
+                this.distributionList.map(e => {
+                    let splitted = e.split(' -');
+                    for (let i = 0; i < this.selectedDistribution.length; i++) {
+                        splitted[0] == this.selectedDistribution[i] ? distributions.push(splitted[1]) : 0;
+                    }
+                })
+                let distributionTitle = `Distributions: ${distributions.map(e => {return e})}`
+                let splitLength = doc.splitTextToSize(distributionTitle, pageWidth - 50)
+                doc.text(splitLength, pageWidth / 2, 70, 'center')
+            }
+        }
+
+        // SAVING CHARTS TO IMAGES
         for (let i = 0; i < charts.length; i++) {
             let canvasImg = html2canvas(charts[i], {width: 800, height: 800, scale: 2})
             collection.push(canvasImg)
         }
 
+        // ADDING IMAGES TO DOCUMENT
         Promise.all(collection)
         .then(response => {
             response.forEach((e, i) => {
                 let imgData = e.toDataURL('img/png');
-                doc.addImage(imgData, 'PNG', 110, 75, pageWidth, pageHeight + 100, null, 'FAST')
-                if (i !== response.length-1) {
-                    doc.addPage();
-                }
+                doc.addImage(imgData, 'PNG', 110, 100, pageWidth, pageHeight + 100, null, 'FAST')
+                i !== response.length-1 ? doc.addPage() : 0;
             })
         })
-        .then(() => doc.save(`${timestamp.getDate()}-${timestamp.getMonth()+1}-${timestamp.getFullYear()}.pdf`))
+        .then(() => {
+            doc.save(`${this.type} Report ${timestamp.getDay()}/${timestamp.getMonth()+1}/${timestamp.getFullYear()}.pdf`);
+            this.isDownloading = false;
+        })
     }
 }

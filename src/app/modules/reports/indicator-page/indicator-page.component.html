@@ -20,8 +20,10 @@
                     <button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1"
                         [referenceKey]="'frequency'"></button-filter-date>
                 </div>
+                
                 <div class="frequency">
-                    <button mat-raised-button class="button-background-primary" (click)="downloadPDF()"><mat-icon>get_app</mat-icon></button>
+                    <button *ngIf="isDownloading" mat-raised-button class="button-background-primary"><mat-spinner [diameter]="20" style="margin: 0 auto"></mat-spinner></button>
+                    <button *ngIf="!isDownloading" mat-raised-button class="button-background-primary" (click)="downloadPDF()"><mat-icon>get_app</mat-icon></button>
                 </div>
             </div>
 
@@ -111,7 +113,7 @@
             </mat-accordion>
 
             <!-- where we display charts, loader or information text when no charts exists -->
-            <div id="indicator-table" class="content-table">
+            <div class="content-table">
                 <div *ngIf="indicators && indicators.length" class="container-indicator">
                     <div *ngFor="let indicator of indicators; let i = index">
                         <app-indicator *ngIf="type == indicator['type'] && display" [indicator]="indicator"

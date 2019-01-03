@@ -3,7 +3,7 @@
         <h2>{{distribution.projects | titlecase}}</h2>
         <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
         <button mat-stroked-button class="button-text-accent" *ngIf="!loadingCreation && hasRights" (click)="openNewProjectDialog()">
-            <span>{{distribution.new | uppercase}}</span>
+            <span>{{distribution.new | titlecase}}</span>
         </button>
     </div>
     <app-placeholder-boxline *ngIf="loadingProjects && projects != undefined" class="container-boxes"></app-placeholder-boxline>
@@ -25,7 +25,7 @@
     <app-placeholder-panel class="container-table" *ngIf="loadingDistributions && projects !== undefined && projects != null"></app-placeholder-panel>
     <div class="container-table" *ngIf="!loadingDistributions && projects !== undefined">
         <div class="container-content box-green" *ngIf="isBoxClicked">
-            <h3>{{selectedProject.name | uppercase}}</h3>
+            <h3>{{selectedProject.name | titlecase}}</h3>
             <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService"
                 [componentDisplayed]="selectedProject"></app-box-properties>
             <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
@@ -38,7 +38,7 @@
                 <div class="action-buttons" *ngIf="distributionData && distributionData.data.length>0">
                     <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
-                        <span>{{distribution.export | uppercase}}</span>
+                        <span>{{distribution.export | titlecase}}</span>
                     </button>
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension" *ngIf="!loadingExport">

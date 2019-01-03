@@ -43,7 +43,7 @@
                         <mat-datepicker #pickerTo></mat-datepicker>
                     </mat-form-field>
                     <button mat-raised-button *ngIf="!from.hasError('required') && !to.hasError('required')" class="apply-period"
-                        (click)="applyPeriod(inputFrom.value, inputTo.value)">{{indicator.report_apply | uppercase}}</button>
+                        (click)="applyPeriod(inputFrom.value, inputTo.value)">{{indicator.report_apply | titlecase}}</button>
                 </mat-card>
             </div>
 
@@ -104,7 +104,7 @@
                                         <mat-datepicker touchUi #pickerTo></mat-datepicker>
                                     </mat-form-field>
                                     <button mat-raised-button class="apply-period-mobile">{{indicator.report_apply |
-                                        uppercase}}</button>
+                                        titlecase}}</button>
                                 </div>
                             </div>
                         </div>

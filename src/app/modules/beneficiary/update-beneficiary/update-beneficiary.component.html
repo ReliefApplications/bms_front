@@ -195,7 +195,7 @@
                                         </mat-autocomplete>
                                     </mat-form-field> -->
                                     <mat-form-field>
-                                        <input matInput type="tel" placeholder={{Text.phone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone.number"
+                                        <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone.number"
                                             required>
                                     </mat-form-field>
                                     <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[0].phone.proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
@@ -307,7 +307,7 @@
                                                 </mat-autocomplete>
                                             </mat-form-field> -->
                                         <mat-form-field>
-                                            <input matInput type="tel" placeholder={{Text.phone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.number">
+                                            <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.number">
                                         </mat-form-field>
                                         <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
                                     </div>

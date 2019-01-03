@@ -76,6 +76,7 @@ export const TEXT = {
     add_beneficiary_title: 'إضافة مستفيد',
 
     // Add distribution
+    add_distribution_advanced_option: 'Advanced options',
     add_distribution_beneficiaries_reached: 'المستفيدون الذين تم الوصول إليهم',
     add_distribution_check_date: '  mm / dd / yyyyy  حدث خطأ أثناء حفظ التاريخ ، تحقق من أن التنسيق يشبه',
     add_distribution_check_fields: 'إملء معلومات التوزيع الجديدة  قبل ، بما في ذلك قيمة السلع والقيمة الأدنى يجب أن تكون أعلى من 0.',

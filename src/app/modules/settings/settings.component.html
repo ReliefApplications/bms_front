@@ -23,7 +23,7 @@
                 <div class="action-buttons">
                     <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
-                        <span>{{settings.export | uppercase}}</span>
+                        <span>{{settings.export | titlecase}}</span>
                     </button>
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension">

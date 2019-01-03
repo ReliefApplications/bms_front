@@ -12,7 +12,7 @@
       <input matInput (keyup)="applyFilter($event.target.value, 'familyName'); sendSortedData()" [(ngModel)]="value" placeholder="{{table.table_filter}}">
     </mat-form-field>
  
-    <div class="filter-combo">
+    <div *ngIf="advancedResearch" class="filter-combo">
       <ng-select class="input-filter custom" bindLabel="name" [items]="data.projects.value" [multiple]="true"
         placeholder="{{table.project}}" [(ngModel)]="project" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
       </ng-select>
@@ -36,13 +36,21 @@
 
       <ng-select class="input-filter custom" bindLabel="name" [(ngModel)]="vulnerability" [items]="data.vulnerabilities.value" [multiple]="true"
         placeholder="{{table.model_vulnerabilities}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
-      </ng-select>
-       
+      </ng-select>  
     </div>
+
+    <button mat-raised-button class="advanced-research" aria-label="Clear" (click)="showAdvancedResearch()" >
+        <mat-icon *ngIf="!advancedResearch">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="advancedResearch">keyboard_arrow_up</mat-icon>
+        {{beneficiary.beneficiaries_advanced_research | titlecase}}
+    </button> 
+
     <button mat-raised-button class="clear-all-button" aria-label="Clear" (click)="clearSearch()" >
           <mat-icon>clear</mat-icon>
           {{beneficiary.beneficiaries_clear_all_research | titlecase}}
       </button>  
+    
+     
     
     <table mat-table *ngIf="filled && !testLoading" [dataSource]="data" matSort>
       <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">

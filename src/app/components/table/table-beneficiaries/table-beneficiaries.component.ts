@@ -27,6 +27,7 @@ export class TableBeneficiariesComponent extends TableComponent {
     _timeout: any = null;
     mapperObject = null;
     beneficiary = GlobalText.TEXTS;
+    advancedResearch:boolean = false;
     public newObject: any;
 
     ngOnInit() {
@@ -104,6 +105,10 @@ export class TableBeneficiariesComponent extends TableComponent {
 
     update(selectedBeneficiary: Beneficiaries) {
         this.updating.emit(selectedBeneficiary.id);
+    }
+
+    showAdvancedResearch(){
+        this.advancedResearch=!this.advancedResearch;
     }
 
     sendSortedData() {

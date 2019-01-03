@@ -99,6 +99,7 @@ export const TEXT = {
     beneficiaries_add_list: 'العالمي',
     beneficiaries_add_project: 'يرجى تحديد المشروع (المشاريع) الذي/الذين  ترغب في إضافته/هم ',
     beneficiaries_added: 'تم إضافة المستفيدين الى المشروع',
+    beneficiaries_advanced_research:'Advanced research',
     beneficiaries_clear_all_research:'Clear all', 
     beneficiaries_full_address: 'عنوان المنزل بالكامل:',
     beneficiaries_household_info: 'ملخص المعلومات الخاصة بالمنزل  :',

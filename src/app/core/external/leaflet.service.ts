@@ -102,8 +102,8 @@ export class LeafletService {
                                                 (adm.feature.properties.ADM1_PCODE === element.code_location && element.adm_level === "adm1")) {
 
                                                 adm.setStyle({
-                                                    color: '#4AA896', // bms_bright_cyan    
-                                                    fillColor: '#4AA896', // bms_bright_cyan
+                                                    color: '#4AA896', // $bms_green    
+                                                    fillColor: '#4AA896', // $bms_green
                                                     weight: 2,
                                                     fillOpacity: .8,
                                                     opacity: .8

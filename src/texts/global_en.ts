@@ -65,10 +65,10 @@ export const TEXT = {
     add_beneficiary_getDateOfBirth: 'Date of Birth',
     add_beneficiary_getFamilyName: 'Family Name',
     add_beneficiary_getGivenName: 'Given Name',
-    add_beneficiary_getNationalID: 'ID number',
+    add_beneficiary_getNationalID: 'ID Number',
     add_beneficiary_getOccupation: 'Livelihood',
     add_beneficiary_getTypeNationalId: 'ID Type',
-    add_beneficiary_getTypePhone: 'Type phone',
+    add_beneficiary_getTypePhone: 'Phone Type',
     add_beneficiary_res_address: 'Resident Address',
     add_beneficiary_step1: 'Information',
     add_beneficiary_step2: 'Head',
@@ -256,7 +256,7 @@ export const TEXT = {
 
     // Model
     model_beneficiaries_dependents: 'Dependents',
-    model_beneficiaries_nationalids: 'ID number',
+    model_beneficiaries_nationalids: 'ID Number',
     model_beneficiaries_phones: 'Phones (no country code)',
     model_beneficiaries_status: 'Satus',
     model_commodity: 'Commodity',

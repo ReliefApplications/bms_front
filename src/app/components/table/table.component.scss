@@ -23,26 +23,17 @@
     }
   }
   .container-header{
-    
-    .clear-all-button {
-
-      background-color: $bms_red;
-      border-bottom-left-radius: 20px;
-      border-top-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-      border-top-right-radius: 20px;
-      font-weight: bold;
-
-     }
-     .advanced-research{
-      background-color: $bms_red;
-      border-bottom-left-radius: 20px;
-      border-top-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-      border-top-right-radius: 20px;
-      font-weight: bold;
-    }
+    .buttons-search-clear{
+      left :40%;
+      position: relative;
+      .mat-raised-button {
+        color:$bms_red !important;
+        box-shadow: none !important;
+        font-weight: bold;
+       }
+    }      
  }
+
 }
 
 table {

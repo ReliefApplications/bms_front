@@ -19,9 +19,9 @@ export class TableBeneficiariesComponent extends TableComponent {
     @Output() selectedAdm = new EventEmitter<any>();
 
     selectedFilter;
-    keyWords:string;
-    vulnerability:any = null ;
-    project:any=null;
+    keyWords:string ='';
+    vulnerability:any = '' ;
+    project:any='';
     testLoading = true;
     beneficiary = GlobalText.TEXTS;
     advancedResearch:boolean = false;

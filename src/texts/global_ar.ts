@@ -24,6 +24,7 @@ export const TEXT = {
     home: 'الصفحة الرئيسية',
     households: 'الأسرة',
     import: 'تحميل',
+    individual: 'Individual',
     location: 'الموقع',
     new: 'New',
     next: 'Next',
@@ -75,6 +76,7 @@ export const TEXT = {
     add_beneficiary_title: 'إضافة مستفيد',
 
     // Add distribution
+    add_distribution_advanced_option: 'Advanced options',
     add_distribution_beneficiaries_reached: 'المستفيدون الذين تم الوصول إليهم',
     add_distribution_check_date: '  mm / dd / yyyyy  حدث خطأ أثناء حفظ التاريخ ، تحقق من أن التنسيق يشبه',
     add_distribution_check_fields: 'إملء معلومات التوزيع الجديدة  قبل ، بما في ذلك قيمة السلع والقيمة الأدنى يجب أن تكون أعلى من 0.',
@@ -86,6 +88,10 @@ export const TEXT = {
     add_distribution_female: 'المرأة',
     add_distribution_households_reached: 'الأسر التي تم الوصول إليها',
     add_distribution_male: 'الرجل',
+    add_distribution_missing_commodity: 'A commodity is missing',	
+    add_distribution_missing_date: 'The date is missing',	
+    add_distribution_missing_selection_criteria: 'A selection criterion is missing',	
+    add_distribution_missing_threshold: 'The threshold\'s value should be greater than 0',
     add_distribution_selection_criteria: 'معيار الاختيار',
     add_distribution_text_explanation: 'سيختار النظام فقط المستفيدين / الأسر التي لديها مجموع أعلى من المجموع الادنى ',
     add_distribution_threshold: ' المجموع الادنى لاختيار ',

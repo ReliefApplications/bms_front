@@ -26,6 +26,15 @@
                             [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"
                             [data]="initialBeneficiaryData.data"></app-box-properties>
                         <div class="content-button">
+                            <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button-create"
+                              [disabled]="actualDistribution.validated">
+                              <mat-icon>add</mat-icon>
+                              {{TEXT.add | titlecase}}
+                            </button>
+                            <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button"
+                            [ngClass]="{'add-button-arabic': language == 'ar'}" [disabled]="actualDistribution.validated">
+                              <mat-icon>add</mat-icon>
+                            </button>
                             <div class="action-buttons">
                                 <button mat-raised-button class="export-button" (click)="export()" *ngIf="!loadingExport">
                                     <mat-icon>get_app</mat-icon>
@@ -66,12 +75,6 @@
                             <button mat-raised-button class="button-background-primary" matStepperNext (click)="this.getDistributionBeneficiaries('both')">{{TEXT.next}}</button>
                         </div>
                     </div>
-                </div>
-                <div [ngClass]="{'add-buttons': language != 'ar', 'add-buttons-arabic': language == 'ar'}">
-                    <button mat-fab class="add-button" *ngIf="hasRights" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)"
-                        [disabled]="actualDistribution.validated">
-                        <mat-icon>add</mat-icon>
-                    </button>
                 </div>
             </form>
         </mat-step>

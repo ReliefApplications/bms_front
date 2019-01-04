@@ -88,7 +88,7 @@
                             <app-import-distribution *ngIf="!actualDistribution.validated" [distribution]="this.actualDistribution"
                                 [rights]="hasRights" (success)=" this.getDistributionBeneficiaries('final');
                                             this.getDistributionBeneficiaries('initial');
-                                            jumpStep(myStepper)">
+                                            jumpStep(myStepper)" (selected)="fileSelected($event)">
                             </app-import-distribution>
                         </div>
                         <div class="container-empty" *ngIf="actualDistribution.validated">
@@ -97,7 +97,7 @@
                                 {{TEXT.distribution_cant_update}}
                             </p>
                         </div>
-                        <div class="content-button content-button-footer">
+                        <div class="content-button content-button-footer" *ngIf="!selected">
                             <button mat-raised-button class="button-background-primary" matStepperNext>{{TEXT.next}}</button>
                         </div>
                     </div>

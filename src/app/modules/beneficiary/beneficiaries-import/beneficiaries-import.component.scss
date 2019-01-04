@@ -54,6 +54,10 @@
     cursor: pointer;
 }
 
+.text {
+    color: $bms_red;
+}
+
 // for mobile screen
 @media only screen and (max-width: 750px) {
     .mat-form-field {

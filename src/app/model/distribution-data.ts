@@ -212,7 +212,10 @@ export class DistributionData {
 
         let isFinished: boolean = true;
         element.distribution_beneficiaries.forEach(benef => {
-            if (benef.transactions[0].transaction_status != 1) {
+            if (benef.transactions.length == 0) {
+                isFinished = false;
+            }
+            else if (benef.transactions && benef.transactions[0].transaction_status != 1) {
                 isFinished = false;
             }
         });

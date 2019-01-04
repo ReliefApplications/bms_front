@@ -63,6 +63,36 @@
             border-radius: 3px;
 
             .content-button {
+                //display: flex;
+                width: 100%;
+                padding-top : 20px;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-bottom: 0px;
+                align-items: center;
+                justify-content: space-between;
+                .action-buttons{
+                    .text{
+                       display: inline;
+                    }
+                  
+                }
+
+                *:not(.action-buttons) {
+                    &.button {
+                        margin-left: 10px;
+                        margin-right: 10px;
+                    }
+                }
+
+                button mat-icon {
+                    margin-left: 0px;
+                    margin-right: 5px;
+
+                }
+            }
+
+            .content-buttons {
                 display: flex;
                 width: 100%;
                 padding-top : 20px;
@@ -71,6 +101,16 @@
                 padding-bottom: 0px;
                 align-items: center;
                 justify-content: space-between;
+
+                .add-button-create{
+                    background-color: #DC3D49;
+                    border-bottom-left-radius: 20px;
+                    border-top-left-radius: 20px;
+                    border-bottom-right-radius: 20px;
+                    border-top-right-radius: 20px;
+                    font-weight: bold;
+                
+                }
 
                 *:not(.action-buttons) {
                     &.button {
@@ -124,7 +164,8 @@
   }
 }
 
-.add-buttons {
+.add-buttons-mobile {
+
     color: $bms_grey !important;
     position: fixed !important;
     bottom: 2vh;
@@ -134,8 +175,39 @@
     .toggled-buttons {
         display: none;
         flex-direction: column;
-        align-items: flex-end;
-        animation: 0.3s button-slide-in;
+        align-items: flex-start;
+        animation: 0.5s button-slide-in;
+
+        button {
+            margin-bottom: 10px;
+        }
+    }
+    .toggled {
+        display: flex;
+        max-height: 200px;
+    }
+
+    .add-button {
+        float: right;
+        background-color: $bms_red !important;
+    }
+}
+
+.add-buttons {
+
+    color: $bms_grey !important;
+    position: fixed !important;
+    //bottom: 5vh;
+    //right: 3vh;
+    top:0vh;
+    left:13vh;
+    z-index: 1000;
+
+    .toggled-buttons {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        animation: 0.5s button-slide-in;
 
         button {
             margin-bottom: 10px;

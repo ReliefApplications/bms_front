@@ -54,7 +54,7 @@
             border-radius: 3px;
             .mat-card{
                 background: transparent;
-            }          
+            }
         }
     }
 
@@ -459,6 +459,10 @@
         position: fixed;
         bottom: 2em;
         right: 2em;
+
+        &:disabled {
+            background-color: $bms_slate;
+        }
     }
 
     .add-button-arabic {

@@ -38,11 +38,11 @@
                         <mat-icon>done</mat-icon>
                     </button>
                 </div>
-                <button mat-icon-button class="blue" *ngIf="!element.validated" routerLink="/projects/distributions/{{element.id}}">
+                <button mat-icon-button class="blue" *ngIf="!element.validated" (click)="openDialog('update', element); $event.stopPropagation()">
                     <mat-icon inline=true>search</mat-icon>
                 </button>
                 <button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rightsEdit"
-                    mat-button class="light-red" (click)="openDialog('update', element); $event.stopPropagation()">
+                    mat-button class="light-red" routerLink="/projects/distributions/{{element.id}}">
                     <mat-icon inline=true>edit</mat-icon>
                 </button>
                 <button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rights"

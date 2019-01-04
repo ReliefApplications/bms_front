@@ -36,7 +36,7 @@
           <mat-icon>add</mat-icon>
           {{distribution.add | titlecase}}
         </button>
-        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button">
+        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}">
           <mat-icon>add</mat-icon>
         </button>
         <h3>{{ distribution.distributions }}</h3>

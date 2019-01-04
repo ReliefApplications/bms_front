@@ -9,7 +9,7 @@
     font-size: 14px;
     width: 100%;
   }
-  
+
   .filter-combo {
       width: 100%;
       display: flex;
@@ -22,26 +22,6 @@
       flex-shrink: 0;
     }
   }
-  .container-header{
-    .buttons-search-clear{
-      left :40%;
-      position: relative;
-      .mat-raised-button {
-        .mat-icon{
-          width:18px;
-          height:18px;
-          font-size: 18px;
-          line-height: 18px;
-          padding-bottom:5px;
-        }
-        color:$bms_red !important;
-        background-color:$bms_white !important;
-        box-shadow: none !important;
-        font-weight: bold;
-       }
-    }      
- }
-
 }
 
 table {
@@ -73,7 +53,7 @@ table {
     //width: 200px;
   }
 
-  
+
 
 }
 
@@ -190,11 +170,11 @@ button{
 .ng-select-opened ::ng-deep .ng-option-selected {
   color: #424242 !important;
 }
-    
+
 .loadingContent {
     display: flex;
     justify-content: center;
-    
+
     mat-spinner {
         margin-top: 30px;
     }

@@ -11,7 +11,7 @@ import { GlobalText } from '../../../../texts/global';
 @Component({
     selector: 'app-table-beneficiaries',
     templateUrl: './table-beneficiaries.component.html',
-    styleUrls: ['../table.component.scss'],
+    styleUrls: ['../table.component.scss', './table-beneficiaries.component.scss'],
 })
 export class TableBeneficiariesComponent extends TableComponent {
 
@@ -169,9 +169,9 @@ export class TableBeneficiariesComponent extends TableComponent {
             this.project='';
             this.vulnerability='';
             this.keyWords='';
-            this.applyFilter('', 'vulnerabilities') ; 
-            this.applyFilter('', 'familyName'); 
-            this.applyFilter('', 'projects');   
+            this.applyFilter('', 'vulnerabilities') ;
+            this.applyFilter('', 'familyName');
+            this.applyFilter('', 'projects');
             this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
             this.sendSortedData();
         }

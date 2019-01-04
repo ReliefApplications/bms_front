@@ -41,6 +41,23 @@
         }
     }
 
+    .container-project{
+        display: flex;
+        width: 100%;
+        padding: 20px;
+
+        .container-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            border-radius: 3px;
+            .mat-card{
+                background: transparent;
+            }
+        }
+    }
+
     .container-table {
         display: flex;
         width: 100%;
@@ -71,6 +88,13 @@
                 padding-bottom: 0px;
                 align-items: center;
                 justify-content: space-between;
+                position: relative;
+
+                .action-buttons {
+                    .text {
+                       display: inline;
+                    }
+                }
 
                 *:not(.action-buttons) {
                     &.button {
@@ -78,11 +102,18 @@
                         margin-right: 10px;
                     }
                 }
+            }
 
-                button mat-icon {
+            *:not(.action-buttons) {
+                &.button {
                     margin-left: 10px;
                     margin-right: 10px;
                 }
+            }
+
+            button mat-icon {
+                margin-left: 10px;
+                margin-right: 10px;
             }
 
             .content-table {
@@ -126,16 +157,16 @@
 
 .add-buttons {
     color: $bms_grey !important;
-    position: fixed !important;
-    bottom: 2vh;
-    right: 3vh;
+    position: absolute;
+    top: 65px;
+    left: 40px;
     z-index: 1000;
 
     .toggled-buttons {
         display: none;
         flex-direction: column;
-        align-items: flex-end;
-        animation: 0.3s button-slide-in;
+        align-items: flex-start;
+        animation: 0.5s button-slide-in;
 
         button {
             margin-bottom: 10px;
@@ -144,44 +175,34 @@
     .toggled {
         display: flex;
         max-height: 200px;
-    }
-
-    .add-button {
-        float: right;
-        background-color: $bms_red !important;
     }
 }
 
 .add-buttons-arabic {
-    color: $bms_grey !important;
+    top: 65px;
+    right: 40px;
+}
+
+.add-buttons-mobile {
     position: fixed !important;
-    bottom: 2vh;
-    left: 3vh;
-    z-index: 1000;
+    top: unset;
+    bottom: 5em !important;
+    right: 2em !important;
 
     .toggled-buttons {
-        display: none;
-        flex-direction: column;
-        align-items: flex-end;
-        animation: 0.3s button-slide-in;
-
-        button {
-            margin-bottom: 10px;
-            mat-icon {
-                margin-left: 10px;
-            }
-        }
-    }
-    .toggled {
-        display: flex;
-        max-height: 200px;
-    }
-
-    .add-button {
-        float: left;
-        background-color: $bms_red !important;
+        align-items: flex-end !important;
     }
 }
+
+.add-button-create {
+    background-color: $bms_red !important;
+    border-bottom-left-radius: 20px !important;
+    border-top-left-radius: 20px !important;
+    border-bottom-right-radius: 20px !important;
+    border-top-right-radius: 20px !important;
+    font-weight: bold;
+}
+
 .button-text-primary {
   color: $bms_green !important;
 }
@@ -434,7 +455,19 @@
       }
 
     .add-button {
-        right: 2vh;
+        background-color: $bms_red !important;
+        position: fixed;
+        bottom: 2em;
+        right: 2em;
+
+        &:disabled {
+            background-color: $bms_slate;
+        }
+    }
+
+    .add-button-arabic {
+      right: unset;
+      left: 2em;
     }
 
       .stepInMobile {

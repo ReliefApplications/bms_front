@@ -20,7 +20,7 @@
                 border-radius: 8px;
             }
         }
-        
+
         p {
             margin-top : 10px;
             font-size: 18px;
@@ -287,7 +287,7 @@ mat-dialog-content {
 .progression-bar {
 
     width: 100%;
-    
+
     h4 {
         text-align: center;
     }
@@ -339,17 +339,6 @@ app-import-distribution {
     }
 
     button{
-        &.add-button{
-            position: fixed;
-            bottom: 20px;
-            left: 80%;
-            z-index: 1000;
-
-            &:disabled {
-                background-color: darkgrey;
-            }
-        }
-
         &.export-button{
             margin-right: 0px !important;
         }
@@ -384,7 +373,7 @@ app-import-distribution {
             width: 90vw !important;
 
             .container-content {
-                
+
                 margin:auto !important;
 
                 .content-table {

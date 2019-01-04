@@ -369,6 +369,8 @@ export const TEXT = {
     transaction_confirm: 'تأكيد المعاملة',
     transaction_confirm_button: 'التأكد',
     transaction_email_code: 'تم إرسال بريد إلكتروني يحتوي على رمز التحقق الخاص بك إلى:',
+    transaction_id_transaction: 'ID Transaction',
+    transaction_inProgress: 'المعاملة قيد التقدم ...',
     transaction_paste_code: 'الرجاء وضع الشفرة هنا والنقر على التأكد  لمتابعة العملية:',
     transaction_prevention: 'لا تزال هذه المنصة قيد التطوير وقد لا تكون وظيفة المعاملات النقدية عبر الإنترنت مستقرة تمامًا حتى الآن. ينكر فريق التطوير المسؤولية عن أي أخطاء قد تحدث من حيث فقدان المال. بوضع علامة في المربع أدناه ، فإنك توافق على استخدام النظام بمعرفة حدوده تمامًا وتحمل المسؤولية عن نتائج المعاملة.',
     transaction_progress: 'تقدم توزيع السلع:',
@@ -376,7 +378,6 @@ export const TEXT = {
     transaction_transaction: 'عملية تجارية',
     transaction_validate_distribution: 'هل تريد حقًا التحقق من صحة هذا التوزيع؟ لن تتمكن من تعديله بعد الآن.',
     transaction_validation: 'تأكيد التحقق من الصحة',
-    transaction_inProgress: 'المعاملة قيد التقدم ...',
 
     // Tooltip
     tooltip_add_beneficiaries: 'هذه الصفحة مخصصة لإضافة المستفيدين. هذا هو نموذج لإضافة أسرة جديدة مع الحقول المطلوبة.',

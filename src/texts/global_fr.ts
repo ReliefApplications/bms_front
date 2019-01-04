@@ -369,6 +369,8 @@ export const TEXT = {
     transaction_confirm: 'Confirmer la transaction',
     transaction_confirm_button: 'Confirmer',
     transaction_email_code: 'Un email contenant votre code de validation a été envoyé à : ',
+    transaction_id_transaction: 'ID Transaction',
+    transaction_inProgress: 'Transaction en cours...',
     transaction_paste_code: 'S\'il vous plait, coller le code ici et cliquer sur \'Confirmer\' pour procéder à la transaction',
     transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',
     transaction_progress: 'progrès de la distribution des produits:',
@@ -376,7 +378,6 @@ export const TEXT = {
     transaction_transaction: 'Démarrer la transaction',
     transaction_validate_distribution: 'Voulez vous vraiment valider la distribution ? Vous ne serez plus capable de la modifier',
     transaction_validation: 'Confirmer la validation',
-    transaction_inProgress: 'Transaction en cours...',
 
     // Tooltip
     tooltip_add_beneficiaries: 'Cette page est la page d\'ajout des bénéficiaires. C\'est un formulaire pour ajouter un nouveau ménage avec des champs obligatoires.',

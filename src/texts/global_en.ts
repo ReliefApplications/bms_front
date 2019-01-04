@@ -370,6 +370,8 @@ export const TEXT = {
     transaction_confirm: 'Confirm the transaction',
     transaction_confirm_button: 'Confirm',
     transaction_email_code: 'An email containing your validation code has been sent to:',
+    transaction_id_transaction: 'ID Transaction',
+    transaction_inProgress: 'Transaction in progress...',
     transaction_paste_code: 'Please paste the code here and click on \'Confirm\' to proceed with the transaction: ',
     transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',
     transaction_progress: 'commodity distribution progress:',
@@ -377,7 +379,6 @@ export const TEXT = {
     transaction_transaction: 'Start transaction',
     transaction_validate_distribution: 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.',
     transaction_validation: 'Confirm the validation',
-    transaction_inProgress: 'Transaction in progress...',
 
     // Tooltip
     tooltip_add_beneficiaries: 'This page is the add beneficiaries\' page. This is a form to add a new household with required fields.',

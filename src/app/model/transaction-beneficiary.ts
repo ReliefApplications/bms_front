@@ -84,7 +84,7 @@ export class TransactionBeneficiary {
             values: GlobalText.TEXTS.model_value,
             date: GlobalText.TEXTS.model_transaction_pickupDate,
             message: GlobalText.TEXTS.model_transaction_message,
-            id_transaction: GlobalText.TEXTS.transaction_transaction,
+            id_transaction: GlobalText.TEXTS.transaction_id_transaction,
         };
     }
 

@@ -11,21 +11,6 @@
   }
 }
 
-.stickyHeader {
-  position: sticky;
-  top: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-  background-color: white;
-  z-index: 2;
-}
-
-.stickyFooter {
-  position: sticky;
-  bottom: 0;
-  background-color: white;
-}
-
 //for mobile screen
 @media only screen and (max-width: 750px) {
   .modal-row {

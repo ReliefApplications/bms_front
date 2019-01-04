@@ -43,7 +43,7 @@ $box-content: 80px;
             font-weight: bold;
             font-size : 2.5vh;
             margin: 0 !important;
-            padding-top:30px;
+            padding-top:2px;
         }
 
         h5 {
@@ -71,9 +71,9 @@ $box-content: 80px;
 }
 
 .box-green{
-    background-color: $bms_green;
+    background-color:  $bms_green;
 }
 
-.box-red{
-    background-color: $bms-red;
+.box-blue{
+    background-color:  $bms_dark_blue;
 }

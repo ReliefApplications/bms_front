@@ -1,0 +1,20 @@
+@import '../../../../assets/css/variable.scss';
+
+.buttons-search-clear {
+    display:flex;
+    width: 100%;
+    justify-content: center;
+
+    .mat-raised-button {
+        background-color:$bms_white !important;
+        box-shadow: none !important;
+
+        .mat-icon {
+            width:18px;
+            height:18px;
+            font-size: 18px;
+            line-height: 18px;
+            padding-bottom:5px;
+        }
+    }
+}

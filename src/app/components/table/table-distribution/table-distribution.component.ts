@@ -13,5 +13,4 @@ export class TableDistributionComponent extends TableComponent {
     getImageName(t2: String) {
         return (t2.substring(26).split('.')[0]);
     }
-
 }

@@ -1,5 +1,5 @@
 <mat-dialog-content class="modal-container">
-    <h4 class="modal-title underline-accent">
+    <h4 class="modal-title underline-accent stickyHeader">
         {{TEXTS.modal_pending_requests}}
     </h4>
 
@@ -87,7 +87,7 @@
         </div>
     </div>
 
-    <div class="modal-button action-buttons" cdkFocusRegionstart>
+    <div class="modal-button action-buttons stickyFooter" cdkFocusRegionstart>
         <button mat-button (click)="closeDialog()" class="button-text-accent">{{TEXTS.modal_leave}}</button>
         <button mat-raised-button class="send-all button-background-accent" (click)="sendAllRequests()" *ngIf="!inProgress">Send All</button>
     </div>

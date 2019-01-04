@@ -11,7 +11,7 @@
 
     .mat-card {
       padding: 10px !important;
-      background-color: $bms_white !important;
+      //background-color: $bms_white !important;
       width: 130px;
       height: 100px;
       display: flex;
@@ -38,7 +38,7 @@
       .sector-icons {
         display: flex;
         align-items: baseline;
-        justify-content: space-between;
+        justify-content: space-around;
         padding-top: 5px;
         height: 40px;
       }

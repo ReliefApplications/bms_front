@@ -140,7 +140,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         // Set the Head if the user is creating
         if(this.mode === 'create') {
-            // console.log('CREATE===', this.updatedHousehold.beneficiaries)
             this._cacheService.get(AsyncacheService.COUNTRY).subscribe(
                 result => {
                     this.loader = false;
@@ -159,7 +158,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         // Get the selected household if the user is updating
         if (this.mode === 'update') {
-            // console.log('UPDATE===', this.updatedHousehold.beneficiaries)
             this.route.params.subscribe(
                 result => {
                     if (result['id']) {
@@ -180,7 +178,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Transforms an instance of backend beneficiary in a formated Household readable for the inputs.
      */
     formatHouseholdForForm() {
-        // console.log('FORMAT HOUSEHOLD===', this.updatedHousehold.beneficiaries)
         // Id & address & livelihood & notes.
         this.updateId = this.originalHousehold.id;
         this.updatedHousehold.address_number = this.originalHousehold.address_number;
@@ -263,7 +260,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Formats all the changes in the updatedHousehold object linked to the forms into a Household object readable by the Backend.
      */
     formatHouseholdForApi(): any {
-        // console.log('HOUSEHOLD FOR API===', this.updatedHousehold.beneficiaries)
         let finalHousehold = this.updatedHousehold;
 
         let finalBeneficiaries = this.updatedHousehold.beneficiaries.slice(0);
@@ -430,7 +426,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * @param beneficiary
      */
     pushBeneficiary(beneficiary?: any) {
-        // console.log('PUSH BENEFICIARY===', this.updatedHousehold.beneficiaries)
         let formatedBeneficiary = {
             // Format of a beneficiary for Form
             id: undefined,
@@ -502,7 +497,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * @param index
      */
     removeBeneficiary(index: number) {
-        console.log(this.updatedHousehold.beneficiaries)
         if (index < this.updatedHousehold.beneficiaries.length) {
             this.updatedHousehold.beneficiaries.splice(index, 1);
         }
@@ -537,7 +531,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Call backend to create a new household with filled data.
      */
     create() {
-        // console.log('CREATE===', this.updatedHousehold.beneficiaries)
         let body = this.formatHouseholdForApi();
         let selectedProjectsIds = new Array<string>();
         this.updatedHousehold.projects.forEach(
@@ -571,7 +564,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Call backend to update the selected household with filled data.
      */
     update() {
-        // console.log('UPDATE===', this.updatedHousehold.beneficiaries)
         let body = this.formatHouseholdForApi();
         let selectedProjectsIds = new Array<string>();
         this.updatedHousehold.projects.forEach(
@@ -606,7 +598,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * TODO : bind stepper steps in order to control navigation.
      */
     nextValidation(step: number, stepper: MatStepper, final?: boolean): boolean {
-        // console.log('NEXT VALIDATION===', this.updatedHousehold.beneficiaries)
         let validSteps = 0;
         let message = '';
         if (!final) {
@@ -763,7 +754,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Get list of all project and put it in the project selector
      */
     getProjects() {
-        // console.log('GET PROJECTS===', this.updatedHousehold.beneficiaries)
         this._projectService.get().subscribe(response => {
             this.projectList = [];
             const responseProject = Project.formatArray(response);
@@ -778,7 +768,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Get list of all Province (adm1) and put it in the province selector
      */
     getProvince() {
-        // console.log('GET PROVINCE===', this.updatedHousehold.beneficiaries)
         this.provinceList = [];
         this.districtList = [];
         this.communeList = [];
@@ -796,7 +785,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Get list of all District (adm2) and put it in the district selector
      */
     getDistrict(adm1: string) {
-        // console.log('GET DISTRICT===', this.updatedHousehold.beneficiaries)
         this.districtList = [];
         this.communeList = [];
         this.villageList = [];
@@ -815,7 +803,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Get list of all Commune (adm3) and put it in the commune selector
      */
     getCommune(adm2: string) {
-        // console.log('GET COMMUNE===', this.updatedHousehold.beneficiaries)
         this.communeList = [];
         this.villageList = [];
         const body = {};
@@ -833,7 +820,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Get list of all Vilage (adm4) and put it in the village selector
      */
     getVillage(adm3: string) {
-        // console.log('GET VILLAGE===', this.updatedHousehold.beneficiaries)
         this.villageList = [];
         const body = {};
         body['adm3'] = adm3;
@@ -850,7 +836,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Get list of all Vulnerabilities
      */
     getVulnerabilityCriteria() {
-        // console.log('GET VULNERABILITY===', this.updatedHousehold.beneficiaries)
         const promise = this._criteriaService.getVulnerabilityCriteria();
         if (promise) {
             promise.subscribe(
@@ -868,7 +853,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Get list of field and type of all country specifics
      */
     getCountrySpecifics() {
-        // console.log('COUNTRY SPECIFICS===', this.updatedHousehold.beneficiaries)
         const promise = this._countrySpecificsService.get();
         if (promise) {
             promise.subscribe(response => {

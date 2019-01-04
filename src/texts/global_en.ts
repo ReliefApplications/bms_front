@@ -233,7 +233,7 @@ export const TEXT = {
     modal_add_no_right: 'You must define a right',
     modal_add_no_value: 'You need to enter a value',
     modal_add_title: 'Add a new ',
-    modal_check_date: 'Invalid fields: Your start date cannot be older than the end date and vice versa',
+    modal_check_date: 'Invalid fields: Your start date cannot be older than the end date',
     modal_check_fields: 'Invalid fields: check you filled every field',
     modal_delete_sentence: 'You are about to delete ',
     modal_delete_sentence_2: '. Are you sure? ',

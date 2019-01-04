@@ -428,7 +428,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * @param beneficiary
      */
     pushBeneficiary(beneficiary?: any) {
-
         let formatedBeneficiary = {
             // Format of a beneficiary for Form
             id: undefined,

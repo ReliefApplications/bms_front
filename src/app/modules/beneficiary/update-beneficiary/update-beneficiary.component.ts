@@ -488,9 +488,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                         });
                 }
             });
-
-        this.tableData = new MatTableDataSource(this.updatedHousehold.beneficiaries);
-
         return (formatedBeneficiary);
     }
 
@@ -502,6 +499,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         if (index < this.updatedHousehold.beneficiaries.length) {
             this.updatedHousehold.beneficiaries.splice(index, 1);
         }
+    }
+
+    passHousehold() {
+        this.tableData = new MatTableDataSource(this.updatedHousehold.beneficiaries);
     }
 
     /**

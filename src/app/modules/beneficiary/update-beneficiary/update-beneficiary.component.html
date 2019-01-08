@@ -331,7 +331,7 @@
                                 <mat-icon>add</mat-icon>
                                 {{ Text.add }}
                             </button>
-                            <button mat-raised-button class="button-background-primary margin-right" (click)='nextValidation(3, stepper)'>
+                            <button mat-raised-button class="button-background-primary margin-right" (click)="passHousehold()" (click)='nextValidation(3, stepper)'>
                                 {{Text.next}}
                             </button>
                             <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"

@@ -1,5 +1,5 @@
 <mat-dialog-content class="modal-container">
-  <h4 class="modal-title underline-accent">{{modal.update}}</h4>
+  <h4 class="modal-title underline-accent stickyHeader">{{modal.update}}</h4>
   <table class="modal-table">
     <tr *ngFor="let p of properties" class="modal-row">
       <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
@@ -67,7 +67,7 @@
       </th>
     </tr>
   </table>
-  <div class="modal-button action-buttons">
+  <div class="modal-button action-buttons stickyFooter">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.cancel}}</button>
     <button mat-raised-button (click)="save()" class="button-background-accent">{{modal.save}}</button>
   </div>

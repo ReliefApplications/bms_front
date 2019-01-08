@@ -1,7 +1,7 @@
 @import '../../../assets/css/variable.scss';
 
 .table-container {
-  display: flex;
+  display: inline-block;
   flex-direction: column;
   width: 100%;
 
@@ -9,7 +9,7 @@
     font-size: 14px;
     width: 100%;
   }
-  
+
   .filter-combo {
       width: 100%;
       display: flex;
@@ -50,8 +50,11 @@ table {
 
   .content-cell{
     text-align: center;
-    width: 200px;
+    //width: 200px;
   }
+
+
+
 }
 
 button{
@@ -167,11 +170,11 @@ button{
 .ng-select-opened ::ng-deep .ng-option-selected {
   color: #424242 !important;
 }
-    
+
 .loadingContent {
     display: flex;
     justify-content: center;
-    
+
     mat-spinner {
         margin-top: 30px;
     }

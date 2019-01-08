@@ -178,7 +178,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Transforms an instance of backend beneficiary in a formated Household readable for the inputs.
      */
     formatHouseholdForForm() {
-
         // Id & address & livelihood & notes.
         this.updateId = this.originalHousehold.id;
         this.updatedHousehold.address_number = this.originalHousehold.address_number;
@@ -261,7 +260,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Formats all the changes in the updatedHousehold object linked to the forms into a Household object readable by the Backend.
      */
     formatHouseholdForApi(): any {
-
         let finalHousehold = this.updatedHousehold;
 
         let finalBeneficiaries = this.updatedHousehold.beneficiaries.slice(0);
@@ -428,7 +426,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * @param beneficiary
      */
     pushBeneficiary(beneficiary?: any) {
-
         let formatedBeneficiary = {
             // Format of a beneficiary for Form
             id: undefined,

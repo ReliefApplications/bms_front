@@ -208,7 +208,7 @@ export class ModalAddComponent extends ModalComponent {
                 return;
             }
 
-            if (new Date(this.newObject.start_date).getTime() >= new Date(this.newObject.end_date).getTime()) {
+            if (new Date(this.newObject.start_date).getDate()+ new Date(this.newObject.start_date).getMonth() + new Date(this.newObject.start_date).getMonth() + new Date(this.newObject.start_date).getFullYear() > new Date(this.newObject.end_date).getDate()+ new Date(this.newObject.end_date).getMonth() + new Date(this.newObject.end_date).getMonth() + new Date(this.newObject.start_date).getFullYear()) {
                 this.snackBar.open(this.modal.modal_check_date, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }

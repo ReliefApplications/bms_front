@@ -84,7 +84,7 @@ export class TransactionBeneficiary {
             values: GlobalText.TEXTS.model_value,
             date: GlobalText.TEXTS.model_transaction_pickupDate,
             message: GlobalText.TEXTS.model_transaction_message,
-            id_transaction: GlobalText.TEXTS.transaction_transaction,
+            id_transaction: GlobalText.TEXTS.transaction_id_transaction,
         };
     }
 
@@ -219,6 +219,7 @@ export class TransactionBeneficiary {
         }
 
         return {
+            id_transaction: selfinstance.id_transaction ? selfinstance.id_transaction : 'Undefined',
             givenName: selfinstance.givenName,
             familyName: selfinstance.familyName,
             phone: selfinstance.phone ? selfinstance.phone : 'none',
@@ -302,6 +303,7 @@ export class TransactionBeneficiary {
     */
     getTypeProperties(selfinstance): Object {
         return {
+            id_transaction: 'text',
             givenName: 'text',
             familyName: 'text',
             phone: 'text',

@@ -395,7 +395,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      */
     confirmValidation() {
         if (this.hasRights) {
-            if (this.finalBeneficiaryData.data.length > 0) {
+            if ((this.finalBeneficiaryData && this.finalBeneficiaryData.data.length > 0) || (this.initialBeneficiaryData && this.initialBeneficiaryData.data.length > 0)) {
                 this.loaderValidation = true;
                 this.distributionService.setValidation(this.distributionId)
                     .subscribe(

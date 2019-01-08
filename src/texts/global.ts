@@ -15,7 +15,9 @@ export class GlobalText {
     static maxWidth = 750;
 
     public static changeLanguage(language : string = this.language) {
+        // console.log(1, language)
         GlobalText.language = language;
+        // console.log(2, language)
 
         switch (language) {
             case 'en':
@@ -32,6 +34,7 @@ export class GlobalText {
         }
         this.language = language;
         this.adaptMargin();
+        // console.log(3, language)
     }
 
     private static adaptMargin() {

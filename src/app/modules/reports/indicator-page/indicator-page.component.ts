@@ -18,6 +18,7 @@ import { finalize } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { TitleCasePipe } from '@angular/common'; 
 
 
 @Component({
@@ -61,13 +62,14 @@ export class IndicatorPageComponent implements OnInit {
     public maxWidth = 750;
     public heightScreen;
     public widthScreen;
+     
 
     // Data Button Declaration
     public dataFilter1: Array<ButtonFilterData> = [
-        { level: '1', label: this.indicator.report_filter_per_year.toLocaleUpperCase(), value: 'Year', active: false },
-        { level: '1', label: this.indicator.report_filter_per_quarter.toLocaleUpperCase(), value: 'Quarter', active: false },
-        { level: '1', label: this.indicator.report_filter_per_month.toUpperCase(), value: 'Month', active: true },
-        { level: '1', label: this.indicator.report_filter_chose_periode.toUpperCase(), value: 'Period', active: false },
+        { level: '1', label: this.toTitleCase(this.indicator.report_filter_per_year), value: 'Year', active: false },
+        { level: '1', label: this.toTitleCase(this.indicator.report_filter_per_quarter), value: 'Quarter', active: false },
+        { level: '1', label: this.toTitleCase(this.indicator.report_filter_per_month), value: 'Month', active: true },
+        { level: '1', label: this.toTitleCase(this.indicator.report_filter_chose_periode), value: 'Period', active: false },
     ]
 
     public dataFilter2: Array<ButtonFilterData> = [];
@@ -81,6 +83,7 @@ export class IndicatorPageComponent implements OnInit {
     public selectedDistribution: string[] = [];
 
     constructor(
+        public titleCase:TitleCasePipe,
         public indicatorService: IndicatorService,
         public cacheService: AsyncacheService,
         public chartRegistrationService: ChartRegistration,
@@ -118,6 +121,10 @@ export class IndicatorPageComponent implements OnInit {
             });
         }
 
+    }
+
+    toTitleCase(filtreType :string){
+        return this.titleCase.transform(filtreType);
     }
 
     ngAfterViewInit() {

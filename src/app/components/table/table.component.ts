@@ -209,7 +209,7 @@ export class TableComponent implements OnChanges, DoCheck {
             this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
             this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
             this.propertiesActions = new Array();
-            if (this.data.householdsSubject)
+            if (this.selection)
                 this.propertiesActions.push('check');
     
                 this.properties.forEach(element => {

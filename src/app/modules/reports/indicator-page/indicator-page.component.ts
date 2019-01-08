@@ -254,13 +254,13 @@ export class IndicatorPageComponent implements OnInit {
     }
 
     updateFiltersWithLanguage() {
-        this.dataFilter1[0].label = this.indicator.report_filter_per_year.toLocaleUpperCase();
-        this.dataFilter1[1].label = this.indicator.report_filter_per_quarter.toLocaleUpperCase();
-        this.dataFilter1[2].label = this.indicator.report_filter_per_month.toLocaleUpperCase();
+        this.dataFilter1[0].label = this.toTitleCase(this.indicator.report_filter_per_year);
+        this.dataFilter1[1].label = this.toTitleCase(this.indicator.report_filter_per_quarter);
+        this.dataFilter1[2].label = this.toTitleCase(this.indicator.report_filter_per_month);
 
-        this.dataFilter2[0].label = this.indicator.report_country_report.toLocaleUpperCase();
-        this.dataFilter2[1].label = this.indicator.report_project_report.toLocaleUpperCase();
-        this.dataFilter2[2].label = this.indicator.report_distribution_report.toLocaleUpperCase();
+        this.dataFilter2[0].label = this.toTitleCase(this.indicator.report_country_report);
+        this.dataFilter2[1].label = this.toTitleCase(this.indicator.report_project_report);
+        this.dataFilter2[2].label = this.toTitleCase(this.indicator.report_distribution_report);
     }
 
     /**
@@ -394,9 +394,9 @@ export class IndicatorPageComponent implements OnInit {
 
                     if (rights == "ROLE_ADMIN" || rights == 'ROLE_REGIONAL_MANAGER' || rights == 'ROLE_COUNTRY_MANAGER') {
                         this.dataFilter2 = [
-                            { level: '0', icon: 'settings/api', color: 'red', label: this.indicator.report_country_report.toLocaleUpperCase(), value: 'Country', active: true },
-                            { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: 'Project', active: false },
-                            { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: false },
+                            { level: '0', icon: 'settings/api', color: 'red', label: this.toTitleCase( this.indicator.report_country_report), value: 'Country', active: true },
+                            { level: '0', icon: 'reporting/projects', color: 'green', label: this.toTitleCase(this.indicator.report_project_report), value: 'Project', active: false },
+                            { level: '0', icon: 'reporting/distribution', color: 'red', label: this.toTitleCase(this.indicator.report_distribution_report), value: 'Distribution', active: false },
                         ];
             
                         this.onFilter(new FilterEvent('bms', 'reporting', 'Country'));
@@ -405,15 +405,15 @@ export class IndicatorPageComponent implements OnInit {
             
                     else if (rights == "ROLE_PROJECT_OFFICER" || rights == "ROLE_PROJECT_MANAGER") {
                         this.dataFilter2 = [
-                            { level: '0', icon: 'reporting/projects', color: 'green', label: this.indicator.report_project_report.toLocaleUpperCase(), value: 'Project', active: true },
-                            { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: false },
+                            { level: '0', icon: 'reporting/projects', color: 'green', label: this.toTitleCase(this.indicator.report_project_report), value: 'Project', active: true },
+                            { level: '0', icon: 'reporting/distribution', color: 'red', label: this.toTitleCase(this.indicator.report_distribution_report), value: 'Distribution', active: false },
                         ];
             
                         this.onFilter(new FilterEvent('bms', 'reporting', 'Project'));
                     }
                     else {
                         this.dataFilter2 = [
-                            { level: '0', icon: 'reporting/distribution', color: 'red', label: this.indicator.report_distribution_report.toLocaleUpperCase(), value: 'Distribution', active: true },
+                            { level: '0', icon: 'reporting/distribution', color: 'red', label: this.toTitleCase(this.indicator.report_distribution_report), value: 'Distribution', active: true },
                         ];
             
                         this.onFilter(new FilterEvent('bms', 'reporting', 'Distribution'));

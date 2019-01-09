@@ -71,7 +71,7 @@
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
+          <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions | titlecase}}</th>
           <td mat-cell class="content-cell" *matCellDef="let element">
             <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green"
               [matTooltip]="table.details">

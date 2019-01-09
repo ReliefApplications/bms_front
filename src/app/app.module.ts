@@ -29,6 +29,7 @@ import { ImportedDataService } from './core/utils/imported-data.service';
 import { RequestDisplayComponent } from './components/headers/request-display/request-display.component';
 import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
 import { TitleCasePipe } from '@angular/common'; 
+
 @NgModule({
 	declarations: [
 		AppComponent,

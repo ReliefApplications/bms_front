@@ -73,6 +73,13 @@ mat-dialog-content {
     }
 }
 
+.distribution-information{
+        flex-wrap: wrap;
+        justify-content: center;
+        width:100%;
+        border-radius:3px;
+}
+
 .container-content {
     border-top: solid 12px $bms_green;
 }

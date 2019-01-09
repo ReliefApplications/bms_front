@@ -405,11 +405,6 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
             let projectStartDate = new Date(this.projectInfo.startDate).getDate() + new Date(this.projectInfo.startDate).getMonth() + new Date(this.projectInfo.startDate).getFullYear()
             let projectEndDate = new Date(this.projectInfo.endDate).getDate() + new Date(this.projectInfo.endDate).getMonth() + new Date(this.projectInfo.endDate).getFullYear()
 
-            // dateObjectDistribution.setDate(dateObjectDistribution.getDate() + 1);
-            console.log(1, 'DATE OBJECT', dateObjectDistribution)
-            console.log(2, 'PROJECT INFO', projectStartDate)
-            console.log(3, 'DATE OBJECT', dateObjectDistribution)
-            console.log(4, 'PRJOECT INFO', projectEndDate)
             if (dateObjectDistribution < projectStartDate || dateObjectDistribution > projectEndDate) {
                 this.snackBar.open(this.distribution.add_distribution_date_inside_project, '', { duration: 5000, horizontalPosition: 'center' });
                 return;

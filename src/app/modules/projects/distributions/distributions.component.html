@@ -251,15 +251,17 @@
                 </div>
             </div>
             <div class="content-button">
-                <!-- <button mat-raised-button class="refresh-button" (click)="refreshStatuses()">
+               
+                <div class="action-buttons"> 
+                     <!-- <button mat-raised-button class="refresh-button" (click)="refreshStatuses()">
                     <mat-icon>refresh</mat-icon>
                     <span>{{TEXT.transaction_refresh}}</span>
                 </button> -->
-
+                </div>
                 <div class="action-buttons">
                     <button mat-raised-button class="refresh-button" [matMenuTriggerFor]="menu">
                         <mat-icon>more_vert</mat-icon>
-                        <span>ACTION</span>
+                        <span>{{TEXT.table_actions | titlecase}}</span>
                     </button>
                     <div class="extension">
                         <mat-menu #menu class="extMenu">
@@ -273,9 +275,6 @@
                             </button>
                         </mat-menu>
                     </div>
-                </div>
-
-                <div class="action-buttons">
                     <button mat-raised-button class="refresh-button" (click)="exportTransaction()" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{TEXT.export | titlecase}}</span>

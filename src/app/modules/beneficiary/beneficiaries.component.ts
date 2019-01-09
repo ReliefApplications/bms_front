@@ -11,6 +11,7 @@ import { FormControl } from '@angular/forms';
 import { HouseholdsDataSource } from '../../model/households-data-source';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { LocationService } from 'src/app/core/api/location.service';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
     selector: 'app-beneficiaries',
@@ -26,6 +27,9 @@ export class BeneficiariesComponent implements OnInit {
     public referedClassService;
     referedClassToken = Households;
     households: MatTableDataSource<Households>;
+    selection = new SelectionModel<Households>(true, []);
+    checkedElements: any = [];
+
     length: number;
     public extensionType: string;
 
@@ -163,7 +167,7 @@ export class BeneficiariesComponent implements OnInit {
 
     confirmAdding() {
         if (this.projectsList && this.dataSource) {
-            this.projectService.addBeneficiaries(this.selectedProject, this.dataSource.filter).subscribe(
+            this.projectService.addBeneficiaries(this.selectedProject, this.checkedElements).subscribe(
                 success => {
                     this.snackBar.open(this.household.beneficiaries_added, '', { duration: 5000, horizontalPosition: 'center' });
                 }
@@ -252,5 +256,9 @@ export class BeneficiariesComponent implements OnInit {
         this.locationService.getAdm4(adm3).subscribe(response => {
             this.dataSource.adm4.next(response);
         });
+    }
+
+    getChecked(event) {
+        this.checkedElements = event;
     }
 }

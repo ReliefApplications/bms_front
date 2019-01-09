@@ -5,12 +5,13 @@
   top: 0;
   margin-top: 0;
   margin-bottom: 0;
-  background-color: $bms_white;
+  background-color: #fff;
   z-index: 2;
+  padding-top: 20px;
 }
 
 .stickyFooter {
   position: sticky;
   bottom: 0;
-  background-color: $bms_white;
+  background-color: #fff;
 }

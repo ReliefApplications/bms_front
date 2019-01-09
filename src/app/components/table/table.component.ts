@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input, ViewChild, OnChanges, ElementRef, DoCheck } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnChanges, ElementRef, DoCheck, Output, EventEmitter } from '@angular/core';
 import {
     MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource,
     MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner, MatSnackBar
@@ -24,6 +24,8 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { HouseholdsService } from 'src/app/core/api/households.service';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Households } from 'src/app/model/households';
 
 @Component({
     selector: 'app-table',
@@ -68,6 +70,8 @@ export class TableComponent implements OnChanges, DoCheck {
 
     // To activate/desactivate action buttons
     @Input() rightsDelete: boolean;
+    @Input() selection: any;
+    @Output() selectChecked = new EventEmitter<any>();
 
     sortedData: any;
     allData: any = undefined;
@@ -205,7 +209,10 @@ export class TableComponent implements OnChanges, DoCheck {
             this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
             this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
             this.propertiesActions = new Array();
-            this.properties.forEach(element => {
+            if (this.selection)
+                this.propertiesActions.push('check');
+    
+                this.properties.forEach(element => {
                 this.propertiesActions.push(element);
             });
             this.propertiesActions.push('actions');
@@ -439,6 +446,48 @@ export class TableComponent implements OnChanges, DoCheck {
 
         return `${startIndex + 1} - ${endIndex} ` + table.table_of_page + ` ${length}`;
     }
+
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        let numRows;
+        if (this.data.householdsSubject)
+            numRows = this.data.householdsSubject._value.length;
+        else
+            numRows = this.data.data.length;
+
+        return numSelected === numRows;
+    }
+
+    masterToggle() {
+        if (this.data.householdsSubject)
+            if (this.isAllSelected()) {
+                this.selection.clear();
+            }
+            else {
+                this.data.householdsSubject._value.forEach(row => this.selection.select(row));
+            }
+        else
+            if (this.isAllSelected) {
+                this.selection.clear();
+            }
+            else {
+                this.data.data.forEach(row => {
+                    this.selection.select(row);
+                });
+            }
+
+        this.selectChecked.emit(this.selection.selected);
+    }
+
+    selectCheck(event, element) {
+        if (event.checked)
+            this.selection.select(element);
+        else
+            this.selection.deselect(element);
+
+        this.selectChecked.emit(this.selection.selected);
+    }
+
 }
 
 

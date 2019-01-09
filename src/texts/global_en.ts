@@ -216,6 +216,7 @@ export const TEXT = {
     import_distribution_no_right_update: 'لا يحق لك تحديث التوزيع ، اسأل مدير المشروع الخاص بك',
     import_distribution_updated: 'Distribution updated',
     import_updated: 'Will be updated',
+    import_failed: 'Failed to save data while saving',
 
     // Login
     login_bms: 'Beneficiary management system',
@@ -241,7 +242,7 @@ export const TEXT = {
     modal_failure: 'Failure',
     modal_leave: 'Leave',
     modal_language_actual: 'Current language: ',
-    modal_leave_sentence: 'Do you really want to leave with unsaved changes?',
+    modal_leave_sentence: 'Do you really want to leave ? All previous steps will be saved in the database',
     modal_language_title: 'Language',
     modal_no_country: 'You must define a country with that role',
     modal_no_password: 'You must define a password',

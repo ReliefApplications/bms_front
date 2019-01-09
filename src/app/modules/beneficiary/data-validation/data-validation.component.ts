@@ -100,7 +100,18 @@ export class DataValidationComponent implements OnInit {
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
         if (!this.finished && this._importService.getData()) {
-            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+            const dialogRef = this.dialog.open(ModalLeaveComponent, {
+                data: {
+                    data: 'validation', 
+                    email: this.email, 
+                    correctedData: this.correctedData, 
+                    project: this._importService.getProject(), 
+                    step: 5, 
+                    token: this._importService.getToken(), 
+                    service: this._importService,
+                    snackBar: this.snackBar
+                }
+            });
 
             return dialogRef.afterClosed();
         } else {

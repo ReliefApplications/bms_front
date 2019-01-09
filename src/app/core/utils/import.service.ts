@@ -87,7 +87,7 @@ export class ImportService {
                         reject({ 'message': 'Error while adding or removing beneficiairies' });
                     });
                 } else if (step === 5) {
-                    this.referedClassService.sendDataToValidation(email, data, project, step, token).subscribe(response => {
+                    this.referedClassService.sendDataToValidation(email, data, project, step, token, 'leave').subscribe(response => {
                         resolve([this.data, response]);
                     }, error => {
                         reject();

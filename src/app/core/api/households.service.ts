@@ -74,9 +74,12 @@ export class HouseholdsService {
      * @param step number
      * @param token string
      */
-    public sendDataToValidation(email: string, body: any, idProject: number, step: number, token?: string) {
+    public sendDataToValidation(email: string, body: any, idProject: number, step: number, token?: string, leave?: string) {
         let url;
-        if (token) {
+        if (token && leave) {
+            url = this.api + '/import/households/project/' + idProject + '?step=' + step + '&token=' + token + "&email=" + email + "&leave=" + leave;
+        } 
+        else if (token && !leave) {
             url = this.api + '/import/households/project/' + idProject + '?step=' + step + '&token=' + token + "&email=" + email;
         } else {
             url = this.api + '/import/households/project/' + idProject + '?step=' + step + "&email=" + email;

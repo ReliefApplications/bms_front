@@ -214,6 +214,7 @@ export const TEXT = {
     import_distribution_no_right_update: 'لا يحق لك تحديث التوزيع ، اسأل مدير المشروع الخاص بك',
     import_distribution_updated: 'تم تحديث التوزيع',
     import_updated: 'تم تحديثها',
+    import_failed: 'Failed to save data while saving',
 
     // Login
     login_bms: 'نظام إدارة المستفيدين',
@@ -239,7 +240,7 @@ export const TEXT = {
     modal_language_actual: 'اللغة الحالية',
     modal_failure: 'Failure',
     modal_leave: 'المغادرة',
-    modal_leave_sentence: 'هل تريد حقا أن تغادر دون حفظ التغييرات',
+    modal_leave_sentence: 'Do you really want to leave ? All previous steps will be saved in the database',
     modal_language_title: 'اللغة',
     modal_no_country: 'عليك بتحديد بلد على الأقل يتعلق بالحق',
     modal_no_password: 'عليك بادخال كلمة المرور ',

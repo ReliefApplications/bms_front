@@ -214,6 +214,7 @@ export const TEXT = {
     import_distribution_no_right_update: 'Vous n\'avez pas le droit nécessaire pour modifier la distribution, demandez à votre reponsable de projet',
     import_distribution_updated: 'Distribution modifiée',
     import_updated: 'Mis à jour',
+    import_failed: 'Une erreur est survenue lors de la sauvegarde des données',
 
     // Login
     login_bms: 'Beneficiary management system',
@@ -240,7 +241,7 @@ export const TEXT = {
     modal_language_title: 'Langage',
     modal_failure: 'Echecs',
     modal_leave: 'Quitter',
-    modal_leave_sentence: 'Souhaitez-vous réellement quitter sans enregistrer vos modifications ?',
+    modal_leave_sentence: 'Souhaitez-vous réellement quitter ? Les étapes précédentes vont être enregistrées dans la base de données',
     modal_no_country: 'Vous devez définir au moins une ville pour ce rôle',
     modal_no_password: 'Vous devez définir un mot de passe',
     modal_not_enough_strong: 'Mot de passe insuffisant... Minimum requis: 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre',

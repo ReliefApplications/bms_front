@@ -507,6 +507,20 @@ export class DataValidationComponent implements OnInit {
                     });
                 });
             }
+            else if (functionName == "step3More") {
+                this.more.forEach(data => {
+                    data.new.households.beneficiaries.forEach(beneficiary => {
+                        this.step3More(beneficiary, data.old.households.id);
+                    });
+                });
+            }
+            else if (functionName == "step4Less") {
+                this.less.forEach(data => {
+                    data.old.households.beneficiaries.forEach(beneficiary => {
+                        this.step4Less(beneficiary.id, data.old.households.id, data.id_tmp_cache);
+                    });
+                });
+            }
 
             this.allNew = event.checked;
         }

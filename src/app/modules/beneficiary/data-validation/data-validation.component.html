@@ -169,8 +169,7 @@
                                             <mat-chip-list>
                                                 <mat-chip>{{verification.new}}</mat-chip>
                                             </mat-chip-list>
-                                            <mat-checkbox color="primary" [(ngModel)]="allNew"
-                                                (change)="step2Duplicates(isDuplicate, 'new', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
+                                            <mat-checkbox color="primary" [(ngModel)]="allNew" (change)="step2Duplicates(isDuplicate, 'new', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
                                             </mat-checkbox>
                                             <div class="content-householdData">
                                                 <div class="dataToCompare">{{isDuplicate.new.households.beneficiaries[0].family_name}}
@@ -224,65 +223,70 @@
                     <span>{{verification.data_verification_step_3}}</span>
                 </div>
                 <div class="container-content box-green">
-                    <div class="content-table" *ngIf="more.length > 0">
-                        <mat-card class="issues" *ngFor="let data of more">
-                            <mat-card-content>
-                                <div class="householdData head">
-                                    <mat-chip-list>
-                                        <mat-chip>{{verification.data_verification_chip_actual}}</mat-chip>
-                                    </mat-chip-list>
-                                    <div class="content-householdData">
-                                        <div class="dataToCompare">{{data.old.nameHead}}</div>
-                                        <div class="dataToCompare">{{data.old.households.address_number}}
-                                            {{data.old.households.address_street}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm4">{{data.old.households.address_postcode}}
-                                            {{data.old.households.location.adm4.name}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm3">{{data.old.households.address_postcode}}
-                                            <p>{{data.old.households.location.adm3.name}}</p>
-                                        </div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm2">{{data.old.households.address_postcode}}
-                                            <p>{{data.old.households.location.adm2.name}}</p>
-                                        </div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm1">{{data.old.households.address_postcode}}
-                                            <p>{{data.old.households.location.adm1.name}}</p>
+                    <div class="container-cards" *ngIf="more.length > 0">
+                        <div class="container-checkboxes">
+                            <mat-checkbox class="checkbox-all" color="primary" (change)="selectAll($event, 'new', 'step3More')">{{verification.import_select_new}}</mat-checkbox>
+                        </div>
+                        <div class="content-table">
+                            <mat-card class="issues" *ngFor="let data of more">
+                                <mat-card-content>
+                                    <div class="householdData head">
+                                        <mat-chip-list>
+                                            <mat-chip>{{verification.data_verification_chip_actual}}</mat-chip>
+                                        </mat-chip-list>
+                                        <div class="content-householdData">
+                                            <div class="dataToCompare">{{data.old.nameHead}}</div>
+                                            <div class="dataToCompare">{{data.old.households.address_number}}
+                                                {{data.old.households.address_street}}</div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm4">{{data.old.households.address_postcode}}
+                                                {{data.old.households.location.adm4.name}}</div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm3">{{data.old.households.address_postcode}}
+                                                <p>{{data.old.households.location.adm3.name}}</p>
+                                            </div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm2">{{data.old.households.address_postcode}}
+                                                <p>{{data.old.households.location.adm2.name}}</p>
+                                            </div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm1">{{data.old.households.address_postcode}}
+                                                <p>{{data.old.households.location.adm1.name}}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="householdData" *ngIf="data.old.households.beneficiaries.length > 1">
+                                    <div class="householdData" *ngIf="data.old.households.beneficiaries.length > 1">
+                                        <mat-divider></mat-divider>
+                                        <mat-chip-list>
+                                            <mat-chip>{{verification.data_verification_chip_existing}}</mat-chip>
+                                        </mat-chip-list>
+                                        <div class="householdData">
+                                            <div class="content-householdData">
+                                                <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
+                                                    <div class="dataToCompare" *ngIf="beneficiary.status == 0">
+                                                        {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                     <mat-divider></mat-divider>
                                     <mat-chip-list>
-                                        <mat-chip>{{verification.data_verification_chip_existing}}</mat-chip>
+                                        <mat-chip>{{verification.data_verification_chip_add}}</mat-chip>
                                     </mat-chip-list>
                                     <div class="householdData">
-                                        <div class="content-householdData">
-                                            <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
-                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0">
-                                                    {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <mat-divider></mat-divider>
-                                <mat-chip-list>
-                                    <mat-chip>{{verification.data_verification_chip_add}}</mat-chip>
-                                </mat-chip-list>
-                                <div class="householdData">
-                                    <div class="content-beneficiariesData">
-                                        <div class="dataToCompare" *ngIf="data.new.households.beneficiaries.length > 1">
-                                            <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
-                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0">
-                                                    <mat-checkbox color="primary" (change)="step3More(beneficiary, data.old.households.id)">
-                                                        {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
-                                                    </mat-checkbox>
+                                        <div class="content-beneficiariesData">
+                                            <div class="dataToCompare" *ngIf="data.new.households.beneficiaries.length > 1">
+                                                <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
+                                                    <div class="dataToCompare" *ngIf="beneficiary.status == 0">
+                                                        <mat-checkbox color="primary" [(ngModel)]="allNew" (change)="step3More(beneficiary, data.old.households.id)">
+                                                            {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
+                                                        </mat-checkbox>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </mat-card-content>
-                        </mat-card>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
                     </div>
                     <div *ngIf="more.length == 0" class="no-data-box">
                         <h2 class="box-title"> {{verification.data_verification_step_3_no_issues}}</h2>
@@ -317,65 +321,70 @@
                     <span>{{verification.data_verification_step_4}}</span>
                 </div>
                 <div class="container-content box-green">
-                    <div class="content-table" *ngIf="less.length > 0">
-                        <mat-card class="issues" *ngFor="let data of less">
-                            <mat-card-content>
-                                <div class="householdData head">
-                                    <mat-chip-list>
-                                        <mat-chip>{{verification.data_verification_chip_actual}}</mat-chip>
-                                    </mat-chip-list>
-                                    <div class="content-householdData">
-                                        <div class="dataToCompare">{{data.old.nameHead}}</div>
-                                        <div class="dataToCompare">{{data.old.households.address_number}}
-                                            {{data.old.households.address_street}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm4">{{data.old.households.address_postcode}}
-                                            {{data.old.households.location.adm4.name}}</div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm3">{{data.old.households.address_postcode}}
-                                            <p>{{data.old.households.location.adm3.name}}</p>
-                                        </div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm2">{{data.old.households.address_postcode}}
-                                            <p>{{data.old.households.location.adm2.name}}</p>
-                                        </div>
-                                        <div class="dataToCompare" *ngIf="data.old.households.location.adm1">{{data.old.households.address_postcode}}
-                                            <p>{{data.old.households.location.adm1.name}}</p>
+                    <div class="container-cards" *ngIf="less.length > 0">
+                        <div class="container-checkboxes">
+                            <mat-checkbox class="checkbox-all" color="primary" (change)="selectAll($event, 'new', 'step4Less')">{{verification.import_select_new}}</mat-checkbox>
+                        </div>
+                        <div class="content-table">
+                            <mat-card class="issues" *ngFor="let data of less">
+                                <mat-card-content>
+                                    <div class="householdData head">
+                                        <mat-chip-list>
+                                            <mat-chip>{{verification.data_verification_chip_actual}}</mat-chip>
+                                        </mat-chip-list>
+                                        <div class="content-householdData">
+                                            <div class="dataToCompare">{{data.old.nameHead}}</div>
+                                            <div class="dataToCompare">{{data.old.households.address_number}}
+                                                {{data.old.households.address_street}}</div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm4">{{data.old.households.address_postcode}}
+                                                {{data.old.households.location.adm4.name}}</div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm3">{{data.old.households.address_postcode}}
+                                                <p>{{data.old.households.location.adm3.name}}</p>
+                                            </div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm2">{{data.old.households.address_postcode}}
+                                                <p>{{data.old.households.location.adm2.name}}</p>
+                                            </div>
+                                            <div class="dataToCompare" *ngIf="data.old.households.location.adm1">{{data.old.households.address_postcode}}
+                                                <p>{{data.old.households.location.adm1.name}}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="householdData" *ngIf="data.new.households.beneficiaries.length > 1">
+                                    <div class="householdData" *ngIf="data.new.households.beneficiaries.length > 1">
+                                        <mat-divider></mat-divider>
+                                        <mat-chip-list>
+                                            <mat-chip>{{verification.new}}</mat-chip>
+                                        </mat-chip-list>
+                                        <div class="householdData">
+                                            <div class="content-householdData">
+                                                <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
+                                                    <div class="dataToCompare" *ngIf="beneficiary.status == 0">
+                                                        {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <mat-divider></mat-divider>
                                     <mat-chip-list>
-                                        <mat-chip>{{verification.new}}</mat-chip>
+                                        <mat-chip>{{verification.data_verification_chip_remove}}</mat-chip>
                                     </mat-chip-list>
                                     <div class="householdData">
-                                        <div class="content-householdData">
-                                            <div class="dataToCompare" *ngFor="let beneficiary of data.new.households.beneficiaries">
-                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0">
-                                                    {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
+                                        <div class="content-beneficiariesData">
+                                            <div class="dataToCompare" *ngIf="data.old.households.beneficiaries.length > 1">
+                                                <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
+                                                    <div class="dataToCompare" *ngIf="beneficiary.status == 0">
+                                                        <mat-checkbox color="primary" [(ngModel)]="allNew"(change)="step4Less(beneficiary.id, data.old.households.id, data.id_tmp_cache)">
+                                                            {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
+                                                        </mat-checkbox>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <mat-divider></mat-divider>
-                                <mat-chip-list>
-                                    <mat-chip>{{verification.data_verification_chip_remove}}</mat-chip>
-                                </mat-chip-list>
-                                <div class="householdData">
-                                    <div class="content-beneficiariesData">
-                                        <div class="dataToCompare" *ngIf="data.old.households.beneficiaries.length > 1">
-                                            <div class="dataToCompare" *ngFor="let beneficiary of data.old.households.beneficiaries">
-                                                <div class="dataToCompare" *ngIf="beneficiary.status == 0">
-                                                    <mat-checkbox color="primary" (change)="step4Less(beneficiary.id, data.old.households.id, data.id_tmp_cache)">
-                                                        {{beneficiary.given_name}} {{beneficiary.date_of_birth}}
-                                                    </mat-checkbox>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </mat-card-content>
-                        </mat-card>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
                     </div>
                     <div *ngIf="less.length == 0" class="no-data-box">
                         <h2 class="box-title"> {{verification.data_verification_step_4_no_issues}}</h2>

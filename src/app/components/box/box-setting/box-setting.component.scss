@@ -48,6 +48,7 @@ $box-content: 80px;
             margin: 0 !important;
             word-break: break-word;
             hyphens: auto;
+            text-align:left;
         }
 
         .info-subtitle{
@@ -83,9 +84,9 @@ $box-content: 80px;
     background-color: $bms_green !important;
 }
 
-.box-red{
-    background-color: $bms-red !important;
-}
+// .box-red{
+//     background-color: $bms-red !important;
+// }
 
 .selected{
     background-color: $bms_dark_blue !important;

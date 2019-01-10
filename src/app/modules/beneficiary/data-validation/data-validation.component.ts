@@ -386,7 +386,6 @@ export class DataValidationComponent implements OnInit {
     }
 
     reloadInfo() {
-        console.log('Hello, we are on step number: ', this.step)
         this.showedInfo = true;
     }
 

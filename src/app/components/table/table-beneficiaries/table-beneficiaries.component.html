@@ -9,12 +9,13 @@
 
   <div class="container-header" *ngIf="filled">
     <mat-form-field>
-      <input matInput [(ngModel)]="keyWords" (keyup)="applyFilter($event.target.value, 'familyName'); sendSortedData()" placeholder="{{table.table_filter}}">
+      <input matInput [(ngModel)]="keyWords" (keyup)="applyFilter($event.target.value, 'familyName'); sendSortedData()"
+        placeholder="{{table.table_filter}}">
     </mat-form-field>
 
     <div *ngIf="advancedResearch" class="filter-combo">
-      <ng-select class="input-filter custom" [(ngModel)]="project" bindLabel="name" [items]="data.projects.value" [multiple]="true"
-        placeholder="{{table.project}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
+      <ng-select class="input-filter custom" [(ngModel)]="project" bindLabel="name" [items]="data.projects.value"
+        [multiple]="true" placeholder="{{table.project}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter" bindLabel="name" [items]="data.adm1.value" [closeOnSelect]="false" [searchable]="true"
@@ -34,29 +35,44 @@
         placeholder="{{table.adm4}}" [(ngModel)]="newObject['adm4']" (change)="selected('adm4'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
-      <ng-select class="input-filter custom" bindLabel="name" [(ngModel)]="vulnerability" [items]="data.vulnerabilities.value" [multiple]="true"
-        placeholder="{{table.model_vulnerabilities}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
+      <ng-select class="input-filter custom" bindLabel="name" [(ngModel)]="vulnerability" [items]="data.vulnerabilities.value"
+        [multiple]="true" placeholder="{{table.model_vulnerabilities}}" [closeOnSelect]="false" [searchable]="true"
+        (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
       </ng-select>
     </div>
 
     <div class="buttons-search-clear">
-        <button *ngIf="this.data.filter.length !== 0 " mat-raised-button class="button-text-accent" (click)="clearSearch()" >
-            <mat-icon>clear</mat-icon>
-            {{beneficiary.beneficiaries_clear_all_research | titlecase}}
-        </button>
+      <button *ngIf="this.data.filter.length !== 0 " mat-raised-button class="button-text-accent" (click)="clearSearch()">
+        <mat-icon>clear</mat-icon>
+        {{beneficiary.beneficiaries_clear_all_research | titlecase}}
+      </button>
 
-        <button mat-raised-button class="button-text-accent" (click)="showAdvancedResearch()" >
-          {{beneficiary.beneficiaries_advanced_research | titlecase}}
-          <mat-icon *ngIf="!advancedResearch">keyboard_arrow_down</mat-icon>
-          <mat-icon *ngIf="advancedResearch">keyboard_arrow_up</mat-icon>
+      <button mat-raised-button class="button-text-accent" (click)="showAdvancedResearch()">
+        {{beneficiary.beneficiaries_advanced_research | titlecase}}
+        <mat-icon *ngIf="!advancedResearch">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="advancedResearch">keyboard_arrow_up</mat-icon>
       </button>
     </div>
 
     <div *ngIf="filled && !testLoading && this.data.householdsSubject._value.length !== 0" style="max-height: 370px; overflow: auto;">
       <table mat-table [dataSource]="data" matSort>
+        <ng-container matColumnDef="check">
+          <th mat-header-cell class="header-cell" *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()" color="primary">
+            </mat-checkbox>
+          </th>
+          <td mat-cell class="content-cell" *matCellDef="let element">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="selectCheck($event, element)"
+              [checked]="selection.isSelected(element)" color="primary">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
         <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
           <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="{'integered':propertiesTypes[property]=='number'}">
-            {{mapperService.mapTitle(property)}}</th>
+            <p>{{mapperService.mapTitle(property)}}</p>
+          </th>
           <td mat-cell *matCellDef="let element">
             <span *ngIf="propertiesTypes[property]=='image'">
               <app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)" [name]="image"></app-icon-svg>
@@ -71,7 +87,7 @@
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
+          <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions | titlecase}}</th>
           <td mat-cell class="content-cell" *matCellDef="let element">
             <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green"
               [matTooltip]="table.details">

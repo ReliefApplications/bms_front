@@ -31,7 +31,7 @@
             </ng-container>
 
             <ng-container matColumnDef="actions">
-                <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
+                <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions | titlecase }}</th>
                 <td mat-cell class="content-cell" *matCellDef="let element">
                     <div class="validated-distribution" *ngIf="element.validated && element.finished" routerLink="/projects/distributions/{{element.id}}">
                         <mat-icon>done</mat-icon>

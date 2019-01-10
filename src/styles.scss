@@ -60,6 +60,10 @@ body {
     overflow-x: hidden !important;
 }
 
+.mat-dialog-container {
+  background-color: $bms_white;
+}
+
 @media only screen and (max-width: 750px) {
   .mat-stepper-horizontal {
     width: 100%;

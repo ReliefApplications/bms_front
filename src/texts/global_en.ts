@@ -251,6 +251,7 @@ export const TEXT = {
     modal_pending_requests: 'Pending Requests',
     modal_project_name_characters_limit:'do not exceed',
     modal_required: 'required',
+    modal_save_language_as_default: 'Set this as my default language',
     modal_success: 'Success',
     modal_valid_email: 'Please enter a valid email address',
     modal_warning_pending_requests_1: 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.',

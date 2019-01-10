@@ -248,6 +248,7 @@ export const TEXT = {
     modal_no_project: 'Vous devez définir au moins un projet pour ce rôle',
     modal_pending_requests: 'Pending Requests',
     modal_project_name_characters_limit:'ne pas dépasser',
+    modal_save_language_as_default: 'Définir ceci comme langage par défaut',
     modal_success: 'Succès',
     modal_required: 'obligatoire',
     modal_valid_email: 'Veuillez utiliser un mail valide',

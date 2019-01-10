@@ -81,7 +81,7 @@ export class AppComponent {
         }
         else if ( this.smallScreenMode === true && (window.innerHeight > this.maxHeight) && (window.innerWidth > this.maxWidth) ) {
             this.smallScreenMode = false;
-            GlobalText.changeLanguage();
+            // GlobalText.changeLanguage();
         }
         if( (window.innerHeight > this.maxHeight) && (window.innerWidth > this.maxWidth) ) {
             this.isShowing = false;

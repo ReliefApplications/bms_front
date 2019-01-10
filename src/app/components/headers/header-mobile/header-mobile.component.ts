@@ -102,11 +102,16 @@ export class HeaderMobileComponent implements OnInit {
     }
 
     autoLanguage(c: string) {
-        if(c === "SYR") {
-            GlobalText.changeLanguage('ar');
-        } else if(c === "KHM") {
-            GlobalText.changeLanguage('en');
+        if (this.userData.language) {
+            GlobalText.changeLanguage(this.userData.language)
+        } else {
+            if(c === "SYR") {
+                GlobalText.changeLanguage('ar');
+            } else if(c === "KHM") {
+                GlobalText.changeLanguage('en');
+            }
         }
+
     }
 
     getFlag(c: string) {

@@ -52,6 +52,11 @@ export class User {
      * @type {number[]}
      */
     country: string[] = undefined;
+    /**
+     * User's language
+     * @type {string}
+     */
+    language: string = '';
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -64,6 +69,7 @@ export class User {
             this.projects = instance.projects;
             this.country = instance.country;
             this.loggedIn = instance.loggedIn;
+            this.language = instance.language;
         }
     }
 

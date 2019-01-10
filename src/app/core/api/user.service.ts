@@ -72,4 +72,9 @@ export class UserService {
 		let url = this.api + "/users/" + id + "/projects";
 		return this.http.get(url);
 	}
+
+	public setDefaultLanguage(id: number, body: string) {
+		let url = this.api + "/users/" + id + "/language";
+		return this.http.post(url, {language: body});
+	}
 }

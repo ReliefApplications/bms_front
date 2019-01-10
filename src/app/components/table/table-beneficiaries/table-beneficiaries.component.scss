@@ -3,11 +3,15 @@
 .buttons-search-clear {
     display:flex;
     width: 100%;
-    justify-content: center;
+    justify-content: left;
+    
 
     .mat-raised-button {
         background-color:$bms_white !important;
         box-shadow: none !important;
+        color:$bms_black !important;
+        font-weight: bold;
+        font-size: inherit;
 
         .mat-icon {
             width:18px;

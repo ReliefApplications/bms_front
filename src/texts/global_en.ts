@@ -272,7 +272,7 @@ export const TEXT = {
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score weight',
     model_dateofbirth: 'Date of birth',
-    model_distribution_date: 'Date of distribution',
+    model_distribution_date: 'Date of Distribution',
     model_distribution_name: 'Name',
     model_distribution_type: 'Target',
     model_donor: 'Donor',

@@ -243,6 +243,7 @@ export const TEXT = {
     modal_language_actual: 'Current language: ',
     modal_leave_sentence: 'Do you really want to leave with unsaved changes?',
     modal_language_title: 'Language',
+    modal_save_language_as_default: 'Set this as my default language',
     modal_no_country: 'You must define a country with that role',
     modal_no_password: 'You must define a password',
     modal_not_enough_strong: 'The password is not strong enough... Minimum required: 8 characters, 1 lowercase, 1 uppercase, 1 numeric',

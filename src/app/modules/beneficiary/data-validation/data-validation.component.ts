@@ -414,7 +414,9 @@ export class DataValidationComponent implements OnInit {
         // STEP 1
         if (this.step === 1) {
             this.correctedData.forEach(element => {
-                !element.state && !element.new ? length-- : 0;
+                if (!element.state && !element.new) {
+                    length = length - 1;
+                }
             });
             if (this.typoIssues.length != length) {
                 this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected, '', { duration: 5000, horizontalPosition: 'center' });
@@ -434,7 +436,9 @@ export class DataValidationComponent implements OnInit {
         else if (this.step === 2) {
             this.correctedData.forEach(duplicateVerified => {
                 duplicateVerified.data.forEach(element => {
-                    !element.state && element.to_delete ? length-- : 0;
+                    if (!element.state && !element.to_delete) {
+                    length = length - 1;
+                }
                 });
             });
             if (this.duplicates.length != length) {

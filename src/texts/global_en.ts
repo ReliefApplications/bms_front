@@ -313,7 +313,7 @@ export const TEXT = {
     project_description: 'You will be able to modify project\'s name until your first distribution.',
     project_go_beneficiaries: 'Go to Beneficiaries',
     project_no_distribution: 'This project does not contain any distributions. Create your first one !',
-    project_no_household: 'This project does not contain any household.',
+    project_no_household: 'This project does not contain any households.',
     project_no_projects: 'This country does not contain any project.',
 
     // Report

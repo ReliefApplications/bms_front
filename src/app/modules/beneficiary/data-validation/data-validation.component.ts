@@ -386,7 +386,20 @@ export class DataValidationComponent implements OnInit {
     }
 
     reloadInfo() {
+        console.log('Hello, we are on step number: ', this.step)
         this.showedInfo = true;
+    }
+
+    nextStep() {
+        this.step++;
+        this._importService.sendData(this.email, this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
+            this.stepper.next();
+            this.getData();
+        }, (err) => {
+            this.load = false;
+            this.step--;
+        });
+        this.reloadInfo();
     }
 
     /**
@@ -398,52 +411,61 @@ export class DataValidationComponent implements OnInit {
         // the length of correctedData need to be equal of the length of data receive by the back
         // if the length isn't equal all data isn't corrected and it's impossible to go in the next step
         let length = this.correctedData.length;
+
+        // STEP 1
         if (this.step === 1) {
             this.correctedData.forEach(element => {
-                if (!element.state && !element.new) {
-                    length = length - 1;
-                }
+                !element.state && !element.new ? length-- : 0;
             });
-        } else if (this.step === 2) {
-            this.correctedData.forEach(duplicateVerified => {
-                duplicateVerified.data.forEach(element => {
-                    if (!element.state && element.to_delete) {
-                        length = length - 1;
-                    }
-                });
-
-            });
-        }
-
-        if (this.step === 1 && this.typoIssues.length != length) {
-            this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected, '', { duration: 5000, horizontalPosition: 'center' });
-        } else if (this.step === 2 && this.duplicates.length != length) {
-            this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected, '', { duration: 5000, horizontalPosition: 'center' });
-        } else {
-            this.load = true;
-            if (this.step === 1) {
+            if (this.typoIssues.length != length) {
+                this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected, '', { duration: 5000, horizontalPosition: 'center' });
+            } else if (this.typoIssues.length === 0) {
+                this.load = true;
+                this.typoDone = true;
+                this.nextStep();
+            } else {
+                this.load = true;
                 this.snackBar.open(this.verification.data_verification_snackbar_typo_corrected, '', { duration: 5000, horizontalPosition: 'center' });
                 this.typoDone = true;
-            } else if (this.step === 2) {
+                this.nextStep();
+            }
+        } 
+
+        // STEP 2
+        else if (this.step === 2) {
+            this.correctedData.forEach(duplicateVerified => {
+                duplicateVerified.data.forEach(element => {
+                    !element.state && element.to_delete ? length-- : 0;
+                });
+            });
+            if (this.duplicates.length != length) {
+                this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected, '', { duration: 5000, horizontalPosition: 'center' });
+            } else if (this.duplicates.length === 0) {
+                this.load = true;
+                this.duplicateDone = true;
+                this.nextStep();
+            } else {
+                this.load = true;
                 this.snackBar.open(this.verification.data_verification_snackbar_duplicate_corrected, '', { duration: 5000, horizontalPosition: 'center' });
                 this.duplicateDone = true;
-            } else if (this.step === 3) {
-                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 5000, horizontalPosition: 'center' });
-                this.moreDone = true;
-            } else if (this.step === 4) {
-                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 5000, horizontalPosition: 'center' });
-                this.lessDone = true;
+                this.nextStep();
             }
-            this.step = this.step + 1;
-            this._importService.sendData(this.email, this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
-                this.stepper.next();
-                this.getData();
-            }, (err) => {
-                this.load = false;
-                this.step--;
-            });
+        } 
 
-            this.reloadInfo();
+        // STEP 3
+        else if (this.step === 3) {
+            this.load = true;
+            this.more.length > 0 ? this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 5000, horizontalPosition: 'center' }) : 0;
+            this.moreDone = true;
+            this.nextStep();
+        } 
+
+        // STEP 4
+        else if (this.step === 4) {
+            this.load = true;
+            this.less.length > 0 ? this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 5000, horizontalPosition: 'center' }) : 0;
+            this.lessDone = true;
+            this.nextStep();
         }
     }
 

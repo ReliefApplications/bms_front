@@ -9,6 +9,7 @@
         </mat-option>
       </mat-select>
     </div>
+    <mat-checkbox color="primary" (click)="saveDefault()">{{ modal.modal_save_language_as_default }}</mat-checkbox>
   </div>
   <div class="modal-button action-buttons stickyFooter">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.close}}</button>

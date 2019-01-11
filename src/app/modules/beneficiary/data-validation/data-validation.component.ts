@@ -32,7 +32,7 @@ export class DataValidationComponent implements OnInit {
     public less: Array<any> = [];
 
     //array to fill with correct data
-    public correctedData: Array<any> = [];
+    public correctedData = {};
 
     //indicate the step in process
     public step: number = 1;
@@ -120,7 +120,7 @@ export class DataValidationComponent implements OnInit {
             this.typoIssues = this._importService.getData();
         }
         else if (this.step === 2) {
-            this.correctedData = [];
+            this.correctedData = {};
             this.duplicates = this._importService.getData();
             //to add household in correctedData array when the old duplicates is the head of one household
             this.duplicates.forEach(duplicate => {
@@ -130,53 +130,53 @@ export class DataValidationComponent implements OnInit {
             });
         }
         else if (this.step === 3) {
-            this.correctedData = [];
+            this.correctedData = {};
             this.more = this._importService.getData();
         }
         else if (this.step === 4) {
-            this.correctedData = [];
+            this.correctedData = {};
             this.less = this._importService.getData();
         } else if (this.step === 5) {
             this.step = 1;
         }
     }
 
-
     /**
      * Put corrected data in an array after verified typo issues
      * The array created in this function will be the array send to the back
-     * 
+     *
      * @param data any
      * @param type string (old or new )
      * @param index number
      */
     step1TypoIssues(data: any, type: string, index: number, state?: boolean) {
-        let verification = new VerifiedData;
         let indexFound: boolean = false;
-        this.correctedData.forEach(element => {
-            //Search the index in the correctedData
-            //if index found, update directly this object
-            if (element.index === index) {
-                indexFound = true;
-                if (type === 'old') {
-                    if (state == true || state == false) {
-                        element.state = state;
-                    }
-                    else
-                        element.state = !element.state;
+
+        for (var key in this.correctedData) {
+          if (this.correctedData.hasOwnProperty(key)) {
+            if (key == index) {
+              indexFound = true;
+              if (type == 'old') {
+                if (state) {
+                  this.correctedData[key].state = state;
+                } else {
+                  this.correctedData[key].state = !this.correctedData[key].state;
                 }
-                else {
-                    if (element.new) {
-                        delete element.new;
-                    }
-                    else {
-                        element.new = data.new.households;
-                    }
-                }
+              }
+              else if (type == 'new') {
+                  if (this.correctedData[key].new && !state) {
+                      delete this.correctedData[key].new;
+                  } else {
+                      this.correctedData[key].new = data.new.households;
+                  }
+              }
             }
-        });
+          }
+        }
+
         //if index not found create new object and insert it in correctedData
         if (indexFound === false) {
+            let verification = new VerifiedData;
             if (type === 'old') {
                 verification.id_old = data.old.households.id;
                 verification.state = true;
@@ -184,19 +184,19 @@ export class DataValidationComponent implements OnInit {
                 verification.id_tmp_cache = data.id_tmp_cache;
             }
             else if (type === 'new') {
-                verification.new = data.new.households;
                 verification.id_old = data.old.households.id;
+                verification.new = data.new.households;
                 verification.index = index;
                 verification.id_tmp_cache = data.id_tmp_cache;
             }
-            this.correctedData.push(verification);
+            this.correctedData[index] = verification;
         }
     }
 
     /**
      * Put corrected data in an array after verified duplicates
      * The array created in this function will be the array send to the back
-     * 
+     *
      * @param data any
      * @param type string (old or new)
      * @param idDuplicate string
@@ -208,6 +208,11 @@ export class DataValidationComponent implements OnInit {
         let indexFound = false;
         let correctDuplicate = new FormatDuplicatesData;
 
+        for (var key in this.correctedData) {
+          if (this.correctedData.hasOwnProperty(key)) {
+
+          }
+        }
         this.correctedData.forEach(duplicateVerified => {
             duplicateVerified.data.forEach(element => {
                 // search if the duplicate id is already in correctedData
@@ -294,6 +299,7 @@ export class DataValidationComponent implements OnInit {
                 this.correctedData.push(correctDuplicate);
             }
         }
+        console.log(this.correctedData)
     }
 
     /**
@@ -307,7 +313,7 @@ export class DataValidationComponent implements OnInit {
         let householdFind = false;
         let beneficiaryFind = false;
 
-        // check if a action has already made 
+        // check if a action has already made
         if (this.correctedData.length != 0) {
             for (let j = 0; j < this.correctedData.length; j++) {
                 // check if the household has already register in correctData
@@ -347,7 +353,7 @@ export class DataValidationComponent implements OnInit {
     /**
      * Put corrected data in an array after verified if there is less beneficiaries
      * The array created in this function will be the array send to the back
-     * 
+     *
      * @param idBeneficiary number
      * @param idOld number
      */
@@ -401,7 +407,7 @@ export class DataValidationComponent implements OnInit {
 
     nextStep() {
         this.step++;
-        this._importService.sendData(this.email, this.correctedData, this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
+        this._importService.sendData(this.email, Object.values(this.correctedData), this._importService.getProject(), this.step, this._importService.getToken()).then(() => {
             this.stepper.next();
             this.getData();
         }, (err) => {
@@ -416,6 +422,7 @@ export class DataValidationComponent implements OnInit {
      * Data could be send only if all data is verify
      */
     sendCorrectedData() {
+        this.correctedData = Object.values(this.correctedData);
         // verification for the step 1 and 2
         // the length of correctedData need to be equal of the length of data receive by the back
         // if the length isn't equal all data isn't corrected and it's impossible to go in the next step
@@ -440,7 +447,7 @@ export class DataValidationComponent implements OnInit {
                 this.typoDone = true;
                 this.nextStep();
             }
-        } 
+        }
 
         // STEP 2
         else if (this.step === 2) {
@@ -463,7 +470,7 @@ export class DataValidationComponent implements OnInit {
                 this.duplicateDone = true;
                 this.nextStep();
             }
-        } 
+        }
 
         // STEP 3
         else if (this.step === 3) {
@@ -471,7 +478,7 @@ export class DataValidationComponent implements OnInit {
             this.more.length > 0 ? this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 5000, horizontalPosition: 'center' }) : 0;
             this.moreDone = true;
             this.nextStep();
-        } 
+        }
 
         // STEP 4
         else if (this.step === 4) {
@@ -512,14 +519,13 @@ export class DataValidationComponent implements OnInit {
                     });
                 });
             }
-
             else if (functionName) {
 
             }
 
             this.allOld = event.checked;
         }
-        else {
+        else if (option == 'new') {
             if (functionName == "step1TypoIssues") {
                 this.typoIssues.forEach((element, i) => {
                     this.step1TypoIssues(element, 'new', i, event.checked);
@@ -546,7 +552,6 @@ export class DataValidationComponent implements OnInit {
                     });
                 });
             }
-
             this.allNew = event.checked;
         }
     }

@@ -40,7 +40,7 @@
                 </mat-chip-list>
                 <mat-card-content>
                   <div class="householdData head">
-                    <mat-checkbox color="primary" [(ngModel)]="allOld" (change)="step1TypoIssues(typoIssue, 'old', i)">
+                    <mat-checkbox color="primary" [checked]="correctedData[i] && correctedData[i].state" (change)="step1TypoIssues(typoIssue, 'old', i)">
                     </mat-checkbox>
                     <div class="content-householdData">
                       <div class="dataToCompare">{{typoIssue.old.nameHead}}</div>
@@ -70,7 +70,7 @@
                     <mat-chip>{{verification.new}}</mat-chip>
                   </mat-chip-list>
                   <div class="householdData">
-                    <mat-checkbox color="primary" [(ngModel)]="allNew" (change)="step1TypoIssues(typoIssue, 'new', i)">
+                    <mat-checkbox color="primary" [checked]="correctedData[i] && correctedData[i].new" (change)="step1TypoIssues(typoIssue, 'new', i)">
                     </mat-checkbox>
                     <div class="content-householdData">
                       <div class="dataToCompare">{{typoIssue.new.nameHead}}</div>

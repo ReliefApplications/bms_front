@@ -224,51 +224,6 @@
         </div>
       </form>
     </mat-step>
-
-    <mat-step label="{{ TEXT.distribution_details_validate | titlecase }}" [stepControl]="form4">
-      <form [formGroup]="form4">
-
-        <div class="container-table">
-          <div class="container-content">
-            <div class="content-button">
-              <app-box-properties *ngIf="actualDistribution && finalBeneficiaryData" class="properties-displayed"
-                [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution"
-                [data]="finalBeneficiaryData.data"></app-box-properties>
-            </div>
-            <div class="container-empty" *ngIf="!finalBeneficiaryData && !loadingFinalStep">
-              <p>
-                <mat-icon>edit</mat-icon>
-                {{TEXT.distribution_not_modified}}
-              </p>
-              <button mat-raised-button class="button-background-primary" (click)="getDistributionBeneficiaries('final')">
-                {{TEXT.distribution_show_data}} </button>
-            </div>
-            <div class="waitingDataContainer" *ngIf="loadingFinalStep">
-              <mat-spinner></mat-spinner>
-            </div>
-            <div class="content-table" *ngIf="finalBeneficiaryData">
-              <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity"
-                [service]="beneficiariesService" [data]="finalBeneficiaryData" [editable]="!actualDistribution.validated"
-                [parentId]="distributionId">
-              </app-table-search>
-              <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity"
-                [service]="beneficiariesService" [data]="finalBeneficiaryData" [editable]="!actualDistribution.validated"
-                [parentId]="distributionId">
-              </app-table-mobile-search>
-            </div>
-            <div class="content-button content-button-footer">
-              <mat-spinner [diameter]="35" *ngIf="loaderValidation"></mat-spinner>
-              <button mat-raised-button *ngIf="!loaderValidation" class="button-background-accent" (click)="openDialog(validation)"
-                [disabled]="actualDistribution.validated">
-                <mat-icon>lock</mat-icon>
-                {{TEXT.distribution_validate}}
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </form>
-    </mat-step>
   </mat-horizontal-stepper>
 
   <div class="container-table" *ngIf="actualDistribution.validated && !loadingDatas">

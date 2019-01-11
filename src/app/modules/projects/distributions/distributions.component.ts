@@ -217,11 +217,15 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         this.distributionService.getBeneficiaries(this.distributionId)
             .subscribe(
                 response => {
-                    const data = response;
+                    let data = response;
 
                     if (type === 'initial') {
                         // Step 1 table
                         // console.log('Getting Initial data');
+                        if (data && data.id) {
+                            this.actualDistribution = data;
+                            data = data.distribution_beneficiaries;
+                        }
                         this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
                         this.loadingFirstStep = false;
                     } else if (type === 'final') {
@@ -278,7 +282,15 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                     if (allBeneficiaries) {
                         this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
                     } else {
-                        // console.log('beneficiaires List is empty');
+                        this.cacheService.get(AsyncacheService.PROJECTS + "_" + this.actualDistribution.project.id + "_beneficiaries")
+                            .subscribe(
+                                beneficiaries => {
+                                    if (beneficiaries) {
+                                        allBeneficiaries = beneficiaries;
+                                        this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
+                                    }
+                                }
+                            );
                     }
                 }
             );
@@ -626,7 +638,9 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                     this.distributionService.getBeneficiaries(this.distributionId)
                         .subscribe(
                             response => {
-                                this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(response));
+                                if (response) {
+                                    this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(response));
+                                }
                             }
                         );
                     this.snackBar.open(this.TEXT.distribution_beneficiary_added, '', { duration: 5000, horizontalPosition: 'center' });
@@ -744,12 +758,28 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      */
     storeBeneficiaries() {
         let project = this.actualDistribution.project;
-        
-        this.actualDistribution.distribution_beneficiaries.forEach((element,i) => {
+
+        this.actualDistribution.distribution_beneficiaries.forEach((element, i) => {
             element.beneficiary = this.initialBeneficiaryData.data[i];
         });
-        
         let distribution = this.actualDistribution;
-        this.cacheService.storeBeneficiaries(project, distribution);
+
+        let allBeneficiaries;
+
+        let entityInstance = Object.create(this.distributionEntity.prototype);
+        entityInstance.constructor.apply(entityInstance);
+        this.target = entityInstance.getMapperBox(this.actualDistribution).type;
+
+        this.beneficiariesService.getAllFromProject(this.actualDistribution.project.id, this.target)
+            .subscribe(
+                result => {
+                    allBeneficiaries = result;
+                    if (allBeneficiaries) {
+                        this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
+                        this.cacheService.storeBeneficiaries(project, distribution, this.beneficiaryList);
+
+                    }
+                }
+            );
     }
 }

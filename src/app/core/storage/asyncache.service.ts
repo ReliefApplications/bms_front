@@ -324,55 +324,41 @@ export class AsyncacheService {
     /**
      * Store beneficiaries in the cashe
      */
-    storeBeneficiaries(project: any, distribution) {
+    storeBeneficiaries(project: any, distribution: any, beneficiaries: any) {
         let allDistributions;
+        let projectBenef;
+
         const idDistribution = distribution.id;
 
         this.get(AsyncacheService.DISTRIBUTIONS + "_" + project.id).subscribe(result => {
             if (result) {
                 result.forEach(key => {
                     if (key.id === idDistribution) {
-                        this.get(AsyncacheService.DISTRIBUTIONS + "_beneficiaries_" + project.id).subscribe(
-                            stored => {
-                                allDistributions = stored;
+                        // if (!allDistributions) {
+                        //     let tmpArray = [];
+                        //     tmpArray[0] = [];
+                        //     tmpArray[1] = distribution;
 
-                                if (!allDistributions) {
-                                    allDistributions = distribution;
-                                }
-                                else {
-                                    if (typeof allDistributions === "object") {
-                                        if (allDistributions.id === idDistribution) {
-                                            allDistributions = distribution;
-                                        }
-                                        else {
-                                            let tmpDistribution = [];
-                                            tmpDistribution.push(allDistributions);
-                                            tmpDistribution.push(distribution);
+                        //     allDistributions = tmpArray;
+                        // }
+                        // else {
+                        //     let find: boolean = false;
+                        //     allDistributions[0] = [];
+                        //     allDistributions.find(element => {
+                        //         if (element.id === idDistribution) {
+                        //             find = true;
+                        //             element = distribution;
+                        //         }
+                        //     });
 
-                                            allDistributions = tmpDistribution;
-                                        }
-                                    }
-                                    else {
-                                        let find: boolean = false;
-                                        allDistributions.find(element => {
-                                            if (element.id === idDistribution) {
-                                                find = true;
-                                                element = distribution;
-                                            }
-                                        });
+                        //     if (!find)
+                        //         allDistributions.push(distribution);
+                        // }
 
-                                        if (!find)
-                                            allDistributions.push(distribution);
+                        projectBenef = beneficiaries;
 
-                                            console.log("find", find);
-                                    }
-
-                                }
-                                console.log("all", allDistributions);
-
-                                this.set(AsyncacheService.DISTRIBUTIONS + "_beneficiaries_" + project.id, allDistributions);
-                            }
-                        );
+                        this.set(AsyncacheService.DISTRIBUTIONS + "_" + distribution.id + "_beneficiaries", distribution);
+                        this.set(AsyncacheService.PROJECTS + "_" + project.id + "_beneficiaries", projectBenef);
                     }
 
                     //Pas de distribution dans le cache, revenir sur la page project et réessayer

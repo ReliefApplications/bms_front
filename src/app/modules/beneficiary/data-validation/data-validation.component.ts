@@ -462,7 +462,7 @@ export class DataValidationComponent implements OnInit {
         // STEP 4
         else if (this.step === 4) {
             this.load = true;
-            this.less.length > 0 ? this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 5000, horizontalPosition: 'center' }) : 0;
+            this.less.length > 0 ? this.snackBar.open(this.verification.data_verification_snackbar_less_corrected, '', { duration: 5000, horizontalPosition: 'center' }) : 0;
             this.lessDone = true;
             this.nextStep();
         }

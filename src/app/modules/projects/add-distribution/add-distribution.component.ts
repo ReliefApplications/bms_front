@@ -398,11 +398,14 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
      * create the new distribution object before send it to the back
      */
     add() {
-        if (this.newObject.type && this.criteriaArray.length != 0 && this.commodityArray && this.commodityArray[0] && this.newObject.date_distribution && this.newObject.threshold > 0) {
-            let dateObjectDistribution = new Date(this.newObject.date_distribution);
-            dateObjectDistribution.setDate(dateObjectDistribution.getDate() + 1);
 
-            if (dateObjectDistribution.getTime() <= new Date(this.projectInfo.startDate).getTime() || dateObjectDistribution.getTime() >= new Date(this.projectInfo.endDate).getTime()) {
+        if (this.newObject.type && this.criteriaArray.length != 0 && this.commodityArray && this.commodityArray[0] && this.newObject.date_distribution && this.newObject.threshold > 0) {
+
+            let dateObjectDistribution = new Date(this.newObject.date_distribution).getDate() + new Date(this.newObject.date_distribution).getMonth() + new Date(this.newObject.date_distribution).getFullYear();
+            let projectStartDate = new Date(this.projectInfo.startDate).getDate() + new Date(this.projectInfo.startDate).getMonth() + new Date(this.projectInfo.startDate).getFullYear()
+            let projectEndDate = new Date(this.projectInfo.endDate).getDate() + new Date(this.projectInfo.endDate).getMonth() + new Date(this.projectInfo.endDate).getFullYear()
+
+            if (dateObjectDistribution < projectStartDate || dateObjectDistribution > projectEndDate) {
                 this.snackBar.open(this.distribution.add_distribution_date_inside_project, '', { duration: 5000, horizontalPosition: 'center' });
                 return;
             }

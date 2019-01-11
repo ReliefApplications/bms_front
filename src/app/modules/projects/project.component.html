@@ -23,25 +23,15 @@
   </div>
 
   <app-placeholder-panel class="container-table" *ngIf="loadingDistributions && projects !== undefined && projects != null"></app-placeholder-panel>
-  <div class="container-project" *ngIf="!loadingDistributions && projects !== undefined">
-    <div class="container-content box-green" *ngIf="isBoxClicked">
-      <h3>{{selectedProject.name | titlecase}}</h3>
+  <div class="container-data" *ngIf="!loadingDistributions && projects !== undefined">
+    <div class="container-content" *ngIf="isBoxClicked">
+      <h3 class="container-subtitle">{{selectedProject.name | titlecase}}</h3>
       <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService" [componentDisplayed]="selectedProject"></app-box-properties>
     </div>
   </div>
   <div class="container-table" *ngIf="!loadingDistributions && projects !== undefined">
     <div class="container-content box-green" *ngIf="isBoxClicked">
       <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
-        <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button-create">
-          <mat-icon>add</mat-icon>
-          {{distribution.add | titlecase}}
-        </button>
-        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}">
-          <mat-icon>add</mat-icon>
-        </button>
-        <h3>{{ distribution.distributions }}</h3>
-        <div [ngClass]="{'add-buttons': language != 'ar', 'add-buttons-arabic': language == 'ar'}">
-        </div>
         <div class="action-buttons" *ngIf="distributionData && distributionData.data.length>0">
           <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
             <mat-icon>get_app</mat-icon>
@@ -64,6 +54,14 @@
             </mat-menu>
           </div>
         </div>
+        <h3>{{ distribution.distributions }}</h3>
+        <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button-create">
+          <mat-icon>add</mat-icon>
+          {{distribution.add | titlecase}}
+        </button>
+        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}">
+          <mat-icon>add</mat-icon>
+        </button>
       </div>
       <div class="undisplay new-project" *ngIf="selectedProject.number_of_households == '0' &&  !noNetworkData">
         <mat-icon>group_add</mat-icon>

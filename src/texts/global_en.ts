@@ -148,7 +148,7 @@ export const TEXT = {
     data_verification_error: 'Error processing data',
     data_verification_send: 'Send',
     data_verification_snackbar_duplicate_corrected: 'Duplicate issues corrected',
-    data_verification_snackbar_duplicate_no_corrected: 'All duplicates aren\'t corrected',
+    data_verification_snackbar_duplicate_no_corrected: 'Not all duplicated have been corrected',
     data_verification_snackbar_less_corrected: 'Beneficiaries removed with success',
     data_verification_snackbar_more_corrected: 'Beneficiaries added with success',
     data_verification_snackbar_typo_corrected: 'Typo issues corrected',

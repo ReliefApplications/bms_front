@@ -23,9 +23,9 @@
   </div>
 
   <app-placeholder-panel class="container-table" *ngIf="loadingDistributions && projects !== undefined && projects != null"></app-placeholder-panel>
-  <div class="container-project" *ngIf="!loadingDistributions && projects !== undefined">
-    <div class="container-content box-green" *ngIf="isBoxClicked">
-      <h3>{{selectedProject.name | titlecase}}</h3>
+  <div class="container-data" *ngIf="!loadingDistributions && projects !== undefined">
+    <div class="container-content" *ngIf="isBoxClicked">
+      <h3 class="container-subtitle">{{selectedProject.name | titlecase}}</h3>
       <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService" [componentDisplayed]="selectedProject"></app-box-properties>
     </div>
   </div>

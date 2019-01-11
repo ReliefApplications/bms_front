@@ -1,50 +1,5 @@
 @import '../../../../assets/css/variable.scss';
 
-    .title {
-        width: 100%;
-        height: 100px;
-        text-align : center;
-        margin: 0 auto;
-        padding: 15px;
-
-        .first-line-title {
-            width: unset;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            h2 {
-                text-align: left;
-            }
-            button {
-                border-radius: 8px;
-            }
-        }
-
-        p {
-            margin-top : 10px;
-            font-size: 18px;
-
-            mat-icon {
-                padding: auto;
-                margin-left: 3px;
-                font-size: 20px;
-                vertical-align: middle;
-
-                &.unvalid {
-                    color: grey;
-                }
-                &.valid {
-                    color: $bms_red;
-                }
-            }
-        }
-        app-placeholder-title {
-            width: 100% !important;
-            height: 150px !important;
-        }
-    }
-
 app-table-search{
     width: 100%;
     height: 100%;
@@ -73,19 +28,11 @@ mat-dialog-content {
     }
 }
 
-.container-content {
-    border-top: solid 12px $bms_green;
-}
 .container-empty {
     width: 100%;
     margin: 15px;
     text-align: center;
     font-size: 18px;
-}
-
-.properties-displayed {
-    margin-top: 20px;
-    width: 100%;
 }
 
 .generator {

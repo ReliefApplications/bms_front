@@ -220,14 +220,6 @@ mat-dialog-content {
     width: 150px !important;
 }
 
-.refresh-button {
-    background-color: $bms_green !important;
-    height: 40px;
-    margin-right: 0px;
-    border-top-right-radius: 0px !important;
-    border-bottom-right-radius: 0px !important;
-}
-
 .action {
     margin-right: 55px;
 }
@@ -252,35 +244,6 @@ mat-dialog-content {
         margin-right: 0px;
         border-top-right-radius: 0px !important;
         border-bottom-right-radius: 0px !important;
-    }
-
-    .extension {
-        width: 30px;
-        text-align: center;
-        height: 36px;
-
-        .dropdown {
-            background-color: $bms_green;
-            height: 100%;
-            width: 20px !important;
-            padding: 2px !important;
-            border-top-right-radius: 2px;
-            border-bottom-right-radius: 2px;
-            border-left: solid 1px $bms_white;
-            box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3);
-            display: flex;
-            justify-content: center;
-
-            &:hover {
-                cursor: pointer;
-            }
-
-            mat-icon {
-                float: left !important;
-                margin: auto;
-                color: white;
-            }
-        }
     }
 }
 
@@ -383,11 +346,6 @@ app-import-distribution {
             }
         }
     }
-
-    .refresh-button {
-        margin-bottom: 20px;
-    }
-
 
     .mat-stroked-button {
         line-height: 20px;

@@ -11,6 +11,7 @@ export const TEXT = {
     beneficiaries: 'Beneficiaries',
     beneficiary: 'Beneficiary',
     cancel: 'Cancel',
+    characters:'Characters',
     close: 'Close',
     create: 'Create',
     delete: 'Delete',
@@ -218,6 +219,9 @@ export const TEXT = {
     import_updated: 'Will be updated',
     import_failed: 'Failed to save data while saving',
 
+    import_select_old: 'Select all old',
+    import_select_new: 'Select all new',
+    
     // Login
     login_bms: 'Beneficiary management system',
     login_forgot_password: 'Forgot password?',
@@ -249,7 +253,9 @@ export const TEXT = {
     modal_not_enough_strong: 'The password is not strong enough... Minimum required: 8 characters, 1 lowercase, 1 uppercase, 1 numeric',
     modal_no_project: 'You must define at least a project with that role',
     modal_pending_requests: 'Pending Requests',
+    modal_project_name_characters_limit:'do not exceed',
     modal_required: 'required',
+    modal_save_language_as_default: 'Set this as my default language',
     modal_success: 'Success',
     modal_valid_email: 'Please enter a valid email address',
     modal_warning_pending_requests_1: 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.',
@@ -271,7 +277,7 @@ export const TEXT = {
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score weight',
     model_dateofbirth: 'Date of birth',
-    model_distribution_date: 'Date of distribution',
+    model_distribution_date: 'Date of Distribution',
     model_distribution_name: 'Name',
     model_distribution_type: 'Target',
     model_donor: 'Donor',
@@ -312,7 +318,7 @@ export const TEXT = {
     project_description: 'You will be able to modify project\'s name until your first distribution.',
     project_go_beneficiaries: 'Go to Beneficiaries',
     project_no_distribution: 'This project does not contain any distributions. Create your first one !',
-    project_no_household: 'This project does not contain any household.',
+    project_no_household: 'This project does not contain any households.',
     project_no_projects: 'This country does not contain any project.',
 
     // Report

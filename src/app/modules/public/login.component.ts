@@ -82,7 +82,12 @@ export class LoginComponent implements OnInit {
                   this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
                 }
                 this.router.navigate(['/']);
-                GlobalText.changeLanguage();
+                if (user.language) {
+                    GlobalText.changeLanguage(user.language);
+                } else {
+                    GlobalText.changeLanguage();
+                }
+
                 this.loader = false;
             },
             (error: ErrorInterface) => {

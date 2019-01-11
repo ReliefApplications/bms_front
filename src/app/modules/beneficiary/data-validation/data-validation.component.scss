@@ -137,6 +137,19 @@ mat-horizontal-stepper {
     margin-top: 15px;
 }
 
+.container-cards {
+    width: 100%;
+
+    .container-checkboxes {
+        display: flex;
+        justify-content: end;
+
+        .checkbox-all {
+            margin-right: 30px;
+        }
+    }
+}
+
 //for mobile screen
 @media only screen and (max-width: 750px){
     .issues {

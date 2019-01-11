@@ -324,46 +324,55 @@ export class AsyncacheService {
     /**
      * Store beneficiaries in the cashe
      */
-    storeBeneficiaries(project: any, distribution: any, beneficiaries: any) {
-        let allDistributions;
-        let projectBenef;
+    storeBeneficiaries(project: any, distribution: any, beneficiaries: any): Observable<any> {
 
-        const idDistribution = distribution.id;
+        return new Observable(observer => {
+            let projectBenef;
 
-        this.get(AsyncacheService.DISTRIBUTIONS + "_" + project.id).subscribe(result => {
-            if (result) {
-                result.forEach(key => {
-                    if (key.id === idDistribution) {
-                        // if (!allDistributions) {
-                        //     let tmpArray = [];
-                        //     tmpArray[0] = [];
-                        //     tmpArray[1] = distribution;
+            // const idDistribution = distribution.id;
 
-                        //     allDistributions = tmpArray;
+            // this.get(AsyncacheService.DISTRIBUTIONS + "_" + project.id).subscribe(result => {
+            //     if (result) {
+            //         result.forEach(key => {
+            //             if (key.id === idDistribution) {
+                            // if (!allDistributions) {
+                            //     let tmpArray = [];
+                            //     tmpArray[0] = [];
+                            //     tmpArray[1] = distribution;
+
+                            //     allDistributions = tmpArray;
+                            // }
+                            // else {
+                            //     let find: boolean = false;
+                            //     allDistributions[0] = [];
+                            //     allDistributions.find(element => {
+                            //         if (element.id === idDistribution) {
+                            //             find = true;
+                            //             element = distribution;
+                            //         }
+                            //     });
+
+                            //     if (!find)
+                            //         allDistributions.push(distribution);
+                            // }
+
+                            projectBenef = beneficiaries;
+
+                            this.set(AsyncacheService.DISTRIBUTIONS + "_" + distribution.id + "_beneficiaries", distribution);
+                            this.set(AsyncacheService.PROJECTS + "_" + project.id + "_beneficiaries", projectBenef);
+
+                            observer.next(true);
+                            observer.complete();
                         // }
                         // else {
-                        //     let find: boolean = false;
-                        //     allDistributions[0] = [];
-                        //     allDistributions.find(element => {
-                        //         if (element.id === idDistribution) {
-                        //             find = true;
-                        //             element = distribution;
-                        //         }
-                        //     });
-
-                        //     if (!find)
-                        //         allDistributions.push(distribution);
+                        //     observer.error(true);
+                        //     observer.complete();
                         // }
+                        //Pas de distribution dans le cache, revenir sur la page project et réessayer
+            //         });
+            //     }
 
-                        projectBenef = beneficiaries;
-
-                        this.set(AsyncacheService.DISTRIBUTIONS + "_" + distribution.id + "_beneficiaries", distribution);
-                        this.set(AsyncacheService.PROJECTS + "_" + project.id + "_beneficiaries", projectBenef);
-                    }
-
-                    //Pas de distribution dans le cache, revenir sur la page project et réessayer
-                });
-            }
+            // });
         });
     }
 }

@@ -57,7 +57,7 @@ export class HttpService {
                     else {
                         const regex = new RegExp(/\/distributions\/\d+\/beneficiaries/);
 
-                        if (url.match(regex)) {
+                        if (url.match(regex) && !this.networkService.getStatus()) {
                             this.save = false;
                             return (AsyncacheService.DISTRIBUTIONS + '_' + url.split('/')[2] + '_beneficiaries');
                         }
@@ -181,18 +181,18 @@ export class HttpService {
 
     post(url, body, options = {}): Observable<any> {
         let connected = this.networkService.getStatus();
-        // let urlSplitted = url.split('/')[5] + '/' + url.split('/')[6] + "/" + url.split('/')[7] + "/" + url.split('/')[8];
-        // const regex = new RegExp(/distributions\/beneficiaries\/project\/\d+/);
+        let urlSplitted = url.split('/')[5] + '/' + url.split('/')[6] + "/" + url.split('/')[7] + "/" + url.split('/')[8];
+        const regex = new RegExp(/distributions\/beneficiaries\/project\/\d+/);
 
         if (!connected) {
             if (!this.filteredPendingRequests(url)) {
                 let date = new Date();
                 let method = "POST";
-                // if (!urlSplitted.match(regex)) {
+                if (!urlSplitted.match(regex)) {
                     let request: StoredRequestInterface = { method, url, body, options, date };
                     this.cacheService.storeRequest(request);
-                // }
-                this.snackbar.open('No network - This data update will be sent to DB on next connection', '', { duration: 3000, horizontalPosition: 'center' });
+                    this.snackbar.open('No network - This data update will be sent to DB on next connection', '', { duration: 3000, horizontalPosition: 'center' });
+                }
 
                 this.forceDataInCache(method, url, body);
             }
@@ -311,12 +311,16 @@ export class HttpService {
             );
 
         } else {
-            // let urlSplitted = url.split('/')[5] + '/' + url.split('/')[6] + "/" + url.split('/')[7] + "/" + url.split('/')[8];
-            // const regex = new RegExp(/distributions\/beneficiaries\/project\/\d+/);
+            const urlSplitted = url.split('/');
+            let postBeneficiariesDistribution = urlSplitted[5] + '/' + urlSplitted[6] + "/" + urlSplitted[7] + "/" + urlSplitted[8];
+            const regex = new RegExp(/distributions\/beneficiaries\/project\/\d+/);
 
-            // if (!urlSplitted.match(regex)) {
+            let putBeneficiariesDistribution = urlSplitted[5] + '/' + urlSplitted[6] + "/" + urlSplitted[7];
+            const regex2 = new RegExp(/distributions\/\d+\/beneficiary/);
+
+            if (!postBeneficiariesDistribution.match(regex) && !putBeneficiariesDistribution.match(regex2)) {
                 this.snackbar.open('This item can\'t be manipulated offline', '', { duration: 3000, horizontalPosition: 'center' });
-            // }
+            }
         }
     }
 }

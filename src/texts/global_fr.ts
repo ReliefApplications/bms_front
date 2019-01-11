@@ -124,6 +124,9 @@ export const TEXT = {
     beneficiaries_select_api: 'Sélectionner une API',
     beneficiaries_selected_project: 'bénéficiaires sélectionnés:',
 
+    // Cache
+    cache_distribution_added: 'Distribution et bénéficiaires du projet ont été ajoutés dans le cache',
+    
     // Dashboard
     dashboard_distribution_map: 'répartition des distributions',
     dashboard_recent_distributions: 'distributions récentes',

@@ -17,6 +17,7 @@ import { UserService } from 'src/app/core/api/user.service';
 import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
+import { NetworkService } from 'src/app/core/api/network.service';
 
 @Component({
     selector: 'app-distributions',
@@ -85,6 +86,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     hasRights: boolean = false;
     hasRightsTransaction: boolean = false;
     loaderValidation: boolean = false;
+    loaderCache: boolean = false;
 
     interval: any;
     correctCode: boolean = false;
@@ -100,6 +102,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         public snackBar: MatSnackBar,
         public mapperService: Mapper,
         private dialog: MatDialog,
+        private networkService: NetworkService,
     ) {
         this.route.params.subscribe(params => this.distributionId = params.id);
     }
@@ -219,13 +222,15 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                 response => {
                     let data = response;
 
+                    if (data && data.id) {
+                        this.actualDistribution = data;
+                        data = data.distribution_beneficiaries;
+                    }
+
                     if (type === 'initial') {
                         // Step 1 table
                         // console.log('Getting Initial data');
-                        if (data && data.id) {
-                            this.actualDistribution = data;
-                            data = data.distribution_beneficiaries;
-                        }
+
                         this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
                         this.loadingFirstStep = false;
                     } else if (type === 'final') {
@@ -635,16 +640,18 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         this.beneficiariesService.add(this.distributionId, beneficiariesArray)
             .subscribe(
                 success => {
-                    this.distributionService.getBeneficiaries(this.distributionId)
-                        .subscribe(
-                            response => {
-                                if (response) {
-                                    this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(response));
+                    if (this.networkService.getStatus()) {
+                        this.distributionService.getBeneficiaries(this.distributionId)
+                            .subscribe(
+                                response => {
+                                    if (response) {
+                                        this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(response));
+                                    }
                                 }
-                            }
-                        );
-                    this.snackBar.open(this.TEXT.distribution_beneficiary_added, '', { duration: 5000, horizontalPosition: 'center' });
-                    this.getDistributionBeneficiaries('final');
+                            );
+                        this.snackBar.open(this.TEXT.distribution_beneficiary_added, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.getDistributionBeneficiaries('final');
+                    }
                 },
                 error => {
                     // console.log('cc', this.selectedBeneficiaries);
@@ -757,6 +764,8 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      * Store beneficiaries of the distribution in the cache
      */
     storeBeneficiaries() {
+        this.loaderCache = true;
+
         let project = this.actualDistribution.project;
 
         this.actualDistribution.distribution_beneficiaries.forEach((element, i) => {
@@ -776,7 +785,20 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                     allBeneficiaries = result;
                     if (allBeneficiaries) {
                         this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
-                        this.cacheService.storeBeneficiaries(project, distribution, this.beneficiaryList);
+                        this.cacheService.storeBeneficiaries(project, distribution, this.beneficiaryList)
+                            .pipe(
+                                finalize(
+                                    () => {
+                                        this.loaderCache = false;
+                                    }
+                                )
+                            )
+                            .subscribe(
+                                () => {
+                                    //Data added in cache
+                                    this.snackBar.open(this.TEXT.cache_distribution_added, '', { duration: 5000, horizontalPosition: 'center'});
+                                }
+                            );
 
                     }
                 }

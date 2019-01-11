@@ -124,6 +124,9 @@ export const TEXT = {
     beneficiaries_select_api: 'API اختر',
     beneficiaries_selected_project: 'المستفيدين المختارين:',
 
+    // Cache
+    cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
+    
     // Dashboard
     dashboard_distribution_map: 'خريطة التوزيع',
     dashboard_recent_distributions: 'التوزيعات الحديثة',

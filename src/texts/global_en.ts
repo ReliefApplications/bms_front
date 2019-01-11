@@ -137,7 +137,6 @@ export const TEXT = {
     data_verification_chip_actual: 'Household targeted',
     data_verification_chip_add: 'To add',
     data_verification_chip_existing: 'Existing',
-    data_verification_chip_old: 'Old',
     data_verification_chip_remove: 'To remove',
     data_verification_description1: 'This panel will display any suspected typos concerning beneficiaries in your file: if an imported beneficiary closely matches another one already in the database it will be displayed here. You can choose to either keep the existing one, update it with the imported data or save both as separate beneficiaries.',
     data_verification_description2: 'The duplicate panel displays the beneficiaries in the file that are already in the database, in another household. If the existing beneficiary is not a head of household, you can delete one or the other, or save both as different beneficiaries if you are sure they are different people.',
@@ -216,10 +215,10 @@ export const TEXT = {
     import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.',
     import_distribution_no_right_update: 'لا يحق لك تحديث التوزيع ، اسأل مدير المشروع الخاص بك',
     import_distribution_updated: 'Distribution updated',
-    import_updated: 'Will be updated',
-    import_select_old: 'Select all old',
     import_select_new: 'Select all new',
-    
+    import_select_old: 'Select all old',
+    import_updated: 'Will be updated',
+
     // Login
     login_bms: 'Beneficiary management system',
     login_forgot_password: 'Forgot password?',

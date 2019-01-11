@@ -137,7 +137,6 @@ export const TEXT = {
     data_verification_chip_actual: 'Ménage ciblé',
     data_verification_chip_add: 'A ajouter',
     data_verification_chip_existing: 'Actuel',
-    data_verification_chip_old: 'Ancien',
     data_verification_chip_remove: 'A supprimer',
     data_verification_description1: 'Ci-dessous seront affichées les typos suspectes des bénéficiaires listés dans le fichier : S\'il s\'avère qu\'un bénéficiaire est presque identique à un autre dans la base de données, il sera affiché ici. Vous pouvez choisir entre remplacer les valeurs par le bénéficiaire qui est importé, conserver celui déjà présent, ou les sauvegarder comme deux bénéficiaires distincts',
     data_verification_description2: 'Ici sont affichés les bénéficiaires de votre fichier qui existent déjà dans la base de données comme membres d\'un foyer. Si le bénéficiaire n\'est pas un chef de famille, vous pouvez choisir de supprimer l\'un ou l\'autre, ou de conserver les deux dans le cas où vous êtes sûr qu\'il s\'agit de deux personnes différentes.',
@@ -214,9 +213,9 @@ export const TEXT = {
     import_description: 'Importez le fichier contenant la distribution après modifications. La base de donnée sera mise à jour lorsque vous cliquerez sur "upload" après validation de l\'import. Les bénéficiaires inconnus seront ignorés.',
     import_distribution_no_right_update: 'Vous n\'avez pas le droit nécessaire pour modifier la distribution, demandez à votre reponsable de projet',
     import_distribution_updated: 'Distribution modifiée',
-    import_updated: 'Mis à jour',
-    import_select_old: 'Sélectionner tous les anciens',
     import_select_new: 'Sélectionner tous les nouveaux',
+    import_select_old: 'Sélectionner tous les anciens',
+    import_updated: 'Mis à jour',
 
     // Login
     login_bms: 'Beneficiary management system',

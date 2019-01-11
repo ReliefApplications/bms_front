@@ -137,7 +137,6 @@ export const TEXT = {
     data_verification_chip_actual: 'المنزل المستهدف',
     data_verification_chip_add: 'للإضافة',
     data_verification_chip_existing: 'موجد',
-    data_verification_chip_old: 'قديم',
     data_verification_chip_remove: 'للحذف',
     data_verification_description1: 'تعرض هذه اللوحة أي أخطاء كتابة مشكوك فيها تتعلق بالمستفيدين في ملف: إذا كان المستفيد المستورد يتطابق بشكل وثيق مع آخر موجود بالفعل في قاعدة البيانات ، فسيتم عرضه هنا. يمكنك اختيار إما الحفاظ على القائمة ، وتحديثها مع البيانات المستوردة أو حفظ كلاهما كمستفيدين منفصلين.',
     data_verification_description2: 'تعرض لوحة التكرار المستفيدين في الملف الموجودين بالفعل في قاعدة البيانات في منزل آخر. إذا كان المستفيد الحالي ليس رب أسرة ، يمكنك حذف احداهما ، أو حفظ كلاهما كمستفيدين مختلفين إذا كنت متأكداً من أنهم أشخاص مختلفون.',
@@ -214,9 +213,9 @@ export const TEXT = {
     import_description: 'قم باستيراد الملف الذي يحتوي على التوزيع المعدّل. سيتم تحديث قاعدة البيانات بقائمة المستفيدين الجديدة لهذا التوزيع عندما تنقر على ""تحديث"" بعد الاستيراد.',
     import_distribution_no_right_update: 'لا يحق لك تحديث التوزيع ، اسأل مدير المشروع الخاص بك',
     import_distribution_updated: 'تم تحديث التوزيع',
-    import_updated: 'تم تحديثها',
-    import_select_old: 'Select all old',
     import_select_new: 'Select all new',
+    import_select_old: 'Select all old',
+    import_updated: 'تم تحديثها',
 
     // Login
     login_bms: 'نظام إدارة المستفيدين',

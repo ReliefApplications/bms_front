@@ -13,13 +13,6 @@
   <div class="container-table" *ngIf="!loadingData">
     <div class="container-content box-green" *ngIf="isBoxClicked">
       <div class="content-button">
-        <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights && deletable" (click)="openDialog('add')" class="add-button-create">
-          <mat-icon>add</mat-icon>
-          {{settings.add | titlecase}}
-        </button>
-        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights && deletable" (click)="openDialog('add')" class="add-button" [ngClass]="{'add-button-arabic':language==='ar'}">
-          <mat-icon>add</mat-icon>
-        </button>
         <div class="action-buttons">
           <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
             <mat-icon>get_app</mat-icon>
@@ -42,6 +35,13 @@
             </mat-menu>
           </div>
         </div>
+        <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights && deletable" (click)="openDialog('add')" class="add-button-create">
+          <mat-icon>add</mat-icon>
+          {{settings.add | titlecase}}
+        </button>
+        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights && deletable" (click)="openDialog('add')" class="add-button" [ngClass]="{'add-button-arabic':language==='ar'}">
+          <mat-icon>add</mat-icon>
+        </button>
       </div>
       <div class="content-table">
         <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="true" [rights]='hasRights' [deletable]="deletable"></app-table-search>

@@ -251,6 +251,7 @@ export const TEXT = {
     modal_pending_requests: 'Pending Requests',
     modal_project_name_characters_limit:'do not exceed',
     modal_required: 'required',
+    modal_save_language_as_default: 'Set this as my default language',
     modal_success: 'Success',
     modal_valid_email: 'Please enter a valid email address',
     modal_warning_pending_requests_1: 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.',
@@ -272,7 +273,7 @@ export const TEXT = {
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score weight',
     model_dateofbirth: 'Date of birth',
-    model_distribution_date: 'Date of distribution',
+    model_distribution_date: 'Date of Distribution',
     model_distribution_name: 'Name',
     model_distribution_type: 'Target',
     model_donor: 'Donor',
@@ -313,7 +314,7 @@ export const TEXT = {
     project_description: 'You will be able to modify project\'s name until your first distribution.',
     project_go_beneficiaries: 'Go to Beneficiaries',
     project_no_distribution: 'This project does not contain any distributions. Create your first one !',
-    project_no_household: 'This project does not contain any household.',
+    project_no_household: 'This project does not contain any households.',
     project_no_projects: 'This country does not contain any project.',
 
     // Report

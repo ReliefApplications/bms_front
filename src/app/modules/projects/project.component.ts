@@ -151,7 +151,6 @@ export class ProjectComponent implements OnInit {
                 )
             ).subscribe(
                 response => {
-                    //console.log(response);
                     if (response || response === []) {
                         this.noNetworkData = false;
                         const distribution = DistributionData.formatArray(response);

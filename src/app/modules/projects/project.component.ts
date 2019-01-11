@@ -15,6 +15,7 @@ import { ExportInterface } from '../../model/export.interface';
 import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { delay, finalize } from 'rxjs/operators';
+import { ImportedDataService} from '../../core/utils/imported-data.service'
 
 
 @Component({
@@ -45,6 +46,7 @@ export class ProjectComponent implements OnInit {
     extensionType: string;
     hasRights: boolean = false;
     hasRightsEdit: boolean = false;
+    redirectedProject = null;
 
     public maxHeight = GlobalText.maxHeight;
     public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -62,6 +64,7 @@ export class ProjectComponent implements OnInit {
         private _cacheService: AsyncacheService,
         public snackBar: MatSnackBar,
         public dialog: MatDialog,
+        public importedDataService: ImportedDataService
     ) { }
 
     ngOnInit() {
@@ -69,6 +72,10 @@ export class ProjectComponent implements OnInit {
         this.checkSize();
         this.checkPermission();
         this.extensionType = 'xls';
+        this.importedDataService.getEmittedValue().subscribe(item => {
+            this.redirectedProject = item;
+            this.redirectedProject ? console.log(this.redirectedProject) : console.log('still nothing')
+        })
     }
 
     @HostListener('window:resize', ['$event'])
@@ -105,6 +112,7 @@ export class ProjectComponent implements OnInit {
         this.selectedProject = project;
         this.loadingDistributions = true;
         this.getDistributionsByProject(project.id);
+        console.log(this.selectedProject)
     }
 
     setType(choice: string) {

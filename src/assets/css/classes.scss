@@ -41,7 +41,7 @@
         }
     }
 
-    .container-project{
+    .container-data {
         display: flex;
         width: 100%;
         padding: 20px;
@@ -52,7 +52,17 @@
             justify-content: center;
             width: 100%;
             border-radius: 3px;
-            .mat-card{
+
+            .container-subtitle {
+              display: flex;
+              align-items: center;
+            }
+
+            .properties-displayed {
+                width: 100%;
+            }
+
+            .mat-card {
                 background: transparent;
             }
         }

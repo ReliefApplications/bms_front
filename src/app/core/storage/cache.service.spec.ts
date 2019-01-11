@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { CacheService } from './cache.service';
+import { AsyncacheService } from './asyncache.service';
 
-describe('CacheService', () => {
+describe('AsyncacheService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CacheService]
+      providers: [AsyncacheService]
     });
   });
 
-  it('should be created', inject([CacheService], (service: CacheService) => {
+  it('should be created', inject([AsyncacheService], (service: AsyncacheService) => {
     expect(service).toBeTruthy();
   }));
 });

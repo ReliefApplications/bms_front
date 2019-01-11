@@ -5,7 +5,6 @@ import * as LeafletOmnivore from '@mapbox/leaflet-omnivore';
 
 import * as $ from 'jquery';
 import { LocationService } from '../api/location.service';
-import { CacheService } from '../storage/cache.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 
 @Injectable({

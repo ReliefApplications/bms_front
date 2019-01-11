@@ -738,4 +738,18 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
             }
         )
     }
+
+    /**
+     * Store beneficiaries of the distribution in the cache
+     */
+    storeBeneficiaries() {
+        let project = this.actualDistribution.project;
+        
+        this.actualDistribution.distribution_beneficiaries.forEach((element,i) => {
+            element.beneficiary = this.initialBeneficiaryData.data[i];
+        });
+        
+        let distribution = this.actualDistribution;
+        this.cacheService.storeBeneficiaries(project, distribution);
+    }
 }

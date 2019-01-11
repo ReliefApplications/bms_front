@@ -1,118 +1,115 @@
 <div class="page-container">
-    <div class="container-title">
-        <h2>{{household.beneficiaries_import_title | titlecase}}</h2>
-    </div>
+  <div class="container-title">
+    <h2>{{household.beneficiaries_import_title | titlecase}}</h2>
+  </div>
 
-    <div class="container-boxes">
-        <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "folder", color: "green", title:household.beneficiaries_import_file, subtitle:"", ref:"file import"}'></app-box-setting>
-        <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "red", title:household.beneficiaries_import_api, subtitle:"", ref:"api import"}'></app-box-setting>
-    </div>
+  <div class="container-boxes">
+    <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "folder", color: "green", title:household.beneficiaries_import_file, subtitle:"", ref:"file import"}'></app-box-setting>
+    <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "red", title:household.beneficiaries_import_api, subtitle:"", ref:"api import"}'></app-box-setting>
+  </div>
 
-    <div class="container-table" *ngIf="selectedTitle == 'file import'">
-        <div class="container-content box-green">
+  <div class="container-table" *ngIf="selectedTitle == 'file import'">
+    <div class="container-content box-green">
 
-            <div class="content-button">
-                <mat-form-field>
-                    <mat-select placeholder={{household.projects}} [formControl]="projects"
-                        (selectionChange)="getProjectSelected($event)">
-                        <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <div class="action-buttons">
-                    <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">{{household.beneficiaries_import_csv
-                        | titlecase }}</button>
-                    <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-                    <div class="extension" *ngIf="!loadingExport" [ngClass]="{'arabic':language==='ar'}">
-                        <div mat-button class="template pointer" [matMenuTriggerFor]="exportType">
-                            <mat-icon>keyboard_arrow_down</mat-icon>
-                        </div>
-                        <mat-menu #exportType>
-                            <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
-                            </button>
-                            <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
-                            </button>
-                            <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
-                            </button>
-                            <button mat-menu-item (click)="setType('pdf')"> .pdf <mat-icon *ngIf="extensionType=='pdf'">done</mat-icon>
-                            </button>
-                        </mat-menu>
-                    </div>
-                </div>
+      <div class="content-button">
+        <mat-form-field>
+          <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
+            <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="action-buttons">
+          <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">
+            {{household.beneficiaries_import_csv | titlecase }}
+          </button>
+          <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+          <div class="extension" *ngIf="!loadingExport" [ngClass]="{'arabic':language==='ar'}">
+            <div mat-button class="template pointer" [matMenuTriggerFor]="exportType">
+              <mat-icon>keyboard_arrow_down</mat-icon>
             </div>
-            <div class="content-table">
-                <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
-                    <mat-card class="card-drag-and-drop">
-                        <div>
-                            <img class='img-folder' src="assets/images/folder.png">
-                        </div>
-                        <div class="select-file">
-                            <a class="fenetre-selection" href="javascript:void(0)" (click)="file.click()">
-                                <button mat-stroked-button color="primary">{{household.beneficiaries_import_addFile
-                                    | titlecase}}</button>
-                            </a>
-                            <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
-                        </div>
-
-                    </mat-card>
-                </div>
-                <mat-list *ngIf="csv != null">
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>insert_drive_file</mat-icon>
-                        <h4 mat-line class="text">{{ csv.name }}</h4>
-                        <p mat-line class="text">{{ csv.size }} bytes, {{ csv.lastModifiedDate | date: ddMMyyyy}}
-                        </p>
-                    </mat-list-item>
-                </mat-list>
-
-            </div>
-            <div class="content-button content-button-footer">
-                <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-                <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="addHouseholds()">
-                    <mat-icon>publish</mat-icon>
-                    <span>{{household.import | titlecase }}</span>
-                </button>
-            </div>
+            <mat-menu #exportType>
+              <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
+              </button>
+              <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
+              </button>
+              <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
+              </button>
+              <button mat-menu-item (click)="setType('pdf')"> .pdf <mat-icon *ngIf="extensionType=='pdf'">done</mat-icon>
+              </button>
+            </mat-menu>
+          </div>
         </div>
-    </div>
-
-    <div class="container-table" *ngIf="selectedTitle == 'api import'">
-        <div class="container-content box-red">
-            <div class="content-button">
-                <mat-form-field>
-                    <mat-select placeholder={{household.projects}} [formControl]="projects"
-                        (selectionChange)="getProjectSelected($event)">
-                        <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
+      </div>
+      <div class="content-table">
+        <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
+          <mat-card class="card-drag-and-drop">
+            <div>
+              <img class='img-folder' src="assets/images/folder.png">
             </div>
-            <div class="content-table">
-                <div class="api-information">
-                    <div class="content-select">
-                        <h3>{{household.beneficiaries_select_api | titlecase}}</h3>
-                        <mat-radio-group (change)='onChangeRadioAPI($event)' class="content-select" [(ngModel)]='chosenItem'>
-                            <mat-radio-button *ngFor="let name of APINames;" value="{{ name }}" color="primary">{{
+            <div class="select-file">
+              <a class="fenetre-selection" href="javascript:void(0)" (click)="file.click()">
+                <button mat-stroked-button color="primary">{{household.beneficiaries_import_addFile
+                                    | titlecase}}</button>
+              </a>
+              <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
+            </div>
+
+          </mat-card>
+        </div>
+        <mat-list *ngIf="csv != null">
+          <mat-list-item>
+            <mat-icon mat-list-icon class="text">insert_drive_file</mat-icon>
+            <h4 mat-line class="text">{{ csv.name }}</h4>
+            <p mat-line class="text">{{ csv.size }} bytes, {{ csv.lastModifiedDate | date: ddMMyyyy}}
+            </p>
+          </mat-list-item>
+        </mat-list>
+
+      </div>
+      <div class="content-button content-button-footer">
+        <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
+        <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="addHouseholds()">
+          <mat-icon>publish</mat-icon>
+          <span>{{household.import | titlecase }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-table" *ngIf="selectedTitle == 'api import'">
+    <div class="container-content box-red">
+      <div class="content-button">
+        <mat-form-field>
+          <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
+            <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="content-table">
+        <div class="api-information">
+          <div class="content-select">
+            <h3>{{household.beneficiaries_select_api | titlecase}}</h3>
+            <mat-radio-group (change)='onChangeRadioAPI($event)' class="content-select" [(ngModel)]='chosenItem'>
+              <mat-radio-button *ngFor="let name of APINames;" value="{{ name }}" color="primary">{{
                                 name
                                 }}</mat-radio-button>
-                        </mat-radio-group>
-                    </div>
+            </mat-radio-group>
+          </div>
 
-                    <div class="content-select">
-                        <mat-form-field *ngFor="let ParamToDisplay of ParamsToDisplay;">
-                            <input matInput *ngIf="ParamToDisplay.paramType == 'text'" type="text" [formControl]="text"
-                                placeholder="{{ ParamToDisplay.paramName }} *" (change)="getValue($event, ParamToDisplay.paramName)">
-                            <input matInput *ngIf="ParamToDisplay.paramType == 'number'" type="number" [formControl]="number"
-                                placeholder="{{ ParamToDisplay.paramName }} *">
-                        </mat-form-field>
-                    </div>
-                </div>
-            </div>
-            <div class="content-button content-button-footer">
-                <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-                <button *ngIf="!load" mat-raised-button class="button-background-accent" (click)="addBeneficiaries()">
-                    <mat-icon>publish</mat-icon>
-                    <span>{{household.import | titlecase }}</span>
-                </button>
-            </div>
+          <div class="content-select">
+            <mat-form-field *ngFor="let ParamToDisplay of ParamsToDisplay;">
+              <input matInput *ngIf="ParamToDisplay.paramType == 'text'" type="text" [formControl]="text" placeholder="{{ ParamToDisplay.paramName }} *" (change)="getValue($event, ParamToDisplay.paramName)">
+              <input matInput *ngIf="ParamToDisplay.paramType == 'number'" type="number" [formControl]="number" placeholder="{{ ParamToDisplay.paramName }} *">
+            </mat-form-field>
+          </div>
         </div>
+      </div>
+      <div class="content-button content-button-footer">
+        <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
+        <button *ngIf="!load" mat-raised-button class="button-background-accent" (click)="addBeneficiaries()">
+          <mat-icon>publish</mat-icon>
+          <span>{{household.import | titlecase }}</span>
+        </button>
+      </div>
     </div>
+  </div>
 </div>

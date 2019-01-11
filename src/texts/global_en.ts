@@ -11,6 +11,7 @@ export const TEXT = {
     beneficiaries: 'Beneficiaries',
     beneficiary: 'Beneficiary',
     cancel: 'Cancel',
+    characters:'Characters',
     close: 'Close',
     create: 'Create',
     delete: 'Delete',
@@ -65,10 +66,10 @@ export const TEXT = {
     add_beneficiary_getDateOfBirth: 'Date of Birth',
     add_beneficiary_getFamilyName: 'Family Name',
     add_beneficiary_getGivenName: 'Given Name',
-    add_beneficiary_getNationalID: 'ID number',
+    add_beneficiary_getNationalID: 'ID Number',
     add_beneficiary_getOccupation: 'Livelihood',
     add_beneficiary_getTypeNationalId: 'ID Type',
-    add_beneficiary_getTypePhone: 'Type phone',
+    add_beneficiary_getTypePhone: 'Phone Type',
     add_beneficiary_res_address: 'Resident Address',
     add_beneficiary_step1: 'Information',
     add_beneficiary_step2: 'Head',
@@ -216,7 +217,9 @@ export const TEXT = {
     import_distribution_no_right_update: 'لا يحق لك تحديث التوزيع ، اسأل مدير المشروع الخاص بك',
     import_distribution_updated: 'Distribution updated',
     import_updated: 'Will be updated',
-
+    import_select_old: 'Select all old',
+    import_select_new: 'Select all new',
+    
     // Login
     login_bms: 'Beneficiary management system',
     login_forgot_password: 'Forgot password?',
@@ -233,7 +236,7 @@ export const TEXT = {
     modal_add_no_right: 'You must define a right',
     modal_add_no_value: 'You need to enter a value',
     modal_add_title: 'Add a new ',
-    modal_check_date: 'Invalid fields: Your start date cannot be older than the end date and vice versa',
+    modal_check_date: 'Invalid fields: Your start date cannot be older than the end date',
     modal_check_fields: 'Invalid fields: check you filled every field',
     modal_delete_sentence: 'You are about to delete ',
     modal_delete_sentence_2: '. Are you sure? ',
@@ -248,7 +251,9 @@ export const TEXT = {
     modal_not_enough_strong: 'The password is not strong enough... Minimum required: 8 characters, 1 lowercase, 1 uppercase, 1 numeric',
     modal_no_project: 'You must define at least a project with that role',
     modal_pending_requests: 'Pending Requests',
+    modal_project_name_characters_limit:'do not exceed',
     modal_required: 'required',
+    modal_save_language_as_default: 'Set this as my default language',
     modal_success: 'Success',
     modal_valid_email: 'Please enter a valid email address',
     modal_warning_pending_requests_1: 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.',
@@ -256,7 +261,7 @@ export const TEXT = {
 
     // Model
     model_beneficiaries_dependents: 'Dependents',
-    model_beneficiaries_nationalids: 'ID number',
+    model_beneficiaries_nationalids: 'ID Number',
     model_beneficiaries_phones: 'Phones (no country code)',
     model_beneficiaries_status: 'Satus',
     model_commodity: 'Commodity',
@@ -270,7 +275,7 @@ export const TEXT = {
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score weight',
     model_dateofbirth: 'Date of birth',
-    model_distribution_date: 'Date of distribution',
+    model_distribution_date: 'Date of Distribution',
     model_distribution_name: 'Name',
     model_distribution_type: 'Target',
     model_donor: 'Donor',
@@ -311,7 +316,7 @@ export const TEXT = {
     project_description: 'You will be able to modify project\'s name until your first distribution.',
     project_go_beneficiaries: 'Go to Beneficiaries',
     project_no_distribution: 'This project does not contain any distributions. Create your first one !',
-    project_no_household: 'This project does not contain any household.',
+    project_no_household: 'This project does not contain any households.',
     project_no_projects: 'This country does not contain any project.',
 
     // Report
@@ -370,6 +375,8 @@ export const TEXT = {
     transaction_confirm: 'Confirm the transaction',
     transaction_confirm_button: 'Confirm',
     transaction_email_code: 'An email containing your validation code has been sent to:',
+    transaction_id_transaction: 'ID Transaction',
+    transaction_inProgress: 'Transaction in progress...',
     transaction_paste_code: 'Please paste the code here and click on \'Confirm\' to proceed with the transaction: ',
     transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',
     transaction_progress: 'commodity distribution progress:',
@@ -377,7 +384,6 @@ export const TEXT = {
     transaction_transaction: 'Start transaction',
     transaction_validate_distribution: 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.',
     transaction_validation: 'Confirm the validation',
-    transaction_inProgress: 'Transaction in progress...',
 
     // Tooltip
     tooltip_add_beneficiaries: 'This page is the add beneficiaries\' page. This is a form to add a new household with required fields.',

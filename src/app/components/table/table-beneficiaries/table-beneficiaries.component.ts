@@ -6,25 +6,26 @@ import { element } from 'protractor';
 import { tap, finalize } from 'rxjs/operators';
 import { DistributionData } from '../../../model/distribution-data';
 import { GlobalText } from '../../../../texts/global';
+import { SelectionModel } from '@angular/cdk/collections';
 
 
 @Component({
     selector: 'app-table-beneficiaries',
     templateUrl: './table-beneficiaries.component.html',
-    styleUrls: ['../table.component.scss'],
+    styleUrls: ['../table.component.scss', './table-beneficiaries.component.scss'],
 })
 export class TableBeneficiariesComponent extends TableComponent {
 
     @Output() updating = new EventEmitter<number>();
     @Output() selectedAdm = new EventEmitter<any>();
-
+    
     selectedFilter;
-    keyWords:string;
-    vulnerability:any = null ;
-    project:any=null;
+    keyWords: string = '';
+    vulnerability: any = '';
+    project: any = '';
     testLoading = true;
     beneficiary = GlobalText.TEXTS;
-    advancedResearch:boolean = false;
+    advancedResearch: boolean = false;
     displayNoData: boolean = false;
     _timeout: any = null;
     mapperObject = null;
@@ -160,21 +161,20 @@ export class TableBeneficiariesComponent extends TableComponent {
         this.selectedAdm.emit({ index: index, object: this.newObject });
     }
 
-    showAdvancedResearch(){
-        this.advancedResearch=!this.advancedResearch;
+    showAdvancedResearch() {
+        this.advancedResearch = !this.advancedResearch;
     }
 
-    clearSearch(){
-        while ( this.data.filter.length !== 0 ) {
-            this.project='';
-            this.vulnerability='';
-            this.keyWords='';
-            this.applyFilter('', 'vulnerabilities') ; 
-            this.applyFilter('', 'familyName'); 
-            this.applyFilter('', 'projects');   
+    clearSearch() {
+        while (this.data.filter.length !== 0) {
+            this.project = '';
+            this.vulnerability = '';
+            this.keyWords = '';
+            this.applyFilter('', 'vulnerabilities');
+            this.applyFilter('', 'familyName');
+            this.applyFilter('', 'projects');
             this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
             this.sendSortedData();
         }
     }
-
 }

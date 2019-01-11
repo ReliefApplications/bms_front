@@ -1,5 +1,5 @@
 <div class="modal-container">
-  <h4 class="modal-title underline-accent">{{modal.modal_add_title}}{{entityDisplayedName | lowercase}}</h4>
+  <h4 class="modal-title underline-accent stickyHeader">{{modal.modal_add_title}}{{entityDisplayedName | lowercase}}</h4>
   <table class="modal-table">
     <tr *ngFor="let p of properties">
       <div *ngIf="p != 'weight'" class="modal-row">
@@ -64,7 +64,7 @@
       </th>
     </tr>
   </table>
-  <div class="modal-button action-buttons">
+  <div class="modal-button action-buttons stickyFooter">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.cancel}}</button>
     <button mat-raised-button (click)="add()" class="button-background-accent">{{modal.add}}</button>
   </div>

@@ -35,7 +35,7 @@
             </ng-container>
 
             <ng-container matColumnDef="actions">
-                <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions}}</th>
+                <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions | titlecase }}</th>
                 <td mat-cell class="content-cell" *matCellDef="let element">
                     <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton"
                         *ngIf="entityIsUser()" [matTooltip]="table.settings_log_button">

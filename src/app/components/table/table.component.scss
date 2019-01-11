@@ -9,7 +9,7 @@
     font-size: 14px;
     width: 100%;
   }
-  
+
   .filter-combo {
       width: 100%;
       display: flex;
@@ -22,27 +22,6 @@
       flex-shrink: 0;
     }
   }
-  .container-header{
-    
-    .clear-all-button {
-
-      background-color: $bms_red;
-      border-bottom-left-radius: 20px;
-      border-top-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-      border-top-right-radius: 20px;
-      font-weight: bold;
-
-     }
-     .advanced-research{
-      background-color: $bms_red;
-      border-bottom-left-radius: 20px;
-      border-top-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-      border-top-right-radius: 20px;
-      font-weight: bold;
-    }
- }
 }
 
 table {
@@ -54,7 +33,6 @@ table {
     justify-content: center;
     align-content: center;
     align-items: center;
-    padding-right: 12px;
     width: 300px;
 
     app-icon-svg{
@@ -74,7 +52,7 @@ table {
     //width: 200px;
   }
 
-  
+
 
 }
 
@@ -191,11 +169,11 @@ button{
 .ng-select-opened ::ng-deep .ng-option-selected {
   color: #424242 !important;
 }
-    
+
 .loadingContent {
     display: flex;
     justify-content: center;
-    
+
     mat-spinner {
         margin-top: 30px;
     }

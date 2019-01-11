@@ -103,6 +103,10 @@ export class DistributionData {
      * @type {number}
      */
     threshold: number = 1;
+    /**
+     * Distribution data's finished
+     */
+    finished: boolean = false;
 
     constructor(instance?) {
         if (instance !== undefined && instance != null) {
@@ -135,7 +139,7 @@ export class DistributionData {
         }
         switch (name) {
             case "Mobile":
-                name = 'assets/images/commodities/dollar.png';
+                name = 'assets/images/commodities/cash.png';
                 break;
             default: return name;
         }
@@ -164,13 +168,10 @@ export class DistributionData {
     // Renvoie un array des datas depuis l'objet récupéré de l'Api.
     public static formatArray(instance): DistributionData[] {
         const distributionDatas: DistributionData[] = [];
-        // console.log("formatArray before :", distributionDatas);
         if (instance) {
             instance.forEach(element => {
-                if (Boolean(instance.archived) === false) {
-                    if (!element.archived && element && element.id && element.location && element.project && element.name && element.commodities) {
-                        distributionDatas.push(this.formatFromApi(element));
-                    }
+                if (element && element.id && element.location && element.project && element.name && element.commodities) {
+                    distributionDatas.push(this.formatFromApi(element));
                 }
             });
             return distributionDatas;
@@ -204,6 +205,23 @@ export class DistributionData {
 
         if (distributionDatas.number_beneficiaries) {
             distributionDatas.number_beneficiaries = element.distribution_beneficiaries.length;
+        }
+
+        let isFinished: boolean = true;
+        element.distribution_beneficiaries.forEach(benef => {
+            if (benef.transactions.length == 0) {
+                isFinished = false;
+            }
+            else if (benef.transactions && benef.transactions[0].transaction_status != 1) {
+                isFinished = false;
+            }
+        });
+
+        if (isFinished) {
+            distributionDatas.finished = true;
+        }
+        else {
+            distributionDatas.finished = false;
         }
 
         return distributionDatas;

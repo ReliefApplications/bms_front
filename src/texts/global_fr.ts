@@ -12,6 +12,7 @@ export const TEXT = {
     beneficiary: 'Bénéficiaire',
     cancel: 'Annuler',
     close: 'Fermer',
+    characters:'Caractères',
     create: 'Créer',
     delete: 'Supprimer',
     details: 'Détails',
@@ -214,6 +215,8 @@ export const TEXT = {
     import_distribution_no_right_update: 'Vous n\'avez pas le droit nécessaire pour modifier la distribution, demandez à votre reponsable de projet',
     import_distribution_updated: 'Distribution modifiée',
     import_updated: 'Mis à jour',
+    import_select_old: 'Sélectionner tous les anciens',
+    import_select_new: 'Sélectionner tous les nouveaux',
 
     // Login
     login_bms: 'Beneficiary management system',
@@ -246,6 +249,8 @@ export const TEXT = {
     modal_not_enough_strong: 'Mot de passe insuffisant... Minimum requis: 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre',
     modal_no_project: 'Vous devez définir au moins un projet pour ce rôle',
     modal_pending_requests: 'Pending Requests',
+    modal_project_name_characters_limit:'ne pas dépasser',
+    modal_save_language_as_default: 'Définir ceci comme langage par défaut',
     modal_success: 'Succès',
     modal_required: 'obligatoire',
     modal_valid_email: 'Veuillez utiliser un mail valide',
@@ -268,7 +273,7 @@ export const TEXT = {
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score du poids',
     model_dateofbirth: 'Date de naissance',
-    model_distribution_date: 'Date de la distribution',
+    model_distribution_date: 'Date de la Distribution',
     model_distribution_name: 'Nom',
     model_distribution_type: 'Cible',
     model_donor: 'Donneur',
@@ -369,6 +374,8 @@ export const TEXT = {
     transaction_confirm: 'Confirmer la transaction',
     transaction_confirm_button: 'Confirmer',
     transaction_email_code: 'Un email contenant votre code de validation a été envoyé à : ',
+    transaction_id_transaction: 'ID Transaction',
+    transaction_inProgress: 'Transaction en cours...',
     transaction_paste_code: 'S\'il vous plait, coller le code ici et cliquer sur \'Confirmer\' pour procéder à la transaction',
     transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',
     transaction_progress: 'progrès de la distribution des produits:',
@@ -376,7 +383,6 @@ export const TEXT = {
     transaction_transaction: 'Démarrer la transaction',
     transaction_validate_distribution: 'Voulez vous vraiment valider la distribution ? Vous ne serez plus capable de la modifier',
     transaction_validation: 'Confirmer la validation',
-    transaction_inProgress: 'Transaction en cours...',
 
     // Tooltip
     tooltip_add_beneficiaries: 'Cette page est la page d\'ajout des bénéficiaires. C\'est un formulaire pour ajouter un nouveau ménage avec des champs obligatoires.',

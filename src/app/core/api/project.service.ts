@@ -34,10 +34,10 @@ export class ProjectService {
         return this.http.delete(url, body);
     }
 
-    public addBeneficiaries(projectId: number, filter: any) {
+    public addBeneficiaries(projectId: number, checkedElements: any) {
         let url = this.api + "/projects/" + projectId + "/beneficiaries/add";
         let body = {
-            filter: filter
+            beneficiaries: checkedElements
         }
         return this.http.post(url, body);
     }

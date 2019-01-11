@@ -250,6 +250,7 @@ export const TEXT = {
     modal_no_project: 'عليك بتحديد مشروع على الأقل يتعلق بالحق',
     modal_pending_requests: 'الطلبات المعلقة',
     modal_project_name_characters_limit:'لا تتجاوز',
+    modal_save_language_as_default: 'Set this as my default language',
     modal_success: 'نجاح',
     modal_required: 'مطلوب',
     modal_valid_email: 'من فضلك أدخل البريد الكتروني الصحيح',

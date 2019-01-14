@@ -40,7 +40,7 @@
                 </mat-chip-list>
                 <mat-card-content>
                   <div class="householdData head">
-                    <mat-checkbox color="primary" [checked]="correctedData[i] && correctedData[i].state" (change)="step1TypoIssues(typoIssue, 'old', i)">
+                    <mat-checkbox color="primary" [checked]="correctedData[i] && correctedData[i].state" (change)="step1TypoIssues(typoIssue, 'old', i, $event.checked)">
                     </mat-checkbox>
                     <div class="content-householdData">
                       <div class="dataToCompare">{{typoIssue.old.nameHead}}</div>
@@ -70,7 +70,7 @@
                     <mat-chip>{{verification.new}}</mat-chip>
                   </mat-chip-list>
                   <div class="householdData">
-                    <mat-checkbox color="primary" [checked]="correctedData[i] && correctedData[i].new" (change)="step1TypoIssues(typoIssue, 'new', i)">
+                    <mat-checkbox color="primary" [checked]="correctedData[i] && correctedData[i].new" (change)="step1TypoIssues(typoIssue, 'new', i, $event.checked)">
                     </mat-checkbox>
                     <div class="content-householdData">
                       <div class="dataToCompare">{{typoIssue.new.nameHead}}</div>
@@ -144,7 +144,7 @@
                       <mat-chip>{{verification.data_verification_chip_existing}}</mat-chip>
                     </mat-chip-list>
                     <div class="householdData head">
-                      <mat-checkbox [(ngModel)]="isDuplicate.old.isHead ? true : allOld" [checked]="isDuplicate.old.isHead" [disabled]='isDuplicate.old.isHead' color="primary" (change)="step2Duplicates(isDuplicate, 'old', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
+                      <mat-checkbox [(ngModel)]="isDuplicate.old.isHead ? true : allOld" [checked]="isDuplicate.old.isHead || (correctedData[duplicate.id_tmp_cache].data[isDuplicate.id_tmp_beneficiary] && correctedData[duplicate.id_tmp_cache].data[isDuplicate.id_tmp_beneficiary].state)" [disabled]='isDuplicate.old.isHead' color="primary" (change)="step2Duplicates(isDuplicate, 'old', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
                       </mat-checkbox>
                       <div class="content-householdData">
                         <div class="dataToCompare">{{isDuplicate.old.households.beneficiaries[0].family_name}}
@@ -170,7 +170,7 @@
                       <mat-chip-list>
                         <mat-chip>{{verification.new}}</mat-chip>
                       </mat-chip-list>
-                      <mat-checkbox color="primary" [(ngModel)]="allNew" (change)="step2Duplicates(isDuplicate, 'new', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
+                      <mat-checkbox color="primary" [checked]="correctedData[duplicate.id_tmp_cache].data[isDuplicate.id_tmp_beneficiary] && correctedData[duplicate.id_tmp_cache].data[isDuplicate.id_tmp_beneficiary].new" (change)="step2Duplicates(isDuplicate, 'new', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
                       </mat-checkbox>
                       <div class="content-householdData">
                         <div class="dataToCompare">{{isDuplicate.new.households.beneficiaries[0].family_name}}

@@ -91,6 +91,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     interval: any;
     correctCode: boolean = false;
     progression: number;
+    hideSnack: boolean = false;
 
     constructor(
         public distributionService: DistributionService,
@@ -177,22 +178,21 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
             .subscribe(
                 result => { // Get from Back
                     this.actualDistribution = result;
-                    if (!this.actualDistribution) {
-                        // console.log('fail');
-                        // // Particular case to search in cache distribution list if there is no api response.
-                        // this.cacheService.get(AsyncacheService.DISTRIBUTIONS)
-                        // .subscribe(
-                        //     (result: any[]) => {
-                        //         if(result) {
-                        //             result.forEach( element => {
-                        //                 if(element.id === this.distributionId) {
-                        //                     this.actualDistribution = element;
-                        //                 }
-                        //             });
-                        //         }
-                        //     }
-                        // );
+
+                    if (Object.keys(this.actualDistribution).length == 0) {
+                        this.cacheService.get(AsyncacheService.DISTRIBUTIONS + "_" + this.distributionId + "_beneficiaries")
+                            .subscribe(
+                                result => {
+                                    if (result) {
+                                        this.actualDistribution = result;
+
+                                        if (this.actualDistribution.validated)
+                                            this.getDistributionBeneficiaries('transaction');
+                                    }
+                                }
+                            );
                     }
+                    
                     if (this.actualDistribution.validated) {
                         this.getDistributionBeneficiaries('transaction');
                     }
@@ -230,7 +230,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                     if (type === 'initial') {
                         // Step 1 table
                         // console.log('Getting Initial data');
-
                         this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
                         this.loadingFirstStep = false;
                     } else if (type === 'final') {
@@ -421,6 +420,15 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                             this.snackBar.open(this.TEXT.distribution_validated, '', { duration: 5000, horizontalPosition: 'center' });
                             this.validateActualDistributionInCache();
                             this.getDistributionBeneficiaries('transaction');
+                            this.cacheService.get(AsyncacheService.DISTRIBUTIONS + "_" + this.actualDistribution.id + "_beneficiaries")
+                                .subscribe(
+                                    result => {
+                                        if (result) {
+                                            this.hideSnack = true;
+                                            this.storeBeneficiaries();
+                                        }
+                                    }
+                                );
                             this.loaderValidation = false;
                             // TODO : Check if phone number exists for all head of households.
                         },
@@ -796,7 +804,10 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                             .subscribe(
                                 () => {
                                     //Data added in cache
-                                    this.snackBar.open(this.TEXT.cache_distribution_added, '', { duration: 5000, horizontalPosition: 'center'});
+                                    if (!this.hideSnack)
+                                        this.snackBar.open(this.TEXT.cache_distribution_added, '', { duration: 5000, horizontalPosition: 'center' });
+
+                                    this.hideSnack = false;
                                 }
                             );
 

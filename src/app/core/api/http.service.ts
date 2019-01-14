@@ -18,6 +18,7 @@ import { keyframes } from '@angular/animations';
 export class HttpService {
 
     save: boolean = true;
+    exist: boolean = false;
 
     constructor(
         private http: HttpClient,
@@ -56,12 +57,17 @@ export class HttpService {
                         return (AsyncacheService.DISTRIBUTIONS + '_' + url.split('/distributions/projects/')[1]);
                     else {
                         const regex = new RegExp(/\/distributions\/\d+\/beneficiaries/);
+                        const regex2 = new RegExp(/\/transaction\/distribution\/\d+\/pickup/);
 
                         if (url.match(regex) && !this.networkService.getStatus()) {
                             this.save = false;
                             return (AsyncacheService.DISTRIBUTIONS + '_' + url.split('/')[2] + '_beneficiaries');
                         }
-                        else {
+                        else if (url.match(regex2) && !this.networkService.getStatus()) {
+                            this.save = false;
+                            this.exist = true;
+                        }
+                        else {
                             return (null);
                         }
                     }
@@ -94,10 +100,9 @@ export class HttpService {
 
         let urlSplitted = url.split('/')[5] + '/' + url.split('/')[6];
         const regex = new RegExp(/distributions\/\d+/);
-        let exist: boolean = false;
 
         if (urlSplitted.match(regex)) {
-            exist = true;
+            this.exist = true;
             this.cacheService.get(AsyncacheService.DISTRIBUTIONS + "_" + urlSplitted.split('/')[1] + "_beneficiaries").subscribe(
                 result => {
                     if (result) {
@@ -145,7 +150,8 @@ export class HttpService {
             return this.cacheService.get(itemKey);
         }
         // If disconnected and item uncachable
-        else if (exist) {
+        else if (this.exist) {
+            this.exist = false;
             return of([]);
         }
         else {

@@ -126,6 +126,7 @@ export const TEXT = {
 
     // Cache
     cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
+    cache_store_beneficiaries: 'Store Beneficiaries',
     
     // Dashboard
     dashboard_distribution_map: 'خريطة التوزيع',

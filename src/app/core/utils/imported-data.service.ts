@@ -1,11 +1,9 @@
-import {Injectable, Output, EventEmitter} from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImportedDataService {
-
-  @Output() fire: EventEmitter<any> = new EventEmitter();
 
   data: any;
   project: any;

@@ -3,35 +3,25 @@
         <div class="field-distribution">
             <h1 class="distribution-title">{{distribution.add_project_new_distribution | titlecase}}</h1>
             <div class="distribution-accordion">
-                <mat-accordion class="accordion-table">
-                    <mat-expansion-panel *ngFor="let p of properties" [expanded]="step === p" (opened)="setStep(p)"
-                        class="mat-elevation-z8">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                {{mapperObject[p]}}
-                            </mat-panel-title>
-                            <mat-panel-description *ngIf=" propertiesTypes[p]!='text'">
-                                {{newObject[p]}}
-                            </mat-panel-description>
-
-                        </mat-expansion-panel-header>
+                <mat-card>
+                    <div *ngFor="let p of properties">
                         <mat-form-field class="accordion-field" *ngIf="propertiesTypes[p]=='select' || propertiesTypes[p]=='date'">
-                            <mat-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date'" [(ngModel)]="newObject[p]"
-                                placeholder="{{mapperObject[p]}}" [formControl]="controls" (selectionChange)="selected(p)">
-                                <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.name">{{singleData.name}}</mat-option>
-                            </mat-select>
-                            <input *ngIf="propertiesTypes[p]=='date'" matInput [matDatepicker]="dateDistribution"
-                                placeholder="{{mapperObject[p]}}" (ngModel)="newObject[p]" (dateChange)='selectDate($event)' [min]="projectInfo.startDate" [max]="projectInfo.endDate">
-                            <mat-datepicker-toggle *ngIf="propertiesTypes[p]=='date'" matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
-                            <mat-datepicker #dateDistribution></mat-datepicker>
-                        </mat-form-field>
-                        <mat-radio-group class="typeDistribution" (change)="typeDistributionOnChange($event)" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'"
+                                <mat-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date'" [(ngModel)]="newObject[p]"
+                                    placeholder="{{mapperObject[p]}}" [formControl]="controls" (selectionChange)="selected(p)">
+                                    <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.name">{{singleData.name}}</mat-option>
+                                </mat-select>
+                                <input *ngIf="propertiesTypes[p]=='date'" matInput [matDatepicker]="dateDistribution"
+                                    placeholder="{{mapperObject[p]}}" (ngModel)="newObject[p]" (dateChange)='selectDate($event)' [min]="projectInfo.startDate" [max]="projectInfo.endDate">
+                                <mat-datepicker-toggle *ngIf="propertiesTypes[p]=='date'" matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
+                                <mat-datepicker #dateDistribution></mat-datepicker>
+                            </mat-form-field>
+                            <mat-radio-group class="typeDistribution" (change)="typeDistributionOnChange($event)" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'"
                             [(ngModel)]="newObject[p]">
                             <mat-radio-button checked='true' color="warn" value="Household" disabled='false'>{{distribution.households}}</mat-radio-button>
                             <mat-radio-button color="warn" value="Individual">{{distribution.individual}}</mat-radio-button>
                         </mat-radio-group>
-                    </mat-expansion-panel>
-                </mat-accordion>
+                    </div>
+                </mat-card>
             </div>
         </div>
         <div class="field-forms">

@@ -106,13 +106,6 @@
                        display: inline;
                     }
                 }
-
-                *:not(.action-buttons) {
-                    &.button {
-                        margin-left: 10px;
-                        margin-right: 10px;
-                    }
-                }
             }
 
             .content-table {
@@ -126,6 +119,10 @@
             .content-button-footer {
                 justify-content: flex-start !important;
                 padding-bottom: 20px !important;
+
+                button:last-of-type {
+                  margin: 0 20px;
+                }
             }
         }
     }

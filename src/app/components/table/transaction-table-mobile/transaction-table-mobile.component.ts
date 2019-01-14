@@ -14,7 +14,6 @@ export class TransactionTableMobileComponent extends TableComponent{
     // constructor(
     //     public mapperService: Mapper,
     //     public dialog: MatDialog,
-    //     public _cacheService: CacheService,
     //     public distributionService: DistributionService,
     //     public snackBar: MatSnackBar) {
     //         super(mapperService, dialog, _cacheService, snackBar);

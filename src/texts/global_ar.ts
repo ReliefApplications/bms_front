@@ -124,6 +124,11 @@ export const TEXT = {
     beneficiaries_select_api: 'API اختر',
     beneficiaries_selected_project: 'المستفيدين المختارين:',
 
+    // Cache
+    cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
+    cache_store_beneficiaries: 'Store Beneficiaries',
+    cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',
+    
     // Dashboard
     dashboard_distribution_map: 'خريطة التوزيع',
     dashboard_recent_distributions: 'التوزيعات الحديثة',

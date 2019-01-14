@@ -13,6 +13,7 @@ import { isArray } from 'util';
 import { User } from '../../model/user';
 import { UserService } from '../../core/api/user.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { ImportService } from '../../core/utils/import.service'
 
 @Component({
     selector: 'modal',
@@ -51,6 +52,7 @@ export class ModalComponent implements OnInit {
         public modalitiesService: ModalitiesService,
         public snackBar: MatSnackBar,
         public userService: UserService,
+        public importService: ImportService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 

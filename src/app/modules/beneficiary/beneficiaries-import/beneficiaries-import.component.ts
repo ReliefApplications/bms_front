@@ -9,10 +9,11 @@ import { FormControl, Validators } from '@angular/forms';
 import { Project } from '../../../model/project';
 import { GlobalText } from '../../../../texts/global';
 import { Router } from '@angular/router';
-import { MatSnackBar, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatSnackBar, MatTableDataSource } from '@angular/material';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Households } from 'src/app/model/households';
 import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
+import { ModalProjectsComponent } from '../../../components/modals/modal-projects/modal-projects.component';
 
 @Component({
     selector: 'beneficiaries-import',
@@ -69,6 +70,7 @@ export class BeneficiariesImportComponent implements OnInit {
         public snackBar: MatSnackBar,
         private _cacheService: AsyncacheService,
         private importedDataService: ImportedDataService,
+        public dialog: MatDialog,
     ) { }
 
     ngOnInit() {
@@ -326,5 +328,27 @@ export class BeneficiariesImportComponent implements OnInit {
                     this.router.navigate(['/beneficiaries/imported/data']);
                 }
             );
+    }
+
+    // Open the Project modal
+    openDialog(user_action): void {
+        let dialogRef;
+        console.log(this.projectList)
+        if (user_action == 'language') {
+            dialogRef = this.dialog.open(ModalProjectsComponent, {
+                width: "40%",
+                data: {
+                    projects: this.projectList
+                } 
+            });
+        }
+
+        dialogRef.afterClosed().subscribe(result => {
+            this.language = GlobalText.language;
+        });
+    }
+
+    testFunction() {
+        console.log('this is a test')
     }
 }

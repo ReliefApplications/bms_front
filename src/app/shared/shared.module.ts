@@ -42,6 +42,7 @@ import { ModalDetailsComponent } from '../components/modals/modal-details/modal-
 import { ModalAddComponent } from '../components/modals/modal-add/modal-add.component';
 import { ModalAddLineComponent } from '../components/modals/modal-add/modal-add-line/modal-add-line.component';
 import { ModalLanguageComponent } from '../components/modals/modal-language/modal-language.component';
+import { ModalProjectsComponent } from '../components/modals/modal-projects/modal-projects.component';
 
 import { LoginComponent } from '../modules/public/login.component';
 import { DashboardComponent } from '../modules/dashboard/dashboard.component';
@@ -151,6 +152,7 @@ declarations: [
     ModalDetailsComponent,
     ModalLanguageComponent,
     ModalAddLineComponent,
+    ModalProjectsComponent,
     BoxSettingComponent,
     BoxPropertiesComponent,
     DataValidationComponent,
@@ -170,6 +172,7 @@ entryComponents: [
     ModalUpdateComponent,
     ModalDetailsComponent,
     ModalLanguageComponent,
+    ModalProjectsComponent,
     ModalAddComponent,
     ModalAddLineComponent,
     ModalLeaveComponent,
@@ -206,6 +209,7 @@ exports: [
     ModalUpdateComponent,
     ModalDetailsComponent,
     ModalLanguageComponent,
+    ModalProjectsComponent,
     ModalAddComponent,
     ModalAddLineComponent,
     BoxSettingComponent,

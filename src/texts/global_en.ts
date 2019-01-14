@@ -250,6 +250,8 @@ export const TEXT = {
     modal_no_project: 'You must define at least a project with that role',
     modal_pending_requests: 'Pending Requests',
     modal_project_name_characters_limit:'do not exceed',
+    modal_projects_project: 'Projects: ',
+    modal_projects_title: 'Select a Project',
     modal_required: 'required',
     modal_save_language_as_default: 'Set this as my default language',
     modal_success: 'Success',

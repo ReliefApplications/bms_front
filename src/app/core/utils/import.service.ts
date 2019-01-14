@@ -14,6 +14,7 @@ export class ImportService {
     public token: string;
     public referedClassToken;
     public referedClassService;
+    public selectedProject; 
 
     constructor(
         public _householdsService: HouseholdsService
@@ -113,6 +114,12 @@ export class ImportService {
 
     getToken() {
         return this.token;
+    }
+
+    // Initial Project Selection
+
+    saveProject(string) {
+        console.log(string)
     }
 
 }

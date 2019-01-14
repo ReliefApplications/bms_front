@@ -16,3 +16,7 @@
   bottom: 0;
   background-color: $bms_white;
 }
+
+.ng-select.custom ::ng-deep .ng-select-container .ng-value-container .ng-value {
+  background-color: #424242;
+}

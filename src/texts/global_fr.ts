@@ -127,6 +127,7 @@ export const TEXT = {
     // Cache
     cache_distribution_added: 'Distribution et bénéficiaires du projet ont été ajoutés dans le cache',
     cache_store_beneficiaries: 'Enregistrer les bénéficiaires',
+    cache_no_distribution: 'Cette distribution n\'est pas enregistrée dans le cache, vous ne pouvez pas y accéder hors-ligne',
     
     // Dashboard
     dashboard_distribution_map: 'répartition des distributions',

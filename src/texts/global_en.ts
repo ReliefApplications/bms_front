@@ -127,7 +127,8 @@ export const TEXT = {
     // Cache
     cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
     cache_store_beneficiaries: 'Store Beneficiaries',
-    
+    cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',
+
     // Dashboard
     dashboard_distribution_map: 'distribution map',
     dashboard_recent_distributions: 'upcoming distributions',

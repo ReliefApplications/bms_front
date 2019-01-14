@@ -39,7 +39,6 @@ export class ImportedDataComponent implements OnInit {
     this.checkSize();
 
     this.newHouseholds = this.importedDataService.data;
-    
     this.data = new MatTableDataSource(this.newHouseholds);
     this.loadingTable = false;
   }

@@ -164,7 +164,7 @@ export class Households {
 
     public static formatElement(element: any): Households {
         let household = new Households();
-        let dependents = [];
+        let dependents: number;
         if (element.number_dependents == null) {
             dependents = element.beneficiaries.length;
         }

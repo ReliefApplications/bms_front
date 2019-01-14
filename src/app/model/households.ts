@@ -164,7 +164,14 @@ export class Households {
 
     public static formatElement(element: any): Households {
         let household = new Households();
-        let dependents = element.number_dependents;
+        let dependents: number;
+        if (element.number_dependents == null) {
+            dependents = element.beneficiaries.length;
+        }
+        else {
+            dependents = element.number_dependents;
+        } 
+
         let projectString = "";
 
         household.id = element.id;

@@ -11,12 +11,12 @@
   <div class="container-table" *ngIf="selectedTitle == 'file import'">
     <div class="container-content box-green">
 
-      <div class="content-button">
-        <mat-form-field>
+      <div class="content-button template-button">
+        <!-- <mat-form-field>
           <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
             <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
         <div class="action-buttons">
           <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">
             {{household.beneficiaries_import_csv | titlecase }}
@@ -38,7 +38,6 @@
             </mat-menu>
           </div>
         </div>
-        <button (click)="openDialog('language')">Click Here</button>
       </div>
       <div class="content-table">
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">

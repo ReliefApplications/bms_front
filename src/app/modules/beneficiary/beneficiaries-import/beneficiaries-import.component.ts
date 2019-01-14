@@ -147,6 +147,8 @@ export class BeneficiariesImportComponent implements OnInit {
         if (fileList.length > 0) {
             this.csv = fileList[0];
         }
+
+        this.openDialog();
     }
 
     /**
@@ -331,24 +333,17 @@ export class BeneficiariesImportComponent implements OnInit {
     }
 
     // Open the Project modal
-    openDialog(user_action): void {
+    openDialog(): void {
         let dialogRef;
-        console.log(this.projectList)
-        if (user_action == 'language') {
             dialogRef = this.dialog.open(ModalProjectsComponent, {
                 width: "40%",
                 data: {
                     projects: this.projectList
                 } 
             });
-        }
 
         dialogRef.afterClosed().subscribe(result => {
-            this.language = GlobalText.language;
+            this.selectedProject = this._importService.selectedProject;
         });
-    }
-
-    testFunction() {
-        console.log('this is a test')
     }
 }

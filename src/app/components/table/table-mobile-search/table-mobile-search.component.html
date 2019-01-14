@@ -33,10 +33,11 @@
                 </tr>
             </tbody>
             <tfoot>
-                <button mat-button *ngIf="entity.__classname__ != 'Financial Provider'" (click)="openDialog('details', element); $event.stopPropagation()" class="green">
+                <button mat-button *ngIf="entity.__classname__ != 'Financial Provider'" (click)="openDialog('update', element); $event.stopPropagation()"
+                    class="green">
                     <mat-icon inline=true>search</mat-icon>
                 </button>
-                <button mat-button *ngIf="editable && checkEntityUpdateRights() && rights" (click)="openDialog('update', element); $event.stopPropagation()"
+                <button mat-button *ngIf="editable && checkEntityUpdateRights() && rights" (click)="openDialog('details', element); $event.stopPropagation()"
                     class="light-red">
                     <mat-icon inline=true>edit</mat-icon>
                 </button>

@@ -25,17 +25,28 @@
                 </tr>
             </tbody>
             <tfoot>
-                <button mat-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
-                    <mat-icon inline=true>search</mat-icon>
-                </button>
-                <button mat-button *ngIf="rightsEdit" (click)="openDialog('update', element); $event.stopPropagation()"
-                    class="light-red">
-                    <mat-icon inline=true>edit</mat-icon>
-                </button>
-                <button mat-button *ngIf="rights" (click)="openDialog('delete', element); $event.stopPropagation()"
-                    class="red">
-                    <mat-icon inline=true>close</mat-icon>
-                </button>
+                <div class="validated-distribution" *ngIf="element.validated">
+                    <button mat-icon-button class="green" *ngIf="element.finished" (click)="openDialog('details', element); $event.stopPropagation()">
+                        <mat-icon>done</mat-icon>
+                    </button>
+                    <button mat-icon-button class="red" *ngIf="!element.finished" (click)="openDialog('details', element); $event.stopPropagation()">
+                        <mat-icon>lock</mat-icon>
+                    </button>
+                </div>
+                <div *ngIf="!element.validated">
+                    <button mat-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
+                        <mat-icon inline=true>search</mat-icon>
+                    </button>
+                    <button mat-button *ngIf="rightsEdit" (click)="openDialog('update', element); $event.stopPropagation()"
+                        class="light-red">
+                        <mat-icon inline=true>edit</mat-icon>
+                    </button>
+                    <button mat-button *ngIf="rights" (click)="openDialog('delete', element); $event.stopPropagation()"
+                        class="red">
+                        <mat-icon inline=true>close</mat-icon>
+                    </button>
+                </div>
+
             </tfoot>
         </table>
 

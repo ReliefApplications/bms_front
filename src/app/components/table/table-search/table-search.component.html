@@ -41,11 +41,11 @@
                         *ngIf="entityIsUser()" [matTooltip]="table.settings_log_button">
                         <mat-icon>history</mat-icon>
                     </button>
-                    <button mat-icon-button *ngIf="entity.__classname__ != 'Financial Provider'" (click)="openDialog('details', element); $event.stopPropagation()"
+                    <button mat-icon-button *ngIf="entity.__classname__ != 'Financial Provider'" (click)="openDialog('update', element); $event.stopPropagation()"
                         class="green" [matTooltip]="table.details">
                         <mat-icon>search</mat-icon>
                     </button>
-                    <button *ngIf="editable && checkEntityUpdateRights() && rights" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()"
+                    <button *ngIf="editable && checkEntityUpdateRights() && rights" mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()"
                         [matTooltip]="table.update" class="light-red">
                         <mat-icon>edit</mat-icon>
                     </button>

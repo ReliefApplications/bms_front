@@ -42,11 +42,11 @@ export class ProjectComponent implements OnInit {
 
     selectedTitle = '';
     selectedProject = null;
+    selectedProjectId = null;
     isBoxClicked = false;
     extensionType: string;
     hasRights: boolean = false;
     hasRightsEdit: boolean = false;
-    redirectedProject = null;
 
     public maxHeight = GlobalText.maxHeight;
     public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -68,14 +68,16 @@ export class ProjectComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.getProjects();
+        if (this.importedDataService.emittedProject) {
+            this.selectedProjectId = parseInt(this.importedDataService.getEmittedValue())
+            this.getProjects()
+        } 
+        else {
+            this.getProjects();
+        }
         this.checkSize();
         this.checkPermission();
         this.extensionType = 'xls';
-        this.importedDataService.getEmittedValue().subscribe(item => {
-            this.redirectedProject = item;
-            this.redirectedProject ? console.log(this.redirectedProject) : console.log('still nothing')
-        })
     }
 
     @HostListener('window:resize', ['$event'])
@@ -112,7 +114,6 @@ export class ProjectComponent implements OnInit {
         this.selectedProject = project;
         this.loadingDistributions = true;
         this.getDistributionsByProject(project.id);
-        console.log(this.selectedProject)
     }
 
     setType(choice: string) {
@@ -132,10 +133,13 @@ export class ProjectComponent implements OnInit {
             )
         ).subscribe(
             response => {
-                // console.log(response);
                 if (response && response.length > 0) {
                     this.projects = this.projectClass.formatArray(response).reverse();
-                    this.selectTitle(this.projects[0].name, this.projects[0]);
+                    if (this.selectedProjectId) {
+                        this.autoProjectSelect(this.selectedProjectId)
+                    } else {
+                        this.selectTitle(this.projects[0].name, this.projects[0]);
+                    }
                     this.loadingProjects = false;
                 } else if (response === null) {
                     this.projects = null;
@@ -250,7 +254,14 @@ export class ProjectComponent implements OnInit {
                     this.hasRightsEdit = true;
             }
         )
+    }
 
-
+    autoProjectSelect(input: string) {
+        let selector = parseInt(input)
+        this.projects.forEach(e => {
+            if (e.id == selector) {
+                this.selectTitle(e.name, e);
+            }
+        })
     }
 }

@@ -8,17 +8,20 @@ export class ImportedDataService {
   @Output() fire: EventEmitter<any> = new EventEmitter();
 
   data: any;
+  project: any;
+  emittedProject = false;
 
    constructor() {
-     console.log('shared service started');
    }
 
    redirectToProject(project: any) {
-     console.log(typeof(project))
-     this.fire.emit(project);
+     this.emittedProject = true;
+     this.project = project;
    }
 
-   getEmittedValue() {
-     return this.fire;
+   getEmittedValue():string {
+     if (this.emittedProject) {
+       return this.project;
+     }
    }
 }

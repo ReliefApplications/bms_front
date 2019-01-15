@@ -121,6 +121,7 @@ export const TEXT = {
     beneficiaries_import_select_project: 'You must select a project and add a file before uploading',
     beneficiaries_import_title: 'import beneficiary data',
     beneficiaries_location: 'Household Location:',
+    beneficiaries_missing_selected_project:'You must select a project before uploading',
     beneficiaries_proxy: 'Proxy',
     beneficiaries_select_api: 'Select API',
     beneficiaries_selected_project: 'selected beneficiaries:',
@@ -219,6 +220,8 @@ export const TEXT = {
 
     // Import
     import_added: 'Added from existing beneficiaries',
+    import_back_to_beneficiaries: 'Back to Beneficiaries',
+    import_back_to_project: 'Back to Project',
     import_created: 'Newly created',
     import_deleted: 'Will be deleted',
     import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.',
@@ -320,7 +323,7 @@ export const TEXT = {
     project_click: 'Click on',
     project_create: 'Create a new project',
     project_description: 'You will be able to modify project\'s name until your first distribution.',
-    project_go_beneficiaries: 'Go to Beneficiaries',
+    project_go_import_beneficiaries: 'Import Beneficiaries',
     project_no_distribution: 'This project does not contain any distributions. Create your first one !',
     project_no_household: 'This project does not contain any households.',
     project_no_projects: 'This country does not contain any project.',

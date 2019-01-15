@@ -73,8 +73,8 @@
         </div>
         <p> {{distribution.project_add_household}}
         </p>
-        <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries">
-          {{distribution.project_go_beneficiaries}}
+        <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries/import">
+          {{distribution.project_go_import_beneficiaries}}
         </button>
       </div>
       <div class="undisplay empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData && distributionData.data.length==0 && !noNetworkData">

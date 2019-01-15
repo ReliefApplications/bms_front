@@ -69,6 +69,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     beneficiaryList = new Array<Beneficiaries>();
     selectedBeneficiaries = new Array<Beneficiaries>();
     target: string = "";
+    selected: boolean = false;
 
     // Stepper forms.
     form1: FormGroup;
@@ -333,6 +334,14 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         )
     }
 
+    fileSelected(event) {
+        if (event) {
+            this.selected = true;
+        }
+        else {
+            this.selected = false;
+        }
+    }
     /**
      * Defines the number of beneficiaries corresponding of the sampleSize percentage
      */

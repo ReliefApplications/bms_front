@@ -121,6 +121,7 @@ export const TEXT = {
     beneficiaries_import_select_project: 'يجب أن تختار مشروعا و ملفا قبل التحميل',
     beneficiaries_import_title: 'تحميل بيانات المستفيد',
     beneficiaries_location: 'مكان الأسرة:',
+    beneficiaries_missing_selected_project: 'يجب أن تختار مشروعاقبل التحميل',
     beneficiaries_proxy: 'الوكيل',
     beneficiaries_select_api: 'API اختر',
     beneficiaries_selected_project: 'المستفيدين المختارين:',
@@ -216,6 +217,8 @@ export const TEXT = {
 
     // Import
     import_added: 'تم إضافتها',
+    import_back_to_beneficiaries: 'Back to Beneficiaries',
+    import_back_to_project: 'Back to Project',
     import_created: 'تم إنشاؤها',
     import_deleted: 'تم حذفها',
     import_description: 'قم باستيراد الملف الذي يحتوي على التوزيع المعدّل. سيتم تحديث قاعدة البيانات بقائمة المستفيدين الجديدة لهذا التوزيع عندما تنقر على ""تحديث"" بعد الاستيراد.',
@@ -317,7 +320,7 @@ export const TEXT = {
     project_click: 'انقر فوق',
     project_create: 'قم بإنشاء مشروع جديد',
     project_description: 'سوف يمكنك تعديل اسم المشروع حتى توزيعك الأول',
-    project_go_beneficiaries: 'انتقل إلى المستفيدين',
+    project_go_import_beneficiaries: 'استيراد المستفيدين',
     project_no_distribution: 'هذا المشروع لا يحتوي على أي توزيع. اصنع اول واحد!',
     project_no_household: 'هذا المشروع لا يحتوي على أي منزل.',
     project_no_projects: 'هذا البلد لا يحتوي على أي مشروع.',

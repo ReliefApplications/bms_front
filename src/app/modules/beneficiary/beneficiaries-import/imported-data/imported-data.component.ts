@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { HouseholdsService } from 'src/app/core/api/households.service';
+import { ImportService } from 'src/app/core/utils/import.service'
 import { Households } from 'src/app/model/households';
 import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
 import { MatTableDataSource } from '@angular/material';
@@ -32,6 +33,7 @@ export class ImportedDataComponent implements OnInit {
   constructor(
     private _householdsService: HouseholdsService,
     private importedDataService: ImportedDataService,
+    private importService: ImportService,
     private router: Router,
   ) { }
 
@@ -60,5 +62,11 @@ export class ImportedDataComponent implements OnInit {
 
   goBeneficiaries() {
     this.router.navigate(['/beneficiaries']);
+  }
+
+  goProject() {
+    this.router.navigate(['/projects']).then(() => {
+      this.importedDataService.redirectToProject(this.importService.getProject())
+    })
   }
 }

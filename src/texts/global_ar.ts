@@ -120,6 +120,7 @@ export const TEXT = {
     beneficiaries_import_select_project: 'يجب أن تختار مشروعا و ملفا قبل التحميل',
     beneficiaries_import_title: 'تحميل بيانات المستفيد',
     beneficiaries_location: 'مكان الأسرة:',
+    beneficiaries_missing_selected_project: 'يجب أن تختار مشروعاقبل التحميل',
     beneficiaries_proxy: 'الوكيل',
     beneficiaries_select_api: 'API اختر',
     beneficiaries_selected_project: 'المستفيدين المختارين:',

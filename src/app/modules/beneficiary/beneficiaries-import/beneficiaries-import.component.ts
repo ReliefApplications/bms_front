@@ -287,6 +287,7 @@ export class BeneficiariesImportComponent implements OnInit {
     addBeneficiaries() {
         if (Object.keys(this.paramToSend).length == this.APIParams.length && Object.keys(this.paramToSend).length > 0) {
             const project = this.selectedProject.split(' - ');
+            this._importService.project = project[0];
             this.load = true;
             this.paramToSend['provider'] = this.provider;
             this._beneficiariesService.importApi(this.paramToSend, project[0])

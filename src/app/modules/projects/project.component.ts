@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, SimpleChanges } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
 
 import { GlobalText } from '../../../texts/global';
@@ -69,7 +69,7 @@ export class ProjectComponent implements OnInit {
 
     ngOnInit() {
         if (this.importedDataService.emittedProject) {
-            this.selectedProjectId = parseInt(this.importedDataService.getEmittedValue())
+            this.selectedProjectId = parseInt(this.importedDataService.project)
             this.getProjects()
         } 
         else {
@@ -99,10 +99,10 @@ export class ProjectComponent implements OnInit {
             this.nameComponent = GlobalText.TEXTS.distributions;
         }
 
-        if (this.language !== GlobalText.language)
+        if (this.language !== GlobalText.language) {
             this.language = GlobalText.language;
+        }
     }
-
     /**
      * update current project and its distributions when a other project box is clicked
      * @param title
@@ -115,7 +115,6 @@ export class ProjectComponent implements OnInit {
         this.loadingDistributions = true;
         this.getDistributionsByProject(project.id);
     }
-
     setType(choice: string) {
         this.extensionType = choice;
     }

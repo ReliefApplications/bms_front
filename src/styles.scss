@@ -21,9 +21,11 @@ body {
   background-color: $bms_grey !important;
 }
 
-// ::-webkit-scrollbar {
-//   width: 0px;
-// }
+@media (pointer: coarse) {
+  ::-webkit-scrollbar {
+    width: 0px;
+  }
+}
 
 // Override Leaflet theme
 

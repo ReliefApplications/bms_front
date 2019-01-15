@@ -8,6 +8,7 @@
     .content-drag-and-drop {
         display: flex;
         width: 40%;
+        height: 25vh;
         
         .card-drag-and-drop {
             width: 100%;
@@ -84,5 +85,14 @@
         display: flex;
         justify-content: space-around;
         flex-direction: column !important;
+    }
+
+    .content-drag-and-drop {
+        display: flex;
+        width: 100% !important;
+        height: 30vh !important;
+        .mat-card {
+            margin-bottom: 20px;
+        }
     }
 }

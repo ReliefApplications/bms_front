@@ -12,11 +12,6 @@
     <div class="container-content box-green">
 
       <div class="content-button">
-        <mat-form-field>
-          <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
-            <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-          </mat-select>
-        </mat-form-field>
         <div class="action-buttons">
           <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">
             {{household.beneficiaries_import_csv | titlecase }}
@@ -65,13 +60,14 @@
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
             <mat-card class="card-drag-and-drop">
               <div>
-                <img class='img-folder' src="assets/images/folder.png">
+                <img class='img-folder' src="assets/images/projects.png">
               </div>
               <div class="select-file">
-                <a class="fenetre-selection" href="javascript:void(0)" (click)="file.click()">
-                  <button mat-stroked-button color="primary">{{household.beneficiaries_import_addFile
-                                      | titlecase}}</button>
-                </a>
+                  <mat-form-field>
+                      <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
+                        <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
                 <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
               </div>
   

@@ -37,6 +37,7 @@ export const TEXT = {
     rights: 'Rights',
     save: 'Save',
     settings: 'Settings',
+    summary:'Summary',
     update: 'Update',
 
     // Error

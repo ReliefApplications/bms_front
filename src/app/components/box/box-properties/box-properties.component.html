@@ -3,8 +3,11 @@
         <mat-card>
             <h5>{{mapperObject[p] | titlecase}}</h5>
             <span>
-                <h3 *ngIf="elementObject[p] && !isArray(elementObject[p]) && !isNumber(elementObject[p]) && elementObject[p].length <= MAX_PROP_LENGTH">
+                <h3 *ngIf="p!=='start_date' && p!=='end_date' && p!=='date_distribution' && elementObject[p] && !isArray(elementObject[p]) && !isNumber(elementObject[p]) && elementObject[p].length <= MAX_PROP_LENGTH">
                     {{elementObject[p]}}
+                </h3>
+                <h3 *ngIf="p=='start_date' || p=='end_date' || p=='date_distribution' && elementObject[p].length <= MAX_PROP_LENGTH">
+                        {{  elementObject[p] | date:'dd-MM-yyyy' }}
                 </h3>
                 <h3 *ngIf="elementObject[p] && !isArray(elementObject[p]) && !isNumber(elementObject[p]) && elementObject[p].length > MAX_PROP_LENGTH" [matTooltip]="elementObject[p]">
                     {{elementObject[p].substring(0,MAX_PROP_LENGTH-1)}} ...

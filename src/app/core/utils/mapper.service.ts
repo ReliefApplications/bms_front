@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-
 import { FieldMapper } from '../../model/field-mapper';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +10,7 @@ export class Mapper {
     entityInstance = null;
     mapperObject = null;
 
-    constructor() {
+    constructor(public datepipe:DatePipe) {
 
     }
 
@@ -73,11 +73,18 @@ export class Mapper {
     * return the formmatted value of a property p of the object element
     */
     mapValue(element, p) {
+
         const elementObject = this.entityInstance.getMapper(element);
         if (!elementObject) {
             return p;
         }
-        return elementObject[p];
+        if ( p=="date_distribution" || p=="start_date" || p=="end_date" ) {
+            return this.datepipe.transform(elementObject[p],'dd-MM-yyyy');
+        }
+        else {
+            return elementObject[p];
+        }
+        
     }
 
     /**

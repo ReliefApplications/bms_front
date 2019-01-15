@@ -17,9 +17,13 @@
       </div>
 
       <div class="content-button content-button-footer">
+        <button mat-raised-button class="button-background-accent project-button" (click)="goProject()">
+            <mat-icon>assignment</mat-icon>
+            <span>{{ household.import_back_to_project }}</span>
+        </button>
         <button mat-raised-button class="button-background-accent" (click)="goBeneficiaries()">
-          <mat-icon>arrow_back</mat-icon>
-          <span>{{ household.back }}</span>
+            <mat-icon>supervisor_account</mat-icon>
+          <span>{{ household.import_back_to_beneficiaries }}</span>
         </button>
       </div>
     </div>

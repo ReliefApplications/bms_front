@@ -286,10 +286,9 @@ export class BeneficiariesImportComponent implements OnInit {
     //Check if all fields are set, and import all the beneficiaries
     addBeneficiaries() {
         if (Object.keys(this.paramToSend).length == this.APIParams.length && Object.keys(this.paramToSend).length > 0) {
-            if (this.selectedProject == null  ) {
-                this.snackBar.open(this.household.beneficiaries_missing_selected_project,'',{duration:5000,horizontalPosition:'right'})
-            }
-            else {
+            if (this.selectedProject == null) {
+                this.snackBar.open(this.household.beneficiaries_missing_selected_project, '', {duration: 5000, horizontalPosition: 'right'})
+            } else {
                 const project = this.selectedProject.split(' - ');
                 this.load = true;
                 this.paramToSend['provider'] = this.provider;

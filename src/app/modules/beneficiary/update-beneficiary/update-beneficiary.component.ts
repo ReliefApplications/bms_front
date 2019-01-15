@@ -52,10 +52,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public countrySpecificsList = [];
 
     // Country Codes (PhoneNumber lib)
-    // private CodesMethods = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-    // private getCountryISO2 = require("country-iso-3-to-2");
-    // public countryCodesList = [];
-    // public filteredCountryCodesList: Observable<any[]>;
+    private CodesMethods = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+    private getCountryISO2 = require("country-iso-3-to-2");
+    public countryCodesList = [];
+    public filteredCountryCodesList: Observable<any[]>;
 
     // Constant lists
     public genderList: string[] = ['F', 'M'];
@@ -98,9 +98,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         // Get lists
         this.livelihoodsList = LIVELIHOOD;
         this.getVulnerabilityCriteria();
-        // this.getCountryCodes();
         this.getProvince();
         this.getProjects();
+        this.getCountryCodeUser();
 
         // Prefill
         this.initiateHousehold();
@@ -114,7 +114,16 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             this.Text = GlobalText.TEXTS;
         }
     }
-    
+
+    getCountryCodeUser() {
+        this._cacheService.get(AsyncacheService.COUNTRY).subscribe(
+            result => {
+                this.countryISO3 = result;
+                this.getCountryCodes();
+            }
+        );
+    }
+
     /**
      * Gets household from backend and loads the method that will fill our 'updatedHousehold' attribute for input display and update.
      */
@@ -139,12 +148,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
 
         // Set the Head if the user is creating
-        if(this.mode === 'create') {
+        if (this.mode === 'create') {
             this._cacheService.get(AsyncacheService.COUNTRY).subscribe(
                 result => {
                     this.loader = false;
                     let cacheCountry = result;
-                    if(cacheCountry) {
+                    if (cacheCountry) {
                         this.countryISO3 = cacheCountry;
                     } else {
                         this.countryISO3 = "KHM";
@@ -522,11 +531,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Get correct list of country codes matching the user input.
      */
-    // reloadCountryCodes(index: number) {
-    //     let typed = this.updatedHousehold.beneficiaries[index].phone.code;
-    //
-    //     this.filteredCountryCodesList = this.filter(String(typed), this.countryCodesList);
-    // }
+    reloadCountryCodes(index: number) {
+        let typed = this.updatedHousehold.beneficiaries[index].phone.code;
+
+        this.filteredCountryCodesList = this.filter(String(typed), this.countryCodesList);
+    }
 
     /**
      * Call backend to create a new household with filled data.
@@ -640,11 +649,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             } else if (!head.phone.number || head.phone.number === '') {
                 message = 'Please insert the head phone number';
             }
-            // else if (head.phone.number && head.phone.code && !this.elementExists(head.phone.code, this.countryCodesList)) {
-            //     message = 'Please select an existing country code from the list';
-            // } else if((head.phone.number && !head.phone.code) || (head.phone.number && head.phone.code === '')) {
-            //     message = 'Please select a country code for the phone number';
-            // } 
+            else if (head.phone.number && head.phone.code && !this.elementExists(head.phone.code, this.countryCodesList)) {
+                message = 'Please select an existing country code from the list';
+            } else if ((head.phone.number && !head.phone.code) || (head.phone.number && head.phone.code === '')) {
+                message = 'Please select a country code for the phone number';
+            }
             else if (head.birth_date && head.birth_date.getTime() > (new Date()).getTime()) {
                 message = 'Please select a valid birth date';
             } else {
@@ -667,11 +676,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 } else if (members[i].phone.number && isNaN(Number(members[i].phone.number))) {
                     message = 'Phone can only be composed by digits for member ' + i;
                 }
-                // else if (members[i].phone.number && members[i].phone.code && !this.elementExists(members[i].phone.code, this.countryCodesList)) {
-                //     message = 'Please select an existing country code from the list for member ' + i;
-                // } else if((members[i].phone.number && !members[i].phone.code) || (members[i].phone.number && members[i].phone.code === '')) {
-                //     message = 'Please select a country code for the phone number of member ' + i;
-                // } 
+                else if (members[i].phone.number && members[i].phone.code && !this.elementExists(members[i].phone.code, this.countryCodesList)) {
+                    message = 'Please select an existing country code from the list for member ' + i;
+                } else if ((members[i].phone.number && !members[i].phone.code) || (members[i].phone.number && members[i].phone.code === '')) {
+                    message = 'Please select a country code for the phone number of member ' + i;
+                }
                 else if (members[i].birth_date && members[i].birth_date.getTime() > (new Date()).getTime()) {
                     message = 'Please select a valid birth date for member ' + i;
                 } else {
@@ -742,14 +751,19 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Get list of all country codes and put it in the list
      */
-    // getCountryCodes() {
-    //     this.countryCodesList = this.CodesMethods.getSupportedRegions();
-    //
-    //     for (let i = 0; i < this.countryCodesList.length; i++) {
-    //         this.countryCodesList[i] = '(' + this.countryCodesList[i] + ')'
-    //         + ' +' + this.CodesMethods.getCountryCodeForRegion(this.countryCodesList[i]).toString();
-    //     }
-    // }
+    getCountryCodes() {
+        this.countryCodesList = this.CodesMethods.getSupportedRegions();
+
+        for (let i = 0; i < this.countryCodesList.length; i++) {
+            this.countryCodesList[i] = {
+                id: i,
+                value: this.countryCodesList[i] + ' - '
+                    + '+' + this.CodesMethods.getCountryCodeForRegion(this.countryCodesList[i]).toString()
+            };
+        }
+
+        console.log(this.getUserPhoneCode());
+    }
 
     /**
      * Get list of all project and put it in the project selector
@@ -844,9 +858,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     this.vulnerabilityList = [];
                     const responseCriteria = Criteria.formatArray(response);
                     responseCriteria.forEach(element => {
-                    this.vulnerabilityList.push(element);
+                        this.vulnerabilityList.push(element);
+                    });
                 });
-            });
         }
     }
 
@@ -879,17 +893,23 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Set default phone code depending on the user adm1 country
      */
-    // getUserPhoneCode(): string {
-    //     let phoneCode;
-    //
-    //     if (this.countryISO3) {
-    //         phoneCode = String(this.getCountryISO2(String(this.countryISO3)));
-    //         phoneCode = '+' + this.CodesMethods.getCountryCodeForRegion(phoneCode);
-    //         return (this.filter(phoneCode, this.countryCodesList)[0]);
-    //     } else {
-    //         return '';
-    //     }
-    // }
+    getUserPhoneCode() {
+        let phoneCode;
+
+        if (this.countryISO3) {
+            phoneCode = String(this.getCountryISO2(String(this.countryISO3)));
+            phoneCode = this.countryCodesList[phoneCode] + ' - '
+                + '+' + this.CodesMethods.getCountryCodeForRegion(phoneCode);
+            return this.countryCodesList.findIndex(element => {
+                console.log(element.value);
+                console.log(phoneCode);
+                console.log(" ");
+                return element.value === phoneCode
+            });
+        } else {
+            return '';
+        }
+    }
 
     /**
      * alow to return in household page and abort the creation of household

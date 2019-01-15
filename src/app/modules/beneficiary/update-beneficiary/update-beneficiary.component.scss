@@ -50,8 +50,9 @@ app-placeholder-panel {
             display: flex;
             flex-direction: row;
             align-items: center;
+
             mat-form-field:first-child {
-                flex-grow: 1;
+                width: 100px;
                 margin-right: 10px;
             }
         }

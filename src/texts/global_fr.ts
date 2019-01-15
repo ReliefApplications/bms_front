@@ -215,6 +215,8 @@ export const TEXT = {
 
     // Import
     import_added: 'Ajout',
+    import_back_to_beneficiaries: 'Back to Beneficiaries',
+    import_back_to_project: 'Back to Project',
     import_created: 'Création',
     import_deleted: 'Suppression',
     import_description: 'Importez le fichier contenant la distribution après modifications. La base de donnée sera mise à jour lorsque vous cliquerez sur "upload" après validation de l\'import. Les bénéficiaires inconnus seront ignorés.',

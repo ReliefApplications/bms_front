@@ -218,6 +218,8 @@ export const TEXT = {
 
     // Import
     import_added: 'Added from existing beneficiaries',
+    import_back_to_beneficiaries: 'Back to Beneficiaries',
+    import_back_to_project: 'Back to Project',
     import_created: 'Newly created',
     import_deleted: 'Will be deleted',
     import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.',

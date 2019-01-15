@@ -307,12 +307,12 @@ export class BeneficiariesImportComponent implements OnInit {
                         else {
                             this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 5000, horizontalPosition: 'right' });
                             this.newHouseholds = response.households;
-    
+
                             this.importedHouseholds();
                         }
                     });
             }
-           
+
         }
         else
             this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 5000, horizontalPosition: 'right' });

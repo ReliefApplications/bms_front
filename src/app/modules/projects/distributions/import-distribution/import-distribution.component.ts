@@ -26,6 +26,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     @Input() rights: DistributionData;
 
     @Output() success = new EventEmitter<boolean>();
+    @Output() selected = new EventEmitter<boolean>();
 
     // upload
     response = '';
@@ -100,7 +101,6 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
      */
     fileChange(event, typeEvent) {
         let fileList: FileList;
-
         switch (typeEvent) {
             case 'dataTransfer': fileList = event.dataTransfer.files; break;
             case 'target': fileList = event.target.files; break;
@@ -108,6 +108,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
         }
 
         if (fileList.length > 0) {
+            this.selected.emit(true);
             this.csv = fileList[0];
         }
     }

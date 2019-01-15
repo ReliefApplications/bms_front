@@ -120,6 +120,7 @@ export const TEXT = {
     beneficiaries_import_select_project: 'Vous devez selectionner un projet et ajouter un fichier avant l\'importation',
     beneficiaries_import_title: 'import de bénéficiaires',
     beneficiaries_location: 'Localisation du ménage :',
+    beneficiaries_missing_selected_project:'Vous devez selectionner un projet avant l\'importation',
     beneficiaries_proxy: 'Proxy',
     beneficiaries_select_api: 'Sélectionner une API',
     beneficiaries_selected_project: 'bénéficiaires sélectionnés:',

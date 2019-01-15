@@ -286,31 +286,37 @@ export class BeneficiariesImportComponent implements OnInit {
     //Check if all fields are set, and import all the beneficiaries
     addBeneficiaries() {
         if (Object.keys(this.paramToSend).length == this.APIParams.length && Object.keys(this.paramToSend).length > 0) {
-            const project = this.selectedProject.split(' - ');
-            this.load = true;
-            this.paramToSend['provider'] = this.provider;
-            this._beneficiariesService.importApi(this.paramToSend, project[0])
-                .subscribe(response => {
-                    if (response.error) {
-                        this.load = false;
-                        this.snackBar.open(response.error, '', { duration: 5000, horizontalPosition: 'right' });
-                        delete this.paramToSend['provider'];
-                    }
-                    else if (response.exist) {
-                        this.load = false;
-                        this.snackBar.open(response.exist, '', { duration: 5000, horizontalPosition: 'right' });
-                        delete this.paramToSend['provider'];
-                    }
-                    else {
-                        this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 5000, horizontalPosition: 'right' });
-                        this.newHouseholds = response.households;
-
-                        this.importedHouseholds();
-                    }
-                });
+            if (this.selectedProject == null) {
+                this.snackBar.open(this.household.beneficiaries_missing_selected_project, '', {duration: 5000, horizontalPosition: 'right'})
+            } else {
+                const project = this.selectedProject.split(' - ');
+                this.load = true;
+                this.paramToSend['provider'] = this.provider;
+                this._beneficiariesService.importApi(this.paramToSend, project[0])
+                    .subscribe(response => {
+                        if (response.error) {
+                            this.load = false;
+                            this.snackBar.open(response.error, '', { duration: 5000, horizontalPosition: 'right' });
+                            delete this.paramToSend['provider'];
+                        }
+                        else if (response.exist) {
+                            this.load = false;
+                            this.snackBar.open(response.exist, '', { duration: 5000, horizontalPosition: 'right' });
+                            delete this.paramToSend['provider'];
+                        }
+                        else {
+                            this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 5000, horizontalPosition: 'right' });
+                            this.newHouseholds = response.households;
+    
+                            this.importedHouseholds();
+                        }
+                    });
+            }
+           
         }
         else
             this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+
     }
 
 

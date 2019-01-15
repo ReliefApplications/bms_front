@@ -37,6 +37,7 @@ export const TEXT = {
     rights: 'الحقوق',
     save: 'حفظ',
     settings: 'الإعدادات',
+    summary:'Summary',
     update: 'تحديث',
 
     // Error
@@ -216,6 +217,8 @@ export const TEXT = {
 
     // Import
     import_added: 'تم إضافتها',
+    import_back_to_beneficiaries: 'Back to Beneficiaries',
+    import_back_to_project: 'Back to Project',
     import_created: 'تم إنشاؤها',
     import_deleted: 'تم حذفها',
     import_description: 'قم باستيراد الملف الذي يحتوي على التوزيع المعدّل. سيتم تحديث قاعدة البيانات بقائمة المستفيدين الجديدة لهذا التوزيع عندما تنقر على ""تحديث"" بعد الاستيراد.',

@@ -24,11 +24,6 @@
                     <div class="content-table content-table-step1">
                         <div class="step1 all-information">
                             <div class="column-container">
-                                <ng-select #projects class="custom" [(ngModel)]="updatedHousehold.projects"
-                                    bindLabel="name" [items]="projectList" [multiple]="true" placeholder="{{Text.projects}}"
-                                    [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}" required>
-                                </ng-select>
-
                                 <h4>{{ Text.add_beneficiary_res_address }}</h4>
                                 <mat-form-field>
                                     <input matInput #addressNumber placeholder={{Text.add_beneficiary_getAddressNumber}}
@@ -342,16 +337,23 @@
         </mat-step>
 
         <mat-step [editable]="true">
-            <ng-template matStepLabel>{{Text.done}}</ng-template>
+            <ng-template matStepLabel>{{Text.summary}}</ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">4</span>
-                    <span>{{Text.done}}</span>
+                    <span>{{Text.summary}}</span>
                 </div>
                 <div class="container-content box-green">
                     <div class="content-table">
-                        <div class="summary">
-                            <h3>{{Text.beneficiaries_household_info}}</h3>
+                            <mat-form-field>
+                                    <mat-select multiple #projects placeholder={{Text.projects}} [(ngModel)]="updatedHousehold.projects"
+                                        required>
+                                        <mat-option *ngFor="let project of projectList" [value]="project">
+                                            {{project}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                        <div class="summary">    <h3>{{Text.beneficiaries_household_info}}</h3>
                             <div class="info-resume">
                                 <div class="info-container" *ngIf="updatedHousehold.livelihood">
                                     <h4 class='summary-title'>{{Text.add_beneficiary_getOccupation}}: </h4>

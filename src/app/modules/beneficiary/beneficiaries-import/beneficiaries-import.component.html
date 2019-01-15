@@ -52,17 +52,32 @@
               </a>
               <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
             </div>
-
+            <mat-list *ngIf="csv != null">
+                <mat-list-item>
+                  <mat-icon mat-list-icon class="text">insert_drive_file</mat-icon>
+                  <h4 mat-line class="text">{{ csv.name }}</h4>
+                  <p mat-line class="text">{{ csv.size }} bytes, {{ csv.lastModifiedDate | date: ddMMyyyy}}
+                  </p>
+                </mat-list-item>
+              </mat-list>
           </mat-card>
         </div>
-        <mat-list *ngIf="csv != null">
-          <mat-list-item>
-            <mat-icon mat-list-icon class="text">insert_drive_file</mat-icon>
-            <h4 mat-line class="text">{{ csv.name }}</h4>
-            <p mat-line class="text">{{ csv.size }} bytes, {{ csv.lastModifiedDate | date: ddMMyyyy}}
-            </p>
-          </mat-list-item>
-        </mat-list>
+        <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
+            <mat-card class="card-drag-and-drop">
+              <div>
+                <img class='img-folder' src="assets/images/folder.png">
+              </div>
+              <div class="select-file">
+                <a class="fenetre-selection" href="javascript:void(0)" (click)="file.click()">
+                  <button mat-stroked-button color="primary">{{household.beneficiaries_import_addFile
+                                      | titlecase}}</button>
+                </a>
+                <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
+              </div>
+  
+            </mat-card>
+          </div>
+        
 
       </div>
       <div class="content-button content-button-footer">

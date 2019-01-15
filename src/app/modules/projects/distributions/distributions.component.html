@@ -89,20 +89,20 @@
               <app-import-distribution *ngIf="!actualDistribution.validated" [distribution]="this.actualDistribution"
                 [rights]="hasRights" (success)=" this.getDistributionBeneficiaries('final');
                                             this.getDistributionBeneficiaries('initial');
-                                            jumpStep(myStepper)">
-              </app-import-distribution>
-            </div>
-            <div class="container-empty" *ngIf="actualDistribution.validated">
-              <p>
-                <mat-icon>folder</mat-icon>
-                {{TEXT.distribution_cant_update}}
-              </p>
-            </div>
-            <div class="content-button content-button-footer">
-              <button mat-raised-button class="button-background-primary" matStepperNext>{{TEXT.next}}</button>
-            </div>
-          </div>
-        </div>
+                                            jumpStep(myStepper)" (selected)="fileSelected($event)">
+                            </app-import-distribution>
+                        </div>
+                        <div class="container-empty" *ngIf="actualDistribution.validated">
+                            <p>
+                                <mat-icon>folder</mat-icon>
+                                {{TEXT.distribution_cant_update}}
+                            </p>
+                        </div>
+                        <div class="content-button content-button-footer" *ngIf="!selected">
+                            <button mat-raised-button class="button-background-primary" matStepperNext>{{TEXT.next}}</button>
+                        </div>
+                    </div>
+                </div>
 
       </form>
     </mat-step>

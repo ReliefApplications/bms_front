@@ -215,8 +215,6 @@ export const TEXT = {
     import_distribution_no_right_update: 'لا يحق لك تحديث التوزيع ، اسأل مدير المشروع الخاص بك',
     import_distribution_updated: 'تم تحديث التوزيع',
     import_updated: 'تم تحديثها',
-    import_select_old: 'Select all old',
-    import_select_new: 'Select all new',
 
     // Login
     login_bms: 'نظام إدارة المستفيدين',

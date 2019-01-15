@@ -49,9 +49,6 @@ export class DataValidationComponent implements OnInit {
     public newHouseholds: any = {};
     public email: string;
 
-    public allOld: boolean;
-    public allNew: boolean;
-
     constructor(
         public _importService: ImportService,
         public _householdsService: HouseholdsService,
@@ -78,7 +75,7 @@ export class DataValidationComponent implements OnInit {
                 }
             }
         );
-
+    
         this._cacheService.getUser()
             .subscribe(
                 response => {
@@ -150,7 +147,7 @@ export class DataValidationComponent implements OnInit {
      * @param type string (old or new )
      * @param index number
      */
-    step1TypoIssues(data: any, type: string, index: number, state?: boolean) {
+    step1TypoIssues(data: any, type: string, index: number) {
         let verification = new VerifiedData;
         let indexFound: boolean = false;
         this.correctedData.forEach(element => {
@@ -159,11 +156,7 @@ export class DataValidationComponent implements OnInit {
             if (element.index === index) {
                 indexFound = true;
                 if (type === 'old') {
-                    if (state == true || state == false) {
-                        element.state = state;
-                    }
-                    else
-                        element.state = !element.state;
+                    element.state = !element.state;
                 }
                 else {
                     if (element.new) {
@@ -203,7 +196,7 @@ export class DataValidationComponent implements OnInit {
      * @param newHousehold any
      * @param idCache number
      */
-    step2Duplicates(data: any, type: string, idDuplicate: string, newHousehold: any, idCache?: number, state?: boolean) {
+    step2Duplicates(data: any, type: string, idDuplicate: string, newHousehold: any, idCache?: number) {
         let verification = new VerifiedData;
         let indexFound = false;
         let correctDuplicate = new FormatDuplicatesData;
@@ -215,10 +208,7 @@ export class DataValidationComponent implements OnInit {
                 if (element.id_duplicate === idDuplicate) {
                     indexFound = true;
                     if (type === 'old') {
-                        if (state == true || state == false)
-                            element.state = state;
-                        else
-                            element.state = !element.state;
+                        element.state = !element.state;
                         // when state is true, add an object to_delete containing name of new object
                         if (element.state) {
                             element.to_delete = {};
@@ -471,44 +461,5 @@ export class DataValidationComponent implements OnInit {
                     this.router.navigate(['/beneficiaries/imported/data']);
                 }
             );
-    }
-
-    selectAll(event, option, functionName) {
-        if (option == 'old') {
-            if (functionName == "step1TypoIssues") {
-                this.typoIssues.forEach((element, i) => {
-                    this.step1TypoIssues(element, 'old', i, event.checked);
-                });
-            }
-            else if (functionName == "step2Duplicates") {
-                this.duplicates.forEach(duplicate => {
-                    duplicate.data.forEach(isDuplicate => {
-                        this.step2Duplicates(isDuplicate, 'old', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache, event.checked);
-                    });
-                });
-            }
-
-            else if (functionName) {
-
-            }
-
-            this.allOld = event.checked;
-        }
-        else {
-            if (functionName == "step1TypoIssues") {
-                this.typoIssues.forEach((element, i) => {
-                    this.step1TypoIssues(element, 'new', i, event.checked);
-                });
-            }
-            else if (functionName == "step2Duplicates") {
-                this.duplicates.forEach(duplicate => {
-                    duplicate.data.forEach(isDuplicate => {
-                        this.step2Duplicates(isDuplicate, 'new', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache, event.checked);
-                    });
-                });
-            }
-
-            this.allNew = event.checked;
-        }
     }
 }

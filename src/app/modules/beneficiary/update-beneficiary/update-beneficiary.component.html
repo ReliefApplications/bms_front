@@ -24,14 +24,10 @@
                     <div class="content-table content-table-step1">
                         <div class="step1 all-information">
                             <div class="column-container">
-                                <mat-form-field>
-                                    <mat-select multiple #projects placeholder={{Text.projects}} [(ngModel)]="updatedHousehold.projects"
-                                        required>
-                                        <mat-option *ngFor="let project of projectList" [value]="project">
-                                            {{project}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+                                <ng-select #projects class="custom" [(ngModel)]="updatedHousehold.projects"
+                                    bindLabel="name" [items]="projectList" [multiple]="true" placeholder="{{Text.projects}}"
+                                    [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}" required>
+                                </ng-select>
 
                                 <h4>{{ Text.add_beneficiary_res_address }}</h4>
                                 <mat-form-field>
@@ -195,8 +191,8 @@
                                         </mat-autocomplete>
                                     </mat-form-field> -->
                                     <mat-form-field>
-                                        <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone.number"
-                                            required>
+                                        <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}}
+                                            [(ngModel)]="updatedHousehold.beneficiaries[0].phone.number" required>
                                     </mat-form-field>
                                     <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[0].phone.proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
                                 </div>
@@ -307,7 +303,8 @@
                                                 </mat-autocomplete>
                                             </mat-form-field> -->
                                         <mat-form-field>
-                                            <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.number">
+                                            <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}}
+                                                [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.number">
                                         </mat-form-field>
                                         <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
                                     </div>
@@ -334,8 +331,9 @@
                             <button mat-raised-button class="button-background-primary margin-right" (click)="passHousehold(); nextValidation(3, stepper)">
                                 {{Text.next}}
                             </button>
-                            <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">
-                              {{Text.update}}
+                            <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
+                                (click)="update()">
+                                {{Text.update}}
                             </button>
                         </div>
                     </div>

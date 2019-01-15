@@ -8,7 +8,7 @@
   </div>
   <app-placeholder-boxline *ngIf="loadingProjects && projects != undefined" class="container-boxes"></app-placeholder-boxline>
   <div class="container-boxes" *ngIf="!loadingProjects">
-    <app-box-setting *ngFor="let project of projects" (emitClickedTitle)="selectTitle($event, project)" [selectedTitle]="selectedTitle"
+    <app-box-setting id="scroller" *ngFor="let project of projects" (emitClickedTitle)="selectTitle($event, project)" [selectedTitle]="selectedTitle"
       [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'>
     </app-box-setting>
     <div container-boxes *ngIf="projects === null || projects === undefined || projects.length == 0" class="empty-box">
@@ -73,8 +73,8 @@
         </div>
         <p> {{distribution.project_add_household}}
         </p>
-        <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries">
-          {{distribution.project_go_beneficiaries}}
+        <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries/import">
+          {{distribution.project_go_import_beneficiaries}}
         </button>
       </div>
       <div class="undisplay empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData && distributionData.data.length==0 && !noNetworkData">

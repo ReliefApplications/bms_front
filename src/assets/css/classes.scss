@@ -25,7 +25,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        overflow-x: auto;
+        overflow-y: hidden;
         justify-content: flex-start;
         margin: 0 20px;
         app-box-setting {
@@ -38,6 +38,7 @@
             height : 80px;
             box-shadow: $bms_shadow;
             border-radius: 8px;
+            overflow-y: auto;
         }
     }
 

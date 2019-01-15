@@ -316,7 +316,7 @@ export const TEXT = {
     project_click: 'Cliquer sur ',
     project_create: 'Créer un nouveau projet',
     project_description: 'Vous pourrez modifier le nom du projet jusqu\'à votre première distribution',
-    project_go_beneficiaries: 'Aller aux bénéficiaires',
+    project_go_import_beneficiaries: 'Importer des bénéficiaires',
     project_no_distribution: 'Le projet ne contient aucune distribution. Créer votre première !',
     project_no_household: 'Le projet ne contient aucun ménage.',
     project_no_projects: 'Le pays ne contient aucun projet.',

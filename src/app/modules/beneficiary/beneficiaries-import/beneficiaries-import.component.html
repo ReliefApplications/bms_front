@@ -47,7 +47,7 @@
               </a>
               <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
             </div>
-            <mat-list *ngIf="csv != null">
+            <mat-list class="importedFile" *ngIf="csv != null">
                 <mat-list-item>
                   <mat-icon mat-list-icon class="text">insert_drive_file</mat-icon>
                   <h4 mat-line class="text">{{ csv.name }}</h4>

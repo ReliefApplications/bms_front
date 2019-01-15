@@ -37,6 +37,7 @@ export const TEXT = {
     rights: 'Rôles',
     save: 'Enregistrer',
     settings: 'Paramètres',
+    summary:'Sommaire',
     update: 'Modifier',
 
     // Error

@@ -37,6 +37,7 @@ export const TEXT = {
     rights: 'الحقوق',
     save: 'حفظ',
     settings: 'الإعدادات',
+    summary:'Summary',
     update: 'تحديث',
 
     // Error

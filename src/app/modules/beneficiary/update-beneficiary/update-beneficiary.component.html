@@ -24,14 +24,14 @@
                     <div class="content-table content-table-step1">
                         <div class="step1 all-information">
                             <div class="column-container">
-                                <mat-form-field>
+                                <!-- <mat-form-field>
                                     <mat-select multiple #projects placeholder={{Text.projects}} [(ngModel)]="updatedHousehold.projects"
                                         required>
                                         <mat-option *ngFor="let project of projectList" [value]="project">
                                             {{project}}
                                         </mat-option>
                                     </mat-select>
-                                </mat-form-field>
+                                </mat-form-field> -->
 
                                 <h4>{{ Text.add_beneficiary_res_address }}</h4>
                                 <mat-form-field>
@@ -344,14 +344,22 @@
         </mat-step>
 
         <mat-step [editable]="true">
-            <ng-template matStepLabel>{{Text.done}}</ng-template>
+            <ng-template matStepLabel>{{Text.summary}}</ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">4</span>
-                    <span>{{Text.done}}</span>
+                    <span>{{Text.summary}}</span>
                 </div>
                 <div class="container-content box-green">
                     <div class="content-table">
+                            <mat-form-field>
+                                    <mat-select multiple #projects placeholder={{Text.projects}} [(ngModel)]="updatedHousehold.projects"
+                                        required>
+                                        <mat-option *ngFor="let project of projectList" [value]="project">
+                                            {{project}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
                         <div class="summary">
                             <h3>{{Text.beneficiaries_household_info}}</h3>
                             <div class="info-resume">

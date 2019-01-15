@@ -42,14 +42,14 @@
             [searchable]="true" [ngModelOptions]="{standalone: true}">
           </ng-select>
 
-          <ng-select *ngIf="propertiesTypes[p]=='selectProjects'" class="custom" [(ngModel)]="updateObject[p]"
+          <ng-select *ngIf="propertiesTypes[p]=='selectProjects'" class="custom" [(ngModel)]="updateObject['rights'] === 'ROLE_ADMIN' ? '' : updateObject[p]"
             bindLabel="name" [items]="loadedData[p]" [multiple]="true" placeholder="Projects" [closeOnSelect]="false"
-            [searchable]="true" [ngModelOptions]="{standalone: true}">
+            [searchable]="true" [ngModelOptions]="{standalone: true}" [disabled]="updateObject['rights'] === 'ROLE_ADMIN' ? true : false">
           </ng-select>
 
           <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && updateObject['rights'] !== 'ROLE_COUNTRY_MANAGER'"
-            class="custom" [(ngModel)]="updateObject[p]" bindLabel="name" [items]="loadedData[p]" [multiple]="true"
-            placeholder="Countries" [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
+            class="custom" [(ngModel)]="updateObject['rights'] === 'ROLE_ADMIN' ? '' : updateObject[p]" bindLabel="id" [items]="loadedData[p]" [multiple]="true"
+            placeholder="Countries" [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}" [disabled]="updateObject['rights'] === 'ROLE_ADMIN' ? true : false">
           </ng-select>
 
           <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">

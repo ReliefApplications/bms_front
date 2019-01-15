@@ -192,13 +192,18 @@ button-filter-date{
   }
   .mat-form-field {
     margin-right: 5%;
-    flex-grow: 1
+    width: 50%;
   }
 }
 
 .content-button {
   flex-wrap: wrap;
   flex-direction: row;
+}
+
+.custom {
+  width: 50%;
+  max-width: 50%;
 }
 
 .ng-select.custom ::ng-deep .ng-select-container .ng-value-container .ng-value {

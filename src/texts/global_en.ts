@@ -124,6 +124,11 @@ export const TEXT = {
     beneficiaries_select_api: 'Select API',
     beneficiaries_selected_project: 'selected beneficiaries:',
 
+    // Cache
+    cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
+    cache_store_beneficiaries: 'Store Beneficiaries',
+    cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',
+
     // Dashboard
     dashboard_distribution_map: 'distribution map',
     dashboard_recent_distributions: 'upcoming distributions',
@@ -175,6 +180,7 @@ export const TEXT = {
     distribution_details_random: 'export random sample',
     distribution_details_sample_size: 'Sample size',
     distribution_details_validate: 'validate & lock',
+    distribution_edit:'Edit distribution',
     distribution_error_validate: 'The distribution is empty, please fill it before to validate it',
     distribution_no_beneficiaries: 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.',
     distribution_no_random_sample: 'Random sample can\'t be generated...',
@@ -189,6 +195,7 @@ export const TEXT = {
     distribution_validate: 'Validate',
     distribution_validated: 'Distribution has been validated',
     distribution_want_add: 'that you want to add to the ',
+
 
     // Header
     'header_add-beneficiaries': 'Add Beneficiaries',
@@ -217,9 +224,7 @@ export const TEXT = {
     import_distribution_no_right_update: 'لا يحق لك تحديث التوزيع ، اسأل مدير المشروع الخاص بك',
     import_distribution_updated: 'Distribution updated',
     import_updated: 'Will be updated',
-    import_select_old: 'Select all old',
-    import_select_new: 'Select all new',
-    
+
     // Login
     login_bms: 'Beneficiary management system',
     login_forgot_password: 'Forgot password?',

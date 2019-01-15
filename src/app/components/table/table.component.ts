@@ -26,6 +26,8 @@ import { HouseholdsService } from 'src/app/core/api/households.service';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Households } from 'src/app/model/households';
+import { NetworkService } from 'src/app/core/api/network.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-table',
@@ -93,7 +95,9 @@ export class TableComponent implements OnChanges, DoCheck {
         public financialProviderService: FinancialProviderService,
         public distributionService: DistributionService,
         public locationService: LocationService,
-        public householdsService: HouseholdsService
+        public householdsService: HouseholdsService,
+        public networkService: NetworkService,
+        public router: Router
     ) { }
 
     ngOnChanges() {

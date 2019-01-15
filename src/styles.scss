@@ -21,6 +21,10 @@ body {
   background-color: $bms_grey !important;
 }
 
+::-webkit-scrollbar {
+  width: 0px;
+}
+
 // Override Leaflet theme
 
 .leaflet-control-attribution.leaflet-control {

@@ -124,6 +124,11 @@ export const TEXT = {
     beneficiaries_select_api: 'API اختر',
     beneficiaries_selected_project: 'المستفيدين المختارين:',
 
+    // Cache
+    cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
+    cache_store_beneficiaries: 'Store Beneficiaries',
+    cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',
+    
     // Dashboard
     dashboard_distribution_map: 'خريطة التوزيع',
     dashboard_recent_distributions: 'التوزيعات الحديثة',
@@ -175,6 +180,7 @@ export const TEXT = {
     distribution_details_random: 'عينة عشوائية للتحميل',
     distribution_details_sample_size: 'حجم العينة',
     distribution_details_validate: 'التحقق والقفل',
+    distribution_edit:'تعديل التوزيع',
     distribution_error_validate: 'التوزيع فارغ ، يرجى ملءه قبل التحقق من صحته',
     distribution_no_beneficiaries: 'لم تتم إضافة أو إزالة أي مستفيدين. سيتم تحديث أي تغييرات يتم إجراؤها على المستفيدين المستوردين في النظام.',
     distribution_no_random_sample: 'لا يمكن إنشاء عينة عشوائية ...',
@@ -215,8 +221,6 @@ export const TEXT = {
     import_distribution_no_right_update: 'لا يحق لك تحديث التوزيع ، اسأل مدير المشروع الخاص بك',
     import_distribution_updated: 'تم تحديث التوزيع',
     import_updated: 'تم تحديثها',
-    import_select_old: 'Select all old',
-    import_select_new: 'Select all new',
 
     // Login
     login_bms: 'نظام إدارة المستفيدين',

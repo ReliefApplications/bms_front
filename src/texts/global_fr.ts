@@ -124,6 +124,11 @@ export const TEXT = {
     beneficiaries_select_api: 'Sélectionner une API',
     beneficiaries_selected_project: 'bénéficiaires sélectionnés:',
 
+    // Cache
+    cache_distribution_added: 'Distribution et bénéficiaires du projet ont été ajoutés dans le cache',
+    cache_store_beneficiaries: 'Enregistrer les bénéficiaires',
+    cache_no_distribution: 'Cette distribution n\'est pas enregistrée dans le cache, vous ne pouvez pas y accéder hors-ligne',
+    
     // Dashboard
     dashboard_distribution_map: 'répartition des distributions',
     dashboard_recent_distributions: 'distributions récentes',
@@ -175,6 +180,7 @@ export const TEXT = {
     distribution_details_random: 'échantillon aléatoire',
     distribution_details_sample_size: 'Taille d\'échantillon',
     distribution_details_validate: 'valider & verouiller',
+    distribution_edit:'Modifier la distribution',
     distribution_error_validate: 'La distribution est vide, veuillez la remplir avant de la valider',
     distribution_no_beneficiaries: 'Aucun bénéficiaire n\'a été ajouté ou supprimé. N\'importe quel changement fait aux bénéficiaires importés vont être mis à jour dans le système.',
     distribution_no_random_sample: 'L\'échantillon aléatoire ne peut pas être généré',
@@ -215,8 +221,6 @@ export const TEXT = {
     import_distribution_no_right_update: 'Vous n\'avez pas le droit nécessaire pour modifier la distribution, demandez à votre reponsable de projet',
     import_distribution_updated: 'Distribution modifiée',
     import_updated: 'Mis à jour',
-    import_select_old: 'Sélectionner tous les anciens',
-    import_select_new: 'Sélectionner tous les nouveaux',
 
     // Login
     login_bms: 'Beneficiary management system',

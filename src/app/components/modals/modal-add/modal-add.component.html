@@ -1,10 +1,10 @@
 <mat-dialog-content class="modal-container">
-    <h4 class="modal-title underline-accent stickyHeader">{{modal.modal_add_title}} {{entityDisplayedName | lowercase}}</h4>
+    <h4 class="modal-title underline-accent stickyHeader">{{modal.modal_add_title  | titlecase }} {{entityDisplayedName  | titlecase}}</h4>
     <table class="modal-table">
-        <p *ngIf="this.data.entity.getAddDescription">{{this.data.entity.getAddDescription()}}</p>
+        <p *ngIf="this.data.entity.getAddDescription">{{this.data.entity.getAddDescription()  | titlecase }}</p>
         <tr *ngFor="let p of properties" class="modal-row">
-            <th class="table-title" *ngIf=" mapperObject[p] !='Unit'">{{mapperObject[p]}}</th>
-            <th class="table-title" *ngIf=" (mapperObject[p]=='Unit') ">{{unitType()}}</th>
+            <th class="table-title" *ngIf=" mapperObject[p] !='Unit'">{{mapperObject[p]  | titlecase }}</th>
+            <th class="table-title" *ngIf=" (mapperObject[p]=='Unit') ">{{unitType()  | titlecase }}</th>
 
             <th class="table-value">
                 <form class="form" [formGroup]="form">
@@ -27,7 +27,7 @@
 
                         <mat-select *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
                             [formControl]="controls" (selectionChange)="selected($event, newObject)">
-                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
+                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string  | titlecase }}{{singleData.name  | titlecase }}</mat-option>
                         </mat-select>
 
                         <mat-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] == 'ROLE_COUNTRY_MANAGER'"
@@ -66,11 +66,11 @@
                         <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.email}}" formControlName="emailFormControl"
                             [errorStateMatcher]="matcher">
                         <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-                            {{modal.modal_valid_email}}
+                            {{modal.modal_valid_email  | titlecase }}
                         </mat-error>
                         <mat-error *ngIf="emailFormControl.hasError('required')">
-                            {{modal.modal_email_is}}
-                            <strong>{{modal.modal_required}}</strong>
+                            {{modal.modal_email_is  | titlecase }}
+                            <strong>{{modal.modal_required | titlecase }}</strong>
                         </mat-error>
                     </mat-form-field>
                 </form>

@@ -89,9 +89,9 @@
       <div class="content-table">
 
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
-            <mat-card class="card-drag-and-drop">
+            <mat-card class="card-drag-and-drop card-api">
               <div>
-                <img class='img-folder' src="assets/images/projects.png">
+                <img class='img-folder' src="assets/images/settings/api.png">
               </div>
               <h3>{{household.beneficiaries_select_api | titlecase}}</h3>
               <div class="content-select">
@@ -104,8 +104,8 @@
           </mat-card>
         </div>
 
-        <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
-            <mat-card class="card-drag-and-drop">
+        <!-- <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
+            <mat-card class="card-drag-and-drop card-api">
               <div>
                 <img class='img-folder' src="assets/images/projects.png">
               </div>
@@ -116,12 +116,18 @@
                   </mat-form-field>
                 </div>
             </mat-card>
-          </div>
+          </div> -->
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
-            <mat-card class="card-drag-and-drop">
+            <mat-card class="card-drag-and-drop card-api">
               <div>
                 <img class='img-folder' src="assets/images/projects.png">
               </div>
+              <div class="content-select">
+                  <mat-form-field *ngFor="let ParamToDisplay of ParamsToDisplay;">
+                    <input matInput *ngIf="ParamToDisplay.paramType == 'text'" type="text" [formControl]="text" placeholder="{{ ParamToDisplay.paramName }} *" (change)="getValue($event, ParamToDisplay.paramName)">
+                    <input matInput *ngIf="ParamToDisplay.paramType == 'number'" type="number" [formControl]="number" placeholder="{{ ParamToDisplay.paramName }} *">
+                  </mat-form-field>
+                </div>
               <div class="select-file">
                   <mat-form-field>
                       <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">

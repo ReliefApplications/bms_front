@@ -1,5 +1,18 @@
 @import '../../../assets/css/variable.scss';
 
+ 
+#button-add{
+    margin-right: 20px;
+    height: 80px;
+    border-radius: 7px;
+    animation: box-right-in 0.3s;
+    background-color: $bms_white;
+    }
+    #new-project{
+        color:$bms_dark_blue;
+    }
+ 
+   
 .button-text-accent {
     margin-left: 20px;
 }

@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 
 import { Injectable } from '@angular/core';
-=======
-import { Injectable } from '@angular/core'
->>>>>>> dev
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MatDateFormats } from "@angular/material";
 
 @Injectable({

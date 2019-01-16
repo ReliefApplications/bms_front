@@ -85,10 +85,10 @@
   </div>
 
   <div class="container-table" *ngIf="selectedTitle == 'api import'">
-    <div class="container-content box-red">
+    <div class="container-content box-red background-api">
       <div class="content-table">
 
-        <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
+        <div class="content-drag-and-drop content-api" draggable="true" [ngClass]="dragAreaClass">
             <mat-card class="card-drag-and-drop card-api">
               <div>
                 <img class='img-folder' src="assets/images/settings/api.png">
@@ -103,21 +103,7 @@
               </div>
           </mat-card>
         </div>
-
-        <!-- <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
-            <mat-card class="card-drag-and-drop card-api">
-              <div>
-                <img class='img-folder' src="assets/images/projects.png">
-              </div>
-              <div class="content-select">
-                  <mat-form-field *ngFor="let ParamToDisplay of ParamsToDisplay;">
-                    <input matInput *ngIf="ParamToDisplay.paramType == 'text'" type="text" [formControl]="text" placeholder="{{ ParamToDisplay.paramName }} *" (change)="getValue($event, ParamToDisplay.paramName)">
-                    <input matInput *ngIf="ParamToDisplay.paramType == 'number'" type="number" [formControl]="number" placeholder="{{ ParamToDisplay.paramName }} *">
-                  </mat-form-field>
-                </div>
-            </mat-card>
-          </div> -->
-        <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
+        <div class="content-drag-and-drop content-api" draggable="true" [ngClass]="dragAreaClass">
             <mat-card class="card-drag-and-drop card-api">
               <div>
                 <img class='img-folder' src="assets/images/projects.png">

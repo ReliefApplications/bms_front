@@ -26,7 +26,11 @@
 }
 
 .card-api {
-    height: 300px;
+    height: 30vh;
+}
+
+.background-api {
+    height: 55vh;
 }
 
 .importedFile {
@@ -102,5 +106,9 @@
         .mat-card {
             margin-bottom: 20px;
         }
+    }
+
+    .content-api {
+        margin-bottom: 10%;
     }
 }

@@ -75,6 +75,10 @@ body {
   max-width: 60vw !important;
 }
 
+.mat-sort-header-container {
+  justify-content: center;
+}
+
 @media only screen and (max-width: 750px) {
   .mat-stepper-horizontal {
     width: 100%;

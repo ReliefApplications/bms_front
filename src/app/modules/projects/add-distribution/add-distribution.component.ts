@@ -399,7 +399,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
      */
     add() {
 
-        if (this.newObject.type && this.criteriaArray.length != 0 && this.commodityArray && this.commodityArray[0] && this.newObject.date_distribution && this.newObject.threshold > 0) {
+        if (this.newObject.type && this.criteriaArray.length != 0 && this.commodityArray && this.commodityArray[0] && this.newObject.date_distribution && this.newObject.threshold > 0 && this.newObject.adm1) {
 
             let dateObjectDistribution = new Date(this.newObject.date_distribution).getDate() + new Date(this.newObject.date_distribution).getMonth() + new Date(this.newObject.date_distribution).getFullYear();
             let projectStartDate = new Date(this.projectInfo.startDate).getDate() + new Date(this.projectInfo.startDate).getMonth() + new Date(this.projectInfo.startDate).getFullYear()
@@ -469,6 +469,9 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         }
         else  if (this.newObject.threshold <= 0) {
             this.snackBar.open(this.distribution.add_distribution_missing_threshold, '', { duration: 5000, horizontalPosition: 'center' });
+        }
+        else if (!this.newObject.adm1) {
+            this.snackBar.open(this.distribution.add_distribution_missing_location, '', { duration: 5000, horizontalPosition: 'center' });
         }
         else {
             this.snackBar.open(this.distribution.add_distribution_check_fields, '', { duration: 5000, horizontalPosition: 'center' });

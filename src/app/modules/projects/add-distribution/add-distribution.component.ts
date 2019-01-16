@@ -24,10 +24,17 @@ import { ProjectService } from 'src/app/core/api/project.service';
 import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
+import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
+import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
+
 @Component({
     selector: 'app-add-distribution',
     templateUrl: './add-distribution.component.html',
-    styleUrls: ['./add-distribution.component.scss']
+    styleUrls: ['./add-distribution.component.scss'],
+    providers: [
+      { provide: DateAdapter, useClass: CustomDateAdapter },
+      { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+    ]
 })
 export class AddDistributionComponent implements OnInit, DoCheck, DesactivationGuarded {
     public nameComponent = 'add_project_title';

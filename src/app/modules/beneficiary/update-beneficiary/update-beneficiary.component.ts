@@ -20,10 +20,17 @@ import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
 import { DatePipe } from '@angular/common';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
+import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
+import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
+
 @Component({
     selector: 'app-update-beneficiary',
     templateUrl: './update-beneficiary.component.html',
-    styleUrls: ['./update-beneficiary.component.scss']
+    styleUrls: ['./update-beneficiary.component.scss'],
+    providers: [
+      { provide: DateAdapter, useClass: CustomDateAdapter },
+      { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+    ]
 })
 export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded {
 
@@ -114,7 +121,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             this.Text = GlobalText.TEXTS;
         }
     }
-    
+
     /**
      * Gets household from backend and loads the method that will fill our 'updatedHousehold' attribute for input display and update.
      */
@@ -644,7 +651,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             //     message = 'Please select an existing country code from the list';
             // } else if((head.phone.number && !head.phone.code) || (head.phone.number && head.phone.code === '')) {
             //     message = 'Please select a country code for the phone number';
-            // } 
+            // }
             else if (head.birth_date && head.birth_date.getTime() > (new Date()).getTime()) {
                 message = 'Please select a valid birth date';
             } else {
@@ -671,7 +678,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 //     message = 'Please select an existing country code from the list for member ' + i;
                 // } else if((members[i].phone.number && !members[i].phone.code) || (members[i].phone.number && members[i].phone.code === '')) {
                 //     message = 'Please select a country code for the phone number of member ' + i;
-                // } 
+                // }
                 else if (members[i].birth_date && members[i].birth_date.getTime() > (new Date()).getTime()) {
                     message = 'Please select a valid birth date for member ' + i;
                 } else {

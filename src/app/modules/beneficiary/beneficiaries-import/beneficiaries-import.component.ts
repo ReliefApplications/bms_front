@@ -332,7 +332,7 @@ export class BeneficiariesImportComponent implements OnInit {
                     this.newHouseholds = Households.formatArray(this.newHouseholds);
                     this.importedDataService.data = this.newHouseholds;
 
-                    this.router.navigate(['/beneficiaries/imported/data']);
+                    this.router.navigate(['/beneficiaries/imported']);
                 }
             );
     }

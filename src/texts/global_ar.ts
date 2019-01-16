@@ -92,6 +92,7 @@ export const TEXT = {
     add_distribution_male: 'الرجل',
     add_distribution_missing_commodity: 'سلعة مفقودة',
     add_distribution_missing_date: 'التاريخ مفقود',
+    add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'معيار الاختيار مفقود',
     add_distribution_missing_threshold: 'يجب أن تكون قيمة الحد الفاصل أكبر من 0',
     add_distribution_selection_criteria: 'معيار الاختيار',

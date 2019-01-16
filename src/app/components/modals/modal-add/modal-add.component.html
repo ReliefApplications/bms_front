@@ -8,48 +8,31 @@
 
             <th class="table-value">
                 <form class="form" [formGroup]="form">
-                    <mat-form-field *ngIf="propertiesTypes[p]!='email'" class="full-width">
-                        
-                        <input matInput [maxlength]="this.maxLength" *ngIf="propertiesTypes[p]=='text'" 
-                            [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]" >
+                    <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects'"
+                        class="full-width">
 
-                        <mat-hint align="start" *ngIf="p=='name'" ><strong>{{modal.modal_project_name_characters_limit | titlecase }} {{this.maxLength}} {{modal.characters}}</strong> </mat-hint>
-                        <mat-hint align="end"   *ngIf="newObject[p] && p=='name'" > {{newObject[p].length}} / {{this.maxLength}} </mat-hint>
-                
-                        <input  matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'selectCountry' && propertiesTypes[p]!='text'"
-                            [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]" >
+                        <input matInput [maxlength]="this.maxLength" *ngIf="propertiesTypes[p]=='text'" [(ngModel)]="newObject[p]"
+                            [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
+
+                        <mat-hint align="start" *ngIf="p=='name'"><strong>{{modal.modal_project_name_characters_limit |
+                                titlecase }} {{this.maxLength}} {{modal.characters}}</strong> </mat-hint>
+                        <mat-hint align="end" *ngIf="newObject[p] && p=='name'"> {{newObject[p].length}} /
+                            {{this.maxLength}} </mat-hint>
+
+                        <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'selectCountry' && propertiesTypes[p]!='text'"
+                            [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
 
                         <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]"
                             [ngModelOptions]="{standalone: true}" type="number" min="0">
-
-                        <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" 
-                            [formControl]="controls" multiple>
-                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.fullname | titlecase }}{{singleData.name  | titlecase }}</mat-option>
-                        </mat-select>
-
-                        <mat-select *ngIf="propertiesTypes[p]=='selectDonor'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
-                            [formControl]="controls" multiple>
-                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.shortname  | titlecase}}</mat-option>
-                        </mat-select>
 
                         <mat-select *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
                             [formControl]="controls" (selectionChange)="selected($event, newObject)">
                             <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string  | titlecase }}{{singleData.name  | titlecase }}</mat-option>
                         </mat-select>
 
-                        <mat-select *ngIf="propertiesTypes[p]=='selectProjects'" [(ngModel)]="newObject[p]" placeholder="Projects"
-                            formControlName="projectsControl" multiple>
-                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string | titlecase }}{{singleData.name  | titlecase }}</mat-option>
-                        </mat-select>
-
-                        <mat-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] !== 'ROLE_COUNTRY_MANAGER'" [(ngModel)]="newObject[p]" placeholder="Countries"
-                            formControlName="countryControl" multiple>
-                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name  | titlecase }}</mat-option>
-                        </mat-select>
-
-                        <mat-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] == 'ROLE_COUNTRY_MANAGER'" [(ngModel)]="newObject[p]" placeholder="Countries"
-                            formControlName="countryControl">
-                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name  | titlecase }}</mat-option>
+                        <mat-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] == 'ROLE_COUNTRY_MANAGER'"
+                            [(ngModel)]="newObject[p]" placeholder="Countries" formControlName="countryControl">
+                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</mat-option>
                         </mat-select>
 
                         <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
@@ -58,6 +41,26 @@
                         <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"></mat-datepicker-toggle>
                         <mat-datepicker #dateDistribution></mat-datepicker>
                     </mat-form-field>
+
+                    <ng-select *ngIf="propertiesTypes[p]=='select'" class="custom" [(ngModel)]="newObject[p]" bindLabel="name"
+                        [items]="loadedData[p]" [multiple]="true" placeholder="{{mapperObject[p]}}" [closeOnSelect]="false"
+                        [searchable]="true" [ngModelOptions]="{standalone: true}">
+                    </ng-select>
+
+                    <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="custom" [(ngModel)]="newObject[p]"
+                        bindLabel="name" [items]="loadedData[p]" [multiple]="true" placeholder="{{mapperObject[p]}}"
+                        [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
+                    </ng-select>
+
+                    <ng-select *ngIf="propertiesTypes[p]=='selectProjects'" class="custom" [(ngModel)]="newObject[p]"
+                        bindLabel="name" [items]="loadedData[p]" [multiple]="true" placeholder="Projects"
+                        [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
+                    </ng-select>
+
+                    <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] !== 'ROLE_COUNTRY_MANAGER'"
+                        class="custom" [(ngModel)]="newObject[p]" bindLabel="name" [items]="loadedData[p]" [multiple]="true"
+                        placeholder="Countries" [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
+                    </ng-select>
 
                     <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">
                         <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.email}}" formControlName="emailFormControl"

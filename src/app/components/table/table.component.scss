@@ -5,22 +5,17 @@
   flex-direction: column;
   width: 100%;
 
-  #table-header{
-    font-size:14px;
-    font-weight:bold;
-  }
-
   .mat-form-field {
     font-size: 14px;
     width: 100%;
   }
 
   .filter-combo {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      flex-wrap: wrap;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
 
     .input-filter {
       width: 15%;
@@ -32,63 +27,72 @@
 table {
   overflow: auto;
   width: 100%;
-  border:0;
+  border: 0;
 
-  td{
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    width: 300px;
+  #table-header {
+    font-size: 14px;
+    font-weight: bold;
+  }
 
-    app-icon-svg{
+  th {
+    mat-checkbox {
+      margin: 0 15px;
+    }
+  }
+
+  td {
+    text-align: center;
+
+    app-icon-svg {
       display: flex;
       width: 4.5vh;
       height: 4.5vh;
     }
   }
 
-  .header-cell{
-    text-align: center;
-    width: 200px;
-    font-size:14px;
-    font-weight:bold;
-
+  td.mat-cell:last-of-type,
+  td.mat-footer-cell:not(last-of-type),
+  th.mat-header-cell:not(last-of-type) {
+    padding-right: 0;
   }
 
-  .content-cell{
-    text-align: center;
-    //width: 200px;
+  td.mat-cell:first-of-type,
+  td.mat-footer-cell:first-of-type,
+  th.mat-header-cell:first-of-type {
+    padding-left: 0;
   }
 
-
-
+  .header-cell {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+  }
 }
 
-button{
-    // color: $bms_grey;
-    margin: 0.5vh;
+button {
+  margin: 0.5vh;
 
-    mat-icon {
-      font-weight: 800  !important;
-      font-size: 25px;
-    }
-
-    &:hover {
-        background-color: $bms_white;
-    }
+  mat-icon {
+    font-weight: 800 !important;
+    font-size: 25px;
   }
 
-  .green{
-    color: $bms_light_blue;
+  &:hover {
+    background-color: $bms_white;
   }
+}
 
-  .red{
-    color: $bms_red;
-  }
+.green {
+  color: $bms_light_blue;
+}
 
-  .light-red{
-    color: $bms_dark_blue;
-  }
+.red {
+  color: $bms_red;
+}
+
+.light-red {
+  color: $bms_dark_blue;
+}
 
 .png {
   height: 3vh;
@@ -96,13 +100,11 @@ button{
 }
 
 .dependents {
-  width : 40%;
+  width: 40%;
 }
 
 .distribution-details {
-
   &:hover {
-    //background-color: lightgreen;
     cursor: pointer;
   }
 }
@@ -120,21 +122,20 @@ button{
 }
 
 .validated-distribution {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
 
+  mat-icon {
+    font-weight: 900 !important;
+    font-size: 25px;
+    color: $bms_green;
     overflow: hidden;
-    width: 100%;
-    height: 100%;
+  }
 
-    mat-icon {
-        font-weight: 900  !important;
-        font-size: 25px;
-        color: $bms_green;
-        overflow: hidden;
-    }
-
-    &:hover {
-        background-color: $bms_white;
-    }
+  &:hover {
+    background-color: $bms_white;
+  }
 }
 
 .cursor-pointer {
@@ -142,17 +143,17 @@ button{
 }
 
 .no-data-container {
-    width: 100%;
-    height: 200px;
+  width: 100%;
+  height: 200px;
 
-    .loadingSpinner {
-        width: 100%;
-        height: 195px;
-        background-color: $bms_grey;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+  .loadingSpinner {
+    width: 100%;
+    height: 195px;
+    background-color: $bms_grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .ng-select.custom ::ng-deep .ng-select-container .ng-value-container .ng-value {
@@ -161,8 +162,8 @@ button{
 
 .ng-select-focused ::ng-deep {
   .ng-select-container::after {
-      border-color: #424242;
-      border-width: 2px;
+    border-color: #424242;
+    border-width: 2px;
   }
 }
 
@@ -179,10 +180,10 @@ button{
 }
 
 .loadingContent {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 
-    mat-spinner {
-        margin-top: 30px;
-    }
+  mat-spinner {
+    margin-top: 30px;
+  }
 }

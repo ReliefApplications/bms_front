@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, TemplateRef } from '@angular/core';
 import { GlobalText } from '../../../../texts/global';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
@@ -39,6 +39,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     loadingThirdStep: boolean;
     loadingFinalStep: boolean;
     loadingTransaction: boolean;
+    loadingAdd: boolean;
     sampleSize: number; // %
     extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods / 4.pdf
     extensionTypeStep3: string; // 1.xls / 2.csv / 3.ods / 4.pdf
@@ -275,7 +276,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      */
     getProjectBeneficiaries() {
         let allBeneficiaries;
-
+        this.loadingAdd = true;
         let entityInstance = Object.create(this.distributionEntity.prototype);
         entityInstance.constructor.apply(entityInstance);
         this.target = entityInstance.getMapperBox(this.actualDistribution).type;
@@ -283,6 +284,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         this.beneficiariesService.getAllFromProject(this.actualDistribution.project.id, this.target)
             .subscribe(
                 result => {
+                    this.loadingAdd = false;
                     allBeneficiaries = result;
                     if (allBeneficiaries) {
                         this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
@@ -412,7 +414,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      * @param template
      */
     openDialog(template) {
-        this.dialog.open(template);
+            this.dialog.open(template);
     }
 
     /**

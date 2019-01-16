@@ -1,5 +1,9 @@
+import { Injectable } from '@angular/core'
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MatDateFormats } from "@angular/material";
 
+@Injectable({
+	providedIn: 'root'
+})
 export class CustomDateAdapter extends NativeDateAdapter {
 
 	parse(value: any): Date | null {

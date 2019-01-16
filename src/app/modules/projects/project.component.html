@@ -56,7 +56,8 @@
             </mat-menu>
           </div>
         </div>
-        <h3>{{ distribution.distributions }}</h3>
+        <h3 *ngIf="distributionData.data.length !==0">{{ distribution.distributions }}</h3>
+        <h3 *ngIf="distributionData.data.length ==0"></h3>
         <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button-create">
           <mat-icon>add</mat-icon>
           {{distribution.add | titlecase}}

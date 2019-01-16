@@ -2,11 +2,19 @@ import { Component, OnInit, ViewChildren, QueryList, Input } from '@angular/core
 import { ModalAddComponent } from '../modal-add.component';
 import { GlobalText } from '../../../../../texts/global';
 import { ConditionCriteriaMapper } from '../../../../model/condition-criteria-mapper';
+import { MomentDateAdapter} from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
+import { MY_FORMATS } from '../../../../../app/core/utils/date.adapter';
+
 
 @Component({
     selector: 'app-modal-add-line',
     templateUrl: './modal-add-line.component.html',
-    styleUrls: ['../../modal.component.scss', './modal-add-line.component.scss']
+    styleUrls: ['../../modal.component.scss', './modal-add-line.component.scss'],
+    providers: [
+        {provide: DateAdapter, useClass: MomentDateAdapter ,deps:[MAT_DATE_LOCALE]},
+        {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+      ],
 })
 export class ModalAddLineComponent extends ModalAddComponent {
     public checkCriteria = -1;

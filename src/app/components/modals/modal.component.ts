@@ -14,14 +14,16 @@ import { User } from '../../model/user';
 import { UserService } from '../../core/api/user.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
+
 @Component({
     selector: 'modal',
     templateUrl: './modal.component.html',
-    styleUrls: ['./modal.component.scss']
+    styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent implements OnInit {
+    
+    
     public modal = GlobalText.TEXTS;
-
     public entityInstance = null;
     public properties: any;
     propertiesTypes: any;

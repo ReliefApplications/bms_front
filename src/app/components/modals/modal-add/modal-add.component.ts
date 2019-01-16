@@ -5,13 +5,23 @@ import { Criteria } from '../../../model/criteria';
 import { Commodity } from '../../../model/commodity';
 import { count } from '@swimlane/ngx-charts';
 import { Project } from '../../../model/project';
+import { MomentDateAdapter} from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
+import { MY_FORMATS } from '../../../../app/core/utils/date.adapter';
 
 @Component({
     selector: 'app-modal-add',
     templateUrl: './modal-add.component.html',
-    styleUrls: ['../modal.component.scss', './modal-add.component.scss']
+    styleUrls: ['../modal.component.scss', './modal-add.component.scss'],
+    providers: [
+        {provide: DateAdapter, useClass: MomentDateAdapter ,deps:[MAT_DATE_LOCALE]},
+        {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+      ],
+   
 })
+
 export class ModalAddComponent extends ModalComponent {
+
     public entityDisplayedName = '';
     public oldEntity = '';
     mapperObject = null;
@@ -24,6 +34,8 @@ export class ModalAddComponent extends ModalComponent {
 
     @Input() data: any;
     @Output() onCreate = new EventEmitter();
+
+   
 
     ngOnInit() {
         this.checkData();

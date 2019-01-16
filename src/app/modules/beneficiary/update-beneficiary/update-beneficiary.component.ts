@@ -100,7 +100,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         this.getVulnerabilityCriteria();
         this.getProvince();
         this.getProjects();
-        this.getCountryCodeUser();
 
         // Prefill
         this.initiateHousehold();
@@ -113,15 +112,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         if (this.Text !== GlobalText.TEXTS) {
             this.Text = GlobalText.TEXTS;
         }
-    }
-
-    getCountryCodeUser() {
-        this._cacheService.get(AsyncacheService.COUNTRY).subscribe(
-            result => {
-                this.countryISO3 = result;
-                this.getCountryCodes();
-            }
-        );
     }
 
     /**
@@ -158,6 +148,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     } else {
                         this.countryISO3 = "KHM";
                     }
+                    this.getCountryCodes();
                     this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
                     this.getCountrySpecifics();
                     this.updatedHousehold.specificAnswers = this.countrySpecificsList;
@@ -173,6 +164,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                         this._householdsService.getOne(result['id']).subscribe(
                             result => {
                                 this.originalHousehold = result;
+                                this.getCountryCodes();
                                 this.formatHouseholdForForm();
                                 this.loader = false;
                             }
@@ -350,7 +342,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                                 id: undefined,
                                 number: element.phone.number,
                                 type: element.phone.type,
-                                proxy: element.phone.proxy
+                                proxy: element.phone.proxy,
+                                prefix: element.phone.code ? element.phone.code.split('- ')[1] : undefined
                             }
                         )
                     if (this.originalHousehold)
@@ -447,7 +440,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 type: 'card'
             },
             phone: {
-                // code: this.getUserPhoneCode(),
+                code: this.countryCodesList[this.getUserPhoneCode(beneficiary)],
                 number: '',
                 type: 'Mobile',
                 proxy: false
@@ -755,14 +748,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         this.countryCodesList = this.CodesMethods.getSupportedRegions();
 
         for (let i = 0; i < this.countryCodesList.length; i++) {
-            this.countryCodesList[i] = {
-                id: i,
-                value: this.countryCodesList[i] + ' - '
-                    + '+' + this.CodesMethods.getCountryCodeForRegion(this.countryCodesList[i]).toString()
-            };
+            this.countryCodesList[i] = this.countryCodesList[i] + ' - '
+                + '+' + this.CodesMethods.getCountryCodeForRegion(this.countryCodesList[i]).toString()
         }
-
-        console.log(this.getUserPhoneCode());
     }
 
     /**
@@ -893,19 +881,32 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Set default phone code depending on the user adm1 country
      */
-    getUserPhoneCode() {
-        let phoneCode;
+    getUserPhoneCode(beneficiary?: any) {
 
         if (this.countryISO3) {
-            phoneCode = String(this.getCountryISO2(String(this.countryISO3)));
-            phoneCode = this.countryCodesList[phoneCode] + ' - '
-                + '+' + this.CodesMethods.getCountryCodeForRegion(phoneCode);
-            return this.countryCodesList.findIndex(element => {
-                console.log(element.value);
-                console.log(phoneCode);
-                console.log(" ");
-                return element.value === phoneCode
-            });
+            if (beneficiary) {
+                const phone = beneficiary.phones.filter(element => { return element.type === 'Mobile' });
+
+                if (phone.length > 0) {
+                    return this.countryCodesList.findIndex(element => {
+                        return element.split('- ')[1] === phone[0].prefix
+                    });
+                }
+                else {
+                    return '';
+                }
+            }
+            else {
+                let phoneCode;
+
+                phoneCode = String(this.getCountryISO2(String(this.countryISO3)));
+                phoneCode = phoneCode + ' - '
+                    + '+' + this.CodesMethods.getCountryCodeForRegion(phoneCode);
+
+                return this.countryCodesList.findIndex(element => {
+                    return element === phoneCode
+                });
+            }
         } else {
             return '';
         }
@@ -926,14 +927,23 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     elementExists(element: any, array: any[]): boolean {
         let exists = false;
 
-        array.forEach(
-            instance => {
-                if (instance === element) {
-                    exists = true;
+        if (array === this.countryCodesList) {
+            const filter = array.filter(codes => { return codes === element });
+            if (filter.length > 0)
+                return true;
+            else
+                return false;
+        }
+        else {
+            array.forEach(
+                instance => {
+                    if (instance === element) {
+                        exists = true;
+                    }
                 }
-            }
-        )
+            )
 
-        return (exists);
+            return (exists);
+        }
     }
 }

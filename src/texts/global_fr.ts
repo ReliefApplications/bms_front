@@ -75,6 +75,7 @@ export const TEXT = {
     add_beneficiary_step2: 'Chef de famille',
     add_beneficiary_step3: 'Membres',
     add_beneficiary_title: 'Ajout d\'un bénéficiaire',
+    add_beneficiary_code: 'Code pays',
 
     // Add distribution
     add_distribution_advanced_option: 'Options avancées',

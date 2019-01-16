@@ -196,11 +196,11 @@
                                     </mat-form-field> -->
                                     <mat-form-field>
                                         <mat-select [(ngModel)]="updatedHousehold.beneficiaries[0].phone.code"
-                                            placeholder="Code">
-                                            <mat-option *ngFor="let country of countryCodesList" [value]="country.id">{{country.value}}</mat-option>
+                                            placeholder="{{Text.add_beneficiary_code}}*">
+                                            <mat-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
-                                    
+
                                     <mat-form-field>
                                         <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}}
                                             [(ngModel)]="updatedHousehold.beneficiaries[0].phone.number" required>
@@ -313,6 +313,13 @@
                                                     </mat-option>
                                                 </mat-autocomplete>
                                             </mat-form-field> -->
+                                        <mat-form-field>
+                                            <mat-select [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.code"
+                                                placeholder="{{Text.add_beneficiary_code}}">
+                                                <mat-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
                                         <mat-form-field>
                                             <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}}
                                                 [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.number">

@@ -302,7 +302,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
      */
     getAdmID(adm: string) {
         //console.log(this.newObject);
-        return new Observable ( 
+        return new Observable (
             observer => {
                 const body = {};
                 if (adm === 'adm1') {
@@ -320,7 +320,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                             }
                         }
                     );
-                    
+
                 } else if (adm === 'adm2') {
                     body['adm1'] = this.lastAdm1;
                     this.locationService.getAdm2(body).subscribe(
@@ -337,7 +337,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                             }
                         }
                     );
-                    
+
                 } else if (adm === 'adm3') {
                     body['adm2'] = this.lastAdm2;
                     this.locationService.getAdm3(body).subscribe(
@@ -354,7 +354,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                             }
                         }
                     );
-                    
+
                 } else if (adm === 'adm4') {
                     body['adm3'] = this.lastAdm3;
                     this.locationService.getAdm4(body).subscribe(
@@ -373,16 +373,16 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 }
             }
         );
-        
+
     }
 
     getNameProject(id): Observable<string> {
         return this._projectService.get().pipe(
             map(
                 result => {
-                    const projects = result; 
+                    const projects = result;
                     let name = '';
-    
+
                     projects.forEach(element => {
                         if (element.id === id) {
                             name = element.name;
@@ -457,7 +457,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                     this.loadingCreation = false;
                 }
             }
-        } 
+        }
         else  if (this.criteriaArray.length == 0) {
             this.snackBar.open(this.distribution.add_distribution_missing_selection_criteria, '', { duration: 5000, horizontalPosition: 'center' });
         }
@@ -521,7 +521,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
 
             this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
-                if (this.commodityArray.length > 0) 
+                if (this.commodityArray.length > 0)
                     this.commodityNb = this.commodityArray[0].value * this.criteriaNbBeneficiaries;
                 this.load = false;
             });

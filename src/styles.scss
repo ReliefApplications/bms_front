@@ -73,6 +73,8 @@ body {
 .cdk-global-overlay-wrapper > .cdk-overlay-pane {
   width: 60vw !important;
   max-width: 60vw !important;
+  display: flex;
+  justify-content: center;
 }
 
 .mat-sort-header-container {

@@ -58,7 +58,7 @@
                     </ng-select>
 
                     <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] !== 'ROLE_COUNTRY_MANAGER'"
-                        class="custom" [(ngModel)]="newObject[p]" bindLabel="name" [items]="loadedData[p]" [multiple]="true"
+                        class="custom" [(ngModel)]="newObject[p]" bindLabel="id" [items]="loadedData[p]" [multiple]="true"
                         placeholder="Countries" [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
 

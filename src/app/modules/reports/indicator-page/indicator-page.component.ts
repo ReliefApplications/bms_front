@@ -19,18 +19,12 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { TitleCasePipe } from '@angular/common'; 
-import { MomentDateAdapter} from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
-import { MY_FORMATS } from '../../../../app/core/utils/date.adapter';
 
 
 @Component({
     selector: 'app-indicator-page',
     templateUrl: './indicator-page.component.html',
-    styleUrls: ['./indicator-page.component.scss'],providers: [
-        {provide: DateAdapter, useClass: MomentDateAdapter ,deps:[MAT_DATE_LOCALE]},
-        {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-      ],
+    styleUrls: ['./indicator-page.component.scss']
 })
 export class IndicatorPageComponent implements OnInit {
     public indicator = GlobalText.TEXTS;

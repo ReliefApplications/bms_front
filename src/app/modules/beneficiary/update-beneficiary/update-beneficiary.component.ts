@@ -19,18 +19,11 @@ import { ModalLeaveComponent } from '../../../components/modals/modal-leave/moda
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
 import { DatePipe } from '@angular/common';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { MomentDateAdapter} from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
-import { MY_FORMATS } from '../../../../app/core/utils/date.adapter';
 
 @Component({
     selector: 'app-update-beneficiary',
     templateUrl: './update-beneficiary.component.html',
-    styleUrls: ['./update-beneficiary.component.scss'],
-    providers: [
-        {provide: DateAdapter, useClass: MomentDateAdapter ,deps:[MAT_DATE_LOCALE]},
-        {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-      ],
+    styleUrls: ['./update-beneficiary.component.scss']
 })
 export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded {
 

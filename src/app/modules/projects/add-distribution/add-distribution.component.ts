@@ -23,19 +23,11 @@ import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal
 import { ProjectService } from 'src/app/core/api/project.service';
 import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { MomentDateAdapter} from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
-import { MY_FORMATS } from '../../../../app/core/utils/date.adapter';
-
 
 @Component({
     selector: 'app-add-distribution',
     templateUrl: './add-distribution.component.html',
-    styleUrls: ['./add-distribution.component.scss'],
-    providers: [
-        {provide: DateAdapter, useClass: MomentDateAdapter ,deps:[MAT_DATE_LOCALE]},
-        {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-      ],
+    styleUrls: ['./add-distribution.component.scss']
 })
 export class AddDistributionComponent implements OnInit, DoCheck, DesactivationGuarded {
     public nameComponent = 'add_project_title';

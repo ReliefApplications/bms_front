@@ -1,18 +1,11 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ModalComponent } from '../modal.component';
 import { Donor } from '../../../model/donor';
-import { MomentDateAdapter} from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
-import { MY_FORMATS } from '../../../../app/core/utils/date.adapter';
 
 @Component({
     selector: 'modal-update',
     templateUrl: './modal-update.component.html',
-    styleUrls: ['../modal.component.scss', './modal-update.component.scss'],
-    providers: [
-        {provide: DateAdapter, useClass: MomentDateAdapter ,deps:[MAT_DATE_LOCALE]},
-        {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-      ],
+    styleUrls: ['../modal.component.scss', './modal-update.component.scss']
 })
 export class ModalUpdateComponent extends ModalComponent {
 

@@ -75,7 +75,7 @@ export class DataValidationComponent implements OnInit {
                 }
             }
         );
-    
+
         this._cacheService.getUser()
             .subscribe(
                 response => {
@@ -142,7 +142,7 @@ export class DataValidationComponent implements OnInit {
     /**
      * Put corrected data in an array after verified typo issues
      * The array created in this function will be the array send to the back
-     * 
+     *
      * @param data any
      * @param type string (old or new )
      * @param index number
@@ -189,7 +189,7 @@ export class DataValidationComponent implements OnInit {
     /**
      * Put corrected data in an array after verified duplicates
      * The array created in this function will be the array send to the back
-     * 
+     *
      * @param data any
      * @param type string (old or new)
      * @param idDuplicate string
@@ -297,7 +297,7 @@ export class DataValidationComponent implements OnInit {
         let householdFind = false;
         let beneficiaryFind = false;
 
-        // check if a action has already made 
+        // check if a action has already made
         if (this.correctedData.length != 0) {
             for (let j = 0; j < this.correctedData.length; j++) {
                 // check if the household has already register in correctData
@@ -337,7 +337,7 @@ export class DataValidationComponent implements OnInit {
     /**
      * Put corrected data in an array after verified if there is less beneficiaries
      * The array created in this function will be the array send to the back
-     * 
+     *
      * @param idBeneficiary number
      * @param idOld number
      */
@@ -430,7 +430,7 @@ export class DataValidationComponent implements OnInit {
                 this.typoDone = true;
                 this.nextStep();
             }
-        } 
+        }
 
         // STEP 2
         else if (this.step === 2) {
@@ -453,7 +453,7 @@ export class DataValidationComponent implements OnInit {
                 this.duplicateDone = true;
                 this.nextStep();
             }
-        } 
+        }
 
         // STEP 3
         else if (this.step === 3) {
@@ -461,7 +461,7 @@ export class DataValidationComponent implements OnInit {
             this.more.length > 0 ? this.snackBar.open(this.verification.data_verification_snackbar_more_corrected, '', { duration: 5000, horizontalPosition: 'center' }) : 0;
             this.moreDone = true;
             this.nextStep();
-        } 
+        }
 
         // STEP 4
         else if (this.step === 4) {
@@ -483,7 +483,7 @@ export class DataValidationComponent implements OnInit {
                     this.newHouseholds = response;
                     this.newHouseholds = Households.formatArray(this.newHouseholds);
                     this.importedDataService.data = this.newHouseholds;
-                    this.router.navigate(['/beneficiaries/imported/data']);
+                    this.router.navigate(['/beneficiaries/imported']);
                 }
             );
     }

@@ -133,10 +133,6 @@ export class LeafletService {
                                 LeafletService.loading = false;
                             })
                             admLayers.addTo(this.map);
-                        },
-                        error => { 
-                            console.log('Here is the error')
-                            console.log(error) 
                         }
                     )
 

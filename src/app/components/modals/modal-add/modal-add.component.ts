@@ -6,10 +6,17 @@ import { Commodity } from '../../../model/commodity';
 import { count } from '@swimlane/ngx-charts';
 import { Project } from '../../../model/project';
 
+import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
+import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
+
 @Component({
     selector: 'app-modal-add',
     templateUrl: './modal-add.component.html',
-    styleUrls: ['../modal.component.scss', './modal-add.component.scss']
+    styleUrls: ['../modal.component.scss', './modal-add.component.scss'],
+    providers: [
+      { provide: DateAdapter, useClass: CustomDateAdapter },
+      { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+    ]
 })
 export class ModalAddComponent extends ModalComponent {
     public entityDisplayedName = '';
@@ -99,7 +106,7 @@ export class ModalAddComponent extends ModalComponent {
         else if (event.value == "ROLE_PROJECT_MANAGER" || event.value == "ROLE_PROJECT_OFFICER" || event.value == "ROLE_FIELD_OFFICER") {
             this.newObject['country'] = [];
             this.newObject['projects'] = [];
-            
+
             this.form.controls['projectsControl'].enable();
             this.form.controls['countryControl'].disable();
         }

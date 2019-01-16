@@ -52,19 +52,32 @@
             }
 
             .round-button {
+              position: relative;
               border:none;
               outline: none;
               display: flex;
               align-items: center;
+              justify-content: center;
               background: none;
               height: 40px;
-              img {
-                width: 40px;
-                height: 100%;
-                border-radius: 20px;
-              }
+              padding: 0;
+
               &:hover {
                 cursor: pointer;
+              }
+
+              mat-icon {
+                height: 40px;
+                width: 40px;
+                font-size: 40px;
+                color: $bms_dark_blue;
+              }
+
+              span {
+                color: $bms_dark_blue;
+                background-color: $bms_grey;
+                position: absolute;
+                width: 100%;
               }
             }
         }
@@ -76,7 +89,7 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    
+
     img {
         width: 30px !important;
         height: 25px !important;

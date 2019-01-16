@@ -4,7 +4,7 @@
 
 .modal-table {
     width: 90%;
-    flex-direction: row !important;
+    flex-direction: row;
     align-items: baseline;
 
     .language-text {
@@ -19,5 +19,32 @@
 
 .modal-button {
     width: 90% !important;
+}
+
+.mat-dialog-content {
+    margin: 0;
+    padding: 0 0 0 4%;
+    display: flex;
+    flex-direction: column;
+  }
+
+@media only screen and (max-width: 700px){
+    .modal-table {
+        flex-direction: column;
+
+        .language-text {
+            width: 100%;
+        }
+        .select-container {
+            width: 100%;
+            padding-bottom: 5%;
+        }
+    }
+
+    .stickyFooter {
+        display: flex;
+        flex-direction: column;
+    }
+        
 }
 

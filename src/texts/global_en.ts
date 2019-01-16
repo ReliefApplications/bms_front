@@ -37,6 +37,7 @@ export const TEXT = {
     rights: 'Rights',
     save: 'Save',
     settings: 'Settings',
+    summary:'Summary',
     update: 'Update',
 
     // Error
@@ -92,6 +93,7 @@ export const TEXT = {
     add_distribution_male: 'Man',
     add_distribution_missing_commodity: 'A commodity is missing',
     add_distribution_missing_date: 'The date is missing',
+    add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'A selection criterion is missing',
     add_distribution_missing_threshold: 'The minimum selection score\'s value should be greater than 0',
     add_distribution_selection_criteria: 'selection criteria',

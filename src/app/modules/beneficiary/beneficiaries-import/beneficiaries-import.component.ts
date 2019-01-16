@@ -290,6 +290,7 @@ export class BeneficiariesImportComponent implements OnInit {
                 this.snackBar.open(this.household.beneficiaries_missing_selected_project, '', {duration: 5000, horizontalPosition: 'right'})
             } else {
                 const project = this.selectedProject.split(' - ');
+                this._importService.project = project[0];
                 this.load = true;
                 this.paramToSend['provider'] = this.provider;
                 this._beneficiariesService.importApi(this.paramToSend, project[0])
@@ -307,12 +308,11 @@ export class BeneficiariesImportComponent implements OnInit {
                         else {
                             this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 5000, horizontalPosition: 'right' });
                             this.newHouseholds = response.households;
-    
+
                             this.importedHouseholds();
                         }
                     });
             }
-           
         }
         else
             this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 5000, horizontalPosition: 'right' });

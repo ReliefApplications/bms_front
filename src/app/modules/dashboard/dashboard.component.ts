@@ -44,13 +44,17 @@ export class DashboardComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.serviceMap.createMap('map');
-		this.serviceMap.addTileLayer();
-
-		this.getSummary();
-		this.checkDistributions();
-		this.checkSize();
-		this.checkPermission();
+		this._cacheService.getUser().subscribe(result => {
+			if (result.loggedIn) {
+				this.serviceMap.createMap('map');
+				this.serviceMap.addTileLayer();
+		
+				this.getSummary();
+				this.checkDistributions();
+				this.checkSize();
+				this.checkPermission(result);
+			}
+		})
 	}
 
     /**
@@ -121,9 +125,7 @@ export class DashboardComponent implements OnInit {
 			});
 	}
 
-	checkPermission() {
-		this._cacheService.getUser().subscribe(
-			result => {
+	checkPermission(result) {
 				this.userData = result;
 
 				if (result && result.rights) {
@@ -134,8 +136,6 @@ export class DashboardComponent implements OnInit {
 					if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == "ROLE_PROJECT_OFFICER")
 						this.hasRightsEdit = true;
 				}
-			}
-		);
 	}
 
 }

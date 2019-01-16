@@ -5,10 +5,6 @@ app-placeholder-stepper {
     height: 100% !important;
 }
 
-mat-horizontal-stepper {
-    padding-right: 20px;
-}
-
 mat-divider {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -29,8 +25,6 @@ app-placeholder-panel {
 }
 
 .all-information, .head, .member, .summary {
-    padding-top: 20px;
-    padding-bottom: 20px;
     width: 100%;
     height: auto;
     display: flex;
@@ -145,6 +139,29 @@ app-placeholder-panel {
 
 .margin-right {
     margin-right: 15px;
+}
+
+.ng-select.custom ::ng-deep .ng-select-container .ng-value-container .ng-value {
+    background-color: #424242;
+}
+
+.ng-select-focused ::ng-deep {
+    .ng-select-container::after {
+        border-color: #424242;
+        border-width: 2px;
+    }
+}
+
+.ng-select-focused ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
+    color: #424242;
+}
+
+.ng-select-focused ::ng-deep .ng-arrow {
+    color: #424242 !important;
+}
+
+.ng-select-opened ::ng-deep .ng-option-selected {
+    color: #424242 !important;
 }
 
 @media only screen and (max-width: 750px) {

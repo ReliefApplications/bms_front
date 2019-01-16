@@ -290,6 +290,7 @@ export class BeneficiariesImportComponent implements OnInit {
                 this.snackBar.open(this.household.beneficiaries_missing_selected_project, '', {duration: 5000, horizontalPosition: 'right'})
             } else {
                 const project = this.selectedProject.split(' - ');
+                this._importService.project = project[0];
                 this.load = true;
                 this.paramToSend['provider'] = this.provider;
                 this._beneficiariesService.importApi(this.paramToSend, project[0])

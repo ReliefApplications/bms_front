@@ -75,6 +75,7 @@
                   </mat-autocomplete>
                 </mat-form-field>
                 <div class="specifics" *ngIf="updatedHousehold.specificAnswers">
+                  <h4>{{ Text.add_beneficiary_country_specifics | titlecase }}</h4>
                   <mat-form-field *ngFor="let specific of updatedHousehold.specificAnswers">
                     <input matInput [type]="specific.type" placeholder={{specific.field_string}} [(ngModel)]="specific.answer">
                   </mat-form-field>

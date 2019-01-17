@@ -56,7 +56,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public livelihoodsList: string[];
     public vulnerabilityList = [];
     public projectList = [];
-    public countrySpecificsList = [];
 
     // Country Codes (PhoneNumber lib)
     // private CodesMethods = require('google-libphonenumber').PhoneNumberUtil.getInstance();
@@ -158,7 +157,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     }
                     this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
                     this.getCountrySpecifics();
-                    this.updatedHousehold.specificAnswers = this.countrySpecificsList;
                 }
             );
         }
@@ -864,10 +862,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         const promise = this._countrySpecificsService.get();
         if (promise) {
             promise.subscribe(response => {
-                this.countrySpecificsList = [];
+                let countrySpecificsList = [];
+
                 const responseCountrySpecifics = CountrySpecific.formatArray(response);
                 responseCountrySpecifics.forEach(element => {
-                    this.countrySpecificsList.push(
+                    countrySpecificsList.push(
                         {
                             answer: '',
                             countryIso3: this.countryISO3,
@@ -877,8 +876,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                             name: element.name,
                         }
                     );
-
                 });
+
+                this.updatedHousehold.specificAnswers = countrySpecificsList;
             });
         }
     }

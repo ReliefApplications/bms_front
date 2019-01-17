@@ -4,6 +4,7 @@
     display: flex;
     justify-content: space-around !important;
     flex-direction: row !important;
+    height: 30vh;
 
     .content-drag-and-drop {
         display: flex;
@@ -23,6 +24,11 @@
             }
         }
     }
+}
+
+.greyed-out {
+    background-color: rgba(0,0,0,0.4);
+    z-index: 2,
 }
 
 .card-api {

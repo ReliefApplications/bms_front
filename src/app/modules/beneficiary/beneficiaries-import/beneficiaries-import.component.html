@@ -58,13 +58,13 @@
           </mat-card>
         </div>
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
-            <mat-card class="card-drag-and-drop">
+            <mat-card class="card-drag-and-drop" [ngClass]="(isProjectsDisabled)?'greyed-out' : ''">
               <div>
                 <img class='img-folder' src="assets/images/projects.png">
               </div>
               <div class="select-file">
                   <mat-form-field>
-                      <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
+                      <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)" [disabled]="isProjectsDisabled">
                         <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -104,7 +104,7 @@
           </mat-card>
         </div>
         <div class="content-drag-and-drop content-api" draggable="true" [ngClass]="dragAreaClass">
-            <mat-card class="card-drag-and-drop card-api">
+            <mat-card class="card-drag-and-drop card-api" [ngClass]="(isApiDisabled)?'greyed-out' : ''">
               <div>
                 <img class='img-folder' src="assets/images/projects.png">
               </div>
@@ -116,7 +116,7 @@
                 </div>
               <div class="select-file">
                   <mat-form-field>
-                      <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)">
+                      <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)" [disabled]="isApiDisabled">
                         <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                       </mat-select>
                     </mat-form-field>

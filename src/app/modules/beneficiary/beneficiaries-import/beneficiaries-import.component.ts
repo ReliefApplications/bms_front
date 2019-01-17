@@ -25,6 +25,10 @@ export class BeneficiariesImportComponent implements OnInit {
     public household = GlobalText.TEXTS;
     loadingExport = false;
 
+    // to disable / enable the second box
+    public isProjectsDisabled = true;
+    public isApiDisabled = true;
+
     // for the items button
     selectedTitle = 'file import';
     isBoxClicked = false;
@@ -144,6 +148,7 @@ export class BeneficiariesImportComponent implements OnInit {
 
         if (fileList.length > 0) {
             this.csv = fileList[0];
+            this.isProjectsDisabled = false;
         }
     }
 
@@ -265,8 +270,7 @@ export class BeneficiariesImportComponent implements OnInit {
                 this.chosenItem = this.APINames[0];
                 this.ParamsToDisplay.push({ 'paramType': this.APIParams[0].paramType, 'paramName': this.APIParams[0].paramName });
                 this.provider = this.chosenItem;
-                this.APINames.push("Francis", "Mathias", "Barbara")
-                console.log(this.APINames)
+                this.chosenItem ? this.isApiDisabled = false : 0;
             });
     }
 

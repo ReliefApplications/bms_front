@@ -37,7 +37,7 @@
             [searchable]="true" [ngModelOptions]="{standalone: true}">
           </ng-select>
 
-          <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="custom" [(ngModel)]="updateObject[p]" bindLabel="name"
+          <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="custom" [(ngModel)]="updateObject[p]" bindLabel="shortname"
             [items]="loadedData[p]" [multiple]="true" placeholder="{{data.mapper.mapTitle(p)}}" [closeOnSelect]="false"
             [searchable]="true" [ngModelOptions]="{standalone: true}">
           </ng-select>

@@ -1,15 +1,14 @@
 <div class="page-container">
   <div class="container-title">
     <h2>{{distribution.projects | titlecase}}</h2>
-    <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
-    <button mat-stroked-button class="button-text-accent" *ngIf="!loadingCreation && hasRights" (click)="openNewProjectDialog()">
-      <span>{{distribution.new | titlecase}}</span>
-    </button>
   </div>
   <app-placeholder-boxline *ngIf="loadingProjects && projects != undefined" class="container-boxes"></app-placeholder-boxline>
   <div class="container-boxes" *ngIf="!loadingProjects">
-    <app-box-setting *ngFor="let project of projects" (emitClickedTitle)="selectTitle($event, project)" [selectedTitle]="selectedTitle"
-      [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'>
+    <button class="button-add-project" *ngIf="!loadingProjects && hasRights" (click)="openNewProjectDialog()">
+      <mat-icon>add</mat-icon>
+      <h3>{{distribution.new | titlecase}}</h3>
+    </button>
+    <app-box-setting *ngFor="let project of projects" (emitClickedTitle)="selectTitle($event, project)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'>
     </app-box-setting>
     <div container-boxes *ngIf="projects === null || projects === undefined || projects.length == 0" class="empty-box">
       <div class='no-data-container'>
@@ -22,13 +21,11 @@
       </div>
     </div>
   </div>
-
   <app-placeholder-panel class="container-table" *ngIf="loadingDistributions && projects !== undefined && projects != null"></app-placeholder-panel>
   <div class="container-data" *ngIf="!loadingDistributions && projects !== undefined">
     <div class="container-content" *ngIf="isBoxClicked">
       <h3 class="container-subtitle">{{selectedProject.name | titlecase}}</h3>
-      <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService"
-        [componentDisplayed]="selectedProject"></app-box-properties>
+      <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService" [componentDisplayed]="selectedProject"></app-box-properties>
     </div>
   </div>
   <div class="container-table" *ngIf="!loadingDistributions && projects !== undefined">
@@ -59,8 +56,7 @@
           <mat-icon>add</mat-icon>
           {{distribution.add | titlecase}}
         </button>
-        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button"
-          [ngClass]="{'add-button-arabic': language == 'ar'}">
+        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}">
           <mat-icon>add</mat-icon>
         </button>
       </div>
@@ -85,10 +81,8 @@
         </i>
       </div>
       <div class="content-table" *ngIf="(distributionData && distributionData.data.length>0) && !noNetworkData">
-        <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit'
-          [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
-        <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit'
-          [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-mobile-distribution>
+        <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
+        <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-mobile-distribution>
       </div>
       <div>
         <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>

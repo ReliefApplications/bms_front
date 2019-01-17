@@ -4,6 +4,7 @@ import { Beneficiaries } from '../../../model/beneficiary';
 import { emit } from 'cluster';
 import { element } from 'protractor';
 import { tap } from 'rxjs/operators';
+import { GlobalText } from '../../../../texts/global';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { tap } from 'rxjs/operators';
     styleUrls: ['../table-mobile/table-mobile.component.scss', './table-mobile-beneficiaries.component.scss']
 })
 export class TableMobileBeneficiariesComponent extends TableBeneficiariesComponent {
-
+    
     @Output() updating = new EventEmitter<number>();
     @Output() selectedAdm = new EventEmitter<any>();
 

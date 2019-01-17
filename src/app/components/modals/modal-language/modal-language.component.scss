@@ -1,23 +1,41 @@
-.modal-title {
-    width: 90%;
-}
-
 .modal-table {
-    width: 90%;
-    flex-direction: row !important;
+    width: 100%;
+    flex-direction: row;
     align-items: baseline;
 
     .language-text {
         padding-bottom: 10px;
-        width: 30%;
+        margin-right: 5%;
     }
 
     .select-container {
-        width: 70%;
+        width: 20%;
+        margin-right: 5%;
     }
 }
 
-.modal-button {
-    width: 90% !important;
+@media only screen and (max-width: 700px){
+    .modal-table {
+        flex-direction: column;
+        text-align: center;
+
+        .language-text {
+            width: 100%;
+        }
+        .select-container {
+            width: 20%;
+            padding-bottom: 5%;
+            margin: 0 auto;
+        }
+        .mat-checkbox {
+            margin: 0 auto;
+        }
+    }
+
+    .stickyFooter {
+        display: flex;
+        flex-direction: column;
+    }
+        
 }
 

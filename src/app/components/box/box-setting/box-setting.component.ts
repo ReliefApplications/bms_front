@@ -23,7 +23,6 @@ export class BoxSettingComponent {
             this.selectedTitle = "file import";
         }
     }
-
     emitTitle(title) {
         this.emitClickedTitle.emit(title);
     }

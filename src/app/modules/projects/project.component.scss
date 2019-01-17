@@ -2,12 +2,14 @@
 
  
 #button-add{
+    
     margin-right: 20px;
     height: 80px;
     border-radius: 7px;
     animation: box-right-in 0.3s;
     background-color: $bms_white;
     line-height: 0px;
+    box-shadow: $bms_shadow;
 }
     
 #add{
@@ -19,6 +21,7 @@
 #new-project
 {
     color:$bms_dark_blue;
+    box-shadow: $bms_shadow;
 }
  
    

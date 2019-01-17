@@ -1,23 +1,18 @@
-.modal-title {
-    width: 90%;
-}
-
 .modal-table {
-    width: 90%;
-    flex-direction: row !important;
-    align-items: baseline;
-
-    .language-text {
-        padding-bottom: 10px;
-        width: 30%;
+  .select-container {
+    display: flex;
+    flex-direction: row;
+    span {
+      width: 50%;
     }
+    margin-bottom: 20px;
+  }
+}
 
+@media only screen and (max-width: 700px) {
+  .modal-table {
     .select-container {
-        width: 70%;
+      flex-direction: column;
     }
+  }
 }
-
-.modal-button {
-    width: 90% !important;
-}
-

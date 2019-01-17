@@ -20,10 +20,17 @@ import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
 import { DatePipe } from '@angular/common';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
+import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
+import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
+
 @Component({
     selector: 'app-update-beneficiary',
     templateUrl: './update-beneficiary.component.html',
-    styleUrls: ['./update-beneficiary.component.scss']
+    styleUrls: ['./update-beneficiary.component.scss'],
+    providers: [
+      { provide: DateAdapter, useClass: CustomDateAdapter },
+      { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+    ]
 })
 export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded {
 
@@ -49,7 +56,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public livelihoodsList: string[];
     public vulnerabilityList = [];
     public projectList = [];
-    public countrySpecificsList = [];
 
     // Country Codes (PhoneNumber lib)
     private CodesMethods = require('google-libphonenumber').PhoneNumberUtil.getInstance();
@@ -151,7 +157,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     this.getCountryCodes();
                     this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
                     this.getCountrySpecifics();
-                    this.updatedHousehold.specificAnswers = this.countrySpecificsList;
                 }
             );
         }
@@ -883,10 +888,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         const promise = this._countrySpecificsService.get();
         if (promise) {
             promise.subscribe(response => {
-                this.countrySpecificsList = [];
+                let countrySpecificsList = [];
+
                 const responseCountrySpecifics = CountrySpecific.formatArray(response);
                 responseCountrySpecifics.forEach(element => {
-                    this.countrySpecificsList.push(
+                    countrySpecificsList.push(
                         {
                             answer: '',
                             countryIso3: this.countryISO3,
@@ -896,8 +902,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                             name: element.name,
                         }
                     );
-
                 });
+
+                this.updatedHousehold.specificAnswers = countrySpecificsList;
             });
         }
     }

@@ -36,7 +36,6 @@ export class ProjectComponent implements OnInit {
 
     // loading
     loadingDistributions = true;
-    loadingCreation: boolean;
     loadingProjects = true;
     noNetworkData = false;
 
@@ -71,7 +70,7 @@ export class ProjectComponent implements OnInit {
         if (this.importedDataService.emittedProject) {
             this.selectedProjectId = parseInt(this.importedDataService.project)
             this.getProjects()
-        } 
+        }
         else {
             this.getProjects();
         }
@@ -200,7 +199,6 @@ export class ProjectComponent implements OnInit {
     }
 
     openNewProjectDialog() {
-        this.loadingCreation = true;
         const dialogRef = this.dialog.open(
             ModalAddComponent, {
                 data: {
@@ -225,11 +223,6 @@ export class ProjectComponent implements OnInit {
 
                 if (exists == false)
                     this.createElement(data);
-            }
-        );
-        dialogRef.afterClosed().subscribe(
-            () => {
-                this.loadingCreation = false;
             }
         );
     }

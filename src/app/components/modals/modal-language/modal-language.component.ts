@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatCheckboxModule } from '@angular/material'
 import { ModalComponent } from '../modal.component';
 import { GlobalText } from '../../../../texts/global';
 
@@ -12,12 +13,17 @@ export class ModalLanguageComponent extends ModalComponent {
   public language = GlobalText.language;
   public isCheckedDefault = false;
   public actualUser;
+  public default = false;
 
   ngOnInit() {
-    this._cacheService.getUser().subscribe(response => this.actualUser = response)
+    this._cacheService.getUser().subscribe(response => {
+      this.actualUser = response;
+      response.language == this.language ? this.default = true : 0;
+    })
   }
 
   choseLanguage(l : string){
+    l !== this.actualUser.language ? this.default = false : this.default = true;
     this.language = l;
   }
 

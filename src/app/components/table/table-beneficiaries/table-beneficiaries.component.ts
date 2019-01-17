@@ -18,7 +18,7 @@ export class TableBeneficiariesComponent extends TableComponent {
 
     @Output() updating = new EventEmitter<number>();
     @Output() selectedAdm = new EventEmitter<any>();
-    
+
     selectedFilter;
     keyWords: string = '';
     vulnerability: any = '';
@@ -26,7 +26,6 @@ export class TableBeneficiariesComponent extends TableComponent {
     testLoading = true;
     beneficiary = GlobalText.TEXTS;
     advancedResearch: boolean = false;
-    displayNoData: boolean = false;
     _timeout: any = null;
     mapperObject = null;
     public newObject: any;
@@ -34,51 +33,40 @@ export class TableBeneficiariesComponent extends TableComponent {
     ngOnInit() {
         super.checkData();
         this.sendSortedData();
-        this.data.loading$
-            .pipe(
-                finalize(
-                    () => {
-                        this.testLoading = false;
-                        this.displayNoData = true;
-                    }
-                )
-            ).subscribe(
-                result => {
-                    if (result != this.testLoading) {
-                        this.testLoading = result;
-                    }
-                }
-            );
-
-        setTimeout(
-            () => {
-                this.displayNoData = true;
-            }, 1000
-        );
-
         this.selectedFilter = this.properties[0];
         this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
         this.mapperObject = this.mapperService.findMapperObject(DistributionData);
     }
+    
+    ngDoCheck() {
+        const interval = window.setInterval(() => {
+            if (this.data.loading == false) {
+                this.testLoading = false;
+                window.clearInterval(interval);
+            }
+        }, 1);
+    }
 
     ngAfterViewInit() {
         if (this.sort) {
-            this.sort.sortChange.subscribe(() => {
-                if (this.sort.direction != 'asc' && this.sort.direction != 'desc')
-                    this.sort.active = ''
+            this.sort.sortChange
+                .subscribe(() => {
+                    if (this.sort.direction != 'asc' && this.sort.direction != 'desc')
+                        this.sort.active = ''
 
-                this.paginator.pageIndex = 0;
-                this.data.loadHouseholds(
-                    this.data.filter,
-                    {
-                        sort: this.sort.active,
-                        direction: this.sort.direction
-                    },
-                    this.paginator.pageIndex,
-                    this.paginator.pageSize,
-                );
+                    this.testLoading = true;
 
-            });
+                    this.paginator.pageIndex = 0;
+                    this.data.loadHouseholds(
+                        this.data.filter,
+                        {
+                            sort: this.sort.active,
+                            direction: this.sort.direction
+                        },
+                        this.paginator.pageIndex,
+                        this.paginator.pageSize,
+                    )
+                });
         }
 
         this.paginator.page

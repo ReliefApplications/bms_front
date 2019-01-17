@@ -77,6 +77,7 @@ export const TEXT = {
     add_beneficiary_step3: 'Members',
     add_beneficiary_title: 'add beneficiary',
     add_beneficiary_code: 'Country code',
+    add_beneficiary_country_specifics: 'Country specifics',
 
     // Add distribution
     add_distribution_advanced_option: 'Advanced options',

@@ -13,10 +13,6 @@ import { tap } from 'rxjs/operators';
 })
 export class TableMobileBeneficiariesComponent extends TableBeneficiariesComponent {
 
-   
-
-
-
     @Output() updating = new EventEmitter<number>();
     @Output() selectedAdm = new EventEmitter<any>();
 

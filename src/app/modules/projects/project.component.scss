@@ -7,10 +7,19 @@
     border-radius: 7px;
     animation: box-right-in 0.3s;
     background-color: $bms_white;
-    }
-    #new-project{
-        color:$bms_dark_blue;
-    }
+    line-height: 0px;
+}
+    
+#add{
+    margin-left: 15px;
+    margin-right:15px;
+    color:$bms_green;
+}
+
+#new-project
+{
+    color:$bms_dark_blue;
+}
  
    
 .button-text-accent {

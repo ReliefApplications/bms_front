@@ -9,9 +9,11 @@
   <app-placeholder-boxline *ngIf="loadingProjects && projects != undefined" class="container-boxes"></app-placeholder-boxline>
   <div class="container-boxes" *ngIf="!loadingProjects">
       <button id="button-add" *ngIf="!loadingCreation && hasRights" (click)="openNewProjectDialog()" >
-                <mat-icon id="add">add</mat-icon>
-                <h3 id="new-project">{{distribution.new | titlecase}}   
-                </h3>
+        <div>
+            <mat-icon id="add">add</mat-icon>
+            <h3 id="new-project">{{distribution.new | titlecase}}   
+            </h3>
+        </div>
       </button>
     <app-box-setting *ngFor="let project of projects" (emitClickedTitle)="selectTitle($event, project)" [selectedTitle]="selectedTitle"
       [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'>
@@ -27,7 +29,6 @@
       </div>
     </div>
   </div>
-
   <app-placeholder-panel class="container-table" *ngIf="loadingDistributions && projects !== undefined && projects != null"></app-placeholder-panel>
   <div class="container-data" *ngIf="!loadingDistributions && projects !== undefined">
     <div class="container-content" *ngIf="isBoxClicked">

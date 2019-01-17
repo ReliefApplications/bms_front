@@ -1,8 +1,8 @@
 <mat-dialog-content class="modal-container">
   <h4 class="modal-title underline-accent stickyHeader">{{modal.modal_language_title}}</h4>
   <div class="modal-table" cdkFocusRegionstart>
-    <span class="language-text">{{modal.modal_language_actual}}</span>
     <div class="select-container">
+      <span class="language-text">{{modal.modal_language_actual}}</span>
       <mat-select [(ngModel)]="language" [formControl]="controls" class="button-flag" (selectionChange)="choseLanguage($event.value)">
         <mat-option *ngFor="let l of languages" [value]="l">
           {{l | titlecase}}

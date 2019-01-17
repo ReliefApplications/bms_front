@@ -41,9 +41,9 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     loadingTransaction: boolean;
     loadingAdd: boolean;
     sampleSize: number; // %
-    extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods / 4.pdf
-    extensionTypeStep3: string; // 1.xls / 2.csv / 3.ods / 4.pdf
-    extensionTypeTransaction: string; // 1.xls / 2.csv / 3.ods / 4.pdf
+    extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods
+    extensionTypeStep3: string; // 1.xls / 2.csv / 3.ods
+    extensionTypeTransaction: string; // 1.xls / 2.csv / 3.ods
 
     // Entities passed to table components.
     beneficiaryEntity = Beneficiaries;
@@ -194,7 +194,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                                 }
                             );
                     }
-                    
+
                     if (this.actualDistribution.validated) {
                         this.getDistributionBeneficiaries('transaction');
                     }

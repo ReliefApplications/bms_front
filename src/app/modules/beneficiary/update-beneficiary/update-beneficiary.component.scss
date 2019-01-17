@@ -63,17 +63,20 @@ app-placeholder-panel {
         justify-content: space-evenly;
         margin: 20px;
         flex-wrap: wrap;
-        align-items: center;
     }
 
-    .lines-phones {
+    .columns-phones {
         justify-content: space-between;
-        margin: 0px;
-        margin-left: 10px;
-        
+
         .items-line {
-            width: 45%;
+            width: 100%;
             justify-content: flex-start;
+            align-items: center;
+            display: flex;
+
+            .phone-number {
+              flex-grow: 1;
+            }
 
             .mat-form-field {
                 width: 40%;
@@ -90,7 +93,7 @@ app-placeholder-panel {
     }
 
     .area-size {
-        width: 100%; 
+        width: 100%;
     }
 
     .info-resume {

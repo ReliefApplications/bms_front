@@ -2,21 +2,23 @@
 
 .content-table {
     display: flex;
-    justify-content: space-around !important;
+    justify-content: space-between;
     flex-direction: row !important;
-    height: 30vh;
+    min-height: 30vh;
 
     .content-drag-and-drop {
         display: flex;
         width: 40%;
-        height: 25vh;
+        min-height: 30vh;
+        margin: 0 auto;
         
         .card-drag-and-drop {
-            width: 100%;
+            width: 80%;
             display: flex;
             justify-content: center;
             flex-direction: column;
             align-items: center;
+            margin: 0 auto;
             
             .img-folder {
                 height: 11vh;
@@ -29,14 +31,6 @@
 .greyed-out {
     background-color: rgba(0,0,0,0.4);
     z-index: 2,
-}
-
-.card-api {
-    height: 100%;
-}
-
-.background-api {
-    height: 55vh;
 }
 
 .importedFile {
@@ -109,14 +103,10 @@
     .content-drag-and-drop {
         display: flex;
         width: 100% !important;
-        height: 30vh !important;
+        margin-top: 5% !important;
         .mat-card {
             margin-bottom: 20px;
         }
-    }
-
-    .content-api {
-        margin-bottom: 10%;
     }
 
     .card-api {
@@ -125,7 +115,4 @@
         flex-direction: row !important;
     }
 
-    .background-api {
-        height: 100%
-    }
 }

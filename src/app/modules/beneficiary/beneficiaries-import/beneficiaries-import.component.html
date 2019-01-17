@@ -85,11 +85,11 @@
   </div>
 
   <div class="container-table" *ngIf="selectedTitle == 'api import'">
-    <div class="container-content box-red background-api">
+    <div class="container-content box-red">
       <div class="content-table">
 
-        <div class="content-drag-and-drop content-api" draggable="true" [ngClass]="dragAreaClass">
-            <mat-card class="card-drag-and-drop card-api">
+        <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
+            <mat-card class="card-drag-and-drop">
               <div>
                 <img class='img-folder' src="assets/images/settings/api.png">
               </div>
@@ -103,10 +103,11 @@
               </div>
           </mat-card>
         </div>
-        <div class="content-drag-and-drop content-api" draggable="true" [ngClass]="dragAreaClass">
-            <mat-card class="card-drag-and-drop card-api" [ngClass]="(isApiDisabled)?'greyed-out' : ''">
+
+        <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
+            <mat-card class="card-drag-and-drop" [ngClass]="(isApiDisabled)?'greyed-out' : ''">
               <div>
-                <img class='img-folder' src="assets/images/projects.png">
+                <img class='img-folder' src="assets/images/locationCode.png">
               </div>
               <div>
                 <div class="content-select">
@@ -115,6 +116,16 @@
                       <input matInput *ngIf="ParamToDisplay.paramType == 'number'" type="number" [formControl]="number" placeholder="{{ ParamToDisplay.paramName }} *">
                     </mat-form-field>
                   </div>
+              </div>
+            </mat-card>
+          </div>
+
+        <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
+            <mat-card class="card-drag-and-drop" [ngClass]="(isApiDisabled)?'greyed-out' : ''">
+              <div>
+                <img class='img-folder' src="assets/images/projects.png">
+              </div>
+              <div>
                 <div class="select-file">
                     <mat-form-field>
                         <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)" [disabled]="isApiDisabled">

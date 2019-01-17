@@ -47,7 +47,6 @@
         <mat-icon *ngIf="!advancedResearch">keyboard_arrow_down</mat-icon>
         <mat-icon *ngIf="advancedResearch">keyboard_arrow_up</mat-icon>
       </button>
-
       <button *ngIf="this.data.filter.length !== 0 " mat-raised-button class="button-text-accent" (click)="clearSearch()">
         <mat-icon>clear</mat-icon>
         {{beneficiary.beneficiaries_clear_all_research | titlecase}}

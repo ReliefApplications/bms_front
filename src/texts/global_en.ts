@@ -37,6 +37,7 @@ export const TEXT = {
     rights: 'Rights',
     save: 'Save',
     settings: 'Settings',
+    summary:'Summary',
     update: 'Update',
 
     // Error
@@ -91,6 +92,7 @@ export const TEXT = {
     add_distribution_male: 'Man',
     add_distribution_missing_commodity: 'A commodity is missing',
     add_distribution_missing_date: 'The date is missing',
+    add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'A selection criterion is missing',
     add_distribution_missing_threshold: 'The minimum selection score\'s value should be greater than 0',
     add_distribution_selection_criteria: 'selection criteria',
@@ -219,6 +221,8 @@ export const TEXT = {
 
     // Import
     import_added: 'Added from existing beneficiaries',
+    import_back_to_beneficiaries: 'Back to Beneficiaries',
+    import_back_to_project: 'Back to Project',
     import_created: 'Newly created',
     import_deleted: 'Will be deleted',
     import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.',

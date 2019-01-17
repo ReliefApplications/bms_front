@@ -41,9 +41,9 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     loadingTransaction: boolean;
     loadingAdd: boolean;
     sampleSize: number; // %
-    extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods / 4.pdf
-    extensionTypeStep3: string; // 1.xls / 2.csv / 3.ods / 4.pdf
-    extensionTypeTransaction: string; // 1.xls / 2.csv / 3.ods / 4.pdf
+    extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods
+    extensionTypeStep3: string; // 1.xls / 2.csv / 3.ods
+    extensionTypeTransaction: string; // 1.xls / 2.csv / 3.ods
 
     // Entities passed to table components.
     beneficiaryEntity = Beneficiaries;
@@ -70,6 +70,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     beneficiaryList = new Array<Beneficiaries>();
     selectedBeneficiaries = new Array<Beneficiaries>();
     target: string = "";
+    selected: boolean = false;
 
     // Stepper forms.
     form1: FormGroup;
@@ -193,7 +194,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                                 }
                             );
                     }
-                    
+
                     if (this.actualDistribution.validated) {
                         this.getDistributionBeneficiaries('transaction');
                     }
@@ -335,6 +336,14 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         )
     }
 
+    fileSelected(event) {
+        if (event) {
+            this.selected = true;
+        }
+        else {
+            this.selected = false;
+        }
+    }
     /**
      * Defines the number of beneficiaries corresponding of the sampleSize percentage
      */

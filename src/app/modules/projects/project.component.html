@@ -51,12 +51,10 @@
               </button>
               <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
               </button>
-              <button mat-menu-item (click)="setType('pdf')"> .pdf <mat-icon *ngIf="extensionType=='pdf'">done</mat-icon>
-              </button>
             </mat-menu>
           </div>
         </div>
-        <h3>{{ distribution.distributions }}</h3>
+        <h3 *ngIf="distributionData && distributionData.data.length > 0">{{ distribution.distributions }}</h3>
         <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button-create">
           <mat-icon>add</mat-icon>
           {{distribution.add | titlecase}}

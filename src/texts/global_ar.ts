@@ -37,6 +37,7 @@ export const TEXT = {
     rights: 'الحقوق',
     save: 'حفظ',
     settings: 'الإعدادات',
+    summary:'Summary',
     update: 'تحديث',
 
     // Error
@@ -91,6 +92,7 @@ export const TEXT = {
     add_distribution_male: 'الرجل',
     add_distribution_missing_commodity: 'سلعة مفقودة',
     add_distribution_missing_date: 'التاريخ مفقود',
+    add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'معيار الاختيار مفقود',
     add_distribution_missing_threshold: 'يجب أن تكون قيمة الحد الفاصل أكبر من 0',
     add_distribution_selection_criteria: 'معيار الاختيار',
@@ -216,6 +218,8 @@ export const TEXT = {
 
     // Import
     import_added: 'تم إضافتها',
+    import_back_to_beneficiaries: 'Back to Beneficiaries',
+    import_back_to_project: 'Back to Project',
     import_created: 'تم إنشاؤها',
     import_deleted: 'تم حذفها',
     import_description: 'قم باستيراد الملف الذي يحتوي على التوزيع المعدّل. سيتم تحديث قاعدة البيانات بقائمة المستفيدين الجديدة لهذا التوزيع عندما تنقر على ""تحديث"" بعد الاستيراد.',

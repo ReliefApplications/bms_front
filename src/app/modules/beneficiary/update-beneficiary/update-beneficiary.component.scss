@@ -63,10 +63,34 @@ app-placeholder-panel {
         justify-content: space-evenly;
         margin: 20px;
         flex-wrap: wrap;
+        align-items: center;
+    }
 
-        .mat-form-field {
-            width: 80%;
+    .lines-phones {
+        justify-content: space-between;
+        margin: 0px;
+        margin-left: 10px;
+        
+        .items-line {
+            width: 45%;
+            justify-content: flex-start;
+
+            .mat-form-field {
+                width: 40%;
+            }
+
+            .mat-form-field:first-child {
+                margin-right: 15px;
+            }
         }
+    }
+
+    .textarea-input {
+        width: 80%;
+    }
+
+    .area-size {
+        width: 100%; 
     }
 
     .info-resume {

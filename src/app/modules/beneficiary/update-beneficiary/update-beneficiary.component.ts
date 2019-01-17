@@ -336,16 +336,22 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                                 id_type: element.national_id.type,
                             }
                         )
-                    if (element.phone.number && element.phone.type)
-                        beneficiary.phones.push(
-                            {
-                                id: undefined,
-                                number: element.phone.number,
-                                type: element.phone.type,
-                                proxy: element.phone.proxy,
-                                prefix: element.phone.code ? element.phone.code.split('- ')[1] : undefined
+
+                    element.phone.forEach(
+                        element => {
+                            if (element.number) {
+                                beneficiary.phones.push(
+                                    {
+                                        id: undefined,
+                                        number: element.number,
+                                        type: element.type,
+                                        proxy: element.proxy,
+                                        prefix: element.code ? element.code.split('- ')[1] : undefined
+                                    }
+                                )
                             }
-                        )
+                        }
+                    )
                     if (this.originalHousehold)
                         this.originalHousehold.beneficiaries.forEach(
                             element => {
@@ -439,12 +445,20 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 number: '',
                 type: 'card'
             },
-            phone: {
-                code: this.countryCodesList[this.getUserPhoneCode(beneficiary)],
-                number: '',
-                type: 'Mobile',
-                proxy: false
-            },
+            phone: [
+                {
+                    code: this.countryCodesList[this.getUserPhoneCode()],
+                    number: '',
+                    type: 'Mobile',
+                    proxy: false
+                },
+                {
+                    code: this.countryCodesList[this.getUserPhoneCode()],
+                    number: '',
+                    type: 'Landline',
+                    proxy: false
+                }
+            ],
             vulnerabilities: []
         };
 
@@ -470,10 +484,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             formatedBeneficiary.national_id.type = beneficiary.national_ids[0].id_type;
         }
 
-        if (beneficiary && beneficiary.phones[0]) {
-            formatedBeneficiary.phone.number = beneficiary.phones[0].number;
-            formatedBeneficiary.phone.type = beneficiary.phones[0].type;
-            formatedBeneficiary.phone.proxy = beneficiary.phones[0].proxy;
+        if (beneficiary && beneficiary.phones) {
+            beneficiary.phones.forEach((phone, i) => {
+                formatedBeneficiary.phone[i].number = phone.number;
+                formatedBeneficiary.phone[i].type = phone.type;
+                formatedBeneficiary.phone[i].proxy = phone.proxy;
+                formatedBeneficiary.phone[i].code = this.countryCodesList[this.getUserPhoneCode(phone.prefix)];
+            });
         }
 
         this.vulnerabilityList.forEach(
@@ -534,7 +551,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Call backend to create a new household with filled data.
      */
     create() {
+        if (this.updatedHousehold.projects.length == 0) {
+            this.snackBar.open('You must select at least one project', '', { duration: 5000, horizontalPosition: 'center' });
+            return;
+        }
+        
         let body = this.formatHouseholdForApi();
+        
         let selectedProjectsIds = new Array<string>();
         this.updatedHousehold.projects.forEach(
             project => {
@@ -567,7 +590,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Call backend to update the selected household with filled data.
      */
     update() {
+        if (this.updatedHousehold.projects.length == 0) {
+            this.snackBar.open('You must select at least one project', '', { duration: 5000, horizontalPosition: 'center' });
+            return;
+        }
+
         let body = this.formatHouseholdForApi();
+
         let selectedProjectsIds = new Array<string>();
         this.updatedHousehold.projects.forEach(
             project => {
@@ -612,8 +641,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
             if (!hh.location.adm1) {
                 message = 'You must select a location';
-            } else if (!hh.projects[0]) {
-                message = 'You must select at least one project';
             } else if (!hh.address_number) {
                 message = 'You must enter an address number';
             } else if (!hh.address_postcode) {
@@ -639,10 +666,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 message = 'You must select a gender';
             } else if (head.phone.number && isNaN(Number(head.phone.number))) {
                 message = 'Phone can only be composed by digits';
-            } else if (!head.phone.number || head.phone.number === '') {
-                message = 'Please insert the head phone number';
-            }
-            else if (head.phone.number && head.phone.code && !this.elementExists(head.phone.code, this.countryCodesList)) {
+            } else if (head.phone.number && head.phone.code && !this.elementExists(head.phone.code, this.countryCodesList)) {
                 message = 'Please select an existing country code from the list';
             } else if ((head.phone.number && !head.phone.code) || (head.phone.number && head.phone.code === '')) {
                 message = 'Please select a country code for the phone number';
@@ -884,12 +908,18 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     getUserPhoneCode(beneficiary?: any) {
 
         if (this.countryISO3) {
+            if (beneficiary && typeof beneficiary == "string") {
+                return this.countryCodesList.findIndex(element => {
+                    return element.split('- ')[1] === beneficiary;
+                });
+            }
+
             if (beneficiary) {
                 const phone = beneficiary.phones.filter(element => { return element.type === 'Mobile' });
 
                 if (phone.length > 0) {
                     return this.countryCodesList.findIndex(element => {
-                        return element.split('- ')[1] === phone[0].prefix
+                        return element.split('- ')[1] === phone[0].prefix;
                     });
                 }
                 else {
@@ -904,7 +934,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     + '+' + this.CodesMethods.getCountryCodeForRegion(phoneCode);
 
                 return this.countryCodesList.findIndex(element => {
-                    return element === phoneCode
+                    return element === phoneCode;
                 });
             }
         } else {

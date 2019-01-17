@@ -88,8 +88,8 @@
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <div class="lign-container">
-                                <mat-form-field>
+                            <div class="lign-container textarea-input">
+                                <mat-form-field class="area-size">
                                     <textarea matInput matTextareaAutosize="true" matAutosizeMinRows="5"
                                         matAutosizeMaxRows="5" placeholder={{Text.model_notes}} [(ngModel)]="updatedHousehold.notes"
                                         #Notes></textarea>
@@ -167,36 +167,54 @@
                                         [(ngModel)]="updatedHousehold.beneficiaries[0].national_id.number">
                                 </mat-form-field>
                             </div>
-                            <div class="column-container">
-                                <mat-form-field>
-                                    <mat-select placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone.type">
-                                        <mat-option *ngFor="let type of typePhoneList" [value]="type">
-                                            {{type}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <div class="combo">
-                                    <!-- <mat-form-field>
-                                        <input matInput type="tel-country-code" [(ngModel)]="updatedHousehold.beneficiaries[0].phone.code" placeholder="Code"
-                                        [matAutocomplete]="autoCountry" (input)="reloadCountryCodes(0)" required>
-                                        <mat-autocomplete #autoCountry="matAutocomplete">
-                                            <mat-option *ngFor="let choice of filteredCountryCodesList" [value]="choice">
-                                                {{choice}}
-                                            </mat-option>
-                                        </mat-autocomplete>
-                                    </mat-form-field> -->
+                            <div class="lign-container lines-phones">
+                                <div class="items-line">
                                     <mat-form-field>
-                                        <mat-select [(ngModel)]="updatedHousehold.beneficiaries[0].phone.code"
-                                            placeholder="{{Text.add_beneficiary_code}}*">
+                                        <mat-select placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].type">
+                                            <mat-option *ngFor="let type of typePhoneList" [value]="type">
+                                                {{type}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
+                                </div>
+
+                                <div class="items-line">
+                                    <mat-form-field>
+                                        <mat-select placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].type">
+                                            <mat-option *ngFor="let type of typePhoneList" [value]="type">
+                                                {{type}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
+                                </div>
+                            </div>
+                            <div class="lign-container lines-phones">
+                                <div class="items-line">
+                                    <mat-form-field>
+                                        <mat-select [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].code"
+                                            placeholder="{{Text.add_beneficiary_code}}">
                                             <mat-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
-
                                     <mat-form-field>
                                         <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}}
-                                            [(ngModel)]="updatedHousehold.beneficiaries[0].phone.number" required>
+                                            [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].number">
                                     </mat-form-field>
-                                    <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[0].phone.proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
+                                </div>
+
+                                <div class="items-line">
+                                    <mat-form-field>
+                                        <mat-select [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].code"
+                                            placeholder="{{Text.add_beneficiary_code}}">
+                                            <mat-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}}
+                                            [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].number">
+                                    </mat-form-field>
                                 </div>
                             </div>
                             <div class="lign-container">
@@ -286,26 +304,36 @@
                                             [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].national_id.number">
                                     </mat-form-field>
                                 </div>
-                                <div class="column-container">
-                                    <mat-form-field>
-                                        <mat-select placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.type">
-                                            <mat-option *ngFor="let type of typePhoneList" [value]="type">
-                                                {{type}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                    <div class="combo">
-                                        <!-- <mat-form-field>
-                                                <input matInput type="tel-country-code" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.code" placeholder="Code"
-                                                [matAutocomplete]="autoCountry" (input)="reloadCountryCodes(memberIndex)">
-                                                <mat-autocomplete #autoCountry="matAutocomplete">
-                                                    <mat-option *ngFor="let choice of filteredCountryCodesList" [value]="choice">
-                                                        {{choice}}
-                                                    </mat-option>
-                                                </mat-autocomplete>
-                                            </mat-form-field> -->
+                                <div class="lign-container lines-phones">
+                                    <div class="items-line">
                                         <mat-form-field>
-                                            <mat-select [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.code"
+                                            <mat-select placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].type">
+                                                <mat-option *ngFor="let type of typePhoneList" [value]="type">
+                                                    {{type}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                        <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
+                                    </div>
+
+                                    <div class="items-line">
+                                        <mat-form-field>
+                                            <mat-select placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].type">
+                                                <mat-option *ngFor="let type of typePhoneList" [value]="type">
+                                                    {{type}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                        <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
+                                    </div>
+                                </div>
+
+                                <div class="lign-container lines-phones">
+                                    <div class="items-line">
+                                        <mat-form-field>
+                                            <mat-select [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].code"
                                                 placeholder="{{Text.add_beneficiary_code}}">
                                                 <mat-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</mat-option>
                                             </mat-select>
@@ -313,9 +341,22 @@
 
                                         <mat-form-field>
                                             <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}}
-                                                [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.number">
+                                                [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].number">
                                         </mat-form-field>
-                                        <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone.proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
+                                    </div>
+
+                                    <div class="items-line">
+                                        <mat-form-field>
+                                            <mat-select [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].code"
+                                                placeholder="{{Text.add_beneficiary_code}}">
+                                                <mat-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                        <mat-form-field>
+                                            <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}}
+                                                [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].number">
+                                        </mat-form-field>
                                     </div>
                                 </div>
                                 <div class="lign-container">

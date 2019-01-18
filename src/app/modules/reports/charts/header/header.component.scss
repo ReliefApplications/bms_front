@@ -51,8 +51,8 @@ $chart_titleSub_fontSize : 15px;
 
 .titleLoader{
   display: flex;
-  background-color: black;
-  color: black;
+  background-color: $bms_black;
+  color: $bms_black;
   opacity: 0.2;
   font-weight: bold;
   height: 30%;
@@ -79,7 +79,7 @@ $chart_titleSub_fontSize : 15px;
 
   .icon{
     background-color: $bms_red;
-    color: white;
+    color: $bms_white;
     border-radius: 3px;
     text-align: center;
     padding: 5px 15px 5px 15px;
@@ -111,7 +111,7 @@ $chart_titleSub_fontSize : 15px;
   visibility: hidden;
   width: 100%;
   background-color: $bms_red;
-  color: #fff;
+  color: $bms_white;
   padding: 5px;
   border-radius: 3px;
 
@@ -132,6 +132,6 @@ $chart_titleSub_fontSize : 15px;
 
 .subtitle{
   font-weight: bold;
-  color: black;
+  color: $bms_black;
   font-size: $chart_titleSub_fontSize;
 }

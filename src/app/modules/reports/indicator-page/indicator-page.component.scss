@@ -46,7 +46,7 @@ app-placeholder-panel {
 }
 
 .chartLoader{
-  background-color: black;
+  background-color: $bms_black;
   opacity: 0.2;
   animation: wave 2s ease-in-out 0s infinite;
 }
@@ -83,7 +83,7 @@ app-placeholder-panel {
   font-family: Lato,Helvetica,Arial,sans-serif;
   visibility: hidden;
   background-color: $bms_red;
-  color: #fff;
+  color: $bms_white;
   padding: 5px;
   border-radius: 3px;
 
@@ -115,8 +115,8 @@ app-placeholder-panel {
 
   h1{
     display: flex;
-    background-color: black;
-    color: black;
+    background-color: $bms_black;
+    color: $bms_black;
     opacity: 0.2;
     width: 30%;
     font-weight: bold;
@@ -126,8 +126,8 @@ app-placeholder-panel {
 
   h2{
     display: flex;
-    background-color: black;
-    color: black;
+    background-color: $bms_black;
+    color: $bms_black;
     opacity: 0.2;
     width: 20%;
     font-weight: bold;
@@ -207,26 +207,26 @@ button-filter-date{
 }
 
 .ng-select.custom ::ng-deep .ng-select-container .ng-value-container .ng-value {
-  background-color: #424242;
+  background-color: $bms_dark_grey;
 }
 
 .ng-select-focused ::ng-deep {
   .ng-select-container::after {
-      border-color: #424242;
+      border-color: $bms_dark_grey;
       border-width: 2px;
   }
 }
 
 .ng-select-focused ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
-  color: #424242;
+  color: $bms_dark_grey;
 }
 
 .ng-select-focused ::ng-deep .ng-arrow {
-  color: #424242 !important;
+  color: $bms_dark_grey !important;
 }
 
 .ng-select-opened ::ng-deep .ng-option-selected {
-  color: #424242 !important;
+  color: $bms_dark_grey !important;
 }
 
 

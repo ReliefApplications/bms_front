@@ -34,14 +34,11 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions | titlecase }}</th>
                 <td mat-cell class="content-cell" *matCellDef="let element">
-                    <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green"
+                    <button mat-icon-button class="green" (click)="openDialog('update', element); $event.stopPropagation()"
                         [matTooltip]="table.details">
                         <mat-icon>search</mat-icon>
                     </button>
-                    <button *ngIf="editable && checkEntityUpdateRights()" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()"
-                        [matTooltip]="table.update" class="light-red">
-                        <mat-icon>edit</mat-icon>
-                    </button>
+                  
                     <button *ngIf="editable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
                         [matTooltip]="table.delete" class="red">
                         <mat-icon>delete_outline</mat-icon>

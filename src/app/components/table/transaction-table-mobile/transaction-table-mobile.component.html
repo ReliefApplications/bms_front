@@ -36,10 +36,6 @@
                 <button mat-button class="green" (click)="openDialog('update', element); $event.stopPropagation()">
                     <mat-icon inline=true>search</mat-icon>
                 </button>
-                <button mat-button *ngIf="editable && checkEntityUpdateRights()" (click)="openDialog('details', element); $event.stopPropagation()"
-                    class="light-red">
-                    <mat-icon inline=true>edit</mat-icon>
-                </button>
                 <button mat-button *ngIf="editable" (click)="openDialog('delete', element); $event.stopPropagation()"
                     class="red">
                     <mat-icon inline=true>close</mat-icon>

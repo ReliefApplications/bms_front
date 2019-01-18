@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, TemplateRef } from '@angular/core';
 import { GlobalText } from '../../../../texts/global';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
@@ -17,6 +17,7 @@ import { UserService } from 'src/app/core/api/user.service';
 import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
+import { NetworkService } from 'src/app/core/api/network.service';
 
 @Component({
     selector: 'app-distributions',
@@ -38,10 +39,11 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     loadingThirdStep: boolean;
     loadingFinalStep: boolean;
     loadingTransaction: boolean;
+    loadingAdd: boolean;
     sampleSize: number; // %
-    extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods / 4.pdf
-    extensionTypeStep3: string; // 1.xls / 2.csv / 3.ods / 4.pdf
-    extensionTypeTransaction: string; // 1.xls / 2.csv / 3.ods / 4.pdf
+    extensionTypeStep1: string; // 1.xls / 2.csv / 3.ods
+    extensionTypeStep3: string; // 1.xls / 2.csv / 3.ods
+    extensionTypeTransaction: string; // 1.xls / 2.csv / 3.ods
 
     // Entities passed to table components.
     beneficiaryEntity = Beneficiaries;
@@ -68,6 +70,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     beneficiaryList = new Array<Beneficiaries>();
     selectedBeneficiaries = new Array<Beneficiaries>();
     target: string = "";
+    selected: boolean = false;
 
     // Stepper forms.
     form1: FormGroup;
@@ -85,10 +88,12 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     hasRights: boolean = false;
     hasRightsTransaction: boolean = false;
     loaderValidation: boolean = false;
+    loaderCache: boolean = false;
 
     interval: any;
     correctCode: boolean = false;
     progression: number;
+    hideSnack: boolean = false;
 
     constructor(
         public distributionService: DistributionService,
@@ -100,6 +105,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         public snackBar: MatSnackBar,
         public mapperService: Mapper,
         private dialog: MatDialog,
+        private networkService: NetworkService,
     ) {
         this.route.params.subscribe(params => this.distributionId = params.id);
     }
@@ -174,22 +180,21 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
             .subscribe(
                 result => { // Get from Back
                     this.actualDistribution = result;
-                    if (!this.actualDistribution) {
-                        // console.log('fail');
-                        // // Particular case to search in cache distribution list if there is no api response.
-                        // this.cacheService.get(AsyncacheService.DISTRIBUTIONS)
-                        // .subscribe(
-                        //     (result: any[]) => {
-                        //         if(result) {
-                        //             result.forEach( element => {
-                        //                 if(element.id === this.distributionId) {
-                        //                     this.actualDistribution = element;
-                        //                 }
-                        //             });
-                        //         }
-                        //     }
-                        // );
+
+                    if (Object.keys(this.actualDistribution).length == 0) {
+                        this.cacheService.get(AsyncacheService.DISTRIBUTIONS + "_" + this.distributionId + "_beneficiaries")
+                            .subscribe(
+                                result => {
+                                    if (result) {
+                                        this.actualDistribution = result;
+
+                                        if (this.actualDistribution.validated)
+                                            this.getDistributionBeneficiaries('transaction');
+                                    }
+                                }
+                            );
                     }
+
                     if (this.actualDistribution.validated) {
                         this.getDistributionBeneficiaries('transaction');
                     }
@@ -217,7 +222,12 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         this.distributionService.getBeneficiaries(this.distributionId)
             .subscribe(
                 response => {
-                    const data = response;
+                    let data = response;
+
+                    if (data && data.id) {
+                        this.actualDistribution = data;
+                        data = data.distribution_beneficiaries;
+                    }
 
                     if (type === 'initial') {
                         // Step 1 table
@@ -266,7 +276,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      */
     getProjectBeneficiaries() {
         let allBeneficiaries;
-
+        this.loadingAdd = true;
         let entityInstance = Object.create(this.distributionEntity.prototype);
         entityInstance.constructor.apply(entityInstance);
         this.target = entityInstance.getMapperBox(this.actualDistribution).type;
@@ -274,11 +284,20 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         this.beneficiariesService.getAllFromProject(this.actualDistribution.project.id, this.target)
             .subscribe(
                 result => {
+                    this.loadingAdd = false;
                     allBeneficiaries = result;
                     if (allBeneficiaries) {
                         this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
                     } else {
-                        // console.log('beneficiaires List is empty');
+                        this.cacheService.get(AsyncacheService.PROJECTS + "_" + this.actualDistribution.project.id + "_beneficiaries")
+                            .subscribe(
+                                beneficiaries => {
+                                    if (beneficiaries) {
+                                        allBeneficiaries = beneficiaries;
+                                        this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
+                                    }
+                                }
+                            );
                     }
                 }
             );
@@ -317,6 +336,14 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         )
     }
 
+    fileSelected(event) {
+        if (event) {
+            this.selected = true;
+        }
+        else {
+            this.selected = false;
+        }
+    }
     /**
      * Defines the number of beneficiaries corresponding of the sampleSize percentage
      */
@@ -387,7 +414,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      * @param template
      */
     openDialog(template) {
-        this.dialog.open(template);
+            this.dialog.open(template);
     }
 
     /**
@@ -404,6 +431,15 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                             this.snackBar.open(this.TEXT.distribution_validated, '', { duration: 5000, horizontalPosition: 'center' });
                             this.validateActualDistributionInCache();
                             this.getDistributionBeneficiaries('transaction');
+                            this.cacheService.get(AsyncacheService.DISTRIBUTIONS + "_" + this.actualDistribution.id + "_beneficiaries")
+                                .subscribe(
+                                    result => {
+                                        if (result) {
+                                            this.hideSnack = true;
+                                            this.storeBeneficiaries();
+                                        }
+                                    }
+                                );
                             this.loaderValidation = false;
                             // TODO : Check if phone number exists for all head of households.
                         },
@@ -623,14 +659,18 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         this.beneficiariesService.add(this.distributionId, beneficiariesArray)
             .subscribe(
                 success => {
-                    this.distributionService.getBeneficiaries(this.distributionId)
-                        .subscribe(
-                            response => {
-                                this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(response));
-                            }
-                        );
-                    this.snackBar.open(this.TEXT.distribution_beneficiary_added, '', { duration: 5000, horizontalPosition: 'center' });
-                    this.getDistributionBeneficiaries('final');
+                    if (this.networkService.getStatus()) {
+                        this.distributionService.getBeneficiaries(this.distributionId)
+                            .subscribe(
+                                response => {
+                                    if (response) {
+                                        this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(response));
+                                    }
+                                }
+                            );
+                        this.snackBar.open(this.TEXT.distribution_beneficiary_added, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.getDistributionBeneficiaries('final');
+                    }
                 },
                 error => {
                     // console.log('cc', this.selectedBeneficiaries);
@@ -737,5 +777,53 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                 }
             }
         )
+    }
+
+    /**
+     * Store beneficiaries of the distribution in the cache
+     */
+    storeBeneficiaries() {
+        this.loaderCache = true;
+
+        let project = this.actualDistribution.project;
+
+        this.actualDistribution.distribution_beneficiaries.forEach((element, i) => {
+            element.beneficiary = this.initialBeneficiaryData.data[i];
+        });
+        let distribution = this.actualDistribution;
+
+        let allBeneficiaries;
+
+        let entityInstance = Object.create(this.distributionEntity.prototype);
+        entityInstance.constructor.apply(entityInstance);
+        this.target = entityInstance.getMapperBox(this.actualDistribution).type;
+
+        this.beneficiariesService.getAllFromProject(this.actualDistribution.project.id, this.target)
+            .subscribe(
+                result => {
+                    allBeneficiaries = result;
+                    if (allBeneficiaries) {
+                        this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
+                        this.cacheService.storeBeneficiaries(project, distribution, this.beneficiaryList)
+                            .pipe(
+                                finalize(
+                                    () => {
+                                        this.loaderCache = false;
+                                    }
+                                )
+                            )
+                            .subscribe(
+                                () => {
+                                    //Data added in cache
+                                    if (!this.hideSnack)
+                                        this.snackBar.open(this.TEXT.cache_distribution_added, '', { duration: 5000, horizontalPosition: 'center' });
+
+                                    this.hideSnack = false;
+                                }
+                            );
+
+                    }
+                }
+            );
     }
 }

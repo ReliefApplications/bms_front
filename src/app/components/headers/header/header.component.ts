@@ -121,9 +121,7 @@ export class HeaderComponent implements OnInit {
     }
 
     autoLanguage(c: string) {
-        if (this.userData.language) {
-            GlobalText.changeLanguage(this.userData.language)
-        } else {
+        if (!this.userData.language) {
             if(c === "SYR") {
                 GlobalText.changeLanguage('ar');
             } else if(c === "KHM") {
@@ -212,7 +210,7 @@ export class HeaderComponent implements OnInit {
 
         if (user_action == 'language') {
             dialogRef = this.dialog.open(ModalLanguageComponent, {
-                width: "40%",
+                width: "55%",
             });
         }
 

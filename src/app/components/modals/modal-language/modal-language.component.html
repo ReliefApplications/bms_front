@@ -1,18 +1,18 @@
-<div class="modal-container">
+<mat-dialog-content class="modal-container">
   <h4 class="modal-title underline-accent stickyHeader">{{modal.modal_language_title}}</h4>
   <div class="modal-table" cdkFocusRegionstart>
-    <span class="language-text">{{modal.modal_language_actual}}</span>
     <div class="select-container">
-      <mat-select [(ngModel)]="language" [formControl]="controls" class="button-flag">
+      <span class="language-text">{{modal.modal_language_actual}}</span>
+      <mat-select [(ngModel)]="language" [formControl]="controls" class="button-flag" (selectionChange)="choseLanguage($event.value)">
         <mat-option *ngFor="let l of languages" [value]="l">
           {{l | titlecase}}
         </mat-option>
       </mat-select>
     </div>
-    <mat-checkbox color="primary" (click)="saveDefault()">{{ modal.modal_save_language_as_default }}</mat-checkbox>
+    <mat-checkbox color="primary" [checked]="default" (click)="saveDefault()">{{ modal.modal_save_language_as_default }}</mat-checkbox>
   </div>
   <div class="modal-button action-buttons stickyFooter">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.close}}</button>
     <button mat-raised-button (click)="save()" class="button-background-accent">{{modal.save}}</button>
   </div>
-</div>
+</mat-dialog-content>

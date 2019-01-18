@@ -308,7 +308,7 @@ export class Project {
         if (element.donors_name) {
             element.donors_name.forEach(donor => {
                 const newDonor = new Donor();
-                newDonor.id = parseInt(donor, 10);
+                newDonor.id = parseInt(donor.id, 10);
                 project.donors.push(new Donor(newDonor));
             });
         } else {

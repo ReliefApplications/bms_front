@@ -2,31 +2,27 @@
 @import "./assets/css/classes.scss";
 @import "./assets/css/animations.scss";
 @import "~@ng-select/ng-select/themes/material.theme.css";
-
 // THEME
 @import '~@angular/material/theming';
-
 @include mat-core();
-
 $candy-app-primary: mat-palette($mat-gray, 800);
-$candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
-
+$candy-app-accent: mat-palette($mat-pink, A200, A100, A400);
 $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
-
 @include angular-material-theme($candy-app-theme);
-
 
 body {
   font-family: 'Roboto', sans-serif;
   background-color: $bms_grey !important;
 }
-
+@media (pointer: coarse) {
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+}
 // Override Leaflet theme
-
 .leaflet-control-attribution.leaflet-control {
   display: none !important;
 }
-
 // Override Material theme
 .mat-stepper-horizontal {
   background-color: $bms_grey !important;
@@ -51,34 +47,52 @@ body {
 }
 
 .mat-progress-bar {
-    display: none !important;
+  display: none !important;
 }
 
 .mat-sidenav-content {
-    width: 100vw !important;
-    box-sizing: border-box;
-    overflow-x: hidden !important;
+  width: 100vw !important;
+  box-sizing: border-box;
+  overflow-x: hidden !important;
 }
 
 .mat-dialog-container {
   background-color: $bms_white;
 }
 
+.mat-sort-header-container {
+  justify-content: center;
+}
+
+@media only screen and (min-width: 750px) {
+  .cdk-global-overlay-wrapper > .cdk-overlay-pane {
+    width: 60vw !important;
+    max-width: 60vw !important;
+    display: flex;
+    justify-content: center;
+  }
+}
+
 @media only screen and (max-width: 750px) {
   .mat-stepper-horizontal {
     width: 100%;
   }
+
   .mat-horizontal-stepper-header-container {
     display: none !important;
   }
 
   .mat-progress-bar {
-      display: block !important;
-      margin-top: 1em;
-      margin-bottom: 1em;
+    display: block !important;
+    margin-top: 1em;
+    margin-bottom: 1em;
   }
 
   .mat-dialog-container {
     width: 80vw !important;
+  }
+
+  .mat-checkbox-layout {
+    white-space: normal !important;
   }
 }

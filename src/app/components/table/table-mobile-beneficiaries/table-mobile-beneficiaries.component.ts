@@ -9,13 +9,9 @@ import { tap } from 'rxjs/operators';
 @Component({
     selector: 'app-table-mobile-beneficiaries',
     templateUrl: './table-mobile-beneficiaries.component.html',
-    styleUrls: ['../table-mobile/table-mobile.component.scss']
+    styleUrls: ['../table-mobile/table-mobile.component.scss', './table-mobile-beneficiaries.component.scss']
 })
 export class TableMobileBeneficiariesComponent extends TableBeneficiariesComponent {
-
-   
-
-
 
     @Output() updating = new EventEmitter<number>();
     @Output() selectedAdm = new EventEmitter<any>();
@@ -61,7 +57,7 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
     update(selectedBeneficiary: Beneficiaries) {
         this.updating.emit(selectedBeneficiary.id);
     }
-    
+
     selected(index) {
         if (index == 'adm1') {
             if (this.newObject.adm1 == null)
@@ -92,9 +88,9 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
             this.project='';
             this.vulnerability='';
             this.keyWords='';
-            this.applyFilter('', 'vulnerabilities') ; 
-            this.applyFilter('', 'familyName'); 
-            this.applyFilter('', 'projects');   
+            this.applyFilter('', 'vulnerabilities') ;
+            this.applyFilter('', 'familyName');
+            this.applyFilter('', 'projects');
             this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
             this.sendSortedData();
         }

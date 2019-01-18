@@ -6,8 +6,8 @@
     <app-placeholder-boxline *ngIf="indicatorsLoading" class="container-boxes"></app-placeholder-boxline>
     <div *ngIf="!indicatorsLoading">
         <!-- button to change view (viewcountry, project or distribution) -->
-        <button-filter-items [id]="'bms'" [page]="'reporting'" (emitFilter)="onFilter($event)"
-            [data]="dataFilter2" [referenceKey]="'bms_search'"></button-filter-items>
+        <button-filter-items [id]="'bms'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter2"
+            [referenceKey]="'bms_search'"></button-filter-items>
     </div>
 
     <app-placeholder-panel class="container-table" *ngIf="indicatorsLoading"></app-placeholder-panel>
@@ -17,13 +17,13 @@
 
                 <!-- button to filter data by frequency -->
                 <div class="frequency">
-                    <button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1"
-                        [referenceKey]="'frequency'"></button-filter-date>
+                    <mat-spinner *ngIf="isDownloading" [diameter]="35"></mat-spinner>
+                    <button *ngIf="!isDownloading" mat-raised-button class="button-background-primary" (click)="downloadPDF()"><mat-icon>get_app</mat-icon></button>
                 </div>
 
                 <div class="frequency">
-                    <mat-spinner *ngIf="isDownloading" [diameter]="35"></mat-spinner>
-                    <button *ngIf="!isDownloading" mat-raised-button class="button-background-primary" (click)="downloadPDF()"><mat-icon>get_app</mat-icon></button>
+                    <button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1"
+                        [referenceKey]="'frequency'"></button-filter-date>
                 </div>
             </div>
 
@@ -50,11 +50,10 @@
             <!-- selector for project when we click on button "project report" -->
             <div class="content-select" *ngIf="type == 'Project'">
                 <mat-card>
-                    <mat-form-field>
-                        <mat-select placeholder="Projects" multiple (selectionChange)="getProjectSelected($event)">
-                            <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                    <ng-select class="custom" [(ngModel)]="selectedBeneficiaries" bindLabel="name" [items]="projectList"
+                        [multiple]="true" placeholder="{{indicator.projects}}" [closeOnSelect]="false" [searchable]="true"
+                        [ngModelOptions]="{standalone: true}" (selectionChange)="getProjectSelected($event)" required>
+                    </ng-select>
                 </mat-card>
             </div>
 
@@ -66,12 +65,12 @@
                             <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field *ngIf="type == 'Distribution'">
-                        <mat-select placeholder="Distributions" multiple (selectionChange)="getDistributionSelected($event)">
-                            <mat-option *ngFor="let distribution of distributionList" [value]="distribution"
-                                #selectorDistribution>{{distribution}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+
+                    <ng-select class="custom" *ngIf="type == 'Distribution'" bindLabel="name" [items]="distributionList"
+                        [multiple]="true" placeholder="{{indicator.distributions}}" [closeOnSelect]="false"
+                        [searchable]="true" (selectionChange)="getDistributionSelected($event)" #selectorDistribution
+                        required>
+                    </ng-select>
                 </mat-card>
             </div>
 

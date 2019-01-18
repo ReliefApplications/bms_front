@@ -14,7 +14,7 @@
     <div *ngIf="filled && data">
         <table *ngFor="let element of data._renderData._value" class="box-element">
             <tbody>
-                <tr *ngFor="let property of properties" routerLink="/projects/distributions/{{element.id}}" class="cursor-pointer">
+                <tr *ngFor="let property of properties" (click)=goToDistribution(element.id) class="cursor-pointer">
                     <td class="element-value">
                         <span> {{mapperService.mapTitle(property)}}</span>
                     </td>
@@ -34,10 +34,10 @@
             </tbody>
             <tfoot>
                 <div class="validated-distribution" *ngIf="element.validated">
-                    <button mat-icon-button class="green" *ngIf="element.finished" routerLink="/projects/distributions/{{element.id}}">
+                    <button mat-icon-button class="green" *ngIf="element.finished" (click)=goToDistribution(element.id)>
                         <mat-icon>done</mat-icon>
                     </button>
-                    <button mat-icon-button class="red" *ngIf="!element.finished" routerLink="/projects/distributions/{{element.id}}">
+                    <button mat-icon-button class="red" *ngIf="!element.finished" (click)=goToDistribution(element.id)>
                         <mat-icon>lock</mat-icon>
                     </button>
                 </div>
@@ -45,7 +45,7 @@
                     <mat-icon inline=true>search</mat-icon>
                 </button>
                 <button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rightsEdit"
-                    mat-button class="light-red" routerLink="/projects/distributions/{{element.id}}">
+                    mat-button class="light-red" (click)=goToDistribution(element.id)>
                     <mat-icon inline=true>edit</mat-icon>
                 </button>
                 <button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rights"

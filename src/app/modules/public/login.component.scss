@@ -1,11 +1,11 @@
-@import '../../../assets/css/variable.scss'; 
+@import '../../../assets/css/variable.scss';
 
 .container-box{
     height:100%;
     width: 100%;
 
     .box-image{
-        background-image: url('../../../assets/images/login_page.jpg');        
+        background-image: url('../../../assets/images/login_page.jpg');
         background-repeat: no-repeat;
         background-size: cover;
         overflow: hidden;
@@ -88,20 +88,6 @@
                 border-radius : 5px;
                 justify-content: center;
                 padding: 5px;
-
-                .button-login{
-                    width: 25%;
-                    height : 40px;
-                    background-color: $bms_green;
-                    color: $bms_grey;
-                    border-radius: 5px;
-                    border:none;
-
-                    &:hover{
-                        background-color: $bms_dark_grey;
-                        cursor: pointer;
-                    }
-                }
             }
         }
     }

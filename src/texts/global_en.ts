@@ -37,6 +37,7 @@ export const TEXT = {
     rights: 'Rights',
     save: 'Save',
     settings: 'Settings',
+    summary:'Summary',
     update: 'Update',
 
     // Error
@@ -75,6 +76,8 @@ export const TEXT = {
     add_beneficiary_step2: 'Head',
     add_beneficiary_step3: 'Members',
     add_beneficiary_title: 'add beneficiary',
+    add_beneficiary_code: 'Country code',
+    add_beneficiary_country_specifics: 'Country specifics',
 
     // Add distribution
     add_distribution_advanced_option: 'Advanced options',
@@ -91,6 +94,7 @@ export const TEXT = {
     add_distribution_male: 'Man',
     add_distribution_missing_commodity: 'A commodity is missing',
     add_distribution_missing_date: 'The date is missing',
+    add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'A selection criterion is missing',
     add_distribution_missing_threshold: 'The minimum selection score\'s value should be greater than 0',
     add_distribution_selection_criteria: 'selection criteria',
@@ -120,9 +124,15 @@ export const TEXT = {
     beneficiaries_import_select_project: 'You must select a project and add a file before uploading',
     beneficiaries_import_title: 'import beneficiary data',
     beneficiaries_location: 'Household Location:',
+    beneficiaries_missing_selected_project:'You must select a project before uploading',
     beneficiaries_proxy: 'Proxy',
     beneficiaries_select_api: 'Select API',
     beneficiaries_selected_project: 'selected beneficiaries:',
+
+    // Cache
+    cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
+    cache_store_beneficiaries: 'Store Beneficiaries',
+    cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',
 
     // Dashboard
     dashboard_distribution_map: 'distribution map',
@@ -175,6 +185,7 @@ export const TEXT = {
     distribution_details_random: 'export random sample',
     distribution_details_sample_size: 'Sample size',
     distribution_details_validate: 'validate & lock',
+    distribution_edit:'Edit distribution',
     distribution_error_validate: 'The distribution is empty, please fill it before to validate it',
     distribution_no_beneficiaries: 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.',
     distribution_no_random_sample: 'Random sample can\'t be generated...',
@@ -189,6 +200,7 @@ export const TEXT = {
     distribution_validate: 'Validate',
     distribution_validated: 'Distribution has been validated',
     distribution_want_add: 'that you want to add to the ',
+
 
     // Header
     'header_add-beneficiaries': 'Add Beneficiaries',
@@ -211,15 +223,15 @@ export const TEXT = {
 
     // Import
     import_added: 'Added from existing beneficiaries',
+    import_back_to_beneficiaries: 'Back to Beneficiaries',
+    import_back_to_project: 'Back to Project',
     import_created: 'Newly created',
     import_deleted: 'Will be deleted',
     import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.',
     import_distribution_no_right_update: 'لا يحق لك تحديث التوزيع ، اسأل مدير المشروع الخاص بك',
     import_distribution_updated: 'Distribution updated',
     import_updated: 'Will be updated',
-    import_select_old: 'Select all old',
-    import_select_new: 'Select all new',
-    
+
     // Login
     login_bms: 'Beneficiary management system',
     login_forgot_password: 'Forgot password?',
@@ -314,7 +326,7 @@ export const TEXT = {
     project_click: 'Click on',
     project_create: 'Create a new project',
     project_description: 'You will be able to modify project\'s name until your first distribution.',
-    project_go_beneficiaries: 'Go to Beneficiaries',
+    project_go_import_beneficiaries: 'Import Beneficiaries',
     project_no_distribution: 'This project does not contain any distributions. Create your first one !',
     project_no_household: 'This project does not contain any households.',
     project_no_projects: 'This country does not contain any project.',

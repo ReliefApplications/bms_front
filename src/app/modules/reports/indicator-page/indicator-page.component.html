@@ -52,7 +52,7 @@
                 <mat-card>
                     <ng-select class="custom" [(ngModel)]="selectedBeneficiaries" bindLabel="name" [items]="projectList"
                         [multiple]="true" placeholder="{{indicator.projects}}" [closeOnSelect]="false" [searchable]="true"
-                        [ngModelOptions]="{standalone: true}" (selectionChange)="getProjectSelected($event)" required>
+                        [ngModelOptions]="{standalone: true}" (change)="getProjectSelected($event)" required>
                     </ng-select>
                 </mat-card>
             </div>
@@ -68,7 +68,7 @@
 
                     <ng-select class="custom" *ngIf="type == 'Distribution'" bindLabel="name" [items]="distributionList"
                         [multiple]="true" placeholder="{{indicator.distributions}}" [closeOnSelect]="false"
-                        [searchable]="true" (selectionChange)="getDistributionSelected($event)" #selectorDistribution
+                        [searchable]="true" (change)="getDistributionSelected($event)" #selectorDistribution
                         required>
                     </ng-select>
                 </mat-card>

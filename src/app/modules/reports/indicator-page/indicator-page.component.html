@@ -17,13 +17,13 @@
 
                 <!-- button to filter data by frequency -->
                 <div class="frequency">
-                    <mat-spinner *ngIf="isDownloading" [diameter]="35"></mat-spinner>
-                    <button *ngIf="!isDownloading" mat-raised-button class="button-background-primary" (click)="downloadPDF()"><mat-icon>get_app</mat-icon></button>
+                    <button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1"
+                        [referenceKey]="'frequency'"></button-filter-date>
                 </div>
 
                 <div class="frequency">
-                    <button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1"
-                        [referenceKey]="'frequency'"></button-filter-date>
+                    <mat-spinner *ngIf="isDownloading" [diameter]="35"></mat-spinner>
+                    <button *ngIf="!isDownloading" mat-raised-button class="button-background-primary" (click)="downloadPDF()"><mat-icon>get_app</mat-icon></button>
                 </div>
             </div>
 

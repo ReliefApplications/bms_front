@@ -76,14 +76,16 @@ export class ChartComponent implements OnInit, ChartInterface {
       this.scheme = {
         gradient: true,
         domain: [
-          '#0E1428', '#ff4514'
+          '#4AA896', '#DC3D49'
+        //$bms_green, $bms_red
         ]
       };
     } else {
       this.scheme = {
         gradient: true,
         domain: [
-          '#F0A202', '#0E1428', '#ff4514', '#009EAE', '#FF866F', '#772014', '#235789'
+          '#02617F', '#4AA896', '#DC3D49', '#51C9DF', '#132F30', '#FBFD8D', '#134252'
+        //$bms_dark_blue, $bms_green, $bms_red, $bms_light_blue, $bms_black, $bms_highlight, $menu_select_bg
         ]
       };
     }

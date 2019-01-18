@@ -4,8 +4,6 @@ import { Beneficiaries } from '../../../model/beneficiary';
 import { emit } from 'cluster';
 import { element } from 'protractor';
 import { tap } from 'rxjs/operators';
-import { GlobalText } from '../../../../texts/global';
-
 
 @Component({
     selector: 'app-table-mobile-beneficiaries',

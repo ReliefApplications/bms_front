@@ -312,7 +312,7 @@ export class IndicatorPageComponent implements OnInit {
     getProjectSelected(event) {
         this.selectedProject = [];
 
-        let value = event.value ? event.vale : event;
+        let value = event.value ? event.value : event;
 
         //to deselect mat-option when we change of project
         if (this.type === 'Distribution') {

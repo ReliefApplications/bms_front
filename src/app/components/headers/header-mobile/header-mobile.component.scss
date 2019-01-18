@@ -11,6 +11,21 @@
     }
 }
 
+#menu{
+  height:35px;
+  width:35px;
+  font-size:35px;
+  margin-top:10px;
+  
+}
+
+#account_circle{
+  height: 35px;
+  width:35px;
+  font-size: 35px;
+  margin-top:9px;
+}
+
 .round-button {
     position: relative;
     border:none;
@@ -27,17 +42,17 @@
     }
 
     mat-icon {
-      height: 40px;
-      width: 40px;
-      font-size: 40px;
-      color: $bms_dark_blue;
+      height: 35px;
+      width: 35px;
+      font-size: 35px;
+      //color: $bms_dark_blue;
     }
 
     span {
-      color: $bms_dark_blue;
-      background-color: $bms_grey;
       position: absolute;
       width: 100%;
+      background-color: $bms_black;
+      color: $bms_grey;
     }
   }
 
@@ -45,8 +60,9 @@ button {
   color: $bms_grey;
 
   img {
-    height: 24px;
-    width: 24px;
+    height: 35px;
+    width: 35px;
+    font-size: 35px;
   }
 }
 

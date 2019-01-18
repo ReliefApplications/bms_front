@@ -1,5 +1,5 @@
 <button mat-icon-button (click)="toggle()">
-    <mat-icon>menu</mat-icon>
+    <mat-icon id="menu">menu</mat-icon>
 </button>
 <app-request-display></app-request-display>
 <span class="spacer"></span>
@@ -21,7 +21,7 @@
         </button>
     </mat-menu>
 <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>account_circle</mat-icon>
+    <mat-icon id="account_circle" >account_circle</mat-icon>
 </button>
 <mat-menu #menu="matMenu" overlapTrigger=false>
     <button mat-menu-item routerLink="/profile" (click)="setCurrentRoute('profile')">

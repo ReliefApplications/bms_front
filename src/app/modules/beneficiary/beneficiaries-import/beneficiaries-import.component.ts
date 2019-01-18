@@ -319,7 +319,6 @@ export class BeneficiariesImportComponent implements OnInit {
                         }
                     });
             }
-
         }
         else
             this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 5000, horizontalPosition: 'right' });

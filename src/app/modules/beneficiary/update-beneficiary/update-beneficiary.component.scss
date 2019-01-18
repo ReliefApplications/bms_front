@@ -44,8 +44,9 @@ app-placeholder-panel {
             display: flex;
             flex-direction: row;
             align-items: center;
+
             mat-form-field:first-child {
-                flex-grow: 1;
+                width: 100px;
                 margin-right: 10px;
             }
         }
@@ -62,10 +63,37 @@ app-placeholder-panel {
         justify-content: space-evenly;
         margin: 20px;
         flex-wrap: wrap;
+    }
 
-        .mat-form-field {
-            width: 80%;
+    .columns-phones {
+        justify-content: space-between;
+
+        .items-line {
+            width: 100%;
+            justify-content: flex-start;
+            align-items: center;
+            display: flex;
+
+            .phone-number {
+              flex-grow: 1;
+            }
+
+            .mat-form-field {
+                width: 40%;
+            }
+
+            .mat-form-field:first-child {
+                margin-right: 15px;
+            }
         }
+    }
+
+    .textarea-input {
+        width: 80%;
+    }
+
+    .area-size {
+        width: 100%;
     }
 
     .info-resume {

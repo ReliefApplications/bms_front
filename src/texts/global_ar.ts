@@ -76,6 +76,7 @@ export const TEXT = {
     add_beneficiary_step2: 'رب العائلة',
     add_beneficiary_step3:'أفراد العائلة',
     add_beneficiary_title: 'إضافة مستفيد',
+    add_beneficiary_code: 'Country code',
     add_beneficiary_country_specifics: 'Country specifics',
 
     // Add distribution

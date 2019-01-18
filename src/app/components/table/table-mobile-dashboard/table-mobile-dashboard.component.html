@@ -35,7 +35,7 @@
                 </div>
                 <div *ngIf="!element.validated">
                     <button mat-button *ngIf="rightsEdit" (click)="openDialog('update', element); $event.stopPropagation()"
-                        class="light-red">
+                        class="green">
                         <mat-icon inline=true>search</mat-icon>
                     </button>
                     <button mat-button *ngIf="rights" (click)="openDialog('delete', element); $event.stopPropagation()"

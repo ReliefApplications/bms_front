@@ -1,68 +1,54 @@
 @import '../../../../assets/css/variable.scss';
 
-.flag-button {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-
-    img {
-        width: 30px !important;
-        height: 25px !important;
-    }
-}
-
-#menu{
-  height:35px;
-  width:35px;
-  font-size:35px;
-  margin-top:10px;
-  
-}
-
-#account_circle{
-  height: 35px;
-  width:35px;
-  font-size: 35px;
-  margin-top:9px;
-}
-
 .round-button {
-    position: relative;
-    border:none;
-    outline: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: none;
-    height: 40px;
-    padding: 0;
+  position: relative;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  height: 35px;
+  width: 35px;
+  line-height: 35px;
+  padding: 0;
 
-    &:hover {
-      cursor: pointer;
-    }
-
-    mat-icon {
-      height: 35px;
-      width: 35px;
-      font-size: 35px;
-      //color: $bms_dark_blue;
-    }
-
-    span {
-      position: absolute;
-      width: 100%;
-      background-color: $bms_black;
-      color: $bms_grey;
-    }
+  &:hover {
+    cursor: pointer;
   }
 
-button {
-  color: $bms_grey;
+  mat-icon {
+    height: 35px;
+    width: 35px;
+    font-size: 35px;
+    line-height: 35px;
+    color: $bms_white;
+  }
 
   img {
     height: 35px;
     width: 35px;
     font-size: 35px;
+  }
+
+  span {
+    color: $bms_white;
+    background-color: $bms_black;
+    position: absolute;
+    width: 100%;
+    font-size: 10px;
+    line-height: 14px;
+  }
+}
+
+.flag-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  img {
+    width: 30px !important;
+    height: 25px !important;
   }
 }
 
@@ -70,12 +56,6 @@ button {
   flex-grow: 1;
 }
 
-span {
-    color: $bms_black;
-}
-
-
-
 app-request-display {
-    height: 100%;
+  height: 100%;
 }

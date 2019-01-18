@@ -1,101 +1,103 @@
 @import '../../../../assets/css/variable.scss';
 
 .header-container {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    z-index: 10;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  z-index: 10;
 
-    .container-routes {
+  .container-routes {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 0.8em;
+    flex-wrap: wrap;
+
+    span {
+      padding: 3px;
+      font-family: $bms_font_text;
+      text-decoration: none;
+
+      a {
+        text-decoration: none;
+        color: $bms_black;
+
+        &:hover {
+          color: $bms_red;
+        }
+      }
+    }
+  }
+
+  .container-buttons {
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+
+    .buttons {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      align-content: end;
+      height: 50px;
+      z-index: 50;
+
+      .button-language {
+        min-width: unset;
+        margin-right: 15px;
+        margin-left: 15px;
+      }
+
+      .round-button {
+        position: relative;
+        border: none;
+        outline: none;
         display: flex;
         align-items: center;
-        flex-grow: 1;
-        padding : 10px;
-        font-size: 0.8em;
-        flex-wrap: wrap;
+        justify-content: center;
+        background: none;
+        height: 40px;
+        width: 40px;
+        line-height: 40px;
+        padding: 0;
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        mat-icon {
+          height: 40px;
+          width: 40px;
+          font-size: 40px;
+          color: $bms_dark_blue;
+        }
 
         span {
-            padding: 3px;
-            font-family: $bms_font_text;
-            text-decoration: none;
-
-            a {
-                text-decoration: none;
-                color: $bms_black;
-                &:hover {
-                    color : $bms_red;
-                }
-            }
+          color: $bms_dark_blue;
+          background-color: $bms_grey;
+          position: absolute;
+          width: 100%;
         }
+      }
     }
-
-    .container-buttons {
-        display: flex;
-        flex-grow: 1;
-        justify-content: flex-end;
-        align-items: center;
-        padding: 10px;
-
-        .buttons {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            align-content: end;
-            height: 50px;
-            z-index: 50;
-
-            .button-language {
-              min-width: unset;
-              margin-right: 15px;
-              margin-left: 15px;
-            }
-
-            .round-button {
-              position: relative;
-              border:none;
-              outline: none;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              background: none;
-              height: 40px;
-              padding: 0;
-
-              &:hover {
-                cursor: pointer;
-              }
-
-              mat-icon {
-                height: 40px;
-                width: 40px;
-                font-size: 40px;
-                color: $bms_dark_blue;
-              }
-
-              span {
-                color: $bms_dark_blue;
-                background-color: $bms_grey;
-                position: absolute;
-                width: 100%;
-              }
-            }
-        }
-
-    }
+  }
 }
 
 .flag-button {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 
-    img {
-        width: 30px !important;
-        height: 25px !important;
-    }
+  img {
+    width: 30px !important;
+    height: 25px !important;
+  }
 }
 
 app-request-display {
-    height: 100%;
+  height: 100%;
 }

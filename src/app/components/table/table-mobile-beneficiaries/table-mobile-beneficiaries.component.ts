@@ -5,14 +5,13 @@ import { emit } from 'cluster';
 import { element } from 'protractor';
 import { tap } from 'rxjs/operators';
 
-
 @Component({
     selector: 'app-table-mobile-beneficiaries',
     templateUrl: './table-mobile-beneficiaries.component.html',
     styleUrls: ['../table-mobile/table-mobile.component.scss', './table-mobile-beneficiaries.component.scss']
 })
 export class TableMobileBeneficiariesComponent extends TableBeneficiariesComponent {
-
+    
     @Output() updating = new EventEmitter<number>();
     @Output() selectedAdm = new EventEmitter<any>();
 

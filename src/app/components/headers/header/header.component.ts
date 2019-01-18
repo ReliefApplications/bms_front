@@ -130,18 +130,6 @@ export class HeaderComponent implements OnInit {
         }
     }
 
-    getFlag(c: string) {
-        let url = '';
-
-        if(c) {
-            url = ("assets/images/" + c + ".png");
-        } else {
-            url = ("assets/images/defaultFlag.png");
-        }
-
-        return(url);
-    }
-
     preventSnack(country: string) {
         const snack = this.snackbar.open('Page is going to reload in 3 sec to switch to ' + country + ' country. ', 'Reload now', {duration: 3000});
 

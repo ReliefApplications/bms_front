@@ -312,6 +312,8 @@ export class IndicatorPageComponent implements OnInit {
     getProjectSelected(event) {
         this.selectedProject = [];
 
+        let value = event.value ? event.value : event;
+
         //to deselect mat-option when we change of project
         if (this.type === 'Distribution') {
             this.distributionList.forEach(distribution => {
@@ -322,7 +324,7 @@ export class IndicatorPageComponent implements OnInit {
                 });
             });
 
-            var project = event.value.split(" - ");
+            var project = value.split(" - ");
             this.selectedProject.push(project[0]);
             this.selectedDistribution = [];
             this.getDistributions();
@@ -330,20 +332,18 @@ export class IndicatorPageComponent implements OnInit {
         }
 
         else if (this.type === 'Project') {
-            if (event.value < 1) {
+            if (value < 1) {
                 this.projectList.forEach(element => {
                     var project = element.split(" - ");
                     this.selectedProject.push(project[0]);
                 });
             } else {
-                event.value.forEach(element => {
+                value.forEach(element => {
                     var project = element.split(" - ");
                     this.selectedProject.push(project[0]);
                 });
             }
         }
-
-
     }
 
     /**
@@ -351,14 +351,16 @@ export class IndicatorPageComponent implements OnInit {
      * @param event 
      */
     getDistributionSelected(event) {
+        let value = event.value ? event.value : event;
+
         this.selectedDistribution = [];
-        if (event.value < 1) {
+        if (value < 1) {
             this.distributionList.forEach(element => {
                 var distribution = element.split(" - ");
                 this.selectedDistribution.push(distribution[0]);
             });
         } else {
-            event.value.forEach(element => {
+            value.forEach(element => {
                 var distribution = element.split(" - ");
                 this.selectedDistribution.push(distribution[0]);
             });

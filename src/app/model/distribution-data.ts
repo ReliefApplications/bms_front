@@ -107,6 +107,10 @@ export class DistributionData {
      * Distribution data's finished
      */
     finished: boolean = false;
+    /**
+     * Distribution data's beneficiaries
+     */
+    distribution_beneficiaries: any;
 
     constructor(instance?) {
         if (instance !== undefined && instance != null) {
@@ -123,6 +127,7 @@ export class DistributionData {
             this.date_distribution = instance.date_distribution;
             this.validated = instance.validated;
             this.threshold = instance.threshold;
+            this.distribution_beneficiaries = instance.distribution_beneficiaries;
 
             if (instance.commodities)
                 this.commodity = this.mapCommodity(instance.commodities[0].modality_type.name);

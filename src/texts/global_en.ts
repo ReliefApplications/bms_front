@@ -37,6 +37,7 @@ export const TEXT = {
     rights: 'Rights',
     save: 'Save',
     settings: 'Settings',
+    summary:'Summary',
     update: 'Update',
 
     // Error
@@ -75,6 +76,8 @@ export const TEXT = {
     add_beneficiary_step2: 'Head',
     add_beneficiary_step3: 'Members',
     add_beneficiary_title: 'add beneficiary',
+    add_beneficiary_code: 'Country code',
+    add_beneficiary_country_specifics: 'Country specifics',
 
     // Add distribution
     add_distribution_advanced_option: 'Advanced options',
@@ -91,6 +94,7 @@ export const TEXT = {
     add_distribution_male: 'Man',
     add_distribution_missing_commodity: 'A commodity is missing',
     add_distribution_missing_date: 'The date is missing',
+    add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'A selection criterion is missing',
     add_distribution_missing_threshold: 'The minimum selection score\'s value should be greater than 0',
     add_distribution_selection_criteria: 'selection criteria',
@@ -120,9 +124,15 @@ export const TEXT = {
     beneficiaries_import_select_project: 'You must select a project and add a file before uploading',
     beneficiaries_import_title: 'import beneficiary data',
     beneficiaries_location: 'Household Location:',
+    beneficiaries_missing_selected_project:'You must select a project before uploading',
     beneficiaries_proxy: 'Proxy',
     beneficiaries_select_api: 'Select API',
     beneficiaries_selected_project: 'selected beneficiaries:',
+
+    // Cache
+    cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
+    cache_store_beneficiaries: 'Store Beneficiaries',
+    cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',
 
     // Dashboard
     dashboard_distribution_map: 'distribution map',
@@ -139,10 +149,10 @@ export const TEXT = {
     data_verification_chip_existing: 'Existing',
     data_verification_chip_old: 'Old',
     data_verification_chip_remove: 'To remove',
-    data_verification_description1: 'This panel will display any suspected typos concerning beneficiaries in your file: if an imported beneficiary closely matches another one already in the database it will be displayed here. You can choose to either keep the existing one, update it with the imported data or save both as separate beneficiaries.',
-    data_verification_description2: 'The duplicate panel displays the beneficiaries in the file that are already in the database, in another household. If the existing beneficiary is not a head of household, you can delete one or the other, or save both as different beneficiaries if you are sure they are different people.',
-    data_verification_description3: 'Here are listed households that already existed in the database but with fewer beneficiaries than in the imported file. You can check and select those you want to import in the household.',
-    data_verification_description4: 'Here are listed households that already existed in the database but with more beneficiaries than in the imported file. You can check and select those you want to delete from the household.',
+    data_verification_description1: 'This panel will display any suspected data entry errors found in the imported beneficiary data. Please choose whether to keep the existing one, update it with the imported data or save both as separate beneficiary records.',
+    data_verification_description2: 'The duplicate check page displays any potential duplicate beneficiary records in the database. If the existing beneficiary is not a head of household, you can overwrite their information, ignored the changes, or save both as different beneficiaries if you are sure they are different people.',
+    data_verification_description3: 'We found records that do not appear to exist in the database already. Please select those that you wish to add to the project database.',
+    data_verification_description4: 'We found records which you’ve indicated you wish to remove from the database. Please select those which you wish to remove.',
     data_verification_description_end: 'Modifications will be added to the database on each step validation.',
     data_verification_done: 'Your data has been verified',
     data_verification_error: 'Error processing data',
@@ -154,10 +164,10 @@ export const TEXT = {
     data_verification_snackbar_typo_corrected: 'Typo issues corrected',
     data_verification_snackbar_typo_no_corrected: 'Not all typo issues have been corrected',
     data_verification_step_info: 'Step info',
-    data_verification_step_1: 'Typo issues',
-    data_verification_step_2: 'Duplicates',
-    data_verification_step_3: 'To add',
-    data_verification_step_4: 'To remove',
+    data_verification_step_1: 'Data Entry Inconsistencies',
+    data_verification_step_2: 'Check for Duplicates',
+    data_verification_step_3: 'Add Beneficiaries',
+    data_verification_step_4: 'Remove Beneficiaries',
     data_verification_step_1_no_issues: 'No typo issues',
     data_verification_step_2_no_issues: 'No duplicates',
     data_verification_step_3_no_issues: 'No beneficiaries to add',
@@ -175,6 +185,7 @@ export const TEXT = {
     distribution_details_random: 'export random sample',
     distribution_details_sample_size: 'Sample size',
     distribution_details_validate: 'validate & lock',
+    distribution_edit:'Edit distribution',
     distribution_error_validate: 'The distribution is empty, please fill it before to validate it',
     distribution_no_beneficiaries: 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.',
     distribution_no_random_sample: 'Random sample can\'t be generated...',
@@ -189,6 +200,7 @@ export const TEXT = {
     distribution_validate: 'Validate',
     distribution_validated: 'Distribution has been validated',
     distribution_want_add: 'that you want to add to the ',
+
 
     // Header
     'header_add-beneficiaries': 'Add Beneficiaries',
@@ -211,6 +223,8 @@ export const TEXT = {
 
     // Import
     import_added: 'Added from existing beneficiaries',
+    import_back_to_beneficiaries: 'Back to Beneficiaries',
+    import_back_to_project: 'Back to Project',
     import_created: 'Newly created',
     import_deleted: 'Will be deleted',
     import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.',
@@ -312,7 +326,7 @@ export const TEXT = {
     project_click: 'Click on',
     project_create: 'Create a new project',
     project_description: 'You will be able to modify project\'s name until your first distribution.',
-    project_go_beneficiaries: 'Go to Beneficiaries',
+    project_go_import_beneficiaries: 'Import Beneficiaries',
     project_no_distribution: 'This project does not contain any distributions. Create your first one !',
     project_no_household: 'This project does not contain any households.',
     project_no_projects: 'This country does not contain any project.',

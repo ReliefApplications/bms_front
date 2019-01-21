@@ -10,7 +10,7 @@
   <div *ngIf="filled" style="max-height: 370px; overflow: auto;">
     <table mat-table [dataSource]="data" matSort matSortActive="date_distribution" matSortDirection="desc">
       <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{mapperService.mapTitle(property)}}</th>
+        <th mat-header-cell *matHeaderCellDef id="table-header" mat-sort-header>{{mapperService.mapTitle(property)}}</th>
         <td mat-cell *matCellDef="let element">
           <span *ngIf="propertiesTypes[property]=='image'">
             <app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)" [name]="mapperService.mapValue(element, property)"></app-icon-svg>
@@ -28,13 +28,9 @@
           <div class="validated-distribution" *ngIf="element.validated" routerLink="/projects/distributions/{{element.id}}">
             <mat-icon>done</mat-icon>
           </div>
-          <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('details', element); $event.stopPropagation()"
-            class="green">
-            <mat-icon>search</mat-icon>
-          </button>
           <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('update', element); $event.stopPropagation()"
             class="light-red">
-            <mat-icon>edit</mat-icon>
+            <mat-icon>search</mat-icon>
           </button>
           <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('delete', element); $event.stopPropagation()"
             class="red">

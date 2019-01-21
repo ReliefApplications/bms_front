@@ -37,6 +37,7 @@ export const TEXT = {
     rights: 'الحقوق',
     save: 'حفظ',
     settings: 'الإعدادات',
+    summary:'Summary',
     update: 'تحديث',
 
     // Error
@@ -75,6 +76,8 @@ export const TEXT = {
     add_beneficiary_step2: 'رب العائلة',
     add_beneficiary_step3:'أفراد العائلة',
     add_beneficiary_title: 'إضافة مستفيد',
+    add_beneficiary_code: 'Country code',
+    add_beneficiary_country_specifics: 'Country specifics',
 
     // Add distribution
     add_distribution_advanced_option: 'خيارات متقدمة',
@@ -91,6 +94,7 @@ export const TEXT = {
     add_distribution_male: 'الرجل',
     add_distribution_missing_commodity: 'سلعة مفقودة',
     add_distribution_missing_date: 'التاريخ مفقود',
+    add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'معيار الاختيار مفقود',
     add_distribution_missing_threshold: 'يجب أن تكون قيمة الحد الفاصل أكبر من 0',
     add_distribution_selection_criteria: 'معيار الاختيار',
@@ -120,10 +124,16 @@ export const TEXT = {
     beneficiaries_import_select_project: 'يجب أن تختار مشروعا و ملفا قبل التحميل',
     beneficiaries_import_title: 'تحميل بيانات المستفيد',
     beneficiaries_location: 'مكان الأسرة:',
+    beneficiaries_missing_selected_project: 'يجب أن تختار مشروعاقبل التحميل',
     beneficiaries_proxy: 'الوكيل',
     beneficiaries_select_api: 'API اختر',
     beneficiaries_selected_project: 'المستفيدين المختارين:',
 
+    // Cache
+    cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
+    cache_store_beneficiaries: 'Store Beneficiaries',
+    cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',
+    
     // Dashboard
     dashboard_distribution_map: 'خريطة التوزيع',
     dashboard_recent_distributions: 'التوزيعات الحديثة',
@@ -175,6 +185,7 @@ export const TEXT = {
     distribution_details_random: 'عينة عشوائية للتحميل',
     distribution_details_sample_size: 'حجم العينة',
     distribution_details_validate: 'التحقق والقفل',
+    distribution_edit:'تعديل التوزيع',
     distribution_error_validate: 'التوزيع فارغ ، يرجى ملءه قبل التحقق من صحته',
     distribution_no_beneficiaries: 'لم تتم إضافة أو إزالة أي مستفيدين. سيتم تحديث أي تغييرات يتم إجراؤها على المستفيدين المستوردين في النظام.',
     distribution_no_random_sample: 'لا يمكن إنشاء عينة عشوائية ...',
@@ -209,6 +220,8 @@ export const TEXT = {
 
     // Import
     import_added: 'تم إضافتها',
+    import_back_to_beneficiaries: 'Back to Beneficiaries',
+    import_back_to_project: 'Back to Project',
     import_created: 'تم إنشاؤها',
     import_deleted: 'تم حذفها',
     import_description: 'قم باستيراد الملف الذي يحتوي على التوزيع المعدّل. سيتم تحديث قاعدة البيانات بقائمة المستفيدين الجديدة لهذا التوزيع عندما تنقر على ""تحديث"" بعد الاستيراد.',
@@ -310,7 +323,7 @@ export const TEXT = {
     project_click: 'انقر فوق',
     project_create: 'قم بإنشاء مشروع جديد',
     project_description: 'سوف يمكنك تعديل اسم المشروع حتى توزيعك الأول',
-    project_go_beneficiaries: 'انتقل إلى المستفيدين',
+    project_go_import_beneficiaries: 'استيراد المستفيدين',
     project_no_distribution: 'هذا المشروع لا يحتوي على أي توزيع. اصنع اول واحد!',
     project_no_household: 'هذا المشروع لا يحتوي على أي منزل.',
     project_no_projects: 'هذا البلد لا يحتوي على أي مشروع.',

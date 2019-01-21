@@ -1,7 +1,7 @@
 <div class="page-container">
 
   <div class="container-title">
-    <h2>{{TEXT.distribution | titlecase}}</h2>
+    <h2>{{TEXT.distribution_edit | titlecase}}</h2>
   </div>
 
   <div class="container-data" *ngIf="actualDistribution && !loadingDistribution">
@@ -50,8 +50,6 @@
                     </button>
                     <button mat-menu-item (click)="setType(1, 'ods')"> .ods <mat-icon *ngIf="extensionTypeStep1=='ods'">done</mat-icon>
                     </button>
-                    <button mat-menu-item (click)="setType(1, 'pdf')"> .pdf <mat-icon *ngIf="extensionTypeStep1=='pdf'">done</mat-icon>
-                    </button>
                   </mat-menu>
                 </div>
               </div>
@@ -83,7 +81,8 @@
             <div class="import-content">
               <app-import-distribution *ngIf="!actualDistribution.validated" [distribution]="this.actualDistribution" [rights]="hasRights" (success)=" this.getDistributionBeneficiaries('final');
                                             this.getDistributionBeneficiaries('initial');
-                                            jumpStep(myStepper)">
+                                            jumpStep(myStepper)"
+                  (selected)="fileSelected($event)">
               </app-import-distribution>
             </div>
             <div class="container-empty" *ngIf="actualDistribution.validated">
@@ -92,7 +91,7 @@
                 {{TEXT.distribution_cant_update}}
               </p>
             </div>
-            <div class="content-button content-button-footer">
+            <div class="content-button content-button-footer" *ngIf="!selected">
               <button mat-raised-button class="button-background-primary" matStepperNext>{{TEXT.next}}</button>
             </div>
           </div>
@@ -107,16 +106,6 @@
         <div class="container-table">
           <div class="container-content box-green">
             <div class="content-button">
-              <div class="sample-size-input">
-                <button mat-fab class="button-background-accent" (click)="generateRandom()">
-                  <mat-icon>shuffle</mat-icon>
-                </button>
-                <mat-form-field>
-                  {{TEXT.distribution_details_sample_size | titlecase}} :
-                  <input matInput [(ngModel)]="this.sampleSize" [ngModelOptions]="{standalone: true}" min="0" max="100" type="number">
-                  %
-                </mat-form-field>
-              </div>
               <div class="action-buttons">
                 <button mat-raised-button class="export-button" (click)="exportSample()" *ngIf="!loadingExport">
                   <mat-icon>get_app</mat-icon>
@@ -134,10 +123,18 @@
                     </button>
                     <button mat-menu-item (click)="setType(3, 'ods')"> .ods <mat-icon *ngIf="extensionTypeStep3=='ods'">done</mat-icon>
                     </button>
-                    <button mat-menu-item (click)="setType(3, 'pdf')"> .pdf <mat-icon *ngIf="extensionTypeStep3=='pdf'">done</mat-icon>
-                    </button>
                   </mat-menu>
                 </div>
+              </div>
+              <div class="sample-size-input">
+                <button mat-fab class="button-background-accent" (click)="generateRandom()">
+                  <mat-icon>shuffle</mat-icon>
+                </button>
+                <mat-form-field>
+                  {{TEXT.distribution_details_sample_size | titlecase}} :
+                  <input matInput [(ngModel)]="this.sampleSize" [ngModelOptions]="{standalone: true}" min="0" max="100" type="number">
+                  %
+                </mat-form-field>
               </div>
             </div>
             <div class="container-empty" *ngIf="!randomSampleData && !loadingThirdStep">
@@ -170,6 +167,7 @@
         <div class="container-table">
           <div class="container-content box-green">
             <div class="content-button">
+              <app-box-properties *ngIf="actualDistribution && finalBeneficiaryData" class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution" [data]="finalBeneficiaryData.data"></app-box-properties>
             </div>
             <div class="container-empty" *ngIf="!finalBeneficiaryData && !loadingFinalStep">
               <p>
@@ -194,10 +192,15 @@
                 <mat-icon>lock</mat-icon>
                 {{TEXT.distribution_validate}}
               </button>
+
+              <mat-spinner [diameter]="35" *ngIf="loaderCache"></mat-spinner>
+              <button mat-stroked-button *ngIf="!loaderCache" class="mat-stroked-button red" (click)="storeBeneficiaries()">
+                <mat-icon>save</mat-icon>
+                {{TEXT.cache_store_beneficiaries}}
+              </button>
             </div>
           </div>
         </div>
-
       </form>
     </mat-step>
   </mat-horizontal-stepper>
@@ -209,7 +212,7 @@
       <div class="progression">
         <div class="commodities" *ngFor="let commodity of actualDistribution.commodities">
           <h4>{{commodity.modality_type.name}} {{TEXT.transaction_progress}} {{getAmount('ratio',
-                        commodity)}} % </h4>
+            commodity)}} % </h4>
           <mat-progress-bar mode="determinate" [value]="getAmount('ratio',
                     commodity)"></mat-progress-bar>
           <div class="details">
@@ -262,8 +265,6 @@
               </button>
               <button mat-menu-item (click)="setType(5, 'ods')"> .ods <mat-icon *ngIf="extensionTypeTransaction=='ods'">done</mat-icon>
               </button>
-              <button mat-menu-item (click)="setType(5, 'pdf')"> .pdf <mat-icon *ngIf="extensionTypeTransaction=='pdf'">done</mat-icon>
-              </button>
             </mat-menu>
           </div>
         </div>
@@ -281,6 +282,12 @@
         <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
         <button mat-raised-button *ngIf="hasRightsTransaction && !transacting" (click)="openDialog(transaction);" class="button-background-accent" [matBadge]="getAmount('people')" matBadgePosition="before" matBadgeColor="primary">
           <mat-icon>send</mat-icon> {{TEXT.transaction_transaction}}
+        </button>
+
+        <mat-spinner [diameter]="35" *ngIf="loaderCache"></mat-spinner>
+        <button mat-raised-button *ngIf="!loaderCache" class="button-text-accent" (click)="storeBeneficiaries()">
+          <mat-icon>save</mat-icon>
+          {{TEXT.cache_store_beneficiaries}}
         </button>
       </div>
     </div>
@@ -348,12 +355,19 @@
           {{TEXT.distribution_want_add}} <strong> {{actualDistribution.name}} </strong>
           {{TEXT.distribution | lowercase}}.</p>
         <div class="selectBeneficiaries">
+<<<<<<< HEAD
+          <ng-select class="custom" [(ngModel)]="selectedBeneficiaries" bindLabel="full_name" [items]="beneficiaryList"
+            [multiple]="true" placeholder="{{TEXT.beneficiaries}}" [closeOnSelect]="false" [searchable]="true"
+            [ngModelOptions]="{standalone: true}" required>
+          </ng-select>
+=======
           <mat-form-field>
             <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" [(ngModel)]="selectedBeneficiaries" multiple>
               <mat-option class="options" *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">{{beneficiary.given_name}}
                 {{beneficiary.family_name}}</mat-option>
             </mat-select>
           </mat-form-field>
+>>>>>>> dev
         </div>
       </div>
       <div class="modal-footer action">

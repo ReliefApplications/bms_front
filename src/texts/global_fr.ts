@@ -37,6 +37,7 @@ export const TEXT = {
     rights: 'Rôles',
     save: 'Enregistrer',
     settings: 'Paramètres',
+    summary:'Sommaire',
     update: 'Modifier',
 
     // Error
@@ -75,6 +76,8 @@ export const TEXT = {
     add_beneficiary_step2: 'Chef de famille',
     add_beneficiary_step3: 'Membres',
     add_beneficiary_title: 'Ajout d\'un bénéficiaire',
+    add_beneficiary_code: 'Code pays',
+    add_beneficiary_country_specifics: 'Country specifics',
 
     // Add distribution
     add_distribution_advanced_option: 'Options avancées',
@@ -91,6 +94,7 @@ export const TEXT = {
     add_distribution_male: 'Homme',
     add_distribution_missing_commodity: 'Une commodité est manquante',
     add_distribution_missing_date: 'La date est manquante',
+    add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'Un critère de sélection est manquant',
     add_distribution_missing_threshold: 'Le score minimum doit être plus grand que 0',
     add_distribution_selection_criteria: 'critères de sélection',
@@ -120,10 +124,16 @@ export const TEXT = {
     beneficiaries_import_select_project: 'Vous devez selectionner un projet et ajouter un fichier avant l\'importation',
     beneficiaries_import_title: 'import de bénéficiaires',
     beneficiaries_location: 'Localisation du ménage :',
+    beneficiaries_missing_selected_project:'Vous devez selectionner un projet avant l\'importation',
     beneficiaries_proxy: 'Proxy',
     beneficiaries_select_api: 'Sélectionner une API',
     beneficiaries_selected_project: 'bénéficiaires sélectionnés:',
 
+    // Cache
+    cache_distribution_added: 'Distribution et bénéficiaires du projet ont été ajoutés dans le cache',
+    cache_store_beneficiaries: 'Enregistrer les bénéficiaires',
+    cache_no_distribution: 'Cette distribution n\'est pas enregistrée dans le cache, vous ne pouvez pas y accéder hors-ligne',
+    
     // Dashboard
     dashboard_distribution_map: 'répartition des distributions',
     dashboard_recent_distributions: 'distributions récentes',
@@ -175,6 +185,7 @@ export const TEXT = {
     distribution_details_random: 'échantillon aléatoire',
     distribution_details_sample_size: 'Taille d\'échantillon',
     distribution_details_validate: 'valider & verouiller',
+    distribution_edit:'Modifier la distribution',
     distribution_error_validate: 'La distribution est vide, veuillez la remplir avant de la valider',
     distribution_no_beneficiaries: 'Aucun bénéficiaire n\'a été ajouté ou supprimé. N\'importe quel changement fait aux bénéficiaires importés vont être mis à jour dans le système.',
     distribution_no_random_sample: 'L\'échantillon aléatoire ne peut pas être généré',
@@ -209,6 +220,8 @@ export const TEXT = {
 
     // Import
     import_added: 'Ajout',
+    import_back_to_beneficiaries: 'Back to Beneficiaries',
+    import_back_to_project: 'Back to Project',
     import_created: 'Création',
     import_deleted: 'Suppression',
     import_description: 'Importez le fichier contenant la distribution après modifications. La base de donnée sera mise à jour lorsque vous cliquerez sur "upload" après validation de l\'import. Les bénéficiaires inconnus seront ignorés.',
@@ -310,7 +323,7 @@ export const TEXT = {
     project_click: 'Cliquer sur ',
     project_create: 'Créer un nouveau projet',
     project_description: 'Vous pourrez modifier le nom du projet jusqu\'à votre première distribution',
-    project_go_beneficiaries: 'Aller aux bénéficiaires',
+    project_go_import_beneficiaries: 'Importer des bénéficiaires',
     project_no_distribution: 'Le projet ne contient aucune distribution. Créer votre première !',
     project_no_household: 'Le projet ne contient aucun ménage.',
     project_no_projects: 'Le pays ne contient aucun projet.',

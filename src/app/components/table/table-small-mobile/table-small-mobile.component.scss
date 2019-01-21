@@ -1,4 +1,4 @@
-@import '../../../../assets/css/variable.scss'; 
+@import '../../../../assets/css/variable.scss';
 
 .table-container {
   display: flex;
@@ -18,7 +18,7 @@
 
 table {
   overflow: auto;
-  width: 100%;  
+  width: 100%;
 }
 
 .mat-elevation-z8 {
@@ -40,10 +40,10 @@ table {
       display: flex;
       width:100%;
       justify-content: center;
-      
+
       span{
-        font-size : 3vh; 
-        font-family: $bms_font_header;       
+        font-size : 1.2em;
+        font-family: $bms_font_header;
       }
 
       &.element-title{
@@ -56,7 +56,7 @@ table {
       &.element-value{
         flex-grow: 1;
         max-width: 160px;
-        font-family: $bms_font_header;       
+        font-family: $bms_font_header;
         word-wrap:break-word;
         border: none;
         display:inline-block;
@@ -75,25 +75,25 @@ table {
       flex-wrap: wrap;
       flex-direction: row;
       button{
-        display:flex;   
+        display:flex;
         flex-wrap: wrap;
         flex-grow: 1;
         justify-content: center;
         align-self: center;
-        height: 25px;     
+        height: 25px;
         margin: 0 !important ;
         border-radius: 0 !important;
         i{
-            display:flex;   
+            display:flex;
         }
       }
   }
-  
+
 }
 button{
     // color: $bms_grey;
     margin: 0.5vh;
-  
+
     mat-icon {
       font-weight: 800  !important;
       font-size: 25px;
@@ -103,16 +103,16 @@ button{
         background-color: $bms_white;
     }
   }
-  
+
   .green{
     color: $bms_light_blue;
   }
-  
+
   .red{
     color: $bms_white;
     background-color: $bms_red;
   }
-  
+
   .light-red{
     color: $bms_dark_blue;
   }

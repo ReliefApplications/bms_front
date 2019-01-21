@@ -33,12 +33,11 @@ app-placeholder-panel {
     flex-wrap: wrap;
 
     .column-container {
-        min-width: 200px;
+        min-width: 270px;
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        margin-left: 10px;
-        margin-right: 10px;
+        margin: 0 10px;
 
         .combo {
             display: flex;

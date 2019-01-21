@@ -1,4 +1,4 @@
-@import '../../../../assets/css/variable.scss'; 
+@import '../../../../assets/css/variable.scss';
 
 .table-container {
   display: flex;
@@ -7,7 +7,7 @@
   margin-bottom: 40px;
   align-items: center;
 
-  div {
+  > div {
       width: 95%;
   }
 
@@ -17,7 +17,7 @@
   }
 
   .container-header{
-    
+
     .clear-all-button {
 
       background-color: $bms_red;
@@ -38,14 +38,14 @@
     }
  }
 
-  
+
 }
 
 
 
 table {
   overflow: auto;
-  width: 100%;  
+  width: 100%;
 }
 
 .box-element{
@@ -61,11 +61,11 @@ table {
       display: flex;
       width:100%;
       justify-content: center;
-      
+
       span{
-        font-size : 3vh; 
-        font-family: $bms_font_header;  
-        text-align: left;     
+        font-size : 1.2em;
+        font-family: $bms_font_header;
+        text-align: left;
       }
 
       &.element-title{
@@ -78,7 +78,7 @@ table {
       &.element-value{
         flex-grow: 1;
         max-width: 160px;
-        font-family: $bms_font_header;       
+        font-family: $bms_font_header;
         word-wrap:break-word;
         border: none;
         display:inline-block;
@@ -97,14 +97,14 @@ table {
       flex-wrap: wrap;
       flex-direction: row;
       justify-content: stretch;
-      
+
       button{
-        display:flex;   
+        display:flex;
         flex-wrap: wrap;
         flex-grow: 1;
         justify-content: center;
         align-self: center;
-        height: 25px;     
+        height: 25px;
         margin: 0 !important ;
         border-radius: 0 !important;
         width: 33%;
@@ -112,7 +112,7 @@ table {
         flex-grow: 1;
 
         mat-icon{
-            display:flex;   
+            display:flex;
         }
       }
 
@@ -123,13 +123,13 @@ table {
           }
       }
   }
-  
+
 }
 
 button{
     // color: $bms_grey;
     margin: 0.5vh;
-  
+
     mat-icon {
       font-weight: 800  !important;
       font-size: 25px;
@@ -145,11 +145,11 @@ button{
         .blue{
             background-color: $bms_light_blue;
         }
-        
+
         .red{
             background-color: $bms_red;
         }
-        
+
         .light-red{
             background-color: $bms_dark_blue;
         }
@@ -187,7 +187,7 @@ button{
 .spinner-container {
     width: 100%;
     height: 200px;
-    
+
     .loadingSpinner {
         width: 100%;
         height: 195px;

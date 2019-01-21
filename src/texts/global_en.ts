@@ -39,6 +39,7 @@ export const TEXT = {
     settings: 'Settings',
     summary:'Summary',
     update: 'Update',
+    voucher: 'Vouchers',
 
     // Error
     back_to_homepage: 'Go back to homepage',
@@ -218,8 +219,7 @@ export const TEXT = {
     header_reports: 'Reports',
     header_settings: 'Settings',
     'header_update-beneficiary': 'Update Beneficiaries',
-
-
+    header_vouchers: 'Vouchers',
 
     // Import
     import_added: 'Added from existing beneficiaries',
@@ -276,6 +276,8 @@ export const TEXT = {
     model_beneficiaries_nationalids: 'ID Number',
     model_beneficiaries_phones: 'Phones (no country code)',
     model_beneficiaries_status: 'Satus',
+    model_booklet: 'Booklet',
+    model_code: 'Code',
     model_commodity: 'Commodity',
     model_commodity_modality: 'Modality',
     model_commodity_unit: 'Unit',
@@ -286,7 +288,9 @@ export const TEXT = {
     model_criteria: 'Criteria',
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score weight',
+    model_currency: 'Currency',
     model_dateofbirth: 'Date of birth',
+    model_distribution_beneficiary: 'Beneficiary\'s distribution',
     model_distribution_date: 'Date of Distribution',
     model_distribution_name: 'Name',
     model_distribution_type: 'Target',
@@ -295,7 +299,9 @@ export const TEXT = {
     model_donor_shortname: 'Shortname',
     model_familyName: 'Family name',
     model_firstName: 'First name',
+    model_individual_value: 'Individual value',
     model_notes: 'Notes',
+    model_number_vouchers: 'Number of vouchers',
     model_project_donors_name: 'Donors',
     model_project_end_date: 'End Date',
     model_project_name: 'Project\'s name',
@@ -306,11 +312,13 @@ export const TEXT = {
     model_sectors_name: 'Sectors',
     model_transaction_message: 'Message',
     model_transaction_pickupDate: 'Pick up date',
-    model_transaction_state: 'Status',
+    model_state: 'Status',
     model_type: 'Type',
+    model_used: 'Used',
     model_user: 'User',
-    model_user_password: 'Password',
+    model_password: 'Password',
     model_value: 'Value',
+    model_vendor: 'Vendor',
     model_vulnerabilities: 'Vulnerabilities',
 
     // Profile
@@ -419,4 +427,7 @@ export const TEXT = {
     update_beneficiary_error_updated: 'Error while updating: ',
     update_beneficiary_title: 'Update Beneficiary',
     update_beneficiary_updated_successfully: 'Updated successfuly !',
+
+    //Vouchers
+    voucher_assign: 'Assign vouchers',
 };

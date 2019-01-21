@@ -39,6 +39,7 @@ export const TEXT = {
     settings: 'الإعدادات',
     summary:'Summary',
     update: 'تحديث',
+    voucher: 'Vouchers',
 
     // Error
     back_to_homepage: 'العودة إلى الصفحة الرئيسية',
@@ -217,6 +218,7 @@ export const TEXT = {
     header_reports: 'التقارير',
     header_settings: 'الإعدادات',
     'header_update-beneficiary': 'تحديث المستفيد',
+    header_vouchers: 'Vouchers',
 
     // Import
     import_added: 'تم إضافتها',
@@ -273,6 +275,8 @@ export const TEXT = {
     model_beneficiaries_nationalids: 'رقم الهوية',
     model_beneficiaries_phones: 'الهاتف',
     model_beneficiaries_status: 'الرتبة في الأسرة',
+    model_booklet: 'Booklet',
+    model_code: 'Code',
     model_commodity: 'السلع',
     model_commodity_modality: 'القيد',
     model_commodity_unit: 'وحدة',
@@ -283,7 +287,9 @@ export const TEXT = {
     model_criteria: 'المعاير',
     model_criteria_operator: 'الشروط',
     model_criteria_weight: 'وزن النتيجة',
+    model_currency: 'Currency',
     model_dateofbirth: 'تاريخ الميلاد',
+    model_distribution_beneficiary: 'Beneficiary\'s distribution',
     model_distribution_date: 'تاريخ التوزيع',
     model_distribution_name: 'الاسم',
     model_distribution_type: 'العالمي',
@@ -292,7 +298,9 @@ export const TEXT = {
     model_donor_shortname: 'الاسم المختصر',
     model_familyName: 'اللقب',
     model_firstName: 'الاسم ',
+    model_individual_value: 'Individual value',
     model_notes: 'الملاحظات',
+    model_number_vouchers: 'Number of vouchers',
     model_project_end_date: 'تاريخ الانتهاء',
     model_project_donors_name: 'المانحون',
     model_project_name: 'اسم المشروع',
@@ -305,10 +313,12 @@ export const TEXT = {
     model_transaction_pickupDate: 'اختر تاريخا',
     model_type: 'النوع',
     model_vulnerabilities: 'نقاط الضعف',
+    model_used: 'Used',
     model_user: 'المستخدم',
-    model_user_password: 'كلمة المرور',
+    model_password: 'كلمة المرور',
     model_value: 'القيمة',
-    model_transaction_state: 'الحالة',
+    model_vendor: 'Vendor',
+    model_state: 'الحالة',
 
     // Profile
     profile_user_change_password: 'تغيير كلمة المرور',
@@ -417,4 +427,7 @@ export const TEXT = {
     update_beneficiary_error_updated: ': حدث خطأ أثناء التحديث',
     update_beneficiary_title: 'تحديث المستفيدين',
     update_beneficiary_updated_successfully: ' !تم التحديث بنجاح',
+
+    //Vouchers
+    voucher_assign: 'Assign vouchers',
 };

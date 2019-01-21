@@ -70,6 +70,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ImportedDataComponent } from '../modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
 import { ModalRequestsComponent } from '../components/modals/modal-requests/modal-requests.component';
 import { RecaptchaModule } from 'angular-google-recaptcha';
+import { VouchersComponent } from '../modules/vouchers/vouchers.component'; 
+import { TableVouchersComponent } from '../components/table/table-vouchers/table-vouchers.component';
+import { TableMobileVouchersComponent } from '../components/table/table-mobile-vouchers/table-mobile-vouchers.component';
 
 @NgModule({
 imports: [
@@ -163,6 +166,9 @@ declarations: [
     PlaceholderTitleComponent,
     UpdateBeneficiaryComponent,
     ImportedDataComponent,
+    VouchersComponent,
+    TableVouchersComponent,
+    TableMobileVouchersComponent,
 ],
 entryComponents: [
     ModalComponent,

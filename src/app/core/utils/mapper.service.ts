@@ -10,7 +10,7 @@ export class Mapper {
     entityInstance = null;
     mapperObject = null;
 
-    constructor(public datepipe:DatePipe) {
+    constructor(public datepipe: DatePipe) {
 
     }
 
@@ -53,6 +53,8 @@ export class Mapper {
                 return this.mapper.getEntityTranslator('transaction_beneficiary');
             case 'Financial Provider':
                 return this.mapper.getEntityTranslator('financial_provider');
+            case 'Booklet':
+                return this.mapper.getEntityTranslator('booklet');
             default: return;
         }
     }
@@ -78,13 +80,13 @@ export class Mapper {
         if (!elementObject) {
             return p;
         }
-        if ( p=="date_distribution" || p=="start_date" || p=="end_date" ) {
-            return this.datepipe.transform(elementObject[p],'dd-MM-yyyy');
+        if (p == "date_distribution" || p == "start_date" || p == "end_date") {
+            return this.datepipe.transform(elementObject[p], 'dd-MM-yyyy');
         }
         else {
             return elementObject[p];
         }
-        
+
     }
 
     /**

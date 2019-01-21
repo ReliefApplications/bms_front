@@ -39,6 +39,7 @@ export const TEXT = {
     settings: 'Paramètres',
     summary:'Sommaire',
     update: 'Modifier',
+    voucher: 'Vouchers',
 
     // Error
     back_to_homepage: 'Retour à la page d\'accueil',
@@ -217,6 +218,7 @@ export const TEXT = {
     header_reports: 'Rapports',
     header_settings: 'Paramètres',
     'header_update-beneficiary': 'Modifier',
+    header_vouchers: 'Brochures',
 
     // Import
     import_added: 'Ajout',
@@ -273,6 +275,8 @@ export const TEXT = {
     model_beneficiaries_nationalids: 'Numéro d\'identification',
     model_beneficiaries_phones: 'Téléphones (sans le code pays)',
     model_beneficiaries_status: 'Satut',
+    model_booklet: 'Brochure',
+    model_code: 'Code',
     model_commodity: 'Ressource',
     model_commodity_modality: 'Modalité',
     model_commodity_unit: 'Unité',
@@ -283,7 +287,9 @@ export const TEXT = {
     model_criteria: 'Critère',
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score du poids',
+    model_currency: 'Devise',
     model_dateofbirth: 'Date de naissance',
+    model_distribution_beneficiary: 'Distribution du bénéficiaire',
     model_distribution_date: 'Date de la Distribution',
     model_distribution_name: 'Nom',
     model_distribution_type: 'Cible',
@@ -292,7 +298,9 @@ export const TEXT = {
     model_donor_shortname: 'Surnom',
     model_familyName: 'Nom',
     model_firstName: 'Prénom',
+    model_individual_value: 'Valeur individuelle',
     model_notes: 'Notes',
+    model_number_vouchers: 'Nombre de borchures',
     model_project_donors_name: 'Donneurs',
     model_project_end_date: 'Date de fin de projet',
     model_project_name: 'Nom  du projet',
@@ -303,11 +311,13 @@ export const TEXT = {
     model_sectors_name: 'Secteurs',
     model_transaction_message: 'Message',
     model_transaction_pickupDate: 'Date de récupération',
-    model_transaction_state: 'État',
+    model_state: 'État',
     model_type: 'Type',
+    model_used: 'Utilisé',
     model_user: 'Utilisateur',
-    model_user_password: 'Mot de passe',
+    model_password: 'Mot de passe',
     model_value: 'Valeur',
+    model_vendor: 'Vendeur',
     model_vulnerabilities: 'Vulnérabilités',
 
     // Profile
@@ -417,4 +427,7 @@ export const TEXT = {
     update_beneficiary_error_updated: 'Erreur lors de la modification: ',
     update_beneficiary_title: 'Modifier un bénéficiaire',
     update_beneficiary_updated_successfully: 'Modifié avec succès !',
+
+    //Vouchers
+    voucher_assign: 'Assigner aux vouchers',
 };

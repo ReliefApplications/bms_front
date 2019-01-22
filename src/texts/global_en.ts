@@ -299,8 +299,10 @@ export const TEXT = {
     model_donor_shortname: 'Shortname',
     model_familyName: 'Family name',
     model_firstName: 'First name',
+    model_individual_to_all: 'Set voucher value individually',
     model_individual_value: 'Individual value',
     model_notes: 'Notes',
+    model_number_booklets: 'Number of booklets to create',
     model_number_vouchers: 'Number of vouchers',
     model_project_donors_name: 'Donors',
     model_project_end_date: 'End Date',
@@ -430,4 +432,5 @@ export const TEXT = {
 
     //Vouchers
     voucher_assign: 'Assign vouchers',
+    voucher_assign_title: 'Assign booklet to a beneficiary',
 };

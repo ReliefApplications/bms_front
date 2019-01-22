@@ -52,6 +52,18 @@ export class Booklet {
      */
     distribution_beneficiary: number;
 
+    /**
+     * Booklet set individual for all
+     * @type {boolean}
+     */
+    individual_to_all: boolean;
+
+    /**
+     * Booklet number of booklets to create
+     * @type {number}
+     */
+    number_booklets: number;
+
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;
@@ -62,6 +74,8 @@ export class Booklet {
             this.status = instance.status;
             this.password = instance.password;
             this.distribution_beneficiary = instance.distribution_beneficiary;
+            this.individual_to_all = instance.individual_to_all;
+            this.number_booklets = instance.number_booklets;
         }
     }
 
@@ -83,6 +97,8 @@ export class Booklet {
             status: GlobalText.TEXTS.model_state,
             password: GlobalText.TEXTS.model_password,
             distribution_beneficiary: GlobalText.TEXTS.model_distribution_beneficiary,
+            individual_to_all: GlobalText.TEXTS.model_individual_to_all,
+            number_booklets: GlobalText.TEXTS.model_number_booklets,
         };
     }
 
@@ -166,6 +182,23 @@ export class Booklet {
     }
 
     /**
+    * return a Booklet after formatting its properties for the modal add
+    */
+    getMapperAdd(selfinstance): Object {
+        if (!selfinstance) {
+            return selfinstance;
+        }
+
+        return {
+            number_vouchers: selfinstance.number_vouchers,
+            individual_value: selfinstance.individual_value,
+            individual_to_all: selfinstance.individual_to_all,
+            currency: selfinstance.currency,
+            number_booklets: selfinstance.number_booklets,
+        };
+    }
+
+    /**
     * return a Booklet after formatting its properties for the modal details
     */
     getMapperDetails(selfinstance): Object {
@@ -226,6 +259,8 @@ export class Booklet {
             currency: 'text',
             status: 'number',
             password: 'text',
+            individual_to_all: 'boolean',
+            number_booklets: 'number'
         };
     }
 }

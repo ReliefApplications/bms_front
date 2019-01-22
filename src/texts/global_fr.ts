@@ -298,9 +298,11 @@ export const TEXT = {
     model_donor_shortname: 'Surnom',
     model_familyName: 'Nom',
     model_firstName: 'Prénom',
+    model_individual_to_all: 'Définir le voucheur comme valeur individuelle',
     model_individual_value: 'Valeur individuelle',
     model_notes: 'Notes',
-    model_number_vouchers: 'Nombre de borchures',
+    model_number_booklets: 'Nombre de brochures à créer',
+    model_number_vouchers: 'Nombre de bons',
     model_project_donors_name: 'Donneurs',
     model_project_end_date: 'Date de fin de projet',
     model_project_name: 'Nom  du projet',
@@ -430,4 +432,5 @@ export const TEXT = {
 
     //Vouchers
     voucher_assign: 'Assigner aux vouchers',
+    voucher_assign_title: 'Assign booklet to a beneficiary',
 };

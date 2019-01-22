@@ -433,4 +433,8 @@ export const TEXT = {
     //Vouchers
     voucher_assign: 'Assign vouchers',
     voucher_assign_title: 'Assign booklet to a beneficiary',
+    voucher_select_project: 'You have to select a project',
+    voucher_select_distribution: 'You have to select a distribution',
+    voucher_select_beneficiary: 'You have to select a beneficiary',
+    voucher_scan_text: 'Scan booklet QR code',
 };

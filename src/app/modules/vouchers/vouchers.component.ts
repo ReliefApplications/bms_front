@@ -11,6 +11,7 @@ import { ProjectService } from 'src/app/core/api/project.service';
 import { Project } from 'src/app/model/project';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { DistributionData } from 'src/app/model/distribution-data';
+import { Beneficiaries } from 'src/app/model/beneficiary';
 
 @Component({
   selector: 'app-vouchers',
@@ -42,16 +43,19 @@ export class VouchersComponent implements OnInit {
   public extensionType: string;
   public projectClass = Project;
   public distributionClass = DistributionData;
+  public beneficiariesClass = Beneficiaries;
 
   //Variables for the assigns' modal
   public controls = new FormControl('', [Validators.required]);
   public form = new FormGroup({
+    distributionControl: new FormControl({ value: '', required: true }),
+    beneficiaryControl: new FormControl({ value: '', required: true }),
   });
 
   public storeChoice = {
-    project: '',
-    distribution: '',
-    beneficiary: '',
+    project: 0,
+    distribution: 0,
+    beneficiary: 0,
   }
 
   public projects = [];
@@ -124,14 +128,17 @@ export class VouchersComponent implements OnInit {
   }
 
   /**
-     * get all projects
-     */
+   * get all projects
+   */
   getProjects(user_action): void {
     this.loadingAssign = true;
 
     this.projectService.get()
       .pipe(
-        finalize(() => this.loadingAssign = false)
+        finalize(() => {
+          this.loadingAssign = false;
+          this.openDialog(user_action);
+        })
       )
       .subscribe(
         response => {
@@ -140,15 +147,13 @@ export class VouchersComponent implements OnInit {
           } else if (response === null) {
             this.projects = [];
           }
-
-          this.openDialog(user_action);
         }
       );
   }
 
   /**
-       * get all distributions of a project
-       */
+   * get all distributions of a project
+   */
   getDistributions() {
     this.distributionService.getByProject(this.storeChoice.project)
       .subscribe(
@@ -159,7 +164,24 @@ export class VouchersComponent implements OnInit {
             this.distributions = [];
           }
         }
-      )
+      );
+  }
+
+  /**
+   * Gets the Beneficiaries of the selected distribution 
+   */
+  getBeneficiaries() {
+    this.distributionService.getBeneficiaries(this.storeChoice.distribution)
+      .subscribe(
+        response => {
+
+          if (response || response === []) {
+            this.beneficiaries = this.beneficiariesClass.formatArray(response);
+          } else {
+            this.beneficiaries = [];
+          }
+        }
+      );
   }
 
   openDialog(user_action): void {
@@ -185,6 +207,12 @@ export class VouchersComponent implements OnInit {
         });
       }
       else {
+        this.step1 = true;
+        this.step2 = false;
+        this.step3 = false;
+        this.step4 = false;
+        this.step5 = false;
+
         dialogRef = this.dialog.open(user_action);
       }
     }
@@ -196,5 +224,35 @@ export class VouchersComponent implements OnInit {
   exit(message: string) {
     this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
     this.dialog.closeAll();
+  }
+
+  nextStep(step) {
+    if (step == 2) {
+      if (this.storeChoice.project == 0) {
+        this.snackBar.open(this.voucher.voucher_select_project, '', { duration: 5000, horizontalPosition: 'center' });
+      }
+      else if (this.storeChoice.distribution == 0) {
+        this.snackBar.open(this.voucher.voucher_select_distribution, '', { duration: 5000, horizontalPosition: 'center' });
+      }
+      else if (this.storeChoice.beneficiary == 0) {
+        this.snackBar.open(this.voucher.voucher_select_beneficiary, '', { duration: 5000, horizontalPosition: 'center' });
+      }
+      else {
+        this.step1 = false;
+        this.step2 = true;
+      }
+    }
+    else if (step == 3) {
+      this.step2 = false;
+      this.step3 = true;
+    }
+    else if (step == 4) {
+      this.step3 = false;
+      this.step4 = true;
+    }
+    else if (step == 5) {
+      this.step4 = false;
+      this.step5 = true;
+    }
   }
 }

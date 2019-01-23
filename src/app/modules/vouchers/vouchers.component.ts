@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { GlobalText } from '../../../texts/global';
 import { MatTableDataSource, MatDialog, MatSnackBar } from '@angular/material';
 import { finalize } from 'rxjs/operators';
@@ -12,6 +12,8 @@ import { Project } from 'src/app/model/project';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { DistributionData } from 'src/app/model/distribution-data';
 import { Beneficiaries } from 'src/app/model/beneficiary';
+import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+import { Result } from '@zxing/library';
 
 @Component({
   selector: 'app-vouchers',
@@ -58,6 +60,9 @@ export class VouchersComponent implements OnInit {
     beneficiary: 0,
   }
 
+  public distributionName: string = '';
+  public beneficiaryName: string = '';
+
   public projects = [];
   public distributions = [];
   public beneficiaries = [];
@@ -67,6 +72,10 @@ export class VouchersComponent implements OnInit {
   public step3: boolean = false;
   public step4: boolean = false;
   public step5: boolean = false;
+
+  public bookletQRCode: string = "code-for-booklet-1";
+  public code: string = '';
+  public displayPassword: boolean = false;
 
   constructor(
     public bookletService: BookletService,
@@ -92,6 +101,10 @@ export class VouchersComponent implements OnInit {
   checkSize(): void {
     this.heightScreen = window.innerHeight;
     this.widthScreen = window.innerWidth;
+  }
+
+  setType(choice: string) {
+    this.extensionType = choice;
   }
 
   getBooklets() {
@@ -213,7 +226,9 @@ export class VouchersComponent implements OnInit {
         this.step4 = false;
         this.step5 = false;
 
-        dialogRef = this.dialog.open(user_action);
+        dialogRef = this.dialog.open(user_action, {
+          id: 'modal-voucher',
+        });
       }
     }
   }
@@ -238,21 +253,41 @@ export class VouchersComponent implements OnInit {
         this.snackBar.open(this.voucher.voucher_select_beneficiary, '', { duration: 5000, horizontalPosition: 'center' });
       }
       else {
+        this.distributionName = this.distributions.filter(element => { return element.id === this.storeChoice.distribution })[0].name;
+        this.beneficiaryName = this.beneficiaries.filter(element => { return element.id === this.storeChoice.beneficiary })[0].full_name;
+
         this.step1 = false;
         this.step2 = true;
       }
     }
-    else if (step == 3) {
-      this.step2 = false;
-      this.step3 = true;
-    }
+    //Step 3 passed when we scan the QRCode
     else if (step == 4) {
       this.step3 = false;
       this.step4 = true;
     }
     else if (step == 5) {
-      this.step4 = false;
-      this.step5 = true;
+      if (this.displayPassword && (isNaN(Number(this.code)) || this.code == '' || this.code.length != 4)) {
+        this.snackBar.open(this.voucher.voucher_only_digits, '', { duration: 5000, horizontalPosition: 'center' });
+      }
+      else {
+        if (!this.displayPassword)
+          this.code = '';
+
+        this.step4 = false;
+        this.step5 = true;
+      }
     }
+  }
+
+  getResultScanner(event) {
+    this.bookletQRCode = event;
+
+    this.step2 = false;
+    this.step3 = true;
+  }
+
+  assignBooklet() {
+    //TODO Assign booklet to specified benef
+    this.exit(this.voucher.voucher_confirm + ' ' + this.beneficiaryName);
   }
 }

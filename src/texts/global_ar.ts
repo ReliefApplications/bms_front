@@ -437,4 +437,12 @@ export const TEXT = {
     voucher_select_distribution: 'You have to select a distribution',
     voucher_select_beneficiary: 'You have to select a beneficiary',
     voucher_scan_text: 'Scan booklet QR code',
+    voucher_no_device: 'There is no device detected',
+    voucher_no_permission: 'You have refused to allow the camera',
+    voucher_define_password: 'Define password for booklet', 
+    voucher_ask_code: 'Please ask beneficiary to enter his 4 digits code here',
+    voucher_only_digits: 'Your password must be only 4 digits',
+    voucher_step5: 'will be assigned to',
+    voucher_for: 'for',
+    voucher_confirm: 'Booklet assigned to',
 };

@@ -437,4 +437,12 @@ export const TEXT = {
     voucher_select_distribution: 'Vous devez sélectionner une distribution',
     voucher_select_beneficiary: 'Vous devez sélectionner un bénéficiaire',
     voucher_scan_text: 'Scanner le QR code de la brochure',
+    voucher_no_device: 'Il n\'y a pas de caméra connectée',
+    voucher_no_permission: 'Vous avez refusé la permission d\'accéder à la caméra',
+    voucher_define_password: 'Définissez un mot de passe pour la brochure', 
+    voucher_ask_code: 'S\'il vous plaît, demandez au bénéficiaire de saisir 4 chiffres ci-dessous',
+    voucher_only_digits: 'Votre mot de passe ne doit contenir que 4 chiffres',
+    voucher_step5: 'va être assignée à',
+    voucher_for: 'pour',
+    voucher_confirm: 'Brochure assignée à',
 };

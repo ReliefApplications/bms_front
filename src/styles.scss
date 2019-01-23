@@ -70,6 +70,19 @@ body {
     max-width: 63vw !important;
     display: flex;
     justify-content: center;
+
+
+    #modal-voucher {
+      width: 70%;
+
+      .modal-body {
+        width: 100%;
+
+        tbody {
+            width: 100%;
+        }
+      }
+    }
   }
 }
 

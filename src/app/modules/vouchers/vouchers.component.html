@@ -90,7 +90,8 @@
             <th class="table-value">
               <form class="form" [formGroup]="form">
                 <mat-form-field class="full-width">
-                  <mat-select [(ngModel)]="storeChoice['distribution']" formControlName="distributionControl" (selectionChange)="getBeneficiaries()">
+                  <mat-select [(ngModel)]="storeChoice['distribution']" formControlName="distributionControl"
+                    (selectionChange)="getBeneficiaries()">
                     <mat-option *ngFor="let distribution of distributions" [value]="distribution.id">{{distribution.name}}</mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -99,33 +100,80 @@
           </tr>
 
           <tr class="modal-row">
-              <th class="table-title">{{ voucher.beneficiary }}</th>
-              <th class="table-value">
-                <form class="form" [formGroup]="form">
-                  <mat-form-field class="full-width">
-                    <mat-select [(ngModel)]="storeChoice['beneficiary']" formControlName="distributionControl">
-                      <mat-option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.id">{{beneficiary.full_name}}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </form>
-              </th>
-            </tr>
+            <th class="table-title">{{ voucher.beneficiary }}</th>
+            <th class="table-value">
+              <form class="form" [formGroup]="form">
+                <mat-form-field class="full-width">
+                  <mat-select [(ngModel)]="storeChoice['beneficiary']" formControlName="distributionControl">
+                    <mat-option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.id">{{beneficiary.full_name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </form>
+            </th>
+          </tr>
         </table>
       </div>
       <div class="modal-footer action">
         <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{voucher.cancel}}</button>
-        <button mat-button class="confirm" (click)="nextStep(2)">{{voucher.transaction_confirm_button}}</button>
+        <button mat-button class="confirm" (click)="nextStep(2)">{{voucher.next}}</button>
       </div>
     </div>
 
     <div class="dialog-template" *ngIf="step2">
-        <div class="modal-body modal-subtitle">
-          <p>{{ voucher.voucher_scan_text }}</p>
-        </div>
+      <app-scanner (result)="getResultScanner($event)"></app-scanner>
+    </div>
+
+    <div *ngIf="step3">
+      <p>{{ voucher.voucher_scan_text }}</p>
+
+      <div class="scan-checked">
+        <mat-icon>check_circle_outline</mat-icon>
+      </div>
+
+      <div class="button-text-accent center-items">
+        <mat-icon>local_activity</mat-icon>
+        <span>{{ bookletQRCode }}</span>
+      </div>
+
+      <div class="dialog-template">
         <div class="modal-footer action">
           <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{voucher.cancel}}</button>
-          <button mat-button class="confirm" (click)="confirmValidation()">{{voucher.transaction_confirm_button}}</button>
+          <button mat-button class="confirm" (click)="nextStep(4)">{{voucher.next}}</button>
         </div>
       </div>
+    </div>
+
+    <div *ngIf="step4">
+      <span>{{ voucher.voucher_define_password}} {{ bookletQRCode }} ?</span>
+      <mat-checkbox color="primary" [(ngModel)]="displayPassword" class="margin-left"></mat-checkbox>
+
+      <div [hidden]="!displayPassword">
+        <p>{{ voucher.voucher_ask_code }}</p>
+        <div class="dialog-template">
+          <mat-form-field class="full-width">
+            <input matInput type="text" [(ngModel)]="code" placeholder={{voucher.model_code}} />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="dialog-template">
+        <div class="modal-footer action">
+          <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{voucher.cancel}}</button>
+          <button mat-button class="confirm" (click)="nextStep(5)">{{voucher.next}}</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="step5">
+      <p>{{ voucher.model_booklet }} {{ bookletQRCode }} {{ voucher.voucher_step5 }} {{ beneficiaryName }} {{
+        voucher.voucher_for }} {{ distributionName }}</p>
+
+      <div class="dialog-template">
+        <div class="modal-footer action">
+          <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{voucher.cancel}}</button>
+          <button mat-button class="confirm" (click)="assignBooklet()">{{voucher.transaction_confirm_button}}</button>
+        </div>
+      </div>
+    </div>
   </mat-dialog-content>
 </ng-template>

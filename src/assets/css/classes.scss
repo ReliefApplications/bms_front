@@ -145,6 +145,10 @@ button mat-icon {
     margin-right: 10px;
 }
 
+button.mat-icon-button .mat-button-wrapper .mat-icon {
+    margin-left: 8px;
+    padding-bottom: 3px;
+}
 .mat-raised-button {
   color: $bms_grey !important;
   height: 40px !important;

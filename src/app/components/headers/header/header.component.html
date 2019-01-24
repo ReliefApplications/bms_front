@@ -26,7 +26,7 @@
                 <mat-icon>language</mat-icon>
                 <span>{{selectedCountry}}</span>
             </button>
-            <mat-menu #country="matMenu" class="" overlapTrigger=false>
+            <mat-menu #country="matMenu" overlapTrigger=false>
                 <button class="flag-button" *ngFor="let c of countries" mat-menu-item (click)="selectCountry(c)">
                     <mat-icon>language</mat-icon>
                     <span>{{c}}</span>

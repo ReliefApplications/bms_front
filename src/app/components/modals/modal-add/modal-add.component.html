@@ -8,7 +8,7 @@
 
             <th class="table-value">
                 <form class="form" [formGroup]="form">
-                    <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects'"
+                    <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects'"
                         class="full-width">
 
                         <input matInput [maxlength]="this.maxLength" *ngIf="propertiesTypes[p]=='text'" [(ngModel)]="newObject[p]"
@@ -25,11 +25,6 @@
                         <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]"
                             [ngModelOptions]="{standalone: true}" type="number" min="0">
 
-                        <mat-select *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
-                            [formControl]="controls" (selectionChange)="selected($event, newObject)">
-                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string  | titlecase }}{{singleData.name  | titlecase }}</mat-option>
-                        </mat-select>
-
                         <mat-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] == 'ROLE_COUNTRY_MANAGER'"
                             [(ngModel)]="newObject[p]" placeholder="Countries" formControlName="countryControl">
                             <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</mat-option>
@@ -43,7 +38,12 @@
                     </mat-form-field>
 
                     <ng-select *ngIf="propertiesTypes[p]=='select'" class="custom" [(ngModel)]="newObject[p]" bindLabel="name"
-                        [items]="loadedData[p]" [multiple]="true" placeholder="{{mapperObject[p]}}" [closeOnSelect]="false"
+                        [items]="loadedData[p]" [multiple]="true" placeholder="{{mapperObject[p]}}" [closeOnSelect]="true"
+                        [searchable]="true" [ngModelOptions]="{standalone: true}">
+                    </ng-select>
+
+                    <ng-select *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" bindLabel="name" bindValue="name"
+                        [items]="loadedData[p]"  [multiple]="false" placeholder="{{mapperObject[p]}}" [closeOnSelect]="true"
                         [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
 

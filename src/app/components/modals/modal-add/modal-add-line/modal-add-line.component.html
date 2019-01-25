@@ -1,5 +1,5 @@
 <div class="modal-container">
-  <h4 class="modal-title underline-accent stickyHeader">{{modal.modal_add_title}}{{entityDisplayedName | lowercase}}</h4>
+  <h4 class="modal-title underline-accent stickyHeader">{{modal.modal_add_title |titlecase }}{{entityDisplayedName | titlecase}}</h4>
   <table class="modal-table">
     <tr *ngFor="let p of properties">
       <div *ngIf="p != 'weight'" class="modal-row">
@@ -44,14 +44,19 @@
         </th>
       </div>
     </tr>
-
-    <div class="advanced-icon">
-      <button mat-button class="button-text-accent" (click)="changeDisplay()">
-        <span>{{ modal.add_distribution_advanced_option }}</span>
-        <mat-icon>{{ iconAdvanced }}</mat-icon>
-      </button>
-    </div>
-
+    <tr>
+      <div class="modal-row">
+        <th class="table-title"></th>
+        <th class="table-value advanced-icon-wrapper">
+          <div class="advanced-icon">
+            <button mat-button class="button-text-accent" (click)="changeDisplay()">
+              <span>{{ modal.add_distribution_advanced_option | titlecase}}</span>
+              <mat-icon>{{ iconAdvanced }}</mat-icon>
+            </button>
+          </div>
+        </th> 
+      </div>
+    </tr>
     <tr *ngIf="displayWeight" class="modal-row">
       <th class="table-title">{{mapperObject['weight']}}</th>
 

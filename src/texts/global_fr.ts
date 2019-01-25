@@ -228,6 +228,8 @@ export const TEXT = {
     import_distribution_no_right_update: 'Vous n\'avez pas le droit nécessaire pour modifier la distribution, demandez à votre reponsable de projet',
     import_distribution_updated: 'Distribution modifiée',
     import_updated: 'Mis à jour',
+    import_select_new: 'Cocher tous les nouveaux',
+    import_select_old: 'Cocher tous les anciens',
 
     // Login
     login_bms: 'Beneficiary management system',

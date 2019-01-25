@@ -137,6 +137,17 @@ mat-horizontal-stepper {
     margin-top: 15px;
 }
 
+.container-checkboxes {
+    width: 100%;
+    text-align: right;
+    margin-right: 2%;
+    margin-top: 10px;
+}
+
+.checkbox-all:first-child {
+    margin-right: 20px;
+}
+
 //for mobile screen
 @media only screen and (max-width: 750px){
     .issues {

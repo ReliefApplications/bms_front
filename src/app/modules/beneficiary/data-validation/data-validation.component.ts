@@ -49,6 +49,9 @@ export class DataValidationComponent implements OnInit {
     public newHouseholds: any = {};
     public email: string;
 
+    public allOld: boolean = false;
+    public allNew: boolean = false;
+
     constructor(
         public _importService: ImportService,
         public _householdsService: HouseholdsService,
@@ -488,7 +491,7 @@ export class DataValidationComponent implements OnInit {
             );
     }
 
-    selectAll(event, option, functionName) {
+    selectAll(option, functionName) {
         if (option == 'old') {
             if (functionName == "step1TypoIssues") {
                 this.typoIssues.forEach((element, i) => {
@@ -501,10 +504,6 @@ export class DataValidationComponent implements OnInit {
                         this.step2Duplicates(isDuplicate, 'old', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache);
                     });
                 });
-            }
-
-            else if (functionName) {
-
             }
         }
         else {

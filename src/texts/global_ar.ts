@@ -228,6 +228,8 @@ export const TEXT = {
     import_distribution_no_right_update: 'لا يحق لك تحديث التوزيع ، اسأل مدير المشروع الخاص بك',
     import_distribution_updated: 'تم تحديث التوزيع',
     import_updated: 'تم تحديثها',
+    import_select_new: 'Check all new',
+    import_select_old: 'Check all old',
 
     // Login
     login_bms: 'نظام إدارة المستفيدين',

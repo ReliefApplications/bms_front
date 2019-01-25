@@ -8,6 +8,8 @@ import { GlobalText } from '../../../texts/global';
 import { finalize } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
+
+
 @Component({
 	selector: 'app-dashboard',
 	templateUrl: './dashboard.component.html',
@@ -35,6 +37,22 @@ export class DashboardComponent implements OnInit {
 	hasRights: boolean = false;
 	hasRightsEdit: boolean = false;
 
+	//Summary table definition
+
+	public summaryStyling = 
+[
+	[
+		{icon: "home", color: "green", title:this.dashboard.dashboard_summary_1, subtitle:this.summary[0], ref:""}, 
+		{icon: "project", color: "green", title:this.dashboard.dashboard_summary_2, subtitle:this.summary[1], undersubtitle:"",ref:""},
+	],
+	[
+		{icon: "enrol", color: "blue", title:this.dashboard.dashboard_summary_3, subtitle:this.summary[2], undersubtitle:"",ref:""},
+		{icon: "dollar", color: "blue", title:this.dashboard.dashboard_summary_4, subtitle:this.summary[3], undersubtitle:"",ref:""},
+	],	
+]
+
+
+
 	constructor(
 		private serviceMap: LeafletService,
 		private _cacheService: AsyncacheService,
@@ -55,6 +73,8 @@ export class DashboardComponent implements OnInit {
 				this.checkPermission(result);
 			}
 		})
+
+
 	}
 
     /**
@@ -110,19 +130,16 @@ export class DashboardComponent implements OnInit {
 		this.loadingSummary = true;
 		this._generalService.getSummary()
 			.pipe(
-				finalize(
-					() => {
+				finalize(() => {
 						this.loadingSummary = false;
-					},
-				)
-			).subscribe(response => {
-				if (response) {
+					}),
+			)
+			.subscribe(response => {
+				if(response){
 					this.loadingSummary = false;
 					this.summary = response;
-				} else {
-					this.loadingSummary = false;
 				}
-			});
+			})
 	}
 
 	checkPermission(result) {

@@ -306,6 +306,7 @@ export const TEXT = {
     model_transaction_pickupDate: 'اختر تاريخا',
     model_type: 'النوع',
     model_vulnerabilities: 'نقاط الضعف',
+    model_used: 'Used',
     model_user: 'المستخدم',
     model_user_password: 'كلمة المرور',
     model_value: 'القيمة',

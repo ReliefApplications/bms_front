@@ -10,6 +10,7 @@ import { MatTableDataSource, MatSnackBar, MatDialog, MatFormField, MatStepper } 
 import { Mapper } from '../../../core/utils/mapper.service';
 import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
 import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
+import { TransactionVoucher } from '../../../model/transaction-voucher';
 import { finalize, last, map } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
@@ -18,6 +19,7 @@ import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
 import { NetworkService } from 'src/app/core/api/network.service';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
     selector: 'app-distributions',
@@ -49,7 +51,10 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     beneficiaryEntity = Beneficiaries;
     distributionEntity = DistributionData;
     importedBeneficiaryEntity = ImportedBeneficiary;
-    transactionBeneficiaryEntity = TransactionBeneficiary;
+    entity: any;
+    selection = new SelectionModel<any>(true, []);
+    checkedLines: any = [];
+    distributed: boolean = false;
 
     // Datas.
     initialBeneficiaryData: MatTableDataSource<any>;
@@ -248,7 +253,14 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                         this.loadingFinalStep = false;
                     } else if (type === 'transaction') {
                         // console.log('Getting transaction data');
-                        this.transactionData = new MatTableDataSource(TransactionBeneficiary.formatArray(data, this.actualDistribution.commodities));
+                        if (this.actualDistribution.commodities[0].modality_type.name == "Voucher") {
+                            this.entity = TransactionVoucher;
+                        }
+                        else if (this.actualDistribution.commodities[0].modality_type.name == "Mobile Cash") {
+                            this.entity = TransactionBeneficiary;
+                        }
+
+                        this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));
                         this.refreshStatuses();
                         this.loadingTransaction = false;
                     }
@@ -825,5 +837,25 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                     }
                 }
             );
+    }
+
+    getChecked(event) {
+        this.checkedLines = event;
+    }
+
+    distributeVoucher() {
+        this.checkedLines.forEach(
+            checked => {
+                this.transactionData.data.filter(
+                    data => {
+                        if (checked.id === data.id) {
+                            data.used = !data.used;
+                        }
+                    }
+                )
+            }
+        );
+
+        this.selection = new SelectionModel<any>(true, []);
     }
 }

@@ -18,7 +18,7 @@
   margin-block-end: 1.33em;
 }
 
-.ng-select.custom ::ng-deep .ng-select-container .ng-value-container .ng-value {
+.ng-select.multiple ::ng-deep .ng-select-container .ng-value-container .ng-value {
   background-color: #424242;
 }
 
@@ -39,4 +39,9 @@
 
 .ng-select-opened ::ng-deep .ng-option-selected {
   color: #424242 !important;
+}
+
+.ng-select.single ::ng-deep .ng-select-container .ng-value-container .ng-value .ng-value-label{
+  position: relative;
+  top: 4px;
 }

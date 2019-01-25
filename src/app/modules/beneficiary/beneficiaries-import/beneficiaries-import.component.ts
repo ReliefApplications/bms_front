@@ -25,6 +25,10 @@ export class BeneficiariesImportComponent implements OnInit {
     public household = GlobalText.TEXTS;
     loadingExport = false;
 
+    // to disable / enable the second box
+    public isProjectsDisabled = true;
+    public isApiDisabled = true;
+
     // for the items button
     selectedTitle = 'file import';
     isBoxClicked = false;
@@ -144,6 +148,7 @@ export class BeneficiariesImportComponent implements OnInit {
 
         if (fileList.length > 0) {
             this.csv = fileList[0];
+            this.isProjectsDisabled = false;
         }
     }
 
@@ -265,6 +270,7 @@ export class BeneficiariesImportComponent implements OnInit {
                 this.chosenItem = this.APINames[0];
                 this.ParamsToDisplay.push({ 'paramType': this.APIParams[0].paramType, 'paramName': this.APIParams[0].paramName });
                 this.provider = this.chosenItem;
+                this.chosenItem ? this.isApiDisabled = false : 0;
             });
     }
 
@@ -286,31 +292,37 @@ export class BeneficiariesImportComponent implements OnInit {
     //Check if all fields are set, and import all the beneficiaries
     addBeneficiaries() {
         if (Object.keys(this.paramToSend).length == this.APIParams.length && Object.keys(this.paramToSend).length > 0) {
-            const project = this.selectedProject.split(' - ');
-            this.load = true;
-            this.paramToSend['provider'] = this.provider;
-            this._beneficiariesService.importApi(this.paramToSend, project[0])
-                .subscribe(response => {
-                    if (response.error) {
-                        this.load = false;
-                        this.snackBar.open(response.error, '', { duration: 5000, horizontalPosition: 'right' });
-                        delete this.paramToSend['provider'];
-                    }
-                    else if (response.exist) {
-                        this.load = false;
-                        this.snackBar.open(response.exist, '', { duration: 5000, horizontalPosition: 'right' });
-                        delete this.paramToSend['provider'];
-                    }
-                    else {
-                        this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 5000, horizontalPosition: 'right' });
-                        this.newHouseholds = response.households;
+            if (this.selectedProject == null) {
+                this.snackBar.open(this.household.beneficiaries_missing_selected_project, '', {duration: 5000, horizontalPosition: 'right'})
+            } else {
+                const project = this.selectedProject.split(' - ');
+                this._importService.project = project[0];
+                this.load = true;
+                this.paramToSend['provider'] = this.provider;
+                this._beneficiariesService.importApi(this.paramToSend, project[0])
+                    .subscribe(response => {
+                        if (response.error) {
+                            this.load = false;
+                            this.snackBar.open(response.error, '', { duration: 5000, horizontalPosition: 'right' });
+                            delete this.paramToSend['provider'];
+                        }
+                        else if (response.exist) {
+                            this.load = false;
+                            this.snackBar.open(response.exist, '', { duration: 5000, horizontalPosition: 'right' });
+                            delete this.paramToSend['provider'];
+                        }
+                        else {
+                            this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 5000, horizontalPosition: 'right' });
+                            this.newHouseholds = response.households;
 
-                        this.importedHouseholds();
-                    }
-                });
+                            this.importedHouseholds();
+                        }
+                    });
+            }
         }
         else
             this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+
     }
 
 
@@ -323,7 +335,7 @@ export class BeneficiariesImportComponent implements OnInit {
                     this.newHouseholds = Households.formatArray(this.newHouseholds);
                     this.importedDataService.data = this.newHouseholds;
 
-                    this.router.navigate(['/beneficiaries/imported/data']);
+                    this.router.navigate(['/beneficiaries/imported']);
                 }
             );
     }

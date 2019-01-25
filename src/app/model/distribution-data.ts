@@ -107,6 +107,10 @@ export class DistributionData {
      * Distribution data's finished
      */
     finished: boolean = false;
+    /**
+     * Distribution data's beneficiaries
+     */
+    distribution_beneficiaries: any;
 
     constructor(instance?) {
         if (instance !== undefined && instance != null) {
@@ -123,6 +127,7 @@ export class DistributionData {
             this.date_distribution = instance.date_distribution;
             this.validated = instance.validated;
             this.threshold = instance.threshold;
+            this.distribution_beneficiaries = instance.distribution_beneficiaries;
 
             if (instance.commodities)
                 this.commodity = this.mapCommodity(instance.commodities[0].modality_type.name);
@@ -366,30 +371,25 @@ export class DistributionData {
             return selfinstance;
         }
 
-        let location;
-        let adm1 = "none";
-        let adm2 = "none";
-        let adm3 = "none";
-        let adm4 = "none";
+        let adm1 = null;
+        let adm2 = null;
+        let adm3 = null;
+        let adm4 = null;
 
-        if (selfinstance.location.adm1) {
-            location = selfinstance.location.adm1.name;
-            adm1 = selfinstance.location.adm1.name;
-        } else if (selfinstance.location.adm2) {
-            location = selfinstance.location.adm2.name;
-            adm2 = selfinstance.location.adm2.name;
-            adm1 = selfinstance.location.adm2.adm1.name;
-        } else if (selfinstance.location.adm3) {
-            location = selfinstance.location.adm3.name;
-            adm3 = selfinstance.location.adm3.name;
-            adm2 = selfinstance.location.adm3.adm2.name;
-            adm1 = selfinstance.location.adm3.adm2.adm1.name;
-        } else if (selfinstance.location.adm4) {
-            location = selfinstance.location.adm4.name;
-            adm4 = selfinstance.location.adm4.name;
-            adm3 = selfinstance.location.adm4.adm3.name;
-            adm2 = selfinstance.location.adm4.adm3.adm2.name;
-            adm1 = selfinstance.location.adm4.adm3.adm2.adm1.name;
+        if (selfinstance.location.adm4) {
+           adm4 = selfinstance.location.adm4.name;
+           adm3 = selfinstance.location.adm4.adm3.name;
+           adm2 = selfinstance.location.adm4.adm3.adm2.name;
+           adm1 = selfinstance.location.adm4.adm3.adm2.adm1.name;
+       } else if (selfinstance.location.adm3) {
+           adm3 = selfinstance.location.adm3.name;
+           adm2 = selfinstance.location.adm3.adm2.name;
+           adm1 = selfinstance.location.adm3.adm2.adm1.name;
+       } else if (selfinstance.location.adm2) {
+           adm2 = selfinstance.location.adm2.name;
+           adm1 = selfinstance.location.adm2.adm1.name;
+       } else if (selfinstance.location.adm1) {
+           adm1 = selfinstance.location.adm1.name;
         }
 
         let distType;
@@ -420,18 +420,25 @@ export class DistributionData {
             commodity = 'none';
         }
 
-        return {
+        let data = {
             date_distribution: selfinstance.date_distribution,
-            location_name: location,
             number_beneficiaries: num,
             commodities: commodity,
             type: distType,
-            project: selfinstance.project.name,
-            adm1: adm1,
-            adm2: adm2,
-            adm3: adm3,
-            adm4: adm4
+            project: selfinstance.project.name
         };
+
+        if (adm4) {
+          data['adm4'] = adm4;
+        } else if (adm3) {
+          data['adm3'] = adm3;
+        } else if (adm2) {
+          data['adm2'] = adm2;
+        } else if (adm1) {
+          data['adm1'] = adm1;
+        }
+
+        return data;
     }
 
     /**

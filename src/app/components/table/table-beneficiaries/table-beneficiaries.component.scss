@@ -4,20 +4,29 @@
     display:flex;
     width: 100%;
     justify-content: left;
+    font-size: 14px;
     
 
     .mat-raised-button {
         background-color:$bms_white !important;
         box-shadow: none !important;
         color:$bms_black !important;
-        font-size: inherit;
+        font-size: 14px;
 
         .mat-icon {
-            width:18px;
-            height:18px;
-            font-size: 18px;
-            line-height: 18px;
+            width:16px;
+            height:16px;
+            font-size: 16px;
+            line-height: 16px;
             padding-bottom:5px;
         }
     }
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
 }

@@ -56,7 +56,12 @@ export class Beneficiaries {
      * @type {Array}
      */
     vulnerabilities: Array<string> = [];
-
+    
+    /**
+     * Beneficiary's full_name
+     * @type {string}
+     */
+    full_name: string;
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -69,6 +74,7 @@ export class Beneficiaries {
             this.national_ids = instance.national_ids;
             this.phones = instance.phones;
             this.vulnerabilities = instance.vulnerabilities;
+            this.full_name = instance.full_name;
         }
     }
 
@@ -147,6 +153,8 @@ public static formatElement(instance: any): Beneficiaries {
     beneficiary.date_of_birth = instance.date_of_birth;
     beneficiary.status = instance.status;
     beneficiary.id = instance.id;
+
+    beneficiary.full_name = instance.given_name + ' ' + instance.family_name;
 
     beneficiary.national_ids = [];
     beneficiary.phones = [];

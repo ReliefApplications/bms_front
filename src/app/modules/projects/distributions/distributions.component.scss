@@ -1,50 +1,5 @@
 @import '../../../../assets/css/variable.scss';
 
-    .title {
-        width: 100%;
-        height: 100px;
-        text-align : center;
-        margin: 0 auto;
-        padding: 15px;
-
-        .first-line-title {
-            width: unset;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            h2 {
-                text-align: left;
-            }
-            button {
-                border-radius: 8px;
-            }
-        }
-
-        p {
-            margin-top : 10px;
-            font-size: 18px;
-
-            mat-icon {
-                padding: auto;
-                margin-left: 3px;
-                font-size: 20px;
-                vertical-align: middle;
-
-                &.unvalid {
-                    color: grey;
-                }
-                &.valid {
-                    color: $bms_red;
-                }
-            }
-        }
-        app-placeholder-title {
-            width: 100% !important;
-            height: 150px !important;
-        }
-    }
-
 app-table-search{
     width: 100%;
     height: 100%;
@@ -73,19 +28,11 @@ mat-dialog-content {
     }
 }
 
-.container-content {
-    border-top: solid 12px $bms_green;
-}
 .container-empty {
     width: 100%;
     margin: 15px;
     text-align: center;
     font-size: 18px;
-}
-
-.properties-displayed {
-    margin-top: 20px;
-    width: 100%;
 }
 
 .generator {
@@ -185,6 +132,9 @@ mat-dialog-content {
     display: flex;
     width : 100%;
     flex-direction: column;
+    app-transaction-table {
+        width: 100%;
+    }
 }
 
 .waitingDataContainer {
@@ -286,6 +236,29 @@ app-import-distribution {
     padding: 0px !important;
 }
 
+.ng-select.custom ::ng-deep .ng-select-container .ng-value-container .ng-value {
+    background-color: #424242;
+}
+
+.ng-select-focused ::ng-deep {
+    .ng-select-container::after {
+        border-color: #424242;
+        border-width: 2px;
+    }
+}
+
+.ng-select-focused ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
+    color: #424242;
+}
+
+.ng-select-focused ::ng-deep .ng-arrow {
+    color: #424242 !important;
+}
+
+.ng-select-opened ::ng-deep .ng-option-selected {
+    color: #424242 !important;
+}
+
 //for mobile screen
 @media only screen and (max-width: 750px){
 
@@ -310,10 +283,6 @@ app-import-distribution {
     .action-buttons {
         width: 100%;
         padding-bottom: 20px;
-    }
-
-    .mat-raised-button{
-        font-size: 2vh;
     }
 
     mat-dialog-content {

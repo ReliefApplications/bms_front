@@ -8,7 +8,7 @@ import { GlobalText                                           } from '../../../.
 @Component({
   selector: 'app-table-small',
   templateUrl: './table-small.component.html',
-  styleUrls: ['./table-small.component.scss']
+  styleUrls: ['../table.component.scss']
 })
 export class TableSmallComponent extends TableComponent {
   public mapperObject = null;

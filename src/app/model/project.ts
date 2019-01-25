@@ -91,14 +91,14 @@ export class Project {
         let donorsArray = [];
         if (selfinstance.donors) {
             selfinstance.donors.forEach(element => {
-                donorsArray.push(element.id);
+                donorsArray.push(element);
             });
         }
 
         let sectorsArray = [];
         if (selfinstance.sectors) {
             selfinstance.sectors.forEach(element => {
-                sectorsArray.push(element.id);
+                sectorsArray.push(element);
             });
         }
 
@@ -299,7 +299,7 @@ export class Project {
         if (element.sectors_name) {
             element.sectors_name.forEach(sector => {
                 const newSector = new Sector();
-                newSector.id = parseInt(sector, 10);
+                newSector.id = sector.id;
                 project.sectors.push(new Sector(newSector));
             });
         } else {
@@ -308,7 +308,7 @@ export class Project {
         if (element.donors_name) {
             element.donors_name.forEach(donor => {
                 const newDonor = new Donor();
-                newDonor.id = parseInt(donor, 10);
+                newDonor.id = donor.id;
                 project.donors.push(new Donor(newDonor));
             });
         } else {

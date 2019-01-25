@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, SimpleChanges } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
 
 import { GlobalText } from '../../../texts/global';
@@ -15,6 +15,7 @@ import { ExportInterface } from '../../model/export.interface';
 import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { delay, finalize } from 'rxjs/operators';
+import { ImportedDataService} from '../../core/utils/imported-data.service'
 
 
 @Component({
@@ -35,12 +36,12 @@ export class ProjectComponent implements OnInit {
 
     // loading
     loadingDistributions = true;
-    loadingCreation: boolean;
     loadingProjects = true;
     noNetworkData = false;
 
     selectedTitle = '';
     selectedProject = null;
+    selectedProjectId = null;
     isBoxClicked = false;
     extensionType: string;
     hasRights: boolean = false;
@@ -62,10 +63,17 @@ export class ProjectComponent implements OnInit {
         private _cacheService: AsyncacheService,
         public snackBar: MatSnackBar,
         public dialog: MatDialog,
+        public importedDataService: ImportedDataService
     ) { }
 
     ngOnInit() {
-        this.getProjects();
+        if (this.importedDataService.emittedProject) {
+            this.selectedProjectId = parseInt(this.importedDataService.project)
+            this.getProjects()
+        }
+        else {
+            this.getProjects();
+        }
         this.checkSize();
         this.checkPermission();
         this.extensionType = 'xls';
@@ -90,10 +98,10 @@ export class ProjectComponent implements OnInit {
             this.nameComponent = GlobalText.TEXTS.distributions;
         }
 
-        if (this.language !== GlobalText.language)
+        if (this.language !== GlobalText.language) {
             this.language = GlobalText.language;
+        }
     }
-
     /**
      * update current project and its distributions when a other project box is clicked
      * @param title
@@ -106,7 +114,6 @@ export class ProjectComponent implements OnInit {
         this.loadingDistributions = true;
         this.getDistributionsByProject(project.id);
     }
-
     setType(choice: string) {
         this.extensionType = choice;
     }
@@ -124,10 +131,13 @@ export class ProjectComponent implements OnInit {
             )
         ).subscribe(
             response => {
-                // console.log(response);
                 if (response && response.length > 0) {
                     this.projects = this.projectClass.formatArray(response).reverse();
-                    this.selectTitle(this.projects[0].name, this.projects[0]);
+                    if (this.selectedProjectId) {
+                        this.autoProjectSelect(this.selectedProjectId)
+                    } else {
+                        this.selectTitle(this.projects[0].name, this.projects[0]);
+                    }
                     this.loadingProjects = false;
                 } else if (response === null) {
                     this.projects = null;
@@ -189,7 +199,6 @@ export class ProjectComponent implements OnInit {
     }
 
     openNewProjectDialog() {
-        this.loadingCreation = true;
         const dialogRef = this.dialog.open(
             ModalAddComponent, {
                 data: {
@@ -216,11 +225,6 @@ export class ProjectComponent implements OnInit {
                     this.createElement(data);
             }
         );
-        dialogRef.afterClosed().subscribe(
-            () => {
-                this.loadingCreation = false;
-            }
-        );
     }
 
     createElement(createElement: Object) {
@@ -242,7 +246,14 @@ export class ProjectComponent implements OnInit {
                     this.hasRightsEdit = true;
             }
         )
+    }
 
-
+    autoProjectSelect(input: string) {
+        let selector = parseInt(input)
+        this.projects.forEach(e => {
+            if (e.id == selector) {
+                this.selectTitle(e.name, e);
+            }
+        })
     }
 }

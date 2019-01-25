@@ -1,21 +1,40 @@
 @import '../../../../assets/css/variable.scss';
 
-.content-drag-and-drop {
+.content-table {
     display: flex;
-    width: 100%;
+    justify-content: space-between;
+    flex-direction: row !important;
+    min-height: 30vh;
 
-    .card-drag-and-drop {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      align-items: center;
-
-      .img-folder {
-        height: 11vh;
-        padding: 5%;
-      }
+    .content-drag-and-drop {
+        display: flex;
+        width: 40%;
+        min-height: 30vh;
+        margin: 0 auto;
+        
+        .card-drag-and-drop {
+            width: 80%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 auto;
+            
+            .img-folder {
+                height: 11vh;
+                padding: 5%;
+            }
+        }
     }
+}
+
+.greyed-out {
+    background-color: rgba(0,0,0,0.4);
+    z-index: 2,
+}
+
+.importedFile {
+    padding: 0 !important;
 }
 
 .extension {
@@ -73,4 +92,27 @@
         justify-content: space-around;
         flex-direction: column;
     }
+
+    .content-table {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column !important;
+        height: 100%;
+    }
+
+    .content-drag-and-drop {
+        display: flex;
+        width: 100% !important;
+        margin-top: 5% !important;
+        .mat-card {
+            margin-bottom: 20px;
+        }
+    }
+
+    .card-api {
+        display: flex !important;
+        justify-content: space-around !important;
+        flex-direction: row !important;
+    }
+
 }

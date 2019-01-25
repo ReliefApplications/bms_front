@@ -2,10 +2,17 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ModalComponent } from '../modal.component';
 import { Donor } from '../../../model/donor';
 
+import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
+import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
+
 @Component({
     selector: 'modal-update',
     templateUrl: './modal-update.component.html',
-    styleUrls: ['../modal.component.scss', './modal-update.component.scss']
+    styleUrls: ['../modal.component.scss', './modal-update.component.scss'],
+    providers: [
+      { provide: DateAdapter, useClass: CustomDateAdapter },
+      { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+    ]
 })
 export class ModalUpdateComponent extends ModalComponent {
 

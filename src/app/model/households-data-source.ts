@@ -7,11 +7,10 @@ import { HouseholdsService } from "../core/api/households.service";
 export class HouseholdsDataSource implements DataSource<Households> {
 
     private householdsSubject = new BehaviorSubject<Households[]>([]);
-    private loadingSubject = new BehaviorSubject<boolean>(false);
     private lengthSubject = new BehaviorSubject<number>(0);
     public filter;
     public length$ = this.lengthSubject.asObservable();
-    public loading$ = this.loadingSubject.asObservable();
+    public loading = true;
     public adm1 = new BehaviorSubject<any[]>(null);
     public adm2 = new BehaviorSubject<any[]>(null);
     public adm3 = new BehaviorSubject<any[]>(null);
@@ -29,7 +28,6 @@ export class HouseholdsDataSource implements DataSource<Households> {
 
     disconnect(collectionViewer: CollectionViewer): void {
         this.householdsSubject.complete();
-        this.loadingSubject.complete();
     }
 
     loadHouseholds(
@@ -38,10 +36,12 @@ export class HouseholdsDataSource implements DataSource<Households> {
         pageIndex = 0,
         pageSize = 50
     ) {
-        this.loadingSubject.next(true);
+        this.loading = true;
         this.householdsService.get(filter, sort, pageIndex, pageSize).pipe(
             catchError(() => of([])),
-            finalize(() => this.loadingSubject.next(false))
+            finalize(() => {
+                this.loading = false
+            })
         )
             .subscribe(response => {
                 let households = [];
@@ -49,7 +49,8 @@ export class HouseholdsDataSource implements DataSource<Households> {
                     households = Households.formatArray(response[1]);
                     this.householdsSubject.next(households);
                     this.lengthSubject.next(response[0]);
-                }
+            }
+
                 
             });
     }
@@ -59,6 +60,6 @@ export class HouseholdsDataSource implements DataSource<Households> {
     }
 
     getLoadingState() {
-        return this.loading$;
+        return this.loading;
     }
 }

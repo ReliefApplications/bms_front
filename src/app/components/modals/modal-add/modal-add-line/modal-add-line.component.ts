@@ -3,10 +3,17 @@ import { ModalAddComponent } from '../modal-add.component';
 import { GlobalText } from '../../../../../texts/global';
 import { ConditionCriteriaMapper } from '../../../../model/condition-criteria-mapper';
 
+import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
+import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
+
 @Component({
     selector: 'app-modal-add-line',
     templateUrl: './modal-add-line.component.html',
-    styleUrls: ['../../modal.component.scss', './modal-add-line.component.scss']
+    styleUrls: ['../../modal.component.scss', './modal-add-line.component.scss'],
+    providers: [
+      { provide: DateAdapter, useClass: CustomDateAdapter },
+      { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+    ]
 })
 export class ModalAddLineComponent extends ModalAddComponent {
     public checkCriteria = -1;
@@ -124,7 +131,7 @@ export class ModalAddLineComponent extends ModalAddComponent {
                 this.closeDialog();
             }
         }
-        else 
-            this.snackBar.open(this.modal.modal_add_bad_weight, '', {duration: 5000, horizontalPosition: 'center'});   
+        else
+            this.snackBar.open(this.modal.modal_add_bad_weight, '', {duration: 5000, horizontalPosition: 'center'});
     }
 }

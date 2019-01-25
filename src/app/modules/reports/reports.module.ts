@@ -2,13 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedModule   } from '../../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 // Components
 import { ReportsComponent } from './reports.component';
 import { IndicatorComponent } from './indicator/indicator.component';
 import { IndicatorPageComponent } from './indicator-page/indicator-page.component';
 import { HeaderComponent } from './charts/header/header.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 //filter
 import { ButtonFilterComponent } from './filters/button-filter/button-filter.component';
@@ -29,13 +30,14 @@ import { StackedVerticalBarChartComponent } from './charts/stacked-vertical-bar-
 @NgModule({
 
     imports: [
-      // Angular Modules
-      CommonModule,
-      // Feature Modules
-      NgxChartsModule,
-      FormsModule,
-      ReactiveFormsModule,
-      SharedModule
+        // Angular Modules
+        CommonModule,
+        // Feature Modules
+        NgxChartsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule,
+        NgSelectModule,
     ],
     declarations: [
         ReportsComponent,
@@ -53,8 +55,7 @@ import { StackedVerticalBarChartComponent } from './charts/stacked-vertical-bar-
         StackedVerticalBarChartComponent,
         HeaderComponent,
         ButtonFilterDateComponent,
-        ButtonFilterItemsComponent      
+        ButtonFilterItemsComponent
     ]
-    })
-    export class ReportsModule {}
-    
+})
+export class ReportsModule { }

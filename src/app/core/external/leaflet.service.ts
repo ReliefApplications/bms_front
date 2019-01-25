@@ -49,10 +49,11 @@ export class LeafletService {
 
     addTileLayer() {
         // Add title layer to the map
+
         this.tiles = Leaflet.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/256/{z}/{x}/{y}@2x?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-            id: "reliefapps/cjgwb2m24003t2slbqoxip7jr",
-            accessToken: 'pk.eyJ1IjoicmVsaWVmYXBwcyIsImEiOiJjaXhoY2RicGMwMDBuMnltb3Jjc2k4dm5mIn0.V6kvZDXX_gxk-f8f9Ldr8w'
+            id: "raphaelreliefapplications/cjnpsw0g203rn2rt73ichorq1",
+            accessToken: 'pk.eyJ1IjoicmFwaGFlbHJlbGllZmFwcGxpY2F0aW9ucyIsImEiOiJjam5wc3Y5ZjAwMDNtM3Zud203aGdmcXVrIn0.dMsWwv-hy5OpYSXJpJM7vA'
         }).addTo(this.map);
     }
 
@@ -101,7 +102,7 @@ export class LeafletService {
                                                 (adm.feature.properties.ADM1_PCODE === element.code_location && element.adm_level === "adm1")) {
 
                                                 adm.setStyle({
-                                                    color: '#4AA896', // $bms_green    
+                                                    color: '#4AA896', // $bms_green
                                                     fillColor: '#4AA896', // $bms_green
                                                     weight: 2,
                                                     fillOpacity: .8,

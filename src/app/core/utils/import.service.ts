@@ -57,11 +57,12 @@ export class ImportService {
                 });
             } else {
                 if (step === 2) {
-                    this.referedClassToken = FormatDuplicatesData;
+                    // this.referedClassToken = FormatDuplicatesData;
+                    this.referedClassToken = FormatDataNewOld;
                     this.referedClassService.sendDataToValidation(email, data, project, step, token).subscribe(response => {
-
                         // use function to format and type data
-                        const responseFormatted = this.referedClassToken.formatDuplicates(response, step);
+                        const responseFormatted = this.referedClassToken.formatIssues(response, step);
+                        console.log("responseFormatted", responseFormatted);
                         for (let i = 0; i < responseFormatted.length; i++) {
                             this.data.push(responseFormatted[i]);
                         }
@@ -74,7 +75,6 @@ export class ImportService {
                 } else if (step === 3 || step === 4) {
                     this.referedClassToken = FormatDataNewOld;
                     this.referedClassService.sendDataToValidation(email, data, project, step, token).subscribe(response => {
-
                         // use function to format and type data
                         const responseFormatted = this.referedClassToken.formatIssues(response, step);
                         for (let i = 0; i < responseFormatted.length; i++) {

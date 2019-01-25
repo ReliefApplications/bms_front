@@ -5,27 +5,6 @@
   <div class="container-table">
     <div class="container-content box-green">
       <div class="content-button">
-        <div class="add-buttons" [ngClass]="{'add-buttons-arabic': language == 'ar', 'add-buttons-mobile': widthScreen <= maxWidthMobile}"
-          (mouseenter)="widthScreen > maxWidthMobile && this.addToggled = true" (mouseleave)="widthScreen > maxWidthMobile && this.addToggled = false">
-          <div class="toggled-buttons" [ngClass]="{'toggled': addToggled}">
-            <button mat-raised-button class="button-background-accent" routerLink="/beneficiaries/import">
-              <mat-icon>publish</mat-icon>
-              <span>{{household.import | titlecase}}</span>
-            </button>
-            <button mat-raised-button class="button-background-accent" (click)="addOneHousehold()">
-              <mat-icon>group_add</mat-icon>
-              <span>{{household.add_beneficiary_title | titlecase}}</span>
-            </button>
-          </div>
-        </div>
-        <button *ngIf="widthScreen > maxWidthMobile && hasRights" mat-raised-button class="add-button-create" (click)="toggleAddButtons()">
-          <mat-icon>add</mat-icon>
-          {{household.create | titlecase}}
-        </button>
-        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}"
-          (click)="toggleAddButtons()">
-          <mat-icon>add</mat-icon>
-        </button>
         <div class="action-buttons">
           <button mat-raised-button *ngIf="hasRightsDelete && checkedElements.length > 0" class="button-background-primary"
             (click)="addToProject(addBeneficiaries)" [matBadge]="checkedElements.length">
@@ -50,10 +29,6 @@
             </mat-menu>
           </div>
         </div>
-        <button mat-raised-button *ngIf="hasRightsDelete && checkedElements.length > 0" class="selectingBeneficiaries button-background-primary"
-          (click)="addToProject(addBeneficiaries)" [matBadge]="checkedElements.length">
-          {{household.beneficiaries_add_list}}
-        </button>
         <div class="add-buttons" [ngClass]="{'add-buttons-arabic': language == 'ar', 'add-buttons-mobile': widthScreen <= maxWidthMobile}"
           (mouseenter)="widthScreen > maxWidthMobile && this.addToggled = true" (mouseleave)="widthScreen > maxWidthMobile && this.addToggled = false">
           <div class="toggled-buttons" [ngClass]="{'toggled': addToggled}">

@@ -15,6 +15,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: stretch;
+    background-color: $bms_white;
 
     .mat-card-content {
         width: 100%;
@@ -58,15 +59,15 @@
                 padding: 8px;
                 font-weight: bold;
                 .mat-chip-list:not(.old) {
-                    justify-content: flex-start;
+                    justify-content: center;
                     .mat-chip {
                         background-color: $bms_white !important;
                         font-size: 1.1em;
                         padding: 3px 10px;
                     }
-                }           
+                }
             }
-        } 
+        }
     }
     .mat-chip-list, .old {
         background-color: $bms_white !important;
@@ -91,7 +92,7 @@ mat-horizontal-stepper {
     mat-icon {
         font-size: 20px !important;
     }
-    
+
 }
 
 .step-info {
@@ -167,7 +168,7 @@ mat-horizontal-stepper {
     }
 }
 
-@media only screen and (max-width: 750px) and (min-width: 450px) { 
+@media only screen and (max-width: 750px) and (min-width: 450px) {
     .container-table {
     }
     .step-info {

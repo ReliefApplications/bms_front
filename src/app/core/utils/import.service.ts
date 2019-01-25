@@ -51,7 +51,7 @@ export class ImportService {
                         this.token = response.token;
                         this.project = project;
                         resolve(this.data);
-                    }    
+                    }
                 }, error => {
                     reject({ 'message': 'Error while importing data' });
                 });
@@ -101,7 +101,7 @@ export class ImportService {
     }
 
     /**
-     * use by dataValidationComponent to get data retrun by the back
+     * Used by dataValidationComponent to get data returned by the back
      */
     getData() {
         return this.data;

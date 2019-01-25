@@ -49,6 +49,9 @@ export class DataValidationComponent implements OnInit {
     public newHouseholds: any = {};
     public email: string;
 
+    public allOld: boolean = false;
+    public allNew: boolean = false;
+
     constructor(
         public _importService: ImportService,
         public _householdsService: HouseholdsService,
@@ -486,5 +489,50 @@ export class DataValidationComponent implements OnInit {
                     this.router.navigate(['/beneficiaries/imported']);
                 }
             );
+    }
+
+    selectAll(option, functionName) {
+        if (option == 'old') {
+            if (functionName == "step1TypoIssues") {
+                this.typoIssues.forEach((element, i) => {
+                    this.step1TypoIssues(element, 'old', i);
+                });
+            }
+            else if (functionName == "step2Duplicates") {
+                this.duplicates.forEach(duplicate => {
+                    duplicate.data.forEach(isDuplicate => {
+                        this.step2Duplicates(isDuplicate, 'old', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache);
+                    });
+                });
+            }
+        }
+        else {
+            if (functionName == "step1TypoIssues") {
+                this.typoIssues.forEach((element, i) => {
+                    this.step1TypoIssues(element, 'new', i);
+                });
+            }
+            else if (functionName == "step2Duplicates") {
+                this.duplicates.forEach(duplicate => {
+                    duplicate.data.forEach(isDuplicate => {
+                        this.step2Duplicates(isDuplicate, 'new', isDuplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache);
+                    });
+                });
+            }
+            else if (functionName == "step3More") {
+                this.more.forEach(data => {
+                    data.new.households.beneficiaries.forEach(beneficiary => {
+                        this.step3More(beneficiary, data.old.households.id);
+                    });
+                });
+            }
+            else if (functionName == "step4Less") {
+                this.less.forEach(data => {
+                    data.old.households.beneficiaries.forEach(beneficiary => {
+                        this.step4Less(beneficiary.id, data.old.households.id, data.id_tmp_cache);
+                    });
+                });
+            }
+        }
     }
 }

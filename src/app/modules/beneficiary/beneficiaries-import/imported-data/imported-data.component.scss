@@ -2,6 +2,12 @@ app-placeholder-panel {
     min-height: 338px;
 }
 
+.content-table {
+  app-table-search {
+    width: 100%;
+  }
+}
+
 .project-button {
     margin-left: 10px;
 }

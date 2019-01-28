@@ -198,6 +198,7 @@ export class DataValidationComponent implements OnInit {
      * @param idCache number
      */
 	step2Duplicates(data: any, type: string, idDuplicate: string, newHousehold: any, idCache?: number) {
+		console.log("corrected", this.correctedData);
 		let verification = new VerifiedData;
 		let indexFound = false;
 		let correctDuplicate = new FormatDuplicatesData;
@@ -410,7 +411,7 @@ export class DataValidationComponent implements OnInit {
 		// the length of correctedData need to be equal of the length of data receive by the back
 		// if the length isn't equal all data isn't corrected and it's impossible to go in the next step
 		let length: number = 0;
-		if (this.correctedData[0] && this.correctedData[0].data && this.correctedData[0].data.data)
+		if (this.correctedData[0] && this.correctedData[0].data)
 			this.correctedData.forEach(data => {
 				length = length + data.data.length;
 			});
@@ -418,6 +419,7 @@ export class DataValidationComponent implements OnInit {
 			length = this.correctedData.length;
 
 
+			console.log("length1", length);
 		// STEP 1
 		if (this.step === 1) {
 			this.correctedData.forEach(element => {
@@ -448,6 +450,9 @@ export class DataValidationComponent implements OnInit {
 					}
 				});
 			});
+			console.log("duplicates", this.duplicates);
+			console.log("dl", this.duplicates.length);
+			console.log("length", length);
 			if (this.duplicates.length != length) {
 				this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected, '', { duration: 5000, horizontalPosition: 'center' });
 			} else if (this.duplicates.length === 0) {

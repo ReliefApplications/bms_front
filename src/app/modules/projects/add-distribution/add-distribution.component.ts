@@ -420,12 +420,13 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 let res = [];
                 let cashFound: boolean = false;
                 let voucherFound: boolean = false;
+                let error: boolean = false;
 
                 this.commodityArray.map(item => {
                     let existItem = res.find(x => x.modality == item.modality);
 
                     if (existItem || (cashFound && item.modality == "Cash") || (voucherFound && item.modality == "Voucher")) {
-                        this.snackBar.open(this.distribution.add_distribution_date_inside_project, '', { duration: 5000, horizontalPosition: 'center' });
+                        error = true;
                         return;
                     }
                     else if (item.modality == "Voucher")
@@ -433,8 +434,18 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                     else if (item.modality == "Cash")
                         cashFound = true;
                     
-                        res.push(item);
+                    if (voucherFound && cashFound) {
+                        error = true;
+                        return;
+                    }
+                    
+                    res.push(item);
                 });
+
+                if (error) {
+                    this.snackBar.open(this.distribution.add_distribution_multiple_commodities, '', { duration: 5000, horizontalPosition: 'center' });
+                    return;
+                }
 
                 console.log(this.commodityArray);
                 this.loadingCreation = true;

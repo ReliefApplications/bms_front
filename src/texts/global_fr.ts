@@ -306,6 +306,7 @@ export const TEXT = {
     model_transaction_pickupDate: 'Date de récupération',
     model_transaction_state: 'État',
     model_type: 'Type',
+    model_used: 'Utilisé',
     model_user: 'Utilisateur',
     model_user_password: 'Mot de passe',
     model_value: 'Valeur',

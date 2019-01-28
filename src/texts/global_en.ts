@@ -309,6 +309,7 @@ export const TEXT = {
     model_transaction_pickupDate: 'Pick up date',
     model_transaction_state: 'Status',
     model_type: 'Type',
+    model_used: 'Used',
     model_user: 'User',
     model_user_password: 'Password',
     model_value: 'Value',

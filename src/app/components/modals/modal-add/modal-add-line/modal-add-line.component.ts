@@ -24,6 +24,11 @@ export class ModalAddLineComponent extends ModalAddComponent {
     public displayWeight: boolean = false;
     public iconAdvanced: string = "arrow_drop_down";
 
+    test(a){
+        console.log(a);
+        
+    }
+
     /**
      * check if the langage has changed
      * or if a select field has changed

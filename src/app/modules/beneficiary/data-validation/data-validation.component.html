@@ -27,9 +27,9 @@
         <div class="container-content box-green">
           <div *ngIf="typoIssues.length > 0" class="container-checkboxes">
             <mat-checkbox class="checkbox-all" color="primary" (change)="allOld = !allOld; selectAll('old', 'step1TypoIssues')">{{
-                            verification.import_select_old }}</mat-checkbox>
+              verification.import_select_old }}</mat-checkbox>
             <mat-checkbox class="checkbox-all" color="primary" (change)="allNew = !allNew; selectAll('new', 'step1TypoIssues')">{{
-                            verification.import_select_new }}</mat-checkbox>
+              verification.import_select_new }}</mat-checkbox>
           </div>
           <div class="content-table" *ngIf="typoIssues.length > 0">
             <mat-card class="issues" *ngFor="let typoIssue of typoIssues, index as i">
@@ -128,9 +128,9 @@
         <div class="container-content box-green">
           <div *ngIf="duplicates.length > 0" class="container-checkboxes">
             <mat-checkbox class="checkbox-all" color="primary" (change)="allOld = !allOld; selectAll('old', 'step2Duplicates')">{{
-                            verification.import_select_old }}</mat-checkbox>
+              verification.import_select_old }}</mat-checkbox>
             <mat-checkbox class="checkbox-all" color="primary" (change)="allNew = !allNew; selectAll('new', 'step2Duplicates')">{{
-                            verification.import_select_new }}</mat-checkbox>
+              verification.import_select_new }}</mat-checkbox>
           </div>
           <div class="content-table" *ngIf="duplicates.length > 0">
             <mat-card class="issues" *ngFor="let duplicate of duplicates, index as i">
@@ -139,7 +139,8 @@
                   <mat-chip>{{verification.data_verification_chip_existing}}</mat-chip>
                 </mat-chip-list>
                 <div class="householdData head">
-                  <mat-checkbox [checked]="duplicate.old.isHead ? duplicate.old.isHead : allOld" [disabled]='duplicate.old.isHead' color="primary" (change)="step2Duplicates(duplicate, 'old', duplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
+                  <mat-checkbox [checked]="duplicate.old.isHead ? duplicate.old.isHead : allOld" [disabled]='duplicate.old.isHead'
+                    color="primary" (change)="step2Duplicates(duplicate, 'old', duplicate.id_tmp_beneficiary, duplicate.new_household, duplicate.id_tmp_cache)">
                   </mat-checkbox>
                   <div class="content-householdData">
                     <div class="dataToCompare">{{duplicate.old.households.beneficiaries[0].family_name}}
@@ -219,7 +220,7 @@
         <div class="container-content box-green">
           <div *ngIf="more.length > 0" class="container-checkboxes">
             <mat-checkbox class="checkbox-all" color="primary" (change)="allNew = !allNew; selectAll('new', 'step3More')">{{
-                            verification.import_select_new }}</mat-checkbox>
+              verification.import_select_new }}</mat-checkbox>
           </div>
           <div class="container-cards" *ngIf="more.length > 0">
             <div class="content-table">
@@ -318,7 +319,7 @@
         <div class="container-content box-green">
           <div *ngIf="less.length > 0" class="container-checkboxes">
             <mat-checkbox class="checkbox-all" color="primary" (change)="allNew = !allNew; selectAll('new', 'step4Less')">{{
-                            verification.import_select_new }}</mat-checkbox>
+              verification.import_select_new }}</mat-checkbox>
           </div>
           <div class="container-cards" *ngIf="less.length > 0">
             <div class="content-table">
@@ -382,17 +383,6 @@
               </mat-card>
             </div>
           </div>
-          <div *ngIf="less.length == 0" class="no-data-box">
-            <h2 class="box-title"> {{verification.data_verification_step_4_no_issues}}</h2>
-          </div>
-          <div class="content-button content-button-footer">
-            <mat-progress-bar mode="determinate" value="75"></mat-progress-bar>
-            <mat-spinner *ngIf='load' [diameter]="25"></mat-spinner>
-            <button mat-raised-button class="button-background-primary" (click)="sendCorrectedData()" *ngIf='!load'>
-              <mat-icon>navigate_next</mat-icon>
-              <span>{{verification.next}}</span>
-            </button>
-          </div>
         </div>
       </div>
     </mat-step>
@@ -409,13 +399,12 @@
             <div class="done">
               {{verification.data_verification_done}}
               <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
-              <button mat-raised-button class="button-background-primary sendbutton" (click)="finished = true; addBeneficiaries()">{{verification.data_verification_send}}</button>
+              <mat-spinner *ngIf='finished' [diameter]="25"></mat-spinner>
+              <button *ngIf="!finished" mat-raised-button class="button-background-primary sendbutton" (click)="finished = true; addBeneficiaries()">{{verification.data_verification_send}}</button>
             </div>
-
           </div>
         </div>
       </div>
-
     </mat-step>
 
   </mat-horizontal-stepper>

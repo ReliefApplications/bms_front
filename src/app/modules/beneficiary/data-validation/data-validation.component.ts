@@ -410,7 +410,7 @@ export class DataValidationComponent implements OnInit {
 		// the length of correctedData need to be equal of the length of data receive by the back
 		// if the length isn't equal all data isn't corrected and it's impossible to go in the next step
 		let length: number = 0;
-		if (this.correctedData[0] && this.correctedData[0].data)
+		if (this.correctedData[0] && this.correctedData[0].data && this.correctedData[0].data.data)
 			this.correctedData.forEach(data => {
 				length = length + data.data.length;
 			});

@@ -39,17 +39,8 @@ export class DashboardComponent implements OnInit {
 
 	//Summary table definition
 
-	public summaryStyling = 
-[
-	[
-		{icon: "home", color: "green", title:this.dashboard.dashboard_summary_1, subtitle:this.summary[0], ref:""}, 
-		{icon: "project", color: "green", title:this.dashboard.dashboard_summary_2, subtitle:this.summary[1], undersubtitle:"",ref:""},
-	],
-	[
-		{icon: "enrol", color: "blue", title:this.dashboard.dashboard_summary_3, subtitle:this.summary[2], undersubtitle:"",ref:""},
-		{icon: "dollar", color: "blue", title:this.dashboard.dashboard_summary_4, subtitle:this.summary[3], undersubtitle:"",ref:""},
-	],	
-]
+	public summaryStyling: any  = this.getSummaryStyling();
+
 
 
 
@@ -136,8 +127,11 @@ export class DashboardComponent implements OnInit {
 			)
 			.subscribe(response => {
 				if(response){
-					this.loadingSummary = false;
+					
 					this.summary = response;
+					this.summaryStyling = this.getSummaryStyling();
+					this.loadingSummary = false;
+
 				}
 			})
 	}
@@ -153,6 +147,19 @@ export class DashboardComponent implements OnInit {
 					if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == "ROLE_PROJECT_OFFICER")
 						this.hasRightsEdit = true;
 				}
+	}
+
+	getSummaryStyling(): any{
+		return [
+					[
+						{icon: "home", color: "green", title:this.dashboard.dashboard_summary_1, subtitle:this.summary[0], ref:""}, 
+						{icon: "project", color: "green", title:this.dashboard.dashboard_summary_2, subtitle:this.summary[1], undersubtitle:"",ref:""},
+					],
+					[
+						{icon: "enrol", color: "blue", title:this.dashboard.dashboard_summary_3, subtitle:this.summary[2], undersubtitle:"",ref:""},
+						{icon: "dollar", color: "blue", title:this.dashboard.dashboard_summary_4, subtitle:this.summary[3], undersubtitle:"",ref:""},
+					],	
+				]
 	}
 
 }

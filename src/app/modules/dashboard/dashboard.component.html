@@ -10,11 +10,10 @@
         <div *ngIf="widthScreen > maxWidthMobile" class="boxes-summary">
             <h1 class="summary-title">{{dashboard.dashboard_summary | titlecase}}</h1>
             <div class="summary-content" >
-                {{loadingSummary}}
                 <div *ngFor="let lineStyling of summaryStyling;" class="lign-container">
                     <div *ngFor="let elementStyling of lineStyling;" class="row-container">
                         <app-box-dashboard *ngIf="!loadingSummary" [info]="elementStyling"></app-box-dashboard>
-                        <app-placeholder-summary *ngIf="loadingSummary"></app-placeholder-summary>
+                        <app-placeholder-summary class="box-content" *ngIf="loadingSummary"></app-placeholder-summary>
                     </div>
                 </div>
                 

@@ -13,7 +13,7 @@
                 <div *ngFor="let lineStyling of summaryStyling;" class="lign-container">
                     <div *ngFor="let elementStyling of lineStyling;" class="row-container">
                         <app-box-dashboard *ngIf="!loadingSummary" [info]="elementStyling"></app-box-dashboard>
-                        <app-placeholder-summary class="box-content" *ngIf="loadingSummary"></app-placeholder-summary>
+                        <app-placeholder-summary *ngIf="loadingSummary"></app-placeholder-summary>
                     </div>
                 </div>
                 

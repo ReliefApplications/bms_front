@@ -2,6 +2,12 @@
   .select-container {
     display: flex;
     flex-direction: row;
+
+    .button-flag{
+      bottom: 28px;
+      width:100%;
+    }
+
     span {
       width: 50%;
     }
@@ -16,3 +22,4 @@
     }
   }
 }
+

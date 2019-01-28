@@ -22,9 +22,8 @@ export class ModalLanguageComponent extends ModalComponent {
     })
   }
 
-  choseLanguage(l : string){
-    l !== this.actualUser.language ? this.default = false : this.default = true;
-    this.language = l;
+  choseLanguage() {
+    this.language !== this.actualUser.language ? this.default = false : this.default = true;
   }
 
   saveDefault() {

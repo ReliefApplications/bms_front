@@ -29,6 +29,11 @@
                             [(ngModel)]="newObject[p]" placeholder="Countries" formControlName="countryControl">
                             <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</mat-option>
                         </mat-select>
+                        <!-- {{propertiesTypes[p]}}
+                        <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] == 'ROLE_COUNTRY_MANAGER'" 
+                            class="single" [(ngModel)]="newObject[p]" [multiple]="false" placeholder="Countries" [closeOnSelect]="true"
+                            [searchable]="true" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" [bindLabel]="name" [bindValue]="id">
+                        </ng-select> -->
 
                         <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
                             matInput [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"

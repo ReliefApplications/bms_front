@@ -399,7 +399,6 @@
                 </div>
             </div>
         </mat-step>
-
         <mat-step [editable]="true">
             <ng-template matStepLabel>{{verification.done}}</ng-template>
             <div class="container-table">
@@ -412,7 +411,8 @@
                         <div class="done">
                             {{verification.data_verification_done}}
                             <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
-                            <button mat-raised-button class="button-background-primary sendbutton" (click)="finished = true; addBeneficiaries()">{{verification.data_verification_send}}</button>
+                            <mat-spinner *ngIf='finished' [diameter]="25"></mat-spinner>
+                            <button *ngIf="!finished" mat-raised-button class="button-background-primary sendbutton" (click)="finished = true; addBeneficiaries()">{{verification.data_verification_send}}</button>
                         </div>
 
                     </div>

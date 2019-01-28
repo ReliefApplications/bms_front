@@ -52,7 +52,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     distributionEntity = DistributionData;
     importedBeneficiaryEntity = ImportedBeneficiary;
     entity: any;
-    selection = new SelectionModel<any>(true, []);
+    selection;
     checkedLines: any = [];
     distributed: boolean = false;
 
@@ -254,6 +254,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                     } else if (type === 'transaction') {
                         // console.log('Getting transaction data');
                         if (this.actualDistribution.commodities[0].modality_type.name == "Voucher") {
+                            this.selection = new SelectionModel<any>(true, []);
                             this.entity = TransactionVoucher;
                         }
                         else if (this.actualDistribution.commodities[0].modality_type.name == "Mobile Cash") {
@@ -856,6 +857,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
             }
         );
 
+        this.checkedLines = [];
         this.selection = new SelectionModel<any>(true, []);
     }
 }

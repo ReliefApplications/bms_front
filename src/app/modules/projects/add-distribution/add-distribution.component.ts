@@ -417,6 +417,26 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 return;
             }
             else {
+                let res = [];
+                let cashFound: boolean = false;
+                let voucherFound: boolean = false;
+
+                this.commodityArray.map(item => {
+                    let existItem = res.find(x => x.modality == item.modality);
+
+                    if (existItem || (cashFound && item.modality == "Cash") || (voucherFound && item.modality == "Voucher")) {
+                        this.snackBar.open(this.distribution.add_distribution_date_inside_project, '', { duration: 5000, horizontalPosition: 'center' });
+                        return;
+                    }
+                    else if (item.modality == "Voucher")
+                        voucherFound = true;
+                    else if (item.modality == "Cash")
+                        cashFound = true;
+                    
+                        res.push(item);
+                });
+
+                console.log(this.commodityArray);
                 this.loadingCreation = true;
                 const newDistribution: DistributionData = new DistributionData;
                 newDistribution.type = this.newObject.type;

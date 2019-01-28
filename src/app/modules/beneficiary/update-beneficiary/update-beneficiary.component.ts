@@ -730,7 +730,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
         if (this.updatedHousehold && !this.validationLoading) {
-            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+            const dialogRef = this.dialog.open(ModalLeaveComponent, {
+                id:'modal-leave'
+            });
 
             return dialogRef.afterClosed();
         } else {

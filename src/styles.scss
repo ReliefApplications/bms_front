@@ -71,6 +71,27 @@ body {
     display: flex;
     justify-content: center;
   }
+
+  #modal-language, #modal-requests,#modal-leave,#modal-delete{
+    width: 70%;
+    .modal-body{
+      width:100%;
+      tbody{
+        width:100%
+      }
+    }
+
+  }
+
+  #modal-add,#modal-add-line,#modal-details,#modal-update{
+    width: 70%;
+    .modal-body{
+      width:100%;
+      tbody{
+        width:100%
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 750px) {

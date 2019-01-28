@@ -38,7 +38,9 @@ export class RequestDisplayComponent implements OnInit {
     }
 
     openDialog() {
-        let ref = this.dialog.open(ModalRequestsComponent, {data : {requests: this.storedRequests} });
+        let ref = this.dialog.open(ModalRequestsComponent, {
+            id:'modal-requests',
+            data : {requests: this.storedRequests} });
         ref.afterClosed().subscribe( () => {
             this.loadStoredRequests();
         });

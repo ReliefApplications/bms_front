@@ -114,7 +114,9 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
         if (this.newObject && !this.loadingCreation) {
-            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+            const dialogRef = this.dialog.open(ModalLeaveComponent, {
+                id:'modal-leave'
+            });
 
             return dialogRef.afterClosed();
         } else {
@@ -498,10 +500,12 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
 
         if (user_action === this.criteriaAction) {
             dialogRef = this.dialog.open(ModalAddLineComponent, {
+                id:'modal-add-line',
                 data: { data: [], entity: this.criteriaClass, mapper: this.mapper }
             });
         } else if (user_action === this.commodityAction) {
             dialogRef = this.dialog.open(ModalAddComponent, {
+                id:'modal-add',
                 data: { data: [], entity: this.commodityClass, mapper: this.mapper }
             });
         }

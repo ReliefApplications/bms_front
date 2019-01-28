@@ -62,7 +62,6 @@ export class ImportService {
                     this.referedClassService.sendDataToValidation(email, data, project, step, token).subscribe(response => {
                         // use function to format and type data
                         const responseFormatted = this.referedClassToken.formatIssues(response, step);
-                        console.log("responseFormatted", responseFormatted);
                         for (let i = 0; i < responseFormatted.length; i++) {
                             this.data.push(responseFormatted[i]);
                         }

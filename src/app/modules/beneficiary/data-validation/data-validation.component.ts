@@ -124,7 +124,7 @@ export class DataValidationComponent implements OnInit {
 			this.duplicates = this._importService.getData();
 			//to add household in correctedData array when the old duplicates is the head of one household
 			this.duplicates.forEach(element => {
-				this.step2Duplicates(element, 'old', element.id_tmp_beneficiary, null, element.id_tmp_cache)
+				this.step2Duplicates(element, 'old', element.id_tmp_beneficiary, element.new.households, element.id_tmp_cache)
 			});
 		}
 		else if (this.step === 3) {
@@ -241,7 +241,7 @@ export class DataValidationComponent implements OnInit {
 		// if duplicate isn't found in correctedData, create object and insert it in correctedData
 		if (indexFound === false) {
 			if (type === 'old') {
-				verification.id_old = data.old.households.id;
+				verification.id_old = data.old.households.beneficiaries[0].id;
 				verification.id_duplicate = idDuplicate;
 				// verify if the old duplicate is the head
 				// if it's a head, state is true, object is create and checkbox is check and disabled in html
@@ -257,7 +257,7 @@ export class DataValidationComponent implements OnInit {
 			}
 			else if (type === 'new') {
 				verification.new = data.new.households;
-				verification.id_old = data.old.households.id;
+				verification.id_old = data.old.households.beneficiaries[0].id;
 				verification.id_duplicate = idDuplicate;
 			}
 
@@ -409,7 +409,14 @@ export class DataValidationComponent implements OnInit {
 		// verification for the step 1 and 2
 		// the length of correctedData need to be equal of the length of data receive by the back
 		// if the length isn't equal all data isn't corrected and it's impossible to go in the next step
-		let length = this.correctedData.length;
+		let length: number = 0;
+		if (this.correctedData[0] && this.correctedData[0].data)
+			this.correctedData.forEach(data => {
+				length = length + data.data.length;
+			});
+		else 
+			length = this.correctedData.length;
+
 
 		// STEP 1
 		if (this.step === 1) {
@@ -436,7 +443,7 @@ export class DataValidationComponent implements OnInit {
 		else if (this.step === 2) {
 			this.correctedData.forEach(duplicateVerified => {
 				duplicateVerified.data.forEach(element => {
-					if (!element.state && !element.to_delete) {
+					if (element.state == undefined && element.to_delete == undefined) {
 						length = length - 1;
 					}
 				});

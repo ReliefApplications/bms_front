@@ -106,7 +106,6 @@ export class FormatDataNewOld {
 
             //concat oldBeneficiary and newBeneficiary created earlier to get an unique identifiant for every beneficiary
             data.id_tmp_beneficiary = oldBeneficiary + "/" + newBeneficiary;
-
         } else {
             //for the step 1, 3, 4
 
@@ -204,12 +203,12 @@ export class FormatDuplicatesData {
     //  * new_household to return to back without modification
     //  * @type {Households}
     //  */
-    // new_household: Households = new Households;
+    new_household: Households = new Households;
     // /**
     //  * id uses by the back
     //  * @type {number}
     //  */
-    // id_tmp_cache?: number;
+    id_tmp_cache?: number;
 
 
     constructor(instance?) {

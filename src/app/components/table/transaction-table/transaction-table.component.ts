@@ -9,6 +9,8 @@ import { TableComponent } from '../table.component';
 export class TransactionTableComponent extends TableComponent {
 
     loading = true;
+    @Input() checkbox: boolean;
+    
     //
     // constructor(
     //     public mapperService: Mapper,

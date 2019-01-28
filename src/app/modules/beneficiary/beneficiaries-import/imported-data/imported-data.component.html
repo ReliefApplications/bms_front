@@ -7,7 +7,7 @@
 
   <div class="container-table" *ngIf="!loadingTable">
     <div class="container-content box-red">
-      <div class="content-table">
+      <div class="content-imported-data-table">
         <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
           [data]="data" [editable]="true">
         </app-table-search>

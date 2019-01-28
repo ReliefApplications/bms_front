@@ -205,7 +205,10 @@ button-filter-date{
   width: 50%;
   max-width: 50%;
 }
-
+.ng-select.project-report-bar{
+  width: 100%;
+  margin-right: 5%;
+}
 .ng-select.custom ::ng-deep .ng-select-container .ng-value-container .ng-value {
   background-color: $bms_dark_grey;
 }

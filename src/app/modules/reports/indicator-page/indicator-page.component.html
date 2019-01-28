@@ -63,11 +63,10 @@
             <!-- selector for distribution and project when we click on button "distribution report" -->
             <div class="content-select" *ngIf="type == 'Distribution'">
                 <mat-card>
-                    <mat-form-field>
-                        <mat-select placeholder="Projects" (selectionChange)="getProjectSelected($event)">
-                            <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+
+                    <ng-select class="project-report-bar single"  placeholder="Projects" [items]=projectList [bindLabel]=project [bindValue]=project
+                    (change)="getProjectSelected($event)">
+                    </ng-select>
 
                     <ng-select class="custom" *ngIf="type == 'Distribution'" bindLabel="name" [items]="distributionList"
                         [multiple]="true" placeholder="{{indicator.distributions}}" [closeOnSelect]="false"

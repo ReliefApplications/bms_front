@@ -1,6 +1,6 @@
 <div class="modal-container">
-    <h4 class="modal-title underline-primary stickyHeader">{{TEXT.modal_leave}}</h4>
-    <div class="modal-table">
+    <h4 class="modal-title underline-primary stickyHeader" [ngClass]="{'arabic': language==='ar'}" >{{TEXT.modal_leave}}</h4>
+    <div class="modal-table" [ngClass]="{'arabic': language==='ar'}" >
         {{TEXT.modal_leave_sentence}}
     </div>
     <div class="modal-button action-buttons stickyFooter">

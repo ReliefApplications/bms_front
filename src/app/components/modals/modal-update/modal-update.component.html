@@ -10,16 +10,6 @@
               [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries' || p=='name')"
               [type]="propertiesTypes[p]">
 
-            <!-- <mat-select *ngIf="propertiesTypes[p]=='selectSingle' && p != 'rights'" [(ngModel)]="updateObject[p]"
-              placeholder="{{data.mapper.mapTitle(p)}}" [formControl]="controls">
-              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
-            </mat-select> -->
-
-            
-            <!-- <mat-select *ngIf="propertiesTypes[p]=='selectSingle' && p == 'rights'" [(ngModel)]="updateObject[p]"
-              placeholder="{{data.mapper.mapTitle(p)}}" [formControl]="controls" (selectionChange)="selected($event, newObject)">
-              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
-            </mat-select> -->
           
           <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
           matInput [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"

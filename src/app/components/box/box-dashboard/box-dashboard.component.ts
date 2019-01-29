@@ -11,6 +11,11 @@ export class BoxDashboardComponent {
   @Input() info: any;
 
   public box = GlobalText.TEXTS;
+  public language = GlobalText.language;
+
+  ngDoCheck(){
+    this.language=GlobalText.language;
+  }
   
   constructor(
     private router: Router,

@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
 			if (result.loggedIn) {
 				this.serviceMap.createMap('map');
 				this.serviceMap.addTileLayer();
-		
+
 				this.getSummary();
 				this.checkDistributions();
 				this.checkSize();
@@ -91,11 +91,13 @@ export class DashboardComponent implements OnInit {
 		this._distributionService.get()
 			.subscribe(
 				response => {
-					distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
-					this.distributions = distribs;
-					this.loadingTable = false;
+          if (response) {
+            distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
+            this.distributions = distribs;
+            this.loadingTable = false;
+          }
 				},
-				() => {
+				error => {
 					this.distributions = null;
 					this.loadingTable = false;
 				}
@@ -115,14 +117,18 @@ export class DashboardComponent implements OnInit {
 						this.loadingSummary = false;
 					},
 				)
-			).subscribe(response => {
-				if (response) {
-					this.loadingSummary = false;
-					this.summary = response;
-				} else {
-					this.loadingSummary = false;
-				}
-			});
+			).subscribe(
+        response => {
+  				if (response) {
+  					this.loadingSummary = false;
+  					this.summary = response;
+  				}
+			  },
+        error => {
+          this.loadingSummary = false;
+          this.summary = null;
+        }
+      );
 	}
 
 	checkPermission(result) {

@@ -560,9 +560,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             this.snackBar.open('You must select at least one project', '', { duration: 5000, horizontalPosition: 'center' });
             return;
         }
-        
+
         let body = this.formatHouseholdForApi();
-        
+
         let selectedProjectsIds = new Array<string>();
         this.updatedHousehold.projects.forEach(
             project => {

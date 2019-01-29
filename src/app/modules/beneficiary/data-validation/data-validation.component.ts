@@ -103,9 +103,7 @@ export class DataValidationComponent implements OnInit {
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
         if (!this.finished && this._importService.getData()) {
-            const dialogRef = this.dialog.open(ModalLeaveComponent, {
-                id:'modal-leave'
-            });
+            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
 
             return dialogRef.afterClosed();
         } else {

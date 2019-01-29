@@ -201,7 +201,6 @@ export class ProjectComponent implements OnInit {
     openNewProjectDialog() {
         const dialogRef = this.dialog.open(
             ModalAddComponent, {
-                id:'modal-add',
                 data: {
                     data: [],
                     entity: Project,

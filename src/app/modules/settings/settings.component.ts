@@ -273,7 +273,6 @@ export class SettingsComponent implements OnInit {
 
         if (user_action === 'add') {
             dialogRef = this.dialog.open(ModalAddComponent, {
-                id:'modal-add',
                 data: { data: [], entity: this.referedClassToken, service: this.referedClassService, mapper: this.mapperService }
             });
         }

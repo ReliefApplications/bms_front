@@ -169,9 +169,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
         if (this.transacting) {
-            const dialogRef = this.dialog.open(ModalLeaveComponent, {
-                id:'modal-leave'
-            });
+            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
 
             return dialogRef.afterClosed();
         } else {

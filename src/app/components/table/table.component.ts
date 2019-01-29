@@ -254,17 +254,14 @@ export class TableComponent implements OnChanges, DoCheck {
 
         if (user_action === 'details') {
             dialogRef = this.dialog.open(ModalDetailsComponent, {
-                id:'modal-details',
                 data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
             });
         } else if (user_action === 'update') {
             dialogRef = this.dialog.open(ModalUpdateComponent, {
-                id:'modal-update',
                 data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
             });
         } else {
             dialogRef = this.dialog.open(ModalDeleteComponent, {
-                id:'modal-delete',
                 data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
             });
         }

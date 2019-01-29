@@ -5,10 +5,11 @@
       <div class="distribution-accordion">
         <mat-card class="accordion-card">
           <div *ngFor="let p of properties">
-            <mat-form-field class="accordion-field" *ngIf="propertiesTypes[p]=='select' || propertiesTypes[p]=='date'">
-              <mat-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [formControl]="controls" (selectionChange)="selected(p)">
-                <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.name">{{singleData.name}}</mat-option>
-              </mat-select>
+            <ng-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" 
+              (change)="selected(p)" class="single" [multiple]="false" [closeOnSelect]="true" [searchable]="true" [ngModelOptions]="{standalone: true}">
+              <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.name">{{singleData.name}}</ng-option>
+            </ng-select>
+            <mat-form-field class="accordion-field" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]=='date'">
               <input *ngIf="propertiesTypes[p]=='date'" matInput [matDatepicker]="dateDistribution" placeholder="{{mapperObject[p]}}" (ngModel)="newObject[p]" (dateChange)='selectDate($event)' [min]="projectInfo.startDate" [max]="projectInfo.endDate">
               <mat-datepicker-toggle *ngIf="propertiesTypes[p]=='date'" matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
               <mat-datepicker #dateDistribution></mat-datepicker>

@@ -40,37 +40,29 @@
                             </div>
                             <div class="column-container">
                                 <h4>{{ Text.location }}</h4>
-                                <mat-form-field>
-                                    <mat-select #province placeholder={{Text.adm1}} [(ngModel)]="updatedHousehold.location.adm1"
-                                        (selectionChange)='reloadLocation(1)' required>
-                                        <mat-option *ngFor="let province of provinceList" [value]="province">
+                                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" #province placeholder={{Text.adm1}} [(ngModel)]="updatedHousehold.location.adm1"
+                                        (change)='reloadLocation(1)' required>
+                                        <ng-option *ngFor="let province of provinceList" [value]="province">
                                             {{province}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-select #district placeholder={{Text.adm2}} [(ngModel)]="updatedHousehold.location.adm2"
-                                        (selectionChange)='reloadLocation(2)'>
-                                        <mat-option *ngFor="let district of districtList" [value]="district">
+                                        </ng-option>
+                                    </ng-select>
+                                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" #district placeholder={{Text.adm2}} [(ngModel)]="updatedHousehold.location.adm2"
+                                        (change)='reloadLocation(2)'>
+                                        <ng-option *ngFor="let district of districtList" [value]="district">
                                             {{district}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-select #commune placeholder={{Text.adm3}} [(ngModel)]="updatedHousehold.location.adm3"
-                                        (selectionChange)='reloadLocation(3)'>
-                                        <mat-option *ngFor="let commune of communeList" [value]="commune">
+                                        </ng-option>
+                                    </ng-select>
+                                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" #commune placeholder={{Text.adm3}} [(ngModel)]="updatedHousehold.location.adm3"
+                                        (change)='reloadLocation(3)'>
+                                        <ng-option *ngFor="let commune of communeList" [value]="commune">
                                             {{commune}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-select #village placeholder={{Text.adm4}} [(ngModel)]="updatedHousehold.location.adm4">
-                                        <mat-option *ngFor="let village of villageList" [value]="village">
+                                        </ng-option>
+                                    </ng-select>
+                                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" #village placeholder={{Text.adm4}} [(ngModel)]="updatedHousehold.location.adm4">
+                                        <ng-option *ngFor="let village of villageList" [value]="village">
                                             {{village}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+                                        </ng-option>
+                                    </ng-select>
                             </div>
                             <div class="column-container">
                                 <mat-form-field>
@@ -131,14 +123,12 @@
                                 </mat-form-field>
                             </div>
                             <div class="column-container">
-                                <mat-form-field>
-                                    <mat-select placeholder={{Text.gender}} [(ngModel)]="updatedHousehold.beneficiaries[0].gender"
+                                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.gender}} [(ngModel)]="updatedHousehold.beneficiaries[0].gender"
                                         required>
-                                        <mat-option *ngFor="let type of genderList" [value]="type">
+                                        <ng-option *ngFor="let type of genderList" [value]="type">
                                             {{type}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+                                        </ng-option>
+                                    </ng-select>
                                 <mat-form-field class="datepicker-computer" required>
                                     <input #DateOfBirthHead matInput [matDatepicker]="birthHeadComputer" placeholder={{Text.add_beneficiary_getDateOfBirth}}
                                         [(ngModel)]="updatedHousehold.beneficiaries[0].birth_date">
@@ -153,13 +143,11 @@
                                 </mat-form-field>
                             </div>
                             <div class="column-container">
-                                <mat-form-field>
-                                    <mat-select placeholder={{Text.add_beneficiary_getTypeNationalId}} [(ngModel)]="updatedHousehold.beneficiaries[0].national_id.type">
-                                        <mat-option *ngFor="let type of typeNationalIdList" [value]="type">
+                                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypeNationalId}} [(ngModel)]="updatedHousehold.beneficiaries[0].national_id.type">
+                                        <ng-option *ngFor="let type of typeNationalIdList" [value]="type">
                                             {{type}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+                                        </ng-option>
+                                    </ng-select>
                                 <mat-form-field>
                                     <input matInput type="text" placeholder={{Text.add_beneficiary_getNationalID}}
                                         [(ngModel)]="updatedHousehold.beneficiaries[0].national_id.number">
@@ -167,23 +155,19 @@
                             </div>
                             <div class="column-container columns-phones">
                                 <div class="items-line">
-                                    <mat-form-field>
-                                        <mat-select placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].type">
-                                            <mat-option *ngFor="let type of typePhoneList" [value]="type">
+                                        <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].type">
+                                            <ng-option *ngFor="let type of typePhoneList" [value]="type">
                                                 {{type}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
+                                            </ng-option>
+                                        </ng-select>
                                     <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
                                 </div>
 
                                 <div class="items-line">
-                                    <mat-form-field>
-                                        <mat-select [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].code"
+                                        <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].code"
                                             placeholder="{{Text.add_beneficiary_code}}">
-                                            <mat-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
+                                            <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
+                                        </ng-select>
                                     <mat-form-field class="phone-number">
                                         <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}}
                                             [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].number">
@@ -192,23 +176,19 @@
                             </div>
                             <div class="column-container columns-phones">
                               <div class="items-line">
-                                  <mat-form-field>
-                                      <mat-select placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].type">
-                                          <mat-option *ngFor="let type of typePhoneList" [value]="type">
+                                      <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].type">
+                                          <ng-option *ngFor="let type of typePhoneList" [value]="type">
                                               {{type}}
-                                          </mat-option>
-                                      </mat-select>
-                                  </mat-form-field>
+                                          </ng-option>
+                                      </ng-select>
                                   <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
                               </div>
 
                                 <div class="items-line">
-                                    <mat-form-field>
-                                        <mat-select [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].code"
+                                        <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].code"
                                             placeholder="{{Text.add_beneficiary_code}}">
-                                            <mat-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
+                                            <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
+                                        </ng-select>
                                     <mat-form-field class="phone-number">
                                         <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}}
                                             [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].number">
@@ -267,14 +247,12 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="column-container">
-                                    <mat-form-field>
-                                        <mat-select placeholder={{Text.gender}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].gender"
+                                        <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.gender}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].gender"
                                             required>
-                                            <mat-option *ngFor="let type of genderList" [value]="type">
+                                            <ng-option *ngFor="let type of genderList" [value]="type">
                                                 {{type}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
+                                            </ng-option>
+                                        </ng-select>
                                     <mat-form-field class="datepicker-computer" required>
                                         <input matInput [matDatepicker]="birthHeadComputer" placeholder={{Text.add_beneficiary_getDateOfBirth}}
                                             [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].birth_date"
@@ -290,13 +268,11 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="column-container">
-                                    <mat-form-field>
-                                        <mat-select placeholder={{Text.add_beneficiary_getTypeNationalId}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].national_id.type">
-                                            <mat-option *ngFor="let type of typeNationalIdList" [value]="type">
+                                        <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypeNationalId}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].national_id.type">
+                                            <ng-option *ngFor="let type of typeNationalIdList" [value]="type">
                                                 {{type}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
+                                            </ng-option>
+                                        </ng-select>
                                     <mat-form-field>
                                         <input matInput type="text" placeholder={{Text.add_beneficiary_getNationalID}}
                                             [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].national_id.number">
@@ -304,24 +280,20 @@
                                 </div>
                                 <div class="column-container columns-phones">
                                     <div class="items-line">
-                                        <mat-form-field>
-                                            <mat-select placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].type">
-                                                <mat-option *ngFor="let type of typePhoneList" [value]="type">
+                                            <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].type">
+                                                <ng-option *ngFor="let type of typePhoneList" [value]="type">
                                                     {{type}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
+                                                </ng-option>
+                                            </ng-select>
 
                                         <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
                                     </div>
 
                                     <div class="items-line">
-                                        <mat-form-field>
-                                            <mat-select [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].code"
+                                            <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].code"
                                                 placeholder="{{Text.add_beneficiary_code}}">
-                                                <mat-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
+                                                <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
+                                            </ng-select>
 
                                         <mat-form-field class="phone-number">
                                             <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}}
@@ -332,24 +304,20 @@
 
                                 <div class="column-container columns-phones">
                                     <div class="items-line">
-                                        <mat-form-field>
-                                            <mat-select placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].type">
-                                                <mat-option *ngFor="let type of typePhoneList" [value]="type">
+                                            <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].type">
+                                                <ng-option *ngFor="let type of typePhoneList" [value]="type">
                                                     {{type}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
+                                                </ng-option>
+                                            </ng-select>
 
                                         <mat-checkbox color="primary" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].proxy">{{Text.beneficiaries_proxy}}</mat-checkbox>
                                     </div>
 
                                     <div class="items-line">
-                                        <mat-form-field>
-                                            <mat-select [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].code"
+                                            <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].code"
                                                 placeholder="{{Text.add_beneficiary_code}}">
-                                                <mat-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
+                                                <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
+                                            </ng-select>
 
                                         <mat-form-field class="phone-number">
                                             <input matInput type="tel" placeholder={{Text.model_beneficiaries_phones}}

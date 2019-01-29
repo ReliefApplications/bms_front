@@ -40,9 +40,3 @@
 .ng-select-opened ::ng-deep .ng-option-selected {
   color: #424242 !important;
 }
-
-.ng-select.single ::ng-deep .ng-select-container .ng-value-container .ng-value .ng-value-label{
-  position: relative;
-  top: 4px;
-  width: 100%;
-}

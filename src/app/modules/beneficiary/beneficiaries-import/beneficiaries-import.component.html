@@ -61,7 +61,7 @@
                 <img class='img-folder' src="assets/images/projects.png">
               </div>
               <div class="select-file project-input">
-                <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName = "project"
+                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName = "project"
                   placeholder={{household.projects}} (change)="getProjectSelected($event)" [disabled]="isProjectsDisabled">
                   <ng-option *ngFor="let project of projectList" [value]="project">{{project}}</ng-option>
                 </ng-select>
@@ -123,7 +123,7 @@
                 <img class='img-folder' src="assets/images/projects.png">
               </div>
                 <div class="select-file project-input">
-                  <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="project"
+                  <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="project"
                     placeholder={{household.projects}} (change)="getProjectSelected($event)" [disabled]="isApiDisabled">
                     <ng-option *ngFor="let project of projectList" [value]="project">{{project}}</ng-option>
                   </ng-select>

@@ -513,3 +513,15 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
       padding-left: 0 !important;
   }
 }
+
+.single-select .ng-select-container .ng-value-container  {
+
+    .ng-value .ng-value-label{
+      position: relative;
+      top: 4px;
+      width: 100%;
+      }
+    .ng-input input {
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+      }
+    }

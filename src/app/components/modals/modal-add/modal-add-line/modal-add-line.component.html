@@ -10,7 +10,7 @@
           <form class="form" *ngIf="p!='value_string'">
             
 
-            <ng-select *ngIf="propertiesTypes[p]=='select'" class="single" [(ngModel)]="newObject[p]" 
+            <ng-select *ngIf="propertiesTypes[p]=='select'" class="single-select" [(ngModel)]="newObject[p]" 
                           [multiple]="false" placeholder="{{mapperObject[p]}}" [closeOnSelect]="true"
                         [searchable]="true" [ngModelOptions]="{standalone: true}" required>
                 <ng-option *ngFor="let item of loadedData[p]; let i= index" [value]="i+1">
@@ -21,7 +21,7 @@
           </form>
 
           <form class="form" *ngIf="(p=='value_string')&&checkDataCriteria.type">
-              <ng-select *ngIf="checkDataCriteria.field_string === 'gender'" class="single" [(ngModel)]="newObject[p]" 
+              <ng-select *ngIf="checkDataCriteria.field_string === 'gender'" class="single-select" [(ngModel)]="newObject[p]" 
                           [multiple]="false" placeholder="Gender" [closeOnSelect]="true"
                         [searchable]="true" [ngModelOptions]="{standalone: true}" (selectionChange)="genderOnChange($event)" required>
                 <ng-option [value]="modal.add_distribution_female">{{modal.add_distribution_female}}</ng-option>

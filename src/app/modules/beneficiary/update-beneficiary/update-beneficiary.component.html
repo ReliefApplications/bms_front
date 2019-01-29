@@ -40,25 +40,25 @@
                             </div>
                             <div class="column-container">
                                 <h4>{{ Text.location }}</h4>
-                                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" #province placeholder={{Text.adm1}} [(ngModel)]="updatedHousehold.location.adm1"
+                                    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" #province placeholder={{Text.adm1}} [(ngModel)]="updatedHousehold.location.adm1"
                                         (change)='reloadLocation(1)' required>
                                         <ng-option *ngFor="let province of provinceList" [value]="province">
                                             {{province}}
                                         </ng-option>
                                     </ng-select>
-                                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" #district placeholder={{Text.adm2}} [(ngModel)]="updatedHousehold.location.adm2"
+                                    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" #district placeholder={{Text.adm2}} [(ngModel)]="updatedHousehold.location.adm2"
                                         (change)='reloadLocation(2)'>
                                         <ng-option *ngFor="let district of districtList" [value]="district">
                                             {{district}}
                                         </ng-option>
                                     </ng-select>
-                                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" #commune placeholder={{Text.adm3}} [(ngModel)]="updatedHousehold.location.adm3"
+                                    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" #commune placeholder={{Text.adm3}} [(ngModel)]="updatedHousehold.location.adm3"
                                         (change)='reloadLocation(3)'>
                                         <ng-option *ngFor="let commune of communeList" [value]="commune">
                                             {{commune}}
                                         </ng-option>
                                     </ng-select>
-                                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" #village placeholder={{Text.adm4}} [(ngModel)]="updatedHousehold.location.adm4">
+                                    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" #village placeholder={{Text.adm4}} [(ngModel)]="updatedHousehold.location.adm4">
                                         <ng-option *ngFor="let village of villageList" [value]="village">
                                             {{village}}
                                         </ng-option>
@@ -123,7 +123,7 @@
                                 </mat-form-field>
                             </div>
                             <div class="column-container">
-                                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.gender}} [(ngModel)]="updatedHousehold.beneficiaries[0].gender"
+                                    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.gender}} [(ngModel)]="updatedHousehold.beneficiaries[0].gender"
                                         required>
                                         <ng-option *ngFor="let type of genderList" [value]="type">
                                             {{type}}
@@ -143,7 +143,7 @@
                                 </mat-form-field>
                             </div>
                             <div class="column-container">
-                                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypeNationalId}} [(ngModel)]="updatedHousehold.beneficiaries[0].national_id.type">
+                                    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypeNationalId}} [(ngModel)]="updatedHousehold.beneficiaries[0].national_id.type">
                                         <ng-option *ngFor="let type of typeNationalIdList" [value]="type">
                                             {{type}}
                                         </ng-option>
@@ -155,7 +155,7 @@
                             </div>
                             <div class="column-container columns-phones">
                                 <div class="items-line">
-                                        <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].type">
+                                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].type">
                                             <ng-option *ngFor="let type of typePhoneList" [value]="type">
                                                 {{type}}
                                             </ng-option>
@@ -164,7 +164,7 @@
                                 </div>
 
                                 <div class="items-line">
-                                        <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].code"
+                                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].code"
                                             placeholder="{{Text.add_beneficiary_code}}">
                                             <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
                                         </ng-select>
@@ -176,7 +176,7 @@
                             </div>
                             <div class="column-container columns-phones">
                               <div class="items-line">
-                                      <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].type">
+                                      <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].type">
                                           <ng-option *ngFor="let type of typePhoneList" [value]="type">
                                               {{type}}
                                           </ng-option>
@@ -185,7 +185,7 @@
                               </div>
 
                                 <div class="items-line">
-                                        <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].code"
+                                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].code"
                                             placeholder="{{Text.add_beneficiary_code}}">
                                             <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
                                         </ng-select>
@@ -247,7 +247,7 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="column-container">
-                                        <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.gender}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].gender"
+                                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.gender}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].gender"
                                             required>
                                             <ng-option *ngFor="let type of genderList" [value]="type">
                                                 {{type}}
@@ -268,7 +268,7 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="column-container">
-                                        <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypeNationalId}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].national_id.type">
+                                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypeNationalId}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].national_id.type">
                                             <ng-option *ngFor="let type of typeNationalIdList" [value]="type">
                                                 {{type}}
                                             </ng-option>
@@ -280,7 +280,7 @@
                                 </div>
                                 <div class="column-container columns-phones">
                                     <div class="items-line">
-                                            <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].type">
+                                            <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].type">
                                                 <ng-option *ngFor="let type of typePhoneList" [value]="type">
                                                     {{type}}
                                                 </ng-option>
@@ -290,7 +290,7 @@
                                     </div>
 
                                     <div class="items-line">
-                                            <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].code"
+                                            <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].code"
                                                 placeholder="{{Text.add_beneficiary_code}}">
                                                 <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
                                             </ng-select>
@@ -304,7 +304,7 @@
 
                                 <div class="column-container columns-phones">
                                     <div class="items-line">
-                                            <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].type">
+                                            <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].type">
                                                 <ng-option *ngFor="let type of typePhoneList" [value]="type">
                                                     {{type}}
                                                 </ng-option>
@@ -314,7 +314,7 @@
                                     </div>
 
                                     <div class="items-line">
-                                            <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].code"
+                                            <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].code"
                                                 placeholder="{{Text.add_beneficiary_code}}">
                                                 <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
                                             </ng-select>

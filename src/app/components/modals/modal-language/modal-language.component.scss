@@ -2,9 +2,9 @@
   .select-container {
     display: flex;
     flex-direction: row;
+    align-items: center;
 
-    .button-flag{
-      bottom: 28px;
+    .single-select {
       width:100%;
     }
 

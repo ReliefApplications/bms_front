@@ -34,13 +34,13 @@
                         <mat-datepicker #dateDistribution></mat-datepicker>
                     </mat-form-field>
 
-                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" 
+                    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" 
                         *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
                         (change)="selected($event, newObject)" [ngModelOptions]="{standalone: true}">
                         <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string  | titlecase }}{{singleData.name  | titlecase }}</ng-option>
                     </ng-select>
 
-                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" 
+                    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" 
                         *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] == 'ROLE_COUNTRY_MANAGER'"
                         [(ngModel)]="newObject[p]" placeholder="Countries" [ngModelOptions]="{standalone: true}">
                         <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</ng-option>

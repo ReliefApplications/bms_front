@@ -6,7 +6,7 @@
         <mat-card class="accordion-card">
           <div *ngFor="let p of properties">
             <ng-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" 
-              (change)="selected(p)" class="single" [multiple]="false" [closeOnSelect]="true" [searchable]="true" [ngModelOptions]="{standalone: true}">
+              (change)="selected(p)" class="single-select" [multiple]="false" [closeOnSelect]="true" [searchable]="true" [ngModelOptions]="{standalone: true}">
               <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.name">{{singleData.name}}</ng-option>
             </ng-select>
             <mat-form-field class="accordion-field" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]=='date'">

@@ -64,7 +64,7 @@
             <div class="content-select" *ngIf="type == 'Distribution'">
                 <mat-card>
 
-                    <ng-select class="project-report-bar single"  placeholder="Projects" [items]=projectList [bindLabel]=project [bindValue]=project
+                    <ng-select class="project-report-bar single-select"  placeholder="Projects" [items]=projectList [bindLabel]=project [bindValue]=project
                     (change)="getProjectSelected($event)">
                     </ng-select>
 

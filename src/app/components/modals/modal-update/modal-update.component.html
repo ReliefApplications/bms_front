@@ -19,17 +19,17 @@
         </mat-form-field>
         
         <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && updateObject['rights'] == 'ROLE_COUNTRY_MANAGER'" 
-            class="single" [(ngModel)]="updateObject[p]" [multiple]="false" placeholder="Countries" [closeOnSelect]="true"
+            class="single-select" [(ngModel)]="updateObject[p]" [multiple]="false" placeholder="Countries" [closeOnSelect]="true"
             [searchable]="true" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" [bindLabel]="name" [bindValue]="id">
         </ng-select>
 
         <ng-select *ngIf="propertiesTypes[p]=='selectSingle' && p != 'rights'" 
-            class="single" [(ngModel)]="updateObject[p]" [multiple]="false" placeholder="{{data.mapper.mapTitle(p)}}" [closeOnSelect]="true"
+            class="single-select" [(ngModel)]="updateObject[p]" [multiple]="false" placeholder="{{data.mapper.mapTitle(p)}}" [closeOnSelect]="true"
             [searchable]="true" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" [bindLabel]="id" [bindValue]="id">
         </ng-select>
 
         <ng-select *ngIf="propertiesTypes[p]=='selectSingle' && p == 'rights'" [(ngModel)]="updateObject[p]"
-              class="single" [multiple]="false" placeholder="{{data.mapper.mapTitle(p) | titlecase}}" [closeOnSelect]="true"
+              class="single-select" [multiple]="false" placeholder="{{data.mapper.mapTitle(p) | titlecase}}" [closeOnSelect]="true"
               [searchable]="true" [ngModelOptions]="{standalone: true}">
               <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string | titlecase}}{{singleData.name | titlecase}}</ng-option>
         </ng-select>

@@ -4,7 +4,7 @@
     <div class="select-container">
       <span class="language-text">{{modal.modal_language_actual}}</span>
 
-      <ng-select class="single button-flag" [(ngModel)]="language" [multiple]="false" placeholder="Countries" 
+      <ng-select class="single-select" [(ngModel)]="language" [multiple]="false" placeholder="Countries" 
          [closeOnSelect]="true" [searchable]="true" [ngModelOptions]="{standalone: true}"
          (close)="choseLanguage()">
         <ng-option *ngFor="let l of languages" [value]="l">

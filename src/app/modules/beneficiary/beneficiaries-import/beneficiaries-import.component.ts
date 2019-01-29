@@ -436,14 +436,32 @@ export class BeneficiariesImportComponent implements OnInit {
         const data = new FormData();
         data.append('file', this.csv);
 
-        const body = {
-            location: this.saveLocation
+
+        let body = {
+            adm: 0,
+            name: ''
         };
+
+        if (this.saveLocation.adm4 != '') {
+            body.adm = 4;
+            body.name = this.saveLocation.adm4;
+        }
+        else if (this.saveLocation.adm3 != '') {
+            body.adm = 3;
+            body.name = this.saveLocation.adm3;
+        }
+        else if (this.saveLocation.adm2 != '') {
+            body.adm = 2;
+            body.name = this.saveLocation.adm2;
+        }
+        else if (this.saveLocation.adm1 != '') {
+            body.adm = 1;
+            body.name = this.saveLocation.adm1;
+        }
 
         this._importService.testFileTemplate(data, body)
             .then(() => {
             }, (err) => {
-                this.snackBar.open(this.household.beneficiaries_import_error_importing, '', { duration: 5000, horizontalPosition: 'center' });
             })
             .catch(
                 () => {

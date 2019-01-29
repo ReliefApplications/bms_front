@@ -140,13 +140,17 @@ export class HouseholdsService {
     }
 
     public testFileTemplate(file: any, location: any) {
-        const body = {
-            file: file,
-            location: location
+        let params = {};
+        params['type'] = 'xls';
+        params['templateSyria'] = true;
+        
+        const options = {
+            responseType: "blob",
+            params: params
         };
 
-        const url = this.api + '/import/households';
-        return this.http.post(url, body).toPromise()
+        const url = this.api + '/import/households?adm=' + location.adm + '&name=' + location.name;
+        return this.http.post(url, file, options).toPromise()
             .then((response) => {
                 saveAs(response, 'templateSyria.xls');
             });

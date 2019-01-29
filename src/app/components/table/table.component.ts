@@ -215,8 +215,8 @@ export class TableComponent implements OnChanges, DoCheck {
             this.propertiesActions = new Array();
             if (this.selection)
                 this.propertiesActions.push('check');
-    
-                this.properties.forEach(element => {
+
+            this.properties.forEach(element => {
                 this.propertiesActions.push(element);
             });
             this.propertiesActions.push('actions');
@@ -463,15 +463,16 @@ export class TableComponent implements OnChanges, DoCheck {
     }
 
     masterToggle() {
-        if (this.data.householdsSubject)
+        if (this.data.householdsSubject) {
             if (this.isAllSelected()) {
                 this.selection.clear();
             }
             else {
                 this.data.householdsSubject._value.forEach(row => this.selection.select(row));
             }
-        else
-            if (this.isAllSelected) {
+        }
+        else {
+            if (this.isAllSelected()) {
                 this.selection.clear();
             }
             else {
@@ -479,7 +480,7 @@ export class TableComponent implements OnChanges, DoCheck {
                     this.selection.select(row);
                 });
             }
-
+        }
         this.selectChecked.emit(this.selection.selected);
     }
 

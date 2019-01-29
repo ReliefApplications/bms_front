@@ -146,8 +146,12 @@ export class DistributionData {
             case "Mobile":
                 name = 'assets/images/commodities/cash.png';
                 break;
+            case "Voucher":
+                name = 'assets/images/commodities/voucher.png';
+                break;
             default: return name;
         }
+        
         return name;
     }
     /**
@@ -413,7 +417,7 @@ export class DistributionData {
                     if (com.modality_type.name === 'Mobile') {
                         com.modality_type.name = 'Mobile Cash';
                     }
-                    commodity = '' + commodity + com.modality_type.name
+                    commodity = commodity == '' ? com.modality_type.name : commodity + ' - ' + com.modality_type.name;
                 }
             )
         } else {

@@ -7,27 +7,28 @@ import { count } from '@swimlane/ngx-charts';
 import { Project } from '../../../model/project';
 
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
-import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
+import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
+import { format } from 'url';
 
 @Component({
     selector: 'app-modal-add',
     templateUrl: './modal-add.component.html',
     styleUrls: ['../modal.component.scss', './modal-add.component.scss'],
     providers: [
-      { provide: DateAdapter, useClass: CustomDateAdapter },
-      { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
 export class ModalAddComponent extends ModalComponent {
     public entityDisplayedName = '';
     public oldEntity = '';
     mapperObject = null;
-    modal=GlobalText.TEXTS;
+    modal = GlobalText.TEXTS;
 
     display = false;
     oldSelectedModality = 0;
     displayAdd: boolean = false;
-    maxLength:number=35;
+    maxLength: number = 35;
 
     @Input() data: any;
     @Output() onCreate = new EventEmitter();
@@ -84,8 +85,8 @@ export class ModalAddComponent extends ModalComponent {
                 (element) => {
                     setTimeout(() => {
                         if (element == 'modality')
-                           this.newObject[element] = 1;
-                           this.selected('', this.newObject);
+                            this.newObject[element] = 1;
+                        this.selected('', this.newObject);
                     }, 0);
 
                     if (element === 'unit') {
@@ -110,7 +111,7 @@ export class ModalAddComponent extends ModalComponent {
             this.form.controls['projectsControl'].enable();
             this.form.controls['countryControl'].disable();
         }
-        else if(event.value == "ROLE_COUNTRY_MANAGER" || event.value == "ROLE_REGIONAL_MANAGER") {
+        else if (event.value == "ROLE_COUNTRY_MANAGER" || event.value == "ROLE_REGIONAL_MANAGER") {
             this.newObject['country'] = [];
             this.newObject['projects'] = [];
 
@@ -125,7 +126,7 @@ export class ModalAddComponent extends ModalComponent {
             this.form.controls['countryControl'].disable();
         }
 
-        if(event.value == "ROLE_ADMIN") {
+        if (event.value == "ROLE_ADMIN") {
             this.user.getAllCountries().forEach(
                 element => {
                     this.newObject['country'].push(element.id);
@@ -138,6 +139,8 @@ export class ModalAddComponent extends ModalComponent {
     getModalityType(modality) {
         this.modalitiesService.getModalitiesType(modality).subscribe(response => {
             this.loadedData.type = response;
+            this.newObject.type = response[0].id;
+
             for (let i = 0; i < this.loadedData.type.length; i++) {
                 if (this.loadedData.type[i].name === 'Mobile') {
                     this.loadedData.type[i].name = 'Mobile Money';
@@ -217,7 +220,7 @@ export class ModalAddComponent extends ModalComponent {
                 return;
             }
 
-            if (new Date(this.newObject.start_date).getDate()+ new Date(this.newObject.start_date).getMonth() + new Date(this.newObject.start_date).getMonth() + new Date(this.newObject.start_date).getFullYear() > new Date(this.newObject.end_date).getDate()+ new Date(this.newObject.end_date).getMonth() + new Date(this.newObject.end_date).getMonth() + new Date(this.newObject.start_date).getFullYear()) {
+            if (new Date(this.newObject.start_date).getDate() + new Date(this.newObject.start_date).getMonth() + new Date(this.newObject.start_date).getMonth() + new Date(this.newObject.start_date).getFullYear() > new Date(this.newObject.end_date).getDate() + new Date(this.newObject.end_date).getMonth() + new Date(this.newObject.end_date).getMonth() + new Date(this.newObject.start_date).getFullYear()) {
                 this.snackBar.open(this.modal.modal_check_date, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }

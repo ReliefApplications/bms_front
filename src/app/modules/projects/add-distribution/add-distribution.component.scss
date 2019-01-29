@@ -97,23 +97,23 @@
                 justify-content: flex-end;
                 padding-right : 20px;
 
-                .summary-text{
-                    flex-grow: 1;
-                    display: flex;
-                    text-align: flex-end;
-                    align-items: center;
-                    justify-content: flex-end;
-                    font-family: $bms_font_header;
+            }
+            .summary-text{
+                flex-grow: 1;
+                display: flex;
+                text-align: flex-end;
+                align-items: center;
+                justify-content: flex-end;
+                font-family: $bms_font_header;
+                padding-left: 10px;
+                padding-right: 10px;
+                margin:0;
+                font-size: 15px;
+                span{
+                    font-size: 20px;
+                    color: $bms_red;
                     padding-left: 10px;
                     padding-right: 10px;
-                    margin:0;
-                    font-size: 15px;
-                    span{
-                        font-size: 20px;
-                        color: $bms_red;
-                        padding-left: 10px;
-                        padding-right: 10px;
-                    }
                 }
             }
         }

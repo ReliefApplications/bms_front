@@ -71,9 +71,9 @@
         <div class="form" *ngIf="widthScreen > maxWidthMobile">
           <app-table-small (onRemove)="removeElement($event, commodityAction)" [entity]="commodityClass" [data]="commodityData"></app-table-small>
         </div>
-        <div class="summary" *ngIf="commodityArray.length != 0">
-          <h3 class="summary-text">
-            <span>{{commodityNb}}</span>{{commodityData.data[0].unit}}
+        <div class="commodity-value" *ngIf="commodityArray.length != 0">
+          <h3 class="summary-text" *ngFor="let commodity of commodityArray; let i = index;">
+            <span>{{commodityNb[i]}}</span>{{commodity.unit}}
             {{distribution.add_distribution_commodities_delivered | titlecase}}</h3>
         </div>
         <div class="form" *ngIf="widthScreen < maxWidthMobile">

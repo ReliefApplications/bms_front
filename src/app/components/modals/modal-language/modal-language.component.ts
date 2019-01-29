@@ -14,7 +14,7 @@ export class ModalLanguageComponent extends ModalComponent {
   public isCheckedDefault = false;
   public actualUser;
   public default = false;
-  public isArabic : boolean =false;
+  public isArabic : boolean = false;
 
   ngOnInit() {
     this._cacheService.getUser().subscribe(response => {

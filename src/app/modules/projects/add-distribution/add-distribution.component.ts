@@ -56,7 +56,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     public commodityAction = 'addCommodity';
     public commodityArray = [];
     public commodityData = new MatTableDataSource([]);
-    public commodityNb: number = 0;
+    public commodityNb: number[] = [];
 
     public maxHeight = GlobalText.maxHeight;
     public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -271,7 +271,10 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
             this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
                 if (this.commodityArray.length > 0) {
-                    this.commodityNb = this.commodityArray[0].value * this.criteriaNbBeneficiaries;
+                    this.commodityNb = [];
+                    this.commodityArray.forEach(commodity => {
+                        this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
+                    });
                 }
                 this.load = false;
 
@@ -294,8 +297,12 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
             this.load = true;
             this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
-                if (this.commodityArray.length > 0)
-                    this.commodityNb = this.commodityArray[0].value * this.criteriaNbBeneficiaries;
+                if (this.commodityArray.length > 0) {
+                    this.commodityNb = [];
+                    this.commodityArray.forEach(commodity => {
+                        this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
+                    });
+                }
                 this.load = false;
 
             });
@@ -447,7 +454,6 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                     return;
                 }
 
-                console.log(this.commodityArray);
                 this.loadingCreation = true;
                 const newDistribution: DistributionData = new DistributionData;
                 newDistribution.type = this.newObject.type;
@@ -559,14 +565,23 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
 
             this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
-                if (this.commodityArray.length > 0)
-                    this.commodityNb = this.commodityArray[0].value * this.criteriaNbBeneficiaries;
+                if (this.commodityArray.length > 0) {
+                    this.commodityNb = [];
+                    this.commodityArray.forEach(commodity => {
+                        this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
+                    });
+                }
                 this.load = false;
             });
             this.criteriaData = new MatTableDataSource(this.criteriaArray);
         } else if (user_action === this.commodityAction) {
             this.commodityArray.push(createElement);
-            this.commodityNb = this.commodityArray[0].value * this.criteriaNbBeneficiaries;
+
+            this.commodityNb = [];
+            this.commodityArray.forEach(commodity => {
+                this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
+            });
+
             this.commodityData = new MatTableDataSource(this.commodityArray);
         }
     }
@@ -587,7 +602,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
             const index = this.commodityArray.findIndex((item) => item === removeElement);
             if (index > -1) {
                 this.commodityArray.splice(index, 1);
-
+                this.commodityNb.splice(index, 1);
                 this.commodityData = new MatTableDataSource(this.commodityArray);
             }
         }

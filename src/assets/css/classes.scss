@@ -515,14 +515,22 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
   }
 }
 
-.single-select .ng-select-container .ng-value-container  {
+.single-select{
 
-    .ng-value .ng-value-label{
-      position: relative;
-      top: 4px;
-      width: 100%;
-      }
-    .ng-input input {
-        font-family: Roboto, "Helvetica Neue", sans-serif;
-      }
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option .ng-option-label{
+        font-weight: normal;
     }
+
+    .ng-select-container .ng-value-container  {
+
+        .ng-value .ng-value-label{
+        position: relative;
+        top: 4px;
+        width: 100%;
+        font-weight: normal
+        }
+        .ng-input input {
+            font-family: Roboto, "Helvetica Neue", sans-serif;
+        }
+    }
+}

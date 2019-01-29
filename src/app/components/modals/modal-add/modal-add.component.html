@@ -8,7 +8,7 @@
 
             <th class="table-value">
                 <form class="form" [formGroup]="form">
-                    <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects'"
+                    <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
                         class="full-width">
 
                         <input matInput [maxlength]="this.maxLength" *ngIf="propertiesTypes[p]=='text'" [(ngModel)]="newObject[p]"
@@ -25,15 +25,7 @@
                         <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]"
                             [ngModelOptions]="{standalone: true}" type="number" min="0">
 
-                        <mat-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] == 'ROLE_COUNTRY_MANAGER'"
-                            [(ngModel)]="newObject[p]" placeholder="Countries" formControlName="countryControl">
-                            <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</mat-option>
-                        </mat-select>
-                        <!-- {{propertiesTypes[p]}}
-                        <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] == 'ROLE_COUNTRY_MANAGER'" 
-                            class="single" [(ngModel)]="newObject[p]" [multiple]="false" placeholder="Countries" [closeOnSelect]="true"
-                            [searchable]="true" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" [bindLabel]="name" [bindValue]="id">
-                        </ng-select> -->
+                        
 
                         <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
                             matInput [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
@@ -42,28 +34,35 @@
                         <mat-datepicker #dateDistribution></mat-datepicker>
                     </mat-form-field>
 
-                    <ng-select *ngIf="propertiesTypes[p]=='select'" class="multiple" [(ngModel)]="newObject[p]" bindLabel="name"
-                        [items]="loadedData[p]" [multiple]="true" placeholder="{{mapperObject[p]}}" [closeOnSelect]="true"
+                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" 
+                        *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
+                        (change)="selected($event, newObject)" [ngModelOptions]="{standalone: true}">
+                        <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string  | titlecase }}{{singleData.name  | titlecase }}</ng-option>
+                    </ng-select>
+
+                    <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" 
+                        *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] == 'ROLE_COUNTRY_MANAGER'"
+                        [(ngModel)]="newObject[p]" placeholder="Countries" [ngModelOptions]="{standalone: true}">
+                        <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</ng-option>
+                    </ng-select>
+
+                    <ng-select *ngIf="propertiesTypes[p]=='select'" class="custom" [(ngModel)]="newObject[p]" bindLabel="name"
+                        [items]="loadedData[p]" [multiple]="true" placeholder="{{mapperObject[p]}}" [closeOnSelect]="false"
                         [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
 
-                    <ng-select *ngIf="propertiesTypes[p]=='selectSingle'" class="single" [(ngModel)]="newObject[p]" bindLabel="name" bindValue="name"
-                        [items]="loadedData[p]"  [multiple]="false" placeholder="{{mapperObject[p]}}" [closeOnSelect]="true"
-                        [searchable]="true" [ngModelOptions]="{standalone: true}">
-                    </ng-select>
-
-                    <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="multiple" [(ngModel)]="newObject[p]"
+                    <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="custom" [(ngModel)]="newObject[p]"
                         bindLabel="shortname" [items]="loadedData[p]" [multiple]="true" placeholder="{{mapperObject[p]}}"
                         [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
 
-                    <ng-select *ngIf="propertiesTypes[p]=='selectProjects'" class="multiple" [(ngModel)]="newObject[p]"
+                    <ng-select *ngIf="propertiesTypes[p]=='selectProjects'" class="custom" [(ngModel)]="newObject[p]"
                         bindLabel="name" [items]="loadedData[p]" [multiple]="true" placeholder="Projects"
                         [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
 
                     <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] !== 'ROLE_COUNTRY_MANAGER'"
-                        class="multiple" [(ngModel)]="newObject[p]" bindLabel="id" [items]="loadedData[p]" [multiple]="true"
+                        class="custom" [(ngModel)]="newObject[p]" bindLabel="id" [items]="loadedData[p]" [multiple]="true"
                         placeholder="Countries" [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
 

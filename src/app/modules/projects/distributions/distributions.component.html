@@ -355,19 +355,10 @@
           {{TEXT.distribution_want_add}} <strong> {{actualDistribution.name}} </strong>
           {{TEXT.distribution | lowercase}}.</p>
         <div class="selectBeneficiaries">
-<<<<<<< HEAD
           <ng-select class="custom" [(ngModel)]="selectedBeneficiaries" bindLabel="full_name" [items]="beneficiaryList"
             [multiple]="true" placeholder="{{TEXT.beneficiaries}}" [closeOnSelect]="false" [searchable]="true"
             [ngModelOptions]="{standalone: true}" required>
           </ng-select>
-=======
-          <mat-form-field>
-            <mat-select placeholder="Beneficiaries" [formControl]="beneficiaryForm" [(ngModel)]="selectedBeneficiaries" multiple>
-              <mat-option class="options" *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">{{beneficiary.given_name}}
-                {{beneficiary.family_name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
->>>>>>> dev
         </div>
       </div>
       <div class="modal-footer action">

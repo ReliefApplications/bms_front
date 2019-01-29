@@ -14,12 +14,15 @@ export class ModalLanguageComponent extends ModalComponent {
   public isCheckedDefault = false;
   public actualUser;
   public default = false;
+  public isClicked : boolean =false;
 
   ngOnInit() {
     this._cacheService.getUser().subscribe(response => {
       this.actualUser = response;
       response.language == this.language ? this.default = true : 0;
     })
+    this.language == 'ar' ? this.isClicked = true : false;
+    console.log(this.isClicked); 
   }
 
   choseLanguage(l : string){
@@ -33,6 +36,9 @@ export class ModalLanguageComponent extends ModalComponent {
 
   save(){
     GlobalText.changeLanguage(this.language);
+    this.language == 'ar' ? this.isClicked = true : false;
+    console.log(this.language);
+    console.log(this.isClicked);
     if (this.isCheckedDefault) {
       this.userService.setDefaultLanguage(this.actualUser.id, this.language).subscribe(response => {
         this.snackBar.open('Default Language Saved','', {duration: 3000, horizontalPosition: 'center'});

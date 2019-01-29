@@ -24,8 +24,9 @@
         </ng-select>
 
         <ng-select *ngIf="propertiesTypes[p]=='selectSingle' && p != 'rights'" 
-            class="single-select" [(ngModel)]="updateObject[p]" [multiple]="false" placeholder="{{data.mapper.mapTitle(p)}}" [closeOnSelect]="true"
-            [searchable]="true" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" [bindLabel]="id" [bindValue]="id">
+            class="single-select" [(ngModel)]="updateObject[p]" [multiple]="false" placeholder="{{data.mapper.mapTitle(p)}}"
+            [closeOnSelect]="true" [searchable]="true" [ngModelOptions]="{standalone: true}">
+            <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</ng-option>
         </ng-select>
 
         <ng-select *ngIf="propertiesTypes[p]=='selectSingle' && p == 'rights'" [(ngModel)]="updateObject[p]"

@@ -36,7 +36,7 @@
                     
                     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" 
                         *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
-                        (change)="selected($event, newObject)" [ngModelOptions]="{standalone: true}">
+                        (change)="selected(newObject[p])" [ngModelOptions]="{standalone: true}">
                         <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string  | titlecase }}{{singleData.name  | titlecase }}</ng-option>
                     </ng-select>
 
@@ -58,12 +58,14 @@
 
                     <ng-select *ngIf="propertiesTypes[p]=='selectProjects'" class="multiple-select" [(ngModel)]="newObject[p]"
                         bindLabel="name" [items]="loadedData[p]" [multiple]="true" placeholder="Projects"
-                        [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
+                        [closeOnSelect]="false" [searchable]="true"
+                        formControlName="projectsControl">
                     </ng-select>
 
                     <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] !== 'ROLE_COUNTRY_MANAGER'"
                         class="multiple-select" [(ngModel)]="newObject[p]" bindLabel="id" [items]="loadedData[p]" [multiple]="true"
-                        placeholder="Countries" [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
+                        placeholder="Countries" [closeOnSelect]="false" [searchable]="true"
+                        formControlName="countryControl">
                     </ng-select>
 
                     <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">

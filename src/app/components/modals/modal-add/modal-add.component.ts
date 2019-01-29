@@ -86,7 +86,7 @@ export class ModalAddComponent extends ModalComponent {
                     setTimeout(() => {
                         if (element == 'modality')
                             this.newObject[element] = 1;
-                        this.selected('', this.newObject);
+                        this.selected( this.newObject);
                     }, 0);
 
                     if (element === 'unit') {
@@ -97,24 +97,22 @@ export class ModalAddComponent extends ModalComponent {
         }
     }
 
-    selected(event, newObject) {
-        if (!event) {
-            return;
-        }
+    selected(newObject) {
+        
         if (newObject.modality) {
             if (newObject.modality !== this.oldSelectedModality) {
                 this.getModalityType(newObject.modality);
                 this.oldSelectedModality = newObject.modality;
             }
         }
-        else if (event.value == "ROLE_PROJECT_MANAGER" || event.value == "ROLE_PROJECT_OFFICER" || event.value == "ROLE_FIELD_OFFICER") {
+        else if (newObject == "ROLE_PROJECT_MANAGER" || newObject == "ROLE_PROJECT_OFFICER" || newObject == "ROLE_FIELD_OFFICER") {
             this.newObject['country'] = [];
             this.newObject['projects'] = [];
 
             this.form.controls['projectsControl'].enable();
             this.form.controls['countryControl'].disable();
         }
-        else if (event.value == "ROLE_COUNTRY_MANAGER" || event.value == "ROLE_REGIONAL_MANAGER") {
+        else if (newObject == "ROLE_COUNTRY_MANAGER" || newObject == "ROLE_REGIONAL_MANAGER") {
             this.newObject['country'] = [];
             this.newObject['projects'] = [];
 
@@ -129,9 +127,10 @@ export class ModalAddComponent extends ModalComponent {
             this.form.controls['countryControl'].disable();
         }
 
-        if (event.value == "ROLE_ADMIN") {
+        if (newObject == "ROLE_ADMIN") {
             this.user.getAllCountries().forEach(
                 element => {
+                    
                     this.newObject['country'].push(element.id);
                 }
             )

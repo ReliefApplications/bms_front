@@ -46,23 +46,23 @@
                         <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</ng-option>
                     </ng-select>
 
-                    <ng-select *ngIf="propertiesTypes[p]=='select'" class="custom" [(ngModel)]="newObject[p]" bindLabel="name"
+                    <ng-select *ngIf="propertiesTypes[p]=='select'" class="multiple-select" [(ngModel)]="newObject[p]" bindLabel="name"
                         [items]="loadedData[p]" [multiple]="true" placeholder="{{mapperObject[p]}}" [closeOnSelect]="false"
                         [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
 
-                    <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="custom" [(ngModel)]="newObject[p]"
+                    <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="multiple-select" [(ngModel)]="newObject[p]"
                         bindLabel="shortname" [items]="loadedData[p]" [multiple]="true" placeholder="{{mapperObject[p]}}"
                         [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
 
-                    <ng-select *ngIf="propertiesTypes[p]=='selectProjects'" class="custom" [(ngModel)]="newObject[p]"
+                    <ng-select *ngIf="propertiesTypes[p]=='selectProjects'" class="multiple-select" [(ngModel)]="newObject[p]"
                         bindLabel="name" [items]="loadedData[p]" [multiple]="true" placeholder="Projects"
                         [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
 
                     <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] !== 'ROLE_COUNTRY_MANAGER'"
-                        class="custom" [(ngModel)]="newObject[p]" bindLabel="id" [items]="loadedData[p]" [multiple]="true"
+                        class="multiple-select" [(ngModel)]="newObject[p]" bindLabel="id" [items]="loadedData[p]" [multiple]="true"
                         placeholder="Countries" [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
 

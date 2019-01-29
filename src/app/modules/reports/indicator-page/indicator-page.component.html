@@ -53,7 +53,7 @@
             <!-- selector for project when we click on button "project report" -->
             <div class="content-select" *ngIf="type == 'Project'">
                 <mat-card>
-                    <ng-select class="custom" [(ngModel)]="selectedBeneficiaries" bindLabel="name" [items]="projectList"
+                    <ng-select class="multiple-select" [(ngModel)]="selectedBeneficiaries" bindLabel="name" [items]="projectList"
                         [multiple]="true" placeholder="{{indicator.projects}}" [closeOnSelect]="false" [searchable]="true"
                         [ngModelOptions]="{standalone: true}" (change)="getProjectSelected($event)" required>
                     </ng-select>
@@ -68,7 +68,7 @@
                     (change)="getProjectSelected($event)">
                     </ng-select>
 
-                    <ng-select class="custom" *ngIf="type == 'Distribution'" bindLabel="name" [items]="distributionList"
+                    <ng-select class="multiple-select" *ngIf="type == 'Distribution'" bindLabel="name" [items]="distributionList"
                         [multiple]="true" placeholder="{{indicator.distributions}}" [closeOnSelect]="false"
                         [searchable]="true" (change)="getDistributionSelected($event)" #selectorDistribution
                         required>

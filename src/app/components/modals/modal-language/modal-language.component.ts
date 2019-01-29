@@ -22,7 +22,6 @@ export class ModalLanguageComponent extends ModalComponent {
       response.language == this.language ? this.default = true : 0;
     })
     this.language == 'ar' ? this.isClicked = true : false;
-    console.log(this.isClicked); 
   }
 
   choseLanguage(l : string){
@@ -37,8 +36,6 @@ export class ModalLanguageComponent extends ModalComponent {
   save(){
     GlobalText.changeLanguage(this.language);
     this.language == 'ar' ? this.isClicked = true : false;
-    console.log(this.language);
-    console.log(this.isClicked);
     if (this.isCheckedDefault) {
       this.userService.setDefaultLanguage(this.actualUser.id, this.language).subscribe(response => {
         this.snackBar.open('Default Language Saved','', {duration: 3000, horizontalPosition: 'center'});

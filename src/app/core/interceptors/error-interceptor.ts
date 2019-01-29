@@ -25,19 +25,10 @@ export class ErrorInterceptor implements HttpInterceptor {
             catchError(
                 (error: any, caught: Observable<HttpEvent<any>>) => {
                     this.snackErrors(error);
-                    //console.log('Intercepted:', error);
                     return throwError(error);
                 }
             )
         );
-
-        // return next.handle(req).
-        //     (event: HttpEvent<any>) => {}, (err: any) => {
-        //     if (err instanceof HttpErrorResponse) {
-        //       this.snackErrors(err);
-        //     }
-        //   }
-        // );
     }
 
     snackErrors(response : any) {
@@ -46,7 +37,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 if(typeof response.error !== 'string') {
                     response.error = response.error.error.message;
                 }
-                this.snackbar.open(response.statusText + ' (' + response.status + ') - ' + response.error, '', {duration: 5000, horizontalPosition: 'center'});
+                this.snackbar.open(response.error, '', {duration: 5000, horizontalPosition: 'center'});
             } else {
                 this.snackbar.open(response.message, '', {duration: 5000, horizontalPosition: 'center'});
             }

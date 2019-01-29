@@ -11,6 +11,7 @@ import { Project } from '../../model/project';
 import { Location } from '../../model/location';
 import { Sector } from '../../model/sector';
 import { saveAs      } from 'file-saver/FileSaver';
+import { post } from 'selenium-webdriver/http';
 
 
 @Injectable({
@@ -136,5 +137,18 @@ export class HouseholdsService {
     public delete(householdId: number) {
         const url = this.api + '/households/' + householdId;
         return this.http.delete(url);
+    }
+
+    public testFileTemplate(file: any, location: any) {
+        const body = {
+            file: file,
+            location: location
+        };
+
+        const url = this.api + '/import/households';
+        return this.http.post(url, body).toPromise()
+            .then((response) => {
+                saveAs(response, 'templateSyria.xls');
+            });
     }
 }

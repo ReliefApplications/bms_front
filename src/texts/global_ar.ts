@@ -122,6 +122,7 @@ export const TEXT = {
     beneficiaries_import_csv: ' تنزيل ملف',
     beneficiaries_import_error_importing: 'وقع خطأ عندالتحميل البيانات',
     beneficiaries_import_file: 'تحميل من ملف',
+    beneficiaries_import_select_location: 'You must select a location and add a file before uploading',
     beneficiaries_import_select_project: 'يجب أن تختار مشروعا و ملفا قبل التحميل',
     beneficiaries_import_title: 'تحميل بيانات المستفيد',
     beneficiaries_location: 'مكان الأسرة:',

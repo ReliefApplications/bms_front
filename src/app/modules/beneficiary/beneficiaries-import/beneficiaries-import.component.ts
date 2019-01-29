@@ -14,10 +14,8 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Households } from 'src/app/model/households';
 import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
 import { LocationService } from 'src/app/core/api/location.service';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Mapper } from 'src/app/core/utils/mapper.service';
-import { DistributionData } from 'src/app/model/distribution-data';
 
 @Component({
     selector: 'beneficiaries-import',
@@ -69,8 +67,7 @@ export class BeneficiariesImportComponent implements OnInit {
     public newHouseholds: any = {};
     public email: string;
 
-    public mapperObject = null;
-    public entity = DistributionData;
+    public controls = new FormControl();
     public saveLocation = {
         adm1: '',
         adm2: '',
@@ -87,6 +84,7 @@ export class BeneficiariesImportComponent implements OnInit {
     public lastAdm1;
     public lastAdm2;
     public lastAdm3;
+    public loadLocations: boolean = false;
 
     constructor(
         public _householdsService: HouseholdsService,
@@ -99,12 +97,10 @@ export class BeneficiariesImportComponent implements OnInit {
         private importedDataService: ImportedDataService,
         private dialog: MatDialog,
         private locationService: LocationService,
-        private mapper: Mapper
     ) { }
 
     ngOnInit() {
         let rights;
-        this.mapperObject = this.mapper.findMapperObject(this.entity);
         this._cacheService.get('user').subscribe(
             result => {
                 rights = result.rights;
@@ -136,7 +132,7 @@ export class BeneficiariesImportComponent implements OnInit {
         if (this.household !== GlobalText.TEXTS) {
             this.household = GlobalText.TEXTS;
         }
-        else if(this.language !== GlobalText.language) {
+        else if (this.language !== GlobalText.language) {
             this.language = GlobalText.language;
         }
     }
@@ -239,19 +235,28 @@ export class BeneficiariesImportComponent implements OnInit {
     /**
      * Open modal to select locations in the export file
      */
-    selectLocations(template) {
-
-        this.dialog.open(template);
+    selectLocations(template) {
+        if (this.dialog.openDialogs.length == 0) {
+            this.dialog.open(template);
+        }
     }
 
     /**
      * Get adm1 from the back or from the cache service with the key ADM1
      */
-    loadProvince() {
-        this.locationService.getAdm1().subscribe(response => {
-            this.loadedData.adm1 = response;
+    loadProvince(template) {
+        this.loadLocations = true;
 
-        });
+        this.locationService.getAdm1()
+            .pipe(
+                finalize(() => {
+                    this.loadLocations = false;
+                    this.selectLocations(template);
+                })
+            )
+            .subscribe(response => {
+                this.loadedData.adm1 = response;
+            });
         this.loadedData.adm2 = [];
         this.loadedData.adm3 = [];
         this.loadedData.adm4 = [];
@@ -266,7 +271,7 @@ export class BeneficiariesImportComponent implements OnInit {
             switchMap(
                 (value) => {
                     const body = {
-                        adm1 : value
+                        adm1: value
                     };
                     return this.locationService.getAdm2(body)
                 }
@@ -287,7 +292,7 @@ export class BeneficiariesImportComponent implements OnInit {
             switchMap(
                 (value) => {
                     const body = {
-                        adm2 : value
+                        adm2: value
                     };
                     return this.locationService.getAdm3(body)
                 }
@@ -307,7 +312,7 @@ export class BeneficiariesImportComponent implements OnInit {
             switchMap(
                 (value) => {
                     const body = {
-                        adm3 : value
+                        adm3: value
                     };
                     return this.locationService.getAdm4(body)
                 }
@@ -342,7 +347,7 @@ export class BeneficiariesImportComponent implements OnInit {
      */
     getAdmID(adm: string) {
         //console.log(this.loadedData);
-        return new Observable (
+        return new Observable(
             observer => {
                 const body = {};
                 if (adm === 'adm1') {
@@ -415,7 +420,38 @@ export class BeneficiariesImportComponent implements OnInit {
         );
 
     }
-    
+
+    /**
+     * To cancel on a dialog
+     */
+    exit(message: string) {
+        this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
+        this.dialog.closeAll();
+    }
+
+    confirmImport() {
+        if (!this.csv || this.saveLocation.adm1 == '')
+            this.snackBar.open(this.household.beneficiaries_import_select_location, '', { duration: 5000, horizontalPosition: 'center' });
+
+        const data = new FormData();
+        data.append('file', this.csv);
+
+        const body = {
+            location: this.saveLocation
+        };
+
+        this._importService.testFileTemplate(data, body)
+            .then(() => {
+            }, (err) => {
+                this.snackBar.open(this.household.beneficiaries_import_error_importing, '', { duration: 5000, horizontalPosition: 'center' });
+            })
+            .catch(
+                () => {
+                    this.snackBar.open(this.household.beneficiaries_import_error_importing, '', { duration: 5000, horizontalPosition: 'center' });
+                }
+            );
+    }
+
     /**
      * All listener for the drag and drop
      * @param event
@@ -500,7 +536,7 @@ export class BeneficiariesImportComponent implements OnInit {
     addBeneficiaries() {
         if (Object.keys(this.paramToSend).length == this.APIParams.length && Object.keys(this.paramToSend).length > 0) {
             if (this.selectedProject == null) {
-                this.snackBar.open(this.household.beneficiaries_missing_selected_project, '', {duration: 5000, horizontalPosition: 'right'})
+                this.snackBar.open(this.household.beneficiaries_missing_selected_project, '', { duration: 5000, horizontalPosition: 'right' })
             } else {
                 const project = this.selectedProject.split(' - ');
                 this._importService.project = project[0];

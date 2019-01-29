@@ -122,6 +122,7 @@ export const TEXT = {
     beneficiaries_import_csv: 'télécharger le modèle',
     beneficiaries_import_error_importing: 'Erreur lors de l\'importation des données',
     beneficiaries_import_file: 'import depuis un fichier',
+    beneficiaries_import_select_location: 'Vous devez sélectionner une localisation et ajouter un fichier avant l\'importation',
     beneficiaries_import_select_project: 'Vous devez selectionner un projet et ajouter un fichier avant l\'importation',
     beneficiaries_import_title: 'import de bénéficiaires',
     beneficiaries_location: 'Localisation du ménage :',

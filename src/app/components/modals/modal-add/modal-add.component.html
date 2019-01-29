@@ -1,4 +1,4 @@
-<mat-dialog-content class="modal-container" id="modal-add">
+<mat-dialog-content class="modal-container">
     <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}">{{modal.modal_add_title  | titlecase }} {{entityDisplayedName  | titlecase}}</h4>
     <table class="modal-table" [ngClass]="{'arabic': language==='ar'}">
         <p *ngIf="this.data.entity.getAddDescription">{{this.data.entity.getAddDescription()  | titlecase }}</p>

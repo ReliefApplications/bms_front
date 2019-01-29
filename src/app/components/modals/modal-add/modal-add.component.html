@@ -33,7 +33,7 @@
                         <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"></mat-datepicker-toggle>
                         <mat-datepicker #dateDistribution></mat-datepicker>
                     </mat-form-field>
-
+                    
                     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" 
                         *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
                         (change)="selected($event, newObject)" [ngModelOptions]="{standalone: true}">

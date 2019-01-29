@@ -98,6 +98,9 @@ export class ModalAddComponent extends ModalComponent {
     }
 
     selected(event, newObject) {
+        if (!event) {
+            return;
+        }
         if (newObject.modality) {
             if (newObject.modality !== this.oldSelectedModality) {
                 this.getModalityType(newObject.modality);

@@ -366,7 +366,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
             display: flex;
             flex-direction: row;
             width: 100%;
-            align-items: baseline;
+            align-items: center;
 
             .table-title {
                 text-align: left;
@@ -526,9 +526,11 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         .ng-value .ng-value-label{
         width: 100%;
         font-weight: normal;
+        font-size: inherit;
         }
         .ng-input input {
-            font-family: Roboto, "Helvetica Neue", sans-serif;
+            font-size: inherit;
+            font-family: inherit;
         }
     }
 }

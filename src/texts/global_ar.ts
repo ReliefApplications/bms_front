@@ -2,12 +2,12 @@ export const TEXT = {
     // GENERAL VARIABLES
 
     // Utils
-    add: 'Add',
+    add: 'أضف',
     adm1: 'المحافظة',
     adm2: 'المنطقة',
     adm3: 'البلدية',
     adm4: 'القرية',
-    back: 'Back',
+    back: 'إلى الوراء',
     beneficiaries: 'المستفيدون',
     beneficiary: 'المستفيد',
     cancel: 'إلغاء',
@@ -27,8 +27,8 @@ export const TEXT = {
     import: 'تحميل',
     individual: 'فرد ',
     location: 'الموقع',
-    new: 'New',
-    next: 'Next',
+    new: 'الجديد',
+    next: 'التالى',
     no_data: 'لايوجد بيانات',
     phone: 'الهاتف',
     project: 'المشروع',
@@ -37,7 +37,7 @@ export const TEXT = {
     rights: 'الحقوق',
     save: 'حفظ',
     settings: 'الإعدادات',
-    summary:'Summary',
+    summary:'ملخص',
     update: 'تحديث',
 
     // Error
@@ -76,8 +76,8 @@ export const TEXT = {
     add_beneficiary_step2: 'رب العائلة',
     add_beneficiary_step3:'أفراد العائلة',
     add_beneficiary_title: 'إضافة مستفيد',
-    add_beneficiary_code: 'Country code',
-    add_beneficiary_country_specifics: 'Country specifics',
+    add_beneficiary_code: 'رمز الهاتف الدولي',
+    add_beneficiary_country_specifics: 'تفاصيل البلد',
 
     // Add distribution
     add_distribution_advanced_option: 'خيارات متقدمة',
@@ -94,7 +94,7 @@ export const TEXT = {
     add_distribution_male: 'الرجل',
     add_distribution_missing_commodity: 'سلعة مفقودة',
     add_distribution_missing_date: 'التاريخ مفقود',
-    add_distribution_missing_location: 'Add a Province',
+    add_distribution_missing_location: 'أضف مقاطعة',
     add_distribution_missing_selection_criteria: 'معيار الاختيار مفقود',
     add_distribution_missing_threshold: 'يجب أن تكون قيمة الحد الفاصل أكبر من 0',
     add_distribution_selection_criteria: 'معيار الاختيار',
@@ -111,7 +111,7 @@ export const TEXT = {
     beneficiaries_add_project: 'يرجى تحديد المشروع (المشاريع) الذي/الذين  ترغب في إضافته/هم ',
     beneficiaries_added: 'تم إضافة المستفيدين الى المشروع',
     beneficiaries_advanced_research:'بحث متقدم',
-    beneficiaries_clear_all_research:'Clear all',
+    beneficiaries_clear_all_research:'امسح الكل',
     beneficiaries_full_address: 'عنوان المنزل بالكامل:',
     beneficiaries_household_info: 'ملخص المعلومات الخاصة بالمنزل  :',
     beneficiaries_import_addFile: ' إضافة ملف أو وضع ملف ',
@@ -130,9 +130,9 @@ export const TEXT = {
     beneficiaries_selected_project: 'المستفيدين المختارين:',
 
     // Cache
-    cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
-    cache_store_beneficiaries: 'Store Beneficiaries',
-    cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',
+    cache_distribution_added: 'التوزيع والمستفيدين من المشروع تم  إضافتهم في ذاكرة التخزين المؤقت',
+    cache_store_beneficiaries: 'تخزين المستفيدين',
+    cache_no_distribution: 'لم يتم تخزين هذا التوزيع في ذاكرة التخزين المؤقت ، ولا يمكنك الحصول عليه خارج خدمة الانترنت. ',
     
     // Dashboard
     dashboard_distribution_map: 'خريطة التوزيع',
@@ -219,15 +219,15 @@ export const TEXT = {
 
     // Import
     import_added: 'تم إضافتها',
-    import_back_to_beneficiaries: 'Back to Beneficiaries',
-    import_back_to_project: 'Back to Project',
+    import_back_to_beneficiaries: 'العودة إلى المستفيدين',
+    import_back_to_project: 'العودة إلى المشروع',
     import_created: 'تم إنشاؤها',
     import_deleted: 'تم حذفها',
     import_description: 'قم باستيراد الملف الذي يحتوي على التوزيع المعدّل. سيتم تحديث قاعدة البيانات بقائمة المستفيدين الجديدة لهذا التوزيع عندما تنقر على ""تحديث"" بعد الاستيراد.',
     import_distribution_no_right_update: 'لا يحق لك تحديث التوزيع ، اسأل مدير المشروع الخاص بك',
     import_distribution_updated: 'تم تحديث التوزيع',
-    import_select_new: 'Select all new',
-    import_select_old: 'Select all old',
+    import_select_new: 'اختر كل جديد',
+    import_select_old: 'اختر كل القديم',
     import_updated: 'تم تحديثها',
 
     // Login
@@ -262,11 +262,11 @@ export const TEXT = {
     modal_no_project: 'عليك بتحديد مشروع على الأقل يتعلق بالحق',
     modal_pending_requests: 'الطلبات المعلقة',
     modal_project_name_characters_limit:'لا تتجاوز',
-    modal_save_language_as_default: 'Set this as my default language',
+    modal_save_language_as_default: 'قم بتعيين هذه اللغة كلغتي المفضلة.',
     modal_success: 'نجاح',
     modal_required: 'مطلوب',
     modal_valid_email: 'من فضلك أدخل البريد الكتروني الصحيح',
-    modal_warning_pending_requests_1: 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.',
+    modal_warning_pending_requests_1: 'ابحث عن الطلبات التي قمت بإنشائها خلال وقت عدم الاتصال الخاص بك أدناه ، يمكنك إرسال تلك التي تريد تطبيقها لتعديل قاعدة البيانات.',
     modal_warning_pending_requests_2: 'تحذير: ستفشل الطلبات المرتبطة بعنصر أنشأته دون   اتصال بشبكة  الإنترنت !',
 
     // Model
@@ -387,7 +387,7 @@ export const TEXT = {
     transaction_confirm: 'تأكيد المعاملة',
     transaction_confirm_button: 'التأكد',
     transaction_email_code: 'تم إرسال بريد إلكتروني يحتوي على رمز التحقق الخاص بك إلى:',
-    transaction_id_transaction: 'ID Transaction',
+    transaction_id_transaction: 'معرف المعاملة.',
     transaction_inProgress: 'المعاملة قيد التقدم ...',
     transaction_paste_code: 'الرجاء وضع الشفرة هنا والنقر على التأكد  لمتابعة العملية:',
     transaction_prevention: 'لا تزال هذه المنصة قيد التطوير وقد لا تكون وظيفة المعاملات النقدية عبر الإنترنت مستقرة تمامًا حتى الآن. ينكر فريق التطوير المسؤولية عن أي أخطاء قد تحدث من حيث فقدان المال. بوضع علامة في المربع أدناه ، فإنك توافق على استخدام النظام بمعرفة حدوده تمامًا وتحمل المسؤولية عن نتائج المعاملة.',

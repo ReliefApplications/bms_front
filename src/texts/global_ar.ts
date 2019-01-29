@@ -97,6 +97,7 @@ export const TEXT = {
     add_distribution_missing_location: 'أضف مقاطعة',
     add_distribution_missing_selection_criteria: 'معيار الاختيار مفقود',
     add_distribution_missing_threshold: 'يجب أن تكون قيمة الحد الفاصل أكبر من 0',
+    add_distribution_multiple_commodities: 'You can\'t have too payment\'s method as commodities',
     add_distribution_selection_criteria: 'معيار الاختيار',
     add_distribution_text_explanation: 'سيختار النظام فقط المستفيدين / الأسر التي لديها مجموع أعلى من المجموع الادنى ',
     add_distribution_threshold: ' المجموع الادنى لاختيار ',

@@ -97,6 +97,7 @@ export const TEXT = {
     add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'A selection criterion is missing',
     add_distribution_missing_threshold: 'The minimum selection score\'s value should be greater than 0',
+    add_distribution_multiple_commodities: 'You can\'t have too payment\'s method as commodities',
     add_distribution_selection_criteria: 'selection criteria',
     add_distribution_text_explanation: 'The system will only select beneficiaries/households that have a score higher than the minimum selection score',
     add_distribution_threshold: 'Minimum selection score',

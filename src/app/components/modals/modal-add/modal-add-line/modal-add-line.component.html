@@ -1,4 +1,4 @@
-<div class="modal-container" id="modal-add-line">
+<div class="modal-container">
   <h4 class="modal-title underline-accent stickyHeader">{{modal.modal_add_title |titlecase }}{{entityDisplayedName | titlecase}}</h4>
   <table class="modal-table">
     <tr *ngFor="let p of properties">
@@ -54,7 +54,7 @@
               <mat-icon>{{ iconAdvanced }}</mat-icon>
             </button>
           </div>
-        </th> 
+        </th>
       </div>
     </tr>
     <tr *ngIf="displayWeight" class="modal-row">

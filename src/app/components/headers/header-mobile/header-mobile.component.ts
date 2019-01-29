@@ -138,6 +138,7 @@ export class HeaderMobileComponent implements OnInit {
 
         if (user_action == 'language') {
             dialogRef = this.dialog.open(ModalLanguageComponent, {
+              id: 'modal-language'
             });
         }
 

@@ -66,6 +66,7 @@ export class AppComponent {
 
         if (user_action == 'language') {
             dialogRef = this.dialog.open(ModalLanguageComponent, {
+              id: 'modal-language'
             });
         }
 

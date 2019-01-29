@@ -64,36 +64,6 @@ body {
   justify-content: center;
 }
 
-@media only screen and (min-width: 750px) {
-  .cdk-global-overlay-wrapper > .cdk-overlay-pane {
-    width: 63vw !important;
-    max-width: 63vw !important;
-    display: flex;
-    justify-content: center;
-  }
-
-  #modal-language, #modal-requests,#modal-leave,#modal-delete{
-    width: 70%;
-    .modal-body{
-      width:100%;
-      tbody{
-        width:100%
-      }
-    }
-
-  }
-
-  #modal-add,#modal-add-line,#modal-details,#modal-update{
-    width: 70%;
-    .modal-body{
-      width:100%;
-      tbody{
-        width:100%
-      }
-    }
-  }
-}
-
 @media only screen and (max-width: 750px) {
   .mat-stepper-horizontal {
     width: 100%;

@@ -340,6 +340,9 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     min-width: 40vw;
     display: block;
     .modal-title {
+        &.arabic{
+            direction: rtl;
+        }
         display: flex;
         flex-grow: 1;
         padding: 5px;
@@ -356,6 +359,9 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     }
 
     .modal-table {
+        &.arabic{
+            direction:rtl;
+        }
         display: flex;
         flex-wrap: wrap;
         padding: 5px;

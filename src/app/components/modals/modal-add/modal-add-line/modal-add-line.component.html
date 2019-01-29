@@ -1,6 +1,6 @@
 <div class="modal-container">
-  <h4 class="modal-title underline-accent stickyHeader">{{modal.modal_add_title |titlecase }}{{entityDisplayedName | titlecase}}</h4>
-  <table class="modal-table">
+  <h4 class="modal-title underline-accent stickyHeader"[ngClass]="{'arabic': language==='ar'}" >{{modal.modal_add_title |titlecase }}{{entityDisplayedName | titlecase}}</h4>
+  <table class="modal-table" [ngClass]="{'arabic': language==='ar'}">
     <tr *ngFor="let p of properties">
       <div *ngIf="p != 'weight'" class="modal-row">
         <th class="table-title" *ngIf="p!='value_string'">{{mapperObject[p]}}</th>

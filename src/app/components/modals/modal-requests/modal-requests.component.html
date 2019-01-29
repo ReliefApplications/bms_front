@@ -1,5 +1,5 @@
 <mat-dialog-content class="modal-container">
-    <h4 class="modal-title underline-accent stickyHeader">
+    <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}">
         {{TEXTS.modal_pending_requests}}
     </h4>
 

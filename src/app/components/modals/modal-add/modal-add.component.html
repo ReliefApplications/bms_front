@@ -25,25 +25,17 @@
                         <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]"
                             [ngModelOptions]="{standalone: true}" type="number" min="0">
 
-                        
-
                         <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
                             matInput [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
                             placeholder="{{data.mapper.mapTitle(p)}}">
                         <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"></mat-datepicker-toggle>
                         <mat-datepicker #dateDistribution></mat-datepicker>
                     </mat-form-field>
-                    
-                    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" 
+
+                    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
                         *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
                         (change)="selected(newObject[p])" [ngModelOptions]="{standalone: true}">
                         <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string  | titlecase }}{{singleData.name  | titlecase }}</ng-option>
-                    </ng-select>
-
-                    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" 
-                        *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] == 'ROLE_COUNTRY_MANAGER'"
-                        [(ngModel)]="newObject[p]" placeholder="Countries" [ngModelOptions]="{standalone: true}">
-                        <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</ng-option>
                     </ng-select>
 
                     <ng-select *ngIf="propertiesTypes[p]=='select'" class="multiple-select" [(ngModel)]="newObject[p]" bindLabel="name"
@@ -56,15 +48,27 @@
                         [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
 
-                    <ng-select *ngIf="propertiesTypes[p]=='selectProjects'" class="multiple-select" [(ngModel)]="newObject[p]"
-                        bindLabel="name" [items]="loadedData[p]" [multiple]="true" placeholder="Projects"
-                        [closeOnSelect]="false" [searchable]="true"
+                    <ng-select *ngIf="propertiesTypes[p]=='selectProjects'"
+                        [ngClass]="{'multiple-select': newObject['rights'] == 'ROLE_PROJECT_MANAGER', 'single-select': newObject['rights'] == 'ROLE_PROJECT_OFFICER' || newObject['rights'] == 'ROLE_FIELD_OFFICER'}"
+                        [(ngModel)]="newObject[p]"
+                        bindLabel="name"
+                        [items]="loadedData[p]"
+                        [multiple]="newObject['rights'] == 'ROLE_PROJECT_MANAGER'"
+                        placeholder="{{mapperObject[p]}}"
+                        [closeOnSelect]="true"
+                        [searchable]="true"
                         formControlName="projectsControl">
                     </ng-select>
 
-                    <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && newObject['rights'] !== 'ROLE_COUNTRY_MANAGER'"
-                        class="multiple-select" [(ngModel)]="newObject[p]" bindLabel="id" [items]="loadedData[p]" [multiple]="true"
-                        placeholder="Countries" [closeOnSelect]="false" [searchable]="true"
+                    <ng-select *ngIf="propertiesTypes[p]=='selectCountry'"
+                        [ngClass]="{'multiple-select': newObject['rights'] == 'ROLE_REGIONAL_MANAGER', 'single-select': newObject['rights'] == 'ROLE_COUNTRY_MANAGER'}"
+                        [(ngModel)]="newObject[p]"
+                        bindLabel="id"
+                        [items]="loadedData[p]"
+                        [multiple]="newObject['rights'] == 'ROLE_REGIONAL_MANAGER'"
+                        placeholder="{{mapperObject[p]}}"
+                        [closeOnSelect]="true"
+                        [searchable]="true"
                         formControlName="countryControl">
                     </ng-select>
 

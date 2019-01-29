@@ -98,7 +98,6 @@ export class ModalAddComponent extends ModalComponent {
     }
 
     selected(newObject) {
-        
         if (newObject.modality) {
             if (newObject.modality !== this.oldSelectedModality) {
                 this.getModalityType(newObject.modality);
@@ -127,15 +126,14 @@ export class ModalAddComponent extends ModalComponent {
             this.form.controls['countryControl'].disable();
         }
 
+        // TODO check if necessary
         if (newObject == "ROLE_ADMIN") {
             this.user.getAllCountries().forEach(
                 element => {
-                    
                     this.newObject['country'].push(element.id);
                 }
             )
         }
-
     }
 
     getModalityType(modality) {

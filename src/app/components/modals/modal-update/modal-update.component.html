@@ -10,20 +10,15 @@
               [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries' || p=='name')"
               [type]="propertiesTypes[p]">
 
-          
+
           <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
           matInput [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
           placeholder="{{data.mapper.mapTitle(p)}}">
           <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'  || propertiesTypes[p]=='date'"></mat-datepicker-toggle>
           <mat-datepicker #dateDistribution></mat-datepicker>
         </mat-form-field>
-        
-        <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && updateObject['rights'] == 'ROLE_COUNTRY_MANAGER'" 
-            class="single-select" [(ngModel)]="updateObject[p]" [multiple]="false" placeholder="Countries" [closeOnSelect]="true"
-            [searchable]="true" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" [bindLabel]="name" [bindValue]="id">
-        </ng-select>
 
-        <ng-select *ngIf="propertiesTypes[p]=='selectSingle' && p != 'rights'" 
+        <ng-select *ngIf="propertiesTypes[p]=='selectSingle' && p != 'rights'"
             class="single-select" [(ngModel)]="updateObject[p]" [multiple]="false" placeholder="{{data.mapper.mapTitle(p)}}"
             [closeOnSelect]="true" [searchable]="true" [ngModelOptions]="{standalone: true}">
             <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</ng-option>
@@ -31,7 +26,8 @@
 
         <ng-select *ngIf="propertiesTypes[p]=='selectSingle' && p == 'rights'" [(ngModel)]="updateObject[p]"
               class="single-select" [multiple]="false" placeholder="{{data.mapper.mapTitle(p) | titlecase}}" [closeOnSelect]="true"
-              [searchable]="true" [ngModelOptions]="{standalone: true}">
+              [searchable]="true" [ngModelOptions]="{standalone: true}"
+              (change)="selected(updateObject[p])">
               <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string | titlecase}}{{singleData.name | titlecase}}</ng-option>
         </ng-select>
 
@@ -44,15 +40,44 @@
             [items]="loadedData[p]" [multiple]="true" placeholder="{{data.mapper.mapTitle(p)}}" [closeOnSelect]="false"
             [searchable]="true" [ngModelOptions]="{standalone: true}">
           </ng-select>
-
+<!--
           <ng-select *ngIf="propertiesTypes[p]=='selectProjects'" class="multiple-select" [(ngModel)]="updateObject['rights'] === 'ROLE_ADMIN' ? '' : updateObject[p]"
             bindLabel="name" [items]="loadedData[p]" [multiple]="true" placeholder="Projects" [closeOnSelect]="false"
             [searchable]="true" [ngModelOptions]="{standalone: true}" [disabled]="updateObject['rights'] === 'ROLE_ADMIN' ? true : false">
           </ng-select>
 
+          <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && updateObject['rights'] == 'ROLE_COUNTRY_MANAGER'"
+              class="single-select" [(ngModel)]="updateObject[p]" [multiple]="false" placeholder="Countries" [closeOnSelect]="true"
+              [searchable]="true" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" [bindLabel]="name" [bindValue]="id">
+          </ng-select>
+
           <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && updateObject['rights'] !== 'ROLE_COUNTRY_MANAGER'"
             class="multiple-select" [(ngModel)]="updateObject['rights'] === 'ROLE_ADMIN' ? '' : updateObject[p]" bindLabel="id" [items]="loadedData[p]" [multiple]="true"
             placeholder="Countries" [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}" [disabled]="updateObject['rights'] === 'ROLE_ADMIN' ? true : false">
+          </ng-select> -->
+
+          <ng-select *ngIf="propertiesTypes[p]=='selectProjects'"
+              [ngClass]="{'multiple-select': updateObject['rights'] == 'ROLE_PROJECT_MANAGER', 'single-select': updateObject['rights'] == 'ROLE_PROJECT_OFFICER' || updateObject['rights'] == 'ROLE_FIELD_OFFICER'}"
+              [(ngModel)]="updateObject[p]"
+              bindLabel="name"
+              [items]="loadedData[p]"
+              [multiple]="updateObject['rights'] == 'ROLE_PROJECT_MANAGER'"
+              placeholder="{{data.mapper.mapTitle(p)}}"
+              [closeOnSelect]="true"
+              [searchable]="true"
+              formControlName="projectsControl">
+          </ng-select>
+
+          <ng-select *ngIf="propertiesTypes[p]=='selectCountry'"
+              [ngClass]="{'multiple-select': updateObject['rights'] == 'ROLE_REGIONAL_MANAGER', 'single-select': updateObject['rights'] == 'ROLE_COUNTRY_MANAGER'}"
+              [(ngModel)]="updateObject[p]"
+              bindLabel="id"
+              [items]="loadedData[p]"
+              [multiple]="updateObject['rights'] == 'ROLE_REGIONAL_MANAGER'"
+              placeholder="{{data.mapper.mapTitle(p)}}"
+              [closeOnSelect]="true"
+              [searchable]="true"
+              formControlName="countryControl">
           </ng-select>
 
           <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">

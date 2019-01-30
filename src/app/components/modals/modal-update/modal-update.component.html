@@ -48,7 +48,7 @@
               [items]="loadedData[p]"
               [multiple]="updateObject['rights'] == 'ROLE_PROJECT_MANAGER'"
               placeholder="{{data.mapper.mapTitle(p)}}"
-              [closeOnSelect]="true"
+              [closeOnSelect]="updateObject['rights'] != 'ROLE_PROJECT_MANAGER'"
               [searchable]="true"
               formControlName="projectsControl">
           </ng-select>
@@ -60,7 +60,7 @@
               [items]="loadedData[p]"
               [multiple]="updateObject['rights'] == 'ROLE_REGIONAL_MANAGER'"
               placeholder="{{data.mapper.mapTitle(p)}}"
-              [closeOnSelect]="true"
+              [closeOnSelect]="updateObject['rights'] != 'ROLE_REGIONAL_MANAGER'"
               [searchable]="true"
               formControlName="countryControl">
           </ng-select>

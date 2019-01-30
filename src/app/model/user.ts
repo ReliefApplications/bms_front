@@ -81,13 +81,27 @@ export class User {
 		if (!selfinstance)
 			return selfinstance;
 
+		let projects = [];
+		if (selfinstance.rights == 'ROLE_PROJECT_MANAGER' && selfinstance.projects) {
+			projects = selfinstance.projects;
+		} else if (selfinstance.projects) {
+			projects = selfinstance.projects[0];
+		}
+
+		let country = [];
+		if (selfinstance.rights == 'ROLE_PROJECT_MANAGER' && selfinstance.country) {
+			country = selfinstance.country;
+		} else if (selfinstance.country) {
+			country = selfinstance.country[0];
+		}
+
 		return {
 			id: selfinstance.id,
 			username: selfinstance.username,
 			email: selfinstance.email,
 			salted_password: selfinstance.salted_password,
 			rights: selfinstance.rights,
-			projects: selfinstance.projects,
+			projects: projects,
 			country: selfinstance.country
 		}
 	}

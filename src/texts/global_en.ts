@@ -127,6 +127,7 @@ export const TEXT = {
     beneficiaries_import_select_location: 'You must select a location and add a file before uploading',
     beneficiaries_import_select_project: 'You must select a project and add a file before uploading',
     beneficiaries_import_title: 'import beneficiary data',
+    beneficiaries_import_warning: 'Warning: if the provided file is incomplete, the resulting one may need to be completed for the import to succeed.',
     beneficiaries_location: 'Household Location:',
     beneficiaries_missing_selected_project:'You must select a project before uploading',
     beneficiaries_proxy: 'Proxy',

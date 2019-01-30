@@ -101,6 +101,12 @@
     }
 }
 
+.warning {
+    font-style: italic;
+    width: 80%;
+    margin-top: 20px;
+}
+
 // for mobile screen
 @media only screen and (max-width: 750px) {
     .mat-form-field {

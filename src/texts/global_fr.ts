@@ -127,6 +127,7 @@ export const TEXT = {
     beneficiaries_import_select_location: 'Vous devez sélectionner une localisation et ajouter un fichier avant l\'importation',
     beneficiaries_import_select_project: 'Vous devez selectionner un projet et ajouter un fichier avant l\'importation',
     beneficiaries_import_title: 'import de bénéficiaires',
+    beneficiaries_import_warning: 'Attention : si le fichier importé est incomplet, le fichier résultant pourra nécessiter d\'être complété pour que l\'import fonctionne',
     beneficiaries_location: 'Localisation du ménage :',
     beneficiaries_missing_selected_project:'Vous devez selectionner un projet avant l\'importation',
     beneficiaries_proxy: 'Proxy',

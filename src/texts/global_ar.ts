@@ -127,6 +127,7 @@ export const TEXT = {
     beneficiaries_import_select_location: 'You must select a location and add a file before uploading',
     beneficiaries_import_select_project: 'يجب أن تختار مشروعا و ملفا قبل التحميل',
     beneficiaries_import_title: 'تحميل بيانات المستفيد',
+    beneficiaries_import_warning: 'Warning: if the provided file is incomplete, the resulting one may need to be completed for the import to succeed.',
     beneficiaries_location: 'مكان الأسرة:',
     beneficiaries_missing_selected_project: 'يجب أن تختار مشروعاقبل التحميل',
     beneficiaries_proxy: 'الوكيل',

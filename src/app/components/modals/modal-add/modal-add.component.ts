@@ -50,10 +50,6 @@ export class ModalAddComponent extends ModalComponent {
         this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
         this.propertiesTypes = this.newObject.getModalTypeProperties(this.newObject);
         this.oldEntity = this.data.entity;
-
-        console.log("loaded", this.loadedData);
-        console.log("properties", this.properties);
-        console.log("new", this.newObject);
     }
 
     /**

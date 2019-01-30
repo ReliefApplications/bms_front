@@ -12,7 +12,8 @@ export class ModalLeaveComponent implements OnInit {
 
     // @Output() choice = new EventEmitter();
 
-    public TEXT = GlobalText.TEXTS;
+    public modal = GlobalText.TEXTS;
+    public language = GlobalText.language;
 
     constructor(
         private dialogs: MatDialogRef<ModalLeaveComponent>

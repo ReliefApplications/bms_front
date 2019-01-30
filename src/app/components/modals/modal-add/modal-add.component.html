@@ -34,7 +34,7 @@
 
                     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
                         *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
-                        (change)="selected(newObject[p])" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" bindLabel="name">
+                        (change)="selected(newObject[p])" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" bindLabel="name" bindValue="id">
                     </ng-select>
 
                     <ng-select *ngIf="propertiesTypes[p]=='select'" class="multiple-select" [(ngModel)]="newObject[p]" bindLabel="name"
@@ -54,7 +54,7 @@
                         [items]="loadedData[p]"
                         [multiple]="newObject['rights'] == 'ROLE_PROJECT_MANAGER'"
                         placeholder="{{mapperObject[p]}}"
-                        [closeOnSelect]="true"
+                        [closeOnSelect]="newObject['rights'] != 'ROLE_PROJECT_MANAGER'"
                         [searchable]="true"
                         formControlName="projectsControl">
                     </ng-select>
@@ -66,7 +66,7 @@
                         [items]="loadedData[p]"
                         [multiple]="newObject['rights'] == 'ROLE_REGIONAL_MANAGER'"
                         placeholder="{{mapperObject[p]}}"
-                        [closeOnSelect]="true"
+                        [closeOnSelect]="newObject['rights'] != 'ROLE_REGIONAL_MANAGER'"
                         [searchable]="true"
                         formControlName="countryControl">
                     </ng-select>

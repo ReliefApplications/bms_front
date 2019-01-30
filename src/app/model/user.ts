@@ -46,12 +46,12 @@ export class User {
      * User's projects
      * @type {number[]}
      */
-	projects: any[] = undefined;
+	projects: any = undefined;
     /**
      * User's country
      * @type {number[]}
      */
-	country: string[] = undefined;
+	country: any = undefined;
     /**
      * User's language
      * @type {string}
@@ -228,11 +228,11 @@ export class User {
 			element.user_projects.forEach(
 				element => {
 					user.projects.push(
-            {
-              name: element.project.name,
-              id: element.project.id
-            }
-          );
+						{
+							name: element.project.name,
+							id: element.project.id
+						}
+					);
 					if (!user.country.includes(element.project.iso3)) {
 						user.country.push(element.project.iso3);
 					}
@@ -255,18 +255,28 @@ export class User {
      */
 	public static formatFromModalAdd(element: any, loadedData: any): User {
 		let newObject = new User(element);
+		
+		let projects = [];
+		if (newObject.projects && newObject.projects[0]) {
+			newObject.projects.forEach(project => {
+				projects.push(project.id);
+			})
+		}
+		else if (newObject.projects) {
+			projects.push(newObject.projects.id);
+		}
+		newObject.projects = projects;
 
-	let projects = [];
-    newObject.projects.forEach(project => {
-      projects.push(project.id);
-    })
-    newObject.projects = projects;
-
-    let country = [];
-    newObject.country.forEach(c => {
-      console.log("c", c);
-    })
-    newObject.country = country;
+		let country = [];
+		if (newObject.country && newObject.country[0]) {
+			newObject.country.forEach((c: any) => {
+				country.push(c.id);
+			})
+		}
+		else if (newObject.country) {
+			country.push(newObject.country.id);
+		}
+		newObject.country = country;
 
 		return newObject;
 	}

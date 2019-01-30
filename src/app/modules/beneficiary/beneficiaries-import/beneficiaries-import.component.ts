@@ -87,6 +87,7 @@ export class BeneficiariesImportComponent implements OnInit {
     public lastAdm3;
     public loadLocations: boolean = false;
     public loadDownload: boolean = false;
+    public country: boolean;
 
     constructor(
         public _householdsService: HouseholdsService,
@@ -117,6 +118,13 @@ export class BeneficiariesImportComponent implements OnInit {
                 }
             }
         );
+
+        this._cacheService.get('country')
+            .subscribe(
+                result => {
+                    this.country = result;
+                }
+            );
 
         this._cacheService.getUser()
             .subscribe(
@@ -518,31 +526,33 @@ export class BeneficiariesImportComponent implements OnInit {
     getAPINames() {
         this._beneficiariesService.listApi()
             .subscribe(names => {
-                names = names['listAPI'];
-                let param = {};
+                if (names['listAPI'].length > 0) {
+                    names = names['listAPI'];
+                    let param = {};
 
-                Object.values(names).forEach(listAPI => {
-                    this.APINames.push(listAPI['APIName']);
+                    Object.values(names).forEach(listAPI => {
+                        this.APINames.push(listAPI['APIName']);
 
-                    for (let j = 0; j < listAPI['params'].length; j++) {
-                        if (listAPI['params'][j].paramType == 'string') {
-                            param['paramType'] = "text";
+                        for (let j = 0; j < listAPI['params'].length; j++) {
+                            if (listAPI['params'][j].paramType == 'string') {
+                                param['paramType'] = "text";
+                            }
+                            else if (listAPI['params'][j].paramType == 'int') {
+                                param['paramType'] = "number";
+                            }
+
+                            param['paramName'] = listAPI['params'][j].paramName;
+
                         }
-                        else if (listAPI['params'][j].paramType == 'int') {
-                            param['paramType'] = "number";
-                        }
 
-                        param['paramName'] = listAPI['params'][j].paramName;
+                        this.APIParams.push(param);
+                    });
 
-                    }
-
-                    this.APIParams.push(param);
-                });
-
-                this.chosenItem = this.APINames[0];
-                this.ParamsToDisplay.push({ 'paramType': this.APIParams[0].paramType, 'paramName': this.APIParams[0].paramName });
-                this.provider = this.chosenItem;
-                this.chosenItem ? this.isApiDisabled = false : 0;
+                    this.chosenItem = this.APINames[0];
+                    this.ParamsToDisplay.push({ 'paramType': this.APIParams[0].paramType, 'paramName': this.APIParams[0].paramName });
+                    this.provider = this.chosenItem;
+                    this.chosenItem ? this.isApiDisabled = false : 0;
+                }
             });
     }
 

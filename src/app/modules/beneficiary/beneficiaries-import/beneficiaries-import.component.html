@@ -13,8 +13,8 @@
 
       <div class="content-button">
         <div class="action-buttons">
-          <mat-spinner [diameter]="25" class="button-background-primary" *ngIf="loadLocations"></mat-spinner>
-          <button mat-raised-button class="button-background-primary" *ngIf="!loadLocations" (click)="loadProvince(chooseLocations)">
+          <mat-spinner [diameter]="25" class="spinner" *ngIf="loadLocations && country === 'SYR'"></mat-spinner>
+          <button mat-raised-button class="button-background-primary" *ngIf="!loadLocations && country === 'SYR'" (click)="loadProvince(chooseLocations)">
             <mat-icon>publish</mat-icon>
             <span>{{household.beneficiaries_import_convert | titlecase }}</span>
           </button>

@@ -11,8 +11,6 @@ import { Project } from '../../model/project';
 import { Location } from '../../model/location';
 import { Sector } from '../../model/sector';
 import { saveAs      } from 'file-saver/FileSaver';
-import { post } from 'selenium-webdriver/http';
-
 
 @Injectable({
     providedIn: 'root'

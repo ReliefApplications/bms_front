@@ -1,10 +1,10 @@
 <div class="modal-container">
-    <h4 class="modal-title underline-primary stickyHeader" [ngClass]="{'arabic': language==='ar'}" >{{TEXT.modal_leave}}</h4>
+    <h4 class="modal-title underline-primary stickyHeader" [ngClass]="{'arabic': language==='ar'}" >{{modal.modal_leave}}</h4>
     <div class="modal-table" [ngClass]="{'arabic': language==='ar'}" >
-        {{TEXT.modal_leave_sentence}}
+        {{modal.modal_leave_sentence}}
     </div>
     <div class="modal-button action-buttons stickyFooter">
-        <button mat-button class="button-text-primary" (click)="cancel()">{{TEXT.cancel}}</button>
-        <button mat-raised-button class="button-background-primary" (click)="leave()">{{TEXT.modal_leave}}</button>
+        <button mat-button class="button-text-primary" (click)="cancel()">{{modal.cancel}}</button>
+        <button mat-raised-button class="button-background-primary" (click)="leave()">{{modal.modal_leave}}</button>
     </div>
 </div>

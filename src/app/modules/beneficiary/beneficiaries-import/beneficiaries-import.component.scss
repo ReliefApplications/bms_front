@@ -1,5 +1,12 @@
 @import '../../../../assets/css/variable.scss';
 
+.content-button {
+    .action-buttons {
+        .button-background-primary {
+            height: 100% !important;
+        }
+    }
+}
 .content-table {
     display: flex;
     justify-content: space-between;

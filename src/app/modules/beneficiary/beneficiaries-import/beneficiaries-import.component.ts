@@ -15,7 +15,7 @@ import { Households } from 'src/app/model/households';
 import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { switchMap, finalize } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 
 @Component({
     selector: 'beneficiaries-import',
@@ -68,6 +68,7 @@ export class BeneficiariesImportComponent implements OnInit {
     public email: string;
 
     public controls = new FormControl();
+    public csv2 = null;
     public saveLocation = {
         adm1: '',
         adm2: '',
@@ -85,6 +86,7 @@ export class BeneficiariesImportComponent implements OnInit {
     public lastAdm2;
     public lastAdm3;
     public loadLocations: boolean = false;
+    public loadDownload: boolean = false;
 
     constructor(
         public _householdsService: HouseholdsService,
@@ -161,7 +163,7 @@ export class BeneficiariesImportComponent implements OnInit {
      * @param event
      * @param typeEvent
      */
-    fileChange(event, typeEvent) {
+    fileChange(event, typeEvent, index?: string) {
         let fileList: FileList;
 
         switch (typeEvent) {
@@ -171,8 +173,13 @@ export class BeneficiariesImportComponent implements OnInit {
         }
 
         if (fileList.length > 0) {
-            this.csv = fileList[0];
-            this.isProjectsDisabled = false;
+            if (index) {
+                this.csv2 = fileList[0];
+            }
+            else {
+                this.csv = fileList[0];
+                this.isProjectsDisabled = false;
+            }
         }
     }
 
@@ -430,11 +437,11 @@ export class BeneficiariesImportComponent implements OnInit {
     }
 
     confirmImport() {
-        if (!this.csv || this.saveLocation.adm1 == '')
+        if (!this.csv2 || this.saveLocation.adm1 == '')
             this.snackBar.open(this.household.beneficiaries_import_select_location, '', { duration: 5000, horizontalPosition: 'center' });
 
         const data = new FormData();
-        data.append('file', this.csv);
+        data.append('file', this.csv2);
 
 
         let body = {
@@ -462,12 +469,16 @@ export class BeneficiariesImportComponent implements OnInit {
         this._importService.testFileTemplate(data, body)
             .then(() => {
             }, (err) => {
+                this.dialog.closeAll();
+                this.csv2 = null;
+                this.snackBar.open(this.household.beneficiaries_import_response, '', { duration: 5000, horizontalPosition: 'center' });
             })
             .catch(
                 () => {
+                    this.dialog.closeAll();
+                    this.csv2 = null;
                     this.snackBar.open(this.household.beneficiaries_import_error_importing, '', { duration: 5000, horizontalPosition: 'center' });
-                }
-            );
+                });
     }
 
     /**

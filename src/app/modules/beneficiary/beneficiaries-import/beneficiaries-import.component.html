@@ -13,10 +13,10 @@
 
       <div class="content-button">
         <div class="action-buttons">
-          <mat-spinner [diameter]="35" *ngIf="loadLocations"></mat-spinner>
+          <mat-spinner [diameter]="25" class="button-background-primary" *ngIf="loadLocations"></mat-spinner>
           <button mat-raised-button class="button-background-primary" *ngIf="!loadLocations" (click)="loadProvince(chooseLocations)">
             <mat-icon>publish</mat-icon>
-            <span>{{household.import | titlecase }}</span>
+            <span>{{household.beneficiaries_import_convert | titlecase }}</span>
           </button>
 
           <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">
@@ -228,13 +228,13 @@
                   <button mat-stroked-button color="primary">{{household.beneficiaries_import_addFile
                     | titlecase}}</button>
                 </a>
-                <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
+                <input type="file" #file [multiple] (change)="fileChange($event, 'target', 'csv2')" style="display:none" />
               </div>
-              <mat-list class="importedFile" *ngIf="csv != null">
+              <mat-list class="importedFile" *ngIf="csv2 != null">
                 <mat-list-item>
                   <mat-icon mat-list-icon class="text">insert_drive_file</mat-icon>
-                  <h4 mat-line class="text">{{ csv.name }}</h4>
-                  <p mat-line class="text">{{ csv.size }} bytes, {{ csv.lastModifiedDate | date: ddMMyyyy}}
+                  <h4 mat-line class="text">{{ csv2.name }}</h4>
+                  <p mat-line class="text">{{ csv2.size }} bytes, {{ csv2.lastModifiedDate | date: ddMMyyyy}}
                   </p>
                 </mat-list-item>
               </mat-list>

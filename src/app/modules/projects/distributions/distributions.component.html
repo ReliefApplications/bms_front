@@ -364,14 +364,9 @@
           {{TEXT.distribution_want_add}} <strong> {{actualDistribution.name}} </strong>
           {{TEXT.distribution | lowercase}}.</p>
         <div class="selectBeneficiaries">
-<<<<<<< HEAD
           <ng-select class="multiple-select" [(ngModel)]="selectedBeneficiaries" bindLabel="full_name" [items]="beneficiaryList"
             [multiple]="true" placeholder="{{TEXT.beneficiaries}}" [closeOnSelect]="false" [searchable]="true"
             [ngModelOptions]="{standalone: true}" required>
-=======
-          <ng-select class="custom" [(ngModel)]="selectedBeneficiaries" bindLabel="full_name" [items]="beneficiaryList" [multiple]="true" placeholder="{{TEXT.beneficiaries}}" [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}"
-              required>
->>>>>>> dev
           </ng-select>
         </div>
       </div>

@@ -50,6 +50,10 @@ export class ModalAddComponent extends ModalComponent {
         this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
         this.propertiesTypes = this.newObject.getModalTypeProperties(this.newObject);
         this.oldEntity = this.data.entity;
+
+        console.log("loaded", this.loadedData);
+        console.log("properties", this.properties);
+        console.log("new", this.newObject);
     }
 
     /**
@@ -124,15 +128,6 @@ export class ModalAddComponent extends ModalComponent {
 
             this.form.controls['projectsControl'].disable();
             this.form.controls['countryControl'].disable();
-        }
-
-        // TODO check if necessary
-        if (newObject == "ROLE_ADMIN") {
-            this.user.getAllCountries().forEach(
-                element => {
-                    this.newObject['country'].push(element.id);
-                }
-            )
         }
     }
 

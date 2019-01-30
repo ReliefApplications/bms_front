@@ -36,7 +36,7 @@ export class User {
     * User's rights
     * @type {string}
     */
-	rights: string = '';
+	rights: string = undefined;
     /**
      * loggedIn state
      * @type {boolean}
@@ -255,8 +255,8 @@ export class User {
      */
 	public static formatFromModalAdd(element: any, loadedData: any): User {
 		let newObject = new User(element);
-    console.log('bitch', newObject);
-    let projects = [];
+
+	let projects = [];
     newObject.projects.forEach(project => {
       projects.push(project.id);
     })
@@ -264,7 +264,7 @@ export class User {
 
     let country = [];
     newObject.country.forEach(c => {
-      country.push(c.id);
+      console.log("c", c);
     })
     newObject.country = country;
 

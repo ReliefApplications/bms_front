@@ -34,8 +34,7 @@
 
                     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
                         *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
-                        (change)="selected(newObject[p])" [ngModelOptions]="{standalone: true}">
-                        <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string  | titlecase }}{{singleData.name  | titlecase }}</ng-option>
+                        (change)="selected(newObject[p])" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" bindLabel="name">
                     </ng-select>
 
                     <ng-select *ngIf="propertiesTypes[p]=='select'" class="multiple-select" [(ngModel)]="newObject[p]" bindLabel="name"

@@ -27,7 +27,9 @@ export class ModalUpdateComponent extends ModalComponent {
 
 		this.propertiesTypes = this.entityInstance.getModalTypeProperties(this.entityInstance);
 		try {
-			this.updateObject = this.entityInstance.mapAllProperties(this.data.data);
+            this.updateObject = this.entityInstance.mapAllProperties(this.data.data);
+            console.log("update", this.updateObject);
+            console.log("loaded", this.loadedData);
 		} catch (e) {
 			console.error('the function mapAllProperties is not defined for the entity ', this.entityInstance);
 		}
@@ -85,7 +87,8 @@ export class ModalUpdateComponent extends ModalComponent {
      * emit the object updated
      */
 	save(): any {
-		//Check fields for Users settings
+        //Check fields for Users settings
+        console.log(this.updateObject.projects)
 		if (this.updateObject.username && this.updateObject.rights) {
 			// if (this.updateObject.password == '' || !this.updateObject.password) {
 			//   this.snackBar.open(this.modal.modal_no_password, '', { duration: 5000, horizontalPosition: 'right' });

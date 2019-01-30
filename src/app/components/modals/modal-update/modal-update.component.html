@@ -40,22 +40,7 @@
             [items]="loadedData[p]" [multiple]="true" placeholder="{{data.mapper.mapTitle(p)}}" [closeOnSelect]="false"
             [searchable]="true" [ngModelOptions]="{standalone: true}">
           </ng-select>
-<!--
-          <ng-select *ngIf="propertiesTypes[p]=='selectProjects'" class="multiple-select" [(ngModel)]="updateObject['rights'] === 'ROLE_ADMIN' ? '' : updateObject[p]"
-            bindLabel="name" [items]="loadedData[p]" [multiple]="true" placeholder="Projects" [closeOnSelect]="false"
-            [searchable]="true" [ngModelOptions]="{standalone: true}" [disabled]="updateObject['rights'] === 'ROLE_ADMIN' ? true : false">
-          </ng-select>
-
-          <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && updateObject['rights'] == 'ROLE_COUNTRY_MANAGER'"
-              class="single-select" [(ngModel)]="updateObject[p]" [multiple]="false" placeholder="Countries" [closeOnSelect]="true"
-              [searchable]="true" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" [bindLabel]="name" [bindValue]="id">
-          </ng-select>
-
-          <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && updateObject['rights'] !== 'ROLE_COUNTRY_MANAGER'"
-            class="multiple-select" [(ngModel)]="updateObject['rights'] === 'ROLE_ADMIN' ? '' : updateObject[p]" bindLabel="id" [items]="loadedData[p]" [multiple]="true"
-            placeholder="Countries" [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}" [disabled]="updateObject['rights'] === 'ROLE_ADMIN' ? true : false">
-          </ng-select> -->
-
+          
           <ng-select *ngIf="propertiesTypes[p]=='selectProjects'"
               [ngClass]="{'multiple-select': updateObject['rights'] == 'ROLE_PROJECT_MANAGER', 'single-select': updateObject['rights'] == 'ROLE_PROJECT_OFFICER' || updateObject['rights'] == 'ROLE_FIELD_OFFICER'}"
               [(ngModel)]="updateObject[p]"

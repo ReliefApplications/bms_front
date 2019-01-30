@@ -31,6 +31,7 @@ export class ModalComponent implements OnInit {
     public controls = new FormControl();
 
     form = new FormGroup({
+        defaultValue: new FormControl({ value: ''}),
         projectsControl: new FormControl({ value: '', disabled: 'true' }),
         countryControl: new FormControl({ value: '', disabled: 'true' }),
         emailFormControl: new FormControl('', [Validators.required, Validators.email]),

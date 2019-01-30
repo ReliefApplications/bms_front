@@ -14,7 +14,7 @@
     </mat-form-field>
 
     <div *ngIf="advancedResearch" class="filter-combo">
-      <ng-select class="input-filter custom" [(ngModel)]="project" bindLabel="name" [items]="data.projects.value"
+      <ng-select class="input-filter multiple-select" [(ngModel)]="project" bindLabel="name" [items]="data.projects.value"
         [multiple]="true" placeholder="{{table.project}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
       </ng-select>
 
@@ -35,7 +35,7 @@
         placeholder="{{table.adm4}}" [(ngModel)]="newObject['adm4']" (change)="selected('adm4'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
-      <ng-select class="input-filter custom" bindLabel="name" [(ngModel)]="vulnerability" [items]="data.vulnerabilities.value"
+      <ng-select class="input-filter multiple-select" bindLabel="name" [(ngModel)]="vulnerability" [items]="data.vulnerabilities.value"
         [multiple]="true" placeholder="{{table.model_vulnerabilities}}" [closeOnSelect]="false" [searchable]="true"
         (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
       </ng-select>

@@ -11,7 +11,7 @@
         width: 40%;
         min-height: 30vh;
         margin: 0 auto;
-        
+
         .card-drag-and-drop {
             width: 80%;
             display: flex;
@@ -19,7 +19,7 @@
             flex-direction: column;
             align-items: center;
             margin: 0 auto;
-            
+
             .img-folder {
                 height: 11vh;
                 padding: 5%;
@@ -77,6 +77,25 @@
     color: $bms_red;
 }
 
+.ng-select-focused ::ng-deep {
+    .ng-select-container::after {
+        border-color: #424242;
+        border-width: 2px;
+    }
+}
+
+.ng-select-focused ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
+    color: #424242;
+}
+
+.ng-select-focused ::ng-deep .ng-arrow {
+    color: #424242 !important;
+}
+
+.ng-select-opened ::ng-deep .ng-option-selected {
+    color: #424242 !important;
+}
+
 // for mobile screen
 @media only screen and (max-width: 750px) {
     .mat-form-field {
@@ -115,4 +134,8 @@
         flex-direction: row !important;
     }
 
+}
+
+.select-file.project-input{
+    width:100%;
 }

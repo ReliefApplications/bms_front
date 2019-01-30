@@ -60,12 +60,11 @@
               <div>
                 <img class='img-folder' src="assets/images/projects.png">
               </div>
-              <div class="select-file">
-                  <mat-form-field>
-                      <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)" [disabled]="isProjectsDisabled">
-                        <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
+              <div class="select-file project-input">
+                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName = "project"
+                  placeholder={{household.projects}} (change)="getProjectSelected($event)" [disabled]="isProjectsDisabled">
+                  <ng-option *ngFor="let project of projectList" [value]="project">{{project}}</ng-option>
+                </ng-select>
                 <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
               </div>
   
@@ -123,16 +122,13 @@
               <div>
                 <img class='img-folder' src="assets/images/projects.png">
               </div>
-              <div>
-                <div class="select-file">
-                    <mat-form-field>
-                        <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)" [disabled]="isApiDisabled">
-                          <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-                        </mat-select>
-                      </mat-form-field>
+                <div class="select-file project-input">
+                  <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="project"
+                    placeholder={{household.projects}} (change)="getProjectSelected($event)" [disabled]="isApiDisabled">
+                    <ng-option *ngFor="let project of projectList" [value]="project">{{project}}</ng-option>
+                  </ng-select>
                   <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
                 </div>
-              </div>
             </mat-card>
           </div>
       </div>

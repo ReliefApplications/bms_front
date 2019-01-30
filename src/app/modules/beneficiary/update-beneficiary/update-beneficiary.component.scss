@@ -167,10 +167,6 @@ app-placeholder-panel {
     margin-right: 15px;
 }
 
-.ng-select.custom ::ng-deep .ng-select-container .ng-value-container .ng-value {
-    background-color: #424242;
-}
-
 .ng-select-focused ::ng-deep {
     .ng-select-container::after {
         border-color: #424242;

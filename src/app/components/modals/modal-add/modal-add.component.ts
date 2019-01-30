@@ -211,7 +211,6 @@ export class ModalAddComponent extends ModalComponent {
         }
         //Check fields for Projects settings
         else if ((this.newObject.donors && this.newObject.donors_name && this.newObject.name && this.newObject.sectors && this.newObject.sectors_name) || this.newObject.name == '' || (this.newObject.sectors_name && Object.keys(this.newObject.sectors_name).length == 0) || (this.newObject.sectors && Object.keys(this.newObject.sectors).length == 0)) {
-
             if (!this.newObject.end_date || !this.newObject.name || !this.newObject.start_date || !this.newObject.value || this.newObject.value < 0) {
                 this.snackBar.open(this.modal.modal_add_check_fields_budget, '', { duration: 5000, horizontalPosition: 'right' });
                 return;

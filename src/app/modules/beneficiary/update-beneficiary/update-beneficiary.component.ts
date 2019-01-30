@@ -558,11 +558,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Call backend to create a new household with filled data.
      */
     create() {
+        this.created=true;
         if (this.updatedHousehold.projects.length == 0) {
+            this.created=false; 
             this.snackBar.open('You must select at least one project', '', { duration: 5000, horizontalPosition: 'center' });
             return;
         }
-
         let body = this.formatHouseholdForApi();
 
         let selectedProjectsIds = new Array<string>();
@@ -586,12 +587,16 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 )
                 .catch(
                     error => {
+                        this.created=false;
                         this.snackBar.open(this.Text.update_beneficiary_error_creating + error, '', { duration: 5000, horizontalPosition: 'center' });
                         this.validationLoading = false;
                     }
                 )
         }
-        this.created=true;
+        else {
+        this.created=false;
+        }
+      
     }
 
     /**
@@ -622,6 +627,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                         } else {
                             this.validationLoading = false;
                         }
+                        this.updated=true;
                     }
                 )
                 .catch(
@@ -631,7 +637,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     }
                 )
         }
-        this.updated=true;
+        
     }
 
     /**

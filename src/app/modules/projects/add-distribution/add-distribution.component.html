@@ -1,7 +1,7 @@
 <div class="page-container">
   <div class="container-fields">
     <div class="field-distribution">
-      <h1 class="distribution-title">{{distribution.add_project_new_distribution | titlecase}}</h1>
+      <h2 class="distribution-title">{{distribution.add_project_new_distribution | titlecase}}</h2>
       <div class="distribution-accordion">
         <mat-card class="accordion-card">
           <div *ngFor="let p of properties">
@@ -14,7 +14,7 @@
               <mat-datepicker #dateDistribution></mat-datepicker>
             </mat-form-field>
             <label *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'">{{mapperObject[p]}}</label>
-            <mat-radio-group class="typeDistribution" (change)="typeDistributionOnChange($event)" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'" [(ngModel)]="newObject[p]">
+            <mat-radio-group class="type-distribution" (change)="typeDistributionOnChange($event)" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'" [(ngModel)]="newObject[p]">
               <mat-radio-button checked='true' color="warn" value="Household" disabled='false'>{{distribution.households}}</mat-radio-button>
               <mat-radio-button color="warn" value="Individual">{{distribution.individual}}</mat-radio-button>
             </mat-radio-group>
@@ -24,9 +24,9 @@
     </div>
     <div class="field-forms">
       <div class="forms-criteria">
-        <div class="text">
-          <h1 class="title">{{distribution.add_distribution_selection_criteria | titlecase}}</h1>
-          <button mat-stroked-button class="button-text-accent" (click)="openDialog(criteriaAction)">
+        <div class="distribution-title">
+          <h2>{{distribution.add_distribution_selection_criteria | titlecase}}</h2>
+          <button mat-stroked-button class="button-text-accent distribution-add-button" (click)="openDialog(criteriaAction)">
             <span>{{ distribution.add | titlecase }}</span>
           </button>
         </div>
@@ -35,24 +35,22 @@
           <app-table-small (onRemove)="removeElement($event, criteriaAction)" [entity]="criteriaClass" [data]="criteriaData"></app-table-small>
         </div>
 
-        <div class="criteria-threshold">
+        <div class="summary-container">
           <mat-form-field class="accordion-field" id="threshold">
             <mat-label>{{ distribution.add_distribution_threshold }}</mat-label>
             <input class="field-input" matInput type="number" [(ngModel)]="newObject.threshold" [formControl]="controlNumber" (input)="numberOnInput($event)" (change)="numberOnChange()">
           </mat-form-field>
 
-          <div class="summary" *ngIf="criteriaArray.length != 0">
-            <h3 class="summary-text" *ngIf="newObject.type == 'Individual'">
-              <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span><span *ngIf="load">
-                <mat-spinner [diameter]="25"></mat-spinner>
-              </span>{{distribution.add_distribution_beneficiaries_reached |
+          <h3 class="summary-text" *ngIf="criteriaArray.length != 0 && newObject.type == 'Individual'">
+            <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span><span *ngIf="load">
+              <mat-spinner [diameter]="25"></mat-spinner>
+            </span>{{distribution.add_distribution_beneficiaries_reached |
                             titlecase}}</h3>
-            <h3 class="summary-text" *ngIf="newObject.type == 'Household'">
-              <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span><span *ngIf="load">
-                <mat-spinner [diameter]="25"></mat-spinner>
-              </span>{{distribution.add_distribution_households_reached |
+          <h3 class="summary-text" *ngIf="criteriaArray.length != 0 && newObject.type == 'Household'">
+            <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span><span *ngIf="load">
+              <mat-spinner [diameter]="25"></mat-spinner>
+            </span>{{distribution.add_distribution_households_reached |
                             titlecase}}</h3>
-          </div>
         </div>
         <small id="text-explanation">{{ distribution.add_distribution_text_explanation }}</small>
 
@@ -61,16 +59,16 @@
         </div>
       </div>
       <div class="forms-commodity">
-        <div class="text">
-          <h1 class="title">{{distribution.add_distribution_distributed_commodity | titlecase}}</h1>
-          <button mat-stroked-button class="button-text-accent" (click)="openDialog(commodityAction)">
+        <div class="distribution-title">
+          <h2>{{distribution.add_distribution_distributed_commodity | titlecase}}</h2>
+          <button mat-stroked-button class="button-text-accent distribution-add-button" (click)="openDialog(commodityAction)">
             <span>{{ distribution.add | titlecase }}</span>
           </button>
         </div>
         <div class="form" *ngIf="widthScreen > maxWidthMobile">
           <app-table-small (onRemove)="removeElement($event, commodityAction)" [entity]="commodityClass" [data]="commodityData"></app-table-small>
         </div>
-        <div class="commodity-value" *ngIf="commodityArray.length != 0">
+        <div class="summary-container" *ngIf="commodityArray.length != 0">
           <h3 class="summary-text" *ngFor="let commodity of commodityArray; let i = index;">
             <span>{{commodityNb[i]}}</span>{{commodity.unit}}
             {{distribution.add_distribution_commodities_delivered | titlecase}}</h3>

@@ -21,7 +21,7 @@ import { switchMap, catchError, map } from 'rxjs/operators';
 })
 export class ModalRequestsComponent implements OnInit {
 
-    public TEXTS = GlobalText.TEXTS;
+    public modal = GlobalText.TEXTS;
     public language = GlobalText.language;
 
     // Table constants.
@@ -54,7 +54,7 @@ export class ModalRequestsComponent implements OnInit {
     ngDoCheck() {
         if(this.requests && this.requests.length === 0 && !this.loading && !this.inProgress) {
             //console.log('finished');
-            timer(1000).subscribe( 
+            timer(1000).subscribe(
                 result => {
                     this.closeDialog();
                 }
@@ -126,10 +126,10 @@ export class ModalRequestsComponent implements OnInit {
                             if(this.progressCountFail+this.progressCountSuccess === this.progressLength) {
                                 this.cacheService.set(AsyncacheService.PENDING_REQUESTS, stillToBeSent);
                             }
-                            
+
                         },
                         error => {
-                            this.snackbar.open(error, '', {duration: 3000, horizontalPosition: 'center'});   
+                            this.snackbar.open(error, '', {duration: 3000, horizontalPosition: 'center'});
                         }
                     );
                 }
@@ -138,7 +138,7 @@ export class ModalRequestsComponent implements OnInit {
                 this.snackbar.open('An error occured when regrouping pending requests to be sent.', '', {duration: 3000, horizontalPosition: 'center'});
             }
         );
-        
+
         this.requests = stillToBeSent;
     }
 
@@ -160,7 +160,7 @@ export class ModalRequestsComponent implements OnInit {
             Object.keys(body).forEach(
                 (key) => {
                     let property = '';
-    
+
                     if (typeof (body[key]) !== 'object') {
                         property = key + ' = ' + body[key];
                     }
@@ -175,7 +175,7 @@ export class ModalRequestsComponent implements OnInit {
                                     } else {
                                         property += '{...}';
                                     }
-        
+
                                     if( i < Object.keys(body[key]).length-1)
                                         property += ', ';
                                 }
@@ -184,9 +184,9 @@ export class ModalRequestsComponent implements OnInit {
                         } else {
                             property += ' ∅ ';
                         }
-                        
+
                     }
-    
+
                     details.push(property);
                 }
             )

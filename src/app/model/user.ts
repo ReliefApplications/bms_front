@@ -255,18 +255,21 @@ export class User {
      */
 	public static formatFromModalAdd(element: any, loadedData: any): User {
 		let newObject = new User(element);
-		
+
+		// Format projects for the API
 		let projects = [];
 		if (newObject.projects && newObject.projects[0]) {
 			newObject.projects.forEach(project => {
+				console.log("project", project);
 				projects.push(project.id);
 			})
 		}
 		else if (newObject.projects) {
 			projects.push(newObject.projects.id);
 		}
-		newObject.projects = projects;
+		newObject.projects = projects; 
 
+		// Format countries for the API
 		let country = [];
 		if (newObject.country && newObject.country[0]) {
 			newObject.country.forEach((c: any) => {

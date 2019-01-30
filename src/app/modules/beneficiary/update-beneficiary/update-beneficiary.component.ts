@@ -78,6 +78,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public tableData: MatTableDataSource<any>;
 
     public created:boolean=false;
+    public updated:boolean=false;
 
     constructor(
         public route: ActivatedRoute,
@@ -630,6 +631,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     }
                 )
         }
+        this.updated=true;
     }
 
     /**

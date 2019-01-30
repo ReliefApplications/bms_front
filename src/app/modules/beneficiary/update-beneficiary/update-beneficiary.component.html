@@ -470,10 +470,10 @@
                         <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
                         <div class="action-buttons">
                             <button mat-button class="button-text-primary" (click)="leave()">{{Text.cancel}}</button>
-                            <mat-spinner *ngIf="created" [diameter]="25"></mat-spinner>
+                            <mat-spinner *ngIf="created || updated" [diameter]="25"></mat-spinner>
                             <button mat-raised-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading && !created"
                                 (click)="create()">{{Text.create}}</button>
-                            <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
+                            <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading && !updated"
                                 (click)="update()">{{Text.update}}</button>
                         </div>
 

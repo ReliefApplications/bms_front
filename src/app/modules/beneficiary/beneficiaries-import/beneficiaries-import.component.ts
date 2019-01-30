@@ -20,7 +20,7 @@ import { Observable, from } from 'rxjs';
 @Component({
     selector: 'beneficiaries-import',
     templateUrl: './beneficiaries-import.component.html',
-    styleUrls: ['./beneficiaries-import.component.scss']
+    styleUrls: ['./beneficiaries-import.component.scss', '../../../components/modals/modal.component.scss']
 })
 export class BeneficiariesImportComponent implements OnInit {
     public nameComponent = 'beneficiaries_import_title';

@@ -77,6 +77,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public tableColumns: string[] = ['Given name', 'Family name', 'Gender', 'Birth date', 'Phone', 'National id'];
     public tableData: MatTableDataSource<any>;
 
+    public created:boolean=false;
+
     constructor(
         public route: ActivatedRoute,
         public _projectService: ProjectService,
@@ -548,7 +550,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      */
     reloadCountryCodes(index: number) {
         let typed = this.updatedHousehold.beneficiaries[index].phone.code;
-
         this.filteredCountryCodesList = this.filter(String(typed), this.countryCodesList);
     }
 
@@ -589,6 +590,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     }
                 )
         }
+        this.created=true;
     }
 
     /**

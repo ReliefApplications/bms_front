@@ -22,6 +22,7 @@ import { switchMap, catchError, map } from 'rxjs/operators';
 export class ModalRequestsComponent implements OnInit {
 
     public TEXTS = GlobalText.TEXTS;
+    public language = GlobalText.language;
 
     // Table constants.
     public columnsToDisplay = ['icon','method', 'target', 'date', 'actions'];

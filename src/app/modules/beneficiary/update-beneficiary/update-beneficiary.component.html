@@ -39,7 +39,7 @@
                                 </mat-form-field>
                             </div>
                             <div class="column-container">
-                                <h4>{{ Text.location }}</h4>
+                                <h4 class="location">{{ Text.location }}</h4>
                                     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" #province placeholder={{Text.adm1}} [(ngModel)]="updatedHousehold.location.adm1"
                                         (change)='reloadLocation(1)' required>
                                         <ng-option *ngFor="let province of provinceList" [value]="province">
@@ -155,7 +155,7 @@
                             </div>
                             <div class="column-container columns-phones">
                                 <div class="items-line">
-                                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].type">
+                                        <ng-select class="single-select phone-type" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].type">
                                             <ng-option *ngFor="let type of typePhoneList" [value]="type">
                                                 {{type}}
                                             </ng-option>
@@ -164,7 +164,7 @@
                                 </div>
 
                                 <div class="items-line">
-                                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].code"
+                                        <ng-select class="single-select country-code" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[0].phone[0].code"
                                             placeholder="{{Text.add_beneficiary_code}}">
                                             <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
                                         </ng-select>
@@ -176,7 +176,7 @@
                             </div>
                             <div class="column-container columns-phones">
                               <div class="items-line">
-                                      <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].type">
+                                      <ng-select class="single-select phone-type" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].type">
                                           <ng-option *ngFor="let type of typePhoneList" [value]="type">
                                               {{type}}
                                           </ng-option>
@@ -185,7 +185,7 @@
                               </div>
 
                                 <div class="items-line">
-                                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].code"
+                                        <ng-select class="single-select country-code" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[0].phone[1].code"
                                             placeholder="{{Text.add_beneficiary_code}}">
                                             <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
                                         </ng-select>
@@ -280,7 +280,7 @@
                                 </div>
                                 <div class="column-container columns-phones">
                                     <div class="items-line">
-                                            <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].type">
+                                            <ng-select class="single-select phone-type" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].type">
                                                 <ng-option *ngFor="let type of typePhoneList" [value]="type">
                                                     {{type}}
                                                 </ng-option>
@@ -290,7 +290,7 @@
                                     </div>
 
                                     <div class="items-line">
-                                            <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].code"
+                                            <ng-select class="single-select country-code" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].code"
                                                 placeholder="{{Text.add_beneficiary_code}}">
                                                 <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
                                             </ng-select>
@@ -304,7 +304,7 @@
 
                                 <div class="column-container columns-phones">
                                     <div class="items-line">
-                                            <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].type">
+                                            <ng-select class="single-select phone-type" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypePhone}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[1].type">
                                                 <ng-option *ngFor="let type of typePhoneList" [value]="type">
                                                     {{type}}
                                                 </ng-option>
@@ -314,7 +314,7 @@
                                     </div>
 
                                     <div class="items-line">
-                                            <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].code"
+                                            <ng-select class="single-select country-code" [multiple]="false" [searchable]=true [closeOnSelect]="true" [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].phone[0].code"
                                                 placeholder="{{Text.add_beneficiary_code}}">
                                                 <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
                                             </ng-select>

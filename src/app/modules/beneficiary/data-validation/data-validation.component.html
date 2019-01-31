@@ -410,7 +410,8 @@
             <div class="done">
               {{verification.data_verification_done}}
               <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
-              <button mat-raised-button class="button-background-primary sendbutton" (click)="finished = true; addBeneficiaries()">{{verification.data_verification_send}}</button>
+              <mat-spinner [diameter]="25" *ngIf="loadingSend"></mat-spinner>
+              <button mat-raised-button class="button-background-primary sendbutton" *ngIf="!loadingSend" (click)="finished = true; addBeneficiaries()">{{verification.data_verification_send}}</button>
             </div>
           </div>
         </div>

@@ -157,7 +157,7 @@
             <th class="table-title">{{ household.adm1 }}</th>
             <th class="table-value">
               <form class="form">
-                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" 
+                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
                   [(ngModel)]="saveLocation['adm1']" [ngModelOptions]="{standalone: true}"
                   (change)="selected('adm1')">
                   <ng-option *ngFor="let singleData of loadedData['adm1']" [value]="singleData.name">{{singleData.name}}</ng-option>

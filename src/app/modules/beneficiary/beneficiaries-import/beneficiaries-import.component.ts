@@ -38,7 +38,7 @@ export class BeneficiariesImportComponent implements OnInit {
 
     // for the selector
     form = new FormGroup({
-        projects: new FormControl({ value: ''})
+        projects: new FormControl({ value: '', disabled: 'true' })
     });
     projectList: string[] = [];
     public selectedProject: string = null;
@@ -183,12 +183,11 @@ export class BeneficiariesImportComponent implements OnInit {
         }
 
         if (fileList.length > 0) {
-            if (index) {
-                this.csv2 = fileList[0];
-            }
-            else {
-                this.csv = fileList[0];
-                this.isProjectsDisabled = false;
+            this.csv = fileList[0];
+            this.isProjectsDisabled = false;
+            if (this.projectList.length > 0) {
+                this.form.controls['projects'].enable();
+                this.selectedProject = this.projectList[0];
             }
         }
     }
@@ -220,8 +219,6 @@ export class BeneficiariesImportComponent implements OnInit {
      */
     addHouseholds() {
         const data = new FormData();
-        console.log(this.csv)
-        console.log(this.selectedProject)
         if (!this.csv || !this.selectedProject || this.load) {
             this.snackBar.open(this.household.beneficiaries_import_select_project, '', { duration: 5000, horizontalPosition: 'center' });
         } else {

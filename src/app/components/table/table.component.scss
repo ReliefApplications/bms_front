@@ -168,6 +168,10 @@ button {
   }
 }
 
+.ng-select.ng-select-multiple ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
+  line-height: 25px;
+}
+
 .ng-select-focused ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
   color: #424242;
 }

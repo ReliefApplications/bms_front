@@ -118,6 +118,15 @@ export class ModalUpdateComponent extends ModalComponent {
 
                 this.updateObject.projects.push(tmpProject);
             }
+            else if (this.updateObject.projects) {
+                let projects = [];
+
+                this.updateObject.projects.forEach(project => {
+                    projects.push(project.id);
+                });
+
+                this.updateObject.projects = projects;
+            }
             
             if (this.updateObject.country && !this.updateObject.country[0]) {
                 const tmpCountry = this.updateObject.country.id;

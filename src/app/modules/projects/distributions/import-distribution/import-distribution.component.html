@@ -7,7 +7,7 @@
           <img class='img-folder' src="assets/images/folder.png">
         </div>
         <div class="select-file">
-          <a class="fenetre-selection" href="javascript:void(0)" (click)="file.click()">
+          <a href="javascript:void(0)" (click)="file.click()">
             <button mat-stroked-button color="primary">{{TEXT.beneficiaries_import_addFile | titlecase}}</button>
           </a>
           <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />

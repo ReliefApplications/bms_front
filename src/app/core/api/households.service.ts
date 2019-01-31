@@ -12,7 +12,6 @@ import { Location } from '../../model/location';
 import { Sector } from '../../model/sector';
 import { saveAs      } from 'file-saver/FileSaver';
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -136,5 +135,22 @@ export class HouseholdsService {
     public delete(householdId: number) {
         const url = this.api + '/households/' + householdId;
         return this.http.delete(url);
+    }
+
+    public testFileTemplate(file: any, location: any) {
+        let params = {};
+        params['type'] = 'xls';
+        params['templateSyria'] = true;
+        
+        const options = {
+            responseType: "blob",
+            params: params
+        };
+
+        const url = this.api + '/import/households?adm=' + location.adm + '&name=' + location.name;
+        return this.http.post(url, file, options).toPromise()
+            .then((response) => {
+                saveAs(response, 'templateSyria.xls');
+            });
     }
 }

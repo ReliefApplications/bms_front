@@ -13,6 +13,12 @@
 
       <div class="content-button">
         <div class="action-buttons">
+          <mat-spinner [diameter]="25" class="spinner" *ngIf="loadLocations && country === 'SYR'"></mat-spinner>
+          <button mat-stroked-button color="primary" class="template" *ngIf="!loadLocations && country === 'SYR'" (click)="loadProvince(mapFile)">
+            <mat-icon>publish</mat-icon>
+            <span>{{household.beneficiaries_import_convert | titlecase }}</span>
+          </button>
+
           <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">
             {{household.beneficiaries_import_csv | titlecase }}
           </button>
@@ -39,9 +45,9 @@
               <img class='img-folder' src="assets/images/folder.png">
             </div>
             <div class="select-file">
-              <a class="fenetre-selection" href="javascript:void(0)" (click)="file.click()">
+              <a href="javascript:void(0)" (click)="file.click()">
                 <button mat-stroked-button color="primary">{{household.beneficiaries_import_addFile
-                                    | titlecase}}</button>
+                  | titlecase}}</button>
               </a>
               <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
             </div>
@@ -93,8 +99,8 @@
             <div class="content-select">
               <mat-radio-group (change)='onChangeRadioAPI($event)' class="content-select" [(ngModel)]='chosenItem'>
                 <mat-radio-button *ngFor="let name of APINames;" value="{{ name }}" color="primary">{{
-                                name
-                                }}</mat-radio-button>
+                  name
+                  }}</mat-radio-button>
               </mat-radio-group>
             </div>
           </mat-card>
@@ -140,3 +146,92 @@
     </div>
   </div>
 </div>
+
+<ng-template #mapFile>
+  <mat-dialog-content class="modal-container">
+    <h4 class="modal-title underline-accent stickyHeader">{{household.import}}</h4>
+    <div class="dialog-template">
+      <div class="modal-body">
+        <table class="modal-table">
+          <tr class="modal-row">
+            <th class="table-title">{{ household.adm1 }}</th>
+            <th class="table-value">
+              <form class="form">
+                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                  [(ngModel)]="saveLocation['adm1']" [ngModelOptions]="{standalone: true}"
+                  (change)="selected('adm1')">
+                  <ng-option *ngFor="let singleData of loadedData['adm1']" [value]="singleData.name">{{singleData.name}}</ng-option>
+                </ng-select>
+              </form>
+            </th>
+          </tr>
+
+          <tr class="modal-row">
+            <th class="table-title">{{ household.adm2 }}</th>
+            <th class="table-value">
+              <form class="form">
+                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                  [(ngModel)]="saveLocation['adm2']" (change)="selected('adm2')" [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let singleData of loadedData['adm2']" [value]="singleData.name">{{singleData.name}}</ng-option>
+                </ng-select>
+              </form>
+            </th>
+          </tr>
+
+          <tr class="modal-row">
+            <th class="table-title">{{ household.adm3 }}</th>
+            <th class="table-value">
+              <form class="form">
+                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                  [(ngModel)]="saveLocation['adm3']" (change)="selected('adm3')" [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let singleData of loadedData['adm3']" [value]="singleData.name">{{singleData.name}}</ng-option>
+                </ng-select>
+              </form>
+            </th>
+          </tr>
+
+          <tr class="modal-row">
+            <th class="table-title">{{ household.adm4 }}</th>
+            <th class="table-value">
+              <form class="form">
+                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                  [(ngModel)]="saveLocation['adm4']" (change)="selected('adm4')" [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let singleData of loadedData['adm4']" [value]="singleData.name">{{singleData.name}}</ng-option>
+                </ng-select>
+              </form>
+            </th>
+          </tr>
+        </table>
+
+        <div class="drag-and-drop-file">
+          <div>
+            <img class='img-folder' src="assets/images/folder.png">
+          </div>
+          <div class="select-file">
+            <a href="javascript:void(0)" (click)="file.click()">
+              <button mat-stroked-button color="primary">{{household.beneficiaries_import_addFile
+                | titlecase}}</button>
+            </a>
+            <input type="file" #file [multiple] (change)="fileChange($event, 'target', 'csv2')" style="display:none" />
+          </div>
+          <mat-list class="importedFile" *ngIf="csv2 != null">
+            <mat-list-item>
+              <mat-icon mat-list-icon class="text">insert_drive_file</mat-icon>
+              <h4 mat-line class="text">{{ csv2.name }}</h4>
+              <p mat-line class="text">{{ csv2.size }} bytes, {{ csv2.lastModifiedDate | date: ddMMyyyy}}
+              </p>
+            </mat-list-item>
+          </mat-list>
+        </div>
+        <div class="warning">
+          {{household.beneficiaries_import_warning}}
+        </div>
+      </div>
+
+      <div class="modal-button action-buttons stickyFooter">
+        <button mat-button class="button-text-accent" (click)="exit('Import canceled')">{{household.cancel}}</button>
+        <button mat-button class="button-background-accent" (click)="confirmImport()">{{household.transaction_confirm_button}}</button>
+      </div>
+    </div>
+  </mat-dialog-content>
+</ng-template>

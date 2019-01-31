@@ -107,7 +107,6 @@ export class SettingsComponent implements OnInit {
     }
 
     selectTitle(title): void {
-        console.log(title);
         this.getData(title);
         this.isBoxClicked = true;
         this.selectedTitle = title;
@@ -198,10 +197,9 @@ export class SettingsComponent implements OnInit {
                 this.deletable = false;
                 break;
             case 'product':
-                console.log(Product);
                 this.referedClassToken = Product;
                 this.referedClassService = this.productService;
-                this.deletable = false;
+                this.deletable = true;
                 break;
             default: break;
         }
@@ -211,6 +209,17 @@ export class SettingsComponent implements OnInit {
     // TO DO : get from cache
     load(title): void {
         this.hasRights = false;
+
+        if(title === "product"){
+            let products = [
+                {
+                    name: "test",
+                    code: "codeOfTest",
+                }
+            ];
+            products = this.referedClassToken.formatArray(products);
+            this.data = new MatTableDataSource(products);
+        } else {
 
         this.referedClassService.get().
             pipe(
@@ -283,6 +292,7 @@ export class SettingsComponent implements OnInit {
         //     }
         // );
     }
+}
 
     /**
     * open each modal dialog

@@ -310,6 +310,7 @@ export const TEXT = {
     model_transaction_message: 'رسالة',
     model_transaction_pickupDate: 'اختر تاريخا',
     model_type: 'النوع',
+    model_type_shop: 'Type of shop',
     model_vulnerabilities: 'نقاط الضعف',
     model_used: 'Used',
     model_user: 'المستخدم',

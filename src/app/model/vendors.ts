@@ -52,10 +52,9 @@ export class Vendors {
     * return User properties name displayed
     */
     static translator(): Object {
-        console.log("test");
         return {
             name: GlobalText.TEXTS.model_distribution_name,
-            shop: GlobalText.TEXTS.model_type,
+            shop: GlobalText.TEXTS.model_type_shop,
             address: GlobalText.TEXTS.model_vendors_address,
             username: GlobalText.TEXTS.login_username,
             password: GlobalText.TEXTS.model_user_password,
@@ -92,6 +91,21 @@ export class Vendors {
     }
 
     /**
+    * return a vendors after formatting its properties
+    */
+    getMapper(selfinstance): Object {
+        if (!selfinstance) {
+            return selfinstance;
+        }
+        return {
+            name: selfinstance.name,
+            shop: selfinstance.shop,
+            address: selfinstance.address,
+            username: selfinstance.username,
+        };
+    }
+
+    /**
     * return a vendors after formatting its properties for the modal details
     */
     getMapperDetails(selfinstance): Object {
@@ -108,20 +122,6 @@ export class Vendors {
         };
     }
 
-    /**
-   * return a vendors after formatting its properties
-   */
-    getMapper(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
-        }
-        return {
-            name: selfinstance.name,
-            shop: selfinstance.shop,
-            address: selfinstance.address,
-            username: selfinstance.username,
-        };
-    }
 
     /**
      * return a User after formatting its properties for the modal update
@@ -137,6 +137,22 @@ export class Vendors {
             username: selfinstance.username,
             password: selfinstance.password,
         };
+    }
+
+    /**
+   * return a User after formatting its properties for the modal add
+   */
+    getMapperAdd(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            name: selfinstance.name,
+            shop: selfinstance.shop,
+            address: selfinstance.address,
+            username: selfinstance.username,
+            password: selfinstance.password,
+        }
     }
 
     /**
@@ -161,10 +177,26 @@ export class Vendors {
             shop: selfinstance.shop,
             address: selfinstance.address,
             username: selfinstance.username,
+            password: selfinstance.password,
         };
     }
 
     public static formatForApi(element: Vendors): any {
         return new Vendors(element);
+    }
+
+    /**
+   * used in modal add
+   * @param element
+   * @param loadedData
+   */
+    public static formatFromModalAdd(element: any, loadedData: any): Vendors {
+        let newObject = new Vendors(element);
+
+        return newObject;
+    }
+
+    public static getDisplayedName() {
+        return GlobalText.TEXTS.settings_vendors;
     }
 }

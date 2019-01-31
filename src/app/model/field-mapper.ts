@@ -11,6 +11,7 @@ import { ImportedBeneficiary                               } from './imported-be
 import { TransactionBeneficiary } from './transaction-beneficiary';
 import { FinancialProvider } from './financial-provider';
 import { TransactionVoucher } from './transaction-voucher';
+import { Vendors } from './vendors';
 
 export class FieldMapper {
 
@@ -29,7 +30,7 @@ export class FieldMapper {
             case 'transaction_beneficiary' : return TransactionBeneficiary.translator();
             case 'financial_provider' : return FinancialProvider.translator();
             case 'transaction_voucher' : return TransactionVoucher.translator();
-            case 'vendors' : return TransactionVoucher.translator();
+            case 'vendors' : return Vendors.translator();
         }
     }
 }

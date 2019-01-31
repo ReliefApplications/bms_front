@@ -196,7 +196,7 @@ export class SettingsComponent implements OnInit {
       case 'vendors':
         this.referedClassToken = Vendors;
         this.referedClassService = this.vendorsService;
-        this.deletable = false;
+        this.deletable = true;
         break;
       default: break;
     }
@@ -218,8 +218,39 @@ export class SettingsComponent implements OnInit {
       ];
 
       vendors = this.referedClassToken.formatArray(vendors);
-
       this.data = new MatTableDataSource(vendors);
+
+      this._cacheService.getUser().subscribe(
+        result => {
+          if (result && result.rights) {
+            const rights = result.rights;
+
+            if (this.referedClassToken.__classname__ == 'User')
+              if (rights == 'ROLE_ADMIN')
+                this.hasRights = true;
+
+            if (this.referedClassToken.__classname__ == 'CountrySpecific')
+              if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
+                this.hasRights = true;
+
+            if (this.referedClassToken.__classname__ == 'Donor')
+              if (rights == 'ROLE_ADMIN')
+                this.hasRights = true;
+
+            if (this.referedClassToken.__classname__ == 'Project')
+              if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
+                this.hasRights = true;
+
+            if (this.referedClassToken.__classname__ == 'Financial Provider')
+              if (rights == "ROLE_ADMIN")
+                this.hasRights = true;
+
+            if (this.referedClassToken.__classname__ == 'Vendors')
+              if (rights == "ROLE_ADMIN")
+                this.hasRights = true;
+          }
+        }
+      );
     } else {
       this.referedClassService.get().
         pipe(

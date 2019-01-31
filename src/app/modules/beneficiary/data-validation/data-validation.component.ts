@@ -12,6 +12,7 @@ import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
 import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { finalize } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-data-validation',
@@ -51,6 +52,7 @@ export class DataValidationComponent implements OnInit {
 
 	public allOld: boolean = false;
 	public allNew: boolean = false;
+	public loadingSend: boolean = false;
 
 	constructor(
 		public _importService: ImportService,
@@ -480,11 +482,15 @@ export class DataValidationComponent implements OnInit {
 	}
 
 	addBeneficiaries() {
+		this.loadingSend = true;
 		this.cachedHouseholds();
 	}
 
 	cachedHouseholds() {
 		this._householdsService.getCachedHouseholds(this.email)
+			.pipe(
+				finalize(() => this.loadingSend = false)
+			)
 			.subscribe(
 				response => {
 					this.newHouseholds = response;

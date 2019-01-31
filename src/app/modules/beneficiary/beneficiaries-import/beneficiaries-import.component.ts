@@ -5,7 +5,7 @@ import { saveAs } from 'file-saver/FileSaver';
 import { ImportService } from '../../../core/utils/import.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Project } from '../../../model/project';
 import { GlobalText } from '../../../../texts/global';
 import { Router } from '@angular/router';
@@ -34,7 +34,9 @@ export class BeneficiariesImportComponent implements OnInit {
     isBoxClicked = false;
 
     // for the selector
-    projects = new FormControl();
+    form = new FormGroup({
+        projects: new FormControl({ value: ''})
+    });
     projectList: string[] = [];
     public selectedProject: string = null;
 
@@ -179,7 +181,10 @@ export class BeneficiariesImportComponent implements OnInit {
      * @param event
      */
     getProjectSelected(event) {
-        this.selectedProject = event.value;
+       console.log("yo")
+        console.log(event)
+        console.log(this.selectedProject)
+        // this.selectedProject = event.value;
     }
 
     /**
@@ -187,6 +192,8 @@ export class BeneficiariesImportComponent implements OnInit {
      */
     addHouseholds() {
         const data = new FormData();
+        console.log(this.csv)
+        console.log(this.selectedProject)
         if (!this.csv || !this.selectedProject || this.load) {
             this.snackBar.open(this.household.beneficiaries_import_select_project, '', { duration: 5000, horizontalPosition: 'center' });
         } else {

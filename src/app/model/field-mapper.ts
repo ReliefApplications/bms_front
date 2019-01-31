@@ -29,6 +29,7 @@ export class FieldMapper {
             case 'transaction_beneficiary' : return TransactionBeneficiary.translator();
             case 'financial_provider' : return FinancialProvider.translator();
             case 'transaction_voucher' : return TransactionVoucher.translator();
+            case 'vendors' : return TransactionVoucher.translator();
         }
     }
 }

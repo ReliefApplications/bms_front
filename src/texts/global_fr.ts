@@ -315,6 +315,7 @@ export const TEXT = {
     model_user: 'Utilisateur',
     model_user_password: 'Mot de passe',
     model_value: 'Valeur',
+    model_vendors_address: 'Adresse',
     model_vulnerabilities: 'Vulnérabilités',
 
     // Profile
@@ -365,6 +366,7 @@ export const TEXT = {
     settings_log_button: 'Recevoir les logs de cet utilisateur par email',
     settings_project_exists: 'Un projet avec le même nom existe déjà',
     settings_users: 'utilisateurs',
+    settings_vendors: 'vendeurs',
 
     // Snackbar
     snackbar_change_password_done: 'Mot de passe modifié !',

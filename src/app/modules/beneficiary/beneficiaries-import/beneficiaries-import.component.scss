@@ -108,6 +108,24 @@
     margin-left: auto;
     margin-right: auto;
 }
+.ng-select-focused ::ng-deep {
+    .ng-select-container::after {
+        border-color: #424242;
+        border-width: 2px;
+    }
+}
+
+.ng-select-focused ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
+    color: #424242;
+}
+
+.ng-select-focused ::ng-deep .ng-arrow {
+    color: #424242 !important;
+}
+
+.ng-select-opened ::ng-deep .ng-option-selected {
+    color: #424242 !important;
+}
 
 // for mobile screen
 @media only screen and (max-width: 750px) {
@@ -147,4 +165,8 @@
         flex-direction: row !important;
     }
 
+}
+
+.select-file.project-input{
+    width:100%;
 }

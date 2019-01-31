@@ -66,13 +66,10 @@
             <div>
               <img class='img-folder' src="assets/images/projects.png">
             </div>
-            <div class="select-file">
-              <mat-form-field>
-                <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)"
-                  [disabled]="isProjectsDisabled">
-                  <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-                </mat-select>
-              </mat-form-field>
+            <div class="select-file project-input" [formGroup]="form">
+              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder={{household.projects}} [(ngModel)]="selectedProject" [disabled]="isProjectsDisabled">
+                <ng-option *ngFor="let project of projectList" [value]="project">{{project}}</ng-option>
+              </ng-select>
               <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
             </div>
 
@@ -117,10 +114,8 @@
             <div>
               <div class="content-select">
                 <mat-form-field *ngFor="let ParamToDisplay of ParamsToDisplay;">
-                  <input matInput *ngIf="ParamToDisplay.paramType == 'text'" type="text" [formControl]="text"
-                    placeholder="{{ ParamToDisplay.paramName }} *" (change)="getValue($event, ParamToDisplay.paramName)">
-                  <input matInput *ngIf="ParamToDisplay.paramType == 'number'" type="number" [formControl]="number"
-                    placeholder="{{ ParamToDisplay.paramName }} *">
+                  <input matInput *ngIf="ParamToDisplay.paramType == 'text'" type="text" [formControl]="text" placeholder="{{ ParamToDisplay.paramName }} *" (change)="getValue($event, ParamToDisplay.paramName)">
+                  <input matInput *ngIf="ParamToDisplay.paramType == 'number'" type="number" [formControl]="number" placeholder="{{ ParamToDisplay.paramName }} *">
                 </mat-form-field>
               </div>
             </div>
@@ -132,16 +127,11 @@
             <div>
               <img class='img-folder' src="assets/images/projects.png">
             </div>
-            <div>
-              <div class="select-file">
-                <mat-form-field>
-                  <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)"
-                    [disabled]="isApiDisabled">
-                    <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
-              </div>
+            <div class="select-file project-input" [formGroup]="form">
+              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder={{household.projects}} [(ngModel)]="selectedProject" [disabled]="isProjectsDisabled">
+                <ng-option *ngFor="let project of projectList" [value]="project">{{project}}</ng-option>
+              </ng-select>
+              <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
             </div>
           </mat-card>
         </div>

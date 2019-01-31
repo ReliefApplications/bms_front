@@ -24,9 +24,8 @@ export class ModalLanguageComponent extends ModalComponent {
     this.language == 'ar' ? this.isArabic = true : false;
   }
 
-  choseLanguage(l : string){
-    l !== this.actualUser.language ? this.default = false : this.default = true;
-    this.language = l;
+  choseLanguage() {
+    this.language !== this.actualUser.language ? this.default = false : this.default = true;
   }
 
   saveDefault() {

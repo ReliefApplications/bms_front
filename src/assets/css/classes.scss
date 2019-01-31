@@ -372,7 +372,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
             display: flex;
             flex-direction: row;
             width: 100%;
-            align-items: baseline;
+            align-items: center;
 
             .table-title {
                 text-align: left;
@@ -508,6 +508,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 
     .modal-row {
       flex-direction: column !important;
+      align-items: flex-start !important;
     }
   }
 
@@ -519,4 +520,34 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
   .next {
       padding-left: 0 !important;
   }
+}
+
+.single-select, .multiple-select {
+
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option .ng-option-label{
+        font-weight: normal;
+    }
+
+    .ng-select-container .ng-value-container  {
+
+        .ng-value .ng-value-label{
+        width: 100%;
+        font-weight: normal;
+        font-size: inherit;
+        }
+        .ng-input input {
+            font-size: inherit;
+            font-family: inherit;
+        }
+    }
+}
+
+
+.single-select .ng-select-container .ng-value-container .ng-input input{
+    position: relative;
+    bottom: 4px;
+}
+
+.ng-select.multiple-select .ng-select-container .ng-value-container .ng-value {
+    background-color: #424242;
 }

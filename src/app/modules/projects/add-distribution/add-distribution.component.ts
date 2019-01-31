@@ -39,6 +39,7 @@ import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapt
 export class AddDistributionComponent implements OnInit, DoCheck, DesactivationGuarded {
     public nameComponent = 'add_project_title';
     public distribution = GlobalText.TEXTS;
+    public language = GlobalText.language;
     public newObject: any;
     mapperObject = null;
     public properties: any;
@@ -247,6 +248,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
     ngDoCheck() {
         if (this.distribution !== GlobalText.TEXTS) {
             this.distribution = GlobalText.TEXTS;
+            this.language = GlobalText.language;
             this.mapperObject = this.mapper.findMapperObject(this.entity);
             this.nameComponent = GlobalText.TEXTS.distributions;
             this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));

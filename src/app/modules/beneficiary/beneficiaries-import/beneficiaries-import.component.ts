@@ -177,17 +177,6 @@ export class BeneficiariesImportComponent implements OnInit {
     }
 
     /**
-     * Get the project selected in the projectList selector
-     * @param event
-     */
-    getProjectSelected(event) {
-       console.log("yo")
-        console.log(event)
-        console.log(this.selectedProject)
-        // this.selectedProject = event.value;
-    }
-
-    /**
      * Send csv file and project to import new households
      */
     addHouseholds() {

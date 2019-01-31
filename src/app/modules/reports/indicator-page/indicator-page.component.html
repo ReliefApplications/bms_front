@@ -23,7 +23,7 @@
 
                 <div class="frequency">
                     <mat-spinner *ngIf="isDownloading" [diameter]="35"></mat-spinner>
-                    <button *ngIf="!isDownloading" mat-raised-button class="button-background-primary" (click)="downloadPDF()">
+                    <button *ngIf="!isDownloading" mat-raised-button class="button-background-primary export-button" (click)="downloadPDF()">
                         <mat-icon>get_app</mat-icon>
                         <span>{{indicator.export | titlecase}}</span>
                     </button>

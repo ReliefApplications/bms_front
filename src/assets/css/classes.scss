@@ -159,7 +159,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     }
   }
 
-  &.add-button-create{
+  &.add-button-create, &.export-button {
     span {
         display: flex;
         align-items: center;

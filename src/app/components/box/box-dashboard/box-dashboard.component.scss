@@ -38,9 +38,10 @@ $box-content: 80px;
             &.arabic{
                 text-align:right;
             }
-            font-size : 1.5vh;
+            font-size : 13px;
             margin: 0 !important;
             text-align:left;
+            word-break: break-word;
         }
 
         .info-subtitle{
@@ -48,9 +49,9 @@ $box-content: 80px;
                 text-align:right;
             }
             font-weight: bold;
-            font-size : 2.5vh;
+            font-size : 2vh;
             margin: 0 !important;
-            padding-top:2px;
+            padding-top:16px;
             text-align:left;
         }
 

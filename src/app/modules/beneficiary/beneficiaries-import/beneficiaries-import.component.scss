@@ -94,6 +94,7 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    margin: 20px;
 
     .img-folder {
         height: 11vh;
@@ -126,6 +127,13 @@
 .ng-select-opened ::ng-deep .ng-option-selected {
     color: #424242 !important;
 }
+
+@media only screen and (min-width: 750px) {
+  mat-dialog-content {
+    width: 60vw !important;
+  }
+}
+
 
 // for mobile screen
 @media only screen and (max-width: 750px) {

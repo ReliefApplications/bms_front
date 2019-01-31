@@ -157,12 +157,11 @@
             <th class="table-title">{{ household.adm1 }}</th>
             <th class="table-value">
               <form class="form">
-                <mat-form-field>
-                  <mat-select [(ngModel)]="saveLocation['adm1']" (selectionChange)="selected(p)" [ngModelOptions]="{standalone: true}"
-                    (selectionChange)="selected('adm1')">
-                    <mat-option *ngFor="let singleData of loadedData['adm1']" [value]="singleData.name">{{singleData.name}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
+                <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true" 
+                  [(ngModel)]="saveLocation['adm1']" [ngModelOptions]="{standalone: true}"
+                  (change)="selected('adm1')">
+                  <ng-option *ngFor="let singleData of loadedData['adm1']" [value]="singleData.name">{{singleData.name}}</ng-option>
+                </ng-select>
               </form>
             </th>
           </tr>
@@ -171,11 +170,10 @@
             <th class="table-title">{{ household.adm2 }}</th>
             <th class="table-value">
               <form class="form">
-                <mat-form-field>
-                  <mat-select [(ngModel)]="saveLocation['adm2']" (selectionChange)="selected('adm2')" [ngModelOptions]="{standalone: true}">
-                    <mat-option *ngFor="let singleData of loadedData['adm2']" [value]="singleData.name">{{singleData.name}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
+                <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                  [(ngModel)]="saveLocation['adm2']" (change)="selected('adm2')" [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let singleData of loadedData['adm2']" [value]="singleData.name">{{singleData.name}}</ng-option>
+                </ng-select>
               </form>
             </th>
           </tr>
@@ -184,11 +182,10 @@
             <th class="table-title">{{ household.adm3 }}</th>
             <th class="table-value">
               <form class="form">
-                <mat-form-field>
-                  <mat-select [(ngModel)]="saveLocation['adm3']" (selectionChange)="selected('adm3')" [ngModelOptions]="{standalone: true}">
-                    <mat-option *ngFor="let singleData of loadedData['adm3']" [value]="singleData.name">{{singleData.name}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
+                <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                  [(ngModel)]="saveLocation['adm3']" (change)="selected('adm3')" [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let singleData of loadedData['adm3']" [value]="singleData.name">{{singleData.name}}</ng-option>
+                </ng-select>
               </form>
             </th>
           </tr>
@@ -197,11 +194,10 @@
             <th class="table-title">{{ household.adm4 }}</th>
             <th class="table-value">
               <form class="form">
-                <mat-form-field>
-                  <mat-select [(ngModel)]="saveLocation['adm4']" (selectionChange)="selected('adm4')" [ngModelOptions]="{standalone: true}">
-                    <mat-option *ngFor="let singleData of loadedData['adm4']" [value]="singleData.name">{{singleData.name}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
+                <ng-select class="single" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                  [(ngModel)]="saveLocation['adm4']" (change)="selected('adm4')" [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let singleData of loadedData['adm4']" [value]="singleData.name">{{singleData.name}}</ng-option>
+                </ng-select>
               </form>
             </th>
           </tr>

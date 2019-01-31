@@ -158,6 +158,17 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
       font-weight: bold;
     }
   }
+
+  &.add-button-create{
+    span {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        .mat-icon{
+            margin:0;
+        }
+    }
+  }
 }
 
 .add-buttons {

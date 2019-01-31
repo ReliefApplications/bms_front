@@ -186,6 +186,23 @@ app-placeholder-panel {
     color: #424242 !important;
 }
 
+.mat-form-field{
+    margin-bottom: 6px;
+}
+
+.location{
+    margin-bottom: 15px;
+}
+
+.phone-type, .country-code{
+    width: 25%;
+    margin-right: 15px;
+}
+
+.country-code{
+    margin-top: -12px;
+}
+
 @media only screen and (max-width: 750px) {
     .datepicker-mobile {
         display: block;

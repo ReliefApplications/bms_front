@@ -418,8 +418,8 @@
                                 <ng-container [matColumnDef]=tableColumns[4]>
                                     <th mat-header-cell *matHeaderCellDef> {{ tableColumns[4] }} </th>
                                     <td mat-cell *matCellDef="let element">
-                                        <p *ngIf="element.phone.number">
-                                            {{ element.phone.number }}
+                                        <p *ngIf="element.phone[0].number">
+                                            {{ element.phone[0].number }}
                                         </p>
                                     </td>
                                 </ng-container>
@@ -439,6 +439,7 @@
                         <div class="action-buttons">
                             <button mat-button class="button-text-primary" (click)="leave()">{{Text.cancel}}</button>
 
+                            <mat-spinner [diameter]="25" *ngIf="validationLoading"></mat-spinner>
                             <button mat-raised-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading"
                                 (click)="create()">{{Text.create}}</button>
                             <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"

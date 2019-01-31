@@ -3,11 +3,15 @@
   <div class="modal-table" [ngClass]="{'arabic': isArabic === true}" cdkFocusRegionstart>
     <div class="select-container">
       <span class="language-text">{{modal.modal_language_actual}}</span>
-      <mat-select [(ngModel)]="language" [formControl]="controls" class="button-flag" (selectionChange)="choseLanguage($event.value)">
-        <mat-option *ngFor="let l of languages" [value]="l">
+
+      <ng-select class="single-select" [(ngModel)]="language" [multiple]="false" placeholder="Countries" 
+         [closeOnSelect]="true" [searchable]="true" [ngModelOptions]="{standalone: true}"
+         (close)="choseLanguage()">
+        <ng-option *ngFor="let l of languages" [value]="l">
           {{l | titlecase}}
-        </mat-option>
-      </mat-select>
+        </ng-option>
+      </ng-select>
+      
     </div>
     <mat-checkbox color="primary" [checked]="default" (click)="saveDefault()">{{ modal.modal_save_language_as_default }}</mat-checkbox>
   </div>

@@ -72,13 +72,12 @@
         <p> {{household.beneficiaries_add_project}} {{dataSource.length$ | async}}
           {{household.beneficiaries_selected_project}}</p>
         <div class="selectBeneficiaries">
-          <mat-form-field>
-            <mat-select placeholder="Projects" [formControl]="projectForm" [(ngModel)]="selectedProject">
-              <mat-option class="options" *ngFor="let project of projectsList" [value]="project.id">
-                {{project.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+          placeholder="Projects" [(ngModel)]="selectedProject">
+            <ng-option class="options" *ngFor="let project of projectsList" [value]="project.id">
+              {{project.name}}
+            </ng-option>
+          </ng-select>
         </div>
       </div>
       <div class="modal-footer action">

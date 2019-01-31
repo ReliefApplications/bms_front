@@ -46,31 +46,29 @@
               <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
             </div>
             <mat-list class="importedFile" *ngIf="csv != null">
-                <mat-list-item>
-                  <mat-icon mat-list-icon class="text">insert_drive_file</mat-icon>
-                  <h4 mat-line class="text">{{ csv.name }}</h4>
-                  <p mat-line class="text">{{ csv.size }} bytes, {{ csv.lastModifiedDate | date: ddMMyyyy}}
-                  </p>
-                </mat-list-item>
-              </mat-list>
+              <mat-list-item>
+                <mat-icon mat-list-icon class="text">insert_drive_file</mat-icon>
+                <h4 mat-line class="text">{{ csv.name }}</h4>
+                <p mat-line class="text">{{ csv.size }} bytes, {{ csv.lastModifiedDate | date: ddMMyyyy}}
+                </p>
+              </mat-list-item>
+            </mat-list>
           </mat-card>
         </div>
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
-            <mat-card class="card-drag-and-drop" [ngClass]="(isProjectsDisabled)?'greyed-out' : ''">
-              <div>
-                <img class='img-folder' src="assets/images/projects.png">
-              </div>
-              <div class="select-file">
-                  <mat-form-field>
-                      <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)" [disabled]="isProjectsDisabled">
-                        <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
-              </div>
-  
-            </mat-card>
-          </div>
+          <mat-card class="card-drag-and-drop" [ngClass]="(isProjectsDisabled)?'greyed-out' : ''">
+            <div>
+              <img class='img-folder' src="assets/images/projects.png">
+            </div>
+            <div class="select-file project-input" [formGroup]="form">
+              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder={{household.projects}} [(ngModel)]="selectedProject" [disabled]="isProjectsDisabled">
+                <ng-option *ngFor="let project of projectList" [value]="project">{{project}}</ng-option>
+              </ng-select>
+              <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
+            </div>
+
+          </mat-card>
+        </div>
       </div>
       <div class="content-button content-button-footer">
         <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
@@ -87,54 +85,50 @@
       <div class="content-table">
 
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
-            <mat-card class="card-drag-and-drop">
-              <div>
-                <img class='img-folder' src="assets/images/settings/api.png">
-              </div>
-              <h3>{{household.beneficiaries_select_api | titlecase}}</h3>
-              <div class="content-select">
-                <mat-radio-group (change)='onChangeRadioAPI($event)' class="content-select" [(ngModel)]='chosenItem'>
-                  <mat-radio-button *ngFor="let name of APINames;" value="{{ name }}" color="primary">{{
+          <mat-card class="card-drag-and-drop">
+            <div>
+              <img class='img-folder' src="assets/images/settings/api.png">
+            </div>
+            <h3>{{household.beneficiaries_select_api | titlecase}}</h3>
+            <div class="content-select">
+              <mat-radio-group (change)='onChangeRadioAPI($event)' class="content-select" [(ngModel)]='chosenItem'>
+                <mat-radio-button *ngFor="let name of APINames;" value="{{ name }}" color="primary">{{
                                 name
                                 }}</mat-radio-button>
-                </mat-radio-group>
-              </div>
+              </mat-radio-group>
+            </div>
           </mat-card>
         </div>
 
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
-            <mat-card class="card-drag-and-drop" [ngClass]="(isApiDisabled)?'greyed-out' : ''">
-              <div>
-                <img class='img-folder' src="assets/images/locationCode.png">
+          <mat-card class="card-drag-and-drop" [ngClass]="(isApiDisabled)?'greyed-out' : ''">
+            <div>
+              <img class='img-folder' src="assets/images/locationCode.png">
+            </div>
+            <div>
+              <div class="content-select">
+                <mat-form-field *ngFor="let ParamToDisplay of ParamsToDisplay;">
+                  <input matInput *ngIf="ParamToDisplay.paramType == 'text'" type="text" [formControl]="text" placeholder="{{ ParamToDisplay.paramName }} *" (change)="getValue($event, ParamToDisplay.paramName)">
+                  <input matInput *ngIf="ParamToDisplay.paramType == 'number'" type="number" [formControl]="number" placeholder="{{ ParamToDisplay.paramName }} *">
+                </mat-form-field>
               </div>
-              <div>
-                <div class="content-select">
-                    <mat-form-field *ngFor="let ParamToDisplay of ParamsToDisplay;">
-                      <input matInput *ngIf="ParamToDisplay.paramType == 'text'" type="text" [formControl]="text" placeholder="{{ ParamToDisplay.paramName }} *" (change)="getValue($event, ParamToDisplay.paramName)">
-                      <input matInput *ngIf="ParamToDisplay.paramType == 'number'" type="number" [formControl]="number" placeholder="{{ ParamToDisplay.paramName }} *">
-                    </mat-form-field>
-                  </div>
-              </div>
-            </mat-card>
-          </div>
+            </div>
+          </mat-card>
+        </div>
 
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
-            <mat-card class="card-drag-and-drop" [ngClass]="(isApiDisabled)?'greyed-out' : ''">
-              <div>
-                <img class='img-folder' src="assets/images/projects.png">
-              </div>
-              <div>
-                <div class="select-file">
-                    <mat-form-field>
-                        <mat-select placeholder={{household.projects}} [formControl]="projects" (selectionChange)="getProjectSelected($event)" [disabled]="isApiDisabled">
-                          <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                  <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
-                </div>
-              </div>
-            </mat-card>
-          </div>
+          <mat-card class="card-drag-and-drop" [ngClass]="(isApiDisabled)?'greyed-out' : ''">
+            <div>
+              <img class='img-folder' src="assets/images/projects.png">
+            </div>
+            <div class="select-file project-input" [formGroup]="form">
+              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder={{household.projects}} [(ngModel)]="selectedProject" [disabled]="isProjectsDisabled">
+                <ng-option *ngFor="let project of projectList" [value]="project">{{project}}</ng-option>
+              </ng-select>
+              <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
+            </div>
+          </mat-card>
+        </div>
       </div>
       <div class="content-button content-button-footer">
         <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>

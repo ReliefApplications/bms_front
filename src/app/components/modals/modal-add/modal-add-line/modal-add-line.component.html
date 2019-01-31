@@ -8,26 +8,25 @@
 
         <th class="table-value">
           <form class="form" *ngIf="p!='value_string'">
-            <mat-form-field class="full-width">
-              <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='selectCriteria' && propertiesTypes[p]!='number'"
-                [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" [ngModelOptions]="{standalone: true}"
-                [type]="propertiesTypes[p]" required>
+            
 
-              <mat-select *ngIf="propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
-                [formControl]="controls" required>
-                <mat-option *ngFor="let singleData of loadedData[p]; let i = index" [value]="i+1">{{singleData.field_string}}</mat-option>
-              </mat-select>
-            </mat-form-field>
+            <ng-select *ngIf="propertiesTypes[p]=='select'" class="single-select" [(ngModel)]="newObject[p]" 
+                          [multiple]="false" placeholder="{{mapperObject[p]}}" [closeOnSelect]="true"
+                        [searchable]="true" [ngModelOptions]="{standalone: true}" required>
+                <ng-option *ngFor="let item of loadedData[p]; let i= index" [value]="i+1">
+                  {{item.field_string | titlecase}}
+                </ng-option>
+              </ng-select>
+            
           </form>
 
           <form class="form" *ngIf="(p=='value_string')&&checkDataCriteria.type">
-            <mat-form-field class="full-width" *ngIf="checkDataCriteria.field_string === 'gender'">
-              <mat-select placeholder="Gender" [formControl]="controls" (selectionChange)="genderOnChange($event)"
-                required>
-                <mat-option value="Woman">{{modal.add_distribution_female}}</mat-option>
-                <mat-option value="Man">{{modal.add_distribution_male}}</mat-option>
-              </mat-select>
-            </mat-form-field>
+              <ng-select *ngIf="checkDataCriteria.field_string === 'gender'" class="single-select" [(ngModel)]="newObject[p]" 
+                          [multiple]="false" placeholder="Gender" [closeOnSelect]="true"
+                        [searchable]="true" [ngModelOptions]="{standalone: true}" (selectionChange)="genderOnChange($event)" required>
+                <ng-option [value]="modal.add_distribution_female">{{modal.add_distribution_female}}</ng-option>
+                <ng-option [value]="modal.add_distribution_male">{{modal.add_distribution_male}}</ng-option>
+              </ng-select>
 
             <mat-form-field class="full-width" *ngIf="checkDataCriteria.field_string === 'dateOfBirth'">
               <input matInput [matDatepicker]="dateDistribution" placeholder="Date" (dateChange)='selectDate($event)'

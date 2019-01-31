@@ -299,6 +299,8 @@ export const TEXT = {
     model_familyName: 'اللقب',
     model_firstName: 'الاسم ',
     model_notes: 'الملاحظات',
+    model_product_name: 'Name',
+    model_product_code: 'Code',
     model_project_end_date: 'تاريخ الانتهاء',
     model_project_donors_name: 'المانحون',
     model_project_name: 'اسم المشروع',
@@ -363,6 +365,7 @@ export const TEXT = {
     settings_donors: 'المانحين',
     settings_financial_provider: 'مزود المالية',
     settings_log_button: 'احصل على سجلات المستخدم عن طريق البريد الإلكتروني',
+    settings_product: 'Product',
     settings_project_exists: 'مشروع بهذا الاسم يوجود بالفعل',
     settings_users: 'المستخدمون',
 

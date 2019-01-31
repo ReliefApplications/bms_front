@@ -16,11 +16,11 @@
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
+    align-items: flex-end;
 
     .input-filter {
       width: 15%;
       flex-shrink: 0;
-      font-size: 14px;
     }
   }
 }
@@ -166,6 +166,10 @@ button {
     border-color: #424242;
     border-width: 2px;
   }
+}
+
+.ng-select.ng-select-multiple ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
+  line-height: 25px;
 }
 
 .ng-select-focused ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {

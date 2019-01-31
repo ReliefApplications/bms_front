@@ -33,19 +33,27 @@
       width: 100%;
       min-height: 400px;
 
-      .accordion-card {
+    }
+
+    .accordion-card {
+      width: 100%;
+
+      .accordion-field {
         width: 100%;
-
-        .accordion-field {
-          width: 100%;
-        }
-
-        .type-distribution {
-          display: flex;
-          justify-content: space-around;
-          width: 100%;
-        }
       }
+
+      .type-distribution {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+      }
+    }
+
+    .distribution-accordion-ar {
+      display: flex;
+      padding-left: 20px;
+      width: 100%;
+      min-height: 400px;
     }
   }
 

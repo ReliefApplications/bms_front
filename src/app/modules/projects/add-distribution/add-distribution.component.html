@@ -2,7 +2,7 @@
   <div class="container-fields">
     <div class="field-distribution">
       <h2 class="distribution-title">{{distribution.add_project_new_distribution | titlecase}}</h2>
-      <div class="distribution-accordion">
+      <div [ngClass]="{'distribution-accordion': language!=='ar', 'distribution-accordion-ar': language==='ar'}">
         <mat-card class="accordion-card">
           <div *ngFor="let p of properties">
             <ng-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" 

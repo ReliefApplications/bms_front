@@ -238,4 +238,13 @@ export class ModalUpdateComponent extends ModalComponent {
         // console.log("updateObject:", this.updateObject);
         this.closeDialog();
     }
+
+    isDisabled(property) {
+        if (property === 'location_name' || property === 'number_beneficiaries'
+            || property === 'name' || property === 'shop' || (property === 'username' && this.data.entity.__classname__ === 'Vendors')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

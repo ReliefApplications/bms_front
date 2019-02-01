@@ -206,116 +206,75 @@ export class SettingsComponent implements OnInit {
   // TO DO : get from cache
   load(title): void {
     this.hasRights = false;
-    if (title === "vendors") {
-      let vendors = [
-        {
-          name: "lol",
-          shop: "shoplol",
-          address: "addr",
-          username: "un",
-          password: "pw",
-        }
-      ];
 
-      vendors = this.referedClassToken.formatArray(vendors);
-      this.data = new MatTableDataSource(vendors);
-
-      this._cacheService.getUser().subscribe(
-        result => {
-          if (result && result.rights) {
-            const rights = result.rights;
-
-            if (this.referedClassToken.__classname__ == 'User')
-              if (rights == 'ROLE_ADMIN')
-                this.hasRights = true;
-
-            if (this.referedClassToken.__classname__ == 'CountrySpecific')
-              if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
-                this.hasRights = true;
-
-            if (this.referedClassToken.__classname__ == 'Donor')
-              if (rights == 'ROLE_ADMIN')
-                this.hasRights = true;
-
-            if (this.referedClassToken.__classname__ == 'Project')
-              if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
-                this.hasRights = true;
-
-            if (this.referedClassToken.__classname__ == 'Financial Provider')
-              if (rights == "ROLE_ADMIN")
-                this.hasRights = true;
-
-            if (this.referedClassToken.__classname__ == 'Vendors')
-              if (rights == "ROLE_ADMIN")
-                this.hasRights = true;
-          }
-        }
-      );
-    } else {
-      this.referedClassService.get().
-        pipe(
-          finalize(
-            () => {
-              this.loadingData = false;
-            }
-          )
-        ).subscribe(response => {
-          if (response) {
+    this.referedClassService.get().
+      pipe(
+        finalize(
+          () => {
             this.loadingData = false;
-            // console.log(response);
-            if (response && response[0] && response[0].email && response[0].username && response[0].roles) {
+          }
+        )
+      ).subscribe(response => {
+        if (response) {
+          this.loadingData = false;
+          // console.log(response);
+          if (response && response[0] && response[0].email && response[0].username && response[0].roles) {
 
-              response.forEach(element => {
-                element.projects = new Array<number>();
-                element.country = '';
+            response.forEach(element => {
+              element.projects = new Array<number>();
+              element.country = '';
 
-                for (let i = 0; i < element.user_projects.length; i++) {
-                  element.projects[i] = element.user_projects[i].project.name;
-                }
-                for (let i = 0; i < element.countries.length; i++) {
-                  element.country = element.countries[i].iso3;
-                }
-              });
-            }
+              for (let i = 0; i < element.user_projects.length; i++) {
+                element.projects[i] = element.user_projects[i].project.name;
+              }
+              for (let i = 0; i < element.countries.length; i++) {
+                element.country = element.countries[i].iso3;
+              }
+            });
+          }
 
 
-            response = this.referedClassToken.formatArray(response);
-            this.data = new MatTableDataSource(response);
+          response = this.referedClassToken.formatArray(response);
+          this.data = new MatTableDataSource(response);
 
-            this._cacheService.getUser().subscribe(
-              result => {
-                if (result && result.rights) {
-                  const rights = result.rights;
+          this._cacheService.getUser().subscribe(
+            result => {
+              if (result && result.rights) {
+                const rights = result.rights;
 
-                  if (this.referedClassToken.__classname__ == 'User')
-                    if (rights == 'ROLE_ADMIN')
-                      this.hasRights = true;
+                if (this.referedClassToken.__classname__ == 'User')
+                  if (rights == 'ROLE_ADMIN')
+                    this.hasRights = true;
 
-                  if (this.referedClassToken.__classname__ == 'CountrySpecific')
-                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
-                      this.hasRights = true;
+                if (this.referedClassToken.__classname__ == 'CountrySpecific')
+                  if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
+                    this.hasRights = true;
 
-                  if (this.referedClassToken.__classname__ == 'Donor')
-                    if (rights == 'ROLE_ADMIN')
-                      this.hasRights = true;
+                if (this.referedClassToken.__classname__ == 'Donor')
+                  if (rights == 'ROLE_ADMIN')
+                    this.hasRights = true;
 
-                  if (this.referedClassToken.__classname__ == 'Project')
-                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
-                      this.hasRights = true;
+                if (this.referedClassToken.__classname__ == 'Project')
+                  if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
+                    this.hasRights = true;
 
-                  if (this.referedClassToken.__classname__ == 'Financial Provider')
-                    if (rights == "ROLE_ADMIN")
-                      this.hasRights = true;
+                if (this.referedClassToken.__classname__ == 'Financial Provider')
+                  if (rights == "ROLE_ADMIN")
+                    this.hasRights = true;
+
+                if (this.referedClassToken.__classname__ == 'Vendors') {
+                  if (rights == 'ROLE_ADMIN')
+                    this.hasRights = true;
                 }
               }
-            );
+            }
+          );
 
-          } else {
-            this.data = new MatTableDataSource(null);
-            this.loadingData = false;
-          }
-        });
-    }
+        } else {
+          this.data = new MatTableDataSource(null);
+          this.loadingData = false;
+        }
+      });
   }
 
   /**

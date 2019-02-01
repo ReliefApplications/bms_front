@@ -15,12 +15,22 @@ export class VendorsService {
 	}
 
 	public get() {
-		let url = this.api + "/financial/provider";
+		let url = this.api + "/vendors";
 		return this.http.get(url);
 	}
 
-	public update(body) {
-		let url = this.api + "/financial/provider";
-		return this.http.post(url, { username: body['username'], password: body['password'] });
+	public create(id: number, body: any) {
+		let url = this.api + "/vendor";
+		return this.http.put(url, body);
+	}
+
+	public update(id:number, body: any) {
+		let url = this.api + "/vendors/" + id;
+		return this.http.post(url, body);
+	}
+	
+	public delete(id: number) {
+		let url = this.api + "/vendors/" + id + "/archive";
+		return this.http.post(url, {});
 	}
 }

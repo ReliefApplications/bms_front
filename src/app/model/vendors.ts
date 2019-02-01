@@ -65,7 +65,9 @@ export class Vendors {
         let vendors: Vendors[] = [];
         if (instance)
             instance.forEach(element => {
-                vendors.push(this.formatFromApi(element));
+                if (element.archived === false) {
+                    vendors.push(this.formatFromApi(element));
+                }
             });
 
         return vendors;
@@ -173,6 +175,7 @@ export class Vendors {
             return selfinstance;
         }
         return {
+            id: selfinstance.id,
             name: selfinstance.name,
             shop: selfinstance.shop,
             address: selfinstance.address,
@@ -191,9 +194,7 @@ export class Vendors {
    * @param loadedData
    */
     public static formatFromModalAdd(element: any, loadedData: any): Vendors {
-        let newObject = new Vendors(element);
-
-        return newObject;
+        return new Vendors(element);
     }
 
     public static getDisplayedName() {

@@ -74,9 +74,7 @@ export class Vendors {
     }
 
     public static formatFromApi(element: any): Vendors {
-        let vendors = new Vendors(element);
-
-        return vendors;
+        return new Vendors(element);
     }
 
     /**

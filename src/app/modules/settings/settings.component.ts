@@ -47,6 +47,8 @@ const config: SwiperConfigInterface = {
     }
 };
 
+
+
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.component.html',
@@ -84,6 +86,24 @@ export class SettingsComponent implements OnInit {
     public widthScreen;
     hasRights: boolean;
     public deletable: boolean = true;
+
+    public enabledSettings = [
+        User,
+        CountrySpecific,
+        Donor,
+        Project,
+        FinancialProvider
+    ];
+    // TODO: move into every setting later
+    public settingItemInfos = [
+        {icon: "settings/users",            title: this.settings.settings_users,                    ref:"users"},
+        {icon: "settings/country_specific", title: this.settings.settings_country_specific_options, ref:"country specific options"},
+        {icon: "settings/donors",           title: this.settings.settings_donors,                   ref:"donors"},
+        {icon: "settings/api",              title: this.settings.projects,                          ref:"projects"},
+        {icon: "settings/api",              title: this.settings.settings_financial_provider,       ref:"financialProvider"},
+
+        {icon: "", title:"", selectedOnLoad: true, }
+    ];
 
     constructor(
         public dialog: MatDialog,

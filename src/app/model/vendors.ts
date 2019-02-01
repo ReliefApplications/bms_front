@@ -62,13 +62,7 @@ export class Vendors {
     }
 
     public static formatArray(instance): Vendors[] {
-        let vendors: Vendors[] = [];
-        if (instance)
-            instance.forEach(element => {
-                vendors.push(this.formatFromApi(element));
-            });
-
-        return vendors;
+        return instance;
     }
 
     public static formatFromApi(element: any): Vendors {

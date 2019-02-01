@@ -65,9 +65,7 @@ export class Vendors {
         let vendors: Vendors[] = [];
         if (instance)
             instance.forEach(element => {
-                if (element.archived === false) {
-                    vendors.push(this.formatFromApi(element));
-                }
+                vendors.push(this.formatFromApi(element));
             });
 
         return vendors;

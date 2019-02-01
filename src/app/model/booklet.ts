@@ -119,34 +119,11 @@ export class Booklet {
     }
 
     public static formatElement(instance: any): Booklet {
-        const booklet = new Booklet();
-
-        booklet.id = instance.id;
-        booklet.code = instance.code;
-        booklet.number_vouchers = instance.number_vouchers;
-        booklet.individual_value = instance.individual_value;
-        booklet.currency = instance.currency;
-        booklet.status = instance.status;
-        booklet.password = instance.password;
-        booklet.distribution_beneficiary = instance.distribution_beneficiary;
-
-        return (booklet);
+        return new Booklet(instance);
     }
 
     public static formatForApi(instance: any) {
-
-        const booklet = {
-            id: instance.id,
-            code: instance.code,
-            number_vouchers: instance.number_vouchers,
-            individual_value: instance.individual_value,
-            currency: instance.currency,
-            status: instance.status,
-            password: instance.password,
-            distribution_beneficiary: instance.distribution_beneficiary,
-        };
-
-        return (booklet);
+        return new Booklet(instance);
     }
 
     mapAllProperties(selfinstance): Object {
@@ -262,5 +239,14 @@ export class Booklet {
             individual_to_all: 'boolean',
             number_booklets: 'number'
         };
+    }
+
+    /**
+     * used in modal add
+     * @param element
+     * @param loadedData
+     */
+    public static formatFromModalAdd(element: any, loadedData: any): Booklet {
+        return new Booklet(element);
     }
 }

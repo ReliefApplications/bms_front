@@ -17,7 +17,12 @@ export class BookletService {
     }
 
     public get() {
-        let url = this.api + "/vouchers";
+        let url = this.api + "/booklets";
         return this.http.get(url);
+    }
+
+    public create(body) {
+        let url = this.api + "/booklet";
+        return this.http.put(url, body);
     }
 }

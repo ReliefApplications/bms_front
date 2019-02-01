@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { GlobalText } from '../../../texts/global';
 import { MatTableDataSource, MatDialog, MatSnackBar } from '@angular/material';
 import { finalize } from 'rxjs/operators';
@@ -12,8 +12,6 @@ import { Project } from 'src/app/model/project';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { DistributionData } from 'src/app/model/distribution-data';
 import { Beneficiaries } from 'src/app/model/beneficiary';
-import { ZXingScannerComponent } from '@zxing/ngx-scanner';
-import { Result } from '@zxing/library';
 
 @Component({
   selector: 'app-vouchers',
@@ -108,36 +106,24 @@ export class VouchersComponent implements OnInit {
   }
 
   getBooklets() {
-    // this.voucherService.get().pipe(
-    //   finalize(
-    //     () => {
-    //       this.loadingVouchers = false;
-    //     },
-    //   )
-    // ).subscribe(
-    //   response => {
-    //     if (response && response.length > 0) {
-    //       this.vouchers = this.voucherClass.formatArray(response).reverse();
-    //       this.voucherData = new MatTableDataSource(this.vouchers);
-    //     } else if (response === null) {
-    //       this.vouchers = null;
-    //     }
-    //   }
-    // );
+    console.log("test7");
 
-    const booklet = {
-      code: 'code',
-      number_vouchers: 10,
-      individual_value: 50,
-      currency: 'USD',
-      status: 1,
-      password: 'test33TEST',
-      distribution_beneficiary: 1
-    }
-    this.booklets = [];
-    this.booklets.push(new Booklet(booklet));
-    this.bookletData = new MatTableDataSource(this.booklets);
-    this.loadingBooklet = false;
+    this.bookletService.get().pipe(
+      finalize(
+        () => {
+          this.loadingBooklet = false;
+        },
+      )
+    ).subscribe(
+      response => {
+        if (response && response.length > 0) {
+          this.booklets = this.bookletClass.formatArray(response).reverse();
+          this.bookletData = new MatTableDataSource(this.booklets);
+        } else if (response === null) {
+          this.booklets = null;
+        }
+      }
+    );
   }
 
   /**
@@ -213,11 +199,19 @@ export class VouchersComponent implements OnInit {
           createElement = dialogRef.componentInstance.onCreate.subscribe();
         }
 
-        dialogRef.afterClosed().subscribe(() => {
-          if (createElement) {
-            createElement.unsubscribe();
-          }
+        const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
+          console.log("test", data);
+          this.createElement(data);
+          console.log("test4");
         });
+
+        console.log("test2");
+        dialogRef.afterClosed().subscribe((test) => {
+          console.log("test3", test);
+          create.unsubscribe();
+        });
+        console.log("test20");
+
       }
       else {
         this.step1 = true;
@@ -289,5 +283,15 @@ export class VouchersComponent implements OnInit {
   assignBooklet() {
     //TODO Assign booklet to specified benef
     this.exit(this.voucher.voucher_confirm + ' ' + this.beneficiaryName);
+  }
+
+  createElement(createElement: Object) {
+    createElement = this.bookletClass.formatForApi(createElement);
+    console.log("test5");
+    this.bookletService.create(createElement).subscribe(
+      () => {
+        console.log("test6");
+        this.getBooklets();
+      });
   }
 }

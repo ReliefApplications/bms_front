@@ -64,11 +64,7 @@ export class Vendors {
     public static formatArray(instance): Vendors[] {
         return instance;
     }
-
-    public static formatFromApi(element: any): Vendors {
-        return new Vendors(element);
-    }
-
+    
     /**
     * return the type of vendors properties
     */

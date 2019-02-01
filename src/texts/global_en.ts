@@ -116,6 +116,7 @@ export const TEXT = {
     beneficiaries_full_address: 'Full household address:',
     beneficiaries_household_info: 'Household information summary:',
     beneficiaries_import_addFile: 'add file or drag and drop',
+    beneficiaries_import_addModal: 'add file',
     beneficiaries_import_api: 'import from external data source',
     beneficiaries_import_beneficiaries_imported: ' beneficiaries inserted',
     beneficiaries_import_check_fields: 'A field is empty or unset, please fill all inputs and select a project',

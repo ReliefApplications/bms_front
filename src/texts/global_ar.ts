@@ -116,6 +116,7 @@ export const TEXT = {
     beneficiaries_full_address: 'عنوان المنزل بالكامل:',
     beneficiaries_household_info: 'ملخص المعلومات الخاصة بالمنزل  :',
     beneficiaries_import_addFile: ' إضافة ملف أو وضع ملف ',
+    beneficiaries_import_addModal: 'add file',
     beneficiaries_import_api: 'تحميل من مصدر بيانات خارجي',
     beneficiaries_import_beneficiaries_imported: 'تم إضافة المستفيدين ',
     beneficiaries_import_check_fields: ' محتوى فارغ , تثبت من أدخال جميع المعطيات و اختيار مشروع ',

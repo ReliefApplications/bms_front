@@ -209,7 +209,7 @@
           </div>
           <div class="select-file">
             <a href="javascript:void(0)" (click)="file.click()">
-              <button mat-stroked-button color="primary">{{household.beneficiaries_import_addFile
+              <button mat-stroked-button color="primary">{{household.beneficiaries_import_addModal
                 | titlecase}}</button>
             </a>
             <input type="file" #file [multiple] (change)="fileChange($event, 'target', 'csv2')" style="display:none" />

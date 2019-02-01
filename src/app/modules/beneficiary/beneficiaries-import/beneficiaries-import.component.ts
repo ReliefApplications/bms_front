@@ -183,8 +183,14 @@ export class BeneficiariesImportComponent implements OnInit {
         }
 
         if (fileList.length > 0) {
-            this.csv = fileList[0];
-            this.isProjectsDisabled = false;
+            if (index) {
+                this.csv2 = fileList[0];
+            }
+            else {
+                this.csv = fileList[0];
+                this.isProjectsDisabled = false;
+            }
+
             if (this.projectList.length > 0) {
                 this.form.controls['projects'].enable();
                 this.selectedProject = this.projectList[0];

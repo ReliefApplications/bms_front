@@ -99,10 +99,10 @@ export class ModalAddComponent extends ModalComponent {
 
     selected(newObject) {
         if (newObject) {
-            if (newObject.modality) {
-                if (newObject.modality !== this.oldSelectedModality) {
-                    this.getModalityType(newObject.modality);
-                    this.oldSelectedModality = newObject.modality;
+            if (typeof newObject === 'number' || newObject.modality) {
+                if (this.newObject.modality !== this.oldSelectedModality) {
+                    this.getModalityType(this.newObject.modality);
+                    this.oldSelectedModality = this.newObject.modality;
                 }
             }
             else if (newObject == "ROLE_PROJECT_MANAGER" || newObject == "ROLE_PROJECT_OFFICER" || newObject == "ROLE_FIELD_OFFICER") {

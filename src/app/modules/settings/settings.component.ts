@@ -25,6 +25,27 @@ import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { FinancialProvider } from 'src/app/model/financial-provider';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
+import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
+
+const config: SwiperConfigInterface = {
+    a11y: true,
+    direction: 'horizontal',
+    slidesPerView: "auto",
+    navigation: true,
+    mousewheel: true,
+    keyboard: true,
+    loop: true,
+    slidesPerView: 4,
+
+    breakpoints:  {
+        480: {
+            slidesPerView: 1,
+        },
+        640: {
+            slidesPerView: 2,
+        }
+    }
+};
 
 @Component({
     selector: 'app-settings',
@@ -32,6 +53,9 @@ import { FinancialProviderService } from 'src/app/core/api/financial-provider.se
     styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+
+    config: SwiperConfigInterface = config;
+
     public nameComponent = 'settings';
     public settings = GlobalText.TEXTS;
     loadingExport = false;

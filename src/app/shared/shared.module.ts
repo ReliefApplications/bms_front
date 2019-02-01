@@ -3,10 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule,
-MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatDividerModule,
-MAT_CHECKBOX_CLICK_ACTION, MatRadioModule, MatChipsModule, MatSnackBarModule, MatStepperModule,
-MatProgressBarModule, MatListModule, MatBadgeModule, MatTabsModule } from '@angular/material';
+import {
+  MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule,
+  MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatDividerModule,
+  MAT_CHECKBOX_CLICK_ACTION, MatRadioModule, MatChipsModule, MatSnackBarModule, MatStepperModule,
+  MatProgressBarModule, MatListModule, MatBadgeModule, MatTabsModule
+} from '@angular/material';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -14,12 +16,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSortModule } from '@angular/material/sort';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material';
 import { MatMenuModule } from '@angular/material/menu';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
@@ -65,14 +67,36 @@ import { TableBeneficiariesComponent } from '../components/table/table-beneficia
 import { UpdateBeneficiaryComponent } from '../modules/beneficiary/update-beneficiary/update-beneficiary.component';
 import { TransactionTableComponent } from '../components/table/transaction-table/transaction-table.component';
 import { TableMobileBeneficiariesComponent } from '../components/table/table-mobile-beneficiaries/table-mobile-beneficiaries.component';
-import { CountoModule }  from 'angular2-counto';
+import { CountoModule } from 'angular2-counto';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ImportedDataComponent } from '../modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
 import { ModalRequestsComponent } from '../components/modals/modal-requests/modal-requests.component';
 import { RecaptchaModule } from 'angular-google-recaptcha';
+import { SwiperModule } from 'ngx-swiper-wrapper';
+import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
+import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
+
+const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
+    a11y: true,
+    direction: 'horizontal',
+    slidesPerView: "auto",
+    navigation: true,
+    mousewheel: true,
+    keyboard: true,
+    loop: true,
+
+    breakpoints:  {
+        480: {
+            slidesPerView: 1,
+        },
+        640: {
+            slidesPerView: 2,
+        }
+    }
+};
 
 @NgModule({
-imports: [
+  imports: [
     RouterModule,
     CommonModule, // to use instead of BrowserModule if you are using lazyloaded module
     FormsModule,
@@ -114,12 +138,13 @@ imports: [
     MatGridListModule,
     CountoModule,
     NgSelectModule,
+    SwiperModule,
     RecaptchaModule.forRoot({
-        siteKey: '6LdJjIAUAAAAAFHrAB20mjuVhwRsLhTgfq4ioeaO',
+      siteKey: '6LdJjIAUAAAAAFHrAB20mjuVhwRsLhTgfq4ioeaO',
     }),
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
-    ],
-declarations: [
+  ],
+  declarations: [
     // Shared Components
     LoginComponent,
     DashboardComponent,
@@ -163,8 +188,8 @@ declarations: [
     PlaceholderTitleComponent,
     UpdateBeneficiaryComponent,
     ImportedDataComponent,
-],
-entryComponents: [
+  ],
+  entryComponents: [
     ModalComponent,
     ModalDeleteComponent,
     ModalUpdateComponent,
@@ -174,9 +199,9 @@ entryComponents: [
     ModalAddLineComponent,
     ModalLeaveComponent,
     ModalRequestsComponent,
-],
-exports: [
-// Shared Components
+  ],
+  exports: [
+    // Shared Components
     LoginComponent,
     DashboardComponent,
     BeneficiariesComponent,
@@ -250,9 +275,10 @@ exports: [
     PlaceholderPanelComponent,
     PlaceholderStepperComponent,
     PlaceholderTitleComponent,
-],
-providers: [
-{ provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }
-]
+  ],
+  providers: [
+    { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },
+    // { provide: SWIPER_CONFIG, useValue: DEFAULT_SWIPER_CONFIG },
+  ]
 })
 export class SharedModule { }

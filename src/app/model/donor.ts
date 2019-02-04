@@ -34,6 +34,8 @@ export class Donor {
     */
     projects_name: string[] = [];
 
+    buttonInfo: Object = {icon: "settings/donors", title: GlobalText.TEXTS.settings_donors, ref:"donors"};
+    
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;

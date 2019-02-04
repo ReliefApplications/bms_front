@@ -27,6 +27,8 @@ export class FinancialProvider {
      */
     salted_password: string = '';
 
+    buttonInfo: Object = {icon: "settings/api", title: GlobalText.TEXTS.settings_financial_provider, ref:"financialProvider"};
+
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;

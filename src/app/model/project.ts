@@ -66,6 +66,9 @@ export class Project {
      */
     notes: string;
 
+    buttonInfo: Object = {icon: "settings/api", title: GlobalText.TEXTS.projects, ref:"projects"};
+    
+
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;

@@ -58,6 +58,8 @@ export class User {
    */
   language: string = '';
 
+  buttonInfo: Object = {icon: "settings/users", title: GlobalText.TEXTS.settings_users, ref:"users"};
+
 
 
   constructor(instance?) {

@@ -27,25 +27,6 @@ import { FinancialProvider } from 'src/app/model/financial-provider';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 
-const config: SwiperConfigInterface = {
-    a11y: true,
-    direction: 'horizontal',
-    slidesPerView: "auto",
-    navigation: true,
-    mousewheel: true,
-    keyboard: true,
-    loop: true,
-    slidesPerView: 4,
-
-    breakpoints:  {
-        480: {
-            slidesPerView: 1,
-        },
-        640: {
-            slidesPerView: 2,
-        }
-    }
-};
 
 
 
@@ -55,8 +36,6 @@ const config: SwiperConfigInterface = {
     styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-
-    config: SwiperConfigInterface = config;
 
     public nameComponent = 'settings';
     public settings = GlobalText.TEXTS;
@@ -88,20 +67,33 @@ export class SettingsComponent implements OnInit {
     public deletable: boolean = true;
 
     public enabledSettings = [
-        User,
-        CountrySpecific,
-        Donor,
-        Project,
-        FinancialProvider
+        new User,
+        new CountrySpecific,
+        new Donor,
+        new Project,
+        new FinancialProvider,
     ];
-    // TODO: move into every setting later
-    public settingItemInfos = [
-        {icon: "settings/users",            title: this.settings.settings_users,                    ref:"users"},
-        {icon: "settings/country_specific", title: this.settings.settings_country_specific_options, ref:"country specific options"},
-        {icon: "settings/donors",           title: this.settings.settings_donors,                   ref:"donors"},
-        {icon: "settings/api",              title: this.settings.projects,                          ref:"projects"},
-        {icon: "settings/api",              title: this.settings.settings_financial_provider,       ref:"financialProvider"},
-    ];
+
+    public config: SwiperConfigInterface = {
+        a11y: true,
+        direction: 'horizontal',
+        slidesPerView: "auto",
+        navigation: true,
+        mousewheel: true,
+        keyboard: true,
+        loop: true,
+        slidesPerView: 4,
+        loopedSlides: this.enabledSettings.length,
+
+        breakpoints:  {
+            480: {
+                slidesPerView: 1,
+            },
+            640: {
+                slidesPerView: 2,
+            }
+        },
+    };
 
     constructor(
         public dialog: MatDialog,

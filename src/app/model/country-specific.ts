@@ -29,6 +29,8 @@ export class CountrySpecific {
     countryIso3: string = '';
     field_string: any;
 
+    buttonInfo: Object = {icon: "settings/country_specific", title: GlobalText.TEXTS.settings_country_specific_options, ref:"country specific options"};
+
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;

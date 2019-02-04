@@ -4,14 +4,14 @@
   </div>
   
   <swiper [config]="config" class="swiper-container container-boxes">
-    <app-box-setting class="swiper-slide" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/users", title:settings.settings_users, ref:"users"}'></app-box-setting>
+    <!-- <app-box-setting class="swiper-slide" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/users", title:settings.settings_users, ref:"users"}'></app-box-setting>
     <app-box-setting class="swiper-slide" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/country_specific", title:settings.settings_country_specific_options, ref:"country specific options"}'></app-box-setting>
     <app-box-setting class="swiper-slide" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/donors", title:settings.settings_donors, ref:"donors"}'></app-box-setting>
     <app-box-setting class="swiper-slide" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", title:settings.projects, ref:"projects"}'></app-box-setting>
-    <app-box-setting class="swiper-slide" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", title:settings.settings_financial_provider, ref:"financialProvider"}'></app-box-setting>
+    <app-box-setting class="swiper-slide" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", title:settings.settings_financial_provider, ref:"financialProvider"}'></app-box-setting> -->
 
 
-    <!-- <app-box-setting class="swiper-slide" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "green", title:settings.settings_financial_provider, ref:"financialProvider"}'></app-box-setting> -->
+    <app-box-setting *ngFor="let settingItemInfo of settingItemInfos" class="swiper-slide" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]="settingItemInfo"></app-box-setting>
   </swiper>
 
 

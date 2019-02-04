@@ -58,6 +58,8 @@ export class User {
    */
   language: string = '';
 
+
+
   constructor(instance?) {
     if (instance !== undefined) {
       this.id = instance.id;

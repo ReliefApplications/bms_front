@@ -101,8 +101,6 @@ export class SettingsComponent implements OnInit {
         {icon: "settings/donors",           title: this.settings.settings_donors,                   ref:"donors"},
         {icon: "settings/api",              title: this.settings.projects,                          ref:"projects"},
         {icon: "settings/api",              title: this.settings.settings_financial_provider,       ref:"financialProvider"},
-
-        {icon: "", title:"", selectedOnLoad: true, }
     ];
 
     constructor(

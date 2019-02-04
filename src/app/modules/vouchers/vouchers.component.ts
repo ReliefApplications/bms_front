@@ -106,8 +106,6 @@ export class VouchersComponent implements OnInit {
   }
 
   getBooklets() {
-    console.log("test7");
-
     this.bookletService.get().pipe(
       finalize(
         () => {
@@ -200,17 +198,12 @@ export class VouchersComponent implements OnInit {
         }
 
         const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
-          console.log("test", data);
           this.createElement(data);
-          console.log("test4");
         });
 
-        console.log("test2");
         dialogRef.afterClosed().subscribe((test) => {
-          console.log("test3", test);
           create.unsubscribe();
         });
-        console.log("test20");
 
       }
       else {
@@ -287,10 +280,8 @@ export class VouchersComponent implements OnInit {
 
   createElement(createElement: Object) {
     createElement = this.bookletClass.formatForApi(createElement);
-    console.log("test5");
     this.bookletService.create(createElement).subscribe(
       () => {
-        console.log("test6");
         this.getBooklets();
       });
   }

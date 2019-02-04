@@ -67,9 +67,7 @@ export class ModalComponent implements OnInit {
     }
 
     public closeDialog(): void {
-        console.log("test10");
-        // this.dialogRef.close(true);
-        console.log("test11")
+        this.dialogRef.close(true);
     }
 
     /**

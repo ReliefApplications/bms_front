@@ -119,7 +119,10 @@ export class Booklet {
     }
 
     public static formatElement(instance: any): Booklet {
-        return new Booklet(instance);
+        let booklet = new Booklet(instance);
+
+        booklet.individual_value = instance.vouchers[0].value;
+        return booklet;
     }
 
     public static formatForApi(instance: any) {

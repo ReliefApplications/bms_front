@@ -135,6 +135,7 @@ export class Booklet {
         }
 
         return {
+            id: selfinstance.id,
             code: selfinstance.code,
             number_vouchers: selfinstance.number_vouchers,
             individual_value: selfinstance.individual_value,

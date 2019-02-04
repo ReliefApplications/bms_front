@@ -21,8 +21,13 @@ export class BookletService {
         return this.http.get(url);
     }
 
-    public create(body) {
+    public create(body: any) {
         let url = this.api + "/booklet";
         return this.http.put(url, body);
+    }
+
+    public update(id: number, body: any) {
+        let url = this.api + "/booklets/" + id;
+        return this.http.post(url, body);
     }
 }

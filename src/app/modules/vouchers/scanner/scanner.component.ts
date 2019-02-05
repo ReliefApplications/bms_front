@@ -37,6 +37,7 @@ export class ScannerComponent extends VouchersComponent {
   }
 
   handleQrCodeResult(resultString: string) {
+    console.log("result", resultString);
     this.scanner.scannerEnabled = false;
     this.result.emit(resultString);
   }

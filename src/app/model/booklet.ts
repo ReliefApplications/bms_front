@@ -141,7 +141,7 @@ export class Booklet {
             individual_value: selfinstance.individual_value,
             currency: selfinstance.currency,
             status: selfinstance.status,
-            password: selfinstance.password,
+            distribution_beneficiary: selfinstance.distribution_beneficiary.id,
         };
     }
 
@@ -187,14 +187,21 @@ export class Booklet {
             return selfinstance;
         }
 
+        let distribution_beneficiary;
+        if (selfinstance.distribution_beneficiary) {
+            distribution_beneficiary = selfinstance.distribution_beneficiary.id;
+        }
+        else {
+            distribution_beneficiary = selfinstance.distribution_beneficiary;
+        }
+
         return {
             code: selfinstance.code,
             number_vouchers: selfinstance.number_vouchers,
             individual_value: selfinstance.individual_value,
             currency: selfinstance.currency,
             status: selfinstance.status,
-            password: selfinstance.password,
-            distribution_beneficiary: selfinstance.distribution_beneficiary,
+            distribution_beneficiary: distribution_beneficiary,
         };
     }
 

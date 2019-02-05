@@ -17,17 +17,32 @@ export class BookletService {
     }
 
     public get() {
-        let url = this.api + "/booklets";
+        const url = this.api + "/booklets";
         return this.http.get(url);
     }
 
     public create(body: any) {
-        let url = this.api + "/booklet";
+        const url = this.api + "/booklet";
         return this.http.put(url, body);
     }
 
     public update(id: number, body: any) {
-        let url = this.api + "/booklets/" + id;
+        const url = this.api + "/booklets/" + id;
+        return this.http.post(url, body);
+    }
+
+    public delete(id: number) {
+        const url = this.api + "/booklets/" + id;
+        return this.http.delete(url);
+    }
+
+    public setPassword(body: any) {
+        const url = this.api + "/booklets/password/";
+        return this.http.post(url, body);
+    }
+
+    public assignBenef(body: any, idBeneficiary: number) {
+        const url = this.api + "/booklets/assign/" + idBeneficiary;
         return this.http.post(url, body);
     }
 }

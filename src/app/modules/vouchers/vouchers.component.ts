@@ -35,6 +35,8 @@ export class VouchersComponent implements OnInit {
   public loadingAssign: boolean = false;
   public loadingBooklet: boolean = true;
   public loadingExport: boolean = false;
+  public loadingPassword: boolean = false;
+  public loadingAssignation: boolean = false;
   public load: boolean = false;
 
   public bookletClass = Booklet;
@@ -71,7 +73,7 @@ export class VouchersComponent implements OnInit {
   public step4: boolean = false;
   public step5: boolean = false;
 
-  public bookletQRCode: string = "code-for-booklet-1";
+  public bookletQRCode: string = "VC7PZ#003-003-003";
   public code: string = '';
   public displayPassword: boolean = false;
 
@@ -247,7 +249,7 @@ export class VouchersComponent implements OnInit {
         this.step2 = true;
       }
     }
-    //Step 3 passed when we scan the QRCode
+    // Step 3 passed when we scan the QRCode
     else if (step == 4) {
       this.step3 = false;
       this.step4 = true;
@@ -257,11 +259,35 @@ export class VouchersComponent implements OnInit {
         this.snackBar.open(this.voucher.voucher_only_digits, '', { duration: 5000, horizontalPosition: 'center' });
       }
       else {
-        if (!this.displayPassword)
-          this.code = '';
+        this.loadingPassword = true;
 
-        this.step4 = false;
-        this.step5 = true;
+        if (!this.displayPassword) {
+          this.code = null;
+        }
+        // TODO remove this next line
+        this.bookletQRCode = "VC7PZ#003-003-003";
+
+        const body = {
+          code: this.code,
+          booklet: this.bookletQRCode
+        };
+
+        this.bookletService.setPassword(body)
+          .pipe(
+            finalize(
+              () => this.loadingPassword = false
+            )
+          )
+          .subscribe(
+            () => {
+              this.snackBar.open(this.voucher.voucher_password_changed, '', { duration: 5000, horizontalPosition: 'center' });
+              this.step4 = false;
+              this.step5 = true;
+            },
+            err => {
+              this.snackBar.open(err.error, '', { duration: 5000, horizontalPosition: "center" });
+            }
+          )
       }
     }
   }
@@ -274,8 +300,26 @@ export class VouchersComponent implements OnInit {
   }
 
   assignBooklet() {
-    //TODO Assign booklet to specified benef
-    this.exit(this.voucher.voucher_confirm + ' ' + this.beneficiaryName);
+    this.loadingAssignation = true;
+    const body = {
+      booklet: this.bookletQRCode
+    }
+
+    this.bookletService.assignBenef(body, this.storeChoice.beneficiary)
+      .pipe(
+        finalize(
+          () => this.loadingAssignation = false
+        )
+      )
+      .subscribe(
+        () => {
+          this.snackBar.open(this.voucher.voucher_assigned_success + this.beneficiaryName, '', { duration: 5000, horizontalPosition: "center" });
+          this.exit(this.voucher.voucher_confirm + ' ' + this.beneficiaryName);
+        },
+        err => {
+          this.snackBar.open(err.error, '', { duration: 5000, horizontalPosition: "center" });
+        }
+      )
   }
 
   createElement(createElement: Object) {

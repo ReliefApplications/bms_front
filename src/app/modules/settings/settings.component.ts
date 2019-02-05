@@ -25,7 +25,6 @@ import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { FinancialProvider } from 'src/app/model/financial-provider';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
-import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 
 
 
@@ -74,26 +73,7 @@ export class SettingsComponent implements OnInit {
         new FinancialProvider,
     ];
 
-    public config: SwiperConfigInterface = {
-        a11y: true,
-        direction: 'horizontal',
-        slidesPerView: "auto",
-        navigation: true,
-        mousewheel: true,
-        keyboard: true,
-        loop: true,
-        slidesPerView: 4,
-        loopedSlides: this.enabledSettings.length,
 
-        breakpoints:  {
-            480: {
-                slidesPerView: 1,
-            },
-            640: {
-                slidesPerView: 2,
-            }
-        },
-    };
 
     constructor(
         public dialog: MatDialog,
@@ -113,7 +93,6 @@ export class SettingsComponent implements OnInit {
 
     ngOnInit() {
         this.checkSize();
-        this.selectTitle('users');
         this.extensionType = 'xls';
     }
 
@@ -137,7 +116,8 @@ export class SettingsComponent implements OnInit {
         this.widthScreen = window.innerWidth;
     }
 
-    selectTitle(title): void {
+    selectTitle(title: string): void {
+        console.log(title);
         this.getData(title);
         this.isBoxClicked = true;
         this.selectedTitle = title;

@@ -2,13 +2,11 @@
   <div class="container-title">
     <h2>{{settings.settings | titlecase}}</h2>
   </div>
-  
-  <swiper [config]="config" class="swiper-container container-boxes">
-    <app-box-setting 
-      *ngFor="let setting of enabledSettings" class="swiper-slide" 
-      (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]="setting.buttonInfo">
-    </app-box-setting>
-  </swiper>
+
+  <app-carousel 
+    [slides]="enabledSettings"
+    (slideSelected)="selectTitle($event)"
+  ></app-carousel>
 
 
   <app-placeholder-panel class="container-table" *ngIf="loadingData"></app-placeholder-panel>

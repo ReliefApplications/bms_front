@@ -27,7 +27,12 @@ export class FinancialProvider {
      */
     salted_password: string = '';
 
-    buttonInfo: Object = {icon: "settings/api", title: GlobalText.TEXTS.settings_financial_provider, ref:"financialProvider"};
+    slideInfo: Object = {
+        icon: "settings/api",
+        title: GlobalText.TEXTS.settings_financial_provider,
+        ref:"financialProvider",
+        selected: false,
+    };
 
     constructor(instance?) {
         if (instance !== undefined) {

@@ -58,7 +58,12 @@ export class User {
    */
   language: string = '';
 
-  buttonInfo: Object = {icon: "settings/users", title: GlobalText.TEXTS.settings_users, ref:"users"};
+  slideInfo: Object = {
+    icon: "settings/users",
+    title: GlobalText.TEXTS.settings_users,
+    ref: "users",
+    selected: true,
+  };
 
 
 

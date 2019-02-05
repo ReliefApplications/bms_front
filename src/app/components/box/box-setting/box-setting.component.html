@@ -1,7 +1,7 @@
 <div class="box-content">
-  <button (click)="emitTitle(info.ref)" style="text-decoration: none;" [class.selected]="info.ref == selectedTitle" >
+  <button style="text-decoration: none;" [class.selected]="this.isSelected" >
     <div class="box-content-content">
-      <div class="content-icon" [class.box-green]="info.color == 'green' && info.ref == selectedTitle" [class.box-red]="info.color == 'red' && info.ref == selectedTitle">
+      <div class="content-icon">
             <img src="assets/images/{{info.icon}}.png">
       </div>
       <div class="content-info">

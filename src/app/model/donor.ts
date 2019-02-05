@@ -34,7 +34,12 @@ export class Donor {
     */
     projects_name: string[] = [];
 
-    buttonInfo: Object = {icon: "settings/donors", title: GlobalText.TEXTS.settings_donors, ref:"donors"};
+    slideInfo: Object = {
+        icon: "settings/donors", 
+        title: GlobalText.TEXTS.settings_donors, 
+        ref:"donors",
+        selected: false,
+    };
     
     constructor(instance?) {
         if (instance !== undefined) {

@@ -75,6 +75,7 @@ import { RecaptchaModule } from 'angular-google-recaptcha';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
+import { CarouselComponent } from '../components/carousel/carousel.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     a11y: true,
@@ -188,6 +189,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     PlaceholderTitleComponent,
     UpdateBeneficiaryComponent,
     ImportedDataComponent,
+    CarouselComponent,
+    SlideComponent,
   ],
   entryComponents: [
     ModalComponent,
@@ -275,6 +278,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     PlaceholderPanelComponent,
     PlaceholderStepperComponent,
     PlaceholderTitleComponent,
+    CarouselComponent,
+    SlideComponent,
   ],
   providers: [
     { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },

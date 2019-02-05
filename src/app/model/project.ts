@@ -66,7 +66,12 @@ export class Project {
      */
     notes: string;
 
-    buttonInfo: Object = {icon: "settings/api", title: GlobalText.TEXTS.projects, ref:"projects"};
+    slideInfo: Object = {
+        icon: "settings/api", 
+        title: GlobalText.TEXTS.projects, 
+        ref:"projects",
+        selected: false,
+    };
     
 
     constructor(instance?) {

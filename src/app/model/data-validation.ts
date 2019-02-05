@@ -79,7 +79,7 @@ export class FormatDataNewOld {
 
     /**
      * Used to format and type old and new data household
-     * @param element any 
+     * @param element any
      * @param step number
      * @return FormatDataNewOld
      */
@@ -87,8 +87,7 @@ export class FormatDataNewOld {
         let data = new FormatDataNewOld();
         data.new.households = element.new;
         data.old.households = element.old;
-        data.id_tmp_cache = element.id_tmp_cache; 
-        
+        data.id_tmp_cache = element.id_tmp_cache;
         //if step 2 (duplicates) format is different of other steps
         if (step === 2) {
             let oldBeneficiary;
@@ -99,7 +98,7 @@ export class FormatDataNewOld {
                 if (beneficiary.status) {
                     data.old.isHead = true;
                 }
-                oldBeneficiary = element.old.id + beneficiary.family_name + beneficiary.given_name; 
+                oldBeneficiary = element.old.id + beneficiary.family_name + beneficiary.given_name;
             });
             element.new.beneficiaries.forEach(beneficiary => {
                 newBeneficiary = beneficiary.family_name + beneficiary.given_name;
@@ -107,7 +106,6 @@ export class FormatDataNewOld {
 
             //concat oldBeneficiary and newBeneficiary created earlier to get an unique identifiant for every beneficiary
             data.id_tmp_beneficiary = oldBeneficiary + "/" + newBeneficiary;
-
         } else {
             //for the step 1, 3, 4
 
@@ -150,18 +148,18 @@ export class VerifiedData {
      */
     state?: boolean = false;
     /**
-     * old household's id 
+     * old household's id
      * @type {number}
      */
     id_old: number;
     /**
      * index create by the ngFor in html
-     * Link the data to find them more easily 
+     * Link the data to find them more easily
      * @type {number}
      */
     index?: number;
     /**
-     * object containing given_name and family_name of beneficiary to remove in case of duplicate 
+     * object containing given_name and family_name of beneficiary to remove in case of duplicate
      * @type {any}
      */
     to_delete?: any;
@@ -201,15 +199,15 @@ export class FormatDuplicatesData {
      * @type {Array}
      */
     data: Array<any> = [];
-    /**
-     * new_household to return to back without modification
-     * @type {Households}
-     */
+    // /**
+    //  * new_household to return to back without modification
+    //  * @type {Households}
+    //  */
     new_household: Households = new Households;
-    /**
-     * id uses by the back
-     * @type {number}
-     */
+    // /**
+    //  * id uses by the back
+    //  * @type {number}
+    //  */
     id_tmp_cache?: number;
 
 
@@ -236,14 +234,14 @@ export class FormatDuplicatesData {
         instance.data.forEach(data => {
             let duplicates = new FormatDuplicatesData;
             duplicates.data = [];
-            duplicates.new_household = data.new_household;
-            if (data.id_tmp_cache) {
-                duplicates.id_tmp_cache = data.id_tmp_cache
-            }
+            // duplicates.new_household = data.new_household;
+            // if (data.id_tmp_cache) {
+            //     duplicates.id_tmp_cache = data.id_tmp_cache
+            // }
+            duplicates.data.push(FormatDataNewOld.formatDataOldNew(data, step));
 
-            data.data.forEach(element => {
-                duplicates.data.push(FormatDataNewOld.formatDataOldNew(element, step));
-            });
+            // data.data.forEach(element => {
+            // });
 
             formatDuplicates.push(duplicates);
         });
@@ -272,7 +270,7 @@ export class FormatMore {
      * @type {number}
      */
     id_tmp_cache?: number;
-    
+
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -314,4 +312,3 @@ export class FormatLess {
     }
 
 }
-

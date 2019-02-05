@@ -35,12 +35,18 @@ $box-content: 80px;
         padding:15px;
 
         .info-title{
+            &.arabic{
+                text-align:right;
+            }
             font-size : 1.5vh;
             margin: 0 !important;
             text-align:left;
         }
 
         .info-subtitle{
+            &.arabic{
+                text-align:right;
+            }
             font-weight: bold;
             font-size : 2.5vh;
             margin: 0 !important;

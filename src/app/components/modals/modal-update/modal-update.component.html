@@ -1,55 +1,68 @@
 <mat-dialog-content class="modal-container">
-  <h4 class="modal-title underline-accent stickyHeader">{{modal.update}}</h4>
-  <table class="modal-table">
+  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}" >{{modal.update}}</h4>
+  <table class="modal-table" [ngClass]="{'arabic': language==='ar'}">
     <tr *ngFor="let p of properties" class="modal-row">
       <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
       <th class="table-value">
         <form class="form" [formGroup]="form">
-          <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects'" class="full-width">
+          <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p]!='selectSingle'" class="full-width">
             <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p] != 'selectDonor' && propertiesTypes[p] != 'date' && propertiesTypes[p]!='selectSingle'  && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry' && propertiesTypes[p] != 'selectCountry'"
               [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries' || p=='name' || p=='code' || p=='number_vouchers' || p=='status')"
               [type]="propertiesTypes[p]">
 
-            <mat-select *ngIf="propertiesTypes[p]=='selectSingle' && p != 'rights'" [(ngModel)]="updateObject[p]"
-              placeholder="{{data.mapper.mapTitle(p)}}" [formControl]="controls">
-              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
-            </mat-select>
 
-            <mat-select *ngIf="propertiesTypes[p]=='selectSingle' && p == 'rights'" [(ngModel)]="updateObject[p]"
-              placeholder="{{data.mapper.mapTitle(p)}}" [formControl]="controls" (selectionChange)="selected($event, newObject)">
-              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</mat-option>
-            </mat-select>
+          <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
+          matInput [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
+          placeholder="{{data.mapper.mapTitle(p)}}">
+          <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'  || propertiesTypes[p]=='date'"></mat-datepicker-toggle>
+          <mat-datepicker #dateDistribution></mat-datepicker>
+        </mat-form-field>
 
-            <mat-select *ngIf="propertiesTypes[p]=='selectCountry' && updateObject['rights'] == 'ROLE_COUNTRY_MANAGER'"
-              [(ngModel)]="updateObject[p]" placeholder="Countries" formControlName="countryControl">
-              <mat-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.name}}</mat-option>
-            </mat-select>
+        <ng-select *ngIf="propertiesTypes[p]=='selectSingle' && p != 'rights'"
+            class="single-select" [(ngModel)]="updateObject[p]" [multiple]="false" placeholder="{{data.mapper.mapTitle(p)}}"
+            [closeOnSelect]="true" [searchable]="true" [ngModelOptions]="{standalone: true}">
+            <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string}}{{singleData.name}}</ng-option>
+        </ng-select>
 
-            <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
-              matInput [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
-              placeholder="{{data.mapper.mapTitle(p)}}">
-            <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date'  || propertiesTypes[p]=='date'"></mat-datepicker-toggle>
-            <mat-datepicker #dateDistribution></mat-datepicker>
-          </mat-form-field>
+        <ng-select *ngIf="propertiesTypes[p]=='selectSingle' && p == 'rights'" [(ngModel)]="updateObject[p]"
+              class="single-select" [multiple]="false" placeholder="{{data.mapper.mapTitle(p) | titlecase}}" [closeOnSelect]="true"
+              [searchable]="true" [ngModelOptions]="{standalone: true}"
+              (change)="selected(updateObject[p])">
+              <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string | titlecase}}{{singleData.name | titlecase}}</ng-option>
+        </ng-select>
 
-          <ng-select *ngIf="propertiesTypes[p]=='select'" class="custom" [(ngModel)]="updateObject[p]" bindLabel="name"
+          <ng-select *ngIf="propertiesTypes[p]=='select'" class="multiple-select" [(ngModel)]="updateObject[p]" bindLabel="name"
             [items]="loadedData[p]" [multiple]="true" placeholder="{{data.mapper.mapTitle(p)}}" [closeOnSelect]="false"
             [searchable]="true" [ngModelOptions]="{standalone: true}">
           </ng-select>
 
-          <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="custom" [(ngModel)]="updateObject[p]" bindLabel="shortname"
+          <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="multiple-select" [(ngModel)]="updateObject[p]" bindLabel="shortname"
             [items]="loadedData[p]" [multiple]="true" placeholder="{{data.mapper.mapTitle(p)}}" [closeOnSelect]="false"
             [searchable]="true" [ngModelOptions]="{standalone: true}">
           </ng-select>
-
-          <ng-select *ngIf="propertiesTypes[p]=='selectProjects'" class="custom" [(ngModel)]="updateObject['rights'] === 'ROLE_ADMIN' ? '' : updateObject[p]"
-            bindLabel="name" [items]="loadedData[p]" [multiple]="true" placeholder="Projects" [closeOnSelect]="false"
-            [searchable]="true" [ngModelOptions]="{standalone: true}" [disabled]="updateObject['rights'] === 'ROLE_ADMIN' ? true : false">
+          
+          <ng-select *ngIf="propertiesTypes[p]=='selectProjects'"
+              [ngClass]="{'multiple-select': updateObject['rights'] == 'ROLE_PROJECT_MANAGER', 'single-select': updateObject['rights'] == 'ROLE_PROJECT_OFFICER' || updateObject['rights'] == 'ROLE_FIELD_OFFICER'}"
+              [(ngModel)]="updateObject[p]"
+              bindLabel="name"
+              [items]="loadedData[p]"
+              [multiple]="updateObject['rights'] == 'ROLE_PROJECT_MANAGER'"
+              placeholder="{{data.mapper.mapTitle(p)}}"
+              [closeOnSelect]="updateObject['rights'] != 'ROLE_PROJECT_MANAGER'"
+              [searchable]="true"
+              formControlName="projectsControl">
           </ng-select>
 
-          <ng-select *ngIf="propertiesTypes[p]=='selectCountry' && updateObject['rights'] !== 'ROLE_COUNTRY_MANAGER'"
-            class="custom" [(ngModel)]="updateObject['rights'] === 'ROLE_ADMIN' ? '' : updateObject[p]" bindLabel="id" [items]="loadedData[p]" [multiple]="true"
-            placeholder="Countries" [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}" [disabled]="updateObject['rights'] === 'ROLE_ADMIN' ? true : false">
+          <ng-select *ngIf="propertiesTypes[p]=='selectCountry'"
+              [ngClass]="{'multiple-select': updateObject['rights'] == 'ROLE_REGIONAL_MANAGER', 'single-select': updateObject['rights'] == 'ROLE_COUNTRY_MANAGER'}"
+              [(ngModel)]="updateObject[p]"
+              bindLabel="id"
+              [items]="loadedData[p]"
+              [multiple]="updateObject['rights'] == 'ROLE_REGIONAL_MANAGER'"
+              placeholder="{{data.mapper.mapTitle(p)}}"
+              [closeOnSelect]="updateObject['rights'] != 'ROLE_REGIONAL_MANAGER'"
+              [searchable]="true"
+              formControlName="countryControl">
           </ng-select>
 
           <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">

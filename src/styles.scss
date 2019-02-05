@@ -64,28 +64,6 @@ body {
   justify-content: center;
 }
 
-@media only screen and (min-width: 750px) {
-  .cdk-global-overlay-wrapper > .cdk-overlay-pane {
-    width: 63vw !important;
-    max-width: 63vw !important;
-    display: flex;
-    justify-content: center;
-
-
-    #modal-voucher {
-      width: 70%;
-
-      .modal-body {
-        width: 100%;
-
-        tbody {
-            width: 100%;
-        }
-      }
-    }
-  }
-}
-
 @media only screen and (max-width: 750px) {
   .mat-stepper-horizontal {
     width: 100%;
@@ -109,3 +87,4 @@ body {
     white-space: normal !important;
   }
 }
+

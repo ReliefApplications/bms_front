@@ -7,27 +7,28 @@ import { count } from '@swimlane/ngx-charts';
 import { Project } from '../../../model/project';
 
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
-import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
+import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
+import { format } from 'url';
 
 @Component({
     selector: 'app-modal-add',
     templateUrl: './modal-add.component.html',
     styleUrls: ['../modal.component.scss', './modal-add.component.scss'],
     providers: [
-      { provide: DateAdapter, useClass: CustomDateAdapter },
-      { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
 export class ModalAddComponent extends ModalComponent {
     public entityDisplayedName = '';
     public oldEntity = '';
     mapperObject = null;
-    modal=GlobalText.TEXTS;
+    modal = GlobalText.TEXTS;
 
     display = false;
     oldSelectedModality = 0;
     displayAdd: boolean = false;
-    maxLength:number=35;
+    maxLength: number = 35;
 
     @Input() data: any;
     @Output() onCreate = new EventEmitter();
@@ -84,8 +85,8 @@ export class ModalAddComponent extends ModalComponent {
                 (element) => {
                     setTimeout(() => {
                         if (element == 'modality')
-                           this.newObject[element] = 1;
-                           this.selected('', this.newObject);
+                            this.newObject[element] = 1;
+                        this.selected(this.newObject);
                     }, 0);
 
                     if (element === 'unit') {
@@ -96,48 +97,43 @@ export class ModalAddComponent extends ModalComponent {
         }
     }
 
-    selected(event, newObject) {
-        if (newObject.modality) {
-            if (newObject.modality !== this.oldSelectedModality) {
-                this.getModalityType(newObject.modality);
-                this.oldSelectedModality = newObject.modality;
+    selected(newObject) {
+        if (newObject) {
+            if (typeof newObject === 'number' || newObject.modality) {
+                if (this.newObject.modality !== this.oldSelectedModality) {
+                    this.getModalityType(this.newObject.modality);
+                    this.oldSelectedModality = this.newObject.modality;
+                }
+            }
+            else if (newObject == "ROLE_PROJECT_MANAGER" || newObject == "ROLE_PROJECT_OFFICER" || newObject == "ROLE_FIELD_OFFICER") {
+                this.newObject['country'] = [];
+                this.newObject['projects'] = [];
+
+                this.form.controls['projectsControl'].enable();
+                this.form.controls['countryControl'].disable();
+            }
+            else if (newObject == "ROLE_COUNTRY_MANAGER" || newObject == "ROLE_REGIONAL_MANAGER") {
+                this.newObject['country'] = [];
+                this.newObject['projects'] = [];
+
+                this.form.controls['countryControl'].enable();
+                this.form.controls['projectsControl'].disable();
+            }
+            else {
+                this.newObject['country'] = [];
+                this.newObject['projects'] = [];
+
+                this.form.controls['projectsControl'].disable();
+                this.form.controls['countryControl'].disable();
             }
         }
-        else if (event.value == "ROLE_PROJECT_MANAGER" || event.value == "ROLE_PROJECT_OFFICER" || event.value == "ROLE_FIELD_OFFICER") {
-            this.newObject['country'] = [];
-            this.newObject['projects'] = [];
-
-            this.form.controls['projectsControl'].enable();
-            this.form.controls['countryControl'].disable();
-        }
-        else if(event.value == "ROLE_COUNTRY_MANAGER" || event.value == "ROLE_REGIONAL_MANAGER") {
-            this.newObject['country'] = [];
-            this.newObject['projects'] = [];
-
-            this.form.controls['countryControl'].enable();
-            this.form.controls['projectsControl'].disable();
-        }
-        else {
-            this.newObject['country'] = [];
-            this.newObject['projects'] = [];
-
-            this.form.controls['projectsControl'].disable();
-            this.form.controls['countryControl'].disable();
-        }
-
-        if(event.value == "ROLE_ADMIN") {
-            this.user.getAllCountries().forEach(
-                element => {
-                    this.newObject['country'].push(element.id);
-                }
-            )
-        }
-
     }
 
     getModalityType(modality) {
         this.modalitiesService.getModalitiesType(modality).subscribe(response => {
             this.loadedData.type = response;
+            this.newObject.type = response[0].id;
+
             for (let i = 0; i < this.loadedData.type.length; i++) {
                 if (this.loadedData.type[i].name === 'Mobile') {
                     this.loadedData.type[i].name = 'Mobile Money';
@@ -211,13 +207,12 @@ export class ModalAddComponent extends ModalComponent {
         }
         //Check fields for Projects settings
         else if ((this.newObject.donors && this.newObject.donors_name && this.newObject.name && this.newObject.sectors && this.newObject.sectors_name) || this.newObject.name == '' || (this.newObject.sectors_name && Object.keys(this.newObject.sectors_name).length == 0) || (this.newObject.sectors && Object.keys(this.newObject.sectors).length == 0)) {
-
             if (!this.newObject.end_date || !this.newObject.name || !this.newObject.start_date || !this.newObject.value || this.newObject.value < 0) {
                 this.snackBar.open(this.modal.modal_add_check_fields_budget, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }
 
-            if (new Date(this.newObject.start_date).getDate()+ new Date(this.newObject.start_date).getMonth() + new Date(this.newObject.start_date).getMonth() + new Date(this.newObject.start_date).getFullYear() > new Date(this.newObject.end_date).getDate()+ new Date(this.newObject.end_date).getMonth() + new Date(this.newObject.end_date).getMonth() + new Date(this.newObject.start_date).getFullYear()) {
+            if (new Date(this.newObject.start_date) > new Date(this.newObject.end_date)) {
                 this.snackBar.open(this.modal.modal_check_date, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }

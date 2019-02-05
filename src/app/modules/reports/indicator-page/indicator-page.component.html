@@ -23,7 +23,10 @@
 
                 <div class="frequency">
                     <mat-spinner *ngIf="isDownloading" [diameter]="35"></mat-spinner>
-                    <button *ngIf="!isDownloading" mat-raised-button class="button-background-primary" (click)="downloadPDF()"><mat-icon>get_app</mat-icon></button>
+                    <button *ngIf="!isDownloading" mat-raised-button class="button-background-primary" (click)="downloadPDF()">
+                        <mat-icon>get_app</mat-icon>
+                        <span>{{indicator.export | titlecase}}</span>
+                    </button>
                 </div>
             </div>
 
@@ -50,7 +53,7 @@
             <!-- selector for project when we click on button "project report" -->
             <div class="content-select" *ngIf="type == 'Project'">
                 <mat-card>
-                    <ng-select class="custom" [(ngModel)]="selectedBeneficiaries" bindLabel="name" [items]="projectList"
+                    <ng-select class="multiple-select" [(ngModel)]="selectedBeneficiaries" bindLabel="name" [items]="projectList"
                         [multiple]="true" placeholder="{{indicator.projects}}" [closeOnSelect]="false" [searchable]="true"
                         [ngModelOptions]="{standalone: true}" (change)="getProjectSelected($event)" required>
                     </ng-select>
@@ -60,13 +63,12 @@
             <!-- selector for distribution and project when we click on button "distribution report" -->
             <div class="content-select" *ngIf="type == 'Distribution'">
                 <mat-card>
-                    <mat-form-field>
-                        <mat-select placeholder="Projects" (selectionChange)="getProjectSelected($event)">
-                            <mat-option *ngFor="let project of projectList" [value]="project">{{project}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
 
-                    <ng-select class="custom" *ngIf="type == 'Distribution'" bindLabel="name" [items]="distributionList"
+                    <ng-select class="project-report-bar single-select"  placeholder="Projects" [items]=projectList [bindLabel]=project [bindValue]=project
+                    (change)="getProjectSelected($event)">
+                    </ng-select>
+
+                    <ng-select class="multiple-select" *ngIf="type == 'Distribution'" bindLabel="name" [items]="distributionList"
                         [multiple]="true" placeholder="{{indicator.distributions}}" [closeOnSelect]="false"
                         [searchable]="true" (change)="getDistributionSelected($event)" #selectorDistribution
                         required>

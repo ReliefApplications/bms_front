@@ -122,7 +122,7 @@ app-table-dashboard {
                     align-items: center;
                     justify-content: space-around;
                     font-size : 1.4vh !important;
-                
+
                     p {
                         margin: 0 0 0 5px!important;
                     }
@@ -141,7 +141,8 @@ app-table-dashboard {
                 margin: 0px 10px 0px 10px;
                 min-height: 90px;
                 animation: box-right-in 0.5s;
-                
+                min-width: 50%;
+
                 * {
                     height: 100%;
                 }

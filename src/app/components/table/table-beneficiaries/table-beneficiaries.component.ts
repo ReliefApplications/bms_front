@@ -102,8 +102,9 @@ export class TableBeneficiariesComponent extends TableComponent {
             window.clearTimeout(this._timeout);
         }
         this._timeout = window.setTimeout(() => {
-            if (this.data.filter && (this.data.filter.filter || this.data.filter.filter == '')) {
+            if (this.data.filter && (this.data.filter.filter || (this.data.filter.filter === ''))) {
                 if (this.paginator) {
+                    this.testLoading = true;
                     this.paginator.pageIndex = 0;
                     this.data.loadHouseholds(
                         this.data.filter,

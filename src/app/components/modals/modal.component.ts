@@ -21,6 +21,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 })
 export class ModalComponent implements OnInit {
     public modal = GlobalText.TEXTS;
+    public language = GlobalText.language;
 
     public entityInstance = null;
     public properties: any;
@@ -30,6 +31,7 @@ export class ModalComponent implements OnInit {
     public controls = new FormControl();
 
     form = new FormGroup({
+        defaultValue: new FormControl({ value: ''}),
         projectsControl: new FormControl({ value: '', disabled: 'true' }),
         countryControl: new FormControl({ value: '', disabled: 'true' }),
         emailFormControl: new FormControl('', [Validators.required, Validators.email]),

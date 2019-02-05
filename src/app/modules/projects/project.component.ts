@@ -212,14 +212,15 @@ export class ProjectComponent implements OnInit {
         const create = dialogRef.componentInstance.onCreate.subscribe(
             (data) => {
                 let exists: boolean = false;
-
-                this.projects.forEach(element => {
+                if (this.projects) {
+                  this.projects.forEach(element => {
                     if (element.name.toLowerCase() == data.name.toLowerCase()) {
-                        this.snackBar.open(this.distribution.settings_project_exists, '', { duration: 5000, horizontalPosition: 'right' });
-                        exists = true;
-                        return;
+                      this.snackBar.open(this.distribution.settings_project_exists, '', { duration: 5000, horizontalPosition: 'right' });
+                      exists = true;
+                      return;
                     }
-                });
+                  });
+                }
 
                 if (exists == false)
                     this.createElement(data);

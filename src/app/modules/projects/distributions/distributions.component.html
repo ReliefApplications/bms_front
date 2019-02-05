@@ -26,13 +26,6 @@
         <div class="container-table">
           <div class="container-content box-green box-green">
             <div class="content-button">
-              <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button-create" [disabled]="actualDistribution.validated">
-                <mat-icon>add</mat-icon>
-                {{TEXT.add | titlecase}}
-              </button>
-              <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}" [disabled]="actualDistribution.validated">
-                <mat-icon>add</mat-icon>
-              </button>
               <div class="action-buttons">
                 <button mat-raised-button class="export-button" (click)="export()" *ngIf="!loadingExport">
                   <mat-icon>get_app</mat-icon>
@@ -53,6 +46,13 @@
                   </mat-menu>
                 </div>
               </div>
+              <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button-create" [disabled]="actualDistribution.validated">
+                <mat-icon>add</mat-icon>
+                {{TEXT.add | titlecase}}
+              </button>
+              <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}" [disabled]="actualDistribution.validated">
+                <mat-icon>add</mat-icon>
+              </button>
             </div>
             <div class="content-table">
               <div class="waitingDataContainer" *ngIf="loadingFirstStep">
@@ -167,7 +167,6 @@
         <div class="container-table">
           <div class="container-content box-green">
             <div class="content-button">
-              <app-box-properties *ngIf="actualDistribution && finalBeneficiaryData" class="properties-displayed" [entity]="distributionEntity" [mapperService]="mapperService" [componentDisplayed]="actualDistribution" [data]="finalBeneficiaryData.data"></app-box-properties>
             </div>
             <div class="container-empty" *ngIf="!finalBeneficiaryData && !loadingFinalStep">
               <p>
@@ -207,8 +206,6 @@
 
   <div class="container-table" *ngIf="actualDistribution.validated && !loadingDatas">
     <div class="container-content box-green">
-      <div class="content-button">
-      </div>
       <div class="progression">
         <div class="commodities" *ngFor="let commodity of actualDistribution.commodities">
           <h4>{{commodity.modality_type.name}} {{TEXT.transaction_progress}} {{getAmount('ratio',
@@ -231,6 +228,7 @@
           </div>
         </div>
       </div>
+
       <div class="content-button">
         <div class="action-buttons">
           <button mat-raised-button class="button-background-primary" [matMenuTriggerFor]="menu">
@@ -269,16 +267,20 @@
           </div>
         </div>
       </div>
+
       <div class="waitingDataContainer" *ngIf="loadingTransaction">
         <mat-spinner></mat-spinner>
       </div>
+
       <div class="content-table" *ngIf="!loadingTransaction">
-        <app-transaction-table *ngIf="widthScreen > maxWidthMobile" [parentObject]="actualDistribution" [entity]="transactionBeneficiaryEntity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false">
+        <app-transaction-table *ngIf="widthScreen > maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false" [selection]="selection" [checkbox]="true"
+            (selectChecked)="getChecked($event)">
         </app-transaction-table>
-        <app-transaction-table-mobile *ngIf="widthScreen < maxWidthMobile" [parentObject]="actualDistribution" [entity]="transactionBeneficiaryEntity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false">
+        <app-transaction-table-mobile *ngIf="widthScreen < maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false">
         </app-transaction-table-mobile>
       </div>
-      <div class="content-button content-button-footer">
+
+      <div class="content-button content-button-footer" *ngIf="actualDistribution.commodities[0].modality_type.name === 'Mobile Cash'">
         <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
         <button mat-raised-button *ngIf="hasRightsTransaction && !transacting" (click)="openDialog(transaction);" class="button-background-accent" [matBadge]="getAmount('people')" matBadgePosition="before" matBadgeColor="primary">
           <mat-icon>send</mat-icon> {{TEXT.transaction_transaction}}
@@ -288,6 +290,13 @@
         <button mat-raised-button *ngIf="!loaderCache" class="button-text-accent" (click)="storeBeneficiaries()">
           <mat-icon>save</mat-icon>
           {{TEXT.cache_store_beneficiaries}}
+        </button>
+      </div>
+
+      <div class="content-button content-button-footer" *ngIf="actualDistribution.commodities[0].modality_type.name === 'Voucher' && checkedLines.length > 0">
+        <mat-spinner [diameter]="35" *ngIf="distributed"></mat-spinner>
+        <button mat-raised-button *ngIf="hasRightsTransaction && !distributed" class="button-background-accent" (click)="distributeVoucher()">
+          <mat-icon>send</mat-icon> Set as distributed
         </button>
       </div>
     </div>
@@ -355,7 +364,7 @@
           {{TEXT.distribution_want_add}} <strong> {{actualDistribution.name}} </strong>
           {{TEXT.distribution | lowercase}}.</p>
         <div class="selectBeneficiaries">
-          <ng-select class="custom" [(ngModel)]="selectedBeneficiaries" bindLabel="full_name" [items]="beneficiaryList"
+          <ng-select class="multiple-select" [(ngModel)]="selectedBeneficiaries" bindLabel="full_name" [items]="beneficiaryList"
             [multiple]="true" placeholder="{{TEXT.beneficiaries}}" [closeOnSelect]="false" [searchable]="true"
             [ngModelOptions]="{standalone: true}" required>
           </ng-select>

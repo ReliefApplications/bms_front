@@ -91,6 +91,16 @@ export class BeneficiariesImportComponent implements OnInit {
     public loadDownload: boolean = false;
     public country: boolean;
 
+    private slides: Object[] =
+    [
+        {
+            slideInfo: {icon: "folder", color: "green", title: this.household.beneficiaries_import_file, ref:"file import", selected: true},
+        },
+        {
+            slideInfo: {icon: "settings/api", color: "red", title: this.household.beneficiaries_import_api, ref:"api import", selected: false}
+        }
+    ];
+
     constructor(
         public _householdsService: HouseholdsService,
         public _importService: ImportService,

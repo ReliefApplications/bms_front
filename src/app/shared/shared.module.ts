@@ -80,7 +80,7 @@ import { CarouselComponent } from '../components/carousel/carousel.component';
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     a11y: true,
     direction: 'horizontal',
-    slidesPerView: "auto",
+    slidesPerView: 'auto',
     navigation: true,
     mousewheel: true,
     keyboard: true,
@@ -190,7 +190,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     UpdateBeneficiaryComponent,
     ImportedDataComponent,
     CarouselComponent,
-    SlideComponent,
   ],
   entryComponents: [
     ModalComponent,
@@ -279,7 +278,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     PlaceholderStepperComponent,
     PlaceholderTitleComponent,
     CarouselComponent,
-    SlideComponent,
   ],
   providers: [
     { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },

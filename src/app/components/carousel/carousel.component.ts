@@ -69,6 +69,7 @@ export class CarouselComponent implements OnInit {
 
   // Used in HTML
   private checkIfSelected(index: number) {
+    console.log(index);
     if (index === this.indexOfSelectedSlide) {
       return true;
     }

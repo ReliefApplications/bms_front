@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, SimpleChanges } from '@angular/core';
+import { Component, OnInit, HostListener, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
 
 import { GlobalText } from '../../../texts/global';
@@ -17,6 +17,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { delay, finalize } from 'rxjs/operators';
 import { ImportedDataService} from '../../core/utils/imported-data.service'
 import { throwError } from 'rxjs';
+import { CarouselComponent } from 'src/app/components/carousel/carousel.component';
 
 
 @Component({
@@ -25,6 +26,8 @@ import { throwError } from 'rxjs';
     styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
+    @ViewChild(CarouselComponent) carousel: CarouselComponent;
+
     public nameComponent = 'projects';
     public distribution = GlobalText.TEXTS;
     public language = GlobalText.language;
@@ -38,7 +41,6 @@ export class ProjectComponent implements OnInit {
     // loading
     loadingDistributions = true;
     loadingProjects = true;
-    carouselReady = false;
     noNetworkData = false;
 
     selectedTitle = '';
@@ -247,6 +249,7 @@ export class ProjectComponent implements OnInit {
             this.snackBar.open("Project " + this.distribution.settings_created, '', { duration: 5000, horizontalPosition: 'right' });
             this.getProjects();
         });
+        
     }
 
     checkPermission() {
@@ -272,7 +275,8 @@ export class ProjectComponent implements OnInit {
     }
 
     private generateProjectsSlide(): void {
-        if (this.projects && !this.carouselReady) {
+        this.resetSlides();
+        if (this.projects) {
             this.projects.forEach(project => {
                 this.slides.push(
                     {
@@ -286,8 +290,12 @@ export class ProjectComponent implements OnInit {
                     }
                 );
             });
-            this.carouselReady = true;
+            this.carousel.update();
         }
+    }
+
+    private resetSlides(): void{
+        this.slides = [];
     }
 
     private getProjectByName(name: string): any {

@@ -1,4 +1,4 @@
-<swiper [config]="config" class="swiper-container">
+<swiper [config]="config" class="swiper-container" >
   <app-box-setting 
     *ngFor="let slide of slides; let i = index" class="swiper-slide" 
     [info]="slide.slideInfo" (click)="selectOne(i)"

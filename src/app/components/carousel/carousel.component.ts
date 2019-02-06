@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
+import { SwiperConfigInterface, SwiperComponent } from 'ngx-swiper-wrapper';
 
 @Component({
   selector: 'app-carousel',
@@ -9,7 +9,9 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 export class CarouselComponent implements OnInit {
 
   @Input() slides: any;
-  
+
+  @ViewChild(SwiperComponent) swiper: SwiperComponent;
+
 
   private indexOfSelectedSlide: number;
 
@@ -83,5 +85,10 @@ export class CarouselComponent implements OnInit {
 
   private getNameFromIndex(index: number): string {
     return this.slides[index].slideInfo.ref;
+  }
+
+  public update(): void {
+    console.log("UPDATE");
+    this.swiper.directiveRef.update();
   }
 }

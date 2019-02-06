@@ -161,7 +161,7 @@ export const TEXT = {
     data_verification_description_end: 'سيتم إضافة التعديلات إلى قاعدة البيانات في كل خطوة تدقيق.',
     data_verification_done: 'تم التحقق من بياناتك',
     data_verification_error: 'حدث خطأ في معالجة البيانات',
-    data_verification_send: 'أرسل',
+    data_verification_send: 'Update',
     data_verification_snackbar_duplicate_corrected: 'أخطاء التكرار المصححة',
     data_verification_snackbar_duplicate_no_corrected: 'كل أخطاء التكرار التي لم يتم تصحيحها',
     data_verification_snackbar_less_corrected: 'تم حذف المستفيدين بنجاح',

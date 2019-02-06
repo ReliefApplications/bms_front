@@ -161,7 +161,7 @@ export const TEXT = {
     data_verification_description_end: 'Les modifications seront ajoutées à la base de donnée à chaque étape validée.',
     data_verification_done: 'Toutes les données ont été vérifiées',
     data_verification_error: 'Erreur lors du parcours des données',
-    data_verification_send: 'Envoyer',
+    data_verification_send: 'Mettre à jour',
     data_verification_snackbar_duplicate_corrected: 'Problèmes de doublons corrigées',
     data_verification_snackbar_duplicate_no_corrected: 'Toutes les erreurs de doublons ne sont pas corrigées',
     data_verification_snackbar_less_corrected: 'Bénéficiaires supprimer avec succès',

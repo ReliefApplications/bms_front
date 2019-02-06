@@ -396,6 +396,7 @@ export const TEXT = {
     transaction_confirm_button: 'Confirm',
     transaction_email_code: 'An email containing your validation code has been sent to:',
     transaction_id_transaction: 'ID Transaction',
+    transaction_info_export: 'If the distribution hasn\'t any transactions, you will not have any file exported',
     transaction_inProgress: 'Transaction in progress...',
     transaction_paste_code: 'Please paste the code here and click on \'Confirm\' to proceed with the transaction: ',
     transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',

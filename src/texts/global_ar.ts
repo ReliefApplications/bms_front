@@ -394,6 +394,7 @@ export const TEXT = {
     transaction_confirm_button: 'التأكد',
     transaction_email_code: 'تم إرسال بريد إلكتروني يحتوي على رمز التحقق الخاص بك إلى:',
     transaction_id_transaction: 'معرف المعاملة.',
+    transaction_info_export: 'If the distribution hasn\'t any transactions, you will not have any file exported',
     transaction_inProgress: 'المعاملة قيد التقدم ...',
     transaction_paste_code: 'الرجاء وضع الشفرة هنا والنقر على التأكد  لمتابعة العملية:',
     transaction_prevention: 'لا تزال هذه المنصة قيد التطوير وقد لا تكون وظيفة المعاملات النقدية عبر الإنترنت مستقرة تمامًا حتى الآن. ينكر فريق التطوير المسؤولية عن أي أخطاء قد تحدث من حيث فقدان المال. بوضع علامة في المربع أدناه ، فإنك توافق على استخدام النظام بمعرفة حدوده تمامًا وتحمل المسؤولية عن نتائج المعاملة.',

@@ -3,20 +3,28 @@
     <h2>{{distribution.projects | titlecase}}</h2>
   </div>
   <app-placeholder-boxline *ngIf="loadingProjects && projects != undefined" class="container-boxes"></app-placeholder-boxline>
-  <div class="container-boxes" *ngIf="!loadingProjects">
+  <div class="projects-container" *ngIf="!loadingProjects">
     <button class="button-add-project" *ngIf="!loadingProjects && hasRights" (click)="openNewProjectDialog()">
       <mat-icon>add</mat-icon>
       <h3>{{distribution.new | titlecase}}</h3>
     </button>
-    <app-box-setting *ngFor="let project of projects" (emitClickedTitle)="selectTitle($event, project)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'>
-    </app-box-setting>
-    <div container-boxes *ngIf="projects === null || projects === undefined || projects.length == 0" class="empty-box">
-      <div class='no-data-container'>
-        <div class="loadingContent">
-          <h4 class="no-data">
-            <mat-icon>cloud_off</mat-icon>
-            <span> {{distribution.no_data}} </span>
-          </h4>
+    <!-- <app-box-setting *ngFor="let project of projects" (emitClickedTitle)="selectTitle($event, project)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'>
+    </app-box-setting> -->
+    <app-carousel 
+        *ngIf="carouselReady"
+        [slides]="slides"
+        (slideSelected)="selectTitle($event)"
+    ></app-carousel>
+    <div class="projects-wrapper">
+      
+      <div *ngIf="projects === null || projects === undefined || projects.length == 0" class="empty-box">
+        <div class='no-data-container'>
+          <div class="loadingContent">
+            <h4 class="no-data">
+              <mat-icon>cloud_off</mat-icon>
+              <span> {{distribution.no_data}} </span>
+            </h4>
+          </div>
         </div>
       </div>
     </div>

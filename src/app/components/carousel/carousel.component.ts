@@ -13,11 +13,12 @@ export class CarouselComponent implements OnInit {
 
   private indexOfSelectedSlide: number;
 
-  private config: SwiperConfigInterface = {
+  public config: SwiperConfigInterface = {
     direction: 'horizontal',
     slidesPerView: 7,
     spaceBetween: 20,
     navigation: true,
+    mousewheel: true,
 
     breakpoints: {
       1000: {
@@ -69,7 +70,6 @@ export class CarouselComponent implements OnInit {
 
   // Used in HTML
   private checkIfSelected(index: number) {
-    console.log(index);
     if (index === this.indexOfSelectedSlide) {
       return true;
     }

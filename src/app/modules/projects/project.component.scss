@@ -112,6 +112,15 @@ app-placeholder-panel {
     }
   }
 }
+
+.projects-container{
+  padding: 20px;
+  width: calc( 100% - 100px);
+  display: flex;
+  flex-direction: row;
+}
+
+
 //for mobile screen
 @media only screen and (max-width: 750px) {
   .content-button {

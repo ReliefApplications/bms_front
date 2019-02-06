@@ -91,7 +91,7 @@ export class BeneficiariesImportComponent implements OnInit {
     public loadDownload: boolean = false;
     public country: boolean;
 
-    private slides: Object[] =
+    public slides: Object[] =
     [
         {
             slideInfo: {icon: "folder", color: "green", title: this.household.beneficiaries_import_file, ref:"file import", selected: true},

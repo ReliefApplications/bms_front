@@ -80,7 +80,7 @@ import { CarouselComponent } from '../components/carousel/carousel.component';
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     a11y: true,
     direction: 'horizontal',
-    slidesPerView: 'auto',
+    slidesPerView: 3,
     navigation: true,
     mousewheel: true,
     keyboard: true,

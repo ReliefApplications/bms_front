@@ -16,6 +16,7 @@ import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.c
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { delay, finalize } from 'rxjs/operators';
 import { ImportedDataService} from '../../core/utils/imported-data.service'
+import { throwError } from 'rxjs';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class ProjectComponent implements OnInit {
     // loading
     loadingDistributions = true;
     loadingProjects = true;
+    carouselReady = false;
     noNetworkData = false;
 
     selectedTitle = '';
@@ -46,7 +48,7 @@ export class ProjectComponent implements OnInit {
     extensionType: string;
     hasRights: boolean = false;
     hasRightsEdit: boolean = false;
-
+    
     public maxHeight = GlobalText.maxHeight;
     public maxWidthMobile = GlobalText.maxWidthMobile;
     public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
@@ -54,6 +56,7 @@ export class ProjectComponent implements OnInit {
     public maxWidth = GlobalText.maxWidth;
     public heightScreen;
     public widthScreen;
+    public slides: Object[] = [];
 
     constructor(
         public projectService: ProjectService,
@@ -69,7 +72,7 @@ export class ProjectComponent implements OnInit {
     ngOnInit() {
         if (this.importedDataService.emittedProject) {
             this.selectedProjectId = parseInt(this.importedDataService.project)
-            this.getProjects()
+            this.getProjects();
         }
         else {
             this.getProjects();
@@ -107,7 +110,14 @@ export class ProjectComponent implements OnInit {
      * @param title
      * @param project
      */
-    selectTitle(title, project): void {
+    selectTitle(title, project?): void {
+        console.log("title", title);
+        console.log("project", project);
+        if (!project) {
+            project = this.getProjectByName(title);
+            console.log("new project", project);
+        }
+
         this.isBoxClicked = true;
         this.selectedTitle = title;
         this.selectedProject = project;
@@ -133,6 +143,7 @@ export class ProjectComponent implements OnInit {
             response => {
                 if (response && response.length > 0) {
                     this.projects = this.projectClass.formatArray(response).reverse();
+                    this.generateProjectsSlide();
                     if (this.selectedProjectId) {
                         this.autoProjectSelect(this.selectedProjectId)
                     } else {
@@ -143,7 +154,9 @@ export class ProjectComponent implements OnInit {
                     this.projects = null;
                     this.loadingProjects = false;
                 }
+                console.log("response", this.slides);
             }
+            
         );
     }
 
@@ -256,5 +269,39 @@ export class ProjectComponent implements OnInit {
                 this.selectTitle(e.name, e);
             }
         })
+    }
+
+    private generateProjectsSlide(): void {
+        if (this.projects && !this.carouselReady) {
+            this.projects.forEach(project => {
+                this.slides.push(
+                    {
+                        slideInfo: {
+                            icon: "settings/projects",
+                            color: "green",
+                            title: project.name,
+                            ref: project.name,
+                            selected: false,
+                        },
+                    }
+                );
+            });
+            this.carouselReady = true;
+        }
+    }
+
+    private getProjectByName(name: string): any {
+        if (this.projects) {
+            for (const project of this.projects) {
+                if (name === project.name) {
+                    console.log("getProject", project);
+                    return project;
+                }
+            }
+            throwError('No project found with this name');
+            return this.projects[0];
+        }
+        throwError('No project found');
+        return new Project();
     }
 }

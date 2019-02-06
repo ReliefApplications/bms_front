@@ -280,9 +280,9 @@
         </app-transaction-table-mobile>
       </div>
 
-      <div class="content-button content-button-footer">
-        <mat-spinner [diameter]="35" *ngIf="transacting && actualDistribution.commodities[0].modality_type.name === 'Mobile Cash'"></mat-spinner>
-        <button mat-raised-button *ngIf="hasRightsTransaction && !transacting && actualDistribution.commodities[0].modality_type.name === 'Mobile Cash'" (click)="openDialog(transaction);" class="button-background-accent" [matBadge]="getAmount('people')" matBadgePosition="before" matBadgeColor="primary">
+      <div class="content-button content-button-footer" *ngIf="actualDistribution.commodities && actualDistribution.commodities[0].modality_type.name === 'Mobile Cash'">
+        <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
+        <button mat-raised-button *ngIf="hasRightsTransaction && !transacting" (click)="openDialog(transaction);" class="button-background-accent" [matBadge]="getAmount('people')" matBadgePosition="before" matBadgeColor="primary">
           <mat-icon>send</mat-icon> {{TEXT.transaction_transaction}}
         </button>
 
@@ -293,10 +293,16 @@
         </button>
       </div>
 
-      <div class="content-button content-button-footer" *ngIf="actualDistribution.commodities[0].modality_type.name === 'Voucher' && checkedLines.length > 0">
-        <mat-spinner [diameter]="35" *ngIf="distributed"></mat-spinner>
-        <button mat-raised-button *ngIf="hasRightsTransaction && !distributed" class="button-background-accent" (click)="distributeVoucher()">
+      <div class="content-button content-button-footer" *ngIf="actualDistribution.commodities && actualDistribution.commodities[0].modality_type.name === 'Voucher'">
+        <mat-spinner [diameter]="35" *ngIf="distributed && checkedLines.length > 0"></mat-spinner>
+        <button mat-raised-button *ngIf="hasRightsTransaction && !distributed && checkedLines.length > 0" class="button-background-accent" (click)="distributeVoucher()">
           <mat-icon>send</mat-icon> Set as distributed
+        </button>
+
+        <mat-spinner [diameter]="35" *ngIf="loaderCache"></mat-spinner>
+        <button mat-raised-button *ngIf="!loaderCache" class="button-text-accent" (click)="storeBeneficiaries()">
+          <mat-icon>save</mat-icon>
+          {{TEXT.cache_store_beneficiaries}}
         </button>
       </div>
     </div>

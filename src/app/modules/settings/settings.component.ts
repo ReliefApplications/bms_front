@@ -210,50 +210,6 @@ export class SettingsComponent implements OnInit {
     load(title): void {
         this.hasRights = false;
 
-        if(title === "product"){
-            let products = [
-                {
-                    name: "test",
-                    code: "codeOfTest",
-                }
-            ];
-            products = this.referedClassToken.formatArray(products);
-            this.data = new MatTableDataSource(products);
-            this._cacheService.getUser().subscribe(
-                result => {
-                    if (result && result.rights) {
-                        const rights = result.rights;
-
-                        if (this.referedClassToken.__classname__ == 'User')
-                            if (rights == 'ROLE_ADMIN')
-                                this.hasRights = true;
-
-                        if (this.referedClassToken.__classname__ == 'CountrySpecific')
-                            if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
-                                this.hasRights = true;
-
-                        if (this.referedClassToken.__classname__ == 'Donor')
-                            if (rights == 'ROLE_ADMIN')
-                                this.hasRights = true;
-
-                        if (this.referedClassToken.__classname__ == 'Project')
-                            if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
-                                this.hasRights = true;
-
-                        if (this.referedClassToken.__classname__ == 'Financial Provider')
-                            if (rights == "ROLE_ADMIN")
-                                this.hasRights = true;
-
-                        if (this.referedClassToken.__classname__ === 'Product') {
-                            if (rights === "ROLE_ADMIN") {
-                                this.hasRights = true;
-                            }
-                        }
-                    }
-                }
-            );
-        } else {
-
         this.referedClassService.get().
             pipe(
                 finalize(
@@ -324,8 +280,8 @@ export class SettingsComponent implements OnInit {
         //         this.data = new MatTableDataSource(null);
         //     }
         // );
+
     }
-}
 
     /**
     * open each modal dialog
@@ -369,7 +325,7 @@ export class SettingsComponent implements OnInit {
             this.referedClassService.create(createElement['id'], createElement).subscribe(
                 response => {
                     this.selectTitle(this.selectedTitle);
-            });
+                });
         } else {
             // for users, there are two step (one to get the salt and one to create the user)
             this.authenticationService.initializeUser(createElement['username']).subscribe(response => {
@@ -384,9 +340,9 @@ export class SettingsComponent implements OnInit {
                     }
 
                     this.authenticationService.createUser(createElement, response).subscribe(
-                    () => {
-                        this.selectTitle(this.selectedTitle);
-                    });
+                        () => {
+                            this.selectTitle(this.selectedTitle);
+                        });
                 }
             });
         }

@@ -17,10 +17,15 @@ export class Product {
      */
     name: string = '';
     /**
-    * Product code
+    * Product unit
     * @type {string}
     */
-    code: string = '';
+    unit: string = '';
+    /**
+    * Product image
+    * @type {string}
+    */
+    image: string = '';
 
 
 
@@ -28,8 +33,13 @@ export class Product {
         if (instance !== undefined) {
             this.id = instance.id;
             this.name = instance.name;
-            this.code = instance.code;
+            this.unit = instance.unit;
+            this.image = instance.image;
         }
+    }
+
+    public static getDisplayedName() {
+        return GlobalText.TEXTS.settings_product;
     }
 
     /**
@@ -38,7 +48,8 @@ export class Product {
     static translator(): Object {
         return {
             name: GlobalText.TEXTS.model_product_name,
-            code: GlobalText.TEXTS.model_product_code,
+            unit: GlobalText.TEXTS.model_product_unit,
+            image: GlobalText.TEXTS.model_product_image,
         };
     }
 
@@ -53,9 +64,16 @@ export class Product {
     }
 
     public static formatFromApi(element: any): Product {
-        const product = new Product(element);
+        return new Product(element);
+    }
 
-        return product;
+    /**
+     * Product in modal add
+     * @param element
+     * @param loadedData
+     */
+    public static formatFromModalAdd(element: any, loadedData: any): Product {
+        return new Product(element);
     }
 
     /**
@@ -64,7 +82,8 @@ export class Product {
     getTypeProperties(): Object {
         return {
             name: "text",
-            code: "text",
+            unit: "text",
+            image: "text",
         };
     }
 
@@ -74,10 +93,11 @@ export class Product {
     getMapperDetails(selfinstance): Object {
         if (!selfinstance) {
             return undefined;
-}
+        }
         return {
             name: selfinstance.name,
-            code: selfinstance.code,
+            unit: selfinstance.unit,
+            image: selfinstance.image,
         };
     }
 
@@ -90,8 +110,23 @@ export class Product {
         }
         return {
             name: selfinstance.name,
-            code: selfinstance.code,
+            unit: selfinstance.unit,
+            image: selfinstance.image,
         };
+    }
+
+    /**
+     * return a User after formatting its properties for the modal add
+     */
+    getMapperAdd(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            name: selfinstance.name,
+            unit: selfinstance.unit,
+            image: selfinstance.image,
+        }
     }
 
     /**
@@ -103,7 +138,8 @@ export class Product {
         }
         return {
             name: selfinstance.name,
-            code: selfinstance.code,
+            unit: selfinstance.unit,
+            image: selfinstance.image,
         };
     }
 
@@ -113,7 +149,8 @@ export class Product {
     getModalTypeProperties(): Object {
         return {
             name: "text",
-            code: "text",
+            unit: "text",
+            image: "text",
         };
     }
 
@@ -122,8 +159,10 @@ export class Product {
             return undefined;
         }
         return {
+            id: selfinstance.id,
             name: selfinstance.name,
-            code: selfinstance.code,
+            unit: selfinstance.unit,
+            image: selfinstance.image,
         };
     }
 

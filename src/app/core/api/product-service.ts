@@ -11,16 +11,25 @@ export class ProductService {
 
   constructor(
     private http: HttpService,
-  ) {
-  }
+  ) {}
 
   public get() {
-    const url = this.api + "/product";
+    const url = this.api + "/products";
     return this.http.get(url);
   }
 
-  public update(body) {
+  public create(id: number, body: any) {
     const url = this.api + "/product";
-    return this.http.post(url, { name: body["name"], code: body["code"] });
+    return this.http.put(url, body);
+  }
+
+  public update(id: number, body: any) {
+    const url = this.api + "/product/" + id;
+    return this.http.post(url, body);
+  }
+
+  public delete(id: number) {
+    const url = this.api + "/product/" + id;
+    return this.http.delete(url);
   }
 }

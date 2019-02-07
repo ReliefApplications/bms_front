@@ -204,6 +204,7 @@ export const TEXT = {
     distribution_show_data: 'Afficher les données quand même',
     distribution_validate: 'Valider',
     distribution_validated: 'La distribution a été validée',
+    distribution_validated_title: 'Distribution validée',
     distribution_want_add: 'que vous souhaitez ajouter à la ',
 
     // Header

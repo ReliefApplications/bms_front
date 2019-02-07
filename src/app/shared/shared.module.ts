@@ -77,25 +77,6 @@ import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { CarouselComponent } from '../components/carousel/carousel.component';
 
-const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
-    a11y: true,
-    direction: 'horizontal',
-    slidesPerView: 3,
-    navigation: true,
-    mousewheel: true,
-    keyboard: true,
-    loop: true,
-
-    breakpoints:  {
-        480: {
-            slidesPerView: 1,
-        },
-        640: {
-            slidesPerView: 2,
-        }
-    }
-};
-
 @NgModule({
   imports: [
     RouterModule,

@@ -144,7 +144,7 @@ export const TEXT = {
     dashboard_distribution_map: 'répartition des distributions',
     dashboard_recent_distributions: 'distributions récentes',
     dashboard_summary: 'sommaire',
-    dashboard_summary_1: 'total de bénéficiaires',
+    dashboard_summary_1: 'total d\'enregistrements',
     dashboard_summary_2: 'projets en cours',
     dashboard_summary_3: 'bénéficiaires enregistrés',
     dashboard_summary_4: 'montant total des transactions',

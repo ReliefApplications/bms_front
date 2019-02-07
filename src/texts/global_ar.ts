@@ -144,7 +144,7 @@ export const TEXT = {
     dashboard_distribution_map: 'خريطة التوزيع',
     dashboard_recent_distributions: 'التوزيعات الحديثة',
     dashboard_summary: 'الملخص',
-    dashboard_summary_1: 'مجموع المستفيدين',
+    dashboard_summary_1: 'total registrations',
     dashboard_summary_2: 'المشاريع الناشطة',
     dashboard_summary_3: 'المستفيدين المسجلين',
     dashboard_summary_4: ' القيمة الإجمالية للمعملات',

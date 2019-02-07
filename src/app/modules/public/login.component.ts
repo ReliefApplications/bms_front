@@ -76,10 +76,14 @@ export class LoginComponent implements OnInit {
         const subscription = from(this._authService.login(this.user));
         subscription.subscribe(
             (user: User) => {
-                if (!user.country && user.rights === "ROLE_ADMIN") {
+                if (user.country && user.country.length === 0 && user.rights === "ROLE_ADMIN") {
                   this.initCountry();
                 } else {
-                  this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
+                    this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(country => {
+                        if (!country) {
+                            this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
+                        }
+                    })
                 }
                 this.router.navigate(['/']);
                 if (user.language) {

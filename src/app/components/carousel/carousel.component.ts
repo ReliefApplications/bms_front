@@ -42,33 +42,15 @@ export class CarouselComponent implements OnInit {
 
   private selectDefault(): void {
     if (this.slides) {
-      this.deselectAll();
       this.selectOne(0);
     }
-  }
-
-  private deselectAll(): void {
-    if (this.slides) {
-      this.slides.forEach((_: any, index: number) => {
-        this.deselectOne(index);
-      });
-    }
-
   }
 
   public selectOne(index: number): void {
     this.indexOfSelectedSlide = index;
     this.emitSelectedSlide();
-    this.changeSelectedState(index, true);
   }
 
-  private deselectOne(index: number) {
-     this.changeSelectedState(index, false);
-  }
-
-  private changeSelectedState(index: number, state: boolean){
-    this.slides[index].slideInfo.selected = state;
-  }
 
   // Used in HTML
   private checkIfSelected(index: number) {

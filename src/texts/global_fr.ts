@@ -79,6 +79,13 @@ export const TEXT = {
     add_beneficiary_code: 'Code pays',
     add_beneficiary_country_specifics: 'Country specifics',
 
+    // Add beneficiary options
+    national_id_passport: 'Passeport',
+    national_id_card: 'Carte d\'identité',
+    national_id_license: 'Permis de conduire',
+    national_id_family_registry: 'Livret de famille',
+    national_id_other: 'Autre',
+
     // Add distribution
     add_distribution_advanced_option: 'Options avancées',
     add_distribution_beneficiaries_reached: 'Bénéficaires atteints',

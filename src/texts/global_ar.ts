@@ -79,6 +79,13 @@ export const TEXT = {
     add_beneficiary_code: 'رمز الهاتف الدولي',
     add_beneficiary_country_specifics: 'تفاصيل البلد',
 
+    // Add beneficiary options
+    national_id_passport: 'Passport',
+    national_id_card: 'ID Card',
+    national_id_license: 'Driver\'s License',
+    national_id_family_registry: 'Family Registry',
+    national_id_other: 'Other',
+
     // Add distribution
     add_distribution_advanced_option: 'خيارات متقدمة',
     add_distribution_beneficiaries_reached: 'المستفيدون الذين تم الوصول إليهم',

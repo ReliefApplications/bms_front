@@ -129,7 +129,7 @@
               <div class="column-container">
                 <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getTypeNationalId}} [(ngModel)]="updatedHousehold.beneficiaries[0].national_id.type">
                   <ng-option *ngFor="let type of typeNationalIdList" [value]="type">
-                    {{type}}
+                    {{typeNationalIdNamesList[type]}}
                   </ng-option>
                 </ng-select>
                 <mat-form-field>

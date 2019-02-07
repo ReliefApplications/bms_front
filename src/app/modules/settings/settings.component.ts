@@ -116,8 +116,12 @@ export class SettingsComponent implements OnInit {
         this.widthScreen = window.innerWidth;
     }
 
+
+    selectSlide(slide: any): void {
+        this.selectTitle(slide.ref);
+    }
+
     selectTitle(title: string): void {
-        console.log(title);
         this.getData(title);
         this.isBoxClicked = true;
         this.selectedTitle = title;

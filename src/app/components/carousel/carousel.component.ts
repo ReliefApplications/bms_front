@@ -79,12 +79,12 @@ export class CarouselComponent implements OnInit {
   }
 
   private emitSelectedSlide(): void {
-    const name = this.getNameFromIndex(this.indexOfSelectedSlide);
-    this.slideSelected.emit(name);
+    const slide = this.getSlideFromIndex(this.indexOfSelectedSlide);
+    this.slideSelected.emit(slide);
   }
 
-  private getNameFromIndex(index: number): string {
-    return this.slides[index].slideInfo.ref;
+  private getSlideFromIndex(index: number): any {
+    return this.slides[index].slideInfo;
   }
 
   public update(): void {

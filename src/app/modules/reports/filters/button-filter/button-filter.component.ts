@@ -37,9 +37,14 @@ export class ButtonFilterComponent extends AbstractFilter {
         }
     }
 
+    public filterSlide(slide: any): void {
+        console.log(slide);
+        this.filter(slide.ref);
+    }
+
     /**
      * Allow to know which block and which button in block is active
-     * @param newFilter 
+     * @param newFilter
      */
     filter(newFilter: any) {
         this.active = !this.active;

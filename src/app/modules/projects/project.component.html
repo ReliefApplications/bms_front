@@ -8,11 +8,10 @@
       <mat-icon>add</mat-icon>
       <h3>{{distribution.new | titlecase}}</h3>
     </button>
-    <!-- <app-box-setting *ngFor="let project of projects" (emitClickedTitle)="selectTitle($event, project)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'>
-    </app-box-setting> -->
+
     <app-carousel 
         [slides]="slides"
-        (slideSelected)="selectTitle($event)"
+        (slideSelected)="selectSlide($event)"
     ></app-carousel>
     <div class="projects-wrapper">
       

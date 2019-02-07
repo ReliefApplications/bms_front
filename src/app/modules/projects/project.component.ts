@@ -107,6 +107,12 @@ export class ProjectComponent implements OnInit {
             this.language = GlobalText.language;
         }
     }
+
+
+    public selectSlide(slide: any) {
+        this.selectTitle(slide.ref);
+    }
+
     /**
      * update current project and its distributions when a other project box is clicked
      * @param title

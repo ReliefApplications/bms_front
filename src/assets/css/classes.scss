@@ -102,7 +102,8 @@
 
     app-carousel{
         //Swiper width always exceed page width ¯\_(ツ)_/¯
-        width: 97%;
+        width: calc(100% - 15px);
+        padding: 20px;
         
         .swiper-button-disabled{
             visibility: hidden !important;

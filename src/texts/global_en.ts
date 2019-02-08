@@ -58,18 +58,6 @@ export const TEXT = {
 
     // Months
     months_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    january_short: 'Jan',
-    february_short: 'Feb',
-    march_short: 'Mar',
-    april_short: 'Apr',
-    may_short: 'May',
-    june_short: 'Jun',
-    july_short: 'Jul',
-    august_short: 'Aug',
-    september_short: 'Sep',
-    october_short: 'Oct',
-    november_short: 'Nov',
-    december_short: 'Dec',
 
 
     // SPECIFIC VARIABLES

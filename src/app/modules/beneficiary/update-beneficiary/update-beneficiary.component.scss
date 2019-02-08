@@ -90,10 +90,6 @@ app-placeholder-panel {
     }
   }
 
-  .textarea-input {
-    width: 80%;
-  }
-
   .area-size {
     width: 100%;
   }
@@ -166,9 +162,6 @@ app-placeholder-panel {
   }
 }
 
-.margin-right {
-  margin-right: 15px;
-}
 
 .ng-select-focused ::ng-deep {
   .ng-select-container::after {
@@ -211,6 +204,11 @@ app-placeholder-panel {
   margin-top: -6px;
   margin-bottom: 6px;
 }
+
+.content-button-footer{
+  margin: auto 20px auto auto;
+}
+
 
 @media only screen and (max-width: 750px) {
   .datepicker-mobile {

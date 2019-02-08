@@ -79,14 +79,15 @@
                 </mat-form-field>
               </div>
             </div>
+            <div class="content-button-footer">
+              <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
+              <button mat-raised-button class="button-background-primary margin-right" (click)="nextValidation(1, stepper)">
+                {{Text.next}}
+              </button>
+              <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update}}</button>
+            </div>
           </div>
-          <div class="content-button-footer">
-            <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
-            <button mat-raised-button class="button-background-primary margin-right" (click)="nextValidation(1, stepper)">
-              {{Text.next}}
-            </button>
-            <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update}}</button>
-          </div>
+          
         </div>
       </div>
     </mat-step>

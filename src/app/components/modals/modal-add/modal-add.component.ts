@@ -7,7 +7,7 @@ import { count } from '@swimlane/ngx-charts';
 import { Project } from '../../../model/project';
 
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
-import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 import { format } from 'url';
 
 @Component({
@@ -15,7 +15,7 @@ import { format } from 'url';
     templateUrl: './modal-add.component.html',
     styleUrls: ['../modal.component.scss', './modal-add.component.scss'],
     providers: [
-        { provide: DateAdapter, useClass: CustomDateAdapter },
+        { provide: DateAdapter, useClass: AppDateAdapter },
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })

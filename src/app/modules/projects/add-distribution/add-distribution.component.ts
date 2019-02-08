@@ -25,14 +25,14 @@ import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
-import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
+import {AppDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
 
 @Component({
     selector: 'app-add-distribution',
     templateUrl: './add-distribution.component.html',
     styleUrls: ['./add-distribution.component.scss'],
     providers: [
-      { provide: DateAdapter, useClass: CustomDateAdapter },
+      { provide: DateAdapter, useClass: AppDateAdapter },
       { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })

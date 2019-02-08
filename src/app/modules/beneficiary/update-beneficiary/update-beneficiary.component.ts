@@ -21,14 +21,14 @@ import { DatePipe } from '@angular/common';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
-import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
+import {AppDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
 
 @Component({
     selector: 'app-update-beneficiary',
     templateUrl: './update-beneficiary.component.html',
     styleUrls: ['./update-beneficiary.component.scss'],
     providers: [
-      { provide: DateAdapter, useClass: CustomDateAdapter },
+      { provide: DateAdapter, useClass: AppDateAdapter },
       { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })

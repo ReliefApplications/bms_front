@@ -206,6 +206,9 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     border-bottom-right-radius: 20px !important;
     border-top-right-radius: 20px !important;
     font-weight: bold;
+    &:hover{
+        background-color: darken($bms_red, 10%) !important;
+    }
 }
 
 .button-text-primary {
@@ -218,10 +221,16 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 .button-background-primary {
   background-color: $bms_green !important;
   color: $bms_grey !important;
+  &:hover{
+      background-color: darken($bms_green, 10%) !important;
+  }
 }
 .button-background-accent {
   background-color: $bms_red !important;
   color: $bms_grey !important;
+  &:hover{
+    background-color: darken($bms_red, 10%) !important;
+    }
 }
 
 .no-data {
@@ -263,6 +272,10 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
             box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3);
             display: flex;
             justify-content: center;
+            transition: background-color 0.2s;
+            cursor: pointer;
+
+
 
             &.arabic {
                 border-top-right-radius: 0px;
@@ -274,7 +287,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 
             }
             &:hover {
-                cursor: pointer;
+                background-color: darken($bms_green, 10%);
             }
 
             mat-icon {

@@ -11,6 +11,8 @@
   align-items: center;
   justify-content: flex-end;
   border: 0;
+  transition: background-color 0.2s;
+  cursor: pointer;
 
   mat-icon {
     color: $bms_green;
@@ -21,7 +23,7 @@
   }
 
   &:hover {
-    cursor: pointer;
+    background-color: darken($bms_white, 10%);
   }
 }
 

@@ -3,13 +3,20 @@
 button.level1 {
     background-color: $bms_green;
     margin-right: 20px;
+    &:hover{
+        background-color: lighten($bms_green, 10%);
+    }
+    &.clicked{
+
+        background-color: $bms_dark_grey;
+        color: $bms_grey;
+        &:hover{
+            background-color: lighten($bms_dark_grey, 10%);
+        }
+    }
 }
 
-.clicked{
 
-    background-color: $bms_dark_grey !important;
-    color: $bms_grey;
-}
 
 //for mobile screen
 @media only screen and (max-width: 750px){

@@ -101,6 +101,7 @@ export const TEXT = {
     add_distribution_selection_criteria: 'critères de sélection',
     add_distribution_text_explanation: 'Le système va seulement sélectionner les bénéficiaires/ménages avec un score supérieur que le score minimum de sélection',
     add_distribution_threshold: 'Score minimum de sélection',
+    add_distribution_zero: 'Le nombre de ménage atteint ou le montant à distribuer est 0',
 
     // Add project
     add_project_new_distribution: 'nouvelle distribution',

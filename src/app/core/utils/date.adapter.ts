@@ -7,30 +7,38 @@ import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MatDateFormats } from
 })
 export class AppDateAdapter extends NativeDateAdapter {
 
-    format(date: Date, displayFormat: Object): string {
+  format(date: Date, displayFormat: Object): string {
 
-        if (displayFormat === 'input') {
+    if (displayFormat === 'input') {
 
-            const day = date.getDate();
-            const month = date.getMonth() + 1;
-            const year = date.getFullYear();
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
 
-            return `${day}-${month}-${year}`;
-        }
-
-        return date.toDateString();
+      return `${this.completeWithZeroes(day)}-${this.completeWithZeroes(month)}-${year}`;
     }
+
+    return date.toDateString();
+  }
+
+  completeWithZeroes(numberToComplete: number) {
+    const stringToComplete = String(numberToComplete);
+    if (stringToComplete.length === 1) {
+      return 0 + stringToComplete;
+    }
+    return stringToComplete;
+  }
 }
 
 export const APP_DATE_FORMATS =
 {
-    parse: {
-        dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
-    },
-    display: {
-        dateInput: 'input',
-        monthYearLabel: { year: 'numeric', month: 'numeric' },
-        dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
-        monthYearA11yLabel: { year: 'numeric', month: 'long' },
-    }
+  parse: {
+    dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
+  },
+  display: {
+    dateInput: 'input',
+    monthYearLabel: { year: 'numeric', month: 'numeric' },
+    dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+    monthYearA11yLabel: { year: 'numeric', month: 'long' },
+  }
 };

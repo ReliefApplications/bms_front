@@ -427,7 +427,12 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      * @param template
      */
     openDialog(template) {
+        const distributionDate = new Date(this.actualDistribution.date_distribution);
+        if (new Date() < distributionDate) {
             this.dialog.open(template);
+        } else {
+            this.snackBar.open(GlobalText.TEXTS.snackbar_invalid_transaction_date, '', { duration: 5000, horizontalPosition: 'center' });
+        }
     }
 
     /**

@@ -371,6 +371,7 @@ export const TEXT = {
     snackbar_change_password_done: '!تم تغيير كلمة المرور',
     snackbar_change_password_fail: '...لا يمكن تغيير كلمة المرور',
     snackbar_change_password_not_possible: 'يجب أن تكون كلمة المرور أطول من حرف واحد وتتطابق مع الشروط',
+    snackbar_invalid_transaction_date: 'The transactions\'s deadline is over.',
 
     // Table
     table_actions: 'اجراءات',

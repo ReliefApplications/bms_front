@@ -17,19 +17,10 @@ export class CarouselComponent implements OnInit {
 
   public config: SwiperConfigInterface = {
     direction: 'horizontal',
-    slidesPerView: 7,
+    slidesPerView: 'auto',
     spaceBetween: 20,
     navigation: true,
     mousewheel: true,
-
-    breakpoints: {
-      1000: {
-        slidesPerView: 3,
-      },
-      750: {
-        slidesPerView:2,
-      }
-    }
 };
 
   @Output() slideSelected = new EventEmitter<String>();

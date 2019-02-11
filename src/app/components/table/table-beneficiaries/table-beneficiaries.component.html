@@ -10,7 +10,7 @@
   <div class="container-header" *ngIf="filled">
     <mat-form-field>
       <input matInput [(ngModel)]="keyWords" (keyup)="applyFilter($event.target.value, 'familyName'); sendSortedData()"
-        placeholder="{{table.table_filter}}">
+        placeholder="{{table.table_filter|titlecase}}">
     </mat-form-field>
 
     <div *ngIf="advancedResearch" class="filter-combo">

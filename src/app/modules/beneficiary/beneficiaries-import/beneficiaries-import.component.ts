@@ -202,6 +202,10 @@ export class BeneficiariesImportComponent implements OnInit {
         }
     }
 
+    public selectSlide(slide: any) {
+        this.selectTitle(slide.ref);
+    }
+
     /**
      * Detect which button item (file import or api import) is selected
      * @param title

@@ -119,11 +119,8 @@ export class ProjectComponent implements OnInit {
      * @param project
      */
     selectTitle(title, project?): void {
-        console.log("title", title);
-        console.log("project", project);
         if (!project) {
             project = this.getProjectByName(title);
-            console.log("new project", project);
         }
 
         this.isBoxClicked = true;
@@ -151,7 +148,9 @@ export class ProjectComponent implements OnInit {
             response => {
                 if (response && response.length > 0) {
                     this.projects = this.projectClass.formatArray(response).reverse();
-                    this.generateProjectsSlide();
+                    if (this.carousel) {
+                        this.generateProjectsSlide();
+                    }
                     if (this.selectedProjectId) {
                         this.autoProjectSelect(this.selectedProjectId)
                     } else {
@@ -162,7 +161,6 @@ export class ProjectComponent implements OnInit {
                     this.projects = null;
                     this.loadingProjects = false;
                 }
-                console.log("response", this.slides);
             }
             
         );
@@ -300,7 +298,7 @@ export class ProjectComponent implements OnInit {
         }
     }
 
-    private resetSlides(): void{
+    private resetSlides(): void {
         this.slides = [];
     }
 
@@ -308,7 +306,6 @@ export class ProjectComponent implements OnInit {
         if (this.projects) {
             for (const project of this.projects) {
                 if (name === project.name) {
-                    console.log("getProject", project);
                     return project;
                 }
             }

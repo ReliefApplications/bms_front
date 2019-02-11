@@ -52,8 +52,10 @@ export class CarouselComponent implements OnInit {
   }
 
   private emitSelectedSlide(): void {
-    const slide = this.getSlideFromIndex(this.indexOfSelectedSlide);
-    this.slideSelected.emit(slide);
+    if (this.slides.length) {
+      const slide = this.getSlideFromIndex(this.indexOfSelectedSlide);
+      this.slideSelected.emit(slide);
+    }
   }
 
   private getSlideFromIndex(index: number): any {
@@ -61,7 +63,6 @@ export class CarouselComponent implements OnInit {
   }
 
   public update(): void {
-    console.log("UPDATE");
     this.swiper.directiveRef.update();
   }
 }

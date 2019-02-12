@@ -137,7 +137,7 @@ export const TEXT = {
 
     // Cache
     cache_distribution_added: 'التوزيع والمستفيدين من المشروع تم  إضافتهم في ذاكرة التخزين المؤقت',
-    cache_store_beneficiaries: 'تخزين المستفيدين',
+    cache_store_beneficiaries: 'Save For Offline Mode',
     cache_no_distribution: 'لم يتم تخزين هذا التوزيع في ذاكرة التخزين المؤقت ، ولا يمكنك الحصول عليه خارج خدمة الانترنت. ',
     
     // Dashboard

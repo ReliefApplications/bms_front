@@ -291,7 +291,7 @@ export const TEXT = {
     model_criteria_operator: 'الشروط',
     model_criteria_weight: 'وزن النتيجة',
     model_dateofbirth: 'تاريخ الميلاد',
-    model_distribution_date: 'Distribution Start Date',
+    model_distribution_date: 'تاريخ التوزيع',
     model_distribution_name: 'الاسم',
     model_distribution_type: 'العالمي',
     model_donor: 'المانح',

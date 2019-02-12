@@ -37,22 +37,22 @@
               </div>
               <div class="column-container">
                 <h4 class="location">{{ Text.location }}</h4>
-                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" #province placeholder={{Text.adm1}} [(ngModel)]="updatedHousehold.location.adm1" (change)='reloadLocation(1)' required>
-                  <ng-option *ngFor="let province of provinceList" [value]="province">
+                <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" #province placeholder={{Text.adm1}} [(ngModel)]="updatedHousehold.location.adm1" (change)='reloadLocation(1)' required>
+                  <ng-option *ngFor="let province of provinceList" [value]="province" >
                     {{province}}
                   </ng-option>
                 </ng-select>
-                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" #district placeholder={{Text.adm2}} [(ngModel)]="updatedHousehold.location.adm2" (change)='reloadLocation(2)'>
+                <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" #district placeholder={{Text.adm2}} [(ngModel)]="updatedHousehold.location.adm2" (change)='reloadLocation(2)'>
                   <ng-option *ngFor="let district of districtList" [value]="district">
                     {{district}}
                   </ng-option>
                 </ng-select>
-                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" #commune placeholder={{Text.adm3}} [(ngModel)]="updatedHousehold.location.adm3" (change)='reloadLocation(3)'>
+                <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" #commune placeholder={{Text.adm3}} [(ngModel)]="updatedHousehold.location.adm3" (change)='reloadLocation(3)'>
                   <ng-option *ngFor="let commune of communeList" [value]="commune">
                     {{commune}}
                   </ng-option>
                 </ng-select>
-                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" #village placeholder={{Text.adm4}} [(ngModel)]="updatedHousehold.location.adm4">
+                <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" #village placeholder={{Text.adm4}} [(ngModel)]="updatedHousehold.location.adm4">
                   <ng-option *ngFor="let village of villageList" [value]="village">
                     {{village}}
                   </ng-option>

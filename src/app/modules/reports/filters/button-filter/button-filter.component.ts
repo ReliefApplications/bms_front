@@ -3,6 +3,8 @@ import { AbstractFilter, FilterInterface } from '../../../../model/filter';
 import { FilterService } from '../../services/filter.service';
 import { SelectionModel } from '@angular/cdk/collections';
 
+import { SlideSelectorService } from 'src/app/core/utils/slide-selector.service';
+
 export interface ButtonFilterData {
     label: string
     value: string
@@ -25,7 +27,9 @@ export class ButtonFilterComponent extends AbstractFilter {
     @Input() selectedItem;
 
     constructor(
-        private filterService: FilterService
+        private filterService: FilterService,
+        protected slideSelectorService: SlideSelectorService,
+
     ) {
         super();
     }
@@ -38,8 +42,7 @@ export class ButtonFilterComponent extends AbstractFilter {
     }
 
     public filterSlide(slide: any): void {
-        console.log(slide);
-        this.filter(slide.ref);
+        this.filter(slide.slideInfo.ref);
     }
 
     /**

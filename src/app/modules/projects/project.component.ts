@@ -50,7 +50,7 @@ export class ProjectComponent implements OnInit {
     extensionType: string;
     hasRights: boolean = false;
     hasRightsEdit: boolean = false;
-    
+
     public maxHeight = GlobalText.maxHeight;
     public maxWidthMobile = GlobalText.maxWidthMobile;
     public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
@@ -59,6 +59,7 @@ export class ProjectComponent implements OnInit {
     public heightScreen;
     public widthScreen;
     public slides: Object[] = [];
+    private slideSubscriber: Subscription;
 
     constructor(
         public projectService: ProjectService,
@@ -73,8 +74,9 @@ export class ProjectComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.slideSelectorService.selectedSlide.subscribe((slide: any) => {
-            if (slide) {
+        this.slideSubscriber = this.slideSelectorService.selectedSlide.subscribe((slide: any) => {
+            if (slide && slide.project) {
+                console.log(slide);
                 this.selectTitle(slide.project.name, slide.project);
             }
         });
@@ -89,6 +91,10 @@ export class ProjectComponent implements OnInit {
         this.checkSize();
         this.checkPermission();
         this.extensionType = 'xls';
+    }
+
+    ngOnDestroy(): void {
+        this.slideSubscriber.unsubscribe();
     }
 
     @HostListener('window:resize', ['$event'])
@@ -153,6 +159,7 @@ export class ProjectComponent implements OnInit {
             response => {
                 if (response && response.length > 0) {
                     this.projects = this.projectClass.formatArray(response).reverse();
+                    console.log("here");
                     this.generateProjectsSlide();
 
                     if (this.carousel) {
@@ -169,7 +176,6 @@ export class ProjectComponent implements OnInit {
                     this.loadingProjects = false;
                 }
             }
-            
         );
     }
 

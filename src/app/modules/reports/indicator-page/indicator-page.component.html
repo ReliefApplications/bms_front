@@ -6,10 +6,7 @@
     <app-placeholder-boxline *ngIf="indicatorsLoading" class="container-boxes"></app-placeholder-boxline>
     <button-filter-items *ngIf="!indicatorsLoading" [id]="'bms'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter2"
             [referenceKey]="'bms_search'"></button-filter-items>
-    <div class="carousel-container" *ngIf="!indicatorsLoading">
-        <!-- button to change view (viewcountry, project or distribution) -->
-        
-    </div>
+
 
     <app-placeholder-panel class="container-table" *ngIf="indicatorsLoading"></app-placeholder-panel>
     <div class="container-table" *ngIf="!indicatorsLoading">

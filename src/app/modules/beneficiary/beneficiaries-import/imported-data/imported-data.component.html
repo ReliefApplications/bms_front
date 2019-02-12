@@ -6,7 +6,7 @@
   <app-placeholder-panel *ngIf='loadingTable' class="container-table"></app-placeholder-panel>
 
   <div class="container-table" *ngIf="!loadingTable">
-    <div class="container-content box-red">
+    <div class="container-content box-green">
       <div class="content-table">
         <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
           [data]="data" [editable]="true">
@@ -17,11 +17,11 @@
       </div>
 
       <div class="content-button content-button-footer">
-        <button mat-raised-button class="button-background-accent project-button" (click)="goProject()">
+        <button mat-raised-button class="button-background-primary project-button" (click)="goProject()">
             <mat-icon>assignment</mat-icon>
             <span>{{ household.import_back_to_project }}</span>
         </button>
-        <button mat-raised-button class="button-background-accent" (click)="goBeneficiaries()">
+        <button mat-raised-button class="button-background-primary" (click)="goBeneficiaries()">
             <mat-icon>supervisor_account</mat-icon>
           <span>{{ household.import_back_to_beneficiaries }}</span>
         </button>

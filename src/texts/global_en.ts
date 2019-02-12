@@ -116,6 +116,7 @@ export const TEXT = {
     beneficiaries_full_address: 'Full household address:',
     beneficiaries_household_info: 'Household information summary:',
     beneficiaries_import_addFile: 'add file or drag and drop',
+    beneficiaries_import_addModal: 'add file',
     beneficiaries_import_api: 'import from external data source',
     beneficiaries_import_beneficiaries_imported: ' beneficiaries inserted',
     beneficiaries_import_check_fields: 'A field is empty or unset, please fill all inputs and select a project',
@@ -136,14 +137,14 @@ export const TEXT = {
 
     // Cache
     cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
-    cache_store_beneficiaries: 'Store Beneficiaries',
+    cache_store_beneficiaries: 'Save For Offline Mode',
     cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',
 
     // Dashboard
     dashboard_distribution_map: 'distribution map',
     dashboard_recent_distributions: 'upcoming distributions',
     dashboard_summary: 'summary',
-    dashboard_summary_1: 'total beneficiaries',
+    dashboard_summary_1: 'total registrations',
     dashboard_summary_2: 'active projects',
     dashboard_summary_3: 'enrolled beneficiaries',
     dashboard_summary_4: 'total value transactions',
@@ -293,7 +294,7 @@ export const TEXT = {
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score weight',
     model_dateofbirth: 'Date of birth',
-    model_distribution_date: 'Date of Distribution',
+    model_distribution_date: 'Distribution Start Date',
     model_distribution_name: 'Name',
     model_distribution_type: 'Target',
     model_donor: 'Donor',
@@ -320,6 +321,9 @@ export const TEXT = {
     model_value: 'Value',
     model_vulnerabilities: 'Vulnerabilities',
 
+    // Placeholder
+    placeholder_one_many: 'Select one or many',
+    
     // Profile
     profile_user_change_password: 'Change password',
     profile_user_hint_new_password: 'New password',
@@ -395,6 +399,7 @@ export const TEXT = {
     transaction_confirm_button: 'Confirm',
     transaction_email_code: 'An email containing your validation code has been sent to:',
     transaction_id_transaction: 'ID Transaction',
+    transaction_info_export: 'If the distribution hasn\'t any transactions, you will not have any file exported',
     transaction_inProgress: 'Transaction in progress...',
     transaction_paste_code: 'Please paste the code here and click on \'Confirm\' to proceed with the transaction: ',
     transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',

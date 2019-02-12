@@ -116,6 +116,7 @@ export const TEXT = {
     beneficiaries_full_address: 'Adresse entière du ménage :',
     beneficiaries_household_info: 'Résumé des informations du ménage:',
     beneficiaries_import_addFile: 'ajouter un fichier ou glisser-déposer',
+    beneficiaries_import_addModal: 'ajouter un fichier',
     beneficiaries_import_api: 'import depuis une source externe',
     beneficiaries_import_beneficiaries_imported: ' bénéficiaires insérés',
     beneficiaries_import_check_fields: 'Un champs est vide, s\'il vous plaît remplissez tous les champs et sélectionner un projet',
@@ -136,14 +137,14 @@ export const TEXT = {
 
     // Cache
     cache_distribution_added: 'Distribution et bénéficiaires du projet ont été ajoutés dans le cache',
-    cache_store_beneficiaries: 'Enregistrer les bénéficiaires',
+    cache_store_beneficiaries: 'Sauvegarder Pour Le Mode Offline',
     cache_no_distribution: 'Cette distribution n\'est pas enregistrée dans le cache, vous ne pouvez pas y accéder hors-ligne',
     
     // Dashboard
     dashboard_distribution_map: 'répartition des distributions',
     dashboard_recent_distributions: 'distributions récentes',
     dashboard_summary: 'sommaire',
-    dashboard_summary_1: 'total de bénéficiaires',
+    dashboard_summary_1: 'total d\'enregistrements',
     dashboard_summary_2: 'projets en cours',
     dashboard_summary_3: 'bénéficiaires enregistrés',
     dashboard_summary_4: 'montant total des transactions',
@@ -290,7 +291,7 @@ export const TEXT = {
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score du poids',
     model_dateofbirth: 'Date de naissance',
-    model_distribution_date: 'Date de la Distribution',
+    model_distribution_date: 'Date Début Distribution',
     model_distribution_name: 'Nom',
     model_distribution_type: 'Cible',
     model_donor: 'Donneur',
@@ -317,6 +318,9 @@ export const TEXT = {
     model_value: 'Valeur',
     model_vulnerabilities: 'Vulnérabilités',
 
+    // Placeholder
+    placeholder_one_many: 'Select one or many',
+    
     // Profile
     profile_user_change_password: 'Changer de mot de passe',
     profile_user_hint_new_password: 'Nouveau mot de passe',
@@ -393,6 +397,7 @@ export const TEXT = {
     transaction_confirm_button: 'Confirmer',
     transaction_email_code: 'Un email contenant votre code de validation a été envoyé à : ',
     transaction_id_transaction: 'ID Transaction',
+    transaction_info_export: 'Si la distribution n\'a pas de transactions, vous n\'aurez aucun fichier exporté',
     transaction_inProgress: 'Transaction en cours...',
     transaction_paste_code: 'S\'il vous plait, coller le code ici et cliquer sur \'Confirmer\' pour procéder à la transaction',
     transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',

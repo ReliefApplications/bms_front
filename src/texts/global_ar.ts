@@ -116,6 +116,7 @@ export const TEXT = {
     beneficiaries_full_address: 'عنوان المنزل بالكامل:',
     beneficiaries_household_info: 'ملخص المعلومات الخاصة بالمنزل  :',
     beneficiaries_import_addFile: ' إضافة ملف أو وضع ملف ',
+    beneficiaries_import_addModal: 'add file',
     beneficiaries_import_api: 'تحميل من مصدر بيانات خارجي',
     beneficiaries_import_beneficiaries_imported: 'تم إضافة المستفيدين ',
     beneficiaries_import_check_fields: ' محتوى فارغ , تثبت من أدخال جميع المعطيات و اختيار مشروع ',
@@ -136,7 +137,7 @@ export const TEXT = {
 
     // Cache
     cache_distribution_added: 'التوزيع والمستفيدين من المشروع تم  إضافتهم في ذاكرة التخزين المؤقت',
-    cache_store_beneficiaries: 'تخزين المستفيدين',
+    cache_store_beneficiaries: 'Save For Offline Mode',
     cache_no_distribution: 'لم يتم تخزين هذا التوزيع في ذاكرة التخزين المؤقت ، ولا يمكنك الحصول عليه خارج خدمة الانترنت. ',
     
     // Dashboard
@@ -317,6 +318,9 @@ export const TEXT = {
     model_value: 'القيمة',
     model_transaction_state: 'الحالة',
 
+    // Placeholder
+    placeholder_one_many: 'Select one or many',
+    
     // Profile
     profile_user_change_password: 'تغيير كلمة المرور',
     profile_user_hint_new_password: 'كلمة المرور الجديدة',
@@ -393,6 +397,7 @@ export const TEXT = {
     transaction_confirm_button: 'التأكد',
     transaction_email_code: 'تم إرسال بريد إلكتروني يحتوي على رمز التحقق الخاص بك إلى:',
     transaction_id_transaction: 'معرف المعاملة.',
+    transaction_info_export: 'If the distribution hasn\'t any transactions, you will not have any file exported',
     transaction_inProgress: 'المعاملة قيد التقدم ...',
     transaction_paste_code: 'الرجاء وضع الشفرة هنا والنقر على التأكد  لمتابعة العملية:',
     transaction_prevention: 'لا تزال هذه المنصة قيد التطوير وقد لا تكون وظيفة المعاملات النقدية عبر الإنترنت مستقرة تمامًا حتى الآن. ينكر فريق التطوير المسؤولية عن أي أخطاء قد تحدث من حيث فقدان المال. بوضع علامة في المربع أدناه ، فإنك توافق على استخدام النظام بمعرفة حدوده تمامًا وتحمل المسؤولية عن نتائج المعاملة.',

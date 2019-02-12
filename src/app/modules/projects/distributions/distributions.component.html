@@ -247,7 +247,7 @@
               </button>
             </mat-menu>
           </div>
-          <button mat-raised-button class="button-background-primary" (click)="exportTransaction()" *ngIf="!loadingExport">
+          <button mat-raised-button class="button-background-primary" (click)="exportInformation(infoExport)" *ngIf="!loadingExport">
             <mat-icon>get_app</mat-icon>
             <span>{{TEXT.export | titlecase}}</span>
           </button>
@@ -280,7 +280,7 @@
         </app-transaction-table-mobile>
       </div>
 
-      <div class="content-button content-button-footer" *ngIf="actualDistribution.commodities[0].modality_type.name === 'Mobile Cash'">
+      <div class="content-button content-button-footer" *ngIf="actualDistribution.commodities && actualDistribution.commodities[0].modality_type.name === 'Mobile Cash'">
         <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
         <button mat-raised-button *ngIf="hasRightsTransaction && !transacting" (click)="openDialog(transaction);" class="button-background-accent" [matBadge]="getAmount('people')" matBadgePosition="before" matBadgeColor="primary">
           <mat-icon>send</mat-icon> {{TEXT.transaction_transaction}}
@@ -293,10 +293,16 @@
         </button>
       </div>
 
-      <div class="content-button content-button-footer" *ngIf="actualDistribution.commodities[0].modality_type.name === 'Voucher' && checkedLines.length > 0">
-        <mat-spinner [diameter]="35" *ngIf="distributed"></mat-spinner>
-        <button mat-raised-button *ngIf="hasRightsTransaction && !distributed" class="button-background-accent" (click)="distributeVoucher()">
+      <div class="content-button content-button-footer" *ngIf="actualDistribution.commodities && actualDistribution.commodities[0].modality_type.name === 'Voucher'">
+        <mat-spinner [diameter]="35" *ngIf="distributed && checkedLines.length > 0"></mat-spinner>
+        <button mat-raised-button *ngIf="hasRightsTransaction && !distributed && checkedLines.length > 0" class="button-background-accent" (click)="distributeVoucher()">
           <mat-icon>send</mat-icon> Set as distributed
+        </button>
+
+        <mat-spinner [diameter]="35" *ngIf="loaderCache"></mat-spinner>
+        <button mat-raised-button *ngIf="!loaderCache" class="button-text-accent" (click)="storeBeneficiaries()">
+          <mat-icon>save</mat-icon>
+          {{TEXT.cache_store_beneficiaries}}
         </button>
       </div>
     </div>
@@ -373,6 +379,22 @@
       <div class="modal-footer action">
         <button mat-button class="cancel button-text-accent" (click)="exit('Adding canceled')">{{TEXT.cancel}}</button>
         <button mat-button class="confirm" (click)="confirmAdding()">{{TEXT.transaction_confirm_button}}</button>
+      </div>
+    </div>
+  </mat-dialog-content>
+</ng-template>
+
+<ng-template #infoExport>
+  <mat-dialog-content class="modal-container">
+    <h4 class="modal-title underline-accent">{{ TEXT.export  | titlecase }}</h4>
+    <div class="dialog-template">
+      <div class="modal-body">
+        <p>{{ TEXT.transaction_info_export }}</p>
+      </div>
+
+      <div class="modal-footer action">
+        <button mat-button class="cancel button-text-accent" (click)="exit('Export canceled')">{{TEXT.cancel}}</button>
+        <button mat-button class="confirm" (click)="exportTransaction()">{{TEXT.export}}</button>
       </div>
     </div>
   </mat-dialog-content>

@@ -15,10 +15,10 @@ import { ExportInterface } from '../../model/export.interface';
 import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { delay, finalize } from 'rxjs/operators';
-import { ImportedDataService} from '../../core/utils/imported-data.service'
-import { throwError } from 'rxjs';
+import { ImportedDataService} from '../../core/utils/imported-data.service';
+import { throwError, Subscriber, Subscription } from 'rxjs';
 import { CarouselComponent } from 'src/app/components/carousel/carousel.component';
-
+import { SlideSelectorService } from 'src/app/core/utils/slide-selector.service';
 
 @Component({
     selector: 'app-project',
@@ -68,10 +68,17 @@ export class ProjectComponent implements OnInit {
         private _cacheService: AsyncacheService,
         public snackBar: MatSnackBar,
         public dialog: MatDialog,
-        public importedDataService: ImportedDataService
+        public importedDataService: ImportedDataService,
+        private slideSelectorService: SlideSelectorService,
     ) { }
 
     ngOnInit() {
+        this.slideSelectorService.selectedSlide.subscribe((slide: any) => {
+            if (slide) {
+                this.selectTitle(slide.project.name, slide.project);
+            }
+        });
+
         if (this.importedDataService.emittedProject) {
             this.selectedProjectId = parseInt(this.importedDataService.project)
             this.getProjects();
@@ -119,9 +126,6 @@ export class ProjectComponent implements OnInit {
      * @param project
      */
     selectTitle(title, project?): void {
-        if (!project) {
-            project = this.getProjectByName(title);
-        }
 
         this.isBoxClicked = true;
         this.selectedTitle = title;
@@ -129,6 +133,7 @@ export class ProjectComponent implements OnInit {
         this.loadingDistributions = true;
         this.getDistributionsByProject(project.id);
     }
+
     setType(choice: string) {
         this.extensionType = choice;
     }
@@ -148,11 +153,13 @@ export class ProjectComponent implements OnInit {
             response => {
                 if (response && response.length > 0) {
                     this.projects = this.projectClass.formatArray(response).reverse();
+                    this.generateProjectsSlide();
+
                     if (this.carousel) {
-                        this.generateProjectsSlide();
+                        this.carousel.update();
                     }
                     if (this.selectedProjectId) {
-                        this.autoProjectSelect(this.selectedProjectId)
+                        this.autoProjectSelect(this.selectedProjectId);
                     } else {
                         this.selectTitle(this.projects[0].name, this.projects[0]);
                     }
@@ -271,9 +278,13 @@ export class ProjectComponent implements OnInit {
 
     autoProjectSelect(input: string) {
         let selector = parseInt(input)
-        this.projects.forEach(e => {
-            if (e.id == selector) {
-                this.selectTitle(e.name, e);
+        this.slides.forEach((slide: any) => {
+            if (slide.project.id === selector) {
+                console.log("slide", slide);
+
+                this.selectTitle(slide.project.name, slide.project);
+                this.slideSelectorService.selectSlide(slide);
+                return;
             }
         })
     }
@@ -289,12 +300,12 @@ export class ProjectComponent implements OnInit {
                             color: "green",
                             title: project.name,
                             ref: project.name,
-                            selected: false,
                         },
+                        project: project,
                     }
                 );
             });
-            this.carousel.update();
+            this.slideSelectorService.setSlides(this.slides);
         }
     }
 

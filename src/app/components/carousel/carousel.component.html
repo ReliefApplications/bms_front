@@ -1,7 +1,7 @@
 <swiper [config]="config" class="swiper-container" >
   <app-box-setting 
-    *ngFor="let slide of slides; let i = index" class="swiper-slide" 
-    [info]="slide.slideInfo" (click)="selectOne(i)"
-    [isSelected]="checkIfSelected(i)">
+    *ngFor="let slide of slides" class="swiper-slide" 
+    [info]="slide.slideInfo" (click)="onSlideClicked(slide)"
+    [isSelected]="checkIfSelected(slide)">
   </app-box-setting>
 </swiper>

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { SwiperConfigInterface, SwiperComponent } from 'ngx-swiper-wrapper';
+import { SlideSelectorService } from 'src/app/core/utils/slide-selector.service';
 
 @Component({
   selector: 'app-carousel',
@@ -13,7 +14,7 @@ export class CarouselComponent implements OnInit {
   @ViewChild(SwiperComponent) swiper: SwiperComponent;
 
 
-  private indexOfSelectedSlide: number;
+  private selectedSlide: any;
 
   public config: SwiperConfigInterface = {
     direction: 'horizontal',
@@ -25,27 +26,40 @@ export class CarouselComponent implements OnInit {
 
   @Output() slideSelected = new EventEmitter<String>();
 
-  constructor() { }
+  constructor(
+    private slideSelectorService: SlideSelectorService,
+  ) { }
 
   ngOnInit() {
-    this.selectDefault();
+    this.slideSelectorService.selectedSlide.subscribe((slide: any) => {
+      this.selectOne(slide);
+    });
   }
 
-  private selectDefault(): void {
-    if (this.slides) {
-      this.selectOne(0);
+  private onSlideClicked(slide: any): void {
+    this.slideSelectorService.selectSlide(slide);
+  }
+
+  public selectOne(slide: any): void {
+    const index = this.getSlideIndex(slide);
+    if (index !== -1) {
+      this.setSwiperIndex(index);
     }
+    this.selectedSlide = slide;
   }
 
-  public selectOne(index: number): void {
-    this.indexOfSelectedSlide = index;
-    this.emitSelectedSlide();
+  private getSlideIndex(slide: any): any {
+    return this.slides.indexOf(slide);
+  }
+
+  private setSwiperIndex(index: number) {
+    this.swiper.directiveRef.setIndex(index);
   }
 
 
   // Used in HTML
-  private checkIfSelected(index: number) {
-    if (index === this.indexOfSelectedSlide) {
+  private checkIfSelected(slide: any) {
+    if (slide === this.selectedSlide) {
       return true;
     }
     return false;
@@ -65,4 +79,5 @@ export class CarouselComponent implements OnInit {
   public update(): void {
     this.swiper.directiveRef.update();
   }
+
 }

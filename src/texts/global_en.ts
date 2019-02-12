@@ -160,7 +160,7 @@ export const TEXT = {
     data_verification_description_end: 'Modifications will be added to the database on each step validation.',
     data_verification_done: 'Your data has been verified',
     data_verification_error: 'Error processing data',
-    data_verification_send: 'Send',
+    data_verification_send: 'Update',
     data_verification_snackbar_duplicate_corrected: 'Duplicate issues corrected',
     data_verification_snackbar_duplicate_no_corrected: 'Not all duplicated have been corrected',
     data_verification_snackbar_less_corrected: 'Beneficiaries removed with success',

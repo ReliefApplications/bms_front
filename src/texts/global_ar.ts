@@ -77,7 +77,6 @@ export const TEXT = {
     add_beneficiary_step3:'أفراد العائلة',
     add_beneficiary_title: 'إضافة مستفيد',
     add_beneficiary_code: 'رمز الهاتف الدولي',
-    add_beneficiary_country_specifics: 'تفاصيل البلد',
 
     // Add distribution
     add_distribution_advanced_option: 'خيارات متقدمة',

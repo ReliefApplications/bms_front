@@ -5,19 +5,19 @@
   <div class="container-table">
     <div class="container-content box-green">
       <div class="content-button">
-        <mat-spinner [diameter]='40' *ngIf="loadingExport"></mat-spinner>
-
-        <div class="action-buttons" *ngIf="!loadingExport">
+        
+        <div class="action-buttons">
+          <mat-spinner class="export-spinner" [diameter]='25' *ngIf="loadingExport"></mat-spinner>
           <button mat-raised-button *ngIf="hasRightsDelete && checkedElements.length > 0" class="button-background-primary"
             (click)="addToProject(addBeneficiaries)" [matBadge]="checkedElements.length">
             {{household.beneficiaries_add_list}}
           </button>
-          <button mat-raised-button class="button-background-primary" (click)="export()">
+          <button mat-raised-button *ngIf="!loadingExport" class="button-background-primary" (click)="export()">
             <mat-icon>get_app</mat-icon>
             <span>{{household.export | titlecase}}</span>
           </button>
           <div class="extension" *ngIf='hasRightsExport'>
-            <div mat-button class="dropdown" [ngClass]="{'arabic':language==='ar'}" [matMenuTriggerFor]="exportType">
+            <div mat-button class="dropdown" *ngIf="!loadingExport" [ngClass]="{'arabic':language==='ar'}" [matMenuTriggerFor]="exportType">
               <mat-icon>keyboard_arrow_down</mat-icon>
             </div>
             <mat-menu #exportType>

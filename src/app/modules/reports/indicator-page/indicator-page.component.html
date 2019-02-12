@@ -21,8 +21,8 @@
                         [referenceKey]="'frequency'"></button-filter-date>
                 </div>
 
-                <div class="frequency">
-                    <mat-spinner *ngIf="isDownloading" [diameter]="35"></mat-spinner>
+                <div class="frequency action-buttons">
+                    <mat-spinner class="export-spinner" [diameter]='25' *ngIf="isDownloading"></mat-spinner>
                     <button *ngIf="!isDownloading" mat-raised-button class="button-background-primary" (click)="downloadPDF()">
                         <mat-icon>get_app</mat-icon>
                         <span>{{indicator.export | titlecase}}</span>

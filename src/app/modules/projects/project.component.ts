@@ -76,7 +76,6 @@ export class ProjectComponent implements OnInit {
     ngOnInit() {
         this.slideSubscriber = this.slideSelectorService.selectedSlide.subscribe((slide: any) => {
             if (slide && slide.project) {
-                console.log(slide);
                 this.selectTitle(slide.project.name, slide.project);
             }
         });
@@ -159,7 +158,6 @@ export class ProjectComponent implements OnInit {
             response => {
                 if (response && response.length > 0) {
                     this.projects = this.projectClass.formatArray(response).reverse();
-                    console.log("here");
                     this.generateProjectsSlide();
 
                     if (this.carousel) {
@@ -286,9 +284,6 @@ export class ProjectComponent implements OnInit {
         let selector = parseInt(input)
         this.slides.forEach((slide: any) => {
             if (slide.project.id === selector) {
-                console.log("slide", slide);
-
-                this.selectTitle(slide.project.name, slide.project);
                 this.slideSelectorService.selectSlide(slide);
                 return;
             }
@@ -317,19 +312,5 @@ export class ProjectComponent implements OnInit {
 
     private resetSlides(): void {
         this.slides = [];
-    }
-
-    private getProjectByName(name: string): any {
-        if (this.projects) {
-            for (const project of this.projects) {
-                if (name === project.name) {
-                    return project;
-                }
-            }
-            throwError('No project found with this name');
-            return this.projects[0];
-        }
-        throwError('No project found');
-        return new Project();
     }
 }

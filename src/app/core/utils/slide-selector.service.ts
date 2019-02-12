@@ -19,7 +19,6 @@ export class SlideSelectorService {
   }
 
   public selectSlide(slide: any) {
-    console.log("select");
     this.slideSource.next(slide);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { SwiperConfigInterface, SwiperComponent } from 'ngx-swiper-wrapper';
 import { SlideSelectorService } from 'src/app/core/utils/slide-selector.service';
 import { Subscription } from 'rxjs';
@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss']
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent implements OnInit, OnDestroy {
 
   @Input() slides: any;
 
@@ -25,8 +25,6 @@ export class CarouselComponent implements OnInit {
     mousewheel: true,
 };
 
-  @Output() slideSelected = new EventEmitter<String>();
-
   private slideSubscriber: Subscription;
 
   constructor(
@@ -40,7 +38,7 @@ export class CarouselComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.slideSubscriber.unsubscribe();        
+    this.slideSubscriber.unsubscribe();
 }
 
   private onSlideClicked(slide: any): void {
@@ -72,19 +70,9 @@ export class CarouselComponent implements OnInit {
     return false;
   }
 
-  private emitSelectedSlide(): void {
-    if (this.slides.length) {
-      const slide = this.getSlideFromIndex(this.indexOfSelectedSlide);
-      this.slideSelected.emit(slide);
-    }
-  }
-
-  private getSlideFromIndex(index: number): any {
-    return this.slides[index].slideInfo;
-  }
-
   public update(): void {
     this.swiper.directiveRef.update();
+    this.setSwiperIndex(0);
   }
 
 }

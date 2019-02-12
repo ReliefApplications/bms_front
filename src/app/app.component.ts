@@ -39,7 +39,10 @@ export class AppComponent {
 
     ngOnInit() {
         this.checkSize();
-        GlobalText.changeLanguage();
+        this._authenticationService.getUser()
+          .subscribe(user => {
+            GlobalText.changeLanguage(user.language);
+          });
     }
 
     ngDoCheck() {

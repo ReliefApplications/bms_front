@@ -318,6 +318,9 @@ export const TEXT = {
     model_value: 'القيمة',
     model_transaction_state: 'الحالة',
 
+    // Placeholder
+    placeholder_one_many: 'Select one or many',
+    
     // Profile
     profile_user_change_password: 'تغيير كلمة المرور',
     profile_user_hint_new_password: 'كلمة المرور الجديدة',

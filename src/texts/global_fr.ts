@@ -318,6 +318,9 @@ export const TEXT = {
     model_value: 'Valeur',
     model_vulnerabilities: 'Vulnérabilités',
 
+    // Placeholder
+    placeholder_one_many: 'Select one or many',
+    
     // Profile
     profile_user_change_password: 'Changer de mot de passe',
     profile_user_hint_new_password: 'Nouveau mot de passe',

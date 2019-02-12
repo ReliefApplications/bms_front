@@ -321,6 +321,9 @@ export const TEXT = {
     model_value: 'Value',
     model_vulnerabilities: 'Vulnerabilities',
 
+    // Placeholder
+    placeholder_one_many: 'Select one or many',
+    
     // Profile
     profile_user_change_password: 'Change password',
     profile_user_hint_new_password: 'New password',

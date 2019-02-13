@@ -410,10 +410,14 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         )
     }
 
+    exportInformation(template) {
+        this.dialog.open(template);
+    }
     /**
      * Requests back-end a file containing informations about the transaction
      */
     exportTransaction() {
+        this.dialog.closeAll();
         this.loadingExport = true;
         this.distributionService.export('transaction', this.extensionTypeTransaction, this.distributionId).then(
             () => { this.loadingExport = false }
@@ -427,7 +431,12 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      * @param template
      */
     openDialog(template) {
+        const distributionDate = new Date(this.actualDistribution.date_distribution);
+        if (new Date() < distributionDate) {
             this.dialog.open(template);
+        } else {
+            this.snackBar.open(GlobalText.TEXTS.snackbar_invalid_transaction_date, '', { duration: 5000, horizontalPosition: 'center' });
+        }
     }
 
     /**

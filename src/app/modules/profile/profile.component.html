@@ -8,7 +8,7 @@
       <form class="profile-field" [formGroup]="profileForm" (ngSubmit)="onProfileFormSubmit()">
         <h2> {{ profilePage.profile_user_information | titlecase }} </h2>
         <mat-form-field *ngIf='actualUser'>
-          <input matInput placeholder={{actualUser.email}} formControlName="email" [disabled]="true">
+          <input matInput placeholder={{profilePage.email}} formControlName="email" [disabled]="true">
         </mat-form-field>
 
         <h2> {{ profilePage.profile_user_change_password | titlecase }} </h2>

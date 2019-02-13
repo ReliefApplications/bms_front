@@ -40,11 +40,11 @@ export class LoginComponent implements OnInit {
         this.blankUser();
     }
 
-    initCountry() {
+    initCountry(country: string) {
         this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(
             result => {
                 if(!result) {
-                    this.asyncacheService.set(AsyncacheService.COUNTRY, 'KHM');
+                    this.asyncacheService.set(AsyncacheService.COUNTRY, country);
                 }
             }
         )
@@ -77,13 +77,9 @@ export class LoginComponent implements OnInit {
         subscription.subscribe(
             (user: User) => {
                 if (user.country && user.country.length === 0 && user.rights === "ROLE_ADMIN") {
-                  this.initCountry();
+                  this.initCountry('KHM');
                 } else {
-                    this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(country => {
-                        if (!country) {
-                            this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
-                        }
-                    })
+                    this.initCountry(user.country[0]);
                 }
                 this.router.navigate(['/']);
                 if (user.language) {

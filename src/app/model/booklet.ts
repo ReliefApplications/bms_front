@@ -141,7 +141,7 @@ export class Booklet {
             individual_value: selfinstance.individual_value,
             currency: selfinstance.currency,
             status: selfinstance.status,
-            distribution_beneficiary: selfinstance.distribution_beneficiary.id,
+            distribution_beneficiary: selfinstance.distribution_beneficiary ? selfinstance.distribution_beneficiary.id : null,
         };
     }
 

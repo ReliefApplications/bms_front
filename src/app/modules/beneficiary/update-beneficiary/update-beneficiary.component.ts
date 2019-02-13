@@ -128,7 +128,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * Gets household from backend and loads the method that will fill our 'updatedHousehold' attribute for input display and update.
      */
     initiateHousehold() {
-        console.log("initiate");
         this.updatedHousehold = {
             // First set the format of a Household for Input Forms
             // id: 0,
@@ -739,7 +738,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      */
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
-        console.log("deactivate", this.updatedHousehold);
         if (this.checkIfFormHasBeenModified() && !this.validationLoading) {
             const dialogRef = this.dialog.open(ModalLeaveComponent, {});
 
@@ -749,7 +747,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
     }
     private checkIfFormHasBeenModified(): boolean {
-        console.log(this.updatedHousehold, this.uneditedSnapshot);
         if (this.checkEqualValues(this.updatedHousehold, this.uneditedSnapshot)) {
             return false;
         }

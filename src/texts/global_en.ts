@@ -210,6 +210,7 @@ export const TEXT = {
     distribution_show_data: 'Show data anyway',
     distribution_validate: 'Validate',
     distribution_validated: 'Distribution has been validated',
+    distribution_validated_title: 'Validated distribution',
     distribution_want_add: 'that you want to add to the ',
 
 

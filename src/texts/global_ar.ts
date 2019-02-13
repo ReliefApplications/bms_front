@@ -210,6 +210,7 @@ export const TEXT = {
     distribution_show_data: 'عرض البيانات على أي حال',
     distribution_validate: 'التحقق من صحة',
     distribution_validated: ' تم التحقق من صحة التوزيع',
+    distribution_validated_title: 'Validated distribution',
     distribution_want_add: 'التي تريد إضافتها إلى ',
 
     // Header

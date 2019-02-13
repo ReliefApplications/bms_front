@@ -300,11 +300,9 @@ export class VouchersComponent implements OnInit {
 
   assignBooklet() {
     this.loadingAssignation = true;
-    const body = {
-      booklet: this.bookletQRCode
-    }
+    const bookletId = this.bookletQRCode;
 
-    this.bookletService.assignBenef(body, this.storeChoice.beneficiary)
+    this.bookletService.assignBenef(bookletId, this.storeChoice.beneficiary)
       .pipe(
         finalize(
           () => this.loadingAssignation = false

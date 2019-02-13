@@ -41,8 +41,8 @@ export class BookletService {
         return this.http.post(url, body);
     }
 
-    public assignBenef(body: any, idBeneficiary: number) {
-        const url = this.api + "/booklets/assign/" + idBeneficiary;
-        return this.http.post(url, body);
+    public assignBenef(idBooklet: string, idBeneficiary: number) {
+        const url = this.api + `/booklets/${idBooklet}/assign/${idBeneficiary}`;
+        return this.http.post(url, {});
     }
 }

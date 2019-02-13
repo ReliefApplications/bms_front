@@ -56,6 +56,9 @@ export const TEXT = {
     role_user_project_officer: 'عنصر في مشروع',
     role_user_regional_manager: 'مسؤول عن الإقليم',
 
+    // Months
+    months_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+
 
     // SPECIFIC VARIABLES
 

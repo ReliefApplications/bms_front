@@ -74,7 +74,7 @@ export class VouchersComponent implements OnInit {
   public step5: boolean = false;
 
   public bookletQRCode: string = "VC7PZ#003-003-003";
-  public code: string = '';
+  public password: string = '';
   public displayPassword: boolean = false;
 
   constructor(
@@ -255,20 +255,20 @@ export class VouchersComponent implements OnInit {
       this.step4 = true;
     }
     else if (step == 5) {
-      if (this.displayPassword && (isNaN(Number(this.code)) || this.code == '' || this.code.length != 4)) {
+      if (this.displayPassword && (isNaN(Number(this.password)) || this.password == '' || this.password.length != 4)) {
         this.snackBar.open(this.voucher.voucher_only_digits, '', { duration: 5000, horizontalPosition: 'center' });
       }
       else {
         this.loadingPassword = true;
 
         if (!this.displayPassword) {
-          this.code = null;
+          this.password = null;
         }
         // TODO remove this next line
         this.bookletQRCode = "VC7PZ#003-003-003";
 
         const body = {
-          code: this.code,
+          password: this.password,
         };
 
         this.bookletService.setPassword(this.bookletQRCode, body)

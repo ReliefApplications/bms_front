@@ -37,12 +37,12 @@ export class BookletService {
     }
 
     public setPassword(id: string, body: any) {
-        const url = this.api + `/booklets/${id}/password`;
+        const url = this.api + `/booklets/${encodeURIComponent(id)}/password`;
         return this.http.post(url, body);
     }
 
     public assignBenef(idBooklet: string, idBeneficiary: number) {
-        const url = this.api + `/booklets/${idBooklet}/assign/${idBeneficiary}`;
+        const url = this.api + `/booklets/${encodeURIComponent(idBooklet)}/assign/${idBeneficiary}`;
         return this.http.post(url, {});
     }
 }

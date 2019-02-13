@@ -45,4 +45,8 @@ export class ScannerComponent extends VouchersComponent {
   onDeviceSelectChange(selectedValue: string) {
     this.currentDevice = this.scanner.getDeviceById(selectedValue);
   }
+
+  log(event) {
+    console.log(event);
+  }
 }

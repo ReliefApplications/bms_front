@@ -265,7 +265,7 @@ export class VouchersComponent implements OnInit {
           this.password = null;
         }
         // TODO remove this next line
-        this.bookletQRCode = "VC7PZ#003-003-003";
+        this.bookletQRCode = "V3hA7#000-000-000";
 
         const body = {
           password: this.password,

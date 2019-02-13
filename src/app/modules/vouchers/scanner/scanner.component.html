@@ -8,7 +8,12 @@
         device.label }}</mat-option>
     </mat-select>
 
-    <zxing-scanner #scanner start="true" [device]="currentDevice" (scanSuccess)="handleQrCodeResult($event)" [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"></zxing-scanner>
+    <zxing-scanner #scanner start="true" [device]="currentDevice" (scanSuccess)="handleQrCodeResult($event)"
+      (scanError)="log($event)"
+      (scanFailure)="log($event)"
+      (scanComplete)="log($event)"
+      [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']">
+    </zxing-scanner>
   </div>
 
   <div *ngIf="!hasDevices">

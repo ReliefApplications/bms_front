@@ -183,6 +183,9 @@
             </div>
             <div class="content-button-footer">
               <mat-progress-bar mode="determinate" value="35"></mat-progress-bar>
+              <button mat-raised-button class="button-background-accent margin-right" (click)="stepper.previous()">
+                {{Text.back}}
+              </button>
               <button mat-raised-button class="button-background-primary margin-right" (click)='nextValidation(2, stepper)'>
                 {{Text.next}}
               </button>
@@ -302,6 +305,9 @@
           <div class="content-button-footer">
             <mat-progress-bar mode="determinate" value="70"></mat-progress-bar>
             <div class="action-buttons">
+              <button mat-raised-button class="button-background-accent margin-right" (click)="stepper.previous()">
+                {{Text.back}}
+              </button>
               <button mat-raised-button (click)="updatedHousehold.beneficiaries.push( pushBeneficiary() )" class="button-background-accent">
                 <mat-icon>add</mat-icon>
                 {{ Text.add }}
@@ -400,6 +406,7 @@
               <button mat-button class="button-text-primary" (click)="leave()">{{Text.cancel}}</button>
 
               <mat-spinner [diameter]="25" *ngIf="validationLoading"></mat-spinner>
+              <button mat-raised-button class="button-background-accent margin-right" (click)="stepper.previous()">{{Text.back}}</button>
               <button mat-raised-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading" (click)="create()">{{Text.create}}</button>
               <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update}}</button>
             </div>

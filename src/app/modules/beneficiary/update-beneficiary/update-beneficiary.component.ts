@@ -163,9 +163,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
                     this.getCountrySpecifics().subscribe((countrySpecificsList: any) => {
                         this.updatedHousehold.specificAnswers = countrySpecificsList;
-                        console.log(this.updatedHousehold);
-                        this.uneditedSnapshot = this.deepCopy(this.updatedHousehold);
-                        console.log("unedited", this.uneditedSnapshot);
+                        this.snapshot();
                     });
 
                 }
@@ -183,6 +181,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                                 this.getCountryCodes();
                                 this.formatHouseholdForForm();
                                 this.loader = false;
+                                this.snapshot();
                             }
                         );
                     }
@@ -1003,9 +1002,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
     }
 
+    private snapshot(): void {
+        this.uneditedSnapshot = this.deepCopy(this.updatedHousehold);
+    }
+
     private deepCopy(object: any) {
         const copy = JSON.parse(JSON.stringify(object));
-        console.log("STRINGIFY");
         return copy;
     }
 

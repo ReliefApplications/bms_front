@@ -12,7 +12,7 @@
         width: 100%;
         padding: 0 20px;
         font-family: $bms_font_header;
-        font-size: 1.2em;
+        font-size: 24px;
         display: flex;
         align-items: center;
         h1, h2, h3 {
@@ -128,6 +128,9 @@
     .action-buttons {
         .text {
            display: inline;
+        }
+        mat-spinner{
+            height:40px;
         }
     }
 }

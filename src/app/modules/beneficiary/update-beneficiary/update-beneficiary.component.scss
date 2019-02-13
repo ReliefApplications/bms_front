@@ -163,6 +163,12 @@ app-placeholder-panel {
       justify-content: center;
       align-items: center;
     }
+
+    .delete {
+      mat-icon {
+        margin-left: 8px;
+      }
+    }
   }
 }
 

@@ -56,6 +56,9 @@ export const TEXT = {
     role_user_project_officer: 'عنصر في مشروع',
     role_user_regional_manager: 'مسؤول عن الإقليم',
 
+    // Months
+    months_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+
 
     // SPECIFIC VARIABLES
 
@@ -77,7 +80,13 @@ export const TEXT = {
     add_beneficiary_step3:'أفراد العائلة',
     add_beneficiary_title: 'إضافة مستفيد',
     add_beneficiary_code: 'رمز الهاتف الدولي',
-    add_beneficiary_country_specifics: 'تفاصيل البلد',
+
+    // Add beneficiary options
+    national_id_passport: 'Passport',
+    national_id_card: 'ID Card',
+    national_id_license: 'Driver\'s License',
+    national_id_family_registry: 'Family Registry',
+    national_id_other: 'Other',
 
     // Add distribution
     add_distribution_advanced_option: 'خيارات متقدمة',
@@ -137,7 +146,7 @@ export const TEXT = {
 
     // Cache
     cache_distribution_added: 'التوزيع والمستفيدين من المشروع تم  إضافتهم في ذاكرة التخزين المؤقت',
-    cache_store_beneficiaries: 'تخزين المستفيدين',
+    cache_store_beneficiaries: 'Save For Offline Mode',
     cache_no_distribution: 'لم يتم تخزين هذا التوزيع في ذاكرة التخزين المؤقت ، ولا يمكنك الحصول عليه خارج خدمة الانترنت. ',
     
     // Dashboard
@@ -161,7 +170,7 @@ export const TEXT = {
     data_verification_description_end: 'سيتم إضافة التعديلات إلى قاعدة البيانات في كل خطوة تدقيق.',
     data_verification_done: 'تم التحقق من بياناتك',
     data_verification_error: 'حدث خطأ في معالجة البيانات',
-    data_verification_send: 'أرسل',
+    data_verification_send: 'Update',
     data_verification_snackbar_duplicate_corrected: 'أخطاء التكرار المصححة',
     data_verification_snackbar_duplicate_no_corrected: 'كل أخطاء التكرار التي لم يتم تصحيحها',
     data_verification_snackbar_less_corrected: 'تم حذف المستفيدين بنجاح',
@@ -204,6 +213,7 @@ export const TEXT = {
     distribution_show_data: 'عرض البيانات على أي حال',
     distribution_validate: 'التحقق من صحة',
     distribution_validated: ' تم التحقق من صحة التوزيع',
+    distribution_validated_title: 'Validated distribution',
     distribution_want_add: 'التي تريد إضافتها إلى ',
 
     // Header
@@ -318,6 +328,9 @@ export const TEXT = {
     model_value: 'القيمة',
     model_transaction_state: 'الحالة',
 
+    // Placeholder
+    placeholder_one_many: 'Select one or many',
+    
     // Profile
     profile_user_change_password: 'تغيير كلمة المرور',
     profile_user_hint_new_password: 'كلمة المرور الجديدة',
@@ -394,6 +407,7 @@ export const TEXT = {
     transaction_confirm_button: 'التأكد',
     transaction_email_code: 'تم إرسال بريد إلكتروني يحتوي على رمز التحقق الخاص بك إلى:',
     transaction_id_transaction: 'معرف المعاملة.',
+    transaction_info_export: 'If the distribution hasn\'t any transactions, you will not have any file exported',
     transaction_inProgress: 'المعاملة قيد التقدم ...',
     transaction_paste_code: 'الرجاء وضع الشفرة هنا والنقر على التأكد  لمتابعة العملية:',
     transaction_prevention: 'لا تزال هذه المنصة قيد التطوير وقد لا تكون وظيفة المعاملات النقدية عبر الإنترنت مستقرة تمامًا حتى الآن. ينكر فريق التطوير المسؤولية عن أي أخطاء قد تحدث من حيث فقدان المال. بوضع علامة في المربع أدناه ، فإنك توافق على استخدام النظام بمعرفة حدوده تمامًا وتحمل المسؤولية عن نتائج المعاملة.',

@@ -66,7 +66,14 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     // Constant lists
     public genderList: string[] = ['F', 'M'];
     public typePhoneList: string[] = ['Mobile', 'Landline'];
-    public typeNationalIdList: string[] = ['Passport', 'ID Card'];
+    public typeNationalIdList: string[] = ['Passport', 'ID Card', 'Driver\'s License', 'Family Registry', 'Other'];
+    public typeNationalIdNamesList: object = {
+        'Passport': this.Text.national_id_passport,
+        'ID Card' : this.Text.national_id_card,
+        'Driver\'s License' : this.Text.national_id_license,
+        'Family Registry' : this.Text.national_id_family_registry,
+        'Other': this.Text.national_id_other
+    }
 
     // Checkpoint
     validStep1 = false;

@@ -51,6 +51,17 @@ table {
     }
   }
 
+  .scrollable-icons {
+    width: 80px;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+
+    .icon {
+      margin-right: 5px;
+    }
+  }
+  
   td.mat-cell:last-of-type,
   td.mat-footer-cell:not(last-of-type),
   th.mat-header-cell:not(last-of-type) {

@@ -410,10 +410,14 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         )
     }
 
+    exportInformation(template) {
+        this.dialog.open(template);
+    }
     /**
      * Requests back-end a file containing informations about the transaction
      */
     exportTransaction() {
+        this.dialog.closeAll();
         this.loadingExport = true;
         this.distributionService.export('transaction', this.extensionTypeTransaction, this.distributionId).then(
             () => { this.loadingExport = false }
@@ -427,7 +431,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      * @param template
      */
     openDialog(template) {
-            this.dialog.open(template);
+        this.dialog.open(template);
     }
 
     /**

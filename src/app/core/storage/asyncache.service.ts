@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { CachedItemInterface } from './cached-item.interface';
-import { map, concat, catchError } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { map, concat, catchError, switchMap } from 'rxjs/operators';
+import { Observable, of, forkJoin } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { HttpClient } from '@angular/common/http';
 import { StoredRequestInterface, failedRequestInterface } from 'src/app/model/stored-request';
@@ -303,13 +303,49 @@ export class AsyncacheService {
 
     /**
      * Clear all the cache.
-     * @param force 
+     * @param force - `true` to clear all the cache, `false` to exclude some fields
+     * @param excludedFields - fields to keep after the clear
      */
-    clear(force: boolean = true) {
+    clear(force: boolean = true, excludedFields?: string[]) {
+        // If force is true, clear all the storage 
         if (force) {
             return this.storage.clear();
         } else {
-            // TODO: find optimal code to adapt database clearing with deletable test.
+            /** Object that will contain the fields that should remain in the storage and their value */
+            const keptFields = {};
+            /** Array of `storage.getItem` observables that will be subscribed to get the values of the fields we want to keep */
+            const observables = [];
+            // Push all the observables in the array
+            for (const field of excludedFields) {
+                observables.push(this.storage.getItem(this.formatKey(field)));
+            }
+
+            /**
+             * Subscribe in parallel to all the observables of the `observables` array
+             * and store the results in the `keptFields` object
+             */
+            return forkJoin(...observables)
+                .pipe(
+                    map(results => {
+                        for (let i = 0; i < results.length; i++) {
+                            keptFields[this.formatKey(excludedFields[i])] = results[i];
+                        }
+                    }),
+                    /**
+                     * Then delete all the cache and make a `setItem` for all the fields we wanted to save
+                     */
+                    switchMap(_ => {
+                        return this.storage.clear()
+                        .pipe(
+                            map(_ => {
+                                const keys = Object.keys(keptFields);
+                                for (const key of keys) {
+                                    this.storage.setItem(key, keptFields[key]).subscribe();
+                                }
+                            })
+                        )
+                    })
+                )
         }
     }
 

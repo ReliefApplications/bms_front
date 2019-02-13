@@ -16,6 +16,7 @@
   bottom: 0;
   background-color: $bms_white;
   margin-block-end: 1.33em;
+  z-index: 1;
 }
 
 .ng-select.multiple ::ng-deep .ng-select-container .ng-value-container .ng-value {

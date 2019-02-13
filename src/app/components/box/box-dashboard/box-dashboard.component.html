@@ -2,11 +2,11 @@
     <button (click)="changeRoute(info.ref)" style="text-decoration: none;">
         <div class="box-content-content">
             <div class="content-icon box-{{info.color}}">
-                <img src="assets/images/{{info.icon}}.png">
+                <img src="assets/images/{{info.icon}}.svg">
             </div>
             <div class="content-info">
                 <h5 class="info-title" [ngClass]="{'arabic':language==='ar'}" >{{info.title | titlecase}}</h5>
-                <h4 *ngIf="info.subtitle || info.subtitle == 0" class="info-subtitle" [ngClass]="{'arabic':language==='ar'}">{{info.subtitle}}</h4>
+                <h4 *ngIf="info.subtitle || info.subtitle == 0" class="info-subtitle" [ngClass]="{'arabic':language==='ar'}">{{info.subtitle | thousands }}</h4>
                 <h4 *ngIf="!info.subtitle && info.subtitle !== 0" class="info-subtitle no-data">
                     <mat-icon>cloud_off</mat-icon>
                     <span> {{box.no_data}} </span>

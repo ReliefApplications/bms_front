@@ -13,6 +13,14 @@
     }
     margin-bottom: 20px;
   }
+
+  .align-items {
+    display: flex;
+
+    .spacement {
+      margin-left: 15px;
+    }
+  }
 }
 
 @media only screen and (max-width: 700px) {

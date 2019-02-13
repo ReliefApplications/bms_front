@@ -56,6 +56,9 @@ export const TEXT = {
     role_user_project_officer: 'Agent de projet',
     role_user_regional_manager: 'Responsable de région',
 
+    // Months
+    months_short: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
+
 
     // SPECIFIC VARIABLES
 
@@ -77,7 +80,13 @@ export const TEXT = {
     add_beneficiary_step3: 'Membres',
     add_beneficiary_title: 'Ajout d\'un bénéficiaire',
     add_beneficiary_code: 'Code pays',
-    add_beneficiary_country_specifics: 'Country specifics',
+
+    // Add beneficiary options
+    national_id_passport: 'Passeport',
+    national_id_card: 'Carte d\'identité',
+    national_id_license: 'Permis de conduire',
+    national_id_family_registry: 'Livret de famille',
+    national_id_other: 'Autre',
 
     // Add distribution
     add_distribution_advanced_option: 'Options avancées',
@@ -138,14 +147,14 @@ export const TEXT = {
 
     // Cache
     cache_distribution_added: 'Distribution et bénéficiaires du projet ont été ajoutés dans le cache',
-    cache_store_beneficiaries: 'Enregistrer les bénéficiaires',
+    cache_store_beneficiaries: 'Sauvegarder Pour Le Mode Offline',
     cache_no_distribution: 'Cette distribution n\'est pas enregistrée dans le cache, vous ne pouvez pas y accéder hors-ligne',
     
     // Dashboard
     dashboard_distribution_map: 'répartition des distributions',
     dashboard_recent_distributions: 'distributions récentes',
     dashboard_summary: 'sommaire',
-    dashboard_summary_1: 'total de bénéficiaires',
+    dashboard_summary_1: 'total d\'enregistrements',
     dashboard_summary_2: 'projets en cours',
     dashboard_summary_3: 'bénéficiaires enregistrés',
     dashboard_summary_4: 'montant total des transactions',
@@ -162,7 +171,7 @@ export const TEXT = {
     data_verification_description_end: 'Les modifications seront ajoutées à la base de donnée à chaque étape validée.',
     data_verification_done: 'Toutes les données ont été vérifiées',
     data_verification_error: 'Erreur lors du parcours des données',
-    data_verification_send: 'Envoyer',
+    data_verification_send: 'Mettre à jour',
     data_verification_snackbar_duplicate_corrected: 'Problèmes de doublons corrigées',
     data_verification_snackbar_duplicate_no_corrected: 'Toutes les erreurs de doublons ne sont pas corrigées',
     data_verification_snackbar_less_corrected: 'Bénéficiaires supprimer avec succès',
@@ -205,6 +214,7 @@ export const TEXT = {
     distribution_show_data: 'Afficher les données quand même',
     distribution_validate: 'Valider',
     distribution_validated: 'La distribution a été validée',
+    distribution_validated_title: 'Distribution validée',
     distribution_want_add: 'que vous souhaitez ajouter à la ',
 
     // Header
@@ -292,7 +302,7 @@ export const TEXT = {
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score du poids',
     model_dateofbirth: 'Date de naissance',
-    model_distribution_date: 'Date de la Distribution',
+    model_distribution_date: 'Date Début Distribution',
     model_distribution_name: 'Nom',
     model_distribution_type: 'Cible',
     model_donor: 'Donneur',
@@ -319,6 +329,9 @@ export const TEXT = {
     model_value: 'Valeur',
     model_vulnerabilities: 'Vulnérabilités',
 
+    // Placeholder
+    placeholder_one_many: 'Select one or many',
+    
     // Profile
     profile_user_change_password: 'Changer de mot de passe',
     profile_user_hint_new_password: 'Nouveau mot de passe',
@@ -363,7 +376,7 @@ export const TEXT = {
     settings_country_specific_options: 'options par pays',
     settings_created: ' créé(e)',
     settings_donors: 'donateurs',
-    settings_financial_provider: 'Connexion tiers',
+    settings_financial_provider: 'Connexions tiers',
     settings_log_button: 'Recevoir les logs de cet utilisateur par email',
     settings_project_exists: 'Un projet avec le même nom existe déjà',
     settings_users: 'utilisateurs',
@@ -395,6 +408,7 @@ export const TEXT = {
     transaction_confirm_button: 'Confirmer',
     transaction_email_code: 'Un email contenant votre code de validation a été envoyé à : ',
     transaction_id_transaction: 'ID Transaction',
+    transaction_info_export: 'Si la distribution n\'a pas de transactions, vous n\'aurez aucun fichier exporté',
     transaction_inProgress: 'Transaction en cours...',
     transaction_paste_code: 'S\'il vous plait, coller le code ici et cliquer sur \'Confirmer\' pour procéder à la transaction',
     transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',

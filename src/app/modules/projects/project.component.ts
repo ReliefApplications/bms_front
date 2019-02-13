@@ -131,18 +131,20 @@ export class ProjectComponent implements OnInit {
             )
         ).subscribe(
             response => {
-                if (response && response.length > 0) {
-                    this.projects = this.projectClass.formatArray(response).reverse();
-                    if (this.selectedProjectId) {
-                        this.autoProjectSelect(this.selectedProjectId)
-                    } else {
-                        this.selectTitle(this.projects[0].name, this.projects[0]);
+                    if (response && response.length > 0) {
+                        const formattedResponse = this.projectClass.formatArray(response).reverse();
+                        if ( !this.projects  || formattedResponse.length !== this.projects.length) {
+                            this.projects = formattedResponse;
+                            if (this.selectedProjectId) {
+                                this.autoProjectSelect(this.selectedProjectId);
+                            } else {
+                                this.selectTitle(this.projects[0].name, this.projects[0]);
+                            }
+                            this.loadingProjects = false;
+                        }
+                    } else if (response === null) {
+                        this.loadingProjects = false;
                     }
-                    this.loadingProjects = false;
-                } else if (response === null) {
-                    this.projects = null;
-                    this.loadingProjects = false;
-                }
             }
         );
     }

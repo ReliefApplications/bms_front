@@ -269,10 +269,9 @@ export class VouchersComponent implements OnInit {
 
         const body = {
           code: this.code,
-          booklet: this.bookletQRCode
         };
 
-        this.bookletService.setPassword(body)
+        this.bookletService.setPassword(this.bookletQRCode, body)
           .pipe(
             finalize(
               () => this.loadingPassword = false

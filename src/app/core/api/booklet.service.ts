@@ -36,8 +36,8 @@ export class BookletService {
         return this.http.delete(url);
     }
 
-    public setPassword(body: any) {
-        const url = this.api + "/booklets/password/";
+    public setPassword(id: string, body: any) {
+        const url = this.api + `/booklets/${id}/password`;
         return this.http.post(url, body);
     }
 

@@ -439,13 +439,10 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                         voucherFound = true;
                     else if (item.modality == "Cash")
                         cashFound = true;
-<<<<<<< HEAD
                     else if (item.value <= 0) {
                         isZero = true;
                     }
-=======
-
->>>>>>> dev
+                  
                     if (voucherFound && cashFound) {
                         error = true;
                         return;

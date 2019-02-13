@@ -35,7 +35,7 @@ export class TableSearchComponent extends TableComponent implements OnInit {
         )
         .catch(
             (e) => {
-                this.snackBar.open('Logs could not be sent : ' +e, '', {duration: 5000, horizontalPosition: 'center'})
+                this.snackBar.open('Logs could not be sent', '', {duration: 5000, horizontalPosition: 'center'})
             }
         );
     }

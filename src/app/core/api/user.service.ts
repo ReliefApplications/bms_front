@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { URL_BMS_API } from '../../../environments/environment';
 
 import { HttpService } from './http.service';
@@ -7,7 +6,7 @@ import { WsseService } from '../authentication/wsse.service';
 import { User, ErrorInterface } from '../../model/user';
 import { SaltInterface } from '../../model/salt';
 import { AuthenticationService } from '../authentication/authentication.service';
-import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root'
@@ -75,6 +74,14 @@ export class UserService {
 
 	public setDefaultLanguage(id: number, body: string) {
 		let url = this.api + "/users/" + id + "/language";
-		return this.http.post(url, {language: body});
+		return this.http.post(url, {language: body})
+			.pipe(
+				tap(_ => {
+					this.authenticationService.getUser().subscribe(user => {
+						user.language = body;
+						this.authenticationService.setUser(user);
+					})
+				})
+			);
 	}
 }

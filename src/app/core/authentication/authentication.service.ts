@@ -74,7 +74,7 @@ export class AuthenticationService {
     logout() : Observable<User> {
         this.resetUser();
         this.user.loggedIn = false;
-        return this._cacheService.clear().pipe(
+        return this._cacheService.clear(false, [AsyncacheService.COUNTRY]).pipe(
             map(
                 () => { return this.user }
             )

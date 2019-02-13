@@ -54,6 +54,11 @@ export class ModalAddLineComponent extends ModalAddComponent {
                 this.newObject.condition_string = 2;
             }
 
+            // Prefill for idPoor
+            if(this.newObject.field_string === 8) {
+                this.newObject.condition_string = 5;
+            }
+
             this.checkCriteria = this.newObject.field_string;
 
         }

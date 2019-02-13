@@ -568,6 +568,8 @@ export class BeneficiariesImportComponent implements OnInit {
         const text = event.target.value;
 
         this.paramToSend["params"] = { [paramName]: text };
+        this.isProjectsDisabled = false;
+        this.form.controls['projects'].enable();
     }
 
     //Check if all fields are set, and import all the beneficiaries

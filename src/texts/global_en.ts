@@ -56,6 +56,9 @@ export const TEXT = {
     role_user_project_officer: 'Project officer',
     role_user_regional_manager: 'Regional manager',
 
+    // Months
+    months_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+
 
     // SPECIFIC VARIABLES
 
@@ -77,7 +80,13 @@ export const TEXT = {
     add_beneficiary_step3: 'Members',
     add_beneficiary_title: 'add beneficiary',
     add_beneficiary_code: 'Country code',
-    add_beneficiary_country_specifics: 'Country specifics',
+
+    // Add beneficiary options
+    national_id_passport: 'Passport',
+    national_id_card: 'ID Card',
+    national_id_license: 'Driver\'s License',
+    national_id_family_registry: 'Family Registry',
+    national_id_other: 'Other',
 
     // Add distribution
     add_distribution_advanced_option: 'Advanced options',
@@ -137,14 +146,14 @@ export const TEXT = {
 
     // Cache
     cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
-    cache_store_beneficiaries: 'Store Beneficiaries',
+    cache_store_beneficiaries: 'Save For Offline Mode',
     cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',
 
     // Dashboard
     dashboard_distribution_map: 'distribution map',
     dashboard_recent_distributions: 'upcoming distributions',
     dashboard_summary: 'summary',
-    dashboard_summary_1: 'total beneficiaries',
+    dashboard_summary_1: 'total registrations',
     dashboard_summary_2: 'active projects',
     dashboard_summary_3: 'enrolled beneficiaries',
     dashboard_summary_4: 'total value transactions',
@@ -161,7 +170,7 @@ export const TEXT = {
     data_verification_description_end: 'Modifications will be added to the database on each step validation.',
     data_verification_done: 'Your data has been verified',
     data_verification_error: 'Error processing data',
-    data_verification_send: 'Send',
+    data_verification_send: 'Update',
     data_verification_snackbar_duplicate_corrected: 'Duplicate issues corrected',
     data_verification_snackbar_duplicate_no_corrected: 'Not all duplicated have been corrected',
     data_verification_snackbar_less_corrected: 'Beneficiaries removed with success',
@@ -204,6 +213,7 @@ export const TEXT = {
     distribution_show_data: 'Show data anyway',
     distribution_validate: 'Validate',
     distribution_validated: 'Distribution has been validated',
+    distribution_validated_title: 'Validated distribution',
     distribution_want_add: 'that you want to add to the ',
 
 
@@ -294,7 +304,7 @@ export const TEXT = {
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score weight',
     model_dateofbirth: 'Date of birth',
-    model_distribution_date: 'Date of Distribution',
+    model_distribution_date: 'Distribution Start Date',
     model_distribution_name: 'Name',
     model_distribution_type: 'Target',
     model_donor: 'Donor',
@@ -321,6 +331,9 @@ export const TEXT = {
     model_value: 'Value',
     model_vulnerabilities: 'Vulnerabilities',
 
+    // Placeholder
+    placeholder_one_many: 'Select one or many',
+    
     // Profile
     profile_user_change_password: 'Change password',
     profile_user_hint_new_password: 'New password',
@@ -364,7 +377,7 @@ export const TEXT = {
     settings_country_specific_options: 'country specific options',
     settings_created: ' created',
     settings_donors: 'donors',
-    settings_financial_provider: 'Third party connection',
+    settings_financial_provider: 'Third party connections',
     settings_log_button: 'Get user logs by email',
     settings_project_exists: 'A project with this name already exists',
     settings_users: 'users',
@@ -397,6 +410,7 @@ export const TEXT = {
     transaction_confirm_button: 'Confirm',
     transaction_email_code: 'An email containing your validation code has been sent to:',
     transaction_id_transaction: 'ID Transaction',
+    transaction_info_export: 'If the distribution hasn\'t any transactions, you will not have any file exported',
     transaction_inProgress: 'Transaction in progress...',
     transaction_paste_code: 'Please paste the code here and click on \'Confirm\' to proceed with the transaction: ',
     transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',

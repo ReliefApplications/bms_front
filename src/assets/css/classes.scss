@@ -445,6 +445,25 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     display : none;
 }
 
+//Header alignment
+.mat-menu-panel {
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      
+      .mat-icon {
+            margin: 0px;
+            justify-self: flex-start;
+      }
+      span{
+          margin-left: 20px;
+          justify-self: flex-end;
+      }
+    }
+  
+  }
+
 //for mobile screen
 @media only screen and (max-width: 750px) {
   .mat-stepper-horizontal {

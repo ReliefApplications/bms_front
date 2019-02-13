@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         GlobalText.resetMenuMargin();
-        this.initCountry();
+        this.initCountry('KHM');
         this.blankUser();
     }
 

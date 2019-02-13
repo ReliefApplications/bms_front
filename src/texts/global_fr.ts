@@ -385,6 +385,7 @@ export const TEXT = {
     snackbar_change_password_done: 'Mot de passe modifié !',
     snackbar_change_password_fail: 'Le mot de passe n\'a pas pu être changé...',
     snackbar_change_password_not_possible: 'Mot de passe pas assez long ou différent de la vérification',
+    snackbar_invalid_transaction_date: 'La date valide de transaction est dépassée.',
 
     // Table
     table_actions: 'Actions',

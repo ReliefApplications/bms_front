@@ -387,6 +387,7 @@ export const TEXT = {
     snackbar_change_password_done: 'Password has been changed!',
     snackbar_change_password_fail: 'Could not change password...',
     snackbar_change_password_not_possible: 'Password must be longer than 1 character and match with verification',
+    snackbar_invalid_transaction_date: 'The transaction\'s deadline is over.',
 
     // Table
     table_actions: 'Actions',

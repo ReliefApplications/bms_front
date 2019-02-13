@@ -69,7 +69,8 @@
                 <div class="specifics" *ngIf="updatedHousehold.specificAnswers">
                   <h4>{{ Text.settings_country_specific_options | titlecase }}</h4>
                   <mat-form-field *ngFor="let specific of updatedHousehold.specificAnswers">
-                    <input matInput [type]="specific.type" placeholder={{specific.field_string}} [(ngModel)]="specific.answer">
+                    <input matInput [type]="specific.type" placeholder="IDPoor No." [(ngModel)]="specific.answer" *ngIf="specific.field_string === 'IDPoor'">
+                    <input matInput [type]="specific.type" placeholder={{specific.field_string}} [(ngModel)]="specific.answer" *ngIf="specific.field_string !== 'IDPoor'">
                   </mat-form-field>
                 </div>
               </div>

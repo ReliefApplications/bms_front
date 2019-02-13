@@ -110,6 +110,7 @@ export const TEXT = {
     add_distribution_selection_criteria: 'معيار الاختيار',
     add_distribution_text_explanation: 'سيختار النظام فقط المستفيدين / الأسر التي لديها مجموع أعلى من المجموع الادنى ',
     add_distribution_threshold: ' المجموع الادنى لاختيار ',
+    add_distribution_zero: 'The number of households reached or the amount to be distributed is 0',
 
     // Add project
     add_project_new_distribution: 'توزيعة جديدة',

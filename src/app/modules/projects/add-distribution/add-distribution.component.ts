@@ -415,7 +415,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
      */
     add() {
 
-        if (this.newObject.type && this.criteriaArray.length != 0 && this.commodityArray && this.commodityArray[0] && this.newObject.date_distribution && this.newObject.threshold > 0 && this.newObject.adm1) {
+        if (this.newObject.type && this.criteriaArray && this.criteriaArray.length != 0 && this.commodityArray && this.commodityArray[0] && this.newObject.date_distribution && this.newObject.threshold > 0 && this.newObject.adm1) {
 
             if (new Date(this.newObject.date_distribution) < new Date(this.projectInfo.startDate) || new Date(this.newObject.date_distribution) > new Date(this.projectInfo.endDate)) {
                 this.snackBar.open(this.distribution.add_distribution_date_inside_project, '', { duration: 5000, horizontalPosition: 'center' });
@@ -425,6 +425,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 let res = [];
                 let cashFound: boolean = false;
                 let voucherFound: boolean = false;
+                let isZero: boolean = false;
                 let error: boolean = false;
 
                 this.commodityArray.map(item => {
@@ -438,7 +439,10 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                         voucherFound = true;
                     else if (item.modality == "Cash")
                         cashFound = true;
-
+                    else if (item.value <= 0) {
+                        isZero = true;
+                    }
+                  
                     if (voucherFound && cashFound) {
                         error = true;
                         return;
@@ -449,6 +453,10 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
 
                 if (error) {
                     this.snackBar.open(this.distribution.add_distribution_multiple_commodities, '', { duration: 5000, horizontalPosition: 'center' });
+                    return;
+                }
+                if (isZero || this.criteriaNbBeneficiaries <= 0) {
+                    this.snackBar.open(this.distribution.add_distribution_zero, '', { duration: 5000, horizontalPosition: 'center' });
                     return;
                 }
 

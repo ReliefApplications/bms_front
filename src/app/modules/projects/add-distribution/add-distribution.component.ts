@@ -25,15 +25,15 @@ import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
-import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
+import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 
 @Component({
     selector: 'app-add-distribution',
     templateUrl: './add-distribution.component.html',
     styleUrls: ['./add-distribution.component.scss'],
     providers: [
-      { provide: DateAdapter, useClass: CustomDateAdapter },
-      { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
 export class AddDistributionComponent implements OnInit, DoCheck, DesactivationGuarded {
@@ -153,7 +153,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
             switchMap(
                 (value) => {
                     const body = {
-                        adm1 : value
+                        adm1: value
                     };
                     return this.locationService.getAdm2(body)
                 }
@@ -174,7 +174,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
             switchMap(
                 (value) => {
                     const body = {
-                        adm2 : value
+                        adm2: value
                     };
                     return this.locationService.getAdm3(body)
                 }
@@ -194,7 +194,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
             switchMap(
                 (value) => {
                     const body = {
-                        adm3 : value
+                        adm3: value
                     };
                     return this.locationService.getAdm4(body)
                 }
@@ -318,7 +318,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
      */
     getAdmID(adm: string) {
         //console.log(this.newObject);
-        return new Observable (
+        return new Observable(
             observer => {
                 const body = {};
                 if (adm === 'adm1') {
@@ -438,12 +438,12 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                         voucherFound = true;
                     else if (item.modality == "Cash")
                         cashFound = true;
-                    
+
                     if (voucherFound && cashFound) {
                         error = true;
                         return;
                     }
-                    
+
                     res.push(item);
                 });
 
@@ -500,16 +500,16 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 }
             }
         }
-        else  if (this.criteriaArray.length == 0) {
+        else if (this.criteriaArray.length == 0) {
             this.snackBar.open(this.distribution.add_distribution_missing_selection_criteria, '', { duration: 5000, horizontalPosition: 'center' });
         }
-        else  if (!this.commodityArray[0]) {
+        else if (!this.commodityArray[0]) {
             this.snackBar.open(this.distribution.add_distribution_missing_commodity, '', { duration: 5000, horizontalPosition: 'center' });
         }
-        else  if (!this.newObject.date_distribution) {
+        else if (!this.newObject.date_distribution) {
             this.snackBar.open(this.distribution.add_distribution_missing_date, '', { duration: 5000, horizontalPosition: 'center' });
         }
-        else  if (this.newObject.threshold <= 0) {
+        else if (this.newObject.threshold <= 0) {
             this.snackBar.open(this.distribution.add_distribution_missing_threshold, '', { duration: 5000, horizontalPosition: 'center' });
         }
         else if (!this.newObject.adm1) {
@@ -596,6 +596,19 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 this.criteriaArray.splice(index, 1);
                 this.criteriaData = new MatTableDataSource(this.criteriaArray);
             }
+            this.load = true;
+
+            this.criteriaService.getBeneficiariesNumber(this.newObject.type, this.criteriaArray, this.newObject.threshold, this.queryParams.project).subscribe(response => {
+                this.criteriaNbBeneficiaries = response.number;
+                if (this.commodityArray.length > 0) {
+                    this.commodityNb = [];
+                    this.commodityArray.forEach(commodity => {
+                        this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
+                    });
+                }
+                this.load = false;
+
+            });
         } else if (user_action === this.commodityAction) {
             const index = this.commodityArray.findIndex((item) => item === removeElement);
             if (index > -1) {

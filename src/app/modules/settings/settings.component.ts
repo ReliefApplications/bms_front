@@ -329,20 +329,21 @@ export class SettingsComponent implements OnInit {
               () => {
                 this.selectTitle(this.selectedTitle);
               });
-          }
-          else if (createElement['rights'] == "ROLE_PROJECT_MANAGER" || createElement['rights'] == "ROLE_PROJECT_OFFICER" || createElement['rights'] == "ROLE_FIELD_OFFICER")
-            delete createElement['country'];
-          else if (createElement['rights'] == "ROLE_REGIONAL_MANAGER" || createElement['rights'] == "ROLE_COUNTRY_MANAGER" || createElement['rights'] == "ROLE_READ_ONLY")
-            delete createElement['projects'];
-          else {
-            delete createElement['country'];
-            delete createElement['projects'];
-          }
+          } else {
+            if (createElement['rights'] == "ROLE_PROJECT_MANAGER" || createElement['rights'] == "ROLE_PROJECT_OFFICER" || createElement['rights'] == "ROLE_FIELD_OFFICER")
+              delete createElement['country'];
+            else if (createElement['rights'] == "ROLE_REGIONAL_MANAGER" || createElement['rights'] == "ROLE_COUNTRY_MANAGER" || createElement['rights'] == "ROLE_READ_ONLY")
+              delete createElement['projects'];
+            else {
+              delete createElement['country'];
+              delete createElement['projects'];
+            }
 
-          this.authenticationService.createUser(createElement, response).subscribe(
-            () => {
-              this.selectTitle(this.selectedTitle);
-            });
+            this.authenticationService.createUser(createElement, response).subscribe(
+              () => {
+                this.selectTitle(this.selectedTitle);
+              });
+          }
         }
       });
     }

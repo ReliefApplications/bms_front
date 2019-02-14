@@ -65,7 +65,7 @@ import { TableBeneficiariesComponent } from '../components/table/table-beneficia
 import { UpdateBeneficiaryComponent } from '../modules/beneficiary/update-beneficiary/update-beneficiary.component';
 import { TransactionTableComponent } from '../components/table/transaction-table/transaction-table.component';
 import { TableMobileBeneficiariesComponent } from '../components/table/table-mobile-beneficiaries/table-mobile-beneficiaries.component';
-import { CountoModule }  from 'angular2-counto';
+import { CountoModule } from 'angular2-counto';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ImportedDataComponent } from '../modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
 import { ModalRequestsComponent } from '../components/modals/modal-requests/modal-requests.component';

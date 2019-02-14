@@ -322,10 +322,12 @@ export const TEXT = {
     model_transaction_pickupDate: 'Pick up date',
     model_transaction_state: 'Status',
     model_type: 'Type',
+    model_type_shop: 'Type of shop',
     model_used: 'Used',
     model_user: 'User',
     model_user_password: 'Password',
     model_value: 'Value',
+    model_vendors_address: 'Address',
     model_vulnerabilities: 'Vulnerabilities',
 
     // Profile
@@ -375,6 +377,7 @@ export const TEXT = {
     settings_log_button: 'Get user logs by email',
     settings_project_exists: 'A project with this name already exists',
     settings_users: 'users',
+    settings_vendors: 'vendors',
 
     // Snackbar
     snackbar_change_password_done: 'Password has been changed!',

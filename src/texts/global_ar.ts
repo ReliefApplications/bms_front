@@ -318,11 +318,13 @@ export const TEXT = {
     model_transaction_message: 'رسالة',
     model_transaction_pickupDate: 'اختر تاريخا',
     model_type: 'النوع',
+    model_type_shop: 'Type of shop',
     model_vulnerabilities: 'نقاط الضعف',
     model_used: 'Used',
     model_user: 'المستخدم',
     model_user_password: 'كلمة المرور',
     model_value: 'القيمة',
+    model_vendors_address: 'Address',
     model_transaction_state: 'الحالة',
 
     // Profile
@@ -373,6 +375,7 @@ export const TEXT = {
     settings_log_button: 'احصل على سجلات المستخدم عن طريق البريد الإلكتروني',
     settings_project_exists: 'مشروع بهذا الاسم يوجود بالفعل',
     settings_users: 'المستخدمون',
+    settings_vendors: 'vendors',
 
     // Snackbar
     snackbar_change_password_done: '!تم تغيير كلمة المرور',

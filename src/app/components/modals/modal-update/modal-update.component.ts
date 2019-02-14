@@ -48,38 +48,38 @@ export class ModalUpdateComponent extends ModalComponent {
         }
     }
 
-  selected(updateObject) {
-      if (updateObject == "ROLE_PROJECT_MANAGER" || updateObject == "ROLE_PROJECT_OFFICER" || updateObject == "ROLE_FIELD_OFFICER") {
-          this.updateObject['country'] = [];
-          this.updateObject['projects'] = [];
+    selected(updateObject) {
+        if (updateObject == "ROLE_PROJECT_MANAGER" || updateObject == "ROLE_PROJECT_OFFICER" || updateObject == "ROLE_FIELD_OFFICER") {
+            this.updateObject['country'] = [];
+            this.updateObject['projects'] = [];
 
-          this.form.controls['projectsControl'].enable();
-          this.form.controls['countryControl'].disable();
-      }
-      else if (updateObject == "ROLE_COUNTRY_MANAGER" || updateObject == "ROLE_REGIONAL_MANAGER") {
-          this.updateObject['country'] = [];
-          this.updateObject['projects'] = [];
+            this.form.controls['projectsControl'].enable();
+            this.form.controls['countryControl'].disable();
+        }
+        else if (updateObject == "ROLE_COUNTRY_MANAGER" || updateObject == "ROLE_REGIONAL_MANAGER") {
+            this.updateObject['country'] = [];
+            this.updateObject['projects'] = [];
 
-          this.form.controls['countryControl'].enable();
-          this.form.controls['projectsControl'].disable();
-      }
-      else {
-          this.updateObject['country'] = [];
-          this.updateObject['projects'] = [];
+            this.form.controls['countryControl'].enable();
+            this.form.controls['projectsControl'].disable();
+        }
+        else {
+            this.updateObject['country'] = [];
+            this.updateObject['projects'] = [];
 
-          this.form.controls['projectsControl'].disable();
-          this.form.controls['countryControl'].disable();
-      }
+            this.form.controls['projectsControl'].disable();
+            this.form.controls['countryControl'].disable();
+        }
 
-      // TODO check if necessary
-      if (updateObject == "ROLE_ADMIN") {
-          this.user.getAllCountries().forEach(
-              element => {
-                  this.updateObject['country'].push(element.id);
-              }
-          )
-      }
-  }
+        // TODO check if necessary
+        if (updateObject == "ROLE_ADMIN") {
+            this.user.getAllCountries().forEach(
+                element => {
+                    this.updateObject['country'].push(element.id);
+                }
+            )
+        }
+    }
 
     /**
      * emit the object updated
@@ -127,11 +127,11 @@ export class ModalUpdateComponent extends ModalComponent {
 
                 this.updateObject.projects = projects;
             }
-            
+
             if (this.updateObject.country && !this.updateObject.country[0]) {
                 const tmpCountry = this.updateObject.country.id;
                 this.updateObject.country = [];
-                
+
                 this.updateObject.country.push(tmpCountry);
             }
             else if (this.updateObject.country) {
@@ -206,6 +206,14 @@ export class ModalUpdateComponent extends ModalComponent {
             }
         }
 
+        // Check fields for Vendors in settings
+        else if (this.updateObject && (this.updateObject.shop || this.updateObject.shop == '')) {
+            if (this.updateObject.name == '' || this.updateObject.shop == '' || this.updateObject.address == '' || this.updateObject.username == '' || this.updateObject.password == '') {
+                this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+                return;
+            }
+        }
+
         //Check fields for update distribution
         else if (this.updateObject.date_distribution) {
             if (!this.updateObject.date_distribution || !this.updateObject.name) {
@@ -229,5 +237,14 @@ export class ModalUpdateComponent extends ModalComponent {
         this.onUpdate.emit(this.updateObject);
         // console.log("updateObject:", this.updateObject);
         this.closeDialog();
+    }
+
+    isDisabled(property) {
+        if (property === 'location_name' || property === 'number_beneficiaries'
+            || property === 'name' || property === 'shop' || (property === 'username' && this.data.entity.__classname__ === 'Vendors')) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

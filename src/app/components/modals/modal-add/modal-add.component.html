@@ -38,12 +38,12 @@
                     </ng-select>
 
                     <ng-select *ngIf="propertiesTypes[p]=='select'" class="multiple-select" [(ngModel)]="newObject[p]" bindLabel="name"
-                        [items]="loadedData[p]" [multiple]="true" placeholder="{{mapperObject[p]}}" [closeOnSelect]="false"
+                        [items]="loadedData[p]" [multiple]="true" placeholder="{{placeHolderOneMany | titlecase}}" [closeOnSelect]="false"
                         [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
-
+                    
                     <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="multiple-select" [(ngModel)]="newObject[p]"
-                        bindLabel="shortname" [items]="loadedData[p]" [multiple]="true" placeholder="{{mapperObject[p]}}"
+                        bindLabel="shortname" [items]="loadedData[p]" [multiple]="true" placeholder="{{placeHolderOneMany | titlecase}}"
                         [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
 

@@ -103,4 +103,13 @@ export class AuthenticationService {
 
         return this.http.put(URL_BMS_API + "/users", body);
     }
+
+    public createVendor(body: any, salt: any) {
+        let saltedPassword = this._wsseService.saltPassword(salt.salt, body.password);
+        this._wsseService.setSalted(saltedPassword);
+        body.password = saltedPassword;
+        body.salt = salt.salt;
+
+        return this.http.put(URL_BMS_API + "/vendor", body);
+    }
 }

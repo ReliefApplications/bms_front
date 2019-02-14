@@ -76,6 +76,8 @@ import { SwiperModule } from 'ngx-swiper-wrapper';
 import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { CarouselComponent } from '../components/carousel/carousel.component';
+import { ThousandsPipe } from 'src/app/core/utils/thousands.pipe';
+
 
 @NgModule({
   imports: [
@@ -171,6 +173,7 @@ import { CarouselComponent } from '../components/carousel/carousel.component';
     UpdateBeneficiaryComponent,
     ImportedDataComponent,
     CarouselComponent,
+    ThousandsPipe,
   ],
   entryComponents: [
     ModalComponent,

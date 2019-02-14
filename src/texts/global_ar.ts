@@ -56,6 +56,9 @@ export const TEXT = {
     role_user_project_officer: 'عنصر في مشروع',
     role_user_regional_manager: 'مسؤول عن الإقليم',
 
+    // Months
+    months_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+
 
     // SPECIFIC VARIABLES
 
@@ -77,7 +80,13 @@ export const TEXT = {
     add_beneficiary_step3:'أفراد العائلة',
     add_beneficiary_title: 'إضافة مستفيد',
     add_beneficiary_code: 'رمز الهاتف الدولي',
-    add_beneficiary_country_specifics: 'تفاصيل البلد',
+
+    // Add beneficiary options
+    national_id_passport: 'Passport',
+    national_id_card: 'ID Card',
+    national_id_license: 'Driver\'s License',
+    national_id_family_registry: 'Family Registry',
+    national_id_other: 'Other',
 
     // Add distribution
     add_distribution_advanced_option: 'خيارات متقدمة',
@@ -101,6 +110,7 @@ export const TEXT = {
     add_distribution_selection_criteria: 'معيار الاختيار',
     add_distribution_text_explanation: 'سيختار النظام فقط المستفيدين / الأسر التي لديها مجموع أعلى من المجموع الادنى ',
     add_distribution_threshold: ' المجموع الادنى لاختيار ',
+    add_distribution_zero: 'The number of households reached or the amount to be distributed is 0',
 
     // Add project
     add_project_new_distribution: 'توزيعة جديدة',
@@ -161,7 +171,7 @@ export const TEXT = {
     data_verification_description_end: 'سيتم إضافة التعديلات إلى قاعدة البيانات في كل خطوة تدقيق.',
     data_verification_done: 'تم التحقق من بياناتك',
     data_verification_error: 'حدث خطأ في معالجة البيانات',
-    data_verification_send: 'أرسل',
+    data_verification_send: 'Update',
     data_verification_snackbar_duplicate_corrected: 'أخطاء التكرار المصححة',
     data_verification_snackbar_duplicate_no_corrected: 'كل أخطاء التكرار التي لم يتم تصحيحها',
     data_verification_snackbar_less_corrected: 'تم حذف المستفيدين بنجاح',
@@ -204,6 +214,7 @@ export const TEXT = {
     distribution_show_data: 'عرض البيانات على أي حال',
     distribution_validate: 'التحقق من صحة',
     distribution_validated: ' تم التحقق من صحة التوزيع',
+    distribution_validated_title: 'Validated distribution',
     distribution_want_add: 'التي تريد إضافتها إلى ',
 
     // Header
@@ -374,6 +385,7 @@ export const TEXT = {
     snackbar_change_password_done: '!تم تغيير كلمة المرور',
     snackbar_change_password_fail: '...لا يمكن تغيير كلمة المرور',
     snackbar_change_password_not_possible: 'يجب أن تكون كلمة المرور أطول من حرف واحد وتتطابق مع الشروط',
+    snackbar_invalid_transaction_date: 'The transaction\'s deadline is over.',
 
     // Table
     table_actions: 'اجراءات',

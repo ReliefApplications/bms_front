@@ -36,7 +36,7 @@ export class ButtonFilterComponent extends AbstractFilter {
 
     ngOnInit() {
         this.filterService.subscribe(this);
-        if(this.data && this.data[0]) {
+        if (this.data && this.data[0]) {
             this.selectedItem = this.data[0].value;
         }
     }

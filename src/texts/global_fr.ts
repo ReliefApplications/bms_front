@@ -56,6 +56,9 @@ export const TEXT = {
     role_user_project_officer: 'Agent de projet',
     role_user_regional_manager: 'Responsable de région',
 
+    // Months
+    months_short: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
+
 
     // SPECIFIC VARIABLES
 
@@ -77,7 +80,13 @@ export const TEXT = {
     add_beneficiary_step3: 'Membres',
     add_beneficiary_title: 'Ajout d\'un bénéficiaire',
     add_beneficiary_code: 'Code pays',
-    add_beneficiary_country_specifics: 'Country specifics',
+
+    // Add beneficiary options
+    national_id_passport: 'Passeport',
+    national_id_card: 'Carte d\'identité',
+    national_id_license: 'Permis de conduire',
+    national_id_family_registry: 'Livret de famille',
+    national_id_other: 'Autre',
 
     // Add distribution
     add_distribution_advanced_option: 'Options avancées',
@@ -101,6 +110,7 @@ export const TEXT = {
     add_distribution_selection_criteria: 'critères de sélection',
     add_distribution_text_explanation: 'Le système va seulement sélectionner les bénéficiaires/ménages avec un score supérieur que le score minimum de sélection',
     add_distribution_threshold: 'Score minimum de sélection',
+    add_distribution_zero: 'Le nombre de ménage atteint ou le montant à distribuer est 0',
 
     // Add project
     add_project_new_distribution: 'nouvelle distribution',
@@ -161,7 +171,7 @@ export const TEXT = {
     data_verification_description_end: 'Les modifications seront ajoutées à la base de donnée à chaque étape validée.',
     data_verification_done: 'Toutes les données ont été vérifiées',
     data_verification_error: 'Erreur lors du parcours des données',
-    data_verification_send: 'Envoyer',
+    data_verification_send: 'Mettre à jour',
     data_verification_snackbar_duplicate_corrected: 'Problèmes de doublons corrigées',
     data_verification_snackbar_duplicate_no_corrected: 'Toutes les erreurs de doublons ne sont pas corrigées',
     data_verification_snackbar_less_corrected: 'Bénéficiaires supprimer avec succès',
@@ -204,6 +214,7 @@ export const TEXT = {
     distribution_show_data: 'Afficher les données quand même',
     distribution_validate: 'Valider',
     distribution_validated: 'La distribution a été validée',
+    distribution_validated_title: 'Distribution validée',
     distribution_want_add: 'que vous souhaitez ajouter à la ',
 
     // Header
@@ -365,7 +376,7 @@ export const TEXT = {
     settings_country_specific_options: 'options par pays',
     settings_created: ' créé(e)',
     settings_donors: 'donateurs',
-    settings_financial_provider: 'Connexion tiers',
+    settings_financial_provider: 'Connexions tiers',
     settings_log_button: 'Recevoir les logs de cet utilisateur par email',
     settings_project_exists: 'Un projet avec le même nom existe déjà',
     settings_users: 'utilisateurs',
@@ -374,6 +385,7 @@ export const TEXT = {
     snackbar_change_password_done: 'Mot de passe modifié !',
     snackbar_change_password_fail: 'Le mot de passe n\'a pas pu être changé...',
     snackbar_change_password_not_possible: 'Mot de passe pas assez long ou différent de la vérification',
+    snackbar_invalid_transaction_date: 'La date valide de transaction est dépassée.',
 
     // Table
     table_actions: 'Actions',

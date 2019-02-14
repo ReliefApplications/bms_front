@@ -56,6 +56,9 @@ export const TEXT = {
     role_user_project_officer: 'Project officer',
     role_user_regional_manager: 'Regional manager',
 
+    // Months
+    months_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+
 
     // SPECIFIC VARIABLES
 
@@ -77,7 +80,13 @@ export const TEXT = {
     add_beneficiary_step3: 'Members',
     add_beneficiary_title: 'add beneficiary',
     add_beneficiary_code: 'Country code',
-    add_beneficiary_country_specifics: 'Country specifics',
+
+    // Add beneficiary options
+    national_id_passport: 'Passport',
+    national_id_card: 'ID Card',
+    national_id_license: 'Driver\'s License',
+    national_id_family_registry: 'Family Registry',
+    national_id_other: 'Other',
 
     // Add distribution
     add_distribution_advanced_option: 'Advanced options',
@@ -101,6 +110,7 @@ export const TEXT = {
     add_distribution_selection_criteria: 'selection criteria',
     add_distribution_text_explanation: 'The system will only select beneficiaries/households that have a score higher than the minimum selection score',
     add_distribution_threshold: 'Minimum selection score',
+    add_distribution_zero: 'The number of households reached or the amount to be distributed is 0',
 
     // Add project
     add_project_title: 'new project',
@@ -161,7 +171,7 @@ export const TEXT = {
     data_verification_description_end: 'Modifications will be added to the database on each step validation.',
     data_verification_done: 'Your data has been verified',
     data_verification_error: 'Error processing data',
-    data_verification_send: 'Send',
+    data_verification_send: 'Update',
     data_verification_snackbar_duplicate_corrected: 'Duplicate issues corrected',
     data_verification_snackbar_duplicate_no_corrected: 'Not all duplicated have been corrected',
     data_verification_snackbar_less_corrected: 'Beneficiaries removed with success',
@@ -204,6 +214,7 @@ export const TEXT = {
     distribution_show_data: 'Show data anyway',
     distribution_validate: 'Validate',
     distribution_validated: 'Distribution has been validated',
+    distribution_validated_title: 'Validated distribution',
     distribution_want_add: 'that you want to add to the ',
 
 
@@ -367,7 +378,7 @@ export const TEXT = {
     settings_country_specific_options: 'country specific options',
     settings_created: ' created',
     settings_donors: 'donors',
-    settings_financial_provider: 'Third party connection',
+    settings_financial_provider: 'Third party connections',
     settings_log_button: 'Get user logs by email',
     settings_project_exists: 'A project with this name already exists',
     settings_users: 'users',
@@ -376,6 +387,7 @@ export const TEXT = {
     snackbar_change_password_done: 'Password has been changed!',
     snackbar_change_password_fail: 'Could not change password...',
     snackbar_change_password_not_possible: 'Password must be longer than 1 character and match with verification',
+    snackbar_invalid_transaction_date: 'The transaction\'s deadline is over.',
 
     // Table
     table_actions: 'Actions',

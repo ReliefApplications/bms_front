@@ -30,8 +30,6 @@ import { RequestDisplayComponent } from './components/headers/request-display/re
 import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
 import { TitleCasePipe } from '@angular/common';
 
-
-
 @NgModule({
 	declarations: [
 		AppComponent,

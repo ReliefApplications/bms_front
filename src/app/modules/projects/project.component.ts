@@ -168,11 +168,6 @@ export class ProjectComponent implements OnInit {
                     } else {
                         this.selectTitle(this.projects[0].name, this.projects[0]);
                     }
-                    this.loadingProjects = false;
-                } else if (response === null) {
-                    this.projects = null;
-                    this.loadingProjects = false;
-                }
             }
         );
     }

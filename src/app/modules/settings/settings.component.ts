@@ -321,7 +321,6 @@ export class SettingsComponent implements OnInit {
           this.selectTitle(this.selectedTitle);
         });
     } else {
-      console.log(createElement)
       // for users, there are two step (one to get the salt and one to create the user)
       this.authenticationService.initializeUser(createElement['username']).subscribe(response => {
         if (response) {

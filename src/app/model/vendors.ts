@@ -1,4 +1,5 @@
 import { GlobalText } from "../../texts/global";
+import { User } from "./user"
 
 export class ErrorInterface {
     message: string;
@@ -36,6 +37,11 @@ export class Vendors {
      * @type {string}
      */
     password: string = '';
+    /**
+     * User
+     * @type {User} 
+     */
+    user: User;
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -43,8 +49,8 @@ export class Vendors {
             this.name = instance.name;
             this.shop = instance.shop;
             this.address = instance.address;
-            this.username = instance.username;
-            this.password = instance.password;
+            this.username = instance.user ? instance.user.username : null;
+            this.password = instance.user ? instance.user.password : null;
         }
     }
 
@@ -89,7 +95,7 @@ export class Vendors {
             name: selfinstance.name,
             shop: selfinstance.shop,
             address: selfinstance.address,
-            username: selfinstance.username,
+            username: selfinstance.user ? selfinstance.user.username : null,
         };
     }
 
@@ -105,8 +111,7 @@ export class Vendors {
             name: selfinstance.name,
             shop: selfinstance.shop,
             address: selfinstance.address,
-            username: selfinstance.username,
-            password: selfinstance.password,
+            username: selfinstance.user ? selfinstance.user.username : null,
         };
     }
 
@@ -122,8 +127,8 @@ export class Vendors {
             name: selfinstance.name,
             shop: selfinstance.shop,
             address: selfinstance.address,
-            username: selfinstance.username,
-            password: selfinstance.password,
+            username: selfinstance.user ? selfinstance.user.username : null,
+            password: selfinstance.user ? selfinstance.user.password : null,
         };
     }
 
@@ -138,8 +143,8 @@ export class Vendors {
             name: selfinstance.name,
             shop: selfinstance.shop,
             address: selfinstance.address,
-            username: selfinstance.username,
-            password: selfinstance.password,
+            username: selfinstance.user ? selfinstance.user.username : null,
+            password: selfinstance.user ? selfinstance.user.password : null,
         }
     }
 
@@ -165,8 +170,8 @@ export class Vendors {
             name: selfinstance.name,
             shop: selfinstance.shop,
             address: selfinstance.address,
-            username: selfinstance.username,
-            password: selfinstance.password,
+            username: selfinstance.user ? selfinstance.user.username : null,
+            password: selfinstance.user ? selfinstance.user.password : null,
         };
     }
 

@@ -250,8 +250,8 @@ export const TEXT = {
     login_bms: 'Beneficiary management system',
     login_forgot_password: 'Forgot password?',
     login_password: '*********',
-    login_title: 'login',
-    login_username: 'username',
+    login_title: 'Login',
+    login_username: 'Username',
 
     // Modal
     modal_add_bad_weight: 'The weight should be greater than 0',

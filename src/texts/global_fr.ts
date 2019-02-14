@@ -248,7 +248,7 @@ export const TEXT = {
     login_forgot_password: 'Mot de passe oublié ?',
     login_password: '*********',
     login_title: 'Connexion',
-    login_username: 'identifiant',
+    login_username: 'Identifiant',
 
     // Modal
     modal_add_bad_weight: 'Le poids doit être supérieur à 0',

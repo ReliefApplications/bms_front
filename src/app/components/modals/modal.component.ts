@@ -22,7 +22,6 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 export class ModalComponent implements OnInit {
     public modal = GlobalText.TEXTS;
     public language = GlobalText.language;
-    private placeHolderOneMany: string = GlobalText.TEXTS.placeholder_one_many;
 
     public entityInstance = null;
     public properties: any;

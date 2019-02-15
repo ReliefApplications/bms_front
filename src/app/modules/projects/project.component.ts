@@ -18,7 +18,6 @@ import { delay, finalize } from 'rxjs/operators';
 import { ImportedDataService } from '../../core/utils/imported-data.service';
 import { throwError, Subscriber, Subscription } from 'rxjs';
 import { CarouselComponent } from 'src/app/components/carousel/carousel.component';
-import { SlideSelectorService } from 'src/app/core/utils/slide-selector.service';
 
 @Component({
 	selector: 'app-project',
@@ -70,7 +69,6 @@ export class ProjectComponent implements OnInit {
 		public snackBar: MatSnackBar,
 		public dialog: MatDialog,
 		public importedDataService: ImportedDataService,
-		private slideSelectorService: SlideSelectorService,
 	) { }
 
 	ngOnInit() {
@@ -118,11 +116,6 @@ export class ProjectComponent implements OnInit {
 		if (this.language !== GlobalText.language) {
 			this.language = GlobalText.language;
 		}
-	}
-
-
-	public selectSlide(slide: any) {
-		this.selectTitle(slide.ref);
 	}
 
     /**
@@ -276,14 +269,13 @@ export class ProjectComponent implements OnInit {
 	}
 
 	autoProjectSelect(input: string) {
-		let selector = parseInt(input)
-		this.slides.forEach((slide: any) => {
-			if (slide.project.id === selector) {
-				this.slideSelectorService.selectSlide(slide);
-				return;
-			}
-		})
-	}
+        let selector = parseInt(input)
+        this.projects.forEach(e => {
+            if (e.id == selector) {
+                this.selectTitle(e.name, e);
+            }
+        })
+    }
 
 	private generateProjectsSlide(): void {
 		this.resetSlides();

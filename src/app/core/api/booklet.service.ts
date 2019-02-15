@@ -22,7 +22,7 @@ export class BookletService {
     }
 
     public create(body: any) {
-        const url = this.api + "/booklet";
+        const url = this.api + "/booklets";
         return this.http.put(url, body);
     }
 

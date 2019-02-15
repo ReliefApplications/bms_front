@@ -24,11 +24,11 @@ export class CustomDateAdapter extends NativeDateAdapter {
 			let day = date.getDate();
 			let month = date.getMonth() + 1;
 			let year = date.getFullYear();
-			return this._to2digit(day) + '/' + this._to2digit(month) + '/' + year;
+			return this._to2digit(day) + '-' + this._to2digit(month) + '-' + year;
 		} else if (displayFormat == "inputMonth") {
 			let month = date.getMonth() + 1;
 			let year = date.getFullYear();
-			return this._to2digit(month) + '/' + year;
+			return this._to2digit(month) + '-' + year;
 		} else {
 			return date.toDateString();
 		}

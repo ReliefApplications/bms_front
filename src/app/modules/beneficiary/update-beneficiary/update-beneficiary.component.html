@@ -84,14 +84,14 @@
                     placeholder={{Text.model_notes}} [(ngModel)]="updatedHousehold.notes" #Notes></textarea>
                 </mat-form-field>
               </div>
-            </div>
-            <div class="content-button-footer">
-              <div class="action-buttons">
-                <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
-                <button mat-raised-button class="button-background-primary" (click)="nextValidation(1, stepper)">
-                  {{Text.next}}
-                </button>
-                <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update}}</button>
+              <div class="content-button-footer">
+                <div class="action-buttons">
+                  <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
+                  <button mat-raised-button class="button-background-primary" (click)="nextValidation(1, stepper)">
+                    {{Text.next}}
+                  </button>
+                  <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update}}</button>
+                </div>
               </div>
             </div>
           </div>
@@ -228,7 +228,7 @@
         </div>
         <div class="container-content box-green">
           <div class="content-table">
-            <div class="step3" *ngFor="let member of updatedHousehold.beneficiaries, let memberIndex=index">
+            <div class="step3 head" *ngFor="let member of updatedHousehold.beneficiaries, let memberIndex=index">
               <div class="container member" *ngIf="memberIndex>0">
                 <div class="button-container">
                   <div class="member-rank">
@@ -336,24 +336,24 @@
               </div>
               <mat-divider *ngIf="memberIndex>0 && memberIndex<updatedHousehold.beneficiaries.length-1"></mat-divider>
             </div>
-          </div>
-          <div class="content-button-footer">
-            <mat-progress-bar mode="determinate" value="70"></mat-progress-bar>
-            <div class="action-buttons">
-              <button mat-raised-button class="button-background-accent" (click)="stepper.previous()">
-                {{Text.back}}
-              </button>
-              <button mat-raised-button (click)="updatedHousehold.beneficiaries.push( pushBeneficiary() )" class="button-background-accent">
-                <mat-icon>add</mat-icon>
-                {{ Text.add }}
-              </button>
-              <button mat-raised-button class="button-background-primary" (click)="passHousehold(); nextValidation(3, stepper)">
-                {{Text.next}}
-              </button>
-              <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
-                (click)="update()">
-                {{Text.update}}
-              </button>
+            <div class="content-button-footer">
+              <mat-progress-bar mode="determinate" value="70"></mat-progress-bar>
+              <div class="action-buttons">
+                <button mat-raised-button class="button-background-accent" (click)="stepper.previous()">
+                  {{Text.back}}
+                </button>
+                <button mat-raised-button (click)="updatedHousehold.beneficiaries.push( pushBeneficiary() )" class="button-background-accent">
+                  <mat-icon>add</mat-icon>
+                  {{ Text.add }}
+                </button>
+                <button mat-raised-button class="button-background-primary" (click)="passHousehold(); nextValidation(3, stepper)">
+                  {{Text.next}}
+                </button>
+                <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
+                  (click)="update()">
+                  {{Text.update}}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -436,17 +436,17 @@
                 <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
               </table>
             </div>
-          </div>
-          <div class="content-button-footer">
-            <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
-            <div class="action-buttons">
-              <button mat-button class="button-text-primary" (click)="leave()">{{Text.cancel}}</button>
+            <div class="content-button-footer">
+              <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+              <div class="action-buttons">
+                <button mat-button class="button-text-primary" (click)="leave()">{{Text.cancel}}</button>
 
-              <mat-spinner [diameter]="25" *ngIf="validationLoading"></mat-spinner>
-              <button mat-raised-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading"
-                (click)="create()">{{Text.create}}</button>
-              <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
-                (click)="update()">{{Text.update}}</button>
+                <mat-spinner [diameter]="25" *ngIf="validationLoading"></mat-spinner>
+                <button mat-raised-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading"
+                  (click)="create()">{{Text.create}}</button>
+                <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
+                  (click)="update()">{{Text.update}}</button>
+              </div>
             </div>
 
           </div>

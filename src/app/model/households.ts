@@ -109,7 +109,7 @@ export class Households {
             firstName: "text",
             location: "text",
             dependents: "number",
-            vulnerabilities: "png",
+            vulnerabilities: "svg",
             projects: "text",
         }
     }
@@ -134,19 +134,19 @@ export class Households {
         }
         switch (name) {
             case "pregnant":
-                name = 'assets/images/households/pregnant.png';
+                name = 'assets/images/households/pregnant.svg';
                 break;
             case "disabled":
-                name = 'assets/images/households/disabled.png';
+                name = 'assets/images/households/disabled.svg';
                 break;
             case "lactating":
-                name = 'assets/images/households/lactating.png';
+                name = 'assets/images/households/lactating.svg';
                 break;
             case "solo parent":
-                name = 'assets/images/households/solo-parent.png';
+                name = 'assets/images/households/solo-parent.svg';
                 break;
             case "nutritional issues":
-                name = 'assets/images/households/nutritional-issues.png';
+                name = 'assets/images/households/nutritional-issues.svg';
                 break;
             default: return name;
         }

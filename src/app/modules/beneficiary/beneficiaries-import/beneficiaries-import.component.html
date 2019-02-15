@@ -42,7 +42,7 @@
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
           <mat-card class="card-drag-and-drop">
             <div>
-              <img class='img-folder' src="assets/images/folder.png">
+              <img class='img-folder' src="assets/images/folder-add.svg">
             </div>
             <div class="select-file">
               <a href="javascript:void(0)" (click)="file.click()">
@@ -64,7 +64,7 @@
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
           <mat-card class="card-drag-and-drop" [ngClass]="(isProjectsDisabled)?'greyed-out' : ''">
             <div>
-              <img class='img-folder' src="assets/images/projects.png">
+              <img class='img-folder' src="assets/images/project.svg">
             </div>
             <div class="select-file project-input" [formGroup]="form">
               <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder={{household.projects}} [(ngModel)]="selectedProject" [disabled]="isProjectsDisabled">
@@ -93,7 +93,7 @@
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
           <mat-card class="card-drag-and-drop">
             <div>
-              <img class='img-folder' src="assets/images/settings/api.png">
+              <img class='img-folder' src="assets/images/settings/api.svg">
             </div>
             <h3>{{household.beneficiaries_select_api | titlecase}}</h3>
             <div class="content-select">
@@ -109,7 +109,7 @@
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
           <mat-card class="card-drag-and-drop" [ngClass]="(isApiDisabled)?'greyed-out' : ''">
             <div>
-              <img class='img-folder' src="assets/images/locationCode.png">
+              <img class='img-folder' src="assets/images/locationCode.svg">
             </div>
             <div>
               <div class="content-select">
@@ -125,7 +125,7 @@
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
           <mat-card class="card-drag-and-drop" [ngClass]="(isApiDisabled)?'greyed-out' : ''">
             <div>
-              <img class='img-folder' src="assets/images/projects.png">
+              <img class='img-folder' src="assets/images/project.svg">
             </div>
             <div class="select-file project-input">
               <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{household.projects}} [(ngModel)]="selectedProject" [disabled]="isProjectsDisabled">

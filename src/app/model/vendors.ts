@@ -49,8 +49,7 @@ export class Vendors {
             this.name = instance.name;
             this.shop = instance.shop;
             this.address = instance.address;
-            this.username = instance.user ? instance.user.username : null;
-            this.password = instance.user ? instance.user.password : null;
+            this.user = instance.user ? instance.user : null;
         }
     }
 
@@ -176,7 +175,14 @@ export class Vendors {
     }
 
     public static formatForApi(element: Vendors): any {
-        return new Vendors(element);
+        return {
+            id: element.id,
+            name: element.name,
+            shop: element.shop,
+            address: element.address,
+            username: element.user ? element.user.username : null,
+            password: element.user ? element.user.password : null,
+        }
     }
 
     /**

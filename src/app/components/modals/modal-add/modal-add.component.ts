@@ -245,6 +245,10 @@ export class ModalAddComponent extends ModalComponent {
 
         // Check fields for Vendors in settings
         else if (this.newObject && (this.newObject.shop || this.newObject.shop == '')) {
+            this.newObject.user = {
+                username: this.newObject.username,
+                password: this.newObject.password
+            }
             if (this.newObject.name == '' || this.newObject.shop == '' || this.newObject.address == '' || this.newObject.username == '' || this.newObject.password == '') {
                 this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
                 return;

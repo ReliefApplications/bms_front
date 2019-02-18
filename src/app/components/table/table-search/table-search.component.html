@@ -57,7 +57,7 @@
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="propertiesActions; sticky: true;" class="header-row"></tr>
             <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row cursor-pointer"
-                (click)="openDialog('details', element)"></tr>
+                (click)="editable && checkEntityUpdateRights() ? openDialog('update', element) : openDialog('details', element)"></tr>
         </table>
     </div>
 

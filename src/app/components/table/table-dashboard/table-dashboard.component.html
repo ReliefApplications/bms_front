@@ -11,6 +11,7 @@
         <table mat-table [dataSource]="data" matSort matSortActive="date_distribution"
             matSortDirection="desc">
             <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
+
                 <th mat-header-cell *matHeaderCellDef id="table-header" mat-sort-header>{{mapperService.mapTitle(property)}}</th>
                 <td mat-cell *matCellDef="let element">
                     <span *ngIf="propertiesTypes[property]=='image'">
@@ -46,7 +47,7 @@
 
             <tr mat-header-row *matHeaderRowDef="propertiesActions; sticky: true;"></tr>
             <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="distribution-details cursor-pointer"
-                (click)="openDialog('details', element)"></tr>
+                (click)="checkItemStateRights(element) && rightsEdit ? openDialog('update', element) : openDialog('details', element)"></tr>
         </table>
     </div>
 

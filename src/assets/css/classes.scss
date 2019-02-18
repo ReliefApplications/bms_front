@@ -139,7 +139,8 @@
     justify-content: flex-start !important;
     padding-bottom: 20px !important;
 
-    button:last-of-type {
+    .action-buttons {
+        margin: 0;
     }
 }
 
@@ -302,13 +303,10 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         margin-right: 40px;
     }
 
-    button{
+    button {
       margin: 0 10px;
     }
 
-    button:last-of-type{
-        margin-right: 0;
-    }
 }
 
 
@@ -484,10 +482,6 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 
   .container-table {
       flex-direction: column;
-
-      .content-table {
-        // padding: 0px !important;
-      }
 
       .content-button {
           flex-direction: column;

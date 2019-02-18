@@ -254,11 +254,11 @@ export class Project {
     static translator(): Object {
         return {
             name: GlobalText.TEXTS.model_project_name,
-            sectors_name: GlobalText.TEXTS.placeholder_one_many,
+            sectors_name: GlobalText.TEXTS.model_sectors_name,
             start_date: GlobalText.TEXTS.model_project_start_date,
             end_date: GlobalText.TEXTS.model_project_end_date,
             number_of_households: GlobalText.TEXTS.model_project_number_of_households,
-            donors_name: GlobalText.TEXTS.placeholder_one_many,
+            donors_name: GlobalText.TEXTS.model_project_donors_name,
             notes: GlobalText.TEXTS.model_notes,
             value: GlobalText.TEXTS.model_project_value,
         };

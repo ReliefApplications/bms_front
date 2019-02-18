@@ -178,6 +178,11 @@ export class TableComponent implements OnChanges, DoCheck {
                     this.paginator.pageSize
                 );
             }
+            else if (this.entity.__classname__ == 'Booklet') {
+                this.service.get().subscribe(response => {
+                    this.data = new MatTableDataSource(this.entity.formatArray(response).reverse());
+                });
+            }
             else {
                 this.service.get().subscribe(response => {
                     this.data = new MatTableDataSource(this.entity.formatArray(response));

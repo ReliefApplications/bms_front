@@ -193,7 +193,7 @@
               </button>
 
               <mat-spinner [diameter]="35" *ngIf="loaderCache"></mat-spinner>
-              <button mat-stroked-button *ngIf="!loaderCache" class="mat-stroked-button red" (click)="storeBeneficiaries()">
+              <button mat-stroked-button *ngIf="!loaderCache" class="mat-stroked-button" (click)="storeBeneficiaries()">
                 <mat-icon>save</mat-icon>
                 {{TEXT.cache_store_beneficiaries}}
               </button>

@@ -39,6 +39,7 @@ export const TEXT = {
     settings: 'Settings',
     summary:'Summary',
     update: 'Update',
+    voucher: 'Vouchers',
 
     // Error
     back_to_homepage: 'Go back to homepage',
@@ -230,8 +231,7 @@ export const TEXT = {
     header_reports: 'Reports',
     header_settings: 'Settings',
     'header_update-beneficiary': 'Update Beneficiaries',
-
-
+    header_vouchers: 'Vouchers',
 
     // Import
     import_added: 'Added from existing beneficiaries',
@@ -290,6 +290,8 @@ export const TEXT = {
     model_beneficiaries_nationalids: 'ID Number',
     model_beneficiaries_phones: 'Phones (no country code)',
     model_beneficiaries_status: 'Satus',
+    model_booklet: 'Booklet',
+    model_code: 'Code',
     model_commodity: 'Commodity',
     model_commodity_modality: 'Modality',
     model_commodity_unit: 'Unit',
@@ -300,7 +302,9 @@ export const TEXT = {
     model_criteria: 'Criteria',
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score weight',
+    model_currency: 'Currency',
     model_dateofbirth: 'Date of birth',
+    model_distribution_beneficiary: 'Beneficiary\'s distribution',
     model_distribution_date: 'Date of Distribution',
     model_distribution_name: 'Name',
     model_distribution_type: 'Target',
@@ -309,7 +313,11 @@ export const TEXT = {
     model_donor_shortname: 'Shortname',
     model_familyName: 'Family name',
     model_firstName: 'First name',
+    model_individual_to_all: 'Set voucher value individually',
+    model_individual_value: 'Individual value',
     model_notes: 'Notes',
+    model_number_booklets: 'Number of booklets to create',
+    model_number_vouchers: 'Number of vouchers',
     model_project_donors_name: 'Donors',
     model_project_end_date: 'End Date',
     model_project_name: 'Project\'s name',
@@ -320,14 +328,15 @@ export const TEXT = {
     model_sectors_name: 'Sectors',
     model_transaction_message: 'Message',
     model_transaction_pickupDate: 'Pick up date',
-    model_transaction_state: 'Status',
+    model_state: 'Status',
     model_type: 'Type',
     model_type_shop: 'Type of shop',
     model_used: 'Used',
     model_user: 'User',
-    model_user_password: 'Password',
+    model_password: 'Password',
     model_value: 'Value',
     model_vendors_address: 'Address',
+    model_vendor: 'Vendor',
     model_vulnerabilities: 'Vulnerabilities',
 
     // Profile
@@ -437,4 +446,22 @@ export const TEXT = {
     update_beneficiary_error_updated: 'Error while updating: ',
     update_beneficiary_title: 'Update Beneficiary',
     update_beneficiary_updated_successfully: 'Updated successfuly !',
+
+    //Vouchers
+    voucher_ask_code: 'Please ask beneficiary to enter his 4 digits code here',
+    voucher_assign: 'Assign vouchers',
+    voucher_assign_title: 'Assign booklet to a beneficiary',
+    voucher_assigned_success: 'The booklet has been assigned to ',
+    voucher_confirm: 'Booklet assigned to',
+    voucher_define_password: 'Define password for booklet', 
+    voucher_for: 'for',
+    voucher_no_device: 'There is no device detected',
+    voucher_no_permission: 'You have refused to allow the camera',
+    voucher_only_digits: 'Your password must be only 4 digits',
+    voucher_password_changed: 'Your password has been changed',
+    voucher_scan_text: 'Scan booklet QR code',
+    voucher_select_project: 'You have to select a project',
+    voucher_select_distribution: 'You have to select a distribution',
+    voucher_select_beneficiary: 'You have to select a beneficiary',
+    voucher_step5: 'will be assigned to',
 };

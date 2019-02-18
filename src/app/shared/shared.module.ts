@@ -70,6 +70,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ImportedDataComponent } from '../modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
 import { ModalRequestsComponent } from '../components/modals/modal-requests/modal-requests.component';
 import { RecaptchaModule } from 'angular-google-recaptcha';
+import { VouchersComponent } from '../modules/vouchers/vouchers.component'; 
+import { TableVouchersComponent } from '../components/table/table-vouchers/table-vouchers.component';
+import { TableMobileVouchersComponent } from '../components/table/table-mobile-vouchers/table-mobile-vouchers.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { ScannerComponent } from '../modules/vouchers/scanner/scanner.component';
 
 @NgModule({
 imports: [
@@ -114,6 +119,7 @@ imports: [
     MatGridListModule,
     CountoModule,
     NgSelectModule,
+    ZXingScannerModule,
     RecaptchaModule.forRoot({
         siteKey: '6LdJjIAUAAAAAFHrAB20mjuVhwRsLhTgfq4ioeaO',
     }),
@@ -163,6 +169,10 @@ declarations: [
     PlaceholderTitleComponent,
     UpdateBeneficiaryComponent,
     ImportedDataComponent,
+    VouchersComponent,
+    TableVouchersComponent,
+    TableMobileVouchersComponent,
+    ScannerComponent,
 ],
 entryComponents: [
     ModalComponent,

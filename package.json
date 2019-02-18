@@ -29,6 +29,7 @@
     "@ngx-pwa/local-storage": "^6.2.0",
     "@ngx-translate/core": "^10.0.2",
     "@swimlane/ngx-charts": "^8.1.0",
+    "@zxing/ngx-scanner": "^1.3.0",
     "angular-google-recaptcha": "^1.0.3",
     "angular2-counto": "^1.2.5",
     "core-js": "^2.5.4",

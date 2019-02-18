@@ -102,7 +102,7 @@ export class AuthenticationService {
 
     public createVendor(body: any, salt: any) {
         body = this.createSaltedPassword(body, salt)
-        return this.http.put(URL_BMS_API + "/vendor", body);
+        return this.http.put(URL_BMS_API + "/vendors", body);
     }
 
     public createSaltedPassword(body: any, salt: any) {

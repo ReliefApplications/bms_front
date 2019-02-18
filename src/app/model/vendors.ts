@@ -62,7 +62,7 @@ export class Vendors {
             shop: GlobalText.TEXTS.model_type_shop,
             address: GlobalText.TEXTS.model_vendors_address,
             username: GlobalText.TEXTS.login_username,
-            password: GlobalText.TEXTS.model_user_password,
+            password: GlobalText.TEXTS.model_password,
         };
     }
 

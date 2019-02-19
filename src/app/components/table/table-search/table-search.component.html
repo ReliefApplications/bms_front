@@ -18,9 +18,13 @@
 
             <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
                 <th mat-header-cell *matHeaderCellDef id="table-header" mat-sort-header [ngClass]="{'integered':propertiesTypes[property]=='number'}">
+<<<<<<< HEAD
                     {{mapperService.mapTitle(property) | titlecase}}</th>
+=======
+                    {{mapperService.mapTitle(property)|titlecase}}</th>
+>>>>>>> 08de3bdb7f583fe52e0fb0aaa1d521b5c0cc762e
                 <td mat-cell *matCellDef="let element">
-                    <span *ngIf="propertiesTypes[property]=='image'">
+                    <span *ngIf="propertiesTypes[property]=='image'" class="scrollable-icons">
                         <app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)"
                             [name]="image"></app-icon-svg>
                     </span>
@@ -57,7 +61,7 @@
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="propertiesActions; sticky: true;" class="header-row"></tr>
             <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row cursor-pointer"
-                (click)="openDialog('details', element)"></tr>
+                (click)="editable && checkEntityUpdateRights() ? openDialog('update', element) : openDialog('details', element)"></tr>
         </table>
     </div>
 

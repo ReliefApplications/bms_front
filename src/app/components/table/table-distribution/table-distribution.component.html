@@ -58,7 +58,7 @@
 
             <tr mat-header-row *matHeaderRowDef="propertiesActions; sticky: true;" class="header-row"></tr>
             <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row distribution-details cursor-pointer"
-                (click)=goToDistribution(element.id)></tr>
+                (click)="element.validated && !element.finished ? openDialog('details', element) : openDialog('update', element)"></tr>
         </table>
     </div>
 

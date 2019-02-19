@@ -14,12 +14,12 @@
       <div class="content-button">
         <div class="action-buttons">
           <mat-spinner [diameter]="25" class="spinner" *ngIf="loadLocations && country === 'SYR'"></mat-spinner>
-          <button mat-stroked-button color="primary" class="template" *ngIf="!loadLocations && country === 'SYR'" (click)="loadProvince(mapFile)">
+          <button mat-stroked-button color="primary" class="loadFile template" *ngIf="!loadLocations && country === 'SYR'" (click)="loadProvince(mapFile)">
             <mat-icon>publish</mat-icon>
             <span>{{household.beneficiaries_import_convert | titlecase }}</span>
           </button>
 
-          <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">
+          <button mat-stroked-button color="primary" class="loadFile template" (click)="exportTemplate()" *ngIf="!loadingExport">
             {{household.beneficiaries_import_csv | titlecase }}
           </button>
           <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
@@ -127,8 +127,8 @@
             <div>
               <img class='img-folder' src="assets/images/projects.png">
             </div>
-            <div class="select-file project-input" [formGroup]="form">
-              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder={{household.projects}} [(ngModel)]="selectedProject" [disabled]="isProjectsDisabled">
+            <div class="select-file project-input">
+              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{household.projects}} [(ngModel)]="selectedProject" [disabled]="isProjectsDisabled">
                 <ng-option *ngFor="let project of projectList" [value]="project">{{project}}</ng-option>
               </ng-select>
               <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />

@@ -1,19 +1,22 @@
 <mat-dialog-content class="modal-container">
-  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': isArabic === true}" >{{modal.modal_language_title}}</h4>
+  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': isArabic === true}">{{modal.modal_language_title}}</h4>
   <div class="modal-table" [ngClass]="{'arabic': isArabic === true}" cdkFocusRegionstart>
     <div class="select-container">
       <span class="language-text">{{modal.modal_language_actual}}</span>
 
-      <ng-select class="single-select" [(ngModel)]="language" [multiple]="false" placeholder="Countries" 
-         [closeOnSelect]="true" [searchable]="true" [ngModelOptions]="{standalone: true}"
-         (close)="choseLanguage()">
+      <ng-select [clearable]="false" class="single-select" [(ngModel)]="language" [multiple]="false" placeholder="Countries"
+        [closeOnSelect]="true" [searchable]="true" [ngModelOptions]="{standalone: true}" (close)="choseLanguage()">
         <ng-option *ngFor="let l of languages" [value]="l">
           {{l | titlecase}}
         </ng-option>
       </ng-select>
-      
+
     </div>
-    <mat-checkbox color="primary" [checked]="default" (click)="saveDefault()">{{ modal.modal_save_language_as_default }}</mat-checkbox>
+
+    <div class="align-items">
+      <mat-checkbox color="primary" [checked]="default" (click)="saveDefault()"></mat-checkbox>
+      <span class="spacement">{{ modal.modal_save_language_as_default }}</span>
+    </div>
   </div>
   <div class="modal-button action-buttons stickyFooter">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.close}}</button>

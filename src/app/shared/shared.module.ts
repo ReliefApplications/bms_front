@@ -75,6 +75,8 @@ import { TableVouchersComponent } from '../components/table/table-vouchers/table
 import { TableMobileVouchersComponent } from '../components/table/table-mobile-vouchers/table-mobile-vouchers.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { ScannerComponent } from '../modules/vouchers/scanner/scanner.component';
+import { ThousandsPipe } from 'src/app/core/utils/thousands.pipe';
+
 
 @NgModule({
 imports: [
@@ -173,6 +175,8 @@ declarations: [
     TableVouchersComponent,
     TableMobileVouchersComponent,
     ScannerComponent,
+    ThousandsPipe,
+
 ],
 entryComponents: [
     ModalComponent,

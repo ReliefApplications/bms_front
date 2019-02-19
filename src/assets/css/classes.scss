@@ -12,7 +12,7 @@
         width: 100%;
         padding: 0 20px;
         font-family: $bms_font_header;
-        font-size: 1.2em;
+        font-size: 24px;
         display: flex;
         align-items: center;
         h1, h2, h3 {
@@ -129,6 +129,9 @@
         .text {
            display: inline;
         }
+        mat-spinner{
+            height:40px;
+        }
     }
 }
 
@@ -136,8 +139,8 @@
     justify-content: flex-start !important;
     padding-bottom: 20px !important;
 
-    button:last-of-type {
-      margin: 0 10px;
+    .action-buttons {
+        margin: 0;
     }
 }
 
@@ -147,7 +150,6 @@ button mat-icon {
 }
 
 button.mat-icon-button .mat-button-wrapper .mat-icon {
-    margin-left: 8px;
     padding-bottom: 3px;
 }
 .mat-raised-button {
@@ -301,9 +303,14 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         margin-right: 40px;
     }
 
-    button:not(:last-of-type) {
+    button {
       margin: 0 10px;
+
+      &.loadFile {
+        margin: auto 0;
+        }
     }
+
 }
 
 
@@ -451,6 +458,25 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     display : none;
 }
 
+//Header alignment
+.mat-menu-panel {
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      
+      .mat-icon {
+            margin: 0px;
+            justify-self: flex-start;
+      }
+      span{
+          margin-left: 20px;
+          justify-self: flex-end;
+      }
+    }
+  
+  }
+
 //for mobile screen
 @media only screen and (max-width: 750px) {
   .mat-stepper-horizontal {
@@ -468,10 +494,6 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 
   .container-table {
       flex-direction: column;
-
-      .content-table {
-        // padding: 0px !important;
-      }
 
       .content-button {
           flex-direction: column;

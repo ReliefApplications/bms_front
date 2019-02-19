@@ -15,9 +15,6 @@
             <button mat-icon-button color=primary [matTooltip]="tooltip">
                 <mat-icon>help_outline</mat-icon>
             </button>
-            <button mat-stroked-button class="button-language" (click)="openDialog('language')">
-                {{language | titlecase}}
-            </button>
             <button class="round-button" *ngIf="countries.length === 1">
                 <mat-icon>language</mat-icon>
                 <span>{{selectedCountry}}</span>
@@ -36,6 +33,10 @@
                 <mat-icon>account_circle</mat-icon>
             </button>
             <mat-menu #menu="matMenu" overlapTrigger=false>
+                <button mat-menu-item (click)="openDialog('language')">
+                    <mat-icon>language</mat-icon>
+                    <span>{{header.header_language | titlecase}}</span>
+                </button>
                 <button mat-menu-item routerLink="/profile">
                     <mat-icon>person_outline</mat-icon>
                     <span>{{header.header_profile | titlecase}}</span>

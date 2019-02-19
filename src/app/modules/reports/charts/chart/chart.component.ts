@@ -6,6 +6,7 @@ import { timeout } from 'q';
 import { FilterService } from '../../services/filter.service';
 import { ChartRegistration, RegisteredItem } from '../../services/chart-registration.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { GlobalText } from 'src/texts/global';
 
 @Component({
   selector: 'app-chart',
@@ -161,6 +162,18 @@ export class ChartComponent implements OnInit, ChartInterface {
     let promise = this._chartDataLoaderService.load(this.indicatorConfig.idIndicator, this.body);
     if (promise) {
       promise.toPromise().then(response => {
+        for (const i in response ) {
+          if (response[i].series) {
+          for (const res of response[i].series) {
+            if (res.name.match(/\d{4}-\d{2}-\d{2}/)) {
+              const dateParts = res.name.split('-');
+              const month = parseInt(dateParts[1]) - 1;
+              const year = dateParts[0];
+              res.name = GlobalText.TEXTS.months_short[month] + ' ' + year;
+              }
+            }
+          }
+        }
         this.data = response;
         if (!this.data || this.data.length === 0) {
           this.noData = true;

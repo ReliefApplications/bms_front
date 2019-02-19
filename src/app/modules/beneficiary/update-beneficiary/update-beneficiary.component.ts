@@ -15,6 +15,7 @@ import { Project } from '../../../model/project';
 import { Criteria } from '../../../model/criteria';
 import { CountrySpecific } from '../../../model/country-specific';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
 import { DatePipe } from '@angular/common';
@@ -83,6 +84,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     // Table
     public tableColumns: string[] = ['Given name', 'Family name', 'Gender', 'Birth date', 'Phone', 'National id'];
     public tableData: MatTableDataSource<any>;
+
+    //Edit watcher
+    private uneditedSnapshot: any;
 
     constructor(
         public route: ActivatedRoute,
@@ -163,7 +167,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     }
                     this.getCountryCodes();
                     this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
-                    this.getCountrySpecifics();
+                    this.getCountrySpecifics().subscribe((countrySpecificsList: any) => {
+                        this.updatedHousehold.specificAnswers = countrySpecificsList;
+                        this.snapshot();
+                    });
+
                 }
             );
         }
@@ -179,6 +187,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                                 this.getCountryCodes();
                                 this.formatHouseholdForForm();
                                 this.loader = false;
+                                this.snapshot();
                             }
                         );
                     }
@@ -736,13 +745,19 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      */
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
-        if (this.updatedHousehold && !this.validationLoading) {
+        if (this.checkIfFormHasBeenModified() && !this.validationLoading) {
             const dialogRef = this.dialog.open(ModalLeaveComponent, {});
 
             return dialogRef.afterClosed();
         } else {
             return (true);
         }
+    }
+    private checkIfFormHasBeenModified(): boolean {
+        if (this.checkEqualValues(this.updatedHousehold, this.uneditedSnapshot)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -894,25 +909,25 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     getCountrySpecifics() {
         const promise = this._countrySpecificsService.get();
         if (promise) {
-            promise.subscribe(response => {
-                let countrySpecificsList = [];
+            return promise.pipe(
+                map(response => {
+                    const countrySpecificsList = [];
 
-                const responseCountrySpecifics = CountrySpecific.formatArray(response);
-                responseCountrySpecifics.forEach(element => {
-                    countrySpecificsList.push(
-                        {
-                            answer: '',
-                            countryIso3: this.countryISO3,
-                            field_string: element.field,
-                            id: element.id,
-                            type: element.type,
-                            name: element.name,
-                        }
-                    );
-                });
-
-                this.updatedHousehold.specificAnswers = countrySpecificsList;
-            });
+                    const responseCountrySpecifics = CountrySpecific.formatArray(response);
+                    responseCountrySpecifics.forEach(element => {
+                        countrySpecificsList.push(
+                            {
+                                answer: '',
+                                countryIso3: this.countryISO3,
+                                field_string: element.field,
+                                id: element.id,
+                                type: element.type,
+                                name: element.name,
+                            }
+                        );
+                    });
+                    return countrySpecificsList;
+            }));
         }
     }
 
@@ -990,4 +1005,22 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             return (exists);
         }
     }
+
+    private snapshot(): void {
+        this.uneditedSnapshot = this.deepCopy(this.updatedHousehold);
+    }
+
+    private deepCopy(object: any) {
+        const copy = JSON.parse(JSON.stringify(object));
+        return copy;
+    }
+
+    private checkEqualValues(object1: any, object2: any) {
+        if (JSON.stringify(object1) === JSON.stringify(object2)) {
+            return true;
+        }
+        return false;
+    }
 }
+
+

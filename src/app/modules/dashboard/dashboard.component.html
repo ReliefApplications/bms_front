@@ -1,13 +1,13 @@
 <div class="page-container">
     <div class="container-boxes">
         <div class="boxes-map">
-            <h1 class="map-title">{{dashboard.dashboard_distribution_map | titlecase}}</h1>
+            <h1 class="dashboard-title">{{dashboard.dashboard_distribution_map | titlecase}}</h1>
             <div class="map-content">
                 <div id="map"></div>
             </div>
         </div>
         <div *ngIf="widthScreen > maxWidthMobile" class="boxes-summary">
-            <h1 class="summary-title">{{dashboard.dashboard_summary | titlecase}}</h1>
+            <h1 class="dashboard-title">{{dashboard.dashboard_summary | titlecase}}</h1>
             <app-placeholder-summary *ngIf="loadingSummary" class="summary-content"></app-placeholder-summary>
             <div class="summary-content" *ngIf="!loadingSummary">
                 <div class="lign-container">
@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="container-distribution">
-        <h1 class="distribution-title">{{dashboard.dashboard_recent_distributions | titlecase}}</h1>
+        <h1 class="dashboard-title">{{dashboard.dashboard_recent_distributions | titlecase}}</h1>
         <app-placeholder-panel *ngIf='loadingTable' class="distribution-content-placeholder"></app-placeholder-panel>
         <div class="distribution-content" *ngIf='!loadingTable'>
             <app-table-dashboard *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit'

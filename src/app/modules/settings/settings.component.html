@@ -14,7 +14,7 @@
     <div class="container-content box-green" *ngIf="isBoxClicked">
       <div class="content-button">
         <div class="action-buttons">
-          <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
+          <button mat-raised-button class="loadFile button-background-primary" (click)="export()" *ngIf="!loadingExport">
             <mat-icon>get_app</mat-icon>
             <span>{{settings.export | titlecase}}</span>
           </button>

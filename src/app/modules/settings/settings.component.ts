@@ -38,7 +38,7 @@ export class SettingsComponent implements OnInit {
 
     selectedTitle = '';
     isBoxClicked = false;
-                                               loadingData = true;
+                       loadingData = true;
 
     public referedClassService;
     referedClassToken;

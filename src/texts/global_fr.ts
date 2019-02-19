@@ -307,12 +307,8 @@ export const TEXT = {
     model_criteria_weight: 'Score du poids',
     model_currency: 'Devise',
     model_dateofbirth: 'Date de naissance',
-<<<<<<< HEAD
     model_distribution_beneficiary: 'Distribution du bénéficiaire',
     model_distribution_date: 'Date de la Distribution',
-=======
-    model_distribution_date: 'Date Début Distribution',
->>>>>>> 08de3bdb7f583fe52e0fb0aaa1d521b5c0cc762e
     model_distribution_name: 'Nom',
     model_distribution_type: 'Cible',
     model_donor: 'Donneur',

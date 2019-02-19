@@ -17,6 +17,11 @@
       font-family: $bms_font_header;
       margin: 20px 0;
       line-height: 25px;
+      justify-content: space-between;
+
+      button {
+          margin: 0;
+      }
     }
   }
 

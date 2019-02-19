@@ -38,7 +38,7 @@ export class SettingsComponent implements OnInit {
 
     selectedTitle = '';
     isBoxClicked = false;
-    loadingData = true;
+                                               loadingData = true;
 
     public referedClassService;
     referedClassToken;
@@ -61,7 +61,7 @@ export class SettingsComponent implements OnInit {
     hasRights: boolean;
     public deletable: boolean = true;
 
-    constructor(
+    constructor
         public dialog: MatDialog,
         public mapperService: Mapper,
         public authenticationService: AuthenticationService,

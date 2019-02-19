@@ -7,9 +7,15 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "precommit": "lint-staged"
   },
-  "pre-commit": "tslint",
+  "lint-staged":{
+    "*.ts": [
+      "npm run lint",
+      "git add"
+    ]
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^6.1.9",

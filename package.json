@@ -8,8 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "sudo apt-get install tree"
   },
+  "pre-commit": "tslint",
   "private": true,
   "dependencies": {
     "@angular/animations": "^6.1.9",

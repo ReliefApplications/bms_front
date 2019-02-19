@@ -71,14 +71,12 @@ app-table-dashboard {
     width: 40%;
     height:70%;
     flex-direction:column;
-    overflow: hidden;
-    padding : 10px;
+    margin: 0 10px;
 
     .summary-title{
         display: flex;
         font-family: $bms_font_header;
         font-size: 24px;
-        margin: 0 0 0.5vh 10px !important;
     }
 
     .summary-content{

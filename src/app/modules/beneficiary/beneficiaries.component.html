@@ -7,13 +7,15 @@
       <div class="content-button">
         <div class="action-buttons">
           <button mat-raised-button *ngIf="hasRightsDelete && checkedElements.length > 0" class="button-background-primary"
-            (click)="addToProject(addBeneficiaries)" [matBadge]="checkedElements.length">
-            {{household.beneficiaries_add_list}}
+              (click)="addToProject(addBeneficiaries)" [matBadge]="checkedElements.length">
+              {{household.beneficiaries_add_list}}
           </button>
-          <button mat-raised-button *ngIf="!loadingExport" class="loadFile button-background-primary" (click)="export()">
-            <mat-icon>get_app</mat-icon>
-            <span>{{household.export | titlecase}}</span>
-          </button>
+          <div class="button-with-extension">
+
+                <button mat-raised-button *ngIf="!loadingExport" class="button-background-primary" (click)="export()">
+                  <mat-icon>get_app</mat-icon>
+                  <span>{{household.export | titlecase}}</span>
+                </button>
           <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
           <div class="extension" *ngIf='hasRightsExport && !loadingExport'>
             <div mat-button class="dropdown" [ngClass]="{'arabic':language==='ar'}" [matMenuTriggerFor]="exportType">
@@ -29,6 +31,8 @@
             </mat-menu>
           </div>
         </div>
+      </div>
+
         <div class="add-buttons" [ngClass]="{'add-buttons-arabic': language == 'ar', 'add-buttons-mobile': widthScreen <= maxWidthMobile}"
           (mouseenter)="widthScreen > maxWidthMobile && this.addToggled = true" (mouseleave)="widthScreen > maxWidthMobile && this.addToggled = false">
           <div class="toggled-buttons" [ngClass]="{'toggled': addToggled}">

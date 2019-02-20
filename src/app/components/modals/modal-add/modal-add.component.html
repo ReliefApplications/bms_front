@@ -84,8 +84,8 @@
 
           <mat-form-field *ngIf="propertiesTypes[p]=='password' && modal !== undefined" class="full-width">
             <input [(ngModel)]="newObject[p]" matInput placeholder="{{modal.model_user_password}}" formControlName="passwordFormControl"
-              [errorStateMatcher]="matcher">
-            <mat-error *ngIf="passwordFormControl.hasError('pattern') && !emailFormControl.hasError('required')">
+              [errorStateMatcher]="matcher" type="password">
+            <mat-error *ngIf="passwordFormControl.hasError('pattern') && !passwordFormControl.hasError('required')">
               {{modal.modal_not_enough_strong}}
             </mat-error>
             <mat-error *ngIf="passwordFormControl.hasError('required')">

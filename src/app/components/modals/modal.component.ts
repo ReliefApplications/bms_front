@@ -30,14 +30,23 @@ export class ModalComponent implements OnInit {
     newObject: any;
     public controls = new FormControl();
 
+    public passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+
+    public defaultValue: FormControl = new FormControl({ value: ''});
+    public projectsControl: FormControl = new FormControl({ value: '', disabled: 'true' });
+    public countryControl: FormControl = new FormControl({ value: '', disabled: 'true' });
+    public emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+    public passwordFormControl = new FormControl('', [Validators.required, Validators.pattern(this.passwordRegex)]);
+
     form = new FormGroup({
-        defaultValue: new FormControl({ value: ''}),
-        projectsControl: new FormControl({ value: '', disabled: 'true' }),
-        countryControl: new FormControl({ value: '', disabled: 'true' }),
-        emailFormControl: new FormControl('', [Validators.required, Validators.email]),
+        defaultValue: this.defaultValue,
+        projectsControl: this.projectsControl,
+        countryControl: this.countryControl,
+        emailFormControl: this.emailFormControl,
+        passwordFormControl: this.passwordFormControl,
     });
 
-    emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+
 
     public allCriteria = [];
 

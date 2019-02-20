@@ -277,6 +277,7 @@ export const TEXT = {
     modal_no_password: 'عليك بادخال كلمة المرور ',
     modal_not_enough_strong: 'كلمة المرور ليست قوية بما فيه الكفاية ... الحد الأدنى المطلوب: 8 أحرف ، وحرف صغير واحد ، وحجم واحد ، ورقم 1',
     modal_no_project: 'عليك بتحديد مشروع على الأقل يتعلق بالحق',
+    modal_password_required: 'You must define a password',
     modal_pending_requests: 'الطلبات المعلقة',
     modal_project_name_characters_limit:'لا تتجاوز',
     modal_save_language_as_default: 'قم بتعيين هذه اللغة كلغتي المفضلة.',

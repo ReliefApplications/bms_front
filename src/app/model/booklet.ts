@@ -1,6 +1,7 @@
 import { GlobalText } from '../../texts/global';
 import { isNumber } from '@swimlane/ngx-charts/release/utils';
 import { isNull } from 'util';
+import * as CryptoJS from 'crypto-js';
 
 export class Booklet {
     static __classname__ = 'Booklet';
@@ -176,6 +177,7 @@ export class Booklet {
             individual_to_all: selfinstance.individual_to_all,
             currency: selfinstance.currency,
             number_booklets: selfinstance.number_booklets,
+            password: selfinstance.password
         };
     }
 
@@ -219,6 +221,7 @@ export class Booklet {
             individual_value: selfinstance.individual_value,
             currency: selfinstance.currency,
             status: selfinstance.status,
+            password: selfinstance.password
         };
     }
 
@@ -232,7 +235,7 @@ export class Booklet {
             individual_value: 'number',
             currency: 'text',
             status: 'number',
-            password: 'text',
+            password: 'password',
         };
     }
 
@@ -246,7 +249,7 @@ export class Booklet {
             individual_value: 'number',
             currency: 'text',
             status: 'number',
-            password: 'text',
+            password: 'password',
             individual_to_all: 'boolean',
             number_booklets: 'number'
         };
@@ -258,6 +261,10 @@ export class Booklet {
      * @param loadedData
      */
     public static formatFromModalAdd(element: any, loadedData: any): Booklet {
+
+        // Just a way to encrypt passwords which can be decrypted offline
+        let password = CryptoJS.SHA1(element.password).toString(CryptoJS.enc.Base64)
+        element.password = password
         return new Booklet(element);
     }
 }

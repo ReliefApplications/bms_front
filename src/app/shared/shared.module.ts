@@ -72,6 +72,11 @@ import { ModalRequestsComponent } from '../components/modals/modal-requests/moda
 import { RecaptchaModule } from 'angular-google-recaptcha';
 import { ThousandsPipe } from 'src/app/core/utils/thousands.pipe';
 
+import { VouchersComponent } from '../modules/vouchers/vouchers.component'; 
+import { TableVouchersComponent } from '../components/table/table-vouchers/table-vouchers.component';
+import { TableMobileVouchersComponent } from '../components/table/table-mobile-vouchers/table-mobile-vouchers.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { ScannerComponent } from '../modules/vouchers/scanner/scanner.component';
 
 @NgModule({
 imports: [
@@ -116,6 +121,7 @@ imports: [
     MatGridListModule,
     CountoModule,
     NgSelectModule,
+    ZXingScannerModule,
     RecaptchaModule.forRoot({
         siteKey: '6LdJjIAUAAAAAFHrAB20mjuVhwRsLhTgfq4ioeaO',
     }),
@@ -167,6 +173,10 @@ declarations: [
     ImportedDataComponent,
     ThousandsPipe,
 
+    VouchersComponent,
+    TableVouchersComponent,
+    TableMobileVouchersComponent,
+    ScannerComponent,
 ],
 entryComponents: [
     ModalComponent,

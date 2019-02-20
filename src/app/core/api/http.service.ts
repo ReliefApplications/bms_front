@@ -40,7 +40,7 @@ export class HttpService {
                 case '/distributions': return (AsyncacheService.DISTRIBUTIONS)
                 case '/location/upcoming_distribution': return (AsyncacheService.UPCOMING)
                 case '/country_specifics': return (AsyncacheService.SPECIFICS)
-                case '/users': return (AsyncacheService.USERS)
+                case '/web-users': return (AsyncacheService.USERS)
                 case '/sectors': return (AsyncacheService.SECTORS)
                 case '/donors': return (AsyncacheService.DONORS)
                 case '/location/adm1': return (AsyncacheService.ADM1)

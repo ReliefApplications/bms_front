@@ -22,7 +22,7 @@ export class UserService {
 	}
 
 	public get() {
-		let url = this.api + "/users";
+		let url = this.api + "/web-users";
 		return this.http.get(url);
 	}
 

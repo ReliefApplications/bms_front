@@ -2,7 +2,7 @@
   <button (click)="emitTitle(info.ref)" style="text-decoration: none;" [class.selected]="info.ref == selectedTitle" >
     <div class="box-content-content">
       <div class="content-icon" [class.box-green]="info.color == 'green' && info.ref == selectedTitle" [class.box-red]="info.color == 'red' && info.ref == selectedTitle">
-            <img src="assets/images/{{info.icon}}.png">
+            <img src="assets/images/{{info.icon}}.svg">
       </div>
       <div class="content-info">
         <h3 class="info-title" *ngIf="info.title.length <= MAX_PROP_LENGTH">{{info.title | titlecase}}</h3>

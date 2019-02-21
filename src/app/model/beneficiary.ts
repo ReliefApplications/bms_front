@@ -114,19 +114,19 @@ public static mapVulnerability(name: string): string {
     }
     switch (name) {
         case 'pregnant':
-            name = 'assets/images/households/pregnant.svg';
+            name = 'assets/images/households/pregnant.png';
             break;
         case 'disabled':
-            name = 'assets/images/households/disabled.svg';
+            name = 'assets/images/households/disabled.png';
             break;
         case 'lactating':
-            name = 'assets/images/households/lactating.svg';
+            name = 'assets/images/households/lactating.png';
             break;
         case 'solo parent':
-            name = 'assets/images/households/solo-parent.svg';
+            name = 'assets/images/households/solo-parent.png';
             break;
         case 'nutritional issues':
-            name = 'assets/images/households/nutritional-issues.svg';
+            name = 'assets/images/households/nutritional-issues.png';
             break;
         default: return name;
     }
@@ -330,7 +330,7 @@ public static formatForApi(instance: any) {
             status : 'number',
             national_ids : 'text',
             phones : 'text',
-            vulnerabilities : 'svg',
+            vulnerabilities : 'png',
         };
     }
 
@@ -347,7 +347,10 @@ public static formatForApi(instance: any) {
             status : 'number',
             national_ids : 'text',
             phones : 'text',
-            vulnerabilities : 'svg',
+            vulnerabilities : 'png',
         };
     }
+
+
+
 }

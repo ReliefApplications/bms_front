@@ -41,9 +41,6 @@ export class ButtonFilterComponent extends AbstractFilter {
         }
     }
 
-    public filterSlide(slide: any): void {
-        this.filter(slide.slideInfo.ref);
-    }
 
     /**
      * Allow to know which block and which button in block is active

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterContentInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { SwiperConfigInterface, SwiperComponent } from 'ngx-swiper-wrapper';
 
 @Component({
@@ -6,11 +6,12 @@ import { SwiperConfigInterface, SwiperComponent } from 'ngx-swiper-wrapper';
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss']
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent implements OnInit, AfterContentInit {
 
   @Input() slides: any;
 
   @Input() set externalSelectedSlide(slide: any) {
+    console.log(slide, this.selectedSlide);
     if (slide !== this.selectedSlide) {
       this.selectOne(slide);
     }
@@ -33,6 +34,12 @@ export class CarouselComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  ngAfterContentInit() {
+    if (!this.externalSelectedSlide) {
+      this.selectOne(this.slides[0]);
+    }
   }
 
 

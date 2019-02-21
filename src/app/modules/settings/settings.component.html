@@ -5,6 +5,7 @@
 
   <app-carousel 
     [slides]="enabledSettings"
+    (slideSelected)="selectTitle($event.slideInfo.ref)"
   ></app-carousel>
 
 

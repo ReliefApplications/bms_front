@@ -1,3 +1,4 @@
 <app-carousel 
     [slides]="slides"
+    (slideSelected)="filter($event.slideInfo.ref)"
 ></app-carousel>

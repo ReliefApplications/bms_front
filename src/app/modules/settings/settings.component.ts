@@ -96,8 +96,6 @@ export class SettingsComponent implements OnInit {
     ngOnInit() {
         this.checkSize();
         this.extensionType = 'xls';
-
-        this.slideSelectorService.setSlides(this.enabledSettings);
     }
 
     /**
@@ -118,11 +116,6 @@ export class SettingsComponent implements OnInit {
     checkSize(): void {
         this.heightScreen = window.innerHeight;
         this.widthScreen = window.innerWidth;
-    }
-
-
-    selectSlide(slide: any): void {
-        this.selectTitle(slide.ref);
     }
 
     selectTitle(title: string): void {

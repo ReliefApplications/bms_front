@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, HostListener, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
 
 import { GlobalText } from '../../../texts/global';
@@ -72,14 +72,7 @@ export class ProjectComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-
-		if (this.importedDataService.emittedProject) {
-			this.selectedProjectId = parseInt(this.importedDataService.project)
-			this.getProjects();
-		}
-		else {
-			this.getProjects();
-		}
+		this.getProjects();
 		this.checkSize();
 		this.checkPermission();
 		this.extensionType = 'xls';
@@ -145,8 +138,16 @@ export class ProjectComponent implements OnInit {
 					this.projects = this.projectClass.formatArray(response).reverse();
 					this.generateProjectsSlide();
 					if(!this.selectedProject) {
-						const selectedProject = this.projects[0];
+						if (this.importedDataService.emittedProject) {
+							console.log(this.projects);
+
+							const selectedProject = this.getProjectFromId(this.importedDataService.project);
+							console.log(selectedProject);
+						} else {
+							const selectedProject = this.projects[0];
+						}
 						this.selectTitle(selectedProject.name, selectedProject);
+
 					}
 				}
 			}
@@ -286,12 +287,20 @@ export class ProjectComponent implements OnInit {
 
 	private getSlideFromProject(project: Project): any {
 		for (const slide of this.slides) {
-			console.log(slide);
 			if (project === slide.project) {
 				return slide;
 			}
 		return this.slides[0];
 		}
+	}
+
+	private getProjectFromId(id: string): Project {
+		for (const project of this.projects) {
+			if (parseInt( id, 10) === project.id) {
+				return project;
+			}
+		}
+		return this.projects[0];
 	}
 
 	private resetSlides(): void {

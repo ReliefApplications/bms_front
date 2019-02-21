@@ -17,9 +17,6 @@ import { LocationService } from 'src/app/core/api/location.service';
 import { switchMap, finalize } from 'rxjs/operators';
 import { Observable, from, Subscriber, Subscription } from 'rxjs';
 
-import { SlideSelectorService } from 'src/app/core/utils/slide-selector.service';
-
-
 @Component({
     selector: 'beneficiaries-import',
     templateUrl: './beneficiaries-import.component.html',
@@ -117,7 +114,6 @@ export class BeneficiariesImportComponent implements OnInit {
         private importedDataService: ImportedDataService,
         private dialog: MatDialog,
         private locationService: LocationService,
-        private slideSelectorService: SlideSelectorService,
     ) { }
 
     ngOnInit() {
@@ -151,16 +147,6 @@ export class BeneficiariesImportComponent implements OnInit {
                     this.email = this.email.replace("@", '');
                 }
             )
-        this.slideSelectorService.setSlides(this.slides);
-        this.slideSubscriber = this.slideSelectorService.selectedSlide.subscribe((slide: any) => {
-            if (slide){
-                this.selectTitle(slide.slideInfo.ref);
-            }
-        })
-    }
-
-    ngOnDestroy(): void {
-        this.slideSubscriber.unsubscribe();        
     }
     
     /**

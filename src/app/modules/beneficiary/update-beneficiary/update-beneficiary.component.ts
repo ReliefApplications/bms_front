@@ -662,7 +662,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
      * TODO : bind stepper steps in order to control navigation.
      */
     nextValidation(step: number, stepper: MatStepper, final?: boolean): boolean {
-        console.log(step);
         let validSteps = 0;
         let message = '';
         if (!final) {
@@ -678,8 +677,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                 message = 'You must enter an address number';
             } else if (!hh.address_postcode) {
                 message = 'You must enter an address postcode';
-            } else if (isNaN(Number(hh.address_postcode))) {
-                message = 'PostCode must be only digits';
             } else if (!hh.address_street) {
                 message = 'You must enter an address street';
             } else if (hh.livelihood && !this.elementExists(hh.livelihood, this.livelihoodsList)) {

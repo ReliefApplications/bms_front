@@ -76,9 +76,9 @@ export class HouseholdsService {
     public sendDataToValidation(email: string, body: any, idProject: number, step: number, token?: string) {
         let url;
         if (token) {
-            url = this.api + '/import/households/project/' + idProject + '?step=' + step + '&token=' + token + "&email=" + email;
+            url = this.api + '/import/households/project/' + idProject + '?step=' + step + '&token=' + token + '&email=' + email;
         } else {
-            url = this.api + '/import/households/project/' + idProject + '?step=' + step + "&email=" + email;
+            url = this.api + '/import/households/project/' + idProject + '?step=' + step + '&email=' + email;
 
         }
 
@@ -91,11 +91,11 @@ export class HouseholdsService {
      * @param projects_ids
      */
     public add(hh: any, projects_ids: string[]) {
-        const url = this.api + '/households'
-        let body = {
+        const url = this.api + '/households';
+        const body = {
             household: hh,
             projects: projects_ids
-        }
+        };
         return this.http.put(url, body);
     }
 
@@ -107,10 +107,10 @@ export class HouseholdsService {
      */
     public edit(householdId: number, hh: any, projects_ids: string[]) {
         const url = this.api + '/households/' + householdId;
-        let body = {
+        const body = {
             household: hh,
             projects: projects_ids
-        }
+        };
         return this.http.post(url, body);
     }
 
@@ -138,12 +138,12 @@ export class HouseholdsService {
     }
 
     public testFileTemplate(file: any, location: any) {
-        let params = {};
+        const params = {};
         params['type'] = 'xls';
         params['templateSyria'] = true;
-        
+
         const options = {
-            responseType: "blob",
+            responseType: 'blob',
             params: params
         };
 

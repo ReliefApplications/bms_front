@@ -5,7 +5,7 @@ import { saveAs      } from 'file-saver/FileSaver';
 import { MatSnackBar } from '@angular/material';
 
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
 export class ExportService {
     readonly api = URL_BMS_API;
@@ -24,11 +24,11 @@ export class ExportService {
      * @return               file to export
      */
     public export(key: string, value: any, extensionType: string, body = null) {
-        let params = {};
+        const params = {};
         params['type'] = extensionType;
         params[key] = value;
         const options = {
-            responseType: "blob",
+            responseType: 'blob',
             params: params
         };
         const url = this.api + '/export';

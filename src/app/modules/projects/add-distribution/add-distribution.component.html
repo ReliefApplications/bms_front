@@ -80,7 +80,7 @@
       </div>
     </div>
   </div>
-  <div class="content-button content-button-footer">
+  <div class="action-buttons content-button content-button-footer">
     <button mat-raised-button *ngIf="!loadingCreation" (click)="add()" class="button-background-primary">{{distribution.create}}</button>
     <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
     <button mat-raised-button (click)="cancel()" class="button-text-primary">{{distribution.cancel}}</button>

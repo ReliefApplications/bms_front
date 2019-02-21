@@ -84,16 +84,18 @@
                     placeholder={{Text.model_notes}} [(ngModel)]="updatedHousehold.notes" #Notes></textarea>
                 </mat-form-field>
               </div>
-            </div>
-            <div class="content-button-footer">
-              <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
-              <button mat-raised-button class="button-background-primary margin-right" (click)="nextValidation(1, stepper)">
-                {{Text.next}}
-              </button>
-              <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update}}</button>
+              <div class="content-button-footer">
+                <div class="action-buttons">
+                  <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
+                  <button mat-raised-button class="button-background-primary" (click)="nextValidation(1, stepper)">
+                    {{Text.next}}
+                  </button>
+                  <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update(); nextValidation(1, stepper, true)">{{Text.update}}</button>
+                </div>
+              </div>
             </div>
           </div>
-          
+
         </div>
       </div>
     </mat-step>
@@ -149,6 +151,14 @@
                   <input matInput type="text" placeholder={{Text.add_beneficiary_getNationalID}} [(ngModel)]="updatedHousehold.beneficiaries[0].national_id.number">
                 </mat-form-field>
               </div>
+              <div class="column-container">
+                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                  placeholder={{Text.model_residencystatus}} [(ngModel)]="updatedHousehold.beneficiaries[0].residency_status">
+                  <ng-option *ngFor="let type of residencyStatusList" [value]="type">
+                    {{type | titlecase}}
+                  </ng-option>
+                </ng-select>
+              </div>
               <div class="column-container columns-phones">
                 <div class="items-line">
                   <ng-select class="single-select phone-type" [multiple]="false" [searchable]=true [closeOnSelect]="true"
@@ -199,15 +209,18 @@
               </div>
             </div>
             <div class="content-button-footer">
-              <mat-progress-bar mode="determinate" value="35"></mat-progress-bar>
-              <button mat-raised-button class="button-background-accent margin-right" (click)="stepper.previous()">
-                {{Text.back}}
-              </button>
-              <button mat-raised-button class="button-background-primary margin-right" (click)='nextValidation(2, stepper)'>
-                {{Text.next}}
-              </button>
-              <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
-                (click)="update()">{{Text.update}}</button>
+              <div class="action-buttons">
+
+                <mat-progress-bar mode="determinate" value="35"></mat-progress-bar>
+                <button mat-raised-button class="button-background-accent" (click)="stepper.previous()">
+                  {{Text.back}}
+                </button>
+                <button mat-raised-button class="button-background-primary" (click)='nextValidation(2, stepper)'>
+                  {{Text.next}}
+                </button>
+                <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
+                  (click)="update(); nextValidation(2, stepper, true)">{{Text.update}}</button>
+              </div>
             </div>
           </div>
         </div>
@@ -223,7 +236,7 @@
         </div>
         <div class="container-content box-green">
           <div class="content-table">
-            <div class="step3" *ngFor="let member of updatedHousehold.beneficiaries, let memberIndex=index">
+            <div class="step3 head" *ngFor="let member of updatedHousehold.beneficiaries, let memberIndex=index">
               <div class="container member" *ngIf="memberIndex>0">
                 <div class="button-container">
                   <div class="member-rank">
@@ -274,6 +287,14 @@
                   <mat-form-field>
                     <input matInput type="text" placeholder={{Text.add_beneficiary_getNationalID}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].national_id.number">
                   </mat-form-field>
+                </div>
+                <div class="column-container">
+                  <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                    placeholder={{Text.model_residencystatus}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].residency_status">
+                    <ng-option *ngFor="let type of residencyStatusList" [value]="type">
+                      {{type | titlecase}}
+                    </ng-option>
+                  </ng-select>
                 </div>
                 <div class="column-container columns-phones">
                   <div class="items-line">
@@ -331,24 +352,24 @@
               </div>
               <mat-divider *ngIf="memberIndex>0 && memberIndex<updatedHousehold.beneficiaries.length-1"></mat-divider>
             </div>
-          </div>
-          <div class="content-button-footer">
-            <mat-progress-bar mode="determinate" value="70"></mat-progress-bar>
-            <div class="action-buttons">
-              <button mat-raised-button class="button-background-accent margin-right" (click)="stepper.previous()">
-                {{Text.back}}
-              </button>
-              <button mat-raised-button (click)="updatedHousehold.beneficiaries.push( pushBeneficiary() )" class="button-background-accent">
-                <mat-icon>add</mat-icon>
-                {{ Text.add }}
-              </button>
-              <button mat-raised-button class="button-background-primary margin-right" (click)="passHousehold(); nextValidation(3, stepper)">
-                {{Text.next}}
-              </button>
-              <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
-                (click)="update()">
-                {{Text.update}}
-              </button>
+            <div class="content-button-footer">
+              <mat-progress-bar mode="determinate" value="70"></mat-progress-bar>
+              <div class="action-buttons">
+                <button mat-raised-button class="button-background-accent" (click)="stepper.previous()">
+                  {{Text.back}}
+                </button>
+                <button mat-raised-button (click)="updatedHousehold.beneficiaries.push( pushBeneficiary() )" class="button-background-accent">
+                  <mat-icon>add</mat-icon>
+                  {{ Text.add }}
+                </button>
+                <button mat-raised-button class="button-background-primary" (click)="passHousehold(); nextValidation(3, stepper)">
+                  {{Text.next}}
+                </button>
+                <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
+                  (click)="update(); nextValidation(3, stepper, true)">
+                  {{Text.update}}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -431,17 +452,17 @@
                 <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
               </table>
             </div>
-          </div>
-          <div class="content-button-footer">
-            <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
-            <div class="action-buttons">
-              <button mat-button class="button-text-primary" (click)="leave()">{{Text.cancel}}</button>
+            <div class="content-button-footer">
+              <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+              <div class="action-buttons">
+                <button mat-button class="button-text-primary" (click)="leave()">{{Text.cancel}}</button>
 
-              <mat-spinner [diameter]="25" *ngIf="validationLoading"></mat-spinner>
-              <button mat-raised-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading"
-                (click)="create()">{{Text.create}}</button>
-              <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
-                (click)="update()">{{Text.update}}</button>
+                <mat-spinner [diameter]="25" *ngIf="validationLoading"></mat-spinner>
+                <button mat-raised-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading"
+                  (click)="create()">{{Text.create}}</button>
+                <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
+                  (click)="update()">{{Text.update}}</button>
+              </div>
             </div>
 
           </div>

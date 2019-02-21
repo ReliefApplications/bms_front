@@ -54,6 +54,10 @@ app-placeholder-panel {
     }
   }
 
+  .summary {
+    margin: 10px;
+  }
+
   .specifics {
     display: flex;
     flex-direction: column;
@@ -63,7 +67,7 @@ app-placeholder-panel {
     display: flex;
     width: 100%;
     justify-content: space-evenly;
-    margin: 20px;
+    margin: 10px;
     flex-wrap: wrap;
   }
 
@@ -212,7 +216,7 @@ app-placeholder-panel {
 }
 
 .content-button-footer{
-  margin: auto 20px auto auto;
+  width: 100%;
 }
 
 

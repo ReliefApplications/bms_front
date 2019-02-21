@@ -5,6 +5,7 @@ import { ConditionCriteriaMapper } from '../../../../model/condition-criteria-ma
 
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
 import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
+import { TEXT as TEXT_EN } from "src/texts/global_en";
 
 @Component({
     selector: 'app-modal-add-line',
@@ -28,9 +29,14 @@ export class ModalAddLineComponent extends ModalAddComponent {
      * check if the langage has changed
      * or if a select field has changed
      */
+
+    ngOnInit(){
+        this.modal = TEXT_EN;
+        super.ngOnInit();
+     }
+
     ngDoCheck() {
         if (this.modal != GlobalText.TEXTS) {
-            this.modal = GlobalText.TEXTS;
             this.entityDisplayedName = this.data.entity.getDisplayedName();
         } else if (this.oldEntity != this.data.entity) {
             this.checkData();

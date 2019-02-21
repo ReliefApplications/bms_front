@@ -11,7 +11,8 @@
 
     <app-carousel 
         [slides]="slides"
-        (slideSelected)="selectSlide($event)"
+        [externalSelectedSlide]="selectedSlide"
+        (slideSelected)="selectTitle($event.project.name, $event.project)"
     ></app-carousel>
     <div class="projects-wrapper">
       

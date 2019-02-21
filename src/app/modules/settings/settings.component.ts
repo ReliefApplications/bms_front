@@ -27,7 +27,6 @@ import { FinancialProvider } from 'src/app/model/financial-provider';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 
 import { SlideSelectorService } from 'src/app/core/utils/slide-selector.service';
-import { Subscription } from 'rxjs';
 
 
 
@@ -74,7 +73,6 @@ export class SettingsComponent implements OnInit {
         new Project,
         new FinancialProvider,
     ];
-    private slideSubscriber: Subscription;
 
 
 
@@ -100,15 +98,6 @@ export class SettingsComponent implements OnInit {
         this.extensionType = 'xls';
 
         this.slideSelectorService.setSlides(this.enabledSettings);
-        this.slideSubscriber = this.slideSelectorService.selectedSlide.subscribe((slide: any) => {
-            if (slide) {
-                this.selectTitle(slide.slideInfo.ref);
-            }
-        });
-    }
-
-    ngOnDestroy(): void {
-        this.slideSubscriber.unsubscribe();
     }
 
     /**

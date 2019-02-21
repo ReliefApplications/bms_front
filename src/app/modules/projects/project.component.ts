@@ -45,6 +45,7 @@ export class ProjectComponent implements OnInit {
 	selectedTitle = '';
 	selectedProject = null;
 	selectedProjectId = null;
+	selectedSlide: any = null
 	isBoxClicked = false;
 	extensionType: string;
 	hasRights: boolean = false;
@@ -57,8 +58,7 @@ export class ProjectComponent implements OnInit {
 	public maxWidth = GlobalText.maxWidth;
 	public heightScreen;
 	public widthScreen;
-	public slides: Object[] = [];
-	private slideSubscriber: Subscription;
+	public slides: any[] = [];
 
 	constructor(
 		public projectService: ProjectService,
@@ -72,11 +72,6 @@ export class ProjectComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.slideSubscriber = this.slideSelectorService.selectedSlide.subscribe((slide: any) => {
-			if (slide && slide.project) {
-				this.selectTitle(slide.project.name, slide.project);
-			}
-		});
 
 		if (this.importedDataService.emittedProject) {
 			this.selectedProjectId = parseInt(this.importedDataService.project)
@@ -90,9 +85,6 @@ export class ProjectComponent implements OnInit {
 		this.extensionType = 'xls';
 	}
 
-	ngOnDestroy(): void {
-		this.slideSubscriber.unsubscribe();
-	}
 
 	@HostListener('window:resize', ['$event'])
 	onResize(event) {
@@ -123,11 +115,11 @@ export class ProjectComponent implements OnInit {
      * @param title
      * @param project
      */
-	selectTitle(title, project?): void {
-
+	selectTitle(title, project): void {
 		this.isBoxClicked = true;
 		this.selectedTitle = title;
 		this.selectedProject = project;
+		this.selectedSlide = this.getSlideFromProject(project);
 		this.loadingDistributions = true;
 		this.getDistributionsByProject(project.id);
 	}
@@ -152,13 +144,9 @@ export class ProjectComponent implements OnInit {
 				if (response && response.length > 0) {
 					this.projects = this.projectClass.formatArray(response).reverse();
 					this.generateProjectsSlide();
-					if (this.carousel) {
-						this.carousel.update();
-					}
-					if (this.selectedProjectId) {
-						this.autoProjectSelect(this.selectedProjectId);
-					} else {
-						this.selectTitle(this.projects[0].name, this.projects[0]);
+					if(!this.selectedProject) {
+						const selectedProject = this.projects[0];
+						this.selectTitle(selectedProject.name, selectedProject);
 					}
 				}
 			}
@@ -293,7 +281,16 @@ export class ProjectComponent implements OnInit {
 					}
 				);
 			});
-			this.slideSelectorService.setSlides(this.slides);
+		}
+	}
+
+	private getSlideFromProject(project: Project): any {
+		for (const slide of this.slides) {
+			console.log(slide);
+			if (project === slide.project) {
+				return slide;
+			}
+		return this.slides[0];
 		}
 	}
 

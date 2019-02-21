@@ -1,21 +1,28 @@
 import { Component, OnInit, OnDestroy, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { SwiperConfigInterface, SwiperComponent } from 'ngx-swiper-wrapper';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-carousel',
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss']
 })
-export class CarouselComponent implements OnInit, OnDestroy {
+export class CarouselComponent implements OnInit {
 
   @Input() slides: any;
+
+  @Input() set externalSelectedSlide(slide: any) {
+    if (slide !== this.selectedSlide) {
+      this.selectOne(slide);
+    }
+  }
+
+  @Output() slideSelected: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild(SwiperComponent) swiper: SwiperComponent;
 
   private selectedSlide: any;
 
-  public config: SwiperConfigInterface = {
+  private config: SwiperConfigInterface = {
     direction: 'horizontal',
     slidesPerView: 'auto',
     spaceBetween: 20,
@@ -25,10 +32,11 @@ export class CarouselComponent implements OnInit, OnDestroy {
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
 
-  public selectOne(slide: any): void {
+  private selectOne(slide: any): void {
     const index = this.getSlideIndex(slide);
     if (index !== -1) {
       this.setSwiperIndex(index);
@@ -44,6 +52,10 @@ export class CarouselComponent implements OnInit, OnDestroy {
     this.swiper.directiveRef.setIndex(index);
   }
 
+  private onSlideClicked(slide: any) {
+    this.slideSelected.emit(slide);
+    this.selectOne(slide);
+  }
 
   // Used in HTML
   private checkIfSelected(slide: any) {

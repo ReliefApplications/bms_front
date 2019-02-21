@@ -12,7 +12,7 @@ export const TEXT = {
     beneficiary: 'Bénéficiaire',
     cancel: 'Annuler',
     close: 'Fermer',
-    characters:'Caractères',
+    characters: 'Caractères',
     create: 'Créer',
     delete: 'Supprimer',
     details: 'Détails',
@@ -37,7 +37,7 @@ export const TEXT = {
     rights: 'Rôles',
     save: 'Enregistrer',
     settings: 'Paramètres',
-    summary:'Sommaire',
+    summary: 'Sommaire',
     update: 'Modifier',
 
     // Error
@@ -121,8 +121,8 @@ export const TEXT = {
     beneficiaries_add_list: 'Ajouter cette liste au projet',
     beneficiaries_add_project: 'S\'il vous plait, sélectionnez le(s) projet(s) dans le(s)quel(s) vous voudriez ajouter les',
     beneficiaries_added: 'Les bénéficiaires ont été ajouté au projet sélectionné',
-    beneficiaries_advanced_research:'Recherche avancée',
-    beneficiaries_clear_all_research:'Réinitialiser les filtres',
+    beneficiaries_advanced_research: 'Recherche avancée',
+    beneficiaries_clear_all_research: 'Réinitialiser les filtres',
     beneficiaries_full_address: 'Adresse entière du ménage :',
     beneficiaries_household_info: 'Résumé des informations du ménage:',
     beneficiaries_import_addFile: 'ajouter un fichier ou glisser-déposer',
@@ -140,7 +140,7 @@ export const TEXT = {
     beneficiaries_import_title: 'import de bénéficiaires',
     beneficiaries_import_warning: 'Attention : si le fichier importé est incomplet, le fichier résultant pourra nécessiter d\'être complété pour que l\'import fonctionne',
     beneficiaries_location: 'Localisation du ménage :',
-    beneficiaries_missing_selected_project:'Vous devez selectionner un projet avant l\'importation',
+    beneficiaries_missing_selected_project: 'Vous devez selectionner un projet avant l\'importation',
     beneficiaries_proxy: 'Proxy',
     beneficiaries_select_api: 'Sélectionner une API',
     beneficiaries_selected_project: 'bénéficiaires sélectionnés:',
@@ -149,7 +149,7 @@ export const TEXT = {
     cache_distribution_added: 'Distribution et bénéficiaires du projet ont été ajoutés dans le cache',
     cache_store_beneficiaries: 'Sauvegarder Pour Le Mode Offline',
     cache_no_distribution: 'Cette distribution n\'est pas enregistrée dans le cache, vous ne pouvez pas y accéder hors-ligne',
-    
+
     // Dashboard
     dashboard_distribution_map: 'répartition des distributions',
     dashboard_recent_distributions: 'distributions récentes',
@@ -200,7 +200,7 @@ export const TEXT = {
     distribution_details_random: 'échantillon aléatoire',
     distribution_details_sample_size: 'Taille d\'échantillon',
     distribution_details_validate: 'valider & verouiller',
-    distribution_edit:'Modifier la distribution',
+    distribution_edit: 'Modifier la distribution',
     distribution_error_validate: 'La distribution est vide, veuillez la remplir avant de la valider',
     distribution_no_beneficiaries: 'Aucun bénéficiaire n\'a été ajouté ou supprimé. N\'importe quel changement fait aux bénéficiaires importés vont être mis à jour dans le système.',
     distribution_no_random_sample: 'L\'échantillon aléatoire ne peut pas être généré',
@@ -278,7 +278,7 @@ export const TEXT = {
     modal_not_enough_strong: 'Mot de passe insuffisant... Minimum requis: 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre',
     modal_no_project: 'Vous devez définir au moins un projet pour ce rôle',
     modal_pending_requests: 'Pending Requests',
-    modal_project_name_characters_limit:'ne pas dépasser',
+    modal_project_name_characters_limit: 'ne pas dépasser',
     modal_save_language_as_default: 'Définir ceci comme langage par défaut',
     modal_success: 'Succès',
     modal_required: 'obligatoire',
@@ -317,6 +317,7 @@ export const TEXT = {
     model_project_number_of_households: 'Nombre de ménages',
     model_project_start_date: 'Date de début de projet',
     model_project_value: 'Montant à distribuer',
+    model_residencystatus: 'Status de résidence',
     model_sector: 'Secteur',
     model_sectors_name: 'Secteurs',
     model_transaction_message: 'Message',
@@ -331,7 +332,7 @@ export const TEXT = {
 
     // Placeholder
     placeholder_one_many: 'Select one or many',
-    
+
     // Profile
     profile_user_change_password: 'Changer de mot de passe',
     profile_user_hint_new_password: 'Nouveau mot de passe',

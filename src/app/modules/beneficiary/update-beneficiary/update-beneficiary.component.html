@@ -90,12 +90,12 @@
                   <button mat-raised-button class="button-background-primary" (click)="nextValidation(1, stepper)">
                     {{Text.next}}
                   </button>
-                  <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update}}</button>
+                  <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update(); nextValidation(1, stepper, true)">{{Text.update}}</button>
                 </div>
               </div>
             </div>
           </div>
-          
+
         </div>
       </div>
     </mat-step>
@@ -150,6 +150,14 @@
                 <mat-form-field>
                   <input matInput type="text" placeholder={{Text.add_beneficiary_getNationalID}} [(ngModel)]="updatedHousehold.beneficiaries[0].national_id.number">
                 </mat-form-field>
+              </div>
+              <div class="column-container">
+                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                  placeholder={{Text.model_residencystatus}} [(ngModel)]="updatedHousehold.beneficiaries[0].residency_status">
+                  <ng-option *ngFor="let type of residencyStatusList" [value]="type">
+                    {{type | titlecase}}
+                  </ng-option>
+                </ng-select>
               </div>
               <div class="column-container columns-phones">
                 <div class="items-line">
@@ -211,7 +219,7 @@
                   {{Text.next}}
                 </button>
                 <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
-                  (click)="update()">{{Text.update}}</button>
+                  (click)="update(); nextValidation(2, stepper, true)">{{Text.update}}</button>
               </div>
             </div>
           </div>
@@ -279,6 +287,14 @@
                   <mat-form-field>
                     <input matInput type="text" placeholder={{Text.add_beneficiary_getNationalID}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].national_id.number">
                   </mat-form-field>
+                </div>
+                <div class="column-container">
+                  <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                    placeholder={{Text.model_residencystatus}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].residency_status">
+                    <ng-option *ngFor="let type of residencyStatusList" [value]="type">
+                      {{type | titlecase}}
+                    </ng-option>
+                  </ng-select>
                 </div>
                 <div class="column-container columns-phones">
                   <div class="items-line">
@@ -350,7 +366,7 @@
                   {{Text.next}}
                 </button>
                 <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
-                  (click)="update()">
+                  (click)="update(); nextValidation(3, stepper, true)">
                   {{Text.update}}
                 </button>
               </div>

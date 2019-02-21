@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, OnChanges } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit, DoCheck, AfterViewInit } from '@angular/core';
 import { TableComponent } from '../table.component';
 import { Beneficiaries } from '../../../model/beneficiary';
 import { emit } from 'cluster';
@@ -14,18 +14,18 @@ import { SelectionModel } from '@angular/cdk/collections';
     templateUrl: './table-beneficiaries.component.html',
     styleUrls: ['../table.component.scss', './table-beneficiaries.component.scss'],
 })
-export class TableBeneficiariesComponent extends TableComponent {
+export class TableBeneficiariesComponent extends TableComponent implements OnInit, DoCheck, AfterViewInit {
 
     @Output() updating = new EventEmitter<number>();
     @Output() selectedAdm = new EventEmitter<any>();
 
     selectedFilter;
-    keyWords: string = '';
+    keyWords = '';
     vulnerability: any = '';
     project: any = '';
     testLoading = true;
     beneficiary = GlobalText.TEXTS;
-    advancedResearch: boolean = false;
+    advancedResearch = false;
     _timeout: any = null;
     mapperObject = null;
     public newObject: any;
@@ -37,10 +37,10 @@ export class TableBeneficiariesComponent extends TableComponent {
         this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
         this.mapperObject = this.mapperService.findMapperObject(DistributionData);
     }
-    
+
     ngDoCheck() {
         const interval = window.setInterval(() => {
-            if (this.data.loading == false) {
+            if (this.data.loading === false) {
                 this.testLoading = false;
                 window.clearInterval(interval);
             }
@@ -51,8 +51,9 @@ export class TableBeneficiariesComponent extends TableComponent {
         if (this.sort) {
             this.sort.sortChange
                 .subscribe(() => {
-                    if (this.sort.direction != 'asc' && this.sort.direction != 'desc')
-                        this.sort.active = ''
+                    if (this.sort.direction !== 'asc' && this.sort.direction !== 'desc') {
+                        this.sort.active = '';
+                    }
 
                     this.testLoading = true;
 
@@ -65,7 +66,7 @@ export class TableBeneficiariesComponent extends TableComponent {
                         },
                         this.paginator.pageIndex,
                         this.paginator.pageSize,
-                    )
+                    );
                 });
         }
 
@@ -126,25 +127,26 @@ export class TableBeneficiariesComponent extends TableComponent {
             result => {
                 return (result);
             }
-        )
+        );
     }
 
     selected(index) {
-        if (index == 'adm1') {
-            if (this.newObject.adm1 == null)
+        if (index === 'adm1') {
+            if (this.newObject.adm1 == null) {
                 return;
-        }
-        else if (index == 'adm2') {
-            if (this.newObject.adm2 == null)
+            }
+        } else if (index === 'adm2') {
+            if (this.newObject.adm2 == null) {
                 return;
-        }
-        else if (index == 'adm3') {
-            if (this.newObject.adm3 == null)
+            }
+        } else if (index === 'adm3') {
+            if (this.newObject.adm3 == null) {
                 return;
-        }
-        else if (index == 'adm4') {
-            if (this.newObject.adm4 == null)
+            }
+        } else if (index === 'adm4') {
+            if (this.newObject.adm4 == null) {
                 return;
+            }
         }
 
         this.selectedAdm.emit({ index: index, object: this.newObject });

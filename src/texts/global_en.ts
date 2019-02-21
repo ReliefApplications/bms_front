@@ -11,7 +11,7 @@ export const TEXT = {
     beneficiaries: 'Beneficiaries',
     beneficiary: 'Beneficiary',
     cancel: 'Cancel',
-    characters:'Characters',
+    characters: 'Characters',
     close: 'Close',
     create: 'Create',
     delete: 'Delete',
@@ -37,7 +37,7 @@ export const TEXT = {
     rights: 'Rights',
     save: 'Save',
     settings: 'Settings',
-    summary:'Summary',
+    summary: 'Summary',
     update: 'Update',
 
     // Error
@@ -121,8 +121,8 @@ export const TEXT = {
     beneficiaries_add_list: 'Add this list to a project',
     beneficiaries_add_project: 'Please select the project(s) in which you would like to add the',
     beneficiaries_added: 'Beneficiairies added to the selected project',
-    beneficiaries_advanced_research:'Advanced search',
-    beneficiaries_clear_all_research:'Clear all',
+    beneficiaries_advanced_research: 'Advanced search',
+    beneficiaries_clear_all_research: 'Clear all',
     beneficiaries_full_address: 'Full household address:',
     beneficiaries_household_info: 'Household information summary:',
     beneficiaries_import_addFile: 'add file or drag and drop',
@@ -140,7 +140,7 @@ export const TEXT = {
     beneficiaries_import_title: 'import beneficiary data',
     beneficiaries_import_warning: 'Warning: if the provided file is incomplete, the resulting one may need to be completed for the import to succeed.',
     beneficiaries_location: 'Household Location:',
-    beneficiaries_missing_selected_project:'You must select a project before uploading',
+    beneficiaries_missing_selected_project: 'You must select a project before uploading',
     beneficiaries_proxy: 'Proxy',
     beneficiaries_select_api: 'Select API',
     beneficiaries_selected_project: 'selected beneficiaries:',
@@ -200,7 +200,7 @@ export const TEXT = {
     distribution_details_random: 'export random sample',
     distribution_details_sample_size: 'Sample size',
     distribution_details_validate: 'validate & lock',
-    distribution_edit:'Edit distribution',
+    distribution_edit: 'Edit distribution',
     distribution_error_validate: 'The distribution is empty, please fill it before to validate it',
     distribution_no_beneficiaries: 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.',
     distribution_no_random_sample: 'Random sample can\'t be generated...',
@@ -216,7 +216,6 @@ export const TEXT = {
     distribution_validated: 'Distribution has been validated',
     distribution_validated_title: 'Validated distribution',
     distribution_want_add: 'that you want to add to the ',
-
 
     // Header
     'header_add-beneficiaries': 'Add Beneficiaries',
@@ -234,8 +233,6 @@ export const TEXT = {
     header_reports: 'Reports',
     header_settings: 'Settings',
     'header_update-beneficiary': 'Update Beneficiaries',
-
-
 
     // Import
     import_added: 'Added from existing beneficiaries',
@@ -281,7 +278,7 @@ export const TEXT = {
     modal_not_enough_strong: 'The password is not strong enough... Minimum required: 8 characters, 1 lowercase, 1 uppercase, 1 numeric',
     modal_no_project: 'You must define at least a project with that role',
     modal_pending_requests: 'Pending Requests',
-    modal_project_name_characters_limit:'do not exceed',
+    modal_project_name_characters_limit: 'do not exceed',
     modal_required: 'required',
     modal_save_language_as_default: 'Set this as my default language',
     modal_success: 'Success',
@@ -320,6 +317,7 @@ export const TEXT = {
     model_project_number_of_households: 'Number of Households',
     model_project_start_date: 'Start Date',
     model_project_value: 'Amount to be distributed',
+    model_residencystatus: 'Residency status',
     model_sector: 'Sector',
     model_sectors_name: 'Sectors',
     model_transaction_message: 'Message',
@@ -334,7 +332,7 @@ export const TEXT = {
 
     // Placeholder
     placeholder_one_many: 'Select one or many',
-    
+
     // Profile
     profile_user_change_password: 'Change password',
     profile_user_hint_new_password: 'New password',

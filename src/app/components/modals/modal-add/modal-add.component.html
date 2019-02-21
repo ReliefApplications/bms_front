@@ -10,7 +10,7 @@
 
       <th class="table-value">
                 <form class="form" [formGroup]="form">
-                    <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
+                    <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
                         class="full-width">
 
             <input matInput [maxlength]="this.maxLength" *ngIf="propertiesTypes[p]=='text'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
@@ -81,6 +81,18 @@
               <strong>{{modal.modal_required | titlecase }}</strong>
             </mat-error>
           </mat-form-field>
+
+          <mat-form-field *ngIf="propertiesTypes[p]=='password' && modal !== undefined" class="full-width">
+            <input [(ngModel)]="newObject[p]" matInput placeholder="{{modal.model_user_password}}" formControlName="passwordFormControl"
+              [errorStateMatcher]="matcher" type="password">
+            <mat-error *ngIf="passwordFormControl.hasError('pattern') && !passwordFormControl.hasError('required')">
+              {{modal.modal_not_enough_strong}}
+            </mat-error>
+            <mat-error *ngIf="passwordFormControl.hasError('required')">
+              {{modal.modal_password_required | titlecase}}
+            </mat-error>
+          </mat-form-field>
+
         </form>
       </th>
     </tr>

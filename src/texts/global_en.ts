@@ -39,6 +39,7 @@ export const TEXT = {
     settings: 'Settings',
     summary: 'Summary',
     update: 'Update',
+    print: 'Print Vouchers',
 
     // Error
     back_to_homepage: 'Go back to homepage',

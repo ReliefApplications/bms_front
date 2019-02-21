@@ -37,4 +37,22 @@ export class ExportService {
             saveAs(response, key + '.' + extensionType);
         });
     }
+
+    public test() {
+        return this.http.get(this.api + '/vouchers/print/1', {responseType: 'blob'}).toPromise()
+        .then(response => {
+            var blob = new Blob([response], {type: ('blob')});
+            var filename = 'Voucher1.pdf';
+            saveAs(blob, filename);
+        });
+    }
+
+    public printAll() {
+        return this.http.get(this.api + '/print-vouchers', {responseType: 'blob'}).toPromise()
+        .then(response => {
+            var blob = new Blob([response], {type: ('blob')});
+            var filename = 'AllVouchers.pdf';
+            saveAs(blob, filename);
+        });
+    }
 }

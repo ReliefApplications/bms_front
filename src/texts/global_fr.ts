@@ -39,6 +39,8 @@ export const TEXT = {
     settings: 'Paramètres',
     summary: 'Sommaire',
     update: 'Modifier',
+    print: 'Imprimer des coupons',
+
 
     // Error
     back_to_homepage: 'Retour à la page d\'accueil',

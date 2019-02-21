@@ -48,11 +48,10 @@ export class AuthenticationService {
     login(user: User) {
         return new Promise<User | ErrorInterface | null>((resolve, reject) => {
             this.requestSalt(user.username).subscribe(success => {
-                let getSalt = success as SaltInterface;
+                const getSalt = success as SaltInterface;
                 user.salted_password = this._wsseService.saltPassword(getSalt.salt, user.password);
                 delete user.password;
-                this.logUser(user).subscribe(success => {
-                    let data = success;
+                this.logUser(user).subscribe(data => {
                     if (data) {
                         this.user = data as User;
                         this.user.loggedIn = true;
@@ -60,23 +59,23 @@ export class AuthenticationService {
                         this.setUser(this.user);
                         resolve(this.user);
                     } else {
-                        reject({ message: 'Bad credentials' })
+                        reject({ message: 'Bad credentials' });
                     }
                 }, error => {
-                    reject({ message: 'Bad credentials' })
+                    reject({ message: 'Bad credentials' });
                 });
             }, error => {
-                reject({ message: 'User not found' })
+                reject({ message: 'User not found' });
             });
         });
     }
 
-    logout() : Observable<User> {
+    logout(): Observable<User> {
         this.resetUser();
         this.user.loggedIn = false;
         return this._cacheService.clear(false, [AsyncacheService.COUNTRY]).pipe(
             map(
-                () => { return this.user }
+                () => this.user
             )
         );
     }
@@ -96,11 +95,11 @@ export class AuthenticationService {
     }
 
     public createUser(body: any, salt: any) {
-        let saltedPassword = this._wsseService.saltPassword(salt.salt, body.password);
+        const saltedPassword = this._wsseService.saltPassword(salt.salt, body.password);
         this._wsseService.setSalted(saltedPassword);
         body.password = saltedPassword;
         body.salt = salt.salt;
 
-        return this.http.put(URL_BMS_API + "/users", body);
+        return this.http.put(URL_BMS_API + '/users', body);
     }
 }

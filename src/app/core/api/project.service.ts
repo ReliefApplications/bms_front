@@ -15,35 +15,35 @@ export class ProjectService {
     ) {
     }
     public get() {
-        let url = this.api + "/projects";
+        const url = this.api + '/projects';
         return this.http.get(url);
     }
 
     public update(id: number, body: any) {
-        let url = this.api + "/projects/" + id;
+        const url = this.api + '/projects/' + id;
         return this.http.post(url, body);
     }
 
     public create(id: number, body: any) {
-        let url = this.api + "/projects";
+        const url = this.api + '/projects';
         return this.http.put(url, body);
     }
 
     public delete(id: number, body: any) {
-        let url = this.api + "/projects/" + id;
+        const url = this.api + '/projects/' + id;
         return this.http.delete(url, body);
     }
 
     public addBeneficiaries(projectId: number, checkedElements: any) {
-        let url = this.api + "/projects/" + projectId + "/beneficiaries/add";
-        let body = {
+        const url = this.api + '/projects/' + projectId + '/beneficiaries/add';
+        const body = {
             beneficiaries: checkedElements
-        }
+        };
         return this.http.post(url, body);
     }
 
     public getDates(projectId: number) {
-        let url = this.api + "/projects/" + projectId + "/dates";
+        const url = this.api + '/projects/' + projectId + '/dates';
         return this.http.get(url);
     }
 }

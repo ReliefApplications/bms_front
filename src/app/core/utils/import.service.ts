@@ -40,9 +40,9 @@ export class ImportService {
                 this.referedClassToken = FormatDataNewOld;
                 this.referedClassService.sendDataToValidation(email, data, project, step).subscribe(response => {
 
-                    if (typeof response == "string")
+                    if (typeof response === 'string') {
                         reject({ 'message': response });
-                    else {
+                    } else {
                         // use function to format and type data
                         const responseFormatted = this.referedClassToken.formatIssues(response, step);
                         for (let i = 0; i < responseFormatted.length; i++) {
@@ -119,13 +119,14 @@ export class ImportService {
             this.referedClassService = this._householdsService;
 
             this.referedClassService.testFileTemplate(file, location).subscribe(response => {
-                if (typeof response == "string")
+                if (typeof response === 'string') {
                     reject({ 'message': response });
-                else
+                } else {
                     resolve(response);
+                }
             }, error => {
                 reject({ 'message': 'Error while testing data' });
             });
-        })
+        });
     }
 }

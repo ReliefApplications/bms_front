@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-	HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpEventType, HttpErrorResponse
+    HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpEventType, HttpErrorResponse
 } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -14,12 +14,12 @@ const api = URL_BMS_API;
 export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(
-        public snackbar : MatSnackBar,
-    ){}
+        public snackbar: MatSnackBar,
+    ) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
 
-        let reqMethod : String = req.method;
+        const reqMethod: String = req.method;
 
         return next.handle(req).pipe(
             catchError(
@@ -31,10 +31,10 @@ export class ErrorInterceptor implements HttpInterceptor {
         );
     }
 
-    snackErrors(response : any) {
+    snackErrors(response: any) {
         if (response.message || (response.status && response.statusText && response.error) ) {
-            if(response.status && response.statusText && response.error) {
-                if(typeof response.error !== 'string') {
+            if (response.status && response.statusText && response.error) {
+                if (typeof response.error !== 'string') {
                     response.error = response.error.error.message;
                 }
                 this.snackbar.open(response.error, '', {duration: 5000, horizontalPosition: 'center'});

@@ -34,6 +34,12 @@ export class Beneficiaries {
     date_of_birth: Date;
 
     /**
+     * Beneficiary residency_status
+     * @type {string}
+     */
+    residency_status: string;
+
+    /**
      * Beneficiary status
      * @type {boolean}
      */
@@ -56,7 +62,7 @@ export class Beneficiaries {
      * @type {Array}
      */
     vulnerabilities: Array<string> = [];
-    
+
     /**
      * Beneficiary's full_name
      * @type {string}
@@ -70,6 +76,7 @@ export class Beneficiaries {
             this.family_name = instance.family_name;
             this.gender = instance.gender;
             this.date_of_birth = instance.date_of_birth;
+            this.residency_status = instance.residency_status;
             this.status = instance.status;
             this.national_ids = instance.national_ids;
             this.phones = instance.phones;
@@ -93,6 +100,7 @@ export class Beneficiaries {
         family_name : GlobalText.TEXTS.model_familyName,
         gender : GlobalText.TEXTS.gender,
         date_of_birth : GlobalText.TEXTS.model_dateofbirth,
+        residency_status : GlobalText.TEXTS.model_residencystatus,
         status : GlobalText.TEXTS.model_beneficiaries_status,
         national_ids : GlobalText.TEXTS.model_beneficiaries_nationalids,
         phones : GlobalText.TEXTS.model_beneficiaries_phones,
@@ -127,20 +135,17 @@ public static mapVulnerability(name: string): string {
 
 public static formatArray(instance: any): Beneficiaries[] {
     const beneficiaries: Beneficiaries[] = [];
-    // console.log("before format : ", instance);
-    if(instance) {
+    if (instance) {
         instance.forEach(element => {
-            if(element.beneficiary) {
+            if (element.beneficiary) {
                 beneficiaries.push(this.formatElement(element.beneficiary));
             } else {
                 beneficiaries.push(this.formatElement(element));
             }
         });
-    }
-    else {
+    } else {
         return null;
     }
-    // console.log("after format : ", beneficiaries);
     return(beneficiaries);
 }
 
@@ -151,6 +156,7 @@ public static formatElement(instance: any): Beneficiaries {
     beneficiary.family_name = instance.family_name;
     beneficiary.gender = instance.gender;
     beneficiary.date_of_birth = instance.date_of_birth;
+    beneficiary.residency_status = instance.residency_status;
     beneficiary.status = instance.status;
     beneficiary.id = instance.id;
 
@@ -160,21 +166,21 @@ public static formatElement(instance: any): Beneficiaries {
     beneficiary.phones = [];
     beneficiary.vulnerabilities = [];
 
-    if(instance.national_ids) {
+    if (instance.national_ids) {
         instance.national_ids.forEach(
             element => {
                 beneficiary.national_ids.push(element.id_number);
             }
         );
     }
-    if(instance.phones) {
+    if (instance.phones) {
         instance.phones.forEach(
             element => {
                 beneficiary.phones.push(element.number);
             }
         );
     }
-    if(instance.vulnerability_criteria) {
+    if (instance.vulnerability_criteria) {
         instance.vulnerability_criteria.forEach(
             element => {
                 beneficiary.vulnerabilities.push(this.mapVulnerability(element.field_string));
@@ -185,9 +191,6 @@ public static formatElement(instance: any): Beneficiaries {
 }
 
 public static formatForApi(instance: any) {
-
-    // console.log('formatForApi: ', instance);
-
     let vulnerability_criteria_copy = new Array();
     let phones_copy = new Array();
     let national_ids_copy = new Array();
@@ -201,6 +204,7 @@ public static formatForApi(instance: any) {
         family_name : instance.family_name,
         gender : instance.gender,
         date_of_birth : instance.date_of_birth,
+        residency_status : instance.residency_status,
         status : instance.status,
         vulnerability_criteria : vulnerability_criteria_copy,
         phones : phones_copy,
@@ -222,6 +226,7 @@ public static formatForApi(instance: any) {
             family_name : selfinstance.family_name,
             gender : selfinstance.gender,
             date_of_birth : selfinstance.date_of_birth,
+            residency_status : selfinstance.residency_status,
             status : selfinstance.status,
             national_ids : Object.assign({}, selfinstance.national_ids),
             phones : Object.assign({}, selfinstance.phones),
@@ -251,6 +256,7 @@ public static formatForApi(instance: any) {
             family_name : selfinstance.family_name,
             gender : stringGender,
             date_of_birth : selfinstance.date_of_birth,
+            residency_status : selfinstance.residency_status,
             // status : selfinstance.status,
             // national_ids : selfinstance.national_ids,
             // phones : selfinstance.phones,
@@ -266,15 +272,15 @@ public static formatForApi(instance: any) {
             return selfinstance;
         }
         let vulnerabilityString = '';
-        if(selfinstance.vulnerabilities[0]) {
+        if (selfinstance.vulnerabilities[0]) {
             selfinstance.vulnerabilities.forEach(
                 (element, index) => {
-                    if(index>0) {
-                        vulnerabilityString += ', ';                        
+                    if (index > 0) {
+                        vulnerabilityString += ', ';
                     }
                     vulnerabilityString += element.substring(25).split('.')[0];
                 }
-            )
+            );
         }
 
         return {
@@ -282,6 +288,7 @@ public static formatForApi(instance: any) {
             family_name : selfinstance.family_name,
             gender : selfinstance.gender,
             date_of_birth : selfinstance.date_of_birth,
+            residency_status : selfinstance.residency_status,
             status : selfinstance.status,
             national_ids : selfinstance.national_ids,
             phones : selfinstance.phones,
@@ -302,6 +309,7 @@ public static formatForApi(instance: any) {
             family_name : selfinstance.family_name,
             gender : selfinstance.gender,
             date_of_birth : selfinstance.date_of_birth,
+            residency_status : selfinstance.residency_status,
             status : selfinstance.status,
             national_ids : selfinstance.national_ids,
             phones : selfinstance.phones,
@@ -318,6 +326,7 @@ public static formatForApi(instance: any) {
             family_name : 'text',
             gender : 'text',
             date_of_birth : 'date',
+            residency_status : 'text',
             status : 'number',
             national_ids : 'text',
             phones : 'text',
@@ -334,6 +343,7 @@ public static formatForApi(instance: any) {
             family_name : 'text',
             gender : 'number',
             date_of_birth : 'date',
+            residency_status : 'text',
             status : 'number',
             national_ids : 'text',
             phones : 'text',

@@ -9,15 +9,15 @@ import { AsyncacheService } from '../storage/asyncache.service';
 export class AuthGuard implements CanActivate {
 
     constructor (
-		private router: Router,
-		private cache: AsyncacheService
-	) { }
+        private router: Router,
+        private cache: AsyncacheService
+    ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-		if (this.cache.getUser()) {
-			// Logged in so return true
-			return true;
-		}
+        if (this.cache.getUser()) {
+            // Logged in so return true
+            return true;
+        }
 
         // Not logged in so redirect to login page with the return url
         this.router.navigate(['/login']);

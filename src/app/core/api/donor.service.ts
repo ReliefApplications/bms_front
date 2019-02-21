@@ -5,33 +5,33 @@ import { URL_BMS_API                                } from '../../../environment
 import { HttpService                                } from './http.service';
 
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
-export class DonorService{
+export class DonorService {
     readonly api = URL_BMS_API;
 
     constructor(
-        private http : HttpService
-    ){
+        private http: HttpService
+    ) {
     }
 
     public get() {
-        let url = this.api + "/donors";
+        const url = this.api + '/donors';
         return this.http.get(url);
     }
 
     public update(id: number, body: any) {
-        let url = this.api + "/donors/"+id;
+        const url = this.api + '/donors/' + id;
         return this.http.post(url, body);
     }
 
     public create(id: number, body: any) {
-        let url = this.api + "/donors";
+        const url = this.api + '/donors';
         return this.http.put(url, body);
     }
 
     public delete(id: number) {
-        let url = this.api + "/donors/"+id;
+        const url = this.api + '/donors/' + id;
         return this.http.delete(url);
     }
 }

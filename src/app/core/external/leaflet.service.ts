@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-//Plugins
+// Plugins
 import * as Leaflet from 'leaflet';
 import * as LeafletOmnivore from '@mapbox/leaflet-omnivore';
 
@@ -13,18 +13,18 @@ import { AsyncacheService } from '../storage/asyncache.service';
 
 export class LeafletService {
 
+    public static loading = false;
     private map: any;
     private tiles: any;
-    public static loading : boolean = false;
 
     constructor(
         private _locationService: LocationService,
         private _cacheService: AsyncacheService,
     ) { }
 
-    //------------------------------------------------------------------------//
-    //---------------------------------- MAP ---------------------------------//
-    //------------------------------------------------------------------------//
+    // ------------------------------------------------------------------------ //
+    // ---------------------------------- MAP --------------------------------- //
+    // ------------------------------------------------------------------------ //
 
     createMap(mapId: string) {
 
@@ -51,8 +51,9 @@ export class LeafletService {
         // Add title layer to the map
 
         this.tiles = Leaflet.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/256/{z}/{x}/{y}@2x?access_token={accessToken}', {
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-            id: "raphaelreliefapplications/cjnpsw0g203rn2rt73ichorq1",
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,' +
+            ' <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            id: 'raphaelreliefapplications/cjnpsw0g203rn2rt73ichorq1',
             accessToken: 'pk.eyJ1IjoicmFwaGFlbHJlbGllZmFwcGxpY2F0aW9ucyIsImEiOiJjam5wc3Y5ZjAwMDNtM3Zud203aGdmcXVrIn0.dMsWwv-hy5OpYSXJpJM7vA'
         }).addTo(this.map);
     }
@@ -62,28 +63,28 @@ export class LeafletService {
         this.addTileLayer();
     }
 
-    //add all layers to show the upcoming distribution in the map dashoard
+    // add all layers to show the upcoming distribution in the map dashoard
     addKML() {
         this._cacheService.get(AsyncacheService.COUNTRY).subscribe(
-            result => {
-                let country = result ? result : "KHM";
+            current_country => {
+                const country = current_country ? current_country : 'KHM';
                 LeafletService.loading = true;
-                //Check if the map is already created
+                // Check if the map is already created
                 if (this.map) {
 
-                    //get in the cache the list of upcoming distribution
+                    // get in the cache the list of upcoming distribution
                     let upcomingDistribution;
 
                     this._locationService.getUpcomingDistributionCode().subscribe(
                         result => {
                             upcomingDistribution = result;
                             // call the KML file to get the layer
-                            let admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.toLowerCase() + '.kml').on("ready", () => {
+                            const admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.toLowerCase() + '.kml').on('ready', () => {
                                 // center the map on the appropriate country
-                                let admGroup = Leaflet.featureGroup(admLayers.getLayers());
+                                const admGroup = Leaflet.featureGroup(admLayers.getLayers());
                                 this.map.fitBounds(admGroup.getBounds());
 
-                                //delete the displaying layer
+                                // delete the displaying layer
                                 admLayers.eachLayer(adm => {
                                     adm.setStyle({
                                         opacity: 0,
@@ -92,14 +93,19 @@ export class LeafletService {
                                     });
                                 });
 
-                                //search in all layer which layer has a code begining with the location code of a upcoming distribution and set a color and a weigth of them
+                                // search in all layer which layer has a code begining with the location code of a upcoming distribution
+                                // and set a color and a weigth of them
                                 admLayers.eachLayer(function (adm, index) {
                                     if (upcomingDistribution) {
                                         upcomingDistribution.forEach(element => {
-                                            if ((adm.feature.properties.ADM4_PCODE === element.code_location && element.adm_level === "adm4") ||
-                                                (adm.feature.properties.ADM3_PCODE === element.code_location && element.adm_level === "adm3") ||
-                                                (adm.feature.properties.ADM2_PCODE === element.code_location && element.adm_level === "adm2") ||
-                                                (adm.feature.properties.ADM1_PCODE === element.code_location && element.adm_level === "adm1")) {
+                                            if ((adm.feature.properties.ADM4_PCODE === element.code_location
+                                                  && element.adm_level === 'adm4') ||
+                                                (adm.feature.properties.ADM3_PCODE === element.code_location
+                                                  && element.adm_level === 'adm3') ||
+                                                (adm.feature.properties.ADM2_PCODE === element.code_location
+                                                  && element.adm_level === 'adm2') ||
+                                                (adm.feature.properties.ADM1_PCODE === element.code_location
+                                                  && element.adm_level === 'adm1')) {
 
                                                 adm.setStyle({
                                                     color: '#4AA896', // $bms_green
@@ -110,19 +116,19 @@ export class LeafletService {
                                                 });
 
                                                 let tooltipInformation = '';
-                                                element.distribution.forEach(function (data, index, element) {
-                                                    tooltipInformation += "<p> Distribution : " + data.name + "</p>";
-                                                    tooltipInformation += "<p> Location : " + data.location_name + "</p>"
+                                                element.distribution.forEach(function (data, i, el) {
+                                                    tooltipInformation += '<p> Distribution : ' + data.name + '</p>';
+                                                    tooltipInformation += '<p> Location : ' + data.location_name + '</p>';
 
-                                                    //to display a divider between distribution in a same tooltip
-                                                    //but don't put divider after thie last element
-                                                    if (!Object.is(element.length - 1, index)) {
-                                                        tooltipInformation += "<hr>";
+                                                    // to display a divider between distribution in a same tooltip
+                                                    // but don't put divider after thie last element
+                                                    if (!Object.is(el.length - 1, i)) {
+                                                        tooltipInformation += '<hr>';
                                                     }
 
-                                                })
+                                                });
 
-                                                let tooltip = Leaflet.tooltip({
+                                                const tooltip = Leaflet.tooltip({
                                                     permanent: false,
                                                     interactive: true
                                                 }, adm).setContent(tooltipInformation);
@@ -132,10 +138,10 @@ export class LeafletService {
                                     }
                                 });
                                 LeafletService.loading = false;
-                            })
+                            });
                             admLayers.addTo(this.map);
                         }
-                    )
+                    );
 
                 }
             }

@@ -144,10 +144,10 @@ export class DistributionData {
         }
         switch (name) {
             case "Mobile":
-                name = 'assets/images/commodities/cash.svg';
+                name = 'assets/images/commodities/cash.png';
                 break;
             case "Voucher":
-                name = 'assets/images/commodities/voucher.svg';
+                name = 'assets/images/commodities/voucher.png';
                 break;
             default: return name;
         }

@@ -109,7 +109,7 @@ export class Households {
             firstName: "text",
             location: "text",
             dependents: "number",
-            vulnerabilities: "png",
+            vulnerabilities: "svg",
             projects: "text",
         }
     }

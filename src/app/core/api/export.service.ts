@@ -38,8 +38,8 @@ export class ExportService {
         });
     }
 
-    public test() {
-        return this.http.get(this.api + '/booklets/print/1', {responseType: 'blob'}).toPromise()
+    public print(id: number) {
+        return this.http.get(this.api + '/booklets/print/' + id, {responseType: 'blob'}).toPromise()
         .then(response => {
             var blob = new Blob([response], {type: ('blob')});
             var filename = 'Booklet1.pdf';

@@ -31,11 +31,6 @@
                 <span class="full-width" *ngIf="isShowing">{{menu.settings | titlecase}}</span>
                 <mat-icon mat-list-icon>settings</mat-icon>
             </mat-list-item>
-            <mat-list-item *ngIf="hasRights" [ngClass]="{selected: currentComponent==='print'}" routerLink="/print"
-                (click)="setCurrentRoute('print'); toggle(sidenav)">
-                <span class="full-width" *ngIf="isShowing">{{menu.print | titlecase}}</span>
-                <mat-icon mat-list-icon>printer</mat-icon>
-            </mat-list-item>
         </mat-nav-list>
     </mat-sidenav>
 

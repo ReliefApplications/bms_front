@@ -39,7 +39,6 @@ export const TEXT = {
     settings: 'الإعدادات',
     summary: 'ملخص',
     update: 'تحديث',
-    print: 'Print Vouchers',
     voucher: 'Vouchers',
 
     // Error

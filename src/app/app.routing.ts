@@ -14,7 +14,6 @@ import { ReportsComponent 																} from './modules/reports/reports.comp
 import { ProfileComponent																} from './modules/profile/profile.component';
 import { DataValidationComponent 														} from './modules/beneficiary/data-validation/data-validation.component';
 import { ImportDistributionComponent                                                    } from './modules/projects/distributions/import-distribution/import-distribution.component';
-import { VoucherComponent } from './modules/voucher/voucher.component'
 // Services
 import { AuthGuard 																		} from './core/guards/auth.guard';
 import { DeactivateGuard                                                                } from './core/guards/deactivate.guard';
@@ -48,7 +47,6 @@ export const routes: Routes = [
 
     { path: 'beneficiaries/add-beneficiaries', component: UpdateBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
     { path: 'beneficiaries/update-beneficiary/:id', component: UpdateBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
-	{ path: 'print', component: VoucherComponent},
 	
     { path: 'vouchers', component: VouchersComponent },
 

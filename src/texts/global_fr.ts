@@ -39,8 +39,6 @@ export const TEXT = {
     settings: 'Paramètres',
     summary: 'Sommaire',
     update: 'Modifier',
-    print: 'Imprimer des coupons',
-
     voucher: 'Vouchers',
 
     // Error

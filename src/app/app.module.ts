@@ -29,7 +29,6 @@ import { ImportedDataService } from './core/utils/imported-data.service';
 import { RequestDisplayComponent } from './components/headers/request-display/request-display.component';
 import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
 import { TitleCasePipe } from '@angular/common';
-import { VoucherComponent } from './modules/voucher/voucher.component';
 
 @NgModule({
 	declarations: [
@@ -42,7 +41,6 @@ import { VoucherComponent } from './modules/voucher/voucher.component';
 		ModalLeaveComponent,
 		RequestDisplayComponent,
 		ModalRequestsComponent,
-		VoucherComponent,
 	],
 	imports: [
 		// Modules

@@ -57,6 +57,8 @@ export class Mapper {
                 return this.mapper.getEntityTranslator('booklet');
             case 'TransactionVoucher':
                 return this.mapper.getEntityTranslator('transaction_voucher');
+            case 'Product':
+                return this.mapper.getEntityTranslator('product');
             case 'Vendors':
                 return this.mapper.getEntityTranslator('vendors');
             default: return;

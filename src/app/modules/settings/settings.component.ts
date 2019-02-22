@@ -25,6 +25,8 @@ import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { FinancialProvider } from 'src/app/model/financial-provider';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
+import { Product } from 'src/app/model/product';
+import { ProductService } from 'src/app/core/api/product-service';
 import { Vendors } from 'src/app/model/vendors';
 import { VendorsService } from 'src/app/core/api/vendors.service';
 
@@ -34,6 +36,7 @@ import { VendorsService } from 'src/app/core/api/vendors.service';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+
   public nameComponent = 'settings';
   public settings = GlobalText.TEXTS;
   loadingExport = false;
@@ -71,6 +74,7 @@ export class SettingsComponent implements OnInit {
     public donorService: DonorService,
     public projectService: ProjectService,
     public userService: UserService,
+    public productService: ProductService,
     public countrySpecificService: CountrySpecificService,
     public financialProviderService: FinancialProviderService,
     private _cacheService: AsyncacheService,
@@ -137,6 +141,9 @@ export class SettingsComponent implements OnInit {
       case 'financialProvider':
         category = 'financialProvider';
         break;
+      case 'products':
+        category = 'product';
+        break;
       default:
         break;
     }
@@ -192,6 +199,11 @@ export class SettingsComponent implements OnInit {
         this.referedClassToken = FinancialProvider;
         this.referedClassService = this.financialProviderService;
         this.deletable = false;
+        break;
+      case 'product':
+        this.referedClassToken = Product;
+        this.referedClassService = this.productService;
+        this.deletable = true;
         break;
       case 'vendors':
         this.referedClassToken = Vendors;
@@ -265,6 +277,12 @@ export class SettingsComponent implements OnInit {
                 if (this.referedClassToken.__classname__ == 'Vendors') {
                   if (rights == 'ROLE_ADMIN')
                     this.hasRights = true;
+                }
+
+                if (this.referedClassToken.__classname__ === 'Product') {
+                  if (rights === "ROLE_ADMIN") {
+                      this.hasRights = true;
+                  }
                 }
               }
             }

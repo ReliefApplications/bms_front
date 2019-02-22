@@ -332,6 +332,9 @@ export const TEXT = {
     model_individual_to_all: 'Définir le voucheur comme valeur individuelle',
     model_individual_value: 'Valeur individuelle',
     model_notes: 'Notes',
+    model_product_name: 'Nom',
+    model_product_unit: 'Unité',
+    model_product_image: 'Image',
     model_number_booklets: 'Nombre de brochures à créer',
     model_number_vouchers: 'Nombre de bons',
     model_project_donors_name: 'Donneurs',
@@ -406,6 +409,7 @@ export const TEXT = {
     settings_financial_provider: 'Connexions tiers',
     settings_log_button: 'Recevoir les logs de cet utilisateur par email',
     settings_project_exists: 'Un projet avec le même nom existe déjà',
+    settings_product: 'Produit',
     settings_users: 'utilisateurs',
     settings_vendors: 'vendeurs',
 

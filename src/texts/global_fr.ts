@@ -324,6 +324,9 @@ export const TEXT = {
     model_familyName: 'Nom',
     model_firstName: 'Prénom',
     model_notes: 'Notes',
+    model_product_name: 'Nom',
+    model_product_unit: 'Unité',
+    model_product_image: 'Image',
     model_project_donors_name: 'Donneurs',
     model_project_end_date: 'Date de fin de projet',
     model_project_name: 'Nom  du projet',
@@ -393,6 +396,7 @@ export const TEXT = {
     settings_financial_provider: 'Connexions tiers',
     settings_log_button: 'Recevoir les logs de cet utilisateur par email',
     settings_project_exists: 'Un projet avec le même nom existe déjà',
+    settings_product: 'Produit',
     settings_users: 'utilisateurs',
 
     // Snackbar

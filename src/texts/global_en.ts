@@ -324,6 +324,9 @@ export const TEXT = {
     model_familyName: 'Family name',
     model_firstName: 'First name',
     model_notes: 'Notes',
+    model_product_name: 'Name',
+    model_product_unit: 'Unit',
+    model_product_image: 'Image',
     model_project_donors_name: 'Donors',
     model_project_end_date: 'End Date',
     model_project_name: 'Project\'s name',
@@ -391,6 +394,7 @@ export const TEXT = {
     settings_donors: 'donors',
     settings_financial_provider: 'Third party connections',
     settings_log_button: 'Get user logs by email',
+    settings_product: 'Product',
     settings_project_exists: 'A project with this name already exists',
     settings_users: 'users',
 

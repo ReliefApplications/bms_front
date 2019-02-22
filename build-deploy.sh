@@ -35,6 +35,8 @@ aws s3 rm s3://$1.bmstaging.info --recursive "${@:2}"
 aws s3 cp ./dist/bms-front_gzip s3://$1.bmstaging.info --recursive --acl public-read --content-encoding gzip "${@:2}"
 if [[ $1 == "front" ]]; then
     aws cloudfront create-invalidation --distribution-id E2CS9FD9XA4VY8 --paths '/*' "${@:2}"
+elif [[ $1 == "testing" ]]; then
+    aws cloudfront create-invalidation --distribution-id E1FDBGHL3DD0Y8 --paths '/*' "${@:2}"
 fi
 echo "==="
 echo "Upload complete"

@@ -12,7 +12,7 @@ export const TEXT = {
     beneficiary: 'المستفيد',
     cancel: 'إلغاء',
     close: 'إغلاق',
-    characters:'حرف',
+    characters: 'حرف',
     create: 'إنشاء',
     delete: 'حذف',
     details: 'تفاصيل',
@@ -37,7 +37,7 @@ export const TEXT = {
     rights: 'الحقوق',
     save: 'حفظ',
     settings: 'الإعدادات',
-    summary:'ملخص',
+    summary: 'ملخص',
     update: 'تحديث',
     voucher: 'Vouchers',
 
@@ -58,7 +58,19 @@ export const TEXT = {
     role_user_regional_manager: 'مسؤول عن الإقليم',
 
     // Months
-    months_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    months_short: [
+    'يناير',
+    'فبراير',
+    'مارس',
+    'إبريل',
+    'مايو',
+    'يونيه',
+    'يوليه',
+    'أغسطس',
+    'سبتمبر',
+    'أكتوبر',
+    'نوفمبر',
+    'ديسمبر'],
 
 
     // SPECIFIC VARIABLES
@@ -75,19 +87,19 @@ export const TEXT = {
     add_beneficiary_getOccupation: 'الوظيفة',
     add_beneficiary_getTypeNationalId: 'نوع الهوية الوطنية',
     add_beneficiary_getTypePhone: 'نوع الهاتف',
-    add_beneficiary_res_address: 'Resident Address',
+    add_beneficiary_res_address: 'عنوان الإقامة',
     add_beneficiary_step1: 'معلومات',
     add_beneficiary_step2: 'رب العائلة',
-    add_beneficiary_step3:'أفراد العائلة',
+    add_beneficiary_step3: 'أفراد العائلة',
     add_beneficiary_title: 'إضافة مستفيد',
     add_beneficiary_code: 'رمز الهاتف الدولي',
 
     // Add beneficiary options
-    national_id_passport: 'Passport',
-    national_id_card: 'ID Card',
-    national_id_license: 'Driver\'s License',
-    national_id_family_registry: 'Family Registry',
-    national_id_other: 'Other',
+    national_id_passport: 'جواز سفر',
+    national_id_card: 'بطاقة التعريف',
+    national_id_license: 'رخصة السائق',
+    national_id_family_registry: 'سجل العائلة',
+    national_id_other: 'آخر',
 
     // Add distribution
     add_distribution_advanced_option: 'خيارات متقدمة',
@@ -107,11 +119,11 @@ export const TEXT = {
     add_distribution_missing_location: 'أضف مقاطعة',
     add_distribution_missing_selection_criteria: 'معيار الاختيار مفقود',
     add_distribution_missing_threshold: 'يجب أن تكون قيمة الحد الفاصل أكبر من 0',
-    add_distribution_multiple_commodities: 'You can\'t have too payment\'s method as commodities',
+    add_distribution_multiple_commodities: 'لا يمكنك الحصول على طريقتين للدفع كسلع',
     add_distribution_selection_criteria: 'معيار الاختيار',
     add_distribution_text_explanation: 'سيختار النظام فقط المستفيدين / الأسر التي لديها مجموع أعلى من المجموع الادنى ',
     add_distribution_threshold: ' المجموع الادنى لاختيار ',
-    add_distribution_zero: 'The number of households reached or the amount to be distributed is 0',
+    add_distribution_zero: 'عدد الأسر التي تم الوصول إليها أو المبلغ المطلوب توزيعه هو 0',
 
     // Add project
     add_project_new_distribution: 'توزيعة جديدة',
@@ -122,8 +134,8 @@ export const TEXT = {
     beneficiaries_add_list: 'العالمي',
     beneficiaries_add_project: 'يرجى تحديد المشروع (المشاريع) الذي/الذين  ترغب في إضافته/هم ',
     beneficiaries_added: 'تم إضافة المستفيدين الى المشروع',
-    beneficiaries_advanced_research:'بحث متقدم',
-    beneficiaries_clear_all_research:'امسح الكل',
+    beneficiaries_advanced_research: 'بحث متقدم',
+    beneficiaries_clear_all_research: 'امسح الكل',
     beneficiaries_full_address: 'عنوان المنزل بالكامل:',
     beneficiaries_household_info: 'ملخص المعلومات الخاصة بالمنزل  :',
     beneficiaries_import_addFile: ' إضافة ملف أو وضع ملف ',
@@ -132,10 +144,10 @@ export const TEXT = {
     beneficiaries_import_beneficiaries_imported: 'تم إضافة المستفيدين ',
     beneficiaries_import_check_fields: ' محتوى فارغ , تثبت من أدخال جميع المعطيات و اختيار مشروع ',
     beneficiaries_import_csv: ' تنزيل ملف',
-    beneficiaries_import_convert: 'convert file',
+    beneficiaries_import_convert: 'تحويل الملف',
     beneficiaries_import_error_importing: 'وقع خطأ عندالتحميل البيانات',
     beneficiaries_import_file: 'تحميل من ملف',
-    beneficiaries_import_response: 'Get ready to recover the file',
+    beneficiaries_import_response: 'استعد لاستعادة الملف',
     beneficiaries_import_select_location: 'يجب تحديد الموقع وإضافة ملف قبل التحميل',
     beneficiaries_import_select_project: 'يجب أن تختار مشروعا و ملفا قبل التحميل',
     beneficiaries_import_title: 'تحميل بيانات المستفيد',
@@ -148,9 +160,9 @@ export const TEXT = {
 
     // Cache
     cache_distribution_added: 'التوزيع والمستفيدين من المشروع تم  إضافتهم في ذاكرة التخزين المؤقت',
-    cache_store_beneficiaries: 'Save For Offline Mode',
+    cache_store_beneficiaries: 'حفظ لوضع غير متصل بالشبكة',
     cache_no_distribution: 'لم يتم تخزين هذا التوزيع في ذاكرة التخزين المؤقت ، ولا يمكنك الحصول عليه خارج خدمة الانترنت. ',
-    
+
     // Dashboard
     dashboard_distribution_map: 'خريطة التوزيع',
     dashboard_recent_distributions: 'التوزيعات الحديثة',
@@ -179,7 +191,7 @@ export const TEXT = {
     data_verification_snackbar_more_corrected: 'تم إضافة المستفيدين بنجاح',
     data_verification_snackbar_typo_corrected: 'أخطاء الكتابة التي تم تصحيحها',
     data_verification_snackbar_typo_no_corrected: 'كل أخطاء الكتابة التي لم يتم تصحيحها',
-    data_verification_step_info: 'Step info',
+    data_verification_step_info: 'معلومات خطوة',
     data_verification_step_1: 'أخطاء في كتابة المعلومات',
     data_verification_step_2: 'التأكد من التكرار',
     data_verification_step_3: 'للإضافة',
@@ -201,7 +213,7 @@ export const TEXT = {
     distribution_details_random: 'عينة عشوائية للتحميل',
     distribution_details_sample_size: 'حجم العينة',
     distribution_details_validate: 'التحقق والقفل',
-    distribution_edit:'تعديل التوزيع',
+    distribution_edit: 'تعديل التوزيع',
     distribution_error_validate: 'التوزيع فارغ ، يرجى ملءه قبل التحقق من صحته',
     distribution_no_beneficiaries: 'لم تتم إضافة أو إزالة أي مستفيدين. سيتم تحديث أي تغييرات يتم إجراؤها على المستفيدين المستوردين في النظام.',
     distribution_no_random_sample: 'لا يمكن إنشاء عينة عشوائية ...',
@@ -271,7 +283,7 @@ export const TEXT = {
     modal_delete_sentence_2: 'هل أنت متأكد',
     modal_email_is: 'البريد الالكتروني هو',
     modal_language_actual: 'اللغة الحالية',
-    modal_failure: 'Failure',
+    modal_failure: 'بالفشل',
     modal_leave: 'المغادرة',
     modal_leave_sentence: 'هل تريد حقا أن تغادر دون حفظ التغييرات',
     modal_language_title: 'اللغة',
@@ -279,8 +291,9 @@ export const TEXT = {
     modal_no_password: 'عليك بادخال كلمة المرور ',
     modal_not_enough_strong: 'كلمة المرور ليست قوية بما فيه الكفاية ... الحد الأدنى المطلوب: 8 أحرف ، وحرف صغير واحد ، وحجم واحد ، ورقم 1',
     modal_no_project: 'عليك بتحديد مشروع على الأقل يتعلق بالحق',
+    modal_password_required: 'كنت موسى تعريف كلمة مرور',
     modal_pending_requests: 'الطلبات المعلقة',
-    modal_project_name_characters_limit:'لا تتجاوز',
+    modal_project_name_characters_limit: 'لا تتجاوز',
     modal_save_language_as_default: 'قم بتعيين هذه اللغة كلغتي المفضلة.',
     modal_success: 'نجاح',
     modal_required: 'مطلوب',
@@ -327,6 +340,7 @@ export const TEXT = {
     model_project_number_of_households: 'عدد الأسر',
     model_project_start_date: 'تاريخ البداية',
     model_project_value: 'المبلغ الموزع',
+    model_residencystatus: 'حالة الإقامة',
     model_sector: 'القطاع',
     model_sectors_name: 'القطاعات',
     model_transaction_message: 'رسالة',
@@ -334,7 +348,7 @@ export const TEXT = {
     model_type: 'النوع',
     model_type_shop: 'Type of shop',
     model_vulnerabilities: 'نقاط الضعف',
-    model_used: 'Used',
+    model_used: 'مستخدم',
     model_user: 'المستخدم',
     model_password: 'كلمة المرور',
     model_value: 'القيمة',
@@ -344,8 +358,8 @@ export const TEXT = {
     model_state: 'الحالة',
 
     // Placeholder
-    placeholder_one_many: 'Select one or many',
-    
+    placeholder_one_many: 'اختر واحدة أو أكثر',
+
     // Profile
     profile_user_change_password: 'تغيير كلمة المرور',
     profile_user_hint_new_password: 'كلمة المرور الجديدة',
@@ -400,7 +414,7 @@ export const TEXT = {
     snackbar_change_password_done: '!تم تغيير كلمة المرور',
     snackbar_change_password_fail: '...لا يمكن تغيير كلمة المرور',
     snackbar_change_password_not_possible: 'يجب أن تكون كلمة المرور أطول من حرف واحد وتتطابق مع الشروط',
-    snackbar_invalid_transaction_date: 'The transaction\'s deadline is over.',
+    snackbar_invalid_transaction_date: 'انتهت مهلة المعاملة.',
 
     // Table
     table_actions: 'اجراءات',
@@ -424,7 +438,7 @@ export const TEXT = {
     transaction_confirm_button: 'التأكد',
     transaction_email_code: 'تم إرسال بريد إلكتروني يحتوي على رمز التحقق الخاص بك إلى:',
     transaction_id_transaction: 'معرف المعاملة.',
-    transaction_info_export: 'If the distribution hasn\'t any transactions, you will not have any file exported',
+    transaction_info_export: 'إذا لم يكن للتوزيع أي معاملات ، فلن يتم تصدير أي ملف',
     transaction_inProgress: 'المعاملة قيد التقدم ...',
     transaction_paste_code: 'الرجاء وضع الشفرة هنا والنقر على التأكد  لمتابعة العملية:',
     transaction_prevention: 'لا تزال هذه المنصة قيد التطوير وقد لا تكون وظيفة المعاملات النقدية عبر الإنترنت مستقرة تمامًا حتى الآن. ينكر فريق التطوير المسؤولية عن أي أخطاء قد تحدث من حيث فقدان المال. بوضع علامة في المربع أدناه ، فإنك توافق على استخدام النظام بمعرفة حدوده تمامًا وتحمل المسؤولية عن نتائج المعاملة.',

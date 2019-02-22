@@ -38,7 +38,7 @@ export class Vendors {
      */
     password: string = '';
     /**
-     * User
+     * User (the user password is the vendor salted password)
      * @type {User} 
      */
     user: User;
@@ -50,6 +50,7 @@ export class Vendors {
             this.shop = instance.shop;
             this.address = instance.address;
             this.user = instance.user ? instance.user : null;
+            this.password = instance.password;
         }
     }
 
@@ -67,7 +68,12 @@ export class Vendors {
     }
 
     public static formatArray(instance): Vendors[] {
-        return instance;
+        let vendors: Vendors[] = [];
+        if (instance)
+        instance.forEach(element => {
+            vendors.push(this.formatFromApi(element));
+        });
+        return vendors;
     }
     
     /**
@@ -127,7 +133,7 @@ export class Vendors {
             shop: selfinstance.shop,
             address: selfinstance.address,
             username: selfinstance.user ? selfinstance.user.username : null,
-            password: selfinstance.user ? selfinstance.user.password : null,
+            password: selfinstance.password,
         };
     }
 
@@ -143,7 +149,7 @@ export class Vendors {
             shop: selfinstance.shop,
             address: selfinstance.address,
             username: selfinstance.user ? selfinstance.user.username : null,
-            password: selfinstance.user ? selfinstance.user.password : null,
+            password: selfinstance.password,
         }
     }
 
@@ -170,9 +176,20 @@ export class Vendors {
             shop: selfinstance.shop,
             address: selfinstance.address,
             username: selfinstance.user ? selfinstance.user.username : null,
-            password: selfinstance.user ? selfinstance.user.password : null,
+            salted_password: selfinstance.user ? selfinstance.user.password : null,
         };
     }
+
+    public static formatFromApi(element: any): Vendors {
+        let vendor = new Vendors(element);
+    
+        if (element.password) {
+          vendor.password = '';
+          vendor.user.password = element.password;
+        }
+    
+        return vendor;
+      }
 
     public static formatForApi(element: Vendors): any {
         return {
@@ -180,8 +197,8 @@ export class Vendors {
             name: element.name,
             shop: element.shop,
             address: element.address,
-            username: element.user ? element.user.username : null,
-            password: element.user ? element.user.password : null,
+            username: element.user && element.user.username ? element.user.username : element.username,
+            password: element.user && element.user.password ? element.user.password : element.password,
         }
     }
 

@@ -5,18 +5,18 @@ import { URL_BMS_API                                } from '../../../environment
 import { HttpService                                } from './http.service';
 
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
-export class SectorService{
+export class SectorService {
     readonly api = URL_BMS_API;
 
     constructor(
-        private http : HttpService
-    ){
+        private http: HttpService
+    ) {
     }
 
     public get() {
-        let url = this.api + "/sectors";
+        const url = this.api + '/sectors';
         return this.http.get(url);
     }
 }

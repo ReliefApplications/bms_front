@@ -6,7 +6,7 @@ import { ExportService                              } from './export.service';
 
 
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
 export class DistributionService {
     readonly api = URL_BMS_API;
@@ -62,8 +62,7 @@ export class DistributionService {
           return this.exportService.export('distributions', id, extensionType);
         } else if (option === 'distribution') {
             return this.exportService.export('beneficiariesInDistribution', id, extensionType);
-        }
-        else if (option === 'transaction') {
+        } else if (option === 'transaction') {
             return this.exportService.export('transaction', id, extensionType);
         }
     }
@@ -73,7 +72,7 @@ export class DistributionService {
     }
     public transaction(id: number, code: string) {
         const url = this.api + '/transaction/distribution/' + id + '/send';
-        let body = {
+        const body = {
             code : code
         };
         return this.http.post(url, body);
@@ -86,7 +85,7 @@ export class DistributionService {
 
     public sendCode(id: number) {
         const url = this.api + '/transaction/distribution/' + id + '/email';
-        let body = {};
+        const body = {};
         return this.http.post(url, body);
     }
 

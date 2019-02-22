@@ -9,7 +9,7 @@
   </div>
 
   <div class="container-table" *ngIf="selectedTitle == 'file import'">
-    <div class="container-content box-green">
+    <div class="container-content box-primary">
 
       <div class="content-button">
         <div class="action-buttons">
@@ -89,7 +89,7 @@
   </div>
 
   <div class="container-table" *ngIf="selectedTitle == 'api import'">
-    <div class="container-content box-red">
+    <div class="container-content box-primary">
       <div class="content-table">
 
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
@@ -140,7 +140,7 @@
       </div>
       <div class="content-button content-button-footer">
         <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-        <button *ngIf="!load" mat-raised-button class="button-background-accent" (click)="addBeneficiaries()">
+        <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="addBeneficiaries()">
           <mat-icon>publish</mat-icon>
           <span>{{household.import | titlecase }}</span>
         </button>
@@ -230,7 +230,7 @@
         </div>
       </div>
 
-      <div class="modal-button action-buttons stickyFooter">
+      <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
         <button mat-button class="button-text-accent" (click)="exit('Import canceled')">{{household.cancel}}</button>
         <button mat-button class="button-background-accent" (click)="confirmImport()">{{household.transaction_confirm_button}}</button>
       </div>

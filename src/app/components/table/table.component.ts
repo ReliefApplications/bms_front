@@ -178,6 +178,11 @@ export class TableComponent implements OnChanges, DoCheck {
                     this.paginator.pageSize
                 );
             }
+            else if (this.entity.__classname__ == 'Booklet') {
+                this.service.get().subscribe(response => {
+                    this.data = new MatTableDataSource(this.entity.formatArray(response).reverse());
+                });
+            }
             else {
                 this.service.get().subscribe(response => {
                     this.data = new MatTableDataSource(this.entity.formatArray(response));
@@ -383,6 +388,30 @@ export class TableComponent implements OnChanges, DoCheck {
                             updateElement['password'] = result.salted_password;
                     }
                 )
+                this.service.update(updateElement['id'], updateElement).subscribe(response => {
+                    //this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated, '', { duration: 5000, horizontalPosition: 'right' });
+                    this.updateData();
+                }, error => {
+                    // console.error("err", error);
+                });
+            }
+        }
+        if (this.entity.__classname__ == 'Vendors' && updateElement) {
+            if (updateElement['password'] && updateElement['password'].length > 0) {
+                this.authenticationService.requestSalt(updateElement['username']).subscribe(response => {
+                    if (response) {
+                        let saltedPassword = this._wsseService.saltPassword(response['salt'], updateElement['password']);
+                        updateElement['password'] = saltedPassword;
+
+                        this.service.update(updateElement['id'], updateElement).subscribe(response => {
+                            //this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated, '', { duration: 5000, horizontalPosition: 'right' });
+                            this.updateData();
+                        }, error => {
+                            // console.error("err", error);
+                        });
+                    }
+                });
+            } else {
                 this.service.update(updateElement['id'], updateElement).subscribe(response => {
                     //this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated, '', { duration: 5000, horizontalPosition: 'right' });
                     this.updateData();

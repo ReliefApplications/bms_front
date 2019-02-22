@@ -3,7 +3,7 @@
     <div class="modal-table" [ngClass]="{'arabic': language==='ar'}" >
         {{modal.modal_leave_sentence}}
     </div>
-    <div class="modal-button action-buttons stickyFooter">
+    <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':language==='ar'}">
         <button mat-button class="button-text-primary" (click)="cancel()">{{modal.cancel}}</button>
         <button mat-raised-button class="button-background-primary" (click)="leave()">{{modal.modal_leave}}</button>
     </div>

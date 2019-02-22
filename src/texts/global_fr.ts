@@ -41,6 +41,7 @@ export const TEXT = {
     update: 'Modifier',
     print: 'Imprimer des coupons',
 
+    voucher: 'Vouchers',
 
     // Error
     back_to_homepage: 'Retour à la page d\'accueil',
@@ -59,7 +60,19 @@ export const TEXT = {
     role_user_regional_manager: 'Responsable de région',
 
     // Months
-    months_short: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
+    months_short: [
+      'Jan',
+      'Fév',
+      'Mar',
+      'Avr',
+      'Mai',
+      'Juin',
+      'Jul',
+      'Aoû',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Déc'],
 
 
     // SPECIFIC VARIABLES
@@ -108,7 +121,7 @@ export const TEXT = {
     add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'Un critère de sélection est manquant',
     add_distribution_missing_threshold: 'Le score minimum doit être plus grand que 0',
-    add_distribution_multiple_commodities: 'You can\'t have too payment\'s method as commodities',
+    add_distribution_multiple_commodities: 'Vous ne pouvez pas avoir deux méthodes de paiement comme commodités',
     add_distribution_selection_criteria: 'critères de sélection',
     add_distribution_text_explanation: 'Le système va seulement sélectionner les bénéficiaires/ménages avec un score supérieur que le score minimum de sélection',
     add_distribution_threshold: 'Score minimum de sélection',
@@ -235,6 +248,7 @@ export const TEXT = {
     header_reports: 'Rapports',
     header_settings: 'Paramètres',
     'header_update-beneficiary': 'Modifier',
+    header_vouchers: 'Brochures',
 
     // Import
     import_added: 'Ajout',
@@ -254,7 +268,7 @@ export const TEXT = {
     login_forgot_password: 'Mot de passe oublié ?',
     login_password: '*********',
     login_title: 'Connexion',
-    login_username: 'identifiant',
+    login_username: 'Identifiant',
 
     // Modal
     modal_add_bad_weight: 'Le poids doit être supérieur à 0',
@@ -294,6 +308,8 @@ export const TEXT = {
     model_beneficiaries_nationalids: 'Numéro d\'identification',
     model_beneficiaries_phones: 'Téléphones (sans le code pays)',
     model_beneficiaries_status: 'Satut',
+    model_booklet: 'Brochure',
+    model_code: 'Code',
     model_commodity: 'Ressource',
     model_commodity_modality: 'Modalité',
     model_commodity_unit: 'Unité',
@@ -304,8 +320,10 @@ export const TEXT = {
     model_criteria: 'Critère',
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score du poids',
+    model_currency: 'Devise',
     model_dateofbirth: 'Date de naissance',
-    model_distribution_date: 'Date Début Distribution',
+    model_distribution_beneficiary: 'Distribution du bénéficiaire',
+    model_distribution_date: 'Date de la Distribution',
     model_distribution_name: 'Nom',
     model_distribution_type: 'Cible',
     model_donor: 'Donneur',
@@ -313,7 +331,14 @@ export const TEXT = {
     model_donor_shortname: 'Surnom',
     model_familyName: 'Nom',
     model_firstName: 'Prénom',
+    model_individual_to_all: 'Définir le voucheur comme valeur individuelle',
+    model_individual_value: 'Valeur individuelle',
     model_notes: 'Notes',
+    model_product_name: 'Nom',
+    model_product_unit: 'Unité',
+    model_product_image: 'Image',
+    model_number_booklets: 'Nombre de brochures à créer',
+    model_number_vouchers: 'Nombre de bons',
     model_project_donors_name: 'Donneurs',
     model_project_end_date: 'Date de fin de projet',
     model_project_name: 'Nom  du projet',
@@ -325,12 +350,15 @@ export const TEXT = {
     model_sectors_name: 'Secteurs',
     model_transaction_message: 'Message',
     model_transaction_pickupDate: 'Date de récupération',
-    model_transaction_state: 'État',
+    model_state: 'État',
     model_type: 'Type',
+    model_type_shop: 'Type de boutique',
     model_used: 'Utilisé',
     model_user: 'Utilisateur',
-    model_user_password: 'Mot de passe',
+    model_password: 'Mot de passe',
     model_value: 'Valeur',
+    model_vendors_address: 'Adresse',
+    model_vendor: 'Vendeur',
     model_vulnerabilities: 'Vulnérabilités',
 
     // Placeholder
@@ -383,7 +411,9 @@ export const TEXT = {
     settings_financial_provider: 'Connexions tiers',
     settings_log_button: 'Recevoir les logs de cet utilisateur par email',
     settings_project_exists: 'Un projet avec le même nom existe déjà',
+    settings_product: 'Produit',
     settings_users: 'utilisateurs',
+    settings_vendors: 'vendeurs',
 
     // Snackbar
     snackbar_change_password_done: 'Mot de passe modifié !',
@@ -445,4 +475,22 @@ export const TEXT = {
     update_beneficiary_error_updated: 'Erreur lors de la modification: ',
     update_beneficiary_title: 'Modifier un bénéficiaire',
     update_beneficiary_updated_successfully: 'Modifié avec succès !',
+
+    //Vouchers
+    voucher_ask_code: 'S\'il vous plaît, demandez au bénéficiaire de saisir 4 chiffres ci-dessous',
+    voucher_assign: 'Assigner aux vouchers',
+    voucher_assign_title: 'Assigner la brochure à un bénéficiaire',
+    voucher_assigned_success: 'La brochure a été assignée à ',
+    voucher_confirm: 'Brochure assignée à',
+    voucher_define_password: 'Définissez un mot de passe pour la brochure', 
+    voucher_for: 'pour',
+    voucher_no_device: 'Il n\'y a pas de caméra connectée',
+    voucher_no_permission: 'Vous avez refusé la permission d\'accéder à la caméra',
+    voucher_only_digits: 'Votre mot de passe ne doit contenir que 4 chiffres',
+    voucher_password_changed: 'Votre mot de passe a été changé',
+    voucher_scan_text: 'Scanner le QR code de la brochure',
+    voucher_select_project: 'Vous devez sélectionner un projet',
+    voucher_select_distribution: 'Vous devez sélectionner une distribution',
+    voucher_select_beneficiary: 'Vous devez sélectionner un bénéficiaire',
+    voucher_step5: 'va être assignée à',
 };

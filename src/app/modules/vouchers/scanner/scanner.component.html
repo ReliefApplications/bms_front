@@ -1,0 +1,30 @@
+<div class="modal-body modal-subtitle">
+  <p [hidden]="!hasDevices || !hasPermission">{{ voucher.voucher_scan_text }}</p>
+
+  <div [hidden]="!hasDevices || !hasPermission">
+    <mat-select [(value)]="selected" (selectionChange)="onDeviceSelectChange($event.value)" *ngIf="availableDevices.length > 1">
+      <mat-option value="default">No Device Selected</mat-option>
+      <mat-option *ngFor="let device of availableDevices" [value]="device.deviceId">{{
+        device.label }}</mat-option>
+    </mat-select>
+
+    <zxing-scanner #scanner start="true" [device]="currentDevice" (scanSuccess)="handleQrCodeResult($event)"
+      (scanError)="log($event)"
+      (scanFailure)="log($event)"
+      (scanComplete)="log($event)"
+      [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']">
+    </zxing-scanner>
+  </div>
+
+  <div *ngIf="!hasDevices">
+    <p>{{ voucher.voucher_no_device }}</p>
+  </div>
+
+  <div *ngIf="!hasPermission && hasDevices">
+    <p>{{ voucher.voucher_no_permission }}</p>
+  </div>
+
+  <div class="modal-footer action" *ngIf="!hasDevices || !hasPermission">
+    <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{voucher.cancel}}</button>
+  </div>
+</div>

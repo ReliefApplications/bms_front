@@ -19,11 +19,6 @@ export class VendorsService {
 		return this.http.get(url);
 	}
 
-	public create(id: number, body: any) {
-		let url = this.api + "/vendor";
-		return this.http.put(url, body);
-	}
-
 	public update(id:number, body: any) {
 		let url = this.api + "/vendors/" + id;
 		return this.http.post(url, body);

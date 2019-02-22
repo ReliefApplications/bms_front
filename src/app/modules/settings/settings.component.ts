@@ -315,7 +315,7 @@ export class SettingsComponent implements OnInit {
 
   createElement(createElement: Object) {
     createElement = this.referedClassToken.formatForApi(createElement);
-    if (this.referedClassToken.__classname__ !== 'User') {
+    if (this.referedClassToken.__classname__ !== 'User' && this.referedClassToken.__classname__ !== 'Vendors') {
       this.referedClassService.create(createElement['id'], createElement).subscribe(
         response => {
           this.selectTitle(this.selectedTitle);
@@ -324,19 +324,26 @@ export class SettingsComponent implements OnInit {
       // for users, there are two step (one to get the salt and one to create the user)
       this.authenticationService.initializeUser(createElement['username']).subscribe(response => {
         if (response) {
-          if (createElement['rights'] == "ROLE_PROJECT_MANAGER" || createElement['rights'] == "ROLE_PROJECT_OFFICER" || createElement['rights'] == "ROLE_FIELD_OFFICER")
-            delete createElement['country'];
-          else if (createElement['rights'] == "ROLE_REGIONAL_MANAGER" || createElement['rights'] == "ROLE_COUNTRY_MANAGER" || createElement['rights'] == "ROLE_READ_ONLY")
-            delete createElement['projects'];
-          else {
-            delete createElement['country'];
-            delete createElement['projects'];
-          }
+          if (this.referedClassToken.__classname__ === 'Vendors') {
+            this.authenticationService.createVendor(createElement, response).subscribe(
+              () => {
+                this.selectTitle(this.selectedTitle);
+              });
+          } else {
+            if (createElement['rights'] == "ROLE_PROJECT_MANAGER" || createElement['rights'] == "ROLE_PROJECT_OFFICER" || createElement['rights'] == "ROLE_FIELD_OFFICER")
+              delete createElement['country'];
+            else if (createElement['rights'] == "ROLE_REGIONAL_MANAGER" || createElement['rights'] == "ROLE_COUNTRY_MANAGER" || createElement['rights'] == "ROLE_READ_ONLY")
+              delete createElement['projects'];
+            else {
+              delete createElement['country'];
+              delete createElement['projects'];
+            }
 
-          this.authenticationService.createUser(createElement, response).subscribe(
-            () => {
-              this.selectTitle(this.selectedTitle);
-            });
+            this.authenticationService.createUser(createElement, response).subscribe(
+              () => {
+                this.selectTitle(this.selectedTitle);
+              });
+          }
         }
       });
     }

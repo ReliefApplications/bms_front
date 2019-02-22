@@ -1,4 +1,5 @@
 import { GlobalText } from "../../texts/global";
+import { User } from "./user"
 
 export class ErrorInterface {
     message: string;
@@ -36,6 +37,11 @@ export class Vendors {
      * @type {string}
      */
     password: string = '';
+    /**
+     * User (the user password is the vendor salted password)
+     * @type {User} 
+     */
+    user: User;
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -43,7 +49,7 @@ export class Vendors {
             this.name = instance.name;
             this.shop = instance.shop;
             this.address = instance.address;
-            this.username = instance.username;
+            this.user = instance.user ? instance.user : null;
             this.password = instance.password;
         }
     }
@@ -57,12 +63,17 @@ export class Vendors {
             shop: GlobalText.TEXTS.model_type_shop,
             address: GlobalText.TEXTS.model_vendors_address,
             username: GlobalText.TEXTS.login_username,
-            password: GlobalText.TEXTS.model_user_password,
+            password: GlobalText.TEXTS.model_password,
         };
     }
 
     public static formatArray(instance): Vendors[] {
-        return instance;
+        let vendors: Vendors[] = [];
+        if (instance)
+        instance.forEach(element => {
+            vendors.push(this.formatFromApi(element));
+        });
+        return vendors;
     }
     
     /**
@@ -89,7 +100,7 @@ export class Vendors {
             name: selfinstance.name,
             shop: selfinstance.shop,
             address: selfinstance.address,
-            username: selfinstance.username,
+            username: selfinstance.user ? selfinstance.user.username : null,
         };
     }
 
@@ -105,8 +116,7 @@ export class Vendors {
             name: selfinstance.name,
             shop: selfinstance.shop,
             address: selfinstance.address,
-            username: selfinstance.username,
-            password: selfinstance.password,
+            username: selfinstance.user ? selfinstance.user.username : null,
         };
     }
 
@@ -122,7 +132,7 @@ export class Vendors {
             name: selfinstance.name,
             shop: selfinstance.shop,
             address: selfinstance.address,
-            username: selfinstance.username,
+            username: selfinstance.user ? selfinstance.user.username : null,
             password: selfinstance.password,
         };
     }
@@ -138,7 +148,7 @@ export class Vendors {
             name: selfinstance.name,
             shop: selfinstance.shop,
             address: selfinstance.address,
-            username: selfinstance.username,
+            username: selfinstance.user ? selfinstance.user.username : null,
             password: selfinstance.password,
         }
     }
@@ -165,13 +175,31 @@ export class Vendors {
             name: selfinstance.name,
             shop: selfinstance.shop,
             address: selfinstance.address,
-            username: selfinstance.username,
-            password: selfinstance.password,
+            username: selfinstance.user ? selfinstance.user.username : null,
+            salted_password: selfinstance.user ? selfinstance.user.password : null,
         };
     }
 
+    public static formatFromApi(element: any): Vendors {
+        let vendor = new Vendors(element);
+    
+        if (element.password) {
+          vendor.password = '';
+          vendor.user.password = element.password;
+        }
+    
+        return vendor;
+      }
+
     public static formatForApi(element: Vendors): any {
-        return new Vendors(element);
+        return {
+            id: element.id,
+            name: element.name,
+            shop: element.shop,
+            address: element.address,
+            username: element.user && element.user.username ? element.user.username : element.username,
+            password: element.user && element.user.password ? element.user.password : element.password,
+        }
     }
 
     /**

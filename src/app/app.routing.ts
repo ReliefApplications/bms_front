@@ -21,6 +21,7 @@ import { DeactivateGuard                                                        
 import { DistributionsComponent } from './modules/projects/distributions/distributions.component';
 import { UpdateBeneficiaryComponent } from './modules/beneficiary/update-beneficiary/update-beneficiary.component';
 import { ImportedDataComponent } from './modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
+import { VouchersComponent } from './modules/vouchers/vouchers.component';
 
 // Do not change the order of the routes, it matters
 export const routes: Routes = [
@@ -46,7 +47,9 @@ export const routes: Routes = [
 	{ path: 'beneficiaries/import/data-validation', component: DataValidationComponent, canDeactivate : [DeactivateGuard] },
 
     { path: 'beneficiaries/add-beneficiaries', component: UpdateBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
-    { path: 'beneficiaries/update-beneficiary/:id', component: UpdateBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
+	{ path: 'beneficiaries/update-beneficiary/:id', component: UpdateBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
+	
+    { path: 'vouchers', component: VouchersComponent },
 
 	// home route protected by auth guard
 	{ path: '', component: DashboardComponent, canActivate: [AuthGuard] },

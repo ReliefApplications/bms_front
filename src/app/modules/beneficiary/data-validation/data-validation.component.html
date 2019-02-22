@@ -24,7 +24,7 @@
           <span class="dot">1</span>
           <span>{{verification.data_verification_step_1|titlecase}}</span>
         </div>
-        <div class="container-content box-green">
+        <div class="container-content box-primary">
           <div *ngIf="typoIssues.length > 0" class="container-checkboxes">
             <mat-checkbox class="checkbox-all" color="primary" (change)="allOld = !allOld; selectAll('old', 'step1TypoIssues')">{{
               verification.import_select_old }}</mat-checkbox>
@@ -125,7 +125,7 @@
           <span class="dot">2</span>
           <span>{{verification.data_verification_step_2}}</span>
         </div>
-        <div class="container-content box-green">
+        <div class="container-content box-primary">
           <div *ngIf="duplicates.length > 0" class="container-checkboxes">
             <mat-checkbox class="checkbox-all" color="primary" (change)="allOld = !allOld; selectAll('old', 'step2Duplicates')">{{
               verification.import_select_old }}</mat-checkbox>
@@ -217,7 +217,7 @@
           <span class="dot">3</span>
           <span>{{verification.data_verification_step_3}}</span>
         </div>
-        <div class="container-content box-green">
+        <div class="container-content box-primary">
           <div *ngIf="more.length > 0" class="container-checkboxes">
             <mat-checkbox class="checkbox-all" color="primary" (change)="allNew = !allNew; selectAll('new', 'step3More')">{{
               verification.import_select_new }}</mat-checkbox>
@@ -316,7 +316,7 @@
           <span class="dot">4</span>
           <span>{{verification.data_verification_step_4}}</span>
         </div>
-        <div class="container-content box-green">
+        <div class="container-content box-primary">
           <div *ngIf="less.length > 0" class="container-checkboxes">
             <mat-checkbox class="checkbox-all" color="primary" (change)="allNew = !allNew; selectAll('new', 'step4Less')">{{
               verification.import_select_new }}</mat-checkbox>
@@ -405,7 +405,7 @@
           <span class="dot">5</span>
           <span>{{verification.done}}</span>
         </div>
-        <div class="container-content box-green">
+        <div class="container-content box-primary">
           <div class="content-table">
             <div class="done">
               {{verification.data_verification_done|titlecase}}

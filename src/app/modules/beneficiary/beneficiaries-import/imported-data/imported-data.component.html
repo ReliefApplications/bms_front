@@ -6,7 +6,7 @@
   <app-placeholder-panel *ngIf='loadingTable' class="container-table"></app-placeholder-panel>
 
   <div class="container-table" *ngIf="!loadingTable">
-    <div class="container-content box-green">
+    <div class="container-content box-primary">
       <div class="content-table">
         <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
           [data]="data" [editable]="true">

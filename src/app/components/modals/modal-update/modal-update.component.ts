@@ -136,8 +136,12 @@ export class ModalUpdateComponent extends ModalComponent {
             else if (this.updateObject.country) {
                 let countries = [];
 
+                if (typeof this.updateObject.country === 'string') {
+                    this.updateObject.country = [this.updateObject.country];
+                }
+
                 this.updateObject.country.forEach(country => {
-                    countries.push(country.id);
+                    countries.push(country);
                 });
 
                 this.updateObject.country = countries;

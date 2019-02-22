@@ -23,7 +23,7 @@ export class CarouselComponent implements OnInit, AfterContentInit {
 
   private selectedSlide: any;
 
-  private config: SwiperConfigInterface = {
+  public config: SwiperConfigInterface = {
     direction: 'horizontal',
     slidesPerView: 'auto',
     spaceBetween: 20,

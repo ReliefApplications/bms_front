@@ -155,7 +155,7 @@ export class ModalAddComponent extends ModalComponent {
     add(): any {
 
         //Check fields for Users settings
-        if (this.newObject.username || this.newObject.username == '') {
+        if ((this.newObject.username || this.newObject.username == '') && this.data.entity.__classname__ !== 'Vendors') {
             const checkMail = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
             if (!checkMail.test(this.newObject.username) || this.newObject.username == '') {
                 this.snackBar.open(this.modal.modal_add_invalid_mail, '', { duration: 5000, horizontalPosition: 'right' });
@@ -244,6 +244,14 @@ export class ModalAddComponent extends ModalComponent {
             }
         }
 
+        // Check fields for Vendors in settings
+        else if (this.newObject && (this.newObject.shop || this.newObject.shop == '')) {
+            if (this.newObject.name == '' || this.newObject.shop == '' || this.newObject.address == '' || this.newObject.username == '' || this.newObject.password == '') {
+                this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+                return;
+            }
+        }
+        
         //Check commodity in addDistribution
         else if ((this.newObject.modality) || this.newObject.modality == '') {
             if (this.newObject.unit && this.newObject.value && this.newObject.modality == 1)

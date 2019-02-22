@@ -18,7 +18,7 @@
       <span class="spacement">{{ modal.modal_save_language_as_default }}</span>
     </div>
   </div>
-  <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':isArabic==='ar'}">
+  <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':isArabic === true}">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.close}}</button>
     <button mat-raised-button (click)="save()" class="button-background-accent">{{modal.save}}</button>
   </div>

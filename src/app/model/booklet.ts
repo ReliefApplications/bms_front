@@ -127,6 +127,7 @@ export class Booklet {
     }
 
     public static formatForApi(instance: any) {
+        instance.password = CryptoJS.SHA1(instance.password).toString(CryptoJS.enc.Base64)
         return new Booklet(instance);
     }
 
@@ -261,10 +262,8 @@ export class Booklet {
      * @param loadedData
      */
     public static formatFromModalAdd(element: any, loadedData: any): Booklet {
-
         // Just a way to encrypt passwords which can be decrypted offline
-        let password = CryptoJS.SHA1(element.password).toString(CryptoJS.enc.Base64)
-        element.password = password
+        element.password = CryptoJS.SHA1(element.password).toString(CryptoJS.enc.Base64)
         return new Booklet(element);
     }
 }

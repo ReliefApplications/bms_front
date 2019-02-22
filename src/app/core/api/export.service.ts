@@ -39,16 +39,19 @@ export class ExportService {
     }
 
     public test() {
-        return this.http.get(this.api + '/vouchers/print/1', {responseType: 'blob'}).toPromise()
+        return this.http.get(this.api + '/booklets/print/1', {responseType: 'blob'}).toPromise()
         .then(response => {
             var blob = new Blob([response], {type: ('blob')});
-            var filename = 'Voucher1.pdf';
+            var filename = 'Booklet1.pdf';
             saveAs(blob, filename);
         });
     }
 
     public printAll() {
-        return this.http.get(this.api + '/print-vouchers', {responseType: 'blob'}).toPromise()
+        let body = {
+            bookletIds: [1, 2, 3]
+        };
+        return this.http.post(this.api + '/booklets-print', body, {responseType: 'blob'}).toPromise()
         .then(response => {
             var blob = new Blob([response], {type: ('blob')});
             var filename = 'AllVouchers.pdf';

@@ -31,6 +31,9 @@ export class ModalUpdateComponent extends ModalComponent {
         } catch (e) {
             console.error('the function mapAllProperties is not defined for the entity ', this.entityInstance);
         }
+        if (this.updateObject.salted_password) {
+            this.updateObject.salted_password = '';
+        }
         this.loadData(this.updateObject);
         if (this.updateObject.email && this.updateObject.username) {
             this.form.controls['emailFormControl'].disable();

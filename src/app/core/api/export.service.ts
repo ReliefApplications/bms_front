@@ -38,7 +38,7 @@ export class ExportService {
         });
     }
 
-    public print(id: number) {
+    public printVoucher(id: number) {
         return this.http.get(this.api + '/booklets/print/' + id, {responseType: 'blob'}).toPromise()
         .then(response => {
             var blob = new Blob([response], {type: ('blob')});

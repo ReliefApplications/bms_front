@@ -12,7 +12,7 @@ export class TableVouchersComponent extends TableComponent {
   }
 
   print(element) {
-		return this._exportService.print(element.id)
+		return this._exportService.printVoucher(element.id)
   }
   
   printAll() {

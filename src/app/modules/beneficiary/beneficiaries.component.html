@@ -6,35 +6,32 @@
     <div class="container-content box-primary">
       <div class="content-button">
         <div class="action-buttons">
-          <button mat-raised-button *ngIf="hasRightsDelete && checkedElements.length > 0" class="button-background-primary"
-              (click)="addToProject(addBeneficiaries)" [matBadge]="checkedElements.length">
-              {{household.beneficiaries_add_list}}
+          <button mat-raised-button *ngIf="hasRightsDelete && checkedElements.length > 0" class="button-background-primary" (click)="addToProject(addBeneficiaries)" [matBadge]="checkedElements.length">
+            {{household.beneficiaries_add_list}}
           </button>
           <div class="button-with-extension">
-
-                <button mat-raised-button *ngIf="!loadingExport" class="button-background-primary" (click)="export()">
-                  <mat-icon>get_app</mat-icon>
-                  <span>{{household.export | titlecase}}</span>
+            <button mat-raised-button *ngIf="!loadingExport" class="button-background-primary" (click)="export()">
+              <mat-icon>get_app</mat-icon>
+              <span>{{household.export | titlecase}}</span>
+            </button>
+            <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+            <div class="extension" *ngIf='hasRightsExport && !loadingExport'>
+              <div mat-button class="dropdown" [ngClass]="{'arabic':language==='ar'}" [matMenuTriggerFor]="exportType">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </div>
+              <mat-menu #exportType>
+                <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
                 </button>
-          <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-          <div class="extension" *ngIf='hasRightsExport && !loadingExport'>
-            <div mat-button class="dropdown" [ngClass]="{'arabic':language==='ar'}" [matMenuTriggerFor]="exportType">
-              <mat-icon>keyboard_arrow_down</mat-icon>
+                <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
+                </button>
+                <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
+                </button>
+              </mat-menu>
             </div>
-            <mat-menu #exportType>
-              <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
-              </button>
-              <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
-              </button>
-              <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
-              </button>
-            </mat-menu>
           </div>
         </div>
-      </div>
 
-        <div class="add-buttons" [ngClass]="{'add-buttons-arabic': language == 'ar', 'add-buttons-mobile': widthScreen <= maxWidthMobile}"
-          (mouseenter)="widthScreen > maxWidthMobile && this.addToggled = true" (mouseleave)="widthScreen > maxWidthMobile && this.addToggled = false">
+        <div class="add-buttons" [ngClass]="{'add-buttons-arabic': language == 'ar', 'add-buttons-mobile': widthScreen <= maxWidthMobile}" (mouseenter)="widthScreen > maxWidthMobile && this.addToggled = true" (mouseleave)="widthScreen > maxWidthMobile && this.addToggled = false">
           <div class="toggled-buttons" [ngClass]="{'toggled': addToggled}">
             <button mat-raised-button class="button-background-accent" routerLink="/beneficiaries/import">
               <mat-icon>publish</mat-icon>
@@ -50,19 +47,16 @@
           <mat-icon>add</mat-icon>
           {{household.create | titlecase}}
         </button>
-        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}"
-          (click)="toggleAddButtons()">
+        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}" (click)="toggleAddButtons()">
           <mat-icon>add</mat-icon>
         </button>
       </div>
 
       <div class="content-table">
-        <app-table-beneficiaries #benefTable *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsDelete]='hasRightsDelete'
-          [entity]="referedClassToken" [service]="referedClassService" [data]="dataSource" [editable]="true" (updating)="updateBeneficiary($event)"
-          (selectedAdm)="selected($event)" [selection]="selection" (selectChecked)="getChecked($event)"></app-table-beneficiaries>
-        <app-table-mobile-beneficiaries #benefTable *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights'
-          [rightsDelete]='hasRightsDelete' [entity]="referedClassToken" [service]="referedClassService" [data]="dataSource"
-          [editable]="true" (updating)="updateBeneficiary($event)" (selectedAdm)="selected($event)"></app-table-mobile-beneficiaries>
+        <app-table-beneficiaries #benefTable *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsDelete]='hasRightsDelete' [entity]="referedClassToken" [service]="referedClassService" [data]="dataSource" [editable]="true" (updating)="updateBeneficiary($event)"
+            (selectedAdm)="selected($event)" [selection]="selection" (selectChecked)="getChecked($event)"></app-table-beneficiaries>
+        <app-table-mobile-beneficiaries #benefTable *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [rightsDelete]='hasRightsDelete' [entity]="referedClassToken" [service]="referedClassService" [data]="dataSource" [editable]="true"
+            (updating)="updateBeneficiary($event)" (selectedAdm)="selected($event)"></app-table-mobile-beneficiaries>
       </div>
     </div>
   </div>
@@ -76,8 +70,7 @@
         <p> {{household.beneficiaries_add_project}} {{dataSource.length$ | async}}
           {{household.beneficiaries_selected_project}}</p>
         <div class="selectBeneficiaries">
-          <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-          placeholder="Projects" [(ngModel)]="selectedProject">
+          <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="Projects" [(ngModel)]="selectedProject">
             <ng-option class="options" *ngFor="let project of projectsList" [value]="project.id">
               {{project.name}}
             </ng-option>

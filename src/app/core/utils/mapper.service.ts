@@ -82,10 +82,9 @@ export class Mapper {
         if (!elementObject) {
             return p;
         }
-        if (p == "date_distribution" || p == "start_date" || p == "end_date") {
+        if (p === 'date_distribution' || p === 'start_date' || p === 'end_date') {
             return this.datepipe.transform(elementObject[p], 'dd-MM-yyyy');
-        }
-        else {
+        } else {
             return elementObject[p];
         }
 

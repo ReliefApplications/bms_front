@@ -149,6 +149,12 @@ mat-horizontal-stepper {
     margin-right: 20px;
 }
 
+.button-background-primary {
+    mat-icon {
+        padding-top: 5px;
+    }
+}
+
 //for mobile screen
 @media only screen and (max-width: 750px){
     .issues {

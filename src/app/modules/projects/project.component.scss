@@ -3,6 +3,7 @@
 .button-add-project {
   margin-right: 20px;
   height: 80px;
+  min-width: 100px;
   border-radius: 7px;
   background-color: $bms_white;
   box-shadow: $bms_shadow;
@@ -18,6 +19,7 @@
 
   h3 {
     color: $bms_dark_blue;
+    margin: 7px 0 17px;
   }
 
   &:hover {
@@ -119,10 +121,6 @@ app-placeholder-panel {
   }
 
   .properties-displayed {
-    width: 100% !important;
-  }
-
-  .export-button-container {
     width: 100% !important;
   }
 }

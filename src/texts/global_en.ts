@@ -11,7 +11,7 @@ export const TEXT = {
     beneficiaries: 'Beneficiaries',
     beneficiary: 'Beneficiary',
     cancel: 'Cancel',
-    characters:'Characters',
+    characters: 'Characters',
     close: 'Close',
     create: 'Create',
     delete: 'Delete',
@@ -37,7 +37,7 @@ export const TEXT = {
     rights: 'Rights',
     save: 'Save',
     settings: 'Settings',
-    summary:'Summary',
+    summary: 'Summary',
     update: 'Update',
 
     // Error
@@ -55,6 +55,21 @@ export const TEXT = {
     role_user_project_manager: 'Project manager',
     role_user_project_officer: 'Project officer',
     role_user_regional_manager: 'Regional manager',
+
+    // Months
+    months_short: [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'],
 
 
     // SPECIFIC VARIABLES
@@ -77,7 +92,6 @@ export const TEXT = {
     add_beneficiary_step3: 'Members',
     add_beneficiary_title: 'add beneficiary',
     add_beneficiary_code: 'Country code',
-    add_beneficiary_country_specifics: 'Country specifics',
 
     // Add beneficiary options
     national_id_passport: 'Passport',
@@ -104,10 +118,11 @@ export const TEXT = {
     add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'A selection criterion is missing',
     add_distribution_missing_threshold: 'The minimum selection score\'s value should be greater than 0',
-    add_distribution_multiple_commodities: 'You can\'t have too payment\'s method as commodities',
+    add_distribution_multiple_commodities: 'You can\'t have two payment\'s method as commodities',
     add_distribution_selection_criteria: 'selection criteria',
     add_distribution_text_explanation: 'The system will only select beneficiaries/households that have a score higher than the minimum selection score',
     add_distribution_threshold: 'Minimum selection score',
+    add_distribution_zero: 'The number of households reached or the amount to be distributed is 0',
 
     // Add project
     add_project_title: 'new project',
@@ -118,8 +133,8 @@ export const TEXT = {
     beneficiaries_add_list: 'Add this list to a project',
     beneficiaries_add_project: 'Please select the project(s) in which you would like to add the',
     beneficiaries_added: 'Beneficiairies added to the selected project',
-    beneficiaries_advanced_research:'Advanced search',
-    beneficiaries_clear_all_research:'Clear all',
+    beneficiaries_advanced_research: 'Advanced search',
+    beneficiaries_clear_all_research: 'Clear all',
     beneficiaries_full_address: 'Full household address:',
     beneficiaries_household_info: 'Household information summary:',
     beneficiaries_import_addFile: 'add file or drag and drop',
@@ -137,21 +152,21 @@ export const TEXT = {
     beneficiaries_import_title: 'import beneficiary data',
     beneficiaries_import_warning: 'Warning: if the provided file is incomplete, the resulting one may need to be completed for the import to succeed.',
     beneficiaries_location: 'Household Location:',
-    beneficiaries_missing_selected_project:'You must select a project before uploading',
+    beneficiaries_missing_selected_project: 'You must select a project before uploading',
     beneficiaries_proxy: 'Proxy',
     beneficiaries_select_api: 'Select API',
     beneficiaries_selected_project: 'selected beneficiaries:',
 
     // Cache
     cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
-    cache_store_beneficiaries: 'Store Beneficiaries',
+    cache_store_beneficiaries: 'Save For Offline Mode',
     cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',
 
     // Dashboard
     dashboard_distribution_map: 'distribution map',
     dashboard_recent_distributions: 'upcoming distributions',
     dashboard_summary: 'summary',
-    dashboard_summary_1: 'total beneficiaries',
+    dashboard_summary_1: 'total registrations',
     dashboard_summary_2: 'active projects',
     dashboard_summary_3: 'enrolled beneficiaries',
     dashboard_summary_4: 'total value transactions',
@@ -168,7 +183,7 @@ export const TEXT = {
     data_verification_description_end: 'Modifications will be added to the database on each step validation.',
     data_verification_done: 'Your data has been verified',
     data_verification_error: 'Error processing data',
-    data_verification_send: 'Send',
+    data_verification_send: 'Update',
     data_verification_snackbar_duplicate_corrected: 'Duplicate issues corrected',
     data_verification_snackbar_duplicate_no_corrected: 'Not all duplicated have been corrected',
     data_verification_snackbar_less_corrected: 'Beneficiaries removed with success',
@@ -197,7 +212,7 @@ export const TEXT = {
     distribution_details_random: 'export random sample',
     distribution_details_sample_size: 'Sample size',
     distribution_details_validate: 'validate & lock',
-    distribution_edit:'Edit distribution',
+    distribution_edit: 'Edit distribution',
     distribution_error_validate: 'The distribution is empty, please fill it before to validate it',
     distribution_no_beneficiaries: 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.',
     distribution_no_random_sample: 'Random sample can\'t be generated...',
@@ -211,8 +226,8 @@ export const TEXT = {
     distribution_show_data: 'Show data anyway',
     distribution_validate: 'Validate',
     distribution_validated: 'Distribution has been validated',
+    distribution_validated_title: 'Validated distribution',
     distribution_want_add: 'that you want to add to the ',
-
 
     // Header
     'header_add-beneficiaries': 'Add Beneficiaries',
@@ -230,8 +245,6 @@ export const TEXT = {
     header_reports: 'Reports',
     header_settings: 'Settings',
     'header_update-beneficiary': 'Update Beneficiaries',
-
-
 
     // Import
     import_added: 'Added from existing beneficiaries',
@@ -276,8 +289,9 @@ export const TEXT = {
     modal_no_password: 'You must define a password',
     modal_not_enough_strong: 'The password is not strong enough... Minimum required: 8 characters, 1 lowercase, 1 uppercase, 1 numeric',
     modal_no_project: 'You must define at least a project with that role',
+    modal_password_required: 'You must define a password',
     modal_pending_requests: 'Pending Requests',
-    modal_project_name_characters_limit:'do not exceed',
+    modal_project_name_characters_limit: 'do not exceed',
     modal_required: 'required',
     modal_save_language_as_default: 'Set this as my default language',
     modal_success: 'Success',
@@ -301,7 +315,7 @@ export const TEXT = {
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score weight',
     model_dateofbirth: 'Date of birth',
-    model_distribution_date: 'Date of Distribution',
+    model_distribution_date: 'Distribution Start Date',
     model_distribution_name: 'Name',
     model_distribution_type: 'Target',
     model_donor: 'Donor',
@@ -316,6 +330,7 @@ export const TEXT = {
     model_project_number_of_households: 'Number of Households',
     model_project_start_date: 'Start Date',
     model_project_value: 'Amount to be distributed',
+    model_residencystatus: 'Residency status',
     model_sector: 'Sector',
     model_sectors_name: 'Sectors',
     model_transaction_message: 'Message',
@@ -329,6 +344,9 @@ export const TEXT = {
     model_value: 'Value',
     model_vendors_address: 'Address',
     model_vulnerabilities: 'Vulnerabilities',
+
+    // Placeholder
+    placeholder_one_many: 'Select one or many',
 
     // Profile
     profile_user_change_password: 'Change password',
@@ -373,7 +391,7 @@ export const TEXT = {
     settings_country_specific_options: 'country specific options',
     settings_created: ' created',
     settings_donors: 'donors',
-    settings_financial_provider: 'Third party connection',
+    settings_financial_provider: 'Third party connections',
     settings_log_button: 'Get user logs by email',
     settings_project_exists: 'A project with this name already exists',
     settings_users: 'users',
@@ -383,6 +401,7 @@ export const TEXT = {
     snackbar_change_password_done: 'Password has been changed!',
     snackbar_change_password_fail: 'Could not change password...',
     snackbar_change_password_not_possible: 'Password must be longer than 1 character and match with verification',
+    snackbar_invalid_transaction_date: 'The transaction\'s deadline is over.',
 
     // Table
     table_actions: 'Actions',
@@ -406,6 +425,7 @@ export const TEXT = {
     transaction_confirm_button: 'Confirm',
     transaction_email_code: 'An email containing your validation code has been sent to:',
     transaction_id_transaction: 'ID Transaction',
+    transaction_info_export: 'If the distribution doesn\'t have any transactions, no file will be exported',
     transaction_inProgress: 'Transaction in progress...',
     transaction_paste_code: 'Please paste the code here and click on \'Confirm\' to proceed with the transaction: ',
     transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',

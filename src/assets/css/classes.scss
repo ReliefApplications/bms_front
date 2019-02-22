@@ -12,12 +12,13 @@
         width: 100%;
         padding: 0 20px;
         font-family: $bms_font_header;
-        font-size: 1.2em;
+        font-size: 24px !important;
         display: flex;
         align-items: center;
         h1, h2, h3 {
             margin: 20px;
             margin-left: 0px;
+            font-size: 24px;
         }
     }
 
@@ -74,7 +75,7 @@
         width: 100%;
         padding: 20px;
 
-        .box-green {
+        .box-primary {
               border-top: solid 12px $bms_dark_blue;
         }
         .box-red {
@@ -129,6 +130,9 @@
         .text {
            display: inline;
         }
+        mat-spinner {
+            height:40px;
+        }
     }
 }
 
@@ -136,8 +140,8 @@
     justify-content: flex-start !important;
     padding-bottom: 20px !important;
 
-    button:last-of-type {
-      margin: 0 10px;
+    .action-buttons {
+        margin: 0;
     }
 }
 
@@ -147,7 +151,6 @@ button mat-icon {
 }
 
 button.mat-icon-button .mat-button-wrapper .mat-icon {
-    margin-left: 8px;
     padding-bottom: 3px;
 }
 .mat-raised-button {
@@ -301,15 +304,25 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         margin-right: 40px;
     }
 
-    button:not(:last-of-type) {
+    button {
       margin: 0 10px;
     }
+
+    .button-with-extension {
+        margin: 0 10px;
+        display: flex;
+
+        button {
+            margin: 0;
+        }
+    }
+
 }
 
 
 
 // TODO check addBeneficiary (done) and distributions (next)
-.box-green, .box-red {
+.box-primary, .box-red {
     .content-button{
         .next{
             font-weight: 900;
@@ -436,12 +449,36 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         width: 100% !important;
         padding-top: 20px;
         justify-content: flex-end;
+        direction: ltr;
+
+        &.arabic {
+          direction: rtl;
+        }
     }
 }
 
 .stepInMobile {
     display : none;
 }
+
+//Header alignment
+.mat-menu-panel {
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .mat-icon {
+            margin: 0px;
+            justify-self: flex-start;
+      }
+      span{
+          margin-left: 20px;
+          justify-self: flex-end;
+      }
+    }
+
+  }
 
 //for mobile screen
 @media only screen and (max-width: 750px) {
@@ -460,10 +497,6 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 
   .container-table {
       flex-direction: column;
-
-      .content-table {
-        // padding: 0px !important;
-      }
 
       .content-button {
           flex-direction: column;

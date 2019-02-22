@@ -3,12 +3,14 @@
   <table class="modal-table" [ngClass]="{'arabic': language==='ar'}">
     <p *ngIf="this.data.entity.getAddDescription">{{this.data.entity.getAddDescription() | titlecase }}</p>
     <tr *ngFor="let p of properties" class="modal-row">
-      <th class="table-title" *ngIf=" mapperObject[p] !='Unit'">{{mapperObject[p] | titlecase }}</th>
+      <th class="table-title" *ngIf=" mapperObject[p] !='Unit' && p != 'sectors_name' && p != 'donors_name'">{{mapperObject[p] | titlecase }}</th>
+      <th class="table-title" *ngIf="p == 'sectors_name'">{{ modal.model_sectors_name }}</th>
+      <th class="table-title" *ngIf="p == 'donors_name'">{{ modal.model_project_donors_name }}</th>
       <th class="table-title" *ngIf=" (mapperObject[p]=='Unit') ">{{unitType() | titlecase }}</th>
 
-            <th class="table-value">
+      <th class="table-value">
                 <form class="form" [formGroup]="form">
-                    <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
+                    <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
                         class="full-width">
 
             <input matInput [maxlength]="this.maxLength" *ngIf="propertiesTypes[p]=='text'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
@@ -36,12 +38,12 @@
                     </ng-select>
 
                     <ng-select *ngIf="propertiesTypes[p]=='select'" class="multiple-select" [(ngModel)]="newObject[p]" bindLabel="name"
-                        [items]="loadedData[p]" [multiple]="true" placeholder="{{mapperObject[p]}}" [closeOnSelect]="false"
+                        [items]="loadedData[p]" [multiple]="true" placeholder="{{modal.placeholder_one_many | titlecase}}" [closeOnSelect]="false"
                         [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
 
                     <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="multiple-select" [(ngModel)]="newObject[p]"
-                        bindLabel="shortname" [items]="loadedData[p]" [multiple]="true" placeholder="{{mapperObject[p]}}"
+                        bindLabel="shortname" [items]="loadedData[p]" [multiple]="true" placeholder="{{modal.placeholder_one_many | titlecase}}"
                         [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
 
@@ -79,11 +81,23 @@
               <strong>{{modal.modal_required | titlecase }}</strong>
             </mat-error>
           </mat-form-field>
+
+          <mat-form-field *ngIf="propertiesTypes[p]=='password' && modal !== undefined" class="full-width">
+            <input [(ngModel)]="newObject[p]" matInput placeholder="{{modal.model_user_password}}" formControlName="passwordFormControl"
+              [errorStateMatcher]="matcher" type="password">
+            <mat-error *ngIf="passwordFormControl.hasError('pattern') && !passwordFormControl.hasError('required')">
+              {{modal.modal_not_enough_strong}}
+            </mat-error>
+            <mat-error *ngIf="passwordFormControl.hasError('required')">
+              {{modal.modal_password_required | titlecase}}
+            </mat-error>
+          </mat-form-field>
+
         </form>
       </th>
     </tr>
   </table>
-  <div class="modal-button action-buttons stickyFooter">
+  <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.cancel}}</button>
     <button mat-raised-button *ngIf="!displayAdd" (click)="add()" class="button-background-accent">{{modal.create}}</button>
     <button mat-raised-button *ngIf="displayAdd" (click)="add()" class="button-background-accent">{{modal.add}}</button>

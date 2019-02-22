@@ -23,12 +23,13 @@ export class ModalAddComponent extends ModalComponent {
     public entityDisplayedName = '';
     public oldEntity = '';
     mapperObject = null;
-    modal = GlobalText.TEXTS;
+    public updatedObject: any;
+
 
     display = false;
     oldSelectedModality = 0;
     displayAdd: boolean = false;
-    maxLength: number = 35;
+    maxLength: number = 80;
 
     @Input() data: any;
     @Output() onCreate = new EventEmitter();

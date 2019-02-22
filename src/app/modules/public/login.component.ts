@@ -36,15 +36,15 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         GlobalText.resetMenuMargin();
-        this.initCountry();
+        this.initCountry('KHM');
         this.blankUser();
     }
 
-    initCountry() {
+    initCountry(country: string) {
         this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(
             result => {
                 if(!result) {
-                    this.asyncacheService.set(AsyncacheService.COUNTRY, 'KHM');
+                    this.asyncacheService.set(AsyncacheService.COUNTRY, country);
                 }
             }
         )
@@ -76,10 +76,10 @@ export class LoginComponent implements OnInit {
         const subscription = from(this._authService.login(this.user));
         subscription.subscribe(
             (user: User) => {
-                if (!user.country && user.rights === "ROLE_ADMIN") {
-                  this.initCountry();
+                if (user.country && user.country.length === 0 && user.rights === "ROLE_ADMIN") {
+                  this.initCountry('KHM');
                 } else {
-                  this.asyncacheService.set(AsyncacheService.COUNTRY, user.country[0])
+                    this.initCountry(user.country[0]);
                 }
                 this.router.navigate(['/']);
                 if (user.language) {

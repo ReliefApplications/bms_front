@@ -4,23 +4,23 @@ import { URL_BMS_API } from '../../../environments/environment';
 import { HttpService } from './http.service';
 
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
 export class FinancialProviderService {
-	readonly api = URL_BMS_API;
+    readonly api = URL_BMS_API;
 
-	constructor(
-		private http: HttpService,
-	) {
-	}
+    constructor(
+        private http: HttpService,
+    ) {
+    }
 
-	public get() {
-		let url = this.api + "/financial/provider";
-		return this.http.get(url);
-	}
+    public get() {
+        const url = this.api + '/financial/provider';
+        return this.http.get(url);
+    }
 
-	public update(body) {
-		let url = this.api + "/financial/provider";
-		return this.http.post(url, { username: body['username'], password: body['password'] });
-	}
+    public update(body) {
+        const url = this.api + '/financial/provider';
+        return this.http.post(url, { username: body['username'], password: body['password'] });
+    }
 }

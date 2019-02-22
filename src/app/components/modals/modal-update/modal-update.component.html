@@ -5,7 +5,7 @@
       <th class="table-title">{{data.mapper.mapTitle(p) | titlecase}}</th>
       <th class="table-value">
         <form class="form" [formGroup]="form">
-          <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p]!='selectSingle'" class="full-width">
+          <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p]!='selectSingle'" class="full-width">
             <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p] != 'selectDonor' && propertiesTypes[p] != 'date' && propertiesTypes[p]!='selectSingle'  && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry' && propertiesTypes[p] != 'selectCountry'"
               [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="isDisabled(p)"
               [type]="propertiesTypes[p]">
@@ -40,7 +40,7 @@
             [items]="loadedData[p]" [multiple]="true" placeholder="{{data.mapper.mapTitle(p)}}" [closeOnSelect]="false"
             [searchable]="true" [ngModelOptions]="{standalone: true}">
           </ng-select>
-          
+
           <ng-select *ngIf="propertiesTypes[p]=='selectProjects'"
               [ngClass]="{'multiple-select': updateObject['rights'] == 'ROLE_PROJECT_MANAGER', 'single-select': updateObject['rights'] == 'ROLE_PROJECT_OFFICER' || updateObject['rights'] == 'ROLE_FIELD_OFFICER'}"
               [(ngModel)]="updateObject[p]"
@@ -76,11 +76,23 @@
               <strong>{{modal.modal_required}}</strong>
             </mat-error>
           </mat-form-field>
+
+
+          <mat-form-field *ngIf="propertiesTypes[p]=='password'" class="full-width">
+            <input [(ngModel)]="updateObject[p]" matInput placeholder="{{modal.model_user_password}}" formControlName="passwordFormControl"
+              [errorStateMatcher]="matcher" type="password">
+            <mat-error *ngIf="passwordFormControl.hasError('pattern') && !emailFormControl.hasError('required')">
+              {{modal.modal_not_enough_strong}}
+            </mat-error>
+            <mat-error *ngIf="passwordFormControl.hasError('required')">
+              {{modal.modal_password_required | titlecase}}
+            </mat-error>
+          </mat-form-field>
         </form>
       </th>
     </tr>
   </table>
-  <div class="modal-button action-buttons stickyFooter">
+  <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':language==='ar'}">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.cancel}}</button>
     <button mat-raised-button (click)="save()" class="button-background-accent">{{modal.save}}</button>
   </div>

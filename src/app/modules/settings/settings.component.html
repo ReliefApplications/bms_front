@@ -7,32 +7,34 @@
     [info]='{icon: "settings/users", color: "green", title:settings.settings_users, ref:"users"}'></app-box-setting>
     <app-box-setting [class.isLast]="widthScreen<maxWidthSecondRow && widthScreen>maxWidthMobile" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/country_specific", color: "red", title:settings.settings_country_specific_options, ref:"country specific options"}'></app-box-setting>
     <app-box-setting [class.isLast]="widthScreen<maxWidthFirstRow && widthScreen>maxWidthSecondRow" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/donors", color: "green", title:settings.settings_donors, ref:"donors"}'></app-box-setting>
-    <app-box-setting [class.isLast]="widthScreen<maxWidthFirstRow && widthScreen>maxWidthSecondRow" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "red", title:settings.projects, ref:"projects"}'></app-box-setting>
     <app-box-setting [class.isLast]="widthScreen<maxWidthFirstRow && widthScreen>maxWidthSecondRow" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "green", title:settings.settings_financial_provider, ref:"financialProvider"}'></app-box-setting>
+    <app-box-setting [class.isLast]="widthScreen<maxWidthFirstRow && widthScreen>maxWidthSecondRow" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/projects", color: "green", title:settings.projects, ref:"projects"}'></app-box-setting>
     <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "green", title:settings.settings_vendors, ref:"vendors"}'></app-box-setting>
   </div>
   <app-placeholder-panel class="container-table" *ngIf="loadingData"></app-placeholder-panel>
   <div class="container-table" *ngIf="!loadingData">
-    <div class="container-content box-green" *ngIf="isBoxClicked">
+    <div class="container-content box-primary" *ngIf="isBoxClicked">
       <div class="content-button">
         <div class="action-buttons">
-          <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
-            <mat-icon>get_app</mat-icon>
-            <span>{{settings.export | titlecase}}</span>
-          </button>
-          <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-          <div class="extension">
-            <div mat-button class="dropdown" *ngIf="!loadingExport" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':language==='ar'}">
-              <mat-icon>keyboard_arrow_down</mat-icon>
+          <div class="button-with-extension">
+            <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
+              <mat-icon>get_app</mat-icon>
+              <span>{{settings.export | titlecase}}</span>
+            </button>
+            <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+            <div class="extension">
+              <div mat-button class="dropdown" *ngIf="!loadingExport" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':language==='ar'}">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </div>
+              <mat-menu #exportType>
+                <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
+                </button>
+                <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
+                </button>
+                <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
+                </button>
+              </mat-menu>
             </div>
-            <mat-menu #exportType>
-              <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
-              </button>
-              <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
-              </button>
-              <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
-              </button>
-            </mat-menu>
           </div>
         </div>
         <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights && deletable" (click)="openDialog('add')" class="add-button-create">

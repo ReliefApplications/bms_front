@@ -12,7 +12,7 @@ export const TEXT = {
     beneficiary: 'Bénéficiaire',
     cancel: 'Annuler',
     close: 'Fermer',
-    characters:'Caractères',
+    characters: 'Caractères',
     create: 'Créer',
     delete: 'Supprimer',
     details: 'Détails',
@@ -37,7 +37,7 @@ export const TEXT = {
     rights: 'Rôles',
     save: 'Enregistrer',
     settings: 'Paramètres',
-    summary:'Sommaire',
+    summary: 'Sommaire',
     update: 'Modifier',
 
     // Error
@@ -55,6 +55,21 @@ export const TEXT = {
     role_user_project_manager: 'Responsable de projet',
     role_user_project_officer: 'Agent de projet',
     role_user_regional_manager: 'Responsable de région',
+
+    // Months
+    months_short: [
+      'Jan',
+      'Fév',
+      'Mar',
+      'Avr',
+      'Mai',
+      'Juin',
+      'Jul',
+      'Aoû',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Déc'],
 
 
     // SPECIFIC VARIABLES
@@ -77,7 +92,6 @@ export const TEXT = {
     add_beneficiary_step3: 'Membres',
     add_beneficiary_title: 'Ajout d\'un bénéficiaire',
     add_beneficiary_code: 'Code pays',
-    add_beneficiary_country_specifics: 'Country specifics',
 
     // Add beneficiary options
     national_id_passport: 'Passeport',
@@ -104,10 +118,11 @@ export const TEXT = {
     add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'Un critère de sélection est manquant',
     add_distribution_missing_threshold: 'Le score minimum doit être plus grand que 0',
-    add_distribution_multiple_commodities: 'You can\'t have too payment\'s method as commodities',
+    add_distribution_multiple_commodities: 'Vous ne pouvez pas avoir deux méthodes de paiement comme commodités',
     add_distribution_selection_criteria: 'critères de sélection',
     add_distribution_text_explanation: 'Le système va seulement sélectionner les bénéficiaires/ménages avec un score supérieur que le score minimum de sélection',
     add_distribution_threshold: 'Score minimum de sélection',
+    add_distribution_zero: 'Le nombre de ménage atteint ou le montant à distribuer est 0',
 
     // Add project
     add_project_new_distribution: 'nouvelle distribution',
@@ -118,8 +133,8 @@ export const TEXT = {
     beneficiaries_add_list: 'Ajouter cette liste au projet',
     beneficiaries_add_project: 'S\'il vous plait, sélectionnez le(s) projet(s) dans le(s)quel(s) vous voudriez ajouter les',
     beneficiaries_added: 'Les bénéficiaires ont été ajouté au projet sélectionné',
-    beneficiaries_advanced_research:'Recherche avancée',
-    beneficiaries_clear_all_research:'Réinitialiser les filtres',
+    beneficiaries_advanced_research: 'Recherche avancée',
+    beneficiaries_clear_all_research: 'Réinitialiser les filtres',
     beneficiaries_full_address: 'Adresse entière du ménage :',
     beneficiaries_household_info: 'Résumé des informations du ménage:',
     beneficiaries_import_addFile: 'ajouter un fichier ou glisser-déposer',
@@ -137,21 +152,21 @@ export const TEXT = {
     beneficiaries_import_title: 'import de bénéficiaires',
     beneficiaries_import_warning: 'Attention : si le fichier importé est incomplet, le fichier résultant pourra nécessiter d\'être complété pour que l\'import fonctionne',
     beneficiaries_location: 'Localisation du ménage :',
-    beneficiaries_missing_selected_project:'Vous devez selectionner un projet avant l\'importation',
+    beneficiaries_missing_selected_project: 'Vous devez selectionner un projet avant l\'importation',
     beneficiaries_proxy: 'Proxy',
     beneficiaries_select_api: 'Sélectionner une API',
     beneficiaries_selected_project: 'bénéficiaires sélectionnés:',
 
     // Cache
     cache_distribution_added: 'Distribution et bénéficiaires du projet ont été ajoutés dans le cache',
-    cache_store_beneficiaries: 'Enregistrer les bénéficiaires',
+    cache_store_beneficiaries: 'Sauvegarder Pour Le Mode Offline',
     cache_no_distribution: 'Cette distribution n\'est pas enregistrée dans le cache, vous ne pouvez pas y accéder hors-ligne',
-    
+
     // Dashboard
     dashboard_distribution_map: 'répartition des distributions',
     dashboard_recent_distributions: 'distributions récentes',
     dashboard_summary: 'sommaire',
-    dashboard_summary_1: 'total de bénéficiaires',
+    dashboard_summary_1: 'total d\'enregistrements',
     dashboard_summary_2: 'projets en cours',
     dashboard_summary_3: 'bénéficiaires enregistrés',
     dashboard_summary_4: 'montant total des transactions',
@@ -168,7 +183,7 @@ export const TEXT = {
     data_verification_description_end: 'Les modifications seront ajoutées à la base de donnée à chaque étape validée.',
     data_verification_done: 'Toutes les données ont été vérifiées',
     data_verification_error: 'Erreur lors du parcours des données',
-    data_verification_send: 'Envoyer',
+    data_verification_send: 'Mettre à jour',
     data_verification_snackbar_duplicate_corrected: 'Problèmes de doublons corrigées',
     data_verification_snackbar_duplicate_no_corrected: 'Toutes les erreurs de doublons ne sont pas corrigées',
     data_verification_snackbar_less_corrected: 'Bénéficiaires supprimer avec succès',
@@ -197,7 +212,7 @@ export const TEXT = {
     distribution_details_random: 'échantillon aléatoire',
     distribution_details_sample_size: 'Taille d\'échantillon',
     distribution_details_validate: 'valider & verouiller',
-    distribution_edit:'Modifier la distribution',
+    distribution_edit: 'Modifier la distribution',
     distribution_error_validate: 'La distribution est vide, veuillez la remplir avant de la valider',
     distribution_no_beneficiaries: 'Aucun bénéficiaire n\'a été ajouté ou supprimé. N\'importe quel changement fait aux bénéficiaires importés vont être mis à jour dans le système.',
     distribution_no_random_sample: 'L\'échantillon aléatoire ne peut pas être généré',
@@ -211,6 +226,7 @@ export const TEXT = {
     distribution_show_data: 'Afficher les données quand même',
     distribution_validate: 'Valider',
     distribution_validated: 'La distribution a été validée',
+    distribution_validated_title: 'Distribution validée',
     distribution_want_add: 'que vous souhaitez ajouter à la ',
 
     // Header
@@ -273,8 +289,9 @@ export const TEXT = {
     modal_no_password: 'Vous devez définir un mot de passe',
     modal_not_enough_strong: 'Mot de passe insuffisant... Minimum requis: 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre',
     modal_no_project: 'Vous devez définir au moins un projet pour ce rôle',
+    modal_password_required: 'Vous devez indiquer un mot de passe',
     modal_pending_requests: 'Pending Requests',
-    modal_project_name_characters_limit:'ne pas dépasser',
+    modal_project_name_characters_limit: 'ne pas dépasser',
     modal_save_language_as_default: 'Définir ceci comme langage par défaut',
     modal_success: 'Succès',
     modal_required: 'obligatoire',
@@ -298,7 +315,7 @@ export const TEXT = {
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score du poids',
     model_dateofbirth: 'Date de naissance',
-    model_distribution_date: 'Date de la Distribution',
+    model_distribution_date: 'Date Début Distribution',
     model_distribution_name: 'Nom',
     model_distribution_type: 'Cible',
     model_donor: 'Donneur',
@@ -313,6 +330,7 @@ export const TEXT = {
     model_project_number_of_households: 'Nombre de ménages',
     model_project_start_date: 'Date de début de projet',
     model_project_value: 'Montant à distribuer',
+    model_residencystatus: 'Status de résidence',
     model_sector: 'Secteur',
     model_sectors_name: 'Secteurs',
     model_transaction_message: 'Message',
@@ -326,6 +344,9 @@ export const TEXT = {
     model_value: 'Valeur',
     model_vendors_address: 'Adresse',
     model_vulnerabilities: 'Vulnérabilités',
+
+    // Placeholder
+    placeholder_one_many: 'Select one or many',
 
     // Profile
     profile_user_change_password: 'Changer de mot de passe',
@@ -371,7 +392,7 @@ export const TEXT = {
     settings_country_specific_options: 'options par pays',
     settings_created: ' créé(e)',
     settings_donors: 'donateurs',
-    settings_financial_provider: 'Connexion tiers',
+    settings_financial_provider: 'Connexions tiers',
     settings_log_button: 'Recevoir les logs de cet utilisateur par email',
     settings_project_exists: 'Un projet avec le même nom existe déjà',
     settings_users: 'utilisateurs',
@@ -381,6 +402,7 @@ export const TEXT = {
     snackbar_change_password_done: 'Mot de passe modifié !',
     snackbar_change_password_fail: 'Le mot de passe n\'a pas pu être changé...',
     snackbar_change_password_not_possible: 'Mot de passe pas assez long ou différent de la vérification',
+    snackbar_invalid_transaction_date: 'La date valide de transaction est dépassée.',
 
     // Table
     table_actions: 'Actions',
@@ -404,6 +426,7 @@ export const TEXT = {
     transaction_confirm_button: 'Confirmer',
     transaction_email_code: 'Un email contenant votre code de validation a été envoyé à : ',
     transaction_id_transaction: 'ID Transaction',
+    transaction_info_export: 'Si la distribution n\'a pas de transactions, vous n\'aurez aucun fichier exporté',
     transaction_inProgress: 'Transaction en cours...',
     transaction_paste_code: 'S\'il vous plait, coller le code ici et cliquer sur \'Confirmer\' pour procéder à la transaction',
     transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',

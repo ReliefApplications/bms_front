@@ -9,7 +9,7 @@
   </div>
 
   <div class="container-table" *ngIf="selectedTitle == 'file import'">
-    <div class="container-content box-green">
+    <div class="container-content box-primary">
 
       <div class="content-button">
         <div class="action-buttons">
@@ -19,22 +19,24 @@
             <span>{{household.beneficiaries_import_convert | titlecase }}</span>
           </button>
 
-          <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">
-            {{household.beneficiaries_import_csv | titlecase }}
-          </button>
-          <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-          <div class="extension" *ngIf="!loadingExport" [ngClass]="{'arabic':language==='ar'}">
-            <div mat-button class="template pointer" [matMenuTriggerFor]="exportType">
-              <mat-icon>keyboard_arrow_down</mat-icon>
+          <div class="button-with-extension">
+            <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">
+              {{household.beneficiaries_import_csv | titlecase }}
+            </button>
+            <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+            <div class="extension" *ngIf="!loadingExport" [ngClass]="{'arabic':language==='ar'}">
+              <div mat-button class="template pointer" [matMenuTriggerFor]="exportType">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </div>
+              <mat-menu #exportType>
+                <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
+                </button>
+                <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
+                </button>
+                <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
+                </button>
+              </mat-menu>
             </div>
-            <mat-menu #exportType>
-              <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
-              </button>
-              <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
-              </button>
-              <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
-              </button>
-            </mat-menu>
           </div>
         </div>
       </div>
@@ -87,7 +89,7 @@
   </div>
 
   <div class="container-table" *ngIf="selectedTitle == 'api import'">
-    <div class="container-content box-red">
+    <div class="container-content box-primary">
       <div class="content-table">
 
         <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
@@ -127,8 +129,8 @@
             <div>
               <img class='img-folder' src="assets/images/projects.png">
             </div>
-            <div class="select-file project-input" [formGroup]="form">
-              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder={{household.projects}} [(ngModel)]="selectedProject" [disabled]="isProjectsDisabled">
+            <div class="select-file project-input">
+              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{household.projects}} [(ngModel)]="selectedProject" [disabled]="isProjectsDisabled">
                 <ng-option *ngFor="let project of projectList" [value]="project">{{project}}</ng-option>
               </ng-select>
               <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
@@ -138,7 +140,7 @@
       </div>
       <div class="content-button content-button-footer">
         <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-        <button *ngIf="!load" mat-raised-button class="button-background-accent" (click)="addBeneficiaries()">
+        <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="addBeneficiaries()">
           <mat-icon>publish</mat-icon>
           <span>{{household.import | titlecase }}</span>
         </button>
@@ -228,7 +230,7 @@
         </div>
       </div>
 
-      <div class="modal-button action-buttons stickyFooter">
+      <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
         <button mat-button class="button-text-accent" (click)="exit('Import canceled')">{{household.cancel}}</button>
         <button mat-button class="button-background-accent" (click)="confirmImport()">{{household.transaction_confirm_button}}</button>
       </div>

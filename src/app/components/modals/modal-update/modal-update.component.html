@@ -40,7 +40,7 @@
             [items]="loadedData[p]" [multiple]="true" placeholder="{{data.mapper.mapTitle(p)}}" [closeOnSelect]="false"
             [searchable]="true" [ngModelOptions]="{standalone: true}">
           </ng-select>
-          
+
           <ng-select *ngIf="propertiesTypes[p]=='selectProjects'"
               [ngClass]="{'multiple-select': updateObject['rights'] == 'ROLE_PROJECT_MANAGER', 'single-select': updateObject['rights'] == 'ROLE_PROJECT_OFFICER' || updateObject['rights'] == 'ROLE_FIELD_OFFICER'}"
               [(ngModel)]="updateObject[p]"
@@ -92,7 +92,7 @@
       </th>
     </tr>
   </table>
-  <div class="modal-button action-buttons stickyFooter">
+  <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':language==='ar'}">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.cancel}}</button>
     <button mat-raised-button (click)="save()" class="button-background-accent">{{modal.save}}</button>
   </div>

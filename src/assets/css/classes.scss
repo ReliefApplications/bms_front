@@ -449,6 +449,11 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         width: 100% !important;
         padding-top: 20px;
         justify-content: flex-end;
+        direction: ltr;
+
+        &.arabic {
+          direction: rtl;
+        }
     }
 }
 

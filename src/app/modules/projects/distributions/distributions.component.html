@@ -325,8 +325,8 @@
 
 <ng-template #transaction>
   <mat-dialog-content class="modal-container">
-    <h4 *ngIf="!correctCode" class="modal-title underline-accent">{{TEXT.transaction_confirm}}</h4>
-    <h4 *ngIf="correctCode" class="modal-title underline-accent">{{TEXT.transaction_inProgress}}</h4>
+    <h4 *ngIf="!correctCode" class="modal-title underline-accent stickyHeader">{{TEXT.transaction_confirm}}</h4>
+    <h4 *ngIf="correctCode" class="modal-title underline-accent stickyHeader">{{TEXT.transaction_inProgress}}</h4>
     <div class="dialog-template">
       <div class="modal-body" *ngIf="!chartAccepted && !correctCode">
         <p> {{TEXT.transaction_prevention}}</p>
@@ -351,7 +351,7 @@
         <h4>{{ progression }} %</h4>
         <mat-progress-bar mode="determinate" [value]="progression"></mat-progress-bar>
       </div>
-      <div class="modal-footer action">
+      <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
         <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')" *ngIf="!correctCode">{{TEXT.cancel}}</button>
         <button mat-button class="confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()" *ngIf="chartAccepted && !correctCode">{{TEXT.transaction_confirm_button}}</button>
       </div>
@@ -361,12 +361,12 @@
 
 <ng-template #validation>
   <mat-dialog-content class="modal-container">
-    <h4 class="modal-title underline-accent">{{TEXT.transaction_validation}}</h4>
+    <h4 class="modal-title underline-accent stickyHeader">{{TEXT.transaction_validation}}</h4>
     <div class="dialog-template">
       <div class="modal-body">
         <p> {{TEXT.transaction_validate_distribution}} </p>
       </div>
-      <div class="modal-footer action">
+      <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
         <button mat-button class="cancel button-text-accent" (click)="exit('Validation canceled')">{{TEXT.cancel}}</button>
         <button mat-button class="confirm" (click)="confirmValidation()">{{TEXT.transaction_confirm_button}}</button>
       </div>
@@ -376,7 +376,7 @@
 
 <ng-template #addBeneficiary>
   <mat-dialog-content class="modal-container">
-    <h4 class="modal-title underline-accent">{{TEXT.distribution_add_beneficiaries}}</h4>
+    <h4 class="modal-title underline-accent stickyHeader">{{TEXT.distribution_add_beneficiaries}}</h4>
     <div class="dialog-template">
       <div class="modal-body">
         <p> {{TEXT.distribution_select_beneficiaries}} <strong> {{actualDistribution.project.name}} </strong>
@@ -388,7 +388,7 @@
           </ng-select>
         </div>
       </div>
-      <div class="modal-footer action">
+      <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
         <button mat-button class="cancel button-text-accent" (click)="exit('Adding canceled')">{{TEXT.cancel}}</button>
         <button mat-button class="confirm" (click)="confirmAdding()">{{TEXT.transaction_confirm_button}}</button>
       </div>
@@ -398,15 +398,15 @@
 
 <ng-template #infoExport>
   <mat-dialog-content class="modal-container">
-    <h4 class="modal-title underline-accent">{{ TEXT.export  | titlecase }}</h4>
+    <h4 class="modal-title underline-accent stickyHeader">{{ TEXT.export  | titlecase }}</h4>
     <div class="dialog-template">
       <div class="modal-body">
         <p>{{ TEXT.transaction_info_export }}</p>
       </div>
 
-      <div class="modal-footer action">
-        <button mat-button class="cancel button-text-accent" (click)="exit('Export canceled')">{{TEXT.cancel}}</button>
-        <button mat-button class="confirm" (click)="exportTransaction()">{{TEXT.export}}</button>
+      <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
+        <button mat-button class="button-text-accent" (click)="exit('Export canceled')">{{TEXT.cancel}}</button>
+        <button mat-button class="button-background-accent" (click)="exportTransaction()">{{TEXT.export}}</button>
       </div>
     </div>
   </mat-dialog-content>

@@ -198,7 +198,7 @@ export class ModalUpdateComponent extends ModalComponent {
         }
 
         //Check fields for Financial Provider in settings
-        else if (this.updateObject && this.updateObject.username) {
+        else if (this.updateObject && this.updateObject.username && !this.updateObject.shop) {
             if (this.updateObject.username == "" || this.updateObject.password == "" || !this.updateObject.password) {
                 this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
                 return;

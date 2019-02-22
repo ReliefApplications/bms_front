@@ -10,14 +10,14 @@
 
       <th class="table-value">
                 <form class="form" [formGroup]="form">
-                    <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='boolean' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects'"
+                    <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
                         class="full-width">
 
             <input matInput [maxlength]="this.maxLength" *ngIf="propertiesTypes[p]=='text'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
 
-            <mat-hint align="start" *ngIf="p=='name'"><strong>{{modal.modal_project_name_characters_limit |
+            <mat-hint align="start" *ngIf="p=='name' && data.entity.__classname__ !== 'Product' && data.entity.__classname__ !== 'Vendors'"><strong>{{modal.modal_project_name_characters_limit |
                                 titlecase }} {{this.maxLength}} {{modal.characters}}</strong> </mat-hint>
-            <mat-hint align="end" *ngIf="newObject[p] && p=='name'"> {{newObject[p].length}} /
+            <mat-hint align="end" *ngIf="newObject[p] && p=='name' && data.entity.__classname__ !== 'Product' && data.entity.__classname__ !== 'Vendors'"> {{newObject[p].length}} /
               {{this.maxLength}} </mat-hint>
 
             <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'selectCountry' && propertiesTypes[p]!='text'"
@@ -41,7 +41,7 @@
                         [items]="loadedData[p]" [multiple]="true" placeholder="{{modal.placeholder_one_many | titlecase}}" [closeOnSelect]="false"
                         [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
-                    
+
                     <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="multiple-select" [(ngModel)]="newObject[p]"
                         bindLabel="shortname" [items]="loadedData[p]" [multiple]="true" placeholder="{{modal.placeholder_one_many | titlecase}}"
                         [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
@@ -81,11 +81,23 @@
               <strong>{{modal.modal_required | titlecase }}</strong>
             </mat-error>
           </mat-form-field>
+
+          <mat-form-field *ngIf="propertiesTypes[p]=='password' && modal !== undefined" class="full-width">
+            <input [(ngModel)]="newObject[p]" matInput placeholder="{{modal.model_user_password}}" formControlName="passwordFormControl"
+              [errorStateMatcher]="matcher" type="password">
+            <mat-error *ngIf="passwordFormControl.hasError('pattern') && !passwordFormControl.hasError('required')">
+              {{modal.modal_not_enough_strong}}
+            </mat-error>
+            <mat-error *ngIf="passwordFormControl.hasError('required')">
+              {{modal.modal_password_required | titlecase}}
+            </mat-error>
+          </mat-form-field>
+
         </form>
       </th>
     </tr>
   </table>
-  <div class="modal-button action-buttons stickyFooter">
+  <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.cancel}}</button>
     <button mat-raised-button *ngIf="!displayAdd" (click)="add()" class="button-background-accent">{{modal.create}}</button>
     <button mat-raised-button *ngIf="displayAdd" (click)="add()" class="button-background-accent">{{modal.add}}</button>

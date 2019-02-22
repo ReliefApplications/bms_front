@@ -12,7 +12,7 @@ export const TEXT = {
     beneficiary: 'Bénéficiaire',
     cancel: 'Annuler',
     close: 'Fermer',
-    characters:'Caractères',
+    characters: 'Caractères',
     create: 'Créer',
     delete: 'Supprimer',
     details: 'Détails',
@@ -37,7 +37,7 @@ export const TEXT = {
     rights: 'Rôles',
     save: 'Enregistrer',
     settings: 'Paramètres',
-    summary:'Sommaire',
+    summary: 'Sommaire',
     update: 'Modifier',
     voucher: 'Vouchers',
 
@@ -58,7 +58,19 @@ export const TEXT = {
     role_user_regional_manager: 'Responsable de région',
 
     // Months
-    months_short: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
+    months_short: [
+      'Jan',
+      'Fév',
+      'Mar',
+      'Avr',
+      'Mai',
+      'Juin',
+      'Jul',
+      'Aoû',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Déc'],
 
 
     // SPECIFIC VARIABLES
@@ -107,7 +119,7 @@ export const TEXT = {
     add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'Un critère de sélection est manquant',
     add_distribution_missing_threshold: 'Le score minimum doit être plus grand que 0',
-    add_distribution_multiple_commodities: 'You can\'t have too payment\'s method as commodities',
+    add_distribution_multiple_commodities: 'Vous ne pouvez pas avoir deux méthodes de paiement comme commodités',
     add_distribution_selection_criteria: 'critères de sélection',
     add_distribution_text_explanation: 'Le système va seulement sélectionner les bénéficiaires/ménages avec un score supérieur que le score minimum de sélection',
     add_distribution_threshold: 'Score minimum de sélection',
@@ -122,8 +134,8 @@ export const TEXT = {
     beneficiaries_add_list: 'Ajouter cette liste au projet',
     beneficiaries_add_project: 'S\'il vous plait, sélectionnez le(s) projet(s) dans le(s)quel(s) vous voudriez ajouter les',
     beneficiaries_added: 'Les bénéficiaires ont été ajouté au projet sélectionné',
-    beneficiaries_advanced_research:'Recherche avancée',
-    beneficiaries_clear_all_research:'Réinitialiser les filtres',
+    beneficiaries_advanced_research: 'Recherche avancée',
+    beneficiaries_clear_all_research: 'Réinitialiser les filtres',
     beneficiaries_full_address: 'Adresse entière du ménage :',
     beneficiaries_household_info: 'Résumé des informations du ménage:',
     beneficiaries_import_addFile: 'ajouter un fichier ou glisser-déposer',
@@ -141,7 +153,7 @@ export const TEXT = {
     beneficiaries_import_title: 'import de bénéficiaires',
     beneficiaries_import_warning: 'Attention : si le fichier importé est incomplet, le fichier résultant pourra nécessiter d\'être complété pour que l\'import fonctionne',
     beneficiaries_location: 'Localisation du ménage :',
-    beneficiaries_missing_selected_project:'Vous devez selectionner un projet avant l\'importation',
+    beneficiaries_missing_selected_project: 'Vous devez selectionner un projet avant l\'importation',
     beneficiaries_proxy: 'Proxy',
     beneficiaries_select_api: 'Sélectionner une API',
     beneficiaries_selected_project: 'bénéficiaires sélectionnés:',
@@ -150,7 +162,7 @@ export const TEXT = {
     cache_distribution_added: 'Distribution et bénéficiaires du projet ont été ajoutés dans le cache',
     cache_store_beneficiaries: 'Sauvegarder Pour Le Mode Offline',
     cache_no_distribution: 'Cette distribution n\'est pas enregistrée dans le cache, vous ne pouvez pas y accéder hors-ligne',
-    
+
     // Dashboard
     dashboard_distribution_map: 'répartition des distributions',
     dashboard_recent_distributions: 'distributions récentes',
@@ -201,7 +213,7 @@ export const TEXT = {
     distribution_details_random: 'échantillon aléatoire',
     distribution_details_sample_size: 'Taille d\'échantillon',
     distribution_details_validate: 'valider & verouiller',
-    distribution_edit:'Modifier la distribution',
+    distribution_edit: 'Modifier la distribution',
     distribution_error_validate: 'La distribution est vide, veuillez la remplir avant de la valider',
     distribution_no_beneficiaries: 'Aucun bénéficiaire n\'a été ajouté ou supprimé. N\'importe quel changement fait aux bénéficiaires importés vont être mis à jour dans le système.',
     distribution_no_random_sample: 'L\'échantillon aléatoire ne peut pas être généré',
@@ -254,7 +266,7 @@ export const TEXT = {
     login_forgot_password: 'Mot de passe oublié ?',
     login_password: '*********',
     login_title: 'Connexion',
-    login_username: 'identifiant',
+    login_username: 'Identifiant',
 
     // Modal
     modal_add_bad_weight: 'Le poids doit être supérieur à 0',
@@ -279,8 +291,9 @@ export const TEXT = {
     modal_no_password: 'Vous devez définir un mot de passe',
     modal_not_enough_strong: 'Mot de passe insuffisant... Minimum requis: 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre',
     modal_no_project: 'Vous devez définir au moins un projet pour ce rôle',
+    modal_password_required: 'Vous devez indiquer un mot de passe',
     modal_pending_requests: 'Pending Requests',
-    modal_project_name_characters_limit:'ne pas dépasser',
+    modal_project_name_characters_limit: 'ne pas dépasser',
     modal_save_language_as_default: 'Définir ceci comme langage par défaut',
     modal_success: 'Succès',
     modal_required: 'obligatoire',
@@ -319,6 +332,9 @@ export const TEXT = {
     model_individual_to_all: 'Définir le voucheur comme valeur individuelle',
     model_individual_value: 'Valeur individuelle',
     model_notes: 'Notes',
+    model_product_name: 'Nom',
+    model_product_unit: 'Unité',
+    model_product_image: 'Image',
     model_number_booklets: 'Nombre de brochures à créer',
     model_number_vouchers: 'Nombre de bons',
     model_project_donors_name: 'Donneurs',
@@ -327,22 +343,25 @@ export const TEXT = {
     model_project_number_of_households: 'Nombre de ménages',
     model_project_start_date: 'Date de début de projet',
     model_project_value: 'Montant à distribuer',
+    model_residencystatus: 'Status de résidence',
     model_sector: 'Secteur',
     model_sectors_name: 'Secteurs',
     model_transaction_message: 'Message',
     model_transaction_pickupDate: 'Date de récupération',
     model_state: 'État',
     model_type: 'Type',
+    model_type_shop: 'Type de boutique',
     model_used: 'Utilisé',
     model_user: 'Utilisateur',
     model_password: 'Mot de passe',
     model_value: 'Valeur',
+    model_vendors_address: 'Adresse',
     model_vendor: 'Vendeur',
     model_vulnerabilities: 'Vulnérabilités',
 
     // Placeholder
     placeholder_one_many: 'Select one or many',
-    
+
     // Profile
     profile_user_change_password: 'Changer de mot de passe',
     profile_user_hint_new_password: 'Nouveau mot de passe',
@@ -390,7 +409,9 @@ export const TEXT = {
     settings_financial_provider: 'Connexions tiers',
     settings_log_button: 'Recevoir les logs de cet utilisateur par email',
     settings_project_exists: 'Un projet avec le même nom existe déjà',
+    settings_product: 'Produit',
     settings_users: 'utilisateurs',
+    settings_vendors: 'vendeurs',
 
     // Snackbar
     snackbar_change_password_done: 'Mot de passe modifié !',

@@ -9,10 +9,10 @@ import { HttpService } from './http.service';
 export class GeneralService {
   readonly api = URL_BMS_API;
 
-  constructor(private http : HttpService) {}
+  constructor(private http: HttpService) {}
 
   public getSummary() {
-      let url = this.api + "/summary";
+      const url = this.api + '/summary';
       return this.http.get(url);
   }
 }

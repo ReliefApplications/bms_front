@@ -57,6 +57,10 @@ export class Mapper {
                 return this.mapper.getEntityTranslator('booklet');
             case 'TransactionVoucher':
                 return this.mapper.getEntityTranslator('transaction_voucher');
+            case 'Product':
+                return this.mapper.getEntityTranslator('product');
+            case 'Vendors':
+                return this.mapper.getEntityTranslator('vendors');
             default: return;
         }
     }
@@ -82,10 +86,9 @@ export class Mapper {
         if (!elementObject) {
             return p;
         }
-        if (p == "date_distribution" || p == "start_date" || p == "end_date") {
+        if (p === 'date_distribution' || p === 'start_date' || p === 'end_date') {
             return this.datepipe.transform(elementObject[p], 'dd-MM-yyyy');
-        }
-        else {
+        } else {
             return elementObject[p];
         }
 

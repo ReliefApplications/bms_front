@@ -20,7 +20,7 @@
           <span class="dot">1</span>
           <span>{{Text.add_beneficiary_step1}} </span>
         </div>
-        <div class="container-content box-green">
+        <div class="container-content box-primary">
           <div class="content-table content-table-step1">
             <div class="step1 all-information">
               <div class="column-container">
@@ -90,12 +90,12 @@
                   <button mat-raised-button class="button-background-primary" (click)="nextValidation(1, stepper)">
                     {{Text.next}}
                   </button>
-                  <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update()">{{Text.update}}</button>
+                  <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update(); nextValidation(1, stepper, true)">{{Text.update}}</button>
                 </div>
               </div>
             </div>
           </div>
-          
+
         </div>
       </div>
     </mat-step>
@@ -107,7 +107,7 @@
           <span class="dot">2</span>
           <span>{{Text.add_beneficiary_step2}}</span>
         </div>
-        <div class="container-content box-green">
+        <div class="container-content box-primary">
           <div class="content-table">
             <div class="step2 head" *ngIf="updatedHousehold.beneficiaries[0]">
               <div class="column-container">
@@ -150,6 +150,14 @@
                 <mat-form-field>
                   <input matInput type="text" placeholder={{Text.add_beneficiary_getNationalID}} [(ngModel)]="updatedHousehold.beneficiaries[0].national_id.number">
                 </mat-form-field>
+              </div>
+              <div class="column-container">
+                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                  placeholder={{Text.model_residencystatus}} [(ngModel)]="updatedHousehold.beneficiaries[0].residency_status">
+                  <ng-option *ngFor="let type of residencyStatusList" [value]="type">
+                    {{type | titlecase}}
+                  </ng-option>
+                </ng-select>
               </div>
               <div class="column-container columns-phones">
                 <div class="items-line">
@@ -204,14 +212,14 @@
               <div class="action-buttons">
 
                 <mat-progress-bar mode="determinate" value="35"></mat-progress-bar>
-                <button mat-raised-button class="button-background-accent" (click)="stepper.previous()">
+                <button mat-button class="button-text-primary" (click)="stepper.previous()">
                   {{Text.back}}
                 </button>
                 <button mat-raised-button class="button-background-primary" (click)='nextValidation(2, stepper)'>
                   {{Text.next}}
                 </button>
                 <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
-                  (click)="update()">{{Text.update}}</button>
+                  (click)="update(); nextValidation(2, stepper, true)">{{Text.update}}</button>
               </div>
             </div>
           </div>
@@ -226,7 +234,7 @@
           <span class="dot">3</span>
           <span>{{Text.add_beneficiary_step3}}</span>
         </div>
-        <div class="container-content box-green">
+        <div class="container-content box-primary">
           <div class="content-table">
             <div class="step3 head" *ngFor="let member of updatedHousehold.beneficiaries, let memberIndex=index">
               <div class="container member" *ngIf="memberIndex>0">
@@ -279,6 +287,14 @@
                   <mat-form-field>
                     <input matInput type="text" placeholder={{Text.add_beneficiary_getNationalID}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].national_id.number">
                   </mat-form-field>
+                </div>
+                <div class="column-container">
+                  <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                    placeholder={{Text.model_residencystatus}} [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].residency_status">
+                    <ng-option *ngFor="let type of residencyStatusList" [value]="type">
+                      {{type | titlecase}}
+                    </ng-option>
+                  </ng-select>
                 </div>
                 <div class="column-container columns-phones">
                   <div class="items-line">
@@ -339,18 +355,18 @@
             <div class="content-button-footer">
               <mat-progress-bar mode="determinate" value="70"></mat-progress-bar>
               <div class="action-buttons">
-                <button mat-raised-button class="button-background-accent" (click)="stepper.previous()">
-                  {{Text.back}}
-                </button>
-                <button mat-raised-button (click)="updatedHousehold.beneficiaries.push( pushBeneficiary() )" class="button-background-accent">
+                <button mat-stroked-button (click)="updatedHousehold.beneficiaries.push( pushBeneficiary() )" class="button-text-accent">
                   <mat-icon>add</mat-icon>
                   {{ Text.add }}
+                </button>
+                <button mat-button class="button-text-primary" (click)="stepper.previous()">
+                  {{Text.back}}
                 </button>
                 <button mat-raised-button class="button-background-primary" (click)="passHousehold(); nextValidation(3, stepper)">
                   {{Text.next}}
                 </button>
                 <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
-                  (click)="update()">
+                  (click)="update(); nextValidation(3, stepper, true)">
                   {{Text.update}}
                 </button>
               </div>
@@ -367,7 +383,7 @@
           <span class="dot">4</span>
           <span>{{Text.summary}}</span>
         </div>
-        <div class="container-content box-green">
+        <div class="container-content box-primary">
           <div class="content-table">
             <ng-select #projects class="multiple-select" [(ngModel)]="updatedHousehold.projects" bindLabel="name"
               [items]="projectList" [multiple]="true" placeholder="{{Text.projects}}" [closeOnSelect]="false"

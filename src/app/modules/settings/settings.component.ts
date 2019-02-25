@@ -215,7 +215,9 @@ export class SettingsComponent implements OnInit, DoCheck {
               element.country = '';
 
               for (let i = 0; i < element.user_projects.length; i++) {
-                element.projects[i] = element.user_projects[i].project.name;
+                if (element.user_projects[i].project) {
+                  element.projects[i] = element.user_projects[i].project.name;
+                }
               }
               for (let i = 0; i < element.countries.length; i++) {
                 element.country = element.countries[i].iso3;

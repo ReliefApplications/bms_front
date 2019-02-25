@@ -246,13 +246,13 @@ export class Booklet {
     getModalTypeProperties(selfinstance): Object {
         return {
             code: 'text',
-            number_vouchers: 'number',
-            individual_value: 'number',
+            number_vouchers: 'positive-number',
+            individual_value: 'positive-number',
             currency: 'text',
             status: 'number',
             password: 'password',
             individual_to_all: 'boolean',
-            number_booklets: 'number'
+            number_booklets: 'positive-number'
         };
     }
 

@@ -20,10 +20,11 @@
             <mat-hint align="end" *ngIf="newObject[p] && p=='name' && data.entity.__classname__ !== 'Product' && data.entity.__classname__ !== 'Vendors'"> {{newObject[p].length}} /
               {{this.maxLength}} </mat-hint>
 
-            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'selectCountry' && propertiesTypes[p]!='text'"
+            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='positive-number' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'selectCountry' && propertiesTypes[p]!='text'"
                 [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
 
             <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="0">
+            <input matInput *ngIf="propertiesTypes[p]=='positive-number'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1">
 
                         <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
                             matInput [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"

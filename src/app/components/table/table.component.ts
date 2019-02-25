@@ -377,12 +377,6 @@ export class TableComponent implements OnChanges, DoCheck {
                     }
                 });
             } else {
-                this._cacheService.get(AsyncacheService.USER).subscribe(
-                    result => {
-                        if (result && result.salted_password)
-                            updateElement['password'] = result.salted_password;
-                    }
-                )
                 this.service.update(updateElement['id'], updateElement).subscribe(response => {
                     //this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated, '', { duration: 5000, horizontalPosition: 'right' });
                     this.updateData();

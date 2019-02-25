@@ -122,12 +122,12 @@ export class Booklet {
     public static formatElement(instance: any): Booklet {
         let booklet = new Booklet(instance);
 
-        booklet.individual_value = instance.vouchers[0].value;
+        booklet.individual_value = instance.vouchers.length > 0 ? instance.vouchers[0].value : null;
         return booklet;
     }
 
     public static formatForApi(instance: any) {
-        instance.password = CryptoJS.SHA1(instance.password).toString(CryptoJS.enc.Base64)
+        instance.password = instance.password ? CryptoJS.SHA1(instance.password).toString(CryptoJS.enc.Base64) : null
         return new Booklet(instance);
     }
 
@@ -262,8 +262,6 @@ export class Booklet {
      * @param loadedData
      */
     public static formatFromModalAdd(element: any, loadedData: any): Booklet {
-        // Just a way to encrypt passwords which can be decrypted offline
-        element.password = CryptoJS.SHA1(element.password).toString(CryptoJS.enc.Base64)
-        return new Booklet(element);
+        return this.formatForApi(element);
     }
 }

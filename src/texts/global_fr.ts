@@ -409,7 +409,7 @@ export const TEXT = {
     settings_financial_provider: 'Connexions tiers',
     settings_log_button: 'Recevoir les logs de cet utilisateur par email',
     settings_project_exists: 'Un projet avec le même nom existe déjà',
-    settings_product: 'Produit',
+    settings_product: 'Produits',
     settings_users: 'utilisateurs',
     settings_vendors: 'vendeurs',
 

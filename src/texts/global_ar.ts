@@ -409,7 +409,7 @@ export const TEXT = {
     settings_donors: 'المانحين',
     settings_financial_provider: 'مزود المالية',
     settings_log_button: 'احصل على سجلات المستخدم عن طريق البريد الإلكتروني',
-    settings_product: 'Product',
+    settings_product: 'Products',
     settings_project_exists: 'مشروع بهذا الاسم يوجود بالفعل',
     settings_users: 'المستخدمون',
     settings_vendors: 'vendors',

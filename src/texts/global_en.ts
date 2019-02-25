@@ -407,7 +407,7 @@ export const TEXT = {
     settings_donors: 'donors',
     settings_financial_provider: 'Third party connections',
     settings_log_button: 'Get user logs by email',
-    settings_product: 'Product',
+    settings_product: 'Products',
     settings_project_exists: 'A project with this name already exists',
     settings_users: 'users',
     settings_vendors: 'vendors',

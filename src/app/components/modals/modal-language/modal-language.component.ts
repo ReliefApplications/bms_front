@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatCheckboxModule } from '@angular/material'
+import { MatCheckboxModule } from '@angular/material';
 import { ModalComponent } from '../modal.component';
 import { GlobalText } from '../../../../texts/global';
 
@@ -8,20 +8,20 @@ import { GlobalText } from '../../../../texts/global';
   templateUrl: './modal-language.component.html',
   styleUrls: ['../modal.component.scss', './modal-language.component.scss']
 })
-export class ModalLanguageComponent extends ModalComponent {
+export class ModalLanguageComponent extends ModalComponent implements OnInit {
   public languages = GlobalText.languages;
   public language = GlobalText.language;
   public isCheckedDefault = false;
   public actualUser;
   public default = false;
-  public isArabic : boolean = false;
+  public isArabic = false;
 
   ngOnInit() {
     this._cacheService.getUser().subscribe(response => {
       this.actualUser = response;
-      response.language == this.language ? this.default = true : 0;
-    })
-    this.language == 'ar' ? this.isArabic = true : false;
+      this.default = response.language === this.language ? true : false;
+    });
+    this.isArabic = this.language === 'ar' ?  true : false;
   }
 
   choseLanguage() {
@@ -32,14 +32,14 @@ export class ModalLanguageComponent extends ModalComponent {
     !this.isCheckedDefault ? this.isCheckedDefault = true : this.isCheckedDefault = false;
   }
 
-  save(){
+  save() {
     GlobalText.changeLanguage(this.language);
-    this.language == 'ar' ? this.isArabic = true : false;
+    this.isArabic = this.language === 'ar' ? true : false;
     if (this.isCheckedDefault) {
       this.userService.setDefaultLanguage(this.actualUser.id, this.language).subscribe(response => {
-        this.snackBar.open('Default Language Saved','', {duration: 3000, horizontalPosition: 'center'});
-      })
-    };
+        this.snackBar.open('Default Language Saved', '', {duration: 3000, horizontalPosition: 'center'});
+      });
+    }
     this.closeDialog();
   }
 }

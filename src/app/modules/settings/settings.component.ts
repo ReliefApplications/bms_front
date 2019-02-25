@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
 
 import { AuthenticationService } from '../../core/authentication/authentication.service';
@@ -35,8 +35,7 @@ import { VendorsService } from 'src/app/core/api/vendors.service';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit {
-
+export class SettingsComponent implements OnInit, DoCheck {
   public nameComponent = 'settings';
   public settings = GlobalText.TEXTS;
   loadingExport = false;
@@ -51,7 +50,7 @@ export class SettingsComponent implements OnInit {
   public user_action = '';
   public extensionType;
 
-  //logs
+  // logs
   userLogForm = new FormControl();
   private selectedUserId: number = null;
 
@@ -229,15 +228,15 @@ export class SettingsComponent implements OnInit {
       ).subscribe(response => {
         if (response) {
           this.loadingData = false;
-          // console.log(response);
           if (response && response[0] && response[0].email && response[0].username && response[0].roles) {
-
             response.forEach(element => {
               element.projects = new Array<number>();
               element.country = '';
 
               for (let i = 0; i < element.user_projects.length; i++) {
-                element.projects[i] = element.user_projects[i].project.name;
+                if (element.user_projects[i].project) {
+                  element.projects[i] = element.user_projects[i].project.name;
+                }
               }
               for (let i = 0; i < element.countries.length; i++) {
                 element.country = element.countries[i].iso3;

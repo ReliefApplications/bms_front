@@ -253,6 +253,9 @@ export class User {
       user.projects = [];
       element.user_projects.forEach(
         element => {
+          if (!element.project) {
+            return;
+          }
           user.projects.push(
             {
               name: element.project.name,

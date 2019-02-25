@@ -31,6 +31,9 @@ export class ModalUpdateComponent extends ModalComponent {
         } catch (e) {
             console.error('the function mapAllProperties is not defined for the entity ', this.entityInstance);
         }
+        if (this.updateObject.salted_password) {
+            this.updateObject.salted_password = '';
+        }
         this.loadData(this.updateObject);
         if (this.updateObject.email && this.updateObject.username) {
             this.form.controls['emailFormControl'].disable();
@@ -136,8 +139,12 @@ export class ModalUpdateComponent extends ModalComponent {
             else if (this.updateObject.country) {
                 let countries = [];
 
+                if (typeof this.updateObject.country === 'string') {
+                    this.updateObject.country = [this.updateObject.country];
+                }
+
                 this.updateObject.country.forEach(country => {
-                    countries.push(country.id);
+                    countries.push(country);
                 });
 
                 this.updateObject.country = countries;

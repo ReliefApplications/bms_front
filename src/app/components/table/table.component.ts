@@ -28,6 +28,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Households } from 'src/app/model/households';
 import { NetworkService } from 'src/app/core/api/network.service';
 import { Router } from '@angular/router';
+import { ExportService } from '../../core/api/export.service';
 
 @Component({
     selector: 'app-table',
@@ -97,7 +98,8 @@ export class TableComponent implements OnChanges, DoCheck {
         public locationService: LocationService,
         public householdsService: HouseholdsService,
         public networkService: NetworkService,
-        public router: Router
+        public router: Router,
+        public _exportService : ExportService
     ) { }
 
     ngOnChanges() {

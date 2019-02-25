@@ -12,6 +12,9 @@ import { Project } from 'src/app/model/project';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { DistributionData } from 'src/app/model/distribution-data';
 import { Beneficiaries } from 'src/app/model/beneficiary';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Voucher } from '../../model/voucher';
+import { ExportService } from '../../core/api/export.service';
 
 @Component({
   selector: 'app-vouchers',
@@ -76,6 +79,8 @@ export class VouchersComponent implements OnInit {
   public bookletQRCode: string = "VC7PZ#003-003-003";
   public password: string = '';
   public displayPassword: boolean = false;
+  public selection = new SelectionModel<Voucher>(true, []);
+  public checkedElements: any = [];
 
   constructor(
     public bookletService: BookletService,
@@ -83,7 +88,8 @@ export class VouchersComponent implements OnInit {
     public mapperService: Mapper,
     public projectService: ProjectService,
     public distributionService: DistributionService,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    public _exportService : ExportService
   ) { }
 
   ngOnInit() {
@@ -325,5 +331,23 @@ export class VouchersComponent implements OnInit {
       () => {
         this.getBooklets();
       });
+  }
+
+  getChecked(event) {
+    this.checkedElements = event;
+  }
+
+  printMany() {
+    let bookletIds = []
+    let error = false
+    this.checkedElements.forEach(element => {
+      if (element.distribution_beneficiary === null) {
+        this.snackBar.open(this.voucher.voucher_print_error, '', {duration: 5000, horizontalPosition: 'center'});
+        error = true
+        return
+      }
+      bookletIds.push(element.id)
+    })
+    return !error ? this._exportService.printMany(bookletIds) : null
   }
 }

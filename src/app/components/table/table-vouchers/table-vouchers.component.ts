@@ -11,4 +11,7 @@ export class TableVouchersComponent extends TableComponent {
   ngOnInit() {
   }
 
+  print(element) {
+		return this._exportService.printVoucher(element.id)
+  }
 }

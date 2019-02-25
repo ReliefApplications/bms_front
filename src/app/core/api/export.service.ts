@@ -37,4 +37,25 @@ export class ExportService {
             saveAs(response, key + '.' + extensionType);
         });
     }
+
+    public printVoucher(id: number) {
+        return this.http.get(this.api + '/booklets/print/' + id, {responseType: 'blob'}).toPromise()
+        .then(response => {
+            var blob = new Blob([response], {type: ('blob')});
+            var filename = 'Booklet-' + id + '.pdf';
+            saveAs(blob, filename);
+        });
+    }
+
+    public printMany(bookletIds: number[]) {
+        let body = {
+            bookletIds: bookletIds
+        };
+        return this.http.post(this.api + '/booklets-print', body, {responseType: 'blob'}).toPromise()
+        .then(response => {
+            var blob = new Blob([response], {type: ('blob')});
+            var filename = 'Booklets.pdf';
+            saveAs(blob, filename);
+        });
+    }
 }

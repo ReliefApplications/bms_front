@@ -13,6 +13,9 @@
     <div class="container-content box-green">
       <div class="content-button">
         <div class="action-buttons">
+          <button mat-raised-button *ngIf="checkedElements.length > 0" class="button-background-primary" (click)="printMany()" [matBadge]="checkedElements.length">
+              {{voucher.voucher_print_selection | titlecase}}
+          </button>
           <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
             <mat-icon>get_app</mat-icon>
             <span>{{voucher.export | titlecase}}</span>
@@ -45,7 +48,7 @@
 
       <div class="content-table" *ngIf="!load && bookletData">
         <app-table-vouchers *ngIf="widthScreen > maxWidthMobile" [entity]="bookletClass" [service]="bookletService"
-          [data]="bookletData"></app-table-vouchers>
+          [data]="bookletData" [selection]="selection" (selectChecked)="getChecked($event)"></app-table-vouchers>
         <app-table-mobile-vouchers *ngIf="widthScreen < maxWidthMobile" [entity]="bookletClass" [service]="bookletService"
           [data]="bookletData"></app-table-mobile-vouchers>
       </div>

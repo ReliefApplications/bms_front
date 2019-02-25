@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { HouseholdsService } from 'src/app/core/api/households.service';
-import { ImportService } from 'src/app/core/utils/import.service'
+import { ImportService } from 'src/app/core/utils/import.service';
 import { Households } from 'src/app/model/households';
 import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
 import { MatTableDataSource } from '@angular/material';
@@ -19,7 +19,7 @@ export class ImportedDataComponent implements OnInit {
   public data: any;
   public referedClassToken = Households;
   public referedClassService = this._householdsService;
-  public loadingTable: boolean = true;
+  public loadingTable = true;
 
   // For windows size
   public maxHeight = 700;
@@ -66,7 +66,7 @@ export class ImportedDataComponent implements OnInit {
 
   goProject() {
     this.router.navigate(['/projects']).then(() => {
-      this.importedDataService.redirectToProject(this.importService.getProject())
-    })
+      this.importedDataService.redirectToProject(this.importService.getProject());
+    });
   }
 }

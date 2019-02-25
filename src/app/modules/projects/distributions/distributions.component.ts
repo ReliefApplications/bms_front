@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, TemplateRef } from '@angular/core';
+import { Component, OnInit, DoCheck, HostListener, TemplateRef } from '@angular/core';
 import { GlobalText } from '../../../../texts/global';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
@@ -26,7 +26,7 @@ import { SelectionModel } from '@angular/cdk/collections';
     templateUrl: './distributions.component.html',
     styleUrls: ['./distributions.component.scss']
 })
-export class DistributionsComponent implements OnInit, DesactivationGuarded {
+export class DistributionsComponent implements OnInit, DoCheck, DesactivationGuarded {
     public nameComponent = 'distributions';
     distributionId: number;
     actualDistribution = new DistributionData();
@@ -54,7 +54,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     entity: any;
     selection;
     checkedLines: any = [];
-    distributed: boolean = false;
+    distributed = false;
 
     // Datas.
     initialBeneficiaryData: MatTableDataSource<any>;
@@ -74,8 +74,8 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     beneficiaryForm = new FormControl();
     beneficiaryList = new Array<Beneficiaries>();
     selectedBeneficiaries = new Array<Beneficiaries>();
-    target: string = "";
-    selected: boolean = false;
+    target = '';
+    selected = false;
 
     // Stepper forms.
     form1: FormGroup;
@@ -84,21 +84,21 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     form4: FormGroup;
 
     // Transaction.
-    readonly SENDING_CODE_FREQ = 10000; //ms
-    lastCodeSentTime = 0; //ms
+    readonly SENDING_CODE_FREQ = 10000; // ms
+    lastCodeSentTime = 0; // ms
     actualUser = new User();
     enteredCode = '';
     chartAccepted = false;
 
-    hasRights: boolean = false;
-    hasRightsTransaction: boolean = false;
-    loaderValidation: boolean = false;
-    loaderCache: boolean = false;
+    hasRights = false;
+    hasRightsTransaction = false;
+    loaderValidation = false;
+    loaderCache = false;
 
     interval: any;
-    correctCode: boolean = false;
+    correctCode = false;
     progression: number;
-    hideSnack: boolean = false;
+    hideSnack = false;
 
     constructor(
         public distributionService: DistributionService,
@@ -159,8 +159,9 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
    * check if the langage has changed
    */
     ngDoCheck() {
-        if (this.language !== GlobalText.language)
+        if (this.language !== GlobalText.language) {
             this.language = GlobalText.language;
+        }
     }
 
     /**
@@ -183,18 +184,18 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     getSelectedDistribution() {
         this.distributionService.getOne(this.distributionId)
             .subscribe(
-                result => { // Get from Back
-                    this.actualDistribution = result;
+                distribution => { // Get from Back
+                    this.actualDistribution = distribution;
 
-                    if (Object.keys(this.actualDistribution).length == 0) {
-                        this.cacheService.get(AsyncacheService.DISTRIBUTIONS + "_" + this.distributionId + "_beneficiaries")
+                    if (Object.keys(this.actualDistribution).length === 0) {
+                        this.cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + this.distributionId + '_beneficiaries')
                             .subscribe(
-                                result => {
-                                    if (result) {
-                                        this.actualDistribution = result;
-
-                                        if (this.actualDistribution.validated)
+                                cachedDistribution => {
+                                    if (cachedDistribution) {
+                                        this.actualDistribution = cachedDistribution;
+                                        if (this.actualDistribution.validated) {
                                             this.getDistributionBeneficiaries('transaction');
+                                        }
                                     }
                                 }
                             );
@@ -204,8 +205,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                         this.getDistributionBeneficiaries('transaction');
                     }
                     this.loadingDistribution = false;
-                },
-                error => {
                 }
             );
     }
@@ -236,28 +235,23 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
 
                     if (type === 'initial') {
                         // Step 1 table
-                        // console.log('Getting Initial data');
                         this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
                         this.loadingFirstStep = false;
                     } else if (type === 'final') {
                         // Step 4 table
-                        // console.log('Getting final data');
                         this.finalBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
                         this.loadingFinalStep = false;
                     } else if (type === 'both') {
-                        // console.log('Getting both data');
                         const beneficiariesData = Beneficiaries.formatArray(data);
                         this.initialBeneficiaryData = new MatTableDataSource(beneficiariesData);
                         this.finalBeneficiaryData = new MatTableDataSource(beneficiariesData);
                         this.loadingFirstStep = false;
                         this.loadingFinalStep = false;
                     } else if (type === 'transaction') {
-                        // console.log('Getting transaction data');
-                        if (this.actualDistribution.commodities[0].modality_type.name == "Voucher") {
+                        if (this.actualDistribution.commodities[0].modality_type.name === 'Voucher') {
                             this.selection = new SelectionModel<any>(true, []);
                             this.entity = TransactionVoucher;
-                        }
-                        else if (this.actualDistribution.commodities[0].modality_type.name == "Mobile Cash") {
+                        } else if (this.actualDistribution.commodities[0].modality_type.name === 'Mobile Cash') {
                             this.entity = TransactionBeneficiary;
                         }
 
@@ -270,12 +264,9 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                         this.generateRandom();
                     }
 
-                    if (this.loadingDatas == true) {
+                    if (this.loadingDatas === true) {
                         this.loadingDatas = false;
                     }
-                },
-                error => {
-                    // console.log("Error: ", error);
                 }
             );
 
@@ -290,7 +281,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     getProjectBeneficiaries() {
         let allBeneficiaries;
         this.loadingAdd = true;
-        let entityInstance = Object.create(this.distributionEntity.prototype);
+        const entityInstance = Object.create(this.distributionEntity.prototype);
         entityInstance.constructor.apply(entityInstance);
         this.target = entityInstance.getMapperBox(this.actualDistribution).type;
 
@@ -302,7 +293,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                     if (allBeneficiaries) {
                         this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
                     } else {
-                        this.cacheService.get(AsyncacheService.PROJECTS + "_" + this.actualDistribution.project.id + "_beneficiaries")
+                        this.cacheService.get(AsyncacheService.PROJECTS + '_' + this.actualDistribution.project.id + '_beneficiaries')
                             .subscribe(
                                 beneficiaries => {
                                     if (beneficiaries) {
@@ -322,7 +313,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      * @param choice
      */
     setType(step, choice) {
-        // console.log('change: ', step, choice);
         switch (step) {
             case 1: this.extensionTypeStep1 = choice;
                 break;
@@ -333,7 +323,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
             default:
                 break;
         }
-        // console.log("   step1:", this.extensionTypeStep1, "    step3:", this.extensionTypeStep3);
     }
 
     /**
@@ -341,19 +330,17 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      */
     export() {
         this.loadingExport = true;
-        // console.log('type: ', this.extensionTypeStep1);
         this.distributionService.export('distribution', this.extensionTypeStep1, this.distributionId).then(
-            () => { this.loadingExport = false }
+            () => { this.loadingExport = false; }
         ).catch(
-            () => { this.loadingExport = false }
-        )
+            () => { this.loadingExport = false; }
+        );
     }
 
     fileSelected(event) {
         if (event) {
             this.selected = true;
-        }
-        else {
+        } else {
             this.selected = false;
         }
     }
@@ -371,10 +358,11 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         if (this.finalBeneficiaryData) {
             return Math.ceil((this.sampleSize / 100) * this.finalBeneficiaryData.data.length);
         } else {
-            if (this.initialBeneficiaryData)
+            if (this.initialBeneficiaryData) {
                 return Math.ceil((this.sampleSize / 100) * this.initialBeneficiaryData.data.length);
-            else
+            } else {
                 return (1);
+            }
         }
 
     }
@@ -404,15 +392,16 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     exportSample() {
         this.loadingExport = true;
         this.distributionService.exportSample(this.randomSampleData.data, this.extensionTypeStep3).then(
-            () => { this.loadingExport = false }
+            () => { this.loadingExport = false; }
         ).catch(
-            () => { this.loadingExport = false }
-        )
+            () => { this.loadingExport = false; }
+        );
     }
 
     exportInformation(template) {
         this.dialog.open(template);
     }
+
     /**
      * Requests back-end a file containing informations about the transaction
      */
@@ -420,10 +409,10 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
         this.dialog.closeAll();
         this.loadingExport = true;
         this.distributionService.export('transaction', this.extensionTypeTransaction, this.distributionId).then(
-            () => { this.loadingExport = false }
+            () => { this.loadingExport = false; }
         ).catch(
-            () => { this.loadingExport = false }
-        )
+            () => { this.loadingExport = false; }
+        );
     }
 
     /**
@@ -444,7 +433,8 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
      */
     confirmValidation() {
         if (this.hasRights) {
-            if ((this.finalBeneficiaryData && this.finalBeneficiaryData.data.length > 0) || (this.initialBeneficiaryData && this.initialBeneficiaryData.data.length > 0)) {
+            if ((this.finalBeneficiaryData && this.finalBeneficiaryData.data.length > 0)
+                || (this.initialBeneficiaryData && this.initialBeneficiaryData.data.length > 0)) {
                 this.loaderValidation = true;
                 this.distributionService.setValidation(this.distributionId)
                     .subscribe(
@@ -453,7 +443,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                             this.snackBar.open(this.TEXT.distribution_validated, '', { duration: 5000, horizontalPosition: 'center' });
                             this.validateActualDistributionInCache();
                             this.getDistributionBeneficiaries('transaction');
-                            this.cacheService.get(AsyncacheService.DISTRIBUTIONS + "_" + this.actualDistribution.id + "_beneficiaries")
+                            this.cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + this.actualDistribution.id + '_beneficiaries')
                                 .subscribe(
                                     result => {
                                         if (result) {
@@ -470,13 +460,12 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                             this.snackBar.open(this.TEXT.distribution_not_validated, '', { duration: 5000, horizontalPosition: 'center' });
                         }
                     );
-            }
-            else {
+            } else {
                 this.snackBar.open(this.TEXT.distribution_error_validate, '', { duration: 5000, horizontalPosition: 'center' });
             }
-        }
-        else
+        } else {
             this.snackBar.open(this.TEXT.distribution_no_right_validate, '', { duration: 5000, horizontalPosition: 'right' });
+        }
 
         this.dialog.closeAll();
     }
@@ -486,14 +475,16 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
             this.distributionService.sendCode(this.distributionId).toPromise()
                 .then(
                     anwser => {
-                        if (anwser === "Email sent") {
+                        if (anwser === 'Email sent') {
                             this.lastCodeSentTime = (new Date()).getTime();
-                            this.snackBar.open('Verification code has been sent at ' + this.actualUser.email, '', { duration: 5000, horizontalPosition: 'center' });
+                            this.snackBar.open('Verification code has been sent at ' + this.actualUser.email,
+                            '', { duration: 5000, horizontalPosition: 'center' });
                         }
                     },
                     () => {
                         this.lastCodeSentTime = (new Date()).getTime();
-                        this.snackBar.open('Verification code has been sent at ' + this.actualUser.email, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackBar.open('Verification code has been sent at ' + this.actualUser.email,
+                        '', { duration: 5000, horizontalPosition: 'center' });
                     }
                 )
                 .catch(
@@ -502,7 +493,8 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                     }
                 );
         } else {
-            this.snackBar.open('The last code was sent less than 10 seconds ago, you should wait.', '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackBar.open('The last code was sent less than 10 seconds ago, you should wait.',
+            '', { duration: 5000, horizontalPosition: 'center' });
         }
     }
 
@@ -547,7 +539,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                                                             this.setTransactionMessage(beneficiary, index);
                                                         }
                                                     }
-                                                )
+                                                );
                                                 success.failure.forEach(
                                                     beneficiary => {
                                                         if (element.id === beneficiary.beneficiary.id) {
@@ -555,7 +547,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                                                             this.setTransactionMessage(beneficiary, index);
                                                         }
                                                     }
-                                                )
+                                                );
                                                 success.no_mobile.forEach(
                                                     beneficiary => {
                                                         if (element.id === beneficiary.beneficiary.id) {
@@ -563,7 +555,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                                                             this.setTransactionMessage(beneficiary, index);
                                                         }
                                                     }
-                                                )
+                                                );
                                                 success.sent.forEach(
                                                     beneficiary => {
                                                         if (element.id === beneficiary.beneficiary.id) {
@@ -571,32 +563,29 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                                                             this.setTransactionMessage(beneficiary, index);
                                                         }
                                                     }
-                                                )
+                                                );
                                             }
                                         );
                                     }
                                 }
-                            ).catch(
-                                //err
-                            )
+                            ).catch();
 
-                        let progression: number = 0;
+                        let progression = 0;
                         let peopleLeft = this.getAmount('waiting', this.actualDistribution.commodities[0]);
                         peopleLeft = peopleLeft / this.actualDistribution.commodities[0].value;
 
                         this.interval = setInterval(() => {
                             this.distributionService.checkProgression(this.distributionId)
                                 .subscribe(
-                                    result => {
-                                        if (result) {
-                                            if (result != progression) {
-                                                progression = result;
-
-                                                this.progression = Math.floor((result / peopleLeft) * 100);
+                                    progress => {
+                                        if (progress) {
+                                            if (progress !== progression) {
+                                                progression = progress;
+                                                this.progression = Math.floor((progress / peopleLeft) * 100);
                                             }
                                         }
                                     }
-                                )
+                                );
                         }, 3000);
 
                     } else {
@@ -604,9 +593,9 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                     }
                 }
             );
-        }
-        else
+        } else {
             this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 5000, horizontalPosition: 'right' });
+        }
 
         this.chartAccepted = false;
     }
@@ -627,13 +616,13 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                                 result.forEach(
                                     element => {
                                         if (transaction.id === element.id) {
-                                            this.transactionData.data[index].updateForPickup(element.moneyReceived)
+                                            this.transactionData.data[index].updateForPickup(element.moneyReceived);
                                         }
                                     }
                                 );
                             }
                         }
-                    )
+                    );
                 }
             }
         );
@@ -671,12 +660,12 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     confirmAdding() {
         this.dialog.closeAll();
 
-        let beneficiariesArray = new Array();
+        const beneficiariesArray = new Array();
         this.selectedBeneficiaries.forEach(
             element => {
                 beneficiariesArray.push(Beneficiaries.formatForApi(element));
             }
-        )
+        );
 
         this.beneficiariesService.add(this.distributionId, beneficiariesArray)
             .subscribe(
@@ -726,7 +715,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                         amount++;
                     }
                 }
-            )
+            );
         } else if (commodity) {
 
             if (type === 'total') {
@@ -761,8 +750,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                 amount = Math.round((done / (commodity.value * this.transactionData.data.length)) * 100);
             }
         }
-        // console.log(type, amount);
-
         return (amount);
     }
 
@@ -776,7 +763,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                 this.distributionService.logs(this.distributionId).subscribe(
                     e => { this.snackBar.open('' + e, '', { duration: 5000, horizontalPosition: 'center' }); },
                     () => { this.snackBar.open('Logs have been sent', '', { duration: 5000, horizontalPosition: 'center' }); },
-                )
+                );
             } catch (e) {
                 this.snackBar.open('Logs could not be sent : ' + e, '', { duration: 5000, horizontalPosition: 'center' });
             }
@@ -791,14 +778,16 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                 this.actualUser = result;
                 if (result && result.rights) {
                     const rights = result.rights;
-                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER')
+                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
                         this.hasRights = true;
+                    }
 
-                    if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == 'ROLE_COUNTRY_MANAGER')
+                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
                         this.hasRightsTransaction = true;
+                    }
                 }
             }
-        )
+        );
     }
 
     /**
@@ -807,16 +796,16 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
     storeBeneficiaries() {
         this.loaderCache = true;
 
-        let project = this.actualDistribution.project;
+        const project = this.actualDistribution.project;
 
         this.actualDistribution.distribution_beneficiaries.forEach((element, i) => {
             element.beneficiary = this.initialBeneficiaryData.data[i];
         });
-        let distribution = this.actualDistribution;
+        const distribution = this.actualDistribution;
 
         let allBeneficiaries;
 
-        let entityInstance = Object.create(this.distributionEntity.prototype);
+        const entityInstance = Object.create(this.distributionEntity.prototype);
         entityInstance.constructor.apply(entityInstance);
         this.target = entityInstance.getMapperBox(this.actualDistribution).type;
 
@@ -836,9 +825,11 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                             )
                             .subscribe(
                                 () => {
-                                    //Data added in cache
-                                    if (!this.hideSnack)
-                                        this.snackBar.open(this.TEXT.cache_distribution_added, '', { duration: 5000, horizontalPosition: 'center' });
+                                    // Data added in cache
+                                    if (!this.hideSnack) {
+                                        this.snackBar.open(this.TEXT.cache_distribution_added,
+                                          '', { duration: 5000, horizontalPosition: 'center' });
+                                    }
 
                                     this.hideSnack = false;
                                 }
@@ -862,7 +853,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded {
                             data.used = !data.used;
                         }
                     }
-                )
+                );
             }
         );
 

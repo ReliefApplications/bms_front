@@ -52,6 +52,8 @@ import { SettingsComponent } from '../modules/settings/settings.component';
 import { BeneficiariesImportComponent } from '../modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
 import { DataValidationComponent } from '../modules/beneficiary/data-validation/data-validation.component';
 import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
+import { MobileMoneyComponent } from '../modules/projects/distributions/mobile-money/mobile-money.component';
+import { GeneralReliefComponent } from '../modules/projects/distributions/general-relief/general-relief.component';
 import { ImportDistributionComponent } from '../modules/projects/distributions/import-distribution/import-distribution.component';
 import { TransactionTableMobileComponent } from '../components/table/transaction-table-mobile/transaction-table-mobile.component';
 import { ModalLeaveComponent } from '../components/modals/modal-leave/modal-leave.component';
@@ -65,7 +67,7 @@ import { TableBeneficiariesComponent } from '../components/table/table-beneficia
 import { UpdateBeneficiaryComponent } from '../modules/beneficiary/update-beneficiary/update-beneficiary.component';
 import { TransactionTableComponent } from '../components/table/transaction-table/transaction-table.component';
 import { TableMobileBeneficiariesComponent } from '../components/table/table-mobile-beneficiaries/table-mobile-beneficiaries.component';
-import { CountoModule }  from 'angular2-counto';
+import { CountoModule } from 'angular2-counto';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ImportedDataComponent } from '../modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
 import { ModalRequestsComponent } from '../components/modals/modal-requests/modal-requests.component';
@@ -157,6 +159,8 @@ declarations: [
     BoxPropertiesComponent,
     DataValidationComponent,
     DistributionsComponent,
+    MobileMoneyComponent,
+    GeneralReliefComponent,
     ImportDistributionComponent,
     PlaceholderSummaryComponent,
     PlaceholderBoxlineComponent,

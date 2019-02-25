@@ -213,7 +213,9 @@
     </mat-step>
   </mat-horizontal-stepper>
 
-  <div class="container-table" *ngIf="actualDistribution.validated && !loadingDatas">
+  <app-mobile-money *ngIf="actualDistribution.validated && !loadingDatas" [actualDistribution]="actualDistribution">
+  </app-mobile-money>
+  <!-- <div class="container-table" *ngIf="actualDistribution.validated && !loadingDatas">
     <div class="container-content box-primary">
       <div class="progression">
         <div class="commodities" *ngFor="let commodity of actualDistribution.commodities">
@@ -319,7 +321,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
 </div>
 

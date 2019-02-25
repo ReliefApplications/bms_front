@@ -14,9 +14,4 @@ export class TableVouchersComponent extends TableComponent {
   print(element) {
 		return this._exportService.printVoucher(element.id)
   }
-  
-  printAll() {
-    return this._exportService.printAll()
-  }
-
 }

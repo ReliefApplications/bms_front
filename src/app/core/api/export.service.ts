@@ -42,19 +42,19 @@ export class ExportService {
         return this.http.get(this.api + '/booklets/print/' + id, {responseType: 'blob'}).toPromise()
         .then(response => {
             var blob = new Blob([response], {type: ('blob')});
-            var filename = 'Booklet1.pdf';
+            var filename = 'Booklet-' + id + '.pdf';
             saveAs(blob, filename);
         });
     }
 
-    public printAll() {
+    public printMany(bookletIds: number[]) {
         let body = {
-            bookletIds: [1, 2, 3]
+            bookletIds: bookletIds
         };
         return this.http.post(this.api + '/booklets-print', body, {responseType: 'blob'}).toPromise()
         .then(response => {
             var blob = new Blob([response], {type: ('blob')});
-            var filename = 'AllVouchers.pdf';
+            var filename = 'Booklets.pdf';
             saveAs(blob, filename);
         });
     }

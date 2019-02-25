@@ -491,4 +491,7 @@ export const TEXT = {
     voucher_select_distribution: 'Vous devez sélectionner une distribution',
     voucher_select_beneficiary: 'Vous devez sélectionner un bénéficiaire',
     voucher_step5: 'va être assignée à',
+    voucher_print_selection: 'Imprimer la sélection',
+    voucher_print_error: 'Vous ne pouvez pas imprimer un booklet sans bénéficiaire'
+
 };

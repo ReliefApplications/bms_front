@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, DoCheck, Input, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, ErrorStateMatcher, MatSnackBar } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 
@@ -14,12 +14,20 @@ import { User } from '../../model/user';
 import { UserService } from '../../core/api/user.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+    isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+        const isSubmitted = form && form.submitted;
+        return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    }
+}
+
 @Component({
-    selector: 'modal',
+    selector: 'app-modal',
     templateUrl: './modal.component.html',
     styleUrls: ['./modal.component.scss']
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnInit, DoCheck {
     public modal = GlobalText.TEXTS;
     public language = GlobalText.language;
 
@@ -80,7 +88,7 @@ export class ModalComponent implements OnInit {
      * check if the langage has changed
      */
     ngDoCheck() {
-        if (this.modal != GlobalText.TEXTS) {
+        if (this.modal !== GlobalText.TEXTS) {
             this.modal = GlobalText.TEXTS;
         }
     }
@@ -116,8 +124,9 @@ export class ModalComponent implements OnInit {
             );
         }
 
-        //Distribution in projects
-        if ((updateObject && updateObject.date_distribution && updateObject.location_name && updateObject.name && updateObject.updated_on)) {
+        // Distribution in projects
+        if ((updateObject && updateObject.date_distribution && updateObject.location_name
+          && updateObject.name && updateObject.updated_on)) {
             this.loadedData.type = [
                 {
                     'id': '0',
@@ -127,11 +136,11 @@ export class ModalComponent implements OnInit {
                     'id': '1',
                     'name': 'Beneficiaries'
                 }
-            ]
+            ];
         }
 
-        //User in settings
-        if ((this.newObject && this.newObject.password == '') || (updateObject && updateObject.email && updateObject.rights)) {
+        // User in settings
+        if ((this.newObject && this.newObject.password === '') || (updateObject && updateObject.email && updateObject.rights)) {
             this.loadedData.rights = this.user.getAllRights();
             this.loadedData.country = this.user.getAllCountries();
             this.projectService.get().subscribe(response => {
@@ -139,45 +148,48 @@ export class ModalComponent implements OnInit {
             });
         }
 
-        //Country specific option in settings
-        if ((this.newObject && this.newObject.countryIso3 == '' && this.newObject.field == '' && this.newObject.name == '') || (updateObject && updateObject.field && updateObject.type)) {
+        // Country specific option in settings
+        if ((this.newObject && this.newObject.countryIso3 === '' && this.newObject.field === '' &&
+        this.newObject.name === '') || (updateObject && updateObject.field && updateObject.type)) {
             this.loadedData.type = [
                 {
-                    'id': "text",
+                    'id': 'text',
                     'name': 'text',
                 },
                 {
-                    'id': "number",
+                    'id': 'number',
                     'name': 'number',
                 }
-            ]
+            ];
         }
 
-        if (this.newObject && this.newObject.field_string == '') {
+        if (this.newObject && this.newObject.field_string === '') {
             // this.allCriteria = this._cacheService.get(AsyncacheService.CRITERIAS);
-            if (this.allCriteria.length === 0)
+            if (this.allCriteria.length === 0) {
                 this.criteriaService.get().subscribe(response => {
                     this.allCriteria = response;
                     this.loadedData.field_string = [];
                 });
+            }
         }
 
-        //for criterias
-        if (this.newObject && this.newObject.kind_beneficiary == '') {
-            this.loadedData.kind_beneficiary = [{ "field_string": this.modal.beneficiary }, { "field_string": this.modal.households }];
+        // for criterias
+        if (this.newObject && this.newObject.kind_beneficiary === '') {
+            this.loadedData.kind_beneficiary = [{ 'field_string': this.modal.beneficiary }, { 'field_string': this.modal.households }];
         }
 
-        //for commodities
-        if (this.newObject && this.newObject.modality == '') {
+        // for commodities
+        if (this.newObject && this.newObject.modality === '') {
             this.modalitiesService.getModalities().subscribe(
                 response => {
                     this.loadedData.modality = response;
-                    if (response)
+                    if (response) {
                         for (let i = 0; i < this.loadedData.modality.length; i++) {
-                            if (this.loadedData.modality[i].name == 'CTP') {
+                            if (this.loadedData.modality[i].name === 'CTP') {
                                 this.loadedData.modality[i].name = 'Cash';
                             }
                         }
+                    }
                 }
             );
         }
@@ -189,25 +201,18 @@ export class ModalComponent implements OnInit {
        */
     recoverRights(element) {
         if (element.rights) {
-            let re = /\ /gi;
-            element.rights = element.rights.replace(re, "");
+            const re = /\ /gi;
+            element.rights = element.rights.replace(re, '');
             let finalRight;
 
             this.entityInstance.getAllRights().forEach(rights => {
-                let value = Object.values(rights);
-                if (value[0] == element.rights) {
+                const value = Object.values(rights);
+                if (value[0] === element.rights) {
                     finalRight = value[1];
                 }
             });
 
             return finalRight;
         }
-    }
-}
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-    isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-        const isSubmitted = form && form.submitted;
-        return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
     }
 }

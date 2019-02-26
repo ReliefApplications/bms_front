@@ -5,14 +5,13 @@ import { TableDashboardComponent } from '../table-dashboard/table-dashboard.comp
 const RECENT_DIST_LENGTH = 5;
 
 @Component({
-  selector: 'app-table-mobile-dashboard',
-  templateUrl: './table-mobile-dashboard.component.html',
-  styleUrls: ['../table-mobile/table-mobile.component.scss']
+    selector: 'app-table-mobile-dashboard',
+    templateUrl: './table-mobile-dashboard.component.html',
+    styleUrls: ['../table-mobile/table-mobile.component.scss']
 })
 export class TableMobileDashboardComponent extends TableDashboardComponent implements DoCheck {
 
-  getImageName(t2: String) {
-    return (t2.substring(26).split('.')[0]);
-  }
-  
+    getImageName(t2: String) {
+        return (t2.substring(26).split('.')[0]);
+    }
 }

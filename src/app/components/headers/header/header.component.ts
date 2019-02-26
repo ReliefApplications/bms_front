@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, DoCheck, Input, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
 
@@ -14,21 +14,21 @@ import { AuthenticationService } from 'src/app/core/authentication/authenticatio
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, DoCheck {
     public header = GlobalText.TEXTS;
-    public language = "en";
+    public language = 'en';
 
     // User countries
     requesting = false;
-    countries : string[] = [];
-    selectedCountry : string;
+    countries: string[] = [];
+    selectedCountry: string;
 
     @Output() emitLogOut = new EventEmitter();
     @Input() userData: User;
 
-    public currentRoute = "/";
+    public currentRoute = '/';
     public breadcrumb: Array<any> = [{
-        'route': "/",
+        'route': '/',
         'name': this.header.home
     }];
 
@@ -45,13 +45,13 @@ export class HeaderComponent implements OnInit {
         router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
                 this.currentRoute = event.url;
-                if (this.currentRoute.indexOf("?") > -1) {
+                if (this.currentRoute.indexOf('?') > -1) {
                     this.currentRoute = this.currentRoute.substring(0, this.currentRoute.indexOf('?'));
                 }
                 this.updateBreadcrumb();
                 this.updateTooltip();
             }
-        })
+        });
     }
 
     ngOnInit() {
@@ -60,9 +60,9 @@ export class HeaderComponent implements OnInit {
         this.getCorrectCountries();
         this.updateTooltip();
 
-        if(this.breadcrumb.length === 1) {
+        if (this.breadcrumb.length === 1) {
             this.currentRoute = this.router.url;
-            if (this.currentRoute.indexOf("?") > -1) {
+            if (this.currentRoute.indexOf('?') > -1) {
                 this.currentRoute = this.currentRoute.substring(0, this.currentRoute.indexOf('?'));
             }
             this.updateBreadcrumb();
@@ -76,15 +76,15 @@ export class HeaderComponent implements OnInit {
             this.updateTooltip();
         }
 
-        if(this.language !== GlobalText.language) {
+        if (this.language !== GlobalText.language) {
             this.language = GlobalText.language;        }
     }
 
     getCorrectCountries() {
-        let countries = this.userData.getAllCountries();
+        const countries = this.userData.getAllCountries();
 
         this.countries = [];
-        if (this.userData.rights === "ROLE_ADMIN") {
+        if (this.userData.rights === 'ROLE_ADMIN') {
             countries.forEach( element => {
                 this.countries.push(element.id);
             });
@@ -96,21 +96,20 @@ export class HeaderComponent implements OnInit {
 
         this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(
             result => {
-                if(result) {
+                if (result) {
                     this.selectCountry(result);
                 } else {
                     this.selectCountry(this.countries[0]);
                 }
             }
-        )
+        );
     }
 
     selectCountry(c: string) {
-        if(c) {
-            if(!this.selectedCountry || !GlobalText.country) {
+        if (c) {
+            if (!this.selectedCountry || !GlobalText.country) {
                 this.autoLanguage(c);
-            }
-            else if(GlobalText.country && this.selectedCountry && c !== this.selectedCountry) {
+            } else if (GlobalText.country && this.selectedCountry && c !== this.selectedCountry) {
                 this.preventSnack(c);
             }
 
@@ -122,16 +121,17 @@ export class HeaderComponent implements OnInit {
 
     autoLanguage(c: string) {
         if (!this.userData.language) {
-            if(c === "SYR") {
+            if (c === 'SYR') {
                 GlobalText.changeLanguage('ar');
-            } else if(c === "KHM") {
+            } else if (c === 'KHM') {
                 GlobalText.changeLanguage('en');
             }
         }
     }
 
     preventSnack(country: string) {
-        const snack = this.snackbar.open('Page is going to reload in 3 sec to switch to ' + country + ' country. ', 'Reload now', {duration: 3000});
+        const snack = this.snackbar.open('Page is going to reload in 3 sec to switch to ' + country + ' country. ',
+        'Reload now', {duration: 3000});
 
         snack
             .onAction()
@@ -150,24 +150,24 @@ export class HeaderComponent implements OnInit {
      * Update the breadcrumb according to the current route
      */
     updateBreadcrumb() {
-        let parsedRoute = this.currentRoute.split('/');
+        const parsedRoute = this.currentRoute.split('/');
 
         this.breadcrumb = [{
-            'route': "/",
+            'route': '/',
             'name': this.header.home
         }];
 
         parsedRoute.forEach((item, index) => {
-            if (index > 0 && item !== "") {
+            if (index > 0 && item !== '') {
                 if (isNaN(+item)) {
-                    let breadcrumbItem = {
-                        'route': this.breadcrumb[index - 1].route + (index === 1 ? "" : "/") + item,
-                        'name': this.header["header_" + item]
-                    }
+                    const breadcrumbItem = {
+                        'route': this.breadcrumb[index - 1].route + (index === 1 ? '' : '/') + item,
+                        'name': this.header['header_' + item]
+                    };
                     this.breadcrumb.push(breadcrumbItem);
                 } else {
-                    let length = this.breadcrumb.length;
-                    this.breadcrumb[length - 1].route = this.breadcrumb[length - 1].route + "/" + item;
+                    const length = this.breadcrumb.length;
+                    this.breadcrumb[length - 1].route = this.breadcrumb[length - 1].route + '/' + item;
                 }
             }
         });
@@ -177,13 +177,14 @@ export class HeaderComponent implements OnInit {
      * Update the text of the tooltip
      */
     updateTooltip() {
-        let parsedRoute = this.currentRoute.split('/').filter(element => isNaN(parseInt(element)));
+        const parsedRoute = this.currentRoute.split('/').filter(element => isNaN(parseInt(element, 10)));
         const page = parsedRoute[parsedRoute.length - 1];
 
-        if (page == '')
-            this.tooltip = this.header["tooltip_dashboard"];
-        else
-            this.tooltip = this.header["tooltip_" + page.replace('-', '_')];
+        if (page === '') {
+            this.tooltip = this.header['tooltip_dashboard'];
+        } else {
+            this.tooltip = this.header['tooltip_' + page.replace('-', '_')];
+        }
     }
 
     logOut(): void {
@@ -196,7 +197,7 @@ export class HeaderComponent implements OnInit {
     openDialog(user_action): void {
         let dialogRef;
 
-        if (user_action == 'language') {
+        if (user_action === 'language') {
             dialogRef = this.dialog.open(ModalLanguageComponent, {});
         }
 

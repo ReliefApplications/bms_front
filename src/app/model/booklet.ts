@@ -5,6 +5,12 @@ import * as CryptoJS from 'crypto-js';
 
 export class Booklet {
     static __classname__ = 'Booklet';
+    static __status__ = {
+        0: 'Unassigned',
+        1: 'Distributed',
+        2: 'Used',
+        3: 'Deactivated'
+    }
 
     /**
      * Booklet id.
@@ -160,7 +166,7 @@ export class Booklet {
             number_vouchers: selfinstance.number_vouchers,
             individual_value: selfinstance.individual_value,
             currency: selfinstance.currency,
-            status: selfinstance.status,
+            status: Booklet.__status__[selfinstance.status],
         };
     }
 

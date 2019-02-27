@@ -1,5 +1,5 @@
-import { GlobalText } from "../../texts/global";
-import { Project } from "./project";
+import { GlobalText } from '../../texts/global';
+import { Project } from './project';
 
 export class Households {
     static __classname__ = 'Households';
@@ -12,17 +12,17 @@ export class Households {
      * Households' familyName
      * @type {string}
      */
-    familyName: string = '';
+    familyName = '';
     /**
      * Households' firstName
      * @type {string}
      */
-    firstName: string = '';
+    firstName = '';
     /**
      * Households' location
      * @type {string}
      */
-    location: string = '';
+    location = '';
     /**
      * Households' dependents
      * @type {Number}
@@ -55,66 +55,6 @@ export class Households {
     }
 
     /**
-    * return a Households after formatting its properties
-    */
-    getMapper(selfinstance): Object {
-        if (!selfinstance)
-            return selfinstance;
-
-        return {
-            familyName: selfinstance.familyName,
-            firstName: selfinstance.firstName,
-            location: selfinstance.location,
-            dependents: selfinstance.dependents,
-            vulnerabilities: selfinstance.vulnerabilities,
-            projects: selfinstance.projects,
-        }
-    }
-
-    /**
-    * return a Households after formatting its properties for the modal details
-    */
-    getMapperDetails(selfinstance): Object {
-        if (!selfinstance)
-            return selfinstance;
-
-        let vulnerabilityString = '';
-        if (selfinstance.vulnerabilities[0]) {
-            selfinstance.vulnerabilities.forEach(
-                (element, index) => {
-                    if (index > 0) {
-                        vulnerabilityString += ', ';
-                    }
-                    vulnerabilityString += element.substring(25).split('.')[0];
-                }
-            )
-        }
-
-        return {
-            familyName: selfinstance.familyName,
-            firstName: selfinstance.firstName,
-            location: selfinstance.location,
-            dependents: selfinstance.dependents,
-            vulnerabilities: vulnerabilityString,
-            projects: selfinstance.projects,
-        }
-    }
-
-    /**
-    * return the type of Households properties
-    */
-    getTypeProperties(selfinstance): Object {
-        return {
-            familyName: "text",
-            firstName: "text",
-            location: "text",
-            dependents: "number",
-            vulnerabilities: "png",
-            projects: "text",
-        }
-    }
-
-    /**
     * return Households properties name displayed
     */
     static translator(): Object {
@@ -125,27 +65,27 @@ export class Households {
             dependents: GlobalText.TEXTS.model_beneficiaries_dependents,
             vulnerabilities: GlobalText.TEXTS.model_vulnerabilities,
             projects: GlobalText.TEXTS.projects,
-        }
+        };
     }
 
     public static mapVulnerability(name: string): string {
         if (!name) {
-            return "";
+            return '';
         }
         switch (name) {
-            case "pregnant":
+            case 'pregnant':
                 name = 'assets/images/households/pregnant.png';
                 break;
-            case "disabled":
+            case 'disabled':
                 name = 'assets/images/households/disabled.png';
                 break;
-            case "lactating":
+            case 'lactating':
                 name = 'assets/images/households/lactating.png';
                 break;
-            case "solo parent":
+            case 'solo parent':
                 name = 'assets/images/households/solo-parent.png';
                 break;
-            case "nutritional issues":
+            case 'nutritional issues':
                 name = 'assets/images/households/nutritional-issues.png';
                 break;
             default: return name;
@@ -154,61 +94,124 @@ export class Households {
     }
 
     public static formatArray(instance: any): Households[] {
-        let households: Households[] = [];
-        if (instance)
+        const households: Households[] = [];
+        if (instance) {
             instance.forEach(element => {
                 households.push(this.formatElement(element));
             });
+        }
         return households;
     }
 
     public static formatElement(element: any): Households {
-        let household = new Households();
+        const household = new Households();
         let dependents: number;
         if (element.number_dependents == null) {
             dependents = element.beneficiaries.length;
-        }
-        else {
+        } else {
             dependents = element.number_dependents;
-        } 
+        }
 
-        let projectString = "";
+        let projectString = '';
 
         household.id = element.id;
 
         element.beneficiaries.forEach(beneficiary => {
-            if (beneficiary.status == true) {
+            if (beneficiary.status === true) {
                 household.familyName = beneficiary.family_name;
                 household.firstName = beneficiary.given_name;
             }
             beneficiary.vulnerability_criteria.forEach(vulnerability => {
-                household.vulnerabilities.push(this.mapVulnerability(vulnerability.field_string))
+                household.vulnerabilities.push(this.mapVulnerability(vulnerability.field_string));
             });
         });
 
         element.projects.forEach(project => {
-            if (projectString == "")
+            if (projectString === '') {
                 projectString = project.name;
-            else
-                projectString = projectString + ", " + project.name;
+            } else {
+                projectString = projectString + ', ' + project.name;
+            }
         });
         household.projects = projectString;
 
         if (element.location.adm1) {
-            household.location += element.location.adm1.name + " ";
+            household.location += element.location.adm1.name + ' ';
         }
         if (element.location.adm2) {
-            household.location += element.location.adm2.name + " ";
+            household.location += element.location.adm2.name + ' ';
         }
         if (element.location.adm3) {
-            household.location += element.location.adm3.name + " ";
+            household.location += element.location.adm3.name + ' ';
         }
         if (element.location.adm4) {
-            household.location += element.location.adm4.name + " ";
+            household.location += element.location.adm4.name + ' ';
         }
         household.dependents = dependents;
 
 
         return household;
+    }
+
+    /**
+    * return a Households after formatting its properties
+    */
+    getMapper(selfinstance): Object {
+        if (!selfinstance) {
+            return selfinstance;
+        }
+
+        return {
+            familyName: selfinstance.familyName,
+            firstName: selfinstance.firstName,
+            location: selfinstance.location,
+            dependents: selfinstance.dependents,
+            vulnerabilities: selfinstance.vulnerabilities,
+            projects: selfinstance.projects,
+        };
+    }
+
+    /**
+    * return a Households after formatting its properties for the modal details
+    */
+    getMapperDetails(selfinstance): Object {
+        if (!selfinstance) {
+            return selfinstance;
+        }
+
+        let vulnerabilityString = '';
+        if (selfinstance.vulnerabilities[0]) {
+            selfinstance.vulnerabilities.forEach(
+                (element, index) => {
+                    if (index > 0) {
+                        vulnerabilityString += ', ';
+                    }
+                    vulnerabilityString += element.substring(25).split('.')[0];
+                }
+            );
+        }
+
+        return {
+            familyName: selfinstance.familyName,
+            firstName: selfinstance.firstName,
+            location: selfinstance.location,
+            dependents: selfinstance.dependents,
+            vulnerabilities: vulnerabilityString,
+            projects: selfinstance.projects,
+        };
+    }
+
+    /**
+    * return the type of Households properties
+    */
+    getTypeProperties(selfinstance): Object {
+        return {
+            familyName: 'text',
+            firstName: 'text',
+            location: 'text',
+            dependents: 'number',
+            vulnerabilities: 'png',
+            projects: 'text',
+        };
     }
 }

@@ -16,19 +16,17 @@ export class TableDistributionComponent extends TableComponent {
 
     goToDistribution(id) {
         if (!this.networkService.getStatus()) {
-            this._cacheService.get(AsyncacheService.DISTRIBUTIONS + "_" + id + "_beneficiaries")
+            this._cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + id + '_beneficiaries')
                 .subscribe(
                     result => {
                         if (!result) {
                             this.snackBar.open(this.table.cache_no_distribution, '', { duration: 5000, horizontalPosition: 'center' });
-                        }
-                        else {
+                        } else {
                             this.router.navigate(['/projects/distributions/' + id]);
                         }
                     }
                 );
-        }
-        else {
+        } else {
             this.router.navigate(['/projects/distributions/' + id]);
         }
     }

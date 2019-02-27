@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../../core/authentication/authentication.service';
@@ -16,15 +16,15 @@ import { environment } from 'src/environments/environment';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, DoCheck {
 
     public nameComponent = GlobalText.TEXTS.login_title;
     public login = GlobalText.TEXTS;
     private authUser$: Subscription;
 
     public user: User;
-    public forgotMessage: boolean = false;
-    public loader: boolean = false;
+    public forgotMessage = false;
+    public loader = false;
     public loginCaptcha = false;
 
     constructor(
@@ -43,11 +43,11 @@ export class LoginComponent implements OnInit {
     initCountry(country: string) {
         this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(
             result => {
-                if(!result) {
+                if (!result) {
                     this.asyncacheService.set(AsyncacheService.COUNTRY, country);
                 }
             }
-        )
+        );
     }
 
     /**
@@ -59,11 +59,11 @@ export class LoginComponent implements OnInit {
         this.user.password = '';
     }
 
-	/**
+    /**
    	* check if the langage has changed
    	*/
     ngDoCheck() {
-        if (this.login != GlobalText.TEXTS) {
+        if (this.login !== GlobalText.TEXTS) {
             this.login = GlobalText.TEXTS;
         }
     }
@@ -76,8 +76,8 @@ export class LoginComponent implements OnInit {
         const subscription = from(this._authService.login(this.user));
         subscription.subscribe(
             (user: User) => {
-                if (user.country && user.country.length === 0 && user.rights === "ROLE_ADMIN") {
-                  this.initCountry('KHM');
+                if (user.country && user.country.length === 0 && user.rights === 'ROLE_ADMIN') {
+                    this.initCountry('KHM');
                 } else {
                     this.initCountry(user.country[0]);
                 }
@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit {
     }
 
     onScriptError() {
-        this.snackBar.open('Captcha failed', '', { duration: 5000, horizontalPosition: "center" });
+        this.snackBar.open('Captcha failed', '', { duration: 5000, horizontalPosition: 'center' });
     }
 
     prod() {

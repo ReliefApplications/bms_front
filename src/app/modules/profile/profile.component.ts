@@ -48,7 +48,7 @@ export class ProfileComponent implements OnInit, DoCheck {
         this.authenticationService.getUser().subscribe(
             result => {
                 this.actualUser = result;
-                if(this.actualUser) {
+                if (this.actualUser) {
                     this.profileForm.patchValue({
                         email: this.actualUser.username
                     });
@@ -61,27 +61,26 @@ export class ProfileComponent implements OnInit, DoCheck {
 
     onProfileFormSubmit() {
         const checkPass = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/);
-        if (this.profileForm.value.newPassword1 == this.profileForm.value.newPassword2) {
-            if(checkPass.test(this.profileForm.value.newPassword1)) {
+        if (this.profileForm.value.newPassword1 === this.profileForm.value.newPassword2) {
+            if (checkPass.test(this.profileForm.value.newPassword1)) {
                 this.userService.updatePassword(this.actualUser, this.profileForm.value.oldPassword, this.profileForm.value.newPassword1)
-                .then(
-                    (user) => {
-                    // SNACKBAR
-                    this.snackBar.open(this.profilePage.snackbar_change_password_done, '', { duration: 5000, horizontalPosition: 'center' });
-                })
-                .catch((error: ErrorInterface) => {
-                    // SNACKBAR
-                    this.snackBar.open(this.profilePage.snackbar_change_password_fail, '', { duration: 5000, horizontalPosition: 'center' });
-                });
+                    .then(
+                        (user) => {
+                            this.snackBar.open(this.profilePage.snackbar_change_password_done,
+                            '', { duration: 5000, horizontalPosition: 'center' });
+                        })
+                    .catch((error: ErrorInterface) => {
+                        this.snackBar.open(this.profilePage.snackbar_change_password_fail,
+                        '', { duration: 5000, horizontalPosition: 'center' });
+                    });
             } else {
                 this.snackBar.open(this.profilePage.modal_not_enough_strong, '', { duration: 5000, horizontalPosition: 'center' });
             }
-        }
-        else {
-            this.snackBar.open(this.profilePage.snackbar_change_password_not_possible, '', { duration: 5000, horizontalPosition: 'center' });
+        } else {
+            this.snackBar.open(this.profilePage.snackbar_change_password_not_possible,
+            '', { duration: 5000, horizontalPosition: 'center' });
         }
 
         this.setActualUser();
     }
-
 }

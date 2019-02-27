@@ -12,12 +12,13 @@
         width: 100%;
         padding: 0 20px;
         font-family: $bms_font_header;
-        font-size: 24px;
+        font-size: 24px !important;
         display: flex;
         align-items: center;
         h1, h2, h3 {
             margin: 20px;
             margin-left: 0px;
+            font-size: 24px;
         }
     }
 
@@ -74,7 +75,7 @@
         width: 100%;
         padding: 20px;
 
-        .box-green {
+        .box-primary {
               border-top: solid 12px $bms_dark_blue;
         }
         .box-red {
@@ -129,7 +130,7 @@
         .text {
            display: inline;
         }
-        mat-spinner{
+        mat-spinner {
             height:40px;
         }
     }
@@ -321,7 +322,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 
 
 // TODO check addBeneficiary (done) and distributions (next)
-.box-green, .box-red {
+.box-primary, .box-red {
     .content-button{
         .next{
             font-weight: 900;
@@ -420,6 +421,10 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         justify-content: center;
         align-items: center;
 
+        app-scanner {
+            width: 100%;
+        }
+        
         mat-form-field {
             width: 100%;
         }
@@ -442,12 +447,21 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         }
     }
 
+    .modal-subtitle {
+        width: 100%;
+    }
+    
     .modal-button {
         display: flex;
         flex-wrap: wrap;
         width: 100% !important;
         padding-top: 20px;
         justify-content: flex-end;
+        direction: ltr;
+
+        &.arabic {
+          direction: rtl;
+        }
     }
 }
 
@@ -461,7 +475,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      
+
       .mat-icon {
             margin: 0px;
             justify-self: flex-start;
@@ -471,7 +485,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
           justify-self: flex-end;
       }
     }
-  
+
   }
 
 //for mobile screen

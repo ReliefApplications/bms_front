@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { URL_BMS_API } from '../../../environments/environment';
 
-//Services
+// Services
 import { Observable, concat, of, merge, timer } from 'rxjs';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { map } from 'rxjs/operators';
@@ -17,8 +17,8 @@ import { keyframes } from '@angular/animations';
 })
 export class HttpService {
 
-    save: boolean = true;
-    exist: boolean = false;
+    save = true;
+    exist = false;
 
     constructor(
         private http: HttpClient,
@@ -35,39 +35,38 @@ export class HttpService {
             url = url.split(URL_BMS_API)[1];
 
             switch (url) {
-                case '/login': return (AsyncacheService.USER)
-                case '/projects': return (AsyncacheService.PROJECTS)
-                case '/distributions': return (AsyncacheService.DISTRIBUTIONS)
-                case '/location/upcoming_distribution': return (AsyncacheService.UPCOMING)
-                case '/country_specifics': return (AsyncacheService.SPECIFICS)
-                case '/web-users': return (AsyncacheService.USERS)
-                case '/sectors': return (AsyncacheService.SECTORS)
-                case '/donors': return (AsyncacheService.DONORS)
-                case '/location/adm1': return (AsyncacheService.ADM1)
-                case '/location/adm2': return (AsyncacheService.ADM2)
-                case '/location/adm3': return (AsyncacheService.ADM3)
-                case '/location/adm4': return (AsyncacheService.ADM4)
-                case '/distributions/criteria': return (AsyncacheService.CRITERIAS)
-                case '/modalities': return (AsyncacheService.MODALITIES)
-                case '/vulnerability_criteria': return (AsyncacheService.VULNERABILITIES)
-                case '/summary': return (AsyncacheService.SUMMARY)
-                case '/households': return (AsyncacheService.HOUSEHOLDS)
+                case '/login': return (AsyncacheService.USER);
+                case '/projects': return (AsyncacheService.PROJECTS);
+                case '/distributions': return (AsyncacheService.DISTRIBUTIONS);
+                case '/location/upcoming_distribution': return (AsyncacheService.UPCOMING);
+                case '/country_specifics': return (AsyncacheService.SPECIFICS);
+                case '/web-users': return (AsyncacheService.USERS);
+                case '/sectors': return (AsyncacheService.SECTORS);
+                case '/donors': return (AsyncacheService.DONORS);
+                case '/location/adm1': return (AsyncacheService.ADM1);
+                case '/location/adm2': return (AsyncacheService.ADM2);
+                case '/location/adm3': return (AsyncacheService.ADM3);
+                case '/location/adm4': return (AsyncacheService.ADM4);
+                case '/distributions/criteria': return (AsyncacheService.CRITERIAS);
+                case '/modalities': return (AsyncacheService.MODALITIES);
+                case '/vulnerability_criteria': return (AsyncacheService.VULNERABILITIES);
+                case '/summary': return (AsyncacheService.SUMMARY);
+                case '/households': return (AsyncacheService.HOUSEHOLDS);
+
                 default:
-                    if (url.substring(0, 24) === '/distributions/projects/')
+                    if (url.substring(0, 24) === '/distributions/projects/') {
                         return (AsyncacheService.DISTRIBUTIONS + '_' + url.split('/distributions/projects/')[1]);
-                    else {
+                    } else {
                         const regex = new RegExp(/\/distributions\/\d+\/beneficiaries/);
                         const regex2 = new RegExp(/\/transaction\/distribution\/\d+\/pickup/);
 
                         if (url.match(regex) && !this.networkService.getStatus()) {
                             this.save = false;
                             return (AsyncacheService.DISTRIBUTIONS + '_' + url.split('/')[2] + '_beneficiaries');
-                        }
-                        else if (url.match(regex2) && !this.networkService.getStatus()) {
+                        } else if (url.match(regex2) && !this.networkService.getStatus()) {
                             this.save = false;
                             this.exist = true;
-                        }
-                        else {
+                        } else {
                             return (null);
                         }
                     }
@@ -95,24 +94,22 @@ export class HttpService {
     get(url, options = {}): Observable<any> {
 
         let itemKey = this.resolveItemKey(url);
-        let connected = this.networkService.getStatus();
+        const connected = this.networkService.getStatus();
         let cacheData: any;
 
-        let urlSplitted = url.split('/')[5] + '/' + url.split('/')[6];
+        const urlSplitted = url.split('/')[5] + '/' + url.split('/')[6];
         const regex = new RegExp(/distributions\/\d+/);
 
         if (urlSplitted.match(regex)) {
             this.exist = true;
-            this.cacheService.get(AsyncacheService.DISTRIBUTIONS + "_" + urlSplitted.split('/')[1] + "_beneficiaries").subscribe(
+            this.cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + urlSplitted.split('/')[1] + '_beneficiaries').subscribe(
                 result => {
                     if (result) {
-                        itemKey = AsyncacheService.DISTRIBUTIONS + "_" + urlSplitted.split('/')[1] + "_beneficiaries";
+                        itemKey = AsyncacheService.DISTRIBUTIONS + '_' + urlSplitted.split('/')[1] + '_beneficiaries';
                     }
                 }
             );
         }
-        // Test logs
-        //console.log('--', itemKey, '--');
         // If this item is cachable & user is connected
         if (itemKey && connected) {
             return concat(
@@ -129,8 +126,9 @@ export class HttpService {
                         result => {
                             if (result !== undefined) {
                                 if (Array.isArray(result) && Array.isArray(cacheData)) {
-                                    if (JSON.stringify(result) !== JSON.stringify(cacheData) && this.save)
+                                    if (JSON.stringify(result) !== JSON.stringify(cacheData) && this.save) {
                                         this.cacheService.set(itemKey, result);
+                                    }
                                 } else if (result !== cacheData && this.save) {
                                     this.cacheService.set(itemKey, result);
                                 }
@@ -140,101 +138,88 @@ export class HttpService {
                     )
                 )
             );
-        }
-        // If user is connected but cache doesn't manage this item
-        else if (connected) {
+        } else if (connected) {
             return this.http.get(url, options);
-        }
-        // If user offline but this item can be accessed from the cache
-        else if (itemKey) {
+        } else if (itemKey) {
             return this.cacheService.get(itemKey);
-        }
-        // If disconnected and item uncachable
-        else if (this.exist) {
+        } else if (this.exist) {
             this.exist = false;
             return of([]);
-        }
-        else {
+        } else {
             this.snackbar.open('This data can\'t be accessed offline', '', { duration: 3000, horizontalPosition: 'center' });
             return of([]);
         }
     }
 
     put(url, body, options = {}): Observable<any> {
-        let connected = this.networkService.getStatus();
+        const connected = this.networkService.getStatus();
 
         if (!connected) {
             if (!this.filteredPendingRequests(url)) {
-                let date = new Date();
-                let method = "PUT";
-                let request: StoredRequestInterface = { method, url, body, options, date };
+                const date = new Date();
+                const method = 'PUT';
+                const request: StoredRequestInterface = { method, url, body, options, date };
                 this.cacheService.storeRequest(request);
-                this.snackbar.open('No network - This data creation will be sent to DB on next connection', '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackbar.open('No network - This data creation will be sent to DB on next connection', '',
+                { duration: 3000, horizontalPosition: 'center' });
 
                 this.forceDataInCache(method, url, body);
-            }
-            // Otherwise
-            else {
+            } else {
                 this.snackbar.open('No network connection to join DB', '', { duration: 3000, horizontalPosition: 'center' });
             }
 
             return (of(null));
-        }
-        else {
+        } else {
             return this.http.put(url, body, options);
         }
     }
 
     post(url, body, options = {}): Observable<any> {
-        let connected = this.networkService.getStatus();
-        let urlSplitted = url.split('/')[5] + '/' + url.split('/')[6] + "/" + url.split('/')[7] + "/" + url.split('/')[8];
+        const connected = this.networkService.getStatus();
+        const urlSplitted = url.split('/')[5] + '/' + url.split('/')[6] + '/' + url.split('/')[7] + '/' + url.split('/')[8];
         const regex = new RegExp(/distributions\/beneficiaries\/project\/\d+/);
 
         if (!connected) {
             if (!this.filteredPendingRequests(url)) {
-                let date = new Date();
-                let method = "POST";
+                const date = new Date();
+                const method = 'POST';
                 if (!urlSplitted.match(regex)) {
-                    let request: StoredRequestInterface = { method, url, body, options, date };
+                    const request: StoredRequestInterface = { method, url, body, options, date };
                     this.cacheService.storeRequest(request);
-                    this.snackbar.open('No network - This data update will be sent to DB on next connection', '', { duration: 3000, horizontalPosition: 'center' });
+                    this.snackbar.open('No network - This data update will be sent to DB on next connection', '',
+                    { duration: 3000, horizontalPosition: 'center' });
                 }
 
                 this.forceDataInCache(method, url, body);
-            }
-            // Otherwise
-            else {
+            } else {
                 this.snackbar.open('No network connection to join DB', '', { duration: 3000, horizontalPosition: 'center' });
             }
 
             return (of(null));
-        }
-        else {
+        } else {
             return this.http.post(url, body, options);
         }
     }
 
     delete(url, options = {}): Observable<any> {
-        let connected = this.networkService.getStatus();
+        const connected = this.networkService.getStatus();
 
         if (!connected) {
             if (!this.filteredPendingRequests(url)) {
-                let date = new Date();
-                let method = "DELETE";
-                let request: StoredRequestInterface = { method, url, options, date };
+                const date = new Date();
+                const method = 'DELETE';
+                const request: StoredRequestInterface = { method, url, options, date };
                 this.cacheService.storeRequest(request);
-                this.snackbar.open('No network - This data deletion will be sent to DB on next connection', '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackbar.open('No network - This data deletion will be sent to DB on next connection', '',
+                { duration: 3000, horizontalPosition: 'center' });
 
                 this.forceDataInCache(method, url, {});
-            }
-            // Otherwise
-            else {
+            } else {
                 this.snackbar.open('No network connection to join DB', '', { duration: 3000, horizontalPosition: 'center' });
             }
 
             return (of(null));
-        }
-        else {
+        } else {
             return this.http.delete(url, options);
         }
     }
@@ -253,7 +238,6 @@ export class HttpService {
             case 'POST':
                 object = body;
                 itemKey = this.resolveItemKey(url.substring(0, url.lastIndexOf('/')));
-                //console.log(url);
                 id = Number(url.substring(url.lastIndexOf('/') + 1));
                 break;
             case 'DELETE':
@@ -270,34 +254,31 @@ export class HttpService {
 
             this.cacheService.get(itemKey).subscribe(
                 result => {
-                    if (method === "PUT" && object) {
+                    if (method === 'PUT' && object) {
                         if (result) {
                             dataArray = result;
                         }
                         object['id'] = -1;
                         if (dataArray) {
                             dataArray.forEach(
-                                element => {
-                                    if (element['id'] && element['id'] <= object['id']) {
-                                        object['id'] = element['id'] - 1;
+                                data => {
+                                    if (data['id'] && data['id'] <= object['id']) {
+                                        object['id'] = data['id'] - 1;
                                     }
                                 }
                             );
                         }
                         dataArray.push(object);
-                    } else if (method === "POST" && object) {
+                    } else if (method === 'POST' && object) {
                         dataArray = result;
-                        //console.log('searching id: ', id);
                         dataArray.forEach(
                             (item, index) => {
-                                //console.log('found: ', item);
                                 if (item && item['id'] && item['id'] === id) {
-                                    //console.log('got');
                                     dataArray[index] = body;
                                 }
                             }
-                        )
-                    } else if (method === "DELETE") {
+                        );
+                    } else if (method === 'DELETE') {
                         dataArray = result;
                         dataArray.forEach(
                             (item, index) => {
@@ -305,23 +286,23 @@ export class HttpService {
                                     dataArray.splice(index, 1);
                                 }
                             }
-                        )
+                        );
                     } else {
                         dataArray = [];
                     }
 
-                    //console.log('updating ', itemKey, 'to : ', dataArray);
-                    if (this.save)
+                    if (this.save) {
                         this.cacheService.set(itemKey, dataArray);
+                    }
                 }
             );
 
         } else {
             const urlSplitted = url.split('/');
-            let postBeneficiariesDistribution = urlSplitted[5] + '/' + urlSplitted[6] + "/" + urlSplitted[7] + "/" + urlSplitted[8];
+            const postBeneficiariesDistribution = urlSplitted[5] + '/' + urlSplitted[6] + '/' + urlSplitted[7] + '/' + urlSplitted[8];
             const regex = new RegExp(/distributions\/beneficiaries\/project\/\d+/);
 
-            let putBeneficiariesDistribution = urlSplitted[5] + '/' + urlSplitted[6] + "/" + urlSplitted[7];
+            const putBeneficiariesDistribution = urlSplitted[5] + '/' + urlSplitted[6] + '/' + urlSplitted[7];
             const regex2 = new RegExp(/distributions\/\d+\/beneficiary/);
 
             if (!postBeneficiariesDistribution.match(regex) && !putBeneficiariesDistribution.match(regex2)) {

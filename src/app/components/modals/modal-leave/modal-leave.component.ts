@@ -4,9 +4,9 @@ import { EventEmitter } from 'protractor';
 import { MatDialogRef } from '@angular/material';
 
 @Component({
-  selector: 'app-modal-leave',
-  templateUrl: './modal-leave.component.html',
-  styleUrls: ['../modal.component.scss', './modal-leave.component.scss']
+    selector: 'app-modal-leave',
+    templateUrl: './modal-leave.component.html',
+    styleUrls: ['../modal.component.scss', './modal-leave.component.scss']
 })
 export class ModalLeaveComponent implements OnInit {
 

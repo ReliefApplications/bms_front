@@ -1,29 +1,21 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { CachedItemInterface } from './cached-item.interface';
 import { map, concat, catchError, switchMap } from 'rxjs/operators';
 import { Observable, of, forkJoin } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { HttpClient } from '@angular/common/http';
-import { StoredRequestInterface, failedRequestInterface } from 'src/app/model/stored-request';
+import { StoredRequestInterface, FailedRequestInterface } from 'src/app/model/stored-request';
 
 @Injectable({
     providedIn: 'root'
 })
-export class AsyncacheService {
-
-    private storage: any;
-
-    // Constants
-    readonly PREFIX = 'bms';
-    readonly SECTIMEOUT = 2592000; // 30 day in seconds
-    readonly MSTIMEOUT = this.SECTIMEOUT * 1000;
-
+export class AsyncacheService implements OnInit {
     //  Country
     static actual_country;
 
     // Request storing
-    static pendingRequests: boolean = false;
+    static pendingRequests = false;
 
     // Keys
     static readonly USER = 'user';
@@ -48,6 +40,13 @@ export class AsyncacheService {
     static readonly COUNTRY = 'country';
     static readonly PENDING_REQUESTS = 'pending_requests';
 
+    private storage: any;
+
+    // Constants
+    readonly PREFIX = 'bms';
+    readonly SECTIMEOUT = 2592000; // 30 day in seconds
+    readonly MSTIMEOUT = this.SECTIMEOUT * 1000;
+
     constructor(
         protected localStorage: LocalStorage,
         protected http: HttpClient,
@@ -60,7 +59,7 @@ export class AsyncacheService {
             result => {
                 AsyncacheService.actual_country = result;
             }
-        )
+        );
     }
 
     formatKey(key: string): string {
@@ -74,7 +73,7 @@ export class AsyncacheService {
 
     /**
      * Get an item from the cache asynchronously.
-     * @param key 
+     * @param key
      */
     get(key: string) {
         key = this.formatKey(key);
@@ -89,8 +88,7 @@ export class AsyncacheService {
                     }
                 )
             );
-        }
-        else {
+        } else {
             return (
                 this.storage.getItem(key).pipe(
                     map(
@@ -101,7 +99,6 @@ export class AsyncacheService {
                                 }
                                 return null;
                             } else if (result) {
-                                //console.log('GET (', key, '): ', result.value);
                                 return result.value;
                             } else {
                                 return null;
@@ -117,7 +114,7 @@ export class AsyncacheService {
      * Gets the list of distributions for each project in the cache and adds it in an observable array asynchronously.
      */
     getAllDistributions() {
-        let allDistributions = new Array();
+        const allDistributions = new Array();
 
         return new Observable(
             (observer) => {
@@ -133,16 +130,16 @@ export class AsyncacheService {
                                                     distrib => {
                                                         allDistributions.push(distrib);
                                                     }
-                                                )
+                                                );
                                             }
                                             if (index === result.length - 1) {
                                                 observer.next(allDistributions);
                                                 observer.complete();
                                             }
                                         }
-                                    )
+                                    );
                                 }
-                            )
+                            );
                         } else {
                             observer.next(null);
                             observer.complete();
@@ -152,19 +149,19 @@ export class AsyncacheService {
                         observer.next(null);
                         observer.complete();
                     }
-                )
+                );
             }
         );
     }
 
-    /** 
+    /**
      * Waits for asynchronous user value to return it synchronously.
     */
     getUser(): Observable<any> {
         return this.get(AsyncacheService.USER).pipe(
             map(
                 result => {
-                    let cachedUser = result;
+                    const cachedUser = result;
                     if (!cachedUser) {
                         return new User();
                     } else {
@@ -177,9 +174,9 @@ export class AsyncacheService {
 
     /**
      * Set an item in the cache semi-asynchronously.
-     * @param key 
-     * @param value 
-     * @param options 
+     * @param key
+     * @param value
+     * @param options
      */
     set(key: string, value: any, options: any = {}) {
         key = this.formatKey(key);
@@ -189,19 +186,17 @@ export class AsyncacheService {
             options.canBeDeleted = true;
         }
 
-        options.timeout == options.timeout || this.MSTIMEOUT;
-
-        let object: CachedItemInterface = {
-            storageTime: (new Date()).getTime(), //in milliseconds
-            value: value,
-            limit: this.MSTIMEOUT, // in milliseconds
-            canBeDeleted: options.canBeDeleted
+        if (options.timeout == null) {
+            options.timeout = this.MSTIMEOUT;
         }
-        this.localStorage.setItem(key, object).subscribe(
-            result => {
-                //console.log('SET (', key, '): ', object);
-            }
-        );
+
+        const object: CachedItemInterface = {
+            storageTime: (new Date()).getTime(), // in milliseconds
+            value: value,
+            limit: options.timeout, // in milliseconds
+            canBeDeleted: options.canBeDeleted
+        };
+        this.localStorage.setItem(key, object).subscribe();
 
         if (key === this.formatKey(AsyncacheService.COUNTRY)) {
             AsyncacheService.actual_country = value;
@@ -210,7 +205,7 @@ export class AsyncacheService {
 
     /**
      * Removes an item with its key.
-     * @param key 
+     * @param key
      */
     remove(key: string) {
         key = this.formatKey(key);
@@ -219,8 +214,8 @@ export class AsyncacheService {
 
     /**
      * When requesting offline, this method will permit to store a special request object to save wanted PUTs/POSTs/DELETEs.
-     * @param type 
-     * @param request 
+     * @param type
+     * @param request
      */
     storeRequest(request: StoredRequestInterface) {
         let storedRequests: Array<StoredRequestInterface> = [];
@@ -256,11 +251,11 @@ export class AsyncacheService {
                                     .pipe(
                                         catchError(
                                             error => {
-                                                const failedRequest: failedRequestInterface = {
+                                                const failedRequest: FailedRequestInterface = {
                                                     fail: true,
                                                     request: request,
                                                     error: error,
-                                                }
+                                                };
                                                 return of(failedRequest);
                                             }
                                         )
@@ -288,11 +283,11 @@ export class AsyncacheService {
     useMethod(request: StoredRequestInterface) {
         let httpMethod;
 
-        if (request.method === "PUT") {
+        if (request.method === 'PUT') {
             httpMethod = this.http.put(request.url, request.body, request.options);
-        } else if (request.method === "POST") {
+        } else if (request.method === 'POST') {
             httpMethod = this.http.post(request.url, request.body, request.options);
-        } else if (request.method === "DELETE") {
+        } else if (request.method === 'DELETE') {
             httpMethod = this.http.delete(request.url, request.options);
         } else {
             httpMethod = null;
@@ -307,7 +302,7 @@ export class AsyncacheService {
      * @param excludedFields - fields to keep after the clear
      */
     clear(force: boolean = true, excludedFields?: string[]) {
-        // If force is true, clear all the storage 
+        // If force is true, clear all the storage
         if (force) {
             return this.storage.clear();
         } else {
@@ -337,15 +332,15 @@ export class AsyncacheService {
                     switchMap(_ => {
                         return this.storage.clear()
                         .pipe(
-                            map(_ => {
+                            map(v => {
                                 const keys = Object.keys(keptFields);
                                 for (const key of keys) {
                                     this.storage.setItem(key, keptFields[key]).subscribe();
                                 }
                             })
-                        )
+                        );
                     })
-                )
+                );
         }
     }
 
@@ -394,8 +389,8 @@ export class AsyncacheService {
 
                             projectBenef = beneficiaries;
 
-                            this.set(AsyncacheService.DISTRIBUTIONS + "_" + distribution.id + "_beneficiaries", distribution);
-                            this.set(AsyncacheService.PROJECTS + "_" + project.id + "_beneficiaries", projectBenef);
+                            this.set(AsyncacheService.DISTRIBUTIONS + '_' + distribution.id + '_beneficiaries', distribution);
+                            this.set(AsyncacheService.PROJECTS + '_' + project.id + '_beneficiaries', projectBenef);
 
                             observer.next(true);
                             observer.complete();
@@ -404,7 +399,7 @@ export class AsyncacheService {
                         //     observer.error(true);
                         //     observer.complete();
                         // }
-                        //Pas de distribution dans le cache, revenir sur la page project et réessayer
+                        // Pas de distribution dans le cache, revenir sur la page project et réessayer
             //         });
             //     }
 

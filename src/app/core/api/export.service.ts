@@ -5,7 +5,7 @@ import { saveAs      } from 'file-saver/FileSaver';
 import { MatSnackBar } from '@angular/material';
 
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
 export class ExportService {
     readonly api = URL_BMS_API;
@@ -24,17 +24,38 @@ export class ExportService {
      * @return               file to export
      */
     public export(key: string, value: any, extensionType: string, body = null) {
-        let params = {};
+        const params = {};
         params['type'] = extensionType;
         params[key] = value;
         const options = {
-            responseType: "blob",
+            responseType: 'blob',
             params: params
         };
         const url = this.api + '/export';
         return this.http.post(url, body, options).toPromise()
         .then(response => {
             saveAs(response, key + '.' + extensionType);
+        });
+    }
+
+    public printVoucher(id: number) {
+        return this.http.get(this.api + '/booklets/print/' + id, {responseType: 'blob'}).toPromise()
+        .then(response => {
+            var blob = new Blob([response], {type: ('blob')});
+            var filename = 'Booklet-' + id + '.pdf';
+            saveAs(blob, filename);
+        });
+    }
+
+    public printMany(bookletIds: number[]) {
+        let body = {
+            bookletIds: bookletIds
+        };
+        return this.http.post(this.api + '/booklets-print', body, {responseType: 'blob'}).toPromise()
+        .then(response => {
+            var blob = new Blob([response], {type: ('blob')});
+            var filename = 'Booklets.pdf';
+            saveAs(blob, filename);
         });
     }
 }

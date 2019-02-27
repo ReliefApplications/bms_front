@@ -11,24 +11,24 @@ import { Location                                   } from '../../model/location
 import { Sector                                     } from '../../model/sector';
 
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
-export class CriteriaService{
+export class CriteriaService {
     readonly api = URL_BMS_API;
 
     constructor(
-        private http : HttpService
-    ){
+        private http: HttpService
+    ) {
     }
 
     public get() {
-        let url = this.api + "/distributions/criteria";
+        const url = this.api + '/distributions/criteria';
         return this.http.get(url);
     }
 
-    public getBeneficiariesNumber(distributionType: string, criteriaArray:any, threshold: number, project: string){
-        let body = { "distribution_type" : distributionType, "criteria" : criteriaArray, "threshold": threshold }
-        let url = this.api + "/distributions/criteria/project/"+project+"/number";
+    public getBeneficiariesNumber(distributionType: string, criteriaArray: any, threshold: number, project: string) {
+        const body = { 'distribution_type' : distributionType, 'criteria' : criteriaArray, 'threshold': threshold };
+        const url = this.api + '/distributions/criteria/project/' + project + '/number';
         return this.http.post(url, body);
     }
 
@@ -36,7 +36,7 @@ export class CriteriaService{
      * get the lit of vulnerability criteria
      */
     public getVulnerabilityCriteria() {
-        let url = this.api + "/vulnerability_criteria";
+        const url = this.api + '/vulnerability_criteria';
         return this.http.get(url);
     }
 }

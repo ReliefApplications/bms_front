@@ -52,12 +52,12 @@ export class BeneficiariesService {
     return this.http.post(url, file);
   }
 
-  public listApi(){
+  public listApi() {
     const url = this.api + '/import/api/households/list';
     return this.http.get(url);
   }
 
-  public importApi(apiObject: any, project: string){
+  public importApi(apiObject: any, project: string) {
     const url = this.api + '/import/api/households/project/' + project;
     return this.http.post(url, apiObject);
   }

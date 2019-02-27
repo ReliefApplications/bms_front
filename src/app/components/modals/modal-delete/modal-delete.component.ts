@@ -1,22 +1,22 @@
-import { Component, OnInit, Input, EventEmitter, Output                          } from '@angular/core';
-import { ModalComponent                                    } from '../modal.component';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { ModalComponent } from '../modal.component';
 
 @Component({
-  selector: 'modal-delete',
-  templateUrl: './modal-delete.component.html',
-  styleUrls: ['../modal.component.scss', './modal-delete.component.scss']
+    selector: 'app-modal-delete',
+    templateUrl: './modal-delete.component.html',
+    styleUrls: ['../modal.component.scss', './modal-delete.component.scss']
 })
-export class ModalDeleteComponent extends ModalComponent {
+export class ModalDeleteComponent extends ModalComponent implements OnInit {
 
-  @Input() data: any;
-  @Output() onDelete = new EventEmitter();
+    @Input() data: any;
+    @Output() onDelete = new EventEmitter();
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  //emit the object to delete
-  delete():any {
-    this.onDelete.emit(this.data.data);
-    this.closeDialog();
-  }
+    // emit the object to delete
+    delete(): any {
+        this.onDelete.emit(this.data.data);
+        this.closeDialog();
+    }
 }

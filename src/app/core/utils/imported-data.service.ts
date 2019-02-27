@@ -17,7 +17,7 @@ export class ImportedDataService {
      this.project = project;
    }
 
-   getEmittedValue():string {
+   getEmittedValue(): string {
      if (this.emittedProject) {
        return this.project;
      }

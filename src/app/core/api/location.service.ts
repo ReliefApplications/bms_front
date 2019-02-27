@@ -21,39 +21,39 @@ export class LocationService {
      * Get all adm1
      */
     public getAdm1() {
-        let url = this.api + "/location/adm1";
+        const url = this.api + '/location/adm1';
         return this.http.get(url);
     }
 
     /**
      * Get all adm2 associate to the selected adm1
-     * @param body 
+     * @param body
      */
     public getAdm2(body?: any) {
-        let url = this.api + "/location/adm2";
+        const url = this.api + '/location/adm2';
         return this.http.post(url, body);
     }
 
     /**
      * Get all adm3 associate to the selected adm2
-     * @param body 
+     * @param body
      */
     public getAdm3(body?: any) {
-        let url = this.api + "/location/adm3";
+        const url = this.api + '/location/adm3';
         return this.http.post(url, body);
     }
 
     /**
      * Get all adm4 associate to the selected adm3
-     * @param body 
+     * @param body
      */
     public getAdm4(body?: any) {
-        let url = this.api + "/location/adm4";
+        const url = this.api + '/location/adm4';
         return this.http.post(url, body);
     }
 
     public getUpcomingDistributionCode() {
-        let url = this.api + "/location/upcoming_distribution";
+        const url = this.api + '/location/upcoming_distribution';
         return this.http.get(url);
     }
 }

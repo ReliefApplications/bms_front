@@ -6,8 +6,8 @@
     <app-placeholder-boxline *ngIf="indicatorsLoading" class="container-boxes"></app-placeholder-boxline>
     <div *ngIf="!indicatorsLoading">
         <!-- button to change view (viewcountry, project or distribution) -->
-        <button-filter-items [id]="'bms'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter2"
-            [referenceKey]="'bms_search'"></button-filter-items>
+        <app-button-filter-items [id]="'bms'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter2"
+            [referenceKey]="'bms_search'"></app-button-filter-items>
     </div>
 
     <app-placeholder-panel class="container-table" *ngIf="indicatorsLoading"></app-placeholder-panel>
@@ -17,8 +17,8 @@
 
                 <!-- button to filter data by frequency -->
                 <div class="frequency">
-                    <button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1"
-                        [referenceKey]="'frequency'"></button-filter-date>
+                    <app-button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)" [data]="dataFilter1"
+                        [referenceKey]="'frequency'"></app-button-filter-date>
                 </div>
 
                 <div class="frequency action-buttons">
@@ -89,8 +89,8 @@
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <div class="panel-body">
-                        <button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)"
-                            [data]="dataFilter1" [referenceKey]="'frequency'"></button-filter-date>
+                        <app-button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)"
+                            [data]="dataFilter1" [referenceKey]="'frequency'"></app-button-filter-date>
                         <div class="panel-selectPeriod">
                             <div class="content-select-period-mobile" *ngIf="period == true">
                                 <div class="datepicker">

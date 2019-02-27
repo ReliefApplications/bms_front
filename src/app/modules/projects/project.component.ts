@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, SimpleChanges } from '@angular/core';
+import { Component, OnInit, HostListener, SimpleChanges, DoCheck } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
 
 import { GlobalText } from '../../../texts/global';
@@ -15,7 +15,7 @@ import { ExportInterface } from '../../model/export.interface';
 import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { delay, finalize } from 'rxjs/operators';
-import { ImportedDataService} from '../../core/utils/imported-data.service'
+import { ImportedDataService } from '../../core/utils/imported-data.service';
 
 
 @Component({
@@ -23,7 +23,7 @@ import { ImportedDataService} from '../../core/utils/imported-data.service'
     templateUrl: './project.component.html',
     styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent implements OnInit {
+export class ProjectComponent implements OnInit, DoCheck {
     public nameComponent = 'projects';
     public distribution = GlobalText.TEXTS;
     public language = GlobalText.language;
@@ -44,8 +44,8 @@ export class ProjectComponent implements OnInit {
     selectedProjectId = null;
     isBoxClicked = false;
     extensionType: string;
-    hasRights: boolean = false;
-    hasRightsEdit: boolean = false;
+    hasRights = false;
+    hasRightsEdit = false;
 
     public maxHeight = GlobalText.maxHeight;
     public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -68,10 +68,9 @@ export class ProjectComponent implements OnInit {
 
     ngOnInit() {
         if (this.importedDataService.emittedProject) {
-            this.selectedProjectId = parseInt(this.importedDataService.project)
-            this.getProjects()
-        }
-        else {
+            this.selectedProjectId = parseInt(this.importedDataService.project, 10);
+            this.getProjects();
+        } else {
             this.getProjects();
         }
         this.checkSize();
@@ -114,6 +113,7 @@ export class ProjectComponent implements OnInit {
         this.loadingDistributions = true;
         this.getDistributionsByProject(project.id);
     }
+
     setType(choice: string) {
         this.extensionType = choice;
     }
@@ -131,20 +131,20 @@ export class ProjectComponent implements OnInit {
             )
         ).subscribe(
             response => {
-                    if (response && response.length > 0) {
-                        const formattedResponse = this.projectClass.formatArray(response).reverse();
-                        if ( !this.projects  || formattedResponse.length !== this.projects.length) {
-                            this.projects = formattedResponse;
-                            if (this.selectedProjectId) {
-                                this.autoProjectSelect(this.selectedProjectId);
-                            } else {
-                                this.selectTitle(this.projects[0].name, this.projects[0]);
-                            }
-                            this.loadingProjects = false;
+                if (response && response.length > 0) {
+                    const formattedResponse = this.projectClass.formatArray(response).reverse();
+                    if (!this.projects || formattedResponse.length !== this.projects.length) {
+                        this.projects = formattedResponse;
+                        if (this.selectedProjectId) {
+                            this.autoProjectSelect(this.selectedProjectId);
+                        } else {
+                            this.selectTitle(this.projects[0].name, this.projects[0]);
                         }
-                    } else if (response === null) {
                         this.loadingProjects = false;
                     }
+                } else if (response === null) {
+                    this.loadingProjects = false;
+                }
             }
         );
     }
@@ -175,13 +175,7 @@ export class ProjectComponent implements OnInit {
                         this.noNetworkData = true;
                     }
                 }
-            )
-        // .catch(
-        //     error => {
-        //         this.distributionData = null;
-        //         this.noNetworkData = true;
-        //     }
-        // )
+            );
     }
 
     addDistribution() {
@@ -194,10 +188,10 @@ export class ProjectComponent implements OnInit {
     export() {
         this.loadingExport = true;
         this.distributionService.export('project', this.extensionType, this.selectedProject.id).then(
-            () => { this.loadingExport = false }
+            () => { this.loadingExport = false; }
         ).catch(
-            () => { this.loadingExport = false }
-        )
+            () => { this.loadingExport = false; }
+        );
     }
 
     openNewProjectDialog() {
@@ -213,19 +207,21 @@ export class ProjectComponent implements OnInit {
         );
         const create = dialogRef.componentInstance.onCreate.subscribe(
             (data) => {
-                let exists: boolean = false;
+                let exists = false;
                 if (this.projects) {
-                  this.projects.forEach(element => {
-                    if (element.name.toLowerCase() == data.name.toLowerCase()) {
-                      this.snackBar.open(this.distribution.settings_project_exists, '', { duration: 5000, horizontalPosition: 'right' });
-                      exists = true;
-                      return;
-                    }
-                  });
+                    this.projects.forEach(element => {
+                        if (element.name.toLowerCase() === data.name.toLowerCase()) {
+                            this.snackBar.open(this.distribution.settings_project_exists,
+                              '', { duration: 5000, horizontalPosition: 'right' });
+                            exists = true;
+                            return;
+                        }
+                    });
                 }
 
-                if (exists == false)
+                if (! exists) {
                     this.createElement(data);
+                }
             }
         );
     }
@@ -233,7 +229,7 @@ export class ProjectComponent implements OnInit {
     createElement(createElement: Object) {
         createElement = Project.formatForApi(createElement);
         this.projectService.create(createElement['id'], createElement).subscribe(response => {
-            this.snackBar.open("Project " + this.distribution.settings_created, '', { duration: 5000, horizontalPosition: 'right' });
+            this.snackBar.open('Project ' + this.distribution.settings_created, '', { duration: 5000, horizontalPosition: 'right' });
             this.getProjects();
         });
     }
@@ -242,21 +238,23 @@ export class ProjectComponent implements OnInit {
         this._cacheService.getUser().subscribe(
             result => {
                 const rights = result.rights;
-                if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER')
+                if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
                     this.hasRights = true;
+                }
 
-                if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == "ROLE_PROJECT_OFFICER")
+                if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER') {
                     this.hasRightsEdit = true;
+                }
             }
-        )
+        );
     }
 
     autoProjectSelect(input: string) {
-        let selector = parseInt(input)
+        const selector = parseInt(input, 1°);
         this.projects.forEach(e => {
-            if (e.id == selector) {
+            if (e.id === selector) {
                 this.selectTitle(e.name, e);
             }
-        })
+        });
     }
 }

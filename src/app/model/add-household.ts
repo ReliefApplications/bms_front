@@ -1,6 +1,43 @@
-import { CountrySpecificAnswer } from "./country-specific";
-import { VulnerabilityCriteria } from "./vulnerability-criteria";
-import { Location } from "./location";
+import { CountrySpecificAnswer } from './country-specific';
+import { VulnerabilityCriteria } from './vulnerability-criteria';
+import { Location } from './location';
+
+export class Profile {
+    static __classname__ = 'Profile';
+    /**
+     * photo
+     * @type {string}
+     */
+    photo = '';
+}
+
+export class Phones {
+    static __classname__ = 'Phones';
+    /**
+     * number
+     * @type {string}
+     */
+    number = '';
+    /**
+     * type of number
+     * @type {string}
+     */
+    type = 'type1';
+}
+
+export class NationalID {
+    static __classname__ = 'NationalID';
+    /**
+    * number
+    * @type {string}
+    */
+    id_number = '';
+    /**
+     * type of number
+     * @type {string}
+     */
+    id_type = 'card';
+}
 
 export class AddHouseholds {
     static __classname__ = 'AddHouseholds';
@@ -8,37 +45,37 @@ export class AddHouseholds {
      * Households' address_street
      * @type {string}
      */
-    address_street: string = '';
+    address_street = '';
     /**
     * Households' address_number
     * @type {string}
     */
-    address_number: string = '';
+    address_number = '';
     /**
      * Households' address_postcode
      * @type {string}
      */
-    address_postcode: string = '';
+    address_postcode = '';
     /**
      * Households' livelihood
      * @type {number}
      */
-    livelihood: number = 0;
+    livelihood = 0;
     /**
     * Households' notes
     * @type {string}
     */
-    notes: string = '';
+    notes = '';
     /**
      * Households' longitude
      * @type {string}
      */
-    longitude: string = '0';
+    longitude = '0';
     /**
      * Households' latitude
      * @type {string}
      */
-    latitude: string = '0';
+    latitude = '0';
     /**
      * Household's location
      * @type {Location}
@@ -63,12 +100,12 @@ export class AddBeneficiaries {
      *  familyName
      * @type {string}
      */
-    family_name: string = '';
+    family_name = '';
     /**
      *  firstName
      * @type {string}
      */
-    given_name: string = '';
+    given_name = '';
     /**
      * gender
      * @type {number}
@@ -78,12 +115,12 @@ export class AddBeneficiaries {
      *  familyName
      * @type {string}
      */
-    status: string = '';
+    status = '';
     /**
      *  firstName
      * @type {string}
      */
-    date_of_birth: string = '';
+    date_of_birth = '';
     /**
      * gender
      * @type {Date}
@@ -115,41 +152,4 @@ export class AddBeneficiaries {
      */
     id: string;
 
-}
-
-export class Profile {
-    static __classname__ = 'Profile';
-    /**
-     * photo
-     * @type {string}
-     */
-    photo: string = "";
-}
-
-export class Phones {
-    static __classname__ = 'Phones';
-    /**
-     * number
-     * @type {string}
-     */
-    number: string = '';
-    /**
-     * type of number
-     * @type {string}
-     */
-    type: string = 'type1';
-}
-
-export class NationalID {
-    static __classname__ = 'NationalID';
-    /**
-    * number
-    * @type {string}
-    */
-    id_number: string = '';
-    /**
-     * type of number
-     * @type {string}
-     */
-    id_type: string = 'card';
 }

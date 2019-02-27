@@ -31,9 +31,9 @@ import { Vendors } from 'src/app/model/vendors';
 import { VendorsService } from 'src/app/core/api/vendors.service';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit, DoCheck {
   public nameComponent = 'settings';
@@ -215,154 +215,175 @@ export class SettingsComponent implements OnInit, DoCheck {
   }
 
   // TO DO : get from cache
-  load(title): void {
-    this.hasRights = false;
+    load(title): void {
+        this.hasRights = false;
 
-    this.referedClassService.get().
-      pipe(
-        finalize(
-          () => {
-            this.loadingData = false;
-          }
-        )
-      ).subscribe(response => {
-        if (response) {
-          this.loadingData = false;
-          if (response && response[0] && response[0].email && response[0].username && response[0].roles) {
-            response.forEach(element => {
-              element.projects = new Array<number>();
-              element.country = '';
+        this.referedClassService.get().
+            pipe(
+                finalize(
+                    () => {
+                        this.loadingData = false;
+                    }
+                )
+            ).subscribe(response => {
+                if (response) {
+                    this.loadingData = false;
+                    if (response && response[0] && response[0].email && response[0].username && response[0].roles) {
+                        response.forEach(element => {
+                            element.projects = new Array<number>();
+                            element.country = '';
 
-              for (let i = 0; i < element.user_projects.length; i++) {
-                if (element.user_projects[i].project) {
-                  element.projects[i] = element.user_projects[i].project.name;
+                            for (let i = 0; i < element.user_projects.length; i++) {
+                                if (element.user_projects[i].project) {
+                                    element.projects[i] = element.user_projects[i].project.name;
+                                }
+                            }
+                            for (let i = 0; i < element.countries.length; i++) {
+                                element.country = element.countries[i].iso3;
+                            }
+                        });
+                    }
+
+                    response = this.referedClassToken.formatArray(response);
+                    this.data = new MatTableDataSource(response);
+
+                    this._cacheService.getUser().subscribe(
+                        result => {
+                            if (result && result.rights) {
+                                const rights = result.rights;
+
+                                if (this.referedClassToken.__classname__ === 'User') {
+                                    if (rights === 'ROLE_ADMIN') {
+                                        this.hasRights = true;
+                                    }
+                                }
+
+                                if (this.referedClassToken.__classname__ === 'CountrySpecific') {
+                                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_COUNTRY_MANAGER' || rights === 'ROLE_PROJECT_MANAGER') {
+                                        this.hasRights = true;
+                                    }
+                                }
+
+                                if (this.referedClassToken.__classname__ === 'Donor') {
+                                    if (rights === 'ROLE_ADMIN') {
+                                        this.hasRights = true;
+                                    }
+                                }
+
+                                if (this.referedClassToken.__classname__ === 'Project') {
+                                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_COUNTRY_MANAGER' || rights === 'ROLE_PROJECT_MANAGER') {
+                                        this.hasRights = true;
+                                    }
+
+                                }
+
+                                if (this.referedClassToken.__classname__ === 'Financial Provider') {
+                                    if (rights === 'ROLE_ADMIN') {
+                                        this.hasRights = true;
+                                    }
+
+                                }
+
+                                if (this.referedClassToken.__classname__ == 'Vendors') {
+                                  if (rights == 'ROLE_ADMIN')
+                                    this.hasRights = true;
+                                }
+                
+                                if (this.referedClassToken.__classname__ === 'Product') {
+                                  if (rights === "ROLE_ADMIN") {
+                                      this.hasRights = true;
+                                  }
+                                }
+                            }
+                        }
+                    );
+
+                } else {
+                    this.data = new MatTableDataSource(null);
+                    this.loadingData = false;
                 }
-              }
-              for (let i = 0; i < element.countries.length; i++) {
-                element.country = element.countries[i].iso3;
-              }
             });
-          }
+        // .catch(
+        //     () => {
+        //         this.data = new MatTableDataSource(null);
+        //     }
+        // );
+    }
 
+    /**
+	* open each modal dialog
+	*/
+    openDialog(user_action): void {
+        let dialogRef;
 
-          response = this.referedClassToken.formatArray(response);
-          this.data = new MatTableDataSource(response);
+        if (user_action === 'add') {
+            dialogRef = this.dialog.open(ModalAddComponent, {
+                data: { data: [], entity: this.referedClassToken, service: this.referedClassService, mapper: this.mapperService }
+            });
+        }
+        const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
+            if (this.referedClassToken.__classname__ === 'Project') {
+                let exists = false;
 
-          this._cacheService.getUser().subscribe(
-            result => {
-              if (result && result.rights) {
-                const rights = result.rights;
+                this.data.data.forEach(element => {
+                    if (element.name.toLowerCase() === data.name.toLowerCase()) {
+                        this.snackBar.open(this.settings.settings_project_exists, '', { duration: 5000, horizontalPosition: 'center' });
+                        exists = true;
+                        return;
+                    }
+                });
 
-                if (this.referedClassToken.__classname__ == 'User')
-                  if (rights == 'ROLE_ADMIN')
-                    this.hasRights = true;
-
-                if (this.referedClassToken.__classname__ == 'CountrySpecific')
-                  if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
-                    this.hasRights = true;
-
-                if (this.referedClassToken.__classname__ == 'Donor')
-                  if (rights == 'ROLE_ADMIN')
-                    this.hasRights = true;
-
-                if (this.referedClassToken.__classname__ == 'Project')
-                  if (rights == "ROLE_ADMIN" || rights == 'ROLE_COUNTRY_MANAGER' || rights == 'ROLE_PROJECT_MANAGER')
-                    this.hasRights = true;
-
-                if (this.referedClassToken.__classname__ == 'Financial Provider')
-                  if (rights == "ROLE_ADMIN")
-                    this.hasRights = true;
-
-                if (this.referedClassToken.__classname__ == 'Vendors') {
-                  if (rights == 'ROLE_ADMIN')
-                    this.hasRights = true;
+                if (exists === false) {
+                    this.createElement(data);
                 }
+            } else {
+                this.createElement(data);
+            }
+        });
 
-                if (this.referedClassToken.__classname__ === 'Product') {
-                  if (rights === "ROLE_ADMIN") {
-                      this.hasRights = true;
+        dialogRef.afterClosed().subscribe(result => {
+            create.unsubscribe();
+            // console.log(console.log('The dialog was closed');
+        });
+    }
+
+    createElement(createElement: Object) {
+        createElement = this.referedClassToken.formatForApi(createElement);
+        if (this.referedClassToken.__classname__ !== 'User' && this.referedClassToken.__classname__ !== 'Vendors') {
+            this.referedClassService.create(createElement['id'], createElement).subscribe(
+                response => {
+                    this.selectTitle(this.selectedTitle);
+                });
+        } else {
+            // for users, there are two step (one to get the salt and one to create the user)
+            this.authenticationService.initializeUser(createElement['username']).subscribe(response => {
+                if (response) {
+                  if (this.referedClassToken.__classname__ === 'Vendors') {
+                    this.authenticationService.createVendor(createElement, response).subscribe(
+                      () => {
+                        this.selectTitle(this.selectedTitle);
+                      });
+                  } else {
+                    if (createElement['rights'] === 'ROLE_PROJECT_MANAGER'
+                        || createElement['rights'] === 'ROLE_PROJECT_OFFICER'
+                        || createElement['rights'] === 'ROLE_FIELD_OFFICER') {
+                        delete createElement['country'];
+                    } else if (createElement['rights'] === 'ROLE_REGIONAL_MANAGER'
+                        || createElement['rights'] === 'ROLE_COUNTRY_MANAGER'
+                        || createElement['rights'] === 'ROLE_READ_ONLY') {
+                        delete createElement['projects'];
+                    } else {
+                        delete createElement['country'];
+                        delete createElement['projects'];
+                    }
+
+                    this.authenticationService.createUser(createElement, response).subscribe(
+                        () => {
+                            this.selectTitle(this.selectedTitle);
+                        });
                   }
                 }
-              }
-            }
-          );
-
-        } else {
-          this.data = new MatTableDataSource(null);
-          this.loadingData = false;
+            });
         }
-      });
-  }
-
-  /**
-  * open each modal dialog
-  */
-  openDialog(user_action): void {
-    let dialogRef;
-
-    if (user_action === 'add') {
-      dialogRef = this.dialog.open(ModalAddComponent, {
-        data: { data: [], entity: this.referedClassToken, service: this.referedClassService, mapper: this.mapperService }
-      });
     }
-    const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
-      if (this.referedClassToken.__classname__ == 'Project') {
-        let exists: boolean = false;
-
-        this.data.data.forEach(element => {
-          if (element.name.toLowerCase() == data.name.toLowerCase()) {
-            this.snackBar.open(this.settings.settings_project_exists, '', { duration: 5000, horizontalPosition: 'center' });
-            exists = true;
-            return;
-          }
-        });
-
-        if (exists == false)
-          this.createElement(data);
-      }
-      else
-        this.createElement(data);
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      create.unsubscribe();
-      // console.log(console.log('The dialog was closed');
-    });
-  }
-
-  createElement(createElement: Object) {
-    createElement = this.referedClassToken.formatForApi(createElement);
-    if (this.referedClassToken.__classname__ !== 'User' && this.referedClassToken.__classname__ !== 'Vendors') {
-      this.referedClassService.create(createElement['id'], createElement).subscribe(
-        response => {
-          this.selectTitle(this.selectedTitle);
-        });
-    } else {
-      // for users, there are two step (one to get the salt and one to create the user)
-      this.authenticationService.initializeUser(createElement['username']).subscribe(response => {
-        if (response) {
-          if (this.referedClassToken.__classname__ === 'Vendors') {
-            this.authenticationService.createVendor(createElement, response).subscribe(
-              () => {
-                this.selectTitle(this.selectedTitle);
-              });
-          } else {
-            if (createElement['rights'] == "ROLE_PROJECT_MANAGER" || createElement['rights'] == "ROLE_PROJECT_OFFICER" || createElement['rights'] == "ROLE_FIELD_OFFICER")
-              delete createElement['country'];
-            else if (createElement['rights'] == "ROLE_REGIONAL_MANAGER" || createElement['rights'] == "ROLE_COUNTRY_MANAGER" || createElement['rights'] == "ROLE_READ_ONLY")
-              delete createElement['projects'];
-            else {
-              delete createElement['country'];
-              delete createElement['projects'];
-            }
-
-            this.authenticationService.createUser(createElement, response).subscribe(
-              () => {
-                this.selectTitle(this.selectedTitle);
-              });
-          }
-        }
-      });
-    }
-  }
 }

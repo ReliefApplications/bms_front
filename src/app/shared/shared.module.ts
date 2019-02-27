@@ -3,10 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule,
-MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatDividerModule,
-MAT_CHECKBOX_CLICK_ACTION, MatRadioModule, MatChipsModule, MatSnackBarModule, MatStepperModule,
-MatProgressBarModule, MatListModule, MatBadgeModule, MatTabsModule } from '@angular/material';
+import {
+    MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule,
+    MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatDividerModule,
+    MAT_CHECKBOX_CLICK_ACTION, MatRadioModule, MatChipsModule, MatSnackBarModule, MatStepperModule,
+    MatProgressBarModule, MatListModule, MatBadgeModule, MatTabsModule
+} from '@angular/material';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -14,12 +16,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSortModule } from '@angular/material/sort';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material';
 import { MatMenuModule } from '@angular/material/menu';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
@@ -127,56 +129,55 @@ imports: [
     }),
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
     ],
-declarations: [
-    // Shared Components
-    LoginComponent,
-    DashboardComponent,
-    BeneficiariesComponent,
-    BeneficiariesImportComponent,
-    ProjectComponent,
-    AddDistributionComponent,
-    SettingsComponent,
-    IconSvgComponent,
-    BoxDashboardComponent,
-    TableComponent,
-    TableSearchComponent,
-    TableMobileComponent,
-    TableMobileSearchComponent,
-    TableDistributionComponent,
-    TableMobileDistributionComponent,
-    TableSmallComponent,
-    TableSmallMobileComponent,
-    TableDashboardComponent,
-    TableMobileDashboardComponent,
-    TableBeneficiariesComponent,
-    TransactionTableMobileComponent,
-    TableMobileBeneficiariesComponent,
-    TransactionTableComponent,
-    ModalComponent,
-    ModalDeleteComponent,
-    ModalUpdateComponent,
-    ModalAddComponent,
-    ModalDetailsComponent,
-    ModalLanguageComponent,
-    ModalAddLineComponent,
-    BoxSettingComponent,
-    BoxPropertiesComponent,
-    DataValidationComponent,
-    DistributionsComponent,
-    ImportDistributionComponent,
-    PlaceholderSummaryComponent,
-    PlaceholderBoxlineComponent,
-    PlaceholderPanelComponent,
-    PlaceholderStepperComponent,
-    PlaceholderTitleComponent,
-    UpdateBeneficiaryComponent,
-    ImportedDataComponent,
-    ThousandsPipe,
-
-    VouchersComponent,
-    TableVouchersComponent,
-    TableMobileVouchersComponent,
-    ScannerComponent,
+    declarations: [
+        // Shared Components
+        LoginComponent,
+        DashboardComponent,
+        BeneficiariesComponent,
+        BeneficiariesImportComponent,
+        ProjectComponent,
+        AddDistributionComponent,
+        SettingsComponent,
+        IconSvgComponent,
+        BoxDashboardComponent,
+        TableComponent,
+        TableSearchComponent,
+        TableMobileComponent,
+        TableMobileSearchComponent,
+        TableDistributionComponent,
+        TableMobileDistributionComponent,
+        TableSmallComponent,
+        TableSmallMobileComponent,
+        TableDashboardComponent,
+        TableMobileDashboardComponent,
+        TableBeneficiariesComponent,
+        TransactionTableMobileComponent,
+        TableMobileBeneficiariesComponent,
+        TransactionTableComponent,
+        ModalComponent,
+        ModalDeleteComponent,
+        ModalUpdateComponent,
+        ModalAddComponent,
+        ModalDetailsComponent,
+        ModalLanguageComponent,
+        ModalAddLineComponent,
+        BoxSettingComponent,
+        BoxPropertiesComponent,
+        DataValidationComponent,
+        DistributionsComponent,
+        ImportDistributionComponent,
+        PlaceholderSummaryComponent,
+        PlaceholderBoxlineComponent,
+        PlaceholderPanelComponent,
+        PlaceholderStepperComponent,
+        PlaceholderTitleComponent,
+        UpdateBeneficiaryComponent,
+        ImportedDataComponent,
+        ThousandsPipe,
+        VouchersComponent,
+        TableVouchersComponent,
+        TableMobileVouchersComponent,
+        ScannerComponent,
 ],
 entryComponents: [
     ModalComponent,

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
 import { MatTableDataSource, MatSnackBar, MatDialog } from '@angular/material';
 import { Households } from '../../model/households';
 import { HouseholdsService } from '../../core/api/households.service';
@@ -18,7 +18,7 @@ import { SelectionModel } from '@angular/cdk/collections';
     templateUrl: './beneficiaries.component.html',
     styleUrls: ['./beneficiaries.component.scss']
 })
-export class BeneficiariesComponent implements OnInit {
+export class BeneficiariesComponent implements OnInit, DoCheck {
 
     public household = GlobalText.TEXTS;
     public nameComponent = 'beneficiaries';
@@ -35,11 +35,11 @@ export class BeneficiariesComponent implements OnInit {
 
     dataSource: HouseholdsDataSource;
 
-    hasRights: boolean = false;
-    hasRightsDelete: boolean = false;
-    hasRightsExport: boolean = false;
+    hasRights = false;
+    hasRightsDelete = false;
+    hasRightsExport = false;
 
-    //addButtons
+    // addButtons
     addToggled = false;
 
     constructor(
@@ -85,8 +85,9 @@ export class BeneficiariesComponent implements OnInit {
             this.household = GlobalText.TEXTS;
         }
 
-        if (this.language !== GlobalText.language)
+        if (this.language !== GlobalText.language) {
             this.language = GlobalText.language;
+        }
     }
 
     /**
@@ -126,9 +127,9 @@ export class BeneficiariesComponent implements OnInit {
     export() {
         this.loadingExport = true;
         this.householdsService.export(this.extensionType).then(
-            () => { this.loadingExport = false }
+            () => { this.loadingExport = false; }
         ).catch(
-            () => { this.loadingExport = false }
+            () => { this.loadingExport = false; }
         );
     }
 
@@ -142,17 +143,17 @@ export class BeneficiariesComponent implements OnInit {
             this.projectService.get().subscribe(
                 success => {
                     this.projectsList = [];
-                    if(success) {  
+                    if (success) {
                         success.forEach(
                             element => {
                                 this.projectsList.push(element);
                             }
                         );
                     }
-                    if (target && target == 'updateSelection') {
-                        let tmpProjects: any = [];
+                    if (target && target === 'updateSelection') {
+                        const tmpProjects: any = [];
                         this.projectsList.forEach(project => {
-                            tmpProjects.push(project.name)
+                            tmpProjects.push(project.name);
                         });
 
                         this.dataSource.projects.next(tmpProjects);
@@ -179,20 +180,22 @@ export class BeneficiariesComponent implements OnInit {
     checkPermission() {
         this.cacheService.get('user').subscribe(
             result => {
-                if(result && result.rights) {
+                if (result && result.rights) {
                     const rights = result.rights;
-                    if (rights == "ROLE_ADMIN" || rights == "ROLE_PROJECT_MANAGER" || rights == "ROLE_PROJECT_OFFICER")
+                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER') {
                         this.hasRights = true;
-            
-                    if (rights == "ROLE_ADMIN" || rights == "ROLE_PROJECT_MANAGER")
+                    }
+
+                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
                         this.hasRightsDelete = true;
-            
-                    if (rights == "ROLE_ADMIN" || rights == "ROLE_PROJECT_MANAGER" || rights == "ROLE_COUNTRY_MANAGER")
+                    }
+
+                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
                         this.hasRightsExport = true;
+                    }
                 }
             }
-        )
-
+        );
     }
 
     /**
@@ -201,7 +204,7 @@ export class BeneficiariesComponent implements OnInit {
      * @param index
      */
     selected(index) {
-        let newObject = index.object;
+        const newObject = index.object;
         index = index.index;
 
         if (index === 'adm1') {
@@ -258,7 +261,7 @@ export class BeneficiariesComponent implements OnInit {
         });
     }
 
-    getChecked(event) {
+    getChecked(event)  {
         this.checkedElements = event;
     }
 }

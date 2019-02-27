@@ -1,4 +1,4 @@
-import { GlobalText } from "../../texts/global";
+import { GlobalText } from '../../texts/global';
 
 export class Sector {
     static __classname__ = 'Sector';
@@ -11,16 +11,16 @@ export class Sector {
      * Sector's name
      * @type {string}
      */
-    name: string = '';
-    
-    constructor(instance?){
-        if(instance !== undefined){
+    name = '';
+
+    constructor(instance?) {
+        if (instance !== undefined) {
             this.id = instance.id;
             this.name = instance.name;
         }
     }
 
-    public static getDisplayedName(){
+    public static getDisplayedName() {
         return GlobalText.TEXTS.model_sector;
     }
 }

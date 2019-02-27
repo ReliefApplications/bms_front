@@ -11,13 +11,4 @@ export class TransactionTableComponent extends TableComponent {
     loading = true;
     @Input() checkbox: boolean;
 
-    //
-    // constructor(
-    //     public mapperService: Mapper,
-    //     public dialog: MatDialog,
-    //     public distributionService: DistributionService,
-    //     public snackBar: MatSnackBar) {
-    //         super(mapperService, dialog, _cacheService, snackBar);
-    //     }
-
 }

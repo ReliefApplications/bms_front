@@ -220,48 +220,13 @@
       [transactionData]="transactionData"
       [distributionId]="distributionId"
       [hasRights]="hasRights"
-      (exportTransaction)="exportTransaction()"
+      [hasRightsTransaction]="hasRightsTransaction"
+      (exportEmitter)="exportTransaction($event)"
       (storeEmitter)="storeBeneficiaries()">
     </app-mobile-money>
   </ng-container>
 
 </div>
-
-<ng-template #transaction>
-  <mat-dialog-content class="modal-container">
-    <h4 *ngIf="!correctCode" class="modal-title underline-accent stickyHeader">{{TEXT.transaction_confirm}}</h4>
-    <h4 *ngIf="correctCode" class="modal-title underline-accent stickyHeader">{{TEXT.transaction_inProgress}}</h4>
-    <div class="dialog-template">
-      <div class="modal-body" *ngIf="!chartAccepted && !correctCode">
-        <p> {{TEXT.transaction_prevention}}</p>
-        <div class="lign-container">
-          <mat-checkbox color="primary" [(ngModel)]="chartAccepted" (change)="codeVerif();"></mat-checkbox>
-          <span> {{TEXT.transaction_accept_prevention}} </span>
-        </div>
-      </div>
-      <div class="modal-body" *ngIf="chartAccepted && !correctCode">
-        <p> {{TEXT.transaction_email_code}} <br /> {{actualUser.email | titlecase}}. </p>
-        <p> {{TEXT.transaction_paste_code}}</p>
-        <br />
-        <div class="lign-container">
-          <mat-form-field>
-            <input matInput placeholder="Code" [(ngModel)]="enteredCode">
-          </mat-form-field>
-          <button mat-stroked-button class='button-text-primary sendCode-button' (click)='codeVerif()'>{{TEXT.transaction_again}}</button>
-        </div>
-        <br />
-      </div>
-      <div class="modal-body progression-bar" *ngIf="correctCode">
-        <h4>{{ progression }} %</h4>
-        <mat-progress-bar mode="determinate" [value]="progression"></mat-progress-bar>
-      </div>
-      <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
-        <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')" *ngIf="!correctCode">{{TEXT.cancel}}</button>
-        <button mat-button class="confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()" *ngIf="chartAccepted && !correctCode">{{TEXT.transaction_confirm_button}}</button>
-      </div>
-    </div>
-  </mat-dialog-content>
-</ng-template>
 
 <ng-template #validation>
   <mat-dialog-content class="modal-container">

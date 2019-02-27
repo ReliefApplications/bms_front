@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
+import { TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
 
 
 @Component({
@@ -11,9 +12,19 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
 
     ngOnInit() {
         super.ngOnInit();
+        this.entity = TransactionBeneficiary;
     }
 
-    getAmount(type: string, commodity?: any): number {
-        return 0;
+    /**
+     * Opens a dialog corresponding to the ng-template passed as a parameter
+     * @param template
+     */
+    openDialog(template: any) {
+        const distributionDate = new Date(this.actualDistribution.date_distribution);
+        if (new Date() < distributionDate) {
+            this.dialog.open(template);
+        } else {
+            this.snackBar.open(this.TEXT.snackbar_invalid_transaction_date, '', { duration: 5000, horizontalPosition: 'center' });
+        }
     }
 }

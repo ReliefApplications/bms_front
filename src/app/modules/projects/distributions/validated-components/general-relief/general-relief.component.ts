@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
+import { TransactionVoucher } from 'src/app/model/transaction-voucher';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-general-relief',
@@ -10,10 +12,8 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
 
   ngOnInit() {
     super.ngOnInit();
-  }
-
-  getAmount(type: string, commodity?: any) {
-    return 0;
+    this.selection = new SelectionModel<any>(true, []);
+    this.entity = TransactionVoucher;
   }
 
 }

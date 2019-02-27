@@ -341,11 +341,6 @@ export class VouchersComponent implements OnInit {
     let bookletIds = []
     let error = false
     this.checkedElements.forEach(element => {
-      if (element.distribution_beneficiary === null) {
-        this.snackBar.open(this.voucher.voucher_print_error, '', {duration: 5000, horizontalPosition: 'center'});
-        error = true
-        return
-      }
       bookletIds.push(element.id)
     })
     return !error ? this._exportService.printMany(bookletIds) : null

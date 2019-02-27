@@ -48,7 +48,7 @@
           <button mat-icon-button [matTooltip]="table.delete" class="red" (click)="openDialog('delete', element); $event.stopPropagation()">
             <mat-icon>delete_outline</mat-icon>
           </button>
-          <button [disabled]="!element.distribution_beneficiary" mat-icon-button [matTooltip]="table.print" class="grey" (click)="print(element); $event.stopPropagation()">
+          <button mat-icon-button [matTooltip]="table.print" class="grey" (click)="print(element); $event.stopPropagation()">
             <mat-icon>printer</mat-icon>
           </button>
         </td>

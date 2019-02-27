@@ -6,7 +6,7 @@ import { ModalComponent } from '../modal.component';
     templateUrl: './modal-details.component.html',
     styleUrls: ['../modal.component.scss', './modal-details.component.scss']
 })
-export class ModalDetailsComponent implements OnInit extends ModalComponent {
+export class ModalDetailsComponent extends ModalComponent implements OnInit {
 
     @Input() data: any;
 

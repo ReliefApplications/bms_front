@@ -14,7 +14,7 @@ import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.ada
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
-export class ModalUpdateComponent implements OnInit extends ModalComponent {
+export class ModalUpdateComponent extends ModalComponent implements OnInit {
 
     @Input() data: any;
     @Output() onUpdate = new EventEmitter();

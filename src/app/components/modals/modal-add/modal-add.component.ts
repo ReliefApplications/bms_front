@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, DoCheck, Input, EventEmitter, Output } from '@angular/core';
 import { ModalComponent } from '../modal.component';
 import { GlobalText } from '../../../../texts/global';
 import { Criteria } from '../../../model/criteria';
@@ -19,7 +19,7 @@ import { format } from 'url';
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
-export class ModalAddComponent implements OnInit, DoCheck extends ModalComponent {
+export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck {
     public entityDisplayedName = '';
     public oldEntity = '';
     mapperObject = null;

@@ -6,7 +6,7 @@ import { ModalComponent } from '../modal.component';
     templateUrl: './modal-delete.component.html',
     styleUrls: ['../modal.component.scss', './modal-delete.component.scss']
 })
-export class ModalDeleteComponent implements OnInit extends ModalComponent {
+export class ModalDeleteComponent extends ModalComponent implements OnInit {
 
     @Input() data: any;
     @Output() onDelete = new EventEmitter();

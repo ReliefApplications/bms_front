@@ -10,7 +10,7 @@ import { GlobalText } from '../../../../texts/global';
     templateUrl: './table-small.component.html',
     styleUrls: ['../table.component.scss']
 })
-export class TableSmallComponent implements DoCheck extends TableComponent {
+export class TableSmallComponent extends TableComponent implements DoCheck {
     public mapperObject = null;
     public mapper: FieldMapper = new FieldMapper();
 

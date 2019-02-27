@@ -10,7 +10,7 @@ import { tap } from 'rxjs/operators';
     templateUrl: './table-mobile-beneficiaries.component.html',
     styleUrls: ['../table-mobile/table-mobile.component.scss', './table-mobile-beneficiaries.component.scss']
 })
-export class TableMobileBeneficiariesComponent implements AfterViewInit extends TableBeneficiariesComponent {
+export class TableMobileBeneficiariesComponent extends TableBeneficiariesComponent implements AfterViewInit {
 
     @Output() updating = new EventEmitter<number>();
     @Output() selectedAdm = new EventEmitter<any>();

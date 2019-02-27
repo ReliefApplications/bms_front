@@ -16,7 +16,7 @@ import { TEXT as TEXT_EN } from 'src/texts/global_en';
       { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
-export class ModalAddLineComponent implements OnInit, DoCheck extends ModalAddComponent {
+export class ModalAddLineComponent extends ModalAddComponent implements OnInit, DoCheck {
     public checkCriteria = -1;
     public checkDataCriteria = [];
 

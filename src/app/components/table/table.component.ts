@@ -323,6 +323,9 @@ export class TableComponent implements OnChanges, DoCheck {
                         if (filterValue.length !== 0 || filterValue !== '') {
                             filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
                             filterValue = filterValue.split(/[\s,]+/);
+                            if (filterValue[filterValue.length - 1] === '') {
+                              filterValue.pop();
+                            }
                         }
                     }
 

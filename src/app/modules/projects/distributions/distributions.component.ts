@@ -404,6 +404,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
      * Requests back-end a file containing informations about the transaction
      */
     exportTransaction() {
+
         this.dialog.closeAll();
         this.loadingExport = true;
         this.distributionService.export('transaction', this.extensionTypeTransaction, this.distributionId).then(
@@ -524,7 +525,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                                         this.refreshStatuses();
                                     }
                                 )
-                            ).toPromise().then(
+                            ).subscribe(
                                 success => {
                                     if (this.transactionData) {
                                         this.transactionData.data.forEach(

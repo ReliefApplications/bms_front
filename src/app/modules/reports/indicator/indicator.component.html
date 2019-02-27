@@ -1,68 +1,68 @@
 
 <div #chart class="indicatorChart shadow" >
-  <pie-chart style="width: 100%" *ngIf="indicator.type_graph == 'pie'" 
-    [project]="project"
-    [distribution]="distribution"
-    [periodFrequency]="periodFrequency"
-    [view]="chartDimensions" 
-    [filters]="filters"
-    [title]="indicator.full_name"
-    [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
-    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, items: indicator.type, name: indicator.full_name  }" >
-  </pie-chart>
-
-  <pie-grid style="width: 100%" *ngIf="indicator.type_graph == 'grid'" 
-    [project]="project"
-    [distribution]="distribution"
-    [periodFrequency]="periodFrequency"
-    [view]="chartDimensions" 
-    [filters]="filters"
-    [title]="indicator.full_name"
-    [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
-    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, items: indicator.type, name: indicator.full_name  }" >
-  </pie-grid>
-
-  <bar-chart style="width: 100%" *ngIf="indicator.type_graph == 'bar'" 
+  <app-pie-chart style="width: 100%" *ngIf="indicator.type_graph == 'pie'"
     [project]="project"
     [distribution]="distribution"
     [periodFrequency]="periodFrequency"
     [view]="chartDimensions"
-    [filters]="filters" 
-    [title]="indicator.full_name" 
+    [filters]="filters"
+    [title]="indicator.full_name"
+    [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, items: indicator.type, name: indicator.full_name  }" >
+  </app-pie-chart>
+
+  <app-pie-grid style="width: 100%" *ngIf="indicator.type_graph == 'grid'"
+    [project]="project"
+    [distribution]="distribution"
+    [periodFrequency]="periodFrequency"
+    [view]="chartDimensions"
+    [filters]="filters"
+    [title]="indicator.full_name"
+    [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, items: indicator.type, name: indicator.full_name  }" >
+  </app-pie-grid>
+
+  <app-bar-chart style="width: 100%" *ngIf="indicator.type_graph == 'bar'"
+    [project]="project"
+    [distribution]="distribution"
+    [periodFrequency]="periodFrequency"
+    [view]="chartDimensions"
+    [filters]="filters"
+    [title]="indicator.full_name"
     [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
     [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, items: indicator.type, name: indicator.full_name }" >
-  </bar-chart>
+  </app-bar-chart>
 
-  <line-chart style="width: 100%" *ngIf="indicator.type_graph == 'line'" 
-    [project]="project"
-    [distribution]="distribution"
-    [periodFrequency]="periodFrequency"
-    [view]="chartDimensions" 
-    [filters]="filters"
-    [title]="indicator.full_name" 
-    [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
-    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, items: indicator.type, name: indicator.full_name  }">
-  </line-chart>
-  
-  <number-card-chart style="width: 100%" *ngIf="indicator.type_graph== 'number'" 
-    [project]="project"
-    [distribution]="distribution"
-    [periodFrequency]="periodFrequency"
-    [view]="chartDimensions" 
-    [filters]="filters"
-    [title]="indicator.full_name" 
-    [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Nombre' }"
-    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, items: indicator.type, name: indicator.full_name  }" >
-  </number-card-chart>
-
-  <stacked-vertical-bar-chart style="width: 100%" *ngIf="(indicator.type_graph == 'stackbar')||(indicator.type_graph == '')" 
+  <app-line-chart style="width: 100%" *ngIf="indicator.type_graph == 'line'"
     [project]="project"
     [distribution]="distribution"
     [periodFrequency]="periodFrequency"
     [view]="chartDimensions"
-    [filters]="filters" 
-    [title]="indicator.full_name" 
+    [filters]="filters"
+    [title]="indicator.full_name"
+    [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, items: indicator.type, name: indicator.full_name  }">
+  </app-line-chart>
+
+  <app-number-card-chart style="width: 100%" *ngIf="indicator.type_graph== 'number'"
+    [project]="project"
+    [distribution]="distribution"
+    [periodFrequency]="periodFrequency"
+    [view]="chartDimensions"
+    [filters]="filters"
+    [title]="indicator.full_name"
+    [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Nombre' }"
+    [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, items: indicator.type, name: indicator.full_name  }" >
+  </app-number-card-chart>
+
+  <app-stacked-vertical-bar-chart style="width: 100%" *ngIf="(indicator.type_graph == 'stackbar')||(indicator.type_graph == '')"
+    [project]="project"
+    [distribution]="distribution"
+    [periodFrequency]="periodFrequency"
+    [view]="chartDimensions"
+    [filters]="filters"
+    [title]="indicator.full_name"
     [axis]="{ showXAxis: true, showYAxis: true, showXAxisLabel: true, showYAxisLabel: true, xAxisLabel: xAxisLabel, yAxisLabel: 'Valeur' }"
     [indicatorConfig]="{ idIndicator: indicator.id, type: indicator.type_graph, items: indicator.type, name: indicator.full_name  }" >
-</stacked-vertical-bar-chart>
+</app-stacked-vertical-bar-chart>
 </div>

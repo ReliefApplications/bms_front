@@ -2,33 +2,29 @@ import { Injectable } from '@angular/core';
 import { FilterInterface } from '../../../model/filter';
 import { filter } from 'rxjs/operators';
 
-
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
 export class FilterService {
 
     /**
      * List of filters registered
      */
-    static registeredFilters: any = {} ;
+    static registeredFilters: any = {};
 
     constructor(
-    ) {
-
-    }
+    ) { }
 
     /**
      * Register filters block to avoid duplicate
-     * @param filters 
+     * @param filters
      */
-    subscribe(filters: Array<FilterInterface>)
-    subscribe(filter: FilterInterface)
+    subscribe(filter: Array<FilterInterface> | FilterInterface);
     subscribe(filterObject: any) {
-        if(Array.isArray(filterObject)){
-            filterObject.forEach((filter: FilterInterface) => {
-                this.addSingleFilter(filter);
-            })
+        if (Array.isArray(filterObject)) {
+            filterObject.forEach((object: FilterInterface) => {
+                this.addSingleFilter(object);
+            });
         } else {
             this.addSingleFilter(filterObject);
         }
@@ -36,23 +32,19 @@ export class FilterService {
 
     /**
      * Get unique name of filter for registration and verify if filter already exist in list registeredFilters
-     * @param filter 
+     * @param filter
      */
-    private addSingleFilter(filter: FilterInterface) {
-        if (!FilterService.registeredFilters[filter.getFullname()]) 
-        {
-            FilterService.registeredFilters[filter.getFullname()] = filter;
+    private addSingleFilter(filterObject: FilterInterface) {
+        if (!FilterService.registeredFilters[filterObject.getFullname()]) {
+            FilterService.registeredFilters[filterObject.getFullname()] = filterObject;
         }
-        
     }
 
     /**
      * Delete filter in the list registeredFilters
-     * @param filter 
+     * @param filter
      */
-    unsubscribe(filter: FilterInterface) {
-        delete FilterService.registeredFilters[filter.getFullname()];
+    unsubscribe(filterObject: FilterInterface) {
+        delete FilterService.registeredFilters[filterObject.getFullname()];
     }
-
-    
 }

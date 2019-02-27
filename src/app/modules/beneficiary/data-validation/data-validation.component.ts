@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef, DoCheck } from '@angular/core';
 import { ImportService } from '../../../core/utils/import.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { MatSnackBar, MatStepper, MatDialog } from '@angular/material';
@@ -380,8 +380,13 @@ export class DataValidationComponent implements OnInit, DoCheck {
 
     nextStep() {
         this.step++;
-        this._importService.sendData(this.email, this.correctedData, this._importService.getProject(),
-            this.step, this._importService.getToken()).then(() => {
+        this._importService.sendData(
+            this.email,
+            this.correctedData,
+            this._importService.getProject(),
+            this.step,
+            this._importService.getToken()
+        ).then(() => {
             this.stepper.next();
             this.getData();
         }, (err) => {
@@ -408,7 +413,6 @@ export class DataValidationComponent implements OnInit, DoCheck {
             length = this.correctedData.length;
         }
 
-
         // STEP 1
         if (this.step === 1) {
             this.correctedData.forEach(element => {
@@ -418,7 +422,7 @@ export class DataValidationComponent implements OnInit, DoCheck {
             });
             if (this.typoIssues.length !== length) {
                 this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected,
-                  '', { duration: 5000, horizontalPosition: 'center' });
+                '', { duration: 5000, horizontalPosition: 'center' });
             } else if (this.typoIssues.length === 0) {
                 this.load = true;
                 this.typoDone = true;
@@ -426,7 +430,7 @@ export class DataValidationComponent implements OnInit, DoCheck {
             } else {
                 this.load = true;
                 this.snackBar.open(this.verification.data_verification_snackbar_typo_corrected,
-                  '', { duration: 5000, horizontalPosition: 'center' });
+                '', { duration: 5000, horizontalPosition: 'center' });
                 this.typoDone = true;
                 this.nextStep();
             }
@@ -440,7 +444,7 @@ export class DataValidationComponent implements OnInit, DoCheck {
             });
             if (this.duplicates.length !== length) {
                 this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected,
-                  '', { duration: 5000, horizontalPosition: 'center' });
+                '', { duration: 5000, horizontalPosition: 'center' });
             } else if (this.duplicates.length === 0) {
                 this.load = true;
                 this.duplicateDone = true;
@@ -448,14 +452,14 @@ export class DataValidationComponent implements OnInit, DoCheck {
             } else {
                 this.load = true;
                 this.snackBar.open(this.verification.data_verification_snackbar_duplicate_corrected,
-                  '', { duration: 5000, horizontalPosition: 'center' });
+                '', { duration: 5000, horizontalPosition: 'center' });
                 this.duplicateDone = true;
                 this.nextStep();
             }
         } else if (this.step === 3) {
             this.load = true;
             if (this.more.length > 0) {
-              this.snackBar.open(this.verification.data_verification_snackbar_more_corrected,
+                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected,
                 '', { duration: 5000, horizontalPosition: 'center' });
             }
             this.moreDone = true;
@@ -463,8 +467,8 @@ export class DataValidationComponent implements OnInit, DoCheck {
         } else if (this.step === 4) {
             this.load = true;
             if (this.less.length > 0) {
-              this.snackBar.open(this.verification.data_verification_snackbar_more_corrected,
-              '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected,
+                  '', { duration: 5000, horizontalPosition: 'center' });
             }
             this.lessDone = true;
             this.nextStep();

@@ -52,7 +52,7 @@ export class TransactionVoucher {
     public static getDisplayedName() {
         // return GlobalText.TEXTS.beneficiary;
         // TODO Wait merge to recover the value in the other branch
-        return "Voucher";
+        return 'Voucher';
     }
 
 
@@ -83,7 +83,7 @@ export class TransactionVoucher {
                     }
                     commodities += commodity.value + ' ' + commodity.unit;
                 }
-            )
+            );
         }
 
         if (instance) {

@@ -1,8 +1,8 @@
-import { CollectionViewer, DataSource } from "@angular/cdk/collections";
-import { Observable, BehaviorSubject, of } from "rxjs";
-import { catchError, finalize } from "rxjs/operators";
-import { Households } from "./households";
-import { HouseholdsService } from "../core/api/households.service";
+import { CollectionViewer, DataSource } from '@angular/cdk/collections';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
+import { Households } from './households';
+import { HouseholdsService } from '../core/api/households.service';
 
 export class HouseholdsDataSource implements DataSource<Households> {
 
@@ -40,22 +40,22 @@ export class HouseholdsDataSource implements DataSource<Households> {
         this.householdsService.get(filter, sort, pageIndex, pageSize).pipe(
             catchError(() => of([])),
             finalize(() => {
-                this.loading = false
+                this.loading = false;
             })
         )
             .subscribe(response => {
                 let households = [];
-                if(response) {
+                if (response) {
                     households = Households.formatArray(response[1]);
                     this.householdsSubject.next(households);
                     this.lengthSubject.next(response[0]);
             }
 
-                
+
             });
     }
 
-    setCategory(category : String) {
+    setCategory(category: String) {
         this.filter.category = category;
     }
 

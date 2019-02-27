@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, HostListener, TemplateRef } from '@angular/core';
+import { Component, OnInit, HostListener, TemplateRef, DoCheck } from '@angular/core';
 import { GlobalText } from '../../../../texts/global';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
@@ -26,7 +26,7 @@ import { SelectionModel } from '@angular/cdk/collections';
     templateUrl: './distributions.component.html',
     styleUrls: ['./distributions.component.scss']
 })
-export class DistributionsComponent implements OnInit, DoCheck, DesactivationGuarded {
+export class DistributionsComponent implements OnInit, DesactivationGuarded, DoCheck {
     public nameComponent = 'distributions';
     distributionId: number;
     actualDistribution = new DistributionData();
@@ -150,7 +150,6 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
     }
 
     checkSize(): void {
-        // console.log('resize');
         this.heightScreen = window.innerHeight;
         this.widthScreen = window.innerWidth;
     }
@@ -190,9 +189,10 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
                     if (Object.keys(this.actualDistribution).length === 0) {
                         this.cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + this.distributionId + '_beneficiaries')
                             .subscribe(
-                                cachedDistribution => {
-                                    if (cachedDistribution) {
-                                        this.actualDistribution = cachedDistribution;
+                                (actualDistribution: DistributionData) => {
+                                    if (actualDistribution) {
+                                        this.actualDistribution = actualDistribution;
+
                                         if (this.actualDistribution.validated) {
                                             this.getDistributionBeneficiaries('transaction');
                                         }
@@ -348,7 +348,6 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
      * Defines the number of beneficiaries corresponding of the sampleSize percentage
      */
     defineSampleSize(): number {
-
         if (this.sampleSize <= 0) {
             this.sampleSize = 0;
         } else if (this.sampleSize >= 100) {
@@ -364,7 +363,6 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
                 return (1);
             }
         }
-
     }
 
     /**
@@ -433,8 +431,8 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
      */
     confirmValidation() {
         if (this.hasRights) {
-            if ((this.finalBeneficiaryData && this.finalBeneficiaryData.data.length > 0)
-                || (this.initialBeneficiaryData && this.initialBeneficiaryData.data.length > 0)) {
+            if ((this.finalBeneficiaryData && this.finalBeneficiaryData.data.length > 0) ||
+            (this.initialBeneficiaryData && this.initialBeneficiaryData.data.length > 0)) {
                 this.loaderValidation = true;
                 this.distributionService.setValidation(this.distributionId)
                     .subscribe(
@@ -568,7 +566,7 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
                                         );
                                     }
                                 }
-                            ).catch();
+                            );
 
                         let progression = 0;
                         let peopleLeft = this.getAmount('waiting', this.actualDistribution.commodities[0]);
@@ -577,11 +575,12 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
                         this.interval = setInterval(() => {
                             this.distributionService.checkProgression(this.distributionId)
                                 .subscribe(
-                                    progress => {
-                                        if (progress) {
-                                            if (progress !== progression) {
-                                                progression = progress;
-                                                this.progression = Math.floor((progress / peopleLeft) * 100);
+                                    distributionProgression => {
+                                        if (distributionProgression) {
+                                            if (distributionProgression !== progression) {
+                                                progression = distributionProgression;
+
+                                                this.progression = Math.floor((result / peopleLeft) * 100);
                                             }
                                         }
                                     }
@@ -648,10 +647,7 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
                         newDistributionsList.push(distrib);
                     }
                 );
-            },
-                error => {
-                    // console.log('could not refresh :', error);
-                });
+            });
     }
 
     /**
@@ -684,7 +680,6 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
                     }
                 },
                 error => {
-                    // console.log('cc', this.selectedBeneficiaries);
                     this.snackBar.open(this.TEXT.distribution_beneficiary_not_added, '', { duration: 5000, horizontalPosition: 'center' });
                 });
     }
@@ -702,7 +697,6 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
      * Calculate commodity distribution quantities & values.
      */
     getAmount(type: string, commodity?: any): number {
-
         let amount: number;
 
         if (!this.transactionData) {
@@ -717,7 +711,6 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
                 }
             );
         } else if (commodity) {
-
             if (type === 'total') {
                 amount = commodity.value * this.transactionData.data.length;
             } else if (type === 'sent') {
@@ -830,7 +823,6 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
                                         this.snackBar.open(this.TEXT.cache_distribution_added,
                                           '', { duration: 5000, horizontalPosition: 'center' });
                                     }
-
                                     this.hideSnack = false;
                                 }
                             );

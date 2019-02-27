@@ -22,15 +22,15 @@ import { DatePipe } from '@angular/common';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
-import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
+import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 
 @Component({
     selector: 'app-update-beneficiary',
     templateUrl: './update-beneficiary.component.html',
     styleUrls: ['./update-beneficiary.component.scss'],
     providers: [
-      { provide: DateAdapter, useClass: CustomDateAdapter },
-      { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
 export class UpdateBeneficiaryComponent implements OnInit, DoCheck, DesactivationGuarded {
@@ -70,9 +70,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
     public typeNationalIdList: string[] = ['Passport', 'ID Card', 'Driver\'s License', 'Family Registry', 'Other'];
     public typeNationalIdNamesList: object = {
         'Passport': this.Text.national_id_passport,
-        'ID Card' : this.Text.national_id_card,
-        'Driver\'s License' : this.Text.national_id_license,
-        'Family Registry' : this.Text.national_id_family_registry,
+        'ID Card': this.Text.national_id_card,
+        'Driver\'s License': this.Text.national_id_license,
+        'Family Registry': this.Text.national_id_family_registry,
         'Other': this.Text.national_id_other
     };
     public residencyStatusList: string[] = ['refugee', 'idp', 'resident'];
@@ -599,7 +599,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                     success => {
                         if (success) {
                             this.snackBar.open(this.Text.update_beneficiary_created_successfully,
-                              '', { duration: 5000, horizontalPosition: 'center' });
+                                '', { duration: 5000, horizontalPosition: 'center' });
                             this.leave();
                         } else {
                             this.validationLoading = false;
@@ -609,7 +609,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                 .catch(
                     error => {
                         this.snackBar.open(this.Text.update_beneficiary_error_creating + error,
-                          '', { duration: 5000, horizontalPosition: 'center' });
+                            '', { duration: 5000, horizontalPosition: 'center' });
                         this.validationLoading = false;
                     }
                 );
@@ -640,7 +640,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                     success => {
                         if (success) {
                             this.snackBar.open(this.Text.update_beneficiary_updated_successfully,
-                              '', { duration: 5000, horizontalPosition: 'center' });
+                                '', { duration: 5000, horizontalPosition: 'center' });
                             this.leave();
                         } else {
                             this.validationLoading = false;
@@ -650,7 +650,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                 .catch(
                     error => {
                         this.snackBar.open(this.Text.update_beneficiary_error_updated + error,
-                          '', { duration: 5000, horizontalPosition: 'center' });
+                            '', { duration: 5000, horizontalPosition: 'center' });
                         this.validationLoading = false;
                     }
                 );
@@ -724,10 +724,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                 } else if (members[i].phone.number && isNaN(Number(members[i].phone.number))) {
                     message = 'Phone can only be composed by digits for member ' + i;
                 } else if (members[i].phone.number && members[i].phone.code
-                  && !this.elementExists(members[i].phone.code, this.countryCodesList)) {
+                    && !this.elementExists(members[i].phone.code, this.countryCodesList)) {
                     message = 'Please select an existing country code from the list for member ' + i;
                 } else if ((members[i].phone.number && !members[i].phone.code)
-                  || (members[i].phone.number && members[i].phone.code === '')) {
+                    || (members[i].phone.number && members[i].phone.code === '')) {
                     message = 'Please select a country code for the phone number of member ' + i;
                 } else if (members[i].birth_date && members[i].birth_date.getTime() > (new Date()).getTime()) {
                     message = 'Please select a valid birth date for member ' + i;
@@ -938,7 +938,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                         );
                     });
                     return countrySpecificsList;
-            }));
+                }));
         }
     }
 

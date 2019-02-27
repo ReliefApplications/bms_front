@@ -250,7 +250,7 @@ export class ProjectComponent implements OnInit, DoCheck {
     }
 
     autoProjectSelect(input: string) {
-        const selector = parseInt(input, 1°);
+        const selector = parseInt(input, 10);
         this.projects.forEach(e => {
             if (e.id === selector) {
                 this.selectTitle(e.name, e);

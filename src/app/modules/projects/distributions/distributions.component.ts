@@ -150,7 +150,6 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
     }
 
     checkSize(): void {
-        // console.log('resize');
         this.heightScreen = window.innerHeight;
         this.widthScreen = window.innerWidth;
     }
@@ -406,6 +405,7 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
      * Requests back-end a file containing informations about the transaction
      */
     exportTransaction() {
+
         this.dialog.closeAll();
         this.loadingExport = true;
         this.distributionService.export('transaction', this.extensionTypeTransaction, this.distributionId).then(
@@ -526,7 +526,7 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
                                         this.refreshStatuses();
                                     }
                                 )
-                            ).toPromise().then(
+                            ).subscribe(
                                 success => {
                                     if (this.transactionData) {
                                         this.transactionData.data.forEach(
@@ -568,7 +568,7 @@ export class DistributionsComponent implements OnInit, DoCheck, DesactivationGua
                                         );
                                     }
                                 }
-                            ).catch();
+                            );
 
                         let progression = 0;
                         let peopleLeft = this.getAmount('waiting', this.actualDistribution.commodities[0]);

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, DoCheck } from '@angular/core';
 import { HouseholdsService } from '../../../core/api/households.service';
 
 import { saveAs } from 'file-saver/FileSaver';
@@ -18,11 +18,11 @@ import { switchMap, finalize } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
 
 @Component({
-    selector: 'beneficiaries-import',
+    selector: 'app-beneficiaries-import',
     templateUrl: './beneficiaries-import.component.html',
     styleUrls: ['./beneficiaries-import.component.scss', '../../../components/modals/modal.component.scss']
 })
-export class BeneficiariesImportComponent implements OnInit {
+export class BeneficiariesImportComponent implements OnInit, DoCheck {
     public nameComponent = 'beneficiaries_import_title';
     public language = GlobalText.language;
     public household = GlobalText.TEXTS;
@@ -87,8 +87,8 @@ export class BeneficiariesImportComponent implements OnInit {
     public lastAdm1;
     public lastAdm2;
     public lastAdm3;
-    public loadLocations: boolean = false;
-    public loadDownload: boolean = false;
+    public loadLocations = false;
+    public loadDownload = false;
     public country: boolean;
 
     constructor(
@@ -109,11 +109,10 @@ export class BeneficiariesImportComponent implements OnInit {
         this._cacheService.get('user').subscribe(
             result => {
                 rights = result.rights;
-                if (rights != "ROLE_ADMIN" && rights != 'ROLE_PROJECT_MANAGER' && rights != "ROLE_PROJECT_OFFICER") {
+                if (rights !== 'ROLE_ADMIN' && rights !== 'ROLE_PROJECT_MANAGER' && rights !== 'ROLE_PROJECT_OFFICER') {
                     this.snackBar.open(this.household.forbidden_message, '', { duration: 5000, horizontalPosition: 'center' });
                     this.router.navigate(['']);
-                }
-                else {
+                } else {
                     this.getProjects();
                     this.getAPINames();
                     this.extensionType = 'xls';
@@ -132,19 +131,18 @@ export class BeneficiariesImportComponent implements OnInit {
             .subscribe(
                 response => {
                     this.email = response.username;
-                    this.email = this.email.replace("@", '');
+                    this.email = this.email.replace('@', '');
                 }
-            )
+            );
     }
 
     /**
-   * check if the langage has changed
-   */
+     * check if the langage has changed
+     */
     ngDoCheck() {
         if (this.household !== GlobalText.TEXTS) {
             this.household = GlobalText.TEXTS;
-        }
-        else if (this.language !== GlobalText.language) {
+        } else if (this.language !== GlobalText.language) {
             this.language = GlobalText.language;
         }
     }
@@ -185,8 +183,7 @@ export class BeneficiariesImportComponent implements OnInit {
         if (fileList.length > 0) {
             if (index) {
                 this.csv2 = fileList[0];
-            }
-            else {
+            } else {
                 this.csv = fileList[0];
                 this.isProjectsDisabled = false;
             }
@@ -214,10 +211,10 @@ export class BeneficiariesImportComponent implements OnInit {
     exportTemplate() {
         this.loadingExport = true;
         this._householdsService.exportTemplate(this.extensionType).then(
-            () => { this.loadingExport = false }
+            () => { this.loadingExport = false; }
         ).catch(
-            () => { this.loadingExport = false }
-        )
+            () => { this.loadingExport = false; }
+        );
     }
 
     /**
@@ -240,7 +237,8 @@ export class BeneficiariesImportComponent implements OnInit {
                 .catch(
                     () => {
                         this.load = false;
-                        this.snackBar.open(this.household.beneficiaries_import_error_importing, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackBar.open(this.household.beneficiaries_import_error_importing,
+                        '', { duration: 5000, horizontalPosition: 'center' });
                     }
                 );
         }
@@ -250,7 +248,7 @@ export class BeneficiariesImportComponent implements OnInit {
      * Open modal to select locations in the export file
      */
     selectLocations(template) {
-        if (this.dialog.openDialogs.length == 0) {
+        if (this.dialog.openDialogs.length === 0) {
             this.dialog.open(template);
         }
     }
@@ -287,7 +285,7 @@ export class BeneficiariesImportComponent implements OnInit {
                     const body = {
                         adm1: value
                     };
-                    return this.locationService.getAdm2(body)
+                    return this.locationService.getAdm2(body);
                 }
             )
         ).subscribe(response => {
@@ -308,7 +306,7 @@ export class BeneficiariesImportComponent implements OnInit {
                     const body = {
                         adm2: value
                     };
-                    return this.locationService.getAdm3(body)
+                    return this.locationService.getAdm3(body);
                 }
             )
         ).subscribe(response => {
@@ -328,7 +326,7 @@ export class BeneficiariesImportComponent implements OnInit {
                     const body = {
                         adm3: value
                     };
-                    return this.locationService.getAdm4(body)
+                    return this.locationService.getAdm4(body);
                 }
             )
         ).subscribe(response => {
@@ -360,7 +358,6 @@ export class BeneficiariesImportComponent implements OnInit {
      * @param adm
      */
     getAdmID(adm: string) {
-        //console.log(this.loadedData);
         return new Observable(
             observer => {
                 const body = {};
@@ -379,7 +376,6 @@ export class BeneficiariesImportComponent implements OnInit {
                             }
                         }
                     );
-
                 } else if (adm === 'adm2') {
                     body['adm1'] = this.lastAdm1;
                     this.locationService.getAdm2(body).subscribe(
@@ -396,7 +392,6 @@ export class BeneficiariesImportComponent implements OnInit {
                             }
                         }
                     );
-
                 } else if (adm === 'adm3') {
                     body['adm2'] = this.lastAdm2;
                     this.locationService.getAdm3(body).subscribe(
@@ -413,7 +408,6 @@ export class BeneficiariesImportComponent implements OnInit {
                             }
                         }
                     );
-
                 } else if (adm === 'adm4') {
                     body['adm3'] = this.lastAdm3;
                     this.locationService.getAdm4(body).subscribe(
@@ -432,7 +426,6 @@ export class BeneficiariesImportComponent implements OnInit {
                 }
             }
         );
-
     }
 
     /**
@@ -444,31 +437,29 @@ export class BeneficiariesImportComponent implements OnInit {
     }
 
     confirmImport() {
-        if (!this.csv2 || this.saveLocation.adm1 == '')
+        if (!this.csv2 || this.saveLocation.adm1 === '') {
             this.snackBar.open(this.household.beneficiaries_import_select_location, '', { duration: 5000, horizontalPosition: 'center' });
+        }
 
         const data = new FormData();
         data.append('file', this.csv2);
 
 
-        let body = {
+        const body = {
             adm: 0,
             name: ''
         };
 
-        if (this.saveLocation.adm4 != '') {
+        if (this.saveLocation.adm4 !== '') {
             body.adm = 4;
             body.name = this.saveLocation.adm4;
-        }
-        else if (this.saveLocation.adm3 != '') {
+        } else if (this.saveLocation.adm3 !== '') {
             body.adm = 3;
             body.name = this.saveLocation.adm3;
-        }
-        else if (this.saveLocation.adm2 != '') {
+        } else if (this.saveLocation.adm2 !== '') {
             body.adm = 2;
             body.name = this.saveLocation.adm2;
-        }
-        else if (this.saveLocation.adm1 != '') {
+        } else if (this.saveLocation.adm1 !== '') {
             body.adm = 1;
             body.name = this.saveLocation.adm1;
         }
@@ -484,7 +475,8 @@ export class BeneficiariesImportComponent implements OnInit {
                 () => {
                     this.dialog.closeAll();
                     this.csv2 = null;
-                    this.snackBar.open(this.household.beneficiaries_import_error_importing, '', { duration: 5000, horizontalPosition: 'center' });
+                    this.snackBar.open(this.household.beneficiaries_import_error_importing,
+                    '', { duration: 5000, horizontalPosition: 'center' });
                 });
     }
 
@@ -521,27 +513,27 @@ export class BeneficiariesImportComponent implements OnInit {
     }
 
     /************************************* API IMPORT  ******************************************************/
-    //Recover all the API available for the actual country
+
+    /**
+     * Recover all the API available for the actual country
+     */
     getAPINames() {
         this._beneficiariesService.listApi()
             .subscribe(names => {
                 if (names['listAPI'].length > 0) {
                     names = names['listAPI'];
-                    let param = {};
+                    const param = {};
 
                     Object.values(names).forEach(listAPI => {
                         this.APINames.push(listAPI['APIName']);
 
                         for (let j = 0; j < listAPI['params'].length; j++) {
-                            if (listAPI['params'][j].paramType == 'string') {
-                                param['paramType'] = "text";
+                            if (listAPI['params'][j].paramType === 'string') {
+                                param['paramType'] = 'text';
+                            } else if (listAPI['params'][j].paramType === 'int') {
+                                param['paramType'] = 'number';
                             }
-                            else if (listAPI['params'][j].paramType == 'int') {
-                                param['paramType'] = "number";
-                            }
-
                             param['paramName'] = listAPI['params'][j].paramName;
-
                         }
 
                         this.APIParams.push(param);
@@ -550,12 +542,15 @@ export class BeneficiariesImportComponent implements OnInit {
                     this.chosenItem = this.APINames[0];
                     this.ParamsToDisplay.push({ 'paramType': this.APIParams[0].paramType, 'paramName': this.APIParams[0].paramName });
                     this.provider = this.chosenItem;
-                    this.chosenItem ? this.isApiDisabled = false : 0;
+                    if (this.chosenItem) { this.isApiDisabled = false; }
                 }
             });
     }
 
-    //Get the index of the radiogroup to display the right inputs
+    /**
+     * Get the index of the radiogroup to display the right inputs
+     * @param  event
+     */
     onChangeRadioAPI(event) {
         this.ParamsToDisplay = [];
         const index = this.APINames.indexOf(event.value);
@@ -563,20 +558,27 @@ export class BeneficiariesImportComponent implements OnInit {
         this.provider = event.value;
     }
 
-    //Get each value in inputs
+    /**
+     * Get each value in inputs
+     * @param  event
+     * @param  paramName
+     */
     getValue(event, paramName) {
         const text = event.target.value;
 
-        this.paramToSend["params"] = { [paramName]: text };
+        this.paramToSend['params'] = { [paramName]: text };
         this.isProjectsDisabled = false;
         this.form.controls['projects'].enable();
     }
 
-    //Check if all fields are set, and import all the beneficiaries
+    /**
+     * Check if all fields are set, and import all the beneficiaries
+     */
     addBeneficiaries() {
-        if (Object.keys(this.paramToSend).length == this.APIParams.length && Object.keys(this.paramToSend).length > 0) {
+        if (Object.keys(this.paramToSend).length === this.APIParams.length && Object.keys(this.paramToSend).length > 0) {
             if (this.selectedProject == null) {
-                this.snackBar.open(this.household.beneficiaries_missing_selected_project, '', { duration: 5000, horizontalPosition: 'right' })
+                this.snackBar.open(this.household.beneficiaries_missing_selected_project,
+                '', { duration: 5000, horizontalPosition: 'right' });
             } else {
                 const project = this.selectedProject.split(' - ');
                 this._importService.project = project[0];
@@ -588,28 +590,28 @@ export class BeneficiariesImportComponent implements OnInit {
                             this.load = false;
                             this.snackBar.open(response.error, '', { duration: 5000, horizontalPosition: 'right' });
                             delete this.paramToSend['provider'];
-                        }
-                        else if (response.exist) {
+                        } else if (response.exist) {
                             this.load = false;
                             this.snackBar.open(response.exist, '', { duration: 5000, horizontalPosition: 'right' });
                             delete this.paramToSend['provider'];
-                        }
-                        else {
-                            this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported, '', { duration: 5000, horizontalPosition: 'right' });
+                        } else {
+                            this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported,
+                            '', { duration: 5000, horizontalPosition: 'right' });
                             this.newHouseholds = response.households;
 
                             this.importedHouseholds();
                         }
                     });
             }
-        }
-        else
+        } else {
             this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+        }
 
     }
 
-
-    //Get imported households
+    /**
+     * Get imported households
+     */
     importedHouseholds() {
         this._householdsService.getImported(this.newHouseholds)
             .subscribe(
@@ -617,7 +619,6 @@ export class BeneficiariesImportComponent implements OnInit {
                     this.newHouseholds = response;
                     this.newHouseholds = Households.formatArray(this.newHouseholds);
                     this.importedDataService.data = this.newHouseholds;
-
                     this.router.navigate(['/beneficiaries/imported']);
                 }
             );

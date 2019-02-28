@@ -251,6 +251,10 @@ app-import-distribution {
     color: #424242 !important;
 }
 
+app-mobile-money, app-general-relief {
+    width: 95%;
+}
+
 //for mobile screen
 @media only screen and (max-width: 750px){
 

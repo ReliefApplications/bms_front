@@ -15,11 +15,11 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(
         public snackbar: MatSnackBar,
-    ) {}
+    ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
 
-        const reqMethod: String = req.method;
+        const reqMethod: string = req.method;
 
         return next.handle(req).pipe(
             catchError(
@@ -32,18 +32,34 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     snackErrors(response: any) {
-        if (response.message || (response.status && response.statusText && response.error) ) {
+        if (response.message || (response.status && response.statusText && response.error)) {
             if (response.status && response.statusText && response.error) {
-                if (typeof response.error !== 'string') {
+                if (response.error instanceof Blob) {
+                    (this.snackBlobError(response.error));
+                }
+                else if (typeof response.error !== 'string') {
                     response.error = response.error.error.message;
                 }
-                this.snackbar.open(response.error, '', {duration: 5000, horizontalPosition: 'center'});
+                this.showSnackbar(response.error);
             } else {
-                this.snackbar.open(response.message, '', {duration: 5000, horizontalPosition: 'center'});
+                this.showSnackbar(response.message);
             }
         } else {
-            this.snackbar.open(GlobalText.TEXTS.error_interceptor_msg, '', {duration: 5000, horizontalPosition: 'center'});
+            this.showSnackbar(GlobalText.TEXTS.error_interceptor_msg);
         }
+    }
+
+    snackBlobError(convertedBlob: Blob): void {
+        const reader = new FileReader();
+        reader.onload = (event: any) => {
+            const error = <string>reader.result;
+            this.showSnackbar(error.substring(1, error.length - 1));
+        };
+        reader.readAsText(convertedBlob);
+    }
+
+    showSnackbar(error: string): void {
+        this.snackbar.open(error, '', { duration: 5000, horizontalPosition: 'center' });
     }
 
 }

@@ -16,6 +16,11 @@
       "git add"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^6.1.9",
@@ -46,7 +51,6 @@
     "hammerjs": "^2.0.8",
     "html2canvas": "^1.0.0-alpha.12",
     "http-server": "^0.11.1",
-    "husky-tslint-pre-commit": "^1.0.3",
     "jquery": "^3.3.1",
     "jspdf": "^1.5.3",
     "leaflet": "^1.3.4",
@@ -54,7 +58,7 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.13.2",
+    "@angular-devkit/build-angular": "^0.13.3",
     "@angular/cli": "^6.2.3",
     "@angular/compiler-cli": "^6.1.9",
     "@angular/language-service": "^6.1.9",
@@ -62,6 +66,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "~4.2.1",
+    "husky": "^1.3.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^3.0.0",
@@ -71,12 +76,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "^5.4.0",
     "ts-node": "~5.0.1",
-    "tslint": "^5.12.1",
+    "tslint": "^5.13.0",
     "typescript": "~2.9.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "node node_modules/husky-tslint-pre-commit/pre-commit.js"
-    }
   }
 }

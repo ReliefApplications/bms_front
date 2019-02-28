@@ -138,11 +138,13 @@ export class ProjectComponent implements OnInit, DoCheck {
                     this.projects = this.projectClass.formatArray(response).reverse();
                     this.generateProjectsSlide();
                     if (!this.selectedProject) {
-                        let selectedProject;
                         if (this.importedDataService.emittedProject) {
-                            selectedProject = this.getProjectFromId(this.importedDataService.project);
+                            console.log(this.projects);
+
+                            const selectedProject = this.getProjectFromId(this.importedDataService.project);
+                            console.log(selectedProject);
                         } else {
-                            selectedProject = this.projects[0];
+                            const selectedProject = this.projects[0];
                         }
                         this.selectTitle(selectedProject.name, selectedProject);
 

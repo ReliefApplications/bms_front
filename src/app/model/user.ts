@@ -65,6 +65,8 @@ export class User {
         selected: true,
     };
 
+
+
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;
@@ -78,15 +80,14 @@ export class User {
             this.loggedIn = instance.loggedIn;
             this.language = instance.language;
         }
-    }
 
     public static getDisplayedName() {
         return GlobalText.TEXTS.model_user;
     }
 
     /**
-  	* return User properties name displayed
-  	*/
+	* return User properties name displayed
+	*/
     static translator(): Object {
         return {
             username: GlobalText.TEXTS.email,
@@ -151,10 +152,10 @@ export class User {
     }
 
     /**
-  	 * used in modal add
-  	 * @param element
-  	 * @param loadedData
-  	 */
+	 * used in modal add
+	 * @param element
+	 * @param loadedData
+	 */
     public static formatFromModalAdd(element: any, loadedData: any): User {
         const newObject = new User(element);
 
@@ -218,8 +219,8 @@ export class User {
     }
 
     /**
-  	* return a User after formatting its properties
-  	*/
+	* return a User after formatting its properties
+	*/
     getMapper(selfinstance): Object {
         if (!selfinstance) {
             return selfinstance;
@@ -232,8 +233,8 @@ export class User {
     }
 
     /**
-  	* return a User after formatting its properties for the modal details
-  	*/
+	* return a User after formatting its properties for the modal details
+	*/
     getMapperDetails(selfinstance): Object {
         if (!selfinstance) {
             return selfinstance;
@@ -271,8 +272,8 @@ export class User {
     }
 
     /**
-  	 * return a User after formatting its properties for the modal add
-  	 */
+	 * return a User after formatting its properties for the modal add
+	 */
     getMapperAdd(selfinstance): Object {
         if (!selfinstance) {
             return selfinstance;
@@ -305,8 +306,8 @@ export class User {
     }
 
     /**
-  	* return the type of User properties
-  	*/
+	* return the type of User properties
+	*/
     getTypeProperties(selfinstance): Object {
         return {
             username: 'text',
@@ -315,8 +316,8 @@ export class User {
     }
 
     /**
-  	* return the type of User properties for modals
-  	*/
+	* return the type of User properties for modals
+	*/
     getModalTypeProperties(selfinstance): Object {
         return {
             username: 'email',

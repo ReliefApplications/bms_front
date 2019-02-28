@@ -7,7 +7,7 @@
         <form class="form" [formGroup]="form">
           <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p]!='selectSingle'" class="full-width">
             <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p] != 'selectDonor' && propertiesTypes[p] != 'date' && propertiesTypes[p]!='selectSingle'  && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry' && propertiesTypes[p] != 'selectCountry'"
-              [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries' || p=='name')"
+              [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries' || p=='name' || propertiesTypes[p] === 'disabled')"
               [type]="propertiesTypes[p]">
 
 

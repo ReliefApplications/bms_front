@@ -10,7 +10,7 @@ export class Booklet {
         1: 'Distributed',
         2: 'Used',
         3: 'Deactivated'
-    }
+    };
 
     /**
      * Booklet id.
@@ -34,6 +34,12 @@ export class Booklet {
      * @type {number}
      */
     individual_value: number;
+
+    /**
+     * Array of voucher's individual values.
+     * @type {number[]}
+     */
+    individual_values: number[];
 
     /**
      * Booklet currency
@@ -77,6 +83,7 @@ export class Booklet {
             this.code = instance.code;
             this.number_vouchers = instance.number_vouchers;
             this.individual_value = instance.individual_value;
+            this.individual_values = instance.individual_values;
             this.currency = instance.currency;
             this.status = instance.status;
             this.password = instance.password;
@@ -100,6 +107,7 @@ export class Booklet {
             code: GlobalText.TEXTS.model_code,
             number_vouchers: GlobalText.TEXTS.model_number_vouchers,
             individual_value: GlobalText.TEXTS.model_individual_value,
+            individual_values: GlobalText.TEXTS.model_individual_value,
             currency: GlobalText.TEXTS.model_currency,
             status: GlobalText.TEXTS.model_state,
             password: GlobalText.TEXTS.model_password,
@@ -126,15 +134,28 @@ export class Booklet {
     }
 
     public static formatElement(instance: any): Booklet {
-        let booklet = new Booklet(instance);
+        const booklet = new Booklet(instance);
 
         booklet.individual_value = instance.vouchers.length > 0 ? instance.vouchers[0].value : null;
         return booklet;
     }
 
     public static formatForApi(instance: any) {
-        instance.password = instance.password ? CryptoJS.SHA1(instance.password).toString(CryptoJS.enc.Base64) : null
+        instance.password = instance.password ? CryptoJS.SHA1(instance.password).toString(CryptoJS.enc.Base64) : null;
+        if (instance.individual_value) {
+            instance.individual_values = new Array(instance.number_vouchers);
+            instance.individual_values.fill(instance.individual_value);
+        }
         return new Booklet(instance);
+    }
+
+    /**
+     * used in modal add
+     * @param element
+     * @param loadedData
+     */
+    public static formatFromModalAdd(element: any, loadedData: any): Booklet {
+        return this.formatForApi(element);
     }
 
     mapAllProperties(selfinstance): Object {
@@ -147,6 +168,7 @@ export class Booklet {
             code: selfinstance.code,
             number_vouchers: selfinstance.number_vouchers,
             individual_value: selfinstance.individual_value,
+            individual_values: selfinstance.individual_values,
             currency: selfinstance.currency,
             status: selfinstance.status,
             distribution_beneficiary: selfinstance.distribution_beneficiary ? selfinstance.distribution_beneficiary.id : null,
@@ -179,11 +201,12 @@ export class Booklet {
         }
 
         return {
-            number_vouchers: selfinstance.number_vouchers,
+            number_vouchers: selfinstance.number_vouchers ? selfinstance.number_vouchers : 1,
+            individual_to_all: selfinstance.individual_to_all ? selfinstance.individual_to_all : false,
             individual_value: selfinstance.individual_value,
-            individual_to_all: selfinstance.individual_to_all,
+            individual_values: selfinstance.individual_values,
             currency: selfinstance.currency,
-            number_booklets: selfinstance.number_booklets,
+            number_booklets: selfinstance.number_booklets ? selfinstance.number_booklets : 1,
             password: selfinstance.password
         };
     }
@@ -199,8 +222,7 @@ export class Booklet {
         let distribution_beneficiary;
         if (selfinstance.distribution_beneficiary) {
             distribution_beneficiary = selfinstance.distribution_beneficiary.id;
-        }
-        else {
+        } else {
             distribution_beneficiary = selfinstance.distribution_beneficiary;
         }
 
@@ -239,7 +261,8 @@ export class Booklet {
         return {
             code: 'text',
             number_vouchers: 'number',
-            individual_value: 'number',
+            individual_value: 'individual_value',
+            individual_values: 'individual_values',
             currency: 'text',
             status: 'number',
             password: 'password',
@@ -253,21 +276,13 @@ export class Booklet {
         return {
             code: 'text',
             number_vouchers: 'positive-number',
-            individual_value: 'positive-number',
+            individual_value: 'individual_value',
+            individual_values: 'individual_values',
             currency: 'text',
             status: 'number',
             password: 'password',
-            individual_to_all: 'boolean',
+            individual_to_all: 'checkbox',
             number_booklets: 'positive-number'
         };
-    }
-
-    /**
-     * used in modal add
-     * @param element
-     * @param loadedData
-     */
-    public static formatFromModalAdd(element: any, loadedData: any): Booklet {
-        return this.formatForApi(element);
     }
 }

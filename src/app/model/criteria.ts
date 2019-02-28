@@ -1,5 +1,5 @@
-import { SectorMapper } from "./sector-mapper";
-import { GlobalText } from "../../texts/global";
+import { SectorMapper } from './sector-mapper';
+import { GlobalText } from '../../texts/global';
 
 export class Criteria {
     static __classname__ = 'Criteria';
@@ -12,27 +12,27 @@ export class Criteria {
      * Criteria's kind_beneficiary
      * @type {string}
      */
-    kind_beneficiary: string = '';
+    kind_beneficiary = '';
     /**
     * Criteria's table_string
     * @type {string}
     */
-    table_string: string = '';
+    table_string = '';
     /**
      * Criteria's field_string
      * @type {string}
      */
-    field_string: string = '';
+    field_string = '';
     /**
      * Criteria's condition_string
      * @type {spring}
      */
-    condition_string: string = '';
+    condition_string = '';
     /**
      * Criteria's type
      * @type {spring}
      */
-    type: string = '';
+    type = '';
     /**
      * Criteria's value_string
      * @type {any}
@@ -42,7 +42,7 @@ export class Criteria {
      * Criteria's weight
      * @type {number};
      */
-    weight: number = 1;
+    weight = 1;
 
     constructor(instance?) {
         if (instance !== undefined) {
@@ -61,60 +61,6 @@ export class Criteria {
     }
 
     /**
-    * return a Criteria after formatting its properties
-    */
-    getMapper(selfinstance): Object {
-        if (!selfinstance)
-            return selfinstance;
-
-        return {
-            field_string: selfinstance.field_string,
-            condition_string: selfinstance.condition_string,
-            value_string: selfinstance.value_string,
-            weight: selfinstance.weight
-        }
-    }
-
-    /**
-    * return a Criteria after formatting its properties for the modal add
-    */
-    getMapperAdd(selfinstance): Object {
-        if (!selfinstance)
-            return selfinstance;
-
-        return {
-            field_string: selfinstance.field_string,
-            condition_string: selfinstance.condition_string,
-            value_string: selfinstance.value_string,
-            weight: selfinstance.weight
-        }
-    }
-
-    /**
-    * return the type of Criteria properties
-    */
-    getTypeProperties(selfinstance): Object {
-        return {
-            field_string: "text",
-            condition_string: "text",
-            value_string: "text",
-            weight: "number"
-        }
-    }
-
-    /**
-    * return the type of Criteria properties for modals
-    */
-    getModalTypeProperties(selfinstance): Object {
-        return {
-            field_string: "select",
-            condition_string: "select",
-            value_string: "text",
-            weight: "number"
-        }
-    }
-
-    /**
     * return Criteria properties name displayed
     */
     static translator(): Object {
@@ -123,20 +69,21 @@ export class Criteria {
             condition_string: GlobalText.TEXTS.model_criteria_operator,
             value_string: GlobalText.TEXTS.model_value,
             weight: GlobalText.TEXTS.model_criteria_weight
-        }
+        };
     }
 
     public static formatArray(instance): Criteria[] {
-        let criterias: Criteria[] = [];
-        if(instance)
+        const criterias: Criteria[] = [];
+        if (instance) {
         instance.forEach(element => {
             criterias.push(this.formatFromApi(element));
         });
+        }
         return criterias;
     }
 
     public static formatFromApi(element: any): Criteria {
-        let criteria = new Criteria(element);
+        const criteria = new Criteria(element);
 
         return criteria;
     }
@@ -147,21 +94,23 @@ export class Criteria {
      * @param loadedData
      */
     public static formatFromModalAdd(element: any, loadedData: any): Criteria {
-        let newObject = new Criteria(loadedData.field_string[element.field_string - 1]);
-        if (!element.kind_beneficiary)
+        const newObject = new Criteria(loadedData.field_string[element.field_string - 1]);
+        if (!element.kind_beneficiary) {
             element.kind_beneficiary = 1;
-        if (!element.condition_string)
+        }
+        if (!element.condition_string) {
             element.condition_string = 1;
+        }
 
         newObject.kind_beneficiary = loadedData.kind_beneficiary[element.kind_beneficiary - 1].field_string;
         newObject.condition_string = loadedData.condition_string[element.condition_string - 1].field_string;
 
-        if (newObject.field_string == "gender" || newObject.field_string == "dateOfBirth"
-        || newObject.field_string == "IDPoor" || newObject.field_string == "equityCardNo") {
-            if(element.value_string) {
+        if (newObject.field_string === 'gender' || newObject.field_string === 'dateOfBirth'
+        || newObject.field_string === 'IDPoor' || newObject.field_string === 'equityCardNo') {
+            if (element.value_string) {
                 newObject.value_string = element.value_string;
             } else {
-                newObject.value_string = "null";
+                newObject.value_string = 'null';
             }
         }
 
@@ -172,5 +121,61 @@ export class Criteria {
 
     public static formatForApi(element: Criteria): any {
         return new Criteria(element);
+    }
+
+    /**
+    * return a Criteria after formatting its properties
+    */
+    getMapper(selfinstance): Object {
+        if (!selfinstance) {
+            return selfinstance;
+        }
+
+        return {
+            field_string: selfinstance.field_string,
+            condition_string: selfinstance.condition_string,
+            value_string: selfinstance.value_string,
+            weight: selfinstance.weight
+        };
+    }
+
+    /**
+    * return a Criteria after formatting its properties for the modal add
+    */
+    getMapperAdd(selfinstance): Object {
+        if (!selfinstance) {
+            return selfinstance;
+        }
+
+        return {
+            field_string: selfinstance.field_string,
+            condition_string: selfinstance.condition_string,
+            value_string: selfinstance.value_string,
+            weight: selfinstance.weight
+        };
+    }
+
+    /**
+    * return the type of Criteria properties
+    */
+    getTypeProperties(selfinstance): Object {
+        return {
+            field_string: 'text',
+            condition_string: 'text',
+            value_string: 'text',
+            weight: 'number'
+        };
+    }
+
+    /**
+    * return the type of Criteria properties for modals
+    */
+    getModalTypeProperties(selfinstance): Object {
+        return {
+            field_string: 'select',
+            condition_string: 'select',
+            value_string: 'text',
+            weight: 'number'
+        };
     }
 }

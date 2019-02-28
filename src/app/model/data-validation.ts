@@ -1,4 +1,4 @@
-import { Households } from "./households";
+import { Households } from './households';
 
 /**
  * Data contained in new and old object after treatment
@@ -19,7 +19,7 @@ export class Data {
      * to know if beneficiaries is the head of household
      * @type {boolean}
      */
-    isHead?: boolean = false;
+    isHead = false;
 }
 
 /**
@@ -70,7 +70,7 @@ export class FormatDataNewOld {
      * @return FormatDataNewOld[]
      */
     public static formatIssues(instance: any, step: number): FormatDataNewOld[] {
-        let dataFormatted: FormatDataNewOld[] = [];
+        const dataFormatted: FormatDataNewOld[] = [];
         instance.data.forEach(element => {
             dataFormatted.push(this.formatDataOldNew(element, step));
         });
@@ -84,17 +84,17 @@ export class FormatDataNewOld {
      * @return FormatDataNewOld
      */
     public static formatDataOldNew(element: any, step: number): FormatDataNewOld {
-        let data = new FormatDataNewOld();
+        const data = new FormatDataNewOld();
         data.new.households = element.new;
         data.old.households = element.old;
         data.id_tmp_cache = element.id_tmp_cache;
-        //if step 2 (duplicates) format is different of other steps
+        // if step 2 (duplicates) format is different of other steps
         if (step === 2) {
             let oldBeneficiary;
             let newBeneficiary;
 
             element.old.beneficiaries.forEach(beneficiary => {
-                //check in all old beneficiary to find head of household (status == true)
+                // check in all old beneficiary to find head of household (status == true)
                 if (beneficiary.status) {
                     data.old.isHead = true;
                 }
@@ -104,25 +104,25 @@ export class FormatDataNewOld {
                 newBeneficiary = beneficiary.family_name + beneficiary.given_name;
             });
 
-            //concat oldBeneficiary and newBeneficiary created earlier to get an unique identifiant for every beneficiary
-            data.id_tmp_beneficiary = oldBeneficiary + "/" + newBeneficiary;
+            // concat oldBeneficiary and newBeneficiary created earlier to get an unique identifiant for every beneficiary
+            data.id_tmp_beneficiary = oldBeneficiary + '/' + newBeneficiary;
         } else {
-            //for the step 1, 3, 4
+            // for the step 1, 3, 4
 
             element.new.beneficiaries.forEach(beneficiary => {
-                if (beneficiary.status == '1') {
-                    //get the full name of head of household
-                    data.new.nameHead = beneficiary.family_name + " " + beneficiary.given_name;
+                if (beneficiary.status === '1') {
+                    // get the full name of head of household
+                    data.new.nameHead = beneficiary.family_name + ' ' + beneficiary.given_name;
                 }
-                //create an unique identifiant
+                // create an unique identifiant
                 beneficiary.id_tmp = element.old.id + beneficiary.family_name + beneficiary.given_name;
             });
             element.old.beneficiaries.forEach(beneficiary => {
-                if (beneficiary.status == '1') {
-                    //get the full name of head of household
-                    data.old.nameHead = beneficiary.family_name + " " + beneficiary.given_name;
+                if (beneficiary.status === '1') {
+                    // get the full name of head of household
+                    data.old.nameHead = beneficiary.family_name + ' ' + beneficiary.given_name;
                 }
-                //create an unique identifiant
+                // create an unique identifiant
                 beneficiary.id_tmp = element.old.id + beneficiary.family_name + beneficiary.given_name;
             });
         }
@@ -146,7 +146,7 @@ export class VerifiedData {
      * boolean to now which action is necessary : update, add, delete
      * @type {boolean}
      */
-    state?: boolean = false;
+    state = false;
     /**
      * old household's id
      * @type {number}
@@ -180,9 +180,9 @@ export class VerifiedData {
             this.state = instance.state;
             this.new = instance.new;
             this.id_old = instance.id_old;
-            this.to_delete = instance.to_delete
-            this.id_duplicate = instance.id_duplicate
-            this.id_tmp_cache = instance.id_tmp_cache
+            this.to_delete = instance.to_delete;
+            this.id_duplicate = instance.id_duplicate;
+            this.id_tmp_cache = instance.id_tmp_cache;
         }
     }
 
@@ -199,15 +199,15 @@ export class FormatDuplicatesData {
      * @type {Array}
      */
     data: Array<any> = [];
-    // /**
-    //  * new_household to return to back without modification
-    //  * @type {Households}
-    //  */
+    /**
+     * new_household to return to back without modification
+     * @type {Households}
+     */
     new_household: Households = new Households;
-    // /**
-    //  * id uses by the back
-    //  * @type {number}
-    //  */
+    /**
+     * id uses by the back
+     * @type {number}
+     */
     id_tmp_cache?: number;
 
 
@@ -230,9 +230,9 @@ export class FormatDuplicatesData {
      * @return FormatDuplicatesData
      */
     public static formatDuplicates(instance: any, step: number): FormatDuplicatesData[] {
-        let formatDuplicates: FormatDuplicatesData[] = [];
+        const formatDuplicates: FormatDuplicatesData[] = [];
         instance.data.forEach(data => {
-            let duplicates = new FormatDuplicatesData;
+            const duplicates = new FormatDuplicatesData;
             duplicates.data = [];
             // duplicates.new_household = data.new_household;
             // if (data.id_tmp_cache) {

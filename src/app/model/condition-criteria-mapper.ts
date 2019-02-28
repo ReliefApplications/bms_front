@@ -1,4 +1,4 @@
-import { ConditionCriteria } from "./condition-criteria";
+import { ConditionCriteria } from './condition-criteria';
 
 export class ConditionCriteriaMapper {
 
@@ -6,12 +6,12 @@ export class ConditionCriteriaMapper {
     * mapping between type and conditions
     */
     public static mapConditionCriteria(type: string): ConditionCriteria[] {
-        if ((type == 'number') || (type == 'date')) {
+        if ((type === 'number') || (type === 'date')) {
             return [
-                new ConditionCriteria('>'), 
-                new ConditionCriteria('<'), 
+                new ConditionCriteria('>'),
+                new ConditionCriteria('<'),
                 new ConditionCriteria('>='),
-                new ConditionCriteria('<='), 
+                new ConditionCriteria('<='),
                 new ConditionCriteria('='),
                 new ConditionCriteria('!=')
             ];
@@ -20,7 +20,7 @@ export class ConditionCriteriaMapper {
                 new ConditionCriteria('true'),
                 new ConditionCriteria('false')
             ];
-        }else{
+        } else {
             return [
                 new ConditionCriteria('='),
                 new ConditionCriteria('!=')

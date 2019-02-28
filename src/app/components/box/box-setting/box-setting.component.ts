@@ -5,8 +5,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
     templateUrl: './box-setting.component.html',
     styleUrls: ['./box-setting.component.scss']
 })
-export class BoxSettingComponent {
-
+export class BoxSettingComponent implements OnInit {
     @Input() isSelected;
     @Input() info: any;
 

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractFilter, FilterInterface } from '../../../../model/filter';
 import { FilterService } from '../../services/filter.service';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -6,22 +6,22 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { SlideSelectorService } from 'src/app/core/utils/slide-selector.service';
 
 export interface ButtonFilterData {
-    label: string
-    value: string
-    active: boolean
-    color?: string
-    icon?: string
-    level: string
+    label: string;
+    value: string;
+    active: boolean;
+    color?: string;
+    icon?: string;
+    level: string;
 }
 
 @Component({
-    selector: 'button-filter',
+    selector: 'app-button-filter',
     templateUrl: './button-filter.component.html',
     styleUrls: ['./button-filter.component.scss']
 })
 
 
-export class ButtonFilterComponent extends AbstractFilter {
+export class ButtonFilterComponent extends AbstractFilter implements OnInit {
 
     @Input() data: Array<ButtonFilterData>;
     @Input() selectedItem;
@@ -52,9 +52,8 @@ export class ButtonFilterComponent extends AbstractFilter {
             if (item.value === newFilter || item.value !== newFilter && item.active) {
                 item.active = !item.active;
             }
-        })
+        });
         super.filter(newFilter);
         this.selectedItem = newFilter;
     }
-
 }

@@ -36,7 +36,7 @@
     </div>
   </div>
   <div class="container-table" *ngIf="!loadingDistributions && projects !== undefined">
-    <div class="container-content box-green" *ngIf="isBoxClicked">
+    <div class="container-content box-primary" *ngIf="isBoxClicked">
       <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
         <div class="action-buttons" *ngIf="distributionData && distributionData.data.length>0">
           <div class="button-with-extension">
@@ -106,7 +106,7 @@
       </div>
 
       <div class="container-table" *ngIf="!loadingDistributions && projects == undefined">
-        <div class="container-content box-green">
+        <div class="container-content box-primary">
           <div class="undisplay new-project">
             <mat-icon>note_add</mat-icon>
             <div class="resume">

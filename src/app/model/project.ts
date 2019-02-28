@@ -67,23 +67,23 @@ export class Project {
     notes: string;
 
     slideInfo: Object = {
-        icon: "settings/api", 
-        title: GlobalText.TEXTS.projects, 
-        ref:"projects",
+        icon: 'settings/api',
+        title: GlobalText.TEXTS.projects,
+        ref: 'projects',
         selected: false,
     };
-    
+
 
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;
             this.name = instance.name;
-            this.start_date = instance.start_date? instance.start_date : new Date();
-            this.end_date = instance.end_date? instance.end_date : new Date();
+            this.start_date = instance.start_date ? instance.start_date : new Date();
+            this.end_date = instance.end_date ? instance.end_date : new Date();
             this.number_of_households = instance.number_of_households;
-            this.iso3 = instance.iso3? instance.iso3 : '';
-            this.value = instance.value? instance.value : 1000;
-            this.notes = instance.notes? instance.notes : '';
+            this.iso3 = instance.iso3 ? instance.iso3 : '';
+            this.value = instance.value ? instance.value : 1000;
+            this.notes = instance.notes ? instance.notes : '';
         }
     }
 
@@ -91,19 +91,97 @@ export class Project {
         return GlobalText.TEXTS.project;
     }
 
+    /**
+    * return Project properties name displayed
+    */
+    static translator(): Object {
+        return {
+            name: GlobalText.TEXTS.model_project_name,
+            sectors_name: GlobalText.TEXTS.model_sectors_name,
+            start_date: GlobalText.TEXTS.model_project_start_date,
+            end_date: GlobalText.TEXTS.model_project_end_date,
+            number_of_households: GlobalText.TEXTS.model_project_number_of_households,
+            donors_name: GlobalText.TEXTS.model_project_donors_name,
+            notes: GlobalText.TEXTS.model_notes,
+            value: GlobalText.TEXTS.model_project_value,
+        };
+    }
+
+    public static formatArray(instance): Project[] {
+        const projects: Project[] = [];
+        if (instance) {
+            instance.forEach(element => {
+                projects.push(this.formatProject(element));
+            });
+        }
+        return projects;
+    }
+
+    public static formatProject(element: any): Project {
+        const project = new Project(element);
+        project.sectors = [];
+        project.donors = [];
+
+        if (element.sectors) {
+            element.sectors.forEach(sector => {
+                project.sectors.push(new Sector(sector));
+                project.sectors_name.push(sector.name);
+            });
+        }
+
+        if (element.donors) {
+            element.donors.forEach(donor => {
+                project.donors.push(new Donor(donor));
+                project.donors_name.push(donor.fullname);
+            });
+        }
+        return project;
+    }
+
+    public static formatForApi(element): any {
+        const project = new Project(element);
+        if (element.sectors_name) {
+            element.sectors_name.forEach(sector => {
+                const newSector = new Sector();
+                newSector.id = sector.id;
+                project.sectors.push(new Sector(newSector));
+            });
+        } else {
+            project.sectors = [];
+        }
+        if (element.donors_name) {
+            element.donors_name.forEach(donor => {
+                const newDonor = new Donor();
+                newDonor.id = donor.id;
+                project.donors.push(new Donor(newDonor));
+            });
+        } else {
+            project.donors = [];
+        }
+        return project;
+    }
+
+    public static formatFromModalAdd(object, data) {
+        return object;
+    }
+
+    public static getAddDescription(): String {
+        return GlobalText.TEXTS.project_description;
+    }
+
     mapAllProperties(selfinstance): Object {
         if (!selfinstance) {
             return selfinstance;
         }
 
-        let donorsArray = [];
+        const donorsArray = [];
         if (selfinstance.donors) {
             selfinstance.donors.forEach(element => {
                 donorsArray.push(element);
             });
         }
 
-        let sectorsArray = [];
+        const sectorsArray = [];
         if (selfinstance.sectors) {
             selfinstance.sectors.forEach(element => {
                 sectorsArray.push(element);
@@ -256,87 +334,10 @@ export class Project {
         };
     }
 
-    /**
-    * return Project properties name displayed
-    */
-    static translator(): Object {
-        return {
-            name: GlobalText.TEXTS.model_project_name,
-            sectors_name: GlobalText.TEXTS.model_sectors_name,
-            start_date: GlobalText.TEXTS.model_project_start_date,
-            end_date: GlobalText.TEXTS.model_project_end_date,
-            number_of_households: GlobalText.TEXTS.model_project_number_of_households,
-            donors_name: GlobalText.TEXTS.model_project_donors_name,
-            notes: GlobalText.TEXTS.model_notes,
-            value: GlobalText.TEXTS.model_project_value,
-        };
-    }
-
-    public static formatArray(instance): Project[] {
-        const projects: Project[] = [];
-        if (instance)
-            instance.forEach(element => {
-                projects.push(this.formatProject(element));
-            });
-        return projects;
-    }
-
-    public static formatProject(element: any): Project {
-        const project = new Project(element);
-        project.sectors = [];
-        project.donors = [];
-
-        if(element.sectors) {
-            element.sectors.forEach(sector => {
-                project.sectors.push(new Sector(sector));
-                project.sectors_name.push(sector.name);
-            });
-        }
-
-        if(element.donors) {
-            element.donors.forEach(donor => {
-                project.donors.push(new Donor(donor));
-                project.donors_name.push(donor.fullname);
-            });
-        }
-        return project;
-    }
-
-    public static formatForApi(element): any {
-        const project = new Project(element);
-        if (element.sectors_name) {
-            element.sectors_name.forEach(sector => {
-                const newSector = new Sector();
-                newSector.id = sector.id;
-                project.sectors.push(new Sector(newSector));
-            });
-        } else {
-            project.sectors = [];
-        }
-        if (element.donors_name) {
-            element.donors_name.forEach(donor => {
-                const newDonor = new Donor();
-                newDonor.id = donor.id;
-                project.donors.push(new Donor(newDonor));
-            });
-        } else {
-            project.donors = [];
-        }
-        return project;
-    }
-
-    public static formatFromModalAdd(object, data) {
-        return object;
-    }
-
-    public static getAddDescription(): String {
-        return GlobalText.TEXTS.project_description;
-    }
-
     mapDonors(donors: any) {
-        let donorString: string = '';
+        let donorString = '';
         donors.forEach(donor => {
-            donorString = donorString == '' ? donor : donorString + ', ' + donor;
+            donorString = donorString === '' ? donor : donorString + ', ' + donor;
         });
 
         return donorString;

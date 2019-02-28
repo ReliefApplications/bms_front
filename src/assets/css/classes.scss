@@ -75,7 +75,7 @@
         width: 100%;
         padding: 20px;
 
-        .box-green {
+        .box-primary {
               border-top: solid 12px $bms_dark_blue;
         }
         .box-red {
@@ -143,7 +143,7 @@
         .text {
            display: inline;
         }
-        mat-spinner{
+        mat-spinner {
             height:40px;
         }
     }
@@ -335,7 +335,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 
 
 // TODO check addBeneficiary (done) and distributions (next)
-.box-green, .box-red {
+.box-primary, .box-red {
     .content-button{
         .next{
             font-weight: 900;
@@ -462,6 +462,11 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         width: 100% !important;
         padding-top: 20px;
         justify-content: flex-end;
+        direction: ltr;
+
+        &.arabic {
+          direction: rtl;
+        }
     }
 }
 
@@ -590,5 +595,6 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 }
 
 .ng-select.multiple-select .ng-select-container .ng-value-container .ng-value {
-    background-color: #424242;
+    background-color: #424242 !important;
+    white-space: pre-wrap !important;
 }

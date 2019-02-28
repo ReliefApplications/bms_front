@@ -1,19 +1,19 @@
-import { Component, OnInit, Input                          } from '@angular/core';
-import { TableComponent                             } from '../table.component';
+import { Component, OnInit, Input } from '@angular/core';
+import { TableComponent } from '../table.component';
 
 @Component({
-  selector: 'app-table-mobile-search',
-  templateUrl: './table-mobile-search.component.html',
-  styleUrls: ['../table-mobile/table-mobile.component.scss']
+    selector: 'app-table-mobile-search',
+    templateUrl: './table-mobile-search.component.html',
+    styleUrls: ['../table-mobile/table-mobile.component.scss']
 })
 export class TableMobileSearchComponent extends TableComponent implements OnInit {
-  
-  @Input() deletable;
 
-  ngOnInit() {
-      if (!this.deletable) {
-          this.deletable = true;
-      }
-  }
-  
+    @Input() deletable;
+
+    ngOnInit() {
+        if (!this.deletable) {
+            this.deletable = true;
+        }
+    }
+
 }

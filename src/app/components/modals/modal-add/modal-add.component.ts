@@ -247,18 +247,23 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
         }
 
         // Check fields for Vendors in settings
-        else if (this.newObject && (this.newObject.shop || this.newObject.shop == '')) {
+        else if (this.newObject && (this.newObject.shop || this.newObject.shop === '')) {
             this.newObject.user = {
                 username: this.newObject.username,
                 password: this.newObject.password
-            }
-            if (this.newObject.name == '' || this.newObject.shop == '' || this.newObject.address == '' || this.newObject.username == '' || this.newObject.password == '') {
+            };
+            if (this.newObject.name === '' ||
+                this.newObject.shop === '' ||
+                this.newObject.address === '' ||
+                this.newObject.username === '' ||
+                this.newObject.password === ''
+            ) {
                 this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }
         }
-        
-        //Check commodity in addDistribution
+
+        // Check commodity in addDistribution
         else if ((this.newObject.modality) || this.newObject.modality === '') {
             if (this.newObject.unit && this.newObject.value && this.newObject.modality === 1) {
                 this.newObject.type = 1;
@@ -284,4 +289,39 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
             return 'Unit';
         }
     }
+
+    handleCheckbox() {
+        if (this.data.entity.__classname__ === 'Booklet') {
+            this.newObject.individual_to_all = !this.newObject.individual_to_all;
+            if (!this.newObject.individual_values) {
+                const individual_values = new Array(this.newObject.number_vouchers);
+                const individual_value = this.newObject.individual_value ? this.newObject.individual_value : 1;
+                individual_values.fill(individual_value);
+                this.newObject.individual_values = individual_values;
+                this.newObject.individual_value = null;
+            } else {
+                this.newObject.individual_value = this.newObject.individual_values ? this.newObject.individual_values[0] : 1;
+                this.newObject.individual_values = null;
+            }
+        }
+    }
+
+    handleChangeNumberVouchers() {
+        if (this.newObject.individual_to_all) {
+            if (this.newObject.individual_values.length > this.newObject.number_vouchers) {
+                while (this.newObject.individual_values.length > this.newObject.number_vouchers) {
+                    this.newObject.individual_values.pop();
+                }
+            } else if (this.newObject.individual_values.length < this.newObject.number_vouchers) {
+                while (this.newObject.individual_values.length < this.newObject.number_vouchers) {
+                    const value = this.newObject.individual_values[0] ? this.newObject.individual_values[0] : 1;
+                    this.newObject.individual_values.push(value);
+                }
+            }
+        }
+    }
+
+    trackByFn(i: number) {
+        return i;
+      }
 }

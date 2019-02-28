@@ -113,8 +113,6 @@ export class TransactionBeneficiary {
             return null;
         }
 
-        // console.log('after format : ', beneficiaries);
-
         return (beneficiaries);
     }
 

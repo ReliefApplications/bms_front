@@ -24,8 +24,6 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
         this.entityInstance = this.data.mapper.instantiate(this.data.entity);
         this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapperUpdate(this.entityInstance, this.data.data));
 
-        console.log('ModalUpdate', this.data.data);
-
         this.propertiesTypes = this.entityInstance.getModalTypeProperties(this.entityInstance);
         try {
             this.updateObject = this.entityInstance.mapAllProperties(this.data.data);

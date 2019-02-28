@@ -245,9 +245,11 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                         if (this.actualDistribution.commodities[0].modality_type.name === 'Voucher') {
                             this.entity = TransactionVoucher;
                             this.selection = new SelectionModel<any>(true, []);
+                            // tslint:disable-next-line
                             this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));
                         } else if (this.actualDistribution.commodities[0].modality_type.name === 'Mobile Cash') {
                             this.entity = TransactionBeneficiary;
+                            // tslint:disable-next-line
                             this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));
                         }
 

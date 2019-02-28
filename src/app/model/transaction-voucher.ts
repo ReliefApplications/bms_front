@@ -107,15 +107,11 @@ export class TransactionVoucher {
             return null;
         }
 
-        // console.log('after format : ', voucher);
-
         return (voucher);
     }
 
     public static formatElement(instance: any, com: string): TransactionVoucher {
         const voucher = new TransactionVoucher();
-
-        console.log('TEST', instance);
 
         voucher.id = instance.beneficiary.id;
         voucher.givenName = instance.beneficiary.given_name;

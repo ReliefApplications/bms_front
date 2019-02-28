@@ -102,7 +102,7 @@ export class TransactionBeneficiary {
                     }
                     commodities += commodity.value + ' ' + commodity.unit;
                 }
-            );
+            )
         }
 
         if (instance) {
@@ -130,23 +130,24 @@ export class TransactionBeneficiary {
 
         if (instance.transactions && instance.transactions.length > 0 && isNumber(instance.transactions[0].transaction_status)) {
             beneficiary.id_transaction = instance.transactions[0].id;
-            if (instance.transactions[instance.transactions.length - 1].transaction_status === 0) {
+            if (instance.transactions[instance.transactions.length - 1].transaction_status == 0) {
                 beneficiary.updateState('Sending failed');
-            } else if (instance.transactions[instance.transactions.length - 1].transaction_status === 1
-              && !instance.transactions[instance.transactions.length - 1].money_received) {
+            }
+            else if (instance.transactions[instance.transactions.length - 1].transaction_status == 1 && !instance.transactions[instance.transactions.length - 1].money_received) {
                 beneficiary.updateState('Already sent');
-            } else if (instance.transactions[instance.transactions.length - 1].transaction_status === 2) {
+            }
+            else if (instance.transactions[instance.transactions.length - 1].transaction_status == 2) {
                 beneficiary.updateState('No phone');
-            } else if (instance.transactions[instance.transactions.length - 1].transaction_status === 1
-              && instance.transactions[instance.transactions.length - 1].money_received) {
+            }
+            else if (instance.transactions[instance.transactions.length - 1].transaction_status == 1 && instance.transactions[instance.transactions.length - 1].money_received) {
                 beneficiary.updateState('Picked up');
-            } else {
+            }
+            else {
                 beneficiary.updateState('Not sent');
             }
 
             if (instance.transactions[instance.transactions.length - 1]) {
-                beneficiary.message = instance.transactions[instance.transactions.length - 1].message ?
-                  instance.transactions[instance.transactions.length - 1].message : '';
+                beneficiary.message = instance.transactions[instance.transactions.length - 1].message ? instance.transactions[instance.transactions.length - 1].message : '';
             }
         } else {
             beneficiary.updateState('Not sent');
@@ -360,6 +361,7 @@ export class TransactionBeneficiary {
         if (pickupState.moneyReceived) {
             this.state = 3;
             this.pickupDate = pickupState.date;
+            //ammount?
         }
     }
 

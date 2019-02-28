@@ -1,4 +1,4 @@
-import { Component, Input, DoCheck } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { GlobalText } from 'src/texts/global';
 
@@ -7,16 +7,16 @@ import { GlobalText } from 'src/texts/global';
   templateUrl: './box-dashboard.component.html',
   styleUrls: ['./box-dashboard.component.scss']
 })
-export class BoxDashboardComponent implements DoCheck {
+export class BoxDashboardComponent {
   @Input() info: any;
 
   public box = GlobalText.TEXTS;
   public language = GlobalText.language;
 
-  ngDoCheck() {
-    this.language = GlobalText.language;
+  ngDoCheck(){
+    this.language=GlobalText.language;
   }
-
+  
   constructor(
     private router: Router,
   ) { }

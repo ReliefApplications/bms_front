@@ -63,10 +63,10 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": false,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             },
             "testing": {
               "fileReplacements": [
@@ -134,8 +134,7 @@
               "src/tsconfig.spec.json"
             ],
             "exclude": [
-              "**/node_modules/**",
-              "src/texts/global_*.ts"
+              "**/node_modules/**"
             ]
           }
         }

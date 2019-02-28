@@ -57,19 +57,7 @@ export const TEXT = {
     role_user_regional_manager: 'Regional manager',
 
     // Months
-    months_short: [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'],
+    months_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 
 
     // SPECIFIC VARIABLES
@@ -118,7 +106,7 @@ export const TEXT = {
     add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'A selection criterion is missing',
     add_distribution_missing_threshold: 'The minimum selection score\'s value should be greater than 0',
-    add_distribution_multiple_commodities: 'You can\'t have two payment\'s method as commodities',
+    add_distribution_multiple_commodities: 'You can\'t have too payment\'s method as commodities',
     add_distribution_selection_criteria: 'selection criteria',
     add_distribution_text_explanation: 'The system will only select beneficiaries/households that have a score higher than the minimum selection score',
     add_distribution_threshold: 'Minimum selection score',
@@ -422,7 +410,7 @@ export const TEXT = {
     transaction_confirm_button: 'Confirm',
     transaction_email_code: 'An email containing your validation code has been sent to:',
     transaction_id_transaction: 'ID Transaction',
-    transaction_info_export: 'If the distribution doesn\'t have any transactions, no file will be exported',
+    transaction_info_export: 'If the distribution hasn\'t any transactions, you will not have any file exported',
     transaction_inProgress: 'Transaction in progress...',
     transaction_paste_code: 'Please paste the code here and click on \'Confirm\' to proceed with the transaction: ',
     transaction_prevention: 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.',

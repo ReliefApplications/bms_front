@@ -5,7 +5,7 @@
       <div [ngClass]="{'distribution-accordion': language!=='ar', 'distribution-accordion-ar': language==='ar'}">
         <mat-card class="accordion-card">
           <div *ngFor="let p of properties">
-            <ng-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
+            <ng-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}" 
               (change)="selected(p)" class="single-select" [multiple]="false" [closeOnSelect]="true" [searchable]="true" [ngModelOptions]="{standalone: true}">
               <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.name">{{singleData.name}}</ng-option>
             </ng-select>
@@ -83,6 +83,6 @@
   <div class="action-buttons content-button content-button-footer">
     <button mat-raised-button *ngIf="!loadingCreation" (click)="add()" class="button-background-primary">{{distribution.create}}</button>
     <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
-    <button mat-button (click)="cancel()" class="button-text-primary">{{distribution.cancel}}</button>
+    <button mat-raised-button (click)="cancel()" class="button-text-primary">{{distribution.cancel}}</button>
   </div>
 </div>

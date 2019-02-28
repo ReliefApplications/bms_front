@@ -5,7 +5,7 @@ import { map, concat, catchError, switchMap } from 'rxjs/operators';
 import { Observable, of, forkJoin } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { HttpClient } from '@angular/common/http';
-import { StoredRequestInterface, FailedRequestInterface } from 'src/app/model/stored-request';
+import { StoredRequestInterface, failedRequestInterface } from 'src/app/model/stored-request';
 
 @Injectable({
     providedIn: 'root'
@@ -251,7 +251,7 @@ export class AsyncacheService implements OnInit {
                                     .pipe(
                                         catchError(
                                             error => {
-                                                const failedRequest: FailedRequestInterface = {
+                                                const failedRequest: failedRequestInterface = {
                                                     fail: true,
                                                     request: request,
                                                     error: error,

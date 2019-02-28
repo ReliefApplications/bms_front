@@ -3,26 +3,27 @@ import { Indicator } from '../../../model/indicator';
 import { FilterInterface } from '../../../model/filter';
 
 @Component({
-    selector: 'app-indicator',
-    templateUrl: './indicator.component.html',
-    styleUrls: ['./indicator.component.scss']
+  selector: 'app-indicator',
+  templateUrl: './indicator.component.html',
+  styleUrls: ['./indicator.component.scss']
 })
 export class IndicatorComponent implements OnInit {
 
-    @ViewChild('chart') chartDiv;
-    @Input() indicator: Indicator;
-    @Input() chartDimensions: number[];
-    @Input() filters: Array<FilterInterface> = [];
-    @Input() xAxisLabel;
-    @Input() project: string[];
-    @Input() distribution: string[];
-    @Input() periodFrequency: string;
+  @ViewChild('chart') chartDiv;
+  @Input() indicator: Indicator;
+  @Input() chartDimensions: number[];
+  @Input() filters: Array<FilterInterface> = [];
+  @Input() xAxisLabel;
+  @Input() project: string[];
+  @Input() distribution: string[];
+  @Input() periodFrequency:string;
 
-    public newFilters;
+  public newFilters;
 
-    constructor() { }
+  constructor() {}
 
-    ngOnInit() {
-        this.chartDimensions = [400, 300];
-    }
+  ngOnInit() {
+    this.chartDimensions = [400, 300];
+  }
+
 }

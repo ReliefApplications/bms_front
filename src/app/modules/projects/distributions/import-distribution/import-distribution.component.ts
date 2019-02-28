@@ -10,7 +10,7 @@ import { DistributionService } from '../../../../core/api/distribution.service';
 import { Beneficiaries } from '../../../../model/beneficiary';
 import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
 import { ImportedBeneficiary } from '../../../../model/imported-beneficiary';
-import { finalize } from 'rxjs/operators';
+import { finalize } from "rxjs/operators";
 
 const IMPORT_COMPARE = 1;
 const IMPORT_UPDATE = 2;
@@ -118,7 +118,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
      */
     updateDistribution(step: number) {
         if (this.rights) {
-
+            
             const data = new FormData();
             data.append('file', this.csv);
 
@@ -173,9 +173,9 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                     }
                 );
             }
-        } else {
-            this.snackBar.open(this.TEXT.import_distribution_no_right_update, '', { duration: 5000, horizontalPosition: 'right' });
         }
+        else 
+            this.snackBar.open(this.TEXT.import_distribution_no_right_update, '', { duration: 5000, horizontalPosition: 'right' });
     }
 
     goBack() {
@@ -213,4 +213,5 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
 
         this.fileChange(event, 'dataTransfer');
     }
+
 }

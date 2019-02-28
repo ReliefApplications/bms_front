@@ -7,7 +7,7 @@ import { TableComponent } from '../table.component';
   templateUrl: './transaction-table-mobile.component.html',
   styleUrls: ['../table-mobile/table-mobile.component.scss']
 })
-export class TransactionTableMobileComponent extends TableComponent {
+export class TransactionTableMobileComponent extends TableComponent{
 
     loading = true;
     //

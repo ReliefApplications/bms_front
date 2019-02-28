@@ -9,28 +9,28 @@ export class SelectionCriteria {
      * Administrate tableString
      * @type {string}
      */
-    table_string = '';
+    table_string: string = '';
 
      /**
      * Administrate fieldString
      * @type {string}
      */
-    field_string = '';
+    field_string: string = '';
 
      /**
      * Administrate valueString
      * @type {string}
      */
-    value_string = '';
+    value_string: string = '';
 
      /**
      * Administrate conditionString
      * @type {string}
      */
-    condition_string = '';
+    condition_string: string = '';
 
-    constructor(instance?) {
-        if (instance !== undefined) {
+    constructor(instance?){
+        if(instance !== undefined){
             this.id = instance.id;
             this.table_string = instance.table_string;
             this.field_string = instance.field_string;

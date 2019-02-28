@@ -102,11 +102,11 @@ export class DistributionData {
      * Distribution data's threshold
      * @type {number}
      */
-    threshold = 1;
+    threshold: number = 1;
     /**
      * Distribution data's finished
      */
-    finished = false;
+    finished: boolean = false;
     /**
      * Distribution data's beneficiaries
      */
@@ -129,9 +129,8 @@ export class DistributionData {
             this.threshold = instance.threshold;
             this.distribution_beneficiaries = instance.distribution_beneficiaries;
 
-            if (instance.commodities) {
+            if (instance.commodities)
                 this.commodity = this.mapCommodity(instance.commodities[0].modality_type.name);
-            }
         }
     }
 
@@ -139,6 +138,22 @@ export class DistributionData {
         return GlobalText.TEXTS.distribution;
     }
 
+    public mapCommodity(name: string): string {
+        if (!name) {
+            return "";
+        }
+        switch (name) {
+            case "Mobile":
+                name = 'assets/images/commodities/cash.png';
+                break;
+            case "Voucher":
+                name = 'assets/images/commodities/voucher.png';
+                break;
+            default: return name;
+        }
+        
+        return name;
+    }
     /**
     * return DistributionData properties name displayed
     */
@@ -159,7 +174,7 @@ export class DistributionData {
         };
     }
 
-    // Returns an array of data from the API object
+    // Renvoie un array des datas depuis l'objet récupéré de l'Api.
     public static formatArray(instance): DistributionData[] {
         const distributionDatas: DistributionData[] = [];
         if (instance) {
@@ -169,7 +184,8 @@ export class DistributionData {
                 }
             });
             return distributionDatas;
-        } else {
+        }
+        else {
             return null;
         }
     }
@@ -200,18 +216,20 @@ export class DistributionData {
             distributionDatas.number_beneficiaries = element.distribution_beneficiaries.length;
         }
 
-        let isFinished = true;
+        let isFinished: boolean = true;
         element.distribution_beneficiaries.forEach(benef => {
-            if (benef.transactions.length === 0) {
+            if (benef.transactions.length == 0) {
                 isFinished = false;
-            } else if (benef.transactions && benef.transactions[0].transaction_status !== 1) {
+            }
+            else if (benef.transactions && benef.transactions[0].transaction_status != 1) {
                 isFinished = false;
             }
         });
 
         if (isFinished) {
             distributionDatas.finished = true;
-        } else {
+        }
+        else {
             distributionDatas.finished = false;
         }
 
@@ -243,22 +261,7 @@ export class DistributionData {
         return (updatedDistribution);
     }
 
-    public mapCommodity(name: string): string {
-        if (!name) {
-            return '';
-        }
-        switch (name) {
-            case 'Mobile':
-                name = 'assets/images/commodities/cash.png';
-                break;
-            case 'Voucher':
-                name = 'assets/images/commodities/voucher.png';
-                break;
-            default: return name;
-        }
 
-        return name;
-    }
 
     mapAllProperties(selfinstance): Object {
         if (!selfinstance) {
@@ -362,15 +365,12 @@ export class DistributionData {
      */
     getMapperBox(selfinstance): Object {
         if (!selfinstance || !selfinstance.location || !selfinstance.commodities || !selfinstance.distribution_beneficiaries) {
-            if (selfinstance.location) {
+            if (selfinstance.location)
                 delete selfinstance.location;
-            }
-            if (selfinstance.threshold) {
+            if (selfinstance.threshold)
                 delete selfinstance.threshold;
-            }
-            if (selfinstance.name || selfinstance.name === '') {
+            if (selfinstance.name || selfinstance.name == '')
                 delete selfinstance.name;
-            }
 
             return selfinstance;
         }
@@ -417,14 +417,14 @@ export class DistributionData {
                     if (com.modality_type.name === 'Mobile') {
                         com.modality_type.name = 'Mobile Cash';
                     }
-                    commodity = commodity === '' ? com.modality_type.name : commodity + ' - ' + com.modality_type.name;
+                    commodity = commodity == '' ? com.modality_type.name : commodity + ' - ' + com.modality_type.name;
                 }
-            );
+            )
         } else {
             commodity = 'none';
         }
 
-        const data = {
+        let data = {
             date_distribution: selfinstance.date_distribution,
             number_beneficiaries: num,
             commodities: commodity,

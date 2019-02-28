@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, DoCheck, Input } from '@angular/core';
+import { Component, HostListener, OnInit, Input } from '@angular/core';
 import { GlobalText } from '../../../../texts/global';
 import { FieldMapper } from '../../../model/field-mapper';
 import { CountoModule } from 'angular2-counto';
@@ -8,7 +8,7 @@ import { CountoModule } from 'angular2-counto';
     templateUrl: './box-properties.component.html',
     styleUrls: ['./box-properties.component.scss']
 })
-export class BoxPropertiesComponent implements OnInit, DoCheck {
+export class BoxPropertiesComponent {
     public box = GlobalText.TEXTS;
     mapper: FieldMapper = new FieldMapper();
     mapperObject = null;
@@ -31,7 +31,7 @@ export class BoxPropertiesComponent implements OnInit, DoCheck {
     }
 
     ngOnInit() {
-        const entityInstance = Object.create(this.entity.prototype);
+        let entityInstance = Object.create(this.entity.prototype);
         entityInstance.constructor.apply(entityInstance);
         this.mapperObject = this.mapperService.findMapperObject(this.entity);
         this.elementObject = entityInstance.getMapperBox(this.componentDisplayed);
@@ -40,31 +40,30 @@ export class BoxPropertiesComponent implements OnInit, DoCheck {
     }
 
     ngDoCheck() {
-        if (this.box !== GlobalText.TEXTS) {
+        if (this.box != GlobalText.TEXTS) {
             this.box = GlobalText.TEXTS;
             this.mapperObject = this.mapperService.findMapperObject(this.entity);
             this.oldComponentDisplayed = null;
         }
-        if (this.componentDisplayed !== this.oldComponentDisplayed) {
-            const entityInstance = Object.create(this.entity.prototype);
+        if (this.componentDisplayed != this.oldComponentDisplayed) {
+            let entityInstance = Object.create(this.entity.prototype);
             entityInstance.constructor.apply(entityInstance);
             this.elementObject = entityInstance.getMapperBox(this.componentDisplayed);
             this.oldComponentDisplayed = this.componentDisplayed;
         }
 
-        if (this.data && this.elementObject.number_beneficiaries !== this.data.length) {
+        if (this.data && this.elementObject.number_beneficiaries != this.data.length) {
             this.elementObject.number_beneficiaries = this.data.length;
             this.componentDisplayed.distribution_beneficiaries = this.data;
         }
     }
 
     cleanUsefullProperties() {
-        const cleaned = new Array();
+        let cleaned = new Array();
 
         this.properties.forEach(
             element => {
-                if (element && this.elementObject[element] !== ''
-                && this.elementObject[element] !== {} && this.elementObject[element] !== undefined) {
+                if (element && this.elementObject[element] !== '' && this.elementObject[element] !== {} && this.elementObject[element] !== undefined) {
                     cleaned.push(element);
                 }
             }
@@ -74,20 +73,22 @@ export class BoxPropertiesComponent implements OnInit, DoCheck {
     }
 
     isArray(obj: any) {
-        return Array.isArray(obj);
+        return Array.isArray(obj)
     }
 
     isNumber(obj: any) {
-        return (typeof (obj) === 'number');
+        return (typeof (obj) === "number")
     }
 
     numberOfColumns(): void {
-        const length = Object.keys(this.properties).length;
+        let length = Object.keys(this.properties).length;
         if (window.innerWidth > 700) {
             this.numColumns = length;
-        } else if (window.innerWidth > 400 && window.innerWidth < 700) {
+        }
+        else if (window.innerWidth > 400 && window.innerWidth < 700) {
             this.numColumns = length / 2;
-        } else {
+        }
+        else {
             this.numColumns = length / 3;
         }
     }

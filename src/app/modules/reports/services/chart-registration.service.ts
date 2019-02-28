@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { ChartInterface } from '../charts/chart/chart.interface';
-import { FilterInterface } from '../../../model/filter';
+import { Injectable } from "@angular/core";
+import { ChartInterface } from "../charts/chart/chart.interface";
+import { FilterInterface } from "../../../model/filter";
 
 
 
@@ -23,13 +23,13 @@ export interface RegisteredItem {
     oldValue: any;
     /**
      * This key should be used to tell to the chart component how to format the currentvalue before sending it.
-     * Look at ChartComponent.ngOnChanges()
+     * Look at ChartComponent.ngOnChanges() 
      */
     referenceKey: string;
 }
 
 @Injectable({
-    providedIn: 'root'
+	providedIn: 'root'
 })
 export class ChartRegistration {
 
@@ -42,7 +42,7 @@ export class ChartRegistration {
      */
     static comparaisons: Map<string, boolean> = new Map<string, boolean>();
 
-    constructor() { }
+    constructor(){}
 
     /**
      * Provide a hash used as unique id
@@ -50,9 +50,9 @@ export class ChartRegistration {
     private guid() {
 
         function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000)
-                .toString(16)
-                .substring(1);
+          return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
         }
 
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
@@ -60,18 +60,17 @@ export class ChartRegistration {
 
     /**
      * Add chart to the registration table
-     * @param chart
+     * @param chart 
      */
-    generateId(chart: ChartInterface) {
-        if (chart.uniqId) {
-            throw new Error('Chart ' + chart.uniqId + ' already registered');
-        }
+    generateId(chart: ChartInterface){
+        if(chart.uniqId)
+            throw new Error('Chart '+chart.uniqId+' already registered');
 
         let uniqId = '';
-
-        do {
+        
+        do{
             uniqId = this.guid();
-        } while (ChartRegistration.associations.findIndex((item: RegisteredItem) => item.chartId === uniqId) > -1);
+        }while(ChartRegistration.associations.findIndex((item: RegisteredItem) => item.chartId === uniqId) > -1);
 
         chart.uniqId = uniqId;
     }
@@ -89,13 +88,13 @@ export class ChartRegistration {
 
     /**
      * Remove chart from the registration table
-     * @param chart
+     * @param chart 
      */
-    unregister(chart: ChartInterface) {
+    unregister(chart: ChartInterface){
         let index;
-
-        while (index = ChartRegistration.associations.findIndex((item: RegisteredItem) => item.chartId === chart.uniqId)) {
-            if (index > -1) {
+         
+        while(index = ChartRegistration.associations.findIndex((item: RegisteredItem) => item.chartId === chart.uniqId)) {
+            if(index > -1) {
                 ChartRegistration.associations.splice(index, 1);
             }
         }
@@ -103,14 +102,14 @@ export class ChartRegistration {
 
     /**
      * Update associations with new values
-     * @param index
-     * @param newValue
+     * @param index 
+     * @param newValue 
      */
-    updateAssociation(index: number, newValue: any) {
-        const array = ChartRegistration.associations;
+    updateAssociation(index:number, newValue: any) {
+        let array = ChartRegistration.associations
         array[index].oldValue = array[index].currentValue;
         array[index].currentValue = newValue;
 
-        ChartRegistration.comparaisons.set(array[index].chartId, false);
+        ChartRegistration.comparaisons.set(array[index].chartId, false);      
     }
 }

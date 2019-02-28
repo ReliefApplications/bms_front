@@ -1,5 +1,5 @@
-import { SectorMapper } from './sector-mapper';
-import { GlobalText } from '../../texts/global';
+import { SectorMapper } from "./sector-mapper";
+import { GlobalText } from "../../texts/global";
 
 export class Donor {
     static __classname__ = 'Donor';
@@ -12,7 +12,7 @@ export class Donor {
      * Donor's fullname
      * @type {string}
      */
-    fullname = '';
+    fullname: string = '';
     /**
      * Donor's date_added
      * @type {Date}
@@ -22,12 +22,12 @@ export class Donor {
      * Donor's shortname
      * @type {string}
      */
-    shortname = '';
+    shortname: string = '';
     /**
      * Donor's notes
      * @type {string}
      */
-    notes = '';
+    notes: string = '';
     /**
     * Donor's projects
     * @type {string[]}
@@ -35,12 +35,12 @@ export class Donor {
     projects_name: string[] = [];
 
     slideInfo: Object = {
-        icon: 'settings/donors',
-        title: GlobalText.TEXTS.settings_donors,
-        ref: 'donors',
+        icon: "settings/donors", 
+        title: GlobalText.TEXTS.settings_donors, 
+        ref:"donors",
         selected: false,
     };
-
+    
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;
@@ -51,8 +51,100 @@ export class Donor {
         }
     }
 
-    public static getDisplayedName() {
+    public static getDisplayedName(){
         return GlobalText.TEXTS.model_donor;
+    }
+
+    mapAllProperties(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            id: selfinstance.id,
+            fullname: selfinstance.fullname,
+            shortname: selfinstance.shortname,
+            date_added: selfinstance.date_added,
+            notes: selfinstance.notes,
+            projects_name: selfinstance.projects_name,
+        }
+    }
+
+    /**
+    * return a Donor after formatting its properties
+    */
+    getMapper(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            fullname: selfinstance.fullname,
+            shortname: selfinstance.shortname,
+            notes: selfinstance.notes,
+        }
+    }
+
+    /**
+    * return a Donor after formatting its properties for the modal details
+    */
+    getMapperDetails(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            fullname: selfinstance.fullname,
+            shortname: selfinstance.shortname,
+            notes: selfinstance.notes,
+        }
+    }
+
+    /**
+    * return a Donor after formatting its properties for the modal add
+    */
+    getMapperAdd(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            fullname: selfinstance.fullname,
+            shortname: selfinstance.shortname,
+            notes: selfinstance.notes
+        }
+    }
+
+    /**
+    * return a cDonor after formatting its properties for the modal update
+    */
+    getMapperUpdate(selfinstance): Object {
+        if (!selfinstance)
+            return selfinstance;
+
+        return {
+            fullname: selfinstance.fullname,
+            shortname: selfinstance.shortname,
+            notes: selfinstance.notes,
+        }
+    }
+
+    /**
+    * return the type of Donor properties
+    */
+    getTypeProperties(selfinstance): Object {
+        return {
+            fullname: "text",
+            shortname: "text",
+            notes: "text"
+        }
+    }
+
+    /**
+    * return the type of Donor properties for modals
+    */
+    getModalTypeProperties(selfinstance): Object {
+        return {
+            fullname: "text",
+            shortname: "text",
+            notes: "text"
+        }
     }
 
     /**
@@ -64,31 +156,30 @@ export class Donor {
             shortname: GlobalText.TEXTS.model_donor_shortname,
             notes: GlobalText.TEXTS.model_notes,
             projects_name: GlobalText.TEXTS.projects,
-        };
+        }
     }
 
     public static formatArray(instance): Donor[] {
-        const donors: Donor[] = [];
-        if (instance) {
+        let donors: Donor[] = [];
+        if(instance)
         instance.forEach(element => {
             donors.push(this.formatFromApi(element));
         });
-        }
         return donors;
     }
 
     public static formatFromApi(element: any): Donor {
-        const donor = new Donor();
+        let donor = new Donor();
         donor.id = element.id;
         donor.fullname = element.fullname;
         donor.shortname = element.shortname;
         donor.notes = element.notes;
         donor.date_added = element.date_added;
-        if (!element.projects) {
+        if(!element.projects) {
             element['projects'] = [];
         }
-        element.projects.forEach(project => {
-            donor.projects_name.push(project.name);
+        element.projects.forEach(element => {
+            donor.projects_name.push(element.name);
         });
 
         return donor;
@@ -100,109 +191,12 @@ export class Donor {
 
     /**
      * used in modal add
-     * @param element
-     * @param loadedData
+     * @param element 
+     * @param loadedData 
      */
     public static formatFromModalAdd(element: any, loadedData: any): Donor {
-        const newObject = new Donor(element);
-
+        let newObject = new Donor(element);
+    
         return newObject;
-    }
-
-    mapAllProperties(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
-        }
-
-        return {
-            id: selfinstance.id,
-            fullname: selfinstance.fullname,
-            shortname: selfinstance.shortname,
-            date_added: selfinstance.date_added,
-            notes: selfinstance.notes,
-            projects_name: selfinstance.projects_name,
-        };
-    }
-
-    /**
-    * return a Donor after formatting its properties
-    */
-    getMapper(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
-        }
-
-        return {
-            fullname: selfinstance.fullname,
-            shortname: selfinstance.shortname,
-            notes: selfinstance.notes,
-        };
-    }
-
-    /**
-    * return a Donor after formatting its properties for the modal details
-    */
-    getMapperDetails(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
-        }
-
-        return {
-            fullname: selfinstance.fullname,
-            shortname: selfinstance.shortname,
-            notes: selfinstance.notes,
-        };
-    }
-
-    /**
-    * return a Donor after formatting its properties for the modal add
-    */
-    getMapperAdd(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
-        }
-
-        return {
-            fullname: selfinstance.fullname,
-            shortname: selfinstance.shortname,
-            notes: selfinstance.notes
-        };
-    }
-
-    /**
-    * return a cDonor after formatting its properties for the modal update
-    */
-    getMapperUpdate(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
-        }
-
-        return {
-            fullname: selfinstance.fullname,
-            shortname: selfinstance.shortname,
-            notes: selfinstance.notes,
-        };
-    }
-
-    /**
-    * return the type of Donor properties
-    */
-    getTypeProperties(selfinstance): Object {
-        return {
-            fullname: 'text',
-            shortname: 'text',
-            notes: 'text'
-        };
-    }
-
-    /**
-    * return the type of Donor properties for modals
-    */
-    getModalTypeProperties(selfinstance): Object {
-        return {
-            fullname: 'text',
-            shortname: 'text',
-            notes: 'text'
-        };
     }
 }

@@ -1,11 +1,11 @@
-import { Component, OnInit, DoCheck, ViewChildren, QueryList, Input } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, Input } from '@angular/core';
 import { ModalAddComponent } from '../modal-add.component';
 import { GlobalText } from '../../../../../texts/global';
 import { ConditionCriteriaMapper } from '../../../../model/condition-criteria-mapper';
 
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
 import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
-import { TEXT as TEXT_EN } from 'src/texts/global_en';
+import { TEXT as TEXT_EN } from "src/texts/global_en";
 
 @Component({
     selector: 'app-modal-add-line',
@@ -16,36 +16,37 @@ import { TEXT as TEXT_EN } from 'src/texts/global_en';
       { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
-export class ModalAddLineComponent extends ModalAddComponent implements OnInit, DoCheck {
+export class ModalAddLineComponent extends ModalAddComponent {
     public checkCriteria = -1;
     public checkDataCriteria = [];
 
-    public checkType = '';
+    public checkType = "";
     public myForm;
-    public displayWeight = false;
-    public iconAdvanced = 'arrow_drop_down';
-
+    public displayWeight: boolean = false;
+    public iconAdvanced: string = "arrow_drop_down";
+    
     /**
      * check if the langage has changed
      * or if a select field has changed
      */
 
-    ngOnInit() {
+    ngOnInit(){
         this.modal = TEXT_EN;
         super.ngOnInit();
      }
 
     ngDoCheck() {
-        if (this.modal !== GlobalText.TEXTS) {
+        if (this.modal != GlobalText.TEXTS) {
             this.entityDisplayedName = this.data.entity.getDisplayedName();
-        } else if (this.oldEntity !== this.data.entity) {
+        } else if (this.oldEntity != this.data.entity) {
             this.checkData();
         }
-        if (this.newObject.field_string && (this.checkCriteria !== this.newObject.field_string)) {
-            if (this.newObject.field_string === 8 || this.newObject.field_string === 9) {
-                // Set kind beneficiary to 1 == Household
+        if (this.newObject.field_string && (this.checkCriteria != this.newObject.field_string)) {
+            if (this.newObject.field_string == 8 || this.newObject.field_string == 9) {
+                //Set kind beneficiary to 1 == Household
                 this.newObject.kind_beneficiary = 2;
-            } else {
+            }
+            else {
                 this.newObject.kind_beneficiary = 1;
             }
 
@@ -55,18 +56,19 @@ export class ModalAddLineComponent extends ModalAddComponent implements OnInit, 
             this.loadedData.condition_string = this.checkCondition(this.checkDataCriteria);
 
             // Prefill for dateOfBirth
-            if (this.newObject.field_string === 2) {
+            if(this.newObject.field_string===2) {
                 this.newObject.condition_string = 2;
             }
 
             // Prefill for idPoor
-            if (this.newObject.field_string === 8) {
+            if(this.newObject.field_string === 8) {
                 this.newObject.condition_string = 5;
             }
 
             this.checkCriteria = this.newObject.field_string;
 
-        } else {
+        }
+        else {
             this.loadedData.field_string = this.allCriteria;
         }
     }
@@ -86,17 +88,17 @@ export class ModalAddLineComponent extends ModalAddComponent implements OnInit, 
     selectDate(event) {
         let day = event.value.getDate();
         let monthIndex = event.value.getMonth() + 1;
-        const year = event.value.getFullYear();
+        let year = event.value.getFullYear();
 
 
         if (day < 10) {
-            day = '0' + day;
+            day = "0" + day;
         }
         if (monthIndex < 10) {
-            monthIndex = '0' + monthIndex;
+            monthIndex = "0" + monthIndex;
         }
 
-        const finalDate = year + '-' + monthIndex + '-' + day;
+        let finalDate = year + "-" + monthIndex + "-" + day;
         this.newObject.value_string = finalDate;
     }
 
@@ -107,9 +109,8 @@ export class ModalAddLineComponent extends ModalAddComponent implements OnInit, 
      */
     checkCondition(checkData) {
         let type = null;
-        if (checkData.type) {
+        if (checkData.type)
             type = checkData.type.toLowerCase();
-        }
 
         return ConditionCriteriaMapper.mapConditionCriteria(type);
     }
@@ -121,28 +122,27 @@ export class ModalAddLineComponent extends ModalAddComponent implements OnInit, 
     changeDisplay() {
         this.displayWeight = !this.displayWeight;
 
-        if (this.displayWeight) {
-            this.iconAdvanced = 'arrow_drop_up';
-        } else {
-            this.iconAdvanced = 'arrow_drop_down';
-        }
+        if (this.displayWeight)
+            this.iconAdvanced = "arrow_drop_up";
+        else
+            this.iconAdvanced = "arrow_drop_down";
     }
 
-    // emit the new object
+    //emit the new object
     add(): any {
         if (this.newObject.weight > 0) {
-            const newObject = this.data.entity.formatFromModalAdd( Object.assign({}, this.newObject), this.loadedData) ;
-            if (newObject && (newObject.value_string && newObject.value_string === 'null')) {
+            let newObject = this.data.entity.formatFromModalAdd( Object.assign({}, this.newObject), this.loadedData) ;
+            if(newObject && (newObject.value_string && newObject.value_string === "null")) {
                 this.snackBar.open(this.modal.modal_add_no_value, '', {duration: 5000, horizontalPosition: 'center'});
-            } else if (!newObject) {
+            } else if(!newObject) {
                 this.snackBar.open(this.modal.modal_add_fail_criteria, '', {duration: 5000, horizontalPosition: 'center'});
                 this.closeDialog();
             } else {
                 this.onCreate.emit(newObject);
                 this.closeDialog();
             }
-        } else {
-            this.snackBar.open(this.modal.modal_add_bad_weight, '', {duration: 5000, horizontalPosition: 'center'});
         }
+        else
+            this.snackBar.open(this.modal.modal_add_bad_weight, '', {duration: 5000, horizontalPosition: 'center'});
     }
 }

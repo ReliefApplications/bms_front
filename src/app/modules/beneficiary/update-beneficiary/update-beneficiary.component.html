@@ -20,7 +20,7 @@
           <span class="dot">1</span>
           <span>{{Text.add_beneficiary_step1}} </span>
         </div>
-        <div class="container-content box-primary">
+        <div class="container-content box-green">
           <div class="content-table content-table-step1">
             <div class="step1 all-information">
               <div class="column-container">
@@ -107,7 +107,7 @@
           <span class="dot">2</span>
           <span>{{Text.add_beneficiary_step2}}</span>
         </div>
-        <div class="container-content box-primary">
+        <div class="container-content box-green">
           <div class="content-table">
             <div class="step2 head" *ngIf="updatedHousehold.beneficiaries[0]">
               <div class="column-container">
@@ -212,7 +212,7 @@
               <div class="action-buttons">
 
                 <mat-progress-bar mode="determinate" value="35"></mat-progress-bar>
-                <button mat-button class="button-text-primary" (click)="stepper.previous()">
+                <button mat-raised-button class="button-background-accent" (click)="stepper.previous()">
                   {{Text.back}}
                 </button>
                 <button mat-raised-button class="button-background-primary" (click)='nextValidation(2, stepper)'>
@@ -234,7 +234,7 @@
           <span class="dot">3</span>
           <span>{{Text.add_beneficiary_step3}}</span>
         </div>
-        <div class="container-content box-primary">
+        <div class="container-content box-green">
           <div class="content-table">
             <div class="step3 head" *ngFor="let member of updatedHousehold.beneficiaries, let memberIndex=index">
               <div class="container member" *ngIf="memberIndex>0">
@@ -355,12 +355,12 @@
             <div class="content-button-footer">
               <mat-progress-bar mode="determinate" value="70"></mat-progress-bar>
               <div class="action-buttons">
-                <button mat-stroked-button (click)="updatedHousehold.beneficiaries.push( pushBeneficiary() )" class="button-text-accent">
+                <button mat-raised-button class="button-background-accent" (click)="stepper.previous()">
+                  {{Text.back}}
+                </button>
+                <button mat-raised-button (click)="updatedHousehold.beneficiaries.push( pushBeneficiary() )" class="button-background-accent">
                   <mat-icon>add</mat-icon>
                   {{ Text.add }}
-                </button>
-                <button mat-button class="button-text-primary" (click)="stepper.previous()">
-                  {{Text.back}}
                 </button>
                 <button mat-raised-button class="button-background-primary" (click)="passHousehold(); nextValidation(3, stepper)">
                   {{Text.next}}
@@ -383,7 +383,7 @@
           <span class="dot">4</span>
           <span>{{Text.summary}}</span>
         </div>
-        <div class="container-content box-primary">
+        <div class="container-content box-green">
           <div class="content-table">
             <ng-select #projects class="multiple-select" [(ngModel)]="updatedHousehold.projects" bindLabel="name"
               [items]="projectList" [multiple]="true" placeholder="{{Text.projects}}" [closeOnSelect]="false"

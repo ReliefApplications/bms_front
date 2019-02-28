@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, OnChanges, AfterViewInit } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { TableBeneficiariesComponent } from '../table-beneficiaries/table-beneficiaries.component';
 import { Beneficiaries } from '../../../model/beneficiary';
 import { emit } from 'cluster';
@@ -10,8 +10,8 @@ import { tap } from 'rxjs/operators';
     templateUrl: './table-mobile-beneficiaries.component.html',
     styleUrls: ['../table-mobile/table-mobile.component.scss', './table-mobile-beneficiaries.component.scss']
 })
-export class TableMobileBeneficiariesComponent extends TableBeneficiariesComponent implements AfterViewInit {
-
+export class TableMobileBeneficiariesComponent extends TableBeneficiariesComponent {
+    
     @Output() updating = new EventEmitter<number>();
     @Output() selectedAdm = new EventEmitter<any>();
 
@@ -38,7 +38,7 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
             window.clearTimeout(this._timeout);
         }
         this._timeout = window.setTimeout(() => {
-            if (this.data.filter && ( this.data.filter.filter || this.data.filter.filter === '') ) {
+            if (this.data.filter && ( this.data.filter.filter || this.data.filter.filter == '') ) {
               if (this.paginator) {
                 this.paginator.pageIndex = 0;
                 this.data.loadHouseholds(
@@ -58,36 +58,35 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
     }
 
     selected(index) {
-        if (index === 'adm1') {
-            if (this.newObject.adm1 == null) {
+        if (index == 'adm1') {
+            if (this.newObject.adm1 == null)
                 return;
-            }
-        } else if (index === 'adm2') {
-            if (this.newObject.adm2 == null) {
+        }
+        else if (index == 'adm2') {
+            if (this.newObject.adm2 == null)
                 return;
-            }
-        } else if (index === 'adm3') {
-            if (this.newObject.adm3 == null) {
+        }
+        else if (index == 'adm3') {
+            if (this.newObject.adm3 == null)
                 return;
-            }
-        } else if (index === 'adm4') {
-            if (this.newObject.adm4 == null) {
+        }
+        else if (index == 'adm4') {
+            if (this.newObject.adm4 == null)
                 return;
-            }
         }
 
         this.selectedAdm.emit({ index: index, object: this.newObject });
     }
 
-    showAdvancedResearch() {
-        this.advancedResearch = !this.advancedResearch;
+    showAdvancedResearch(){
+        this.advancedResearch=!this.advancedResearch;
     }
 
-    clearSearch() {
+    clearSearch(){
         while ( this.data.filter.length !== 0 ) {
-            this.project = '';
-            this.vulnerability = '';
-            this.keyWords = '';
+            this.project='';
+            this.vulnerability='';
+            this.keyWords='';
             this.applyFilter('', 'vulnerabilities') ;
             this.applyFilter('', 'familyName');
             this.applyFilter('', 'projects');
@@ -95,4 +94,5 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
             this.sendSortedData();
         }
     }
+
 }

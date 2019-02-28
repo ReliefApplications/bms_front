@@ -46,52 +46,52 @@ export class ImportedBeneficiary {
         return GlobalText.TEXTS.beneficiary;
     }
 
+
     /**
     * return Households properties name displayed
     */
-    static translator(): Object {
-        return {
-            givenName: GlobalText.TEXTS.model_firstName,
-            familyName: GlobalText.TEXTS.model_familyName,
-            date_of_birth: GlobalText.TEXTS.model_dateofbirth,
-            gender: GlobalText.TEXTS.gender,
-        };
-    }
+   static translator(): Object {
+    return {
+        givenName : GlobalText.TEXTS.model_firstName,
+        familyName : GlobalText.TEXTS.model_familyName,
+        date_of_birth : GlobalText.TEXTS.model_dateofbirth,
+        gender : GlobalText.TEXTS.gender,
+    };
+}
 
-    public static formatArray(instance: any): ImportedBeneficiary[] {
-        const beneficiaries: ImportedBeneficiary[] = [];
-        if (instance) {
-            instance.forEach(element => {
-                beneficiaries.push(this.formatElement(element));
-            });
-        }
-        return (beneficiaries);
-    }
+public static formatArray(instance: any): ImportedBeneficiary[] {
+    const beneficiaries: ImportedBeneficiary[] = [];
+    if(instance)
+    instance.forEach(element => {
+        beneficiaries.push(this.formatElement(element));
+    });
+    return(beneficiaries);
+}
 
-    public static formatElement(instance: any): ImportedBeneficiary {
-        const beneficiary = new ImportedBeneficiary();
+public static formatElement(instance: any): ImportedBeneficiary {
+    const beneficiary = new ImportedBeneficiary();
 
-        beneficiary.id = instance.id ? instance.id : null;
-        beneficiary.givenName = instance.given_name ? instance.given_name : instance.givenName;
-        beneficiary.familyName = instance.family_name ? instance.family_name : instance.familyName;
-        beneficiary.date_of_birth = instance.date_of_birth ? instance.date_of_birth : instance.dateOfBirth;
-        beneficiary.gender = instance.gender;
+    beneficiary.id = instance.id ? instance.id : null;
+    beneficiary.givenName = instance.given_name ? instance.given_name : instance.givenName;
+    beneficiary.familyName = instance.family_name ? instance.family_name : instance.familyName;
+    beneficiary.date_of_birth = instance.date_of_birth ? instance.date_of_birth : instance.dateOfBirth;
+    beneficiary.gender = instance.gender;
 
-        return (beneficiary);
-    }
+    return(beneficiary);
+}
 
-    public static formatForApi(instance: any) {
+public static formatForApi(instance: any) {
 
-        const beneficiary = {
-            id: instance.id,
-            givenName: instance.givenName,
-            familyName: instance.familyName,
-            date_of_birth: instance.date_of_birth,
-            gender: instance.gender,
-        };
+    const beneficiary = {
+        id : instance.id,
+        givenName : instance.givenName,
+        familyName : instance.familyName,
+        date_of_birth : instance.date_of_birth,
+        gender : instance.gender,
+    };
 
-        return (beneficiary);
-    }
+    return(beneficiary);
+}
 
     mapAllProperties(selfinstance): Object {
         if (!selfinstance) {
@@ -99,10 +99,10 @@ export class ImportedBeneficiary {
         }
 
         return {
-            givenName: selfinstance.givenName,
-            familyName: selfinstance.familyName,
-            date_of_birth: selfinstance.date_of_birth,
-            gender: selfinstance.gender,
+            givenName : selfinstance.givenName,
+            familyName : selfinstance.familyName,
+            date_of_birth : selfinstance.date_of_birth,
+            gender : selfinstance.gender,
         };
     }
 
@@ -124,10 +124,10 @@ export class ImportedBeneficiary {
         }
 
         return {
-            givenName: selfinstance.givenName,
-            familyName: selfinstance.familyName,
-            date_of_birth: selfinstance.date_of_birth,
-            gender: stringGender,
+            givenName : selfinstance.givenName,
+            familyName : selfinstance.familyName,
+            date_of_birth : selfinstance.date_of_birth,
+            gender : stringGender,
         };
     }
 
@@ -140,10 +140,10 @@ export class ImportedBeneficiary {
         }
 
         return {
-            givenName: selfinstance.givenName,
-            familyName: selfinstance.familyName,
-            date_of_birth: selfinstance.date_of_birth,
-            gender: selfinstance.gender,
+            givenName : selfinstance.givenName,
+            familyName : selfinstance.familyName,
+            date_of_birth : selfinstance.date_of_birth,
+            gender : selfinstance.gender,
         };
     }
 
@@ -156,10 +156,10 @@ export class ImportedBeneficiary {
         }
 
         return {
-            givenName: selfinstance.givenName,
-            familyName: selfinstance.familyName,
-            date_of_birth: selfinstance.date_of_birth,
-            gender: selfinstance.gender,
+            givenName : selfinstance.givenName,
+            familyName : selfinstance.familyName,
+            date_of_birth : selfinstance.date_of_birth,
+            gender : selfinstance.gender,
         };
     }
 
@@ -168,10 +168,10 @@ export class ImportedBeneficiary {
     */
     getTypeProperties(selfinstance): Object {
         return {
-            givenName: 'text',
-            familyName: 'text',
-            date_of_birth: 'date',
-            gender: 'text',
+            givenName : 'text',
+            familyName : 'text',
+            date_of_birth : 'date',
+            gender : 'text',
         };
     }
 
@@ -180,10 +180,13 @@ export class ImportedBeneficiary {
     */
     getModalTypeProperties(selfinstance): Object {
         return {
-            givenName: 'text',
-            familyName: 'text',
-            date_of_birth: 'date',
-            gender: 'number',
+            givenName : 'text',
+            familyName : 'text',
+            date_of_birth : 'date',
+            gender : 'number',
         };
     }
+
+
+
 }

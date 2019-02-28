@@ -1,4 +1,4 @@
-import { GlobalText } from '../../texts/global';
+import { GlobalText } from "../../texts/global";
 
 export class ErrorInterface {
     message: string;
@@ -10,27 +10,27 @@ export class FinancialProvider {
      * FinancialProvider id
      * @type {string}
      */
-    id = '';
+    id: string = '';
     /**
      * Username
      * @type {string}
      */
-    username = '';
+    username: string = '';
     /**
      * Plain text password
      * @type {string}
      */
-    password = '';
+    password: string = '';
     /**
      * Salted password
      * @type {string}
      */
-    salted_password = '';
+    salted_password: string = '';
 
     slideInfo: Object = {
-        icon: 'settings/api',
+        icon: "settings/api",
         title: GlobalText.TEXTS.settings_financial_provider,
-        ref: 'financialProvider',
+        ref:"financialProvider",
         selected: false,
     };
 
@@ -50,22 +50,21 @@ export class FinancialProvider {
         return {
             username: GlobalText.TEXTS.login_username,
             password: GlobalText.TEXTS.model_user_password,
-        };
+        }
     }
 
     public static formatArray(instance): FinancialProvider[] {
-        const financialProvider: FinancialProvider[] = [];
-        if (instance) {
+        let financialProvider: FinancialProvider[] = [];
+        if (instance)
             instance.forEach(element => {
                 financialProvider.push(this.formatFromApi(element));
             });
-        }
 
         return financialProvider;
     }
 
     public static formatFromApi(element: any): FinancialProvider {
-        const financialProvider = new FinancialProvider(element);
+        let financialProvider = new FinancialProvider(element);
 
         if (element.password) {
             financialProvider.password = '';
@@ -75,57 +74,50 @@ export class FinancialProvider {
         return financialProvider;
     }
 
-    public static formatForApi(element: FinancialProvider): any {
-        return new FinancialProvider(element);
-    }
-
     /**
     * return the type of User properties
     */
     getTypeProperties(): Object {
         return {
-            username: 'text',
-        };
+            username: "text",
+        }
     }
 
     /**
     * return a User after formatting its properties for the modal details
     */
     getMapperDetails(selfinstance): Object {
-        if (!selfinstance) {
+        if (!selfinstance)
             return selfinstance;
-        }
 
         return {
             username: selfinstance.username,
-        };
+        }
     }
 
     /**
    * return a financial provider after formatting its properties
    */
     getMapper(selfinstance): Object {
-        if (!selfinstance) {
+        if (!selfinstance)
             return selfinstance;
-        }
 
         return {
             username: selfinstance.username,
-        };
+        }
     }
 
     /**
      * return a User after formatting its properties for the modal update
      */
     getMapperUpdate(selfinstance): Object {
-        if (!selfinstance) {
+        if (!selfinstance)
             return selfinstance;
-        }
 
         return {
             username: selfinstance.username,
             password: selfinstance.password,
-        };
+        }
     }
 
     /**
@@ -133,19 +125,22 @@ export class FinancialProvider {
     */
     getModalTypeProperties(): Object {
         return {
-            username: 'text',
-            password: 'password',
-        };
+            username: "text",
+            password: "password",
+        }
     }
 
     mapAllProperties(selfinstance): Object {
-        if (!selfinstance) {
+        if (!selfinstance)
             return selfinstance;
-        }
 
         return {
             id: selfinstance.id,
             username: selfinstance.username,
-        };
+        }
+    }
+
+    public static formatForApi(element: FinancialProvider): any {
+        return new FinancialProvider(element);
     }
 }

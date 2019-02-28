@@ -1,36 +1,37 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit        } from '@angular/core';
 import { ButtonFilterComponent } from '../button-filter.component';
 
 
 
 @Component({
-    selector: 'app-button-filter-items',
-    templateUrl: './button-filter-items.component.html',
-    styleUrls: ['./button-filter-items.component.scss']
+  selector   : 'button-filter-items',
+  templateUrl: './button-filter-items.component.html',
+  styleUrls  : ['./button-filter-items.component.scss']
 })
 
-export class ButtonFilterItemsComponent extends ButtonFilterComponent implements OnInit {
 
-    public slides = [];
+export class ButtonFilterItemsComponent extends ButtonFilterComponent {
 
-
-    ngOnInit() {
-        this.generateSlides();
-    }
+  public slides = [];
 
 
-    private generateSlides(): void {
-        for (const item of this.data) {
-            this.slides.push(
-                {
-                    slideInfo: {
-                        icon: item.icon,
-                        color: item.icon,
-                        title: item.label,
-                        ref: item.value,
-                    },
-                }
-            );
+  ngOnInit() {
+    this.generateSlides();
+  }
+
+
+  private generateSlides(): void {
+    for (const item of this.data) {
+      this.slides.push(
+        {
+          slideInfo: {
+              icon: item.icon,
+              color: item.icon,
+              title: item.label,
+              ref: item.value,
+          },
         }
+      );
     }
+  }
 }

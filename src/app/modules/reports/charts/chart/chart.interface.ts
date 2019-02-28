@@ -1,50 +1,51 @@
+
 export interface ChartInterface {
-    uniqId: string;
-    data: any;
-    view: any; // array of dimensions
-    scheme: ChartSchemeClass;
-    title?: ChartTitleClass;
-    axis?: ChartAxisClass;
-    legend?: ChartLegendClass;
-    indicatorConfig?: ChartIndicatorConfigClass;
+    uniqId:                 string;
+    data:                   any;
+    view:                   any; //array of dimensions
+    scheme:                 ChartSchemeClass;
+    title?:                 ChartTitleClass;
+    axis?:                  ChartAxisClass;
+    legend?:                ChartLegendClass;
+    indicatorConfig?:       ChartIndicatorConfigClass;
 }
 
 export class ChartAxisClass {
-    public showXAxis = true;
-    public showYAxis = true;
-    public showXAxisLabel = true;
-    public showYAxisLabel = true;
-    public xAxisLabel = 'X Label';
-    public yAxisLabel = 'Y Label';
+    public showXAxis:      boolean = true;
+    public showYAxis:      boolean = true;
+    public showXAxisLabel: boolean = true;
+    public showYAxisLabel: boolean = true;
+    public xAxisLabel:     string = 'X Label';
+    public yAxisLabel:     string = 'Y Label';
 
-    constructor() { }
+    constructor(){}
 }
 
 export class ChartLegendClass {
-    public show = false; // has legend or not
+    public show:           boolean = false; // has legend or not
 
-    constructor() { }
+    constructor(){}
 }
 
-export class ChartSchemeClass {
-    public gradient = false;
-    public domain: any = [];
+export class ChartSchemeClass{
+    public gradient:       boolean = false;
+    public domain:         any = [];
 
-    constructor() { }
+    constructor(){}
 }
 
 export class ChartTitleClass {
-    public main = 'Chart title';
-    public sub = 'Chart subtitle';
+    public main:           string = 'Chart title';
+    public sub:            string = 'Chart subtitle';
 
-    constructor() { }
+    constructor(){}
 }
 
 export class ChartIndicatorConfigClass {
-    public idIndicator: string;
-    public type = 'bar';
-    public items = '';
-    public name = '';
+  public idIndicator:     string;
+  public type:            string = 'bar';
+  public items:           string = '';
+  public name:            string = '';
 
-    constructor() { }
+  constructor(){}
 }

@@ -11,12 +11,12 @@ import { IndicatorPageComponent } from './indicator-page/indicator-page.componen
 import { HeaderComponent } from './charts/header/header.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-// Filter
+//filter
 import { ButtonFilterComponent } from './filters/button-filter/button-filter.component';
 import { ButtonFilterDateComponent } from './filters/button-filter/button-filter-data/button-filter-date.component';
 import { ButtonFilterItemsComponent } from './filters/button-filter/button-filter-items/button-filter-items.component';
 
-// Charts
+//charts
 import { ChartComponent } from './charts/chart/chart.component';
 import { AdvancedPieChartComponent } from './charts/advanced-pie-chart/advanced-pie-chart.component';
 import { BarChartComponent } from './charts/bar-chart/bar-chart.component';

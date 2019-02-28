@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { GlobalText } from 'src/texts/global';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -19,13 +19,13 @@ import { switchMap, catchError, map } from 'rxjs/operators';
         ]),
     ],
 })
-export class ModalRequestsComponent implements OnInit, DoCheck {
+export class ModalRequestsComponent implements OnInit {
 
     public modal = GlobalText.TEXTS;
     public language = GlobalText.language;
 
     // Table constants.
-    public columnsToDisplay = ['icon', 'method', 'target', 'date', 'actions'];
+    public columnsToDisplay = ['icon','method', 'target', 'date', 'actions'];
     public expandedElement: any | null;
 
     // Data.
@@ -34,9 +34,9 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
 
     // When sending all.
     public inProgress = false;
-    public progressLength = 0;
-    public progressCountSuccess = 0;
-    public progressCountFail = 0;
+    public progressLength : number = 0;
+    public progressCountSuccess : number = 0;
+    public progressCountFail : number = 0;
     public errors: Array<any>;
 
     constructor(
@@ -48,11 +48,13 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
 
     ngOnInit() {
         this.requests = this.data.requests;
+        //console.log(this.requests);
     }
 
     ngDoCheck() {
-        if (this.requests && this.requests.length === 0 && !this.loading && !this.inProgress) {
-            timer(1000).subscribe(
+        if(this.requests && this.requests.length === 0 && !this.loading && !this.inProgress) {
+            //console.log('finished');
+            timer(1000).subscribe( 
                 result => {
                     this.closeDialog();
                 }
@@ -66,21 +68,20 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
 
     formatDate(date: Date): string {
         let formated: string;
-        formated = '' + date.toLocaleString('en-us', { month: 'short' }) + ' ';
-        formated += date.toLocaleString('en-us', { day: '2-digit' }) + ', ' + date.getFullYear();
-        formated += ' at ' + date.getHours() + ':' + date.toLocaleString('en-us', {minute: '2-digit' });
+        formated = '' + date.toLocaleString("en-us", { month: "short" }) + ' ';
+        formated += date.toLocaleString("en-us", { day: "2-digit" }) + ', ' + date.getFullYear();
+        formated += ' at ' + date.getHours() + ':' + date.toLocaleString("en-us", {minute: "2-digit" });
 
         return formated;
     }
 
     sendRequest(element: StoredRequestInterface) {
-        const method = this.cacheService.useMethod(element);
-        if (method) {
+        let method = this.cacheService.useMethod(element);
+        if(method) {
             this.loading = true;
             method.subscribe(
                 response => {
-                    this.snackbar.open(element.method + ' ' + element.url.split('wsse/')[1] + ' have been sent',
-                    '', {duration: 3000, horizontalPosition: 'center'});
+                    this.snackbar.open(element.method + ' ' + element.url.split('wsse/')[1] + ' have been sent', '', {duration: 3000, horizontalPosition: 'center'});
                     this.requests.splice(this.requests.indexOf(element), 1);
                     this.cacheService.set(AsyncacheService.PENDING_REQUESTS, this.requests);
                     this.loading = false;
@@ -89,19 +90,21 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
                     this.snackbar.open('Error while sending request: ' + error, '', {duration: 3000, horizontalPosition: 'center'});
                     this.loading = false;
                 }
-            );
+            )
         }
+
+        //console.log(element);
     }
 
     sendAllRequests() {
         this.inProgress = true;
-        const size = this.requests.length;
-        const stillToBeSent = [];
+        let size = this.requests.length;
+        let stillToBeSent = [];
 
         this.cacheService.sendAllStoredRequests()
         .subscribe(
             (result) => {
-                if (result) {
+                if(result) {
                     this.progressLength = size;
                     this.errors = [];
 
@@ -109,31 +112,33 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
                     .subscribe(
                         (value) => {
                             // FailedRequestInterface format.
-                            if (value && value.fail && value.request && value.error) {
+                            if(value && value.fail && value.request && value.error) {
                                 stillToBeSent.push(value.request);
                                 this.errors.push(value.error);
                                 this.progressCountFail++;
-                            } else {
+                            }
+                            // Success.
+                            else {
+                                //console.log("msg", value);
                                 this.progressCountSuccess++;
                             }
                             // End.
-                            if (this.progressCountFail + this.progressCountSuccess === this.progressLength) {
+                            if(this.progressCountFail+this.progressCountSuccess === this.progressLength) {
                                 this.cacheService.set(AsyncacheService.PENDING_REQUESTS, stillToBeSent);
                             }
-
+                            
                         },
                         error => {
-                            this.snackbar.open(error, '', {duration: 3000, horizontalPosition: 'center'});
+                            this.snackbar.open(error, '', {duration: 3000, horizontalPosition: 'center'});   
                         }
                     );
                 }
             },
             () => {
-                this.snackbar.open('An error occured when regrouping pending requests to be sent.',
-                '', {duration: 3000, horizontalPosition: 'center'});
+                this.snackbar.open('An error occured when regrouping pending requests to be sent.', '', {duration: 3000, horizontalPosition: 'center'});
             }
         );
-
+        
         this.requests = stillToBeSent;
     }
 
@@ -145,22 +150,23 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
         this.requests.splice(this.requests.indexOf(element), 1);
         this.cacheService.set(AsyncacheService.PENDING_REQUESTS, this.requests);
         this.loading = true;
-        timer(200).subscribe( result => {this.loading = false; });
+        timer(200).subscribe( result => {this.loading = false});
     }
 
     expandBody(body: Object): Array<string> {
-        const details = [];
+        let details = [];
 
-        if (body) {
+        if(body) {
             Object.keys(body).forEach(
                 (key) => {
                     let property = '';
-
+    
                     if (typeof (body[key]) !== 'object') {
                         property = key + ' = ' + body[key];
-                    } else {
+                    }
+                    else {
                         property = key + ' = ';
-                        if (body[key] && Object.keys(body[key]).length > 0) {
+                        if(body[key] && Object.keys(body[key]).length > 0) {
                             property += '(';
                             Object.keys(body[key]).forEach(
                                 (subKey, i) => {
@@ -169,22 +175,21 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
                                     } else {
                                         property += '{...}';
                                     }
-
-                                    if ( i < Object.keys(body[key]).length - 1) {
+        
+                                    if( i < Object.keys(body[key]).length-1)
                                         property += ', ';
-                                    }
                                 }
                             );
                             property += ')';
                         } else {
                             property += ' ∅ ';
                         }
-
+                        
                     }
-
+    
                     details.push(property);
                 }
-            );
+            )
         }
 
         return details;

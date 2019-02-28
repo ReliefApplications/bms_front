@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, DoCheck } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { User } from './model/user';
 import { AuthenticationService } from './core/authentication/authentication.service';
 import { GlobalText } from '../texts/global';
@@ -13,11 +13,11 @@ import { UpdateService } from './core/api/update.service';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, DoCheck {
+export class AppComponent {
 
     user: User = new User();
 
-    public currentRoute = '';
+    public currentRoute = "";
     public currentComponent;
     public menuHover = false;
     public openTopMenu = false;
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit, DoCheck {
     public isShowing = false;
     public menu = GlobalText.TEXTS;
 
-    hasRights = false;
+    hasRights: boolean = false;
 
     constructor(
         private _authenticationService: AuthenticationService,
@@ -40,13 +40,13 @@ export class AppComponent implements OnInit, DoCheck {
     ngOnInit() {
         this.checkSize();
         this._authenticationService.getUser()
-            .subscribe(user => {
-                GlobalText.changeLanguage(user.language);
-            });
+          .subscribe(user => {
+            GlobalText.changeLanguage(user.language);
+          });
     }
 
     ngDoCheck() {
-        if (this.menu !== GlobalText.TEXTS) {
+        if(this.menu !== GlobalText.TEXTS) {
             this.menu = GlobalText.TEXTS;
         }
     }
@@ -57,9 +57,8 @@ export class AppComponent implements OnInit, DoCheck {
     }
 
     change() {
-        if (!this.smallScreenMode) {
+        if (!this.smallScreenMode)
             this.isShowing = !this.isShowing;
-        }
     }
 
     /**
@@ -68,7 +67,7 @@ export class AppComponent implements OnInit, DoCheck {
     openDialog(user_action): void {
         let dialogRef;
 
-        if (user_action === 'language') {
+        if (user_action == 'language') {
             dialogRef = this.dialog.open(ModalLanguageComponent, {});
         }
 
@@ -77,14 +76,16 @@ export class AppComponent implements OnInit, DoCheck {
     }
 
     checkSize(): void {
-        if (this.smallScreenMode === false && ((window.innerHeight < this.maxHeight) || (window.innerWidth < this.maxWidth))) {
+        if ( this.smallScreenMode === false && ( (window.innerHeight < this.maxHeight) || (window.innerWidth < this.maxWidth) ) ) {
             this.smallScreenMode = true;
             this.isShowing = true;
             GlobalText.resetMenuMargin();
-        } else if (this.smallScreenMode === true && (window.innerHeight > this.maxHeight) && (window.innerWidth > this.maxWidth)) {
-            this.smallScreenMode = false;
         }
-        if ((window.innerHeight > this.maxHeight) && (window.innerWidth > this.maxWidth)) {
+        else if ( this.smallScreenMode === true && (window.innerHeight > this.maxHeight) && (window.innerWidth > this.maxWidth) ) {
+            this.smallScreenMode = false;
+            // GlobalText.changeLanguage();
+        }
+        if( (window.innerHeight > this.maxHeight) && (window.innerWidth > this.maxWidth) ) {
             this.isShowing = false;
         }
     }
@@ -143,15 +144,16 @@ export class AppComponent implements OnInit, DoCheck {
         if (e.nameComponent === 'projects' || e.nameComponent === 'beneficiaries'
             || e.nameComponent === 'reports' || e.nameComponent === 'settings' || e.nameComponent === 'login') {
             this.currentComponent = e.nameComponent;
-        } else if (e.nameComponent === 'dashboard_title') {
+        }
+        else if (e.nameComponent === 'dashboard_title') {
             this.currentComponent = null;
         } else {
-            if (!this.hasRights && e.nameComponent !== 'profile_title' && e.nameComponent !== 'distributions') {
+            if(!this.hasRights && e.nameComponent !== 'profile_title' && e.nameComponent !== 'distributions') {
                 this.router.navigate(['']);
                 e.nameComponent = '';
             }
 
-            if (e.nameComponent === 'distributions') {
+            if(e.nameComponent === 'distributions') {
                 this.currentComponent = 'projects';
             }
         }
@@ -167,10 +169,10 @@ export class AppComponent implements OnInit, DoCheck {
      * Check if user is logged in and redirect if necessary.
      */
     checkLoggedUser(cachedUser) {
-        if (!cachedUser.loggedIn && this.currentComponent !== 'login') {
+        if(!cachedUser.loggedIn && this.currentComponent !== 'login') {
             this.router.navigate(['/login']);
             GlobalText.resetMenuMargin();
-        } else if (cachedUser.loggedIn && this.currentComponent === 'login') {
+        } else if(cachedUser.loggedIn && this.currentComponent === 'login') {
             this.router.navigate(['/']);
         }
 
@@ -181,13 +183,12 @@ export class AppComponent implements OnInit, DoCheck {
      * @param cachedUser
      */
     checkPermission(cachedUser) {
-        if (cachedUser && cachedUser.rights) {
+        if(cachedUser && cachedUser.rights) {
             const rights = cachedUser.rights;
-            if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
+            if (rights == "ROLE_ADMIN" || rights == 'ROLE_PROJECT_MANAGER' || rights == "ROLE_COUNTRY_MANAGER")
                 this.hasRights = true;
-            } else {
+            else
                 this.hasRights = false;
-            }
         } else {
             this.hasRights = false;
         }

@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { GlobalText } from '../../../../texts/global';
@@ -13,9 +13,9 @@ import { User } from 'src/app/model/user';
     templateUrl: './header-mobile.component.html',
     styleUrls: ['./header-mobile.component.scss']
 })
-export class HeaderMobileComponent implements OnInit, DoCheck {
+export class HeaderMobileComponent implements OnInit {
     public header = GlobalText.TEXTS;
-    public language = 'en';
+    public language = "en";
 
     private requesting = false;
     public countries = [ ];
@@ -48,7 +48,7 @@ export class HeaderMobileComponent implements OnInit, DoCheck {
             this.header = GlobalText.TEXTS;
         }
 
-        if (this.language !== GlobalText.language) {
+        if(this.language !== GlobalText.language) {
             this.language = GlobalText.language;
         }
     }
@@ -62,10 +62,10 @@ export class HeaderMobileComponent implements OnInit, DoCheck {
     }
 
     getCorrectCountries() {
-        const countries = this.userData.getAllCountries();
+        let countries = this.userData.getAllCountries();
 
         this.countries = [];
-        if (this.userData.rights === 'ROLE_ADMIN') {
+        if (this.userData.rights === "ROLE_ADMIN") {
             countries.forEach(element => {
                 this.countries.push(element.id);
             });
@@ -77,20 +77,21 @@ export class HeaderMobileComponent implements OnInit, DoCheck {
 
         this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(
             result => {
-                if (result) {
+                if(result) {
                     this.selectCountry(result);
                 } else {
                     this.selectCountry(this.countries[0]);
                 }
             }
-        );
+        )
     }
 
     selectCountry(c: string) {
-        if (c) {
-            if (!this.selectedCountry || !GlobalText.country) {
+        if(c) {
+            if(!this.selectedCountry || !GlobalText.country) {
                 this.autoLanguage(c);
-            } else if (GlobalText.country && this.selectedCountry && c !== this.selectedCountry) {
+            }
+            else if(GlobalText.country && this.selectedCountry && c !== this.selectedCountry) {
                 this.preventSnack(c);
             }
 
@@ -102,11 +103,11 @@ export class HeaderMobileComponent implements OnInit, DoCheck {
 
     autoLanguage(c: string) {
         if (this.userData.language) {
-            GlobalText.changeLanguage(this.userData.language);
+            GlobalText.changeLanguage(this.userData.language)
         } else {
-            if (c === 'SYR') {
+            if(c === "SYR") {
                 GlobalText.changeLanguage('ar');
-            } else if (c === 'KHM') {
+            } else if(c === "KHM") {
                 GlobalText.changeLanguage('en');
             }
         }
@@ -114,8 +115,7 @@ export class HeaderMobileComponent implements OnInit, DoCheck {
     }
 
     preventSnack(country: string) {
-        const snack = this.snackbar.open('Page is going to reload in 3 sec to switch on ' + country + ' country. ',
-        'Reload now', {duration: 3000});
+        const snack = this.snackbar.open('Page is going to reload in 3 sec to switch on ' + country + ' country. ', 'Reload now', {duration: 3000});
 
         snack
             .onAction()
@@ -136,12 +136,13 @@ export class HeaderMobileComponent implements OnInit, DoCheck {
     openDialog(user_action): void {
         let dialogRef;
 
-        if (user_action === 'language') {
+        if (user_action == 'language') {
             dialogRef = this.dialog.open(ModalLanguageComponent, {});
         }
 
         dialogRef.afterClosed().subscribe(result => {
             this.language = GlobalText.language;
+            // console.log('The dialog was closed');
         });
     }
 

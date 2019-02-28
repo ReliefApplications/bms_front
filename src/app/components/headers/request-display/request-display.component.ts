@@ -13,7 +13,7 @@ import { StoredRequestInterface } from 'src/app/model/stored-request';
 export class RequestDisplayComponent implements OnInit {
 
     public networkOn = true;
-    public storedRequests: StoredRequestInterface[];
+    public storedRequests : StoredRequestInterface[];
 
     constructor(
         private cacheService: AsyncacheService,
@@ -27,18 +27,18 @@ export class RequestDisplayComponent implements OnInit {
 
         this.networkService.getOnlineObs().subscribe(
             status => {
-                if (status !== this.networkOn) {
+                if(status !== this.networkOn) {
                     this.networkOn = status;
-                    if (status === true) {
+                    if(status === true) {
                         this.loadStoredRequests();
                     }
                 }
             }
-        );
+        )
     }
 
     openDialog() {
-        const ref = this.dialog.open(ModalRequestsComponent, {
+        let ref = this.dialog.open(ModalRequestsComponent, {
             data : {requests: this.storedRequests} });
         ref.afterClosed().subscribe( () => {
             this.loadStoredRequests();
@@ -49,13 +49,14 @@ export class RequestDisplayComponent implements OnInit {
         this.cacheService.get(AsyncacheService.PENDING_REQUESTS).subscribe(
             (result) => {
                 this.storedRequests = result;
+                //console.log('Cached: ', result);
             }
-        );
+        )
     }
 
-    requestsArePending(): boolean {
-        if (this.storedRequests && this.storedRequests.length > 0) {
-            return true;
+    requestsArePending() : boolean {
+        if(this.storedRequests && this.storedRequests.length > 0) {
+            return true
         } else {
             return false;
         }

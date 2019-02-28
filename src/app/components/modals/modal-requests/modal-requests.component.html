@@ -87,7 +87,7 @@
         </div>
     </div>
 
-    <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':language==='ar'}" cdkFocusRegionstart>
+    <div class="modal-button action-buttons stickyFooter" cdkFocusRegionstart>
         <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.modal_leave}}</button>
         <button mat-raised-button class="send-all button-background-accent" (click)="sendAllRequests()" *ngIf="!inProgress">Send All</button>
     </div>

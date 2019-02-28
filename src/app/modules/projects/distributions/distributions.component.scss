@@ -187,6 +187,14 @@ mat-dialog-content {
     flex-direction: row;
     align-items: stretch;
     height: 40px;
+
+    .export-button {
+        background-color: $bms_green !important;
+        height: 40px;
+        margin-right: 0px;
+        border-top-right-radius: 0px !important;
+        border-bottom-right-radius: 0px !important;
+    }
 }
 
 .progression-bar {
@@ -263,6 +271,12 @@ app-import-distribution {
         .action-buttons {
             display: flex;
             justify-content: center;
+        }
+    }
+
+    button{
+        &.export-button{
+            margin-right: 0px !important;
         }
     }
 

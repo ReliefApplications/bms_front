@@ -41,7 +41,7 @@
                         [items]="loadedData[p]" [multiple]="true" placeholder="{{modal.placeholder_one_many | titlecase}}" [closeOnSelect]="false"
                         [searchable]="true" [ngModelOptions]="{standalone: true}">
                     </ng-select>
-
+                    
                     <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="multiple-select" [(ngModel)]="newObject[p]"
                         bindLabel="shortname" [items]="loadedData[p]" [multiple]="true" placeholder="{{modal.placeholder_one_many | titlecase}}"
                         [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
@@ -97,7 +97,7 @@
       </th>
     </tr>
   </table>
-  <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
+  <div class="modal-button action-buttons stickyFooter">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.cancel}}</button>
     <button mat-raised-button *ngIf="!displayAdd" (click)="add()" class="button-background-accent">{{modal.create}}</button>
     <button mat-raised-button *ngIf="displayAdd" (click)="add()" class="button-background-accent">{{modal.add}}</button>

@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ModalComponent } from '../modal.component';
 import { GlobalText } from '../../../../texts/global';
 import { Criteria } from '../../../model/criteria';
@@ -6,7 +6,7 @@ import { Commodity } from '../../../model/commodity';
 import { count } from '@swimlane/ngx-charts';
 import { Project } from '../../../model/project';
 
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
 import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 import { format } from 'url';
 
@@ -19,7 +19,7 @@ import { format } from 'url';
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
-export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck {
+export class ModalAddComponent extends ModalComponent {
     public entityDisplayedName = '';
     public oldEntity = '';
     mapperObject = null;
@@ -28,8 +28,8 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
 
     display = false;
     oldSelectedModality = 0;
-    displayAdd = false;
-    maxLength = 80;
+    displayAdd: boolean = false;
+    maxLength: number = 80;
 
     @Input() data: any;
     @Output() onCreate = new EventEmitter();
@@ -39,9 +39,8 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
         this.loadData();
         this.prefill();
 
-        if ((this.properties[0] === 'modality' && this.properties[2] === 'unit')) {
+        if ((this.properties[0] == 'modality' && this.properties[2] == 'unit'))
             this.displayAdd = true;
-        }
     }
 
     checkData() {
@@ -74,20 +73,20 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
                 (element) => {
                     if (element === 'start_date') {
                         this.newObject[element] = new Date();
-                    } else if (element === 'end_date') {
-                        const date = new Date();
+                    }
+                    else if (element === 'end_date') {
+                        let date = new Date();
                         date.setMonth(date.getMonth() + 3);
                         this.newObject[element] = date;
                     }
                 }
-            );
+            )
         } else if (this.data.entity === Commodity) {
             this.properties.forEach(
                 (element) => {
                     setTimeout(() => {
-                        if (element === 'modality') {
+                        if (element == 'modality')
                             this.newObject[element] = 1;
-                        }
                         this.selected(this.newObject);
                     }, 0);
 
@@ -95,7 +94,7 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
                         this.newObject[element] = 'USD';
                     }
                 }
-            );
+            )
         }
     }
 
@@ -106,19 +105,22 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
                     this.getModalityType(this.newObject.modality);
                     this.oldSelectedModality = this.newObject.modality;
                 }
-            } else if (newObject === 'ROLE_PROJECT_MANAGER' || newObject === 'ROLE_PROJECT_OFFICER' || newObject === 'ROLE_FIELD_OFFICER') {
+            }
+            else if (newObject == "ROLE_PROJECT_MANAGER" || newObject == "ROLE_PROJECT_OFFICER" || newObject == "ROLE_FIELD_OFFICER") {
                 this.newObject['country'] = [];
                 this.newObject['projects'] = [];
 
                 this.form.controls['projectsControl'].enable();
                 this.form.controls['countryControl'].disable();
-            } else if (newObject === 'ROLE_COUNTRY_MANAGER' || newObject === 'ROLE_REGIONAL_MANAGER') {
+            }
+            else if (newObject == "ROLE_COUNTRY_MANAGER" || newObject == "ROLE_REGIONAL_MANAGER") {
                 this.newObject['country'] = [];
                 this.newObject['projects'] = [];
 
                 this.form.controls['countryControl'].enable();
                 this.form.controls['projectsControl'].disable();
-            } else {
+            }
+            else {
                 this.newObject['country'] = [];
                 this.newObject['projects'] = [];
 
@@ -151,15 +153,16 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
 
     // emit the new object
     add(): any {
-        // Check fields for Users settings
-        if (this.newObject.username || this.newObject.username === '') {
-            const checkMail = new RegExp(/^[\w\.\+-]+@[\w-]+\.[\w-\.]+[a-z]+$/);
-            if (!checkMail.test(this.newObject.username) || this.newObject.username === '') {
+
+        //Check fields for Users settings
+        if (this.newObject.username || this.newObject.username == '') {
+            const checkMail = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+            if (!checkMail.test(this.newObject.username) || this.newObject.username == '') {
                 this.snackBar.open(this.modal.modal_add_invalid_mail, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }
 
-            if (this.newObject.password === '') {
+            if (this.newObject.password == '') {
                 this.snackBar.open(this.modal.modal_no_password, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }
@@ -170,43 +173,42 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
                 return;
             }
 
-            if (this.newObject.rights === '') {
+            if (this.newObject.rights == "") {
                 this.snackBar.open(this.modal.modal_add_no_right, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }
-            if (this.newObject.rights === 'ROLE_PROJECT_MANAGER' ||
-            this.newObject.rights === 'ROLE_PROJECT_OFFICER' ||
-            this.newObject.rights === 'ROLE_FIELD_OFFICER') {
-                if (this.newObject.projects === undefined || Object.keys(this.newObject.projects).length === 0) {
+            if (this.newObject.rights == "ROLE_PROJECT_MANAGER" || this.newObject.rights == "ROLE_PROJECT_OFFICER" || this.newObject.rights == "ROLE_FIELD_OFFICER") {
+                if (this.newObject.projects == undefined || Object.keys(this.newObject.projects).length == 0) {
                     this.snackBar.open(this.modal.modal_no_project, '', { duration: 5000, horizontalPosition: 'right' });
                     return;
                 }
-            } else if (this.newObject.rights === 'ROLE_REGIONAL_MANAGER' ||
-            this.newObject.rights === 'ROLE_COUNTRY_MANAGER' ||
-            this.newObject.rights === 'ROLE_READ_ONLY') {
-                if (this.newObject.country === undefined) {
+            }
+            else if (this.newObject.rights == "ROLE_REGIONAL_MANAGER" || this.newObject.rights == "ROLE_COUNTRY_MANAGER" || this.newObject.rights == "ROLE_READ_ONLY") {
+                if (this.newObject.country == undefined) {
                     this.snackBar.open(this.modal.modal_no_country, '', { duration: 5000, horizontalPosition: 'right' });
                     return;
                 }
             }
-        } else if ((this.newObject.countryIso3 && this.newObject.field && this.newObject.type) ||
-        this.newObject.countryIso3 === '' || this.newObject.field === '') {
-            if (this.newObject.field === '' || this.newObject.type === '') {
+        }
+
+        //Check fields for Country Specific options settings
+        else if ((this.newObject.countryIso3 && this.newObject.field && this.newObject.type) || this.newObject.countryIso3 == '' || this.newObject.field == '') {
+            if (this.newObject.field == '' || this.newObject.type == '') {
                 this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }
-        } else if ((this.newObject.fullname && this.newObject.shortname) || this.newObject.fullname === '' ||
-        this.newObject.shortname === '') {
-            if (this.newObject.fullname === '' || this.newObject.shortname === '') {
+        }
+
+        //Check fields for Donors settings
+        else if ((this.newObject.fullname && this.newObject.shortname) || this.newObject.fullname == '' || this.newObject.shortname == '') {
+            if (this.newObject.fullname == '' || this.newObject.shortname == '') {
                 this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }
-        } else if ((this.newObject.donors && this.newObject.donors_name && this.newObject.name &&
-          this.newObject.sectors && this.newObject.sectors_name) || this.newObject.name === '' ||
-          (this.newObject.sectors_name && Object.keys(this.newObject.sectors_name).length === 0) ||
-          (this.newObject.sectors && Object.keys(this.newObject.sectors).length === 0)) {
-            if (!this.newObject.end_date || !this.newObject.name || !this.newObject.start_date ||
-              !this.newObject.value || this.newObject.value < 0) {
+        }
+        //Check fields for Projects settings
+        else if ((this.newObject.donors && this.newObject.donors_name && this.newObject.name && this.newObject.sectors && this.newObject.sectors_name) || this.newObject.name == '' || (this.newObject.sectors_name && Object.keys(this.newObject.sectors_name).length == 0) || (this.newObject.sectors && Object.keys(this.newObject.sectors).length == 0)) {
+            if (!this.newObject.end_date || !this.newObject.name || !this.newObject.start_date || !this.newObject.value || this.newObject.value < 0) {
                 this.snackBar.open(this.modal.modal_add_check_fields_budget, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }
@@ -217,40 +219,37 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
             }
 
 
-            if (typeof this.newObject.start_date === 'object') {
+            if (typeof this.newObject.start_date == "object") {
                 let day = this.newObject.start_date.getDate();
                 let month = this.newObject.start_date.getMonth() + 1;
                 const year = this.newObject.start_date.getFullYear();
 
-                if (day < 10) {
-                    day = '0' + day;
-                }
-                if (month < 10) {
-                    month = '0' + month;
-                }
-                this.newObject.start_date = year + '-' + month + '-' + day;
+                if (day < 10)
+                    day = "0" + day;
+                if (month < 10)
+                    month = "0" + month;
+                this.newObject.start_date = year + "-" + month + "-" + day;
             }
 
-            if (typeof this.newObject.end_date === 'object') {
+            if (typeof this.newObject.end_date == "object") {
                 let day = this.newObject.end_date.getDate();
                 let month = this.newObject.end_date.getMonth() + 1;
                 const year = this.newObject.end_date.getFullYear();
 
-                if (day < 10) {
-                    day = '0' + day;
-                }
-                if (month < 10) {
-                    month = '0' + month;
-                }
-                this.newObject.end_date = year + '-' + month + '-' + day;
+                if (day < 10)
+                    day = "0" + day;
+                if (month < 10)
+                    month = "0" + month;
+                this.newObject.end_date = year + "-" + month + "-" + day;
             }
-        } else if ((this.newObject.modality) || this.newObject.modality === '') {
-            if (this.newObject.unit && this.newObject.value && this.newObject.modality === 1) {
-                this.newObject.type = 1;
-            }
+        }
 
-            if (this.newObject.modality === '' || this.newObject.type === '' ||
-            this.newObject.unit === '' || !this.newObject.value || this.newObject.value < 0) {
+        //Check commodity in addDistribution
+        else if ((this.newObject.modality) || this.newObject.modality == '') {
+            if (this.newObject.unit && this.newObject.value && this.newObject.modality == 1)
+                this.newObject.type = 1;
+
+            if (this.newObject.modality == '' || this.newObject.type == '' || this.newObject.unit == '' || !this.newObject.value || this.newObject.value < 0) {
                 this.snackBar.open(this.modal.modal_add_check_fields_quantity, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }

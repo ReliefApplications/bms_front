@@ -8,7 +8,7 @@
 
         <th class="table-value">
           <form class="form" *ngIf="p!='value_string'">
-            <ng-select *ngIf="p=='field_string' && propertiesTypes[p]=='select'" class="single-select" [(ngModel)]="newObject[p]"
+            <ng-select *ngIf="p=='field_string' && propertiesTypes[p]=='select'" class="single-select" [(ngModel)]="newObject[p]" 
                           [multiple]="false" placeholder="{{mapperObject[p]}}" [closeOnSelect]="true"
                         [searchable]="true" [ngModelOptions]="{standalone: true}" required>
                 <ng-option *ngFor="let item of loadedData[p]; let i= index" [value]="i+1">
@@ -22,11 +22,11 @@
                 <mat-option *ngFor="let singleData of loadedData[p]; let i = index" [value]="i+1">{{singleData.field_string}}</mat-option>
               </mat-select>
             </mat-form-field>
-
+            
           </form>
 
           <form class="form" *ngIf="(p=='value_string') && checkDataCriteria.type">
-              <ng-select *ngIf="checkDataCriteria.field_string === 'gender'" class="single-select" [(ngModel)]="newObject[p]"
+              <ng-select *ngIf="checkDataCriteria.field_string === 'gender'" class="single-select" [(ngModel)]="newObject[p]" 
                           [multiple]="false" placeholder="Gender" [closeOnSelect]="true"
                         [searchable]="true" [ngModelOptions]="{standalone: true}" (selectionChange)="genderOnChange($event)" required>
                 <ng-option [value]="modal.add_distribution_female">{{modal.add_distribution_female}}</ng-option>
@@ -73,7 +73,7 @@
       </th>
     </tr>
   </table>
-  <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':language==='ar'}">
+  <div class="modal-button action-buttons stickyFooter">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.cancel}}</button>
     <button mat-raised-button (click)="add()" class="button-background-accent">{{modal.add}}</button>
   </div>

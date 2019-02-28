@@ -20,15 +20,15 @@ export class Indicator {
      * Here : Country, project or distribution
      * @type {string}
      */
-    type: string;
+    type: string
     /**
      * Indicator's filter
      * @type {Array}
      */
     filter: Array<string> = [];
 
-    constructor(instance?) {
-        if (instance !== undefined) {
+    constructor(instance?){
+        if(instance !== undefined){
             this.id = instance.id;
             this.full_name = instance.full_name;
             this.type_graph = instance.type_graph;
@@ -38,17 +38,16 @@ export class Indicator {
     }
 
     public static FormatArray(instance: any): Indicator[] {
-        const indicators: Indicator[] = [];
-        if (instance) {
+        let indicators: Indicator[] = [];
+        if(instance)
         instance.forEach(element => {
             indicators.push(this.formatIndicator(element));
         });
-        }
         return indicators;
     }
-
-    public static formatIndicator(element: any): Indicator {
-        const indicator = new Indicator;
+    
+    public static formatIndicator(element: any): Indicator{
+        let indicator = new Indicator;
         indicator.id = element.id;
         indicator.full_name = element.full_name;
         indicator.type_graph = element.type_graph;

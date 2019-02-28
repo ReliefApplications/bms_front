@@ -22,8 +22,9 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
 
     ngOnInit() {
         this.entityInstance = this.data.mapper.instantiate(this.data.entity);
-        // console.log(this.data);
         this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapperUpdate(this.entityInstance, this.data.data));
+
+        console.log('ModalUpdate', this.data.data);
 
         this.propertiesTypes = this.entityInstance.getModalTypeProperties(this.entityInstance);
         try {
@@ -89,6 +90,7 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
     save(): any {
         // Check fields for Users settings
         if (this.updateObject.username && this.updateObject.rights) {
+
             // if (this.updateObject.password == '' || !this.updateObject.password) {
             //   this.snackBar.open(this.modal.modal_no_password, '', { duration: 5000, horizontalPosition: 'right' });
             //   return;

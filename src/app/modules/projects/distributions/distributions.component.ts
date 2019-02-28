@@ -243,13 +243,14 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                         this.loadingFinalStep = false;
                     } else if (type === 'transaction') {
                         if (this.actualDistribution.commodities[0].modality_type.name === 'Voucher') {
-                            this.selection = new SelectionModel<any>(true, []);
                             this.entity = TransactionVoucher;
+                            this.selection = new SelectionModel<any>(true, []);
+                            this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));
                         } else if (this.actualDistribution.commodities[0].modality_type.name === 'Mobile Cash') {
                             this.entity = TransactionBeneficiary;
+                            this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));
                         }
 
-                        this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));
                         this.refreshStatuses();
                         this.loadingTransaction = false;
                     }
@@ -666,26 +667,5 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                     }
                 }
             );
-    }
-
-    getChecked(event) {
-        this.checkedLines = event;
-    }
-
-    distributeVoucher() {
-        this.checkedLines.forEach(
-            checked => {
-                this.transactionData.data.filter(
-                    data => {
-                        if (checked.id === data.id) {
-                            data.used = !data.used;
-                        }
-                    }
-                );
-            }
-        );
-
-        this.checkedLines = [];
-        this.selection = new SelectionModel<any>(true, []);
     }
 }

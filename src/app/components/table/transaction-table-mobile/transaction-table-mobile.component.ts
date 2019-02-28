@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TableComponent } from '../table.component';
+import { TransactionTableComponent } from '../transaction-table/transaction-table.component';
 
 
 @Component({
@@ -7,7 +7,7 @@ import { TableComponent } from '../table.component';
   templateUrl: './transaction-table-mobile.component.html',
   styleUrls: ['../table-mobile/table-mobile.component.scss']
 })
-export class TransactionTableMobileComponent extends TableComponent {
+export class TransactionTableMobileComponent extends TransactionTableComponent {
 
     loading = true;
     //

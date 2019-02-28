@@ -136,7 +136,7 @@ export class TableComponent implements OnChanges, DoCheck {
                 this.setDataTableProperties();
                 document.getElementsByClassName('mat-paginator-page-size-label')[0].innerHTML = this.table.table_items_per_page;
                 document.getElementsByClassName('mat-paginator-range-label')[0].innerHTML =
-                this.rangeLabel(this.paginator.pageIndex, this.paginator.pageSize, this.paginator.length);
+                    this.rangeLabel(this.paginator.pageIndex, this.paginator.pageSize, this.paginator.length);
                 this.mapperService.setMapperObject(this.entity);
             }
         }
@@ -311,7 +311,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
     applyFilter(filterValue: any, category?: string, suppress?: boolean): void {
         if (suppress) {
-            const index = this.data.filter.findIndex(function (value) {
+            const index = this.data.filter.findIndex(function(value) {
                 return value.category === category;
             });
 
@@ -324,7 +324,7 @@ export class TableComponent implements OnChanges, DoCheck {
                             filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
                             filterValue = filterValue.split(/[\s,]+/);
                             if (filterValue[filterValue.length - 1] === '') {
-                              filterValue.pop();
+                                filterValue.pop();
                             }
                         }
                     }
@@ -333,7 +333,7 @@ export class TableComponent implements OnChanges, DoCheck {
                         filterValue = filterValue.name;
                     }
 
-                    const index = this.data.filter.findIndex(function (value) {
+                    const index = this.data.filter.findIndex(function(value) {
                         return value.category === category;
                     });
 
@@ -342,8 +342,8 @@ export class TableComponent implements OnChanges, DoCheck {
                             this.data.filter.splice(index, 1);
                         } else {
                             this.data.filter[index] = { filter: filterValue, category: category };
-                    }
-                        } else
+                        }
+                    } else
                         if (filterValue.length !== 0 || filterValue !== '') {
                             this.data.filter.push({ filter: filterValue, category: category });
                         }
@@ -355,7 +355,7 @@ export class TableComponent implements OnChanges, DoCheck {
                 }
             } else {
                 if (category && category === 'familyName') {
-                    const index = this.data.filter.findIndex(function (value) {
+                    const index = this.data.filter.findIndex(function(value) {
                         return value.category === category;
                     });
 
@@ -365,16 +365,16 @@ export class TableComponent implements OnChanges, DoCheck {
         }
     }
 
-    updateElement(updateElement: Object) {
+    updateElement(updateElement) {
         updateElement = this.entity.formatForApi(updateElement);
 
         if (updateElement['rights'] === 'ROLE_PROJECT_MANAGER' || updateElement['rights'] === 'ROLE_PROJECT_OFFICER' ||
-        updateElement['rights'] === 'ROLE_FIELD_OFFICER') {
+            updateElement['rights'] === 'ROLE_FIELD_OFFICER') {
             delete updateElement['country'];
         } else if (updateElement['rights'] === 'ROLE_REGIONAL_MANAGER' || updateElement['rights'] === 'ROLE_COUNTRY_MANAGER' ||
-        updateElement['rights'] === 'ROLE_READ_ONLY') {
+            updateElement['rights'] === 'ROLE_READ_ONLY') {
             delete updateElement['projects'];
-             } else {
+        } else {
             delete updateElement['country'];
             delete updateElement['projects'];
         }
@@ -402,9 +402,11 @@ export class TableComponent implements OnChanges, DoCheck {
 
             this.service.update(updateElement).subscribe(response => {
                 this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated,
-                  '', { duration: 5000, horizontalPosition: 'right' });
+                    '', { duration: 5000, horizontalPosition: 'right' });
                 this.updateData();
             });
+        } else if (this.entity.__classname__ === 'TransactionVoucher' && updateElement.notes ) {
+            this.distributionService.addNote(updateElement.id, updateElement.notes);
         } else {
             this.service.update(updateElement['id'], updateElement).subscribe(response => {
                 this.updateData();
@@ -469,7 +471,9 @@ export class TableComponent implements OnChanges, DoCheck {
                 this.selection.clear();
             } else {
                 this.data.data.forEach(row => {
-                    this.selection.select(row);
+                    if (!row.used) {
+                        this.selection.select(row);
+                    }
                 });
             }
         }

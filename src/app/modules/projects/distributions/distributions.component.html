@@ -224,6 +224,18 @@
       (exportEmitter)="exportTransaction($event)"
       (storeEmitter)="storeBeneficiaries()">
     </app-mobile-money>
+
+
+    <app-general-relief
+      *ngIf="actualDistribution.validated && actualDistribution.commodities[0].modality_type.name === 'Voucher' && !loadingDatas"
+      [actualDistribution]="actualDistribution"
+      [transactionData]="transactionData"
+      [distributionId]="distributionId"
+      [hasRights]="hasRights"
+      [hasRightsTransaction]="hasRightsTransaction"
+      (exportEmitter)="exportTransaction($event)"
+      (storeEmitter)="storeBeneficiaries()">
+    </app-general-relief>
   </ng-container>
 
 </div>

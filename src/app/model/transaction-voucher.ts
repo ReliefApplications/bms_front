@@ -1,6 +1,7 @@
 import { GlobalText } from '../../texts/global';
 import { isNumber } from '@swimlane/ngx-charts/release/utils';
 import { isNull } from 'util';
+import { GeneralRelief } from 'src/app/model/general-relief';
 
 export class TransactionVoucher {
     static __classname__ = 'TransactionVoucher';
@@ -23,9 +24,9 @@ export class TransactionVoucher {
     familyName: string;
 
     /**
-     * Used 0 - unused, 1 - used
+     * Voucher Date of use
      */
-    used: boolean;
+    used: Date;
 
     /**
      * Values(ammount of money) for each beneficiary (from commodities)
@@ -37,6 +38,16 @@ export class TransactionVoucher {
      */
     id_transaction: number;
 
+    /**
+     * Voucher notes
+     */
+    notes: string;
+
+    /**
+     * General relief
+     */
+    generalReliefs: GeneralRelief[];
+
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;
@@ -45,6 +56,7 @@ export class TransactionVoucher {
             this.used = instance.used;
             this.values = instance.values;
             this.id_transaction = instance.id_transaction;
+            this.notes = instance.note;
         }
     }
 
@@ -66,13 +78,12 @@ export class TransactionVoucher {
             used: GlobalText.TEXTS.model_used,
             values: GlobalText.TEXTS.model_value,
             id_transaction: GlobalText.TEXTS.transaction_id_transaction,
+            notes: GlobalText.TEXTS.model_notes,
         };
     }
 
     public static formatArray(instance: any, commodityList?: any[]): TransactionVoucher[] {
         const voucher: TransactionVoucher[] = [];
-
-        // console.log('before format : ', instance);
 
         let commodities = '';
         if (commodityList) {
@@ -104,11 +115,15 @@ export class TransactionVoucher {
     public static formatElement(instance: any, com: string): TransactionVoucher {
         const voucher = new TransactionVoucher();
 
+        console.log('TEST', instance);
+
         voucher.id = instance.beneficiary.id;
         voucher.givenName = instance.beneficiary.given_name;
         voucher.familyName = instance.beneficiary.family_name;
-        voucher.used = instance.used ? instance.used : false;
+        voucher.used = instance.general_reliefs[0].distributed_at ? instance.general_reliefs[0].distributed_at : undefined;
         voucher.values = com;
+        voucher.notes = instance.notes;
+        voucher.generalReliefs = instance.general_reliefs;
 
         if (instance.transactions && instance.transactions.length > 0) {
             voucher.id_transaction = instance.transactions[0].id;
@@ -125,6 +140,7 @@ export class TransactionVoucher {
             familyName: instance.familyName,
             used: instance.used,
             values: instance.values,
+            notes: instance.notes,
         };
 
         return (voucher);
@@ -138,8 +154,9 @@ export class TransactionVoucher {
         return {
             givenName: selfinstance.givenName,
             familyName: selfinstance.familyName,
-            used: selfinstance.used,
+            used: selfinstance.generalReliefs ? selfinstance.generalReliefs[0].distributed_at : undefined,
             values: selfinstance.values,
+            generalReliefs: selfinstance.generalReliefs
         };
     }
 
@@ -152,10 +169,9 @@ export class TransactionVoucher {
         }
 
         return {
-            id_transaction: selfinstance.id_transaction ? selfinstance.id_transaction : 'Undefined',
             givenName: selfinstance.givenName,
             familyName: selfinstance.familyName,
-            used: selfinstance.used,
+            used: selfinstance.generalReliefs ? selfinstance.generalReliefs[0].distributed_at : undefined,
             values: selfinstance.values,
         };
     }
@@ -172,8 +188,9 @@ export class TransactionVoucher {
             id_transaction: selfinstance.id_transaction,
             givenName: selfinstance.givenName,
             familyName: selfinstance.familyName,
-            used: selfinstance.used,
+            used: selfinstance.generalReliefs ? selfinstance.generalReliefs[0].distributed_at : undefined,
             values: selfinstance.values,
+            notes: selfinstance.generalReliefs ? selfinstance.generalReliefs[0].notes : '',
         };
     }
 
@@ -186,7 +203,7 @@ export class TransactionVoucher {
         }
 
         return {
-            number: selfinstance.number
+            notes: selfinstance.notes,
         };
     }
 
@@ -198,8 +215,9 @@ export class TransactionVoucher {
             id_transaction: 'text',
             givenName: 'text',
             familyName: 'text',
-            used: 'boolean',
+            used: 'date',
             values: 'text',
+            notes: 'text',
         };
     }
 
@@ -208,10 +226,12 @@ export class TransactionVoucher {
     */
     getModalTypeProperties(selfinstance): Object {
         return {
+            id_transaction: 'text',
             givenName: 'text',
             familyName: 'text',
-            used: 'boolean',
+            used: 'date',
             values: 'text',
+            notes: 'text',
         };
     }
 }

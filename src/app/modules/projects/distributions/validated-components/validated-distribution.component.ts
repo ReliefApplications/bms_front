@@ -65,7 +65,7 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     }
 
     constructor(
-        private distributionService: DistributionService,
+        protected distributionService: DistributionService,
         public snackBar: MatSnackBar,
         public dialog: MatDialog,
         private cacheService: AsyncacheService,
@@ -96,7 +96,7 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
                 amount = 0;
                 this.transactionData.data.forEach(
                     element => {
-                        if (element.state === 1 || element.state === 2 || element.state === 3) {
+                        if (element.used) {
                             amount += commodity.value;
                         }
                     }
@@ -169,8 +169,6 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
             this.snackBar.open('Not enough rights to request logs', '', { duration: 5000, horizontalPosition: 'center' });
         }
     }
-
-    getChecked() { }
 
     storeBeneficiaries() {
         this.storeEmitter.emit();

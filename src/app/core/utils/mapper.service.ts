@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FieldMapper } from '../../model/field-mapper';
 import { DatePipe } from '@angular/common';
+import { GlobalText } from 'src/texts/global';
 
 @Injectable({
     providedIn: 'root'
@@ -80,7 +81,10 @@ export class Mapper {
         if (!elementObject) {
             return p;
         }
-        if (p === 'date_distribution' || p === 'start_date' || p === 'end_date') {
+        if (p === 'date_distribution' || p === 'start_date' || p === 'end_date' || p === 'used') {
+            if (!elementObject[p]) {
+                return 'Ø';
+            }
             return this.datepipe.transform(elementObject[p], 'dd-MM-yyyy');
         } else {
             return elementObject[p];
@@ -93,6 +97,14 @@ export class Mapper {
     * the formatting is for modal details
     */
     mapValueDetails(element, p) {
+        if (p === 'used') {
+            const elementObject = this.entityInstance.getMapperDetails(element);
+            if (!elementObject[p]) {
+                return 'Ø';
+            }
+            return this.datepipe.transform(elementObject[p], 'dd-MM-yyyy');
+        }
+
         return String(this.entityInstance.getMapperDetails(element)[p]);
     }
 }

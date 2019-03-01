@@ -73,11 +73,11 @@
         </div>
 
         <div class="content-table" *ngIf="!loadingTransaction">
-            <app-transaction-table *ngIf="widthScreen >= maxWidthMobile" [parent]="actualDistribution"
+            <app-transaction-table *ngIf="widthScreen >= maxWidthMobile" [parentObject]="actualDistribution"
                 [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false"
                 [selection]="selection" [checkbox]="true" (selectChecked)="getChecked($event)">
             </app-transaction-table>
-            <app-transaction-table-mobile *ngIf="widthScreen < maxWidthMobile" [parent]="actualDistribution"
+            <app-transaction-table-mobile *ngIf="widthScreen < maxWidthMobile" [parentObject]="actualDistribution"
                 [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false">
             </app-transaction-table-mobile>
         </div>
@@ -111,7 +111,7 @@
 
                 <mat-spinner [diameter]="35" *ngIf="distributed && checkedLines.length > 0"></mat-spinner>
                 <button mat-raised-button *ngIf="hasRightsTransaction && !distributed && checkedLines.length > 0"
-                    class="button-background-accent" (click)="distributeVoucher()">
+                    class="button-background-accent" (click)="distributeRelief()">
                     <mat-icon>send</mat-icon> Set as distributed
                 </button>
             </div>

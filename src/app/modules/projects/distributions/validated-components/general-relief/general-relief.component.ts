@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
 import { TransactionGeneralRelief } from 'src/app/model/transaction-voucher';
 import { SelectionModel } from '@angular/cdk/collections';
-import { DistributionService } from 'src/app/core/api/distribution.service';
 
 @Component({
     selector: 'app-general-relief',
@@ -11,7 +10,7 @@ import { DistributionService } from 'src/app/core/api/distribution.service';
 })
 export class GeneralReliefComponent extends ValidatedDistributionComponent implements OnInit {
 
-    checkedLines: any[] = [];
+    checkedLines: TransactionGeneralRelief[] = [];
     distributed = false;
 
     ngOnInit() {
@@ -24,24 +23,23 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         this.checkedLines = event;
     }
 
-    distributeVoucher() {
+    distributeRelief() {
         this.distributed = true;
-
-        const generalReliefsId = this.checkedLines.map(check => <number> check.generalReliefs[0].id);
+        // Get the General Relief's ids
+        const generalReliefsId: number[] = [];
+        for (const line of this.checkedLines) {
+            for (const generalRelief of line.generalReliefs) {
+                generalReliefsId.push(generalRelief.id);
+                line.used = new Date();
+            }
+        }
+        // Request to the API to set the General Reliefs as distributed
         this.distributionService.distributeGeneralReliefs(generalReliefsId).subscribe(() => {
-            generalReliefsId.forEach(gri => {
-                for (const data of this.transactionData.data) {
-                    if (data.generalReliefs[0].id === gri) {
-                        data.used = new Date();
-                    }
-                }
-            });
-
             this.checkedLines = [];
             this.selection = new SelectionModel<any>(true, []);
-            this.distributed = false;
         }, err => {
             console.error(err);
+        }, () => {
             this.distributed = false;
         });
     }

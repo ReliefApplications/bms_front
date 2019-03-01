@@ -433,7 +433,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                             '', { duration: 5000, horizontalPosition: 'center' });
                         return;
                     } else if (commodity.modality !== distributionModality) {
-                        this.snackBar.open(this.distribution.add_distribution_multiple_commodities,
+                        this.snackBar.open(this.distribution.add_distribution_multiple_modalities,
                              '', { duration: 5000, horizontalPosition: 'center' });
                         return;
                     }

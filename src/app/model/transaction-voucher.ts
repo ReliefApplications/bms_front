@@ -1,6 +1,4 @@
 import { GlobalText } from '../../texts/global';
-import { isNumber } from '@swimlane/ngx-charts/release/utils';
-import { isNull } from 'util';
 import { GeneralRelief } from 'src/app/model/general-relief';
 
 export class TransactionGeneralRelief {
@@ -43,7 +41,7 @@ export class TransactionGeneralRelief {
             this.id = instance.id;
             this.givenName = instance.givenName;
             this.familyName = instance.familyName;
-            this.used = instance.used;
+            this.used = instance.general_reliefs ? instance.general_reliefs[0].distributed_at : undefined;
             this.values = instance.values;
         }
     }
@@ -94,8 +92,6 @@ export class TransactionGeneralRelief {
             return null;
         }
 
-        console.log('Format Array: ', generalRelief);
-
         return generalRelief;
     }
 
@@ -105,11 +101,9 @@ export class TransactionGeneralRelief {
         generalRelief.id = instance.beneficiary.id;
         generalRelief.givenName = instance.beneficiary.given_name;
         generalRelief.familyName = instance.beneficiary.family_name;
-        generalRelief.used = instance.general_reliefs[0].distributed_at ? instance.general_reliefs[0].distributed_at : undefined;
+        generalRelief.used = instance.general_reliefs ? instance.general_reliefs[0].distributed_at : undefined;
         generalRelief.values = com;
         generalRelief.generalReliefs = instance.general_reliefs;
-
-        console.log('Format Element: ', generalRelief);
 
         return generalRelief;
     }
@@ -124,63 +118,62 @@ export class TransactionGeneralRelief {
             values: instance.values,
         };
 
-        console.log('Format for API: ', generalRelief);
-
         return generalRelief;
     }
 
-    mapAllProperties(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
+    mapAllProperties(selfInstance): Object {
+        if (!selfInstance) {
+            return selfInstance;
         }
 
-        console.log('mapAllProperties: ', selfinstance);
-
         return {
-            givenName: selfinstance.givenName,
-            familyName: selfinstance.familyName,
-            used: selfinstance.used,
-            values: selfinstance.values,
-            generalReliefs: selfinstance.generalReliefs
+            givenName: selfInstance.givenName,
+            familyName: selfInstance.familyName,
+            used: selfInstance.general_reliefs ? selfInstance.general_reliefs[0].distributed_at : undefined,
+            values: selfInstance.values,
+            generalReliefs: selfInstance.generalReliefs
         };
     }
 
     /**
     * return a Beneficiary after formatting its properties
     */
-    getMapper(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
+    getMapper(selfInstance: TransactionGeneralRelief): Object {
+        if (!selfInstance) {
+            return selfInstance;
         }
 
         return {
-            givenName: selfinstance.givenName,
-            familyName: selfinstance.familyName,
-            used: selfinstance.used,
-            values: selfinstance.values,
+            givenName: selfInstance.givenName,
+            familyName: selfInstance.familyName,
+            used: selfInstance.used,
+            values: selfInstance.values,
         };
     }
 
     /**
     * return a Beneficiary after formatting its properties for the modal details
     */
-    getMapperDetails(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
+    getMapperDetails(selfInstance: TransactionGeneralRelief): Object {
+        if (!selfInstance) {
+            return selfInstance;
         }
 
-        if (selfinstance.generalReliefs) {
-            const notes = selfinstance.generalReliefs.map(generalRelief => {
+        let notes = [];
+        if (selfInstance.generalReliefs) {
+            notes = selfInstance.generalReliefs
+            .map((generalRelief: GeneralRelief) => {
                 return generalRelief.notes;
-            });
+            })
+            .filter((note: string) => !!note);
         }
 
         return {
-            givenName: selfinstance.givenName,
-            familyName: selfinstance.familyName,
-            used: selfinstance.used,
-            values: selfinstance.values,
-            notes: notes,
+            givenName: selfInstance.givenName,
+            familyName: selfInstance.familyName,
+            used: selfInstance.used,
+            values: selfInstance.values,
+            notes: notes.join(' / '),
         };
     }
 
@@ -192,8 +185,9 @@ export class TransactionGeneralRelief {
             return selfinstance;
         }
 
+        let notes = [];
         if (selfinstance.generalReliefs) {
-            const notes = selfinstance.generalReliefs.map(generalRelief => {
+            notes = selfinstance.generalReliefs.map(generalRelief => {
                 return generalRelief.notes;
             });
         }

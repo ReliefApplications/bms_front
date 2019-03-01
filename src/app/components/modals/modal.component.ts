@@ -54,12 +54,15 @@ export class ModalComponent implements OnInit, DoCheck {
         updateOn: 'change',
     });
 
+    public notesFormControl = new FormControl(null, Validators.required);
+
     form = new FormGroup({
         defaultValue: this.defaultValue,
         projectsControl: this.projectsControl,
         countryControl: this.countryControl,
         emailFormControl: this.emailFormControl,
         passwordFormControl: this.passwordFormControl,
+        notesFormControl: this.notesFormControl
     });
 
 

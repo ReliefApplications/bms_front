@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TableComponent } from '../table.component';
+import { GeneralRelief } from 'src/app/model/general-relief';
+import { DistributionData } from 'src/app/model/distribution-data';
 
 @Component({
   selector: 'app-transaction-table',
@@ -10,17 +12,18 @@ export class TransactionTableComponent extends TableComponent {
 
     loading = true;
 
-    public parentClassName: string;
-
-
     @Input() checkbox: boolean;
 
-    @Input() set parent(value: any) {
-        this.parentObject = value;
-        this.parentClassName = this.parentObject.commodities[0].modality_type.name;
-    }
+    @Input() parentObject: DistributionData;
 
     updateElement(updateElement) {
-        this.distributionService.addNote(updateElement.generalReliefs[0].id, updateElement.notes).subscribe();
+        const notes = updateElement.generalReliefs
+            .filter((generalRelief: GeneralRelief) => {
+                if (generalRelief.notes) {
+                    return true;
+                }
+            });
+
+        this.distributionService.addNotes(notes).subscribe();
     }
 }

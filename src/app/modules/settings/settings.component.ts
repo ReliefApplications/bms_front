@@ -63,7 +63,8 @@ export class SettingsComponent implements OnInit, DoCheck {
   public heightScreen;
   public widthScreen;
   hasRights: boolean;
-  public deletable: boolean = true;
+  public deletable = true;
+  public printable = false;
 
   constructor(
     public dialog: MatDialog,
@@ -168,7 +169,7 @@ export class SettingsComponent implements OnInit, DoCheck {
         () => { this.loadingExport = false; }
       ).catch(
         () => { this.loadingExport = false; }
-      )
+      );
     }
   }
 
@@ -208,6 +209,7 @@ export class SettingsComponent implements OnInit, DoCheck {
         this.referedClassToken = Vendors;
         this.referedClassService = this.vendorsService;
         this.deletable = true;
+        this.printable = true;
         break;
       default: break;
     }
@@ -284,13 +286,14 @@ export class SettingsComponent implements OnInit, DoCheck {
 
                                 }
 
-                                if (this.referedClassToken.__classname__ == 'Vendors') {
-                                  if (rights == 'ROLE_ADMIN')
+                                if (this.referedClassToken.__classname__ === 'Vendors') {
+                                  if (rights === 'ROLE_ADMIN') {
                                     this.hasRights = true;
+                                  }
                                 }
-                
+
                                 if (this.referedClassToken.__classname__ === 'Product') {
-                                  if (rights === "ROLE_ADMIN") {
+                                  if (rights === 'ROLE_ADMIN') {
                                       this.hasRights = true;
                                   }
                                 }

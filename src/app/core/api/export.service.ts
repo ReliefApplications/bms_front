@@ -41,20 +41,29 @@ export class ExportService {
     public printVoucher(id: number) {
         return this.http.get(this.api + '/booklets/print/' + id, {responseType: 'blob'}).toPromise()
         .then(response => {
-            var blob = new Blob([response], {type: ('blob')});
-            var filename = 'Booklet-' + id + '.pdf';
+            const blob = new Blob([response], {type: ('blob')});
+            const filename = 'Booklet-' + id + '.pdf';
             saveAs(blob, filename);
         });
     }
 
-    public printMany(bookletIds: number[]) {
-        let body = {
+    public printManyVouchers(bookletIds: number[]) {
+        const body = {
             bookletIds: bookletIds
         };
         return this.http.post(this.api + '/booklets-print', body, {responseType: 'blob'}).toPromise()
         .then(response => {
-            var blob = new Blob([response], {type: ('blob')});
-            var filename = 'Booklets.pdf';
+            const blob = new Blob([response], {type: ('blob')});
+            const filename = 'Booklets.pdf';
+            saveAs(blob, filename);
+        });
+    }
+
+    public printInvoice(vendorId: number) {
+        return this.http.get(this.api + '/invoice-print/' + vendorId, {responseType: 'blob'}).toPromise()
+        .then(response => {
+            const blob = new Blob([response], {type: ('blob')});
+            const filename = 'Invoice-' + vendorId + '.pdf';
             saveAs(blob, filename);
         });
     }

@@ -2,11 +2,11 @@
   <p [hidden]="!hasDevices || !hasPermission">{{ voucher.voucher_scan_text }}</p>
 
   <div [hidden]="!hasDevices || !hasPermission">
-    <mat-select [(value)]="selected" (selectionChange)="onDeviceSelectChange($event.value)" *ngIf="availableDevices.length > 1">
-      <mat-option value="default">No Device Selected</mat-option>
-      <mat-option *ngFor="let device of availableDevices" [value]="device.deviceId">{{
-        device.label }}</mat-option>
-    </mat-select>
+    <ng-select [(ngModel)]="selected" (selectionChange)="onDeviceSelectChange($event.value)" *ngIf="availableDevices.length > 1">
+      <ng-option value="default">No Device Selected</ng-option>
+      <ng-option *ngFor="let device of availableDevices" [value]="device.deviceId">{{
+        device.label }}</ng-option>
+    </ng-select>
 
     <zxing-scanner #scanner start="true" [device]="currentDevice" (scanSuccess)="handleQrCodeResult($event)"
       (scanError)="log($event)"

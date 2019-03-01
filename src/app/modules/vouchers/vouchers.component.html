@@ -79,11 +79,9 @@
             <th class="table-title">{{ voucher.project }}</th>
             <th class="table-value">
               <form class="form" [formGroup]="form">
-                <mat-form-field class="full-width">
-                  <mat-select [(ngModel)]="storeChoice['project']" [formControl]="controls" (selectionChange)="getDistributions()">
-                    <mat-option *ngFor="let project of projects" [value]="project.id">{{project.name}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
+                <ng-select class="full-width" [(ngModel)]="storeChoice['project']" [formControl]="controls" (change)="getDistributions()" bindLabel="id">
+                  <ng-option *ngFor="let project of projects" [value]="project.id">{{project.name}}</ng-option>
+                </ng-select>
               </form>
             </th>
           </tr>
@@ -92,12 +90,10 @@
             <th class="table-title">{{ voucher.distribution }}</th>
             <th class="table-value">
               <form class="form" [formGroup]="form">
-                <mat-form-field class="full-width">
-                  <mat-select [(ngModel)]="storeChoice['distribution']" formControlName="distributionControl"
-                    (selectionChange)="getBeneficiaries()">
-                    <mat-option *ngFor="let distribution of distributions" [value]="distribution.id">{{distribution.name}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
+                <ng-select class="full-width" [(ngModel)]="storeChoice['distribution']" formControlName="distributionControl"
+                  (change)="getBeneficiaries()" bindLabel="id">
+                  <ng-option *ngFor="let distribution of distributions" [value]="distribution.id">{{distribution.name}}</ng-option>
+                </ng-select>
               </form>
             </th>
           </tr>
@@ -106,11 +102,9 @@
             <th class="table-title">{{ voucher.beneficiary }}</th>
             <th class="table-value">
               <form class="form" [formGroup]="form">
-                <mat-form-field class="full-width">
-                  <mat-select [(ngModel)]="storeChoice['beneficiary']" formControlName="distributionControl">
-                    <mat-option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.id">{{beneficiary.full_name}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
+                <ng-select class="full-width" [(ngModel)]="storeChoice['beneficiary']" formControlName="distributionControl" bindLabel="id">
+                  <ng-option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.id">{{beneficiary.full_name}}</ng-option>
+                </ng-select>
               </form>
             </th>
           </tr>

@@ -16,12 +16,10 @@
                 </ng-option>
               </ng-select>
 
-            <mat-form-field class="full-width" *ngIf="p=='condition_string' && propertiesTypes[p]=='select'">
-              <mat-select [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
-                [formControl]="controls" [disabled]="newObject['field_string'] && newObject['field_string'] === 8" required>
-                <mat-option *ngFor="let singleData of loadedData[p]; let i = index" [value]="i+1">{{singleData.field_string}}</mat-option>
-              </mat-select>
-            </mat-form-field>
+              <ng-select class="full-width" *ngIf="p=='condition_string' && propertiesTypes[p]=='select'" [(ngModel)]="newObject[p]"
+                placeholder="{{mapperObject[p]}}" [formControl]="controls" [disabled]="newObject['field_string'] && newObject['field_string'] === 8" required>
+                <ng-option *ngFor="let singleData of loadedData[p]; let i = index" [value]="i+1">{{singleData.field_string}}</ng-option>
+              </ng-select>
 
           </form>
 

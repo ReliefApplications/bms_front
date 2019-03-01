@@ -70,6 +70,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
     // To activate/desactivate action buttons
     @Input() editable: boolean;
+    @Input() printable: boolean;
     // For Imported Beneficiaries
     @Input() parentId: number = null;
     // For Transaction Beneficiaries
@@ -116,7 +117,7 @@ export class TableComponent implements OnChanges, DoCheck {
         public householdsService: HouseholdsService,
         public networkService: NetworkService,
         public router: Router,
-        public _exportService : ExportService
+        public _exportService: ExportService
     ) { }
 
     ngOnChanges() {
@@ -196,13 +197,11 @@ export class TableComponent implements OnChanges, DoCheck {
                     this.paginator.pageIndex,
                     this.paginator.pageSize
                 );
-            }
-            else if (this.entity.__classname__ == 'Booklet') {
+            } else if (this.entity.__classname__ === 'Booklet') {
                 this.service.get().subscribe(response => {
                     this.data = new MatTableDataSource(this.entity.formatArray(response).reverse());
                 });
-            }
-            else {
+            } else {
                 this.service.get().subscribe(response => {
                     this.data = new MatTableDataSource(this.entity.formatArray(response));
                 });
@@ -409,11 +408,13 @@ export class TableComponent implements OnChanges, DoCheck {
             if (updateElement['password'] && updateElement['password'].length > 0) {
                 this.authenticationService.requestSalt(updateElement['username']).subscribe(response => {
                     if (response) {
-                        let saltedPassword = this._wsseService.saltPassword(response['salt'], updateElement['password']);
+                        const saltedPassword = this._wsseService.saltPassword(response['salt'], updateElement['password']);
                         updateElement['password'] = saltedPassword;
 
-                        this.service.update(updateElement['id'], updateElement).subscribe(response => {
-                            //this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated, '', { duration: 5000, horizontalPosition: 'right' });
+                        this.service.update(updateElement['id'], updateElement).subscribe((_: any) => {
+                        // this.snackBar.open(
+                            // this.entity.__classname__ + this.table.table_element_updated, '',
+                            // { duration: 5000, horizontalPosition: 'right' });
                             this.updateData();
                         }, error => {
                             // console.error("err", error);
@@ -422,14 +423,15 @@ export class TableComponent implements OnChanges, DoCheck {
                 });
             } else {
                 this.service.update(updateElement['id'], updateElement).subscribe(response => {
-                    //this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated, '', { duration: 5000, horizontalPosition: 'right' });
+                    // this.snackBar.open(
+                        // this.entity.__classname__ + this.table.table_element_updated, '',
+                        // { duration: 5000, horizontalPosition: 'right' });
                     this.updateData();
                 }, error => {
                     // console.error("err", error);
                 });
             }
-        }
-        else if (this.entity.__classname__ === 'Financial Provider' && updateElement) {
+        } else if (this.entity.__classname__ === 'Financial Provider' && updateElement) {
             const salted = btoa(updateElement['password']);
             updateElement['password'] = salted;
 

@@ -5,7 +5,7 @@ import { ExportService                              } from './export.service';
 
 
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
 export class BookletService {
     readonly api = URL_BMS_API;
@@ -17,22 +17,22 @@ export class BookletService {
     }
 
     public get() {
-        const url = this.api + "/booklets";
+        const url = this.api + '/booklets';
         return this.http.get(url);
     }
 
     public create(body: any) {
-        const url = this.api + "/booklets";
+        const url = this.api + '/booklets';
         return this.http.put(url, body);
     }
 
     public update(id: number, body: any) {
-        const url = this.api + "/booklets/" + id;
+        const url = this.api + '/booklets/' + id;
         return this.http.post(url, body);
     }
 
     public delete(id: number) {
-        const url = this.api + "/booklets/" + id;
+        const url = this.api + '/booklets/' + id;
         return this.http.delete(url);
     }
 

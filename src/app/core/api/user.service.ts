@@ -23,9 +23,9 @@ export class UserService {
 
 
     public get() {
-        let url = this.api + '/web-users';
+        const url = this.api + '/web-users';
         return this.http.get(url);
-	  }
+    }
 
 
     public update(id: number, body: any) {

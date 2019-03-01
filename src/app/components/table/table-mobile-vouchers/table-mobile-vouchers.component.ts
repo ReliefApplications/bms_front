@@ -8,7 +8,4 @@ import { TableComponent } from '../table.component';
 })
 export class TableMobileVouchersComponent extends TableComponent {
 
-  ngOnInit() {
-  }
-
 }

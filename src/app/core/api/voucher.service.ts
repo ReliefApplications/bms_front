@@ -5,7 +5,7 @@ import { ExportService                              } from './export.service';
 
 
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
 export class VoucherService {
     readonly api = URL_BMS_API;
@@ -17,7 +17,7 @@ export class VoucherService {
     }
 
     public get() {
-        let url = this.api + "/vouchers";
+        const url = this.api + '/vouchers';
         return this.http.get(url);
     }
 }

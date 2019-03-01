@@ -1,3 +1,4 @@
+/* tslint:disable */
 export const TEXT = {
     // GENERAL VARIABLES
 
@@ -118,7 +119,7 @@ export const TEXT = {
     add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'Un critère de sélection est manquant',
     add_distribution_missing_threshold: 'Le score minimum doit être plus grand que 0',
-    add_distribution_multiple_commodities: 'Vous ne pouvez pas avoir deux méthodes de paiement comme commodités',
+    add_distribution_multiple_modalities: 'Vous ne pouvez pas avoir deux différentes modalités dans une distribution',
     add_distribution_selection_criteria: 'critères de sélection',
     add_distribution_text_explanation: 'Le système va seulement sélectionner les bénéficiaires/ménages avec un score supérieur que le score minimum de sélection',
     add_distribution_threshold: 'Score minimum de sélection',

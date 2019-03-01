@@ -10,7 +10,7 @@ import { Beneficiaries } from './beneficiary';
 import { ImportedBeneficiary } from './imported-beneficiary';
 import { TransactionBeneficiary } from './transaction-beneficiary';
 import { FinancialProvider } from './financial-provider';
-import { TransactionVoucher } from './transaction-voucher';
+import { TransactionGeneralRelief } from './transaction-voucher';
 
 export class FieldMapper {
 
@@ -28,7 +28,7 @@ export class FieldMapper {
             case 'imported_beneficiary': return ImportedBeneficiary.translator();
             case 'transaction_beneficiary': return TransactionBeneficiary.translator();
             case 'financial_provider': return FinancialProvider.translator();
-            case 'transaction_voucher': return TransactionVoucher.translator();
+            case 'transaction_general_relief': return TransactionGeneralRelief.translator();
         }
     }
 }

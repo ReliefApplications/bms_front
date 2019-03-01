@@ -54,8 +54,8 @@ export class Mapper {
                 return this.mapper.getEntityTranslator('transaction_beneficiary');
             case 'Financial Provider':
                 return this.mapper.getEntityTranslator('financial_provider');
-            case 'TransactionVoucher':
-                return this.mapper.getEntityTranslator('transaction_voucher');
+            case 'TransactionGeneralRelief':
+                return this.mapper.getEntityTranslator('transaction_general_relief');
             default: return;
         }
     }

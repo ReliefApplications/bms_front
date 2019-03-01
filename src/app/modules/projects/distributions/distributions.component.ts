@@ -10,7 +10,7 @@ import { MatTableDataSource, MatSnackBar, MatDialog, MatFormField, MatStepper } 
 import { Mapper } from '../../../core/utils/mapper.service';
 import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
 import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
-import { TransactionVoucher } from '../../../model/transaction-voucher';
+import { TransactionGeneralRelief } from '../../../model/transaction-voucher';
 import { finalize, last, map } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
@@ -243,7 +243,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                         this.loadingFinalStep = false;
                     } else if (type === 'transaction') {
                         if (this.actualDistribution.commodities[0].modality_type.name === 'Voucher') {
-                            this.entity = TransactionVoucher;
+                            this.entity = TransactionGeneralRelief;
                             this.selection = new SelectionModel<any>(true, []);
                             // tslint:disable-next-line
                             this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));

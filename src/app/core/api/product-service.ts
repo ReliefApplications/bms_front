@@ -14,22 +14,22 @@ export class ProductService {
   ) {}
 
   public get() {
-    const url = this.api + "/products";
+    const url = this.api + '/products';
     return this.http.get(url);
   }
 
   public create(id: number, body: any) {
-    const url = this.api + "/products";
+    const url = this.api + '/products';
     return this.http.put(url, body);
   }
 
   public update(id: number, body: any) {
-    const url = this.api + "/products/" + id;
+    const url = this.api + '/products/' + id;
     return this.http.post(url, body);
   }
 
   public delete(id: number) {
-    const url = this.api + "/products/" + id;
+    const url = this.api + '/products/' + id;
     return this.http.delete(url);
   }
 }

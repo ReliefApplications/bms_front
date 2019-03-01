@@ -140,8 +140,12 @@ export class AppComponent implements OnInit, DoCheck {
      * Changes the name of the new component to actualize menu etc.
      */
     refreshCurrentComponent(e) {
-        if (e.nameComponent === 'projects' || e.nameComponent === 'beneficiaries'
-            || e.nameComponent === 'reports' || e.nameComponent === 'settings' || e.nameComponent === 'login' || e.nameComponent === 'vouchers') {
+        if (e.nameComponent === 'projects' ||
+            e.nameComponent === 'beneficiaries' ||
+            e.nameComponent === 'reports' ||
+            e.nameComponent === 'settings' ||
+            e.nameComponent === 'login' ||
+            e.nameComponent === 'vouchers') {
             this.currentComponent = e.nameComponent;
         } else if (e.nameComponent === 'dashboard_title') {
             this.currentComponent = null;

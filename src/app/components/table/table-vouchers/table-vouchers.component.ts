@@ -8,10 +8,7 @@ import { TableComponent } from '../table.component';
 })
 export class TableVouchersComponent extends TableComponent {
 
-  ngOnInit() {
-  }
-
   print(element) {
-		return this._exportService.printVoucher(element.id)
+    return this._exportService.printVoucher(element.id);
   }
 }

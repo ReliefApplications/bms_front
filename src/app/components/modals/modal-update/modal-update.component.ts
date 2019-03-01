@@ -199,7 +199,7 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
             }
         }
 
-        //Check fields for Financial Provider in settings
+        // Check fields for Financial Provider in settings
         else if (this.updateObject && this.updateObject.username && !this.updateObject.shop) {
             if (this.updateObject.username === '' || this.updateObject.password === '' || !this.updateObject.password) {
                 this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
@@ -208,14 +208,20 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
         }
 
         // Check fields for Vendors in settings
-        else if (this.updateObject && (this.updateObject.shop || this.updateObject.shop == '')) {
-            if (this.updateObject.name == '' || this.updateObject.shop == '' || this.updateObject.address == '' || this.updateObject.username == '' || this.updateObject.password == '') {
+        else if (this.updateObject && (this.updateObject.shop || this.updateObject.shop === '')) {
+            if (
+                this.updateObject.name === '' ||
+                this.updateObject.shop === '' ||
+                this.updateObject.address === '' ||
+                this.updateObject.username === '' ||
+                this.updateObject.password === ''
+            ) {
                 this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
                 return;
             }
         }
 
-        //Check fields for update distribution
+        // Check fields for update distribution
         else if (this.updateObject.date_distribution) {
             if (!this.updateObject.date_distribution || !this.updateObject.name) {
                 this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });

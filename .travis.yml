@@ -12,10 +12,10 @@ env:
 install:
   - npm install -g @angular/cli
 
-script: npm run lint
-
 jobs:
     include:
+        - stage: test
+          script: npm run lint
         - stage: deploy
           if: branch = staging
           script: ./build-deploy.sh testing

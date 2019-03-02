@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+  - "9"
+dist: trusty
+
+# Define environment variables
+env:
+  - secure: "U1K+BDSb5vhok1Pj5mqys4lcljExZu7I6CUJ2cqAAebc/s56dq/RP7xpQJoXXVsMsOX2cJ8ukQwyoMbCE0uyVOlIgo241N4YZ7ojcgJaOxas9bncyHEK2X958UBAcxBNod3hzObw/Ap4at0x/cjrceK2hQHwwJALURuRasHfN5HTHpOAdCogDgE8k3xPNnJAVl1cpTw/P16B/mdxgxoc01VJ1IZOPU2P9Jd+4dOlnbdp8yAZuKHBFFGD0e6aKrPyCQmD+BIc51AWxx6fjkBnRKSCsb3KOZNQefnzu//P0/SUqrWaEmYZRydFcTOg5fsZRelEy9beYKRA8xgVDjxkYGA6xIEe9z8yxXGOrpPwevl4X+nQVcMFuZLvE8w1GYGTT0uWp1ugNocG+ZclxxkC6g4PXmawlK4Ifq888Y261KY58igO0//nSt8tTxkDz7PJ0mPG1Yy+zvTEO6PU8mF2Ro1119mIME7zhxoCdNFoFhJH7mqsnse1OcUyZY/mDQ9g4vDVN3Lna05xgsxmlo4fKR0vIwEaAJinsaiF7rfWbowk47rlOecCik428/4HUAXcNZ1BlMNr1UK9OBzHqJo9btEp14Ru4QfrVj6q8pmS7jAs+YKbHroMsf8hVi3GqGXj2Ky4PEitQ9LUEUjUYvSemQjYEFVeTXSUNgp+H0Igk8Q="
+  - secure: "gLztbHhZ8WAHFXP7P5R7VBuTjPUd/7BywgEfU/QLoVTrbuAhxa8EWhg5sTB2Ct4xwjlMrfOfe+LwWnGaimrruwt2nf/rBKKNuStIOVwT3zOqZyOyJ/0DOHnfTGB21AZ4RGNn6w4Eq+MGHt3t6HcSR8kp7M1P6d7MW5R/QPE/4449y26Lx0W2oyF6wAByXtjT5w0/dql4xTATvrzRTsTbCu9AiBPs/guKXGOpHB+JKeGYTDzAFHKN1t2w9+gSbJOdiduC0lP/SjzZsxasAPXAFyDRhDMhfhNygfFm5ONW9atrzJG3LVQwh3/ANs/SYJ2Omo7VXktmgkQHrQqMJpNs3PHw8GJ6lxsMEQWCbAhmRtYynFLO4OQWUUSBakjk+TIg/EYiyE6I+LIyoZOAC1qrcHN7um3/yAhqAYL2zZvdKz/BEWod2eV3znVmZSP8n3imao8b1gFgSmZaU8qdyTPtlH8vYOJjuMd+95HzeLhF8osLLzkDDbYcdxdaEi37HFU/F1uNL5LATg3C862oFFtnkRgFX310ETd1gzktejmNwAA9zLb00mi5z8aWDZGmeFAWBeR8LvwU1T/uzDW8hVRR41jGMd1GHMF8ZzTvGmQASF0mw5Sf43LuC/W09li7QOLGVxVO6xp4dzs1WoM6IWPtGAuWby1xlhCeyueaACE2LLQ="
+
+install:
+  - npm install -g @angular/cli
+
+jobs:
+    include:
+        - stage: test
+          script: npm run lint
+        - stage: deploy
+          if: branch = staging
+          script: ./build-deploy.sh testing
+        - stage: deploy
+          if: branch = prod
+          script: ./build-deploy.sh front

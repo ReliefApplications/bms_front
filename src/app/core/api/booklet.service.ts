@@ -2,7 +2,7 @@ import { Injectable                                 } from '@angular/core';
 import { URL_BMS_API                                } from '../../../environments/environment';
 import { HttpService                                } from './http.service';
 import { ExportService                              } from './export.service';
-
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
     providedIn: 'root'
@@ -36,8 +36,11 @@ export class BookletService {
         return this.http.delete(url);
     }
 
-    public setPassword(id: string, body: any) {
-        const url = this.api + `/booklets/${encodeURIComponent(id)}/password`;
+    public setPassword(code: string, password: string) {
+        const body = {
+            password: CryptoJS.SHA1(password).toString(CryptoJS.enc.Base64),
+        };
+        const url = this.api + `/booklets/${encodeURIComponent(code)}/password`;
         return this.http.post(url, body);
     }
 

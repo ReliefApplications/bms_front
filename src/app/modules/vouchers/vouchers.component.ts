@@ -267,11 +267,7 @@ export class VouchersComponent implements OnInit {
         // TODO remove this next line
         this.bookletQRCode = 'V3hA7#000-000-000';
 
-        const body = {
-          password: this.password,
-        };
-
-        this.bookletService.setPassword(this.bookletQRCode, body)
+        this.bookletService.setPassword(this.bookletQRCode, this.password)
           .pipe(
             finalize(
               () => this.loadingPassword = false

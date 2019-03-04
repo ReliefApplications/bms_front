@@ -502,14 +502,17 @@ snack-bar-container {
     }
 
     &.snackbar-debug{
-        background-color: $bms_green;
+        background-color: $menu_select_bg;
         color: $bms_white;
     }
     &.snackbar-error{
         background-color: $bms_red;
         color: $bms_white;
-    }
 
+    }&.snackbar-success{
+        background-color: $bms_green;
+        color: $bms_white;
+    }
 }
 
 

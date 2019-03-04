@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener, DoCheck, Input, Output, EventEmitter } from '@angular/core';
 import { HouseholdsService } from '../../../../core/api/households.service';
-import { MatSnackBar, MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { saveAs } from 'file-saver/FileSaver';
 import { ImportService } from '../../../../core/utils/import.service';
 import { FormControl } from '@angular/forms';
@@ -64,7 +65,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
 
     constructor(
         public _householdsService: HouseholdsService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public _importService: ImportService,
         public distributionService: DistributionService,
         public beneficiaryService: BeneficiariesService,
@@ -161,7 +162,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                     })
                 ).subscribe(
                     success => {
-                        this.snackBar.open(this.TEXT.import_distribution_updated, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.success(this.TEXT.import_distribution_updated);
                         this.success.emit(true);
                         this.loadUpdate = false;
                         this.importedData = null;
@@ -174,7 +175,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                 );
             }
         } else {
-            this.snackBar.open(this.TEXT.import_distribution_no_right_update, '', { duration: 5000, horizontalPosition: 'right' });
+            this.snackbar.error(this.TEXT.import_distribution_no_right_update);
         }
     }
 

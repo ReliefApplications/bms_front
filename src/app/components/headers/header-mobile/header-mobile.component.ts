@@ -1,5 +1,6 @@
 import { Component, OnInit, DoCheck, Input, Output, EventEmitter } from '@angular/core';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 
 import { GlobalText } from '../../../../texts/global';
 
@@ -30,7 +31,7 @@ export class HeaderMobileComponent implements OnInit, DoCheck {
         public dialog: MatDialog,
         private userService: UserService,
         private asyncacheService: AsyncacheService,
-        private snackbar: MatSnackBar
+        private snackbar: SnackbarService,
     ) { }
 
     ngOnInit() {
@@ -114,8 +115,7 @@ export class HeaderMobileComponent implements OnInit, DoCheck {
     }
 
     preventSnack(country: string) {
-        const snack = this.snackbar.open('Page is going to reload in 3 sec to switch on ' + country + ' country. ',
-        'Reload now', {duration: 3000});
+        const snack = this.snackbar.info('Page is going to reload in 3 sec to switch on ' + country + ' country. ');
 
         snack
             .onAction()

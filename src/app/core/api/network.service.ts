@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, merge, of, fromEvent } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class NetworkService {
     private online$: Observable<boolean>;
 
     constructor(
-        private snackbar: MatSnackBar,
+        private snackbar: SnackbarService,
         private cacheService: AsyncacheService,
     ) {
         this.online$ = merge(
@@ -31,7 +31,7 @@ export class NetworkService {
                 // If connection status has changed
                 if (this.CONNECTED !== status) {
                     const newStatusNotification = status ? 'connected to the network' : 'disconnected from the network';
-                    this.snackbar.open('You are now ' + newStatusNotification, '', { duration: 5000, horizontalPosition: 'center' });
+                    this.snackbar.info('You are now ' + newStatusNotification);
                     this.CONNECTED = status;
                     // If the user user is newly connected
                     if (this.CONNECTED) {

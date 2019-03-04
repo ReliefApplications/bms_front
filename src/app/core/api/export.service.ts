@@ -2,7 +2,7 @@ import { Injectable  } from '@angular/core';
 import { URL_BMS_API } from '../../../environments/environment';
 import { HttpService } from './http.service';
 import { saveAs      } from 'file-saver/FileSaver';
-import { MatSnackBar } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +12,7 @@ export class ExportService {
 
     constructor(
         private http: HttpService,
-        private snackBar: MatSnackBar
+        private snackbar: SnackbarService
     ) {
     }
 

@@ -20,7 +20,7 @@ export class TableMobileDistributionComponent extends TableComponent {
                 .subscribe(
                     result => {
                         if (!result) {
-                            this.snackBar.open(this.table.cache_no_distribution, '', { duration: 5000, horizontalPosition: 'center' });
+                            this.snackbar.error(this.table.cache_no_distribution);
                         } else {
                             this.router.navigate(['/projects/distributions/' + id]);
                         }

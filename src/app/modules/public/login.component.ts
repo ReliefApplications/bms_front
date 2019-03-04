@@ -5,7 +5,7 @@ import { AuthenticationService } from '../../core/authentication/authentication.
 import { User, ErrorInterface } from '../../model/user';
 
 import { GlobalText } from '../../../texts/global';
-import { MatSnackBar } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { Subscription, from, of } from 'rxjs';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { FormControl } from '@angular/forms';
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit, DoCheck {
         public _authService: AuthenticationService,
         public asyncacheService: AsyncacheService,
         public router: Router,
-        public snackBar: MatSnackBar
+        public snackbar: SnackbarService,
     ) { }
 
     ngOnInit() {
@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit, DoCheck {
     }
 
     onScriptError() {
-        this.snackBar.open('Captcha failed', '', { duration: 5000, horizontalPosition: 'center' });
+        this.snackbar.error('Captcha failed');
     }
 
     prod() {

@@ -1,6 +1,7 @@
 import { Component, OnInit, DoCheck, Input, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 
 import { GlobalText } from '../../../../texts/global';
 
@@ -40,7 +41,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         public router: Router,
         private authService: AuthenticationService,
         private asyncacheService: AsyncacheService,
-        private snackbar: MatSnackBar,
+        private snackbar: SnackbarService,
     ) {
         router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
@@ -130,8 +131,7 @@ export class HeaderComponent implements OnInit, DoCheck {
     }
 
     preventSnack(country: string) {
-        const snack = this.snackbar.open('Page is going to reload in 3 sec to switch to ' + country + ' country. ',
-        'Reload now', {duration: 3000});
+        const snack = this.snackbar.info('Page is going to reload in 3 sec to switch to ' + country + ' country. ');
 
         snack
             .onAction()

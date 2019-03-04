@@ -148,7 +148,6 @@ export class Booklet {
         } else {
             booklet.individual_value = instance.vouchers.length > 0 ? instance.vouchers[0].value : null;
         }
-        console.log(booklet);
         return booklet;
     }
 
@@ -260,8 +259,6 @@ export class Booklet {
         if (!selfinstance) {
             return selfinstance;
         }
-
-        console.log(selfinstance);
 
         return {
             code: selfinstance.code,

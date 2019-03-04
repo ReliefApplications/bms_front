@@ -50,7 +50,6 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
                 this.form.controls['countryControl'].enable();
             }
         }
-        console.log(this.updateObject);
     }
 
   selected(updateObject) {

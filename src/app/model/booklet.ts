@@ -261,6 +261,8 @@ export class Booklet {
             return selfinstance;
         }
 
+        console.log(selfinstance);
+
         return {
             code: selfinstance.code,
             number_vouchers: selfinstance.number_vouchers,

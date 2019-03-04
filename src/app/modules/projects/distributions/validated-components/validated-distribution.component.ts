@@ -8,6 +8,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
 import { finalize } from 'rxjs/operators';
+import { State } from 'src/app/model/transaction-beneficiary';
 
 @Component({
     template: '',
@@ -71,59 +72,75 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         private cacheService: AsyncacheService,
     ) { }
 
-
-    /**
-     * Calculate commodity distribution quantities & values.
-     */
-    getAmount(type: string, commodity?: any): number {
-        let amount: number;
-
+    getPeopleCount(): number | string {
         if (!this.transactionData) {
-            amount = 0;
-        } else if (type === 'people') {
-            amount = 0;
-            this.transactionData.data.forEach(
-                element => {
-                    if (element.state === -1 || element.state === -2 || element.state === 0) {
-                        amount++;
-                    }
+            return this.getPlaceholderChar();
+        }
+        else {
+            const states = [State.NoPhone, State.NotSent, State.SendError];
+            let peopleCount = 0;
+            for (const beneficiary of this.transactionData.data) {
+                if (states.includes(beneficiary.state)) {
+                    peopleCount ++;
                 }
-            );
-        } else if (commodity) {
-            if (type === 'total') {
-                amount = commodity.value * this.transactionData.data.length;
-            } else if (type === 'sent') {
-                amount = 0;
-                this.transactionData.data.forEach(
-                    element => {
-                        if (element.used) {
-                            amount += commodity.value;
-                        }
-                    }
-                );
-            } else if (type === 'received') {
-                amount = 0;
-                this.transactionData.data.forEach(
-                    element => {
-                        if (element.state === 3) {
-                            amount += commodity.value;
-                        }
-                    }
-                );
-            } else if (type === 'ratio') {
-                let done = 0;
-                this.transactionData.data.forEach(
-                    element => {
-                        if (element.state === 1 || element.state === 2 || element.state === 3) {
-                            done += commodity.value;
-                        }
-                    }
-                );
-                amount = Math.round((done / (commodity.value * this.transactionData.data.length)) * 100);
+            }
+            return peopleCount;
+        }
+    }
+
+    getTotalCommodityValue(commodity: any): number | string {
+        return (this.transactionData ? this.transactionData.data.length * commodity.value : this.getPlaceholderChar());
+    }
+
+    getSentValue(commodity: any): number | string {
+        if (!this.transactionData) {
+            return this.getPlaceholderChar();
+        }
+        else {
+            let totalCommodityValue = 0;
+            for (const beneficiary of this.transactionData.data) {
+                if (beneficiary.used) {
+                    totalCommodityValue += commodity.value;
+                }
+            }
+            return totalCommodityValue;
+        }
+    }
+
+    getReceivedValue(commodity: any): number | string {
+        if (!this.transactionData) {
+            return this.getPlaceholderChar();
+        }
+        else {
+            const states = [State.PickedUp];
+            return this.getTotalCommodityValueAccordingToState(commodity.value, states);
+        }
+    }
+
+    getPercentageValue(commodity: any): number | string {
+        if (!this.transactionData) {
+            return this.getPlaceholderChar();
+        }
+        else {
+            const states = [State.Sent, State.AlreadySent, State.PickedUp];
+            return this.getTotalCommodityValueAccordingToState(commodity.value, states);
+        }
+    }
+
+    getTotalCommodityValueAccordingToState(individualCommodityValue: number, states: number[]): number {
+        let totalCommodityValue = 0;
+        for (const beneficiary of this.transactionData.data) {
+            if (states.includes(beneficiary.state)) {
+                totalCommodityValue += individualCommodityValue;
             }
         }
-        return (amount);
+        return totalCommodityValue;
     }
+
+    getPlaceholderChar() {
+        return '-';
+    }
+
 
     setTransactionMessage(beneficiary, i) {
 
@@ -282,24 +299,27 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
                             }
                         );
 
-                    let progression = 0;
-                    let peopleLeft = this.getAmount('waiting', this.actualDistribution.commodities[0]);
-                    peopleLeft = peopleLeft / this.actualDistribution.commodities[0].value;
+                    const progression = 0;
+                    // Je n'ai pas la moindre idée de l'utilité du code ci-dessous car il ne fonctionne pas,
+                    // je le laisse commenté pour le moment
+                    // Bises, Stan.
+                    // let peopleLeft = this.getAmount('waiting', this.actualDistribution.commodities[0]);
+                    // peopleLeft = peopleLeft / this.actualDistribution.commodities[0].value;
 
-                    this.interval = setInterval(() => {
-                        this.distributionService.checkProgression(this.distributionId)
-                            .subscribe(
-                                distributionProgression => {
-                                    if (distributionProgression) {
-                                        if (distributionProgression !== progression) {
-                                            progression = distributionProgression;
+                    // this.interval = setInterval(() => {
+                    //     this.distributionService.checkProgression(this.distributionId)
+                    //         .subscribe(
+                    //             distributionProgression => {
+                    //                 if (distributionProgression) {
+                    //                     if (distributionProgression !== progression) {
+                    //                         progression = distributionProgression;
 
-                                            this.progression = Math.floor((result / peopleLeft) * 100);
-                                        }
-                                    }
-                                }
-                            );
-                    }, 3000);
+                    //                         this.progression = Math.floor((result / peopleLeft) * 100);
+                    //                     }
+                    //                 }
+                    //             }
+                    //         );
+                    // }, 3000);
 
                 } else {
                     this.snackBar.open(this.TEXT.distribution_no_valid_commodity, '', { duration: 5000, horizontalPosition: 'center' });

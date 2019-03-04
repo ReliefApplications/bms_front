@@ -121,7 +121,7 @@ export class TransactionGeneralRelief {
         return generalRelief;
     }
 
-    mapAllProperties(selfInstance): Object {
+    mapAllProperties(selfInstance: TransactionGeneralRelief): object {
         if (!selfInstance) {
             return selfInstance;
         }
@@ -129,7 +129,7 @@ export class TransactionGeneralRelief {
         return {
             givenName: selfInstance.givenName,
             familyName: selfInstance.familyName,
-            used: selfInstance.general_reliefs ? selfInstance.general_reliefs[0].distributed_at : undefined,
+            used: selfInstance.used,
             values: selfInstance.values,
             generalReliefs: selfInstance.generalReliefs
         };
@@ -138,7 +138,7 @@ export class TransactionGeneralRelief {
     /**
     * return a Beneficiary after formatting its properties
     */
-    getMapper(selfInstance: TransactionGeneralRelief): Object {
+    getMapper(selfInstance: TransactionGeneralRelief): object {
         if (!selfInstance) {
             return selfInstance;
         }
@@ -154,7 +154,7 @@ export class TransactionGeneralRelief {
     /**
     * return a Beneficiary after formatting its properties for the modal details
     */
-    getMapperDetails(selfInstance: TransactionGeneralRelief): Object {
+    getMapperDetails(selfInstance: TransactionGeneralRelief) {
         if (!selfInstance) {
             return selfInstance;
         }
@@ -165,7 +165,7 @@ export class TransactionGeneralRelief {
             .map((generalRelief: GeneralRelief) => {
                 return generalRelief.notes;
             })
-            .filter((note: string) => !!note);
+            .filter((note: string) => note);
         }
 
         return {
@@ -180,7 +180,7 @@ export class TransactionGeneralRelief {
     /**
     * return a DistributionData after formatting its properties for the modal update
     */
-    getMapperUpdate(selfinstance): Object {
+    getMapperUpdate(selfinstance: TransactionGeneralRelief): object {
         if (!selfinstance) {
             return selfinstance;
         }
@@ -200,7 +200,7 @@ export class TransactionGeneralRelief {
     /**
     * return the type of Beneficiary properties
     */
-    getTypeProperties(selfinstance): Object {
+    getTypeProperties(selfinstance: TransactionGeneralRelief) {
         return {
             givenName: 'text',
             familyName: 'text',
@@ -213,7 +213,7 @@ export class TransactionGeneralRelief {
     /**
     * return the type of Beneficiary properties
     */
-    getModalTypeProperties(selfinstance): Object {
+    getModalTypeProperties(selfinstance: TransactionGeneralRelief) {
         return {
             givenName: 'text',
             familyName: 'text',

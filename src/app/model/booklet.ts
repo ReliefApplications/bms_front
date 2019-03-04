@@ -136,7 +136,18 @@ export class Booklet {
     public static formatElement(instance: any): Booklet {
         const booklet = new Booklet(instance);
 
-        booklet.individual_value = instance.vouchers.length > 0 ? instance.vouchers[0].value : null;
+        booklet.individual_values = [];
+        booklet.individual_to_all = false;
+        instance.vouchers.forEach(voucher => {
+            booklet.individual_values.push(voucher.value);
+        });
+        const unique = booklet.individual_values.filter((value, index, array) => array.indexOf(value) === index);
+        if (unique.length > 1) {
+            booklet.individual_to_all = true;
+            booklet.individual_value = null;
+        } else {
+            booklet.individual_value = instance.vouchers.length > 0 ? instance.vouchers[0].value : null;
+        }
         return booklet;
     }
 
@@ -167,6 +178,7 @@ export class Booklet {
             id: selfinstance.id,
             code: selfinstance.code,
             number_vouchers: selfinstance.number_vouchers,
+            individual_to_all: selfinstance.individual_to_all ? selfinstance.individual_to_all : false,
             individual_value: selfinstance.individual_value,
             individual_values: selfinstance.individual_values,
             currency: selfinstance.currency,
@@ -186,7 +198,9 @@ export class Booklet {
         return {
             code: selfinstance.code,
             number_vouchers: selfinstance.number_vouchers,
-            individual_value: selfinstance.individual_value,
+            individual_value: selfinstance.individual_values ?
+                this.formatValues(selfinstance.individual_values) :
+                selfinstance.individual_value,
             currency: selfinstance.currency,
             status: Booklet.__status__[selfinstance.status],
         };
@@ -229,7 +243,9 @@ export class Booklet {
         return {
             code: selfinstance.code,
             number_vouchers: selfinstance.number_vouchers,
-            individual_value: selfinstance.individual_value,
+            individual_value: selfinstance.individual_values ?
+                this.formatValues(selfinstance.individual_values) :
+                selfinstance.individual_value,
             currency: selfinstance.currency,
             status: selfinstance.status,
             distribution_beneficiary: distribution_beneficiary,
@@ -247,9 +263,10 @@ export class Booklet {
         return {
             code: selfinstance.code,
             number_vouchers: selfinstance.number_vouchers,
+            individual_to_all: selfinstance.individual_to_all ? selfinstance.individual_to_all : false,
             individual_value: selfinstance.individual_value,
+            individual_values: selfinstance.individual_values,
             currency: selfinstance.currency,
-            status: selfinstance.status,
             password: selfinstance.password
         };
     }
@@ -260,12 +277,13 @@ export class Booklet {
     getTypeProperties(selfinstance): Object {
         return {
             code: 'text',
-            number_vouchers: 'number',
+            number_vouchers: 'positive-number',
             individual_value: 'individual_value',
             individual_values: 'individual_values',
             currency: 'text',
             status: 'number',
             password: 'password',
+            individual_to_all: 'checkbox',
         };
     }
 
@@ -284,5 +302,13 @@ export class Booklet {
             individual_to_all: 'checkbox',
             number_booklets: 'positive-number'
         };
+    }
+
+    formatValues(values: Array<string>): string {
+        let formattedValues = values[0];
+        values.forEach((value, index) => {
+            formattedValues = index !== 0 ? formattedValues + ', ' + value : formattedValues;
+        });
+        return formattedValues;
     }
 }

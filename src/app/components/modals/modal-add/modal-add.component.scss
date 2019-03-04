@@ -6,6 +6,10 @@
 
   .array {
     display: flex;
+    flex-wrap: wrap;
+    span {
+      width: 10%;
+    }
   }
 
   .checkbox-line {

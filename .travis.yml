@@ -1,7 +1,6 @@
 language: node_js
 node_js:
   - "9"
-dist: trusty
 
 cache: npm
 
@@ -18,12 +17,15 @@ jobs:
         - stage: test
           script: npm run lint
           fast_finish: true
-        - stage: test
-          script: npm run test
-          fast_finish: true
         - stage: deploy
           if: branch = dev
+          before-install:
+              - sudo apt install python3-pip
+              - pip3 install awscli --upgrade
           script: ./build-deploy.sh testing
         - stage: deploy
           if: branch = master
+          before-install:
+              - sudo apt install python3-pip
+              - pip3 install awscli --upgrade
           script: ./build-deploy.sh front

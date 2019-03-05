@@ -74,7 +74,7 @@ export class Project {
             this.end_date = instance.end_date ? instance.end_date : new Date();
             this.number_of_households = instance.number_of_households;
             this.iso3 = instance.iso3 ? instance.iso3 : '';
-            this.value = instance.value ? instance.value : 1000;
+            this.value = instance.value ? instance.value : null;
             this.notes = instance.notes ? instance.notes : '';
         }
     }

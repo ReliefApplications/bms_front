@@ -13,7 +13,7 @@
         </mat-form-field>
     </div>
 
-    <div *ngIf="filled==true && data && data.data" style="max-height: 370px; overflow: auto;">
+    <div *ngIf="filled === true && data && data.data" style="max-height: 370px; overflow: auto;">
         <table mat-table [dataSource]="data" matSort>
             <ng-container matColumnDef="check" *ngIf="checkbox">
                 <th mat-header-cell class="header-cell" *matHeaderCellDef>
@@ -22,12 +22,11 @@
                     </mat-checkbox>
                 </th>
                 <td mat-cell class="content-cell" *matCellDef="let element">
-                    <mat-checkbox (click)="$event.stopPropagation()" (change)="selectCheck($event, element)" [checked]="selection.isSelected(element)"
+                    <mat-checkbox *ngIf="!element.used" (click)="$event.stopPropagation()" (change)="selectCheck($event, element)" [checked]="selection.isSelected(element)"
                         color="primary">
                     </mat-checkbox>
                 </td>
             </ng-container>
-
             <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
                 <th mat-header-cell *matHeaderCellDef id="table-header" mat-sort-header>
                     {{mapperService.mapTitle(property)}}</th>
@@ -39,7 +38,7 @@
                     <span *ngIf="propertiesTypes[property]=='png'">
                         <img *ngFor="let image of mapperService.mapValue(element, property)" class="png" [src]="image">
                     </span>
-                    <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element,
+                    <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png' ">{{mapperService.mapValue(element,
                         property)}}</span>
                 </td>
             </ng-container>

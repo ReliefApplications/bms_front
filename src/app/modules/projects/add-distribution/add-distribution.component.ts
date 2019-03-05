@@ -497,8 +497,6 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 }
                 newDistribution.name = adm + '-' + newDistribution.date_distribution;
 
-                // console.log('NEW ONE : ', newDistribution);
-
                 const promise = this._distributionService.add(newDistribution);
                 if (promise) {
                     promise.toPromise().then(response => {

@@ -1,4 +1,4 @@
-import { GlobalText } from "../../texts/global";
+import { GlobalText } from '../../texts/global';
 
 export class ErrorInterface {
     message: string;
@@ -10,22 +10,22 @@ export class Product {
      * Product id
      * @type {string}
      */
-    id: string = '';
+    id = '';
     /**
      * Product name
      * @type {string}
      */
-    name: string = '';
+    name = '';
     /**
     * Product unit
     * @type {string}
     */
-    unit: string = '';
+    unit = '';
     /**
     * Product image
     * @type {string}
     */
-    image: string = '';
+    image = '';
 
 
 
@@ -67,6 +67,10 @@ export class Product {
         return new Product(element);
     }
 
+    public static formatForApi(element: Product): any {
+        return new Product(element);
+    }
+
     /**
      * Product in modal add
      * @param element
@@ -81,9 +85,9 @@ export class Product {
     */
     getTypeProperties(): Object {
         return {
-            name: "text",
-            unit: "text",
-            image: "text",
+            name: 'text',
+            unit: 'text',
+            image: 'text',
         };
     }
 
@@ -119,14 +123,15 @@ export class Product {
      * return a User after formatting its properties for the modal add
      */
     getMapperAdd(selfinstance): Object {
-        if (!selfinstance)
+        if (!selfinstance) {
             return selfinstance;
+        }
 
         return {
             name: selfinstance.name,
             unit: selfinstance.unit,
             image: selfinstance.image,
-        }
+        };
     }
 
     /**
@@ -148,9 +153,9 @@ export class Product {
     */
     getModalTypeProperties(): Object {
         return {
-            name: "text",
-            unit: "text",
-            image: "text",
+            name: 'text',
+            unit: 'text',
+            image: 'text',
         };
     }
 
@@ -164,9 +169,5 @@ export class Product {
             unit: selfinstance.unit,
             image: selfinstance.image,
         };
-    }
-
-    public static formatForApi(element: Product): any {
-        return new Product(element);
     }
 }

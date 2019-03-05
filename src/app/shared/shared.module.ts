@@ -54,6 +54,8 @@ import { SettingsComponent } from '../modules/settings/settings.component';
 import { BeneficiariesImportComponent } from '../modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
 import { DataValidationComponent } from '../modules/beneficiary/data-validation/data-validation.component';
 import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
+import { MobileMoneyComponent } from '../modules/projects/distributions/validated-components/mobile-money/mobile-money.component';
+import { GeneralReliefComponent } from '../modules/projects/distributions/validated-components/general-relief/general-relief.component';
 import { ImportDistributionComponent } from '../modules/projects/distributions/import-distribution/import-distribution.component';
 import { TransactionTableMobileComponent } from '../components/table/transaction-table-mobile/transaction-table-mobile.component';
 import { ModalLeaveComponent } from '../components/modals/modal-leave/modal-leave.component';
@@ -73,8 +75,9 @@ import { ImportedDataComponent } from '../modules/beneficiary/beneficiaries-impo
 import { ModalRequestsComponent } from '../components/modals/modal-requests/modal-requests.component';
 import { RecaptchaModule } from 'angular-google-recaptcha';
 import { ThousandsPipe } from 'src/app/core/utils/thousands.pipe';
+import { ValidatedDistributionComponent } from '../modules/projects/distributions/validated-components/validated-distribution.component';
 
-import { VouchersComponent } from '../modules/vouchers/vouchers.component'; 
+import { VouchersComponent } from '../modules/vouchers/vouchers.component';
 import { TableVouchersComponent } from '../components/table/table-vouchers/table-vouchers.component';
 import { TableMobileVouchersComponent } from '../components/table/table-mobile-vouchers/table-mobile-vouchers.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
@@ -165,6 +168,8 @@ imports: [
         BoxPropertiesComponent,
         DataValidationComponent,
         DistributionsComponent,
+        MobileMoneyComponent,
+        GeneralReliefComponent,
         ImportDistributionComponent,
         PlaceholderSummaryComponent,
         PlaceholderBoxlineComponent,
@@ -174,6 +179,9 @@ imports: [
         UpdateBeneficiaryComponent,
         ImportedDataComponent,
         ThousandsPipe,
+        ValidatedDistributionComponent,
+        GeneralReliefComponent,
+        MobileMoneyComponent,
         VouchersComponent,
         TableVouchersComponent,
         TableMobileVouchersComponent,

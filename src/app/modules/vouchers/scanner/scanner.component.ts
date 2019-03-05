@@ -7,14 +7,14 @@ import { VouchersComponent } from '../vouchers.component';
   templateUrl: './scanner.component.html',
   styleUrls: ['./scanner.component.scss']
 })
-export class ScannerComponent extends VouchersComponent {
+export class ScannerComponent extends VouchersComponent implements OnInit {
   @Output() public result = new EventEmitter<string>();
 
   @ViewChild('scanner')
   public scanner: ZXingScannerComponent;
-  
-  public hasDevices: boolean = true;
-  public hasPermission: boolean = true;
+
+  public hasDevices = true;
+  public hasPermission = true;
   public qrResultString: string;
 
   public availableDevices: MediaDeviceInfo[] = [];
@@ -27,7 +27,7 @@ export class ScannerComponent extends VouchersComponent {
       this.hasDevices = true;
       this.availableDevices = devices;
 
-      if (devices.length == 1) {
+      if (devices.length === 1) {
         this.onDeviceSelectChange(devices[0].deviceId);
       }
     });
@@ -37,7 +37,7 @@ export class ScannerComponent extends VouchersComponent {
   }
 
   handleQrCodeResult(resultString: string) {
-    console.log("result", resultString);
+    console.log('result', resultString);
     this.scanner.scannerEnabled = false;
     this.result.emit(resultString);
   }

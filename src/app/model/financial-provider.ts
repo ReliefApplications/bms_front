@@ -43,7 +43,7 @@ export class FinancialProvider {
         return {
             username: GlobalText.TEXTS.login_username,
             password: GlobalText.TEXTS.model_password,
-        }
+        };
     }
 
     public static formatArray(instance): FinancialProvider[] {

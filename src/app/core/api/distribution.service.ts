@@ -98,4 +98,17 @@ export class DistributionService {
         const url = this.api + '/transaction/distribution/' + id + '/progression';
         return this.http.get(url);
     }
+
+    public addNote(idTransaction: number, notes: string) {
+        const url = `${this.api}/distributions/generalrelief/${idTransaction}`;
+        return this.http.post(url, JSON.stringify({notes}));
+    }
+
+    public distributeGeneralReliefs(ids: number[]) {
+        const url = `${this.api}/distributions/generalrelief/distributed`;
+        const body = {
+            ids: ids,
+        };
+        return this.http.post(url, JSON.stringify(body));
+    }
 }

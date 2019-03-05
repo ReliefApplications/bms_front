@@ -18,18 +18,14 @@ jobs:
           script: npm run lint
           fast_finish: true
         - stage: deploy
-          if: branch = dev
+          if: branch = dev AND env(TRAVIS_PULL_REQUEST) = "false"
           before_install:
               - sudo apt-get install python3-pip
               - sudo pip3 install awscli --upgrade
-          script:
-              - ng build -c testing
-              - ./build-deploy.sh testing
+          script: ./build-deploy.sh testing
         - stage: deploy
-          if: branch = master
+          if: branch = master AND env(TRAVIS_PULL_REQUEST) = "false"
           before_install:
               - sudo apt install python3-pip
               - pip3 install awscli --upgrade
-          script:
-              - ng build --prod
-              - ./build-deploy.sh front
+          script: ./build-deploy.sh front

@@ -17,9 +17,13 @@ jobs:
     include:
         - stage: test
           script: npm run lint
+          fast_finish: true
+        - stage: test
+          script: npm run test
+          fast_finish: true
         - stage: deploy
-          if: branch = staging
+          if: branch = dev
           script: ./build-deploy.sh testing
         - stage: deploy
-          if: branch = prod
+          if: branch = master
           script: ./build-deploy.sh front

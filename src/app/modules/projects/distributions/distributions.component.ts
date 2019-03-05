@@ -177,7 +177,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     getSelectedDistribution() {
         this.distributionService.getOne(this.distributionId)
             .subscribe(distribution => { // Get from Back
-                if (!distribution || !distribution.length) {
+                if (!distribution || Object.keys(distribution).length === 0) {
                     this.getDistributionFromCache();
                     return;
                 }

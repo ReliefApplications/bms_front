@@ -45,8 +45,10 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
+              "buildOptimizer": true,
               "serviceWorker": true
             },
             "docker": {
@@ -58,7 +60,7 @@
               ],
               "optimization": false,
               "outputHashing": "all",
-              "sourceMap": false,
+              "sourceMap": true,
               "extractCss": true,
               "namedChunks": false,
               "aot": false,
@@ -81,7 +83,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
+              "buildOptimizer": false,
               "serviceWorker": true
             }
           }

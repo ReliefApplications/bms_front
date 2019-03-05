@@ -171,7 +171,7 @@ export class AppComponent implements OnInit, DoCheck {
      */
     checkLoggedUser(cachedUser) {
         if (!cachedUser.loggedIn && this.currentComponent !== 'login') {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/login']); // Sometimes this one is making the url throttle
             GlobalText.resetMenuMargin();
         } else if (cachedUser.loggedIn && this.currentComponent === 'login') {
             this.router.navigate(['/']);

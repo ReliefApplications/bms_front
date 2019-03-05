@@ -23,6 +23,7 @@ jobs:
               - sudo apt-get install python3-pip
               - sudo pip3 install awscli --upgrade
           script:
+              - ng build --help
               - ng build -c testing
               - ./build-deploy.sh testing
         - stage: deploy

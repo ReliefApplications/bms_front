@@ -3,16 +3,16 @@
 # first parameter: environment to deploy to (front | testing)
 
 # build the project (contents will be in directory dist/bms-front)
-echo "Build starting"
-if [[ $1 == "front" ]]; then
-    npm run build -- --prod
-elif [[ $1 == "testing" ]]; then
-    npm run build -- -c testing
-else
-    echo "Unknown environment"
-    exit
-fi
-echo "Build complete"
+# echo "Build starting"
+# if [[ $1 == "front" ]]; then
+#     ng build --prod
+# elif [[ $1 == "testing" ]]; then
+#     ng build -c testing
+# else
+#     echo "Unknown environment"
+#     exit
+# fi
+# echo "Build complete"
 
 # gzip up all files so that they are smaller
 echo "Compression starting"

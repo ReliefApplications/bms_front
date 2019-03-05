@@ -94,6 +94,8 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     progression: number;
     hideSnack = false;
 
+    distributionIsStored = false;
+
     constructor(
         public distributionService: DistributionService,
         public cacheService: AsyncacheService,
@@ -135,7 +137,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
 
         this.getDistributionBeneficiaries('initial');
         this.checkPermission();
-
     }
 
     @HostListener('window:resize', ['$event'])
@@ -187,6 +188,9 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                     this.getDistributionBeneficiaries('transaction');
                 }
                 this.loadingDistribution = false;
+                this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
+                    (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
+                );
             });
     }
 
@@ -672,5 +676,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                     }
                 }
             );
+
+            this.distributionIsStored = true;
     }
 }

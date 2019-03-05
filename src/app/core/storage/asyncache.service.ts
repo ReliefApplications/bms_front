@@ -1,8 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { CachedItemInterface } from './cached-item.interface';
-import { map, concat, catchError, switchMap } from 'rxjs/operators';
-import { Observable, of, forkJoin } from 'rxjs';
+import { map, concat, catchError, switchMap, tap } from 'rxjs/operators';
+import { Observable, of, forkJoin, throwError } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { HttpClient } from '@angular/common/http';
 import { StoredRequestInterface, FailedRequestInterface } from 'src/app/model/stored-request';
@@ -405,5 +405,14 @@ export class AsyncacheService implements OnInit {
 
             // });
         });
+    }
+
+    checkForBeneficiaries(distribution): Observable<boolean> {
+        return this.get(AsyncacheService.DISTRIBUTIONS + '_' + distribution.id + '_beneficiaries').pipe(
+            map(distrib => {
+                console.log(AsyncacheService.DISTRIBUTIONS + '_' + distribution.id + '_beneficiaries', distrib);
+                return distrib ? true : false;
+            })
+        );
     }
 }

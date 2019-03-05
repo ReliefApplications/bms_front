@@ -7,7 +7,7 @@ import { DistributionService } from 'src/app/core/api/distribution.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
-import { finalize } from 'rxjs/operators';
+import { finalize, distinct } from 'rxjs/operators';
 import { State } from 'src/app/model/transaction-beneficiary';
 
 @Component({
@@ -38,6 +38,8 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     enteredCode = '';
     chartAccepted = false;
 
+    distributionIsStored = false;
+
     @Input() actualDistribution: DistributionData;
     @Input() transactionData: MatTableDataSource<any>;
     @Input() distributionId: number;
@@ -57,6 +59,9 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         this.checkSize();
         this.refreshStatuses();
         this.loadingTransaction = false;
+        this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
+            (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
+        );
     }
 
     ngDoCheck(): void {
@@ -189,6 +194,7 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
 
     storeBeneficiaries() {
         this.storeEmitter.emit();
+        this.distributionIsStored = true;
     }
 
     exit(message: string) {

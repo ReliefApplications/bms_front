@@ -20,7 +20,12 @@ export class TransactionTableComponent extends TableComponent {
     updateElement(updateElement) {
         // Only keeps general reliefs where a note has been set
         const notes = updateElement.generalReliefs
-            .filter((generalRelief: GeneralRelief) => generalRelief.notes);
+            .filter((generalRelief: GeneralRelief) => {
+                return {
+                    id: generalRelief.id,
+                    notes: generalRelief.notes
+                };
+            });
 
         // Send a request to the server to add a note
         this.distributionService.addNotes(notes).subscribe(() => {

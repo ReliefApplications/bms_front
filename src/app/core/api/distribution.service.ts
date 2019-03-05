@@ -3,9 +3,6 @@ import { URL_BMS_API                                } from '../../../environment
 import { HttpService                                } from './http.service';
 import { DistributionData                           } from '../../model/distribution-data';
 import { ExportService                              } from './export.service';
-import { GeneralRelief } from 'src/app/model/general-relief';
-import { forkJoin } from 'rxjs';
-
 
 @Injectable({
     providedIn: 'root'
@@ -101,14 +98,10 @@ export class DistributionService {
         return this.http.get(url);
     }
 
-    public addNotes(generalReliefs: GeneralRelief[]) {
-        const requests = generalReliefs.map(generalRelief => {
-            const url = `${this.api}/distributions/generalrelief/${generalRelief.id}`;
-            const body = {notes: generalRelief.notes};
-            return this.http.post(url, JSON.stringify(body));
-        });
-
-        return forkJoin(...requests);
+    public addNotes(generalReliefs: {id: number, notes: string}[]) {
+        const url  = `${this.api}/distributions/generalrelief/notes`;
+        const body = { generalReliefs };
+        return this.http.post(url, body);
     }
 
     public distributeGeneralReliefs(ids: number[]) {
@@ -116,6 +109,6 @@ export class DistributionService {
         const body = {
             ids: ids,
         };
-        return this.http.post(url, JSON.stringify(body));
+        return this.http.post(url, body);
     }
 }

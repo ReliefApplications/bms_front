@@ -248,7 +248,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                     this.loadingFirstStep = false;
                     this.loadingFinalStep = false;
                 } else if (type === 'transaction') {
-                    console.log(2);
                     this.formatTransactionTable(data);
                 }
 

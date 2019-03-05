@@ -74,7 +74,7 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         protected distributionService: DistributionService,
         public snackBar: MatSnackBar,
         public dialog: MatDialog,
-        private cacheService: AsyncacheService,
+        protected cacheService: AsyncacheService,
     ) { }
 
     getPeopleCount(): number | string {

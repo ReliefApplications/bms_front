@@ -127,6 +127,7 @@ export class TransactionGeneralRelief {
         }
 
         return {
+            id: selfInstance.id,
             givenName: selfInstance.givenName,
             familyName: selfInstance.familyName,
             used: selfInstance.used,

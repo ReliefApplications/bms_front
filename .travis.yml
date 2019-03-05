@@ -9,7 +9,7 @@ env:
   - secure: "UuZYRtxly1eaw8QZv0BRiRoW1Z3mJT5KNK7YvQvB0i5w8LFInTYDw9BwnrmRvBguTBJtwhSAUf0lxdOrkrbx0OE+oe6BtC/PYFccc/z4Fpy3gf5Iy4Cp8IQrnMnLiUnWnDY9Z/wvon1pEHrK8xgh6u/EuJbpDTn2H9cmNxVs/yiseix/DF3Ub+5XTDAbHhfsOQIdSti7ybNNn0AEsUBURBVkk96s5E524UdaTzHO88NV5qtjSRgl2QfCb1ekJjqCHLP1sL+QmYr6hI0jf6BuuaWzXG2gqIfwyPdnktjA3E90OMe8wXYiaHWp0rH0v/Hyj/gQbh7TyTlS94tWR8tsmafK8vjvlgzLuV2QUIXyhTyLBthOY/i6Cu8/Weg+mdANnbH0zoBQzoVzQlxlEzTICr3+UAfLHTsrMSHyM7AJx4sb2FTycS9J3C6kUUam6256vI1XG0LURO9QYN0ggPXCow1lvV9c6IMJxqXcvexYpareI4g6Y06gKYx+zvlTaRx4jC0Qc5dUHMfCD/0lG/cbcQL0dcBJdyeFyadq5Iiq1gLOHt8bUz83yluWB3zb0pvSV/X0oNsPivuGvV3AgbajXamMvLo9Bsqxp2fCVO1D+jLK2iheR3XgakF4SnwcvI/DgZ38yVDnGdc/T+e0XrMn0piOf76eP9uq5ioivvyzksI="
 
 install:
-  - echo $TRAVIS_PULL_REQUEST
+  - echo ${TRAVIS_PULL_REQUEST}
   - npm install -g @angular/cli
   - npm install
 

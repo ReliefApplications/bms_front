@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
-import { TransactionGeneralRelief } from 'src/app/model/transaction-voucher';
+import { TransactionGeneralRelief } from 'src/app/model/transaction-general-relief';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({

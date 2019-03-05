@@ -10,7 +10,7 @@ import { MatTableDataSource, MatSnackBar, MatDialog, MatFormField, MatStepper } 
 import { Mapper } from '../../../core/utils/mapper.service';
 import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
 import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
-import { TransactionGeneralRelief } from '../../../model/transaction-voucher';
+import { TransactionGeneralRelief } from '../../../model/transaction-general-relief';
 import { finalize, last, map } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';

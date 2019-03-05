@@ -137,6 +137,7 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
                 if (!result) {
                     return;
                 }
+                console.log(this.transactionData);
                 this.transactionData.data.forEach(
                     (transaction, index) => {
                         if (transaction.state === 0) {

@@ -24,6 +24,10 @@ export class TransactionTableComponent extends TableComponent {
                 }
             });
 
-        this.distributionService.addNotes(notes).subscribe();
+        console.log(updateElement);
+
+        this.distributionService.addNotes(notes).subscribe(() => {
+            console.log(this.parentId, this.parentObject, this.allData);
+        });
     }
 }

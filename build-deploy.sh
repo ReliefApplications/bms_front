@@ -3,6 +3,7 @@
 # first parameter: environment to deploy to (front | testing)
 
 # build the project (contents will be in directory dist/bms-front)
+echo "Build starting\n"
 if [[ $1 == "front" ]]; then
     ng build --prod
 elif [[ $1 == "testing" ]]; then
@@ -11,10 +12,10 @@ else
     echo "Unknown environment"
     exit
 fi
-echo "==="
-echo "Build complete"
+echo "Build complete\n"
 
 # gzip up all files so that they are smaller
+echo "Compression starting\n"
 rm -Rf dist/bms-front_gzip/
 cp -R dist/bms-front/ dist/bms-front_gzip/
 gzip -9fr dist/bms-front_gzip/
@@ -26,10 +27,10 @@ for FILE in $FILES; do
         mv ${FILE} ${NEW_FILE}
     fi;
 done;
-echo "==="
-echo "Compression complete"
+echo "Compression complete\n"
 
 # deploy on aws
+echo "Upload starting\n"
 aws configure set aws_access_key_id ${aws_access_key_id}
 aws configure set aws_secret_access_key ${aws_secret_access_key}
 aws configure set default.region eu-central-1
@@ -41,5 +42,4 @@ if [[ $1 == "front" ]]; then
 elif [[ $1 == "testing" ]]; then
     aws cloudfront create-invalidation --distribution-id E1FDBGHL3DD0Y8 --paths '/*'
 fi
-echo "==="
-echo "Upload complete"
+echo "Upload complete\n"

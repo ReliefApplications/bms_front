@@ -19,13 +19,13 @@ jobs:
           fast_finish: true
         - stage: deploy
           if: branch = dev
-          before-install:
+          before_install:
               - sudo apt install python3-pip
               - pip3 install awscli --upgrade
           script: ./build-deploy.sh testing
         - stage: deploy
           if: branch = master
-          before-install:
+          before_install:
               - sudo apt install python3-pip
               - pip3 install awscli --upgrade
           script: ./build-deploy.sh front

@@ -582,5 +582,6 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 }
 
 .ng-select.multiple-select .ng-select-container .ng-value-container .ng-value {
-    background-color: #424242;
+    background-color: #424242 !important;
+    white-space: pre-wrap !important;
 }

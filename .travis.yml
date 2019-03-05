@@ -21,7 +21,7 @@ jobs:
           if: branch = dev
           before_install:
               - sudo apt-get install python3-pip
-              - pip3 install awscli --upgrade
+              - sudo pip3 install awscli --upgrade
           script: ./build-deploy.sh testing
         - stage: deploy
           if: branch = master

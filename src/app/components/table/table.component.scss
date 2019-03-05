@@ -61,7 +61,7 @@ table {
       margin-right: 5px;
     }
   }
-  
+
   td.mat-cell:last-of-type,
   td.mat-footer-cell:not(last-of-type),
   th.mat-header-cell:not(last-of-type) {
@@ -78,6 +78,14 @@ table {
     text-align: center;
     font-size: 14px;
     font-weight: bold;
+  }
+
+  .actions {
+      z-index: 2;
+  }
+
+  .single-row {
+      z-index: 1;
   }
 }
 

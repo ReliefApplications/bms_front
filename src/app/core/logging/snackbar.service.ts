@@ -47,6 +47,7 @@ export class SnackbarService {
         public snackbar: MatSnackBar,
         ) { }
 
+
     public info(message: string) {
         return this.open('Info', message, this.infoConfig);
     }

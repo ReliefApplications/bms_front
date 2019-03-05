@@ -10,7 +10,7 @@ import { Beneficiaries } from './beneficiary';
 import { ImportedBeneficiary } from './imported-beneficiary';
 import { TransactionBeneficiary } from './transaction-beneficiary';
 import { FinancialProvider } from './financial-provider';
-import { TransactionGeneralRelief } from './transaction-voucher';
+import { TransactionGeneralRelief } from './transaction-general-relief';
 
 export class FieldMapper {
 

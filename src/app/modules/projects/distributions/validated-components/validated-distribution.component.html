@@ -2,21 +2,20 @@
     <div class="container-content box-primary">
         <div class="progression">
             <div class="commodities" *ngFor="let commodity of actualDistribution.commodities">
-                <h4>{{ commodity.modality_type.name }} {{ TEXT.transaction_progress }} {{ getAmount('ratio', commodity) }} % </h4>
-                <mat-progress-bar mode="determinate" [value]="getAmount('ratio',
-                    commodity)"></mat-progress-bar>
+                <h4>{{ commodity.modality_type.name }} {{ TEXT.transaction_progress }} {{ getPercentageValue(commodity) }} % </h4>
+                <mat-progress-bar mode="determinate" [value]="getPercentageValue(commodity)"></mat-progress-bar>
                 <div class="details">
                     <div class="info_1">
                         <h5>{{TEXT.transaction_amount_total | titlecase}}</h5>
-                        {{ getAmount('total', commodity) }} {{commodity.unit}}
+                        {{ getTotalCommodityValue(commodity) }} {{commodity.unit}}
                     </div>
                     <div class="info_2">
                         <h5>{{TEXT.transaction_amount_done | titlecase}}</h5>
-                        {{ getAmount('sent', commodity) }} {{commodity.unit}}
+                        {{ getSentValue(commodity) }} {{commodity.unit}}
                     </div>
                     <div class="info_3">
                         <h5>{{TEXT.transaction_amount_waiting | titlecase}}</h5>
-                        {{ getAmount('received', commodity) }} {{commodity.unit}}
+                        {{ getReceivedValue(commodity) }} {{commodity.unit}}
                     </div>
                 </div>
             </div>
@@ -94,7 +93,7 @@
 
                 <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
                 <button mat-raised-button *ngIf="hasRightsTransaction && !transacting"
-                    (click)="openDialog(transaction);" class="button-background-accent" [matBadge]="getAmount('people')"
+                    (click)="openDialog(transaction);" class="button-background-accent" [matBadge]="getPeopleCount()"
                     matBadgePosition="before" matBadgeColor="primary">
                     <mat-icon>send</mat-icon> {{TEXT.transaction_transaction}}
                 </button>

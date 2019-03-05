@@ -405,8 +405,6 @@ export class TableComponent implements OnChanges, DoCheck {
                     '', { duration: 5000, horizontalPosition: 'right' });
                 this.updateData();
             });
-        } else if (this.entity.__classname__ === 'TransactionVoucher' && updateElement.notes ) {
-            this.distributionService.addNote(updateElement.id, updateElement.notes);
         } else {
             this.service.update(updateElement['id'], updateElement).subscribe(response => {
                 this.updateData();

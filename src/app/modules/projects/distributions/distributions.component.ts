@@ -1,18 +1,18 @@
-import { Component, OnInit, HostListener, TemplateRef, DoCheck } from '@angular/core';
-import { GlobalText } from '../../../../texts/global';
-import { DistributionService } from '../../../core/api/distribution.service';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
+import { GlobalText } from 'src/texts/global';
+import { DistributionService } from 'src/app/core/api/distribution.service';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DistributionData } from '../../../model/distribution-data';
-import { Beneficiaries } from '../../../model/beneficiary';
-import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
-import { MatTableDataSource, MatDialog, MatFormField, MatStepper } from '@angular/material';
+import { DistributionData } from 'src/app/model/distribution-data';
+import { Beneficiaries } from 'src/app/model/beneficiary';
+import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
+import { MatTableDataSource, MatDialog, MatStepper } from '@angular/material';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { Mapper } from '../../../core/utils/mapper.service';
-import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
-import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
-import { TransactionVoucher } from '../../../model/transaction-voucher';
-import { finalize, last, map } from 'rxjs/operators';
+import { Mapper } from 'src/app/core/utils/mapper.service';
+import { ImportedBeneficiary } from 'src/app/model/imported-beneficiary';
+import { TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
+import { TransactionGeneralRelief } from 'src/app/model/transaction-general-relief';
+import { finalize } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/core/api/user.service';
@@ -95,6 +95,8 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     progression: number;
     hideSnack = false;
 
+    distributionIsStored = false;
+
     constructor(
         public distributionService: DistributionService,
         public cacheService: AsyncacheService,
@@ -136,7 +138,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
 
         this.getDistributionBeneficiaries('initial');
         this.checkPermission();
-
     }
 
     @HostListener('window:resize', ['$event'])
@@ -177,31 +178,35 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
      */
     getSelectedDistribution() {
         this.distributionService.getOne(this.distributionId)
-            .subscribe(
-                distribution => { // Get from Back
-                    this.actualDistribution = distribution;
-
-                    if (Object.keys(this.actualDistribution).length === 0) {
-                        this.cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + this.distributionId + '_beneficiaries')
-                            .subscribe(
-                                (actualDistribution: DistributionData) => {
-                                    if (actualDistribution) {
-                                        this.actualDistribution = actualDistribution;
-
-                                        if (this.actualDistribution.validated) {
-                                            this.getDistributionBeneficiaries('transaction');
-                                        }
-                                    }
-                                }
-                            );
-                    }
-
-                    if (this.actualDistribution.validated) {
-                        this.getDistributionBeneficiaries('transaction');
-                    }
-                    this.loadingDistribution = false;
+            .subscribe(distribution => { // Get from Back
+                if (!distribution || Object.keys(distribution).length === 0) {
+                    this.getDistributionFromCache();
+                    return;
                 }
-            );
+
+                this.actualDistribution = distribution;
+                if (this.actualDistribution.validated) {
+                    this.getDistributionBeneficiaries('transaction');
+                }
+                this.loadingDistribution = false;
+                this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
+                    (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
+                );
+            });
+    }
+
+    private getDistributionFromCache() {
+        this.cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + this.distributionId + '_beneficiaries')
+            .subscribe((actualDistribution: DistributionData) => {
+                if (actualDistribution) {
+                    this.actualDistribution = actualDistribution;
+                    this.loadingDistribution = false;
+                    this.loadingDatas = false;
+                    if (this.actualDistribution.validated) {
+                        this.formatTransactionTable(this.actualDistribution.distribution_beneficiaries);
+                    }
+                }
+            });
     }
 
     /**
@@ -219,58 +224,59 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
             this.loadingTransaction = true;
         }
         this.distributionService.getBeneficiaries(this.distributionId)
-            .subscribe(
-                response => {
-                    let data = response;
-
-                    if (data && data.id) {
-                        this.actualDistribution = data;
-                        data = data.distribution_beneficiaries;
-                    }
-
-                    if (type === 'initial') {
-                        // Step 1 table
-                        this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
-                        this.loadingFirstStep = false;
-                    } else if (type === 'final') {
-                        // Step 4 table
-                        this.finalBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
-                        this.loadingFinalStep = false;
-                    } else if (type === 'both') {
-                        const beneficiariesData = Beneficiaries.formatArray(data);
-                        this.initialBeneficiaryData = new MatTableDataSource(beneficiariesData);
-                        this.finalBeneficiaryData = new MatTableDataSource(beneficiariesData);
-                        this.loadingFirstStep = false;
-                        this.loadingFinalStep = false;
-                    } else if (type === 'transaction') {
-                        if (this.actualDistribution.commodities[0].modality_type.name === 'Voucher') {
-                            this.entity = TransactionVoucher;
-                            this.selection = new SelectionModel<any>(true, []);
-                            // tslint:disable-next-line
-                            this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));
-                        } else if (this.actualDistribution.commodities[0].modality_type.name === 'Mobile Cash') {
-                            this.entity = TransactionBeneficiary;
-                            // tslint:disable-next-line
-                            this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));
-                        }
-
-                        this.refreshStatuses();
-                        this.loadingTransaction = false;
-                    }
-
-                    if (!this.actualDistribution.validated) {
-                        this.generateRandom();
-                    }
-
-                    if (this.loadingDatas === true) {
-                        this.loadingDatas = false;
-                    }
+            .subscribe(response => {
+                let data: any;
+                if (response && response.id) {
+                    this.actualDistribution = response;
+                    data = response.distribution_beneficiaries;
+                } else {
+                    this.actualDistribution.distribution_beneficiaries = response;
+                    data = response;
                 }
-            );
+
+                if (type === 'initial') {
+                    // Step 1 table
+                    this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
+                    this.loadingFirstStep = false;
+                } else if (type === 'final') {
+                    // Step 4 table
+                    this.finalBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
+                    this.loadingFinalStep = false;
+                } else if (type === 'both') {
+                    const beneficiariesData = Beneficiaries.formatArray(data);
+                    this.initialBeneficiaryData = new MatTableDataSource(beneficiariesData);
+                    this.finalBeneficiaryData = new MatTableDataSource(beneficiariesData);
+                    this.loadingFirstStep = false;
+                    this.loadingFinalStep = false;
+                } else if (type === 'transaction') {
+                    this.formatTransactionTable(data);
+                }
+
+                if (!this.actualDistribution.validated) {
+                    this.generateRandom();
+                }
+
+                if (this.loadingDatas === true) {
+                    this.loadingDatas = false;
+                }
+            });
 
         if (type === 'edit') {
             this.finalBeneficiaryData = this.initialBeneficiaryData;
         }
+    }
+
+    private formatTransactionTable(data: any) {
+        if (this.actualDistribution.commodities[0].modality_type.name === 'Voucher') {
+            this.entity = TransactionGeneralRelief;
+            this.selection = new SelectionModel<any>(true, []);
+        }
+        else if (this.actualDistribution.commodities[0].modality_type.name === 'Mobile Cash') {
+            this.entity = TransactionBeneficiary;
+        }
+        this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));
+        this.refreshStatuses();
+        this.loadingTransaction = false;
     }
 
     /**
@@ -434,7 +440,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     confirmValidation() {
         if (this.hasRights) {
             if ((this.finalBeneficiaryData && this.finalBeneficiaryData.data.length > 0) ||
-            (this.initialBeneficiaryData && this.initialBeneficiaryData.data.length > 0)) {
+                (this.initialBeneficiaryData && this.initialBeneficiaryData.data.length > 0)) {
                 this.loaderValidation = true;
                 this.distributionService.setValidation(this.distributionId)
                     .subscribe(
@@ -669,5 +675,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                     }
                 }
             );
+
+            this.distributionIsStored = true;
     }
 }

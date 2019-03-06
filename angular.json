@@ -83,7 +83,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false,
+              "buildOptimizer": true,
               "serviceWorker": true
             }
           }
@@ -99,7 +99,10 @@
             },
             "docker": {
               "browserTarget": "bms-front:build:docker"
-            }
+            },
+            "testing": {
+              "browserTarget": "bms-front:build:testing"
+            },
           }
         },
         "extract-i18n": {

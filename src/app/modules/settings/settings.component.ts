@@ -138,7 +138,7 @@ export class SettingsComponent implements OnInit, DoCheck {
             default:
                 break;
         }
-        // console.log('#####- ', category);
+
         if (category === 'projects') {
             let exported = false;
             country = this.locationService.getAdm1().subscribe(
@@ -314,7 +314,6 @@ export class SettingsComponent implements OnInit, DoCheck {
 
         dialogRef.afterClosed().subscribe(result => {
             create.unsubscribe();
-            // console.log(console.log('The dialog was closed');
         });
     }
 

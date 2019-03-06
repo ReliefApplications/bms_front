@@ -52,6 +52,9 @@ export class LocationService {
         return this.http.post(url, body);
     }
 
+    /**
+     * Get the codes of the upcoming distributions
+     */
     public getUpcomingDistributionCode() {
         const url = this.api + '/location/upcoming_distribution';
         return this.http.get(url);

@@ -25,6 +25,7 @@
                     <mat-checkbox *ngIf="!element.used" (click)="$event.stopPropagation()" (change)="selectCheck($event, element)" [checked]="selection.isSelected(element)"
                         color="primary">
                     </mat-checkbox>
+                    <i class="material-icons" *ngIf="element.used">check</i>
                 </td>
             </ng-container>
             <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">

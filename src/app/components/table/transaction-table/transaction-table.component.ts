@@ -1,5 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TableComponent } from '../table.component';
+import { GeneralRelief } from 'src/app/model/general-relief';
+import { DistributionData } from 'src/app/model/distribution-data';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
   selector: 'app-transaction-table',
@@ -10,17 +13,32 @@ export class TransactionTableComponent extends TableComponent {
 
     loading = true;
 
-    public parentClassName: string;
-
-
     @Input() checkbox: boolean;
 
-    @Input() set parent(value: any) {
-        this.parentObject = value;
-        this.parentClassName = this.parentObject.commodities[0].modality_type.name;
-    }
+    @Input() parentObject: DistributionData;
 
     updateElement(updateElement) {
-        this.distributionService.addNote(updateElement.generalReliefs[0].id, updateElement.notes).subscribe();
+        // Only keeps general reliefs where a note has been set
+        const notes = updateElement.generalReliefs
+            .filter((generalRelief: GeneralRelief) => {
+                return {
+                    id: generalRelief.id,
+                    notes: generalRelief.notes
+                };
+            });
+
+        // Send a request to the server to add a note
+        this.distributionService.addNotes(notes).subscribe(() => {
+            const beneficiaries = this.parentObject.distribution_beneficiaries;
+            // Update the beneficiary locally
+            for (let i = 0; i < beneficiaries.length; i++) {
+                if (beneficiaries[i].beneficiary.id === updateElement.id) {
+                    beneficiaries[i].general_reliefs = updateElement.generalReliefs;
+                    // Save the modification to the cache
+                    this._cacheService.set(`${AsyncacheService.DISTRIBUTIONS}_${this.parentObject.id}_beneficiaries`, this.parentObject);
+                    return;
+                }
+            }
+        });
     }
 }

@@ -5,9 +5,9 @@
 # build the project (contents will be in directory dist/bms-front)
 echo "Build starting"
 if [[ $1 == "front" ]]; then
-    ng build --prod
+    ng build --prod --progress
 elif [[ $1 == "testing" ]]; then
-    ng build --prod -c testing
+    ng build --prod -c testing --progress
 else
     echo "Unknown environment"
     exit

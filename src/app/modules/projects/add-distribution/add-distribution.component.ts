@@ -55,7 +55,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
 
     public commodityClass = Commodity;
     public commodityAction = 'addCommodity';
-    public commodityArray = [];
+    public commodities = [];
     public commodityData = new MatTableDataSource([]);
     public commodityNb: number[] = [];
 
@@ -276,9 +276,9 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 this.queryParams.project
             ).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
-                if (this.commodityArray.length > 0) {
+                if (this.commodities.length > 0) {
                     this.commodityNb = [];
-                    this.commodityArray.forEach(commodity => {
+                    this.commodities.forEach(commodity => {
                         this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
                     });
                 }
@@ -308,9 +308,9 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 this.queryParams.project
             ).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
-                if (this.commodityArray.length > 0) {
+                if (this.commodities.length > 0) {
                     this.commodityNb = [];
-                    this.commodityArray.forEach(commodity => {
+                    this.commodities.forEach(commodity => {
                         this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
                     });
                 }
@@ -417,7 +417,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
      */
     add() {
         if (this.newObject.type && this.criteriaArray && this.criteriaArray.length !== 0 &&
-          this.commodityArray && this.commodityArray[0] && this.newObject.date_distribution &&
+          this.commodities && this.commodities[0] && this.newObject.date_distribution &&
           this.newObject.threshold > 0 && this.newObject.adm1) {
 
             if (new Date(this.newObject.date_distribution) < new Date(this.projectInfo.startDate) ||
@@ -426,42 +426,17 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                   '', { duration: 5000, horizontalPosition: 'center' });
                 return;
             } else {
-                const res = [];
-                let cashFound = false;
-                let voucherFound = false;
-                let isZero = false;
-                let error = false;
-
-                this.commodityArray.map(item => {
-                    const existItem = res.find(x => x.modality === item.modality);
-
-                    if (existItem || (cashFound && item.modality === 'Cash') || (voucherFound && item.modality === 'Voucher')) {
-                        error = true;
+                const distributionModality = this.commodities[0].modality;
+                for (const commodity of this.commodities) {
+                    if (commodity.value <= 0) {
+                        this.snackBar.open(this.distribution.add_distribution_zero,
+                            '', { duration: 5000, horizontalPosition: 'center' });
                         return;
-                    } else if (item.modality === 'Voucher') {
-                        voucherFound = true;
-                      } else if (item.modality === 'Cash') {
-                        cashFound = true;
-                                        } else if (item.value <= 0) {
-                        isZero = true;
-                    }
-
-                    if (voucherFound && cashFound) {
-                        error = true;
+                    } else if (commodity.modality !== distributionModality) {
+                        this.snackBar.open(this.distribution.add_distribution_multiple_modalities,
+                             '', { duration: 5000, horizontalPosition: 'center' });
                         return;
                     }
-
-                    res.push(item);
-                });
-
-                if (error) {
-                    this.snackBar.open(this.distribution.add_distribution_multiple_commodities,
-                      '', { duration: 5000, horizontalPosition: 'center' });
-                    return;
-                }
-                if (isZero || this.criteriaNbBeneficiaries <= 0) {
-                    this.snackBar.open(this.distribution.add_distribution_zero, '', { duration: 5000, horizontalPosition: 'center' });
-                    return;
                 }
 
                 this.loadingCreation = true;
@@ -474,7 +449,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 newDistribution.location.adm3 = this.newObject.adm3;
                 newDistribution.location.adm4 = this.newObject.adm3;
                 newDistribution.selection_criteria = this.criteriaArray;
-                newDistribution.commodities = this.commodityArray;
+                newDistribution.commodities = this.commodities;
 
                 const formatDateOfBirth = this.newObject.date_distribution.split('/');
                 if (formatDateOfBirth[0].length < 2) {
@@ -513,7 +488,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         } else if (this.criteriaArray.length === 0) {
             this.snackBar.open(this.distribution.add_distribution_missing_selection_criteria,
             '', { duration: 5000, horizontalPosition: 'center' });
-        } else if (!this.commodityArray[0]) {
+        } else if (!this.commodities[0]) {
             this.snackBar.open(this.distribution.add_distribution_missing_commodity, '', { duration: 5000, horizontalPosition: 'center' });
         } else if (!this.newObject.date_distribution) {
             this.snackBar.open(this.distribution.add_distribution_missing_date, '', { duration: 5000, horizontalPosition: 'center' });
@@ -574,9 +549,9 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 this.queryParams.project
             ).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
-                if (this.commodityArray.length > 0) {
+                if (this.commodities.length > 0) {
                     this.commodityNb = [];
-                    this.commodityArray.forEach(commodity => {
+                    this.commodities.forEach(commodity => {
                         this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
                     });
                 }
@@ -584,14 +559,14 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
             });
             this.criteriaData = new MatTableDataSource(this.criteriaArray);
         } else if (user_action === this.commodityAction) {
-            this.commodityArray.push(createElement);
+            this.commodities.push(createElement);
 
             this.commodityNb = [];
-            this.commodityArray.forEach(commodity => {
+            this.commodities.forEach(commodity => {
                 this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
             });
 
-            this.commodityData = new MatTableDataSource(this.commodityArray);
+            this.commodityData = new MatTableDataSource(this.commodities);
         }
     }
 
@@ -616,9 +591,9 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 this.queryParams.project
             ).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
-                if (this.commodityArray.length > 0) {
+                if (this.commodities.length > 0) {
                     this.commodityNb = [];
-                    this.commodityArray.forEach(commodity => {
+                    this.commodities.forEach(commodity => {
                         this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
                     });
                 }
@@ -626,11 +601,11 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
 
             });
         } else if (user_action === this.commodityAction) {
-            const index = this.commodityArray.findIndex((item) => item === removeElement);
+            const index = this.commodities.findIndex((item) => item === removeElement);
             if (index > -1) {
-                this.commodityArray.splice(index, 1);
+                this.commodities.splice(index, 1);
                 this.commodityNb.splice(index, 1);
-                this.commodityData = new MatTableDataSource(this.commodityArray);
+                this.commodityData = new MatTableDataSource(this.commodities);
             }
         }
     }

@@ -4,7 +4,9 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class ImportedDataService {
-
+    /**
+     * @todo replace with genuine eventemitter
+     */
   data: any;
   project: any;
   emittedProject = false;

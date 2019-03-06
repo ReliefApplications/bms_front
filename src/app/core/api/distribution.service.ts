@@ -4,7 +4,6 @@ import { HttpService                                } from './http.service';
 import { DistributionData                           } from '../../model/distribution-data';
 import { ExportService                              } from './export.service';
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -99,9 +98,10 @@ export class DistributionService {
         return this.http.get(url);
     }
 
-    public addNote(idTransaction: number, notes: string) {
-        const url = `${this.api}/distributions/generalrelief/${idTransaction}`;
-        return this.http.post(url, JSON.stringify({notes}));
+    public addNotes(generalReliefs: {id: number, notes: string}[]) {
+        const url  = `${this.api}/distributions/generalrelief/notes`;
+        const body = { generalReliefs };
+        return this.http.post(url, body);
     }
 
     public distributeGeneralReliefs(ids: number[]) {
@@ -109,6 +109,6 @@ export class DistributionService {
         const body = {
             ids: ids,
         };
-        return this.http.post(url, JSON.stringify(body));
+        return this.http.post(url, body);
     }
 }

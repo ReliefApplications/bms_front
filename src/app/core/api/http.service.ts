@@ -175,7 +175,7 @@ export class HttpService {
 
     post(url, body, options = {}): Observable<any> {
         const connected = this.networkService.getStatus();
-        const urlSplitted = url.split('/')[5] + '/' + url.split('/')[6] + '/' + url.split('/')[7] + '/' + url.split('/')[8];
+        const urlSplitted = url.split('/').slice(5, 9).join('/');
         const regex = new RegExp(/distributions\/beneficiaries\/project\/\d+/);
 
         if (!connected) {
@@ -297,14 +297,22 @@ export class HttpService {
             );
 
         } else {
-            const urlSplitted = url.split('/');
-            const postBeneficiariesDistribution = urlSplitted[5] + '/' + urlSplitted[6] + '/' + urlSplitted[7] + '/' + urlSplitted[8];
-            const regex = new RegExp(/distributions\/beneficiaries\/project\/\d+/);
+            let match = false;
+            const formattedUrl: string = url.split('/').slice(5, 10).join('/');
+            const regex = [];
 
-            const putBeneficiariesDistribution = urlSplitted[5] + '/' + urlSplitted[6] + '/' + urlSplitted[7];
-            const regex2 = new RegExp(/distributions\/\d+\/beneficiary/);
+            regex.push(new RegExp(/distributions\/beneficiaries\/project\/\d+/));
+            regex.push(new RegExp(/distributions\/\d+\/beneficiary/));
+            regex.push(new RegExp(/distributions\/generalrelief.*/));
 
-            if (!postBeneficiariesDistribution.match(regex) && !putBeneficiariesDistribution.match(regex2)) {
+            regex.forEach(re => {
+                if (formattedUrl.match(re)) {
+                    match = true;
+                    return;
+                }
+            });
+
+            if (!match) {
                 this.snackbar.open('This item can\'t be manipulated offline', '', { duration: 3000, horizontalPosition: 'center' });
             }
         }

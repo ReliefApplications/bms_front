@@ -7,7 +7,7 @@ echo "Build starting"
 if [[ $1 == "front" ]]; then
     ng build --prod
 elif [[ $1 == "testing" ]]; then
-    ng build -c testing
+    ng build --prod -c testing
 else
     echo "Unknown environment"
     exit

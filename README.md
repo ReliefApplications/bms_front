@@ -8,7 +8,7 @@ A platform that allows humanitarian organisations to manage relief items (Food, 
 
 # About
 
-BMS is the first fully open-source relief platform for humanitarian actors to efficiently manage relief operations after a disaster, during a war or in response to long term crises. 
+Populus is the first fully open-source relief platform for humanitarian actors to efficiently manage relief operations after a disaster, during a war or in response to long term crises. 
 
 If you're an experienced developer and you would like to get involved, contact us on Twitter: @reliefapps or [here](https://twitter.com/Reliefapps).
 

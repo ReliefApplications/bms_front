@@ -7,7 +7,7 @@ echo "Build starting"
 if [[ $1 == "front" ]]; then
     npm run build -- --prod --progress
 elif [[ $1 == "testing" ]]; then
-    npm run build -- -c testing --progress
+    npm run build -- --prod -c testing --progress
 else
     echo "Unknown environment"
     exit

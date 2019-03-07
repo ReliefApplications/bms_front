@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node --max-old-space-size=8192 ./node_modules/.bin/ng serve -c docker --poll 2000",
+    "start": "node --max-old-space-size=8192 ./node_modules/.bin/ng serve --poll 2000",
     "build": "node --max-old-space-size=8192 ./node_modules/.bin/ng build",
     "test": "ng test",
     "lint": "ng lint",

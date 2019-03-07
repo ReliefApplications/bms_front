@@ -1,0 +1,18 @@
+@startuml
+abstract class bmsObject {
+    + {abstract} requiredFields: String[]
+    + {abstract} editableFields: Object
+    + {abstract} tableFields: Object
+
+
+    + {abstract} frontToApi()
+    + {abstract} apiToFront()
+    + {abstract} getdisplayName(): Object
+}
+
+class project {
+
+}
+
+bmsObject <|-- project
+@enduml

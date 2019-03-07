@@ -77,75 +77,52 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         protected cacheService: AsyncacheService,
     ) { }
 
-    getPeopleCount(): number | string {
-        if (!this.transactionData) {
-            return this.getPlaceholderChar();
-        }
-        else {
-            const states = [State.NoPhone, State.NotSent, State.SendError];
-            let peopleCount = 0;
-            for (const beneficiary of this.transactionData.data) {
-                if (states.includes(beneficiary.state)) {
-                    peopleCount ++;
-                }
-            }
-            return peopleCount;
-        }
-    }
-
-    getTotalCommodityValue(commodity: any): number | string {
-        return (this.transactionData ? this.transactionData.data.length * commodity.value : this.getPlaceholderChar());
-    }
-
-    getSentValue(commodity: any): number | string {
-        if (!this.transactionData) {
-            return this.getPlaceholderChar();
-        }
-        else {
-            let totalCommodityValue = 0;
-            for (const beneficiary of this.transactionData.data) {
-                if (beneficiary.used) {
-                    totalCommodityValue += commodity.value;
-                }
-            }
-            return totalCommodityValue;
-        }
-    }
-
-    getReceivedValue(commodity: any): number | string {
-        if (!this.transactionData) {
-            return this.getPlaceholderChar();
-        }
-        else {
-            const states = [State.PickedUp];
-            return this.getTotalCommodityValueAccordingToState(commodity.value, states);
-        }
-    }
-
-    getPercentageValue(commodity: any): number | string {
-        if (!this.transactionData) {
-            return this.getPlaceholderChar();
-        }
-        else {
-            const states = [State.Sent, State.AlreadySent, State.PickedUp];
-            return this.getTotalCommodityValueAccordingToState(commodity.value, states);
-        }
-    }
-
-    getTotalCommodityValueAccordingToState(individualCommodityValue: number, states: number[]): number {
-        let totalCommodityValue = 0;
+    getPeopleCount(): number {
+        const states = [State.NoPhone, State.NotSent, State.SendError];
+        let peopleCount = 0;
         for (const beneficiary of this.transactionData.data) {
             if (states.includes(beneficiary.state)) {
-                totalCommodityValue += individualCommodityValue;
+                peopleCount ++;
             }
         }
-        return totalCommodityValue;
+        return peopleCount;
     }
 
-    getPlaceholderChar() {
-        return '-';
+    getTotalCommodityValue(commodity: any): number {
+        return this.transactionData.data.length * commodity.value;
     }
 
+
+
+    getReceivedValue(commodity: any): number {
+        let amountReceived = 0;
+        for (const beneficiary of this.transactionData.data) {
+            amountReceived += this.getCommodityReceivedAmountFromBeneficiary(commodity, beneficiary);
+        }
+        return amountReceived;
+    }
+
+    getPercentageValue(commodity: any): number {
+            return this.getAmountSent(commodity) / this.getTotalCommodityValue(commodity) * 100;
+    }
+
+    getAmountSent(commodity: any): number {
+        let amountSent = 0;
+        for (const beneficiary of this.transactionData.data) {
+            amountSent += this.getCommoditySentAmountFromBeneficiary(commodity, beneficiary);
+        }
+        return amountSent;
+    }
+
+    // Abstract
+    getCommoditySentAmountFromBeneficiary(commodity: any, beneficiary: any): number {
+        throw new Error('Abstract Method');
+    }
+
+    // Abstract
+    getCommodityReceivedAmountFromBeneficiary(commodity: any, beneficiary: any): number {
+        throw new Error('Abstract Method');
+    }
 
     setTransactionMessage(beneficiary, i) {
 

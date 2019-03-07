@@ -15,6 +15,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
     distributed = false;
 
     ngOnInit() {
+        console.log(this.actualDistribution.commodities[0].modality_type.name);
         super.ngOnInit();
         this.selection = new SelectionModel<any>(true, []);
         this.entity = TransactionGeneralRelief;
@@ -56,6 +57,12 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         }, () => {
             this.distributed = false;
         });
+    }
+
+    getCommoditySentAmountFromBeneficiary(commodity: any, beneficiary: any): number {
+        const commodityIndex = this.actualDistribution.commodities.indexOf(commodity);
+        const beneficiariesCommodity = beneficiary.generalReliefs[commodityIndex];
+        return (beneficiariesCommodity.distributed_at ? commodity.value : 0 );
     }
 
 }

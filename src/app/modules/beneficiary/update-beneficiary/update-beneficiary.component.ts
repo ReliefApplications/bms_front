@@ -7,7 +7,8 @@ import { LocationService } from '../../../core/api/location.service';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { CountrySpecificService } from '../../../core/api/country-specific.service';
 import { FormBuilder } from '@angular/forms';
-import { MatDialog, MatSnackBar, MatTableDataSource, MatStepper } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatStepper } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { LIVELIHOOD } from '../../../model/livelihood';
 import { Location } from '../../../model/location';
@@ -100,7 +101,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
         public _beneficiariesService: BeneficiariesService,
         public formBuilder: FormBuilder,
         public dialog: MatDialog,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public router: Router,
         private datePipe: DatePipe
     ) { }
@@ -446,7 +447,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
             return (dataHousehold);
         } else {
             // Minimum data not filled -> Error !
-            this.snackBar.open(this.Text.update_beneficiary_check_steps, '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(this.Text.update_beneficiary_check_steps);
             return (undefined);
         }
 
@@ -580,7 +581,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
      */
     create() {
         if (this.updatedHousehold.projects.length === 0) {
-            this.snackBar.open('You must select at least one project', '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error('You must select at least one project');
             return;
         }
 
@@ -598,8 +599,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                 .then(
                     success => {
                         if (success) {
-                            this.snackBar.open(this.Text.update_beneficiary_created_successfully,
-                                '', { duration: 5000, horizontalPosition: 'center' });
+                            this.snackbar.success(this.Text.update_beneficiary_created_successfully);
                             this.leave();
                         } else {
                             this.validationLoading = false;
@@ -608,8 +608,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                 )
                 .catch(
                     error => {
-                        this.snackBar.open(this.Text.update_beneficiary_error_creating + error,
-                            '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.error(this.Text.update_beneficiary_error_creating + error);
                         this.validationLoading = false;
                     }
                 );
@@ -621,7 +620,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
      */
     update() {
         if (this.updatedHousehold.projects.length === 0) {
-            this.snackBar.open('You must select at least one project', '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error('You must select at least one project');
             return;
         }
 
@@ -639,8 +638,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                 .then(
                     success => {
                         if (success) {
-                            this.snackBar.open(this.Text.update_beneficiary_updated_successfully,
-                                '', { duration: 5000, horizontalPosition: 'center' });
+                            this.snackbar.success(this.Text.update_beneficiary_updated_successfully);
                             this.leave();
                         } else {
                             this.validationLoading = false;
@@ -649,8 +647,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                 )
                 .catch(
                     error => {
-                        this.snackBar.open(this.Text.update_beneficiary_error_updated + error,
-                            '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.error(this.Text.update_beneficiary_error_updated + error);
                         this.validationLoading = false;
                     }
                 );
@@ -745,7 +742,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
         if (final) {
             return (validSteps === 3);
         } else if (message !== '') {
-            this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(message);
         }
 
         return (false);

@@ -1,7 +1,8 @@
 import { Component, ViewChild, OnInit, Input, Output, EventEmitter, HostListener, DoCheck } from '@angular/core';
 import { DistributionData } from 'src/app/model/distribution-data';
 import { GlobalText } from 'src/texts/global';
-import { MatDialog, MatTableDataSource, MatSnackBar } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -72,7 +73,7 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
 
     constructor(
         protected distributionService: DistributionService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public dialog: MatDialog,
         protected cacheService: AsyncacheService,
     ) { }
@@ -181,14 +182,14 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         if (this.hasRights) {
             try {
                 this.distributionService.logs(this.distributionId).subscribe(
-                    e => { this.snackBar.open('' + e, '', { duration: 5000, horizontalPosition: 'center' }); },
-                    () => { this.snackBar.open('Logs have been sent', '', { duration: 5000, horizontalPosition: 'center' }); },
+                    e => { this.snackbar.error('' + e); },
+                    () => { this.snackbar.success('Logs have been sent'); },
                 );
             } catch (e) {
-                this.snackBar.open('Logs could not be sent : ' + e, '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackbar.error('Logs could not be sent : ' + e);
             }
         } else {
-            this.snackBar.open('Not enough rights to request logs', '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error('Not enough rights to request logs');
         }
     }
 
@@ -198,7 +199,7 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     }
 
     exit(message: string) {
-        this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
+        this.snackbar.info(message);
         this.dialog.closeAll();
     }
 
@@ -213,24 +214,21 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
                     anwser => {
                         if (anwser === 'Email sent') {
                             this.lastCodeSentTime = (new Date()).getTime();
-                            this.snackBar.open('Verification code has been sent at ' + this.actualUser.email,
-                                '', { duration: 5000, horizontalPosition: 'center' });
+                            this.snackbar.success('Verification code has been sent at ' + this.actualUser.email);
                         }
                     },
                     () => {
                         this.lastCodeSentTime = (new Date()).getTime();
-                        this.snackBar.open('Verification code has been sent at ' + this.actualUser.email,
-                            '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.success('Verification code has been sent at ' + this.actualUser.email);
                     }
                 )
                 .catch(
                     (err) => {
-                        this.snackBar.open('Could not send code :' + err, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.error('Could not send code :' + err);
                     }
                 );
         } else {
-            this.snackBar.open('The last code was sent less than 10 seconds ago, you should wait.',
-                '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error('The last code was sent less than 10 seconds ago, you should wait.');
         }
     }
 
@@ -328,11 +326,11 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
                     // }, 3000);
 
                 } else {
-                    this.snackBar.open(this.TEXT.distribution_no_valid_commodity, '', { duration: 5000, horizontalPosition: 'center' });
+                    this.snackbar.error(this.TEXT.distribution_no_valid_commodity);
                 }
             });
         } else {
-            this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 5000, horizontalPosition: 'right' });
+            this.snackbar.error(this.TEXT.distribution_no_right_transaction);
         }
 
         this.chartAccepted = false;

@@ -24,7 +24,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
         if (new Date() < distributionDate) {
             this.dialog.open(template);
         } else {
-            this.snackBar.open(this.TEXT.snackbar_invalid_transaction_date, '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(this.TEXT.snackbar_invalid_transaction_date);
         }
     }
 }

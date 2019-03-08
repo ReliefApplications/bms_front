@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { DistributionService } from '../../core/api/distribution.service';
@@ -74,7 +75,7 @@ export class SettingsComponent implements OnInit, DoCheck {
         private _cacheService: AsyncacheService,
         private locationService: LocationService,
         private _settingsService: SettingsService,
-        private snackBar: MatSnackBar,
+        private snackbar: SnackbarService,
     ) { }
 
     ngOnInit() {
@@ -297,7 +298,7 @@ export class SettingsComponent implements OnInit, DoCheck {
 
                 this.data.data.forEach(element => {
                     if (element.name.toLowerCase() === data.name.toLowerCase()) {
-                        this.snackBar.open(this.settings.settings_project_exists, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.error(this.settings.settings_project_exists);
                         exists = true;
                         return;
                     }

@@ -1,7 +1,8 @@
 import { Component, OnInit, HostListener, ViewChild, ElementRef, DoCheck } from '@angular/core';
 import { ImportService } from '../../../core/utils/import.service';
 import { HouseholdsService } from '../../../core/api/households.service';
-import { MatSnackBar, MatStepper, MatDialog } from '@angular/material';
+import { MatStepper, MatDialog } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { VerifiedData, FormatDuplicatesData, FormatMore, FormatLess } from '../../../model/data-validation';
 import { GlobalText } from '../../../../texts/global';
@@ -57,7 +58,7 @@ export class DataValidationComponent implements OnInit, DoCheck {
     constructor(
         public _importService: ImportService,
         public _householdsService: HouseholdsService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         private _cacheService: AsyncacheService,
         private router: Router,
         private importedDataService: ImportedDataService,
@@ -72,7 +73,7 @@ export class DataValidationComponent implements OnInit, DoCheck {
             result => {
                 rights = result.rights;
                 if (rights !== 'ROLE_ADMIN' && rights !== 'ROLE_PROJECT_MANAGER' && rights !== 'ROLE_PROJECT_OFFICER') {
-                    this.snackBar.open(this.verification.forbidden_message, '', { duration: 5000, horizontalPosition: 'center' });
+                    this.snackbar.error(this.verification.forbidden_message);
                     this.router.navigate(['']);
                 } else {
                     this.getData();
@@ -421,16 +422,14 @@ export class DataValidationComponent implements OnInit, DoCheck {
                 }
             });
             if (this.typoIssues.length !== length) {
-                this.snackBar.open(this.verification.data_verification_snackbar_typo_no_corrected,
-                '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackbar.error(this.verification.data_verification_snackbar_typo_no_corrected);
             } else if (this.typoIssues.length === 0) {
                 this.load = true;
                 this.typoDone = true;
                 this.nextStep();
             } else {
                 this.load = true;
-                this.snackBar.open(this.verification.data_verification_snackbar_typo_corrected,
-                '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackbar.success(this.verification.data_verification_snackbar_typo_corrected);
                 this.typoDone = true;
                 this.nextStep();
             }
@@ -443,32 +442,28 @@ export class DataValidationComponent implements OnInit, DoCheck {
                 });
             });
             if (this.duplicates.length !== length) {
-                this.snackBar.open(this.verification.data_verification_snackbar_duplicate_no_corrected,
-                '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackbar.error(this.verification.data_verification_snackbar_duplicate_no_corrected);
             } else if (this.duplicates.length === 0) {
                 this.load = true;
                 this.duplicateDone = true;
                 this.nextStep();
             } else {
                 this.load = true;
-                this.snackBar.open(this.verification.data_verification_snackbar_duplicate_corrected,
-                '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackbar.success(this.verification.data_verification_snackbar_duplicate_corrected);
                 this.duplicateDone = true;
                 this.nextStep();
             }
         } else if (this.step === 3) {
             this.load = true;
             if (this.more.length > 0) {
-                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected,
-                '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackbar.success(this.verification.data_verification_snackbar_more_corrected);
             }
             this.moreDone = true;
             this.nextStep();
         } else if (this.step === 4) {
             this.load = true;
             if (this.less.length > 0) {
-                this.snackBar.open(this.verification.data_verification_snackbar_more_corrected,
-                  '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackbar.success(this.verification.data_verification_snackbar_more_corrected);
             }
             this.lessDone = true;
             this.nextStep();

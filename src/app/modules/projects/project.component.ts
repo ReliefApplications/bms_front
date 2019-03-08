@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener, SimpleChanges, DoCheck } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 
 import { GlobalText } from '../../../texts/global';
 
@@ -61,7 +62,7 @@ export class ProjectComponent implements OnInit, DoCheck {
         public mapperService: Mapper,
         private router: Router,
         private _cacheService: AsyncacheService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public dialog: MatDialog,
         public importedDataService: ImportedDataService
     ) { }
@@ -211,8 +212,7 @@ export class ProjectComponent implements OnInit, DoCheck {
                 if (this.projects) {
                     this.projects.forEach(element => {
                         if (element.name.toLowerCase() === data.name.toLowerCase()) {
-                            this.snackBar.open(this.distribution.settings_project_exists,
-                              '', { duration: 5000, horizontalPosition: 'right' });
+                            this.snackbar.error(this.distribution.settings_project_exists);
                             exists = true;
                             return;
                         }
@@ -229,7 +229,7 @@ export class ProjectComponent implements OnInit, DoCheck {
     createElement(createElement: Object) {
         createElement = Project.formatForApi(createElement);
         this.projectService.create(createElement['id'], createElement).subscribe(response => {
-            this.snackBar.open('Project ' + this.distribution.settings_created, '', { duration: 5000, horizontalPosition: 'right' });
+            this.snackbar.success('Project ' + this.distribution.settings_created);
             this.getProjects();
         });
     }

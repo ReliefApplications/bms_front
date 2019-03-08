@@ -1,5 +1,6 @@
 import { Component, OnInit, DoCheck, Input, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, ErrorStateMatcher, MatSnackBar } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, ErrorStateMatcher } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 
 import { DonorService } from '../../core/api/donor.service';
@@ -79,7 +80,7 @@ export class ModalComponent implements OnInit, DoCheck {
         public projectService: ProjectService,
         public criteriaService: CriteriaService,
         public modalitiesService: ModalitiesService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public userService: UserService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
     }

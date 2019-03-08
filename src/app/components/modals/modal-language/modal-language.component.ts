@@ -37,7 +37,7 @@ export class ModalLanguageComponent extends ModalComponent implements OnInit {
         this.isArabic = this.language === 'ar' ? true : false;
         if (this.isCheckedDefault) {
             this.userService.setDefaultLanguage(this.actualUser.id, this.language).subscribe(response => {
-                this.snackBar.open('Default Language Saved', '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackbar.success('Default Language Saved');
             });
         }
         this.closeDialog();

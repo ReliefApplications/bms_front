@@ -261,12 +261,30 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
         this.closeDialog();
     }
 
+    /**
+     * @Barbara Ne lis pas trop stp, genre tu peux merger c'est bon ça marche
+     * @Vraiment pas
+     * @Non
+     * @STOP
+     * @todo REWRITE THIS
+     */
     unitType(): string {
-        if (this.newObject && this.newObject.modality === 2) {
-            // Modality = 2 => Cash => Unit = Currency
-            return 'Currency';
-        } else {
+        if (!this.newObject) {
             return 'Unit';
+        }
+        switch (this.newObject.modality) {
+            case 1:
+                return 'Currency';
+            case 2:
+                switch (this.newObject.type) {
+                    case 2:
+                        return 'Type';
+                    default:
+                        return 'Kit';
+
+                }
+            default:
+                return 'Currency';
         }
     }
 }

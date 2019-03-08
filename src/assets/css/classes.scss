@@ -492,27 +492,23 @@ snack-bar-container {
     }
 
     &.snackbar-info {
+        background-color: $bms_black;
+        color: $bms_white;
     }
 
     &.snackbar-log {
         background-color: $bms_dark_grey;
-        color: $bms_grey;
+        color: $bms_white;
     }
-
-    &.snackbar-warning{
-        background-color: $bms_warning;
+    &.snackbar-warning {
+        background-color: $bms_highlight;
         color: $bms_black;
     }
-
-    &.snackbar-debug{
-        background-color: $menu_select_bg;
-        color: $bms_white;
-    }
-    &.snackbar-error{
+    &.snackbar-error {
         background-color: $bms_red;
         color: $bms_white;
-
-    }&.snackbar-success{
+    }
+    &.snackbar-success {
         background-color: $bms_green;
         color: $bms_white;
     }

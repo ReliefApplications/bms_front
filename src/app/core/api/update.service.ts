@@ -12,7 +12,7 @@ export class UpdateService {
     ) {
         this.updates.available.subscribe(
             event => {
-                const snack = this.snackbar.reload('BMS Update is available');
+                const snack = this.snackbar.info('BMS Update is available', 'Reload');
 
                 snack
                     .onAction()

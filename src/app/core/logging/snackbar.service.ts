@@ -28,11 +28,6 @@ export class SnackbarService {
         panelClass: 'snackbar-warning',
     };
 
-    private debugConfig: MatSnackBarConfig = {
-        ...this.snackConfig,
-        panelClass: 'snackbar-debug',
-    };
-
     private errorConfig: MatSnackBarConfig = {
         ...this.snackConfig,
         panelClass: 'snackbar-error',
@@ -48,35 +43,27 @@ export class SnackbarService {
         ) { }
 
 
-    public info(message: string) {
-        return this.open('Info', message, this.infoConfig);
+    public info(message: string, action?: string) {
+        return this.open('Info', message, this.infoConfig, action);
     }
 
-    public log(message: string) {
-        return this.open('Log', message, this.logConfig);
+    public log(message: string, action?: string) {
+        return this.open('Log', message, this.logConfig, action);
     }
 
-    public warning(message: string) {
-        return this.open('Warning', message, this.warningConfig);
+    public warning(message: string, action?: string) {
+        return this.open('Warning', message, this.warningConfig, action);
     }
 
-    public debug(message: string) {
-        return this.open('Debug', message, this.debugConfig);
+    public error(message: string, action?: string) {
+        return this.open('Error', message, this.errorConfig, action);
     }
 
-    public error(message: string) {
-        return this.open('Error', message, this.errorConfig);
+    public success(message: string, action?: string) {
+        return this.open('Success', message, this.successConfig, action);
     }
 
-    public success(message: string) {
-        return this.open('Success', message, this.successConfig);
-    }
-
-    public reload(message: string) {
-        return this.snackbar.open(message, 'Reload', this.snackConfig);
-    }
-
-    private open(prefix: string, message: string, config: MatSnackBarConfig) {
-        return this.snackbar.open([prefix, message].join(' - '), '', config);
+    private open(prefix: string, message: string, config: MatSnackBarConfig, action?: string) {
+        return this.snackbar.open([prefix, message].join(' - '), action, config);
     }
 }

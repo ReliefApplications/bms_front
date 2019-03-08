@@ -115,7 +115,7 @@ export class HeaderMobileComponent implements OnInit, DoCheck {
     }
 
     preventSnack(country: string) {
-        const snack = this.snackbar.info('Page is going to reload in 3 sec to switch on ' + country + ' country. ');
+        const snack = this.snackbar.info('Page is going to reload in 3 sec to switch on ' + country + ' country. ', 'Reload');
 
         snack
             .onAction()

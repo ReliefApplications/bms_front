@@ -1,5 +1,5 @@
-@startuml
-abstract class bmsObject {
+@startuml updatedModel
+abstract class appObject {
     + {abstract} requiredFields: String[]
     + {abstract} editableFields: Object
     + {abstract} tableFields: Object
@@ -11,8 +11,17 @@ abstract class bmsObject {
 }
 
 class project {
-
+    id: number
+    [...]
+    fields: appObjectField[]
 }
 
-bmsObject <|-- project
+class appObjectField {
+    + required: boolean
+    + editable: boolean
+    + displayedInTable: boolean
+}
+
+appObject <|-- project
+project *- "0-*" appObjectField
 @enduml

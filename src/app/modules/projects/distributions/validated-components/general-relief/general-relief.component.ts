@@ -15,7 +15,6 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
     distributed = false;
 
     ngOnInit() {
-        console.log(this.actualDistribution.commodities[0].modality_type.name);
         super.ngOnInit();
         this.selection = new SelectionModel<any>(true, []);
         this.entity = TransactionGeneralRelief;

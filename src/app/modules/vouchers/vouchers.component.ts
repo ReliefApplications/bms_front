@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { GlobalText } from '../../../texts/global';
-import { MatTableDataSource, MatDialog, MatSnackBar } from '@angular/material';
+import { MatTableDataSource, MatDialog } from '@angular/material';
 import { finalize } from 'rxjs/operators';
 import { Booklet } from 'src/app/model/booklet';
 import { BookletService } from 'src/app/core/api/booklet.service';
@@ -15,6 +15,7 @@ import { Beneficiaries } from 'src/app/model/beneficiary';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Voucher } from '../../model/voucher';
 import { ExportService } from '../../core/api/export.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 
 @Component({
   selector: 'app-vouchers',
@@ -88,8 +89,8 @@ export class VouchersComponent implements OnInit {
     public mapperService: Mapper,
     public projectService: ProjectService,
     public distributionService: DistributionService,
-    public snackBar: MatSnackBar,
-    public _exportService: ExportService
+    public _exportService: ExportService,
+    public snackbar: SnackbarService
   ) { }
 
   ngOnInit() {
@@ -231,18 +232,18 @@ export class VouchersComponent implements OnInit {
      * To cancel on a dialog
      */
   exit(message: string) {
-    this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
+    this.snackbar.info(message);
     this.dialog.closeAll();
   }
 
   nextStep(step) {
     if (step === 2) {
       if (this.storeChoice.project === 0) {
-        this.snackBar.open(this.voucher.voucher_select_project, '', { duration: 5000, horizontalPosition: 'center' });
+        this.snackbar.error(this.voucher.voucher_select_project);
       } else if (this.storeChoice.distribution === 0) {
-        this.snackBar.open(this.voucher.voucher_select_distribution, '', { duration: 5000, horizontalPosition: 'center' });
+        this.snackbar.error(this.voucher.voucher_select_distribution);
       } else if (this.storeChoice.beneficiary === 0) {
-        this.snackBar.open(this.voucher.voucher_select_beneficiary, '', { duration: 5000, horizontalPosition: 'center' });
+        this.snackbar.error(this.voucher.voucher_select_beneficiary);
       } else {
         this.distributionName = this.distributions.filter(element => element.id === this.storeChoice.distribution)[0].name;
         this.beneficiaryName = this.beneficiaries.filter(element => element.id === this.storeChoice.beneficiary)[0].full_name;
@@ -257,7 +258,7 @@ export class VouchersComponent implements OnInit {
       this.step4 = true;
     } else if (step === 5) {
       if (this.displayPassword && (isNaN(Number(this.password)) || this.password === '' || this.password.length !== 4)) {
-        this.snackBar.open(this.voucher.voucher_only_digits, '', { duration: 5000, horizontalPosition: 'center' });
+        this.snackbar.error(this.voucher.voucher_only_digits);
       } else {
         this.loadingPassword = true;
 
@@ -275,12 +276,12 @@ export class VouchersComponent implements OnInit {
           )
           .subscribe(
             () => {
-              this.snackBar.open(this.voucher.voucher_password_changed, '', { duration: 5000, horizontalPosition: 'center' });
+              this.snackbar.success(this.voucher.voucher_password_changed);
               this.step4 = false;
               this.step5 = true;
             },
             err => {
-              this.snackBar.open(err.error, '', { duration: 5000, horizontalPosition: 'center' });
+              this.snackbar.error(err.error);
             }
           );
       }
@@ -306,13 +307,11 @@ export class VouchersComponent implements OnInit {
       )
       .subscribe(
         () => {
-          this.snackBar.open(
-            this.voucher.voucher_assigned_success + this.beneficiaryName, '',
-            { duration: 5000, horizontalPosition: 'center' });
-          this.exit(this.voucher.voucher_confirm + ' ' + this.beneficiaryName);
+          this.snackbar.success(
+            this.voucher.voucher_assigned_success + this.beneficiaryName);
         },
         err => {
-          this.snackBar.open(err.error, '', { duration: 5000, horizontalPosition: 'center' });
+          this.snackbar.error(err.error);
         }
       );
   }

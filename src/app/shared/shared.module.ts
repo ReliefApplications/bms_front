@@ -6,9 +6,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
     MatButtonModule, MatCheckboxModule, MatSelectModule, MatOptionModule, MatPaginatorModule,
     MatExpansionModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatDividerModule,
-    MAT_CHECKBOX_CLICK_ACTION, MatRadioModule, MatChipsModule, MatSnackBarModule, MatStepperModule,
-    MatProgressBarModule, MatListModule, MatBadgeModule, MatTabsModule
+    MAT_CHECKBOX_CLICK_ACTION, MatRadioModule, MatChipsModule, MatStepperModule,
+    MatProgressBarModule, MatListModule, MatBadgeModule, MatTabsModule, MatSnackBarModule,
 } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';

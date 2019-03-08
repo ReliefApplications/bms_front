@@ -18,14 +18,14 @@ jobs:
           script: npm run lint
           fast_finish: true
         - stage: deploy
-          if: branch = dev AND env(TRAVIS_PULL_REQUEST) = "false"
+          if: branch = dev AND NOT type = "pull_request"
           before_install:
               - sudo apt-get install python3-pip
               - sudo pip3 install awscli --upgrade
           script: ./build-deploy.sh testing
         - stage: deploy
-          if: branch = master AND env(TRAVIS_PULL_REQUEST) = "false"
+          if: branch = master AND NOT type = "pull_request"
           before_install:
-              - sudo apt install python3-pip
-              - pip3 install awscli --upgrade
+              - sudo apt-get install python3-pip
+              - sudo pip3 install awscli --upgrade
           script: ./build-deploy.sh front

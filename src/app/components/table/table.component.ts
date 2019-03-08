@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, ViewChild, OnChanges, ElementRef, DoCheck, Output, EventEmitter } from '@angular/core';
 import {
     MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource,
-    MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner, MatSnackBar
+    MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner
 } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 
 import { Mapper } from '../../core/utils/mapper.service';
 
@@ -108,7 +109,7 @@ export class TableComponent implements OnChanges, DoCheck {
         public mapperService: Mapper,
         public dialog: MatDialog,
         public _cacheService: AsyncacheService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public authenticationService: AuthenticationService,
         public _wsseService: WsseService,
         public financialProviderService: FinancialProviderService,
@@ -436,12 +437,9 @@ export class TableComponent implements OnChanges, DoCheck {
             updateElement['password'] = salted;
 
             this.service.update(updateElement).subscribe(response => {
-                this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated,
-                    '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.success(this.entity.__classname__ + this.table.table_element_updated);
                 this.updateData();
             });
-        } else if (this.entity.__classname__ === 'TransactionVoucher' && updateElement.notes ) {
-            this.distributionService.addNote(updateElement.id, updateElement.notes);
         } else {
             this.service.update(updateElement['id'], updateElement).subscribe(response => {
                 this.updateData();

@@ -98,7 +98,17 @@ export class LeafletService {
                                 admLayers.eachLayer(function (adm, index) {
                                     if (upcomingDistribution) {
                                         upcomingDistribution.forEach(element => {
-                                            if ((adm.feature.properties.ADM4_PCODE === element.code_location
+                                            /**
+                                             * @TODO Change this !!! This is a temporary fix in order for the map to work.
+                                             * The link between the adm1 in database and the adm1 in `map_khm.kml` should totally
+                                             * be remade.
+                                             */
+                                            element.code_location = element.code_location.length % 2 === 1 &&
+                                                                    element.code_location[2] === '0'
+                                                                    ? element.code_location.slice(0, 2) + element.code_location.slice(3)
+                                                                    : element.code_location;
+
+                                            if ((adm.feature.properties.ADM3_PCODE === element.code_location.slice(0, 8)
                                                   && element.adm_level === 'adm4') ||
                                                 (adm.feature.properties.ADM3_PCODE === element.code_location
                                                   && element.adm_level === 'adm3') ||

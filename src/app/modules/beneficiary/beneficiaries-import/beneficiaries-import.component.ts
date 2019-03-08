@@ -9,7 +9,8 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Project } from '../../../model/project';
 import { GlobalText } from '../../../../texts/global';
 import { Router } from '@angular/router';
-import { MatSnackBar, MatTableDataSource, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatDialog } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Households } from 'src/app/model/households';
 import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
@@ -97,7 +98,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
         public _projectService: ProjectService,
         public _beneficiariesService: BeneficiariesService,
         private router: Router,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         private _cacheService: AsyncacheService,
         private importedDataService: ImportedDataService,
         private dialog: MatDialog,
@@ -110,7 +111,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
             result => {
                 rights = result.rights;
                 if (rights !== 'ROLE_ADMIN' && rights !== 'ROLE_PROJECT_MANAGER' && rights !== 'ROLE_PROJECT_OFFICER') {
-                    this.snackBar.open(this.household.forbidden_message, '', { duration: 5000, horizontalPosition: 'center' });
+                    this.snackbar.error(this.household.forbidden_message);
                     this.router.navigate(['']);
                 } else {
                     this.getProjects();
@@ -223,7 +224,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
     addHouseholds() {
         const data = new FormData();
         if (!this.csv || !this.selectedProject || this.load) {
-            this.snackBar.open(this.household.beneficiaries_import_select_project, '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(this.household.beneficiaries_import_select_project);
         } else {
             const project = this.selectedProject.split(' - ');
             data.append('file', this.csv);
@@ -237,8 +238,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
                 .catch(
                     () => {
                         this.load = false;
-                        this.snackBar.open(this.household.beneficiaries_import_error_importing,
-                        '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.error(this.household.beneficiaries_import_error_importing);
                     }
                 );
         }
@@ -432,13 +432,13 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
      * To cancel on a dialog
      */
     exit(message: string) {
-        this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
+        this.snackbar.info(message);
         this.dialog.closeAll();
     }
 
     confirmImport() {
         if (!this.csv2 || this.saveLocation.adm1 === '') {
-            this.snackBar.open(this.household.beneficiaries_import_select_location, '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(this.household.beneficiaries_import_select_location);
         }
 
         const data = new FormData();
@@ -469,14 +469,13 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
             }, (err) => {
                 this.dialog.closeAll();
                 this.csv2 = null;
-                this.snackBar.open(this.household.beneficiaries_import_response, '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackbar.info(this.household.beneficiaries_import_response);
             })
             .catch(
                 () => {
                     this.dialog.closeAll();
                     this.csv2 = null;
-                    this.snackBar.open(this.household.beneficiaries_import_error_importing,
-                    '', { duration: 5000, horizontalPosition: 'center' });
+                    this.snackbar.error(this.household.beneficiaries_import_error_importing);
                 });
     }
 
@@ -577,8 +576,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
     addBeneficiaries() {
         if (Object.keys(this.paramToSend).length === this.APIParams.length && Object.keys(this.paramToSend).length > 0) {
             if (this.selectedProject == null) {
-                this.snackBar.open(this.household.beneficiaries_missing_selected_project,
-                '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.household.beneficiaries_missing_selected_project);
             } else {
                 const project = this.selectedProject.split(' - ');
                 this._importService.project = project[0];
@@ -588,15 +586,14 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
                     .subscribe(response => {
                         if (response.error) {
                             this.load = false;
-                            this.snackBar.open(response.error, '', { duration: 5000, horizontalPosition: 'right' });
+                            this.snackbar.error(response.error);
                             delete this.paramToSend['provider'];
                         } else if (response.exist) {
                             this.load = false;
-                            this.snackBar.open(response.exist, '', { duration: 5000, horizontalPosition: 'right' });
+                            this.snackbar.warning(response.exist);
                             delete this.paramToSend['provider'];
                         } else {
-                            this.snackBar.open(response.message + this.household.beneficiaries_import_beneficiaries_imported,
-                            '', { duration: 5000, horizontalPosition: 'right' });
+                            this.snackbar.success(response.message + this.household.beneficiaries_import_beneficiaries_imported);
                             this.newHouseholds = response.households;
 
                             this.importedHouseholds();
@@ -604,7 +601,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
                     });
             }
         } else {
-            this.snackBar.open(this.household.beneficiaries_import_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+            this.snackbar.error(this.household.beneficiaries_import_check_fields);
         }
 
     }

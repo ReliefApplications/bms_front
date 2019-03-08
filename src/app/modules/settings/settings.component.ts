@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { DistributionService } from '../../core/api/distribution.service';
@@ -36,61 +37,62 @@ import { VendorsService } from 'src/app/core/api/vendors.service';
     styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit, DoCheck {
-  public nameComponent = 'settings';
-  public settings = GlobalText.TEXTS;
-  loadingExport = false;
 
-  selectedTitle = '';
-  isBoxClicked = false;
-  loadingData = true;
+    public nameComponent = 'settings';
+    public settings = GlobalText.TEXTS;
+    loadingExport = false;
 
-  public referedClassService;
-  referedClassToken;
-  data: MatTableDataSource<any>;
-  public user_action = '';
-  public extensionType;
+    selectedTitle = '';
+    isBoxClicked = false;
+    loadingData = true;
 
-  // logs
-  userLogForm = new FormControl();
-  private selectedUserId: number = null;
+    public referedClassService;
+    referedClassToken;
+    data: MatTableDataSource<any>;
+    public user_action = '';
+    public extensionType;
 
-  public maxHeight = GlobalText.maxHeight;
-  public maxWidthMobile = GlobalText.maxWidthMobile;
-  public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
-  public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
-  public maxWidth = GlobalText.maxWidth;
-  public language = GlobalText.language;
-  public heightScreen;
-  public widthScreen;
-  hasRights: boolean;
-  public deletable = true;
-  public printable = false;
+    // logs
+    userLogForm = new FormControl();
+    private selectedUserId: number = null;
 
-  constructor(
-    public dialog: MatDialog,
-    public mapperService: Mapper,
-    public authenticationService: AuthenticationService,
-    public distributionService: DistributionService,
-    public donorService: DonorService,
-    public projectService: ProjectService,
-    public userService: UserService,
-    public productService: ProductService,
-    public countrySpecificService: CountrySpecificService,
-    public financialProviderService: FinancialProviderService,
-    private _cacheService: AsyncacheService,
-    private locationService: LocationService,
-    private _settingsService: SettingsService,
-    private snackBar: MatSnackBar,
-    private vendorsService: VendorsService,
-  ) { }
+    public maxHeight = GlobalText.maxHeight;
+    public maxWidthMobile = GlobalText.maxWidthMobile;
+    public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
+    public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
+    public maxWidth = GlobalText.maxWidth;
+    public language = GlobalText.language;
+    public heightScreen;
+    public widthScreen;
+    hasRights: boolean;
+    public deletable = true;
+    public printable = false;
 
-  ngOnInit() {
-    this.checkSize();
-    this.selectTitle('users');
-    this.extensionType = 'xls';
-  }
+    constructor(
+        public dialog: MatDialog,
+        public mapperService: Mapper,
+        public authenticationService: AuthenticationService,
+        public distributionService: DistributionService,
+        public donorService: DonorService,
+        public projectService: ProjectService,
+        public userService: UserService,
+        public countrySpecificService: CountrySpecificService,
+        public financialProviderService: FinancialProviderService,
+        private _cacheService: AsyncacheService,
+        private locationService: LocationService,
+        private _settingsService: SettingsService,
+        private snackbar: SnackbarService,
+        public productService: ProductService,
+        private vendorsService: VendorsService,
+    ) { }
 
-  /**
+    ngOnInit() {
+        this.checkSize();
+        this.selectTitle('users');
+        this.extensionType = 'xls';
+    }
+
+    /**
    * check if the langage has changed
    */
   ngDoCheck() {
@@ -147,29 +149,28 @@ export class SettingsComponent implements OnInit, DoCheck {
       default:
         break;
     }
-    // console.log('#####- ', category);
     if (category === 'projects') {
-      let exported = false;
-      country = this.locationService.getAdm1().subscribe(
-        result => {
-          if (!exported) {
-            exported = true;
+        let exported = false;
+        country = this.locationService.getAdm1().subscribe(
+            result => {
+                if (!exported) {
+                    exported = true;
 
-            country = result[0].country_i_s_o3;
-            return this._settingsService.export(this.extensionType, category, country).then(
-              () => { this.loadingExport = false; }
-            ).catch(
-              () => { this.loadingExport = false; }
-            );
-          }
-        }
-      );
+                    country = result[0].country_i_s_o3;
+                    return this._settingsService.export(this.extensionType, category, country).then(
+                        () => { this.loadingExport = false; }
+                    ).catch(
+                        () => { this.loadingExport = false; }
+                    );
+                }
+            }
+        );
     } else {
-      return this._settingsService.export(this.extensionType, category, country).then(
-        () => { this.loadingExport = false; }
-      ).catch(
-        () => { this.loadingExport = false; }
-      );
+        return this._settingsService.export(this.extensionType, category, country).then(
+          () => { this.loadingExport = false; }
+        ).catch(
+          () => { this.loadingExport = false; }
+        );
     }
   }
 
@@ -330,7 +331,7 @@ export class SettingsComponent implements OnInit, DoCheck {
 
                 this.data.data.forEach(element => {
                     if (element.name.toLowerCase() === data.name.toLowerCase()) {
-                        this.snackBar.open(this.settings.settings_project_exists, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.error(this.settings.settings_project_exists);
                         exists = true;
                         return;
                     }
@@ -346,7 +347,6 @@ export class SettingsComponent implements OnInit, DoCheck {
 
         dialogRef.afterClosed().subscribe(result => {
             create.unsubscribe();
-            // console.log(console.log('The dialog was closed');
         });
     }
 

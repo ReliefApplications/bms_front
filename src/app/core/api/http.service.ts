@@ -7,7 +7,7 @@ import { Observable, concat, of, merge, timer } from 'rxjs';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { map } from 'rxjs/operators';
 import { NetworkService } from './network.service';
-import { MatSnackBar } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { StoredRequestInterface } from 'src/app/model/stored-request';
 import { element } from '@angular/core/src/render3/instructions';
 import { keyframes } from '@angular/animations';
@@ -24,7 +24,7 @@ export class HttpService {
         private http: HttpClient,
         private cacheService: AsyncacheService,
         private networkService: NetworkService,
-        private snackbar: MatSnackBar,
+        private snackbar: SnackbarService,
     ) {
     }
 
@@ -146,7 +146,7 @@ export class HttpService {
             this.exist = false;
             return of([]);
         } else {
-            this.snackbar.open('This data can\'t be accessed offline', '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackbar.warning('This data can\'t be accessed offline');
             return of([]);
         }
     }
@@ -160,12 +160,11 @@ export class HttpService {
                 const method = 'PUT';
                 const request: StoredRequestInterface = { method, url, body, options, date };
                 this.cacheService.storeRequest(request);
-                this.snackbar.open('No network - This data creation will be sent to DB on next connection', '',
-                { duration: 3000, horizontalPosition: 'center' });
+                this.snackbar.warning('No network - This data creation will be sent to DB on next connection');
 
                 this.forceDataInCache(method, url, body);
             } else {
-                this.snackbar.open('No network connection to join DB', '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackbar.warning('No network connection to join DB');
             }
 
             return (of(null));
@@ -176,7 +175,7 @@ export class HttpService {
 
     post(url, body, options = {}): Observable<any> {
         const connected = this.networkService.getStatus();
-        const urlSplitted = url.split('/')[5] + '/' + url.split('/')[6] + '/' + url.split('/')[7] + '/' + url.split('/')[8];
+        const urlSplitted = url.split('/').slice(5, 9).join('/');
         const regex = new RegExp(/distributions\/beneficiaries\/project\/\d+/);
 
         if (!connected) {
@@ -186,13 +185,12 @@ export class HttpService {
                 if (!urlSplitted.match(regex)) {
                     const request: StoredRequestInterface = { method, url, body, options, date };
                     this.cacheService.storeRequest(request);
-                    this.snackbar.open('No network - This data update will be sent to DB on next connection', '',
-                    { duration: 3000, horizontalPosition: 'center' });
+                    this.snackbar.warning('No network - This data update will be sent to DB on next connection');
                 }
 
                 this.forceDataInCache(method, url, body);
             } else {
-                this.snackbar.open('No network connection to join DB', '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackbar.warning('No network connection to join DB');
             }
 
             return (of(null));
@@ -210,12 +208,11 @@ export class HttpService {
                 const method = 'DELETE';
                 const request: StoredRequestInterface = { method, url, options, date };
                 this.cacheService.storeRequest(request);
-                this.snackbar.open('No network - This data deletion will be sent to DB on next connection', '',
-                { duration: 3000, horizontalPosition: 'center' });
+                this.snackbar.warning('No network - This data deletion will be sent to DB on next connection');
 
                 this.forceDataInCache(method, url, {});
             } else {
-                this.snackbar.open('No network connection to join DB', '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackbar.warning('No network connection to join DB');
             }
 
             return (of(null));
@@ -298,15 +295,23 @@ export class HttpService {
             );
 
         } else {
-            const urlSplitted = url.split('/');
-            const postBeneficiariesDistribution = urlSplitted[5] + '/' + urlSplitted[6] + '/' + urlSplitted[7] + '/' + urlSplitted[8];
-            const regex = new RegExp(/distributions\/beneficiaries\/project\/\d+/);
+            let match = false;
+            const formattedUrl: string = url.split('/').slice(5, 10).join('/');
+            const regex = [];
 
-            const putBeneficiariesDistribution = urlSplitted[5] + '/' + urlSplitted[6] + '/' + urlSplitted[7];
-            const regex2 = new RegExp(/distributions\/\d+\/beneficiary/);
+            regex.push(new RegExp(/distributions\/beneficiaries\/project\/\d+/));
+            regex.push(new RegExp(/distributions\/\d+\/beneficiary/));
+            regex.push(new RegExp(/distributions\/generalrelief.*/));
 
-            if (!postBeneficiariesDistribution.match(regex) && !putBeneficiariesDistribution.match(regex2)) {
-                this.snackbar.open('This item can\'t be manipulated offline', '', { duration: 3000, horizontalPosition: 'center' });
+            regex.forEach(re => {
+                if (formattedUrl.match(re)) {
+                    match = true;
+                    return;
+                }
+            });
+
+            if (!match) {
+                this.snackbar.warning('This item can\'t be manipulated offline');
             }
         }
     }

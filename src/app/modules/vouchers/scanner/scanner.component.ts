@@ -37,7 +37,6 @@ export class ScannerComponent extends VouchersComponent implements OnInit {
   }
 
   handleQrCodeResult(resultString: string) {
-    console.log('result', resultString);
     this.scanner.scannerEnabled = false;
     this.result.emit(resultString);
   }
@@ -46,7 +45,9 @@ export class ScannerComponent extends VouchersComponent implements OnInit {
     this.currentDevice = this.scanner.getDeviceById(selectedValue);
   }
 
+  // DO NOT REMOVE
   log(event) {
+    // tslint:disable-next-line
     console.log(event);
   }
 }

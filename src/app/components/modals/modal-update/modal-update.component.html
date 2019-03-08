@@ -8,7 +8,7 @@
       <th class="table-title checkbox-line" *ngIf="propertiesTypes[p]==='checkbox'">{{data.mapper.mapTitle(p) | titlecase }}</th>
       <th class="table-value">
         <form class="form" [formGroup]="form" ngNoForm>
-          <mat-form-field *ngIf="propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p]!='selectSingle'" class="full-width">
+          <mat-form-field *ngIf="propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p]!='array'" class="full-width">
             <input matInput *ngIf="propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='positive-number' && propertiesTypes[p] != 'selectDonor' && propertiesTypes[p] != 'date' && propertiesTypes[p]!='selectSingle'  && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry' && propertiesTypes[p] != 'selectCountry'"
               [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries' || p=='name' || p=='code' || p=='number_vouchers' || p=='status')"
               [type]="propertiesTypes[p]">
@@ -83,7 +83,6 @@
             </mat-error>
           </mat-form-field>
 
-
           <mat-form-field *ngIf="propertiesTypes[p]=='password'" class="full-width">
             <input [(ngModel)]="updateObject[p]" matInput placeholder="{{modal.model_user_password}}" formControlName="passwordFormControl"
               [errorStateMatcher]="matcher" type="password">
@@ -116,6 +115,12 @@
               </span>
             </div>
           </mat-form-field>
+          <ng-container *ngIf="propertiesTypes[p]=='array' && p === 'notes'">
+            <mat-form-field class="full-width" *ngFor="let generalRelief of updateObject['generalReliefs'], let i = index">
+              <input [(ngModel)]="updateObject['generalReliefs'][i]['notes']" matInput placeholder="{{modal.notes}}" [ngModelOptions]="{standalone: true}"
+                [errorStateMatcher]="matcher" type="text">
+            </mat-form-field>
+          </ng-container>
         </form>
       </th>
     </tr>

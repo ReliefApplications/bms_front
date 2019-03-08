@@ -133,16 +133,16 @@ export class ModalAddLineComponent extends ModalAddComponent implements OnInit, 
         if (this.newObject.weight > 0) {
             const newObject = this.data.entity.formatFromModalAdd( Object.assign({}, this.newObject), this.loadedData) ;
             if (newObject && (newObject.value_string && newObject.value_string === 'null')) {
-                this.snackBar.open(this.modal.modal_add_no_value, '', {duration: 5000, horizontalPosition: 'center'});
+                this.snackbar.error(this.modal.modal_add_no_value);
             } else if (!newObject) {
-                this.snackBar.open(this.modal.modal_add_fail_criteria, '', {duration: 5000, horizontalPosition: 'center'});
+                this.snackbar.error(this.modal.modal_add_fail_criteria);
                 this.closeDialog();
             } else {
                 this.onCreate.emit(newObject);
                 this.closeDialog();
             }
         } else {
-            this.snackBar.open(this.modal.modal_add_bad_weight, '', {duration: 5000, horizontalPosition: 'center'});
+            this.snackbar.error(this.modal.modal_add_bad_weight);
         }
     }
 }

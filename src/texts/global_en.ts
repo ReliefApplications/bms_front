@@ -120,7 +120,7 @@ export const TEXT = {
     add_distribution_missing_location: 'Add a Province',
     add_distribution_missing_selection_criteria: 'A selection criterion is missing',
     add_distribution_missing_threshold: 'The minimum selection score\'s value should be greater than 0',
-    add_distribution_multiple_commodities: 'You can\'t have two payment\'s method as commodities',
+    add_distribution_multiple_modalities: 'You can\'t have two different modalities in the same distribution',
     add_distribution_selection_criteria: 'selection criteria',
     add_distribution_text_explanation: 'The system will only select beneficiaries/households that have a score higher than the minimum selection score',
     add_distribution_threshold: 'Minimum selection score',
@@ -162,6 +162,7 @@ export const TEXT = {
     // Cache
     cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
     cache_store_beneficiaries: 'Save For Offline Mode',
+    cache_stored_beneficiaries: 'Saved For Offline Mode',
     cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',
 
     // Dashboard
@@ -434,6 +435,7 @@ export const TEXT = {
     // Transaction
     transaction_accept_prevention: 'I agree to these terms.',
     transaction_again: 'Send again',
+    transaction_amount_distributed: 'Amount distributed',
     transaction_amount_done: 'Amount sent',
     transaction_amount_total: 'Total amount',
     transaction_amount_waiting: 'Amount picked up',

@@ -120,7 +120,7 @@ export const TEXT = {
     add_distribution_missing_location: 'أضف مقاطعة',
     add_distribution_missing_selection_criteria: 'معيار الاختيار مفقود',
     add_distribution_missing_threshold: 'يجب أن تكون قيمة الحد الفاصل أكبر من 0',
-    add_distribution_multiple_commodities: 'لا يمكنك الحصول على طريقتين للدفع كسلع',
+    add_distribution_multiple_modalities: 'You can\'t have two different modalities in the same distribution',
     add_distribution_selection_criteria: 'معيار الاختيار',
     add_distribution_text_explanation: 'سيختار النظام فقط المستفيدين / الأسر التي لديها مجموع أعلى من المجموع الادنى ',
     add_distribution_threshold: ' المجموع الادنى لاختيار ',
@@ -162,6 +162,7 @@ export const TEXT = {
     // Cache
     cache_distribution_added: 'التوزيع والمستفيدين من المشروع تم  إضافتهم في ذاكرة التخزين المؤقت',
     cache_store_beneficiaries: 'حفظ لوضع غير متصل بالشبكة',
+    cache_stored_beneficiaries: 'Saved For Offline Mode',
     cache_no_distribution: 'لم يتم تخزين هذا التوزيع في ذاكرة التخزين المؤقت ، ولا يمكنك الحصول عليه خارج خدمة الانترنت. ',
 
     // Dashboard
@@ -436,6 +437,7 @@ export const TEXT = {
     // Transaction
     transaction_accept_prevention: 'أنا أوافق على هذه الشروط.',
     transaction_again: 'أعد الإرسال',
+    transaction_amount_distributed: 'Amount distributed',
     transaction_amount_done: 'الكمية المرسلة',
     transaction_amount_total: 'الكمية الإجمالية',
     transaction_amount_waiting: 'ما زال يتعين إرسالها',

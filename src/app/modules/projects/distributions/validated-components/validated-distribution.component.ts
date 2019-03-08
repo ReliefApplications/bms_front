@@ -1,13 +1,15 @@
 import { Component, ViewChild, OnInit, Input, Output, EventEmitter, HostListener, DoCheck } from '@angular/core';
 import { DistributionData } from 'src/app/model/distribution-data';
 import { GlobalText } from 'src/texts/global';
-import { MatDialog, MatTableDataSource, MatSnackBar } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
-import { finalize } from 'rxjs/operators';
+import { finalize, distinct } from 'rxjs/operators';
+import { State } from 'src/app/model/transaction-beneficiary';
 
 @Component({
     template: '',
@@ -37,6 +39,8 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     enteredCode = '';
     chartAccepted = false;
 
+    distributionIsStored = false;
+
     @Input() actualDistribution: DistributionData;
     @Input() transactionData: MatTableDataSource<any>;
     @Input() distributionId: number;
@@ -56,6 +60,9 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         this.checkSize();
         this.refreshStatuses();
         this.loadingTransaction = false;
+        this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
+            (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
+        );
     }
 
     ngDoCheck(): void {
@@ -66,63 +73,56 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
 
     constructor(
         protected distributionService: DistributionService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public dialog: MatDialog,
-        private cacheService: AsyncacheService,
+        protected cacheService: AsyncacheService,
     ) { }
 
-
-    /**
-     * Calculate commodity distribution quantities & values.
-     */
-    getAmount(type: string, commodity?: any): number {
-        let amount: number;
-
-        if (!this.transactionData) {
-            amount = 0;
-        } else if (type === 'people') {
-            amount = 0;
-            this.transactionData.data.forEach(
-                element => {
-                    if (element.state === -1 || element.state === -2 || element.state === 0) {
-                        amount++;
-                    }
-                }
-            );
-        } else if (commodity) {
-            if (type === 'total') {
-                amount = commodity.value * this.transactionData.data.length;
-            } else if (type === 'sent') {
-                amount = 0;
-                this.transactionData.data.forEach(
-                    element => {
-                        if (element.used) {
-                            amount += commodity.value;
-                        }
-                    }
-                );
-            } else if (type === 'received') {
-                amount = 0;
-                this.transactionData.data.forEach(
-                    element => {
-                        if (element.state === 3) {
-                            amount += commodity.value;
-                        }
-                    }
-                );
-            } else if (type === 'ratio') {
-                let done = 0;
-                this.transactionData.data.forEach(
-                    element => {
-                        if (element.state === 1 || element.state === 2 || element.state === 3) {
-                            done += commodity.value;
-                        }
-                    }
-                );
-                amount = Math.round((done / (commodity.value * this.transactionData.data.length)) * 100);
+    getPeopleCount(): number {
+        const states = [State.NoPhone, State.NotSent, State.SendError];
+        let peopleCount = 0;
+        for (const beneficiary of this.transactionData.data) {
+            if (states.includes(beneficiary.state)) {
+                peopleCount ++;
             }
         }
-        return (amount);
+        return peopleCount;
+    }
+
+    getTotalCommodityValue(commodity: any): number {
+        return this.transactionData.data.length * commodity.value;
+    }
+
+
+
+    getReceivedValue(commodity: any): number {
+        let amountReceived = 0;
+        for (const beneficiary of this.transactionData.data) {
+            amountReceived += this.getCommodityReceivedAmountFromBeneficiary(commodity, beneficiary);
+        }
+        return amountReceived;
+    }
+
+    getPercentageValue(commodity: any): number {
+            return this.getAmountSent(commodity) / this.getTotalCommodityValue(commodity) * 100;
+    }
+
+    getAmountSent(commodity: any): number {
+        let amountSent = 0;
+        for (const beneficiary of this.transactionData.data) {
+            amountSent += this.getCommoditySentAmountFromBeneficiary(commodity, beneficiary);
+        }
+        return amountSent;
+    }
+
+    // Abstract
+    getCommoditySentAmountFromBeneficiary(commodity: any, beneficiary: any): number {
+        throw new Error('Abstract Method');
+    }
+
+    // Abstract
+    getCommodityReceivedAmountFromBeneficiary(commodity: any, beneficiary: any): number {
+        throw new Error('Abstract Method');
     }
 
     setTransactionMessage(beneficiary, i) {
@@ -159,23 +159,24 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         if (this.hasRights) {
             try {
                 this.distributionService.logs(this.distributionId).subscribe(
-                    e => { this.snackBar.open('' + e, '', { duration: 5000, horizontalPosition: 'center' }); },
-                    () => { this.snackBar.open('Logs have been sent', '', { duration: 5000, horizontalPosition: 'center' }); },
+                    e => { this.snackbar.error('' + e); },
+                    () => { this.snackbar.success('Logs have been sent'); },
                 );
             } catch (e) {
-                this.snackBar.open('Logs could not be sent : ' + e, '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackbar.error('Logs could not be sent : ' + e);
             }
         } else {
-            this.snackBar.open('Not enough rights to request logs', '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error('Not enough rights to request logs');
         }
     }
 
     storeBeneficiaries() {
         this.storeEmitter.emit();
+        this.distributionIsStored = true;
     }
 
     exit(message: string) {
-        this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
+        this.snackbar.info(message);
         this.dialog.closeAll();
     }
 
@@ -190,24 +191,21 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
                     anwser => {
                         if (anwser === 'Email sent') {
                             this.lastCodeSentTime = (new Date()).getTime();
-                            this.snackBar.open('Verification code has been sent at ' + this.actualUser.email,
-                                '', { duration: 5000, horizontalPosition: 'center' });
+                            this.snackbar.success('Verification code has been sent at ' + this.actualUser.email);
                         }
                     },
                     () => {
                         this.lastCodeSentTime = (new Date()).getTime();
-                        this.snackBar.open('Verification code has been sent at ' + this.actualUser.email,
-                            '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.success('Verification code has been sent at ' + this.actualUser.email);
                     }
                 )
                 .catch(
                     (err) => {
-                        this.snackBar.open('Could not send code :' + err, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.error('Could not send code :' + err);
                     }
                 );
         } else {
-            this.snackBar.open('The last code was sent less than 10 seconds ago, you should wait.',
-                '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error('The last code was sent less than 10 seconds ago, you should wait.');
         }
     }
 
@@ -282,31 +280,34 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
                             }
                         );
 
-                    let progression = 0;
-                    let peopleLeft = this.getAmount('waiting', this.actualDistribution.commodities[0]);
-                    peopleLeft = peopleLeft / this.actualDistribution.commodities[0].value;
+                    const progression = 0;
+                    // Je n'ai pas la moindre idée de l'utilité du code ci-dessous car il ne fonctionne pas,
+                    // je le laisse commenté pour le moment
+                    // Bises, Stan.
+                    // let peopleLeft = this.getAmount('waiting', this.actualDistribution.commodities[0]);
+                    // peopleLeft = peopleLeft / this.actualDistribution.commodities[0].value;
 
-                    this.interval = setInterval(() => {
-                        this.distributionService.checkProgression(this.distributionId)
-                            .subscribe(
-                                distributionProgression => {
-                                    if (distributionProgression) {
-                                        if (distributionProgression !== progression) {
-                                            progression = distributionProgression;
+                    // this.interval = setInterval(() => {
+                    //     this.distributionService.checkProgression(this.distributionId)
+                    //         .subscribe(
+                    //             distributionProgression => {
+                    //                 if (distributionProgression) {
+                    //                     if (distributionProgression !== progression) {
+                    //                         progression = distributionProgression;
 
-                                            this.progression = Math.floor((result / peopleLeft) * 100);
-                                        }
-                                    }
-                                }
-                            );
-                    }, 3000);
+                    //                         this.progression = Math.floor((result / peopleLeft) * 100);
+                    //                     }
+                    //                 }
+                    //             }
+                    //         );
+                    // }, 3000);
 
                 } else {
-                    this.snackBar.open(this.TEXT.distribution_no_valid_commodity, '', { duration: 5000, horizontalPosition: 'center' });
+                    this.snackbar.error(this.TEXT.distribution_no_valid_commodity);
                 }
             });
         } else {
-            this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 5000, horizontalPosition: 'right' });
+            this.snackbar.error(this.TEXT.distribution_no_right_transaction);
         }
 
         this.chartAccepted = false;

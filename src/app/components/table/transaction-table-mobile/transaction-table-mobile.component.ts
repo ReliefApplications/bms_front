@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TransactionTableComponent } from '../transaction-table/transaction-table.component';
+import { DistributionData } from 'src/app/model/distribution-data';
+import { GeneralRelief } from 'src/app/model/general-relief';
 
 
 @Component({
@@ -9,14 +11,5 @@ import { TransactionTableComponent } from '../transaction-table/transaction-tabl
 })
 export class TransactionTableMobileComponent extends TransactionTableComponent {
 
-    loading = true;
-    //
-    // constructor(
-    //     public mapperService: Mapper,
-    //     public dialog: MatDialog,
-    //     public distributionService: DistributionService,
-    //     public snackBar: MatSnackBar) {
-    //         super(mapperService, dialog, _cacheService, snackBar);
-    //     }
 
 }

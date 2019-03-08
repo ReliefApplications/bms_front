@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
 import { TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
-
+import { State } from 'src/app/model/transaction-beneficiary';
 
 @Component({
     selector: 'app-mobile-money',
@@ -9,6 +9,9 @@ import { TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
     styleUrls: ['../validated-distribution.component.scss', './mobile-money.component.scss']
 })
 export class MobileMoneyComponent extends ValidatedDistributionComponent implements OnInit {
+
+    sentStates = [State.Sent, State.AlreadySent, State.PickedUp];
+    receivedStates = [State.PickedUp];
 
     ngOnInit() {
         super.ngOnInit();
@@ -24,7 +27,15 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
         if (new Date() < distributionDate) {
             this.dialog.open(template);
         } else {
-            this.snackBar.open(this.TEXT.snackbar_invalid_transaction_date, '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(this.TEXT.snackbar_invalid_transaction_date);
         }
+    }
+
+    getCommoditySentAmountFromBeneficiary(commodity: any, beneficiary: any): number {
+        return (this.sentStates.includes(beneficiary.state) ? commodity.value : 0);
+    }
+
+    getCommodityReceivedAmountFromBeneficiary(commodity: any, beneficiary: any): number {
+        return (this.receivedStates.includes(beneficiary.state) ? commodity.value : 0);
     }
 }

@@ -483,6 +483,38 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 
   }
 
+// Snackbar
+snack-bar-container {
+    font-weight: bold;
+    simple-snack-bar.mat-simple-snackbar {
+        justify-content: space-around;
+        text-align: center;
+    }
+
+    &.snackbar-info {
+        background-color: $bms_black;
+        color: $bms_white;
+    }
+
+    &.snackbar-log {
+        background-color: $bms_dark_grey;
+        color: $bms_white;
+    }
+    &.snackbar-warning {
+        background-color: $bms_highlight;
+        color: $bms_black;
+    }
+    &.snackbar-error {
+        background-color: $bms_red;
+        color: $bms_white;
+    }
+    &.snackbar-success {
+        background-color: $bms_green;
+        color: $bms_white;
+    }
+}
+
+
 //for mobile screen
 @media only screen and (max-width: 750px) {
   .mat-stepper-horizontal {

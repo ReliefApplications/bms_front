@@ -7,7 +7,7 @@ import { Observable, concat, of, merge, timer } from 'rxjs';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { map } from 'rxjs/operators';
 import { NetworkService } from './network.service';
-import { MatSnackBar } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { StoredRequestInterface } from 'src/app/model/stored-request';
 import { element } from '@angular/core/src/render3/instructions';
 import { keyframes } from '@angular/animations';
@@ -24,7 +24,7 @@ export class HttpService {
         private http: HttpClient,
         private cacheService: AsyncacheService,
         private networkService: NetworkService,
-        private snackbar: MatSnackBar,
+        private snackbar: SnackbarService,
     ) {
     }
 
@@ -145,7 +145,7 @@ export class HttpService {
             this.exist = false;
             return of([]);
         } else {
-            this.snackbar.open('This data can\'t be accessed offline', '', { duration: 3000, horizontalPosition: 'center' });
+            this.snackbar.warning('This data can\'t be accessed offline');
             return of([]);
         }
     }
@@ -159,12 +159,11 @@ export class HttpService {
                 const method = 'PUT';
                 const request: StoredRequestInterface = { method, url, body, options, date };
                 this.cacheService.storeRequest(request);
-                this.snackbar.open('No network - This data creation will be sent to DB on next connection', '',
-                { duration: 3000, horizontalPosition: 'center' });
+                this.snackbar.warning('No network - This data creation will be sent to DB on next connection');
 
                 this.forceDataInCache(method, url, body);
             } else {
-                this.snackbar.open('No network connection to join DB', '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackbar.warning('No network connection to join DB');
             }
 
             return (of(null));
@@ -185,13 +184,12 @@ export class HttpService {
                 if (!urlSplitted.match(regex)) {
                     const request: StoredRequestInterface = { method, url, body, options, date };
                     this.cacheService.storeRequest(request);
-                    this.snackbar.open('No network - This data update will be sent to DB on next connection', '',
-                    { duration: 3000, horizontalPosition: 'center' });
+                    this.snackbar.warning('No network - This data update will be sent to DB on next connection');
                 }
 
                 this.forceDataInCache(method, url, body);
             } else {
-                this.snackbar.open('No network connection to join DB', '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackbar.warning('No network connection to join DB');
             }
 
             return (of(null));
@@ -209,12 +207,11 @@ export class HttpService {
                 const method = 'DELETE';
                 const request: StoredRequestInterface = { method, url, options, date };
                 this.cacheService.storeRequest(request);
-                this.snackbar.open('No network - This data deletion will be sent to DB on next connection', '',
-                { duration: 3000, horizontalPosition: 'center' });
+                this.snackbar.warning('No network - This data deletion will be sent to DB on next connection');
 
                 this.forceDataInCache(method, url, {});
             } else {
-                this.snackbar.open('No network connection to join DB', '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackbar.warning('No network connection to join DB');
             }
 
             return (of(null));
@@ -313,7 +310,7 @@ export class HttpService {
             });
 
             if (!match) {
-                this.snackbar.open('This item can\'t be manipulated offline', '', { duration: 3000, horizontalPosition: 'center' });
+                this.snackbar.warning('This item can\'t be manipulated offline');
             }
         }
     }

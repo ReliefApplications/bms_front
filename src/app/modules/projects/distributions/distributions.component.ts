@@ -6,7 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { DistributionData } from 'src/app/model/distribution-data';
 import { Beneficiaries } from 'src/app/model/beneficiary';
 import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
-import { MatTableDataSource, MatSnackBar, MatDialog, MatStepper } from '@angular/material';
+import { MatTableDataSource, MatDialog, MatStepper } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { Mapper } from 'src/app/core/utils/mapper.service';
 import { ImportedBeneficiary } from 'src/app/model/imported-beneficiary';
 import { TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
@@ -103,7 +104,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
         private route: ActivatedRoute,
         private beneficiariesService: BeneficiariesService,
         private userService: UserService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public mapperService: Mapper,
         private dialog: MatDialog,
         private networkService: NetworkService,
@@ -429,7 +430,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
         if (new Date() < distributionDate) {
             this.dialog.open(template);
         } else {
-            this.snackBar.open(GlobalText.TEXTS.snackbar_invalid_transaction_date, '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(GlobalText.TEXTS.snackbar_invalid_transaction_date);
         }
     }
 
@@ -445,7 +446,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                     .subscribe(
                         success => {
                             this.actualDistribution.validated = true;
-                            this.snackBar.open(this.TEXT.distribution_validated, '', { duration: 5000, horizontalPosition: 'center' });
+                            this.snackbar.success(this.TEXT.distribution_validated);
                             this.validateActualDistributionInCache();
                             this.getDistributionBeneficiaries('transaction');
                             this.cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + this.actualDistribution.id + '_beneficiaries')
@@ -462,14 +463,14 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                         },
                         error => {
                             this.actualDistribution.validated = false;
-                            this.snackBar.open(this.TEXT.distribution_not_validated, '', { duration: 5000, horizontalPosition: 'center' });
+                            this.snackbar.error(this.TEXT.distribution_not_validated);
                         }
                     );
             } else {
-                this.snackBar.open(this.TEXT.distribution_error_validate, '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackbar.error(this.TEXT.distribution_error_validate);
             }
         } else {
-            this.snackBar.open(this.TEXT.distribution_no_right_validate, '', { duration: 5000, horizontalPosition: 'right' });
+            this.snackbar.error(this.TEXT.distribution_no_right_validate);
         }
 
         this.dialog.closeAll();
@@ -553,12 +554,12 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                                     }
                                 }
                             );
-                        this.snackBar.open(this.TEXT.distribution_beneficiary_added, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.success(this.TEXT.distribution_beneficiary_added);
                         this.getDistributionBeneficiaries('final');
                     }
                 },
                 error => {
-                    this.snackBar.open(this.TEXT.distribution_beneficiary_not_added, '', { duration: 5000, horizontalPosition: 'center' });
+                    this.snackbar.error(this.TEXT.distribution_beneficiary_not_added);
                 });
     }
 
@@ -566,7 +567,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
      * To cancel on a dialog
      */
     exit(message: string) {
-        this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
+        this.snackbar.info(message);
         this.dialog.closeAll();
     }
 
@@ -599,14 +600,14 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
         if (this.hasRights) {
             try {
                 this.distributionService.logs(this.distributionId).subscribe(
-                    e => { this.snackBar.open('' + e, '', { duration: 5000, horizontalPosition: 'center' }); },
-                    () => { this.snackBar.open('Logs have been sent', '', { duration: 5000, horizontalPosition: 'center' }); },
+                    e => { this.snackbar.error('' + e); },
+                    () => { this.snackbar.success('Logs have been sent'); },
                 );
             } catch (e) {
-                this.snackBar.open('Logs could not be sent : ' + e, '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackbar.error('Logs could not be sent : ' + e);
             }
         } else {
-            this.snackBar.open('Not enough rights to request logs', '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error('Not enough rights to request logs');
         }
     }
 
@@ -665,8 +666,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                                 () => {
                                     // Data added in cache
                                     if (!this.hideSnack) {
-                                        this.snackBar.open(this.TEXT.cache_distribution_added,
-                                            '', { duration: 5000, horizontalPosition: 'center' });
+                                        this.snackbar.success(this.TEXT.cache_distribution_added);
                                     }
                                     this.hideSnack = false;
                                 }

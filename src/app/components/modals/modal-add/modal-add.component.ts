@@ -155,50 +155,50 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
         if (this.newObject.username || this.newObject.username === '') {
             const checkMail = new RegExp(/^[\w\.\+-]+@[\w-]+\.[\w-\.]+[a-z]+$/);
             if (!checkMail.test(this.newObject.username) || this.newObject.username === '') {
-                this.snackBar.open(this.modal.modal_add_invalid_mail, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_add_invalid_mail);
                 return;
             }
 
             if (this.newObject.password === '') {
-                this.snackBar.open(this.modal.modal_no_password, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_no_password);
                 return;
             }
 
             const checkPass = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/);
             if (!checkPass.test(this.newObject.password)) {
-                this.snackBar.open(this.modal.modal_not_enough_strong, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_not_enough_strong);
                 return;
             }
 
             if (this.newObject.rights === '') {
-                this.snackBar.open(this.modal.modal_add_no_right, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_add_no_right);
                 return;
             }
             if (this.newObject.rights === 'ROLE_PROJECT_MANAGER' ||
             this.newObject.rights === 'ROLE_PROJECT_OFFICER' ||
             this.newObject.rights === 'ROLE_FIELD_OFFICER') {
                 if (this.newObject.projects === undefined || Object.keys(this.newObject.projects).length === 0) {
-                    this.snackBar.open(this.modal.modal_no_project, '', { duration: 5000, horizontalPosition: 'right' });
+                    this.snackbar.error(this.modal.modal_no_project);
                     return;
                 }
             } else if (this.newObject.rights === 'ROLE_REGIONAL_MANAGER' ||
             this.newObject.rights === 'ROLE_COUNTRY_MANAGER' ||
             this.newObject.rights === 'ROLE_READ_ONLY') {
                 if (this.newObject.country === undefined) {
-                    this.snackBar.open(this.modal.modal_no_country, '', { duration: 5000, horizontalPosition: 'right' });
+                    this.snackbar.error(this.modal.modal_no_country);
                     return;
                 }
             }
         } else if ((this.newObject.countryIso3 && this.newObject.field && this.newObject.type) ||
         this.newObject.countryIso3 === '' || this.newObject.field === '') {
             if (this.newObject.field === '' || this.newObject.type === '') {
-                this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_check_fields);
                 return;
             }
         } else if ((this.newObject.fullname && this.newObject.shortname) || this.newObject.fullname === '' ||
         this.newObject.shortname === '') {
             if (this.newObject.fullname === '' || this.newObject.shortname === '') {
-                this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_check_fields);
                 return;
             }
         } else if ((this.newObject.donors && this.newObject.donors_name && this.newObject.name &&
@@ -207,12 +207,12 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
           (this.newObject.sectors && Object.keys(this.newObject.sectors).length === 0)) {
             if (!this.newObject.end_date || !this.newObject.name || !this.newObject.start_date ||
               !this.newObject.value || this.newObject.value < 0) {
-                this.snackBar.open(this.modal.modal_add_check_fields_budget, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_add_check_fields_budget);
                 return;
             }
 
             if (new Date(this.newObject.start_date) > new Date(this.newObject.end_date)) {
-                this.snackBar.open(this.modal.modal_check_date, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_check_date);
                 return;
             }
 
@@ -251,7 +251,7 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
 
             if (this.newObject.modality === '' || this.newObject.type === '' ||
             this.newObject.unit === '' || !this.newObject.value || this.newObject.value < 0) {
-                this.snackBar.open(this.modal.modal_add_check_fields_quantity, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_add_check_fields_quantity);
                 return;
             }
         }

@@ -5,7 +5,7 @@ import {
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { URL_BMS_API } from '../../../environments/environment';
-import { MatSnackBar } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { GlobalText } from '../../../texts/global';
 
 const api = URL_BMS_API;
@@ -14,7 +14,7 @@ const api = URL_BMS_API;
 export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(
-        public snackbar: MatSnackBar,
+        public snackbar: SnackbarService,
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
@@ -59,7 +59,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     showSnackbar(error: string): void {
-        this.snackbar.open(error, '', { duration: 5000, horizontalPosition: 'center' });
+        this.snackbar.error(error);
     }
 
 }

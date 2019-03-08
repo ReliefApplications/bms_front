@@ -410,7 +410,6 @@ export class AsyncacheService implements OnInit {
     checkForBeneficiaries(distribution): Observable<boolean> {
         return this.get(AsyncacheService.DISTRIBUTIONS + '_' + distribution.id + '_beneficiaries').pipe(
             map(distrib => {
-                console.log(AsyncacheService.DISTRIBUTIONS + '_' + distribution.id + '_beneficiaries', distrib);
                 return distrib ? true : false;
             })
         );

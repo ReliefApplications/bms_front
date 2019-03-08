@@ -32,8 +32,8 @@ export class AppObjectField {
     isUpdatable: boolean;
 
     /**
-     * @param {properties} properties Properties object
-     * */
+     * @param  {Object} properties
+     */
     constructor(properties: Object) {
         properties = AppObjectField.fillWithDefault(properties);
 

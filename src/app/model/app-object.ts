@@ -1,6 +1,6 @@
 export abstract class AppObject {
 
-    private fields: Object;
+    private fieldsInfo: Object;
 
     public abstract apiToModel(): Object;
     public abstract modelToApi(object: Object): void;

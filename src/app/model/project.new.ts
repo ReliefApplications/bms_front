@@ -67,7 +67,7 @@ export class NewProject implements AppObject {
      * @type {string}
      */
     notes: string;
-    private fields = {
+    private fieldsInfo = {
         id : new AppObjectField(
             {
                 isHidden: true,
@@ -75,25 +75,64 @@ export class NewProject implements AppObject {
         ),
         name : new AppObjectField(
             {
-                required: true,
-                displayedInTable: true,
+                isDisplayedInTable: true,
+                isRequired: true,
+                isSettable: true,
             }
         ),
         sectors_name : new AppObjectField(
             {
+                isMultipleSelect: true,
+                isDisplayedInTable: true,
+                isSettable: true,
+            }
+        ),
+        sectors : new AppObjectField(
+            {
+                isDisplayedInTable: true,
+            }
+        ),
+        start_date : new AppObjectField(
+            {
+                isDisplayedInTable: true,
+                isSettable: true,
+            }
+        ),
+        end_date : new AppObjectField(
+            {
+                isDisplayedInTable: true,
+                isSettable: true,
+            }
+        ),
+        number_of_households : new AppObjectField(
+            {
+                isDisplayedInTable: true,
+            }
+        ),
+        donors_name : new AppObjectField(
+            {
+                isDisplayedInTable: true,
+                isSettable: true,
+            }
+        ),
+        donors : new AppObjectField(
+            {
 
             }
-
         ),
-        sectors : new AppObjectField({}),
-        start_date : new AppObjectField({}),
-        end_date : new AppObjectField({}),
-        number_of_households : new AppObjectField({}),
-        donors_name : new AppObjectField({}),
-        donors : new AppObjectField({}),
-        iso3 : new AppObjectField({}),
-        value : new AppObjectField({}),
+        iso3 : new AppObjectField(
+            {
+
+            }
+        ),
+        value : new AppObjectField(
+            {
+                required: true,
+                isSettable: true,
+            }
+        ),
     };
+
     constructor(instance?) {
         if (instance !== undefined) {
             this.id = instance.id;

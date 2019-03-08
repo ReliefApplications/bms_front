@@ -53,7 +53,7 @@
                 <ng-container *ngIf="transactionData !== undefined">
                     <div class="button-with-extension"
                     *ngIf="actualDistribution.commodities[0].modality_type.name === 'Voucher' || getTotalSentCommoditiesValue()">
-                        <button mat-raised-button class="button-background-primary" (click)="dialog.open(infoExport)"
+                        <button mat-raised-button class="button-background-primary" (click)="exportTransaction()"
                             *ngIf="!loadingExport">
                             <mat-icon>get_app</mat-icon>
                             <span>{{TEXT.export | titlecase}}</span>

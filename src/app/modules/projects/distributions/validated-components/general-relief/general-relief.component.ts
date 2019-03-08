@@ -58,4 +58,10 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         });
     }
 
+    getCommoditySentAmountFromBeneficiary(commodity: any, beneficiary: any): number {
+        const commodityIndex = this.actualDistribution.commodities.indexOf(commodity);
+        const beneficiariesCommodity = beneficiary.generalReliefs[commodityIndex];
+        return (beneficiariesCommodity.distributed_at ? commodity.value : 0 );
+    }
+
 }

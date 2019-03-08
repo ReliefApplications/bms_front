@@ -418,6 +418,7 @@ export const TEXT = {
     // Transaction
     transaction_accept_prevention: 'J\'accepte ces conditions.',
     transaction_again: 'Renvoyer',
+    transaction_amount_distributed: 'Quantité distribuée',
     transaction_amount_done: 'Quantité envoyée',
     transaction_amount_total: 'Quantité totale',
     transaction_amount_waiting: 'Reste à envoyer',

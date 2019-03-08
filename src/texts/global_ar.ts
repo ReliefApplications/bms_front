@@ -418,6 +418,7 @@ export const TEXT = {
     // Transaction
     transaction_accept_prevention: 'أنا أوافق على هذه الشروط.',
     transaction_again: 'أعد الإرسال',
+    transaction_amount_distributed: 'Amount distributed',
     transaction_amount_done: 'الكمية المرسلة',
     transaction_amount_total: 'الكمية الإجمالية',
     transaction_amount_waiting: 'ما زال يتعين إرسالها',

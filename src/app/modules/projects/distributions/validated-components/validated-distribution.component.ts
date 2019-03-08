@@ -12,7 +12,7 @@ import { finalize, distinct } from 'rxjs/operators';
 import { State } from 'src/app/model/transaction-beneficiary';
 
 @Component({
-    template: '',
+    template: './validated-distribution.component.html',
     styleUrls: ['./validated-distribution.component.scss']
 })
 export class ValidatedDistributionComponent implements OnInit, DoCheck {

@@ -177,10 +177,6 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         this.dialog.closeAll();
     }
 
-    exportTransaction() {
-        this.exportEmitter.emit(this.exportTypeTransaction);
-    }
-
     codeVerif() {
         if ((new Date()).getTime() - this.lastCodeSentTime > this.SENDING_CODE_FREQ) {
             this.distributionService.sendCode(this.distributionId).toPromise()

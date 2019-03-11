@@ -50,34 +50,31 @@
                         </button>
                     </mat-menu>
                 </div>
-                <ng-container *ngIf="transactionData !== undefined">
-                    <div class="button-with-extension"
-                    *ngIf="actualDistribution.commodities[0].modality_type.name === 'Voucher' || getTotalSentCommoditiesValue()">
-                        <button mat-raised-button class="button-background-primary" (click)="exportTransaction()"
-                            *ngIf="!loadingExport">
-                            <mat-icon>get_app</mat-icon>
-                            <span>{{TEXT.export | titlecase}}</span>
-                        </button>
-                        <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-                        <div class="extension" *ngIf="!loadingExport">
-                            <div mat-button class="dropdown" [matMenuTriggerFor]="exportTypeTransaction"
-                                [ngClass]="{'arabic':language==='ar'}">
-                                <mat-icon>keyboard_arrow_down</mat-icon>
-                            </div>
-                            <mat-menu #exportTypeTransaction class="extMenu">
-                                <button mat-menu-item (click)="extensionType = 'xls'"> .xls <mat-icon
-                                        *ngIf="extensionType=='xls'">done</mat-icon>
-                                </button>
-                                <button mat-menu-item (click)="extensionType = 'csv'"> .csv <mat-icon
-                                        *ngIf="extensionType=='csv'">done</mat-icon>
-                                </button>
-                                <button mat-menu-item (click)="extensionType = 'ods'"> .ods <mat-icon
-                                        *ngIf="extensionType=='ods'">done</mat-icon>
-                                </button>
-                            </mat-menu>
+                <div class="button-with-extension">
+                    <button mat-raised-button class="button-background-primary" (click)="exportTransaction()"
+                        *ngIf="!loadingExport">
+                        <mat-icon>get_app</mat-icon>
+                        <span>{{TEXT.export | titlecase}}</span>
+                    </button>
+                    <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+                    <div class="extension" *ngIf="!loadingExport">
+                        <div mat-button class="dropdown" [matMenuTriggerFor]="exportTypeTransaction"
+                            [ngClass]="{'arabic':language==='ar'}">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
                         </div>
+                        <mat-menu #exportTypeTransaction class="extMenu">
+                            <button mat-menu-item (click)="extensionType = 'xls'"> .xls <mat-icon
+                                    *ngIf="extensionType=='xls'">done</mat-icon>
+                            </button>
+                            <button mat-menu-item (click)="extensionType = 'csv'"> .csv <mat-icon
+                                    *ngIf="extensionType=='csv'">done</mat-icon>
+                            </button>
+                            <button mat-menu-item (click)="extensionType = 'ods'"> .ods <mat-icon
+                                    *ngIf="extensionType=='ods'">done</mat-icon>
+                            </button>
+                        </mat-menu>
                     </div>
-                </ng-container>
+                </div>
             </div>
         </div>
 

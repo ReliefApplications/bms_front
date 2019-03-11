@@ -49,4 +49,13 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
         }
         return peopleCount;
     }
+
+    exportTransaction() {
+        if (this.getTotalSentCommoditiesValue()) {
+            this.exportEmitter.emit(this.exportTypeTransaction);
+        }
+        else {
+            this.snackbar.error(this.TEXT.transaction_no_transaction_sent);
+        }
+    }
 }

@@ -323,5 +323,16 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
 
     trackByFn(i: number) {
         return i;
-      }
+    }
+
+    onFileChange(property, event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+            this.uploadService.uploadImage(formData).subscribe(fileUrl => {
+                // this.newObject[property] = fileUrl;
+            });
+        }
+    }
 }

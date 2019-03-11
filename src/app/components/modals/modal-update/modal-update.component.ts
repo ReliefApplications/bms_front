@@ -19,6 +19,7 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
     @Input() data: any;
     @Output() onUpdate = new EventEmitter();
     updateObject: any;
+    filename = '';
 
     ngOnInit() {
         this.entityInstance = this.data.mapper.instantiate(this.data.entity);
@@ -289,4 +290,17 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
     trackByFn(i: number) {
         return i;
       }
+
+    onFileChange(property, event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.filename = file.name;
+
+            const formData = new FormData();
+            formData.append('file', file);
+            this.uploadService.uploadImage(formData).subscribe(fileUrl => {
+                // this.updateObject[property] = fileUrl;
+            });
+        }
+    }
 }

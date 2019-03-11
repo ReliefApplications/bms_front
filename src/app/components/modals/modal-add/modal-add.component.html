@@ -12,7 +12,7 @@
       <th class="table-title checkbox-line" *ngIf="propertiesTypes[p]==='checkbox'">{{mapperObject[p] | titlecase }}</th>
       <th class="table-value">
                 <form class="form" [formGroup]="form" ngNoForm>
-                    <mat-form-field class="general" *ngIf="propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
+                    <mat-form-field class="general" *ngIf="propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
                         class="full-width">
 
             <input matInput [maxlength]="this.maxLength" *ngIf="propertiesTypes[p]=='text'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
@@ -115,6 +115,14 @@
               </span>
             </div>
           </mat-form-field>
+
+          <div *ngIf="propertiesTypes[p]=='document'" class="input-file">
+              <label for="file"><mat-icon>cloud_upload</mat-icon></label>
+              <input type="file" id="file" (change)="onFileChange(p, $event)" #fileInput>
+              <p *ngIf="filename">{{ filename }}</p>
+              <p *ngIf="!filename">No file chosen</p>
+          </div>
+
         </form>
       </th>
     </tr>

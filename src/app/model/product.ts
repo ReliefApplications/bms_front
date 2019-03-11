@@ -87,7 +87,7 @@ export class Product {
         return {
             name: 'text',
             unit: 'text',
-            image: 'text',
+            image: 'document',
         };
     }
 
@@ -155,7 +155,7 @@ export class Product {
         return {
             name: 'text',
             unit: 'text',
-            image: 'text',
+            image: 'document',
         };
     }
 

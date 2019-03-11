@@ -1,8 +1,8 @@
 export abstract class AppObject {
 
-    private fieldsInfo: Object;
+    public fields: object;
 
-    public abstract apiToModel(): Object;
-    public abstract modelToApi(object: Object): void;
-    public abstract getDisplayedName(): Object;
+    public abstract apiToModel(): object;
+    public abstract modelToApi(object: object): void;
+    public abstract getDisplayedName(): object;
 }

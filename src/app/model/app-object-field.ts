@@ -1,5 +1,10 @@
-export class AppObjectField {
+export class AppObjectField<objectType> {
 
+    /**
+     * Described field
+     * @type {objectType}
+     */
+    field: objectType;
     /**
      * Is the field displayed in modals?
      * @type {boolean}
@@ -32,9 +37,14 @@ export class AppObjectField {
     isUpdatable: boolean;
 
     /**
-     * @param  {Object} properties
+     * @typedef {Object} Props
+     * @property {boolean} isDisplayedInModals
      */
-    constructor(properties: Object) {
+
+    /**
+     * @param  {Props} properties
+     */
+    constructor(properties: object) {
         properties = AppObjectField.fillWithDefault(properties);
 
         this.isDisplayedInModals = properties['displayedInModals'];

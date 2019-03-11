@@ -24,7 +24,6 @@
                 [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
 
             <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="0">
-
                         <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
                             matInput [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
                             placeholder="{{data.mapper.mapTitle(p)}}">

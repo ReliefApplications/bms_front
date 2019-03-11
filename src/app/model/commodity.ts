@@ -35,7 +35,7 @@ export class Commodity {
     type = '';
     /**
      * Commodity's unit
-     * @type {spring}
+     * @type {string}
      */
     unit = '';
     /**

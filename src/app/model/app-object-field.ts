@@ -1,10 +1,10 @@
-export class AppObjectField<objectType> {
+export class AppObjectField<T> {
 
     /**
      * Described field
-     * @type {objectType}
+     * @type {T}
      */
-    field: objectType;
+    field: T;
     /**
      * Is the field displayed in modals?
      * @type {boolean}

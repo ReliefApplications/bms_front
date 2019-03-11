@@ -3,7 +3,7 @@ import { Donor } from './donor';
 import { AppObject } from './app-object';
 import { AppObjectField } from './app-object-field';
 
-export class NewProject extends AppObject {
+export class Project extends AppObject {
 
     public fields = {
         id : new AppObjectField<number>(
@@ -18,7 +18,7 @@ export class NewProject extends AppObject {
                 isSettable: true,
             }
         ),
-        sectors_name : new AppObjectField<string[]>(
+        sectorsName : new AppObjectField<string[]>(
             {
                 isMultipleSelect: true,
                 isDisplayedInTable: true,
@@ -30,24 +30,24 @@ export class NewProject extends AppObject {
                 isDisplayedInTable: true,
             }
         ),
-        start_date : new AppObjectField<Date>(
+        startDate : new AppObjectField<Date>(
             {
                 isDisplayedInTable: true,
                 isSettable: true,
             }
         ),
-        end_date : new AppObjectField<Date>(
+        endDate : new AppObjectField<Date>(
             {
                 isDisplayedInTable: true,
                 isSettable: true,
             }
         ),
-        number_of_households : new AppObjectField<number>(
+        numberOfHouseholds : new AppObjectField<number>(
             {
                 isDisplayedInTable: true,
             }
         ),
-        donors_name : new AppObjectField<string[]>(
+        donorsName : new AppObjectField<string[]>(
             {
                 isDisplayedInTable: true,
                 isSettable: true,

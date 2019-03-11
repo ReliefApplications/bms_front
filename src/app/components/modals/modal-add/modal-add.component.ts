@@ -262,10 +262,6 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
     }
 
     /**
-     * @Barbara Ne lis pas trop stp, genre tu peux merger c'est bon ça marche
-     * @Vraiment pas
-     * @Non
-     * @STOP
      * @todo REWRITE THIS
      */
     unitType(): string {

@@ -129,7 +129,6 @@ export class Commodity {
 
 
     static getUnit(type: number): string {
-        console.log(type);
         switch (type) {
             case 1: // Mobile Cash
                 return 'Currency';

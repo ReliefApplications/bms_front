@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-
 import { AsyncacheService } from '../storage/asyncache.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +14,16 @@ export class AuthGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (this.cache.getUser()) {
-            // Logged in so return true
-            return true;
-        }
+        return this.cache.getUser()
+            .pipe(
+                map(user => {
+                    if (!user.id) {
+                        this.router.navigate(['/login']);
+                        return false;
+                    }
 
-        // Not logged in so redirect to login page with the return url
-        this.router.navigate(['/login']);
-        return false;
+                    return true;
+                })
+            );
     }
 }

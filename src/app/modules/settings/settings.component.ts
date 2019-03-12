@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { Subscription } from 'rxjs';
 
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { DistributionService } from '../../core/api/distribution.service';
@@ -67,6 +68,7 @@ export class SettingsComponent implements OnInit, DoCheck {
     hasRights: boolean;
     public deletable = true;
     public printable = false;
+    public httpSubscriber: Subscription;
 
     constructor(
         public dialog: MatDialog,
@@ -113,6 +115,9 @@ export class SettingsComponent implements OnInit, DoCheck {
   }
 
   selectTitle(title): void {
+    if (this.httpSubscriber) {
+      this.httpSubscriber.unsubscribe();
+    }
     this.getData(title);
     this.isBoxClicked = true;
     this.selectedTitle = title;
@@ -221,7 +226,7 @@ export class SettingsComponent implements OnInit, DoCheck {
     load(title): void {
         this.hasRights = false;
 
-        this.referedClassService.get().
+        this.httpSubscriber = this.referedClassService.get().
             pipe(
                 finalize(
                     () => {

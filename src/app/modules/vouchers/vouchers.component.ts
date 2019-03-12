@@ -317,7 +317,6 @@ export class VouchersComponent implements OnInit {
   }
 
   createElement(createElement: Object) {
-    createElement = this.bookletClass.formatForApi(createElement);
     this.bookletService.create(createElement).subscribe(
       () => {
         this.getBooklets();

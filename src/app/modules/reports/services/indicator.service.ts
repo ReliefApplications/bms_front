@@ -31,12 +31,14 @@ export class IndicatorService {
         return this.http.post(url, body);
     }
 
-    public exportReportData(graphsToExportId: Indicator[], filters: any) {
-        const requests = graphsToExportId.map(indicator => {
-            const url = `${this.api}/export/${indicator.id}`;
-            return this.http.post(url, filters, {responseType: 'blob'});
-        });
-
-        return forkJoin(requests);
+    public exportReportData(indicatorsId: number[], frequency: string, projectsId: number[], distributionsId: number[], fileType: string) {
+        const body = {
+            indicators: indicatorsId,
+            frequency: frequency,
+            projects: projectsId,
+            distributions: distributionsId
+        };
+        const url = `${URL_BMS_API}/export?reporting=true&type=${fileType}`;
+        return this.http.post(url, body, {responseType: 'blob'});
     }
 }

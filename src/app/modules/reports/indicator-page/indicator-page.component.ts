@@ -86,6 +86,9 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
     public selectedProject: string[] = [];
     public selectedDistribution: string[] = [];
 
+    // Defines the type of the file to export
+    exportFileType = 'xls';
+
     constructor(
         public titleCase: TitleCasePipe,
         public indicatorService: IndicatorService,
@@ -424,23 +427,35 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
         );
     }
 
-    // DOWNLOAD PDF OF GRAPHS
-    export(fileType: string = 'xls') {
+    /**
+     * Export the reporting data in one of the following format:
+     * xls, csv, ods or pdf
+     */
+    export() {
         this.isDownloading = true;
 
-        if (fileType !== 'pdf') {
-            const graphsToExport: Indicator[] = this.indicators
-                .filter(indicator => indicator.type === this.type);
+        // If we choose a period, we get the value from selectedPeriodFrequency
+        const frequency = this.frequency !== 'Period' ? this.frequency : this.selectedPeriodFrequency;
 
-            const filters = {
-                frequency: this.frequency
-            };
+        // If the format is not a pdf, we generate the export in the API
+        if (this.exportFileType !== 'pdf') {
+            // Select the desired indicators and format them in the format id,id,id,...
+            const indicatorsId = this.indicators
+                .filter(indicator => indicator.type === this.type)
+                .map(indicator => indicator.id);
 
-            this.indicatorService.exportReportData(graphsToExport, {filters, fileType}).subscribe(response => {
+            // Format the projects and the distributions like the indicators above
+            const projects = this.selectedProject.length > 0 ? this.selectedProject : this.projectList;
+            const projectsId = projects.map(project => parseInt(project, 10));
+            const distributions = this.selectedDistribution.length > 0 ? this.selectedDistribution : this.distributionList;
+            const distributionsId =  distributions.map(distribution => parseInt(distribution, 10));
+
+            // Call the service to get the data we want
+            this.indicatorService.exportReportData(indicatorsId, frequency, projectsId, distributionsId, this.exportFileType)
+            .subscribe(response => {
                 this.isDownloading = false;
-                response.forEach((res, i) => {
-                    saveAs(res, `${graphsToExport[i].full_name}.${fileType}`);
-                });
+                // Force download
+                saveAs(response, `reports.${this.exportFileType}`);
             }, err => {
                 this.snackBar.error(err.error.message);
                 this.isDownloading = false;

@@ -65,7 +65,12 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
     }
 
     exportTransaction() {
-        this.exportEmitter.emit(this.exportTypeTransaction);
+        this.exportEmitter.emit(
+            {
+                type: this.exportTypeTransaction,
+                distribution: 'generalrelief'
+            }
+        );
     }
 
 }

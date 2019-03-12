@@ -51,11 +51,11 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
     }
 
     exportTransaction() {
-        if (this.getTotalSentCommoditiesValue()) {
-            this.exportEmitter.emit(this.exportTypeTransaction);
-        }
-        else {
-            this.snackbar.error(this.TEXT.transaction_no_transaction_sent);
-        }
+        this.exportEmitter.emit(
+            {
+                type: this.exportTypeTransaction,
+                distribution: 'transaction'
+            }
+        );
     }
 }

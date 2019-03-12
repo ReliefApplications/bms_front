@@ -407,11 +407,11 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     /**
      * Requests back-end a file containing informations about the transaction
      */
-    exportTransaction(fileType: string) {
+    exportTransaction(exportInformation: any) {
 
         this.dialog.closeAll();
         this.loadingExport = true;
-        this.distributionService.export('transaction', this.extensionTypeTransaction, this.distributionId).then(
+        this.distributionService.export(exportInformation.distribution, exportInformation.type, this.distributionId).then(
             () => {
                 this.loadingExport = false;
             }

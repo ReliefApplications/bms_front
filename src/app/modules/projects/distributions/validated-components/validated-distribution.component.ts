@@ -47,8 +47,8 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     @Input() hasRights = false;
     @Input() hasRightsTransaction = false;
 
-    @Output() exportEmitter: EventEmitter<string> = new EventEmitter();
-    @Output() storeEmitter: EventEmitter<void> = new EventEmitter();
+    @Output() exportEmitter: EventEmitter<Object> = new EventEmitter();
+    @Output() storeEmitter: EventEmitter<any> = new EventEmitter();
 
 
     @HostListener('window:resize', ['$event'])
@@ -78,19 +78,9 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         protected cacheService: AsyncacheService,
     ) { }
 
-    getTotalSentCommoditiesValue(): number {
-        let totalSentCommoditiesValue = 0;
-        for (const commodity of this.actualDistribution.commodities) {
-            totalSentCommoditiesValue += this.getAmountSent(commodity);
-        }
-        return totalSentCommoditiesValue;
-    }
-
     getTotalCommodityValue(commodity: any): number {
         return this.transactionData.data.length * commodity.value;
     }
-
-
 
     getReceivedValue(commodity: any): number {
         let amountReceived = 0;

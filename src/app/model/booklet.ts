@@ -215,12 +215,12 @@ export class Booklet {
         }
 
         return {
+            number_booklets: selfinstance.number_booklets ? selfinstance.number_booklets : 1,
             number_vouchers: selfinstance.number_vouchers ? selfinstance.number_vouchers : 1,
             individual_to_all: selfinstance.individual_to_all ? selfinstance.individual_to_all : false,
             individual_value: selfinstance.individual_value,
             individual_values: selfinstance.individual_values,
             currency: selfinstance.currency,
-            number_booklets: selfinstance.number_booklets ? selfinstance.number_booklets : 1,
             password: selfinstance.password
         };
     }

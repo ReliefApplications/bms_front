@@ -473,7 +473,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 const promise = this._distributionService.add(newDistribution);
                 if (promise) {
                     promise.toPromise().then(response => {
-                        this.snackbar.error(this.distribution.distribution + ' : ' + response.distribution.name +
+                        this.snackbar.success(this.distribution.distribution + ' : ' + response.distribution.name +
                         this.distribution.add_distribution_created);
                         this.router.navigate(['projects/distributions/' + response.distribution.id]);
                     });

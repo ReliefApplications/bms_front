@@ -59,9 +59,9 @@ export class VouchersComponent implements OnInit {
   });
 
   public storeChoice = {
-    project: 0,
-    distribution: 0,
-    beneficiary: 0,
+    project: '',
+    distribution: '',
+    beneficiary: '',
   };
 
   public distributionName = '';

@@ -115,7 +115,7 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     setTransactionMessage(beneficiary, i) {
 
         this.transactionData.data[i].message = beneficiary.transactions[beneficiary.transactions.length - 1].message ?
-            beneficiary.transactions[beneficiary.transactions.length].message : '';
+            beneficiary.transactions[beneficiary.transactions.length - 1].message : '';
     }
 
     refreshStatuses() {

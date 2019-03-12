@@ -609,19 +609,14 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
 
     getProjectDates() {
         this._projectService.get().subscribe(
-            result => {
-                const projects = result;
-                let keyForProject;
-
-                Object.keys(projects).forEach(key => {
-                    if (projects[key].id === this.queryParams.project) {
-                        keyForProject = key;
+            (projects: Project[]) => {
+                projects.forEach(project => {
+                    if (project.id === this.queryParams.project) {
+                        this.projectInfo.startDate = project.start_date;
+                        this.projectInfo.endDate = project.end_date;
                         return;
                     }
                 });
-
-                this.projectInfo.startDate = projects[keyForProject].start_date;
-                this.projectInfo.endDate = projects[keyForProject].end_date;
             }
         );
     }

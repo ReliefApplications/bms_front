@@ -53,7 +53,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         const reader = new FileReader();
         reader.onload = (event: any) => {
             const error = <string>reader.result;
-            this.showSnackbar(error.substring(1, error.length - 1));
+            this.showSnackbar(error.replace(/(^"|"$)/g, ''));
         };
         reader.readAsText(convertedBlob);
     }

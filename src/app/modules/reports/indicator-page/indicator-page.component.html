@@ -23,10 +23,21 @@
 
                 <div class="frequency action-buttons">
                     <mat-spinner [diameter]='25' *ngIf="isDownloading"></mat-spinner>
-                    <button *ngIf="!isDownloading" mat-raised-button class="button-background-primary" (click)="downloadPDF()">
-                        <mat-icon>get_app</mat-icon>
-                        <span>{{indicator.export | titlecase}}</span>
-                    </button>
+                    <div class="extension button-with-extension" *ngIf='!isDownloading'>
+                        <button mat-raised-button class="button-background-primary" (click)="export()">
+                            <mat-icon>get_app</mat-icon>
+                            <span>{{indicator.export | titlecase}}</span>
+                        </button>
+                        <div mat-button class="dropdown" [ngClass]="{'arabic':language==='ar'}" [matMenuTriggerFor]="exportType">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                        </div>
+                        <mat-menu #exportType>
+                            <button mat-menu-item (click)="export('xls')">.xls</button>
+                            <button mat-menu-item (click)="export('csv')">.csv</button>
+                            <button mat-menu-item (click)="export('ods')">.ods</button>
+                            <button mat-menu-item (click)="export('pdf')">.pdf</button>
+                        </mat-menu>
+                    </div>
                 </div>
             </div>
 

@@ -414,9 +414,6 @@ export class DistributionData {
         if (selfinstance.commodities && selfinstance.commodities.length > 0) {
             selfinstance.commodities.forEach(
                 com => {
-                    if (com.modality_type.name === 'Mobile') {
-                        com.modality_type.name = 'Mobile Cash';
-                    }
                     commodity = commodity === '' ? com.modality_type.name : commodity + ' - ' + com.modality_type.name;
                 }
             );

@@ -127,6 +127,27 @@ export class Commodity {
         return commodity;
     }
 
+
+    static getUnit(type: number): string {
+        switch (type) {
+            case 1: // Mobile Cash
+                return 'Currency';
+            case 2: // QR Code Voucher
+                return 'Unit';
+            case 3: // Food
+            case 4: // RTE Kit
+            case 6: // Agricultural Kit
+            case 7: // Wash kit
+                return 'Kit';
+            case 5: // Bread
+                return 'Kgs';
+            case 8: // Loan
+                return 'Currency';
+            default:
+                return 'Unit';
+        }
+    }
+
     /**
     * return a Commodity after formatting its properties
     */
@@ -182,4 +203,5 @@ export class Commodity {
             value: 'number',
         };
     }
+
 }

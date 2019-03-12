@@ -90,10 +90,6 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
                         }
                         this.selected(this.newObject);
                     }, 0);
-
-                    if (element === 'unit') {
-                        this.newObject[element] = 'USD';
-                    }
                 }
             );
         }
@@ -265,22 +261,8 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
      * @todo REWRITE THIS
      */
     unitType(): string {
-        if (!this.newObject) {
-            return 'Unit';
-        }
-        switch (this.newObject.modality) {
-            case 1:
-                return 'Currency';
-            case 2:
-                switch (this.newObject.type) {
-                    case 2:
-                        return 'Type';
-                    default:
-                        return 'Kit';
-
-                }
-            default:
-                return 'Currency';
+        if (this.newObject ) {
+            return Commodity.getUnit(this.newObject.type);
         }
     }
 }

@@ -51,7 +51,7 @@
                     </mat-menu>
                 </div>
                 <div class="button-with-extension">
-                    <button mat-raised-button class="button-background-primary" (click)="dialog.open(infoExport)"
+                    <button mat-raised-button class="button-background-primary" (click)="exportTransaction()"
                         *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{TEXT.export | titlecase}}</span>
@@ -140,24 +140,6 @@
         </div>
     </div>
 </div>
-
-<ng-template #infoExport>
-    <mat-dialog-content class="modal-container">
-        <h4 class="modal-title underline-accent stickyHeader">{{ TEXT.export  | titlecase }}</h4>
-        <div class="dialog-template">
-            <div class="modal-body">
-                <p>{{ TEXT.transaction_info_export }}</p>
-            </div>
-
-            <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':language==='ar'}">
-                <button mat-button class="button-text-accent" (click)="exit('Export canceled')">{{TEXT.cancel}}</button>
-                <button mat-button class="button-background-accent"
-                    (click)="exportTransaction()">{{TEXT.export}}</button>
-            </div>
-        </div>
-    </mat-dialog-content>
-</ng-template>
-
 
 <ng-template #transaction>
     <mat-dialog-content class="modal-container">

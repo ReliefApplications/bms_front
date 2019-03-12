@@ -257,6 +257,9 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
         this.closeDialog();
     }
 
+    /**
+     * @todo REWRITE THIS
+     */
     unitType(): string {
         if (this.newObject ) {
             return Commodity.getUnit(this.newObject.type);

@@ -3,6 +3,8 @@ import { HttpService } from '../../../core/api/http.service';
 
 // Constants
 import { URL_BMS_API } from '../../../../environments/environment';
+import { forkJoin } from 'rxjs';
+import { Indicator } from 'src/app/model/indicator';
 
 @Injectable({
     providedIn: 'root'
@@ -27,5 +29,14 @@ export class IndicatorService {
     public serveIndicator(body: any, id) {
         const url = this.api + '/serve/' + id;
         return this.http.post(url, body);
+    }
+
+    public exportReportData(graphsToExportId: Indicator[], filters: any) {
+        const requests = graphsToExportId.map(indicator => {
+            const url = `${this.api}/export/${indicator.id}`;
+            return this.http.post(url, filters, {responseType: 'blob'});
+        });
+
+        return forkJoin(requests);
     }
 }

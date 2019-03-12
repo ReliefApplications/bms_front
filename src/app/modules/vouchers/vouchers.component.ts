@@ -325,4 +325,8 @@ export class VouchersComponent implements OnInit {
         });
         return !error ? this._exportService.printManyVouchers(bookletIds) : null;
     }
+
+    export() {
+        this._exportService.export('booklets', true, this.extensionType);
+      }
 }

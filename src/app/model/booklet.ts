@@ -64,7 +64,6 @@ export class Booklet {
      * @type {number}
      */
     distribution_beneficiary: number;
-
     /**
      * Booklet set individual for all
      * @type {boolean}
@@ -111,7 +110,9 @@ export class Booklet {
             currency: GlobalText.TEXTS.model_currency,
             status: GlobalText.TEXTS.model_state,
             password: GlobalText.TEXTS.model_password,
-            distribution_beneficiary: GlobalText.TEXTS.model_distribution_beneficiary,
+            distribution: GlobalText.TEXTS.distribution,
+            beneficiary: GlobalText.TEXTS.beneficiary,
+
             individual_to_all: GlobalText.TEXTS.model_individual_to_all,
             number_booklets: GlobalText.TEXTS.model_number_booklets,
         };
@@ -183,7 +184,8 @@ export class Booklet {
             individual_values: selfinstance.individual_values,
             currency: selfinstance.currency,
             status: selfinstance.status,
-            distribution_beneficiary: selfinstance.distribution_beneficiary ? selfinstance.distribution_beneficiary.id : null,
+            distribution: selfinstance.distribution_beneficiary ? selfinstance.distribution_beneficiary.distribution_data.name : null,
+            beneficiary: selfinstance.distribution_beneficiary ? selfinstance.distribution_beneficiary.beneficiary.given_name : null
         };
     }
 
@@ -203,6 +205,8 @@ export class Booklet {
                 selfinstance.individual_value,
             currency: selfinstance.currency,
             status: Booklet.__status__[selfinstance.status],
+            distribution: selfinstance.distribution_beneficiary ? selfinstance.distribution_beneficiary.distribution_data.name : null,
+            beneficiary: selfinstance.distribution_beneficiary ? selfinstance.distribution_beneficiary.beneficiary.given_name : null
         };
     }
 
@@ -233,13 +237,6 @@ export class Booklet {
             return selfinstance;
         }
 
-        let distribution_beneficiary;
-        if (selfinstance.distribution_beneficiary) {
-            distribution_beneficiary = selfinstance.distribution_beneficiary.id;
-        } else {
-            distribution_beneficiary = selfinstance.distribution_beneficiary;
-        }
-
         return {
             code: selfinstance.code,
             number_vouchers: selfinstance.number_vouchers,
@@ -247,8 +244,9 @@ export class Booklet {
                 this.formatValues(selfinstance.individual_values) :
                 selfinstance.individual_value,
             currency: selfinstance.currency,
-            status: selfinstance.status,
-            distribution_beneficiary: distribution_beneficiary,
+            status: Booklet.__status__[selfinstance.status],
+            distribution: selfinstance.distribution_beneficiary ? selfinstance.distribution_beneficiary.distribution_data.name : null,
+            beneficiary: selfinstance.distribution_beneficiary ? selfinstance.distribution_beneficiary.beneficiary.given_name : null
         };
     }
 

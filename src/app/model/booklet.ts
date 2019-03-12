@@ -247,7 +247,7 @@ export class Booklet {
                 this.formatValues(selfinstance.individual_values) :
                 selfinstance.individual_value,
             currency: selfinstance.currency,
-            status: selfinstance.status,
+            status: Booklet.__status__[selfinstance.status],
             distribution_beneficiary: distribution_beneficiary,
         };
     }

@@ -267,11 +267,11 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     }
 
     private formatTransactionTable(data: any) {
-        if (this.actualDistribution.commodities[0].modality_type.name !== 'Cash') {
+        if (this.actualDistribution.commodities[0].modality_type.name !== 'Mobile Money') {
             this.entity = TransactionGeneralRelief;
             this.selection = new SelectionModel<any>(true, []);
         }
-        else if (this.actualDistribution.commodities[0].modality_type.name === 'Cash') {
+        else if (this.actualDistribution.commodities[0].modality_type.name === 'Mobile Money') {
             this.entity = TransactionBeneficiary;
         }
         this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));

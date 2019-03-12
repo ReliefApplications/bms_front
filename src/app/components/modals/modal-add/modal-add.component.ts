@@ -24,6 +24,7 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
     public oldEntity = '';
     mapperObject = null;
     public updatedObject: any;
+    filename = '';
 
 
     display = false;
@@ -328,6 +329,8 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
     onFileChange(property, event) {
         if (event.target.files.length > 0) {
             const file = event.target.files[0];
+            this.filename = file.name;
+
             const formData = new FormData();
             formData.append('file', file);
             this.uploadService.uploadImage(formData).subscribe(fileUrl => {

@@ -59,9 +59,9 @@ export class VouchersComponent implements OnInit {
   });
 
   public storeChoice = {
-    project: '',
-    distribution: '',
-    beneficiary: '',
+    project: null,
+    distribution: null,
+    beneficiary: null,
   };
 
   public distributionName = '';
@@ -335,5 +335,9 @@ export class VouchersComponent implements OnInit {
       bookletIds.push(element.id);
     });
     return !error ? this._exportService.printManyVouchers(bookletIds) : null;
+  }
+
+  export() {
+    this._exportService.export('booklets', true, this.extensionType);
   }
 }

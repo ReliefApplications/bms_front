@@ -12,7 +12,7 @@ import { finalize, distinct } from 'rxjs/operators';
 import { State } from 'src/app/model/transaction-beneficiary';
 
 @Component({
-    template: '',
+    template: './validated-distribution.component.html',
     styleUrls: ['./validated-distribution.component.scss']
 })
 export class ValidatedDistributionComponent implements OnInit, DoCheck {
@@ -78,15 +78,12 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         protected cacheService: AsyncacheService,
     ) { }
 
-    getPeopleCount(): number {
-        const states = [State.NoPhone, State.NotSent, State.SendError];
-        let peopleCount = 0;
-        for (const beneficiary of this.transactionData.data) {
-            if (states.includes(beneficiary.state)) {
-                peopleCount ++;
-            }
+    getTotalSentCommoditiesValue(): number {
+        let totalSentCommoditiesValue = 0;
+        for (const commodity of this.actualDistribution.commodities) {
+            totalSentCommoditiesValue += this.getAmountSent(commodity);
         }
-        return peopleCount;
+        return totalSentCommoditiesValue;
     }
 
     getTotalCommodityValue(commodity: any): number {
@@ -178,10 +175,6 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     exit(message: string) {
         this.snackbar.info(message);
         this.dialog.closeAll();
-    }
-
-    exportTransaction() {
-        this.exportEmitter.emit(this.exportTypeTransaction);
     }
 
     codeVerif() {

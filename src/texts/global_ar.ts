@@ -435,6 +435,7 @@ export const TEXT = {
     transaction_transaction: 'عملية تجارية',
     transaction_validate_distribution: 'هل تريد حقًا التحقق من صحة هذا التوزيع؟ لن تتمكن من تعديله بعد الآن.',
     transaction_validation: 'تأكيد التحقق من الصحة',
+    transaction_no_transaction_sent: 'No completed transaction, cannot export',
 
     // Tooltip
     tooltip_add_beneficiaries: 'هذه الصفحة مخصصة لإضافة المستفيدين. هذا هو نموذج لإضافة أسرة جديدة مع الحقول المطلوبة.',

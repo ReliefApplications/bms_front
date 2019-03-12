@@ -64,4 +64,8 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         return (beneficiariesCommodity.distributed_at ? commodity.value : 0 );
     }
 
+    exportTransaction() {
+        this.exportEmitter.emit(this.exportTypeTransaction);
+    }
+
 }

@@ -38,4 +38,24 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
     getCommodityReceivedAmountFromBeneficiary(commodity: any, beneficiary: any): number {
         return (this.receivedStates.includes(beneficiary.state) ? commodity.value : 0);
     }
+
+    getPeopleCount(): number {
+        const states = [State.NoPhone, State.NotSent, State.SendError];
+        let peopleCount = 0;
+        for (const beneficiary of this.transactionData.data) {
+            if (states.includes(beneficiary.state)) {
+                peopleCount ++;
+            }
+        }
+        return peopleCount;
+    }
+
+    exportTransaction() {
+        if (this.getTotalSentCommoditiesValue()) {
+            this.exportEmitter.emit(this.exportTypeTransaction);
+        }
+        else {
+            this.snackbar.error(this.TEXT.transaction_no_transaction_sent);
+        }
+    }
 }

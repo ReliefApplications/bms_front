@@ -435,6 +435,7 @@ export const TEXT = {
     transaction_transaction: 'Démarrer la transaction',
     transaction_validate_distribution: 'Voulez vous vraiment valider la distribution ? Vous ne serez plus capable de la modifier',
     transaction_validation: 'Confirmer la validation',
+    transaction_no_transaction_sent: 'Aucune transaction n\'est envoyée, impossible d\'exporter',
 
     // Tooltip
     tooltip_add_beneficiaries: 'Cette page est la page d\'ajout des bénéficiaires. C\'est un formulaire pour ajouter un nouveau ménage avec des champs obligatoires.',

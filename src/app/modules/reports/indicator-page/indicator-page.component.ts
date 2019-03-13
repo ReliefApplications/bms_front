@@ -455,7 +455,11 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
             .subscribe(response => {
                 this.isDownloading = false;
                 // Force download
-                saveAs(response, `reports.${this.exportFileType}`);
+                if (response) {
+                    saveAs(response, 'reports.' +  this.exportFileType);
+                } else {
+                    this.snackBar.warning('No data to export');
+                }
             }, err => {
                 this.snackBar.error(err.error.message);
                 this.isDownloading = false;

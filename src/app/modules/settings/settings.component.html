@@ -47,8 +47,8 @@
         </button>
       </div>
       <div class="content-table">
-        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="true" [rights]='hasRights' [deletable]="deletable" [printable]="printable" ></app-table-search>
-        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="true" [rights]='hasRights' [deletable]="deletable"></app-table-mobile-search>
+        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="true" [rights]='hasRights' [deletable]="deletable" [printable]="printable"></app-table-search>
+        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="true" [rights]='hasRights' [deletable]="deletable" [printable]="printable"></app-table-mobile-search>
       </div>
     </div>
   </div>

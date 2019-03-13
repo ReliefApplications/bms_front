@@ -44,6 +44,7 @@
     "@zxing/ngx-scanner": "^1.3.0",
     "angular-google-recaptcha": "^1.0.3",
     "angular2-counto": "^1.2.5",
+    "aws-sdk": "^2.420.0",
     "blob": "0.0.5",
     "core-js": "^2.5.4",
     "country-iso-3-to-2": "^1.0.1",

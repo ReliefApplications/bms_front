@@ -28,8 +28,11 @@
                         <img [matTooltip]="getImageName(image)" *ngFor="let image of mapperService.mapValue(element, property)"
                             class="png" [src]="image">
                     </span>
+                    <span *ngIf="propertiesTypes[property]=='document'">
+                        <img [matTooltip]="element.name" class="png" [src]="element[property]">
+                    </span>
                     <span *ngIf="property=='rights'">{{recoverRights(element)}}</span>
-                    <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png' && property!='rights'">{{mapperService.mapValue(element,
+                    <span *ngIf="propertiesTypes[property]!='document' && propertiesTypes[property]!='image' && propertiesTypes[property]!='png' && property!='rights'">{{mapperService.mapValue(element,
                         property)}}</span>
                 </td>
             </ng-container>

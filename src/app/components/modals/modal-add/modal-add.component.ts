@@ -23,7 +23,6 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
     public entityDisplayedName = '';
     public oldEntity = '';
     mapperObject = null;
-    public updatedObject: any;
     filename = '';
 
 
@@ -277,9 +276,18 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
             }
         }
 
-        const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
-        this.onCreate.emit(formatedObject);
-        this.closeDialog();
+        if (this.newObject.imageData) {
+            this.uploadService.uploadImage(this.newObject.imageData).subscribe(fileUrl => {
+                this.newObject.image = fileUrl;
+                const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
+                this.onCreate.emit(formatedObject);
+                this.closeDialog();
+            });
+        } else {
+            const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
+            this.onCreate.emit(formatedObject);
+            this.closeDialog();
+        }
     }
 
     unitType(): string {
@@ -333,9 +341,7 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
 
             const formData = new FormData();
             formData.append('file', file);
-            this.uploadService.uploadImage(formData).subscribe(fileUrl => {
-                // this.newObject[property] = fileUrl;
-            });
+            this.newObject.imageData = formData;
         }
     }
 }

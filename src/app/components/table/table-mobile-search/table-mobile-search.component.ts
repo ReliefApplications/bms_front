@@ -16,4 +16,8 @@ export class TableMobileSearchComponent extends TableComponent implements OnInit
         }
     }
 
+    print(element: any) {
+        this.service.print(element);
+    }
+
 }

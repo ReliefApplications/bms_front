@@ -25,14 +25,14 @@
         </tr>
       </tbody>
       <tfoot>
-        <button mat-icon-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
+        <button mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()" class="green">
           <mat-icon>search</mat-icon>
-        </button>
-        <button mat-button class="light-red" (click)="openDialog('update', element); $event.stopPropagation()">
-          <mat-icon inline=true>edit</mat-icon>
         </button>
         <button mat-button (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
           <mat-icon inline=true>close</mat-icon>
+        </button>
+        <button mat-icon-button (click)="print(element); $event.stopPropagation()" class="grey">
+          <mat-icon>description</mat-icon>
         </button>
       </tfoot>
     </table>

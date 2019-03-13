@@ -75,56 +75,52 @@
 <ng-template #assign>
   <mat-dialog-content class="modal-container">
     <h4 class="modal-title underline-accent">{{voucher.voucher_assign_title | titlecase}}</h4>
-    <div class="dialog-template" *ngIf="step1">
+    <div class="dialog-template" *ngIf="step === 1">
       <div class="modal-body">
+        <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
         <table class="modal-table">
           <tr class="modal-row">
             <th class="table-title">{{ voucher.project }}</th>
             <th class="table-value">
-              <form class="form" [formGroup]="form">
-                <ng-select class="full-width single-select" [clearable]=false [(ngModel)]="storeChoice['project']" [formControl]="controls" (change)="getDistributions()" bindLabel="id">
+                <ng-select class="full-width single-select" [clearable]=false formControlName="projectControl" (change)="getDistributions()" bindLabel="id">
                   <ng-option *ngFor="let project of projects" [value]="project.id">{{project.name}}</ng-option>
                 </ng-select>
-              </form>
             </th>
           </tr>
 
           <tr class="modal-row">
             <th class="table-title">{{ voucher.distribution }}</th>
             <th class="table-value">
-              <form class="form" [formGroup]="form">
-                <ng-select class="full-width single-select" [clearable]=false [(ngModel)]="storeChoice['distribution']" formControlName="distributionControl"
+                <ng-select class="full-width single-select" [clearable]=false formControlName="distributionControl"
                   (change)="getBeneficiaries()" bindLabel="id">
                   <ng-option *ngFor="let distribution of distributions" [value]="distribution.id">{{distribution.name}}</ng-option>
                 </ng-select>
-              </form>
             </th>
           </tr>
 
           <tr class="modal-row">
             <th class="table-title">{{ voucher.beneficiary }}</th>
             <th class="table-value">
-              <form class="form" [formGroup]="form">
-                <ng-select class="full-width single-select" [clearable]=false [(ngModel)]="storeChoice['beneficiary']"
-                formControlName="distributionControl" bindLabel="id">
+                <ng-select class="full-width single-select" [clearable]=false
+                formControlName="beneficiaryControl" bindLabel="id">
                   <ng-option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.id">{{beneficiary.full_name}}</ng-option>
                 </ng-select>
-              </form>
             </th>
-          </tr>
+        </tr>
         </table>
+        </form>
       </div>
       <div class="modal-footer action">
         <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{voucher.cancel}}</button>
-        <button mat-button class="confirm" (click)="nextStep(2)">{{voucher.next}}</button>
+        <button mat-button class="confirm" (click)="nextStep()" [disabled]="!form.valid">{{voucher.next}}</button>
       </div>
     </div>
 
-    <div class="dialog-template" *ngIf="step2">
+    <div class="dialog-template" *ngIf="step === 2">
       <app-scanner (result)="getResultScanner($event)"></app-scanner>
     </div>
 
-    <div *ngIf="step3">
+    <div *ngIf="step === 3">
       <p>{{ voucher.voucher_scan_text }}</p>
 
       <div class="scan-checked">
@@ -139,20 +135,20 @@
       <div class="dialog-template">
         <div class="modal-footer action">
           <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{voucher.cancel}}</button>
-          <button mat-button class="confirm" (click)="nextStep(4)">{{voucher.next}}</button>
+          <button mat-button class="confirm" (click)="nextStep()">{{voucher.next}}</button>
         </div>
       </div>
     </div>
 
-    <div *ngIf="step4">
+    <div *ngIf="step === 4">
       <span>{{ voucher.voucher_define_password}} {{ bookletQRCode }} ?</span>
       <mat-checkbox color="primary" [(ngModel)]="displayPassword" class="margin-left"></mat-checkbox>
-
       <div [hidden]="!displayPassword">
         <p>{{ voucher.voucher_ask_code }}</p>
         <div class="dialog-template">
           <mat-form-field class="full-width">
-            <input matInput type="text" [(ngModel)]="password" placeholder={{voucher.model_password}} />
+            <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl" placeholder={{voucher.model_password}} />
+            <mat-error *ngIf=""></mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -161,12 +157,12 @@
         <div class="modal-footer action">
           <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{voucher.cancel}}</button>
           <mat-spinner [diameter]="25" *ngIf="loadingPassword"></mat-spinner>
-          <button mat-button class="confirm" (click)="nextStep(5)" *ngIf="!loadingPassword">{{voucher.next}}</button>
+          <button mat-button class="confirm" (click)="nextStep()" *ngIf="!loadingPassword">{{voucher.next}}</button>
         </div>
       </div>
     </div>
 
-    <div *ngIf="step5">
+    <div *ngIf="step === 5">
       <p>{{ voucher.model_booklet }} {{ bookletQRCode }} {{ voucher.voucher_step5 }} {{ beneficiaryName }} {{
         voucher.voucher_for }} {{ distributionName }}</p>
 

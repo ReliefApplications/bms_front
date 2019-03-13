@@ -39,13 +39,17 @@ export class BookletService {
     public setPassword(code: string, password: string) {
         const body = {
             password: CryptoJS.SHA1(password).toString(CryptoJS.enc.Base64),
+            code: code,
         };
-        const url = this.api + `/booklets/${encodeURIComponent(code)}/password`;
+        const url = this.api + `/booklets/update/password`;
         return this.http.post(url, body);
     }
 
-    public assignBenef(idBooklet: string, idBeneficiary: number) {
-        const url = this.api + `/booklets/${encodeURIComponent(idBooklet)}/assign/${idBeneficiary}`;
-        return this.http.post(url, {});
+    public assignBenef(code: string, idBeneficiary: number) {
+        const body = {
+            code: code,
+        };
+        const url = this.api + `/booklets/assign/${idBeneficiary}`;
+        return this.http.post(url, body);
     }
 }

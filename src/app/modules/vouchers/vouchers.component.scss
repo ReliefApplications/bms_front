@@ -54,6 +54,10 @@ app-table-mobile-vouchers {
     }
 }
 
+.ng-select {
+    width: 100%
+}
+
 .ng-select.multiple ::ng-deep .ng-select-container .ng-value-container .ng-value {
     background-color: #424242;
   }

@@ -22,6 +22,8 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { TitleCasePipe } from '@angular/common';
+import { saveAs } from 'file-saver';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 
 @Component({
     selector: 'app-indicator-page',
@@ -84,13 +86,17 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
     public selectedProject: string[] = [];
     public selectedDistribution: string[] = [];
 
+    // Defines the type of the file to export
+    exportFileType = 'xls';
+
     constructor(
         public titleCase: TitleCasePipe,
         public indicatorService: IndicatorService,
         public cacheService: AsyncacheService,
         public chartRegistrationService: ChartRegistration,
         public projectService: ProjectService,
-        public distributionService: DistributionService
+        public distributionService: DistributionService,
+        private snackBar: SnackbarService
     ) {
     }
 
@@ -103,13 +109,9 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
             this.indicatorsLoading = true;
             this.indicatorService.getIndicators()
                 .pipe(
-                    finalize(
-                        () => {
-                            this.indicatorsLoading = false;
-                        }
-                    )
-                ).toPromise()
-                .then(response => {
+                    finalize(() => this.indicatorsLoading = false)
+                )
+                .subscribe(response => {
                     if (response) {
                         const indicatorResponse = Indicator.FormatArray(response);
                         for (let i = 0; i < indicatorResponse.length; i++) {
@@ -118,7 +120,7 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
                     } else {
                         this.indicators = null;
                     }
-                }).catch(e => {
+                }, () => {
                     this.indicators = null;
                 });
         }
@@ -268,10 +270,10 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
      * Get list of all project and put it in the project selector
      */
     getProjects() {
-        this.projectService.get().toPromise().then(response => {
+        this.projectService.get().subscribe(response => {
             this.projectList = [];
-            const Projectresponse = Project.formatArray(response);
-            Projectresponse.forEach(element => {
+            const projectResponse = Project.formatArray(response);
+            projectResponse.forEach(element => {
                 const concat = element.id + ' - ' + element.name;
                 this.projectList.push(concat);
             });
@@ -283,7 +285,7 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
      */
     getDistributions() {
         this.distributionList = [];
-        this.distributionService.getByProject(this.selectedProject[0]).toPromise().then(response => {
+        this.distributionService.getByProject(this.selectedProject[0]).subscribe(response => {
             this.distributionList = [];
             const distributionResponse = DistributionData.formatArray(response);
             distributionResponse.forEach(element => {
@@ -425,69 +427,101 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
         );
     }
 
-    // DOWNLOAD PDF OF GRAPHS
-    downloadPDF() {
+    /**
+     * Export the reporting data in one of the following format:
+     * xls, csv, ods or pdf
+     */
+    export() {
         this.isDownloading = true;
-        const charts = document.getElementsByClassName('indicatorChart');
-        const doc = new jsPDF('l', 'px', 'a4');
-        const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
-        const collection = [];
-        const timestamp = new Date();
-        const projects: string[] = [];
-        const distributions: string[] = [];
 
-        // SETTING TITLE, PROJECT, AND DISTRIBUTION TEXT
-        doc.setFontSize(20);
-        doc.text(`${this.type} Report by ${this.frequency}`, pageWidth / 2, 30, 'center');
+        // If we choose a period, we get the value from selectedPeriodFrequency
+        const frequency = this.frequency !== 'Period' ? this.frequency : this.selectedPeriodFrequency;
 
-        if (this.type === 'Project' && this.selectedProject.length > 0 || this.type === 'Distribution' && this.selectedProject.length > 0) {
-            this.projectList.map(e => {
-                const splitted = e.split(' -');
-                for (let i = 0; i < this.selectedProject.length; i++) {
-                    if (splitted[0] === this.selectedProject[i]) {
-                        projects.push(splitted[1]);
-                    }
-                }
+        // If the format is not a pdf, we generate the export in the API
+        if (this.exportFileType !== 'pdf') {
+            // Select the desired indicators and format them in the format id,id,id,...
+            const indicatorsId = this.indicators
+                .filter(indicator => indicator.type === this.type)
+                .map(indicator => indicator.id);
+
+            // Format the projects and the distributions like the indicators above
+            const projects = this.selectedProject.length > 0 ? this.selectedProject : this.projectList;
+            const projectsId = projects.map(project => parseInt(project, 10));
+            const distributions = this.selectedDistribution.length > 0 ? this.selectedDistribution : this.distributionList;
+            const distributionsId =  distributions.map(distribution => parseInt(distribution, 10));
+
+            // Call the service to get the data we want
+            this.indicatorService.exportReportData(indicatorsId, frequency, projectsId, distributionsId, this.exportFileType)
+            .subscribe(response => {
+                this.isDownloading = false;
+                // Force download
+                saveAs(response, `reports.${this.exportFileType}`);
+            }, err => {
+                this.snackBar.error(err.error.message);
+                this.isDownloading = false;
             });
-            doc.setFontSize(15);
-            doc.text(`Projects: ${projects.map(e => e)}`, pageWidth / 2, 50, 'center');
+        }
+        else {
+            const charts = document.getElementsByClassName('indicatorChart');
+            const doc = new jsPDF('l', 'px', 'a4');
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const collection = [];
+            const timestamp = new Date();
+            const projects: string[] = [];
+            const distributions: string[] = [];
 
-            if (this.type === 'Distribution' && this.selectedDistribution.length > 0) {
-                this.distributionList.map(e => {
+            // SETTING TITLE, PROJECT, AND DISTRIBUTION TEXT
+            doc.setFontSize(20);
+            doc.text(`${this.type} Report by ${this.frequency}`, pageWidth / 2, 30, 'center');
+
+            if (this.type === 'Project' && this.selectedProject.length > 0 ||
+                this.type === 'Distribution' && this.selectedProject.length > 0) {
+                this.projectList.map(e => {
                     const splitted = e.split(' -');
-                    for (let i = 0; i < this.selectedDistribution.length; i++) {
-                        if (splitted[0] === this.selectedDistribution[i]) {
-                            distributions.push(splitted[1]);
+                    for (let i = 0; i < this.selectedProject.length; i++) {
+                        if (splitted[0] === this.selectedProject[i]) {
+                            projects.push(splitted[1]);
                         }
                     }
                 });
-                const distributionTitle = `Distributions: ${distributions.map(e => e)}`;
-                const splitLength = doc.splitTextToSize(distributionTitle, pageWidth - 50);
-                doc.text(splitLength, pageWidth / 2, 70, 'center');
+                doc.setFontSize(15);
+                doc.text(`Projects: ${projects.map(e => e)}`, pageWidth / 2, 50, 'center');
+
+                if (this.type === 'Distribution' && this.selectedDistribution.length > 0) {
+                    this.distributionList.map(e => {
+                        const splitted = e.split(' -');
+                        for (let i = 0; i < this.selectedDistribution.length; i++) {
+                            if (splitted[0] === this.selectedDistribution[i]) {
+                                distributions.push(splitted[1]);
+                            }
+                        }
+                    });
+                    const distributionTitle = `Distributions: ${distributions.map(e => e)}`;
+                    const splitLength = doc.splitTextToSize(distributionTitle, pageWidth - 50);
+                    doc.text(splitLength, pageWidth / 2, 70, 'center');
+                }
             }
-        }
-
-        // SAVING CHARTS TO IMAGES
-        for (let i = 0; i < charts.length; i++) {
-            const canvasImg = html2canvas(charts[i], { width: 800, height: 800, scale: 2 });
-            collection.push(canvasImg);
-        }
-
-        // ADDING IMAGES TO DOCUMENT
-        Promise.all(collection)
-            .then(response => {
-                response.forEach((e, i) => {
-                    const imgData = e.toDataURL('img/png');
-                    doc.addImage(imgData, 'PNG', 110, 100, pageWidth, pageHeight + 100, null, 'FAST');
-                    if (i !== response.length - 1) {
-                        doc.addPage();
-                    }
+            // SAVING CHARTS TO IMAGES
+            for (let i = 0; i < charts.length; i++) {
+                const canvasImg = html2canvas(charts[i], { width: 800, height: 800, scale: 2 });
+                collection.push(canvasImg);
+            }
+            // ADDING IMAGES TO DOCUMENT
+            Promise.all(collection)
+                .then(response => {
+                    response.forEach((e, i) => {
+                        const imgData = e.toDataURL('img/png');
+                        doc.addImage(imgData, 'PNG', 110, 100, pageWidth, pageHeight + 100, null, 'FAST');
+                        if (i !== response.length - 1) {
+                            doc.addPage();
+                        }
+                    });
+                })
+                .then(() => {
+                    doc.save(`${this.type} Report ${timestamp.getDay()}/${timestamp.getMonth() + 1}/${timestamp.getFullYear()}.pdf`);
+                    this.isDownloading = false;
                 });
-            })
-            .then(() => {
-                doc.save(`${this.type} Report ${timestamp.getDay()}/${timestamp.getMonth() + 1}/${timestamp.getFullYear()}.pdf`);
-                this.isDownloading = false;
-            });
+        }
     }
 }

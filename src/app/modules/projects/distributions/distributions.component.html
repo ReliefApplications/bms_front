@@ -220,7 +220,7 @@
 
   <ng-container *ngIf="actualDistribution.commodities">
     <app-mobile-money
-      *ngIf="actualDistribution.validated && actualDistribution.commodities[0].modality_type.name === 'Mobile Cash' && !loadingDatas"
+      *ngIf="actualDistribution.validated && actualDistribution.commodities[0].modality_type.name === 'Mobile Money' && !loadingDatas"
       [actualDistribution]="actualDistribution"
       [transactionData]="transactionData"
       [distributionId]="distributionId"
@@ -232,7 +232,7 @@
 
 
     <app-general-relief
-      *ngIf="actualDistribution.validated && actualDistribution.commodities[0].modality_type.name === 'Voucher' && !loadingDatas"
+      *ngIf="actualDistribution.validated && actualDistribution.commodities[0].modality_type.name !== 'Mobile Money' && !loadingDatas"
       [actualDistribution]="actualDistribution"
       [transactionData]="transactionData"
       [distributionId]="distributionId"

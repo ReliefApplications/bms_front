@@ -53,7 +53,7 @@ export class TransactionGeneralRelief {
             this.id = instance.id;
             this.givenName = instance.givenName;
             this.familyName = instance.familyName;
-            this.used = instance.general_reliefs ? instance.general_reliefs[0].distributed_at : undefined;
+            this.used = instance.general_reliefs[0] ? instance.general_reliefs[0].distributed_at : undefined;
             this.values = instance.values;
             this.id_transaction = instance.id_transaction;
             this.notes = instance.note;
@@ -116,7 +116,7 @@ export class TransactionGeneralRelief {
         generalRelief.id = instance.beneficiary.id;
         generalRelief.givenName = instance.beneficiary.given_name;
         generalRelief.familyName = instance.beneficiary.family_name;
-        generalRelief.used = instance.general_reliefs ? instance.general_reliefs[0].distributed_at : undefined;
+        generalRelief.used = instance.general_reliefs[0] ? instance.general_reliefs[0].distributed_at : undefined;
         generalRelief.values = com;
         generalRelief.notes = instance.notes;
         generalRelief.generalReliefs = instance.general_reliefs;

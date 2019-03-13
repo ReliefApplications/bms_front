@@ -10,7 +10,7 @@
                         {{ getTotalCommodityValue(commodity) }} {{commodity.unit}}
                     </div>
 
-                    <ng-container *ngIf="actualDistribution.commodities[0].modality_type.name === 'Mobile Cash'">
+                    <ng-container *ngIf="actualDistribution.commodities[0].modality_type.name === 'Mobile Money'">
                         <div class="info_2">
                             <h5>{{TEXT.transaction_amount_done | titlecase}}</h5>
                             {{ getAmountSent(commodity) }} {{commodity.unit}}
@@ -21,7 +21,7 @@
                         </div>
                     </ng-container>
 
-                    <ng-container *ngIf="actualDistribution.commodities[0].modality_type.name === 'Voucher'">
+                    <ng-container *ngIf="actualDistribution.commodities[0].modality_type.name !== 'Mobile Money'">
                         <div class="info_2">
                             <h5>{{TEXT.transaction_amount_distributed | titlecase}}</h5>
                             {{ getAmountSent(commodity) }} {{commodity.unit}}
@@ -51,7 +51,7 @@
                     </mat-menu>
                 </div>
                 <div class="button-with-extension">
-                    <button mat-raised-button class="button-background-primary" (click)="dialog.open(infoExport)"
+                    <button mat-raised-button class="button-background-primary" (click)="exportTransaction()"
                         *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{TEXT.export | titlecase}}</span>
@@ -94,7 +94,7 @@
 
         <div class="content-button content-button-footer">
             <div class="action-buttons"
-                *ngIf="actualDistribution.commodities && actualDistribution.commodities[0].modality_type.name === 'Mobile Cash'">
+                *ngIf="actualDistribution.commodities && actualDistribution.commodities[0].modality_type.name === 'Mobile Money'">
                 <mat-spinner [diameter]="35" *ngIf="loaderCache"></mat-spinner>
                 <button mat-stroked-button [disabled]="distributionIsStored" *ngIf="!loaderCache" class="button-text-accent"
                     (click)="storeBeneficiaries()">
@@ -118,7 +118,7 @@
             </div>
 
             <div class="action-buttons"
-                *ngIf="actualDistribution.commodities && actualDistribution.commodities[0].modality_type.name === 'Voucher'">
+                *ngIf="actualDistribution.commodities && actualDistribution.commodities[0].modality_type.name !== 'Mobile Money'">
                 <mat-spinner [diameter]="35" *ngIf="loaderCache"></mat-spinner>
                 <button mat-stroked-button [disabled]="distributionIsStored" *ngIf="!loaderCache" class="button-text-accent"
                     (click)="storeBeneficiaries()">
@@ -140,24 +140,6 @@
         </div>
     </div>
 </div>
-
-<ng-template #infoExport>
-    <mat-dialog-content class="modal-container">
-        <h4 class="modal-title underline-accent stickyHeader">{{ TEXT.export  | titlecase }}</h4>
-        <div class="dialog-template">
-            <div class="modal-body">
-                <p>{{ TEXT.transaction_info_export }}</p>
-            </div>
-
-            <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':language==='ar'}">
-                <button mat-button class="button-text-accent" (click)="exit('Export canceled')">{{TEXT.cancel}}</button>
-                <button mat-button class="button-background-accent"
-                    (click)="exportTransaction()">{{TEXT.export}}</button>
-            </div>
-        </div>
-    </mat-dialog-content>
-</ng-template>
-
 
 <ng-template #transaction>
     <mat-dialog-content class="modal-container">

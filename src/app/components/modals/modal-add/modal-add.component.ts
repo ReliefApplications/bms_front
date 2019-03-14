@@ -277,7 +277,7 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
         }
 
         if (this.newObject.imageData) {
-            this.uploadService.uploadImage(this.newObject.imageData).subscribe(fileUrl => {
+            this.uploadService.uploadImage(this.newObject.imageData, this.data.entity.__classname__).subscribe(fileUrl => {
                 this.newObject.image = fileUrl;
                 const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
                 this.onCreate.emit(formatedObject);

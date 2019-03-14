@@ -30,7 +30,7 @@ export class Product {
     * Product image uploaded
     * @type {formData}
     */
-   imageData;
+    imageData;
 
 
 

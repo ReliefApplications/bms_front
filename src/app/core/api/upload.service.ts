@@ -11,8 +11,11 @@ export class UploadService {
 
     constructor(private http: HttpService) {}
 
-    uploadImage(file) {
-        const url = this.api + '/uploadImage';
+    uploadImage(file, className: string) {
+        let url = this.api + '/uploadImage';
+        if (className === 'Product') {
+            url = this.api + '/products/upload/image';
+        }
         return this.http.post(url, file);
     }
 }

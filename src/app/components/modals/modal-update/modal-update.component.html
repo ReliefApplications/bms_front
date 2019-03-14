@@ -126,7 +126,7 @@
               <label for="file"><mat-icon>cloud_upload</mat-icon></label>
               <input type="file" id="file" (change)="onFileChange(p, $event)" #fileInput>
               <p *ngIf="filename">{{ filename }}</p>
-              <p *ngIf="!filename">No file chosen</p>
+              <p *ngIf="!filename">{{ modal.modal_no_file }}</p>
           </div>
 
           </form>

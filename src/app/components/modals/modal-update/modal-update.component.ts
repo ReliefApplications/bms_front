@@ -245,7 +245,7 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
         }
 
         if (this.updateObject.imageData) {
-            this.uploadService.uploadImage(this.updateObject.imageData).subscribe(fileUrl => {
+            this.uploadService.uploadImage(this.updateObject.imageData, this.data.entity.__classname__).subscribe(fileUrl => {
                 this.updateObject.image = fileUrl;
                 this.onUpdate.emit(this.updateObject);
                 this.closeDialog();

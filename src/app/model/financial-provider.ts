@@ -42,7 +42,7 @@ export class FinancialProvider {
     static translator(): Object {
         return {
             username: GlobalText.TEXTS.login_username,
-            password: GlobalText.TEXTS.model_user_password,
+            password: GlobalText.TEXTS.model_password,
         };
     }
 

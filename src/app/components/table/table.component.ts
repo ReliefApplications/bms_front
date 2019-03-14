@@ -28,6 +28,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Households } from 'src/app/model/households';
 import { NetworkService } from 'src/app/core/api/network.service';
 import { Router } from '@angular/router';
+import { ExportService } from '../../core/api/export.service';
 
 
 const rangeLabel = (page: number, pageSize: number, length: number) => {
@@ -70,6 +71,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
     // To activate/desactivate action buttons
     @Input() editable: boolean;
+    @Input() printable: boolean;
     // For Imported Beneficiaries
     @Input() parentId: number = null;
     // For Transaction Beneficiaries
@@ -115,7 +117,8 @@ export class TableComponent implements OnChanges, DoCheck {
         public locationService: LocationService,
         public householdsService: HouseholdsService,
         public networkService: NetworkService,
-        public router: Router
+        public router: Router,
+        public _exportService: ExportService
     ) { }
 
     ngOnChanges() {
@@ -195,6 +198,10 @@ export class TableComponent implements OnChanges, DoCheck {
                     this.paginator.pageIndex,
                     this.paginator.pageSize
                 );
+            } else if (this.entity.__classname__ === 'Booklet') {
+                this.service.get().subscribe(response => {
+                    this.data = new MatTableDataSource(this.entity.formatArray(response).reverse());
+                });
             } else {
                 this.service.get().subscribe(response => {
                     this.data = new MatTableDataSource(this.entity.formatArray(response));
@@ -395,6 +402,34 @@ export class TableComponent implements OnChanges, DoCheck {
             } else {
                 this.service.update(updateElement['id'], updateElement).subscribe(response => {
                     this.updateData();
+                });
+            }
+        }
+        if (this.entity.__classname__ === 'Vendors' && updateElement) {
+            if (updateElement['password'] && updateElement['password'].length > 0) {
+                this.authenticationService.requestSalt(updateElement['username']).subscribe(response => {
+                    if (response) {
+                        const saltedPassword = this._wsseService.saltPassword(response['salt'], updateElement['password']);
+                        updateElement['password'] = saltedPassword;
+
+                        this.service.update(updateElement['id'], updateElement).subscribe((_: any) => {
+                        // this.snackBar.open(
+                            // this.entity.__classname__ + this.table.table_element_updated, '',
+                            // { duration: 5000, horizontalPosition: 'right' });
+                            this.updateData();
+                        }, error => {
+                            // console.error("err", error);
+                        });
+                    }
+                });
+            } else {
+                this.service.update(updateElement['id'], updateElement).subscribe(response => {
+                    // this.snackBar.open(
+                        // this.entity.__classname__ + this.table.table_element_updated, '',
+                        // { duration: 5000, horizontalPosition: 'right' });
+                    this.updateData();
+                }, error => {
+                    // console.error("err", error);
                 });
             }
         } else if (this.entity.__classname__ === 'Financial Provider' && updateElement) {

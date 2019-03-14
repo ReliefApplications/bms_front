@@ -23,7 +23,7 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
     public entityDisplayedName = '';
     public oldEntity = '';
     mapperObject = null;
-    public updatedObject: any;
+    filename = '';
 
 
     display = false;
@@ -148,7 +148,7 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
     // emit the new object
     add(): any {
         // Check fields for Users settings
-        if (this.newObject.username || this.newObject.username === '') {
+        if ((this.newObject.username || this.newObject.username === '') && this.data.entity.__classname__ !== 'Vendors') {
             const checkMail = new RegExp(/^[\w\.\+-]+@[\w-]+\.[\w-\.]+[a-z]+$/);
             if (!checkMail.test(this.newObject.username) || this.newObject.username === '') {
                 this.snackbar.error(this.modal.modal_add_invalid_mail);
@@ -240,7 +240,27 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
                 }
                 this.newObject.end_date = year + '-' + month + '-' + day;
             }
-        } else if ((this.newObject.modality) || this.newObject.modality === '') {
+        }
+
+        // Check fields for Vendors in settings
+        else if (this.newObject && (this.newObject.shop || this.newObject.shop === '')) {
+            this.newObject.user = {
+                username: this.newObject.username,
+                password: this.newObject.password
+            };
+            if (this.newObject.name === '' ||
+                this.newObject.shop === '' ||
+                this.newObject.address === '' ||
+                this.newObject.username === '' ||
+                this.newObject.password === ''
+            ) {
+                this.snackbar.error(this.modal.modal_check_fields);
+                return;
+            }
+        }
+
+        // Check commodity in addDistribution
+        else if ((this.newObject.modality) || this.newObject.modality === '') {
             if (this.newObject.unit && this.newObject.value && this.newObject.modality === 1) {
                 this.newObject.type = 1;
             }
@@ -252,9 +272,18 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
             }
         }
 
-        const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
-        this.onCreate.emit(formatedObject);
-        this.closeDialog();
+        if (this.newObject.imageData) {
+            this.uploadService.uploadImage(this.newObject.imageData, this.data.entity.__classname__).subscribe(fileUrl => {
+                this.newObject.image = fileUrl;
+                const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
+                this.onCreate.emit(formatedObject);
+                this.closeDialog();
+            });
+        } else {
+            const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
+            this.onCreate.emit(formatedObject);
+            this.closeDialog();
+        }
     }
 
     /**
@@ -263,6 +292,52 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
     unitType(): string {
         if (this.newObject ) {
             return Commodity.getUnit(this.newObject.type);
+        }
+    }
+
+    handleCheckbox() {
+        if (this.data.entity.__classname__ === 'Booklet') {
+            this.newObject.individual_to_all = !this.newObject.individual_to_all;
+            if (!this.newObject.individual_values) {
+                const individual_values = new Array(this.newObject.number_vouchers);
+                const individual_value = this.newObject.individual_value ? this.newObject.individual_value : 1;
+                individual_values.fill(individual_value);
+                this.newObject.individual_values = individual_values;
+                this.newObject.individual_value = null;
+            } else {
+                this.newObject.individual_value = this.newObject.individual_values ? this.newObject.individual_values[0] : 1;
+                this.newObject.individual_values = null;
+            }
+        }
+    }
+
+    handleChangeNumberVouchers() {
+        if (this.newObject.individual_to_all) {
+            if (this.newObject.individual_values.length > this.newObject.number_vouchers) {
+                while (this.newObject.individual_values.length > this.newObject.number_vouchers) {
+                    this.newObject.individual_values.pop();
+                }
+            } else if (this.newObject.individual_values.length < this.newObject.number_vouchers) {
+                while (this.newObject.individual_values.length < this.newObject.number_vouchers) {
+                    const value = this.newObject.individual_values[0] ? this.newObject.individual_values[0] : 1;
+                    this.newObject.individual_values.push(value);
+                }
+            }
+        }
+    }
+
+    trackByFn(i: number) {
+        return i;
+    }
+
+    onFileChange(property, event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.filename = file.name;
+
+            const formData = new FormData();
+            formData.append('file', file);
+            this.newObject.imageData = formData;
         }
     }
 }

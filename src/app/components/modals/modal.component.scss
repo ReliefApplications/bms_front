@@ -41,3 +41,21 @@
 .ng-select-opened ::ng-deep .ng-option-selected {
   color: #424242 !important;
 }
+
+
+.input-file.ng-star-inserted {
+  display:flex;
+  p {
+    margin-left: 8px;
+    font-size: 15px;
+    font-style: italic;
+  }
+  #file {
+    display: none;
+  }
+  label {
+    padding-top: 11px;
+    cursor: pointer;
+  }
+}
+

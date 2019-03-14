@@ -19,6 +19,7 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
     @Input() data: any;
     @Output() onUpdate = new EventEmitter();
     updateObject: any;
+    filename = '';
 
     ngOnInit() {
         this.entityInstance = this.data.mapper.instantiate(this.data.entity);
@@ -197,12 +198,32 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
                 }
                 this.updateObject.end_date = year + '-' + month + '-' + day;
             }
-        } else if (this.updateObject && this.updateObject.username) {
+        }
+
+        // Check fields for Financial Provider in settings
+        else if (this.updateObject && this.updateObject.username && !this.updateObject.shop) {
             if (this.updateObject.username === '' || this.updateObject.password === '' || !this.updateObject.password) {
                 this.snackbar.error(this.modal.modal_check_fields);
                 return;
             }
-        } else if (this.updateObject.date_distribution) {
+        }
+
+        // Check fields for Vendors in settings
+        else if (this.updateObject && (this.updateObject.shop || this.updateObject.shop === '')) {
+            if (
+                this.updateObject.name === '' ||
+                this.updateObject.shop === '' ||
+                this.updateObject.address === '' ||
+                this.updateObject.username === '' ||
+                this.updateObject.password === ''
+            ) {
+                this.snackbar.error(this.modal.modal_check_fields);
+                return;
+            }
+        }
+
+        // Check fields for update distribution
+        else if (this.updateObject.date_distribution) {
             if (!this.updateObject.date_distribution || !this.updateObject.name) {
                 this.snackbar.error(this.modal.modal_check_fields);
                 return;
@@ -223,7 +244,69 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
             }
         }
 
-        this.onUpdate.emit(this.updateObject);
-        this.closeDialog();
+        if (this.updateObject.imageData) {
+            this.uploadService.uploadImage(this.updateObject.imageData, this.data.entity.__classname__).subscribe(fileUrl => {
+                this.updateObject.image = fileUrl;
+                this.onUpdate.emit(this.updateObject);
+                this.closeDialog();
+            });
+        } else {
+            this.onUpdate.emit(this.updateObject);
+            this.closeDialog();
+        }
+    }
+
+    isDisabled(property) {
+        if (property === 'location_name' || property === 'number_beneficiaries'
+            || property === 'name' || property === 'shop' || (property === 'username' && this.data.entity.__classname__ === 'Vendors')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    handleCheckbox() {
+        if (this.data.entity.__classname__ === 'Booklet') {
+            if (this.updateObject.individual_to_all) {
+                const individual_values = new Array(this.updateObject.number_vouchers);
+                const individual_value = this.updateObject.individual_value ? this.updateObject.individual_value : 1;
+                individual_values.fill(individual_value);
+                this.updateObject.individual_values = individual_values;
+                this.updateObject.individual_value = null;
+            } else {
+                this.updateObject.individual_value = this.updateObject.individual_values ? this.updateObject.individual_values[0] : 1;
+                this.updateObject.individual_values = null;
+            }
+        }
+    }
+
+    handleChangeNumberVouchers() {
+        if (this.updateObject.individual_to_all) {
+            if (this.updateObject.individual_values.length > this.updateObject.number_vouchers) {
+                while (this.updateObject.individual_values.length > this.updateObject.number_vouchers) {
+                    this.updateObject.individual_values.pop();
+                }
+            } else if (this.updateObject.individual_values.length < this.updateObject.number_vouchers) {
+                while (this.updateObject.individual_values.length < this.updateObject.number_vouchers) {
+                    const value = this.updateObject.individual_values[0] ? this.updateObject.individual_values[0] : 1;
+                    this.updateObject.individual_values.push(value);
+                }
+            }
+        }
+    }
+
+    trackByFn(i: number) {
+        return i;
+      }
+
+    onFileChange(property, event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.filename = file.name;
+
+            const formData = new FormData();
+            formData.append('file', file);
+            this.updateObject.imageData = formData;
+        }
     }
 }

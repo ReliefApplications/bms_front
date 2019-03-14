@@ -1,4 +1,6 @@
 import { GlobalText } from '../../texts/global';
+import { isNumber } from '@swimlane/ngx-charts/release/utils';
+import { isNull } from 'util';
 import { GeneralRelief } from 'src/app/model/general-relief';
 
 export class TransactionGeneralRelief {
@@ -32,6 +34,16 @@ export class TransactionGeneralRelief {
     values: string;
 
     /**
+     * Transaction id.
+     */
+    id_transaction: number;
+
+    /**
+     * Voucher notes
+     */
+    notes: string;
+
+    /**
      * General relief
      */
     generalReliefs: GeneralRelief[];
@@ -43,6 +55,8 @@ export class TransactionGeneralRelief {
             this.familyName = instance.familyName;
             this.used = instance.general_reliefs[0] ? instance.general_reliefs[0].distributed_at : undefined;
             this.values = instance.values;
+            this.id_transaction = instance.id_transaction;
+            this.notes = instance.note;
         }
     }
 
@@ -63,6 +77,7 @@ export class TransactionGeneralRelief {
             familyName: GlobalText.TEXTS.model_familyName,
             used: GlobalText.TEXTS.model_used,
             values: GlobalText.TEXTS.model_value,
+            id_transaction: GlobalText.TEXTS.transaction_id_transaction,
             notes: GlobalText.TEXTS.model_notes,
         };
     }
@@ -103,8 +118,11 @@ export class TransactionGeneralRelief {
         generalRelief.familyName = instance.beneficiary.family_name;
         generalRelief.used = instance.general_reliefs[0] ? instance.general_reliefs[0].distributed_at : undefined;
         generalRelief.values = com;
+        generalRelief.notes = instance.notes;
         generalRelief.generalReliefs = instance.general_reliefs;
-
+        if (instance.transactions && instance.transactions.length > 0) {
+            generalRelief.id_transaction = instance.transactions[0].id;
+        }
         return generalRelief;
     }
 
@@ -116,6 +134,7 @@ export class TransactionGeneralRelief {
             familyName: instance.familyName,
             used: instance.used,
             values: instance.values,
+            notes: instance.notes,
         };
 
         return generalRelief;
@@ -147,7 +166,7 @@ export class TransactionGeneralRelief {
         return {
             givenName: selfInstance.givenName,
             familyName: selfInstance.familyName,
-            used: selfInstance.used,
+            used: selfInstance.generalReliefs ? selfInstance.generalReliefs[0].distributedAt : undefined,
             values: selfInstance.values,
         };
     }
@@ -170,9 +189,11 @@ export class TransactionGeneralRelief {
         }
 
         return {
+            id_transaction: selfInstance.id_transaction,
+
             givenName: selfInstance.givenName,
             familyName: selfInstance.familyName,
-            used: selfInstance.used,
+            used: selfInstance.generalReliefs ? selfInstance.generalReliefs[0].distributedAt : undefined,
             values: selfInstance.values,
             notes: notes.join(' / '),
         };
@@ -203,6 +224,7 @@ export class TransactionGeneralRelief {
     */
     getTypeProperties(selfinstance: TransactionGeneralRelief) {
         return {
+            id_transaction: 'text',
             givenName: 'text',
             familyName: 'text',
             used: 'date',
@@ -216,6 +238,7 @@ export class TransactionGeneralRelief {
     */
     getModalTypeProperties(selfinstance: TransactionGeneralRelief) {
         return {
+            id_transaction: 'text',
             givenName: 'text',
             familyName: 'text',
             used: 'date',

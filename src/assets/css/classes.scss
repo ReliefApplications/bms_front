@@ -424,6 +424,10 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         justify-content: center;
         align-items: center;
 
+        app-scanner {
+            width: 100%;
+        }
+
         mat-form-field {
             width: 100%;
         }
@@ -444,6 +448,10 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
                 color: $bms_grey;
             }
         }
+    }
+
+    .modal-subtitle {
+        width: 100%;
     }
 
     .modal-button {

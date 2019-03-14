@@ -40,6 +40,7 @@ export const TEXT = {
     settings: 'الإعدادات',
     summary: 'ملخص',
     update: 'تحديث',
+    voucher: 'Vouchers',
 
     // Error
     back_to_homepage: 'العودة إلى الصفحة الرئيسية',
@@ -247,6 +248,7 @@ export const TEXT = {
     header_reports: 'التقارير',
     header_settings: 'الإعدادات',
     'header_update-beneficiary': 'تحديث المستفيد',
+    header_vouchers: 'Vouchers',
 
     // Import
     import_added: 'تم إضافتها',
@@ -300,12 +302,15 @@ export const TEXT = {
     modal_valid_email: 'من فضلك أدخل البريد الكتروني الصحيح',
     modal_warning_pending_requests_1: 'ابحث عن الطلبات التي قمت بإنشائها خلال وقت عدم الاتصال الخاص بك أدناه ، يمكنك إرسال تلك التي تريد تطبيقها لتعديل قاعدة البيانات.',
     modal_warning_pending_requests_2: 'تحذير: ستفشل الطلبات المرتبطة بعنصر أنشأته دون   اتصال بشبكة  الإنترنت !',
+    modal_no_file: 'No file chosen',
 
     // Model
     model_beneficiaries_dependents: 'التوابع',
     model_beneficiaries_nationalids: 'رقم الهوية',
     model_beneficiaries_phones: 'الهاتف',
     model_beneficiaries_status: 'الرتبة في الأسرة',
+    model_booklet: 'Booklet',
+    model_code: 'Code',
     model_commodity: 'السلع',
     model_commodity_modality: 'القيد',
     model_commodity_unit: 'وحدة',
@@ -316,7 +321,9 @@ export const TEXT = {
     model_criteria: 'المعاير',
     model_criteria_operator: 'الشروط',
     model_criteria_weight: 'وزن النتيجة',
+    model_currency: 'Currency',
     model_dateofbirth: 'تاريخ الميلاد',
+    model_distribution_beneficiary: 'Beneficiary\'s distribution',
     model_distribution_date: 'تاريخ التوزيع',
     model_distribution_name: 'الاسم',
     model_distribution_type: 'العالمي',
@@ -325,7 +332,14 @@ export const TEXT = {
     model_donor_shortname: 'الاسم المختصر',
     model_familyName: 'اللقب',
     model_firstName: 'الاسم ',
+    model_individual_to_all: 'Set vouchers value individually',
+    model_individual_value: 'Individual value',
     model_notes: 'الملاحظات',
+    model_product_name: 'Name',
+    model_product_unit: 'Unit',
+    model_product_image: 'Image',
+    model_number_booklets: 'Quantity of booklets to create',
+    model_number_vouchers: 'Quantity of vouchers',
     model_project_end_date: 'تاريخ الانتهاء',
     model_project_donors_name: 'المانحون',
     model_project_name: 'اسم المشروع',
@@ -338,12 +352,16 @@ export const TEXT = {
     model_transaction_message: 'رسالة',
     model_transaction_pickupDate: 'اختر تاريخا',
     model_type: 'النوع',
+    model_type_shop: 'Type of shop',
     model_vulnerabilities: 'نقاط الضعف',
     model_used: 'مستخدم',
     model_user: 'المستخدم',
-    model_user_password: 'كلمة المرور',
+    model_password: 'كلمة المرور',
     model_value: 'القيمة',
+    model_vendors_address: 'Address',
     model_transaction_state: 'الحالة',
+    model_vendor: 'Vendor',
+    model_state: 'الحالة',
 
     // Placeholder
     placeholder_one_many: 'اختر واحدة أو أكثر',
@@ -394,8 +412,10 @@ export const TEXT = {
     settings_donors: 'المانحين',
     settings_financial_provider: 'مزود المالية',
     settings_log_button: 'احصل على سجلات المستخدم عن طريق البريد الإلكتروني',
+    settings_product: 'Products',
     settings_project_exists: 'مشروع بهذا الاسم يوجود بالفعل',
     settings_users: 'المستخدمون',
+    settings_vendors: 'vendors',
 
     // Snackbar
     snackbar_change_password_done: '!تم تغيير كلمة المرور',
@@ -459,4 +479,24 @@ export const TEXT = {
     update_beneficiary_error_updated: ': حدث خطأ أثناء التحديث',
     update_beneficiary_title: 'تحديث المستفيدين',
     update_beneficiary_updated_successfully: ' !تم التحديث بنجاح',
+
+    //Vouchers
+    voucher_ask_code: 'Please ask beneficiary to enter his 4 digits code here',
+    voucher_assign: 'Assign vouchers',
+    voucher_assign_title: 'Assign booklet to a beneficiary',
+    voucher_assigned_success: 'The booklet has been assigned to ',
+    voucher_confirm: 'Booklet assigned to',
+    voucher_define_password: 'Define password for booklet',
+    voucher_for: 'for',
+    voucher_no_device: 'There is no device detected',
+    voucher_no_permission: 'You have refused to allow the camera',
+    voucher_only_digits: 'Your password must be only 4 digits',
+    voucher_password_changed: 'Your password has been changed',
+    voucher_scan_text: 'Scan booklet QR code',
+    voucher_select_project: 'You have to select a project',
+    voucher_select_distribution: 'You have to select a distribution',
+    voucher_select_beneficiary: 'You have to select a beneficiary',
+    voucher_step5: 'will be assigned to',
+    voucher_print_selection: 'Print the selection',
+    voucher_print_error: 'You can\'t print a booklet if it has no beneficiary'
 };

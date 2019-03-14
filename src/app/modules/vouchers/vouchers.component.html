@@ -1,0 +1,178 @@
+<div class="page-container">
+  <div class="container-title">
+    <h2>{{voucher.voucher | titlecase}}</h2>
+
+    <button mat-stroked-button class="mat-stroked-button button-text-accent" (click)="getProjects(assign)" *ngIf="!loadingAssign">
+      <span>{{voucher.voucher_assign | titlecase }}</span>
+    </button>
+    <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
+  </div>
+
+  <app-placeholder-panel class="container-table min-height" *ngIf="loadingBooklet"></app-placeholder-panel>
+  <div class="container-table" *ngIf="!loadingBooklet">
+    <div class="container-content box-green">
+      <div class="content-button">
+        <div class="action-buttons">
+          <button mat-raised-button *ngIf="checkedElements.length > 0" class="button-background-primary" (click)="printMany()" [matBadge]="checkedElements.length">
+              {{voucher.voucher_print_selection | titlecase}}
+          </button>
+          <div class="button-with-extension">
+            <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
+              <mat-icon>get_app</mat-icon>
+              <span>{{voucher.export | titlecase}}</span>
+            </button>
+            <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+            <div class="extension" *ngIf="!loadingExport">
+              <div mat-button class="dropdown" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':language==='ar'}">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </div>
+              <mat-menu #exportType>
+                <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
+                </button>
+                <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
+                </button>
+                <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+        </div>
+
+        <button mat-raised-button *ngIf="widthScreen > maxWidthMobile" (click)="openDialog('create')" class="add-button-create">
+          <mat-icon>add</mat-icon>
+          {{voucher.add | titlecase}}
+        </button>
+        <button mat-fab *ngIf="widthScreen <= maxWidthMobile" (click)="openDialog('create')" class="add-button"
+          [ngClass]="{'add-button-arabic': language == 'ar'}">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <div class="content-table" *ngIf="!load && bookletData">
+        <app-table-vouchers *ngIf="widthScreen > maxWidthMobile" [entity]="bookletClass" [service]="bookletService"
+          [data]="bookletData" [selection]="selection" (selectChecked)="getChecked($event)"></app-table-vouchers>
+        <app-table-mobile-vouchers *ngIf="widthScreen < maxWidthMobile" [entity]="bookletClass" [service]="bookletService"
+          [data]="bookletData"></app-table-mobile-vouchers>
+      </div>
+
+      <div>
+        <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
+      </div>
+
+      <div class='no-data-container' *ngIf="!load && !bookletData">
+        <div class="loadingContent">
+          <h4 class="no-data">
+            <mat-icon>cloud_off</mat-icon>
+            <span> {{voucher.no_data}} </span>
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Todo: make this a modal component -->
+<ng-template #assign>
+  <mat-dialog-content class="modal-container">
+    <h4 class="modal-title underline-accent">{{voucher.voucher_assign_title | titlecase}}</h4>
+    <div class="dialog-template" *ngIf="step === 1">
+      <div class="modal-body">
+        <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <table class="modal-table">
+          <tr class="modal-row">
+            <th class="table-title">{{ voucher.project }}</th>
+            <th class="table-value">
+                <ng-select class="full-width single-select" [clearable]=false formControlName="projectControl" (change)="getDistributions()" bindLabel="id">
+                  <ng-option *ngFor="let project of projects" [value]="project.id">{{project.name}}</ng-option>
+                </ng-select>
+            </th>
+          </tr>
+
+          <tr class="modal-row">
+            <th class="table-title">{{ voucher.distribution }}</th>
+            <th class="table-value">
+                <ng-select class="full-width single-select" [clearable]=false formControlName="distributionControl"
+                  (change)="getBeneficiaries()" bindLabel="id">
+                  <ng-option *ngFor="let distribution of distributions" [value]="distribution.id">{{distribution.name}}</ng-option>
+                </ng-select>
+            </th>
+          </tr>
+
+          <tr class="modal-row">
+            <th class="table-title">{{ voucher.beneficiary }}</th>
+            <th class="table-value">
+                <ng-select class="full-width single-select" [clearable]=false
+                formControlName="beneficiaryControl" bindLabel="id">
+                  <ng-option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.id">{{beneficiary.full_name}}</ng-option>
+                </ng-select>
+            </th>
+        </tr>
+        </table>
+        </form>
+      </div>
+      <div class="modal-footer action">
+        <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{voucher.cancel}}</button>
+        <button mat-button class="confirm" (click)="nextStep()" [disabled]="!form.valid">{{voucher.next}}</button>
+      </div>
+    </div>
+
+    <div class="dialog-template" *ngIf="step === 2">
+      <app-scanner (result)="getResultScanner($event)"></app-scanner>
+    </div>
+
+    <div *ngIf="step === 3">
+      <p>{{ voucher.voucher_scan_text }}</p>
+
+      <div class="scan-checked">
+        <mat-icon>check_circle_outline</mat-icon>
+      </div>
+
+      <div class="button-text-accent center-items">
+        <mat-icon>local_activity</mat-icon>
+        <span>{{ bookletQRCode }}</span>
+      </div>
+
+      <div class="dialog-template">
+        <div class="modal-footer action">
+          <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{voucher.cancel}}</button>
+          <button mat-button class="confirm" (click)="nextStep()">{{voucher.next}}</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="step === 4">
+      <span>{{ voucher.voucher_define_password}} {{ bookletQRCode }} ?</span>
+      <mat-checkbox color="primary" [(ngModel)]="displayPassword" class="margin-left"></mat-checkbox>
+      <div [hidden]="!displayPassword">
+        <p>{{ voucher.voucher_ask_code }}</p>
+        <div class="dialog-template">
+          <mat-form-field class="full-width">
+            <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl" placeholder={{voucher.model_password}} />
+            <mat-error *ngIf=""></mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="dialog-template">
+        <div class="modal-footer action">
+          <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{voucher.cancel}}</button>
+          <mat-spinner [diameter]="25" *ngIf="loadingPassword"></mat-spinner>
+          <button mat-button class="confirm" (click)="nextStep()" *ngIf="!loadingPassword">{{voucher.next}}</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="step === 5">
+      <p>{{ voucher.model_booklet }} {{ bookletQRCode }} {{ voucher.voucher_step5 }} {{ beneficiaryName }} {{
+        voucher.voucher_for }} {{ distributionName }}</p>
+
+      <div class="dialog-template">
+        <div class="modal-footer action">
+          <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{voucher.cancel}}</button>
+          <mat-spinner [diameter]="25" *ngIf="loadingAssignation"></mat-spinner>
+          <button mat-button class="confirm" (click)="assignBooklet()" *ngIf="!loadingAssignation">{{voucher.transaction_confirm_button}}</button>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+</ng-template>

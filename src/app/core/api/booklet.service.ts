@@ -38,7 +38,7 @@ export class BookletService {
 
     public setPassword(code: string, password: string) {
         const body = {
-            password: CryptoJS.SHA1(password).toString(CryptoJS.enc.Base64),
+            password: password ? CryptoJS.SHA1(password).toString(CryptoJS.enc.Base64) : null,
             code: code,
         };
         const url = this.api + `/booklets/update/password`;

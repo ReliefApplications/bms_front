@@ -73,9 +73,19 @@
 }
 
 
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 1000px) {
     .page-content-wrapper {
         margin-left: 0px !important;
         margin-right: 0px !important;
+    }
+
+    .app-component .page-menu-wrapper.show {
+      width: 25vw;
+      mat-list-item {
+        height: 13vh;
+      }
+      span {
+        margin: 5px !important;
+      }
     }
 }

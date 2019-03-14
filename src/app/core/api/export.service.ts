@@ -34,6 +34,9 @@ export class ExportService {
         const url = this.api + '/export';
         return this.http.post(url, body, options).toPromise()
         .then(response => {
+            if (! response) {
+                this.snackbar.warning('No data to export');
+            }
             saveAs(response, key + '.' + extensionType);
         });
     }

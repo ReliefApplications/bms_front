@@ -473,7 +473,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 const promise = this._distributionService.add(newDistribution);
                 if (promise) {
                     promise.toPromise().then(response => {
-                        this.snackbar.error(this.distribution.distribution + ' : ' + response.distribution.name +
+                        this.snackbar.success(this.distribution.distribution + ' : ' + response.distribution.name +
                         this.distribution.add_distribution_created);
                         this.router.navigate(['projects/distributions/' + response.distribution.id]);
                     });
@@ -609,19 +609,14 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
 
     getProjectDates() {
         this._projectService.get().subscribe(
-            result => {
-                const projects = result;
-                let keyForProject;
-
-                Object.keys(projects).forEach(key => {
-                    if (projects[key].id === this.queryParams.project) {
-                        keyForProject = key;
+            (projects: Project[]) => {
+                projects.forEach(project => {
+                    if (project.id === this.queryParams.project) {
+                        this.projectInfo.startDate = project.start_date;
+                        this.projectInfo.endDate = project.end_date;
                         return;
                     }
                 });
-
-                this.projectInfo.startDate = projects[keyForProject].start_date;
-                this.projectInfo.endDate = projects[keyForProject].end_date;
             }
         );
     }

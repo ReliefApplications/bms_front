@@ -267,11 +267,11 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     }
 
     private formatTransactionTable(data: any) {
-        if (this.actualDistribution.commodities[0].modality_type.name === 'Voucher') {
+        if (this.actualDistribution.commodities[0].modality_type.name !== 'Mobile Money') {
             this.entity = TransactionGeneralRelief;
             this.selection = new SelectionModel<any>(true, []);
         }
-        else if (this.actualDistribution.commodities[0].modality_type.name === 'Mobile Cash') {
+        else if (this.actualDistribution.commodities[0].modality_type.name === 'Mobile Money') {
             this.entity = TransactionBeneficiary;
         }
         this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));
@@ -407,11 +407,11 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     /**
      * Requests back-end a file containing informations about the transaction
      */
-    exportTransaction(fileType: string) {
+    exportTransaction(exportInformation: any) {
 
         this.dialog.closeAll();
         this.loadingExport = true;
-        this.distributionService.export('transaction', this.extensionTypeTransaction, this.distributionId).then(
+        this.distributionService.export(exportInformation.distribution, exportInformation.type, this.distributionId).then(
             () => {
                 this.loadingExport = false;
             }

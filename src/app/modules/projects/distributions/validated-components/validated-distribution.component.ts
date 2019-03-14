@@ -12,7 +12,7 @@ import { finalize, distinct } from 'rxjs/operators';
 import { State } from 'src/app/model/transaction-beneficiary';
 
 @Component({
-    template: '',
+    template: './validated-distribution.component.html',
     styleUrls: ['./validated-distribution.component.scss']
 })
 export class ValidatedDistributionComponent implements OnInit, DoCheck {
@@ -47,8 +47,8 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     @Input() hasRights = false;
     @Input() hasRightsTransaction = false;
 
-    @Output() exportEmitter: EventEmitter<string> = new EventEmitter();
-    @Output() storeEmitter: EventEmitter<void> = new EventEmitter();
+    @Output() exportEmitter: EventEmitter<Object> = new EventEmitter();
+    @Output() storeEmitter: EventEmitter<any> = new EventEmitter();
 
 
     @HostListener('window:resize', ['$event'])
@@ -78,22 +78,9 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         protected cacheService: AsyncacheService,
     ) { }
 
-    getPeopleCount(): number {
-        const states = [State.NoPhone, State.NotSent, State.SendError];
-        let peopleCount = 0;
-        for (const beneficiary of this.transactionData.data) {
-            if (states.includes(beneficiary.state)) {
-                peopleCount ++;
-            }
-        }
-        return peopleCount;
-    }
-
     getTotalCommodityValue(commodity: any): number {
         return this.transactionData.data.length * commodity.value;
     }
-
-
 
     getReceivedValue(commodity: any): number {
         let amountReceived = 0;
@@ -178,10 +165,6 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     exit(message: string) {
         this.snackbar.info(message);
         this.dialog.closeAll();
-    }
-
-    exportTransaction() {
-        this.exportEmitter.emit(this.exportTypeTransaction);
     }
 
     codeVerif() {

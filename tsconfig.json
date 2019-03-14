@@ -13,8 +13,6 @@
       "node_modules/@types"
     ],
     "lib": [
-      "es5",
-      "es2015.promise",
       "es2017",
       "dom"
     ]

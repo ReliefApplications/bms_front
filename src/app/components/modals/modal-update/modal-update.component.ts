@@ -244,8 +244,16 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
             }
         }
 
-        this.onUpdate.emit(this.updateObject);
-        this.closeDialog();
+        if (this.updateObject.imageData) {
+            this.uploadService.uploadImage(this.updateObject.imageData).subscribe(fileUrl => {
+                this.updateObject.image = fileUrl;
+                this.onUpdate.emit(this.updateObject);
+                this.closeDialog();
+            });
+        } else {
+            this.onUpdate.emit(this.updateObject);
+            this.closeDialog();
+        }
     }
 
     isDisabled(property) {
@@ -298,9 +306,7 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
 
             const formData = new FormData();
             formData.append('file', file);
-            this.uploadService.uploadImage(formData).subscribe(fileUrl => {
-                // this.updateObject[property] = fileUrl;
-            });
+            this.updateObject.imageData = formData;
         }
     }
 }

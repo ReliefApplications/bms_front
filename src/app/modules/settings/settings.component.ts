@@ -30,7 +30,6 @@ import { Product } from 'src/app/model/product';
 import { ProductService } from 'src/app/core/api/product-service';
 import { Vendors } from 'src/app/model/vendors';
 import { VendorsService } from 'src/app/core/api/vendors.service';
-// import * as AWS from 'aws-sdk';
 
 @Component({
     selector: 'app-settings',
@@ -91,12 +90,6 @@ export class SettingsComponent implements OnInit, DoCheck {
         this.checkSize();
         this.selectTitle('users');
         this.extensionType = 'xls';
-
-        // AWS.config.update({accessKeyId: 'AKIAIZ3GASHIDZXRDFTQ', secretAccessKey: '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'});
-        // const bucket = new AWS.S3({params: {Bucket: 'files-testing.bmstaging.info'}});
-        // bucket.getObject({ Key: 'products/5c8906a4a08ce.png', Bucket: 'files-testing.bmstaging.info' }, function (err, file) {
-        //   console.log(file)
-        // });
     }
 
     /**

@@ -227,6 +227,25 @@ export class VouchersComponent implements OnInit {
         this.dialog.closeAll();
     }
 
+  createElement(createElement: Object) {
+    this.bookletService.create(createElement).subscribe(
+      () => {
+        this.getBooklets();
+      });
+  }
+
+  getChecked(event) {
+    this.checkedElements = event;
+  }
+
+  printMany() {
+    const bookletIds = [];
+    const error = false;
+    this.checkedElements.forEach(element => {
+      bookletIds.push(element.id);
+    });
+    return !error ? this._exportService.printManyVouchers(bookletIds) : null;
+  }
 
     nextStep() {
         if (this.step === 1) {
@@ -303,27 +322,6 @@ export class VouchersComponent implements OnInit {
                     this.snackbar.error(err.error.message);
                 }
             );
-    }
-
-    createElement(createElement: Object) {
-        createElement = this.bookletClass.formatForApi(createElement);
-        this.bookletService.create(createElement).subscribe(
-            () => {
-                this.getBooklets();
-            });
-    }
-
-    getChecked(event) {
-        this.checkedElements = event;
-    }
-
-    printMany() {
-        const bookletIds = [];
-        const error = false;
-        this.checkedElements.forEach(element => {
-            bookletIds.push(element.id);
-        });
-        return !error ? this._exportService.printManyVouchers(bookletIds) : null;
     }
 
     export() {

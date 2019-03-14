@@ -23,7 +23,7 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
     public entityDisplayedName = '';
     public oldEntity = '';
     mapperObject = null;
-    public updatedObject: any;
+    filename = '';
 
 
     display = false;
@@ -272,9 +272,18 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
             }
         }
 
-        const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
-        this.onCreate.emit(formatedObject);
-        this.closeDialog();
+        if (this.newObject.imageData) {
+            this.uploadService.uploadImage(this.newObject.imageData, this.data.entity.__classname__).subscribe(fileUrl => {
+                this.newObject.image = fileUrl;
+                const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
+                this.onCreate.emit(formatedObject);
+                this.closeDialog();
+            });
+        } else {
+            const formatedObject = this.data.entity.formatFromModalAdd(this.newObject, this.loadedData);
+            this.onCreate.emit(formatedObject);
+            this.closeDialog();
+        }
     }
 
     /**
@@ -319,5 +328,16 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
 
     trackByFn(i: number) {
         return i;
-      }
+    }
+
+    onFileChange(property, event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.filename = file.name;
+
+            const formData = new FormData();
+            formData.append('file', file);
+            this.newObject.imageData = formData;
+        }
+    }
 }

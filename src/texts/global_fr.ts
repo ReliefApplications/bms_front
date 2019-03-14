@@ -302,6 +302,7 @@ export const TEXT = {
     modal_valid_email: 'Veuillez utiliser un mail valide',
     modal_warning_pending_requests_1: 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.',
     modal_warning_pending_requests_2: 'WARNING: Requests linked to an item you created offline will fail !',
+    modal_no_file: 'Aucun fichier selectionné',
 
     // Model
     model_beneficiaries_dependents: 'Dépendents',

@@ -14,6 +14,7 @@ import { isArray } from 'util';
 import { User } from '../../model/user';
 import { UserService } from '../../core/api/user.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { UploadService } from '../../core/api/upload.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -82,6 +83,7 @@ export class ModalComponent implements OnInit, DoCheck {
         public modalitiesService: ModalitiesService,
         public snackbar: SnackbarService,
         public userService: UserService,
+        public uploadService: UploadService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 

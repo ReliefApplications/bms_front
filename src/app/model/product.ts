@@ -22,10 +22,15 @@ export class Product {
     */
     unit = '';
     /**
-    * Product image
+    * Product image url
     * @type {string}
     */
     image = '';
+    /**
+    * Product image uploaded
+    * @type {formData}
+    */
+    imageData;
 
 
 
@@ -87,7 +92,7 @@ export class Product {
         return {
             name: 'text',
             unit: 'text',
-            image: 'text',
+            image: 'document',
         };
     }
 
@@ -155,7 +160,7 @@ export class Product {
         return {
             name: 'text',
             unit: 'text',
-            image: 'text',
+            image: 'document',
         };
     }
 

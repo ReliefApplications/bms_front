@@ -19,6 +19,7 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
     @Input() data: any;
     @Output() onUpdate = new EventEmitter();
     updateObject: any;
+    filename = '';
 
     ngOnInit() {
         this.entityInstance = this.data.mapper.instantiate(this.data.entity);
@@ -243,8 +244,16 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
             }
         }
 
-        this.onUpdate.emit(this.updateObject);
-        this.closeDialog();
+        if (this.updateObject.imageData) {
+            this.uploadService.uploadImage(this.updateObject.imageData, this.data.entity.__classname__).subscribe(fileUrl => {
+                this.updateObject.image = fileUrl;
+                this.onUpdate.emit(this.updateObject);
+                this.closeDialog();
+            });
+        } else {
+            this.onUpdate.emit(this.updateObject);
+            this.closeDialog();
+        }
     }
 
     isDisabled(property) {
@@ -289,4 +298,15 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
     trackByFn(i: number) {
         return i;
       }
+
+    onFileChange(property, event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.filename = file.name;
+
+            const formData = new FormData();
+            formData.append('file', file);
+            this.updateObject.imageData = formData;
+        }
+    }
 }

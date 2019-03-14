@@ -302,6 +302,7 @@ export const TEXT = {
     modal_valid_email: 'من فضلك أدخل البريد الكتروني الصحيح',
     modal_warning_pending_requests_1: 'ابحث عن الطلبات التي قمت بإنشائها خلال وقت عدم الاتصال الخاص بك أدناه ، يمكنك إرسال تلك التي تريد تطبيقها لتعديل قاعدة البيانات.',
     modal_warning_pending_requests_2: 'تحذير: ستفشل الطلبات المرتبطة بعنصر أنشأته دون   اتصال بشبكة  الإنترنت !',
+    modal_no_file: 'No file chosen',
 
     // Model
     model_beneficiaries_dependents: 'التوابع',

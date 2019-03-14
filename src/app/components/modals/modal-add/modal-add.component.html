@@ -1,105 +1,33 @@
 <mat-dialog-content class="modal-container">
-  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}">{{modal.modal_add_title | titlecase }} {{entityDisplayedName | titlecase}}</h4>
-  <table class="modal-table" [ngClass]="{'arabic': language==='ar'}">
-    <p *ngIf="this.data.entity.getAddDescription">{{this.data.entity.getAddDescription() | titlecase }}</p>
-    <tr *ngFor="let p of properties" class="modal-row">
-      <th class="table-title" *ngIf=" mapperObject[p] !='Unit' && p != 'sectors_name' && p != 'donors_name'">{{mapperObject[p] | titlecase }}</th>
-      <th class="table-title" *ngIf="p == 'sectors_name'">{{ modal.model_sectors_name }}</th>
-      <th class="table-title" *ngIf="p == 'donors_name'">{{ modal.model_project_donors_name }}</th>
-      <th class="table-title" *ngIf=" (mapperObject[p]=='Unit') ">{{unitType() | titlecase }}</th>
-
-      <th class="table-value">
-                <form class="form" [formGroup]="form">
-                    <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
-                        class="full-width">
-
-            <input matInput [maxlength]="this.maxLength" *ngIf="propertiesTypes[p]=='text'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
-
-            <mat-hint align="start" *ngIf="p=='name'"><strong>{{modal.modal_project_name_characters_limit |
-                                titlecase }} {{this.maxLength}} {{modal.characters}}</strong> </mat-hint>
-            <mat-hint align="end" *ngIf="newObject[p] && p=='name'"> {{newObject[p].length}} /
-              {{this.maxLength}} </mat-hint>
-
-            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'selectCountry' && propertiesTypes[p]!='text'"
-                [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
-
-            <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="0">
-
-                        <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
-                            matInput [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
-                            placeholder="{{data.mapper.mapTitle(p)}}">
-                        <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"></mat-datepicker-toggle>
-                        <mat-datepicker #dateDistribution></mat-datepicker>
-                    </mat-form-field>
-
-                    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-                        *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
-                        (change)="selected(newObject[p])" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" bindLabel="name" bindValue="id">
-                    </ng-select>
-
-                    <ng-select *ngIf="propertiesTypes[p]=='select'" class="multiple-select" [(ngModel)]="newObject[p]" bindLabel="name"
-                        [items]="loadedData[p]" [multiple]="true" placeholder="{{modal.placeholder_one_many | titlecase}}" [closeOnSelect]="false"
-                        [searchable]="true" [ngModelOptions]="{standalone: true}">
-                    </ng-select>
-
-                    <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="multiple-select" [(ngModel)]="newObject[p]"
-                        bindLabel="shortname" [items]="loadedData[p]" [multiple]="true" placeholder="{{modal.placeholder_one_many | titlecase}}"
-                        [closeOnSelect]="false" [searchable]="true" [ngModelOptions]="{standalone: true}">
-                    </ng-select>
-
-                    <ng-select *ngIf="propertiesTypes[p]=='selectProjects'"
-                        [ngClass]="{'multiple-select': newObject['rights'] == 'ROLE_PROJECT_MANAGER', 'single-select': newObject['rights'] == 'ROLE_PROJECT_OFFICER' || newObject['rights'] == 'ROLE_FIELD_OFFICER'}"
-                        [(ngModel)]="newObject[p]"
-                        bindLabel="name"
-                        [items]="loadedData[p]"
-                        [multiple]="newObject['rights'] == 'ROLE_PROJECT_MANAGER'"
-                        placeholder="{{mapperObject[p]}}"
-                        [closeOnSelect]="newObject['rights'] != 'ROLE_PROJECT_MANAGER'"
-                        [searchable]="true"
-                        formControlName="projectsControl">
-                    </ng-select>
-
-                    <ng-select *ngIf="propertiesTypes[p]=='selectCountry'"
-                        [ngClass]="{'multiple-select': newObject['rights'] == 'ROLE_REGIONAL_MANAGER', 'single-select': newObject['rights'] == 'ROLE_COUNTRY_MANAGER'}"
-                        [(ngModel)]="newObject[p]"
-                        bindLabel="id"
-                        [items]="loadedData[p]"
-                        [multiple]="newObject['rights'] == 'ROLE_REGIONAL_MANAGER'"
-                        placeholder="{{mapperObject[p]}}"
-                        [closeOnSelect]="newObject['rights'] != 'ROLE_REGIONAL_MANAGER'"
-                        [searchable]="true"
-                        formControlName="countryControl">
-                    </ng-select>
-
-          <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">
-            <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.email}}" formControlName="emailFormControl" [errorStateMatcher]="matcher">
-            <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-              {{modal.modal_valid_email | titlecase }}
-            </mat-error>
-            <mat-error *ngIf="emailFormControl.hasError('required')">
-              {{modal.modal_email_is | titlecase }}
-              <strong>{{modal.modal_required | titlecase }}</strong>
-            </mat-error>
-          </mat-form-field>
-
-          <mat-form-field *ngIf="propertiesTypes[p]=='password' && modal !== undefined" class="full-width">
-            <input [(ngModel)]="newObject[p]" matInput placeholder="{{modal.model_user_password}}" formControlName="passwordFormControl"
-              [errorStateMatcher]="matcher" type="password">
-            <mat-error *ngIf="passwordFormControl.hasError('pattern') && !passwordFormControl.hasError('required')">
-              {{modal.modal_not_enough_strong}}
-            </mat-error>
-            <mat-error *ngIf="passwordFormControl.hasError('required')">
-              {{modal.modal_password_required | titlecase}}
-            </mat-error>
-          </mat-form-field>
-
-        </form>
-      </th>
-    </tr>
-  </table>
-  <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
-    <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.cancel}}</button>
-    <button mat-raised-button *ngIf="!displayAdd" (click)="add()" class="button-background-accent">{{modal.create}}</button>
-    <button mat-raised-button *ngIf="displayAdd" (click)="add()" class="button-background-accent">{{modal.add}}</button>
-  </div>
+    <h4 class="modal-title underline-accent stickyHeader">Add {{'project' | titlecase}}</h4>
+    <form [formGroup]="form">
+        <table class="modal-table">
+            <ng-container *ngFor="let fieldName of objectFields">
+                <tr class="modal-row" *ngIf="objectInstance.fields[fieldName]; let field">
+                    <ng-container>
+                        <th class="table-title">{{ field.title | titlecase }}</th>
+                        <td>
+                            {{field |json}}
+                            {{field.isMultipleSelect}}
+                            {{field.isSingleSelect}}
+                            <ng-container *ngIf="!field.isMultipleSelect && !field.isSingleSelect">
+                                <input matInput type="text" [formControlName]="fieldName">
+                            </ng-container>
+                            <ng-container *ngIf="field.isMultipleSelect">
+                                <ng-select [formControlName]="fieldName">
+                                    <ng-option *ngFor="let option of getSelectOptions(field.urlPath)" [value]="option.id">
+                                        {{option[field.optionLabel]}}
+                                    </ng-option>
+                                </ng-select>
+                            </ng-container>
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </table>
+        <div class="modal-button action-buttons stickyFooter">
+            <button mat-button (click)="onExit()" class="button-text-accent">Cancel</button>
+            <button mat-raised-button [disabled]="!form.valid" (click)="onSubmit()" class="button-background-accent">Add</button>
+        </div>
+    </form>
 </mat-dialog-content>

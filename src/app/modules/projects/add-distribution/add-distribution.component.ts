@@ -11,7 +11,6 @@ import { Commodity } from '../../../model/commodity';
 import { Criteria } from '../../../model/criteria';
 import { DistributionData } from '../../../model/distribution-data';
 
-import { ModalAddLineComponent } from '../../../components/modals/modal-add/modal-add-line/modal-add-line.component';
 import { ModalAddComponent } from '../../../components/modals/modal-add/modal-add.component';
 import { FormControl, Validators } from '@angular/forms';
 import { LocationService } from '../../../core/api/location.service';
@@ -513,7 +512,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         let dialogRef;
 
         if (user_action === this.criteriaAction) {
-            dialogRef = this.dialog.open(ModalAddLineComponent, {
+            dialogRef = this.dialog.open(ModalAddComponent, {
                 data: { data: [], entity: this.criteriaClass, mapper: this.mapper }
             });
         } else if (user_action === this.commodityAction) {

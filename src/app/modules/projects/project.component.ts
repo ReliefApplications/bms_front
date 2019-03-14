@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackB
 import { GlobalText } from '../../../texts/global';
 
 import { Project } from '../../model/project';
+import { Project as NewProject } from '../../model/project.new';
 
 import { ProjectService } from '../../core/api/project.service';
 import { DistributionService } from '../../core/api/distribution.service';
@@ -63,7 +64,7 @@ export class ProjectComponent implements OnInit, DoCheck {
         private _cacheService: AsyncacheService,
         public snackBar: MatSnackBar,
         public dialog: MatDialog,
-        public importedDataService: ImportedDataService
+        public importedDataService: ImportedDataService,
     ) { }
 
     ngOnInit() {
@@ -198,14 +199,13 @@ export class ProjectComponent implements OnInit, DoCheck {
         const dialogRef = this.dialog.open(
             ModalAddComponent, {
                 data: {
-                    data: [],
-                    entity: Project,
-                    service: this.projectService,
-                    mapper: this.mapperService
+                    objectInstance: new NewProject(),
                 }
             }
         );
-        const create = dialogRef.componentInstance.onCreate.subscribe(
+
+        /*
+        const create = dialogRef.componentInstance.objectCreated.subscribe(
             (data) => {
                 let exists = false;
                 if (this.projects) {
@@ -224,6 +224,7 @@ export class ProjectComponent implements OnInit, DoCheck {
                 }
             }
         );
+        */
     }
 
     createElement(createElement: Object) {

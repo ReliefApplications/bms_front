@@ -1,76 +1,87 @@
 import { Sector } from './sector';
 import { Donor } from './donor';
-import { AppObject } from './app-object';
-import { AppObjectField } from './app-object-field';
+import { CustomModel as CustomModel } from './custom-model';
+import { CustomModelField as CustomModelField } from './custom-model-field';
+import { GlobalText } from '../../texts/global';
 
-export class Project extends AppObject {
+
+export class Project extends CustomModel {
 
     public fields = {
-        id : new AppObjectField<number>(
+        id : new CustomModelField<number>(
             {
+                title: null,
+                placeholder: null,
                 isHidden: true,
             }
         ),
-        name : new AppObjectField<string>(
+        name : new CustomModelField<string>(
             {
+                title: GlobalText.TEXTS.model_project_name,
+                placeholder: null,
                 isDisplayedInTable: true,
                 isRequired: true,
                 isSettable: true,
             }
         ),
-        sectorsName : new AppObjectField<string[]>(
+        sectors : new CustomModelField<Sector[]>(
             {
+                placeholder: null,
+                isDisplayedInTable: true,
+                title: GlobalText.TEXTS.model_sectors_name,
                 isMultipleSelect: true,
+                isSettable: true,
+                urlPath: 'sectors',
+                optionLabel: 'name'
+            }
+        ),
+        startDate : new CustomModelField<Date>(
+            {
+                title: GlobalText.TEXTS.model_project_start_date,
+                placeholder: null,
                 isDisplayedInTable: true,
                 isSettable: true,
             }
         ),
-        sectors : new AppObjectField<Sector[]>(
+        endDate : new CustomModelField<Date>(
             {
-                isDisplayedInTable: true,
-            }
-        ),
-        startDate : new AppObjectField<Date>(
-            {
+                title: GlobalText.TEXTS.model_project_end_date,
+                placeholder: null,
                 isDisplayedInTable: true,
                 isSettable: true,
             }
         ),
-        endDate : new AppObjectField<Date>(
+        numberOfHouseholds : new CustomModelField<number>(
             {
-                isDisplayedInTable: true,
-                isSettable: true,
-            }
-        ),
-        numberOfHouseholds : new AppObjectField<number>(
-            {
+                title: GlobalText.TEXTS.model_project_number_of_households,
+                placeholder: null,
                 isDisplayedInTable: true,
             }
         ),
-        donorsName : new AppObjectField<string[]>(
+        donors : new CustomModelField<Donor[]>(
             {
-                isDisplayedInTable: true,
-                isSettable: true,
+                title: GlobalText.TEXTS.model_project_donors_name,
+                placeholder: null,
             }
         ),
-        donors : new AppObjectField<Donor[]>(
+        iso3 : new CustomModelField<string>(
             {
-
+                title: null,
+                placeholder: null,
             }
         ),
-        iso3 : new AppObjectField<string>(
+        value : new CustomModelField<number[]>(
             {
-
-            }
-        ),
-        value : new AppObjectField<number[]>(
-            {
+                title: GlobalText.TEXTS.model_project_value,
+                placeholder: null,
                 required: true,
                 isSettable: true,
             }
         ),
-        notes : new AppObjectField<string>(
+        notes : new CustomModelField<string>(
             {
+                title: GlobalText.TEXTS.model_notes,
+                placeholder: null,
                 isSettable: true,
                 isUpdatable: true,
             }
@@ -88,7 +99,5 @@ export class Project extends AppObject {
     public  modelToApi(object: Object): void {
 
     }
-    public  getDisplayedName(): Object {
-        return new Object;
-    }
+
 }

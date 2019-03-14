@@ -224,7 +224,6 @@ export class SettingsComponent implements OnInit, DoCheck {
                             }
                         });
                     }
-
                     response = this.referedClassToken.formatArray(response);
                     this.data = new MatTableDataSource(response);
 

@@ -50,7 +50,7 @@ export class TransactionVoucher {
         };
     }
 
-    public static formatArray(instance: any): TransactionVoucher[] {
+    public static formatArray(instance: any, commodities: any): TransactionVoucher[] {
         const transactionVouchers: TransactionVoucher[] = [];
 
         if (instance) {
@@ -71,7 +71,7 @@ export class TransactionVoucher {
 
         transactionVoucher.givenName = instance.givenName;
         transactionVoucher.familyName = instance.familyName;
-        transactionVoucher.booklet = instance.booklet;
+        transactionVoucher.booklet = instance.booklets ? instance.booklets[0] : null;
         return transactionVoucher;
     }
 
@@ -94,10 +94,10 @@ export class TransactionVoucher {
         return {
             givenName: selfInstance.givenName,
             familyName: selfInstance.familyName,
-            booklet: selfInstance.booklet.code,
-            status: selfInstance.booklet.status,
-            used: selfInstance.booklet.status,
-            value: '10' + selfInstance.booklet.currency,
+            booklet: selfInstance.booklet ? selfInstance.booklet.code : null,
+            status: selfInstance.booklet ? selfInstance.booklet.status : null,
+            used: selfInstance.booklet ? selfInstance.booklet.status : null,
+            value: selfInstance.booklet ? '10' + selfInstance.booklet.currency : null,
         };
     }
 
@@ -112,10 +112,10 @@ export class TransactionVoucher {
         return {
             givenName: selfInstance.givenName,
             familyName: selfInstance.familyName,
-            booklet: selfInstance.booklet.code,
-            status: selfInstance.booklet.status,
-            used: selfInstance.booklet.status,
-            value: '10' + selfInstance.booklet.currency,
+            booklet: selfInstance.booklet ? selfInstance.booklet.code : null,
+            status: selfInstance.booklet ? selfInstance.booklet.status : null,
+            used: selfInstance.booklet ? selfInstance.booklet.status : null,
+            value: selfInstance.booklet ? '10' + selfInstance.booklet.currency : null,
         };
     }
 
@@ -130,10 +130,10 @@ export class TransactionVoucher {
         return {
             givenName: selfInstance.givenName,
             familyName: selfInstance.familyName,
-            booklet: selfInstance.booklet.code,
-            status: selfInstance.booklet.status,
-            used: selfInstance.booklet.status,
-            value: '10' + selfInstance.booklet.currency,
+            booklet: selfInstance.booklet ? selfInstance.booklet.code : null,
+            status: selfInstance.booklet ? selfInstance.booklet.status : null,
+            used: selfInstance.booklet ? selfInstance.booklet.status : null,
+            value: selfInstance.booklet ? '10' + selfInstance.booklet.currency : null,
         };
     }
 }

@@ -204,9 +204,7 @@ export class TableComponent implements OnChanges, DoCheck {
                 });
             } else {
                 this.service.get().subscribe(response => {
-                    // console.log(this.entity);
                     this.data = new MatTableDataSource(this.entity.formatArray(response));
-                    // console.log(this.data)
                 });
             }
         }

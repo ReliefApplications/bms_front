@@ -62,7 +62,6 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
             (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
         );
-        // console.log(this.actualDistribution);
     }
 
     ngDoCheck(): void {

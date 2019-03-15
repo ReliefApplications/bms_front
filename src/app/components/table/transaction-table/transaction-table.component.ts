@@ -18,7 +18,8 @@ export class TransactionTableComponent extends TableComponent {
     @Input() parentObject: DistributionData;
 
     // ngOnInit() {
-    //     console.log(this.data);
+    //     // console.log('transaction table');
+    //     // console.log(this.data);
     // }
 
     updateElement(updateElement) {

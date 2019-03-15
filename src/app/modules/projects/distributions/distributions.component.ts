@@ -11,6 +11,8 @@ import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { Mapper } from 'src/app/core/utils/mapper.service';
 import { ImportedBeneficiary } from 'src/app/model/imported-beneficiary';
 import { TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
+import { TransactionVoucher } from 'src/app/model/transaction-voucher';
+
 import { TransactionGeneralRelief } from 'src/app/model/transaction-general-relief';
 import { finalize } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
@@ -283,6 +285,10 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     }
 
     private formatTransactionTable(data: any) {
+        if (this.actualDistribution.commodities[0].modality_type.name === 'QR Code Voucher') {
+            this.entity = TransactionVoucher;
+            this.selection = new SelectionModel<any>(true, []);
+        }
         if (this.actualDistribution.commodities[0].modality_type.name !== 'Mobile Money') {
             this.entity = TransactionGeneralRelief;
             this.selection = new SelectionModel<any>(true, []);

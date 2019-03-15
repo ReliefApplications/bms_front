@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, DoCheck } from '@angular/core';
 import { GlobalText } from '../../../texts/global';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { finalize } from 'rxjs/operators';
@@ -24,7 +24,7 @@ import { forkJoin } from 'rxjs';
     templateUrl: './vouchers.component.html',
     styleUrls: ['./vouchers.component.scss']
 })
-export class VouchersComponent implements OnInit {
+export class VouchersComponent implements OnInit, DoCheck {
 
     public maxHeight = GlobalText.maxHeight;
     public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -92,12 +92,22 @@ export class VouchersComponent implements OnInit {
         public snackbar: SnackbarService
     ) { }
 
+
+
     ngOnInit() {
         this.checkSize();
         this.extensionType = 'xls';
 
         this.getBooklets();
     }
+
+    ngDoCheck() {
+        if (this.voucher !== GlobalText.TEXTS) {
+            this.language = GlobalText.language;
+            this.voucher = GlobalText.TEXTS;
+        }
+    }
+
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
@@ -232,25 +242,26 @@ export class VouchersComponent implements OnInit {
         this.dialog.closeAll();
     }
 
-  createElement(createElement: Object) {
-    this.bookletService.create(createElement).subscribe(
-      () => {
-        this.getBooklets();
-      });
-  }
+    createElement(createElement: Object) {
+        this.bookletService.create(createElement).subscribe(
+            () => {
+                this.snackbar.success(this.voucher.voucher_created);
+                this.getBooklets();
+            });
+    }
 
-  getChecked(event) {
-    this.checkedElements = event;
-  }
+    getChecked(event) {
+        this.checkedElements = event;
+    }
 
-  printMany() {
-    const bookletIds = [];
-    const error = false;
-    this.checkedElements.forEach(element => {
-      bookletIds.push(element.id);
-    });
-    return !error ? this._exportService.printManyVouchers(bookletIds) : null;
-  }
+    printMany() {
+        const bookletIds = [];
+        const error = false;
+        this.checkedElements.forEach(element => {
+            bookletIds.push(element.id);
+        });
+        return !error ? this._exportService.printManyVouchers(bookletIds) : null;
+    }
 
     nextStep() {
         if (this.step === 1) {

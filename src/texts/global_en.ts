@@ -484,6 +484,7 @@ export const TEXT = {
     voucher_assign_title: 'Assign booklet to a beneficiary',
     voucher_assigned_success: 'The booklet has been assigned to ',
     voucher_confirm: 'Booklet assigned to',
+    voucher_created: 'The booklet has been created.',
     voucher_define_password: 'Define password for booklet',
     voucher_for: 'for',
     voucher_no_device: 'There is no device detected',
@@ -495,6 +496,7 @@ export const TEXT = {
     voucher_select_distribution: 'You have to select a distribution',
     voucher_select_beneficiary: 'You have to select a beneficiary',
     voucher_step5: 'will be assigned to',
-    voucher_print_selection: 'Print the selection',
-    voucher_print_error: 'You can\'t print a booklet if it has no beneficiary'
+    voucher_print_selection: 'Print selection',
+    voucher_print_error: 'You can\'t print a booklet if it has no beneficiary',
+    voucher_print_starting: 'Your voucher download is starting',
 };

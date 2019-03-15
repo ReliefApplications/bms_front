@@ -485,6 +485,7 @@ export const TEXT = {
     voucher_assign_title: 'Assigner la brochure à un bénéficiaire',
     voucher_assigned_success: 'La brochure a été assignée à ',
     voucher_confirm: 'Brochure assignée à',
+    voucher_created: 'La brochure a été créée',
     voucher_define_password: 'Définissez un mot de passe pour la brochure',
     voucher_for: 'pour',
     voucher_no_device: 'Il n\'y a pas de caméra connectée',
@@ -497,6 +498,6 @@ export const TEXT = {
     voucher_select_beneficiary: 'Vous devez sélectionner un bénéficiaire',
     voucher_step5: 'va être assignée à',
     voucher_print_selection: 'Imprimer la sélection',
-    voucher_print_error: 'Vous ne pouvez pas imprimer un booklet sans bénéficiaire'
-
+    voucher_print_error: 'Vous ne pouvez pas imprimer un booklet sans bénéficiaire',
+    voucher_print_starting: 'Le téléchargement du coupon va démarrer',
 };

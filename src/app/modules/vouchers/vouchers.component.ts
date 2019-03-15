@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { GlobalText } from '../../../texts/global';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { finalize } from 'rxjs/operators';
@@ -16,6 +16,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Voucher } from '../../model/voucher';
 import { ExportService } from '../../core/api/export.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { TableVouchersComponent } from 'src/app/components/table/table-vouchers/table-vouchers.component';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-vouchers',
@@ -78,6 +80,8 @@ export class VouchersComponent implements OnInit {
     public selection = new SelectionModel<Voucher>(true, []);
     public checkedElements: any = [];
 
+    @ViewChild(TableVouchersComponent) tableVoucher: TableVouchersComponent;
+
     constructor(
         public bookletService: BookletService,
         public dialog: MatDialog,
@@ -99,6 +103,7 @@ export class VouchersComponent implements OnInit {
     onResize(event) {
         this.checkSize();
     }
+
 
     checkSize(): void {
         this.heightScreen = window.innerHeight;
@@ -274,24 +279,9 @@ export class VouchersComponent implements OnInit {
                 if (!this.displayPassword) {
                     this.password = null;
                 }
-                // TODO remove this next line
-                // this.bookletQRCode = 'V3hA7#000-000-000';
 
-                this.bookletService.setPassword(this.bookletQRCode, this.voucherPasswordControl.value)
-                    .pipe(
-                        finalize(
-                            () => this.loadingPassword = false
-                        )
-                    )
-                    .subscribe(
-                        () => {
-                            this.snackbar.success(this.voucher.voucher_password_changed);
-                            this.step = 5;
-                        },
-                        err => {
-                            this.snackbar.error(err.error);
-                        }
-                    );
+                this.step = 5;
+
             }
         }
     }
@@ -306,22 +296,31 @@ export class VouchersComponent implements OnInit {
         this.loadingAssignation = true;
         const bookletId = this.bookletQRCode;
 
-        this.bookletService.assignBenef(bookletId, this.beneficiaryControl.value)
+
+
+        const assignObservable = this.bookletService.assignBenef(bookletId, this.beneficiaryControl.value)
             .pipe(
                 finalize(
                     () => this.loadingAssignation = false
                 )
-            )
-            .subscribe(
-                () => {
-                    this.snackbar.success(
-                        this.voucher.voucher_assigned_success + this.beneficiaryName);
-                    this.dialog.closeAll();
-                },
-                err => {
-                    this.snackbar.error(err.error.message);
-                }
             );
+        const passwordObservable = this.bookletService.setPassword(this.bookletQRCode, this.voucherPasswordControl.value)
+            .pipe(
+                finalize(
+                    () => {
+                        this.loadingPassword = false;
+                        this.tableVoucher.updateData();
+                    }
+                )
+            );
+
+        forkJoin(assignObservable, passwordObservable).subscribe((res: any) => {
+            this.snackbar.success(
+            this.voucher.voucher_assigned_success + this.beneficiaryName);
+            this.dialog.closeAll();
+        }, err => {
+            this.snackbar.error(err.error);
+        });
     }
 
     export() {

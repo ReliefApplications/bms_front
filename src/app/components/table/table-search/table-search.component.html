@@ -57,7 +57,7 @@
                         <mat-icon>delete_outline</mat-icon>
                     </button>
                     <button *ngIf="printable" mat-icon-button (click)="print(element); $event.stopPropagation()"
-                        [matTooltip]="print" class="grey">
+                        [matTooltip]="'print'" class="grey">
                         <mat-icon>printer</mat-icon>
                     </button>
                 </td>

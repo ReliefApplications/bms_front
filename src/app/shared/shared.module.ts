@@ -57,6 +57,7 @@ import { DataValidationComponent } from '../modules/beneficiary/data-validation/
 import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
 import { MobileMoneyComponent } from '../modules/projects/distributions/validated-components/mobile-money/mobile-money.component';
 import { GeneralReliefComponent } from '../modules/projects/distributions/validated-components/general-relief/general-relief.component';
+import { QrVoucherComponent } from '../modules/projects/distributions/validated-components/qr-voucher/qr-voucher.component';
 import { ImportDistributionComponent } from '../modules/projects/distributions/import-distribution/import-distribution.component';
 import { TransactionTableMobileComponent } from '../components/table/transaction-table-mobile/transaction-table-mobile.component';
 import { ModalLeaveComponent } from '../components/modals/modal-leave/modal-leave.component';
@@ -171,6 +172,7 @@ imports: [
         DistributionsComponent,
         MobileMoneyComponent,
         GeneralReliefComponent,
+        QrVoucherComponent,
         ImportDistributionComponent,
         PlaceholderSummaryComponent,
         PlaceholderBoxlineComponent,
@@ -183,6 +185,7 @@ imports: [
         ValidatedDistributionComponent,
         GeneralReliefComponent,
         MobileMoneyComponent,
+        QrVoucherComponent,
         VouchersComponent,
         TableVouchersComponent,
         TableMobileVouchersComponent,

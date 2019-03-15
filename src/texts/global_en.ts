@@ -439,6 +439,7 @@ export const TEXT = {
     transaction_amount_distributed: 'Amount distributed',
     transaction_amount_done: 'Amount sent',
     transaction_amount_total: 'Total amount',
+    transaction_amount_used: 'Amount used',
     transaction_amount_waiting: 'Amount picked up',
     transaction_confirm: 'Confirm the transaction',
     transaction_confirm_button: 'Confirm',

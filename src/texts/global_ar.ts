@@ -441,6 +441,7 @@ export const TEXT = {
     transaction_amount_distributed: 'Amount distributed',
     transaction_amount_done: 'الكمية المرسلة',
     transaction_amount_total: 'الكمية الإجمالية',
+    transaction_amount_used: 'Amount used',
     transaction_amount_waiting: 'ما زال يتعين إرسالها',
     transaction_confirm: 'تأكيد المعاملة',
     transaction_confirm_button: 'التأكد',

@@ -440,6 +440,7 @@ export const TEXT = {
     transaction_amount_distributed: 'Quantité distribuée',
     transaction_amount_done: 'Quantité envoyée',
     transaction_amount_total: 'Quantité totale',
+    transaction_amount_used: 'Quantité utilisée',
     transaction_amount_waiting: 'Reste à envoyer',
     transaction_confirm: 'Confirmer la transaction',
     transaction_confirm_button: 'Confirmer',

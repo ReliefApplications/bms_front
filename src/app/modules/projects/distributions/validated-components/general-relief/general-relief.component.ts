@@ -6,8 +6,8 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
     selector: 'app-general-relief',
-    templateUrl: '../validated-distribution.component.html',
-    styleUrls: ['../validated-distribution.component.scss', './general-relief.component.scss']
+    templateUrl: './general-relief.component.html',
+    styleUrls: ['../validated-distribution.component.scss']
 })
 export class GeneralReliefComponent extends ValidatedDistributionComponent implements OnInit {
 
@@ -63,14 +63,4 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         const beneficiariesCommodity = beneficiary.generalReliefs[commodityIndex];
         return (beneficiariesCommodity.distributed_at ? commodity.value : 0 );
     }
-
-    exportTransaction() {
-        this.exportEmitter.emit(
-            {
-                type: this.exportTypeTransaction,
-                distribution: 'generalrelief'
-            }
-        );
-    }
-
 }

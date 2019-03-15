@@ -40,6 +40,9 @@
                     class="red">
                     <mat-icon inline=true>close</mat-icon>
                 </button>
+                <button mat-icon-button *ngIf="printable" (click)="print(element); $event.stopPropagation()" class="grey" [disabled]="!isPrintable(element)">
+                    <mat-icon>description</mat-icon>
+                </button>
             </tfoot>
         </table>
         <div class="no-data-container" *ngIf="!this.data.data">

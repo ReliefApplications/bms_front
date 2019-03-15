@@ -56,10 +56,10 @@
         </div>
 
         <div class="content-table" *ngIf="!loadingTransaction">
-            <app-transaction-table *ngIf="widthScreen >= maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false" [selection]="selection" [checkbox]="true"
+            <app-transaction-table *ngIf="widthScreen >= maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false" [printable]="true" [selection]="selection" [checkbox]="true"
                 (selectChecked)="getChecked($event)">
             </app-transaction-table>
-            <app-transaction-table-mobile *ngIf="widthScreen < maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false">
+            <app-transaction-table-mobile *ngIf="widthScreen < maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true" [editable]="false">
             </app-transaction-table-mobile>
         </div>
 

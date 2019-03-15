@@ -11,5 +11,12 @@ import { GeneralRelief } from 'src/app/model/general-relief';
 })
 export class TransactionTableMobileComponent extends TransactionTableComponent {
 
+  print(element: any) {
+    return this._exportService.printVoucher(element.booklet.id);
+  }
+
+  isPrintable(element: any): boolean {
+      return element.booklet;
+  }
 
 }

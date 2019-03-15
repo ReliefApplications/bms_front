@@ -41,4 +41,12 @@ export class TransactionTableComponent extends TableComponent {
             }
         });
     }
+
+    print(element: any) {
+        return this._exportService.printVoucher(element.booklet.id);
+    }
+
+    isPrintable(element: any): boolean {
+        return element.booklet;
+    }
 }

@@ -1,21 +1,20 @@
 <div class="page-container">
   <div class="container-title">
     <h2>{{voucher.voucher | titlecase}}</h2>
-
-    <button mat-stroked-button class="mat-stroked-button button-text-accent" (click)="getProjects(assign)" *ngIf="!loadingAssign">
-      <span>{{voucher.voucher_assign | titlecase }}</span>
-    </button>
-    <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
   </div>
 
   <app-placeholder-panel class="container-table min-height" *ngIf="loadingBooklet"></app-placeholder-panel>
   <div class="container-table" *ngIf="!loadingBooklet">
-    <div class="container-content box-green">
+    <div class="container-content box-primary">
       <div class="content-button">
         <div class="action-buttons">
           <button mat-raised-button *ngIf="checkedElements.length > 0" class="button-background-primary" (click)="printMany()" [matBadge]="checkedElements.length">
               {{voucher.voucher_print_selection | titlecase}}
           </button>
+          <button mat-raised-button *ngIf="bookletData && !loadingAssign" class="button-background-primary" (click)="getProjects(assign)">
+              <span>{{voucher.voucher_assign | titlecase }}</span>
+          </button>
+          <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
           <div class="button-with-extension">
             <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
               <mat-icon>get_app</mat-icon>

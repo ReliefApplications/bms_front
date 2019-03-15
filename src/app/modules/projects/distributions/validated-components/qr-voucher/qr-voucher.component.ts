@@ -11,13 +11,12 @@ import { TransactionVoucher } from 'src/app/model/transaction-voucher';
 export class QrVoucherComponent extends ValidatedDistributionComponent implements OnInit {
     checkedLines: any[] = [];
     distributed = false;
+    loadingAssign = false;
 
     ngOnInit() {
         super.ngOnInit();
         this.selection = new SelectionModel<any>(true, []);
         this.entity = TransactionVoucher;
-        // console.log('qrvoucher comp');
-        // console.log(this.transactionData);
     }
 
     getChecked(event: any) {
@@ -25,13 +24,24 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
     }
 
 
+    // Total ammount assigned/distributed to a benefeciary
     getCommoditySentAmountFromBeneficiary(commodity: any, beneficiary: any): number {
-        return 1;
+        const booklet = beneficiary.booklet;
+        if (booklet) {
+            return this.entity.getBookletTotalValue(booklet);
+        } else {
+            return 0;
+        }
     }
 
+    // Total amount used/spent by a beneficiary
     getCommodityReceivedAmountFromBeneficiary(commodity: any, beneficiary: any): number {
-        // console.log('aa');
-        return 1;
+        const booklet = beneficiary.booklet;
+        if (booklet && booklet.status > 1) {
+            return this.entity.getBookletTotalValue(booklet);
+        } else {
+            return 0;
+        }
     }
 
 }

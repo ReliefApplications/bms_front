@@ -46,8 +46,16 @@ export class TransactionVoucher {
             booklet: GlobalText.TEXTS.model_booklet,
             status: GlobalText.TEXTS.model_state,
             used: GlobalText.TEXTS.model_used,
-            value: GlobalText.TEXTS.model_booklet,
+            value: GlobalText.TEXTS.model_value,
         };
+    }
+
+    public static getBookletTotalValue(booklet): number {
+        let value = 0;
+        booklet.vouchers.forEach(voucher => {
+            value += voucher.value;
+        });
+        return value;
     }
 
     public static formatArray(instance: any, commodities: any): TransactionVoucher[] {
@@ -68,10 +76,21 @@ export class TransactionVoucher {
 
     public static formatElement(instance: any): TransactionVoucher {
         const transactionVoucher = new TransactionVoucher();
-
-        transactionVoucher.givenName = instance.givenName;
-        transactionVoucher.familyName = instance.familyName;
-        transactionVoucher.booklet = instance.booklets ? instance.booklets[0] : null;
+        transactionVoucher.givenName = instance.beneficiary ? instance.beneficiary.given_name : null;
+        transactionVoucher.familyName = instance.beneficiary ? instance.beneficiary.family_name : null;
+        transactionVoucher.booklet = null;
+        if (instance.booklets.length) {
+            instance.booklets.forEach(booklet => {
+                // try to find a non-deactivated booklet
+                if (booklet.status !== 3) {
+                    transactionVoucher.booklet = booklet;
+                }
+            });
+            // if we didn't find one
+            if (transactionVoucher.booklet === null) {
+                transactionVoucher.booklet = instance.booklets[0];
+            }
+        }
         return transactionVoucher;
     }
 
@@ -95,9 +114,10 @@ export class TransactionVoucher {
             givenName: selfInstance.givenName,
             familyName: selfInstance.familyName,
             booklet: selfInstance.booklet ? selfInstance.booklet.code : null,
-            status: selfInstance.booklet ? selfInstance.booklet.status : null,
-            used: selfInstance.booklet ? selfInstance.booklet.status : null,
-            value: selfInstance.booklet ? '10' + selfInstance.booklet.currency : null,
+            status: selfInstance.booklet ? Booklet.__status__[selfInstance.booklet.status] : null,
+            used: selfInstance.booklet ? this.getBookletUsed(selfInstance.booklet) : null,
+            value: selfInstance.booklet ?
+                TransactionVoucher.getBookletTotalValue(selfInstance.booklet) + ' ' + selfInstance.booklet.currency : null,
         };
     }
 
@@ -113,9 +133,10 @@ export class TransactionVoucher {
             givenName: selfInstance.givenName,
             familyName: selfInstance.familyName,
             booklet: selfInstance.booklet ? selfInstance.booklet.code : null,
-            status: selfInstance.booklet ? selfInstance.booklet.status : null,
-            used: selfInstance.booklet ? selfInstance.booklet.status : null,
-            value: selfInstance.booklet ? '10' + selfInstance.booklet.currency : null,
+            status: selfInstance.booklet ? Booklet.__status__[selfInstance.booklet.status] : null,
+            used: selfInstance.booklet ? this.getBookletUsed(selfInstance.booklet) : null,
+            value: selfInstance.booklet ?
+                TransactionVoucher.getBookletTotalValue(selfInstance.booklet) + ' ' + selfInstance.booklet.currency : null,
         };
     }
 
@@ -131,9 +152,70 @@ export class TransactionVoucher {
             givenName: selfInstance.givenName,
             familyName: selfInstance.familyName,
             booklet: selfInstance.booklet ? selfInstance.booklet.code : null,
-            status: selfInstance.booklet ? selfInstance.booklet.status : null,
-            used: selfInstance.booklet ? selfInstance.booklet.status : null,
-            value: selfInstance.booklet ? '10' + selfInstance.booklet.currency : null,
+            status: selfInstance.booklet ? Booklet.__status__[selfInstance.booklet.status] : null,
+            used: selfInstance.booklet ? this.getBookletUsed(selfInstance.booklet) : null,
+            value: selfInstance.booklet ?
+                TransactionVoucher.getBookletTotalValue(selfInstance.booklet) + ' ' + selfInstance.booklet.currency : null,
         };
+    }
+
+     /**
+    * return a DistributionData after formatting its properties for the modal update
+    */
+   getMapperUpdate(selfInstance: TransactionVoucher): object {
+    if (!selfInstance) {
+        return selfInstance;
+    }
+
+    return {
+        givenName: selfInstance.givenName,
+        familyName: selfInstance.familyName,
+        booklet: selfInstance.booklet ? selfInstance.booklet.code : null,
+        status: selfInstance.booklet ? Booklet.__status__[selfInstance.booklet.status] : null,
+        used: selfInstance.booklet ? this.getBookletUsed(selfInstance.booklet) : null,
+        value: selfInstance.booklet ?
+            TransactionVoucher.getBookletTotalValue(selfInstance.booklet) + ' ' + selfInstance.booklet.currency : null,
+    };
+}
+
+    /**
+    * return the type of Beneficiary properties
+    */
+   getTypeProperties(selfinstance: TransactionVoucher) {
+        return {
+            givenName: 'text',
+            familyName: 'text',
+            status: 'number',
+            booklet: 'text',
+            used: 'date',
+            value: 'text',
+        };
+    }
+
+    /**
+    * return the type of Beneficiary properties
+    */
+    getModalTypeProperties(selfinstance: TransactionVoucher) {
+        return {
+            givenName: 'text',
+            familyName: 'text',
+            status: 'number',
+            booklet: 'text',
+            used: 'date',
+            value: 'text',
+        };
+    }
+
+    getBookletUsed(booklet): Date {
+        let date = null;
+        if (booklet.status === 2 || booklet.status === 3) {
+            booklet.vouchers.forEach(voucher => {
+                if (date === null || date < voucher.used_at) {
+                    date = voucher.used_at;
+                }
+            });
+        }
+
+        return date;
     }
 }

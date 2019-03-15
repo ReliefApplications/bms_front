@@ -288,8 +288,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
         if (this.actualDistribution.commodities[0].modality_type.name === 'QR Code Voucher') {
             this.entity = TransactionVoucher;
             this.selection = new SelectionModel<any>(true, []);
-        }
-        if (this.actualDistribution.commodities[0].modality_type.name !== 'Mobile Money') {
+        } else if (this.actualDistribution.commodities[0].modality_type.name !== 'Mobile Money') {
             this.entity = TransactionGeneralRelief;
             this.selection = new SelectionModel<any>(true, []);
         }

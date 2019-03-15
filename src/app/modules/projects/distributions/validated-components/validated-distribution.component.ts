@@ -47,7 +47,6 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     @Input() hasRights = false;
     @Input() hasRightsTransaction = false;
 
-    @Output() exportEmitter: EventEmitter<Object> = new EventEmitter();
     @Output() storeEmitter: EventEmitter<any> = new EventEmitter();
 
 
@@ -77,6 +76,23 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         public dialog: MatDialog,
         protected cacheService: AsyncacheService,
     ) { }
+
+    /**
+     * Requests back-end a file containing informations about the transaction
+     */
+    exportTransaction(fileType: string, distributionType: string) {
+
+        this.dialog.closeAll();
+        this.loadingExport = true;
+        this.distributionService.export(distributionType, fileType, this.distributionId).then(
+            () => {
+                this.loadingExport = false;
+            }
+        ).catch(
+            (err: any) => {
+            }
+        );
+    }
 
     getTotalCommodityValue(commodity: any): number {
         return this.transactionData.data.length * commodity.value;
@@ -142,21 +158,6 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         );
     }
 
-    requestLogs() {
-        if (this.hasRights) {
-            try {
-                this.distributionService.logs(this.distributionId).subscribe(
-                    e => { this.snackbar.error('' + e); },
-                    () => { this.snackbar.success('Logs have been sent'); },
-                );
-            } catch (e) {
-                this.snackbar.error('Logs could not be sent : ' + e);
-            }
-        } else {
-            this.snackbar.error('Not enough rights to request logs');
-        }
-    }
-
     storeBeneficiaries() {
         this.storeEmitter.emit();
         this.distributionIsStored = true;
@@ -165,135 +166,6 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     exit(message: string) {
         this.snackbar.info(message);
         this.dialog.closeAll();
-    }
-
-    codeVerif() {
-        if ((new Date()).getTime() - this.lastCodeSentTime > this.SENDING_CODE_FREQ) {
-            this.distributionService.sendCode(this.distributionId).toPromise()
-                .then(
-                    anwser => {
-                        if (anwser === 'Email sent') {
-                            this.lastCodeSentTime = (new Date()).getTime();
-                            this.snackbar.success('Verification code has been sent at ' + this.actualUser.email);
-                        }
-                    },
-                    () => {
-                        this.lastCodeSentTime = (new Date()).getTime();
-                        this.snackbar.success('Verification code has been sent at ' + this.actualUser.email);
-                    }
-                )
-                .catch(
-                    (err) => {
-                        this.snackbar.error('Could not send code :' + err);
-                    }
-                );
-        } else {
-            this.snackbar.error('The last code was sent less than 10 seconds ago, you should wait.');
-        }
-    }
-
-    /**
-     * To transact
-     */
-    confirmTransaction() {
-        if (this.hasRightsTransaction) {
-            this.progression = 0;
-            this.cacheService.getUser().subscribe(result => {
-                this.actualUser = result;
-                if (!this.actualUser.email && this.actualUser.username) {
-                    this.actualUser['email'] = this.actualUser.username;
-                }
-                if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]) {
-                    this.transacting = true;
-                    this.correctCode = true;
-                    this.distributionService.transaction(this.distributionId, this.enteredCode)
-                        .pipe(
-                            finalize(
-                                () => {
-                                    this.transacting = false;
-                                    this.chartAccepted = false;
-                                    this.correctCode = false;
-                                    this.enteredCode = '';
-                                    this.dialog.closeAll();
-                                    clearInterval(this.interval);
-                                    this.refreshStatuses();
-                                }
-                            )
-                        ).subscribe(
-                            (success: any) => {
-                                if (this.transactionData) {
-                                    this.transactionData.data.forEach(
-                                        (element, index) => {
-
-                                            success.already_sent.forEach(
-                                                beneficiary => {
-                                                    if (element.id === beneficiary.beneficiary.id) {
-                                                        this.transactionData.data[index].updateState('Already sent');
-                                                        this.setTransactionMessage(beneficiary, index);
-                                                    }
-                                                }
-                                            );
-                                            success.failure.forEach(
-                                                beneficiary => {
-                                                    if (element.id === beneficiary.beneficiary.id) {
-                                                        this.transactionData.data[index].updateState('Sending failed');
-                                                        this.setTransactionMessage(beneficiary, index);
-                                                    }
-                                                }
-                                            );
-                                            success.no_mobile.forEach(
-                                                beneficiary => {
-                                                    if (element.id === beneficiary.beneficiary.id) {
-                                                        this.transactionData.data[index].updateState('No phone');
-                                                        this.setTransactionMessage(beneficiary, index);
-                                                    }
-                                                }
-                                            );
-                                            success.sent.forEach(
-                                                beneficiary => {
-                                                    if (element.id === beneficiary.beneficiary.id) {
-                                                        this.transactionData.data[index].updateState('Sent');
-                                                        this.setTransactionMessage(beneficiary, index);
-                                                    }
-                                                }
-                                            );
-                                        }
-                                    );
-                                }
-                            }
-                        );
-
-                    const progression = 0;
-                    // Je n'ai pas la moindre idée de l'utilité du code ci-dessous car il ne fonctionne pas,
-                    // je le laisse commenté pour le moment
-                    // Bises, Stan.
-                    // let peopleLeft = this.getAmount('waiting', this.actualDistribution.commodities[0]);
-                    // peopleLeft = peopleLeft / this.actualDistribution.commodities[0].value;
-
-                    // this.interval = setInterval(() => {
-                    //     this.distributionService.checkProgression(this.distributionId)
-                    //         .subscribe(
-                    //             distributionProgression => {
-                    //                 if (distributionProgression) {
-                    //                     if (distributionProgression !== progression) {
-                    //                         progression = distributionProgression;
-
-                    //                         this.progression = Math.floor((result / peopleLeft) * 100);
-                    //                     }
-                    //                 }
-                    //             }
-                    //         );
-                    // }, 3000);
-
-                } else {
-                    this.snackbar.error(this.TEXT.distribution_no_valid_commodity);
-                }
-            });
-        } else {
-            this.snackbar.error(this.TEXT.distribution_no_right_transaction);
-        }
-
-        this.chartAccepted = false;
     }
 
     private checkSize(): void {

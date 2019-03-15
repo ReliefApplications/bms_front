@@ -174,6 +174,22 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     }
 
     /**
+     * Get validated distribution type
+     * @return string
+     */
+    getDistributionType() {
+        if (this.actualDistribution.commodities[0].modality_type.modality.name === 'In Kind' ||
+        this.actualDistribution.commodities[0].modality_type.modality.name === 'Other' ||
+        this.actualDistribution.commodities[0].modality_type.name === 'Cash') {
+            return 'general-relief';
+        } else if (this.actualDistribution.commodities[0].modality_type.name === 'Mobile Money') {
+            return 'mobile-money';
+        } else if (this.actualDistribution.commodities[0].modality_type.name === 'QR Code Voucher') {
+            return 'qr-voucher';
+        }
+    }
+
+    /**
      * Gets the launched distribution from the cache
      */
     getSelectedDistribution() {
@@ -405,23 +421,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     }
 
     /**
-     * Requests back-end a file containing informations about the transaction
-     */
-    exportTransaction(exportInformation: any) {
-
-        this.dialog.closeAll();
-        this.loadingExport = true;
-        this.distributionService.export(exportInformation.distribution, exportInformation.type, this.distributionId).then(
-            () => {
-                this.loadingExport = false;
-            }
-        ).catch(
-            (err: any) => {
-            }
-        );
-    }
-
-    /**
      * Opens a dialog corresponding to the ng-template passed as a parameter
      * @param template
      */
@@ -510,7 +509,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
      * Refresh the cache with the validated distribution
      */
     validateActualDistributionInCache() {
-
         const newDistributionsList = new Array<DistributionData>();
         this.distributionService.get()
             .subscribe(result => {
@@ -596,21 +594,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
         stepper.next();
     }
 
-    requestLogs() {
-        if (this.hasRights) {
-            try {
-                this.distributionService.logs(this.distributionId).subscribe(
-                    e => { this.snackbar.error('' + e); },
-                    () => { this.snackbar.success('Logs have been sent'); },
-                );
-            } catch (e) {
-                this.snackbar.error('Logs could not be sent : ' + e);
-            }
-        } else {
-            this.snackbar.error('Not enough rights to request logs');
-        }
-    }
-
     checkPermission() {
         this.cacheService.getUser().subscribe(
             result => {
@@ -671,7 +654,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                                     this.hideSnack = false;
                                 }
                             );
-
                     }
                 }
             );

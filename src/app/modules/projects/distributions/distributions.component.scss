@@ -251,8 +251,9 @@ app-import-distribution {
     color: #424242 !important;
 }
 
-app-mobile-money, app-general-relief {
-    width: 95%;
+app-mobile-money, app-general-relief, app-qr-voucher {
+    display: flex;
+    width: 100%;
 }
 
 //for mobile screen

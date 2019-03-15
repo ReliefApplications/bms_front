@@ -325,6 +325,11 @@ export class VouchersComponent implements OnInit {
     }
 
     export() {
-        this._exportService.export('booklets', true, this.extensionType);
+        this.loadingExport = true;
+        this._exportService.export('booklets', true, this.extensionType).then(
+            () => { this.loadingExport = false; }
+        ).catch(
+            () => { this.loadingExport = false; }
+        );
       }
 }

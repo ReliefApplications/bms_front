@@ -1,5 +1,4 @@
 export class CustomModelField<T> {
-
     /**
      * Described field
      * @type {T}
@@ -10,25 +9,21 @@ export class CustomModelField<T> {
      * @type {boolean}
      */
     title: string;
+     /**
+     * Field's type
+     * @type {string}
+     */
+    type: string;
     /**
      * Is the field displayed in modals?
      * @type {boolean}
      */
-    isDisplayedInModals: boolean;
+    isDisplayedInModal: boolean;
     /**
      * Is the field displayed in tables?
      * @type {boolean}
      */
     isDisplayedInTable: boolean;
-    /**
-     * Is the field hidden?
-     * @type {boolean}
-     */
-    isHidden: boolean;
-    /**
-     * Is the field required?
-     * @type {boolean}
-     */
     /**
      * Can you select multiple elements of this field among other options?
      * @type {boolean}
@@ -55,35 +50,30 @@ export class CustomModelField<T> {
      */
     isSingleSelect: boolean;
     /**
+     * Is the input a long string ?
+     * @type {boolean}
+     */
+    isLongText: boolean;
+    /**
      * Can you update the value of the field once the object is create?
      * @type {boolean}
      */
     isUpdatable: boolean;
     /**
-     * Label displayed in select options
+     * Method to get multiple choice options
      * @type {string}
      */
-    optionLabel: string;
+    options: string[];
     /**
      * List of options if the field should be a select
      * @type {string[]}
      */
-    selectOptions: string[];
-    /**
-     * The path for the api
-     * @type {string}
-     */
-    urlPath: string;
-
-    /**
-     * @typedef {Object} Props
-     * @property {boolean} isDisplayedInModals
-     */
+    bindField;
 
     /**
      * @param  {Props} properties
      */
-    constructor(properties: object) {
+    constructor(properties: any) {
         properties = CustomModelField.fillWithDefault(properties);
 
         // Title displayed in the GUI
@@ -93,42 +83,42 @@ export class CustomModelField<T> {
         this.value                  = properties['value'];
 
         // Boolean properties
-        this.isDisplayedInModals    = properties['displayedInModals'];
-        this.isDisplayedInTable     = properties['displayedInTable'];
-        this.isHidden               = properties['isHidden'];
+        this.isDisplayedInModal     = properties['isDisplayedInModal'];
+        this.isDisplayedInTable     = properties['isDisplayedInTable'];
+        this.isPassword             = properties['isPassword'];
+        this.isRequired             = properties['isRequired'];
+        this.isSettable             = properties['isSettable'];
+        this.isLongText             = properties['isTextArea'];
+        this.isUpdatable            = properties['isUpdatable'];
+
+        // Multiple select
+        this.bindField              = properties['bindField'];
         this.isMultipleSelect       = properties['isMultipleSelect'];
-        this.isPassword             = properties['password'];
-        this.isRequired             = properties['required'];
-        this.isSettable             = properties['settable'];
         this.isSingleSelect         = properties['isSingleSelect'];
-        this.isUpdatable            = properties['updatable'];
+        this.options                = properties['options'];
 
-
-        this.optionLabel            = properties['optionLabel'];
-        this.selectOptions          = properties['selectOptions'];
-        this.urlPath                = properties['urlPath'];
 
     }
 
     static fillWithDefault(properties: Object) {
         return {
-            title: 'TITLE NOT SET',
+            // Todo: set default title to null (used for debug purpose only)
+            title:                  'TITLE NOT SET',
 
-            type: null,
+            value:                  null,
 
-            isDisplayedInModals: false,
-            isDisplayedInTable: false,
-            isHidden: false,
-            isMultipleSelect: false,
-            isPassword: false,
-            isRequired: false,
-            isSettable: false,
-            isSingleSelect: false,
-            isUpdatable: false,
+            isDisplayedInModal:     false,
+            isDisplayedInTable:     false,
+            isPassword:             false,
+            isRequired:             false,
+            isSettable:             false,
+            isUpdatable:            false,
 
-            optionLabel: null,
-            selectOptions: null,
-            urlPath: null,
+            bindField:              null,
+            isMultipleSelect:       false,
+            isSingleSelect:         false,
+            options:                null,
+
             ...properties,
         };
     }

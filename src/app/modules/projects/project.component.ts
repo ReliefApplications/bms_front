@@ -17,6 +17,8 @@ import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.c
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { delay, finalize } from 'rxjs/operators';
 import { ImportedDataService } from '../../core/utils/imported-data.service';
+import { DonorService } from 'src/app/core/api/donor.service';
+import { SectorService } from 'src/app/core/api/sector.service';
 
 
 @Component({
@@ -65,6 +67,8 @@ export class ProjectComponent implements OnInit, DoCheck {
         public snackBar: MatSnackBar,
         public dialog: MatDialog,
         public importedDataService: ImportedDataService,
+        private donorService: DonorService,
+        private sectorService: SectorService,
     ) { }
 
     ngOnInit() {
@@ -90,7 +94,7 @@ export class ProjectComponent implements OnInit, DoCheck {
     }
 
     /**
-     * check if the langage has changed
+     * check if the language has changed
      */
     ngDoCheck() {
         if (this.distribution !== GlobalText.TEXTS) {
@@ -196,10 +200,12 @@ export class ProjectComponent implements OnInit, DoCheck {
     }
 
     openNewProjectDialog() {
+        const newProjectInstance = new NewProject;
+        this.fillWithOptions(newProjectInstance);
         const dialogRef = this.dialog.open(
             ModalAddComponent, {
                 data: {
-                    objectInstance: new NewProject(),
+                    objectInstance: newProjectInstance,
                 }
             }
         );
@@ -225,6 +231,10 @@ export class ProjectComponent implements OnInit, DoCheck {
             }
         );
         */
+    }
+    fillWithOptions(projectInstance: NewProject) {
+        this.donorService.getOptions(projectInstance, 'donors');
+        this.sectorService.getOptions(projectInstance, 'sectors');
     }
 
     createElement(createElement: Object) {

@@ -1,20 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
-import { URL_BMS_API} from '../../../environments/environment';
+import { URL_BMS_API } from '../../../environments/environment';
+import { CustomModel } from 'src/app/model/custom-model';
 
-@Injectable({
-  providedIn: 'root'
-})
 export class CustomModelService {
-    readonly api = URL_BMS_API;
+    readonly apiBase = URL_BMS_API;
+    customModelPath: string;
 
-  constructor(
-    private http: HttpService
-) {
-}
+    constructor(protected http: HttpService) {
+    }
 
-public get(customModelPath: string) {
-    const url = `${this.api}/${customModelPath}`;
-    return this.http.get(url);
-}
+    protected setCustomModelPath(path: string) {
+        this.customModelPath = path;
+    }
+
+    public get() {
+        const url = `${this.apiBase}/${this.customModelPath}`;
+        return this.http.get(url);
+    }
+
+    public getOptions(customModel: CustomModel, field: string) {
+        this.get().subscribe((options: string[]) => {
+            customModel.fields[field].options = options;
+        });
+    }
 }

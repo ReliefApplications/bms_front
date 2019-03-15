@@ -1,22 +1,16 @@
 import { Injectable                                 } from '@angular/core';
 
-import { URL_BMS_API                                } from '../../../environments/environment';
-
-import { HttpService                                } from './http.service';
+import { CustomModelService } from './custom-model.service';
+import { HttpService } from './http.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class SectorService {
-    readonly api = URL_BMS_API;
+export class SectorService extends CustomModelService {
 
-    constructor(
-        private http: HttpService
-    ) {
-    }
+    customModelPath = 'sectors';
 
-    public get() {
-        const url = this.api + '/sectors';
-        return this.http.get(url);
+    constructor(protected http: HttpService) {
+        super(http);
     }
 }

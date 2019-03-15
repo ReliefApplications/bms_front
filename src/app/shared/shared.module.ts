@@ -75,6 +75,7 @@ import { ModalRequestsComponent } from '../components/modals/modal-requests/moda
 import { RecaptchaModule } from 'angular-google-recaptcha';
 import { ThousandsPipe } from 'src/app/core/utils/thousands.pipe';
 import { ValidatedDistributionComponent } from '../modules/projects/distributions/validated-components/validated-distribution.component';
+import { DonorService } from '../core/api/donor.service';
 
 
 @NgModule({
@@ -261,7 +262,7 @@ import { ValidatedDistributionComponent } from '../modules/projects/distribution
         PlaceholderTitleComponent,
     ],
     providers: [
-        { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }
+        { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },
     ]
 })
 export class SharedModule { }

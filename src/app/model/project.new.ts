@@ -4,21 +4,26 @@ import { CustomModel as CustomModel } from './custom-model';
 import { CustomModelField as CustomModelField } from './custom-model-field';
 import { GlobalText } from '../../texts/global';
 
-
 export class Project extends CustomModel {
+
+    constructor() {
+        super();
+    }
 
     public fields = {
         id : new CustomModelField<number>(
             {
                 title: null,
                 placeholder: null,
-                isHidden: true,
-            }
+                isDisplayedInTable: false,
+                isDisplayedInModal: false,
+            },
         ),
         name : new CustomModelField<string>(
             {
                 title: GlobalText.TEXTS.model_project_name,
                 placeholder: null,
+                isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
                 isSettable: true,
@@ -27,18 +32,20 @@ export class Project extends CustomModel {
         sectors : new CustomModelField<Sector[]>(
             {
                 placeholder: null,
+                isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 title: GlobalText.TEXTS.model_sectors_name,
                 isMultipleSelect: true,
                 isSettable: true,
-                urlPath: 'sectors',
-                optionLabel: 'name'
+                options: undefined,
+                bindField: 'name',
             }
         ),
         startDate : new CustomModelField<Date>(
             {
                 title: GlobalText.TEXTS.model_project_start_date,
                 placeholder: null,
+                isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isSettable: true,
             }
@@ -47,6 +54,7 @@ export class Project extends CustomModel {
             {
                 title: GlobalText.TEXTS.model_project_end_date,
                 placeholder: null,
+                isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isSettable: true,
             }
@@ -55,19 +63,26 @@ export class Project extends CustomModel {
             {
                 title: GlobalText.TEXTS.model_project_number_of_households,
                 placeholder: null,
+                isDisplayedInModal: false,
                 isDisplayedInTable: true,
             }
         ),
         donors : new CustomModelField<Donor[]>(
             {
                 title: GlobalText.TEXTS.model_project_donors_name,
+                isMultipleSelect: true,
                 placeholder: null,
+                isDisplayedInModal: true,
+                isSettable: true,
+                options: undefined,
+                bindField: 'shortname',
             }
         ),
         iso3 : new CustomModelField<string>(
             {
                 title: null,
                 placeholder: null,
+                isDisplayedInModal: false,
             }
         ),
         value : new CustomModelField<number[]>(
@@ -76,6 +91,7 @@ export class Project extends CustomModel {
                 placeholder: null,
                 required: true,
                 isSettable: true,
+                isDisplayedInModal: false,
             }
         ),
         notes : new CustomModelField<string>(
@@ -84,14 +100,12 @@ export class Project extends CustomModel {
                 placeholder: null,
                 isSettable: true,
                 isUpdatable: true,
+                isDisplayedInModal: true,
+                isLongText: true,
             }
         ),
     };
 
-    constructor() {
-        super();
-
-    }
 
     public  apiToModel(): Object {
         return new Object;

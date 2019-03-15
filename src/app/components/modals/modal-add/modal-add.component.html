@@ -4,24 +4,48 @@
         <table class="modal-table">
             <ng-container *ngFor="let fieldName of objectFields">
                 <tr class="modal-row" *ngIf="objectInstance.fields[fieldName]; let field">
-                    <ng-container>
+
+                    <ng-container *ngIf="field.isDisplayedInModal">
                         <th class="table-title">{{ field.title | titlecase }}</th>
                         <td>
                             {{field |json}}
-                            {{field.isMultipleSelect}}
-                            {{field.isSingleSelect}}
-                            <ng-container *ngIf="!field.isMultipleSelect && !field.isSingleSelect">
-                                <input matInput type="text" [formControlName]="fieldName">
-                            </ng-container>
-                            <ng-container *ngIf="field.isMultipleSelect">
+                            <ng-container *ngIf="field.isMultipleSelect; else checkForString">
                                 <ng-select [formControlName]="fieldName">
-                                    <ng-option *ngFor="let option of getSelectOptions(field.urlPath)" [value]="option.id">
-                                        {{option[field.optionLabel]}}
+                                    <ng-option *ngFor="let option of field.options" [value]="option.id">
+                                        {{option[field.bindField] | titlecase}}
                                     </ng-option>
                                 </ng-select>
                             </ng-container>
+
+                            <ng-template #checkForString>
+                                <ng-container *ngIf="type(field.value) === 'string'">
+                                    <mat-form-field>
+                                            <input *ngIf="field.isPassword; else checkForTextArea"
+                                                matInput type="password" [formControlName]="fieldName">
+
+                                            <ng-template #checkForTextArea>
+                                                <textarea *ngIf="field.isLongText; else checkForTextInput"
+                                                    matInput type="text" [formControlName]="fieldName"></textarea>
+                                            </ng-template>
+
+                                            <ng-template #checkForTextInput>
+                                                <input *ngIf="!field.isLongText"
+                                                    matInput type="text" [formControlName]="fieldName">
+                                            </ng-template>
+
+                                            <mat-error *ngIf="form[fieldName].hasError('required')">
+                                                This field is required
+                                            </mat-error>
+                                            <mat-error *ngIf="form[fieldName].hasError('pattern')">
+                                                The {{ fieldName }} must contain {{ field.pattern }}
+                                            </mat-error>
+                                    </mat-form-field>
+
+                                </ng-container>
+                            </ng-template>
                         </td>
                     </ng-container>
+
                 </tr>
             </ng-container>
         </table>

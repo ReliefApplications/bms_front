@@ -2,8 +2,6 @@ import { Component, OnInit, Input, EventEmitter, Output, Inject } from '@angular
 import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import { CustomModel as CustomModel } from 'src/app/model/custom-model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { CustomModelService } from 'src/app/core/api/custom-model.service';
-
 
 @Component({
     selector: 'app-modal-add',
@@ -23,7 +21,6 @@ export class ModalAddComponent implements OnInit {
     constructor(
         public modalReference: MatDialogRef<ModalAddComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private customModelService: CustomModelService,
     ) {}
 
 
@@ -32,6 +29,10 @@ export class ModalAddComponent implements OnInit {
         // Get all the fields keys of the object passed in objectInterface as string[]
         this.objectFields = Object.keys(this.objectInstance.fields);
         // Create the form
+        this.makeForm();
+    }
+
+    makeForm() {
         const formControls = {};
         this.objectFields.forEach(fieldName => {
             const field = this.objectInstance.fields[fieldName];
@@ -41,6 +42,10 @@ export class ModalAddComponent implements OnInit {
         this.form = new FormGroup(formControls);
     }
 
+    onExit() {
+        this.modalReference.close();
+    }
+
     // Create a new object from the form's data and emit it to its parent component
     onSubmit() {
 
@@ -48,10 +53,6 @@ export class ModalAddComponent implements OnInit {
             this.objectInstance[field] = this.form.controls[field].value;
         }
 
-        this.modalReference.close();
-    }
-
-    onExit() {
         this.modalReference.close();
     }
 
@@ -66,10 +67,15 @@ export class ModalAddComponent implements OnInit {
         return validators;
     }
 
-    getSelectOptions(field) {
-        this.customModelService.get(field).subscribe(options => {
-            return options;
-        });
+    // getSelectOptions(field) {
+    //     this.customModelService.get(field).subscribe(options => {
+    //         return options;
+    //     });
+    // }
+
+    type(value: any) {
+        return typeof value;
     }
+
 
 }

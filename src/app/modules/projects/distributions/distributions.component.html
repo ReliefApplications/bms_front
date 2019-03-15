@@ -221,15 +221,15 @@
 
     <ng-container *ngIf="actualDistribution.commodities">
         <app-mobile-money *ngIf="actualDistribution.validated && getDistributionType() === 'mobile-money' && !loadingDatas" [actualDistribution]="actualDistribution" [transactionData]="transactionData" [distributionId]="distributionId" [hasRights]="hasRights"
-            [hasRightsTransaction]="hasRightsTransaction" (exportEmitter)="exportTransaction($event)" (storeEmitter)="storeBeneficiaries()">
+            [loaderCache]="loaderCache" [hasRightsTransaction]="hasRightsTransaction" (exportEmitter)="exportTransaction($event)" (storeEmitter)="storeBeneficiaries()">
         </app-mobile-money>
 
         <app-general-relief *ngIf="actualDistribution.validated && getDistributionType() === 'general-relief' && !loadingDatas" [actualDistribution]="actualDistribution" [transactionData]="transactionData" [distributionId]="distributionId"
-            [hasRights]="hasRights" [hasRightsTransaction]="hasRightsTransaction" (exportEmitter)="exportTransaction($event)" (storeEmitter)="storeBeneficiaries()">
+            [loaderCache]="loaderCache" [hasRights]="hasRights" [hasRightsTransaction]="hasRightsTransaction" (exportEmitter)="exportTransaction($event)" (storeEmitter)="storeBeneficiaries()">
         </app-general-relief>
 
         <app-qr-voucher *ngIf="actualDistribution.validated && getDistributionType() === 'qr-voucher' && !loadingDatas" [actualDistribution]="actualDistribution" [transactionData]="transactionData" [distributionId]="distributionId" [hasRights]="hasRights"
-            [hasRightsTransaction]="hasRightsTransaction" (exportEmitter)="exportTransaction($event)" (storeEmitter)="storeBeneficiaries()">
+            [loaderCache]="loaderCache" [hasRightsTransaction]="hasRightsTransaction" (exportEmitter)="exportTransaction($event)" (storeEmitter)="storeBeneficiaries()">
         </app-qr-voucher>
     </ng-container>
 </div>

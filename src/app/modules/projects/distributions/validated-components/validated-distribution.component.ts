@@ -46,6 +46,7 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     @Input() distributionId: number;
     @Input() hasRights = false;
     @Input() hasRightsTransaction = false;
+    @Input() loaderCache = false;
 
     @Output() storeEmitter: EventEmitter<any> = new EventEmitter();
 

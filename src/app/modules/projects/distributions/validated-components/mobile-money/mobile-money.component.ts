@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
 import { TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
 import { State } from 'src/app/model/transaction-beneficiary';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-mobile-money',

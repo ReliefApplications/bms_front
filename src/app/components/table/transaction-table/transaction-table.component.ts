@@ -17,6 +17,10 @@ export class TransactionTableComponent extends TableComponent {
 
     @Input() parentObject: DistributionData;
 
+    // ngOnInit() {
+    //     console.log(this.data);
+    // }
+
     updateElement(updateElement) {
         // Only keeps general reliefs where a note has been set
         const notes = updateElement.generalReliefs

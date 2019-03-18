@@ -35,7 +35,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
     public beneficiariesClass = Beneficiaries;
     public distributionName = '';
     public beneficiaryName = '';
-    public bookletQRCode = 'VC7PZ#003-003-003';
+    public bookletQRCode;
     public password = '';
     public voucher = GlobalText.TEXTS;
     public loadingPassword = false;

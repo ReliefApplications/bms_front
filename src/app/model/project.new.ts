@@ -1,8 +1,11 @@
 import { Sector } from './sector';
 import { Donor } from './donor';
-import { CustomModel as CustomModel } from './custom-model';
-import { CustomModelField as CustomModelField } from './custom-model-field';
+import { CustomModel } from './CustomModel/custom-model';
+import { TextModelField  } from './CustomModel/text-model-field';
 import { GlobalText } from '../../texts/global';
+import { SelectModelField } from './CustomModel/select-model-field';
+import { DateModelField } from './CustomModel/date-model-field';
+import { NumberModelField } from './CustomModel/number-model-field';
 
 export class Project extends CustomModel {
 
@@ -11,15 +14,16 @@ export class Project extends CustomModel {
     }
 
     public fields = {
-        id : new CustomModelField<number>(
+        id : new TextModelField(
             {
                 title: null,
                 placeholder: null,
                 isDisplayedInTable: false,
                 isDisplayedInModal: false,
+                isLongText: false,
             },
         ),
-        name : new CustomModelField<string>(
+        name : new TextModelField(
             {
                 title: GlobalText.TEXTS.model_project_name,
                 placeholder: null,
@@ -27,9 +31,10 @@ export class Project extends CustomModel {
                 isDisplayedInTable: true,
                 isRequired: true,
                 isSettable: true,
+                isLongText: false,
             }
         ),
-        sectors : new CustomModelField<Sector[]>(
+        sectors : new SelectModelField<Sector[]>(
             {
                 placeholder: null,
                 isDisplayedInModal: true,
@@ -41,25 +46,27 @@ export class Project extends CustomModel {
                 bindField: 'name',
             }
         ),
-        startDate : new CustomModelField<Date>(
+        startDate : new DateModelField(
             {
                 title: GlobalText.TEXTS.model_project_start_date,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
+                isRequired: true,
                 isSettable: true,
             }
         ),
-        endDate : new CustomModelField<Date>(
+        endDate : new DateModelField(
             {
                 title: GlobalText.TEXTS.model_project_end_date,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
+                isRequired: true,
                 isSettable: true,
             }
         ),
-        numberOfHouseholds : new CustomModelField<number>(
+        numberOfHouseholds : new NumberModelField(
             {
                 title: GlobalText.TEXTS.model_project_number_of_households,
                 placeholder: null,
@@ -67,7 +74,7 @@ export class Project extends CustomModel {
                 isDisplayedInTable: true,
             }
         ),
-        donors : new CustomModelField<Donor[]>(
+        donors : new SelectModelField<Donor[]>(
             {
                 title: GlobalText.TEXTS.model_project_donors_name,
                 isMultipleSelect: true,
@@ -78,14 +85,15 @@ export class Project extends CustomModel {
                 bindField: 'shortname',
             }
         ),
-        iso3 : new CustomModelField<string>(
+        iso3 : new TextModelField(
             {
                 title: null,
                 placeholder: null,
                 isDisplayedInModal: false,
+                isLongText: false,
             }
         ),
-        value : new CustomModelField<number[]>(
+        value : new NumberModelField(
             {
                 title: GlobalText.TEXTS.model_project_value,
                 placeholder: null,
@@ -94,7 +102,7 @@ export class Project extends CustomModel {
                 isDisplayedInModal: false,
             }
         ),
-        notes : new CustomModelField<string>(
+        notes : new TextModelField(
             {
                 title: GlobalText.TEXTS.model_notes,
                 placeholder: null,

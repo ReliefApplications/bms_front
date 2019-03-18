@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { URL_BMS_API } from '../../../environments/environment';
-import { CustomModel } from 'src/app/model/custom-model';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 
 export class CustomModelService {
     readonly apiBase = URL_BMS_API;

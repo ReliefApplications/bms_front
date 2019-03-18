@@ -25,16 +25,6 @@ export class CustomModelField<T> {
      */
     isDisplayedInTable: boolean;
     /**
-     * Can you select multiple elements of this field among other options?
-     * @type {boolean}
-     */
-    isMultipleSelect: boolean;
-    /**
-     * Is the field a password?
-     * @type {boolean}
-     */
-    isPassword: boolean;
-    /**
      * Is the field required?
      * @type {boolean}
      */
@@ -45,30 +35,10 @@ export class CustomModelField<T> {
      */
     isSettable: boolean;
     /**
-     * Can you select only one element of this field among other options?
-     * @type {boolean}
-     */
-    isSingleSelect: boolean;
-    /**
-     * Is the input a long string ?
-     * @type {boolean}
-     */
-    isLongText: boolean;
-    /**
      * Can you update the value of the field once the object is create?
      * @type {boolean}
      */
     isUpdatable: boolean;
-    /**
-     * Method to get multiple choice options
-     * @type {string}
-     */
-    options: string[];
-    /**
-     * List of options if the field should be a select
-     * @type {string[]}
-     */
-    bindField;
 
     /**
      * @param  {Props} properties
@@ -85,21 +55,12 @@ export class CustomModelField<T> {
         // Boolean properties
         this.isDisplayedInModal     = properties['isDisplayedInModal'];
         this.isDisplayedInTable     = properties['isDisplayedInTable'];
-        this.isPassword             = properties['isPassword'];
         this.isRequired             = properties['isRequired'];
         this.isSettable             = properties['isSettable'];
-        this.isLongText             = properties['isTextArea'];
         this.isUpdatable            = properties['isUpdatable'];
-
-        // Multiple select
-        this.bindField              = properties['bindField'];
-        this.isMultipleSelect       = properties['isMultipleSelect'];
-        this.isSingleSelect         = properties['isSingleSelect'];
-        this.options                = properties['options'];
-
-
     }
 
+    // Field specific value should never be omitted
     static fillWithDefault(properties: Object) {
         return {
             // Todo: set default title to null (used for debug purpose only)
@@ -113,11 +74,6 @@ export class CustomModelField<T> {
             isRequired:             false,
             isSettable:             false,
             isUpdatable:            false,
-
-            bindField:              null,
-            isMultipleSelect:       false,
-            isSingleSelect:         false,
-            options:                null,
 
             ...properties,
         };

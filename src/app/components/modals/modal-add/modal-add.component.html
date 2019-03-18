@@ -7,41 +7,59 @@
 
                     <ng-container *ngIf="field.isDisplayedInModal">
                         <th class="table-title">{{ field.title | titlecase }}</th>
-                        <td>
-                            {{field |json}}
-                            <ng-container *ngIf="field.isMultipleSelect; else checkForString">
-                                <ng-select [formControlName]="fieldName">
-                                    <ng-option *ngFor="let option of field.options" [value]="option.id">
-                                        {{option[field.bindField] | titlecase}}
-                                    </ng-option>
-                                </ng-select>
+                        <td class="form-item">
+                            <ng-container *ngIf="field.kindOfField === 'Select'; else isMaterialField">
+                                <ng-container *ngIf="field.isMultipleSelect; else isSingleSelect">
+                                    <ng-select [formControlName]="fieldName" [placeholder]="field.title">
+                                        <ng-option *ngFor="let option of field.options" [value]="option.id">
+                                            {{option[field.bindField] | titlecase}}
+                                        </ng-option>
+                                    </ng-select>
+                                </ng-container>
+
+                                <ng-template #isSingleSelect>
+                                    <ng-select [formControlName]="fieldName" [placeholder]="field.title">
+                                        <ng-option *ngFor="let option of field.options" [value]="option.id">
+                                            {{option[field.bindField] | titlecase}}
+                                        </ng-option>
+                                    </ng-select>
+                                </ng-template>
                             </ng-container>
 
-                            <ng-template #checkForString>
-                                <ng-container *ngIf="type(field.value) === 'string'">
-                                    <mat-form-field>
-                                            <input *ngIf="field.isPassword; else checkForTextArea"
-                                                matInput type="password" [formControlName]="fieldName">
+                            <ng-template #isMaterialField>
+                                <mat-form-field>
+                                    <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
+                                        <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title"
+                                            matInput type="password" [formControlName]="fieldName">
 
-                                            <ng-template #checkForTextArea>
-                                                <textarea *ngIf="field.isLongText; else checkForTextInput"
-                                                    matInput type="text" [formControlName]="fieldName"></textarea>
-                                            </ng-template>
+                                        <ng-template #checkForTextArea>
+                                            <ng-container *ngIf="field.isLongText; else checkForTextInput">
+                                                <textarea matInput type="text" [formControlName]="fieldName" [placeholder]="field.title"></textarea>
+                                            </ng-container>
+                                        </ng-template>
 
-                                            <ng-template #checkForTextInput>
-                                                <input *ngIf="!field.isLongText"
-                                                    matInput type="text" [formControlName]="fieldName">
-                                            </ng-template>
+                                        <ng-template #checkForTextInput>
+                                            <input matInput type="text" [formControlName]="fieldName" [placeholder]="field.title">
+                                        </ng-template>
+                                    </ng-container>
 
-                                            <mat-error *ngIf="form[fieldName].hasError('required')">
-                                                This field is required
-                                            </mat-error>
-                                            <mat-error *ngIf="form[fieldName].hasError('pattern')">
-                                                The {{ fieldName }} must contain {{ field.pattern }}
-                                            </mat-error>
-                                    </mat-form-field>
 
-                                </ng-container>
+                                    <ng-template #checkForDateField>
+                                        <ng-container *ngIf="field.kindOfField === 'Date'">
+                                            <input matInput [matDatepicker]="picker" [formControlName]="fieldName" [placeholder]="field.title">
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </ng-container>
+                                    </ng-template>
+
+                                    <mat-error *ngIf="form.controls[fieldName].hasError('required')">
+                                        {{ fieldName | titlecase}} is required
+                                    </mat-error>
+                                    <mat-error *ngIf="form.controls[fieldName].hasError('pattern')">
+                                        The {{ fieldName | titlecase}} must contain {{ field.pattern }}
+                                    </mat-error>
+                                </mat-form-field>
+
                             </ng-template>
                         </td>
                     </ng-container>

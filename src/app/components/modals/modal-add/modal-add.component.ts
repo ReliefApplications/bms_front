@@ -1,12 +1,18 @@
 import { Component, OnInit, Input, EventEmitter, Output, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
-import { CustomModel as CustomModel } from 'src/app/model/custom-model';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { CustomModel as CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { MAT_DIALOG_DATA, MatDialogRef, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { CustomDateAdapter } from '../../../core/utils/date.adapter';
+import { APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 
 @Component({
     selector: 'app-modal-add',
     templateUrl: './modal-add.component.html',
-    styleUrls: ['../modal.component.scss', './modal-add.component.scss']
+    styleUrls: ['../modal.component.scss', './modal-add.component.scss'],
+    providers: [
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+    ]
 })
 export class ModalAddComponent implements OnInit {
 
@@ -50,8 +56,9 @@ export class ModalAddComponent implements OnInit {
     onSubmit() {
 
         for (const field of this.objectFields) {
-            this.objectInstance[field] = this.form.controls[field].value;
+            this.objectInstance.fields[field].value = this.form.controls[field].value;
         }
+        console.log(this.objectInstance);
 
         this.modalReference.close();
     }

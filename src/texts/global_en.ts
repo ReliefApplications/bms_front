@@ -105,7 +105,7 @@ export const TEXT = {
     // Add distribution
     add_distribution_advanced_option: 'Advanced options',
     add_distribution_beneficiaries_reached: 'Beneficiaries reached',
-    add_distribution_check_date: 'Error while saving the date, check that the format is like mm/dd/yyyy',
+    add_distribution_check_date: 'Error while saving the date, check that the format is like dd-mm-yyyy',
     add_distribution_check_fields: 'Fill new distribution\'s information before, including the commodity and a minimum selection score\'s value greater than 0.',
     add_distribution_commodities_delivered: 'to be delivered',
     add_distribution_created: ' was created',
@@ -489,7 +489,7 @@ export const TEXT = {
     voucher_define_password: 'Define password for booklet',
     voucher_for: 'for',
     voucher_no_device: 'There is no device detected',
-    voucher_no_permission: 'You have refused to allow the camera',
+    voucher_no_permission: 'You have denied access to the camera',
     voucher_only_digits: 'Your password must be only 4 digits',
     voucher_password_changed: 'Your password has been changed',
     voucher_scan_text: 'Scan booklet QR code',

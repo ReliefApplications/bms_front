@@ -105,7 +105,7 @@ export const TEXT = {
     // Add distribution
     add_distribution_advanced_option: 'Options avancées',
     add_distribution_beneficiaries_reached: 'Bénéficaires atteints',
-    add_distribution_check_date: 'Erreur lors de la sauvegarde de la date, vérifiez que le format est mm/dd/yyyy',
+    add_distribution_check_date: 'Erreur lors de la sauvegarde de la date, vérifiez que le format est dd-mm-yyyy',
     add_distribution_check_fields: 'Remplissez les informations de la nouvelle distribution avant, incluant les commodités et le score minimum de sélection supérieur à 0.',
     add_distribution_commodities_delivered: 'a être délivrées',
     add_distribution_created: ' a été créée',

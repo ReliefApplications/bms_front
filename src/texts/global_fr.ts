@@ -161,7 +161,7 @@ export const TEXT = {
 
     // Cache
     cache_distribution_added: 'Distribution et bénéficiaires du projet ont été ajoutés dans le cache',
-    cache_store_beneficiaries: 'Sauvegarder Pour Le Mode Offline',
+    cache_store_beneficiaries: 'Mode Offline',
     cache_stored_beneficiaries: 'Sauvegardée Pour Le Mode Offline',
     cache_no_distribution: 'Cette distribution n\'est pas enregistrée dans le cache, vous ne pouvez pas y accéder hors-ligne',
 

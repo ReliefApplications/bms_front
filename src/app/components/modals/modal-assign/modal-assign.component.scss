@@ -1,4 +1,4 @@
-@import '../../../assets/css/variable.scss';
+@import '../../../../assets/css/variable.scss';
 
 app-placeholder-panel {
     width: 95%;
@@ -52,4 +52,36 @@ app-table-mobile-vouchers {
     app-placeholder-panel {
         width: 85% !important;
     }
+
+    .table-value p {
+      font-style: italic;
+    }
 }
+
+.ng-select {
+    width: 100%
+}
+
+.ng-select.multiple ::ng-deep .ng-select-container .ng-value-container .ng-value {
+    background-color: #424242;
+  }
+
+  .ng-select-focused ::ng-deep {
+    .ng-select-container::after {
+        border-color: #424242;
+        border-width: 2px;
+    }
+  }
+
+  .ng-select-focused ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
+    color: #424242;
+  }
+
+  .ng-select-focused ::ng-deep .ng-arrow {
+    color: #424242 !important;
+  }
+
+  .ng-select-opened ::ng-deep .ng-option-selected {
+    color: #424242 !important;
+  }
+

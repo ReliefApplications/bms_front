@@ -228,7 +228,7 @@
             [loaderCache]="loaderCache" [hasRights]="hasRights" [hasRightsTransaction]="hasRightsTransaction" (exportEmitter)="exportTransaction($event)" (storeEmitter)="storeBeneficiaries()">
         </app-general-relief>
 
-        <app-qr-voucher *ngIf="actualDistribution.validated && getDistributionType() === 'qr-voucher' && !loadingDatas" [actualDistribution]="actualDistribution" [transactionData]="transactionData" [distributionId]="distributionId" [hasRights]="hasRights"
+        <app-qr-voucher (reloadTable)="getSelectedDistribution()" *ngIf="actualDistribution.validated && getDistributionType() === 'qr-voucher' && !loadingDatas" [actualDistribution]="actualDistribution" [transactionData]="transactionData" [distributionId]="distributionId" [hasRights]="hasRights"
             [loaderCache]="loaderCache" [hasRightsTransaction]="hasRightsTransaction" (exportEmitter)="exportTransaction($event)" (storeEmitter)="storeBeneficiaries()">
         </app-qr-voucher>
     </ng-container>

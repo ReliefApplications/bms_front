@@ -24,7 +24,7 @@
 
         <div class="content-button">
             <div class="action-buttons">
-                <button mat-raised-button *ngIf="!loadingAssign" class="button-background-primary">
+                <button mat-raised-button *ngIf="!loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
                         <span>{{TEXT.voucher_assign | titlecase }}</span>
                 </button>
                 <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
@@ -57,9 +57,9 @@
 
         <div class="content-table" *ngIf="!loadingTransaction">
             <app-transaction-table *ngIf="widthScreen >= maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false" [printable]="true" [selection]="selection" [checkbox]="true"
-                (selectChecked)="getChecked($event)">
+                (selectChecked)="getChecked($event)" [assignable]="true" (reloadTable)="emitReloadTable()">
             </app-transaction-table>
-            <app-transaction-table-mobile *ngIf="widthScreen < maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true" [editable]="false">
+            <app-transaction-table-mobile *ngIf="widthScreen < maxWidthMobile" (reloadTable)="emitReloadTable()" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true" [editable]="false" [assignable]="true">
             </app-transaction-table-mobile>
         </div>
 

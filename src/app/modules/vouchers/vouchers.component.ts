@@ -6,19 +6,14 @@ import { Booklet } from 'src/app/model/booklet';
 import { BookletService } from 'src/app/core/api/booklet.service';
 import { ModalAddComponent } from 'src/app/components/modals/modal-add/modal-add.component';
 import { Mapper } from 'src/app/core/utils/mapper.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { Project } from 'src/app/model/project';
-import { DistributionService } from 'src/app/core/api/distribution.service';
-import { DistributionData } from 'src/app/model/distribution-data';
-import { Beneficiaries } from 'src/app/model/beneficiary';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Voucher } from '../../model/voucher';
 import { ExportService } from '../../core/api/export.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { TableVouchersComponent } from 'src/app/components/table/table-vouchers/table-vouchers.component';
-import { forkJoin } from 'rxjs';
-
+import { ModalAssignComponent } from 'src/app/components/modals/modal-assign/modal-assign.component';
 @Component({
     selector: 'app-vouchers',
     templateUrl: './vouchers.component.html',
@@ -41,8 +36,6 @@ export class VouchersComponent implements OnInit, DoCheck {
     public loadingAssign = false;
     public loadingBooklet = true;
     public loadingExport = false;
-    public loadingPassword = false;
-    public loadingAssignation = false;
     public load = false;
 
     public bookletClass = Booklet;
@@ -50,33 +43,9 @@ export class VouchersComponent implements OnInit, DoCheck {
     public bookletData: MatTableDataSource<Booklet>;
     public extensionType: string;
     public projectClass = Project;
-    public distributionClass = DistributionData;
-    public beneficiariesClass = Beneficiaries;
-
-    // Variables for the assigns' modal
-    public projectControl = new FormControl('', Validators.required);
-    public distributionControl = new FormControl('', Validators.required);
-    public beneficiaryControl = new FormControl('', Validators.required);
-    public form = new FormGroup({
-        projectControl: this.projectControl,
-        distributionControl: this.distributionControl,
-        beneficiaryControl: this.beneficiaryControl,
-    });
-
-    public voucherPasswordControl = new FormControl('', [Validators.required, Validators.pattern(/\d{4}/)]);
-
-    public distributionName = '';
-    public beneficiaryName = '';
 
     public projects = [];
-    public distributions = [];
-    public beneficiaries = [];
 
-    public step = 1;
-
-    public bookletQRCode = 'VC7PZ#003-003-003';
-    public password = '';
-    public displayPassword = false;
     public selection = new SelectionModel<Voucher>(true, []);
     public checkedElements: any = [];
 
@@ -87,7 +56,6 @@ export class VouchersComponent implements OnInit, DoCheck {
         public dialog: MatDialog,
         public mapperService: Mapper,
         public projectService: ProjectService,
-        public distributionService: DistributionService,
         public _exportService: ExportService,
         public snackbar: SnackbarService
     ) { }
@@ -143,62 +111,6 @@ export class VouchersComponent implements OnInit, DoCheck {
         );
     }
 
-    /**
-     * get all projects
-     */
-    getProjects(user_action): void {
-        this.loadingAssign = true;
-
-        this.projectService.get()
-            .pipe(
-                finalize(() => {
-                    this.loadingAssign = false;
-                    this.openDialog(user_action);
-                })
-            )
-            .subscribe(
-                response => {
-                    if (response && response.length > 0) {
-                        this.projects = this.projectClass.formatArray(response).reverse();
-                    } else if (response === null) {
-                        this.projects = [];
-                    }
-                }
-            );
-    }
-
-    /**
-     * get all distributions of a project
-     */
-    getDistributions() {
-        this.distributionService.getByProject(this.projectControl.value)
-            .subscribe(
-                response => {
-                    if (response || response === []) {
-                        this.distributions = this.distributionClass.formatArray(response);
-                    } else {
-                        this.distributions = [];
-                    }
-                }
-            );
-    }
-
-    /**
-     * Gets the Beneficiaries of the selected distribution
-     */
-    getBeneficiaries() {
-        this.distributionService.getBeneficiaries(this.distributionControl.value)
-            .subscribe(
-                response => {
-
-                    if (response || response === []) {
-                        this.beneficiaries = this.beneficiariesClass.formatArray(response);
-                    } else {
-                        this.beneficiaries = [];
-                    }
-                }
-            );
-    }
 
     openDialog(user_action): void {
         if (this.dialog.openDialogs.length === 0) {
@@ -224,14 +136,32 @@ export class VouchersComponent implements OnInit, DoCheck {
                     create.unsubscribe();
                 });
 
-            } else {
-                this.step = 1;
-
-                dialogRef = this.dialog.open(user_action, {
-                    id: 'modal-voucher',
-                });
             }
         }
+    }
+
+    openAssignDialog() {
+        this.loadingAssign = true;
+        this.projectService.get()
+            .subscribe(
+                response => {
+                    this.loadingAssign = false;
+                    if (response && response.length > 0) {
+                        this.projects = this.projectClass.formatArray(response).reverse();
+                    } else if (response === null) {
+                        this.projects = [];
+                    }
+                    const dialogRef = this.dialog.open(ModalAssignComponent, {
+                        id: 'modal-vouchers',
+                        data: {
+                            projects: this.projects
+                        }
+                    });
+                    dialogRef.afterClosed().subscribe((test) => {
+                        this.tableVoucher.updateData();
+                    });
+                }
+            );
     }
 
     /**
@@ -261,77 +191,6 @@ export class VouchersComponent implements OnInit, DoCheck {
             bookletIds.push(element.id);
         });
         return !error ? this._exportService.printManyVouchers(bookletIds) : null;
-    }
-
-    nextStep() {
-        if (this.step === 1) {
-            if (this.projectControl.value === 0) {
-                this.snackbar.error(this.voucher.voucher_select_project);
-            } else if (this.distributionControl.value === 0) {
-                this.snackbar.error(this.voucher.voucher_select_distribution);
-            } else if (this.beneficiaryControl.value === 0) {
-                this.snackbar.error(this.voucher.voucher_select_beneficiary);
-            } else {
-                this.distributionName = this.distributions.filter(element => element.id === this.distributionControl.value)[0].name;
-                this.beneficiaryName = this.beneficiaries.filter(element => element.id === this.beneficiaryControl.value)[0].full_name;
-
-                this.step = 2;
-            }
-        }
-        // Step 3 passed when we scan the QRCode
-        else if (this.step === 3) {
-            this.step = 4;
-        } else if (this.step === 4) {
-            if (this.voucherPasswordControl.hasError('pattern')) {
-                this.snackbar.error(this.voucher.voucher_only_digits);
-            } else {
-                this.loadingPassword = true;
-
-                if (!this.displayPassword) {
-                    this.password = null;
-                }
-
-                this.step = 5;
-
-            }
-        }
-    }
-
-    getResultScanner(event) {
-        this.bookletQRCode = event;
-
-        this.step = 3;
-    }
-
-    assignBooklet() {
-        this.loadingAssignation = true;
-        const bookletId = this.bookletQRCode;
-
-
-
-        const assignObservable = this.bookletService.assignBenef(bookletId, this.beneficiaryControl.value)
-            .pipe(
-                finalize(
-                    () => this.loadingAssignation = false
-                )
-            );
-        const passwordObservable = this.bookletService.setPassword(this.bookletQRCode, this.voucherPasswordControl.value)
-            .pipe(
-                finalize(
-                    () => {
-                        this.loadingPassword = false;
-                        this.tableVoucher.updateData();
-                    }
-                )
-            );
-
-        forkJoin(assignObservable, passwordObservable).subscribe((res: any) => {
-            this.snackbar.success(
-            this.voucher.voucher_assigned_success + this.beneficiaryName);
-            this.dialog.closeAll();
-        }, err => {
-            this.snackbar.error(err.error);
-        });
     }
 
     export() {

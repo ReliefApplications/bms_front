@@ -3,6 +3,7 @@ import { URL_BMS_API                                } from '../../../environment
 import { HttpService                                } from './http.service';
 import { ExportService                              } from './export.service';
 import * as CryptoJS from 'crypto-js';
+import { finalize } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -45,11 +46,11 @@ export class BookletService {
         return this.http.post(url, body);
     }
 
-    public assignBenef(code: string, idBeneficiary: number) {
+    public assignBenef(code: string, idBeneficiary: number, idDistribution) {
         const body = {
             code: code,
         };
-        const url = this.api + `/booklets/assign/${idBeneficiary}`;
+        const url = this.api + `/booklets/assign/${idBeneficiary}/${idDistribution}`;
         return this.http.post(url, body);
     }
 }

@@ -305,7 +305,7 @@ export const TEXT = {
     modal_no_file: 'No file chosen',
 
     // Model
-    model_beneficiaries_dependents: 'التوابع',
+    model_beneficiaries_dependents: 'عضو',
     model_beneficiaries_nationalids: 'رقم الهوية',
     model_beneficiaries_phones: 'الهاتف',
     model_beneficiaries_status: 'الرتبة في الأسرة',

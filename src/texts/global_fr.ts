@@ -305,7 +305,7 @@ export const TEXT = {
     modal_no_file: 'Aucun fichier selectionné',
 
     // Model
-    model_beneficiaries_dependents: 'Dépendents',
+    model_beneficiaries_dependents: 'Membres',
     model_beneficiaries_nationalids: 'Numéro d\'identification',
     model_beneficiaries_phones: 'Téléphones (sans le code pays)',
     model_beneficiaries_status: 'Satut',

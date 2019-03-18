@@ -196,8 +196,7 @@ export class TransactionVoucher {
             status: 'number',
             booklet: 'text',
             used: 'date',
-            value: 'text',
-            id: 'number'
+            value: 'text'
         };
     }
 
@@ -211,8 +210,7 @@ export class TransactionVoucher {
             status: 'number',
             booklet: 'text',
             used: 'date',
-            value: 'text',
-            id: 'number'
+            value: 'text'
         };
     }
 

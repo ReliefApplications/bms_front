@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TransactionVoucher } from 'src/app/model/transaction-voucher';
@@ -16,6 +16,7 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
     loadingAssign = false;
     beneficiaries = [];
     beneficiariesClass = Beneficiaries;
+    @Output() reloadTable = new EventEmitter<string>();
 
 
     ngOnInit() {
@@ -52,7 +53,7 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
     openAssignDialog() {
         this.loadingAssign = true;
 
-        this.distributionService.getBeneficiaries(this.actualDistribution.id)
+        this.distributionService.getAssignableBeneficiaries(this.actualDistribution.id)
             .subscribe(
                 response => {
                     this.loadingAssign = false;
@@ -70,8 +71,15 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
                     });
 
                     dialogRef.afterClosed().subscribe((test) => {
+                        this.reloadTable.emit();
                     });
+                }, err => {
+                    this.loadingAssign = false;
                 }
             );
+    }
+
+    emitReloadTable() {
+        this.reloadTable.emit();
     }
 }

@@ -46,11 +46,11 @@ export class BookletService {
         return this.http.post(url, body);
     }
 
-    public assignBenef(code: string, idBeneficiary: number) {
+    public assignBenef(code: string, idBeneficiary: number, idDistribution) {
         const body = {
             code: code,
         };
-        const url = this.api + `/booklets/assign/${idBeneficiary}`;
+        const url = this.api + `/booklets/assign/${idBeneficiary}/${idDistribution}`;
         return this.http.post(url, body);
     }
 }

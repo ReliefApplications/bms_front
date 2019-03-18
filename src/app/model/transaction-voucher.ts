@@ -4,6 +4,12 @@ export class TransactionVoucher {
     static __classname__ = 'TransactionVoucher';
 
     /**
+     * Beneficiary id
+     * @type {number}
+     */
+    beneficiaryId: number;
+
+    /**
      * Beneficiary givenName
      * @type {string}
      */
@@ -27,6 +33,7 @@ export class TransactionVoucher {
             this.givenName = instance.givenName;
             this.familyName = instance.familyName;
             this.booklet = instance.booklet;
+            this.beneficiaryId = instance.beneficiaryId;
         }
     }
 
@@ -78,6 +85,7 @@ export class TransactionVoucher {
         const transactionVoucher = new TransactionVoucher();
         transactionVoucher.givenName = instance.beneficiary ? instance.beneficiary.given_name : null;
         transactionVoucher.familyName = instance.beneficiary ? instance.beneficiary.family_name : null;
+        transactionVoucher.beneficiaryId = instance.beneficiary ? instance.beneficiary.id : null;
         transactionVoucher.booklet = null;
         if (instance.booklets.length) {
             instance.booklets.forEach(booklet => {
@@ -189,6 +197,7 @@ export class TransactionVoucher {
             booklet: 'text',
             used: 'date',
             value: 'text',
+            id: 'number'
         };
     }
 
@@ -203,6 +212,7 @@ export class TransactionVoucher {
             booklet: 'text',
             used: 'date',
             value: 'text',
+            id: 'number'
         };
     }
 

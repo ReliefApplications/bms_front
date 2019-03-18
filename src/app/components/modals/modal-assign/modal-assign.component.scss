@@ -52,6 +52,10 @@ app-table-mobile-vouchers {
     app-placeholder-panel {
         width: 85% !important;
     }
+
+    .table-value p {
+      font-style: italic;
+    }
 }
 
 .ng-select {

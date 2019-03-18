@@ -60,6 +60,9 @@
                         [matTooltip]="'print'" class="grey" [disabled]="!isPrintable(element)">
                         <mat-icon>printer</mat-icon>
                     </button>
+                    <button mat-icon-button [matTooltip]="'assign'" *ngIf="assignable" (click)="assign(element); $event.stopPropagation()" class="grey" [disabled]="!isAssignable(element)">
+                        <mat-icon>assignment</mat-icon>
+                    </button>
                 </td>
             </ng-container>
 

@@ -45,11 +45,16 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
 
     ngOnInit() {
 
-        if (this.data.project && this.data.distribution && this.data.beneficiaries) {
+        if (this.data.project && this.data.distribution) {
             this.projectControl.setValue(this.data.project.id);
             this.distributionControl.setValue(this.data.distribution.id);
             this.distributionName = this.data.distribution.name;
-            this.beneficiaries = this.data.beneficiaries;
+            if (this.data.beneficiary) {
+                this.beneficiaryControl.setValue(this.data.beneficiary.beneficiaryId);
+                this.beneficiaryName = this.data.beneficiary.givenName + ' ' + this.data.beneficiary.familyName;
+            } else if (this.data.beneficiaries) {
+                this.beneficiaries = this.data.beneficiaries;
+            }
         } else if (this.data.projects) {
             this.projects = this.data.projects;
         }
@@ -75,7 +80,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
      * Gets the Beneficiaries of the selected distribution
      */
     getBeneficiaries() {
-        this.distributionService.getBeneficiaries(this.distributionControl.value)
+        this.distributionService.getAssignableBeneficiaries(this.distributionControl.value)
             .subscribe(
                 response => {
 
@@ -99,8 +104,9 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
             } else {
                 if (!this.data.distribution || !this.data.project) {
                     this.distributionName = this.distributions.filter(element => element.id === this.distributionControl.value)[0].name;
+                } if (!this.data.beneficiary) {
+                    this.beneficiaryName = this.beneficiaries.filter(element => element.id === this.beneficiaryControl.value)[0].full_name;
                 }
-                this.beneficiaryName = this.beneficiaries.filter(element => element.id === this.beneficiaryControl.value)[0].full_name;
                 this.step = 2;
             }
         }
@@ -129,7 +135,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
 
 
 
-        const assignObservable = this.bookletService.assignBenef(bookletId, this.beneficiaryControl.value)
+        const assignObservable = this.bookletService.assignBenef(bookletId, this.beneficiaryControl.value, this.distributionControl.value)
             .pipe(
                 finalize(
                     () => this.loadingAssignation = false

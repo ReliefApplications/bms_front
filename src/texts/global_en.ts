@@ -161,7 +161,7 @@ export const TEXT = {
 
     // Cache
     cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
-    cache_store_beneficiaries: 'Save For Offline Mode',
+    cache_store_beneficiaries: 'Offline Mode',
     cache_stored_beneficiaries: 'Saved For Offline Mode',
     cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',
 
@@ -305,7 +305,7 @@ export const TEXT = {
     modal_no_file: 'No file chosen',
 
     // Model
-    model_beneficiaries_dependents: 'Dependents',
+    model_beneficiaries_dependents: 'Members',
     model_beneficiaries_nationalids: 'ID Number',
     model_beneficiaries_phones: 'Phones (no country code)',
     model_beneficiaries_status: 'Satus',

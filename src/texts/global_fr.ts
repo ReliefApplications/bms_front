@@ -161,7 +161,7 @@ export const TEXT = {
 
     // Cache
     cache_distribution_added: 'Distribution et bénéficiaires du projet ont été ajoutés dans le cache',
-    cache_store_beneficiaries: 'Sauvegarder Pour Le Mode Offline',
+    cache_store_beneficiaries: 'Mode Offline',
     cache_stored_beneficiaries: 'Sauvegardée Pour Le Mode Offline',
     cache_no_distribution: 'Cette distribution n\'est pas enregistrée dans le cache, vous ne pouvez pas y accéder hors-ligne',
 
@@ -305,7 +305,7 @@ export const TEXT = {
     modal_no_file: 'Aucun fichier selectionné',
 
     // Model
-    model_beneficiaries_dependents: 'Dépendents',
+    model_beneficiaries_dependents: 'Membres',
     model_beneficiaries_nationalids: 'Numéro d\'identification',
     model_beneficiaries_phones: 'Téléphones (sans le code pays)',
     model_beneficiaries_status: 'Satut',

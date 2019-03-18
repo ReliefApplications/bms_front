@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TransactionVoucher } from 'src/app/model/transaction-voucher';
+import { ModalAssignComponent } from 'src/app/components/modals/modal-assign/modal-assign.component';
+import { Beneficiaries } from 'src/app/model/beneficiary';
 
 @Component({
   selector: 'app-qr-voucher',
@@ -12,6 +14,9 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
     checkedLines: any[] = [];
     distributed = false;
     loadingAssign = false;
+    beneficiaries = [];
+    beneficiariesClass = Beneficiaries;
+
 
     ngOnInit() {
         super.ngOnInit();
@@ -44,4 +49,29 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
         }
     }
 
+    openAssignDialog() {
+        this.loadingAssign = true;
+
+        this.distributionService.getBeneficiaries(this.actualDistribution.id)
+            .subscribe(
+                response => {
+                    this.loadingAssign = false;
+                    if (response || response === []) {
+                        this.beneficiaries = this.beneficiariesClass.formatArray(response);
+                    } else {
+                        this.beneficiaries = [];
+                    }
+                    const dialogRef = this.dialog.open(ModalAssignComponent, {
+                        data: {
+                            project: this.actualDistribution.project,
+                            distribution: this.actualDistribution,
+                            beneficiaries: this.beneficiaries
+                        }
+                    });
+
+                    dialogRef.afterClosed().subscribe((test) => {
+                    });
+                }
+            );
+    }
 }

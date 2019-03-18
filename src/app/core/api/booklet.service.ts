@@ -3,6 +3,7 @@ import { URL_BMS_API                                } from '../../../environment
 import { HttpService                                } from './http.service';
 import { ExportService                              } from './export.service';
 import * as CryptoJS from 'crypto-js';
+import { finalize } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'

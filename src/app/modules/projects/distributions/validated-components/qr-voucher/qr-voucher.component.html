@@ -24,7 +24,7 @@
 
         <div class="content-button">
             <div class="action-buttons">
-                <button mat-raised-button *ngIf="!loadingAssign" class="button-background-primary">
+                <button mat-raised-button *ngIf="!loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
                         <span>{{TEXT.voucher_assign | titlecase }}</span>
                 </button>
                 <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>

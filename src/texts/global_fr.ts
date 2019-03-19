@@ -323,6 +323,7 @@ export const TEXT = {
     model_criteria_weight: 'Score du poids',
     model_currency: 'Devise',
     model_dateofbirth: 'Date de naissance',
+    model_distributed: 'Distribué',
     model_distribution_beneficiary: 'Distribution du bénéficiaire',
     model_distribution_date: 'Date de la Distribution',
     model_distribution_name: 'Nom',

@@ -323,6 +323,7 @@ export const TEXT = {
     model_criteria_weight: 'وزن النتيجة',
     model_currency: 'دقة',
     model_dateofbirth: 'تاريخ الميلاد',
+    model_distributed: 'Distributed',
     model_distribution_beneficiary: 'توزيع المستفيد',
     model_distribution_date: 'تاريخ التوزيع',
     model_distribution_name: 'الاسم',

@@ -78,6 +78,8 @@ import { ImportedDataComponent } from '../modules/beneficiary/beneficiaries-impo
 import { ModalRequestsComponent } from '../components/modals/modal-requests/modal-requests.component';
 import { RecaptchaModule } from 'angular-google-recaptcha';
 import { ThousandsPipe } from 'src/app/core/utils/thousands.pipe';
+import { HumanizePipe } from 'src/app/core/utils/humanize.pipe';
+
 import { ValidatedDistributionComponent } from '../modules/projects/distributions/validated-components/validated-distribution.component';
 
 import { VouchersComponent } from '../modules/vouchers/vouchers.component';
@@ -184,6 +186,7 @@ imports: [
         UpdateBeneficiaryComponent,
         ImportedDataComponent,
         ThousandsPipe,
+        HumanizePipe,
         ValidatedDistributionComponent,
         GeneralReliefComponent,
         MobileMoneyComponent,

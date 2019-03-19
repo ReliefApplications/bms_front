@@ -145,6 +145,10 @@
     }
 }
 
+button {
+    font-family: $bms_font_text;
+}
+
 button mat-icon {
     margin-left: 10px;
     margin-right: 10px;
@@ -312,7 +316,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     }
 
     .button-with-extension {
-        margin: 0 10px;
+        margin: 0;
         display: flex;
 
         button {

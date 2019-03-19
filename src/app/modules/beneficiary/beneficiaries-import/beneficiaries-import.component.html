@@ -38,6 +38,12 @@
               </mat-menu>
             </div>
           </div>
+
+          <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="addHouseholds()">
+            <mat-icon>publish</mat-icon>
+            <span>{{household.import | titlecase }}</span>
+          </button>
+          <mat-spinner [diameter]="25" *ngIf="load"></mat-spinner>
         </div>
       </div>
       <div class="content-table">
@@ -77,13 +83,6 @@
 
           </mat-card>
         </div>
-      </div>
-      <div class="content-button content-button-footer">
-        <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-        <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="addHouseholds()">
-          <mat-icon>publish</mat-icon>
-          <span>{{household.import | titlecase }}</span>
-        </button>
       </div>
     </div>
   </div>

@@ -76,7 +76,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
         'Family Registry': this.Text.national_id_family_registry,
         'Other': this.Text.national_id_other
     };
-    public residencyStatusList: string[] = ['refugee', 'idp', 'resident'];
+    public residencyStatusList: string[] = ['Refugee', 'IDP', 'Resident'];
 
     // Checkpoint
     validStep1 = false;

@@ -51,11 +51,6 @@
                         [matTooltip]="table.details">
                         <mat-icon>search</mat-icon>
                     </button>
-
-                    <button *ngIf="deletable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
-                        [matTooltip]="table.delete" class="red">
-                        <mat-icon>delete_outline</mat-icon>
-                    </button>
                     <button *ngIf="printable" mat-icon-button (click)="print(element); $event.stopPropagation()"
                         [matTooltip]="'print'" class="grey" [disabled]="!isPrintable(element)">
                         <mat-icon>printer</mat-icon>

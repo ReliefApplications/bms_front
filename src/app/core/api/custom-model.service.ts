@@ -15,8 +15,15 @@ export class CustomModelService {
     }
 
     public get() {
-        const url = `${this.apiBase}/${this.customModelPath}`;
-        return this.http.get(url);
+        return this.http.get(this.makeUrl());
+    }
+
+    public create(body: any) {
+        return this.http.put(this.makeUrl(), body);
+    }
+
+    private makeUrl(): string {
+        return `${this.apiBase}/${this.customModelPath}`;
     }
 
     public getOptions(customModel: CustomModel, field: string) {

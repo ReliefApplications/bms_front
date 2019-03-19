@@ -10,7 +10,7 @@ import { CountrySpecificService } from '../../core/api/country-specific.service'
 
 import { Mapper } from '../../core/utils/mapper.service';
 import { Donor } from '../../model/donor';
-import { Project } from '../../model/project';
+import { Project as NewProject } from '../../model/project.new';
 import { User } from '../../model/user';
 import { CountrySpecific } from '../../model/country-specific';
 
@@ -25,6 +25,7 @@ import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { FinancialProvider } from 'src/app/model/financial-provider';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
+import { Project } from 'src/app/model/project';
 
 @Component({
     selector: 'app-settings',
@@ -42,6 +43,7 @@ export class SettingsComponent implements OnInit, DoCheck {
 
     public referedClassService;
     referedClassToken;
+    referedClassInstance: any;
     data: MatTableDataSource<any>;
     public user_action = '';
     public extensionType;
@@ -176,7 +178,7 @@ export class SettingsComponent implements OnInit, DoCheck {
                 this.deletable = true;
                 break;
             case 'projects':
-                this.referedClassToken = Project;
+                this.referedClassToken = NewProject;
                 this.referedClassService = this.projectService;
                 this.deletable = true;
                 break;
@@ -286,33 +288,36 @@ export class SettingsComponent implements OnInit, DoCheck {
         let dialogRef;
 
         if (user_action === 'add') {
+            this.referedClassInstance = new this.referedClassToken();
             dialogRef = this.dialog.open(ModalAddComponent, {
-                data: { data: [], entity: this.referedClassToken, service: this.referedClassService, mapper: this.mapperService }
+                data: {
+                    objectInstance: this.referedClassInstance,
+                 }
             });
         }
-        const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
-            if (this.referedClassToken.__classname__ === 'Project') {
-                let exists = false;
+        // const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
+        //     if (this.referedClassToken.__classname__ === 'Project') {
+        //         let exists = false;
 
-                this.data.data.forEach(element => {
-                    if (element.name.toLowerCase() === data.name.toLowerCase()) {
-                        this.snackBar.open(this.settings.settings_project_exists, '', { duration: 5000, horizontalPosition: 'center' });
-                        exists = true;
-                        return;
-                    }
-                });
+        //         this.data.data.forEach(element => {
+        //             if (element.name.toLowerCase() === data.name.toLowerCase()) {
+        //                 this.snackBar.open(this.settings.settings_project_exists, '', { duration: 5000, horizontalPosition: 'center' });
+        //                 exists = true;
+        //                 return;
+        //             }
+        //         });
 
-                if (exists === false) {
-                    this.createElement(data);
-                }
-            } else {
-                this.createElement(data);
-            }
-        });
+        //         if (exists === false) {
+        //             this.createElement(data);
+        //         }
+        //     } else {
+        //         this.createElement(data);
+        //     }
+        // });
 
-        dialogRef.afterClosed().subscribe(result => {
-            create.unsubscribe();
-        });
+        // dialogRef.afterClosed().subscribe(result => {
+        //     create.unsubscribe();
+        // });
     }
 
     createElement(createElement: Object) {

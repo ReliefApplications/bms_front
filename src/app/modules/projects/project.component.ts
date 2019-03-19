@@ -1,24 +1,23 @@
-import { Component, OnInit, HostListener, SimpleChanges, DoCheck } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
-
+import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
+import { MatDialog, MatSnackBar, MatTableDataSource } from '@angular/material';
+import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
+import { DonorService } from 'src/app/core/api/donor.service';
+import { SectorService } from 'src/app/core/api/sector.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { GlobalText } from '../../../texts/global';
-
+import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
+import { DistributionService } from '../../core/api/distribution.service';
+import { ProjectService } from '../../core/api/project.service';
+import { ImportedDataService } from '../../core/utils/imported-data.service';
+import { Mapper } from '../../core/utils/mapper.service';
+import { DistributionData } from '../../model/distribution-data';
 import { Project } from '../../model/project';
 import { Project as NewProject } from '../../model/project.new';
 
-import { ProjectService } from '../../core/api/project.service';
-import { DistributionService } from '../../core/api/distribution.service';
-import { DistributionData } from '../../model/distribution-data';
-import { Mapper } from '../../core/utils/mapper.service';
-import { Router } from '@angular/router';
 
-import { ExportInterface } from '../../model/export.interface';
-import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { delay, finalize } from 'rxjs/operators';
-import { ImportedDataService } from '../../core/utils/imported-data.service';
-import { DonorService } from 'src/app/core/api/donor.service';
-import { SectorService } from 'src/app/core/api/sector.service';
+
+
 
 
 @Component({
@@ -74,10 +73,8 @@ export class ProjectComponent implements OnInit, DoCheck {
     ngOnInit() {
         if (this.importedDataService.emittedProject) {
             this.selectedProjectId = parseInt(this.importedDataService.project, 10);
-            this.getProjects();
-        } else {
-            this.getProjects();
         }
+        this.getProjects();
         this.checkSize();
         this.checkPermission();
         this.extensionType = 'xls';
@@ -209,6 +206,15 @@ export class ProjectComponent implements OnInit, DoCheck {
                 }
             }
         );
+        dialogRef.afterClosed().subscribe((closeMethod: string) => {
+            if (closeMethod) {
+                this.projectService.create(newProjectInstance.modelToApi()).subscribe(() => {
+                    this.snackBar.open('Project ' + this.distribution.settings_created,
+                        '', { duration: 5000, horizontalPosition: 'right' });
+                });
+                this.getProjects();
+            }
+        });
 
         /*
         const create = dialogRef.componentInstance.objectCreated.subscribe(
@@ -237,13 +243,6 @@ export class ProjectComponent implements OnInit, DoCheck {
         this.sectorService.getOptions(projectInstance, 'sectors');
     }
 
-    createElement(createElement: Object) {
-        createElement = Project.formatForApi(createElement);
-        this.projectService.create(createElement['id'], createElement).subscribe(response => {
-            this.snackBar.open('Project ' + this.distribution.settings_created, '', { duration: 5000, horizontalPosition: 'right' });
-            this.getProjects();
-        });
-    }
 
     checkPermission() {
         this._cacheService.getUser().subscribe(

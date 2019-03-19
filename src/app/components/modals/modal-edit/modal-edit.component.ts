@@ -7,14 +7,14 @@ import { CustomDateAdapter } from '../../../core/utils/date.adapter';
 
 @Component({
     selector: 'app-modal-add',
-    templateUrl: './modal-add.component.html',
-    styleUrls: ['../modal.component.scss', './modal-add.component.scss'],
+    templateUrl: './modal-edit.component.html',
+    styleUrls: ['../modal.component.scss', './modal-edit.component.scss'],
     providers: [
         { provide: DateAdapter, useClass: CustomDateAdapter },
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
-export class ModalAddComponent implements OnInit {
+export class ModalEditComponent implements OnInit {
 
     // The reactive form corresponding to the html form
     form: FormGroup;
@@ -25,7 +25,7 @@ export class ModalAddComponent implements OnInit {
     objectFields: string[];
 
     constructor(
-        public modalReference: MatDialogRef<ModalAddComponent>,
+        public modalReference: MatDialogRef<ModalEditComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) {}
 

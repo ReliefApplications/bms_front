@@ -1,32 +1,24 @@
-import { Component, OnInit, Input, ViewChild, OnChanges, ElementRef, DoCheck, Output, EventEmitter } from '@angular/core';
-import {
-    MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource,
-    MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner, MatSnackBar
-} from '@angular/material';
-
-import { Mapper } from '../../core/utils/mapper.service';
-
-import { ModalDetailsComponent } from '../modals/modal-details/modal-details.component';
-import { ModalComponent } from '../modals/modal.component';
-import { ModalUpdateComponent } from '../modals/modal-update/modal-update.component';
-import { ModalDeleteComponent } from '../modals/modal-delete/modal-delete.component';
-
+import { Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { MatDialog, MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
+import { Router } from '@angular/router';
+import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
+import { HouseholdsService } from 'src/app/core/api/households.service';
+import { LocationService } from 'src/app/core/api/location.service';
+import { NetworkService } from 'src/app/core/api/network.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { GlobalText } from '../../../texts/global';
-import { dashCaseToCamelCase } from '@angular/animations/browser/src/util';
-import { Beneficiaries } from '../../model/beneficiary';
-import { id } from '@swimlane/ngx-charts/release/utils';
-import { DistributionData } from '../../model/distribution-data';
+import { DistributionService } from '../../core/api/distribution.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
-import { DistributionService } from '../../core/api/distribution.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { LocationService } from 'src/app/core/api/location.service';
-import { HouseholdsService } from 'src/app/core/api/households.service';
-import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
-import { SelectionModel } from '@angular/cdk/collections';
-import { Households } from 'src/app/model/households';
-import { NetworkService } from 'src/app/core/api/network.service';
-import { Router } from '@angular/router';
+import { Mapper } from '../../core/utils/mapper.service';
+import { Beneficiaries } from '../../model/beneficiary';
+import { DistributionData } from '../../model/distribution-data';
+import { ModalDeleteComponent } from '../modals/modal-delete/modal-delete.component';
+import { ModalDetailsComponent } from '../modals/modal-details/modal-details.component';
+import { ModalEditComponent } from '../modals/modal-edit/modal-edit.component';
+
+
+
 
 
 const rangeLabel = (page: number, pageSize: number, length: number) => {
@@ -274,7 +266,7 @@ export class TableComponent implements OnChanges, DoCheck {
                 data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
             });
         } else if (user_action === 'update') {
-            dialogRef = this.dialog.open(ModalUpdateComponent, {
+            dialogRef = this.dialog.open(ModalEditComponent, {
                 data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
             });
         } else {

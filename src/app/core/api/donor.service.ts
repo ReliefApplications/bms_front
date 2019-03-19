@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CustomModelService } from './custom-model.service';
 import { HttpService } from './http.service';
 
@@ -11,9 +11,9 @@ export class DonorService extends CustomModelService {
 
     customModelPath = 'donors';
 
-        constructor(protected http: HttpService) {
-            super(http);
-        }
+    constructor(protected http: HttpService) {
+        super(http);
+    }
 
 
     // public update(id: number, body: any) {

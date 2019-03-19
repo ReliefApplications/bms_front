@@ -1,11 +1,11 @@
-import { Sector } from './sector';
-import { Donor } from './donor';
-import { CustomModel } from './CustomModel/custom-model';
-import { TextModelField  } from './CustomModel/text-model-field';
 import { GlobalText } from '../../texts/global';
-import { SelectModelField } from './CustomModel/select-model-field';
+import { CustomModel } from './CustomModel/custom-model';
 import { DateModelField } from './CustomModel/date-model-field';
 import { NumberModelField } from './CustomModel/number-model-field';
+import { SelectModelField } from './CustomModel/select-model-field';
+import { TextModelField } from './CustomModel/text-model-field';
+import { Donor } from './donor';
+import { Sector } from './sector';
 
 export class Project extends CustomModel {
 
@@ -66,6 +66,7 @@ export class Project extends CustomModel {
                 isSettable: true,
             }
         ),
+        // Todo: check if this is necessary ?
         numberOfHouseholds : new NumberModelField(
             {
                 title: GlobalText.TEXTS.model_project_number_of_households,
@@ -99,7 +100,7 @@ export class Project extends CustomModel {
                 placeholder: null,
                 required: true,
                 isSettable: true,
-                isDisplayedInModal: false,
+                isDisplayedInModal: true,
             }
         ),
         notes : new TextModelField(
@@ -118,8 +119,8 @@ export class Project extends CustomModel {
     public  apiToModel(): Object {
         return new Object;
     }
-    public  modelToApi(object: Object): void {
+    // public  modelToApi(object: Object): void {
 
-    }
+    // }
 
 }

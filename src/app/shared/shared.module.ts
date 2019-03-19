@@ -76,6 +76,7 @@ import { RecaptchaModule } from 'angular-google-recaptcha';
 import { ThousandsPipe } from 'src/app/core/utils/thousands.pipe';
 import { ValidatedDistributionComponent } from '../modules/projects/distributions/validated-components/validated-distribution.component';
 import { DonorService } from '../core/api/donor.service';
+import { ModalEditComponent } from '../components/modals/modal-edit/modal-edit.component';
 
 
 @NgModule({
@@ -155,6 +156,7 @@ import { DonorService } from '../core/api/donor.service';
         ModalDeleteComponent,
         ModalUpdateComponent,
         ModalAddComponent,
+        ModalEditComponent,
         ModalDetailsComponent,
         ModalLanguageComponent,
         BoxSettingComponent,

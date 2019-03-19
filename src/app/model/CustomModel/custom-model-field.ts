@@ -49,7 +49,7 @@ export class CustomModelField<T> {
         // Title displayed in the GUI
         this.title                  = properties['title'];
 
-        // Object value
+        // Object initial value
         this.value                  = properties['value'];
 
         // Boolean properties
@@ -77,5 +77,9 @@ export class CustomModelField<T> {
 
             ...properties,
         };
+    }
+
+    formatForApi() {
+        return this.value;
     }
 }

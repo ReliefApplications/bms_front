@@ -132,7 +132,7 @@ export class Project {
         if (element.donors) {
             element.donors.forEach(donor => {
                 project.donors.push(new Donor(donor));
-                project.donors_name.push(donor.fullname);
+                project.donors_name.push(donor.shortname);
             });
         }
 

@@ -108,7 +108,8 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     }
 
     getPercentageValue(commodity: any): number {
-            return this.getAmountSent(commodity) / this.getTotalCommodityValue(commodity) * 100;
+        const percentage = (this.getAmountSent(commodity) / this.getTotalCommodityValue(commodity) * 100);
+        return Math.round(percentage * 100) / 100;
     }
 
     getAmountSent(commodity: any): number {

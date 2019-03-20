@@ -98,7 +98,7 @@ export class Mapper {
             if (!elementObject[p]) {
                 return 'Not distributed';
             }
-            return 'Distributed the ' + this.datepipe.transform(elementObject[p], 'dd-MM-yyyy');
+            return 'Distributed on ' + this.datepipe.transform(elementObject[p], 'dd-MM-yyyy');
         } else {
             return elementObject[p];
         }
@@ -120,7 +120,7 @@ export class Mapper {
             if (!elementObject[p]) {
                 return 'Not distributed';
             }
-            return 'Distributed the ' + this.datepipe.transform(elementObject[p], 'dd-MM-yyyy');
+            return 'Distributed on ' + this.datepipe.transform(elementObject[p], 'dd-MM-yyyy');
         }
 
         return String(this.entityInstance.getMapperDetails(element)[p]);

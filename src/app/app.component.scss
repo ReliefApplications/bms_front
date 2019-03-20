@@ -74,14 +74,10 @@
     }
 
     .app-component .page-menu-wrapper.show {
-        width: 25vw;
+        width: 30vw;
 
         mat-list-item {
             height: 13vh;
-        }
-
-        span {
-            margin: 5px !important;
         }
     }
 }

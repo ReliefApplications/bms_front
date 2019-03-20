@@ -43,7 +43,7 @@
                     </mat-menu>
                 </div>
                 <div class="button-with-extension">
-                    <button mat-raised-button class="button-background-primary" (click)="exportTransaction(exportTypeTransaction, 'transaction')" *ngIf="!loadingExport">
+                    <button mat-raised-button class="button-background-primary" (click)="exportTransaction(exportTypeTransaction, 'transactionDistribution')" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{TEXT.export | titlecase}}</span>
                     </button>

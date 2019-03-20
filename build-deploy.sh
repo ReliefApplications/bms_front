@@ -19,6 +19,14 @@ echo "Compression starting"
 rm -Rf dist/bms-front_gzip/
 cp -R dist/bms-front/ dist/bms-front_gzip/
 gzip -9fr dist/bms-front_gzip/
+FILES=`find dist/bms-front_gzip`
+for FILE in $FILES; do
+    NEW_FILE=${FILE/.gz/}
+    echo $NEW_FILE
+    if [ "${FILE}" != "${NEW_FILE}" ]; then
+        mv ${FILE} ${NEW_FILE}
+    fi;
+done;
 echo "Compression complete"
 
 # deploy on aws

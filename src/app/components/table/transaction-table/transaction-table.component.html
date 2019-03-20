@@ -13,7 +13,7 @@
         </mat-form-field>
     </div>
 
-    <div *ngIf="filled === true && data && data.data" style="max-height: 370px; overflow: auto;">
+    <div *ngIf="filled === true && data && data.data">
         <table mat-table [dataSource]="data" matSort>
             <ng-container matColumnDef="check" *ngIf="checkbox">
                 <th mat-header-cell class="header-cell" *matHeaderCellDef>

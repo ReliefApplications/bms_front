@@ -29,7 +29,7 @@
                 </button>
                 <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
                 <div class="button-with-extension">
-                    <button mat-raised-button class="button-background-primary" (click)="exportTransaction(exportTypeTransaction, 'generalrelief')" *ngIf="!loadingExport">
+                    <button mat-raised-button class="button-background-primary" (click)="exportTransaction(exportTypeTransaction, 'voucherDistribution')" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{TEXT.export | titlecase}}</span>
                     </button>

@@ -180,12 +180,12 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
      * @return string
      */
     getDistributionType() {
-        if (this.actualDistribution.commodities[0].modality_type.name === 'In Kind' ||
-        this.actualDistribution.commodities[0].modality_type.name === 'Other' ||
-        this.actualDistribution.commodities[0].modality_type.name === 'Cash') {
-            return 'general-relief';
-        } else if (this.actualDistribution.commodities[0].modality_type.name === 'Mobile Money') {
+        if (this.actualDistribution.commodities[0].modality_type.name === 'Mobile Money') {
             return 'mobile-money';
+        } else if (this.actualDistribution.commodities[0].modality_type.modality.name === 'In Kind' ||
+        this.actualDistribution.commodities[0].modality_type.modality.name === 'Other' ||
+        this.actualDistribution.commodities[0].modality_type.modality.name === 'Cash') {
+            return 'general-relief';
         } else if (this.actualDistribution.commodities[0].modality_type.name === 'QR Code Voucher') {
             return 'qr-voucher';
         }

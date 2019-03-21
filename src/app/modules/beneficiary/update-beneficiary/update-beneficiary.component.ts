@@ -462,13 +462,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
             // Format of a beneficiary for Form
             id: undefined,
             birth_date: new Date(),
-            residency_status: 'resident',
+            residency_status: 'Resident',
             family_name: this.updatedHousehold.beneficiaries[0] ? this.updatedHousehold.beneficiaries[0].family_name : '',
             given_name: '',
             gender: '',
             national_id: {
                 number: '',
-                type: 'card'
+                type: 'ID Card'
             },
             phone: [
                 {

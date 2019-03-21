@@ -3,14 +3,14 @@
     <h2>{{settings.settings | titlecase}}</h2>
   </div>
   <div class="container-boxes">
-    <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" 
+    <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle"
     [info]='{icon: "settings/users", color: "green", title:settings.settings_users, ref:"users"}'></app-box-setting>
     <app-box-setting [class.isLast]="widthScreen<maxWidthSecondRow && widthScreen>maxWidthMobile" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/country_specific", color: "red", title:settings.settings_country_specific_options, ref:"country specific options"}'></app-box-setting>
     <app-box-setting [class.isLast]="widthScreen<maxWidthFirstRow && widthScreen>maxWidthSecondRow" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/donors", color: "green", title:settings.settings_donors, ref:"donors"}'></app-box-setting>
-    <app-box-setting [class.isLast]="widthScreen<maxWidthFirstRow && widthScreen>maxWidthSecondRow" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/product", color: "green", title:settings.settings_product, ref:"product"}'></app-box-setting>
     <app-box-setting [class.isLast]="widthScreen<maxWidthFirstRow && widthScreen>maxWidthSecondRow" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "green", title:settings.settings_financial_provider, ref:"financialProvider"}'></app-box-setting>
     <app-box-setting [class.isLast]="widthScreen<maxWidthFirstRow && widthScreen>maxWidthSecondRow" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/projects", color: "green", title:settings.projects, ref:"projects"}'></app-box-setting>
-    <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/vendor", color: "green", title:settings.settings_vendors, ref:"vendors"}'></app-box-setting>
+    <!-- <app-box-setting [class.isLast]="widthScreen<maxWidthFirstRow && widthScreen>maxWidthSecondRow" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/product", color: "green", title:settings.settings_product, ref:"product"}'></app-box-setting>
+    <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/vendor", color: "green", title:settings.settings_vendors, ref:"vendors"}'></app-box-setting> -->
   </div>
   <app-placeholder-panel class="container-table" *ngIf="loadingData"></app-placeholder-panel>
   <div class="container-table" *ngIf="!loadingData">

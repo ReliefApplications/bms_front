@@ -184,7 +184,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
             return 'mobile-money';
         } else if (this.actualDistribution.commodities[0].modality_type.modality.name === 'In Kind' ||
         this.actualDistribution.commodities[0].modality_type.modality.name === 'Other' ||
-        this.actualDistribution.commodities[0].modality_type.modality.name === 'Cash') {
+        this.actualDistribution.commodities[0].modality_type.name === 'Paper Voucher') {
             return 'general-relief';
         } else if (this.actualDistribution.commodities[0].modality_type.name === 'QR Code Voucher') {
             return 'qr-voucher';

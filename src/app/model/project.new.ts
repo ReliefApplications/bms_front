@@ -4,14 +4,17 @@ import { DateModelField } from './CustomModel/date-model-field';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { SelectModelField } from './CustomModel/select-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
-import { Donor } from './donor';
-import { Sector } from './sector';
+import { Donor } from './donor.new';
+import { Sector } from './sector.new';
+import { Injector } from '@angular/core';
+import { DonorService } from '../core/api/donor.service';
+import { SectorService } from '../core/api/sector.service';
+import { forkJoin } from 'rxjs';
+import { AppInjector } from '../app-injector';
 
 export class Project extends CustomModel {
 
-    constructor() {
-        super();
-    }
+    public static rights = ['ROLE_ADMIN', 'ROLE_COUNTRY_MANAGER', 'ROLE_PROJECT_MANAGER'];
 
     public fields = {
         id : new TextModelField(
@@ -44,6 +47,9 @@ export class Project extends CustomModel {
                 isSettable: true,
                 options: undefined,
                 bindField: 'name',
+                isImageInTable: true,
+                isEditable: true,
+                value: [],
             }
         ),
         startDate : new DateModelField(
@@ -54,6 +60,9 @@ export class Project extends CustomModel {
                 isDisplayedInTable: true,
                 isRequired: true,
                 isSettable: true,
+                // Today
+                value: this.getDateOffset(0, 0, 0),
+                isEditable: true,
             }
         ),
         endDate : new DateModelField(
@@ -64,6 +73,9 @@ export class Project extends CustomModel {
                 isDisplayedInTable: true,
                 isRequired: true,
                 isSettable: true,
+                // Today in three days
+                value: this.getDateOffset(0, 3, 0),
+                isEditable: true,
             }
         ),
         // Todo: check if this is necessary ?
@@ -81,9 +93,12 @@ export class Project extends CustomModel {
                 isMultipleSelect: true,
                 placeholder: null,
                 isDisplayedInModal: true,
+                isDisplayedInTable: true,
                 isSettable: true,
                 options: undefined,
-                bindField: 'shortname',
+                bindField: 'shortName',
+                isEditable: true,
+                value: [],
             }
         ),
         iso3 : new TextModelField(
@@ -98,9 +113,10 @@ export class Project extends CustomModel {
             {
                 title: GlobalText.TEXTS.model_project_value,
                 placeholder: null,
-                required: true,
+                isRequired: true,
                 isSettable: true,
                 isDisplayedInModal: true,
+                isEditable: true,
             }
         ),
         notes : new TextModelField(
@@ -111,14 +127,37 @@ export class Project extends CustomModel {
                 isUpdatable: true,
                 isDisplayedInModal: true,
                 isLongText: true,
+                isEditable: true,
             }
         ),
     };
 
 
-    public  apiToModel(): Object {
-        return new Object;
+    public static apiToModel(projectFromApi: any): object {
+        const newProject = new Project();
+
+        newProject.fields.id.value = projectFromApi.id;
+        newProject.fields.name.value = projectFromApi.name;
+        newProject.fields.startDate.value = projectFromApi.start_date;
+        newProject.fields.endDate.value = projectFromApi.end_date;
+        newProject.fields.numberOfHouseholds.value = projectFromApi.number_of_households;
+        newProject.fields.iso3.value = projectFromApi.iso3;
+        newProject.fields.value.value = projectFromApi.value;
+        newProject.fields.notes.value = projectFromApi.notes;
+
+        newProject.fields.sectors.value = [];
+        projectFromApi.sectors.forEach(sector => {
+            newProject.fields.sectors.value.push(Sector.apiToModel(sector));
+        });
+
+        newProject.fields.donors.value = [];
+        projectFromApi.donors.forEach(donor => {
+            newProject.fields.donors.value.push(Donor.apiToModel(donor));
+        });
+
+        return newProject;
     }
+
     // public  modelToApi(object: Object): void {
 
     // }

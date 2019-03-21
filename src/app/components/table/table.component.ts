@@ -1,4 +1,4 @@
-import { Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild, OnInit } from '@angular/core';
 import { MatDialog, MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
@@ -43,7 +43,7 @@ const rangeLabel = (page: number, pageSize: number, length: number) => {
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnChanges, DoCheck {
+export class TableComponent implements OnInit {
     public table = GlobalText.TEXTS;
     public paginator: MatPaginator;
     public sort;
@@ -61,6 +61,8 @@ export class TableComponent implements OnChanges, DoCheck {
 
     // To activate/desactivate action buttons
     @Input() editable: boolean;
+    @Input() deletable: boolean;
+
     // For Imported Beneficiaries
     @Input() parentId: number = null;
     // For Transaction Beneficiaries
@@ -86,12 +88,10 @@ export class TableComponent implements OnChanges, DoCheck {
 
     sortedData: any;
     allData: any = undefined;
-    properties: any;
+    displayProperties: any;
     propertiesTypes: any;
     propertiesActions: any;
     entityInstance = null;
-    filled = true;
-
     public user_action = '';
 
     constructor(
@@ -109,30 +109,10 @@ export class TableComponent implements OnChanges, DoCheck {
         public router: Router
     ) { }
 
-    ngOnChanges() {
-        if (this.data && this.data._data && this.data._data.value) {
-            this.checkData();
-        }
+    ngOnInit(): void {
+        this.checkData();
     }
 
-    ngDoCheck() {
-        if (this.data && this.data.data) {
-            if (this.entity !== this.oldEntity) {
-                this.checkData();
-            }
-            if (!this.data.paginator) {
-                this.data.paginator = this.paginator;
-            }
-            if (this.table !== GlobalText.TEXTS) {
-                this.table = GlobalText.TEXTS;
-                this.setDataTableProperties();
-                document.getElementsByClassName('mat-paginator-page-size-label')[0].innerHTML = this.table.table_items_per_page;
-                document.getElementsByClassName('mat-paginator-range-label')[0].innerHTML =
-                    this.rangeLabel(this.paginator.pageIndex, this.paginator.pageSize, this.paginator.length);
-                this.mapperService.setMapperObject(this.entity);
-            }
-        }
-    }
 
     checkEntityUpdateRights() {
         if (this.entity === Beneficiaries) {
@@ -152,13 +132,6 @@ export class TableComponent implements OnChanges, DoCheck {
         }
     }
 
-    checkTable() {
-        if (this.data && this.data.data && this.data.data.length > 0) {
-            this.filled = true;
-        } else {
-            this.filled = false;
-        }
-    }
 
     updateData() {
         if (this.data.data) {
@@ -186,11 +159,12 @@ export class TableComponent implements OnChanges, DoCheck {
                     this.paginator.pageIndex,
                     this.paginator.pageSize
                 );
-            } else {
-                this.service.get().subscribe(response => {
-                    this.data = new MatTableDataSource(this.entity.formatArray(response));
-                });
             }
+            // else {
+            //     this.service.get().subscribe(response => {
+            //         this.data = new MatTableDataSource(this.entity.formatArray(response));
+            //     });
+            // }
         }
     }
 
@@ -212,26 +186,36 @@ export class TableComponent implements OnChanges, DoCheck {
 
 
     checkData() {
-        if (!this.data.data) {
-            this.data.data = new MatTableDataSource([]);
-        }
-        this.setDataTableProperties();
-        if (this.entity) {
-            this.entityInstance = this.mapperService.instantiate(this.entity);
-            this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
-            this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
-            this.propertiesActions = new Array();
-            if (this.selection) {
-                this.propertiesActions.push('check');
-            }
+        // this.setDataTableProperties();
+        // if (this.entity) {
+        //     this.entityInstance = this.mapperService.instantiate(this.entity);
+        //     // TODO: REMOVE MAPPER
+        //     this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
+        //     this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
+        //     this.propertiesActions = new Array();
+        //     if (this.selection) {
+        //         this.propertiesActions.push('check');
+        //     }
 
-            this.properties.forEach(element => {
-                this.propertiesActions.push(element);
-            });
-            this.propertiesActions.push('actions');
-            this.mapperService.setMapperObject(this.entity);
-        }
-        this.oldEntity = this.entity;
+        //     this.properties.forEach(element => {
+        //         this.propertiesActions.push(element);
+        //     });
+        //     this.propertiesActions.push('actions');
+        //     this.mapperService.setMapperObject(this.entity);
+        // }
+        // this.oldEntity = this.entity;
+
+        this.entityInstance = new this.entity();
+
+        const allProperties = Object.keys(this.entityInstance.fields);
+
+        this.displayProperties = allProperties.filter(property => {
+            return this.entityInstance.fields[property].isDisplayedInTable === true;
+        });
+    }
+
+    public getDisplayedColumns(): string[] {
+        return this.displayProperties ? [...this.displayProperties, 'actions'] : [];
     }
 
     /**
@@ -266,8 +250,12 @@ export class TableComponent implements OnChanges, DoCheck {
                 data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
             });
         } else if (user_action === 'update') {
+
+            this.service.fillWithOptions(element);
             dialogRef = this.dialog.open(ModalEditComponent, {
-                data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
+                data: {
+                    objectInstance: element,
+                 }
             });
         } else {
             dialogRef = this.dialog.open(ModalDeleteComponent, {

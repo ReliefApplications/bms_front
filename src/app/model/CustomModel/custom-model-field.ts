@@ -25,6 +25,11 @@ export class CustomModelField<T> {
      */
     isDisplayedInTable: boolean;
     /**
+     * Is the field displayed as an image in tables?
+     * @type {boolean}
+     */
+    isImageInTable: boolean;
+    /**
      * Is the field required?
      * @type {boolean}
      */
@@ -35,10 +40,10 @@ export class CustomModelField<T> {
      */
     isSettable: boolean;
     /**
-     * Can you update the value of the field once the object is create?
+     * Can you edit the value of the field once the object is create?
      * @type {boolean}
      */
-    isUpdatable: boolean;
+    isEditable: boolean;
 
     /**
      * @param  {Props} properties
@@ -55,9 +60,10 @@ export class CustomModelField<T> {
         // Boolean properties
         this.isDisplayedInModal     = properties['isDisplayedInModal'];
         this.isDisplayedInTable     = properties['isDisplayedInTable'];
+        this.isImageInTable         = properties['isImageInTable'];
         this.isRequired             = properties['isRequired'];
         this.isSettable             = properties['isSettable'];
-        this.isUpdatable            = properties['isUpdatable'];
+        this.isEditable            = properties['isEditable'];
     }
 
     // Field specific value should never be omitted
@@ -70,10 +76,11 @@ export class CustomModelField<T> {
 
             isDisplayedInModal:     false,
             isDisplayedInTable:     false,
+            isImageInTable:         false,
             isPassword:             false,
             isRequired:             false,
             isSettable:             false,
-            isUpdatable:            false,
+            isEditable:             false,
 
             ...properties,
         };

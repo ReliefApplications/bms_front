@@ -47,8 +47,8 @@ table {
 
     app-icon-svg {
       display: flex;
-      width: 4.5vh;
-      height: 4.5vh;
+      width: 3vh;
+      height: 3vh;
     }
   }
 
@@ -203,4 +203,16 @@ button {
   mat-spinner {
     margin-top: 30px;
   }
+}
+
+th.mat-header-cell {
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.multiple-items {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }

@@ -281,6 +281,7 @@ export const TEXT = {
     modal_check_fields: 'تحقق جيدا انك أدخلت جميع المعطيات',
     modal_delete_sentence: 'أنت على وشك الحذف',
     modal_delete_sentence_2: 'هل أنت متأكد',
+    modal_edit_title: 'Edit this ',
     modal_email_is: 'البريد الالكتروني هو',
     modal_language_actual: 'اللغة الحالية',
     modal_failure: 'بالفشل',

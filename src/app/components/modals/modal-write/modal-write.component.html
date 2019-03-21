@@ -1,26 +1,26 @@
 <mat-dialog-content class="modal-container">
-    <h4 class="modal-title underline-accent stickyHeader">Add {{'project' | titlecase}}</h4>
+    <h4 class="modal-title underline-accent stickyHeader">{{modalTitle | titlecase}} {{'project' | titlecase}}</h4>
     <form [formGroup]="form">
         <table class="modal-table">
             <ng-container *ngFor="let fieldName of objectFields">
                 <tr class="modal-row" *ngIf="objectInstance.fields[fieldName]; let field">
-                    <ng-container *ngIf="field.isDisplayedInModal && field.isSettable">
+                    <ng-container *ngIf="field.isDisplayedInModal">
                         <th class="table-title">{{ field.title | titlecase }}</th>
                         <td class="form-item">
 
                             <ng-container *ngIf="field.kindOfField === 'Select'; else isMaterialField">
                                 <ng-container *ngIf="field.isMultipleSelect; else isSingleSelect">
-                                    <ng-select [formControlName]="fieldName" [placeholder]="field.title" [multiple]="true">
-                                        <ng-option *ngFor="let option of field.options" [value]="option.id">
-                                            {{option[field.bindField] | titlecase}}
+                                    <ng-select [formControlName]="fieldName" [placeholder]="field.title" [multiple]="true" [closeOnSelect]="false">
+                                        <ng-option *ngFor="let option of field.options" [value]="option.fields.id.value">
+                                            {{option.fields[field.bindField].value | titlecase}}
                                         </ng-option>
                                     </ng-select>
                                 </ng-container>
 
                                 <ng-template #isSingleSelect>
                                     <ng-select [formControlName]="fieldName" [placeholder]="field.title">
-                                        <ng-option *ngFor="let option of field.options" [value]="option.id">
-                                            {{option[field.bindField] | titlecase}}
+                                        <ng-option *ngFor="let option of field.options" [value]="option">
+                                            {{option.fields[field.bindField].value | titlecase}}
                                         </ng-option>
                                     </ng-select>
                                 </ng-template>

@@ -228,6 +228,10 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 .button-background-accent {
   background-color: $bms_red !important;
   color: $bms_grey !important;
+  &:disabled {
+    background-color: $bms_dark_grey !important;
+    color: $bms_white !important;
+}
 }
 
 .no-data {

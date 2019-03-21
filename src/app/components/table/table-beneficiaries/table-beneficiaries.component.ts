@@ -33,7 +33,7 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
     ngOnInit() {
         super.checkData();
         this.sendSortedData();
-        this.selectedFilter = this.properties[0];
+        this.selectedFilter = this.displayProperties[0];
         this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
         this.mapperObject = this.mapperService.findMapperObject(DistributionData);
     }

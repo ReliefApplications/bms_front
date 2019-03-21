@@ -3,7 +3,7 @@ import { HttpService } from './http.service';
 import { URL_BMS_API } from '../../../environments/environment';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 
-export class CustomModelService {
+export abstract class CustomModelService {
     readonly apiBase = URL_BMS_API;
     customModelPath: string;
 
@@ -22,13 +22,13 @@ export class CustomModelService {
         return this.http.put(this.makeUrl(), body);
     }
 
+    // public delete(body: any) {
+    //     return this.http.delete(this.makeUrl())
+    // }
+
     private makeUrl(): string {
         return `${this.apiBase}/${this.customModelPath}`;
     }
 
-    public getOptions(customModel: CustomModel, field: string) {
-        this.get().subscribe((options: string[]) => {
-            customModel.fields[field].options = options;
-        });
-    }
+
 }

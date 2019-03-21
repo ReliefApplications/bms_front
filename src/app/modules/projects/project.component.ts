@@ -198,7 +198,8 @@ export class ProjectComponent implements OnInit, DoCheck {
 
     openNewProjectDialog() {
         const newProjectInstance = new NewProject;
-        this.fillWithOptions(newProjectInstance);
+        this.projectService.fillWithOptions(newProjectInstance);
+
         const dialogRef = this.dialog.open(
             ModalAddComponent, {
                 data: {
@@ -207,7 +208,7 @@ export class ProjectComponent implements OnInit, DoCheck {
             }
         );
         dialogRef.afterClosed().subscribe((closeMethod: string) => {
-            if (closeMethod) {
+            if (closeMethod === 'Submit') {
                 this.projectService.create(newProjectInstance.modelToApi()).subscribe(() => {
                     this.snackBar.open('Project ' + this.distribution.settings_created,
                         '', { duration: 5000, horizontalPosition: 'right' });
@@ -238,11 +239,6 @@ export class ProjectComponent implements OnInit, DoCheck {
         );
         */
     }
-    fillWithOptions(projectInstance: NewProject) {
-        this.donorService.getOptions(projectInstance, 'donors');
-        this.sectorService.getOptions(projectInstance, 'sectors');
-    }
-
 
     checkPermission() {
         this._cacheService.getUser().subscribe(

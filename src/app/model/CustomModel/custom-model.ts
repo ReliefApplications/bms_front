@@ -1,8 +1,11 @@
 export abstract class CustomModel {
 
+    static rights: Array<string>;
+
     abstract fields: object;
 
-    public abstract apiToModel(): object;
+    public fillWithOptions() {
+    }
 
     public modelToApi(): object {
 
@@ -13,5 +16,13 @@ export abstract class CustomModel {
         });
 
         return mappedValues;
+    }
+
+    public getDateOffset(year: number, month: number, day: number) {
+        const date = new Date();
+        date.setFullYear(date.getFullYear() + year);
+        date.setMonth(date.getMonth() + month);
+        date.setDate(date.getDate() + day);
+        return date;
     }
 }

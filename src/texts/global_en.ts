@@ -281,6 +281,7 @@ export const TEXT = {
     modal_check_fields: 'Invalid fields: check you filled every field',
     modal_delete_sentence: 'You are about to delete ',
     modal_delete_sentence_2: '. Are you sure? ',
+    modal_edit_title: 'Edit this ',
     modal_email_is: 'Email is',
     modal_failure: 'Failure',
     modal_leave: 'Leave',

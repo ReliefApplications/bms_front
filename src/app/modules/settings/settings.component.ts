@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
+import { Component, OnInit, HostListener, DoCheck, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
 
 import { AuthenticationService } from '../../core/authentication/authentication.service';
@@ -26,6 +26,8 @@ import { FormControl } from '@angular/forms';
 import { FinancialProvider } from 'src/app/model/financial-provider';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { Project } from 'src/app/model/project';
+import { TableComponent } from 'src/app/components/table/table.component';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 
 @Component({
     selector: 'app-settings',
@@ -38,13 +40,12 @@ export class SettingsComponent implements OnInit, DoCheck {
     loadingExport = false;
 
     selectedTitle = '';
-    isBoxClicked = false;
     loadingData = true;
 
     public referedClassService;
     referedClassToken;
     referedClassInstance: any;
-    data: MatTableDataSource<any>;
+    data: Array<CustomModel>;
     public user_action = '';
     public extensionType;
 
@@ -62,6 +63,8 @@ export class SettingsComponent implements OnInit, DoCheck {
     public widthScreen;
     hasRights: boolean;
     public deletable = true;
+
+    @ViewChild(TableComponent) table: TableComponent;
 
     constructor(
         public dialog: MatDialog,
@@ -106,9 +109,8 @@ export class SettingsComponent implements OnInit, DoCheck {
     }
 
     selectTitle(title): void {
-        this.getData(title);
-        this.isBoxClicked = true;
         this.selectedTitle = title;
+        this.getData(title);
     }
 
     setType(choice) {
@@ -201,84 +203,38 @@ export class SettingsComponent implements OnInit, DoCheck {
     load(title): void {
         this.hasRights = false;
 
-        this.referedClassService.get().
-            pipe(
+        this.referedClassService.get()
+            .pipe(
                 finalize(
                     () => {
                         this.loadingData = false;
                     }
                 )
             ).subscribe(response => {
-                if (response) {
-                    this.loadingData = false;
-                    if (response && response[0] && response[0].email && response[0].username && response[0].roles) {
-                        response.forEach(element => {
-                            element.projects = new Array<number>();
-                            element.country = '';
 
-                            for (let i = 0; i < element.user_projects.length; i++) {
-                                if (element.user_projects[i].project) {
-                                    element.projects[i] = element.user_projects[i].project.name;
-                                }
-                            }
-                            for (let i = 0; i < element.countries.length; i++) {
-                                element.country = element.countries[i].iso3;
-                            }
-                        });
-                    }
-                    response = this.referedClassToken.formatArray(response);
-                    this.data = new MatTableDataSource(response);
+            const instances = [];
+            if (response.length !== 0) {
+                for (const item of response ) {
+                    instances.push(this.referedClassToken.apiToModel(item));
+                }
+                this.data = instances;
+            }
 
                     this._cacheService.getUser().subscribe(
                         result => {
                             if (result && result.rights) {
                                 const rights = result.rights;
-
-                                if (this.referedClassToken.__classname__ === 'User') {
-                                    if (rights === 'ROLE_ADMIN') {
-                                        this.hasRights = true;
-                                    }
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'CountrySpecific') {
-                                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_COUNTRY_MANAGER' || rights === 'ROLE_PROJECT_MANAGER') {
-                                        this.hasRights = true;
-                                    }
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'Donor') {
-                                    if (rights === 'ROLE_ADMIN') {
-                                        this.hasRights = true;
-                                    }
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'Project') {
-                                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_COUNTRY_MANAGER' || rights === 'ROLE_PROJECT_MANAGER') {
-                                        this.hasRights = true;
-                                    }
-
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'Financial Provider') {
-                                    if (rights === 'ROLE_ADMIN') {
-                                        this.hasRights = true;
-                                    }
-
+                                // TODO: Replace permissions with service (#430)
+                                if (this.referedClassToken.rights.includes(rights)) {
+                                    this.hasRights = true;
                                 }
                             }
-                        }
-                    );
+                        });
 
-                } else {
-                    this.data = new MatTableDataSource(null);
-                    this.loadingData = false;
-                }
-            });
-        // .catch(
-        //     () => {
-        //         this.data = new MatTableDataSource(null);
-        //     }
-        // );
+        this.table.checkData();
+
+        this.loadingData = false;
+        });
     }
 
     /**
@@ -287,8 +243,10 @@ export class SettingsComponent implements OnInit, DoCheck {
     openDialog(user_action): void {
         let dialogRef;
 
-        if (user_action === 'add') {
+        if (user_action === 'add') { } {
             this.referedClassInstance = new this.referedClassToken();
+            this.referedClassService.fillWithOptions(this.referedClassInstance);
+
             dialogRef = this.dialog.open(ModalAddComponent, {
                 data: {
                     objectInstance: this.referedClassInstance,

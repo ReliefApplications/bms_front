@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -29,6 +29,9 @@ import { ImportedDataService } from './core/utils/imported-data.service';
 import { RequestDisplayComponent } from './components/headers/request-display/request-display.component';
 import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
 import { TitleCasePipe } from '@angular/common';
+import { setAppInjector } from './app-injector';
+import { ModalWriteComponent } from './components/modals/modal-write/modal-write.component';
+
 
 @NgModule({
     declarations: [
@@ -67,4 +70,9 @@ import { TitleCasePipe } from '@angular/common';
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule {
+    constructor(injector: Injector) {
+        setAppInjector(injector);
+    }
+}

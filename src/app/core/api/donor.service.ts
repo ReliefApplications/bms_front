@@ -15,6 +15,10 @@ export class DonorService extends CustomModelService {
         super(http);
     }
 
+    public getOptions() {
+
+    }
+
 
     // public update(id: number, body: any) {
     //     const url = this.api + '/donors/' + id;

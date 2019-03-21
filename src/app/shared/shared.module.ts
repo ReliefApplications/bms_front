@@ -77,11 +77,12 @@ import { ThousandsPipe } from 'src/app/core/utils/thousands.pipe';
 import { ValidatedDistributionComponent } from '../modules/projects/distributions/validated-components/validated-distribution.component';
 import { DonorService } from '../core/api/donor.service';
 import { ModalEditComponent } from '../components/modals/modal-edit/modal-edit.component';
+import { ModalWriteComponent } from '../components/modals/modal-write/modal-write.component';
 
 
 @NgModule({
     imports: [
-        RouterModule,
+    RouterModule,
         CommonModule, // to use instead of BrowserModule if you are using lazyloaded module
         FormsModule,
         MatCheckboxModule,
@@ -153,6 +154,7 @@ import { ModalEditComponent } from '../components/modals/modal-edit/modal-edit.c
         TableMobileBeneficiariesComponent,
         TransactionTableComponent,
         ModalComponent,
+        ModalWriteComponent,
         ModalDeleteComponent,
         ModalUpdateComponent,
         ModalAddComponent,
@@ -181,7 +183,7 @@ import { ModalEditComponent } from '../components/modals/modal-edit/modal-edit.c
     entryComponents: [
         ModalComponent,
         ModalDeleteComponent,
-        ModalUpdateComponent,
+        ModalEditComponent,
         ModalDetailsComponent,
         ModalLanguageComponent,
         ModalAddComponent,

@@ -1,47 +1,59 @@
-<!-- TABLE -->
 <div class="table-container">
-  <div class="noDataContainer" *ngIf="!filled">
-    <h3>
-      <mat-icon>clear</mat-icon>
-      {{table.no_data}}
-    </h3>
-  </div>
+    <div class="noDataContainer" *ngIf="!data">
+        <h3>
+        <mat-icon>clear</mat-icon>
+        {{table.no_data}}
+        </h3>
+    </div>
 
-  <div *ngIf="filled" style="max-height: 370px; overflow: auto;">
-    <table mat-table [dataSource]="data" matSort matSortActive="date_distribution" matSortDirection="desc">
-      <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
-        <th mat-header-cell *matHeaderCellDef id="table-header" mat-sort-header>{{mapperService.mapTitle(property)}}</th>
+    <table mat-table [dataSource]= "data" matSort>
+
+    <ng-container *ngFor="let property of displayProperties" matColumnDef="{{property}}">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title}}</th>
         <td mat-cell *matCellDef="let element">
-          <span *ngIf="propertiesTypes[property]=='image'">
-            <app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)" [name]="mapperService.mapValue(element, property)"></app-icon-svg>
-          </span>
-          <span *ngIf="propertiesTypes[property]=='png'"><img *ngFor="let image of mapperService.mapValue(element, property)"
-              class="png" src={{mapperService.mapValue(element,property)}}></span>
-          <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element,
-            property)}}</span>
-        </td>
-      </ng-container>
+            <ng-container *ngIf="element.fields[property]; let field">
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions | titlecase }}</th>
-        <td mat-cell class="content-cell" *matCellDef="let element">
-          <div class="validated-distribution" *ngIf="element.validated" routerLink="/projects/distributions/{{element.id}}">
-            <mat-icon>done</mat-icon>
-          </div>
-          <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('update', element); $event.stopPropagation()"
-            class="light-red">
-            <mat-icon>search</mat-icon>
-          </button>
-          <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('delete', element); $event.stopPropagation()"
-            class="red">
-            <mat-icon>delete_outline</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+                <ng-container *ngIf="field.isMultipleSelect; else isNotMultipleSelect">
+                    <div class="multiple-items">
+                        <span *ngFor="let value of field.value">
+                            <ng-container *ngIf="field.isImageInTable; else notImage">
+                                <app-icon-svg [imagePath]="value.getImage()"></app-icon-svg>
+                            </ng-container>
+                            <ng-template #notImage>
+                                    {{value.fields[field.bindField].value}}
+                            </ng-template>
 
-      <tr mat-header-row *matHeaderRowDef="propertiesActions; sticky: true;"></tr>
-      <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="distribution-details cursor-pointer"
-        (click)="openDialog('details', element)"></tr>
+                        </span>
+                    </div>
+                </ng-container>
+
+                <ng-template #isNotMultipleSelect>
+                        {{field.value }}
+                </ng-template>
+
+            </ng-container>
+
+
+        </td>
+    </ng-container>
+
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>{{table.table_actions | titlecase }}</th>
+            <td mat-cell *matCellDef="let element">
+
+                <button *ngIf="editable && rights" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()"
+                    [matTooltip]="table.update" class="green">
+                    <mat-icon>search</mat-icon>
+                </button>
+                <button *ngIf="editable && rights && deletable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
+                    [matTooltip]="table.delete" class="red">
+                    <mat-icon>delete_outline</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+        <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
     </table>
-  </div>
 </div>

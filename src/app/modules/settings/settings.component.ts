@@ -185,31 +185,38 @@ export class SettingsComponent implements OnInit, DoCheck {
         this.referedClassToken = User;
         this.referedClassService = this.userService;
         this.deletable = true;
+        this.printable = false;
         break;
       case 'donors':
         this.referedClassToken = Donor;
         this.referedClassService = this.donorService;
         this.deletable = true;
+        this.printable = false;
+
         break;
       case 'projects':
         this.referedClassToken = Project;
         this.referedClassService = this.projectService;
         this.deletable = true;
+        this.printable = false;
         break;
       case 'country specific options':
         this.referedClassToken = CountrySpecific;
         this.referedClassService = this.countrySpecificService;
         this.deletable = true;
+        this.printable = false;
         break;
       case 'financialProvider':
         this.referedClassToken = FinancialProvider;
         this.referedClassService = this.financialProviderService;
         this.deletable = false;
+        this.printable = false;
         break;
       case 'product':
         this.referedClassToken = Product;
         this.referedClassService = this.productService;
         this.deletable = true;
+        this.printable = false;
         break;
       case 'vendors':
         this.referedClassToken = Vendors;

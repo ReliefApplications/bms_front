@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'humanize'
+    name: 'formatCamelCase'
 })
 
-export class HumanizePipe implements PipeTransform {
+export class FormatCamelCasePipe implements PipeTransform {
     transform(value: string) {
         if ((typeof value) !== 'string') {
             return value;

@@ -12,7 +12,7 @@
                           [multiple]="false" placeholder="{{mapperObject[p]}}" [closeOnSelect]="true"
                         [searchable]="true" [ngModelOptions]="{standalone: true}" required>
                 <ng-option *ngFor="let item of loadedData[p]; let i= index" [value]="i+1">
-                  {{item.field_string | humanize}}
+                  {{item.field_string | formatCamelCase}}
                 </ng-option>
               </ng-select>
 

@@ -42,7 +42,7 @@
                         </button>
                     </mat-menu>
                 </div>
-                <div class="button-with-extension">
+                <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
                     <button mat-raised-button class="button-background-primary" (click)="exportTransaction(exportTypeTransaction, 'transactionDistribution')" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{TEXT.export | titlecase}}</span>

@@ -58,7 +58,6 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
 
     ngOnInit() {
         this.checkSize();
-        this.refreshStatuses();
         this.loadingTransaction = false;
         this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
             (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
@@ -134,30 +133,6 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
 
         this.transactionData.data[i].message = beneficiary.transactions[beneficiary.transactions.length - 1].message ?
             beneficiary.transactions[beneficiary.transactions.length - 1].message : '';
-    }
-
-    refreshStatuses() {
-        this.distributionService.refreshPickup(this.distributionId).subscribe(
-            result => {
-                if (!result) {
-                    return;
-                }
-                this.transactionData.data.forEach(
-                    (transaction, index) => {
-                        if (transaction.state === 0) {
-                            return;
-                        }
-                        result.forEach(
-                            element => {
-                                if (transaction.id === element.id) {
-                                    this.transactionData.data[index].updateForPickup(element.moneyReceived);
-                                }
-                            }
-                        );
-                    }
-                );
-            }
-        );
     }
 
     storeBeneficiaries() {

@@ -296,7 +296,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
             this.entity = TransactionBeneficiary;
         }
         this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));
-        this.refreshStatuses();
         this.loadingTransaction = false;
     }
 
@@ -484,30 +483,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
 
         this.transactionData.data[i].message = beneficiary.transactions[beneficiary.transactions.length - 1].message ?
             beneficiary.transactions[beneficiary.transactions.length].message : '';
-    }
-
-    refreshStatuses() {
-        this.distributionService.refreshPickup(this.distributionId).subscribe(
-            result => {
-                if (!result) {
-                    return;
-                }
-                this.transactionData.data.forEach(
-                    (transaction, index) => {
-                        if (transaction.state === 0) {
-                            return;
-                        }
-                        result.forEach(
-                            element => {
-                                if (transaction.id === element.id) {
-                                    this.transactionData.data[index].updateForPickup(element.moneyReceived);
-                                }
-                            }
-                        );
-                    }
-                );
-            }
-        );
     }
 
     /**

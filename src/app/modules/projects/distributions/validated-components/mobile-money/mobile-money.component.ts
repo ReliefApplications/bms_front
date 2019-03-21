@@ -16,6 +16,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
 
     ngOnInit() {
         super.ngOnInit();
+        this.refreshStatuses();
         this.entity = TransactionBeneficiary;
     }
 
@@ -49,6 +50,30 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
             }
         }
         return peopleCount;
+    }
+
+    refreshStatuses() {
+        this.distributionService.refreshPickup(this.distributionId).subscribe(
+            result => {
+                if (!result) {
+                    return;
+                }
+                this.transactionData.data.forEach(
+                    (transaction, index) => {
+                        if (transaction.state === 0) {
+                            return;
+                        }
+                        result.forEach(
+                            element => {
+                                if (transaction.id === element.id) {
+                                    this.transactionData.data[index].updateForPickup(element.moneyReceived);
+                                }
+                            }
+                        );
+                    }
+                );
+            }
+        );
     }
 
     requestLogs() {

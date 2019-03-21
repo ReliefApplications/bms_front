@@ -60,6 +60,9 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
 
     getCommoditySentAmountFromBeneficiary(commodity: any, beneficiary: any): number {
         const commodityIndex = this.actualDistribution.commodities.indexOf(commodity);
+        if (!beneficiary.generalReliefs) {
+            return 0;
+        }
         const beneficiariesCommodity = beneficiary.generalReliefs[commodityIndex];
         return (beneficiariesCommodity.distributed_at ? commodity.value : 0 );
     }

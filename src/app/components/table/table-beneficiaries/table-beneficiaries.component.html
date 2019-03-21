@@ -53,7 +53,7 @@
       </button>
     </div>
 
-    <div *ngIf="filled && data" style="max-height: 370px; overflow: auto;" [ngClass]="{hidden: testLoading, visible: !testLoading}">
+    <div *ngIf="filled && data" [ngClass]="{hidden: testLoading, visible: !testLoading}">
       <table mat-table [dataSource]="data" matSort>
         <ng-container matColumnDef="check">
           <th mat-header-cell class="header-cell" *matHeaderCellDef>

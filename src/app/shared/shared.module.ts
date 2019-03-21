@@ -79,6 +79,7 @@ import { ModalRequestsComponent } from '../components/modals/modal-requests/moda
 import { RecaptchaModule } from 'angular-google-recaptcha';
 import { ThousandsPipe } from 'src/app/core/utils/thousands.pipe';
 import { HumanizePipe } from 'src/app/core/utils/humanize.pipe';
+import { UppercaseFirstPipe } from 'src/app/core/utils/uppercase-first.pipe';
 
 import { ValidatedDistributionComponent } from '../modules/projects/distributions/validated-components/validated-distribution.component';
 
@@ -187,6 +188,7 @@ imports: [
         ImportedDataComponent,
         ThousandsPipe,
         HumanizePipe,
+        UppercaseFirstPipe,
         ValidatedDistributionComponent,
         GeneralReliefComponent,
         MobileMoneyComponent,

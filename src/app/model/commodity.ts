@@ -1,6 +1,15 @@
 import { SectorMapper } from './sector-mapper';
 import { GlobalText } from '../../texts/global';
 
+export class Modality {
+    static __classname__ = 'Modality';
+
+    /**
+     * Eventually modality name
+     * @type {string}
+     */
+    name: string;
+}
 export class ModalityType {
     static __classname__ = 'ModalityType';
     /**
@@ -14,6 +23,12 @@ export class ModalityType {
      * @type {string}
      */
     name: string;
+
+    /**
+     * Eventually modality subtype
+     * @type {Modality}
+     */
+    modality: Modality;
 }
 
 export class Commodity {

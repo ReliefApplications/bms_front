@@ -26,7 +26,7 @@ export class TransactionGeneralRelief {
     /**
      * General Relief Date of use
      */
-    used: Date;
+    distributed: Date;
 
     /**
      * Values(ammount of money) for each beneficiary (from commodities)
@@ -53,7 +53,7 @@ export class TransactionGeneralRelief {
             this.id = instance.id;
             this.givenName = instance.givenName;
             this.familyName = instance.familyName;
-            this.used = instance.general_reliefs[0] ? instance.general_reliefs[0].distributed_at : undefined;
+            this.distributed = instance.general_reliefs[0] ? instance.general_reliefs[0].distributed_at : undefined;
             this.values = instance.values;
             this.id_transaction = instance.id_transaction;
             this.notes = instance.note;
@@ -75,7 +75,7 @@ export class TransactionGeneralRelief {
         return {
             givenName: GlobalText.TEXTS.model_firstName,
             familyName: GlobalText.TEXTS.model_familyName,
-            used: GlobalText.TEXTS.model_used,
+            distributed: GlobalText.TEXTS.model_distributed,
             values: GlobalText.TEXTS.model_value,
             id_transaction: GlobalText.TEXTS.transaction_id_transaction,
             notes: GlobalText.TEXTS.model_notes,
@@ -107,6 +107,7 @@ export class TransactionGeneralRelief {
             return null;
         }
 
+
         return generalRelief;
     }
 
@@ -116,7 +117,7 @@ export class TransactionGeneralRelief {
         generalRelief.id = instance.beneficiary.id;
         generalRelief.givenName = instance.beneficiary.given_name;
         generalRelief.familyName = instance.beneficiary.family_name;
-        generalRelief.used = instance.general_reliefs[0] ? instance.general_reliefs[0].distributed_at : undefined;
+        generalRelief.distributed = instance.general_reliefs[0] ? instance.general_reliefs[0].distributed_at : undefined;
         generalRelief.values = com;
         generalRelief.notes = instance.notes;
         generalRelief.generalReliefs = instance.general_reliefs;
@@ -132,7 +133,7 @@ export class TransactionGeneralRelief {
             id: instance.id,
             givenName: instance.givenName,
             familyName: instance.familyName,
-            used: instance.used,
+            used: instance.distributed,
             values: instance.values,
             notes: instance.notes,
         };
@@ -149,7 +150,7 @@ export class TransactionGeneralRelief {
             id: selfInstance.id,
             givenName: selfInstance.givenName,
             familyName: selfInstance.familyName,
-            used: selfInstance.used,
+            distributed: selfInstance.distributed,
             values: selfInstance.values,
             generalReliefs: selfInstance.generalReliefs
         };
@@ -166,7 +167,7 @@ export class TransactionGeneralRelief {
         return {
             givenName: selfInstance.givenName,
             familyName: selfInstance.familyName,
-            used: selfInstance.generalReliefs ? selfInstance.generalReliefs[0].distributedAt : undefined,
+            distributed: selfInstance.generalReliefs ? selfInstance.generalReliefs[0].distributed_at : undefined,
             values: selfInstance.values,
         };
     }
@@ -193,7 +194,7 @@ export class TransactionGeneralRelief {
 
             givenName: selfInstance.givenName,
             familyName: selfInstance.familyName,
-            used: selfInstance.generalReliefs ? selfInstance.generalReliefs[0].distributedAt : undefined,
+            distributed: selfInstance.generalReliefs ? selfInstance.generalReliefs[0].distributed_at : undefined,
             values: selfInstance.values,
             notes: notes.join(' / '),
         };
@@ -227,7 +228,7 @@ export class TransactionGeneralRelief {
             id_transaction: 'text',
             givenName: 'text',
             familyName: 'text',
-            used: 'date',
+            distributed: 'date',
             values: 'text',
             notes: 'array',
         };
@@ -241,7 +242,7 @@ export class TransactionGeneralRelief {
             id_transaction: 'text',
             givenName: 'text',
             familyName: 'text',
-            used: 'date',
+            distributed: 'date',
             values: 'text',
             notes: 'array',
         };

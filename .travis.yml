@@ -24,6 +24,12 @@ jobs:
               - sudo pip3 install awscli --upgrade
           script: ./build-deploy.sh testing
         - stage: deploy
+          if: branch = voucher AND NOT type = "pull_request"
+          before_install:
+              - sudo apt-get install python3-pip
+              - sudo pip3 install awscli --upgrade
+          script: ./build-deploy.sh testing
+        - stage: deploy
           if: branch = master AND NOT type = "pull_request"
           before_install:
               - sudo apt-get install python3-pip

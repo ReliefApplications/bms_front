@@ -48,7 +48,6 @@ export class ModalWriteComponent implements OnInit {
             const validators = this.getFieldValidators(field.isRequired, field.pattern);
 
             if (field.isMultipleSelect) {
-                console.log(field.value);
                 const selectedOptions = field.value.map(option => {
                     return option.fields.id.value;
                 });

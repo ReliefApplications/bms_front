@@ -27,7 +27,7 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     maxWidthMobile = GlobalText.maxWidthMobile;
     language = GlobalText.language;
     selection: SelectionModel<any>;
-    exportTypeTransaction = 'xls';
+    extensionType = 'xls';
     progression = 0;
     correctCode = false;
     interval: NodeJS.Timer;

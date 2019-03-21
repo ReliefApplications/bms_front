@@ -215,6 +215,7 @@ export const TEXT = {
     distribution_details_random: 'عينة عشوائية للتحميل',
     distribution_details_sample_size: 'حجم العينة',
     distribution_details_validate: 'التحقق والقفل',
+    distribution_distribute: 'تعيين كما وزعت',
     distribution_edit: 'تعديل التوزيع',
     distribution_error_validate: 'التوزيع فارغ ، يرجى ملءه قبل التحقق من صحته',
     distribution_no_beneficiaries: 'لم تتم إضافة أو إزالة أي مستفيدين. سيتم تحديث أي تغييرات يتم إجراؤها على المستفيدين المستوردين في النظام.',

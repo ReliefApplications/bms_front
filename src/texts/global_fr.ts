@@ -215,6 +215,7 @@ export const TEXT = {
     distribution_details_random: 'échantillon aléatoire',
     distribution_details_sample_size: 'Taille d\'échantillon',
     distribution_details_validate: 'valider & verouiller',
+    distribution_distribute: 'définir comme distribué',
     distribution_edit: 'Modifier la distribution',
     distribution_error_validate: 'La distribution est vide, veuillez la remplir avant de la valider',
     distribution_no_beneficiaries: 'Aucun bénéficiaire n\'a été ajouté ou supprimé. N\'importe quel changement fait aux bénéficiaires importés vont être mis à jour dans le système.',

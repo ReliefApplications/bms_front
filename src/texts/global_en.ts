@@ -215,6 +215,7 @@ export const TEXT = {
     distribution_details_random: 'export random sample',
     distribution_details_sample_size: 'Sample size',
     distribution_details_validate: 'validate & lock',
+    distribution_distribute: 'set as distributed',
     distribution_edit: 'Edit distribution',
     distribution_error_validate: 'The distribution is empty, please fill it before to validate it',
     distribution_no_beneficiaries: 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.',

@@ -254,6 +254,9 @@ export class DistributionData {
             case 'QR Code Voucher':
                 name = 'assets/images/commodities/voucher.png';
                 break;
+            case 'Paper Voucher':
+                name = 'assets/images/commodities/voucher.png';
+                break;
             case 'Bread':
                 name = 'assets/images/commodities/bread.png';
                 break;

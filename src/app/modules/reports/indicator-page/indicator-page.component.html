@@ -23,7 +23,7 @@
 
                 <div class="frequency action-buttons">
                     <mat-spinner [diameter]='25' *ngIf="isDownloading"></mat-spinner>
-                    <div class="extension button-with-extension" *ngIf='!isDownloading'>
+                    <div class="extension button-with-extension" [ngClass]="{'arabic':language==='ar'}" *ngIf='!isDownloading'>
                         <button mat-raised-button class="button-background-primary" (click)="export()">
                             <mat-icon>get_app</mat-icon>
                             <span>{{indicator.export | titlecase}}</span>

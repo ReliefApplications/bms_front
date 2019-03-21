@@ -145,6 +145,10 @@
     }
 }
 
+button {
+    font-family: $bms_font_text;
+}
+
 button mat-icon {
     margin-left: 10px;
     margin-right: 10px;
@@ -209,6 +213,11 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     border-bottom-right-radius: 20px !important;
     border-top-right-radius: 20px !important;
     font-weight: bold;
+    vertical-align: middle;
+
+    mat-icon {
+        line-height: 22px;
+    }
 }
 
 .button-text-primary {
@@ -320,6 +329,13 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         }
     }
 
+    :not(.arabic):last-child {
+        margin-right: 0 !important;
+    }
+
+    .arabic:last-child {
+        margin-left: 0 !important;
+    }
 }
 
 

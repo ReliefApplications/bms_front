@@ -155,7 +155,7 @@
                 <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
                   placeholder={{Text.model_residencystatus}} [(ngModel)]="updatedHousehold.beneficiaries[0].residency_status">
                   <ng-option *ngFor="let type of residencyStatusList" [value]="type">
-                    {{type | titlecase}}
+                    {{type}}
                   </ng-option>
                 </ng-select>
               </div>

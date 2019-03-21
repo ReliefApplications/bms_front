@@ -78,6 +78,7 @@ import { ImportedDataComponent } from '../modules/beneficiary/beneficiaries-impo
 import { ModalRequestsComponent } from '../components/modals/modal-requests/modal-requests.component';
 import { RecaptchaModule } from 'angular-google-recaptcha';
 import { ThousandsPipe } from 'src/app/core/utils/thousands.pipe';
+import { FormatCamelCasePipe } from 'src/app/core/utils/formatCamelCase.pipe';
 import { UppercaseFirstPipe } from 'src/app/core/utils/uppercase-first.pipe';
 
 import { ValidatedDistributionComponent } from '../modules/projects/distributions/validated-components/validated-distribution.component';
@@ -186,6 +187,7 @@ imports: [
         UpdateBeneficiaryComponent,
         ImportedDataComponent,
         ThousandsPipe,
+        FormatCamelCasePipe,
         UppercaseFirstPipe,
         ValidatedDistributionComponent,
         GeneralReliefComponent,

@@ -19,7 +19,7 @@
             <span>{{household.beneficiaries_import_convert | titlecase }}</span>
           </button>
 
-          <div class="button-with-extension">
+          <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
             <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">
               {{household.beneficiaries_import_csv | titlecase }}
             </button>
@@ -74,7 +74,6 @@
               </ng-select>
               <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
             </div>
-
           </mat-card>
         </div>
       </div>

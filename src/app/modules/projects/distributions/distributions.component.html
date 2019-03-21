@@ -31,7 +31,7 @@
                     <div class="container-content box-primary box-primary">
                         <div class="content-button">
                             <div class="action-buttons">
-                                <div class="button-with-extension">
+                                <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
                                     <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
                                         <mat-icon>get_app</mat-icon>
                                         <span>{{TEXT.export | titlecase}}</span>
@@ -113,7 +113,7 @@
                     <div class="container-content box-primary">
                         <div class="content-button">
                             <div class="action-buttons">
-                                <div class="button-with-extension">
+                                <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
                                     <button mat-raised-button class="button-background-primary" (click)="exportSample()" *ngIf="!loadingExport">
                                         <mat-icon>get_app</mat-icon>
                                         <span>{{TEXT.export | titlecase}}</span>

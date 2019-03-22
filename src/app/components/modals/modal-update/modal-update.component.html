@@ -10,7 +10,7 @@
         <form class="form" [formGroup]="form" ngNoForm>
           <mat-form-field *ngIf="propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p]!='array'" class="full-width">
             <input matInput *ngIf="propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='positive-number' && propertiesTypes[p] != 'selectDonor' && propertiesTypes[p] != 'date' && propertiesTypes[p]!='selectSingle'  && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry' && propertiesTypes[p] != 'selectCountry'"
-              [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries' || p=='name' || p=='code' || p=='number_vouchers' || p=='status')"
+              [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries' || p=='name' || p=='code' || p=='number_vouchers' || p=='status' || propertiesTypes[p] === 'disabled')"
               [type]="propertiesTypes[p]">
 
               <input matInput *ngIf="propertiesTypes[p]=='positive-number' && p !== 'number_vouchers'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1">

@@ -296,7 +296,7 @@ export class DistributionData {
             selection_criteria: Object.assign({}, selfinstance.selection_criteria),
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
-            type: selfinstance.type,
+            type: selfinstance.type === 0 ? 'Household' : 'Beneficiary',
             date_distribution: selfinstance.date_distribution,
             validated: selfinstance.validated,
         };
@@ -490,7 +490,7 @@ export class DistributionData {
         return {
             name: 'text',
             location_name: 'text',
-            type: 'selectSingle',
+            type: 'disabled',
             date_distribution: 'date',
         };
     }

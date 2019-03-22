@@ -4,7 +4,6 @@ import { HttpService                                } from './http.service';
 import { DistributionData                           } from '../../model/distribution-data';
 import { ExportService                              } from './export.service';
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -52,6 +51,11 @@ export class DistributionService {
         return this.http.get(url);
     }
 
+    public getAssignableBeneficiaries(id: number) {
+        const url = this.api + '/distributions/' + id + '/assignable-beneficiaries';
+        return this.http.get(url);
+    }
+
     public setValidation(id: number) {
         const url = this.api + '/distributions/' + id + '/validate';
         return this.http.get(url);
@@ -62,8 +66,8 @@ export class DistributionService {
           return this.exportService.export('distributions', id, extensionType);
         } else if (option === 'distribution') {
             return this.exportService.export('beneficiariesInDistribution', id, extensionType);
-        } else if (option === 'transaction') {
-            return this.exportService.export('transaction', id, extensionType);
+        } else {
+            return this.exportService.export(option, id, extensionType);
         }
     }
     public refreshPickup(id: number) {
@@ -97,5 +101,19 @@ export class DistributionService {
     public checkProgression(id: number) {
         const url = this.api + '/transaction/distribution/' + id + '/progression';
         return this.http.get(url);
+    }
+
+    public addNotes(generalReliefs: {id: number, notes: string}[]) {
+        const url  = `${this.api}/distributions/generalrelief/notes`;
+        const body = { generalReliefs };
+        return this.http.post(url, body);
+    }
+
+    public distributeGeneralReliefs(ids: number[]) {
+        const url = `${this.api}/distributions/generalrelief/distributed`;
+        const body = {
+            ids: ids,
+        };
+        return this.http.post(url, body);
     }
 }

@@ -6,7 +6,7 @@ import { User, ErrorInterface } from '../../model/user';
 import { GlobalText } from '../../../texts/global';
 import { WsseService } from '../../core/authentication/wsse.service';
 import { SaltInterface } from '../../model/salt';
-import { MatSnackBar } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 
 @Component({
     selector: 'app-profile',
@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit, DoCheck {
     constructor(public userService: UserService,
         public authenticationService: AuthenticationService,
         public wsseService: WsseService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public formBuilder: FormBuilder) {
     }
 
@@ -66,19 +66,16 @@ export class ProfileComponent implements OnInit, DoCheck {
                 this.userService.updatePassword(this.actualUser, this.profileForm.value.oldPassword, this.profileForm.value.newPassword1)
                     .then(
                         (user) => {
-                            this.snackBar.open(this.profilePage.snackbar_change_password_done,
-                            '', { duration: 5000, horizontalPosition: 'center' });
+                            this.snackbar.success(this.profilePage.snackbar_change_password_done);
                         })
                     .catch((error: ErrorInterface) => {
-                        this.snackBar.open(this.profilePage.snackbar_change_password_fail,
-                        '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.error(this.profilePage.snackbar_change_password_fail);
                     });
             } else {
-                this.snackBar.open(this.profilePage.modal_not_enough_strong, '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackbar.error(this.profilePage.modal_not_enough_strong);
             }
         } else {
-            this.snackBar.open(this.profilePage.snackbar_change_password_not_possible,
-            '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(this.profilePage.snackbar_change_password_not_possible);
         }
 
         this.setActualUser();

@@ -1,17 +1,20 @@
-import { Component, OnInit, HostListener, TemplateRef, DoCheck } from '@angular/core';
-import { GlobalText } from '../../../../texts/global';
-import { DistributionService } from '../../../core/api/distribution.service';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
+import { GlobalText } from 'src/texts/global';
+import { DistributionService } from 'src/app/core/api/distribution.service';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DistributionData } from '../../../model/distribution-data';
-import { Beneficiaries } from '../../../model/beneficiary';
-import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
-import { MatTableDataSource, MatSnackBar, MatDialog, MatFormField, MatStepper } from '@angular/material';
-import { Mapper } from '../../../core/utils/mapper.service';
-import { ImportedBeneficiary } from '../../../model/imported-beneficiary';
-import { TransactionBeneficiary } from '../../../model/transaction-beneficiary';
-import { TransactionVoucher } from '../../../model/transaction-voucher';
-import { finalize, last, map } from 'rxjs/operators';
+import { DistributionData } from 'src/app/model/distribution-data';
+import { Beneficiaries } from 'src/app/model/beneficiary';
+import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
+import { MatTableDataSource, MatDialog, MatStepper } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { Mapper } from 'src/app/core/utils/mapper.service';
+import { ImportedBeneficiary } from 'src/app/model/imported-beneficiary';
+import { TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
+import { TransactionVoucher } from 'src/app/model/transaction-voucher';
+
+import { TransactionGeneralRelief } from 'src/app/model/transaction-general-relief';
+import { finalize } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/core/api/user.service';
@@ -83,13 +86,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     form3: FormGroup;
     form4: FormGroup;
 
-    // Transaction.
-    readonly SENDING_CODE_FREQ = 10000; // ms
-    lastCodeSentTime = 0; // ms
     actualUser = new User();
-    enteredCode = '';
-    chartAccepted = false;
-
     hasRights = false;
     hasRightsTransaction = false;
     loaderValidation = false;
@@ -100,6 +97,8 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     progression: number;
     hideSnack = false;
 
+    distributionIsStored = false;
+
     constructor(
         public distributionService: DistributionService,
         public cacheService: AsyncacheService,
@@ -107,7 +106,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
         private route: ActivatedRoute,
         private beneficiariesService: BeneficiariesService,
         private userService: UserService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public mapperService: Mapper,
         private dialog: MatDialog,
         private networkService: NetworkService,
@@ -141,7 +140,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
 
         this.getDistributionBeneficiaries('initial');
         this.checkPermission();
-
     }
 
     @HostListener('window:resize', ['$event'])
@@ -178,35 +176,55 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     }
 
     /**
+     * Get validated distribution type
+     * @return string
+     */
+    getDistributionType() {
+        if (this.actualDistribution.commodities[0].modality_type.name === 'Mobile Money') {
+            return 'mobile-money';
+        } else if (this.actualDistribution.commodities[0].modality_type.modality.name === 'In Kind' ||
+        this.actualDistribution.commodities[0].modality_type.modality.name === 'Other' ||
+        this.actualDistribution.commodities[0].modality_type.name === 'Paper Voucher') {
+            return 'general-relief';
+        } else if (this.actualDistribution.commodities[0].modality_type.name === 'QR Code Voucher') {
+            return 'qr-voucher';
+        }
+    }
+
+    /**
      * Gets the launched distribution from the cache
      */
     getSelectedDistribution() {
         this.distributionService.getOne(this.distributionId)
-            .subscribe(
-                result => { // Get from Back
-                    this.actualDistribution = result;
-
-                    if (Object.keys(this.actualDistribution).length === 0) {
-                        this.cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + this.distributionId + '_beneficiaries')
-                            .subscribe(
-                                distribution => {
-                                    if (distribution) {
-                                        this.actualDistribution = distribution;
-
-                                        if (this.actualDistribution.validated) {
-                                            this.getDistributionBeneficiaries('transaction');
-                                        }
-                                    }
-                                }
-                            );
-                    }
-
-                    if (this.actualDistribution.validated) {
-                        this.getDistributionBeneficiaries('transaction');
-                    }
-                    this.loadingDistribution = false;
+            .subscribe(distribution => { // Get from Back
+                if (!distribution || Object.keys(distribution).length === 0) {
+                    this.getDistributionFromCache();
+                    return;
                 }
-            );
+
+                this.actualDistribution = distribution;
+                if (this.actualDistribution.validated) {
+                    this.getDistributionBeneficiaries('transaction');
+                }
+                this.loadingDistribution = false;
+                this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
+                    (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
+                );
+            });
+    }
+
+    private getDistributionFromCache() {
+        this.cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + this.distributionId + '_beneficiaries')
+            .subscribe((actualDistribution: DistributionData) => {
+                if (actualDistribution) {
+                    this.actualDistribution = actualDistribution;
+                    this.loadingDistribution = false;
+                    this.loadingDatas = false;
+                    if (this.actualDistribution.validated) {
+                        this.formatTransactionTable(this.actualDistribution.distribution_beneficiaries);
+                    }
+                }
+            });
     }
 
     /**
@@ -224,58 +242,61 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
             this.loadingTransaction = true;
         }
         this.distributionService.getBeneficiaries(this.distributionId)
-            .subscribe(
-                response => {
-                    let data = response;
-
-                    if (data && data.id) {
-                        this.actualDistribution = data;
-                        data = data.distribution_beneficiaries;
-                    }
-
-                    if (type === 'initial') {
-                        // Step 1 table
-                        // console.log('Getting Initial data');
-                        this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
-                        this.loadingFirstStep = false;
-                    } else if (type === 'final') {
-                        // Step 4 table
-                        // console.log('Getting final data');
-                        this.finalBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
-                        this.loadingFinalStep = false;
-                    } else if (type === 'both') {
-                        // console.log('Getting both data');
-                        const beneficiariesData = Beneficiaries.formatArray(data);
-                        this.initialBeneficiaryData = new MatTableDataSource(beneficiariesData);
-                        this.finalBeneficiaryData = new MatTableDataSource(beneficiariesData);
-                        this.loadingFirstStep = false;
-                        this.loadingFinalStep = false;
-                    } else if (type === 'transaction') {
-                        if (this.actualDistribution.commodities[0].modality_type.name === 'Voucher') {
-                            this.selection = new SelectionModel<any>(true, []);
-                            this.entity = TransactionVoucher;
-                        } else if (this.actualDistribution.commodities[0].modality_type.name === 'Mobile Cash') {
-                            this.entity = TransactionBeneficiary;
-                        }
-
-                        this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));
-                        this.refreshStatuses();
-                        this.loadingTransaction = false;
-                    }
-
-                    if (!this.actualDistribution.validated) {
-                        this.generateRandom();
-                    }
-
-                    if (this.loadingDatas === true) {
-                        this.loadingDatas = false;
-                    }
+            .subscribe(response => {
+                let data: any;
+                if (response && response.id) {
+                    this.actualDistribution = response;
+                    data = response.distribution_beneficiaries;
+                } else {
+                    this.actualDistribution.distribution_beneficiaries = response;
+                    data = response;
                 }
-            );
+
+                if (type === 'initial') {
+                    // Step 1 table
+                    this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
+                    this.loadingFirstStep = false;
+                } else if (type === 'final') {
+                    // Step 4 table
+                    this.finalBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
+                    this.loadingFinalStep = false;
+                } else if (type === 'both') {
+                    const beneficiariesData = Beneficiaries.formatArray(data);
+                    this.initialBeneficiaryData = new MatTableDataSource(beneficiariesData);
+                    this.finalBeneficiaryData = new MatTableDataSource(beneficiariesData);
+                    this.loadingFirstStep = false;
+                    this.loadingFinalStep = false;
+                } else if (type === 'transaction') {
+                    this.formatTransactionTable(data);
+                }
+
+                if (!this.actualDistribution.validated) {
+                    this.generateRandom();
+                }
+
+                if (this.loadingDatas === true) {
+                    this.loadingDatas = false;
+                }
+            });
 
         if (type === 'edit') {
             this.finalBeneficiaryData = this.initialBeneficiaryData;
         }
+    }
+
+    private formatTransactionTable(data: any) {
+        if (this.actualDistribution.commodities[0].modality_type.name === 'QR Code Voucher') {
+            this.entity = TransactionVoucher;
+            this.selection = new SelectionModel<any>(true, []);
+        } else if (this.actualDistribution.commodities[0].modality_type.name !== 'Mobile Money') {
+            this.entity = TransactionGeneralRelief;
+            this.selection = new SelectionModel<any>(true, []);
+        }
+        else if (this.actualDistribution.commodities[0].modality_type.name === 'Mobile Money') {
+            this.entity = TransactionBeneficiary;
+        }
+        this.transactionData = new MatTableDataSource(this.entity.formatArray(data, this.actualDistribution.commodities));
+        this.loadingTransaction = false;
     }
 
     /**
@@ -402,18 +423,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     exportInformation(template) {
         this.dialog.open(template);
     }
-    /**
-     * Requests back-end a file containing informations about the transaction
-     */
-    exportTransaction() {
-        this.dialog.closeAll();
-        this.loadingExport = true;
-        this.distributionService.export('transaction', this.extensionTypeTransaction, this.distributionId).then(
-            () => { this.loadingExport = false; }
-        ).catch(
-            () => { this.loadingExport = false; }
-        );
-    }
 
     /**
      * Opens a dialog corresponding to the ng-template passed as a parameter
@@ -424,7 +433,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
         if (new Date() < distributionDate) {
             this.dialog.open(template);
         } else {
-            this.snackBar.open(GlobalText.TEXTS.snackbar_invalid_transaction_date, '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(GlobalText.TEXTS.snackbar_invalid_transaction_date);
         }
     }
 
@@ -434,13 +443,13 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     confirmValidation() {
         if (this.hasRights) {
             if ((this.finalBeneficiaryData && this.finalBeneficiaryData.data.length > 0) ||
-            (this.initialBeneficiaryData && this.initialBeneficiaryData.data.length > 0)) {
+                (this.initialBeneficiaryData && this.initialBeneficiaryData.data.length > 0)) {
                 this.loaderValidation = true;
                 this.distributionService.setValidation(this.distributionId)
                     .subscribe(
                         success => {
                             this.actualDistribution.validated = true;
-                            this.snackBar.open(this.TEXT.distribution_validated, '', { duration: 5000, horizontalPosition: 'center' });
+                            this.snackbar.success(this.TEXT.distribution_validated);
                             this.validateActualDistributionInCache();
                             this.getDistributionBeneficiaries('transaction');
                             this.cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + this.actualDistribution.id + '_beneficiaries')
@@ -457,148 +466,17 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                         },
                         error => {
                             this.actualDistribution.validated = false;
-                            this.snackBar.open(this.TEXT.distribution_not_validated, '', { duration: 5000, horizontalPosition: 'center' });
+                            this.snackbar.error(this.TEXT.distribution_not_validated);
                         }
                     );
             } else {
-                this.snackBar.open(this.TEXT.distribution_error_validate, '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackbar.error(this.TEXT.distribution_error_validate);
             }
         } else {
-            this.snackBar.open(this.TEXT.distribution_no_right_validate, '', { duration: 5000, horizontalPosition: 'right' });
+            this.snackbar.error(this.TEXT.distribution_no_right_validate);
         }
 
         this.dialog.closeAll();
-    }
-
-    codeVerif() {
-        if ((new Date()).getTime() - this.lastCodeSentTime > this.SENDING_CODE_FREQ) {
-            this.distributionService.sendCode(this.distributionId).toPromise()
-                .then(
-                    anwser => {
-                        if (anwser === 'Email sent') {
-                            this.lastCodeSentTime = (new Date()).getTime();
-                            this.snackBar.open('Verification code has been sent at ' + this.actualUser.email,
-                            '', { duration: 5000, horizontalPosition: 'center' });
-                        }
-                    },
-                    () => {
-                        this.lastCodeSentTime = (new Date()).getTime();
-                        this.snackBar.open('Verification code has been sent at ' + this.actualUser.email,
-                        '', { duration: 5000, horizontalPosition: 'center' });
-                    }
-                )
-                .catch(
-                    (err) => {
-                        this.snackBar.open('Could not send code :' + err, '', { duration: 5000, horizontalPosition: 'center' });
-                    }
-                );
-        } else {
-            this.snackBar.open('The last code was sent less than 10 seconds ago, you should wait.',
-            '', { duration: 5000, horizontalPosition: 'center' });
-        }
-    }
-
-    /**
-     * To transact
-     */
-    confirmTransaction() {
-        if (this.hasRightsTransaction) {
-            this.progression = 0;
-            this.cacheService.getUser().subscribe(
-                result => {
-                    this.actualUser = result;
-                    if (!this.actualUser.email && this.actualUser.username) {
-                        this.actualUser['email'] = this.actualUser.username;
-                    }
-                    if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]) {
-                        this.transacting = true;
-                        this.correctCode = true;
-                        this.distributionService.transaction(this.distributionId, this.enteredCode)
-                            .pipe(
-                                finalize(
-                                    () => {
-                                        this.transacting = false;
-                                        this.chartAccepted = false;
-                                        this.correctCode = false;
-                                        this.enteredCode = '';
-                                        this.dialog.closeAll();
-                                        clearInterval(this.interval);
-                                        this.refreshStatuses();
-                                    }
-                                )
-                            ).toPromise().then(
-                                success => {
-                                    if (this.transactionData) {
-                                        this.transactionData.data.forEach(
-                                            (element, index) => {
-
-                                                success.already_sent.forEach(
-                                                    beneficiary => {
-                                                        if (element.id === beneficiary.beneficiary.id) {
-                                                            this.transactionData.data[index].updateState('Already sent');
-                                                            this.setTransactionMessage(beneficiary, index);
-                                                        }
-                                                    }
-                                                );
-                                                success.failure.forEach(
-                                                    beneficiary => {
-                                                        if (element.id === beneficiary.beneficiary.id) {
-                                                            this.transactionData.data[index].updateState('Sending failed');
-                                                            this.setTransactionMessage(beneficiary, index);
-                                                        }
-                                                    }
-                                                );
-                                                success.no_mobile.forEach(
-                                                    beneficiary => {
-                                                        if (element.id === beneficiary.beneficiary.id) {
-                                                            this.transactionData.data[index].updateState('No phone');
-                                                            this.setTransactionMessage(beneficiary, index);
-                                                        }
-                                                    }
-                                                );
-                                                success.sent.forEach(
-                                                    beneficiary => {
-                                                        if (element.id === beneficiary.beneficiary.id) {
-                                                            this.transactionData.data[index].updateState('Sent');
-                                                            this.setTransactionMessage(beneficiary, index);
-                                                        }
-                                                    }
-                                                );
-                                            }
-                                        );
-                                    }
-                                }
-                            );
-
-                        let progression = 0;
-                        let peopleLeft = this.getAmount('waiting', this.actualDistribution.commodities[0]);
-                        peopleLeft = peopleLeft / this.actualDistribution.commodities[0].value;
-
-                        this.interval = setInterval(() => {
-                            this.distributionService.checkProgression(this.distributionId)
-                                .subscribe(
-                                    distributionProgression => {
-                                        if (distributionProgression) {
-                                            if (distributionProgression !== progression) {
-                                                progression = distributionProgression;
-
-                                                this.progression = Math.floor((result / peopleLeft) * 100);
-                                            }
-                                        }
-                                    }
-                                );
-                        }, 3000);
-
-                    } else {
-                        this.snackBar.open(this.TEXT.distribution_no_valid_commodity, '', { duration: 5000, horizontalPosition: 'center' });
-                    }
-                }
-            );
-        } else {
-            this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 5000, horizontalPosition: 'right' });
-        }
-
-        this.chartAccepted = false;
     }
 
     setTransactionMessage(beneficiary, i) {
@@ -607,33 +485,10 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
             beneficiary.transactions[beneficiary.transactions.length].message : '';
     }
 
-    refreshStatuses() {
-        this.distributionService.refreshPickup(this.distributionId).subscribe(
-            result => {
-                if (result) {
-                    this.transactionData.data.forEach(
-                        (transaction, index) => {
-                            if (transaction.state > 0) {
-                                result.forEach(
-                                    element => {
-                                        if (transaction.id === element.id) {
-                                            this.transactionData.data[index].updateForPickup(element.moneyReceived);
-                                        }
-                                    }
-                                );
-                            }
-                        }
-                    );
-                }
-            }
-        );
-    }
-
     /**
      * Refresh the cache with the validated distribution
      */
     validateActualDistributionInCache() {
-
         const newDistributionsList = new Array<DistributionData>();
         this.distributionService.get()
             .subscribe(result => {
@@ -677,12 +532,12 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                                     }
                                 }
                             );
-                        this.snackBar.open(this.TEXT.distribution_beneficiary_added, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.success(this.TEXT.distribution_beneficiary_added);
                         this.getDistributionBeneficiaries('final');
                     }
                 },
                 error => {
-                    this.snackBar.open(this.TEXT.distribution_beneficiary_not_added, '', { duration: 5000, horizontalPosition: 'center' });
+                    this.snackbar.error(this.TEXT.distribution_beneficiary_not_added);
                 });
     }
 
@@ -690,8 +545,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
      * To cancel on a dialog
      */
     exit(message: string) {
-        this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
-        this.chartAccepted = false;
+        this.snackbar.info(message);
         this.dialog.closeAll();
     }
 
@@ -712,59 +566,12 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                     }
                 }
             );
-        } else if (commodity) {
-            if (type === 'total') {
-                amount = commodity.value * this.transactionData.data.length;
-            } else if (type === 'sent') {
-                amount = 0;
-                this.transactionData.data.forEach(
-                    element => {
-                        if (element.state === 1 || element.state === 2 || element.state === 3) {
-                            amount += commodity.value;
-                        }
-                    }
-                );
-            } else if (type === 'received') {
-                amount = 0;
-                this.transactionData.data.forEach(
-                    element => {
-                        if (element.state === 3) {
-                            amount += commodity.value;
-                        }
-                    }
-                );
-            } else if (type === 'ratio') {
-                let done = 0;
-                this.transactionData.data.forEach(
-                    element => {
-                        if (element.state === 1 || element.state === 2 || element.state === 3) {
-                            done += commodity.value;
-                        }
-                    }
-                );
-                amount = Math.round((done / (commodity.value * this.transactionData.data.length)) * 100);
-            }
         }
         return (amount);
     }
 
     jumpStep(stepper: MatStepper) {
         stepper.next();
-    }
-
-    requestLogs() {
-        if (this.hasRights) {
-            try {
-                this.distributionService.logs(this.distributionId).subscribe(
-                    e => { this.snackBar.open('' + e, '', { duration: 5000, horizontalPosition: 'center' }); },
-                    () => { this.snackBar.open('Logs have been sent', '', { duration: 5000, horizontalPosition: 'center' }); },
-                );
-            } catch (e) {
-                this.snackBar.open('Logs could not be sent : ' + e, '', { duration: 5000, horizontalPosition: 'center' });
-            }
-        } else {
-            this.snackBar.open('Not enough rights to request logs', '', { duration: 5000, horizontalPosition: 'center' });
-        }
     }
 
     checkPermission() {
@@ -822,36 +629,15 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                                 () => {
                                     // Data added in cache
                                     if (!this.hideSnack) {
-                                        this.snackBar.open(this.TEXT.cache_distribution_added,
-                                          '', { duration: 5000, horizontalPosition: 'center' });
+                                        this.snackbar.success(this.TEXT.cache_distribution_added);
                                     }
                                     this.hideSnack = false;
                                 }
                             );
-
                     }
                 }
             );
-    }
 
-    getChecked(event) {
-        this.checkedLines = event;
-    }
-
-    distributeVoucher() {
-        this.checkedLines.forEach(
-            checked => {
-                this.transactionData.data.filter(
-                    data => {
-                        if (checked.id === data.id) {
-                            data.used = !data.used;
-                        }
-                    }
-                );
-            }
-        );
-
-        this.checkedLines = [];
-        this.selection = new SelectionModel<any>(true, []);
+            this.distributionIsStored = true;
     }
 }

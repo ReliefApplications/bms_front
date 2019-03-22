@@ -9,7 +9,7 @@
           <button mat-raised-button *ngIf="hasRightsDelete && checkedElements.length > 0" class="button-background-primary" (click)="addToProject(addBeneficiaries)" [matBadge]="checkedElements.length">
             {{household.beneficiaries_add_list}}
           </button>
-          <div class="button-with-extension">
+          <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
             <button mat-raised-button *ngIf="!loadingExport" class="button-background-primary" (click)="export()">
               <mat-icon>get_app</mat-icon>
               <span>{{household.export | titlecase}}</span>

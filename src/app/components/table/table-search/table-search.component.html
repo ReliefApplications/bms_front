@@ -13,12 +13,12 @@
         </mat-form-field>
     </div>
 
-    <div *ngIf="filled==true && data && data.data && data.data.length > 0" style="max-height: 370px; overflow: auto;">
+    <div *ngIf="filled==true && data && data.data && data.data.length > 0">
         <table mat-table [dataSource]="data" matSort>
 
             <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
                 <th mat-header-cell *matHeaderCellDef id="table-header" mat-sort-header [ngClass]="{'integered':propertiesTypes[property]=='number'}">
-                    {{mapperService.mapTitle(property)|titlecase}}</th>
+                    {{mapperService.mapTitle(property) | titlecase}}</th>
                 <td mat-cell *matCellDef="let element">
                     <span *ngIf="propertiesTypes[property]=='image'" class="scrollable-icons">
                         <app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)"
@@ -28,8 +28,11 @@
                         <img [matTooltip]="getImageName(image)" *ngFor="let image of mapperService.mapValue(element, property)"
                             class="png" [src]="image">
                     </span>
+                    <span *ngIf="propertiesTypes[property]=='document'">
+                        <img [matTooltip]="element.name" class="png" [src]="element[property]">
+                    </span>
                     <span *ngIf="property=='rights'">{{recoverRights(element)}}</span>
-                    <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png' && property!='rights'">{{mapperService.mapValue(element,
+                    <span *ngIf="propertiesTypes[property]!='document' && propertiesTypes[property]!='image' && propertiesTypes[property]!='png' && property!='rights'">{{mapperService.mapValue(element,
                         property)}}</span>
                 </td>
             </ng-container>
@@ -52,6 +55,10 @@
                     <button *ngIf="editable && rights && deletable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
                         [matTooltip]="table.delete" class="red">
                         <mat-icon>delete_outline</mat-icon>
+                    </button>
+                    <button *ngIf="printable" mat-icon-button (click)="print(element); $event.stopPropagation()"
+                        [matTooltip]="'print'" class="grey">
+                        <mat-icon>printer</mat-icon>
                     </button>
                 </td>
             </ng-container>

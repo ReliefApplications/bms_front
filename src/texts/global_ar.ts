@@ -1,3 +1,4 @@
+/* tslint:disable */
 export const TEXT = {
     // GENERAL VARIABLES
 
@@ -39,6 +40,7 @@ export const TEXT = {
     settings: 'الإعدادات',
     summary: 'ملخص',
     update: 'تحديث',
+    voucher: 'قسائم',
 
     // Error
     back_to_homepage: 'العودة إلى الصفحة الرئيسية',
@@ -103,7 +105,7 @@ export const TEXT = {
     // Add distribution
     add_distribution_advanced_option: 'خيارات متقدمة',
     add_distribution_beneficiaries_reached: 'المستفيدون الذين تم الوصول إليهم',
-    add_distribution_check_date: '  mm / dd / yyyyy  حدث خطأ أثناء حفظ التاريخ ، تحقق من أن التنسيق يشبه',
+    add_distribution_check_date: ' dd-mm-yyyy حدث خطأ أثناء حفظ التاريخ ، تحقق من أن التنسيق يشبه',
     add_distribution_check_fields: 'إملء معلومات التوزيع الجديدة  قبل ، بما في ذلك قيمة السلع والقيمة الأدنى يجب أن تكون أعلى من 0.',
     add_distribution_commodities_delivered: 'تم اعطاء',
     add_distribution_created: 'تم انشائه',
@@ -118,7 +120,7 @@ export const TEXT = {
     add_distribution_missing_location: 'أضف مقاطعة',
     add_distribution_missing_selection_criteria: 'معيار الاختيار مفقود',
     add_distribution_missing_threshold: 'يجب أن تكون قيمة الحد الفاصل أكبر من 0',
-    add_distribution_multiple_commodities: 'لا يمكنك الحصول على طريقتين للدفع كسلع',
+    add_distribution_multiple_modalities: 'لا يمكن أن يكون لديك طريقتين مختلفتين في نفس التوزيع',
     add_distribution_selection_criteria: 'معيار الاختيار',
     add_distribution_text_explanation: 'سيختار النظام فقط المستفيدين / الأسر التي لديها مجموع أعلى من المجموع الادنى ',
     add_distribution_threshold: ' المجموع الادنى لاختيار ',
@@ -159,7 +161,8 @@ export const TEXT = {
 
     // Cache
     cache_distribution_added: 'التوزيع والمستفيدين من المشروع تم  إضافتهم في ذاكرة التخزين المؤقت',
-    cache_store_beneficiaries: 'حفظ لوضع غير متصل بالشبكة',
+    cache_store_beneficiaries: 'وضع غير متصل بالشبكة',
+    cache_stored_beneficiaries: 'تم الحفظ في وضع عدم الاتصال',
     cache_no_distribution: 'لم يتم تخزين هذا التوزيع في ذاكرة التخزين المؤقت ، ولا يمكنك الحصول عليه خارج خدمة الانترنت. ',
 
     // Dashboard
@@ -183,7 +186,7 @@ export const TEXT = {
     data_verification_description_end: 'سيتم إضافة التعديلات إلى قاعدة البيانات في كل خطوة تدقيق.',
     data_verification_done: 'تم التحقق من بياناتك',
     data_verification_error: 'حدث خطأ في معالجة البيانات',
-    data_verification_send: 'Update',
+    data_verification_send: 'تحديث',
     data_verification_snackbar_duplicate_corrected: 'أخطاء التكرار المصححة',
     data_verification_snackbar_duplicate_no_corrected: 'كل أخطاء التكرار التي لم يتم تصحيحها',
     data_verification_snackbar_less_corrected: 'تم حذف المستفيدين بنجاح',
@@ -212,6 +215,7 @@ export const TEXT = {
     distribution_details_random: 'عينة عشوائية للتحميل',
     distribution_details_sample_size: 'حجم العينة',
     distribution_details_validate: 'التحقق والقفل',
+    distribution_distribute: 'تعيين كما وزعت',
     distribution_edit: 'تعديل التوزيع',
     distribution_error_validate: 'التوزيع فارغ ، يرجى ملءه قبل التحقق من صحته',
     distribution_no_beneficiaries: 'لم تتم إضافة أو إزالة أي مستفيدين. سيتم تحديث أي تغييرات يتم إجراؤها على المستفيدين المستوردين في النظام.',
@@ -226,7 +230,7 @@ export const TEXT = {
     distribution_show_data: 'عرض البيانات على أي حال',
     distribution_validate: 'التحقق من صحة',
     distribution_validated: ' تم التحقق من صحة التوزيع',
-    distribution_validated_title: 'Validated distribution',
+    distribution_validated_title: 'توزيع التحقق من صحة',
     distribution_want_add: 'التي تريد إضافتها إلى ',
 
     // Header
@@ -245,6 +249,7 @@ export const TEXT = {
     header_reports: 'التقارير',
     header_settings: 'الإعدادات',
     'header_update-beneficiary': 'تحديث المستفيد',
+    header_vouchers: 'قسائم',
 
     // Import
     import_added: 'تم إضافتها',
@@ -298,12 +303,15 @@ export const TEXT = {
     modal_valid_email: 'من فضلك أدخل البريد الكتروني الصحيح',
     modal_warning_pending_requests_1: 'ابحث عن الطلبات التي قمت بإنشائها خلال وقت عدم الاتصال الخاص بك أدناه ، يمكنك إرسال تلك التي تريد تطبيقها لتعديل قاعدة البيانات.',
     modal_warning_pending_requests_2: 'تحذير: ستفشل الطلبات المرتبطة بعنصر أنشأته دون   اتصال بشبكة  الإنترنت !',
+    modal_no_file: 'لم تقم باختيار ملف',
 
     // Model
-    model_beneficiaries_dependents: 'التوابع',
+    model_beneficiaries_dependents: 'عضو',
     model_beneficiaries_nationalids: 'رقم الهوية',
     model_beneficiaries_phones: 'الهاتف',
     model_beneficiaries_status: 'الرتبة في الأسرة',
+    model_booklet: 'كتيب',
+    model_code: 'الشفرة',
     model_commodity: 'السلع',
     model_commodity_modality: 'القيد',
     model_commodity_unit: 'وحدة',
@@ -314,7 +322,10 @@ export const TEXT = {
     model_criteria: 'المعاير',
     model_criteria_operator: 'الشروط',
     model_criteria_weight: 'وزن النتيجة',
+    model_currency: 'دقة',
     model_dateofbirth: 'تاريخ الميلاد',
+    model_distributed: 'Distributed',
+    model_distribution_beneficiary: 'توزيع المستفيد',
     model_distribution_date: 'تاريخ التوزيع',
     model_distribution_name: 'الاسم',
     model_distribution_type: 'العالمي',
@@ -323,7 +334,14 @@ export const TEXT = {
     model_donor_shortname: 'الاسم المختصر',
     model_familyName: 'اللقب',
     model_firstName: 'الاسم ',
+    model_individual_to_all: 'تعيين قيمة القسائم بشكل فردي',
+    model_individual_value: 'القيمة الفردية',
     model_notes: 'الملاحظات',
+    model_product_name: 'اسم',
+    model_product_unit: 'وحدة',
+    model_product_image: 'صورة',
+    model_number_booklets: 'كمية من الكتيبات لخلق',
+    model_number_vouchers: 'كمية القسائم',
     model_project_end_date: 'تاريخ الانتهاء',
     model_project_donors_name: 'المانحون',
     model_project_name: 'اسم المشروع',
@@ -336,12 +354,16 @@ export const TEXT = {
     model_transaction_message: 'رسالة',
     model_transaction_pickupDate: 'اختر تاريخا',
     model_type: 'النوع',
+    model_type_shop: 'نوع المحل',
     model_vulnerabilities: 'نقاط الضعف',
     model_used: 'مستخدم',
     model_user: 'المستخدم',
-    model_user_password: 'كلمة المرور',
+    model_password: 'كلمة المرور',
     model_value: 'القيمة',
+    model_vendors_address: 'عنوان',
     model_transaction_state: 'الحالة',
+    model_vendor: 'بائع',
+    model_state: 'الحالة',
 
     // Placeholder
     placeholder_one_many: 'اختر واحدة أو أكثر',
@@ -392,8 +414,10 @@ export const TEXT = {
     settings_donors: 'المانحين',
     settings_financial_provider: 'مزود المالية',
     settings_log_button: 'احصل على سجلات المستخدم عن طريق البريد الإلكتروني',
+    settings_product: 'منتجات',
     settings_project_exists: 'مشروع بهذا الاسم يوجود بالفعل',
     settings_users: 'المستخدمون',
+    settings_vendors: 'الباعة',
 
     // Snackbar
     snackbar_change_password_done: '!تم تغيير كلمة المرور',
@@ -416,8 +440,10 @@ export const TEXT = {
     // Transaction
     transaction_accept_prevention: 'أنا أوافق على هذه الشروط.',
     transaction_again: 'أعد الإرسال',
+    transaction_amount_distributed: 'المبلغ الموزع',
     transaction_amount_done: 'الكمية المرسلة',
     transaction_amount_total: 'الكمية الإجمالية',
+    transaction_amount_used: 'المبلغ المستخدم',
     transaction_amount_waiting: 'ما زال يتعين إرسالها',
     transaction_confirm: 'تأكيد المعاملة',
     transaction_confirm_button: 'التأكد',
@@ -432,6 +458,7 @@ export const TEXT = {
     transaction_transaction: 'عملية تجارية',
     transaction_validate_distribution: 'هل تريد حقًا التحقق من صحة هذا التوزيع؟ لن تتمكن من تعديله بعد الآن.',
     transaction_validation: 'تأكيد التحقق من الصحة',
+    transaction_no_transaction_sent: 'لا توجد معاملة مكتملة ، لا يمكن تصديرها',
 
     // Tooltip
     tooltip_add_beneficiaries: 'هذه الصفحة مخصصة لإضافة المستفيدين. هذا هو نموذج لإضافة أسرة جديدة مع الحقول المطلوبة.',
@@ -455,4 +482,26 @@ export const TEXT = {
     update_beneficiary_error_updated: ': حدث خطأ أثناء التحديث',
     update_beneficiary_title: 'تحديث المستفيدين',
     update_beneficiary_updated_successfully: ' !تم التحديث بنجاح',
+
+    //Vouchers
+    voucher_ask_code: 'الرجاء مطالبة المستفيد بإدخال رمزه المكون من 4 أرقام هنا',
+    voucher_assign: 'تعيين قسائم',
+    voucher_assign_title: 'تخصيص كتيب للمستفيد',
+    voucher_assigned_success: ' تم تعيين الكتيب إلى',
+    voucher_confirm: ' كتيب مخصص ل',
+    voucher_created: 'تم إنشاء الكتيب',
+    voucher_define_password: 'تحديد كلمة المرور لكتيب',
+    voucher_for: 'إلى عن على',
+    voucher_no_device: 'لا يوجد جهاز تم اكتشافه',
+    voucher_no_permission: 'لقد رفضت الوصول إلى الكاميرا',
+    voucher_only_digits: 'يجب أن تتكون كلمة المرور من 4 أرقام فقط',
+    voucher_password_changed: 'تم تغيير كلمة السر الخاصة بك',
+    voucher_scan_text: 'مسح كتيب رمز الاستجابة السريعة',
+    voucher_select_project: 'يجب عليك اختيار مشروع',
+    voucher_select_distribution: 'يجب عليك اختيار التوزيع',
+    voucher_select_beneficiary: 'عليك أن تختار المستفيد',
+    voucher_step5: 'سيتم تعيين ل',
+    voucher_print_selection: 'اختيار الطباعة',
+    voucher_print_error: 'لا يمكنك طباعة كتيب إذا لم يكن لديه مستفيد',
+    voucher_print_starting: 'بدأ تنزيل القسيمة',
 };

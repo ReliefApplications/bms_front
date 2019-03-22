@@ -2,13 +2,19 @@
   <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}" >{{modal.update}}</h4>
   <table class="modal-table" [ngClass]="{'arabic': language==='ar'}">
     <tr *ngFor="let p of properties" class="modal-row">
-      <th class="table-title">{{data.mapper.mapTitle(p)}}</th>
+      <th class="table-title" *ngIf="propertiesTypes[p]!=='checkbox' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values'">{{data.mapper.mapTitle(p) | titlecase}}</th>
+      <th class="table-title" *ngIf="propertiesTypes[p]==='individual_values' && updateObject.individual_to_all === true">{{data.mapper.mapTitle(p) | titlecase }}</th>
+      <th class="table-title" *ngIf="propertiesTypes[p]==='individual_value' && !updateObject.individual_to_all">{{data.mapper.mapTitle(p) | titlecase }}</th>
+      <th class="table-title checkbox-line" *ngIf="propertiesTypes[p]==='checkbox'">{{data.mapper.mapTitle(p) | titlecase }}</th>
       <th class="table-value">
-        <form class="form" [formGroup]="form">
-          <mat-form-field *ngIf="propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p]!='selectSingle'" class="full-width">
-            <input matInput *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p] != 'selectDonor' && propertiesTypes[p] != 'date' && propertiesTypes[p]!='selectSingle'  && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry' && propertiesTypes[p] != 'selectCountry'"
-              [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries' || p=='name' || propertiesTypes[p] === 'disabled')"
+        <form class="form" [formGroup]="form" ngNoForm>
+          <mat-form-field *ngIf="propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p]!='array'" class="full-width">
+            <input matInput *ngIf="propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='positive-number' && propertiesTypes[p] != 'selectDonor' && propertiesTypes[p] != 'date' && propertiesTypes[p]!='selectSingle'  && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry' && propertiesTypes[p] != 'selectCountry'"
+              [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries' || p=='name' || p=='code' || p=='number_vouchers' || p=='status' || propertiesTypes[p] === 'disabled')"
               [type]="propertiesTypes[p]">
+
+              <input matInput *ngIf="propertiesTypes[p]=='positive-number' && p !== 'number_vouchers'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1">
+              <input matInput *ngIf="p === 'number_vouchers'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1" (change)="handleChangeNumberVouchers()">
 
 
           <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
@@ -77,7 +83,6 @@
             </mat-error>
           </mat-form-field>
 
-
           <mat-form-field *ngIf="propertiesTypes[p]=='password'" class="full-width">
             <input [(ngModel)]="updateObject[p]" matInput placeholder="{{modal.model_user_password}}" formControlName="passwordFormControl"
               [errorStateMatcher]="matcher" type="password">
@@ -88,7 +93,43 @@
               {{modal.modal_password_required | titlecase}}
             </mat-error>
           </mat-form-field>
-        </form>
+
+          <mat-checkbox
+            *ngIf="propertiesTypes[p]=='checkbox'"
+            (change)="handleCheckbox()"
+            type="checkbox"
+            color="primary"
+            [(ngModel)]="updateObject[p]"
+            [ngModelOptions]="{standalone: true}"
+            [checked]="updateObject[p]">
+          </mat-checkbox>
+
+          <mat-form-field class="value" *ngIf="propertiesTypes[p]==='individual_value' && !updateObject.individual_to_all" class="full-width">
+            <input [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" matInput type="number" min="1">
+          </mat-form-field>
+
+          <mat-form-field class="values" *ngIf="propertiesTypes[p]==='individual_values' && updateObject.individual_to_all === true" class="full-width">
+            <div class="array">
+              <span *ngFor="let value of updateObject.individual_values; let i=index; trackBy: trackByFn" >
+                <input [(ngModel)]="updateObject[p][i]" [ngModelOptions]="{standalone: true}" matInput type="number" min="1">
+              </span>
+            </div>
+          </mat-form-field>
+          <ng-container *ngIf="propertiesTypes[p]=='array' && p === 'notes'">
+            <mat-form-field class="full-width" *ngFor="let generalRelief of updateObject['generalReliefs'], let i = index">
+              <input [(ngModel)]="updateObject['generalReliefs'][i]['notes']" matInput placeholder="{{modal.notes}}" [ngModelOptions]="{standalone: true}"
+                [errorStateMatcher]="matcher" type="text">
+            </mat-form-field>
+          </ng-container>
+
+          <div *ngIf="propertiesTypes[p]=='document'" class="input-file">
+              <label for="file"><mat-icon>cloud_upload</mat-icon></label>
+              <input type="file" id="file" (change)="onFileChange(p, $event)" #fileInput>
+              <p *ngIf="filename">{{ filename }}</p>
+              <p *ngIf="!filename">{{ modal.modal_no_file }}</p>
+          </div>
+
+          </form>
       </th>
     </tr>
   </table>

@@ -12,7 +12,7 @@
         </mat-form-field>
     </div>
 
-    <div *ngIf="filled" style="max-height: 370px; overflow: auto;">
+    <div *ngIf="filled">
         <table mat-table [dataSource]="data" matSort matSortActive="date_distribution" matSortDirection="desc">
 
             <ng-container *ngFor="let property of properties" matColumnDef="{{property}}" [class.little]="p==dependents">
@@ -33,32 +33,31 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions | titlecase }}</th>
                 <td mat-cell class="content-cell" *matCellDef="let element">
-                    <div class="validated-distribution" *ngIf="element.validated && element.finished" (click)=goToDistribution(element.id)>
+                    <div class="validated-distribution" *ngIf="element.validated && element.finished" (click)="goToDistribution(element.id); $event.stopPropagation();">
                         <mat-icon>done</mat-icon>
                     </div>
-                    <div class="red" *ngIf="element.validated && !element.finished" (click)=goToDistribution(element.id)>
+                    <div class="red" *ngIf="element.validated && !element.finished" (click)="goToDistribution(element.id); $event.stopPropagation();">
                         <mat-icon>lock</mat-icon>
                     </div>
                     <div class="unvalidated-distribution" *ngIf="!element.validated">
-                        <button mat-icon-button class="green" (click)="openDialog('update', element); $event.stopPropagation()"
+                        <button mat-icon-button class="green" (click)="openDialog('update', element); $event.stopPropagation();"
                             [matTooltip]="table.details">
                             <mat-icon>search</mat-icon>
                         </button>
                         <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rightsEdit"
-                            [matTooltip]="table.update" class="light-red" (click)=goToDistribution(element.id)>
+                            [matTooltip]="table.update" class="light-red" (click)="goToDistribution(element.id); $event.stopPropagation();">
                             <mat-icon>edit</mat-icon>
                         </button>
                         <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && rights"
-                            [matTooltip]="table.delete" class="red" (click)="openDialog('delete', element); $event.stopPropagation()">
+                            [matTooltip]="table.delete" class="red" (click)="openDialog('delete', element); $event.stopPropagation();">
                             <mat-icon>delete_outline</mat-icon>
                         </button>
                     </div>
                 </td>
             </ng-container>
-
             <tr mat-header-row *matHeaderRowDef="propertiesActions; sticky: true;" class="header-row"></tr>
             <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row distribution-details cursor-pointer"
-                (click)="element.validated && !element.finished ? openDialog('details', element) : openDialog('update', element)"></tr>
+                (click)="element.validated && !element.finished ? openDialog('details', element) : openDialog('update', element);"></tr>
         </table>
     </div>
 

@@ -43,6 +43,7 @@ table {
 
   td {
     text-align: center;
+    max-width: 120px;
 
     app-icon-svg {
       display: flex;
@@ -52,8 +53,8 @@ table {
   }
 
   .scrollable-icons {
-    width: 80px;
     display: flex;
+    justify-content: center;
     flex-wrap: nowrap;
     overflow-x: auto;
 
@@ -61,7 +62,7 @@ table {
       margin-right: 5px;
     }
   }
-  
+
   td.mat-cell:last-of-type,
   td.mat-footer-cell:not(last-of-type),
   th.mat-header-cell:not(last-of-type) {
@@ -104,6 +105,10 @@ button {
 
 .light-red {
   color: $bms_dark_blue;
+}
+
+.grey {
+  color: $bms_dark_grey;
 }
 
 .png {

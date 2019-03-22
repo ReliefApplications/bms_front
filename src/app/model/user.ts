@@ -83,7 +83,7 @@ export class User {
     static translator(): Object {
         return {
             username: GlobalText.TEXTS.email,
-            password: GlobalText.TEXTS.model_user_password,
+            password: GlobalText.TEXTS.model_password,
             rights: GlobalText.TEXTS.rights,
             projects: GlobalText.TEXTS.project,
             country: GlobalText.TEXTS.model_countryIso3,

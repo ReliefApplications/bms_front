@@ -2,7 +2,18 @@ import { GlobalText } from '../../texts/global';
 import { isNumber } from '@swimlane/ngx-charts/release/utils';
 import { isNull } from 'util';
 
+// QuickFix, remove the state system later
+export enum State {
+    NotSent = -2,
+    NoPhone = -1,
+    SendError = 0,
+    Sent = 1,
+    AlreadySent = 2,
+    PickedUp = 3,
+}
+
 export class TransactionBeneficiary {
+
     static __classname__ = 'TransactionBeneficiary';
 
     /**
@@ -58,7 +69,7 @@ export class TransactionBeneficiary {
             this.givenName = instance.givenName;
             this.familyName = instance.familyName;
             this.phone = instance.phone;
-            this.state = instance.state ? instance.state : -2;
+            this.state = instance.state ? instance.state : State.NotSent;
             this.values = instance.values;
             this.pickupDate = instance.pickupDate ? instance.pickupDate : null;
             this.message = instance.message;
@@ -80,7 +91,7 @@ export class TransactionBeneficiary {
             givenName: GlobalText.TEXTS.model_firstName,
             familyName: GlobalText.TEXTS.model_familyName,
             phone: GlobalText.TEXTS.phone,
-            state: GlobalText.TEXTS.model_transaction_state,
+            state: GlobalText.TEXTS.model_state,
             values: GlobalText.TEXTS.model_value,
             date: GlobalText.TEXTS.model_transaction_pickupDate,
             message: GlobalText.TEXTS.model_transaction_message,
@@ -90,8 +101,6 @@ export class TransactionBeneficiary {
 
     public static formatArray(instance: any, commodityList?: any[]): TransactionBeneficiary[] {
         const beneficiaries: TransactionBeneficiary[] = [];
-
-        // console.log('before format : ', instance);
 
         let commodities = '';
         if (commodityList) {
@@ -114,8 +123,6 @@ export class TransactionBeneficiary {
         } else {
             return null;
         }
-
-        // console.log('after format : ', beneficiaries);
 
         return (beneficiaries);
     }
@@ -194,22 +201,22 @@ export class TransactionBeneficiary {
 
         let stateString;
         switch (selfinstance.state) {
-            case -2:
+            case State.NotSent:
                 stateString = 'Not sent';
                 break;
-            case -1:
+            case State.NoPhone:
                 stateString = 'No phone';
                 break;
-            case 0:
+            case State.SendError:
                 stateString = 'Sending failed';
                 break;
-            case 1:
+            case State.Sent:
                 stateString = 'Sent';
                 break;
-            case 2:
+            case State.AlreadySent:
                 stateString = 'Already sent';
                 break;
-            case 3:
+            case State.PickedUp:
                 stateString = 'Picked up';
                 break;
             default:
@@ -237,22 +244,22 @@ export class TransactionBeneficiary {
 
         let stateString;
         switch (selfinstance.state) {
-            case -2:
+            case State.NotSent:
                 stateString = 'Not sent';
                 break;
-            case -1:
+            case State.NoPhone:
                 stateString = 'No phone';
                 break;
-            case 0:
+            case State.SendError:
                 stateString = 'Sending failed';
                 break;
-            case 1:
+            case State.Sent:
                 stateString = 'Sent';
                 break;
-            case 2:
+            case State.AlreadySent:
                 stateString = 'Already sent';
                 break;
-            case 3:
+            case State.PickedUp:
                 stateString = 'Picked up';
                 break;
             default:
@@ -260,7 +267,7 @@ export class TransactionBeneficiary {
                 break;
         }
 
-        if (selfinstance.state === 3) {
+        if (selfinstance.state === State.PickedUp) {
             return {
                 id_transaction: selfinstance.id_transaction,
                 givenName: selfinstance.givenName,
@@ -331,25 +338,25 @@ export class TransactionBeneficiary {
 
         switch (state) {
             case 'Not sent':
-                stateNumber = -2;
+                stateNumber = State.NotSent;
                 break;
             case 'No phone':
-                stateNumber = -1;
+                stateNumber = State.NoPhone;
                 break;
             case 'Sending failed':
-                stateNumber = 0;
+                stateNumber = State.SendError;
                 break;
             case 'Sent':
-                stateNumber = 1;
+                stateNumber = State.Sent;
                 break;
             case 'Already sent':
-                stateNumber = 2;
+                stateNumber = State.AlreadySent;
                 break;
             case 'Picked up':
-                stateNumber = 3;
+                stateNumber = State.PickedUp;
                 break;
             default:
-                stateNumber = -2;
+                stateNumber = State.NotSent;
                 break;
         }
 
@@ -358,7 +365,7 @@ export class TransactionBeneficiary {
 
     updateForPickup(pickupState) {
         if (pickupState.moneyReceived) {
-            this.state = 3;
+            this.state = State.PickedUp;
             this.pickupDate = pickupState.date;
         }
     }

@@ -7,7 +7,7 @@
     </h3>
   </div>
 
-  <div *ngIf="filled" style="max-height: 370px; overflow: auto;">
+  <div *ngIf="filled">
     <table mat-table [dataSource]="data" matSort matSortActive="date_distribution" matSortDirection="desc">
       <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
         <th mat-header-cell *matHeaderCellDef id="table-header" mat-sort-header>{{mapperService.mapTitle(property)}}</th>

@@ -32,12 +32,16 @@ export class TableSearchComponent extends TableComponent implements OnInit {
     requestLogs(element: any) {
         this.service.requestLogs(element.id).toPromise()
             .then(
-                () => { this.snackBar.open('Logs have been sent', '', { duration: 5000, horizontalPosition: 'center' }); }
+                () => { this.snackbar.success('Logs have been sent'); }
             )
             .catch(
                 (e) => {
-                    this.snackBar.open('Logs could not be sent', '', { duration: 5000, horizontalPosition: 'center' });
+                    this.snackbar.error('Logs could not be sent');
                 }
             );
+    }
+
+    print(element: any) {
+        this.service.print(element);
     }
 }

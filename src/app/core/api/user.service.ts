@@ -21,10 +21,12 @@ export class UserService {
     ) {
     }
 
+
     public get() {
-        const url = this.api + '/users';
+        const url = this.api + '/web-users';
         return this.http.get(url);
     }
+
 
     public update(id: number, body: any) {
         const url = this.api + '/users/' + id;

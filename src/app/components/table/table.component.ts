@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, ViewChild, OnChanges, ElementRef, DoCheck, Output, EventEmitter } from '@angular/core';
 import {
     MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort, Sort, MatTableDataSource,
-    MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner, MatSnackBar
+    MatPaginator, MatPaginatorIntl, PageEvent, MatProgressSpinner
 } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 
 import { Mapper } from '../../core/utils/mapper.service';
 
@@ -27,6 +28,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Households } from 'src/app/model/households';
 import { NetworkService } from 'src/app/core/api/network.service';
 import { Router } from '@angular/router';
+import { ExportService } from '../../core/api/export.service';
 
 
 const rangeLabel = (page: number, pageSize: number, length: number) => {
@@ -69,6 +71,8 @@ export class TableComponent implements OnChanges, DoCheck {
 
     // To activate/desactivate action buttons
     @Input() editable: boolean;
+    @Input() printable: boolean;
+    @Input() assignable: boolean;
     // For Imported Beneficiaries
     @Input() parentId: number = null;
     // For Transaction Beneficiaries
@@ -106,7 +110,7 @@ export class TableComponent implements OnChanges, DoCheck {
         public mapperService: Mapper,
         public dialog: MatDialog,
         public _cacheService: AsyncacheService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public authenticationService: AuthenticationService,
         public _wsseService: WsseService,
         public financialProviderService: FinancialProviderService,
@@ -114,7 +118,8 @@ export class TableComponent implements OnChanges, DoCheck {
         public locationService: LocationService,
         public householdsService: HouseholdsService,
         public networkService: NetworkService,
-        public router: Router
+        public router: Router,
+        public _exportService: ExportService
     ) { }
 
     ngOnChanges() {
@@ -136,7 +141,7 @@ export class TableComponent implements OnChanges, DoCheck {
                 this.setDataTableProperties();
                 document.getElementsByClassName('mat-paginator-page-size-label')[0].innerHTML = this.table.table_items_per_page;
                 document.getElementsByClassName('mat-paginator-range-label')[0].innerHTML =
-                this.rangeLabel(this.paginator.pageIndex, this.paginator.pageSize, this.paginator.length);
+                    this.rangeLabel(this.paginator.pageIndex, this.paginator.pageSize, this.paginator.length);
                 this.mapperService.setMapperObject(this.entity);
             }
         }
@@ -194,6 +199,10 @@ export class TableComponent implements OnChanges, DoCheck {
                     this.paginator.pageIndex,
                     this.paginator.pageSize
                 );
+            } else if (this.entity.__classname__ === 'Booklet') {
+                this.service.get().subscribe(response => {
+                    this.data = new MatTableDataSource(this.entity.formatArray(response).reverse());
+                });
             } else {
                 this.service.get().subscribe(response => {
                     this.data = new MatTableDataSource(this.entity.formatArray(response));
@@ -311,7 +320,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
     applyFilter(filterValue: any, category?: string, suppress?: boolean): void {
         if (suppress) {
-            const index = this.data.filter.findIndex(function (value) {
+            const index = this.data.filter.findIndex(function(value) {
                 return value.category === category;
             });
 
@@ -324,7 +333,7 @@ export class TableComponent implements OnChanges, DoCheck {
                             filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
                             filterValue = filterValue.split(/[\s,]+/);
                             if (filterValue[filterValue.length - 1] === '') {
-                              filterValue.pop();
+                                filterValue.pop();
                             }
                         }
                     }
@@ -333,7 +342,7 @@ export class TableComponent implements OnChanges, DoCheck {
                         filterValue = filterValue.name;
                     }
 
-                    const index = this.data.filter.findIndex(function (value) {
+                    const index = this.data.filter.findIndex(function(value) {
                         return value.category === category;
                     });
 
@@ -342,8 +351,8 @@ export class TableComponent implements OnChanges, DoCheck {
                             this.data.filter.splice(index, 1);
                         } else {
                             this.data.filter[index] = { filter: filterValue, category: category };
-                    }
-                        } else
+                        }
+                    } else
                         if (filterValue.length !== 0 || filterValue !== '') {
                             this.data.filter.push({ filter: filterValue, category: category });
                         }
@@ -355,7 +364,7 @@ export class TableComponent implements OnChanges, DoCheck {
                 }
             } else {
                 if (category && category === 'familyName') {
-                    const index = this.data.filter.findIndex(function (value) {
+                    const index = this.data.filter.findIndex(function(value) {
                         return value.category === category;
                     });
 
@@ -365,16 +374,16 @@ export class TableComponent implements OnChanges, DoCheck {
         }
     }
 
-    updateElement(updateElement: Object) {
+    updateElement(updateElement) {
         updateElement = this.entity.formatForApi(updateElement);
 
         if (updateElement['rights'] === 'ROLE_PROJECT_MANAGER' || updateElement['rights'] === 'ROLE_PROJECT_OFFICER' ||
-        updateElement['rights'] === 'ROLE_FIELD_OFFICER') {
+            updateElement['rights'] === 'ROLE_FIELD_OFFICER') {
             delete updateElement['country'];
         } else if (updateElement['rights'] === 'ROLE_REGIONAL_MANAGER' || updateElement['rights'] === 'ROLE_COUNTRY_MANAGER' ||
-        updateElement['rights'] === 'ROLE_READ_ONLY') {
+            updateElement['rights'] === 'ROLE_READ_ONLY') {
             delete updateElement['projects'];
-             } else {
+        } else {
             delete updateElement['country'];
             delete updateElement['projects'];
         }
@@ -396,13 +405,40 @@ export class TableComponent implements OnChanges, DoCheck {
                     this.updateData();
                 });
             }
+        }
+        if (this.entity.__classname__ === 'Vendors' && updateElement) {
+            if (updateElement['password'] && updateElement['password'].length > 0) {
+                this.authenticationService.requestSalt(updateElement['username']).subscribe(response => {
+                    if (response) {
+                        const saltedPassword = this._wsseService.saltPassword(response['salt'], updateElement['password']);
+                        updateElement['password'] = saltedPassword;
+
+                        this.service.update(updateElement['id'], updateElement).subscribe((_: any) => {
+                        // this.snackBar.open(
+                            // this.entity.__classname__ + this.table.table_element_updated, '',
+                            // { duration: 5000, horizontalPosition: 'right' });
+                            this.updateData();
+                        }, error => {
+                            // console.error("err", error);
+                        });
+                    }
+                });
+            } else {
+                this.service.update(updateElement['id'], updateElement).subscribe(response => {
+                    // this.snackBar.open(
+                        // this.entity.__classname__ + this.table.table_element_updated, '',
+                        // { duration: 5000, horizontalPosition: 'right' });
+                    this.updateData();
+                }, error => {
+                    // console.error("err", error);
+                });
+            }
         } else if (this.entity.__classname__ === 'Financial Provider' && updateElement) {
             const salted = btoa(updateElement['password']);
             updateElement['password'] = salted;
 
             this.service.update(updateElement).subscribe(response => {
-                this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated,
-                  '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.success(this.entity.__classname__ + this.table.table_element_updated);
                 this.updateData();
             });
         } else {
@@ -469,7 +505,9 @@ export class TableComponent implements OnChanges, DoCheck {
                 this.selection.clear();
             } else {
                 this.data.data.forEach(row => {
-                    this.selection.select(row);
+                    if (!row.used) {
+                        this.selection.select(row);
+                    }
                 });
             }
         }

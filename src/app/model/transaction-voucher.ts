@@ -1,58 +1,45 @@
 import { GlobalText } from '../../texts/global';
-import { isNumber } from '@swimlane/ngx-charts/release/utils';
-import { isNull } from 'util';
-
+import { Booklet } from './booklet';
 export class TransactionVoucher {
     static __classname__ = 'TransactionVoucher';
 
     /**
-     * Voucher id.
+     * Beneficiary id
+     * @type {number}
      */
-    id: number;
+    beneficiaryId: number;
 
     /**
-     * Voucher givenName
+     * Beneficiary givenName
      * @type {string}
      */
     givenName: string;
 
     /**
-     * Voucher familyName
+     * Beneficiary familyName
      * @type {string}
      */
     familyName: string;
 
     /**
-     * Used 0 - unused, 1 - used
+     * Beneficiary booklet
+     * @type {Booklet}
      */
-    used: boolean;
+    booklet: Booklet;
 
-    /**
-     * Values(ammount of money) for each beneficiary (from commodities)
-     */
-    values: string;
-
-    /**
-     * Transaction id.
-     */
-    id_transaction: number;
 
     constructor(instance?) {
         if (instance !== undefined) {
-            this.id = instance.id;
             this.givenName = instance.givenName;
             this.familyName = instance.familyName;
-            this.used = instance.used;
-            this.values = instance.values;
-            this.id_transaction = instance.id_transaction;
+            this.booklet = instance.booklet;
+            this.beneficiaryId = instance.beneficiaryId;
         }
     }
 
 
     public static getDisplayedName() {
-        // return GlobalText.TEXTS.beneficiary;
-        // TODO Wait merge to recover the value in the other branch
-        return 'Voucher';
+        return GlobalText.TEXTS.beneficiary;
     }
 
 
@@ -63,155 +50,180 @@ export class TransactionVoucher {
         return {
             givenName: GlobalText.TEXTS.model_firstName,
             familyName: GlobalText.TEXTS.model_familyName,
+            booklet: GlobalText.TEXTS.model_booklet,
+            status: GlobalText.TEXTS.model_state,
             used: GlobalText.TEXTS.model_used,
-            values: GlobalText.TEXTS.model_value,
-            id_transaction: GlobalText.TEXTS.transaction_id_transaction,
+            value: GlobalText.TEXTS.model_value,
         };
     }
 
-    public static formatArray(instance: any, commodityList?: any[]): TransactionVoucher[] {
-        const voucher: TransactionVoucher[] = [];
+    public static getBookletTotalValue(booklet): number {
+        let value = 0;
+        booklet.vouchers.forEach(voucher => {
+            value += voucher.value;
+        });
+        return value;
+    }
 
-        // console.log('before format : ', instance);
-
-        let commodities = '';
-        if (commodityList) {
-            commodityList.forEach(
-                (commodity, index) => {
-                    if (index > 0) {
-                        commodities += ', ';
-                    }
-                    commodities += commodity.value + ' ' + commodity.unit;
-                }
-            );
-        }
+    public static formatArray(instance: any, commodities: any): TransactionVoucher[] {
+        const transactionVouchers: TransactionVoucher[] = [];
 
         if (instance) {
             instance.forEach(
                 element => {
-                    voucher.push(this.formatElement(element, commodities));
+                    transactionVouchers.push(this.formatElement(element));
                 }
             );
         } else {
             return null;
         }
 
-        // console.log('after format : ', voucher);
-
-        return (voucher);
+        return transactionVouchers;
     }
 
-    public static formatElement(instance: any, com: string): TransactionVoucher {
-        const voucher = new TransactionVoucher();
-
-        voucher.id = instance.beneficiary.id;
-        voucher.givenName = instance.beneficiary.given_name;
-        voucher.familyName = instance.beneficiary.family_name;
-        voucher.used = instance.used ? instance.used : false;
-        voucher.values = com;
-
-        if (instance.transactions && instance.transactions.length > 0) {
-            voucher.id_transaction = instance.transactions[0].id;
+    public static formatElement(instance: any): TransactionVoucher {
+        const transactionVoucher = new TransactionVoucher();
+        transactionVoucher.givenName = instance.beneficiary ? instance.beneficiary.given_name : null;
+        transactionVoucher.familyName = instance.beneficiary ? instance.beneficiary.family_name : null;
+        transactionVoucher.beneficiaryId = instance.beneficiary ? instance.beneficiary.id : null;
+        transactionVoucher.booklet = null;
+        if (instance.booklets.length) {
+            instance.booklets.forEach(booklet => {
+                // try to find a non-deactivated booklet
+                if (booklet.status !== 3) {
+                    transactionVoucher.booklet = booklet;
+                }
+            });
+            // if we didn't find one
+            if (transactionVoucher.booklet === null) {
+                transactionVoucher.booklet = instance.booklets[0];
+            }
         }
-
-        return (voucher);
+        return transactionVoucher;
     }
 
     public static formatForApi(instance: any) {
 
-        const voucher = {
-            id: instance.id,
+        const transactionVoucher = {
             givenName: instance.givenName,
             familyName: instance.familyName,
-            used: instance.used,
-            values: instance.values,
+            booklet: instance.booklet,
         };
 
-        return (voucher);
+        return transactionVoucher;
     }
 
-    mapAllProperties(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
+    mapAllProperties(selfInstance: TransactionVoucher): object {
+        if (!selfInstance) {
+            return selfInstance;
         }
 
         return {
-            givenName: selfinstance.givenName,
-            familyName: selfinstance.familyName,
-            used: selfinstance.used,
-            values: selfinstance.values,
+            givenName: selfInstance.givenName,
+            familyName: selfInstance.familyName,
+            booklet: selfInstance.booklet ? selfInstance.booklet.code : null,
+            status: selfInstance.booklet ? Booklet.__status__[selfInstance.booklet.status] : null,
+            used: selfInstance.booklet ? this.getBookletUsed(selfInstance.booklet) : null,
+            value: selfInstance.booklet ?
+                TransactionVoucher.getBookletTotalValue(selfInstance.booklet) + ' ' + selfInstance.booklet.currency : null,
         };
     }
 
     /**
     * return a Beneficiary after formatting its properties
     */
-    getMapper(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
+    getMapper(selfInstance: TransactionVoucher): object {
+        if (!selfInstance) {
+            return selfInstance;
         }
 
         return {
-            id_transaction: selfinstance.id_transaction ? selfinstance.id_transaction : 'Undefined',
-            givenName: selfinstance.givenName,
-            familyName: selfinstance.familyName,
-            used: selfinstance.used,
-            values: selfinstance.values,
+            givenName: selfInstance.givenName,
+            familyName: selfInstance.familyName,
+            booklet: selfInstance.booklet ? selfInstance.booklet.code : null,
+            status: selfInstance.booklet ? Booklet.__status__[selfInstance.booklet.status] : null,
+            used: selfInstance.booklet ? this.getBookletUsed(selfInstance.booklet) : null,
+            value: selfInstance.booklet ?
+                TransactionVoucher.getBookletTotalValue(selfInstance.booklet) + ' ' + selfInstance.booklet.currency : null,
         };
     }
 
     /**
     * return a Beneficiary after formatting its properties for the modal details
     */
-    getMapperDetails(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
+    getMapperDetails(selfInstance: TransactionVoucher) {
+        if (!selfInstance) {
+            return selfInstance;
         }
 
         return {
-            id_transaction: selfinstance.id_transaction,
-            givenName: selfinstance.givenName,
-            familyName: selfinstance.familyName,
-            used: selfinstance.used,
-            values: selfinstance.values,
+            givenName: selfInstance.givenName,
+            familyName: selfInstance.familyName,
+            booklet: selfInstance.booklet ? selfInstance.booklet.code : null,
+            status: selfInstance.booklet ? Booklet.__status__[selfInstance.booklet.status] : null,
+            used: selfInstance.booklet ? this.getBookletUsed(selfInstance.booklet) : null,
+            value: selfInstance.booklet ?
+                TransactionVoucher.getBookletTotalValue(selfInstance.booklet) + ' ' + selfInstance.booklet.currency : null,
         };
     }
 
-    /**
+     /**
     * return a DistributionData after formatting its properties for the modal update
     */
-    getMapperUpdate(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
+   getMapperUpdate(selfInstance: TransactionVoucher): object {
+    if (!selfInstance) {
+        return selfInstance;
+    }
+
+    return {
+        givenName: selfInstance.givenName,
+        familyName: selfInstance.familyName,
+        booklet: selfInstance.booklet ? selfInstance.booklet.code : null,
+        status: selfInstance.booklet ? Booklet.__status__[selfInstance.booklet.status] : null,
+        used: selfInstance.booklet ? this.getBookletUsed(selfInstance.booklet) : null,
+        value: selfInstance.booklet ?
+            TransactionVoucher.getBookletTotalValue(selfInstance.booklet) + ' ' + selfInstance.booklet.currency : null,
+    };
+}
+
+    /**
+    * return the type of Beneficiary properties
+    */
+   getTypeProperties(selfinstance: TransactionVoucher) {
+        return {
+            givenName: 'text',
+            familyName: 'text',
+            status: 'number',
+            booklet: 'text',
+            used: 'date',
+            value: 'text'
+        };
+    }
+
+    /**
+    * return the type of Beneficiary properties
+    */
+    getModalTypeProperties(selfinstance: TransactionVoucher) {
+        return {
+            givenName: 'text',
+            familyName: 'text',
+            status: 'number',
+            booklet: 'text',
+            used: 'date',
+            value: 'text'
+        };
+    }
+
+    getBookletUsed(booklet): Date {
+        let date = null;
+        if (booklet.status === 2 || booklet.status === 3) {
+            booklet.vouchers.forEach(voucher => {
+                if (date === null || date < voucher.used_at) {
+                    date = voucher.used_at;
+                }
+            });
         }
 
-        return {
-            number: selfinstance.number
-        };
-    }
-
-    /**
-    * return the type of Beneficiary properties
-    */
-    getTypeProperties(selfinstance): Object {
-        return {
-            id_transaction: 'text',
-            givenName: 'text',
-            familyName: 'text',
-            used: 'boolean',
-            values: 'text',
-        };
-    }
-
-    /**
-    * return the type of Beneficiary properties
-    */
-    getModalTypeProperties(selfinstance): Object {
-        return {
-            givenName: 'text',
-            familyName: 'text',
-            used: 'boolean',
-            values: 'text',
-        };
+        return date;
     }
 }

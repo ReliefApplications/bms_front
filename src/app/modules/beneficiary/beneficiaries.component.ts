@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
-import { MatTableDataSource, MatSnackBar, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatDialog } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { Households } from '../../model/households';
 import { HouseholdsService } from '../../core/api/households.service';
 import { GlobalText } from '../../../texts/global';
@@ -46,7 +47,7 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         private cacheService: AsyncacheService,
         public householdsService: HouseholdsService,
         private router: Router,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public projectService: ProjectService,
         public dialog: MatDialog,
         public locationService: LocationService,
@@ -170,7 +171,7 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         if (this.projectsList && this.dataSource) {
             this.projectService.addBeneficiaries(this.selectedProject, this.checkedElements).subscribe(
                 success => {
-                    this.snackBar.open(this.household.beneficiaries_added, '', { duration: 5000, horizontalPosition: 'center' });
+                    this.snackbar.success(this.household.beneficiaries_added);
                 }
             );
         }

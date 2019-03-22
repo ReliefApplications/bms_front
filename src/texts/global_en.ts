@@ -160,7 +160,7 @@ export const TEXT = {
     beneficiaries_selected_project: 'selected beneficiaries:',
 
     // Cache
-    cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
+    cache_distribution_added: 'Distribution and beneficiaries of the project added to the cache',
     cache_store_beneficiaries: 'Offline Mode',
     cache_stored_beneficiaries: 'Saved For Offline Mode',
     cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',

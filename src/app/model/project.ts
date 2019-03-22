@@ -3,6 +3,7 @@ import { SectorMapper } from './sector-mapper';
 import { Donor } from './donor';
 import { GlobalText } from '../../texts/global';
 import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
+import { DatePipe } from '@angular/common';
 
 export class Project {
     static __classname__ = 'Project';
@@ -73,11 +74,12 @@ export class Project {
     reached_benef: number;
 
     constructor(instance?) {
+
         if (instance !== undefined) {
             this.id = instance.id;
             this.name = instance.name;
-            this.start_date = instance.start_date ? instance.start_date : new Date();
-            this.end_date = instance.end_date ? instance.end_date : new Date();
+            this.start_date = instance.start_date ? instance.start_date : new DatePipe('en-US').transform(new Date(), 'yyyy-dd-MM');
+            this.end_date = instance.end_date ? instance.end_date : new DatePipe('en-US').transform(new Date(), 'yyyy-dd-MM');
             this.number_of_households = instance.number_of_households;
             this.iso3 = instance.iso3 ? instance.iso3 : '';
             this.value = instance.value ? instance.value : null;

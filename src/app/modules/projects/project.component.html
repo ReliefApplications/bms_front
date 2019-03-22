@@ -8,7 +8,11 @@
       <mat-icon>add</mat-icon>
       <h3>{{distribution.new | titlecase}}</h3>
     </button>
-    <app-box-setting *ngFor="let project of projects" (emitClickedTitle)="selectTitle($event, project)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/projects", color: "green", title:project.name, ref:project.name}'>
+    <app-box-setting
+        *ngFor="let project of projects"
+        (click)="selectProject(project)"
+        [isSelected]="project === selectedProject"
+        [info]='{icon: "settings/projects", color: "green", title:project.fields.name.value, ref:project.fields.name.value}'>
     </app-box-setting>
     <div container-boxes *ngIf="projects === null || projects === undefined || projects.length == 0" class="empty-box">
       <div class='no-data-container'>
@@ -21,97 +25,99 @@
       </div>
     </div>
   </div>
-  <app-placeholder-panel class="container-table" *ngIf="loadingDistributions && projects !== undefined && projects != null"></app-placeholder-panel>
-  <div class="container-data" *ngIf="!loadingDistributions && projects !== undefined">
-    <div class="container-content" *ngIf="isBoxClicked">
-      <h3 class="container-subtitle">{{selectedProject.name | titlecase}}</h3>
-      <app-box-properties class="properties-displayed" [entity]="projectClass" [mapperService]="mapperService" [componentDisplayed]="selectedProject"></app-box-properties>
+  <div class="container-data">
+      <div class="container-content" *ngIf="selectedProject">
+          <h3 class="container-subtitle">{{selectedProject.name | titlecase}}</h3>
+          <app-box-properties class="properties-displayed" [displayedInstance]="selectedProject"></app-box-properties>
+        </div>
     </div>
-  </div>
-  <div class="container-table" *ngIf="!loadingDistributions && projects !== undefined">
-    <div class="container-content box-primary" *ngIf="isBoxClicked">
-      <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
-        <div class="action-buttons" *ngIf="distributionData && distributionData.data.length>0">
-          <div class="button-with-extension">
-            <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
-              <mat-icon>get_app</mat-icon>
-              <span>{{distribution.export | titlecase}}</span>
-            </button>
-            <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-            <div class="extension" *ngIf="!loadingExport">
-              <div mat-button class="dropdown" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':language==='ar'}">
-                <mat-icon>keyboard_arrow_down</mat-icon>
-              </div>
-              <mat-menu #exportType>
-                <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
-                </button>
-                <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
-                </button>
-                <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
-                </button>
-              </mat-menu>
-            </div>
-          </div>
-        </div>
-        <h3 *ngIf="distributionData && distributionData.data.length > 0">{{ distribution.distributions }}</h3>
-        <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button-create">
-          <mat-icon>add</mat-icon>
-          {{distribution.add | titlecase}}
-        </button>
-        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}">
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
-      <div class="undisplay new-project" *ngIf="selectedProject.number_of_households == '0' &&  !noNetworkData">
-        <mat-icon>group_add</mat-icon>
-        <div class="resume">
-          <p> {{distribution.project_no_household}}</p>
-        </div>
-        <p> {{distribution.project_add_household}}
-        </p>
-        <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries/import">
-          {{distribution.project_go_import_beneficiaries}}
-        </button>
-      </div>
-      <div class="undisplay empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData && distributionData.data.length==0 && !noNetworkData">
-        <mat-icon>find_in_page</mat-icon>
-        <div class="resume">
-          <p> {{distribution.project_no_distribution}}</p>
-        </div>
-        <i> {{distribution.project_click}}
-          <mat-icon>add_circle</mat-icon>
-        </i>
-      </div>
-      <div class="content-table" *ngIf="(distributionData && distributionData.data.length>0) && !noNetworkData">
-        <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
-        <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-mobile-distribution>
-      </div>
-      <div>
-        <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-      </div>
-      <div class='no-data-container' *ngIf="noNetworkData">
-        <div class="loadingContent">
-          <h4 class="no-data">
-            <mat-icon>cloud_off</mat-icon>
-            <span> {{distribution.no_data}} </span>
-          </h4>
-        </div>
-      </div>
+    <app-placeholder-panel *ngIf="loadingDistributions || !projects; else distributionsLoaded" class="container-table" ></app-placeholder-panel>
+    <ng-template #distributionsLoaded>
+        <div class="container-table">
+            <div class="container-content box-primary" >
+                <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
+                    <div class="action-buttons" *ngIf="distributionData && distributionData.data.length>0">
+                    <div class="button-with-extension">
+                        <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
+                        <mat-icon>get_app</mat-icon>
+                        <span>{{distribution.export | titlecase}}</span>
+                        </button>
+                        <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+                        <div class="extension" *ngIf="!loadingExport">
+                        <div mat-button class="dropdown" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':language==='ar'}">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                        </div>
+                        <mat-menu #exportType>
+                            <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
+                            </button>
+                            <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
+                            </button>
+                            <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
+                            </button>
+                        </mat-menu>
+                        </div>
+                    </div>
+                    </div>
+                    <h3 *ngIf="distributionData && distributionData.data.length > 0">{{ distribution.distributions }}</h3>
+                    <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button-create">
+                    <mat-icon>add</mat-icon>
+                    {{distribution.add | titlecase}}
+                    </button>
+                    <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}">
+                    <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+                <div class="undisplay new-project" *ngIf="selectedProject.number_of_households == '0' &&  !noNetworkData">
+                    <mat-icon>group_add</mat-icon>
+                    <div class="resume">
+                    <p> {{distribution.project_no_household}}</p>
+                    </div>
+                    <p> {{distribution.project_add_household}}
+                    </p>
+                    <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries/import">
+                    {{distribution.project_go_import_beneficiaries}}
+                    </button>
+                </div>
+                <div class="undisplay empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData && distributionData.data.length==0 && !noNetworkData">
+                    <mat-icon>find_in_page</mat-icon>
+                    <div class="resume">
+                    <p> {{distribution.project_no_distribution}}</p>
+                    </div>
+                    <i> {{distribution.project_click}}
+                    <mat-icon>add_circle</mat-icon>
+                    </i>
+                </div>
+                <div class="content-table" *ngIf="(distributionData && distributionData.data.length>0) && !noNetworkData">
+                    <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
+                    <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-mobile-distribution>
+                </div>
+                <div>
+                    <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
+                </div>
+                <div class='no-data-container' *ngIf="noNetworkData">
+                    <div class="loadingContent">
+                    <h4 class="no-data">
+                        <mat-icon>cloud_off</mat-icon>
+                        <span> {{distribution.no_data}} </span>
+                    </h4>
+                    </div>
+                </div>
 
-      <div class="container-table" *ngIf="!loadingDistributions && projects == undefined">
-        <div class="container-content box-primary">
-          <div class="undisplay new-project">
-            <mat-icon>note_add</mat-icon>
-            <div class="resume">
-              <p> {{distribution.project_no_projects}}</p>
+                <div class="container-table" *ngIf="!loadingDistributions && projects == undefined">
+                    <div class="container-content box-primary">
+                    <div class="undisplay new-project">
+                        <mat-icon>note_add</mat-icon>
+                        <div class="resume">
+                        <p> {{distribution.project_no_projects}}</p>
+                        </div>
+                        <p> {{distribution.project_add}} </p>
+                        <button mat-raised-button class="button-background-primary" (click)="openNewProjectDialog()">
+                        {{distribution.project_create}}
+                        </button>
+                    </div>
+                    </div>
+                </div>
             </div>
-            <p> {{distribution.project_add}} </p>
-            <button mat-raised-button class="button-background-primary" (click)="openNewProjectDialog()">
-              {{distribution.project_create}}
-            </button>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
+    </ng-template>
 </div>

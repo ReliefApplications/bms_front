@@ -74,9 +74,9 @@
                 </tr>
             </ng-container>
         </table>
-        <div class="modal-button action-buttons stickyFooter">
+        <div class="modal-button action-buttons stickyFooter" *ngIf="modalType !== 'Details'">
             <button mat-button (click)="onCancel()" class="button-text-accent">Cancel</button>
-            <button mat-raised-button [disabled]="!form.valid" (click)="onSubmit()" class="button-background-accent">Add</button>
+            <button mat-raised-button [disabled]="!form.valid" (click)="onSubmit()" class="button-background-accent">Save</button>
         </div>
     </form>
 </mat-dialog-content>

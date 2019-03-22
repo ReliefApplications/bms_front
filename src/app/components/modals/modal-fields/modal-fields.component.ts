@@ -7,18 +7,20 @@ import { CustomDateAdapter } from '../../../core/utils/date.adapter';
 
 
 @Component({
-  selector: 'app-modal-write',
-  templateUrl: './modal-write.component.html',
-  styleUrls: ['./modal-write.component.scss'],
-  providers: [
-    { provide: DateAdapter, useClass: CustomDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
-],
+    selector: 'app-project',
+    templateUrl: './modal-fields.component.html',
+    styleUrls: ['./modal-fields.component.scss'],
+    providers: [
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+    ],
 })
-export class ModalWriteComponent implements OnInit {
+export class ModalFieldsComponent implements OnInit {
 
     // The reactive form corresponding to the html form
     form: FormGroup;
+
+    modalType: string = null;
 
     // Prototype of the class of the object we want to create
     objectInstance: CustomModel;

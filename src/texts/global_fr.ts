@@ -281,6 +281,7 @@ export const TEXT = {
     modal_check_fields: 'Champs invalides: vérifiez que vous avez rempli tous les champs',
     modal_delete_sentence: 'Vous êtes sur le point de supprimer ',
     modal_delete_sentence_2: '. ',
+    modal_details_title: 'Details du',
     modal_edit_title: 'Modifier le ',
     modal_email_is: 'Email ',
     modal_language_actual: 'Langue actuelle :',

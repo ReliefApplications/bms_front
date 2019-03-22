@@ -1,17 +1,28 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ModalComponent } from '../modal.component';
+import { Component, OnInit, Input, Inject } from '@angular/core';
+import { ModalFieldsComponent } from '../modal-fields/modal-fields.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { GlobalText } from '../../../../texts/global';
+import { CustomModelField } from '../../../model/CustomModel/custom-model-field';
 
 @Component({
     selector: 'app-modal-details',
-    templateUrl: './modal-details.component.html',
-    styleUrls: ['../modal.component.scss', './modal-details.component.scss']
+    templateUrl: '../modal-fields/modal-fields.component.html',
+    styleUrls: ['../modal-fields/modal-fields.component.scss']
 })
-export class ModalDetailsComponent extends ModalComponent implements OnInit {
+export class ModalDetailsComponent extends ModalFieldsComponent implements OnInit {
 
-    @Input() data: any;
+    modalTitle = GlobalText.TEXTS.modal_details_title;
 
-    ngOnInit() {
-        this.entityInstance = this.data.mapper.instantiate(this.data.entity);
-        this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapperDetails(this.entityInstance));
+    modalType = 'Details';
+
+    constructor(
+        public modalReference: MatDialogRef<ModalDetailsComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any,
+    ) {
+        super(modalReference, data);
+    }
+
+    isDisabled(field: CustomModelField<any>) {
+        return true;
     }
 }

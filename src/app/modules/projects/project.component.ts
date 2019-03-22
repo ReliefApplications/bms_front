@@ -31,10 +31,9 @@ export class ProjectComponent implements OnInit, DoCheck {
     public language = GlobalText.language;
     loadingExport = false;
 
-    projects: Project[];
+    projects: NewProject[];
     distributionData: MatTableDataSource<any>;
     distributionClass = DistributionData;
-    projectClass = Project;
 
     // loading
     loadingDistributions = true;
@@ -44,7 +43,6 @@ export class ProjectComponent implements OnInit, DoCheck {
     selectedTitle = '';
     selectedProject = null;
     selectedProjectId = null;
-    isBoxClicked = false;
     extensionType: string;
     hasRights = false;
     hasRightsEdit = false;
@@ -105,15 +103,12 @@ export class ProjectComponent implements OnInit, DoCheck {
     }
     /**
      * update current project and its distributions when a other project box is clicked
-     * @param title
      * @param project
      */
-    selectTitle(title, project): void {
-        this.isBoxClicked = true;
-        this.selectedTitle = title;
+    selectProject(project: NewProject): void {
         this.selectedProject = project;
         this.loadingDistributions = true;
-        this.getDistributionsByProject(project.id);
+        this.getDistributionsByProject(project.fields.id.value);
     }
 
     setType(choice: string) {
@@ -134,16 +129,19 @@ export class ProjectComponent implements OnInit, DoCheck {
         ).subscribe(
             response => {
                 if (response && response.length > 0) {
-                    const formattedResponse = this.projectClass.formatArray(response).reverse();
-                    if (!this.projects || formattedResponse.length !== this.projects.length) {
-                        this.projects = formattedResponse;
-                        if (this.selectedProjectId) {
-                            this.autoProjectSelect(this.selectedProjectId);
-                        } else {
-                            this.selectTitle(this.projects[0].name, this.projects[0]);
-                        }
-                        this.loadingProjects = false;
+                    // Transform response into array of projects
+                    this.projects = response.map((projectFromApi: object) => {
+                        return NewProject.apiToModel(projectFromApi);
+                    }).reverse();
+                    // Check for empty projects array
+                    if (!this.projects.length) {
+                        return;
                     }
+                    // Auto select latest project if no project is selected
+                    if (!this.projects.includes(this.selectedProject)) {
+                        this.selectedProject = this.projects[0];
+                    }
+
                 } else if (response === null) {
                     this.loadingProjects = false;
                 }
@@ -255,12 +253,12 @@ export class ProjectComponent implements OnInit, DoCheck {
         );
     }
 
-    autoProjectSelect(input: string) {
-        const selector = parseInt(input, 10);
-        this.projects.forEach(e => {
-            if (e.id === selector) {
-                this.selectTitle(e.name, e);
-            }
-        });
-    }
+    // autoProjectSelect(input: string) {
+    //     const selector = parseInt(input, 10);
+    //     this.projects.forEach(e => {
+    //         if (e.id === selector) {
+    //             this.selectProject(e.name, e);
+    //         }
+    //     });
+    // }
 }

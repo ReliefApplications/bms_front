@@ -16,6 +16,7 @@ import { DistributionData } from '../../model/distribution-data';
 import { ModalDeleteComponent } from '../modals/modal-delete/modal-delete.component';
 import { ModalDetailsComponent } from '../modals/modal-details/modal-details.component';
 import { ModalEditComponent } from '../modals/modal-edit/modal-edit.component';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 
 
 
@@ -247,7 +248,9 @@ export class TableComponent implements OnInit {
 
         if (user_action === 'details') {
             dialogRef = this.dialog.open(ModalDetailsComponent, {
-                data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
+                data: {
+                    objectInstance: element,
+                }
             });
         } else if (user_action === 'update') {
 
@@ -346,53 +349,57 @@ export class TableComponent implements OnInit {
     }
 
     updateElement(updateElement) {
-        updateElement = this.entity.formatForApi(updateElement);
+        const apiUpdateElement = updateElement.ModelToApi(updateElement);
+        this.service.update(apiUpdateElement['id'], apiUpdateElement).subscribe(response => {
+            this.updateData();
+        });
 
-        if (updateElement['rights'] === 'ROLE_PROJECT_MANAGER' || updateElement['rights'] === 'ROLE_PROJECT_OFFICER' ||
-            updateElement['rights'] === 'ROLE_FIELD_OFFICER') {
-            delete updateElement['country'];
-        } else if (updateElement['rights'] === 'ROLE_REGIONAL_MANAGER' || updateElement['rights'] === 'ROLE_COUNTRY_MANAGER' ||
-            updateElement['rights'] === 'ROLE_READ_ONLY') {
-            delete updateElement['projects'];
-        } else {
-            delete updateElement['country'];
-            delete updateElement['projects'];
-        }
 
-        if (this.entity.__classname__ === 'User' && updateElement) {
-            if (updateElement['password'] && updateElement['password'].length > 0) {
-                this.authenticationService.requestSalt(updateElement['username']).subscribe(response => {
-                    if (response) {
-                        const saltedPassword = this._wsseService.saltPassword(response['salt'], updateElement['password']);
-                        updateElement['password'] = saltedPassword;
+        // if (updateElement['rights'] === 'ROLE_PROJECT_MANAGER' || updateElement['rights'] === 'ROLE_PROJECT_OFFICER' ||
+        //     updateElement['rights'] === 'ROLE_FIELD_OFFICER') {
+        //     delete updateElement['country'];
+        // } else if (updateElement['rights'] === 'ROLE_REGIONAL_MANAGER' || updateElement['rights'] === 'ROLE_COUNTRY_MANAGER' ||
+        //     updateElement['rights'] === 'ROLE_READ_ONLY') {
+        //     delete updateElement['projects'];
+        // } else {
+        //     delete updateElement['country'];
+        //     delete updateElement['projects'];
+        // }
 
-                        this.service.update(updateElement['id'], updateElement).subscribe(_ => {
-                            this.updateData();
-                        });
-                    }
-                });
-            } else {
-                this.service.update(updateElement['id'], updateElement).subscribe(response => {
-                    this.updateData();
-                });
-            }
-        } else if (this.entity.__classname__ === 'Financial Provider' && updateElement) {
-            const salted = btoa(updateElement['password']);
-            updateElement['password'] = salted;
+        // if (this.entity.__classname__ === 'User' && updateElement) {
+        //     if (updateElement['password'] && updateElement['password'].length > 0) {
+        //         this.authenticationService.requestSalt(updateElement['username']).subscribe(response => {
+        //             if (response) {
+        //                 const saltedPassword = this._wsseService.saltPassword(response['salt'], updateElement['password']);
+        //                 updateElement['password'] = saltedPassword;
 
-            this.service.update(updateElement).subscribe(response => {
-                this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated,
-                    '', { duration: 5000, horizontalPosition: 'right' });
-                this.updateData();
-            });
-        } else {
-            this.service.update(updateElement['id'], updateElement).subscribe(response => {
-                this.updateData();
-            });
-        }
+        //                 this.service.update(updateElement['id'], updateElement).subscribe(_ => {
+        //                     this.updateData();
+        //                 });
+        //             }
+        //         });
+        //     } else {
+        //         this.service.update(updateElement['id'], updateElement).subscribe(response => {
+        //             this.updateData();
+        //         });
+        //     }
+        // } else if (this.entity.__classname__ === 'Financial Provider' && updateElement) {
+        //     const salted = btoa(updateElement['password']);
+        //     updateElement['password'] = salted;
+
+        //     this.service.update(updateElement).subscribe(response => {
+        //         this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated,
+        //             '', { duration: 5000, horizontalPosition: 'right' });
+        //         this.updateData();
+        //     });
+        // } else {
+        //     this.service.update(updateElement['id'], updateElement).subscribe(response => {
+        //         this.updateData();
+        //     });
+        // }
     }
 
-    deleteElement(deleteElement: Object) {
+    deleteElement(deleteElement: CustomModel) {
         if (this.entity === Beneficiaries) {
             this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
                 this.updateData();
@@ -402,7 +409,7 @@ export class TableComponent implements OnInit {
                 this.updateData();
             });
         } else {
-            this.service.delete(deleteElement['id']).subscribe(response => {
+            this.service.delete(deleteElement.fields['id'].value).subscribe(response => {
                 this.updateData();
             });
         }

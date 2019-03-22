@@ -592,3 +592,19 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     background-color: #424242 !important;
     white-space: pre-wrap !important;
 }
+
+app-icon-svg {
+    display: flex;
+    width: 3vh;
+    height: 3vh;
+}
+
+.multiple-items {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

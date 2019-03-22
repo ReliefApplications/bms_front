@@ -6,24 +6,19 @@ import { SelectModelField } from './CustomModel/select-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 import { Donor } from './donor.new';
 import { Sector } from './sector.new';
-import { Injector } from '@angular/core';
-import { DonorService } from '../core/api/donor.service';
-import { SectorService } from '../core/api/sector.service';
-import { forkJoin } from 'rxjs';
-import { AppInjector } from '../app-injector';
+
 
 export class Project extends CustomModel {
 
     public static rights = ['ROLE_ADMIN', 'ROLE_COUNTRY_MANAGER', 'ROLE_PROJECT_MANAGER'];
 
     public fields = {
-        id : new TextModelField(
+        id : new NumberModelField(
             {
                 title: null,
                 placeholder: null,
                 isDisplayedInTable: false,
                 isDisplayedInModal: false,
-                isLongText: false,
             },
         ),
         name : new TextModelField(
@@ -41,6 +36,7 @@ export class Project extends CustomModel {
             {
                 placeholder: null,
                 isDisplayedInModal: true,
+                isDisplayedInSummary: true,
                 isDisplayedInTable: true,
                 title: GlobalText.TEXTS.model_sectors_name,
                 isMultipleSelect: true,
@@ -57,6 +53,7 @@ export class Project extends CustomModel {
                 title: GlobalText.TEXTS.model_project_start_date,
                 placeholder: null,
                 isDisplayedInModal: true,
+                isDisplayedInSummary: true,
                 isDisplayedInTable: true,
                 isRequired: true,
                 isSettable: true,
@@ -70,6 +67,7 @@ export class Project extends CustomModel {
                 title: GlobalText.TEXTS.model_project_end_date,
                 placeholder: null,
                 isDisplayedInModal: true,
+                isDisplayedInSummary: true,
                 isDisplayedInTable: true,
                 isRequired: true,
                 isSettable: true,
@@ -84,6 +82,7 @@ export class Project extends CustomModel {
                 title: GlobalText.TEXTS.model_project_number_of_households,
                 placeholder: null,
                 isDisplayedInModal: false,
+                isDisplayedInSummary: true,
                 isDisplayedInTable: true,
             }
         ),
@@ -93,6 +92,7 @@ export class Project extends CustomModel {
                 isMultipleSelect: true,
                 placeholder: null,
                 isDisplayedInModal: true,
+                isDisplayedInSummary: true,
                 isDisplayedInTable: true,
                 isSettable: true,
                 options: undefined,
@@ -115,6 +115,7 @@ export class Project extends CustomModel {
                 placeholder: null,
                 isRequired: true,
                 isSettable: true,
+                isDisplayedInSummary: true,
                 isDisplayedInModal: true,
                 isEditable: true,
             }
@@ -145,14 +146,12 @@ export class Project extends CustomModel {
         newProject.fields.value.value = projectFromApi.value;
         newProject.fields.notes.value = projectFromApi.notes;
 
-        newProject.fields.sectors.value = [];
-        projectFromApi.sectors.forEach(sector => {
-            newProject.fields.sectors.value.push(Sector.apiToModel(sector));
+        newProject.fields.sectors.value = projectFromApi.sectors.map((sector: object) => {
+            return Sector.apiToModel(sector);
         });
 
-        newProject.fields.donors.value = [];
-        projectFromApi.donors.forEach(donor => {
-            newProject.fields.donors.value.push(Donor.apiToModel(donor));
+        newProject.fields.donors.value = projectFromApi.donors.map((donor: object) => {
+           return Donor.apiToModel(donor);
         });
 
         return newProject;

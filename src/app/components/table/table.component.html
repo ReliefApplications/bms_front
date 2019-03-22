@@ -54,6 +54,6 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
-        <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
+        <tr mat-row *matRowDef="let row; columns: getDisplayedColumns(); let element" class="cursor-pointer" (click)="openDialog('details', element)"></tr>
     </table>
 </div>

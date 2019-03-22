@@ -37,7 +37,6 @@ import { TableMobileDistributionComponent } from '../components/table/table-mobi
 import { TableSmallComponent } from '../components/table/table-small/table-small.component';
 import { TableSmallMobileComponent } from '../components/table/table-small-mobile/table-small-mobile.component';
 import { TableDashboardComponent } from '../components/table/table-dashboard/table-dashboard.component';
-import { ModalComponent } from '../components/modals/modal.component';
 import { ModalDeleteComponent } from '../components/modals/modal-delete/modal-delete.component';
 import { ModalUpdateComponent } from '../components/modals/modal-update/modal-update.component';
 import { ModalDetailsComponent } from '../components/modals/modal-details/modal-details.component';
@@ -77,7 +76,7 @@ import { ThousandsPipe } from 'src/app/core/utils/thousands.pipe';
 import { ValidatedDistributionComponent } from '../modules/projects/distributions/validated-components/validated-distribution.component';
 import { DonorService } from '../core/api/donor.service';
 import { ModalEditComponent } from '../components/modals/modal-edit/modal-edit.component';
-import { ModalWriteComponent } from '../components/modals/modal-write/modal-write.component';
+import { ModalFieldsComponent } from '../components/modals/modal-fields/modal-fields.component';
 
 
 @NgModule({
@@ -153,8 +152,7 @@ import { ModalWriteComponent } from '../components/modals/modal-write/modal-writ
         TransactionTableMobileComponent,
         TableMobileBeneficiariesComponent,
         TransactionTableComponent,
-        ModalComponent,
-        ModalWriteComponent,
+        ModalFieldsComponent,
         ModalDeleteComponent,
         ModalUpdateComponent,
         ModalAddComponent,
@@ -181,7 +179,6 @@ import { ModalWriteComponent } from '../components/modals/modal-write/modal-writ
         MobileMoneyComponent,
     ],
     entryComponents: [
-        ModalComponent,
         ModalDeleteComponent,
         ModalEditComponent,
         ModalDetailsComponent,
@@ -216,7 +213,6 @@ import { ModalWriteComponent } from '../components/modals/modal-write/modal-writ
         TableMobileDashboardComponent,
         TableBeneficiariesComponent,
         TransactionTableMobileComponent,
-        ModalComponent,
         ModalDeleteComponent,
         ModalUpdateComponent,
         ModalDetailsComponent,

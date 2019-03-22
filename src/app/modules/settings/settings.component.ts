@@ -108,7 +108,7 @@ export class SettingsComponent implements OnInit, DoCheck {
         this.widthScreen = window.innerWidth;
     }
 
-    selectTitle(title): void {
+    selectTitle(title: string): void {
         this.selectedTitle = title;
         this.getData(title);
     }

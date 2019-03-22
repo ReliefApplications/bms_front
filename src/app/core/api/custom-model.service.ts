@@ -1,7 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { URL_BMS_API } from '../../../environments/environment';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 
 export abstract class CustomModelService {
     readonly apiBase = URL_BMS_API;
@@ -22,9 +20,13 @@ export abstract class CustomModelService {
         return this.http.put(this.makeUrl(), body);
     }
 
-    // public delete(body: any) {
-    //     return this.http.delete(this.makeUrl())
-    // }
+    public update(id: number, body: any) {
+        return this.http.post(`${this.makeUrl()}/${id}`, body);
+    }
+
+    public delete(id: number) {
+        return this.http.delete(`${this.makeUrl()}/${id}`);
+    }
 
     private makeUrl(): string {
         return `${this.apiBase}/${this.customModelPath}`;

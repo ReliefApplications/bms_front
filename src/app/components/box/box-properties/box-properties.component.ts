@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit, DoCheck, Input } from '@angular/core';
 import { GlobalText } from '../../../../texts/global';
 import { FieldMapper } from '../../../model/field-mapper';
 import { CountoModule } from 'angular2-counto';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 
 @Component({
     selector: 'app-box-properties',
@@ -13,13 +14,19 @@ export class BoxPropertiesComponent implements OnInit, DoCheck {
     mapper: FieldMapper = new FieldMapper();
     mapperObject = null;
     elementObject = null;
-
+    // Todo: Remove this
     @Input() componentDisplayed;
+    // Todo: Remove this
     @Input() mapperService;
+    // Todo: Remove this
     @Input() entity;
+    // Todo: Remove this
     @Input() data;
+    // Todo: Remove this
+    @Input() displayedInstance: CustomModel;
+
     private oldComponentDisplayed = null;
-    public properties: any;
+    public displayedPropertyNames: any;
     public numColumns = 0;
     public displayLength: number;
 
@@ -27,16 +34,15 @@ export class BoxPropertiesComponent implements OnInit, DoCheck {
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
-        this.numberOfColumns();
+        this.getNumberOfColumns();
     }
 
     ngOnInit() {
-        const entityInstance = Object.create(this.entity.prototype);
-        entityInstance.constructor.apply(entityInstance);
-        this.mapperObject = this.mapperService.findMapperObject(this.entity);
-        this.elementObject = entityInstance.getMapperBox(this.componentDisplayed);
-        this.properties = Object.getOwnPropertyNames(this.elementObject);
-        this.numberOfColumns();
+        const allPropertyNames = Object.keys(this.displayedInstance.fields);
+        this.displayedPropertyNames = allPropertyNames.filter(property => {
+            return this.displayedInstance.fields[property].isDisplayedInSummary === true;
+        });
+        this.getNumberOfColumns();
     }
 
     ngDoCheck() {
@@ -45,23 +51,23 @@ export class BoxPropertiesComponent implements OnInit, DoCheck {
             this.mapperObject = this.mapperService.findMapperObject(this.entity);
             this.oldComponentDisplayed = null;
         }
-        if (this.componentDisplayed !== this.oldComponentDisplayed) {
-            const entityInstance = Object.create(this.entity.prototype);
-            entityInstance.constructor.apply(entityInstance);
-            this.elementObject = entityInstance.getMapperBox(this.componentDisplayed);
-            this.oldComponentDisplayed = this.componentDisplayed;
-        }
+        // if (this.displayedInstance !== this.oldComponentDisplayed) {
+        //     const entityInstance = Object.create(this.entity.prototype);
+        //     entityInstance.constructor.apply(entityInstance);
+        //     this.elementObject = entityInstance.getMapperBox(this.displayedInstance);
+        //     this.oldComponentDisplayed = this.displayedInstance;
+        // }
 
-        if (this.data && this.elementObject.number_beneficiaries !== this.data.length) {
-            this.elementObject.number_beneficiaries = this.data.length;
-            this.componentDisplayed.distribution_beneficiaries = this.data;
-        }
+        // if (this.data && this.elementObject.number_beneficiaries !== this.data.length) {
+        //     this.elementObject.number_beneficiaries = this.data.length;
+        //     this.displayedInstance.distribution_beneficiaries = this.data;
+        // }
     }
 
     cleanUsefullProperties() {
         const cleaned = new Array();
 
-        this.properties.forEach(
+        this.displayedPropertyNames.forEach(
             element => {
                 if (element && this.elementObject[element] !== ''
                 && this.elementObject[element] !== {} && this.elementObject[element] !== undefined) {
@@ -70,7 +76,7 @@ export class BoxPropertiesComponent implements OnInit, DoCheck {
             }
         );
 
-        this.properties = cleaned;
+        this.displayedPropertyNames = cleaned;
     }
 
     isArray(obj: any) {
@@ -81,8 +87,8 @@ export class BoxPropertiesComponent implements OnInit, DoCheck {
         return (typeof (obj) === 'number');
     }
 
-    numberOfColumns(): void {
-        const length = Object.keys(this.properties).length;
+    getNumberOfColumns(): void {
+        const length = Object.keys(this.displayedPropertyNames).length;
         if (window.innerWidth > 700) {
             this.numColumns = length;
         } else if (window.innerWidth > 400 && window.innerWidth < 700) {

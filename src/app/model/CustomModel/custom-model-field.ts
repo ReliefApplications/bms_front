@@ -15,6 +15,11 @@ export class CustomModelField<T> {
      */
     type: string;
     /**
+     * Is the field displayed in summaries?
+     * @type {boolean}
+     */
+    isDisplayedInSummary: boolean;
+    /**
      * Is the field displayed in modals?
      * @type {boolean}
      */
@@ -59,11 +64,12 @@ export class CustomModelField<T> {
 
         // Boolean properties
         this.isDisplayedInModal     = properties['isDisplayedInModal'];
+        this.isDisplayedInSummary   = properties['isDisplayedInSummary'];
         this.isDisplayedInTable     = properties['isDisplayedInTable'];
         this.isImageInTable         = properties['isImageInTable'];
         this.isRequired             = properties['isRequired'];
         this.isSettable             = properties['isSettable'];
-        this.isEditable            = properties['isEditable'];
+        this.isEditable             = properties['isEditable'];
     }
 
     // Field specific value should never be omitted
@@ -75,6 +81,7 @@ export class CustomModelField<T> {
             value:                  null,
 
             isDisplayedInModal:     false,
+            isDisplayedInSummary:   false,
             isDisplayedInTable:     false,
             isImageInTable:         false,
             isPassword:             false,

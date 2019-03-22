@@ -1,26 +1,45 @@
 <mat-grid-list [cols]="numColumns" gutterSize="10" rowHeight="80">
-    <mat-grid-tile *ngFor="let p of properties" colspan="1" rowspan="1">
+    <mat-grid-tile *ngFor="let property of displayedPropertyNames" colspan="1" rowspan="1">
         <mat-card>
-            <h5>{{mapperObject[p] | titlecase}}</h5>
-            <span>
-                <h3 *ngIf="p!=='start_date' && p!=='end_date' && p!=='date_distribution' && elementObject[p] && !isArray(elementObject[p]) && !isNumber(elementObject[p]) && elementObject[p].length <= MAX_PROP_LENGTH">
-                    {{elementObject[p]}}
-                </h3>
-                <h3 *ngIf="p=='start_date' || p=='end_date' || p=='date_distribution' && elementObject[p].length <= MAX_PROP_LENGTH">
-                        {{  elementObject[p] | date:'dd-MM-yyyy' }}
-                </h3>
-                <h3 *ngIf="elementObject[p] && !isArray(elementObject[p]) && !isNumber(elementObject[p]) && elementObject[p].length > MAX_PROP_LENGTH" [matTooltip]="elementObject[p]">
-                    {{elementObject[p].substring(0,MAX_PROP_LENGTH-1)}} ...
-                </h3>
-            </span>
-            <span *ngIf="isNumber(elementObject[p])">
-                <h3 counto [step]="100" [countTo]="elementObject[p]" [countFrom]="0" [duration]="1" (countoChange)="intermediate = $event">
-                    {{intermediate | number:'1.0-0'}}
-                </h3>
-            </span>
-            <span *ngIf="isArray(elementObject[p])" class="sector-icons">
-                <app-icon-svg class="icon" *ngFor="let image of elementObject[p]" [name]="image"></app-icon-svg>
-            </span>
+            <ng-container *ngIf="displayedInstance.fields[property]; let field">
+                <h5>{{field.title | titlecase}}</h5>
+                <span *ngIf="field.isMultipleSelect; else notMultipleSelect" class="sector-icons">
+                    <div class="multiple-items">
+                        <span *ngFor="let value of field.value">
+                            <ng-container *ngIf="field.isImageInTable; else notImage">
+                                <app-icon-svg [imagePath]="value.getImage()"></app-icon-svg>
+                            </ng-container>
+                            <ng-template #notImage>
+                                <h3>
+                                    {{value.fields[field.bindField].value}}
+                                </h3>
+                            </ng-template>
+
+                        </span>
+                    </div>
+                </span>
+                <ng-template #notMultipleSelect>
+                    <span *ngIf="field.kindOfField === 'Number'; else notANumber">
+                            <h3 counto [step]="100" [countTo]="field.value" [countFrom]="0" [duration]="1" (countoChange)="this['my_' + property + '_variable'] = $event">
+                                {{this['my_' + property + '_variable'] | number:'1.0-0'}}
+                            </h3>
+                    </span>
+                    <ng-template #notANumber>
+                        <span>
+                            <h3 *ngIf="field.value.length <= MAX_PROP_LENGTH; else isTooLong">
+                                {{field.value}}
+                            </h3>
+                            <ng-template #isTooLong>
+                                <h3>
+                                    {{field.value.substring(0,MAX_PROP_LENGTH-1)}} ...
+                                </h3>
+                            </ng-template>
+                        </span>
+                    </ng-template>
+                </ng-template>
+
+
+            </ng-container>
         </mat-card>
     </mat-grid-tile>
 </mat-grid-list>

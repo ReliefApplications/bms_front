@@ -8,10 +8,8 @@ import { HttpModule } from '@angular/http';
 import { httpInterceptorProviders } from './core/interceptors/index-interceptors';
 
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { ForbiddenComponent } from './components/error-pages/forbidden/forbidden.component';
 import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
-import { LoginComponent } from './modules/public/login.component';
 
 import { AppRouting } from './app.routing';
 import { SharedModule } from './shared/shared.module';
@@ -30,7 +28,6 @@ import { RequestDisplayComponent } from './components/headers/request-display/re
 import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
 import { TitleCasePipe } from '@angular/common';
 import { setAppInjector } from './app-injector';
-import { ModalWriteComponent } from './components/modals/modal-write/modal-write.component';
 
 
 @NgModule({

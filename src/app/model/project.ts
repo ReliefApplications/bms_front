@@ -73,11 +73,12 @@ export class Project {
     reached_benef: number;
 
     constructor(instance?) {
+
         if (instance !== undefined) {
             this.id = instance.id;
             this.name = instance.name;
-            this.start_date = instance.start_date ? instance.start_date : new Date();
-            this.end_date = instance.end_date ? instance.end_date : new Date();
+            this.start_date = instance.start_date ? instance.start_date : (new Date ()).toLocaleDateString ('fr-CA');
+            this.end_date = instance.end_date ? instance.end_date : (new Date ()).toLocaleDateString ('fr-CA');
             this.number_of_households = instance.number_of_households;
             this.iso3 = instance.iso3 ? instance.iso3 : '';
             this.value = instance.value ? instance.value : null;

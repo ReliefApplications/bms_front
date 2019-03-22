@@ -17,10 +17,9 @@ export class NetworkService {
         private cacheService: AsyncacheService,
     ) {
         this.online$ = merge(
-            of(navigator.onLine),
+            // of(navigator.onLine),
             fromEvent(window, 'online').pipe(mapTo(true)),
-            fromEvent(window, 'offline').pipe(mapTo(false)),
-            fromEvent(window.applicationCache, 'error').pipe(mapTo(false))
+            fromEvent(window, 'offline').pipe(mapTo(false))
         );
 
         this.refreshNetworkStatus();

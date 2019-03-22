@@ -120,6 +120,16 @@ export class Project extends CustomModel {
                 isEditable: true,
             }
         ),
+        reachedBeneficiaries: new NumberModelField ({
+                title: GlobalText.TEXTS.add_distribution_beneficiaries_reached,
+                placeholder: null,
+                isRequired: false,
+                isSettable: false,
+                isDisplayedInSummary: true,
+                isDisplayedInModal: false,
+                isEditable: false,
+            }
+        ),
         notes : new TextModelField(
             {
                 title: GlobalText.TEXTS.model_notes,
@@ -154,6 +164,16 @@ export class Project extends CustomModel {
            return Donor.apiToModel(donor);
         });
 
+        const reachedBeneficiaries = [];
+        if (projectFromApi.distributions) {
+            projectFromApi.distributions.forEach(distribution => {
+                distribution.distribution_beneficiaries.forEach(distributionBeneficiary => {
+                    reachedBeneficiaries.push(distributionBeneficiary.beneficiary.id);
+                });
+            });
+        }
+        const uniqueReachedBeneficiaries = reachedBeneficiaries ? [new Set(reachedBeneficiaries)] : [];
+        newProject.fields.reachedBeneficiaries.value = uniqueReachedBeneficiaries[0].size;
         return newProject;
     }
 

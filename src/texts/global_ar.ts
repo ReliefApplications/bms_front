@@ -333,7 +333,7 @@ export const TEXT = {
     model_project_name: 'اسم المشروع',
     model_project_number_of_households: 'عدد الأسر',
     model_project_start_date: 'تاريخ البداية',
-    model_project_value: 'المبلغ الموزع',
+    model_project_value: 'Total Target Beneficiaries',
     model_residencystatus: 'حالة الإقامة',
     model_sector: 'القطاع',
     model_sectors_name: 'القطاعات',

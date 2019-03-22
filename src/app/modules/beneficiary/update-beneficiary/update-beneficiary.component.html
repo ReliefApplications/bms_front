@@ -204,7 +204,7 @@
               <div class="lign-container">
                 <mat-checkbox color='primary' *ngFor="let vulnerability of vulnerabilityList, let vulIndex=index"
                   [checked]="updatedHousehold.beneficiaries[0].vulnerabilities[vulIndex]" (change)="updatedHousehold.beneficiaries[0].vulnerabilities[vulIndex] = !updatedHousehold.beneficiaries[0].vulnerabilities[vulIndex]">
-                  {{vulnerability.field_string}}
+                  {{vulnerability.field_string | titlecase }}
                 </mat-checkbox>
               </div>
             </div>
@@ -346,7 +346,7 @@
                 <div class="lign-container">
                   <mat-checkbox color='primary' *ngFor="let vulnerability of vulnerabilityList, let vulIndex=index"
                     [checked]="updatedHousehold.beneficiaries[memberIndex].vulnerabilities[vulIndex]" (change)="updatedHousehold.beneficiaries[memberIndex].vulnerabilities[vulIndex] = !updatedHousehold.beneficiaries[memberIndex].vulnerabilities[vulIndex]">
-                    {{vulnerability.field_string}}
+                    {{vulnerability.field_string | titlecase }}
                   </mat-checkbox>
                 </div>
               </div>

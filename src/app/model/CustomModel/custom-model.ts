@@ -2,7 +2,8 @@ export abstract class CustomModel {
 
     static rights: Array<string>;
 
-    abstract fields: object;
+    // TODO: create interface for typing purpose
+    abstract fields: any;
 
     public fillWithOptions() {
     }

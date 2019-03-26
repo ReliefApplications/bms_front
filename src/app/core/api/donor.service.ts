@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Donor } from '../../model/donor.new';
 import { CustomModelService } from './custom-model.service';
 import { HttpService } from './http.service';
 
@@ -15,23 +16,8 @@ export class DonorService extends CustomModelService {
         super(http);
     }
 
-    public getOptions() {
+
+    public fillWithOptions (donor: Donor) {
 
     }
-
-
-    // public update(id: number, body: any) {
-    //     const url = this.api + '/donors/' + id;
-    //     return this.http.post(url, body);
-    // }
-
-    // public create(id: number, body: any) {
-    //     const url = this.api + '/donors';
-    //     return this.http.put(url, body);
-    // }
-
-    // public delete(id: number) {
-    //     const url = this.api + '/donors/' + id;
-    //     return this.http.delete(url);
-    // }
 }

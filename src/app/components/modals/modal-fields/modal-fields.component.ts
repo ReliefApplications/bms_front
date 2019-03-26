@@ -38,7 +38,6 @@ export class ModalFieldsComponent implements OnInit {
         this.objectInstance = this.data.objectInstance;
         // Get all the fields keys of the object passed in objectInterface as string[]
         this.objectFields = Object.keys(this.objectInstance.fields);
-        // Fill all select fields with options
         // Create the form
         this.makeForm();
     }
@@ -49,7 +48,8 @@ export class ModalFieldsComponent implements OnInit {
             const field = this.objectInstance.fields[fieldName];
             const validators = this.getFieldValidators(field.isRequired, field.pattern);
 
-            if (field.isMultipleSelect) {
+            if (field.kindOfField === 'MultipleSelect') {
+                // TODO: type this
                 const selectedOptions = field.value.map(option => {
                     return option.fields.id.value;
                 });
@@ -57,16 +57,19 @@ export class ModalFieldsComponent implements OnInit {
                     value: selectedOptions,
                     disabled: this.isDisabled(field)
                 }, validators);
+            } else if (field.kindOfField === 'SingleSelect') {
+                formControls[fieldName] = new FormControl({
+                    value: field.value ? field.value.fields.id.value : null, // 🤔
+                    disabled: this.isDisabled(field)
+                }, validators);
             } else {
-                            // Create field's form control
+                // Create field's form control
                 formControls[fieldName] = new FormControl({
                     value: field.value,
                     disabled: this.isDisabled(field)
                 }, validators);
             }
         });
-
-
 
         this.form = new FormGroup(formControls);
     }
@@ -85,14 +88,29 @@ export class ModalFieldsComponent implements OnInit {
 
     // Create a new object from the form's data and emit it to its parent component
     onSubmit() {
-
+        // TODO: fix ngselect value that should make this code useles
         for (const field of this.objectFields) {
-            if (this.form.controls[field].value) {
+            if (this.form.controls[field].value && this.objectInstance.fields[field].kindOfField === 'MultipleSelect') {
+                this.objectInstance.fields[field].value = [];
+
+                this.form.controls[field].value.forEach(optionId => {
+                    const selectedOption = this.objectInstance.fields[field].options.filter(option => {
+                        return option.fields.id.value === optionId;
+                    })[0];
+
+                    this.objectInstance.fields[field].value.push(selectedOption);
+                });
+            } else if (this.form.controls[field].value && this.objectInstance.fields[field].kindOfField === 'SingleSelect') {
+                this.objectInstance.fields[field].value = this.objectInstance.fields[field].options.filter(option => {
+                    return option.fields.id.value === this.form.controls[field].value;
+                })[0];
+
+            } else if (this.form.controls[field].value) {
                 this.objectInstance.fields[field].value = this.form.controls[field].value;
             }
-        }
 
-        this.modalReference.close('Submit');
+        }
+        this.modalReference.close(this.modalType);
     }
 
     private getFieldValidators(required?: boolean, pattern?: RegExp): ValidatorFn[] {
@@ -111,6 +129,6 @@ export class ModalFieldsComponent implements OnInit {
     }
 
     isDisabled(field) {
-        throw new Error('You must overwrite this function in other components');
+        throw new Error('You must override this function in other components');
     }
 }

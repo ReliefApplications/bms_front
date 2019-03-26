@@ -1,5 +1,4 @@
-import { Component, OnChanges, DoCheck } from '@angular/core';
-import { TableComponent } from '../table.component';
+import { Component } from '@angular/core';
 import { TableDashboardComponent } from '../table-dashboard/table-dashboard.component';
 
 const RECENT_DIST_LENGTH = 5;
@@ -9,7 +8,7 @@ const RECENT_DIST_LENGTH = 5;
     templateUrl: './table-mobile-dashboard.component.html',
     styleUrls: ['../table-mobile/table-mobile.component.scss']
 })
-export class TableMobileDashboardComponent extends TableDashboardComponent implements DoCheck {
+export class TableMobileDashboardComponent extends TableDashboardComponent {
 
     getImageName(t2: String) {
         return (t2.substring(26).split('.')[0]);

@@ -3,7 +3,7 @@
         <mat-card>
             <ng-container *ngIf="displayedInstance.fields[property]; let field">
                 <h5>{{field.title | titlecase}}</h5>
-                <span *ngIf="field.isMultipleSelect; else notMultipleSelect" class="sector-icons">
+                <span *ngIf="field.kindOfField === 'MultipleSelect'; else notMultipleSelect" class="sector-icons">
                     <div class="multiple-items">
                         <span *ngFor="let value of field.value">
                             <ng-container *ngIf="field.isImageInTable; else notImage">

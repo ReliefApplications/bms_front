@@ -1,12 +1,15 @@
 
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { Beneficiaries } from './beneficiary';
+import { Commodity } from './commodity';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { CustomModelField } from './CustomModel/custom-model-field';
 import { DateModelField } from './CustomModel/date-model-field';
+import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
 import { NumberModelField } from './CustomModel/number-model-field';
+import { ObjectModelField } from './CustomModel/object-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
-import { Location } from './location';
+import { Location } from './location.new';
 import { Project } from './project.new';
 import { SelectionCriteria } from './selection-criteria';
 
@@ -24,13 +27,7 @@ export class Distribution extends CustomModel {
             ),
         name: new TextModelField(
             {
-
-            }
-        ),
-        // updatedOn(useless),
-        location: new CustomModelField<Location>(
-            {
-
+                isDisplayedInTable: true,
             }
         ),
         project: new CustomModelField<Project>(
@@ -43,32 +40,11 @@ export class Distribution extends CustomModel {
 
             }
         ),
-        locationName: new TextModelField(
+        location: new ObjectModelField<Location> (
             {
-
+                displayFunction: () => this.fields.location.value.getLocationName()
             }
         ),
-        adm1: new TextModelField(
-            {
-
-            }
-        ),
-        adm2: new TextModelField(
-            {
-
-            }
-        ),
-        adm3: new TextModelField(
-            {
-
-            }
-        ),
-        adm4: new TextModelField(
-            {
-
-            }
-        ),
-        // beneficiaryCount(useless),
         type: new TextModelField(
             {
 
@@ -79,9 +55,10 @@ export class Distribution extends CustomModel {
 
             }
         ),
-        commodity: new TextModelField(
+        commodities: new ObjectModelField<Commodity> (
             {
-
+                isDisplayedInTable: true,
+                isImage: true,
             }
         ),
         validated: new BooleanModelField(
@@ -94,14 +71,25 @@ export class Distribution extends CustomModel {
 
             }
         ),
-        beneficiaries: new CustomModelField<Beneficiaries>(
+        beneficiaries: new MultipleObjectsModelField<Beneficiaries>(
             {
-
+                displayFunction: () => this.fields.beneficiaries.value.length,
             }
         ),
-
     };
-    apiToModel(): object {
-        return new Object;
+
+    public static apiToModel(distributionFromApi: any): Distribution {
+        const newDistribution = new Distribution();
+
+        // Assign default fields
+        newDistribution.fields.date.value = distributionFromApi.date_distribution;
+        newDistribution.fields.type.value = distributionFromApi.type;
+        newDistribution.fields.name.value = distributionFromApi.name;
+        newDistribution.fields.validated.value = distributionFromApi.validated;
+        newDistribution.fields.location.value = Location.apiToModel(distributionFromApi.location);
+
+
+
+        return newDistribution;
     }
 }

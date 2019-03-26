@@ -35,16 +35,16 @@
             </div>
           </div>
         </div>
-        <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights && deletable" (click)="openDialog('add')" class="add-button-create">
+        <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights && deletable" (click)="openDialog({action: 'add'})" class="add-button-create">
           <mat-icon>add</mat-icon>
           {{settings.add | titlecase}}
         </button>
-        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights && deletable" (click)="openDialog('add')" class="add-button" [ngClass]="{'add-button-arabic':language==='ar'}">
+        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights && deletable" (click)="openDialog({action: 'add'})" class="add-button" [ngClass]="{'add-button-arabic':language==='ar'}">
           <mat-icon>add</mat-icon>
         </button>
       </div>
       <div class="content-table">
-        <app-table *ngIf="widthScreen >= maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="true" [rights]='hasRights' [deletable]="deletable"></app-table>
+        <app-table *ngIf="widthScreen >= maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="true" [rights]='hasRights' [deletable]="deletable" (openModal)="openDialog($event)"></app-table>
         <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="true" [rights]='hasRights' [deletable]="deletable"></app-table-mobile>
       </div>
     </div>

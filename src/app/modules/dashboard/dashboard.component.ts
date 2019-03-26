@@ -1,19 +1,19 @@
-import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
-import { LeafletService } from '../../core/external/leaflet.service';
-import { DistributionService } from '../../core/api/distribution.service';
-import { GeneralService } from '../../core/api/general.service';
-import { DistributionData } from '../../model/distribution-data';
-import { GlobalText } from '../../../texts/global';
 import { finalize } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { GlobalText } from '../../../texts/global';
+import { DistributionService } from '../../core/api/distribution.service';
+import { GeneralService } from '../../core/api/general.service';
+import { LeafletService } from '../../core/external/leaflet.service';
+import { DistributionData } from '../../model/distribution-data';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, DoCheck {
+export class DashboardComponent implements OnInit {
     public dashboard = GlobalText.TEXTS;
     public nameComponent = 'dashboard_title';
     public actualCountry: string;
@@ -60,15 +60,15 @@ export class DashboardComponent implements OnInit, DoCheck {
     /**
      * check if the langage has changed
      */
-    ngDoCheck() {
-        if (this.dashboard !== GlobalText.TEXTS) {
-            this.dashboard = GlobalText.TEXTS;
-        }
+    // ngDoCheck() {
+    //     if (this.dashboard !== GlobalText.TEXTS) {
+    //         this.dashboard = GlobalText.TEXTS;
+    //     }
 
-        if (LeafletService.loading !== this.loadingMap) {
-            this.loadingMap = LeafletService.loading;
-        }
-    }
+    //     if (LeafletService.loading !== this.loadingMap) {
+    //         this.loadingMap = LeafletService.loading;
+    //     }
+    // }
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {

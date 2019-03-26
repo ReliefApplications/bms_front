@@ -1,5 +1,5 @@
-import { HttpService } from './http.service';
 import { URL_BMS_API } from '../../../environments/environment';
+import { HttpService } from './http.service';
 
 export abstract class CustomModelService {
     readonly apiBase = URL_BMS_API;

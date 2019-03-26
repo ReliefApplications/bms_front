@@ -1,8 +1,8 @@
 import { GlobalText } from '../../texts/global';
 import { CustomModel } from './CustomModel/custom-model';
 import { DateModelField } from './CustomModel/date-model-field';
+import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
 import { NumberModelField } from './CustomModel/number-model-field';
-import { SelectModelField } from './CustomModel/select-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 import { Donor } from './donor.new';
 import { Sector } from './sector.new';
@@ -11,6 +11,9 @@ import { Sector } from './sector.new';
 export class Project extends CustomModel {
 
     public static rights = ['ROLE_ADMIN', 'ROLE_COUNTRY_MANAGER', 'ROLE_PROJECT_MANAGER'];
+
+    title = GlobalText.TEXTS.project;
+
 
     public fields = {
         id : new NumberModelField(
@@ -32,20 +35,20 @@ export class Project extends CustomModel {
                 isLongText: false,
             }
         ),
-        sectors : new SelectModelField<Sector[]>(
+        sectors : new MultipleSelectModelField (
             {
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
                 isDisplayedInTable: true,
                 title: GlobalText.TEXTS.model_sectors_name,
-                isMultipleSelect: true,
                 isSettable: true,
                 options: undefined,
                 bindField: 'name',
                 isImageInTable: true,
                 isEditable: true,
                 value: [],
+                apiLabel: 'id'
             }
         ),
         startDate : new DateModelField(
@@ -86,19 +89,19 @@ export class Project extends CustomModel {
                 isDisplayedInTable: true,
             }
         ),
-        donors : new SelectModelField<Donor[]>(
+        donors : new MultipleSelectModelField (
             {
                 title: GlobalText.TEXTS.model_project_donors_name,
-                isMultipleSelect: true,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
                 isDisplayedInTable: true,
                 isSettable: true,
                 options: undefined,
-                bindField: 'shortName',
+                bindField: 'shortname',
                 isEditable: true,
                 value: [],
+                apiLabel: 'id',
             }
         ),
         iso3 : new TextModelField(
@@ -147,6 +150,7 @@ export class Project extends CustomModel {
     public static apiToModel(projectFromApi: any): object {
         const newProject = new Project();
 
+        // Assign default fields
         newProject.fields.id.value = projectFromApi.id;
         newProject.fields.name.value = projectFromApi.name;
         newProject.fields.startDate.value = projectFromApi.start_date;
@@ -156,14 +160,20 @@ export class Project extends CustomModel {
         newProject.fields.value.value = projectFromApi.value;
         newProject.fields.notes.value = projectFromApi.notes;
 
-        newProject.fields.sectors.value = projectFromApi.sectors.map((sector: object) => {
-            return Sector.apiToModel(sector);
-        });
+        // Assign select fields
+        newProject.fields.sectors.value = projectFromApi.sectors ?
+            projectFromApi.sectors.map((sector: object) => {
+                return Sector.apiToModel(sector);
+            }) :
+            [];
 
-        newProject.fields.donors.value = projectFromApi.donors.map((donor: object) => {
-           return Donor.apiToModel(donor);
-        });
+        newProject.fields.donors.value = projectFromApi.donors ?
+            projectFromApi.donors.map((donor: object) => {
+            return Donor.apiToModel(donor);
+            }) :
+            [];
 
+        // Move to distributions.new.ts
         const reachedBeneficiaries = [];
         if (projectFromApi.distributions) {
             projectFromApi.distributions.forEach(distribution => {
@@ -177,8 +187,19 @@ export class Project extends CustomModel {
         return newProject;
     }
 
-    // public  modelToApi(object: Object): void {
-
-    // }
+    public modelToApi(): Object {
+        return {
+            id: this.fields.id.formatForApi(),
+            name: this.fields.name.formatForApi(),
+            start_date: this.fields.startDate.formatForApi(),
+            end_date: this.fields.endDate.formatForApi(),
+            number_of_households: this.fields.numberOfHouseholds.formatForApi(),
+            iso3: this.fields.iso3.formatForApi(),
+            value: this.fields.value.formatForApi(),
+            notes: this.fields.notes.formatForApi(),
+            sectors: this.fields.sectors.formatForApi(),
+            donors: this.fields.donors.formatForApi(),
+        };
+    }
 
 }

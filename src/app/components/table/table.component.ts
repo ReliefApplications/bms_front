@@ -1,4 +1,4 @@
-import { Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
@@ -13,10 +13,6 @@ import { WsseService } from '../../core/authentication/wsse.service';
 import { Mapper } from '../../core/utils/mapper.service';
 import { Beneficiaries } from '../../model/beneficiary';
 import { DistributionData } from '../../model/distribution-data';
-import { ModalDeleteComponent } from '../modals/modal-delete/modal-delete.component';
-import { ModalDetailsComponent } from '../modals/modal-details/modal-details.component';
-import { ModalEditComponent } from '../modals/modal-edit/modal-edit.component';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 
 
 
@@ -85,7 +81,10 @@ export class TableComponent implements OnInit {
     // To activate/desactivate action buttons
     @Input() rightsDelete: boolean;
     @Input() selection: any;
+
     @Output() selectChecked = new EventEmitter<any>();
+
+    @Output() openModal = new EventEmitter<object>();
 
     sortedData: any;
     allData: any = undefined;
@@ -182,30 +181,12 @@ export class TableComponent implements OnInit {
                 this.data.paginator = this.paginator;
             }
         }
-
     }
 
 
     checkData() {
-        // this.setDataTableProperties();
-        // if (this.entity) {
-        //     this.entityInstance = this.mapperService.instantiate(this.entity);
-        //     // TODO: REMOVE MAPPER
-        //     this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
-        //     this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
-        //     this.propertiesActions = new Array();
-        //     if (this.selection) {
-        //         this.propertiesActions.push('check');
-        //     }
 
-        //     this.properties.forEach(element => {
-        //         this.propertiesActions.push(element);
-        //     });
-        //     this.propertiesActions.push('actions');
-        //     this.mapperService.setMapperObject(this.entity);
-        // }
-        // this.oldEntity = this.entity;
-
+        this.entityInstance = null;
         this.entityInstance = new this.entity();
 
         const allProperties = Object.keys(this.entityInstance.fields);
@@ -244,52 +225,58 @@ export class TableComponent implements OnInit {
     * open each modal dialog
     */
     openDialog(user_action, element): void {
-        let dialogRef;
+        // let dialogRef;
 
-        if (user_action === 'details') {
-            dialogRef = this.dialog.open(ModalDetailsComponent, {
-                data: {
-                    objectInstance: element,
-                }
+            // dialogRef = this.dialog.open(ModalDetailsComponent, {
+            //     data: {
+            //         objectInstance: element,
+            //     }
+            // });
+            this.openModal.emit({
+                action: user_action,
+                element: element
             });
-        } else if (user_action === 'update') {
 
-            this.service.fillWithOptions(element);
-            dialogRef = this.dialog.open(ModalEditComponent, {
-                data: {
-                    objectInstance: element,
-                 }
-            });
-        } else {
-            dialogRef = this.dialog.open(ModalDeleteComponent, {
-                data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
-            });
-        }
 
-        let deleteElement = null;
-        if (dialogRef.componentInstance.onDelete) {
-            deleteElement = dialogRef.componentInstance.onDelete.subscribe(
-                (data) => {
-                    this.deleteElement(data);
-                });
-        }
 
-        let updateElement = null;
-        if (dialogRef.componentInstance.onUpdate) {
-            updateElement = dialogRef.componentInstance.onUpdate.subscribe(
-                (data) => {
-                    this.updateElement(data);
-                });
-        }
+            // this.service.fillWithOptions(element);
+            // dialogRef = this.dialog.open(ModalEditComponent, {
+            //     data: {
+            //         objectInstance: element,
+            //      }
+            // });
 
-        dialogRef.afterClosed().subscribe(result => {
-            if (updateElement) {
-                updateElement.unsubscribe();
-            }
-            if (deleteElement) {
-                deleteElement.unsubscribe();
-            }
-        });
+            // dialogRef = this.dialog.open(ModalDeleteComponent, {
+            //     data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
+            // });
+
+
+        // let deleteElement = null;
+        // if (dialogRef.componentInstance.onDelete) {
+        //     deleteElement = dialogRef.componentInstance.onDelete.subscribe(
+        //         (data) => {
+        //             this.deleteElement(data);
+        //             this.checkData();
+        //         });
+        // }
+
+        // let updateElement = null;
+        // if (dialogRef.componentInstance.onUpdate) {
+        //     updateElement = dialogRef.componentInstance.onUpdate.subscribe(
+        //         (data) => {
+        //             this.updateElement(data);
+        //             this.checkData();
+        //         });
+        // }
+
+        // dialogRef.afterClosed().subscribe(result => {
+        //     if (updateElement) {
+        //         updateElement.unsubscribe();
+        //     }
+        //     if (deleteElement) {
+        //         deleteElement.unsubscribe();
+        //     }
+        // });
     }
 
     applyFilter(filterValue: any, category?: string, suppress?: boolean): void {
@@ -348,11 +335,12 @@ export class TableComponent implements OnInit {
         }
     }
 
-    updateElement(updateElement) {
-        const apiUpdateElement = updateElement.ModelToApi(updateElement);
-        this.service.update(apiUpdateElement['id'], apiUpdateElement).subscribe(response => {
-            this.updateData();
-        });
+    // updateElement(updateElement) {
+    //     const apiUpdateElement = updateElement.ModelToApi(updateElement);
+    //     console.log(this.service);
+    //     this.service.update(apiUpdateElement['id'], apiUpdateElement).subscribe(response => {
+    //         this.updateData();
+    //     });
 
 
         // if (updateElement['rights'] === 'ROLE_PROJECT_MANAGER' || updateElement['rights'] === 'ROLE_PROJECT_OFFICER' ||
@@ -397,23 +385,23 @@ export class TableComponent implements OnInit {
         //         this.updateData();
         //     });
         // }
-    }
+    // }
 
-    deleteElement(deleteElement: CustomModel) {
-        if (this.entity === Beneficiaries) {
-            this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
-                this.updateData();
-            });
-        } else if (this.entity.__classname__ === 'Households') {
-            this.householdsService.delete(deleteElement['id']).subscribe(response => {
-                this.updateData();
-            });
-        } else {
-            this.service.delete(deleteElement.fields['id'].value).subscribe(response => {
-                this.updateData();
-            });
-        }
-    }
+    // deleteElement(deleteElement: CustomModel) {
+    //     if (this.entity === Beneficiaries) {
+    //         this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
+    //             this.updateData();
+    //         });
+    //     } else if (this.entity.__classname__ === 'Households') {
+    //         this.householdsService.delete(deleteElement['id']).subscribe(response => {
+    //             this.updateData();
+    //         });
+    //     } else {
+    //         this.service.delete(deleteElement.fields['id'].value).subscribe(response => {
+    //             this.updateData();
+    //         });
+    //     }
+    // }
 
     rangeLabel(page: number, pageSize: number, length: number) {
         const table = GlobalText.TEXTS;

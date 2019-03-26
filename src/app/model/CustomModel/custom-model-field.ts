@@ -1,9 +1,10 @@
+
 export class CustomModelField<T> {
     /**
      * Described field
      * @type {T}
      */
-    value: T;
+    value: T ;
     /**
      * Is the field required?
      * @type {boolean}

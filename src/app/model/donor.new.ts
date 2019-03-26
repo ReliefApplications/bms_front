@@ -1,12 +1,13 @@
-import { SectorMapper } from './sector-mapper';
-import { GlobalText } from '../../texts/global';
+import { GlobalText } from 'src/texts/global';
 import { CustomModel } from './CustomModel/custom-model';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
-import { DateModelField } from './CustomModel/date-model-field';
-import { CustomModelField } from './CustomModel/custom-model-field';
 
 export class Donor extends CustomModel {
+
+    public static rights = ['ROLE_ADMIN'];
+
+    title = GlobalText.TEXTS.model_donor;
 
     // TODO: Fill with options
     fields = {
@@ -17,22 +18,33 @@ export class Donor extends CustomModel {
         ),
         fullname: new TextModelField(
             {
-                title: null,
+                title: GlobalText.TEXTS.model_donor_fullname,
+                isDisplayedInModal: true,
+                isDisplayedInTable: true,
+                isEditable: true,
+                isRequired: true,
+                isSettable: true,
             }
         ),
-        dateAdded: new DateModelField(
+        shortname: new TextModelField(
             {
-                title: null,
-            }
-        ),
-        shortName: new TextModelField(
-            {
-                title: null,
+                title: GlobalText.TEXTS.model_donor_shortname,
+                isDisplayedInModal: true,
+                isDisplayedInTable: true,
+                isEditable: true,
+                isRequired: true,
+                isSettable: true,
             }
         ),
         notes: new TextModelField(
             {
-                title: null,
+                title: GlobalText.TEXTS.model_notes,
+                isDisplayedInModal: true,
+                isDisplayedInTable: true,
+                isEditable: true,
+                isLongText: true,
+                isRequired: true,
+                isSettable: true,
             }
         ),
         // TODO delete?
@@ -52,8 +64,7 @@ export class Donor extends CustomModel {
 
         newDonor.fields.id.value = donorFromApi.id;
         newDonor.fields.fullname.value = donorFromApi.fullname;
-        newDonor.fields.dateAdded.value = donorFromApi.dateAdded;
-        newDonor.fields.shortName.value = donorFromApi.shortname;
+        newDonor.fields.shortname.value = donorFromApi.shortname;
         newDonor.fields.notes.value = donorFromApi.notes;
 
         return newDonor;

@@ -1,5 +1,5 @@
 <mat-dialog-content class="modal-container">
-    <h4 class="modal-title underline-accent stickyHeader">{{modalTitle | titlecase}} {{'project' | titlecase}}</h4>
+    <h4 class="modal-title underline-accent stickyHeader">{{modalTitle | titlecase}} {{objectInstance.title | titlecase}}</h4>
     <form [formGroup]="form">
         <table class="modal-table">
             <ng-container *ngFor="let fieldName of objectFields">
@@ -8,23 +8,22 @@
                         <th class="table-title">{{ field.title | titlecase }}</th>
                         <td class="form-item">
 
-                            <ng-container *ngIf="field.kindOfField === 'Select'; else isMaterialField">
-                                <ng-container *ngIf="field.isMultipleSelect; else isSingleSelect">
+                            <ng-container *ngIf="field.kindOfField === 'MultipleSelect'; else isSingleSelect">
                                     <ng-select [formControlName]="fieldName" [placeholder]="field.title" [multiple]="true" [closeOnSelect]="false">
                                         <ng-option *ngFor="let option of field.options" [value]="option.fields.id.value">
                                             {{option.fields[field.bindField].value | titlecase}}
                                         </ng-option>
                                     </ng-select>
-                                </ng-container>
-
-                                <ng-template #isSingleSelect>
+                            </ng-container>
+                            <ng-template #isSingleSelect>
+                                <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isMaterialField">
                                     <ng-select [formControlName]="fieldName" [placeholder]="field.title">
-                                        <ng-option *ngFor="let option of field.options" [value]="option">
+                                        <ng-option *ngFor="let option of field.options" [value]="option.fields.id.value">
                                             {{option.fields[field.bindField].value | titlecase}}
                                         </ng-option>
                                     </ng-select>
-                                </ng-template>
-                            </ng-container>
+                                </ng-container>
+                            </ng-template>
 
                             <ng-template #isMaterialField>
                                 <mat-form-field>

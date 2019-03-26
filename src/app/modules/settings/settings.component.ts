@@ -1,40 +1,41 @@
-import { Component, OnInit, HostListener, DoCheck, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
-
-import { AuthenticationService } from '../../core/authentication/authentication.service';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
+import { finalize } from 'rxjs/operators';
+import { TableComponent } from 'src/app/components/table/table.component';
+import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
+import { LocationService } from 'src/app/core/api/location.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { FinancialProvider } from 'src/app/model/financial-provider';
+import { GlobalText } from 'src/texts/global';
+import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
+import { ModalDeleteComponent } from '../../components/modals/modal-delete/modal-delete.component';
+import { ModalDetailsComponent } from '../../components/modals/modal-details/modal-details.component';
+import { ModalEditComponent } from '../../components/modals/modal-edit/modal-edit.component';
+import { CountrySpecificService } from '../../core/api/country-specific.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { DonorService } from '../../core/api/donor.service';
 import { ProjectService } from '../../core/api/project.service';
+import { SettingsService } from '../../core/api/settings.service';
 import { UserService } from '../../core/api/user.service';
-import { CountrySpecificService } from '../../core/api/country-specific.service';
-
+import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { Mapper } from '../../core/utils/mapper.service';
-import { Donor } from '../../model/donor';
+import { CountrySpecific } from '../../model/country-specific.new';
+import { Donor } from '../../model/donor.new';
 import { Project as NewProject } from '../../model/project.new';
 import { User } from '../../model/user';
-import { CountrySpecific } from '../../model/country-specific';
 
-import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
 
-import { GlobalText } from '../../../texts/global';
-import { SettingsService } from '../../core/api/settings.service';
-import { finalize } from 'rxjs/operators';
-import { LocationService } from 'src/app/core/api/location.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Router } from '@angular/router';
-import { FormControl } from '@angular/forms';
-import { FinancialProvider } from 'src/app/model/financial-provider';
-import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
-import { Project } from 'src/app/model/project';
-import { TableComponent } from 'src/app/components/table/table.component';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+
+
 
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit, DoCheck {
+export class SettingsComponent implements OnInit {
     public nameComponent = 'settings';
     public settings = GlobalText.TEXTS;
     loadingExport = false;
@@ -88,15 +89,7 @@ export class SettingsComponent implements OnInit, DoCheck {
         this.extensionType = 'xls';
     }
 
-    /**
-	 * check if the langage has changed
-	 */
-    ngDoCheck() {
-        if (this.language !== GlobalText.language) {
-            this.language = GlobalText.language;
-            this.settings = GlobalText.TEXTS;
-        }
-    }
+
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
@@ -196,13 +189,13 @@ export class SettingsComponent implements OnInit, DoCheck {
                 break;
             default: break;
         }
-        this.load(title);
+        this.load();
     }
 
     // TO DO : get from cache
-    load(title): void {
+    load(): void {
+        this.data = null;
         this.hasRights = false;
-
         this.referedClassService.get()
             .pipe(
                 finalize(
@@ -210,72 +203,123 @@ export class SettingsComponent implements OnInit, DoCheck {
                         this.loadingData = false;
                     }
                 )
-            ).subscribe(response => {
-
+            ).subscribe( (response: any) => {
             const instances = [];
-            if (response.length !== 0) {
+            if (response && response.length !== 0) {
                 for (const item of response ) {
                     instances.push(this.referedClassToken.apiToModel(item));
                 }
                 this.data = instances;
             }
 
-                    this._cacheService.getUser().subscribe(
-                        result => {
-                            if (result && result.rights) {
-                                const rights = result.rights;
-                                // TODO: Replace permissions with service (#430)
-                                if (this.referedClassToken.rights.includes(rights)) {
-                                    this.hasRights = true;
-                                }
-                            }
-                        });
-
+            this._cacheService.getUser().subscribe(
+                result => {
+                    if (result && result.rights) {
+                        const rights = result.rights;
+                        // TODO: Replace permissions with service (#430)
+                        if (this.referedClassToken.rights.includes(rights)) {
+                            this.hasRights = true;
+                        }
+                    }
+                });
         this.table.checkData();
-
-        this.loadingData = false;
         });
     }
+
 
     /**
 	* open each modal dialog
 	*/
-    openDialog(user_action): void {
-        let dialogRef;
+    openDialog(dialogDetails: any): void {
+        let dialogRef: MatDialogRef<any>;
+        switch (dialogDetails.action) {
+            case 'add':
+                dialogRef = this.openAddDialog();
+                break;
+            case 'details':
+                dialogRef = this.openDetailsDialog(dialogDetails.element);
+                break;
+            case 'edit':
+                dialogRef = this.openEditDialog(dialogDetails.element);
+                break;
+            case 'delete':
+                dialogRef = this.openDeleteDialog(dialogDetails.element);
+                break;
 
-        if (user_action === 'add') { } {
-            this.referedClassInstance = new this.referedClassToken();
-            this.referedClassService.fillWithOptions(this.referedClassInstance);
+            default:
+                this.snackBar.open('Modal error');
+                break;
+        }
 
-            dialogRef = this.dialog.open(ModalAddComponent, {
+        const subscription = dialogRef.afterClosed().subscribe((closeMethod: string) => {
+            if (closeMethod === 'Add') {
+                this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe(() => {
+                    this.snackBar.open(this.referedClassInstance.title + GlobalText.TEXTS.settings_created,
+                        '', { duration: 5000, horizontalPosition: 'center' });
+                    this.load();
+                });
+
+            } else if (closeMethod === 'Edit') {
+                this.updateElement(dialogDetails.element);
+            } else if (closeMethod === 'Delete') {
+                this.deleteElement(dialogDetails.element);
+            }
+            // Reload table
+            this.table.checkData();
+            // Prevent memory leaks
+            subscription.unsubscribe();
+        });
+    }
+
+    openAddDialog() {
+        this.referedClassInstance = new this.referedClassToken();
+        this.referedClassService.fillWithOptions(this.referedClassInstance);
+
+        return this.dialog.open(ModalAddComponent, {
+            data: {
+                objectInstance: this.referedClassInstance,
+            }
+        });
+    }
+
+    openDetailsDialog(objectInfo: CustomModel) {
+        this.referedClassService.fillWithOptions(objectInfo);
+        return this.dialog.open(ModalDetailsComponent, {
+            data: {
+                objectInstance: objectInfo,
+            }
+        });
+    }
+
+    openEditDialog(objectInfo: CustomModel) {
+        this.referedClassService.fillWithOptions(objectInfo);
+            return this.dialog.open(ModalEditComponent, {
                 data: {
-                    objectInstance: this.referedClassInstance,
+                    objectInstance: objectInfo
                  }
             });
-        }
-        // const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
-        //     if (this.referedClassToken.__classname__ === 'Project') {
-        //         let exists = false;
+    }
 
-        //         this.data.data.forEach(element => {
-        //             if (element.name.toLowerCase() === data.name.toLowerCase()) {
-        //                 this.snackBar.open(this.settings.settings_project_exists, '', { duration: 5000, horizontalPosition: 'center' });
-        //                 exists = true;
-        //                 return;
-        //             }
-        //         });
+    openDeleteDialog(objectInfo: CustomModel) {
+        return this.dialog.open(ModalDeleteComponent, {
+            data: {
+                data: objectInfo,
+            }
+        });
+    }
 
-        //         if (exists === false) {
-        //             this.createElement(data);
-        //         }
-        //     } else {
-        //         this.createElement(data);
-        //     }
-        // });
 
-        // dialogRef.afterClosed().subscribe(result => {
-        //     create.unsubscribe();
-        // });
+    updateElement(updateElement) {
+        const apiUpdateElement = updateElement.modelToApi(updateElement);
+        this.referedClassService.update(apiUpdateElement['id'], apiUpdateElement).subscribe((response: any) => {
+            this.load();
+        });
+    }
+
+    deleteElement(deleteElement: CustomModel) {
+            this.referedClassService.delete(deleteElement.fields['id'].value).subscribe(response => {
+                this.load();
+            });
     }
 
     createElement(createElement: Object) {

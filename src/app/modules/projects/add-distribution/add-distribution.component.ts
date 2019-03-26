@@ -1,30 +1,28 @@
-import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
-import { MatDialog, MatTableDataSource, MatSnackBar } from '@angular/material';
-import { Router, ActivatedRoute } from '@angular/router';
-
+import { Component, HostListener, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { DateAdapter, MatDialog, MatSnackBar, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
+import { ProjectService } from 'src/app/core/api/project.service';
+import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
 import { GlobalText } from '../../../../texts/global';
-
-import { Mapper } from '../../../core/utils/mapper.service';
+import { ModalAddComponent } from '../../../components/modals/modal-add/modal-add.component';
 import { CriteriaService } from '../../../core/api/criteria.service';
-
+import { DistributionService } from '../../../core/api/distribution.service';
+import { LocationService } from '../../../core/api/location.service';
+import { Mapper } from '../../../core/utils/mapper.service';
 import { Commodity } from '../../../model/commodity';
 import { Criteria } from '../../../model/criteria';
 import { DistributionData } from '../../../model/distribution-data';
 
-import { ModalAddComponent } from '../../../components/modals/modal-add/modal-add.component';
-import { FormControl, Validators } from '@angular/forms';
-import { LocationService } from '../../../core/api/location.service';
-import { Project } from '../../../model/project';
-import { DistributionService } from '../../../core/api/distribution.service';
-import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
-import { Observable } from 'rxjs';
-import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
-import { ProjectService } from 'src/app/core/api/project.service';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
-import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
+
+
+
 
 @Component({
     selector: 'app-add-distribution',
@@ -35,7 +33,7 @@ import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.ada
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
-export class AddDistributionComponent implements OnInit, DoCheck, DesactivationGuarded {
+export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     public nameComponent = 'add_project_title';
     public distribution = GlobalText.TEXTS;
     public language = GlobalText.language;
@@ -240,18 +238,6 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         this.route.queryParams.subscribe(params => this.queryParams = params);
     }
 
-    /**
-     * check if the langage has changed
-     */
-    ngDoCheck() {
-        if (this.distribution !== GlobalText.TEXTS) {
-            this.distribution = GlobalText.TEXTS;
-            this.language = GlobalText.language;
-            this.mapperObject = this.mapper.findMapperObject(this.entity);
-            this.nameComponent = GlobalText.TEXTS.distributions;
-            this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
-        }
-    }
 
     /**
      * to cancel the creation of distribution and go back in the distribution page

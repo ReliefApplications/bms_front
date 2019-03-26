@@ -1,5 +1,5 @@
-import { GlobalText } from '../../texts/global';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { GlobalText } from '../../texts/global';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 
@@ -34,7 +34,7 @@ export class Sector extends CustomModel {
     // Map sector to sector image
     public getImage(): string {
 
-        const sectorsImages = {
+        const sectorsImages: object = {
             'camp coordination and management': 'cccm',
             'early recovery': 'early_recovery',
             'education': 'education',
@@ -47,7 +47,9 @@ export class Sector extends CustomModel {
             'shelter': 'shelter',
             'water sanitation': 'water_sanitation',
         };
-        // Todo: Use global variable
-        return `/assets/images/sectors/${sectorsImages[this.fields.name.value]}.svg`;
+        // Todo: Use global variable, fix typing in order to not do this if check
+        if (typeof this.fields.name.value === 'string') {
+            return `/assets/images/sectors/${sectorsImages[this.fields.name.value]}.svg`;
+        }
     }
 }

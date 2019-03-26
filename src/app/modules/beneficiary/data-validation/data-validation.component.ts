@@ -125,7 +125,9 @@ export class DataValidationComponent implements OnInit, DoCheck {
             this.duplicates = this._importService.getData();
             // to add household in correctedData array when the old duplicates is the head of one household
             this.duplicates.forEach(element => {
-                this.step2Duplicates(element, 'old', element.id_tmp_beneficiary, element.new.households, element.id_tmp_cache);
+                if (element.old.isHead) {
+                    this.step2Duplicates(element, 'old', element.id_tmp_beneficiary, element.new.households, element.id_tmp_cache);
+                }
             });
         } else if (this.step === 3) {
             this.correctedData = [];
@@ -433,6 +435,7 @@ export class DataValidationComponent implements OnInit, DoCheck {
                 this.typoDone = true;
                 this.nextStep();
             }
+        // STEP 2
         } else if (this.step === 2) {
             this.correctedData.forEach(duplicateVerified => {
                 duplicateVerified.data.forEach(element => {
@@ -453,6 +456,7 @@ export class DataValidationComponent implements OnInit, DoCheck {
                 this.duplicateDone = true;
                 this.nextStep();
             }
+        // STEP 3
         } else if (this.step === 3) {
             this.load = true;
             if (this.more.length > 0) {
@@ -460,6 +464,7 @@ export class DataValidationComponent implements OnInit, DoCheck {
             }
             this.moreDone = true;
             this.nextStep();
+        // STEP 4
         } else if (this.step === 4) {
             this.load = true;
             if (this.less.length > 0) {

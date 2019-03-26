@@ -40,6 +40,7 @@ export const TEXT = {
     settings: 'Settings',
     summary: 'Summary',
     update: 'Update',
+    voucher: 'Vouchers',
 
     // Error
     back_to_homepage: 'Go back to homepage',
@@ -104,7 +105,7 @@ export const TEXT = {
     // Add distribution
     add_distribution_advanced_option: 'Advanced options',
     add_distribution_beneficiaries_reached: 'Beneficiaries reached',
-    add_distribution_check_date: 'Error while saving the date, check that the format is like mm/dd/yyyy',
+    add_distribution_check_date: 'Error while saving the date, check that the format is like dd-mm-yyyy',
     add_distribution_check_fields: 'Fill new distribution\'s information before, including the commodity and a minimum selection score\'s value greater than 0.',
     add_distribution_commodities_delivered: 'to be delivered',
     add_distribution_created: ' was created',
@@ -146,7 +147,7 @@ export const TEXT = {
     beneficiaries_import_csv: 'download template',
     beneficiaries_import_convert: 'convert file',
     beneficiaries_import_error_importing: 'Error while importing data',
-    beneficiaries_import_file: ' import from file',
+    beneficiaries_import_file: 'import from file',
     beneficiaries_import_response: 'Get ready to recover the file',
     beneficiaries_import_select_location: 'You must select a location and add a file before uploading',
     beneficiaries_import_select_project: 'You must select a project and add a file before uploading',
@@ -159,8 +160,8 @@ export const TEXT = {
     beneficiaries_selected_project: 'selected beneficiaries:',
 
     // Cache
-    cache_distribution_added: 'Distribution and beneficiaries of the project added in the cache',
-    cache_store_beneficiaries: 'Save For Offline Mode',
+    cache_distribution_added: 'Distribution and beneficiaries of the project added to the cache',
+    cache_store_beneficiaries: 'Offline Mode',
     cache_stored_beneficiaries: 'Saved For Offline Mode',
     cache_no_distribution: 'This distribution isn\'t stored in the cache, you can\'t access it offline',
 
@@ -214,6 +215,7 @@ export const TEXT = {
     distribution_details_random: 'export random sample',
     distribution_details_sample_size: 'Sample size',
     distribution_details_validate: 'validate & lock',
+    distribution_distribute: 'set as distributed',
     distribution_edit: 'Edit distribution',
     distribution_error_validate: 'The distribution is empty, please fill it before to validate it',
     distribution_no_beneficiaries: 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.',
@@ -247,6 +249,7 @@ export const TEXT = {
     header_reports: 'Reports',
     header_settings: 'Settings',
     'header_update-beneficiary': 'Update Beneficiaries',
+    header_vouchers: 'Vouchers',
 
     // Import
     import_added: 'Added from existing beneficiaries',
@@ -265,8 +268,8 @@ export const TEXT = {
     login_bms: 'Beneficiary management system',
     login_forgot_password: 'Forgot password?',
     login_password: '*********',
-    login_title: 'login',
-    login_username: 'username',
+    login_title: 'Login',
+    login_username: 'Username',
 
     // Modal
     modal_add_bad_weight: 'The weight should be greater than 0',
@@ -302,12 +305,15 @@ export const TEXT = {
     modal_valid_email: 'Please enter a valid email address',
     modal_warning_pending_requests_1: 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.',
     modal_warning_pending_requests_2: 'WARNING: Requests linked to an item you created offline will fail !',
+    modal_no_file: 'No file chosen',
 
     // Model
-    model_beneficiaries_dependents: 'Dependents',
+    model_beneficiaries_dependents: 'Members',
     model_beneficiaries_nationalids: 'ID Number',
     model_beneficiaries_phones: 'Phones (no country code)',
     model_beneficiaries_status: 'Satus',
+    model_booklet: 'Booklet',
+    model_code: 'Code',
     model_commodity: 'Commodity',
     model_commodity_modality: 'Modality',
     model_commodity_unit: 'Unit',
@@ -318,8 +324,11 @@ export const TEXT = {
     model_criteria: 'Criteria',
     model_criteria_operator: 'Condition',
     model_criteria_weight: 'Score weight',
+    model_currency: 'Currency',
     model_dateofbirth: 'Date of birth',
-    model_distribution_date: 'Distribution Start Date',
+    model_distributed: 'Distributed',
+    model_distribution_beneficiary: 'Beneficiary\'s distribution',
+    model_distribution_date: 'Date of Distribution',
     model_distribution_name: 'Name',
     model_distribution_type: 'Target',
     model_donor: 'Donor',
@@ -327,7 +336,14 @@ export const TEXT = {
     model_donor_shortname: 'Shortname',
     model_familyName: 'Family name',
     model_firstName: 'First name',
+    model_individual_to_all: 'Set vouchers value individually',
+    model_individual_value: 'Individual value',
     model_notes: 'Notes',
+    model_product_name: 'Name',
+    model_product_unit: 'Unit',
+    model_product_image: 'Image',
+    model_number_booklets: 'Quantity of booklets to create',
+    model_number_vouchers: 'Quantity of vouchers',
     model_project_donors_name: 'Donors',
     model_project_end_date: 'End Date',
     model_project_name: 'Project\'s name',
@@ -339,12 +355,15 @@ export const TEXT = {
     model_sectors_name: 'Sectors',
     model_transaction_message: 'Message',
     model_transaction_pickupDate: 'Pick up date',
-    model_transaction_state: 'Status',
+    model_state: 'Status',
     model_type: 'Type',
+    model_type_shop: 'Type of shop',
     model_used: 'Used',
     model_user: 'User',
-    model_user_password: 'Password',
+    model_password: 'Password',
     model_value: 'Value',
+    model_vendors_address: 'Address',
+    model_vendor: 'Vendor',
     model_vulnerabilities: 'Vulnerabilities',
 
     // Placeholder
@@ -395,8 +414,10 @@ export const TEXT = {
     settings_donors: 'donors',
     settings_financial_provider: 'Third party connections',
     settings_log_button: 'Get user logs by email',
+    settings_product: 'Products',
     settings_project_exists: 'A project with this name already exists',
     settings_users: 'users',
+    settings_vendors: 'vendors',
 
     // Snackbar
     snackbar_change_password_done: 'Password has been changed!',
@@ -419,8 +440,10 @@ export const TEXT = {
     // Transaction
     transaction_accept_prevention: 'I agree to these terms.',
     transaction_again: 'Send again',
+    transaction_amount_distributed: 'Amount distributed',
     transaction_amount_done: 'Amount sent',
     transaction_amount_total: 'Total amount',
+    transaction_amount_used: 'Amount used',
     transaction_amount_waiting: 'Amount picked up',
     transaction_confirm: 'Confirm the transaction',
     transaction_confirm_button: 'Confirm',
@@ -435,6 +458,7 @@ export const TEXT = {
     transaction_transaction: 'Start transaction',
     transaction_validate_distribution: 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.',
     transaction_validation: 'Confirm the validation',
+    transaction_no_transaction_sent: 'No completed transaction, cannot export',
 
     // Tooltip
     tooltip_add_beneficiaries: 'This page is the add beneficiaries\' page. This is a form to add a new household with required fields.',
@@ -458,4 +482,26 @@ export const TEXT = {
     update_beneficiary_error_updated: 'Error while updating: ',
     update_beneficiary_title: 'Update Beneficiary',
     update_beneficiary_updated_successfully: 'Updated successfuly !',
+
+    //Vouchers
+    voucher_ask_code: 'Please ask beneficiary to enter his 4 digits code here',
+    voucher_assign: 'Assign vouchers',
+    voucher_assign_title: 'Assign booklet to a beneficiary',
+    voucher_assigned_success: 'The booklet has been assigned to ',
+    voucher_confirm: 'Booklet assigned to',
+    voucher_created: 'The booklet has been created.',
+    voucher_define_password: 'Define password for booklet',
+    voucher_for: 'for',
+    voucher_no_device: 'There is no device detected',
+    voucher_no_permission: 'You have denied access to the camera',
+    voucher_only_digits: 'Your password must be only 4 digits',
+    voucher_password_changed: 'Your password has been changed',
+    voucher_scan_text: 'Scan booklet QR code',
+    voucher_select_project: 'You have to select a project',
+    voucher_select_distribution: 'You have to select a distribution',
+    voucher_select_beneficiary: 'You have to select a beneficiary',
+    voucher_step5: 'will be assigned to',
+    voucher_print_selection: 'Print selection',
+    voucher_print_error: 'You can\'t print a booklet if it has no beneficiary',
+    voucher_print_starting: 'Your voucher download is starting',
 };

@@ -70,7 +70,7 @@
                       {{livelihood}} </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
-                <div class="specifics" *ngIf="updatedHousehold.specificAnswers">
+                <div class="specifics" *ngIf="updatedHousehold.specificAnswers.length">
                   <h4>{{ Text.settings_country_specific_options | titlecase }}</h4>
                   <mat-form-field *ngFor="let specific of updatedHousehold.specificAnswers">
                     <input matInput [type]="specific.type" placeholder="IDPoor No." [(ngModel)]="specific.answer" *ngIf="specific.field_string === 'IDPoor'">
@@ -155,7 +155,7 @@
                 <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
                   placeholder={{Text.model_residencystatus}} [(ngModel)]="updatedHousehold.beneficiaries[0].residency_status">
                   <ng-option *ngFor="let type of residencyStatusList" [value]="type">
-                    {{type | titlecase}}
+                    {{type}}
                   </ng-option>
                 </ng-select>
               </div>
@@ -204,7 +204,7 @@
               <div class="lign-container">
                 <mat-checkbox color='primary' *ngFor="let vulnerability of vulnerabilityList, let vulIndex=index"
                   [checked]="updatedHousehold.beneficiaries[0].vulnerabilities[vulIndex]" (change)="updatedHousehold.beneficiaries[0].vulnerabilities[vulIndex] = !updatedHousehold.beneficiaries[0].vulnerabilities[vulIndex]">
-                  {{vulnerability.field_string}}
+                  {{vulnerability.field_string | titlecase }}
                 </mat-checkbox>
               </div>
             </div>
@@ -346,7 +346,7 @@
                 <div class="lign-container">
                   <mat-checkbox color='primary' *ngFor="let vulnerability of vulnerabilityList, let vulIndex=index"
                     [checked]="updatedHousehold.beneficiaries[memberIndex].vulnerabilities[vulIndex]" (change)="updatedHousehold.beneficiaries[memberIndex].vulnerabilities[vulIndex] = !updatedHousehold.beneficiaries[memberIndex].vulnerabilities[vulIndex]">
-                    {{vulnerability.field_string}}
+                    {{vulnerability.field_string | titlecase }}
                   </mat-checkbox>
                 </div>
               </div>

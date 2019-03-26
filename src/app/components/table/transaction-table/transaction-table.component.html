@@ -13,7 +13,7 @@
         </mat-form-field>
     </div>
 
-    <div *ngIf="filled === true && data && data.data" style="max-height: 370px; overflow: auto;">
+    <div *ngIf="filled === true && data && data.data">
         <table mat-table [dataSource]="data" matSort>
             <ng-container matColumnDef="check" *ngIf="checkbox">
                 <th mat-header-cell class="header-cell" *matHeaderCellDef>
@@ -47,14 +47,16 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions | titlecase }}</th>
                 <td mat-cell class="content-cell" *matCellDef="let element">
-                    <button mat-icon-button class="green" (click)="openDialog('update', element); $event.stopPropagation()"
+                    <button *ngIf="editable" mat-icon-button class="green" (click)="openDialog('update', element); $event.stopPropagation()"
                         [matTooltip]="table.details">
                         <mat-icon>search</mat-icon>
                     </button>
-
-                    <button *ngIf="editable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
-                        [matTooltip]="table.delete" class="red">
-                        <mat-icon>delete_outline</mat-icon>
+                    <button *ngIf="printable" mat-icon-button (click)="print(element); $event.stopPropagation()"
+                        [matTooltip]="'print'" class="grey" [disabled]="!isPrintable(element)">
+                        <mat-icon>printer</mat-icon>
+                    </button>
+                    <button mat-icon-button [matTooltip]="'assign'" *ngIf="assignable" (click)="assign(element); $event.stopPropagation()" class="grey" [disabled]="!isAssignable(element)">
+                        <mat-icon>assignment</mat-icon>
                     </button>
                 </td>
             </ng-container>

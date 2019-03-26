@@ -2,6 +2,8 @@ import { Sector } from './sector';
 import { SectorMapper } from './sector-mapper';
 import { Donor } from './donor';
 import { GlobalText } from '../../texts/global';
+import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
+import { DatePipe } from '@angular/common';
 
 export class Project {
     static __classname__ = 'Project';
@@ -56,7 +58,7 @@ export class Project {
      */
     iso3: string;
     /**
-     * Project's value
+     * Project's target beneficiaries
      * @type {Float32Array}
      */
     value: Float32Array;
@@ -65,17 +67,24 @@ export class Project {
      * @type {string}
      */
     notes: string;
+     /**
+     * Project's reached beneficiaries
+     * @type {number}
+     */
+    reached_benef: number;
 
     constructor(instance?) {
+
         if (instance !== undefined) {
             this.id = instance.id;
             this.name = instance.name;
-            this.start_date = instance.start_date ? instance.start_date : new Date();
-            this.end_date = instance.end_date ? instance.end_date : new Date();
+            this.start_date = instance.start_date ? instance.start_date : new DatePipe('en-US').transform(new Date(), 'yyyy-dd-MM');
+            this.end_date = instance.end_date ? instance.end_date : new DatePipe('en-US').transform(new Date(), 'yyyy-dd-MM');
             this.number_of_households = instance.number_of_households;
             this.iso3 = instance.iso3 ? instance.iso3 : '';
             this.value = instance.value ? instance.value : null;
             this.notes = instance.notes ? instance.notes : '';
+            this.reached_benef = instance.reached_benef;
         }
     }
 
@@ -96,6 +105,7 @@ export class Project {
             donors_name: GlobalText.TEXTS.model_project_donors_name,
             notes: GlobalText.TEXTS.model_notes,
             value: GlobalText.TEXTS.model_project_value,
+            reached_benef: GlobalText.TEXTS.add_distribution_beneficiaries_reached
         };
     }
 
@@ -124,9 +134,20 @@ export class Project {
         if (element.donors) {
             element.donors.forEach(donor => {
                 project.donors.push(new Donor(donor));
-                project.donors_name.push(donor.fullname);
+                project.donors_name.push(donor.shortname);
             });
         }
+
+        const reachedBeneficiaries = [];
+        if (element.distributions) {
+            element.distributions.forEach(distribution => {
+                distribution.distribution_beneficiaries.forEach(distributionBeneficiary => {
+                    reachedBeneficiaries.push(distributionBeneficiary.beneficiary.id);
+                });
+            });
+        }
+        const uniqueReachedBeneficiaries = reachedBeneficiaries ? [new Set(reachedBeneficiaries)] : [];
+        project.reached_benef = uniqueReachedBeneficiaries[0].size;
         return project;
     }
 
@@ -189,7 +210,8 @@ export class Project {
             notes: selfinstance.notes,
             value: selfinstance.value,
             donors_name: donorsArray,
-            sectors_name: sectorsArray
+            sectors_name: sectorsArray,
+            reached_benef: selfinstance.reached_benef
         };
     }
 
@@ -207,7 +229,9 @@ export class Project {
             start_date: selfinstance.start_date,
             end_date: selfinstance.end_date,
             number_of_households: selfinstance.number_of_households,
-            donors_name: selfinstance.donors_name
+            donors_name: selfinstance.donors_name,
+            reached_benef: selfinstance.reached_benef
+
         };
     }
 
@@ -226,7 +250,8 @@ export class Project {
             end_date: selfinstance.end_date,
             number_of_households: selfinstance.number_of_households,
             value: selfinstance.value,
-            donors_name: selfinstance.donors_name
+            donors_name: selfinstance.donors_name,
+            reached_benef: selfinstance.reached_benef
         };
     }
 
@@ -285,6 +310,7 @@ export class Project {
     * return a Project after formatting its properties for the box properties
     */
     getMapperBox(selfinstance): Object {
+
         if (!selfinstance) {
             return selfinstance;
         }
@@ -294,6 +320,7 @@ export class Project {
             donors_name: this.mapDonors(selfinstance.donors_name),
             sectors_name: SectorMapper.mapSectors(selfinstance.sectors_name),
             value: selfinstance.value,
+            reached_benef: selfinstance.reached_benef,
             number_of_households: selfinstance.number_of_households,
         };
     }
@@ -309,6 +336,8 @@ export class Project {
             end_date: 'date',
             number_of_households: 'number',
             donors_name: 'text',
+            reached_benef: 'number'
+
         };
     }
 
@@ -323,6 +352,7 @@ export class Project {
             end_date: 'date',
             donors_name: 'selectDonor',
             value: 'number',
+            reached_benef: 'number'
         };
     }
 

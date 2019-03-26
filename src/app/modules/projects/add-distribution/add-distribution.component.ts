@@ -1,14 +1,16 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { DateAdapter, MatDialog, MatSnackBar, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
+import { DateAdapter, MatDialog, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
+import { Project } from 'src/app/model/project.new';
 import { GlobalText } from '../../../../texts/global';
 import { ModalAddComponent } from '../../../components/modals/modal-add/modal-add.component';
 import { CriteriaService } from '../../../core/api/criteria.service';
@@ -89,7 +91,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         private locationService: LocationService,
         private _distributionService: DistributionService,
         private _projectService: ProjectService,
-        private snackBar: MatSnackBar
+        private snackbar: SnackbarService,
     ) { }
 
     ngOnInit() {
@@ -137,7 +139,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         if (event.value) {
             this.newObject.date_distribution = event.value.toLocaleDateString();
         } else {
-            this.snackBar.open(this.distribution.add_distribution_check_date, '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(this.distribution.add_distribution_check_date);
         }
     }
 
@@ -407,19 +409,16 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
 
             if (new Date(this.newObject.date_distribution) < new Date(this.projectInfo.startDate) ||
             new Date(this.newObject.date_distribution) > new Date(this.projectInfo.endDate)) {
-                this.snackBar.open(this.distribution.add_distribution_date_inside_project,
-                  '', { duration: 5000, horizontalPosition: 'center' });
+                this.snackbar.error(this.distribution.add_distribution_date_inside_project);
                 return;
             } else {
                 const distributionModality = this.commodities[0].modality;
                 for (const commodity of this.commodities) {
                     if (commodity.value <= 0) {
-                        this.snackBar.open(this.distribution.add_distribution_zero,
-                            '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.error(this.distribution.add_distribution_zero);
                         return;
                     } else if (commodity.modality !== distributionModality) {
-                        this.snackBar.open(this.distribution.add_distribution_multiple_modalities,
-                             '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.error(this.distribution.add_distribution_multiple_modalities);
                         return;
                     }
                 }
@@ -460,29 +459,28 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
                 const promise = this._distributionService.add(newDistribution);
                 if (promise) {
                     promise.toPromise().then(response => {
-                        this.snackBar.open(this.distribution.distribution + ' : ' + response.distribution.name +
-                        this.distribution.add_distribution_created, '', { duration: 5000, horizontalPosition: 'center' });
+                        this.snackbar.success(this.distribution.distribution + ' : ' + response.distribution.name +
+                        this.distribution.add_distribution_created);
                         this.router.navigate(['projects/distributions/' + response.distribution.id]);
                     });
                 } else {
-                    this.snackBar.open(this.distribution.add_distribution_error_creating,
-                    '', { duration: 5000, horizontalPosition: 'center' });
+                    this.snackbar.error(this.distribution.add_distribution_error_creating);
                     this.loadingCreation = false;
                 }
             }
         } else if (this.criteriaArray.length === 0) {
-            this.snackBar.open(this.distribution.add_distribution_missing_selection_criteria,
-            '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(this.distribution.add_distribution_missing_selection_criteria);
+
         } else if (!this.commodities[0]) {
-            this.snackBar.open(this.distribution.add_distribution_missing_commodity, '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(this.distribution.add_distribution_missing_commodity);
         } else if (!this.newObject.date_distribution) {
-            this.snackBar.open(this.distribution.add_distribution_missing_date, '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(this.distribution.add_distribution_missing_date);
         } else if (this.newObject.threshold <= 0) {
-            this.snackBar.open(this.distribution.add_distribution_missing_threshold, '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(this.distribution.add_distribution_missing_threshold);
         } else if (!this.newObject.adm1) {
-            this.snackBar.open(this.distribution.add_distribution_missing_location, '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(this.distribution.add_distribution_missing_location);
         } else {
-            this.snackBar.open(this.distribution.add_distribution_check_fields, '', { duration: 5000, horizontalPosition: 'center' });
+            this.snackbar.error(this.distribution.add_distribution_check_fields);
         }
 
     }
@@ -597,19 +595,14 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
 
     getProjectDates() {
         this._projectService.get().subscribe(
-            result => {
-                const projects = result;
-                let keyForProject;
-
-                Object.keys(projects).forEach(key => {
-                    if (projects[key].id === this.queryParams.project) {
-                        keyForProject = key;
+            (projects: Project[]) => {
+                projects.forEach(project => {
+                    if (project.fields.id.value === this.queryParams.project) {
+                        this.projectInfo.startDate = project.fields.startDate.value;
+                        this.projectInfo.endDate = project.fields.endDate.value;
                         return;
                     }
                 });
-
-                this.projectInfo.startDate = projects[keyForProject].start_date;
-                this.projectInfo.endDate = projects[keyForProject].end_date;
             }
         );
     }

@@ -1,20 +1,20 @@
 [![Build Status](https://travis-ci.org/ReliefApplications/bms_front.svg?branch=dev)](https://travis-ci.org/ReliefApplications/bms_front)
 [![GitHub version](https://badge.fury.io/gh/ReliefApplications%2Fbms_front.svg)](https://badge.fury.io/gh/ReliefApplications%2Fbms_front)
 
-POPULUS
+BMS
 ==============
 A platform that allows humanitarian organisations to manage relief items (Food, Non Food Items, CASH) to people in need for life-saving humanitarian responses to emergency situations.
 
 
 # About
 
-Populus is the first fully open-source relief platform for humanitarian actors to efficiently manage relief operations after a disaster, during a war or in response to long term crises. 
+BMS is the first fully open-source relief platform for humanitarian actors to efficiently manage relief operations after a disaster, during a war or in response to long term crises. 
 
 If you're an experienced developer and you would like to get involved, contact us on Twitter: @reliefapps or [here](https://twitter.com/Reliefapps).
 
 ## What's here
 
-This repo is the "master" repo for all Populus-related projects. It hosts 
+This repo is the "master" repo for all BMS-related projects. It hosts 
 the documentation, the frontend and other misc. Code for other
 projects, like the [API](https://github.com/ReliefApplications/bms_api) is hosted in other repositories. 
 

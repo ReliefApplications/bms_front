@@ -19,6 +19,7 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
     @Input() data: any;
     @Output() onUpdate = new EventEmitter();
     updateObject: any;
+    filename = '';
 
     ngOnInit() {
         this.entityInstance = this.data.mapper.instantiate(this.data.entity);
@@ -90,12 +91,12 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
         if (this.updateObject.username && this.updateObject.rights) {
 
             // if (this.updateObject.password == '' || !this.updateObject.password) {
-            //   this.snackBar.open(this.modal.modal_no_password, '', { duration: 5000, horizontalPosition: 'right' });
+            //   this.snackbar.open(this.modal.modal_no_password);
             //   return;
             // }
             if (this.updateObject.password && this.updateObject.password !== '') {
                 if (!this.passwordRegex.test(this.updateObject.password)) {
-                    this.snackBar.open(this.modal.modal_not_enough_strong, '', { duration: 5000, horizontalPosition: 'right' });
+                    this.snackbar.error(this.modal.modal_not_enough_strong);
                     return;
                 }
             }
@@ -103,13 +104,13 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
             if (this.updateObject.rights === 'ROLE_PROJECT_MANAGER' || this.updateObject.rights === 'ROLE_PROJECT_OFFICER' ||
             this.updateObject.rights === 'ROLE_FIELD_OFFICER') {
                 if (this.updateObject.projects === undefined || Object.keys(this.updateObject.projects).length === 0) {
-                    this.snackBar.open(this.modal.modal_no_project, '', { duration: 5000, horizontalPosition: 'right' });
+                    this.snackbar.error(this.modal.modal_no_project);
                     return;
                 }
             } else if (this.updateObject.rights === 'ROLE_REGIONAL_MANAGER' || this.updateObject.rights === 'ROLE_COUNTRY_MANAGER' ||
             this.updateObject.rights === 'ROLE_READ_ONLY') {
                 if (this.updateObject.country === undefined) {
-                    this.snackBar.open(this.modal.modal_no_country, '', { duration: 5000, horizontalPosition: 'right' });
+                    this.snackbar.error(this.modal.modal_no_country);
                     return;
                 }
             }
@@ -150,23 +151,23 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
         } else if ((this.updateObject.countryIso3 && this.updateObject.field && this.updateObject.type) ||
         this.updateObject.countryIso3 === '' || this.updateObject.field === '') {
             if (this.updateObject.field === '' || this.updateObject.type === '') {
-                this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_check_fields);
                 return;
             }
         } else if ((this.updateObject.fullname && this.updateObject.shortname) || this.updateObject.fullname === '' ||
         this.updateObject.shortname === '') {
             if (this.updateObject.fullname === '' || this.updateObject.shortname === '') {
-                this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_check_fields);
                 return;
             }
         } else if ((this.updateObject.end_date && this.updateObject.start_date && this.updateObject.iso3)) {
             if (!this.updateObject.end_date || !this.updateObject.name || !this.updateObject.start_date || !this.updateObject.value) {
-                this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_check_fields);
                 return;
             }
 
             if (new Date(this.updateObject.start_date).getTime() >= new Date(this.updateObject.end_date).getTime()) {
-                this.snackBar.open(this.modal.modal_check_date, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_check_date);
                 return;
             }
 
@@ -197,14 +198,34 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
                 }
                 this.updateObject.end_date = year + '-' + month + '-' + day;
             }
-        } else if (this.updateObject && this.updateObject.username) {
+        }
+
+        // Check fields for Financial Provider in settings
+        else if (this.updateObject && this.updateObject.username && !this.updateObject.shop) {
             if (this.updateObject.username === '' || this.updateObject.password === '' || !this.updateObject.password) {
-                this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_check_fields);
                 return;
             }
-        } else if (this.updateObject.date_distribution) {
+        }
+
+        // Check fields for Vendors in settings
+        else if (this.updateObject && (this.updateObject.shop || this.updateObject.shop === '')) {
+            if (
+                this.updateObject.name === '' ||
+                this.updateObject.shop === '' ||
+                this.updateObject.address === '' ||
+                this.updateObject.username === '' ||
+                this.updateObject.password === ''
+            ) {
+                this.snackbar.error(this.modal.modal_check_fields);
+                return;
+            }
+        }
+
+        // Check fields for update distribution
+        else if (this.updateObject.date_distribution) {
             if (!this.updateObject.date_distribution || !this.updateObject.name) {
-                this.snackBar.open(this.modal.modal_check_fields, '', { duration: 5000, horizontalPosition: 'right' });
+                this.snackbar.error(this.modal.modal_check_fields);
                 return;
             }
 
@@ -223,7 +244,69 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
             }
         }
 
-        this.onUpdate.emit(this.updateObject);
-        this.closeDialog();
+        if (this.updateObject.imageData) {
+            this.uploadService.uploadImage(this.updateObject.imageData, this.data.entity.__classname__).subscribe(fileUrl => {
+                this.updateObject.image = fileUrl;
+                this.onUpdate.emit(this.updateObject);
+                this.closeDialog();
+            });
+        } else {
+            this.onUpdate.emit(this.updateObject);
+            this.closeDialog();
+        }
+    }
+
+    isDisabled(property) {
+        if (property === 'location_name' || property === 'number_beneficiaries'
+            || property === 'name' || property === 'shop' || (property === 'username' && this.data.entity.__classname__ === 'Vendors')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    handleCheckbox() {
+        if (this.data.entity.__classname__ === 'Booklet') {
+            if (this.updateObject.individual_to_all) {
+                const individual_values = new Array(this.updateObject.number_vouchers);
+                const individual_value = this.updateObject.individual_value ? this.updateObject.individual_value : 1;
+                individual_values.fill(individual_value);
+                this.updateObject.individual_values = individual_values;
+                this.updateObject.individual_value = null;
+            } else {
+                this.updateObject.individual_value = this.updateObject.individual_values ? this.updateObject.individual_values[0] : 1;
+                this.updateObject.individual_values = null;
+            }
+        }
+    }
+
+    handleChangeNumberVouchers() {
+        if (this.updateObject.individual_to_all) {
+            if (this.updateObject.individual_values.length > this.updateObject.number_vouchers) {
+                while (this.updateObject.individual_values.length > this.updateObject.number_vouchers) {
+                    this.updateObject.individual_values.pop();
+                }
+            } else if (this.updateObject.individual_values.length < this.updateObject.number_vouchers) {
+                while (this.updateObject.individual_values.length < this.updateObject.number_vouchers) {
+                    const value = this.updateObject.individual_values[0] ? this.updateObject.individual_values[0] : 1;
+                    this.updateObject.individual_values.push(value);
+                }
+            }
+        }
+    }
+
+    trackByFn(i: number) {
+        return i;
+      }
+
+    onFileChange(property, event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.filename = file.name;
+
+            const formData = new FormData();
+            formData.append('file', file);
+            this.updateObject.imageData = formData;
+        }
     }
 }

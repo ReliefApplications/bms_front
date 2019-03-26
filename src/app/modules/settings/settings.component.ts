@@ -1,13 +1,19 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { TableComponent } from 'src/app/components/table/table.component';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { LocationService } from 'src/app/core/api/location.service';
+import { ProductService } from 'src/app/core/api/product-service';
+import { VendorsService } from 'src/app/core/api/vendors.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { FinancialProvider } from 'src/app/model/financial-provider';
+import { Product } from 'src/app/model/product';
+import { Vendors } from 'src/app/model/vendors';
 import { GlobalText } from 'src/texts/global';
 import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
 import { ModalDeleteComponent } from '../../components/modals/modal-delete/modal-delete.component';
@@ -64,6 +70,8 @@ export class SettingsComponent implements OnInit {
     public widthScreen;
     hasRights: boolean;
     public deletable = true;
+    public printable = false;
+    public httpSubscriber: Subscription;
 
     @ViewChild(TableComponent) table: TableComponent;
 
@@ -80,7 +88,9 @@ export class SettingsComponent implements OnInit {
         private _cacheService: AsyncacheService,
         private locationService: LocationService,
         private _settingsService: SettingsService,
-        private snackBar: MatSnackBar,
+        private snackbar: SnackbarService,
+        public productService: ProductService,
+        private vendorsService: VendorsService,
     ) { }
 
     ngOnInit() {
@@ -90,114 +100,137 @@ export class SettingsComponent implements OnInit {
     }
 
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.checkSize();
+  }
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.checkSize();
+  checkSize(): void {
+    this.heightScreen = window.innerHeight;
+    this.widthScreen = window.innerWidth;
+  }
+
+  selectTitle(title): void {
+    if (this.httpSubscriber) {
+      this.httpSubscriber.unsubscribe();
     }
+    this.getData(title);
+    this.selectedTitle = title;
+  }
 
-    checkSize(): void {
-        this.heightScreen = window.innerHeight;
-        this.widthScreen = window.innerWidth;
+  setType(choice) {
+    this.extensionType = choice;
+  }
+
+  export() {
+    let category: string;
+    let country = null;
+    this.loadingExport = true;
+
+    switch (this.selectedTitle) {
+      case 'users':
+        category = 'users';
+        break;
+      case 'country specific options':
+        category = 'countries';
+        break;
+      case 'donors':
+        category = 'donors';
+        break;
+      case 'projects':
+        category = 'projects';
+        break;
+      case 'financialProvider':
+        category = 'financialProvider';
+        break;
+      case 'products':
+        category = 'product';
+        break;
+      default:
+        break;
     }
+    if (category === 'projects') {
+        let exported = false;
+        country = this.locationService.getAdm1().subscribe(
+            result => {
+                if (!exported) {
+                    exported = true;
 
-    selectTitle(title: string): void {
-        this.selectedTitle = title;
-        this.getData(title);
-    }
-
-    setType(choice) {
-        this.extensionType = choice;
-    }
-
-    export() {
-        let category: string;
-        let country = null;
-        this.loadingExport = true;
-
-        switch (this.selectedTitle) {
-            case 'users':
-                category = 'users';
-                break;
-            case 'country specific options':
-                category = 'countries';
-                break;
-            case 'donors':
-                category = 'donors';
-                break;
-            case 'projects':
-                category = 'projects';
-                break;
-            case 'financialProvider':
-                category = 'financialProvider';
-                break;
-            default:
-                break;
-        }
-
-        if (category === 'projects') {
-            let exported = false;
-            country = this.locationService.getAdm1().subscribe(
-                result => {
-                    if (!exported) {
-                        exported = true;
-
-                        country = result[0].country_i_s_o3;
-                        return this._settingsService.export(this.extensionType, category, country).then(
-                            () => { this.loadingExport = false; }
-                        ).catch(
-                            () => { this.loadingExport = false; }
-                        );
-                    }
+                    country = result[0].country_i_s_o3;
+                    return this._settingsService.export(this.extensionType, category, country).then(
+                        () => { this.loadingExport = false; }
+                    ).catch(
+                        () => { this.loadingExport = false; }
+                    );
                 }
-            );
-        } else {
-            return this._settingsService.export(this.extensionType, category, country).then(
-                () => { this.loadingExport = false; }
-            ).catch(
-                () => { this.loadingExport = false; }
-            );
-        }
+            }
+        );
+    } else {
+        return this._settingsService.export(this.extensionType, category, country).then(
+          () => { this.loadingExport = false; }
+        ).catch(
+          () => { this.loadingExport = false; }
+        );
     }
+  }
 
-    getData(title) {
-        switch (title) {
-            case 'users':
-                this.referedClassToken = User;
-                this.referedClassService = this.userService;
-                this.deletable = true;
-                break;
-            case 'donors':
-                this.referedClassToken = Donor;
-                this.referedClassService = this.donorService;
-                this.deletable = true;
-                break;
-            case 'projects':
-                this.referedClassToken = NewProject;
-                this.referedClassService = this.projectService;
-                this.deletable = true;
-                break;
-            case 'country specific options':
-                this.referedClassToken = CountrySpecific;
-                this.referedClassService = this.countrySpecificService;
-                this.deletable = true;
-                break;
-            case 'financialProvider':
-                this.referedClassToken = FinancialProvider;
-                this.referedClassService = this.financialProviderService;
-                this.deletable = false;
-                break;
-            default: break;
-        }
-        this.load();
+  getData(title) {
+    switch (title) {
+      case 'users':
+        this.referedClassToken = User;
+        this.referedClassService = this.userService;
+        this.deletable = true;
+        this.printable = false;
+        break;
+      case 'donors':
+        this.referedClassToken = Donor;
+        this.referedClassService = this.donorService;
+        this.deletable = true;
+        this.printable = false;
+
+        break;
+      case 'projects':
+        this.referedClassToken = NewProject;
+        this.referedClassService = this.projectService;
+        this.deletable = true;
+        this.printable = false;
+        break;
+      case 'country specific options':
+        this.referedClassToken = CountrySpecific;
+        this.referedClassService = this.countrySpecificService;
+        this.deletable = true;
+        this.printable = false;
+        break;
+      case 'financialProvider':
+        this.referedClassToken = FinancialProvider;
+        this.referedClassService = this.financialProviderService;
+        this.deletable = false;
+        this.printable = false;
+        break;
+      case 'product':
+        this.referedClassToken = Product;
+        this.referedClassService = this.productService;
+        this.deletable = true;
+        this.printable = false;
+        break;
+      case 'vendors':
+        this.referedClassToken = Vendors;
+        this.referedClassService = this.vendorsService;
+        this.deletable = true;
+        this.printable = true;
+        break;
+      default: break;
     }
+    this.load();
+  }
 
-    // TO DO : get from cache
+  // TO DO : get from cache
     load(): void {
         this.data = null;
         this.hasRights = false;
-        this.referedClassService.get()
-            .pipe(
+
+        this.httpSubscriber = this.referedClassService.get().
+            pipe(
                 finalize(
                     () => {
                         this.loadingData = false;
@@ -247,15 +280,14 @@ export class SettingsComponent implements OnInit {
                 break;
 
             default:
-                this.snackBar.open('Modal error');
+                this.snackbar.error('Modal error');
                 break;
         }
 
         const subscription = dialogRef.afterClosed().subscribe((closeMethod: string) => {
             if (closeMethod === 'Add') {
                 this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe(() => {
-                    this.snackBar.open(this.referedClassInstance.title + GlobalText.TEXTS.settings_created,
-                        '', { duration: 5000, horizontalPosition: 'center' });
+                    this.snackbar.error(this.settings.settings_project_exists);
                     this.load();
                 });
 
@@ -324,7 +356,7 @@ export class SettingsComponent implements OnInit {
 
     createElement(createElement: Object) {
         createElement = this.referedClassToken.formatForApi(createElement);
-        if (this.referedClassToken.__classname__ !== 'User') {
+        if (this.referedClassToken.__classname__ !== 'User' && this.referedClassToken.__classname__ !== 'Vendors') {
             this.referedClassService.create(createElement['id'], createElement).subscribe(
                 response => {
                     this.selectTitle(this.selectedTitle);
@@ -333,6 +365,12 @@ export class SettingsComponent implements OnInit {
             // for users, there are two step (one to get the salt and one to create the user)
             this.authenticationService.initializeUser(createElement['username']).subscribe(response => {
                 if (response) {
+                  if (this.referedClassToken.__classname__ === 'Vendors') {
+                    this.authenticationService.createVendor(createElement, response).subscribe(
+                      () => {
+                        this.selectTitle(this.selectedTitle);
+                      });
+                  } else {
                     if (createElement['rights'] === 'ROLE_PROJECT_MANAGER'
                         || createElement['rights'] === 'ROLE_PROJECT_OFFICER'
                         || createElement['rights'] === 'ROLE_FIELD_OFFICER') {
@@ -350,6 +388,7 @@ export class SettingsComponent implements OnInit {
                         () => {
                             this.selectTitle(this.selectedTitle);
                         });
+                  }
                 }
             });
         }

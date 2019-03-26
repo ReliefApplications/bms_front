@@ -91,7 +91,7 @@ export class TransactionBeneficiary {
             givenName: GlobalText.TEXTS.model_firstName,
             familyName: GlobalText.TEXTS.model_familyName,
             phone: GlobalText.TEXTS.phone,
-            state: GlobalText.TEXTS.model_transaction_state,
+            state: GlobalText.TEXTS.model_state,
             values: GlobalText.TEXTS.model_value,
             date: GlobalText.TEXTS.model_transaction_pickupDate,
             message: GlobalText.TEXTS.model_transaction_message,

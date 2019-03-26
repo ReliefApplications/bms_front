@@ -1,9 +1,10 @@
-import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
-import { MatDialog, MatSnackBar, MatTableDataSource } from '@angular/material';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { DonorService } from 'src/app/core/api/donor.service';
 import { SectorService } from 'src/app/core/api/sector.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { GlobalText } from '../../../texts/global';
 import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
@@ -12,7 +13,6 @@ import { ProjectService } from '../../core/api/project.service';
 import { ImportedDataService } from '../../core/utils/imported-data.service';
 import { Mapper } from '../../core/utils/mapper.service';
 import { DistributionData } from '../../model/distribution-data';
-import { Project } from '../../model/project';
 import { Project as NewProject } from '../../model/project.new';
 
 
@@ -25,9 +25,8 @@ import { Project as NewProject } from '../../model/project.new';
     templateUrl: './project.component.html',
     styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent implements OnInit, DoCheck {
+export class ProjectComponent implements OnInit {
     public nameComponent = 'projects';
-    public distribution = GlobalText.TEXTS;
     public language = GlobalText.language;
     loadingExport = false;
 
@@ -61,7 +60,7 @@ export class ProjectComponent implements OnInit, DoCheck {
         public mapperService: Mapper,
         private router: Router,
         private _cacheService: AsyncacheService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public dialog: MatDialog,
         public importedDataService: ImportedDataService,
         private donorService: DonorService,
@@ -74,7 +73,6 @@ export class ProjectComponent implements OnInit, DoCheck {
         }
         this.getProjects();
         this.checkSize();
-        this.checkPermission();
         this.extensionType = 'xls';
     }
 
@@ -88,19 +86,6 @@ export class ProjectComponent implements OnInit, DoCheck {
         this.widthScreen = window.innerWidth;
     }
 
-    /**
-     * check if the language has changed
-     */
-    ngDoCheck() {
-        if (this.distribution !== GlobalText.TEXTS) {
-            this.distribution = GlobalText.TEXTS;
-            this.nameComponent = GlobalText.TEXTS.distributions;
-        }
-
-        if (this.language !== GlobalText.language) {
-            this.language = GlobalText.language;
-        }
-    }
     /**
      * update current project and its distributions when a other project box is clicked
      * @param project
@@ -208,57 +193,10 @@ export class ProjectComponent implements OnInit, DoCheck {
         dialogRef.afterClosed().subscribe((closeMethod: string) => {
             if (closeMethod === 'Submit') {
                 this.projectService.create(newProjectInstance.modelToApi()).subscribe(() => {
-                    this.snackBar.open('Project ' + this.distribution.settings_created,
-                        '', { duration: 5000, horizontalPosition: 'right' });
+                    this.snackbar.success('Project ' + GlobalText.TEXTS.settings_created);
+                    this.getProjects();
                 });
-                this.getProjects();
             }
         });
-
-        /*
-        const create = dialogRef.componentInstance.objectCreated.subscribe(
-            (data) => {
-                let exists = false;
-                if (this.projects) {
-                    this.projects.forEach(element => {
-                        if (element.name.toLowerCase() === data.name.toLowerCase()) {
-                            this.snackBar.open(this.distribution.settings_project_exists,
-                              '', { duration: 5000, horizontalPosition: 'right' });
-                            exists = true;
-                            return;
-                        }
-                    });
-                }
-
-                if (! exists) {
-                    this.createElement(data);
-                }
-            }
-        );
-        */
     }
-
-    checkPermission() {
-        this._cacheService.getUser().subscribe(
-            result => {
-                const rights = result.rights;
-                if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
-                    this.hasRights = true;
-                }
-
-                if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER') {
-                    this.hasRightsEdit = true;
-                }
-            }
-        );
-    }
-
-    // autoProjectSelect(input: string) {
-    //     const selector = parseInt(input, 10);
-    //     this.projects.forEach(e => {
-    //         if (e.id === selector) {
-    //             this.selectProject(e.name, e);
-    //         }
-    //     });
-    // }
 }

@@ -36,7 +36,7 @@ export class NationalID {
      * type of number
      * @type {string}
      */
-    id_type = 'card';
+    id_type = 'ID Card';
 }
 
 export class AddHouseholds {

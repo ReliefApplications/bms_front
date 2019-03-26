@@ -1,7 +1,8 @@
 import { Component, ViewChild, OnInit, Input, Output, EventEmitter, HostListener, DoCheck } from '@angular/core';
 import { DistributionData } from 'src/app/model/distribution-data';
 import { GlobalText } from 'src/texts/global';
-import { MatDialog, MatTableDataSource, MatSnackBar } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -11,7 +12,7 @@ import { finalize, distinct } from 'rxjs/operators';
 import { State } from 'src/app/model/transaction-beneficiary';
 
 @Component({
-    template: '',
+    template: './validated-distribution.component.html',
     styleUrls: ['./validated-distribution.component.scss']
 })
 export class ValidatedDistributionComponent implements OnInit, DoCheck {
@@ -26,7 +27,7 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     maxWidthMobile = GlobalText.maxWidthMobile;
     language = GlobalText.language;
     selection: SelectionModel<any>;
-    exportTypeTransaction = 'xls';
+    extensionType = 'xls';
     progression = 0;
     correctCode = false;
     interval: NodeJS.Timer;
@@ -45,9 +46,9 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     @Input() distributionId: number;
     @Input() hasRights = false;
     @Input() hasRightsTransaction = false;
+    @Input() loaderCache = false;
 
-    @Output() exportEmitter: EventEmitter<string> = new EventEmitter();
-    @Output() storeEmitter: EventEmitter<void> = new EventEmitter();
+    @Output() storeEmitter: EventEmitter<any> = new EventEmitter();
 
 
     @HostListener('window:resize', ['$event'])
@@ -57,7 +58,6 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
 
     ngOnInit() {
         this.checkSize();
-        this.refreshStatuses();
         this.loadingTransaction = false;
         this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
             (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
@@ -72,124 +72,67 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
 
     constructor(
         protected distributionService: DistributionService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public dialog: MatDialog,
         protected cacheService: AsyncacheService,
     ) { }
 
-    getPeopleCount(): number | string {
-        if (!this.transactionData) {
-            return this.getPlaceholderChar();
-        }
-        else {
-            const states = [State.NoPhone, State.NotSent, State.SendError];
-            let peopleCount = 0;
-            for (const beneficiary of this.transactionData.data) {
-                if (states.includes(beneficiary.state)) {
-                    peopleCount ++;
-                }
+    /**
+     * Requests back-end a file containing informations about the transaction
+     */
+    exportTransaction(fileType: string, distributionType: string) {
+
+        this.dialog.closeAll();
+        this.loadingExport = true;
+        this.distributionService.export(distributionType, fileType, this.distributionId).then(
+            () => {
+                this.loadingExport = false;
             }
-            return peopleCount;
-        }
-    }
-
-    getTotalCommodityValue(commodity: any): number | string {
-        return (this.transactionData ? this.transactionData.data.length * commodity.value : this.getPlaceholderChar());
-    }
-
-    getSentValue(commodity: any): number | string {
-        if (!this.transactionData) {
-            return this.getPlaceholderChar();
-        }
-        else {
-            let totalCommodityValue = 0;
-            for (const beneficiary of this.transactionData.data) {
-                if (beneficiary.used) {
-                    totalCommodityValue += commodity.value;
-                }
-            }
-            return totalCommodityValue;
-        }
-    }
-
-    getReceivedValue(commodity: any): number | string {
-        if (!this.transactionData) {
-            return this.getPlaceholderChar();
-        }
-        else {
-            const states = [State.PickedUp];
-            return this.getTotalCommodityValueAccordingToState(commodity.value, states);
-        }
-    }
-
-    getPercentageValue(commodity: any): number | string {
-        if (!this.transactionData) {
-            return this.getPlaceholderChar();
-        }
-        else {
-            const states = [State.Sent, State.AlreadySent, State.PickedUp];
-            return this.getTotalCommodityValueAccordingToState(commodity.value, states);
-        }
-    }
-
-    getTotalCommodityValueAccordingToState(individualCommodityValue: number, states: number[]): number {
-        let totalCommodityValue = 0;
-        for (const beneficiary of this.transactionData.data) {
-            if (states.includes(beneficiary.state)) {
-                totalCommodityValue += individualCommodityValue;
-            }
-        }
-        return totalCommodityValue;
-    }
-
-    getPlaceholderChar() {
-        return '-';
-    }
-
-
-    setTransactionMessage(beneficiary, i) {
-
-        this.transactionData.data[i].message = beneficiary.transactions[beneficiary.transactions.length - 1].message ?
-            beneficiary.transactions[beneficiary.transactions.length].message : '';
-    }
-
-    refreshStatuses() {
-        this.distributionService.refreshPickup(this.distributionId).subscribe(
-            result => {
-                if (!result) {
-                    return;
-                }
-                this.transactionData.data.forEach(
-                    (transaction, index) => {
-                        if (transaction.state === 0) {
-                            return;
-                        }
-                        result.forEach(
-                            element => {
-                                if (transaction.id === element.id) {
-                                    this.transactionData.data[index].updateForPickup(element.moneyReceived);
-                                }
-                            }
-                        );
-                    }
-                );
+        ).catch(
+            (err: any) => {
             }
         );
     }
 
-    requestLogs() {
-        if (this.hasRights) {
-            try {
-                this.distributionService.logs(this.distributionId).subscribe(
-                    e => { this.snackBar.open('' + e, '', { duration: 5000, horizontalPosition: 'center' }); },
-                    () => { this.snackBar.open('Logs have been sent', '', { duration: 5000, horizontalPosition: 'center' }); },
-                );
-            } catch (e) {
-                this.snackBar.open('Logs could not be sent : ' + e, '', { duration: 5000, horizontalPosition: 'center' });
-            }
-        } else {
-            this.snackBar.open('Not enough rights to request logs', '', { duration: 5000, horizontalPosition: 'center' });
+    getTotalCommodityValue(commodity: any): number {
+        return this.transactionData.data.length * commodity.value;
+    }
+
+    getReceivedValue(commodity: any): number {
+        let amountReceived = 0;
+        for (const beneficiary of this.transactionData.data) {
+            amountReceived += this.getCommodityReceivedAmountFromBeneficiary(commodity, beneficiary);
         }
+        return amountReceived;
+    }
+
+    getPercentageValue(commodity: any): number {
+        const percentage = (this.getAmountSent(commodity) / this.getTotalCommodityValue(commodity) * 100);
+        return Math.round(percentage * 100) / 100;
+    }
+
+    getAmountSent(commodity: any): number {
+        let amountSent = 0;
+        for (const beneficiary of this.transactionData.data) {
+            amountSent += this.getCommoditySentAmountFromBeneficiary(commodity, beneficiary);
+        }
+        return amountSent;
+    }
+
+    // Abstract
+    getCommoditySentAmountFromBeneficiary(commodity: any, beneficiary: any): number {
+        throw new Error('Abstract Method');
+    }
+
+    // Abstract
+    getCommodityReceivedAmountFromBeneficiary(commodity: any, beneficiary: any): number {
+        throw new Error('Abstract Method');
+    }
+
+    setTransactionMessage(beneficiary, i) {
+
+        this.transactionData.data[i].message = beneficiary.transactions[beneficiary.transactions.length - 1].message ?
+            beneficiary.transactions[beneficiary.transactions.length - 1].message : '';
     }
 
     storeBeneficiaries() {
@@ -198,144 +141,8 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     }
 
     exit(message: string) {
-        this.snackBar.open(message, '', { duration: 5000, horizontalPosition: 'center' });
+        this.snackbar.info(message);
         this.dialog.closeAll();
-    }
-
-    exportTransaction() {
-        this.exportEmitter.emit(this.exportTypeTransaction);
-    }
-
-    codeVerif() {
-        if ((new Date()).getTime() - this.lastCodeSentTime > this.SENDING_CODE_FREQ) {
-            this.distributionService.sendCode(this.distributionId).toPromise()
-                .then(
-                    anwser => {
-                        if (anwser === 'Email sent') {
-                            this.lastCodeSentTime = (new Date()).getTime();
-                            this.snackBar.open('Verification code has been sent at ' + this.actualUser.email,
-                                '', { duration: 5000, horizontalPosition: 'center' });
-                        }
-                    },
-                    () => {
-                        this.lastCodeSentTime = (new Date()).getTime();
-                        this.snackBar.open('Verification code has been sent at ' + this.actualUser.email,
-                            '', { duration: 5000, horizontalPosition: 'center' });
-                    }
-                )
-                .catch(
-                    (err) => {
-                        this.snackBar.open('Could not send code :' + err, '', { duration: 5000, horizontalPosition: 'center' });
-                    }
-                );
-        } else {
-            this.snackBar.open('The last code was sent less than 10 seconds ago, you should wait.',
-                '', { duration: 5000, horizontalPosition: 'center' });
-        }
-    }
-
-    /**
-     * To transact
-     */
-    confirmTransaction() {
-        if (this.hasRightsTransaction) {
-            this.progression = 0;
-            this.cacheService.getUser().subscribe(result => {
-                this.actualUser = result;
-                if (!this.actualUser.email && this.actualUser.username) {
-                    this.actualUser['email'] = this.actualUser.username;
-                }
-                if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]) {
-                    this.transacting = true;
-                    this.correctCode = true;
-                    this.distributionService.transaction(this.distributionId, this.enteredCode)
-                        .pipe(
-                            finalize(
-                                () => {
-                                    this.transacting = false;
-                                    this.chartAccepted = false;
-                                    this.correctCode = false;
-                                    this.enteredCode = '';
-                                    this.dialog.closeAll();
-                                    clearInterval(this.interval);
-                                    this.refreshStatuses();
-                                }
-                            )
-                        ).subscribe(
-                            (success: any) => {
-                                if (this.transactionData) {
-                                    this.transactionData.data.forEach(
-                                        (element, index) => {
-
-                                            success.already_sent.forEach(
-                                                beneficiary => {
-                                                    if (element.id === beneficiary.beneficiary.id) {
-                                                        this.transactionData.data[index].updateState('Already sent');
-                                                        this.setTransactionMessage(beneficiary, index);
-                                                    }
-                                                }
-                                            );
-                                            success.failure.forEach(
-                                                beneficiary => {
-                                                    if (element.id === beneficiary.beneficiary.id) {
-                                                        this.transactionData.data[index].updateState('Sending failed');
-                                                        this.setTransactionMessage(beneficiary, index);
-                                                    }
-                                                }
-                                            );
-                                            success.no_mobile.forEach(
-                                                beneficiary => {
-                                                    if (element.id === beneficiary.beneficiary.id) {
-                                                        this.transactionData.data[index].updateState('No phone');
-                                                        this.setTransactionMessage(beneficiary, index);
-                                                    }
-                                                }
-                                            );
-                                            success.sent.forEach(
-                                                beneficiary => {
-                                                    if (element.id === beneficiary.beneficiary.id) {
-                                                        this.transactionData.data[index].updateState('Sent');
-                                                        this.setTransactionMessage(beneficiary, index);
-                                                    }
-                                                }
-                                            );
-                                        }
-                                    );
-                                }
-                            }
-                        );
-
-                    const progression = 0;
-                    // Je n'ai pas la moindre idée de l'utilité du code ci-dessous car il ne fonctionne pas,
-                    // je le laisse commenté pour le moment
-                    // Bises, Stan.
-                    // let peopleLeft = this.getAmount('waiting', this.actualDistribution.commodities[0]);
-                    // peopleLeft = peopleLeft / this.actualDistribution.commodities[0].value;
-
-                    // this.interval = setInterval(() => {
-                    //     this.distributionService.checkProgression(this.distributionId)
-                    //         .subscribe(
-                    //             distributionProgression => {
-                    //                 if (distributionProgression) {
-                    //                     if (distributionProgression !== progression) {
-                    //                         progression = distributionProgression;
-
-                    //                         this.progression = Math.floor((result / peopleLeft) * 100);
-                    //                     }
-                    //                 }
-                    //             }
-                    //         );
-                    // }, 3000);
-
-                } else {
-                    this.snackBar.open(this.TEXT.distribution_no_valid_commodity, '', { duration: 5000, horizontalPosition: 'center' });
-                }
-            });
-        } else {
-            this.snackBar.open(this.TEXT.distribution_no_right_transaction, '', { duration: 5000, horizontalPosition: 'right' });
-        }
-
-        this.chartAccepted = false;
     }
 
     private checkSize(): void {

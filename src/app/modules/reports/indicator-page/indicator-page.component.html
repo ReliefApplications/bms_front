@@ -23,10 +23,21 @@
 
                 <div class="frequency action-buttons">
                     <mat-spinner [diameter]='25' *ngIf="isDownloading"></mat-spinner>
-                    <button *ngIf="!isDownloading" mat-raised-button class="button-background-primary" (click)="downloadPDF()">
-                        <mat-icon>get_app</mat-icon>
-                        <span>{{indicator.export | titlecase}}</span>
-                    </button>
+                    <div class="extension button-with-extension" [ngClass]="{'arabic':language==='ar'}" *ngIf='!isDownloading'>
+                        <button mat-raised-button class="button-background-primary" (click)="export()">
+                            <mat-icon>get_app</mat-icon>
+                            <span>{{indicator.export | titlecase}}</span>
+                        </button>
+                        <div mat-button class="dropdown" [ngClass]="{'arabic':language==='ar'}" [matMenuTriggerFor]="exportType">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                        </div>
+                        <mat-menu #exportType>
+                            <button mat-menu-item (click)="exportFileType = 'xls'">.xls <mat-icon *ngIf="exportFileType=='xls'">done</mat-icon></button>
+                            <button mat-menu-item (click)="exportFileType = 'csv'">.csv <mat-icon *ngIf="exportFileType=='csv'">done</mat-icon></button>
+                            <button mat-menu-item (click)="exportFileType = 'ods'">.ods <mat-icon *ngIf="exportFileType=='ods'">done</mat-icon></button>
+                            <button mat-menu-item (click)="exportFileType = 'pdf'">.pdf <mat-icon *ngIf="exportFileType=='pdf'">done</mat-icon></button>
+                        </mat-menu>
+                    </div>
                 </div>
             </div>
 

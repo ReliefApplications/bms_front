@@ -1,5 +1,6 @@
 import { Component, OnInit, DoCheck, Input, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, ErrorStateMatcher, MatSnackBar } from '@angular/material';
+import { MatDialogRef, MatDialog, MAT_DIALOG_DATA, ErrorStateMatcher } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 
 import { DonorService } from '../../core/api/donor.service';
@@ -13,6 +14,9 @@ import { isArray } from 'util';
 import { User } from '../../model/user';
 import { UserService } from '../../core/api/user.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { UploadService } from '../../core/api/upload.service';
+import { DistributionService } from 'src/app/core/api/distribution.service';
+import { BookletService } from 'src/app/core/api/booklet.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -79,8 +83,12 @@ export class ModalComponent implements OnInit, DoCheck {
         public projectService: ProjectService,
         public criteriaService: CriteriaService,
         public modalitiesService: ModalitiesService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public userService: UserService,
+        public uploadService: UploadService,
+        public distributionService: DistributionService,
+        public bookletService: BookletService,
+        public dialog: MatDialog,
         @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 

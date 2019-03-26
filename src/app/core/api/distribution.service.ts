@@ -51,6 +51,11 @@ export class DistributionService {
         return this.http.get(url);
     }
 
+    public getAssignableBeneficiaries(id: number) {
+        const url = this.api + '/distributions/' + id + '/assignable-beneficiaries';
+        return this.http.get(url);
+    }
+
     public setValidation(id: number) {
         const url = this.api + '/distributions/' + id + '/validate';
         return this.http.get(url);
@@ -61,8 +66,8 @@ export class DistributionService {
           return this.exportService.export('distributions', id, extensionType);
         } else if (option === 'distribution') {
             return this.exportService.export('beneficiariesInDistribution', id, extensionType);
-        } else if (option === 'transaction') {
-            return this.exportService.export('transaction', id, extensionType);
+        } else {
+            return this.exportService.export(option, id, extensionType);
         }
     }
     public refreshPickup(id: number) {

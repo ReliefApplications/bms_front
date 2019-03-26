@@ -25,7 +25,7 @@
                 </tr>
             </tbody>
             <tfoot>
-                <div class="validated-distribution" *ngIf="element.validated">
+                <div class="validated-distribution action-buttons" *ngIf="element.validated">
                     <button mat-icon-button class="green" *ngIf="element.finished" (click)="openDialog('details', element); $event.stopPropagation()">
                         <mat-icon>done</mat-icon>
                     </button>
@@ -33,7 +33,7 @@
                         <mat-icon>lock</mat-icon>
                     </button>
                 </div>
-                <div *ngIf="!element.validated">
+                <div class="action-buttons" *ngIf="!element.validated">
                     <button mat-button *ngIf="rightsEdit" (click)="openDialog('update', element); $event.stopPropagation()"
                         class="green">
                         <mat-icon inline=true>search</mat-icon>

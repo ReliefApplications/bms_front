@@ -54,8 +54,16 @@ export class Mapper {
                 return this.mapper.getEntityTranslator('transaction_beneficiary');
             case 'Financial Provider':
                 return this.mapper.getEntityTranslator('financial_provider');
+            case 'Booklet':
+                return this.mapper.getEntityTranslator('booklet');
+            case 'Product':
+                return this.mapper.getEntityTranslator('product');
+            case 'Vendors':
+                return this.mapper.getEntityTranslator('vendors');
             case 'TransactionGeneralRelief':
                 return this.mapper.getEntityTranslator('transaction_general_relief');
+            case 'TransactionVoucher':
+                return this.mapper.getEntityTranslator('transaction_voucher');
             default: return;
         }
     }
@@ -86,6 +94,11 @@ export class Mapper {
                 return 'Ø';
             }
             return this.datepipe.transform(elementObject[p], 'dd-MM-yyyy');
+        } else if (p === 'distributed') {
+            if (!elementObject[p]) {
+                return 'Not distributed';
+            }
+            return 'Distributed on ' + this.datepipe.transform(elementObject[p], 'dd-MM-yyyy');
         } else {
             return elementObject[p];
         }
@@ -97,12 +110,17 @@ export class Mapper {
     * the formatting is for modal details
     */
     mapValueDetails(element, p) {
+        const elementObject = this.entityInstance.getMapperDetails(element);
         if (p === 'used') {
-            const elementObject = this.entityInstance.getMapperDetails(element);
             if (!elementObject[p]) {
                 return 'Ø';
             }
             return this.datepipe.transform(elementObject[p], 'dd-MM-yyyy');
+        } else if (p === 'distributed') {
+            if (!elementObject[p]) {
+                return 'Not distributed';
+            }
+            return 'Distributed on ' + this.datepipe.transform(elementObject[p], 'dd-MM-yyyy');
         }
 
         return String(this.entityInstance.getMapperDetails(element)[p]);

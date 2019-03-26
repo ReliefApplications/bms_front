@@ -95,11 +95,20 @@ export class AuthenticationService {
     }
 
     public createUser(body: any, salt: any) {
+        body = this.createSaltedPassword(body, salt);
+        return this.http.put(URL_BMS_API + '/users', body);
+    }
+
+    public createVendor(body: any, salt: any) {
+        body = this.createSaltedPassword(body, salt);
+        return this.http.put(URL_BMS_API + '/vendors', body);
+    }
+
+    public createSaltedPassword(body: any, salt: any) {
         const saltedPassword = this._wsseService.saltPassword(salt.salt, body.password);
         this._wsseService.setSalted(saltedPassword);
         body.password = saltedPassword;
         body.salt = salt.salt;
-
-        return this.http.put(URL_BMS_API + '/users', body);
+        return body;
     }
 }

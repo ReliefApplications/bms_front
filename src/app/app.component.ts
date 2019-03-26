@@ -140,8 +140,12 @@ export class AppComponent implements OnInit {
      * Changes the name of the new component to actualize menu etc.
      */
     refreshCurrentComponent(e) {
-        if (e.nameComponent === 'projects' || e.nameComponent === 'beneficiaries'
-            || e.nameComponent === 'reports' || e.nameComponent === 'settings' || e.nameComponent === 'login') {
+        if (e.nameComponent === 'projects' ||
+            e.nameComponent === 'beneficiaries' ||
+            e.nameComponent === 'reports' ||
+            e.nameComponent === 'settings' ||
+            e.nameComponent === 'login' ||
+            e.nameComponent === 'vouchers') {
             this.currentComponent = e.nameComponent;
         } else if (e.nameComponent === 'dashboard_title') {
             this.currentComponent = null;
@@ -160,7 +164,6 @@ export class AppComponent implements OnInit {
             this.router.navigate(['']);
             e.nameComponent = '';
         }
-
     }
 
     /**
@@ -168,7 +171,7 @@ export class AppComponent implements OnInit {
      */
     checkLoggedUser(cachedUser) {
         if (!cachedUser.loggedIn && this.currentComponent !== 'login') {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/login']); // Sometimes this one is making the url throttle
             GlobalText.resetMenuMargin();
         } else if (cachedUser.loggedIn && this.currentComponent === 'login') {
             this.router.navigate(['/']);

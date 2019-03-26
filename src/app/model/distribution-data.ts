@@ -248,13 +248,35 @@ export class DistributionData {
             return '';
         }
         switch (name) {
-            case 'Mobile':
+            case 'Mobile Money':
                 name = 'assets/images/commodities/cash.png';
                 break;
-            case 'Voucher':
+            case 'QR Code Voucher':
                 name = 'assets/images/commodities/voucher.png';
                 break;
-            default: return name;
+            case 'Paper Voucher':
+                name = 'assets/images/commodities/voucher.png';
+                break;
+            case 'Bread':
+                name = 'assets/images/commodities/bread.png';
+                break;
+            case 'Loan':
+                name = 'assets/images/commodities/loan.png';
+                break;
+            case 'Food':
+                name = 'assets/images/commodities/food.png';
+                break;
+            case 'WASH Kit':
+                name = 'assets/images/commodities/wash.png';
+                break;
+            case 'Agricultural Kit':
+                name = 'assets/images/commodities/agriculture.png';
+                break;
+            case 'RTE Kit':
+                name = 'assets/images/commodities/rte-kit.png';
+                break;
+            default:
+                return name;
         }
 
         return name;
@@ -274,7 +296,7 @@ export class DistributionData {
             selection_criteria: Object.assign({}, selfinstance.selection_criteria),
             location_name: selfinstance.location_name,
             number_beneficiaries: selfinstance.number_beneficiaries,
-            type: selfinstance.type,
+            type: selfinstance.type === 0 ? 'Household' : 'Beneficiary',
             date_distribution: selfinstance.date_distribution,
             validated: selfinstance.validated,
         };
@@ -414,9 +436,6 @@ export class DistributionData {
         if (selfinstance.commodities && selfinstance.commodities.length > 0) {
             selfinstance.commodities.forEach(
                 com => {
-                    if (com.modality_type.name === 'Mobile') {
-                        com.modality_type.name = 'Mobile Cash';
-                    }
                     commodity = commodity === '' ? com.modality_type.name : commodity + ' - ' + com.modality_type.name;
                 }
             );
@@ -471,7 +490,7 @@ export class DistributionData {
         return {
             name: 'text',
             location_name: 'text',
-            type: 'selectSingle',
+            type: 'disabled',
             date_distribution: 'date',
         };
     }

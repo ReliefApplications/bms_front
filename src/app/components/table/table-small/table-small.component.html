@@ -7,7 +7,7 @@
     </h3>
   </div>
 
-  <div *ngIf="filled" style="max-height: 370px; overflow: auto;">
+  <div *ngIf="filled">
     <table mat-table [dataSource]="data" matSort class="mat-elevation-z8">
 
       <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">

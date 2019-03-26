@@ -1,6 +1,7 @@
 import { Component, OnInit, DoCheck, Inject } from '@angular/core';
 import { GlobalText } from 'src/texts/global';
-import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { StoredRequestInterface } from 'src/app/model/stored-request';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
@@ -43,7 +44,7 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
         @Inject(MAT_DIALOG_DATA) public data: any,
         private dialogRef: MatDialogRef<ModalRequestsComponent>,
         private cacheService: AsyncacheService,
-        private snackbar: MatSnackBar,
+        private snackbar: SnackbarService,
     ) { }
 
     ngOnInit() {
@@ -79,14 +80,13 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
             this.loading = true;
             method.subscribe(
                 response => {
-                    this.snackbar.open(element.method + ' ' + element.url.split('wsse/')[1] + ' have been sent',
-                    '', {duration: 3000, horizontalPosition: 'center'});
+                    this.snackbar.success(element.method + ' ' + element.url.split('wsse/')[1] + ' have been sent');
                     this.requests.splice(this.requests.indexOf(element), 1);
                     this.cacheService.set(AsyncacheService.PENDING_REQUESTS, this.requests);
                     this.loading = false;
                 },
                 error => {
-                    this.snackbar.open('Error while sending request: ' + error, '', {duration: 3000, horizontalPosition: 'center'});
+                    this.snackbar.error('Error while sending request: ' + error);
                     this.loading = false;
                 }
             );
@@ -123,14 +123,13 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
 
                         },
                         error => {
-                            this.snackbar.open(error, '', {duration: 3000, horizontalPosition: 'center'});
+                            this.snackbar.error(error);
                         }
                     );
                 }
             },
             () => {
-                this.snackbar.open('An error occured when regrouping pending requests to be sent.',
-                '', {duration: 3000, horizontalPosition: 'center'});
+                this.snackbar.error('An error occured when regrouping pending requests to be sent.');
             }
         );
 

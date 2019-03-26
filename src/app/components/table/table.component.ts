@@ -1,21 +1,20 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatDialog, MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { HouseholdsService } from 'src/app/core/api/households.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { NetworkService } from 'src/app/core/api/network.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { GlobalText } from '../../../texts/global';
 import { DistributionService } from '../../core/api/distribution.service';
+import { ExportService } from '../../core/api/export.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
 import { Mapper } from '../../core/utils/mapper.service';
 import { Beneficiaries } from '../../model/beneficiary';
 import { DistributionData } from '../../model/distribution-data';
-
-
-
 
 
 const rangeLabel = (page: number, pageSize: number, length: number) => {
@@ -60,6 +59,8 @@ export class TableComponent implements OnInit {
     @Input() editable: boolean;
     @Input() deletable: boolean;
 
+    @Input() printable: boolean;
+    @Input() assignable: boolean;
     // For Imported Beneficiaries
     @Input() parentId: number = null;
     // For Transaction Beneficiaries
@@ -98,7 +99,7 @@ export class TableComponent implements OnInit {
         public mapperService: Mapper,
         public dialog: MatDialog,
         public _cacheService: AsyncacheService,
-        public snackBar: MatSnackBar,
+        public snackbar: SnackbarService,
         public authenticationService: AuthenticationService,
         public _wsseService: WsseService,
         public financialProviderService: FinancialProviderService,
@@ -106,7 +107,8 @@ export class TableComponent implements OnInit {
         public locationService: LocationService,
         public householdsService: HouseholdsService,
         public networkService: NetworkService,
-        public router: Router
+        public router: Router,
+        public _exportService: ExportService,
     ) { }
 
     ngOnInit(): void {
@@ -159,6 +161,10 @@ export class TableComponent implements OnInit {
                     this.paginator.pageIndex,
                     this.paginator.pageSize
                 );
+            } else if (this.entity.__classname__ === 'Booklet') {
+                this.service.get().subscribe(response => {
+                    this.data = new MatTableDataSource(this.entity.formatArray(response).reverse());
+                });
             }
             // else {
             //     this.service.get().subscribe(response => {
@@ -225,58 +231,11 @@ export class TableComponent implements OnInit {
     * open each modal dialog
     */
     openDialog(user_action, element): void {
-        // let dialogRef;
 
-            // dialogRef = this.dialog.open(ModalDetailsComponent, {
-            //     data: {
-            //         objectInstance: element,
-            //     }
-            // });
-            this.openModal.emit({
-                action: user_action,
-                element: element
-            });
-
-
-
-            // this.service.fillWithOptions(element);
-            // dialogRef = this.dialog.open(ModalEditComponent, {
-            //     data: {
-            //         objectInstance: element,
-            //      }
-            // });
-
-            // dialogRef = this.dialog.open(ModalDeleteComponent, {
-            //     data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
-            // });
-
-
-        // let deleteElement = null;
-        // if (dialogRef.componentInstance.onDelete) {
-        //     deleteElement = dialogRef.componentInstance.onDelete.subscribe(
-        //         (data) => {
-        //             this.deleteElement(data);
-        //             this.checkData();
-        //         });
-        // }
-
-        // let updateElement = null;
-        // if (dialogRef.componentInstance.onUpdate) {
-        //     updateElement = dialogRef.componentInstance.onUpdate.subscribe(
-        //         (data) => {
-        //             this.updateElement(data);
-        //             this.checkData();
-        //         });
-        // }
-
-        // dialogRef.afterClosed().subscribe(result => {
-        //     if (updateElement) {
-        //         updateElement.unsubscribe();
-        //     }
-        //     if (deleteElement) {
-        //         deleteElement.unsubscribe();
-        //     }
-        // });
+        this.openModal.emit({
+            action: user_action,
+            element: element
+        });
     }
 
     applyFilter(filterValue: any, category?: string, suppress?: boolean): void {
@@ -334,74 +293,6 @@ export class TableComponent implements OnInit {
             }
         }
     }
-
-    // updateElement(updateElement) {
-    //     const apiUpdateElement = updateElement.ModelToApi(updateElement);
-    //     console.log(this.service);
-    //     this.service.update(apiUpdateElement['id'], apiUpdateElement).subscribe(response => {
-    //         this.updateData();
-    //     });
-
-
-        // if (updateElement['rights'] === 'ROLE_PROJECT_MANAGER' || updateElement['rights'] === 'ROLE_PROJECT_OFFICER' ||
-        //     updateElement['rights'] === 'ROLE_FIELD_OFFICER') {
-        //     delete updateElement['country'];
-        // } else if (updateElement['rights'] === 'ROLE_REGIONAL_MANAGER' || updateElement['rights'] === 'ROLE_COUNTRY_MANAGER' ||
-        //     updateElement['rights'] === 'ROLE_READ_ONLY') {
-        //     delete updateElement['projects'];
-        // } else {
-        //     delete updateElement['country'];
-        //     delete updateElement['projects'];
-        // }
-
-        // if (this.entity.__classname__ === 'User' && updateElement) {
-        //     if (updateElement['password'] && updateElement['password'].length > 0) {
-        //         this.authenticationService.requestSalt(updateElement['username']).subscribe(response => {
-        //             if (response) {
-        //                 const saltedPassword = this._wsseService.saltPassword(response['salt'], updateElement['password']);
-        //                 updateElement['password'] = saltedPassword;
-
-        //                 this.service.update(updateElement['id'], updateElement).subscribe(_ => {
-        //                     this.updateData();
-        //                 });
-        //             }
-        //         });
-        //     } else {
-        //         this.service.update(updateElement['id'], updateElement).subscribe(response => {
-        //             this.updateData();
-        //         });
-        //     }
-        // } else if (this.entity.__classname__ === 'Financial Provider' && updateElement) {
-        //     const salted = btoa(updateElement['password']);
-        //     updateElement['password'] = salted;
-
-        //     this.service.update(updateElement).subscribe(response => {
-        //         this.snackBar.open(this.entity.__classname__ + this.table.table_element_updated,
-        //             '', { duration: 5000, horizontalPosition: 'right' });
-        //         this.updateData();
-        //     });
-        // } else {
-        //     this.service.update(updateElement['id'], updateElement).subscribe(response => {
-        //         this.updateData();
-        //     });
-        // }
-    // }
-
-    // deleteElement(deleteElement: CustomModel) {
-    //     if (this.entity === Beneficiaries) {
-    //         this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
-    //             this.updateData();
-    //         });
-    //     } else if (this.entity.__classname__ === 'Households') {
-    //         this.householdsService.delete(deleteElement['id']).subscribe(response => {
-    //             this.updateData();
-    //         });
-    //     } else {
-    //         this.service.delete(deleteElement.fields['id'].value).subscribe(response => {
-    //             this.updateData();
-    //         });
-    //     }
-    // }
 
     rangeLabel(page: number, pageSize: number, length: number) {
         const table = GlobalText.TEXTS;

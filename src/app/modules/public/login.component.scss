@@ -1,5 +1,10 @@
 @import '../../../assets/css/variable.scss';
 
+form {
+    display:flex;
+    flex-direction: column;
+}
+
 .container-box {
     height:100%;
     width: 100%;
@@ -25,7 +30,7 @@
             border-radius : 5px;
 
             .login-logo {
-                flex-grow: 1;
+                flex-grow: 0.5;
                 display: flex;
                 justify-content: center;
                 padding:10px;
@@ -44,6 +49,7 @@
                 display: flex;
                 text-align: center;
                 justify-content: center;
+                padding: 10px;
 
                 .title-text {
                         display: flex;
@@ -61,6 +67,7 @@
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                padding: 10px;
 
                 .user-input {
                     width: 56%;
@@ -92,7 +99,12 @@
                 display: flex;
                 border-radius : 5px;
                 justify-content: center;
-                padding: 5px;
+                padding: 10px;
+
+                .button:disabled {
+                    background-color: $bms_grey!important;
+                    color:black!important;
+                }
             }
         }
     }

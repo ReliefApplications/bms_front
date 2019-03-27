@@ -1,15 +1,15 @@
-import { Component, OnInit, DoCheck } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
-import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { User, ErrorInterface } from '../../model/user';
-
-import { GlobalText } from '../../../texts/global';
+import { from } from 'rxjs';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { Subscription, from, of } from 'rxjs';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { FormControl } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { GlobalText } from '../../../texts/global';
+import { AuthenticationService } from '../../core/authentication/authentication.service';
+import { ErrorInterface, User } from '../../model/user';
+
+
 
 @Component({
     selector: 'app-login',
@@ -20,12 +20,12 @@ export class LoginComponent implements OnInit, DoCheck {
 
     public nameComponent = GlobalText.TEXTS.login_title;
     public login = GlobalText.TEXTS;
-    private authUser$: Subscription;
 
     public user: User;
     public forgotMessage = false;
     public loader = false;
     public loginCaptcha = false;
+    public form: FormGroup;
 
     constructor(
         public _authService: AuthenticationService,
@@ -38,11 +38,12 @@ export class LoginComponent implements OnInit, DoCheck {
         GlobalText.resetMenuMargin();
         this.initCountry('KHM');
         this.blankUser();
+        this.makeForm();
     }
 
     initCountry(country: string) {
         this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(
-            result => {
+            (result: any) => {
                 if (!result) {
                     this.asyncacheService.set(AsyncacheService.COUNTRY, country);
                 }
@@ -59,6 +60,24 @@ export class LoginComponent implements OnInit, DoCheck {
         this.user.password = '';
     }
 
+    makeForm = () => {
+        this.form = new FormGroup( {
+            username  : new FormControl(this.user.username, [Validators.required]),
+            password : new FormControl(this.user.password, [Validators.required]),
+        });
+
+        if (this.prod()) {
+            this.form.addControl(
+                'captcha', new FormControl(this.loginCaptcha, [Validators.required]),
+            );
+        }
+    }
+
+    onSubmit = () => {
+        this.user.username = this.form.controls['username'].value;
+        this.user.password = this.form.controls['password'].value;
+        this.loginAction();
+    }
     /**
    	* check if the langage has changed
    	*/
@@ -68,10 +87,11 @@ export class LoginComponent implements OnInit, DoCheck {
         }
     }
 
+
     /**
      * When the user hits login
      */
-    loginAction(): void {
+    private loginAction(): void {
         this.loader = true;
         const subscription = from(this._authService.login(this.user));
         subscription.subscribe(

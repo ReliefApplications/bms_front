@@ -1,4 +1,3 @@
-<!-- TABLE -->
 <div class="table-container">
     <div *ngIf="filled==false" class="noDataContainer">
         <h3>
@@ -44,10 +43,7 @@
                         *ngIf="entityIsUser()" [matTooltip]="table.settings_log_button">
                         <mat-icon>history</mat-icon>
                     </button>
-                    <!-- <button mat-icon-button *ngIf="entity.__classname__ != 'Financial Provider'" (click)="openDialog('update', element); $event.stopPropagation()"
-                        class="green" [matTooltip]="table.details">
-                        <mat-icon>search</mat-icon>
-                    </button> -->
+
                     <button *ngIf="editable && checkEntityUpdateRights() && rights" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()"
                         [matTooltip]="table.update" class="green">
                         <mat-icon>search</mat-icon>

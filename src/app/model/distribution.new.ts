@@ -86,7 +86,6 @@ export class Distribution extends CustomModel {
         newDistribution.fields.type.value = distributionFromApi.type;
         newDistribution.fields.name.value = distributionFromApi.name;
         newDistribution.fields.validated.value = distributionFromApi.validated;
-        newDistribution.fields.location.value = Location.apiToModel(distributionFromApi.location);
 
 
 

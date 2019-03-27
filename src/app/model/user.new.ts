@@ -1,5 +1,4 @@
 import { GlobalText } from '../../texts/global';
-import { Project } from './project';
 
 export class ErrorInterface {
     message: string;
@@ -80,15 +79,6 @@ export class User {
     /**
 	* return User properties name displayed
 	*/
-    static translator(): Object {
-        return {
-            username: GlobalText.TEXTS.email,
-            password: GlobalText.TEXTS.model_user_password,
-            rights: GlobalText.TEXTS.rights,
-            projects: GlobalText.TEXTS.project,
-            country: GlobalText.TEXTS.model_countryIso3,
-        };
-    }
 
     public static formatArray(instance): User[] {
         const users: User[] = [];

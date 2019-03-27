@@ -42,6 +42,10 @@ app-placeholder-panel {
     flex-grow: 1;
     margin: 0 10px;
 
+    mat-form-field {
+        margin-top: 6px;
+    }
+
     .combo {
       display: flex;
       flex-direction: row;
@@ -191,34 +195,14 @@ app-placeholder-panel {
 .ng-select-opened ::ng-deep .ng-option-selected {
   color: #424242 !important;
 }
-
-.mat-form-field {
-  margin-bottom: 6px;
-}
-
-.location {
-  margin-bottom: 15px;
-}
-
 .country-code,
 .phone-type {
-  width: 25%;
-  margin-right: 15px;
+    width: 25%;
+    margin-right: 15px;
 }
-
-.country-code {
-  margin-top: -12px;
-}
-
-.gender {
-  margin-top: -6px;
-  margin-bottom: 6px;
-}
-
 .content-button-footer{
   width: 100%;
 }
-
 
 @media only screen and (max-width: 750px) {
   .datepicker-mobile {

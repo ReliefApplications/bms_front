@@ -222,6 +222,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 
 .button-text-primary {
   color: $bms_green !important;
+
 }
 .button-text-accent {
   color: $bms_red !important;
@@ -233,6 +234,9 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 .button-background-primary {
   background-color: $bms_green !important;
   color: $bms_grey !important;
+  &:disabled{
+    background-color: $bms_dark_grey!important;
+  }
 }
 .button-background-accent {
   background-color: $bms_red !important;

@@ -41,8 +41,11 @@
                     </ng-select>
 
                     <ng-select *ngIf="propertiesTypes[p]=='select'" class="multiple-select" [(ngModel)]="newObject[p]" bindLabel="name"
-                        [items]="loadedData[p]" [multiple]="true" placeholder="{{modal.placeholder_one_many | titlecase}}" [closeOnSelect]="false"
+                        [multiple]="true" placeholder="{{modal.placeholder_one_many | titlecase}}" [closeOnSelect]="false"
                         [searchable]="true" [ngModelOptions]="{standalone: true}">
+                        <ng-option *ngFor="let option of loadedData[p]" [value]="option.id">
+                            {{option.name |titlecase}}
+                        </ng-option>
                     </ng-select>
 
                     <ng-select *ngIf="propertiesTypes[p]=='selectDonor'" class="multiple-select" [(ngModel)]="newObject[p]"

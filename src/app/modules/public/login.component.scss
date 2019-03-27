@@ -1,10 +1,15 @@
 @import '../../../assets/css/variable.scss';
 
-.container-box{
+form {
+    display:flex;
+    flex-direction: column;
+}
+
+.container-box {
     height:100%;
     width: 100%;
 
-    .box-image{
+    .box-image {
         background-image: url('../../../assets/images/login_page.jpg');
         background-repeat: no-repeat;
         background-size: cover;
@@ -15,7 +20,7 @@
         justify-content: center;
         align-items: center;
 
-        .box-login{
+        .box-login {
             display: flex;
             background-color: rgba(161, 160, 160, 0.6);
             height: 500px;
@@ -24,14 +29,14 @@
             flex-direction: column;
             border-radius : 5px;
 
-            .login-logo{
-                flex-grow: 1;
+            .login-logo {
+                flex-grow: 0.5;
                 display: flex;
                 justify-content: center;
                 padding:10px;
                 border-radius : 5px;
 
-                .logo-image{
+                .logo-image {
                     width: 150px;
                     height: 150px;
                     background-color: $bms_grey;
@@ -39,12 +44,14 @@
                 }
             }
 
-            .login-title{
+            .login-title {
                 flex-grow: 1;
                 display: flex;
                 text-align: center;
                 justify-content: center;
-                .title-text{
+                padding: 10px;
+
+                .title-text {
                         display: flex;
                         font-family: $bms_font_header;
                         color : $bms_grey;
@@ -54,15 +61,16 @@
                     }
             }
 
-            .login-user{
+            .login-user {
                 flex-grow: 10;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                padding: 10px;
 
-                .user-input{
-                    width: 55%;
+                .user-input {
+                    width: 56%;
                     height : 35px;
                     margin : 5px;
                     padding : 10px;
@@ -73,7 +81,11 @@
                     border: solid 1px #00000033;
                 }
 
-                .user-forgot-password{
+                recaptcha {
+                    margin: 5px;
+                }
+
+                .user-forgot-password {
                     width: 55%;
                     font-size: 10px;
                     margin : 0;
@@ -82,12 +94,17 @@
                 }
             }
 
-            .login-button{
+            .login-button {
                 flex-grow: 1;
                 display: flex;
                 border-radius : 5px;
                 justify-content: center;
-                padding: 5px;
+                padding: 10px;
+
+                .button:disabled {
+                    background-color: $bms_grey!important;
+                    color:black!important;
+                }
             }
         }
     }

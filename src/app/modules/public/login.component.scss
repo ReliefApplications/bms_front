@@ -21,8 +21,8 @@ form {
         align-items: center;
 
         .box-login {
-            display: flex;
             background-color: rgba(161, 160, 160, 0.6);
+            padding: 10px 0;
             height: 500px;
             width: 500px;
             flex-wrap: wrap;
@@ -33,7 +33,7 @@ form {
                 flex-grow: 0.5;
                 display: flex;
                 justify-content: center;
-                padding:10px;
+                margin:5px;
                 border-radius : 5px;
 
                 .logo-image {
@@ -49,7 +49,7 @@ form {
                 display: flex;
                 text-align: center;
                 justify-content: center;
-                padding: 10px;
+                margin: 5px;
 
                 .title-text {
                         display: flex;
@@ -67,10 +67,10 @@ form {
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                padding: 10px;
+                margin: 5px;
 
                 .user-input {
-                    width: 56%;
+                    width: 57%;
                     height : 35px;
                     margin : 5px;
                     padding : 10px;
@@ -99,7 +99,7 @@ form {
                 display: flex;
                 border-radius : 5px;
                 justify-content: center;
-                padding: 10px;
+                margin: 5px;
 
                 .button:disabled {
                     background-color: $bms_grey!important;

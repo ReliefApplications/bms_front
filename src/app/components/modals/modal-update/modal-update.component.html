@@ -13,8 +13,11 @@
               [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries' || p=='name' || p=='code' || p=='number_vouchers' || p=='status' || propertiesTypes[p] === 'disabled')"
               [type]="propertiesTypes[p]">
 
-              <input matInput *ngIf="propertiesTypes[p]=='positive-number' && p !== 'number_vouchers'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1">
-              <input matInput *ngIf="p === 'number_vouchers'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1" (change)="handleChangeNumberVouchers()">
+            <input matInput *ngIf="propertiesTypes[p]=='positive-number' && p !== 'number_vouchers'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1">
+
+            <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="0">
+
+            <input matInput *ngIf="p === 'number_vouchers'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1" (change)="handleChangeNumberVouchers()">
 
 
           <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"

@@ -35,10 +35,10 @@ export class TableSmallMobileComponent extends TableComponent implements DoCheck
             this.entityInstance = Object.create(this.entity.prototype);
             this.entityInstance.constructor.apply(this.entityInstance);
             this.mapperObject = this.mapperService.findMapperObject(this.entity);
-            this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
+            this.displayProperties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
             this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
             this.propertiesActions = new Array();
-            this.properties.forEach(element => {
+            this.displayProperties.forEach(element => {
                 this.propertiesActions.push(element);
             });
             this.propertiesActions.push('actions');

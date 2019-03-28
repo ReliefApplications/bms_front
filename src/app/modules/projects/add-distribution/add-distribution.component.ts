@@ -1,32 +1,32 @@
-import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
-import { MatDialog, MatTableDataSource } from '@angular/material';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { Router, ActivatedRoute } from '@angular/router';
-
-import { GlobalText } from '../../../../texts/global';
-
-import { Mapper } from '../../../core/utils/mapper.service';
-import { CriteriaService } from '../../../core/api/criteria.service';
-
-import { Commodity } from '../../../model/commodity';
-import { Criteria } from '../../../model/criteria';
-import { DistributionData } from '../../../model/distribution-data';
-
-import { ModalAddLineComponent } from '../../../components/modals/modal-add/modal-add-line/modal-add-line.component';
-import { ModalAddComponent } from '../../../components/modals/modal-add/modal-add.component';
-import { FormControl, Validators } from '@angular/forms';
-import { LocationService } from '../../../core/api/location.service';
-import { Project } from '../../../model/project';
-import { DistributionService } from '../../../core/api/distribution.service';
-import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { DateAdapter, MatDialog, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
 import { ProjectService } from 'src/app/core/api/project.service';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
+import { Project } from 'src/app/model/project.new';
+import { GlobalText } from '../../../../texts/global';
+import { ModalAddComponent } from '../../../components/modals/modal-add/modal-add.component';
+import { CriteriaService } from '../../../core/api/criteria.service';
+import { DistributionService } from '../../../core/api/distribution.service';
+import { LocationService } from '../../../core/api/location.service';
+import { Mapper } from '../../../core/utils/mapper.service';
+import { Commodity } from '../../../model/commodity';
+import { Location } from '../../../model/location.new';
+import { Criteria } from '../../../model/criteria';
+import { DistributionData } from '../../../model/distribution-data';
+import { Distribution } from 'src/app/model/distribution.new';
+import { CustomModelField } from 'src/app/model/CustomModel/custom-model-field';
 
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
-import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
+
+
+
 
 @Component({
     selector: 'app-add-distribution',
@@ -37,7 +37,14 @@ import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.ada
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
-export class AddDistributionComponent implements OnInit, DoCheck, DesactivationGuarded {
+export class AddDistributionComponent implements OnInit, DesactivationGuarded {
+
+    public objectInstance: Distribution;
+    public objectFields: string[];
+    public form: FormGroup;
+
+
+
     public nameComponent = 'add_project_title';
     public distribution = GlobalText.TEXTS;
     public language = GlobalText.language;
@@ -93,22 +100,39 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         private locationService: LocationService,
         private _distributionService: DistributionService,
         private _projectService: ProjectService,
-        private snackbar: SnackbarService
+        private snackbar: SnackbarService,
     ) { }
 
     ngOnInit() {
         this.loadingCreation = false;
-        this.newObject = Object.create(this.entity.prototype);
-        this.newObject.constructor.apply(this.newObject);
-        this.mapperObject = this.mapper.findMapperObject(this.entity);
-        this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
-        this.propertiesTypes = this.newObject.getTypeProperties(this.newObject);
+        this.objectInstance = new Distribution();
+        this.objectInstance.fields.location.value = new Location();
+        // this._distributionService.fillWithOptions(this.objectInstance);
+        this.objectFields = ['adm1', 'adm2', 'adm3', 'adm4'];
+        this.makeForm();
+        // this.newObject = Object.create(this.entity.prototype);
+        // this.newObject.constructor.apply(this.newObject);
+        // this.mapperObject = this.mapper.findMapperObject(this.entity);
+        // this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
+        // this.propertiesTypes = this.newObject.getTypeProperties(this.newObject);
         this.checkSize();
         this.getQueryParameter();
         this.loadProvince();
-        this.newObject.type = 'Household';
+        // this.newObject.type = 'Household';
         this.getProjectDates();
     }
+
+
+    makeForm() {
+        const formControls = {};
+        this.objectFields.forEach((fieldName: string) => {
+            formControls[fieldName] = new FormControl({
+                value: null,
+            });
+        });
+        this.form = new FormGroup(formControls);
+    }
+
 
     /**
     * Verify if modifications have been made to prevent the user from leaving and display dialog to confirm we wiwhes to delete them
@@ -128,101 +152,100 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
      * Get adm1 from the back or from the cache service with the key ADM1
      */
     loadProvince() {
-        this.locationService.getAdm1().subscribe(response => {
-            this.loadedData.adm1 = response;
 
-        });
-        this.loadedData.adm2 = [];
-        this.loadedData.adm3 = [];
-        this.loadedData.adm4 = [];
-    }
+        this._distributionService.fillAdm1Options(this.objectInstance);
+        // this.locationService.getAdm1().subscribe(response => {
+        //     this.loadedData.adm1 = response;
 
-    selectDate(event) {
-        if (event.value) {
-            this.newObject.date_distribution = event.value.toLocaleDateString();
-        } else {
-            this.snackbar.error(this.distribution.add_distribution_check_date);
-        }
+        // });
+        // this.loadedData.adm2 = [];
+        // this.loadedData.adm3 = [];
+        // this.loadedData.adm4 = [];
     }
 
     /**
-     *  Get adm2 from the back or from the cache service with the key ADM2
-     * @param adm1
+     *  Get adm2 from the back or from the cache service with the id of adm1
+     *  @param adm1Id
      */
-    loadDistrict(adm1$) {
-        adm1$.pipe(
-            switchMap(
-                (value) => {
-                    const body = {
-                        adm1: value
-                    };
-                    return this.locationService.getAdm2(body);
-                }
-            )
-        ).subscribe(response => {
-            this.loadedData.adm2 = response;
-            this.loadedData.adm3 = [];
-            this.loadedData.adm4 = [];
-        });
+    loadDistrict(adm1Id) {
+        this._distributionService.fillAdm2Options(this.objectInstance, adm1Id);
+
+
+        // adm1$.pipe(
+        //     switchMap(
+        //         (value) => {
+        //             const body = {
+        //                 adm1: value
+        //             };
+        //             return this.locationService.getAdm2(body);
+        //         }
+        //     )
+        // ).subscribe(response => {
+        //     this.loadedData.adm2 = response;
+        //     this.loadedData.adm3 = [];
+        //     this.loadedData.adm4 = [];
+        // });
     }
 
     /**
-     * Get adm3 from the back or from the cahce service with the key ADM3
-     * @param adm2
+     * Get adm3 from the back or from the cahce service with the if of adm2
+     * @param adm2Id
      */
-    loadCommunity(adm2$) {
-        adm2$.pipe(
-            switchMap(
-                (value) => {
-                    const body = {
-                        adm2: value
-                    };
-                    return this.locationService.getAdm3(body);
-                }
-            )
-        ).subscribe(response => {
-            this.loadedData.adm3 = response;
-            this.loadedData.adm4 = [];
-        });
+    loadCommunity(adm2Id) {
+        this._distributionService.fillAdm3Options(this.objectInstance, adm2Id);
+        // adm2$.pipe(
+        //     switchMap(
+        //         (value) => {
+        //             const body = {
+        //                 adm2: value
+        //             };
+        //             return this.locationService.getAdm3(body);
+        //         }
+        //     )
+        // ).subscribe(response => {
+        //     this.loadedData.adm3 = response;
+        //     this.loadedData.adm4 = [];
+        // });
     }
 
     /**
-     *  Get adm4 from the back or from the cahce service with the key ADM4
-     * @param adm3
+     *  Get adm4 from the back or from the cahce service with the id of adm3
+     * @param adm3Id
      */
-    loadVillage(adm3$) {
-        adm3$.pipe(
-            switchMap(
-                (value) => {
-                    const body = {
-                        adm3: value
-                    };
-                    return this.locationService.getAdm4(body);
-                }
-            )
-        ).subscribe(response => {
-            this.loadedData.adm4 = response;
-        });
+    loadVillage(adm3Id) {
+        this._distributionService.fillAdm4Options(this.objectInstance, adm3Id);
+        // adm3$.pipe(
+        //     switchMap(
+        //         (value) => {
+        //             const body = {
+        //                 adm3: value
+        //             };
+        //             return this.locationService.getAdm4(body);
+        //         }
+        //     )
+        // ).subscribe(response => {
+        //     this.loadedData.adm4 = response;
+        // });
     }
 
-    /**
-     * Check which adm is selected to load the list of adm link to it
-     * fro example : if adm1 (province) selected load adm2
-     * @param index
-     */
-    selected(index) {
-        let adm$;
-        if (index === 'adm1') {
-            adm$ = this.getAdmID('adm1');
-            this.loadDistrict(adm$);
-        } else if (index === 'adm2') {
-            adm$ = this.getAdmID('adm2');
-            this.loadCommunity(adm$);
-        } else if (index === 'adm3') {
-            adm$ = this.getAdmID('adm3');
-            this.loadVillage(adm$);
-        }
-    }
+    // /**
+    //  * Check which adm is selected to load the list of adm link to it
+    //  * fro example : if adm1 (province) selected load adm2
+    //  * @param index
+    //  */
+    // selected(index) {
+    //     let adm$;
+    //     if (index === 'adm1') {
+    //         adm$ = this.getAdmID('adm1');
+    //         this.loadDistrict(adm$);
+    //     } else if (index === 'adm2') {
+    //         adm$ = this.getAdmID('adm2');
+    //         this.loadCommunity(adm$);
+    //     } else if (index === 'adm3') {
+    //         adm$ = this.getAdmID('adm3');
+    //         this.loadVillage(adm$);
+    //     }
+    // }
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
@@ -242,18 +265,6 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         this.route.queryParams.subscribe(params => this.queryParams = params);
     }
 
-    /**
-     * check if the langage has changed
-     */
-    ngDoCheck() {
-        if (this.distribution !== GlobalText.TEXTS) {
-            this.distribution = GlobalText.TEXTS;
-            this.language = GlobalText.language;
-            this.mapperObject = this.mapper.findMapperObject(this.entity);
-            this.nameComponent = GlobalText.TEXTS.distributions;
-            this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
-        }
-    }
 
     /**
      * to cancel the creation of distribution and go back in the distribution page
@@ -320,80 +331,80 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         }
     }
 
-    /**
-     * Get in the cache service the name of all adm selected
-     * @param adm
-     */
-    getAdmID(adm: string) {
-        return new Observable(
-            observer => {
-                const body = {};
-                if (adm === 'adm1') {
-                    this.locationService.getAdm1().subscribe(
-                        result => {
-                            const adm1 = result;
-                            if (this.newObject.adm1) {
-                                for (let i = 0; i < adm1.length; i++) {
-                                    if (adm1[i].name === this.newObject.adm1) {
-                                        this.lastAdm1 = adm1[i].id;
-                                        observer.next(adm1[i].id);
-                                        observer.complete();
-                                    }
-                                }
-                            }
-                        }
-                    );
-                } else if (adm === 'adm2') {
-                    body['adm1'] = this.lastAdm1;
-                    this.locationService.getAdm2(body).subscribe(
-                        result => {
-                            const adm2 = result;
-                            if (this.newObject.adm2) {
-                                for (let i = 0; i < adm2.length; i++) {
-                                    if (adm2[i].name === this.newObject.adm2) {
-                                        this.lastAdm2 = adm2[i].id;
-                                        observer.next(adm2[i].id);
-                                        observer.complete();
-                                    }
-                                }
-                            }
-                        }
-                    );
-                } else if (adm === 'adm3') {
-                    body['adm2'] = this.lastAdm2;
-                    this.locationService.getAdm3(body).subscribe(
-                        result => {
-                            const adm3 = result;
-                            if (this.newObject.adm3) {
-                                for (let i = 0; i < adm3.length; i++) {
-                                    if (adm3[i].name === this.newObject.adm3) {
-                                        this.lastAdm3 = adm3[i].id;
-                                        observer.next(adm3[i].id);
-                                        observer.complete();
-                                    }
-                                }
-                            }
-                        }
-                    );
-                } else if (adm === 'adm4') {
-                    body['adm3'] = this.lastAdm3;
-                    this.locationService.getAdm4(body).subscribe(
-                        result => {
-                            const adm4 = result;
-                            if (this.newObject.adm4) {
-                                for (let i = 0; i < adm4.length; i++) {
-                                    if (adm4[i].name === this.newObject.adm4) {
-                                        observer.next(adm4[i].id);
-                                        observer.complete();
-                                    }
-                                }
-                            }
-                        }
-                    );
-                }
-            }
-        );
-    }
+    // /**
+    //  * Get in the cache service the name of all adm selected
+    //  * @param adm
+    //  */
+    // getAdmID(adm: string) {
+    //     return new Observable(
+    //         observer => {
+    //             const body = {};
+    //             if (adm === 'adm1') {
+    //                 this.locationService.getAdm1().subscribe(
+    //                     result => {
+    //                         const adm1 = result;
+    //                         if (this.newObject.adm1) {
+    //                             for (let i = 0; i < adm1.length; i++) {
+    //                                 if (adm1[i].name === this.newObject.adm1) {
+    //                                     this.lastAdm1 = adm1[i].id;
+    //                                     observer.next(adm1[i].id);
+    //                                     observer.complete();
+    //                                 }
+    //                             }
+    //                         }
+    //                     }
+    //                 );
+    //             } else if (adm === 'adm2') {
+    //                 body['adm1'] = this.lastAdm1;
+    //                 this.locationService.getAdm2(body).subscribe(
+    //                     result => {
+    //                         const adm2 = result;
+    //                         if (this.newObject.adm2) {
+    //                             for (let i = 0; i < adm2.length; i++) {
+    //                                 if (adm2[i].name === this.newObject.adm2) {
+    //                                     this.lastAdm2 = adm2[i].id;
+    //                                     observer.next(adm2[i].id);
+    //                                     observer.complete();
+    //                                 }
+    //                             }
+    //                         }
+    //                     }
+    //                 );
+    //             } else if (adm === 'adm3') {
+    //                 body['adm2'] = this.lastAdm2;
+    //                 this.locationService.getAdm3(body).subscribe(
+    //                     result => {
+    //                         const adm3 = result;
+    //                         if (this.newObject.adm3) {
+    //                             for (let i = 0; i < adm3.length; i++) {
+    //                                 if (adm3[i].name === this.newObject.adm3) {
+    //                                     this.lastAdm3 = adm3[i].id;
+    //                                     observer.next(adm3[i].id);
+    //                                     observer.complete();
+    //                                 }
+    //                             }
+    //                         }
+    //                     }
+    //                 );
+    //             } else if (adm === 'adm4') {
+    //                 body['adm3'] = this.lastAdm3;
+    //                 this.locationService.getAdm4(body).subscribe(
+    //                     result => {
+    //                         const adm4 = result;
+    //                         if (this.newObject.adm4) {
+    //                             for (let i = 0; i < adm4.length; i++) {
+    //                                 if (adm4[i].name === this.newObject.adm4) {
+    //                                     observer.next(adm4[i].id);
+    //                                     observer.complete();
+    //                                 }
+    //                             }
+    //                         }
+    //                     }
+    //                 );
+    //             }
+    //         }
+    //     );
+    // }
 
     getNameProject(id): Observable<string> {
         return this._projectService.get().pipe(
@@ -470,7 +481,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
                 }
                 newDistribution.name = adm + '-' + newDistribution.date_distribution;
 
-                const promise = this._distributionService.add(newDistribution);
+                const promise = this._distributionService.create(newDistribution);
                 if (promise) {
                     promise.toPromise().then(response => {
                         this.snackbar.success(this.distribution.distribution + ' : ' + response.distribution.name +
@@ -510,7 +521,7 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
         let dialogRef;
 
         if (user_action === this.criteriaAction) {
-            dialogRef = this.dialog.open(ModalAddLineComponent, {
+            dialogRef = this.dialog.open(ModalAddComponent, {
                 data: { data: [], entity: this.criteriaClass, mapper: this.mapper }
             });
         } else if (user_action === this.commodityAction) {
@@ -609,15 +620,24 @@ export class AddDistributionComponent implements OnInit, DoCheck, DesactivationG
 
     getProjectDates() {
         this._projectService.get().subscribe(
-            (projects: Project[]) => {
+            (projects) => {
                 projects.forEach(project => {
                     if (project.id === this.queryParams.project) {
-                        this.projectInfo.startDate = project.start_date;
-                        this.projectInfo.endDate = project.end_date;
+                        this.projectInfo.startDate = project.fields.startDate.value;
+                        this.projectInfo.endDate = project.fields.endDate.value;
                         return;
                     }
                 });
             }
         );
     }
+
+    selectDate(event) {
+        if (event.value) {
+            this.newObject.date_distribution = event.value.toLocaleDateString();
+        } else {
+            this.snackbar.error(this.distribution.add_distribution_check_date);
+        }
+    }
+
 }

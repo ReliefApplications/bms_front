@@ -1,37 +1,23 @@
-import { Injectable                                 } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Donor } from '../../model/donor.new';
+import { CustomModelService } from './custom-model.service';
+import { HttpService } from './http.service';
 
-import { URL_BMS_API                                } from '../../../environments/environment';
 
-import { HttpService                                } from './http.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class DonorService {
-    readonly api = URL_BMS_API;
+export class DonorService extends CustomModelService {
 
-    constructor(
-        private http: HttpService
-    ) {
+    customModelPath = 'donors';
+
+    constructor(protected http: HttpService) {
+        super(http);
     }
 
-    public get() {
-        const url = this.api + '/donors';
-        return this.http.get(url);
-    }
 
-    public update(id: number, body: any) {
-        const url = this.api + '/donors/' + id;
-        return this.http.post(url, body);
-    }
+    public fillWithOptions (donor: Donor) {
 
-    public create(id: number, body: any) {
-        const url = this.api + '/donors';
-        return this.http.put(url, body);
-    }
-
-    public delete(id: number) {
-        const url = this.api + '/donors/' + id;
-        return this.http.delete(url);
     }
 }

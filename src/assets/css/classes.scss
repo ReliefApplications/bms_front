@@ -241,6 +241,10 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 .button-background-accent {
   background-color: $bms_red !important;
   color: $bms_grey !important;
+  &:disabled {
+    background-color: $bms_dark_grey !important;
+    color: $bms_white !important;
+}
 }
 
 .no-data {
@@ -647,4 +651,20 @@ snack-bar-container {
 .ng-select.multiple-select .ng-select-container .ng-value-container .ng-value {
     background-color: #424242 !important;
     white-space: pre-wrap !important;
+}
+
+app-icon-svg {
+    display: flex;
+    width: 3vh;
+    height: 3vh;
+}
+
+.multiple-items {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }

@@ -1,4 +1,4 @@
-import { Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
@@ -15,12 +15,6 @@ import { WsseService } from '../../core/authentication/wsse.service';
 import { Mapper } from '../../core/utils/mapper.service';
 import { Beneficiaries } from '../../model/beneficiary';
 import { DistributionData } from '../../model/distribution-data';
-import { ModalDeleteComponent } from '../modals/modal-delete/modal-delete.component';
-import { ModalDetailsComponent } from '../modals/modal-details/modal-details.component';
-import { ModalUpdateComponent } from '../modals/modal-update/modal-update.component';
-
-
-
 
 
 const rangeLabel = (page: number, pageSize: number, length: number) => {
@@ -45,7 +39,7 @@ const rangeLabel = (page: number, pageSize: number, length: number) => {
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnChanges, DoCheck {
+export class TableComponent implements OnInit {
     public table = GlobalText.TEXTS;
     public paginator: MatPaginator;
     public sort;
@@ -63,6 +57,11 @@ export class TableComponent implements OnChanges, DoCheck {
 
     // To activate/desactivate action buttons
     @Input() editable: boolean;
+    @Input() deletable: boolean;
+
+    @Input() validatable = false;
+    @Input() updatable = false;
+
     @Input() printable: boolean;
     @Input() assignable: boolean;
     // For Imported Beneficiaries
@@ -86,16 +85,17 @@ export class TableComponent implements OnChanges, DoCheck {
     // To activate/desactivate action buttons
     @Input() rightsDelete: boolean;
     @Input() selection: any;
+
     @Output() selectChecked = new EventEmitter<any>();
+
+    @Output() openModal = new EventEmitter<object>();
 
     sortedData: any;
     allData: any = undefined;
-    properties: any;
+    displayProperties: any;
     propertiesTypes: any;
     propertiesActions: any;
     entityInstance = null;
-    filled = true;
-
     public user_action = '';
 
     constructor(
@@ -111,33 +111,13 @@ export class TableComponent implements OnChanges, DoCheck {
         public householdsService: HouseholdsService,
         public networkService: NetworkService,
         public router: Router,
-        public _exportService: ExportService
+        public _exportService: ExportService,
     ) { }
 
-    ngOnChanges() {
-        if (this.data && this.data._data && this.data._data.value) {
-            this.checkData();
-        }
+    ngOnInit(): void {
+        this.checkData();
     }
 
-    ngDoCheck() {
-        if (this.data && this.data.data) {
-            if (this.entity !== this.oldEntity) {
-                this.checkData();
-            }
-            if (!this.data.paginator) {
-                this.data.paginator = this.paginator;
-            }
-            if (this.table !== GlobalText.TEXTS) {
-                this.table = GlobalText.TEXTS;
-                this.setDataTableProperties();
-                document.getElementsByClassName('mat-paginator-page-size-label')[0].innerHTML = this.table.table_items_per_page;
-                document.getElementsByClassName('mat-paginator-range-label')[0].innerHTML =
-                    this.rangeLabel(this.paginator.pageIndex, this.paginator.pageSize, this.paginator.length);
-                this.mapperService.setMapperObject(this.entity);
-            }
-        }
-    }
 
     checkEntityUpdateRights() {
         if (this.entity === Beneficiaries) {
@@ -157,13 +137,6 @@ export class TableComponent implements OnChanges, DoCheck {
         }
     }
 
-    checkTable() {
-        if (this.data && this.data.data && this.data.data.length > 0) {
-            this.filled = true;
-        } else {
-            this.filled = false;
-        }
-    }
 
     updateData() {
         if (this.data.data) {
@@ -195,11 +168,12 @@ export class TableComponent implements OnChanges, DoCheck {
                 this.service.get().subscribe(response => {
                     this.data = new MatTableDataSource(this.entity.formatArray(response).reverse());
                 });
-            } else {
-                this.service.get().subscribe(response => {
-                    this.data = new MatTableDataSource(this.entity.formatArray(response));
-                });
             }
+            // else {
+            //     this.service.get().subscribe(response => {
+            //         this.data = new MatTableDataSource(this.entity.formatArray(response));
+            //     });
+            // }
         }
     }
 
@@ -216,31 +190,23 @@ export class TableComponent implements OnChanges, DoCheck {
                 this.data.paginator = this.paginator;
             }
         }
-
     }
 
 
     checkData() {
-        if (!this.data.data) {
-            this.data.data = new MatTableDataSource([]);
-        }
-        this.setDataTableProperties();
-        if (this.entity) {
-            this.entityInstance = this.mapperService.instantiate(this.entity);
-            this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapper(this.entityInstance));
-            this.propertiesTypes = this.entityInstance.getTypeProperties(this.entityInstance);
-            this.propertiesActions = new Array();
-            if (this.selection) {
-                this.propertiesActions.push('check');
-            }
 
-            this.properties.forEach(element => {
-                this.propertiesActions.push(element);
-            });
-            this.propertiesActions.push('actions');
-            this.mapperService.setMapperObject(this.entity);
-        }
-        this.oldEntity = this.entity;
+        this.entityInstance = null;
+        this.entityInstance = new this.entity();
+
+        const allProperties = Object.keys(this.entityInstance.fields);
+
+        this.displayProperties = allProperties.filter(property => {
+            return this.entityInstance.fields[property].isDisplayedInTable === true;
+        });
+    }
+
+    public getDisplayedColumns(): string[] {
+        return this.displayProperties ? [...this.displayProperties, 'actions'] : [];
     }
 
     /**
@@ -268,45 +234,10 @@ export class TableComponent implements OnChanges, DoCheck {
     * open each modal dialog
     */
     openDialog(user_action, element): void {
-        let dialogRef;
 
-        if (user_action === 'details') {
-            dialogRef = this.dialog.open(ModalDetailsComponent, {
-                data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
-            });
-        } else if (user_action === 'update') {
-            dialogRef = this.dialog.open(ModalUpdateComponent, {
-                data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
-            });
-        } else {
-            dialogRef = this.dialog.open(ModalDeleteComponent, {
-                data: { data: element, entity: this.entity, service: this.service, mapper: this.mapperService }
-            });
-        }
-
-        let deleteElement = null;
-        if (dialogRef.componentInstance.onDelete) {
-            deleteElement = dialogRef.componentInstance.onDelete.subscribe(
-                (data) => {
-                    this.deleteElement(data);
-                });
-        }
-
-        let updateElement = null;
-        if (dialogRef.componentInstance.onUpdate) {
-            updateElement = dialogRef.componentInstance.onUpdate.subscribe(
-                (data) => {
-                    this.updateElement(data);
-                });
-        }
-
-        dialogRef.afterClosed().subscribe(result => {
-            if (updateElement) {
-                updateElement.unsubscribe();
-            }
-            if (deleteElement) {
-                deleteElement.unsubscribe();
-            }
+        this.openModal.emit({
+            action: user_action,
+            element: element
         });
     }
 
@@ -363,96 +294,6 @@ export class TableComponent implements OnChanges, DoCheck {
                     this.data.filter.splice(index, 1);
                 }
             }
-        }
-    }
-
-    updateElement(updateElement) {
-        updateElement = this.entity.formatForApi(updateElement);
-
-        if (updateElement['rights'] === 'ROLE_PROJECT_MANAGER' || updateElement['rights'] === 'ROLE_PROJECT_OFFICER' ||
-            updateElement['rights'] === 'ROLE_FIELD_OFFICER') {
-            delete updateElement['country'];
-        } else if (updateElement['rights'] === 'ROLE_REGIONAL_MANAGER' || updateElement['rights'] === 'ROLE_COUNTRY_MANAGER' ||
-            updateElement['rights'] === 'ROLE_READ_ONLY') {
-            delete updateElement['projects'];
-        } else {
-            delete updateElement['country'];
-            delete updateElement['projects'];
-        }
-
-        if (this.entity.__classname__ === 'User' && updateElement) {
-            if (updateElement['password'] && updateElement['password'].length > 0) {
-                this.authenticationService.requestSalt(updateElement['username']).subscribe(response => {
-                    if (response) {
-                        const saltedPassword = this._wsseService.saltPassword(response['salt'], updateElement['password']);
-                        updateElement['password'] = saltedPassword;
-
-                        this.service.update(updateElement['id'], updateElement).subscribe(_ => {
-                            this.updateData();
-                        });
-                    }
-                });
-            } else {
-                this.service.update(updateElement['id'], updateElement).subscribe(response => {
-                    this.updateData();
-                });
-            }
-        }
-        if (this.entity.__classname__ === 'Vendors' && updateElement) {
-            if (updateElement['password'] && updateElement['password'].length > 0) {
-                this.authenticationService.requestSalt(updateElement['username']).subscribe(response => {
-                    if (response) {
-                        const saltedPassword = this._wsseService.saltPassword(response['salt'], updateElement['password']);
-                        updateElement['password'] = saltedPassword;
-
-                        this.service.update(updateElement['id'], updateElement).subscribe((_: any) => {
-                        // this.snackBar.open(
-                            // this.entity.__classname__ + this.table.table_element_updated, '',
-                            // { duration: 5000, horizontalPosition: 'right' });
-                            this.updateData();
-                        }, error => {
-                            // console.error("err", error);
-                        });
-                    }
-                });
-            } else {
-                this.service.update(updateElement['id'], updateElement).subscribe(response => {
-                    // this.snackBar.open(
-                        // this.entity.__classname__ + this.table.table_element_updated, '',
-                        // { duration: 5000, horizontalPosition: 'right' });
-                    this.updateData();
-                }, error => {
-                    // console.error("err", error);
-                });
-            }
-        } else if (this.entity.__classname__ === 'Financial Provider' && updateElement) {
-            const salted = btoa(updateElement['password']);
-            updateElement['password'] = salted;
-
-            this.service.update(updateElement).subscribe(response => {
-                this.snackbar.success(this.entity.__classname__ + this.table.table_element_updated);
-                this.updateData();
-            });
-        } else {
-            this.service.update(updateElement['id'], updateElement).subscribe(response => {
-                this.updateData();
-            });
-        }
-    }
-
-    deleteElement(deleteElement: Object) {
-        if (this.entity === Beneficiaries) {
-            this.service.delete(deleteElement['id'], this.parentId).subscribe(response => {
-                this.updateData();
-            });
-        } else if (this.entity.__classname__ === 'Households') {
-            this.householdsService.delete(deleteElement['id']).subscribe(response => {
-                this.updateData();
-            });
-        } else {
-            this.service.delete(deleteElement['id']).subscribe(response => {
-                this.updateData();
-            });
         }
     }
 

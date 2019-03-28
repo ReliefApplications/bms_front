@@ -44,12 +44,6 @@ table {
   td {
     text-align: center;
     max-width: 120px;
-
-    app-icon-svg {
-      display: flex;
-      width: 4.5vh;
-      height: 4.5vh;
-    }
   }
 
   .scrollable-icons {
@@ -208,3 +202,10 @@ button {
     margin-top: 30px;
   }
 }
+
+th.mat-header-cell {
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+

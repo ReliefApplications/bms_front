@@ -1,22 +1,26 @@
-import { Component, OnInit, HostListener, SimpleChanges, DoCheck } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-
-import { GlobalText } from '../../../texts/global';
-
-import { Project } from '../../model/project';
-
-import { ProjectService } from '../../core/api/project.service';
-import { DistributionService } from '../../core/api/distribution.service';
-import { DistributionData } from '../../model/distribution-data';
-import { Mapper } from '../../core/utils/mapper.service';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { MatDialog, MatTableDataSource, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
-
-import { ExportInterface } from '../../model/export.interface';
-import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
+import { finalize } from 'rxjs/operators';
+import { DonorService } from 'src/app/core/api/donor.service';
+import { SectorService } from 'src/app/core/api/sector.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { delay, finalize } from 'rxjs/operators';
+import { GlobalText } from '../../../texts/global';
+import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
+import { DistributionService } from '../../core/api/distribution.service';
+import { ProjectService } from '../../core/api/project.service';
 import { ImportedDataService } from '../../core/utils/imported-data.service';
+import { Mapper } from '../../core/utils/mapper.service';
+import { Distribution } from '../../model/distribution.new';
+import { Project as NewProject } from '../../model/project.new';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { NetworkService } from 'src/app/core/api/network.service';
+import { ModalService } from 'src/app/core/utils/modal.service';
+
+
+
+
 
 
 @Component({
@@ -24,16 +28,16 @@ import { ImportedDataService } from '../../core/utils/imported-data.service';
     templateUrl: './project.component.html',
     styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent implements OnInit, DoCheck {
+export class ProjectComponent implements OnInit {
     public nameComponent = 'projects';
-    public distribution = GlobalText.TEXTS;
     public language = GlobalText.language;
+    public texts = GlobalText.TEXTS;
+
     loadingExport = false;
 
-    projects: Project[];
-    distributionData: MatTableDataSource<any>;
-    distributionClass = DistributionData;
-    projectClass = Project;
+    projects: NewProject[];
+    distributionData: Array<CustomModel>;
+    distributionClass = Distribution;
 
     // loading
     loadingDistributions = true;
@@ -43,7 +47,6 @@ export class ProjectComponent implements OnInit, DoCheck {
     selectedTitle = '';
     selectedProject = null;
     selectedProjectId = null;
-    isBoxClicked = false;
     extensionType: string;
     hasRights = false;
     hasRightsEdit = false;
@@ -64,19 +67,21 @@ export class ProjectComponent implements OnInit, DoCheck {
         private _cacheService: AsyncacheService,
         public snackbar: SnackbarService,
         public dialog: MatDialog,
-        public importedDataService: ImportedDataService
+        public importedDataService: ImportedDataService,
+        private donorService: DonorService,
+        private sectorService: SectorService,
+        public networkService: NetworkService,
+        public modalService: ModalService,
     ) { }
 
     ngOnInit() {
         if (this.importedDataService.emittedProject) {
             this.selectedProjectId = parseInt(this.importedDataService.project, 10);
-            this.getProjects();
-        } else {
-            this.getProjects();
         }
+        this.getProjects();
         this.checkSize();
-        this.checkPermission();
         this.extensionType = 'xls';
+        this.checkPermission();
     }
 
     @HostListener('window:resize', ['$event'])
@@ -90,29 +95,13 @@ export class ProjectComponent implements OnInit, DoCheck {
     }
 
     /**
-     * check if the langage has changed
-     */
-    ngDoCheck() {
-        if (this.distribution !== GlobalText.TEXTS) {
-            this.distribution = GlobalText.TEXTS;
-            this.nameComponent = GlobalText.TEXTS.distributions;
-        }
-
-        if (this.language !== GlobalText.language) {
-            this.language = GlobalText.language;
-        }
-    }
-    /**
      * update current project and its distributions when a other project box is clicked
-     * @param title
      * @param project
      */
-    selectTitle(title, project): void {
-        this.isBoxClicked = true;
-        this.selectedTitle = title;
+    selectProject(project: NewProject): void {
         this.selectedProject = project;
         this.loadingDistributions = true;
-        this.getDistributionsByProject(project.id);
+        this.getDistributionsByProject(project.fields.id.value);
     }
 
     setType(choice: string) {
@@ -133,16 +122,19 @@ export class ProjectComponent implements OnInit, DoCheck {
         ).subscribe(
             response => {
                 if (response && response.length > 0) {
-                    const formattedResponse = this.projectClass.formatArray(response).reverse();
-                    if (!this.projects || formattedResponse.length !== this.projects.length) {
-                        this.projects = formattedResponse;
-                        if (this.selectedProjectId) {
-                            this.autoProjectSelect(this.selectedProjectId);
-                        } else {
-                            this.selectTitle(this.projects[0].name, this.projects[0]);
-                        }
-                        this.loadingProjects = false;
+                    // Transform response into array of projects
+                    this.projects = response.map((projectFromApi: object) => {
+                        return NewProject.apiToModel(projectFromApi);
+                    }).reverse();
+                    // Check for empty projects array
+                    if (!this.projects.length) {
+                        return;
                     }
+                    // Auto select latest project if no project is selected
+                    if (!this.projects.includes(this.selectedProject)) {
+                        this.selectedProject = this.projects[0];
+                    }
+
                 } else if (response === null) {
                     this.loadingProjects = false;
                 }
@@ -164,14 +156,17 @@ export class ProjectComponent implements OnInit, DoCheck {
                 )
             ).subscribe(
                 response => {
+                    this.distributionData = null;
+
+                    const instances = [];
                     if (response || response === []) {
                         this.noNetworkData = false;
-                        const distribution = DistributionData.formatArray(response);
+                        for (const item of response ) {
+                            instances.push(Distribution.apiToModel(item));
+                        }
+                        this.distributionData = instances;
                         this.loadingDistributions = false;
-
-                        this.distributionData = new MatTableDataSource(distribution);
                     } else {
-                        this.distributionData = null;
                         this.loadingDistributions = false;
                         this.noNetworkData = true;
                     }
@@ -180,7 +175,7 @@ export class ProjectComponent implements OnInit, DoCheck {
     }
 
     addDistribution() {
-        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.id } });
+        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.fields.id.value } });
     }
 
     /**
@@ -196,65 +191,50 @@ export class ProjectComponent implements OnInit, DoCheck {
     }
 
     openNewProjectDialog() {
+        const newProjectInstance = new NewProject;
+        this.projectService.fillWithOptions(newProjectInstance);
+
         const dialogRef = this.dialog.open(
             ModalAddComponent, {
                 data: {
-                    data: [],
-                    entity: Project,
-                    service: this.projectService,
-                    mapper: this.mapperService
+                    objectInstance: newProjectInstance,
                 }
             }
         );
-        const create = dialogRef.componentInstance.onCreate.subscribe(
-            (data) => {
-                let exists = false;
-                if (this.projects) {
-                    this.projects.forEach(element => {
-                        if (element.name.toLowerCase() === data.name.toLowerCase()) {
-                            this.snackbar.error(this.distribution.settings_project_exists);
-                            exists = true;
-                            return;
-                        }
-                    });
-                }
-
-                if (! exists) {
-                    this.createElement(data);
-                }
+        dialogRef.afterClosed().subscribe((closeMethod: string) => {
+            if (closeMethod === 'Submit') {
+                this.projectService.create(newProjectInstance.modelToApi()).subscribe(() => {
+                    this.snackbar.success('Project ' + GlobalText.TEXTS.settings_created);
+                    this.getProjects();
+                });
             }
-        );
+        });
     }
 
-    createElement(createElement: Object) {
-        createElement = Project.formatForApi(createElement);
-        this.projectService.create(createElement['id'], createElement).subscribe(response => {
-            this.snackbar.success('Project ' + this.distribution.settings_created);
-            this.getProjects();
+        openDialog(dialogDetails: any): void {
+
+        this.modalService.openDialog(Distribution, this.distributionService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+            this.getDistributionsByProject(this.selectedProject.fields.id.value);
         });
+        // if edit, open modal edit date, if details idem
     }
 
     checkPermission() {
         this._cacheService.getUser().subscribe(
             result => {
-                const rights = result.rights;
-                if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
-                    this.hasRights = true;
-                }
+                if (result && result.rights) {
+                    const rights = result.rights;
+                    // TODO: Replace permissions with service (#430)
+                    if (Distribution.rights.includes(rights)) {
+                        this.hasRights = true;
+                    }
+                    if (Distribution.rightsEdit.includes(rights)) {
+                        this.hasRightsEdit = true;
 
-                if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER') {
-                    this.hasRightsEdit = true;
+                    }
                 }
             }
         );
-    }
-
-    autoProjectSelect(input: string) {
-        const selector = parseInt(input, 10);
-        this.projects.forEach(e => {
-            if (e.id === selector) {
-                this.selectTitle(e.name, e);
-            }
-        });
     }
 }

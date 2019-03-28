@@ -1,0 +1,27 @@
+@startuml updatedModel
+abstract class appObject {
+    + {abstract} requiredFields: String[]
+    + {abstract} editableFields: Object
+    + {abstract} tableFields: Object
+
+
+    + {abstract} frontToApi()
+    + {abstract} apiToFront()
+    + {abstract} getdisplayName(): Object
+}
+
+class project {
+    id: number
+    [...]
+    fields: appObjectField[]
+}
+
+class appObjectField {
+    + required: boolean
+    + editable: boolean
+    + displayedInTable: boolean
+}
+
+appObject <|-- project
+project *- "0-*" appObjectField
+@enduml

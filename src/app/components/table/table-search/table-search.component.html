@@ -6,7 +6,7 @@
         </h3>
     </div>
 
-    <div class="container-header" *ngIf="filled==true">
+    <div class="container-header" >
         <mat-form-field>
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
         </mat-form-field>
@@ -74,7 +74,7 @@
         </div>
     </div>
 
-    <mat-paginator *ngIf="filled==true" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+    <mat-paginator  [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
 </div>
 
 

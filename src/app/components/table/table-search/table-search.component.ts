@@ -16,6 +16,7 @@ export class TableSearchComponent extends TableComponent implements OnInit {
         if (!this.deletable) {
             this.deletable = true;
         }
+
     }
 
     getImageName(t2: String) {

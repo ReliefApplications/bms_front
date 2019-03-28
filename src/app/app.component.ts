@@ -1,19 +1,19 @@
-import { Component, HostListener, OnInit, DoCheck } from '@angular/core';
-import { User } from './model/user';
-import { AuthenticationService } from './core/authentication/authentication.service';
-import { GlobalText } from '../texts/global';
-
-import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
-import { MatDialog, MatSidenav } from '@angular/material';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
+import { GlobalText } from '../texts/global';
+import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
 import { UpdateService } from './core/api/update.service';
+import { AuthenticationService } from './core/authentication/authentication.service';
+import { User } from './model/user';
+
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, DoCheck {
+export class AppComponent implements OnInit {
 
     user: User = new User();
 
@@ -45,11 +45,11 @@ export class AppComponent implements OnInit, DoCheck {
             });
     }
 
-    ngDoCheck() {
-        if (this.menu !== GlobalText.TEXTS) {
-            this.menu = GlobalText.TEXTS;
-        }
-    }
+    // ngDoCheck() {
+    //     if (this.menu !== GlobalText.TEXTS) {
+    //         this.menu = GlobalText.TEXTS;
+    //     }
+    // }
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {

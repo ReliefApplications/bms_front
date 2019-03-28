@@ -1,55 +1,59 @@
-import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { Subscription } from 'rxjs';
-
-import { AuthenticationService } from '../../core/authentication/authentication.service';
+import { finalize } from 'rxjs/operators';
+import { TableComponent } from 'src/app/components/table/table.component';
+import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
+import { LocationService } from 'src/app/core/api/location.service';
+import { ProductService } from 'src/app/core/api/product-service';
+import { VendorsService } from 'src/app/core/api/vendors.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { FinancialProvider } from 'src/app/model/financial-provider';
+import { Product } from 'src/app/model/product';
+import { Vendors } from 'src/app/model/vendors';
+import { GlobalText } from 'src/texts/global';
+import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
+import { ModalDeleteComponent } from '../../components/modals/modal-delete/modal-delete.component';
+import { ModalDetailsComponent } from '../../components/modals/modal-details/modal-details.component';
+import { ModalEditComponent } from '../../components/modals/modal-edit/modal-edit.component';
+import { CountrySpecificService } from '../../core/api/country-specific.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { DonorService } from '../../core/api/donor.service';
 import { ProjectService } from '../../core/api/project.service';
-import { UserService } from '../../core/api/user.service';
-import { CountrySpecificService } from '../../core/api/country-specific.service';
-
-import { Mapper } from '../../core/utils/mapper.service';
-import { Donor } from '../../model/donor';
-import { Project } from '../../model/project';
-import { User } from '../../model/user';
-import { CountrySpecific } from '../../model/country-specific';
-
-import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
-
-import { GlobalText } from '../../../texts/global';
 import { SettingsService } from '../../core/api/settings.service';
-import { finalize } from 'rxjs/operators';
-import { LocationService } from 'src/app/core/api/location.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Router } from '@angular/router';
-import { FormControl } from '@angular/forms';
-import { FinancialProvider } from 'src/app/model/financial-provider';
-import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
-import { Product } from 'src/app/model/product';
-import { ProductService } from 'src/app/core/api/product-service';
-import { Vendors } from 'src/app/model/vendors';
-import { VendorsService } from 'src/app/core/api/vendors.service';
+import { UserService } from '../../core/api/user.service';
+import { AuthenticationService } from '../../core/authentication/authentication.service';
+import { Mapper } from '../../core/utils/mapper.service';
+import { CountrySpecific } from '../../model/country-specific.new';
+import { Donor } from '../../model/donor.new';
+import { Project as NewProject } from '../../model/project.new';
+import { User } from '../../model/user';
+import { ModalService } from 'src/app/core/utils/modal.service';
+
+
+
+
 
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit, DoCheck {
-
+export class SettingsComponent implements OnInit {
     public nameComponent = 'settings';
     public settings = GlobalText.TEXTS;
     loadingExport = false;
 
     selectedTitle = '';
-    isBoxClicked = false;
     loadingData = true;
 
     public referedClassService;
     referedClassToken;
-    data: MatTableDataSource<any>;
+    referedClassInstance: any;
+    data: Array<CustomModel>;
     public user_action = '';
     public extensionType;
 
@@ -70,6 +74,8 @@ export class SettingsComponent implements OnInit, DoCheck {
     public printable = false;
     public httpSubscriber: Subscription;
 
+    @ViewChild(TableComponent) table: TableComponent;
+
     constructor(
         public dialog: MatDialog,
         public mapperService: Mapper,
@@ -86,6 +92,7 @@ export class SettingsComponent implements OnInit, DoCheck {
         private snackbar: SnackbarService,
         public productService: ProductService,
         private vendorsService: VendorsService,
+        private modalService: ModalService,
     ) { }
 
     ngOnInit() {
@@ -94,15 +101,6 @@ export class SettingsComponent implements OnInit, DoCheck {
         this.extensionType = 'xls';
     }
 
-    /**
-   * check if the langage has changed
-   */
-  ngDoCheck() {
-    if (this.language !== GlobalText.language) {
-      this.language = GlobalText.language;
-      this.settings = GlobalText.TEXTS;
-    }
-  }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -119,7 +117,6 @@ export class SettingsComponent implements OnInit, DoCheck {
       this.httpSubscriber.unsubscribe();
     }
     this.getData(title);
-    this.isBoxClicked = true;
     this.selectedTitle = title;
   }
 
@@ -195,7 +192,7 @@ export class SettingsComponent implements OnInit, DoCheck {
 
         break;
       case 'projects':
-        this.referedClassToken = Project;
+        this.referedClassToken = NewProject;
         this.referedClassService = this.projectService;
         this.deletable = true;
         this.printable = false;
@@ -226,11 +223,12 @@ export class SettingsComponent implements OnInit, DoCheck {
         break;
       default: break;
     }
-    this.load(title);
+    this.load();
   }
 
   // TO DO : get from cache
-    load(title): void {
+    load(): void {
+        this.data = null;
         this.hasRights = false;
 
         this.httpSubscriber = this.referedClassService.get().
@@ -240,165 +238,37 @@ export class SettingsComponent implements OnInit, DoCheck {
                         this.loadingData = false;
                     }
                 )
-            ).subscribe(response => {
-                if (response) {
-                    this.loadingData = false;
-                    if (response && response[0] && response[0].email && response[0].username && response[0].roles) {
-                        response.forEach(element => {
-                            element.projects = new Array<number>();
-                            element.country = '';
-
-                            for (let i = 0; i < element.user_projects.length; i++) {
-                                if (element.user_projects[i].project) {
-                                    element.projects[i] = element.user_projects[i].project.name;
-                                }
-                            }
-                            for (let i = 0; i < element.countries.length; i++) {
-                                element.country = element.countries[i].iso3;
-                            }
-                        });
-                    }
-
-                    response = this.referedClassToken.formatArray(response);
-                    this.data = new MatTableDataSource(response);
-
-                    this._cacheService.getUser().subscribe(
-                        result => {
-                            if (result && result.rights) {
-                                const rights = result.rights;
-
-                                if (this.referedClassToken.__classname__ === 'User') {
-                                    if (rights === 'ROLE_ADMIN') {
-                                        this.hasRights = true;
-                                    }
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'CountrySpecific') {
-                                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_COUNTRY_MANAGER' || rights === 'ROLE_PROJECT_MANAGER') {
-                                        this.hasRights = true;
-                                    }
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'Donor') {
-                                    if (rights === 'ROLE_ADMIN') {
-                                        this.hasRights = true;
-                                    }
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'Project') {
-                                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_COUNTRY_MANAGER' || rights === 'ROLE_PROJECT_MANAGER') {
-                                        this.hasRights = true;
-                                    }
-
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'Financial Provider') {
-                                    if (rights === 'ROLE_ADMIN') {
-                                        this.hasRights = true;
-                                    }
-
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'Vendors') {
-                                  if (rights === 'ROLE_ADMIN') {
-                                    this.hasRights = true;
-                                  }
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'Product') {
-                                  if (rights === 'ROLE_ADMIN') {
-                                      this.hasRights = true;
-                                  }
-                                }
-                            }
-                        }
-                    );
-
-                } else {
-                    this.data = new MatTableDataSource(null);
-                    this.loadingData = false;
+            ).subscribe( (response: any) => {
+            const instances = [];
+            if (response && response.length !== 0) {
+                for (const item of response ) {
+                    instances.push(this.referedClassToken.apiToModel(item));
                 }
-            });
-        // .catch(
-        //     () => {
-        //         this.data = new MatTableDataSource(null);
-        //     }
-        // );
+                this.data = instances;
+            }
+
+            this._cacheService.getUser().subscribe(
+                result => {
+                    if (result && result.rights) {
+                        const rights = result.rights;
+                        // TODO: Replace permissions with service (#430)
+                        if (this.referedClassToken.rights.includes(rights)) {
+                            this.hasRights = true;
+                        }
+                    }
+                });
+        this.table.checkData();
+        });
     }
+
 
     /**
 	* open each modal dialog
 	*/
-    openDialog(user_action): void {
-        let dialogRef;
-
-        if (user_action === 'add') {
-            dialogRef = this.dialog.open(ModalAddComponent, {
-                data: { data: [], entity: this.referedClassToken, service: this.referedClassService, mapper: this.mapperService }
-            });
-        }
-        const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
-            if (this.referedClassToken.__classname__ === 'Project') {
-                let exists = false;
-
-                this.data.data.forEach(element => {
-                    if (element.name.toLowerCase() === data.name.toLowerCase()) {
-                        this.snackbar.error(this.settings.settings_project_exists);
-                        exists = true;
-                        return;
-                    }
-                });
-
-                if (exists === false) {
-                    this.createElement(data);
-                }
-            } else {
-                this.createElement(data);
-            }
+    openDialog(dialogDetails: any): void {
+        this.modalService.openDialog(this.referedClassToken, this.referedClassService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+            this.load();
         });
-
-        dialogRef.afterClosed().subscribe(result => {
-            create.unsubscribe();
-        });
-    }
-
-    createElement(createElement: Object) {
-        createElement = this.referedClassToken.formatForApi(createElement);
-        if (this.referedClassToken.__classname__ !== 'User' && this.referedClassToken.__classname__ !== 'Vendors') {
-            this.referedClassService.create(createElement['id'], createElement).subscribe(
-                response => {
-                    this.selectTitle(this.selectedTitle);
-                });
-        } else {
-            // for users, there are two step (one to get the salt and one to create the user)
-            this.authenticationService.initializeUser(createElement['username']).subscribe(response => {
-                if (response) {
-                  if (this.referedClassToken.__classname__ === 'Vendors') {
-                    this.authenticationService.createVendor(createElement, response).subscribe(
-                      () => {
-                        this.selectTitle(this.selectedTitle);
-                      });
-                  } else {
-                    if (createElement['rights'] === 'ROLE_PROJECT_MANAGER'
-                        || createElement['rights'] === 'ROLE_PROJECT_OFFICER'
-                        || createElement['rights'] === 'ROLE_FIELD_OFFICER') {
-                        delete createElement['country'];
-                    } else if (createElement['rights'] === 'ROLE_REGIONAL_MANAGER'
-                        || createElement['rights'] === 'ROLE_COUNTRY_MANAGER'
-                        || createElement['rights'] === 'ROLE_READ_ONLY') {
-                        delete createElement['projects'];
-                    } else {
-                        delete createElement['country'];
-                        delete createElement['projects'];
-                    }
-
-                    this.authenticationService.createUser(createElement, response).subscribe(
-                        () => {
-                            this.selectTitle(this.selectedTitle);
-                        });
-                  }
-                }
-            });
-        }
     }
 }

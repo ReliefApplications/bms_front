@@ -6,9 +6,11 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./icon-svg.component.scss']
 })
 export class IconSvgComponent implements OnInit {
-  @Input() name = '';
-  @Input() menuHover = false;
-  @Input() isClicked = false;
+  // TODO
+  @Input() name = ''; // to delete
+  @Input() menuHover = false;  // to delete
+  @Input() isClicked = false;  // to delete
+  @Input() imagePath = '';
 
   constructor() { }
 

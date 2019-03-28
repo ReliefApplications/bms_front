@@ -267,6 +267,7 @@ export const TEXT = {
     // Login
     login_bms: 'Beneficiary management system',
     login_forgot_password: 'Mot de passe oublié ?',
+    login_captcha_invalid: 'Le captcha est invalide',
     login_password: '*********',
     login_title: 'Connexion',
     login_username: 'Identifiant',

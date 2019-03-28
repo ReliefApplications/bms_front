@@ -3,22 +3,26 @@ import { URL_BMS_API                                } from '../../../environment
 import { HttpService                                } from './http.service';
 import { DistributionData                           } from '../../model/distribution-data';
 import { ExportService                              } from './export.service';
+import { CustomModelService } from './custom-model.service';
+import { Distribution } from 'src/app/model/distribution.new';
+import { AppInjector } from 'src/app/app-injector';
+import { LocationService } from './location.service';
+import { Location } from 'src/app/model/location.new';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 
 @Injectable({
     providedIn: 'root'
 })
-export class DistributionService {
+export class DistributionService extends CustomModelService {
     readonly api = URL_BMS_API;
+    customModelPath = 'distributions';
+
 
     constructor(
-        private http: HttpService,
-        private exportService: ExportService,
+        protected http: HttpService,
+        protected exportService: ExportService,
     ) {
-    }
-
-    public get() {
-        const url = this.api + '/distributions';
-        return this.http.get(url);
+        super(http);
     }
 
     public getOne(id: number) {
@@ -29,21 +33,6 @@ export class DistributionService {
     public getByProject(idProject) {
         const url = this.api + '/distributions/projects/' + idProject;
         return this.http.get(url);
-    }
-
-    public update(id: number, distribution: DistributionData) {
-        const url = this.api + '/distributions/' + id;
-        return this.http.post(url, distribution);
-    }
-
-    public delete(distributionId) {
-        const url = this.api + '/distributions/archive/' + distributionId;
-        return this.http.post(url, '');
-    }
-
-    public add(body: any) {
-        const url = this.api + '/distributions';
-        return this.http.put(url, body);
     }
 
     public getBeneficiaries(id: number) {
@@ -115,5 +104,91 @@ export class DistributionService {
             ids: ids,
         };
         return this.http.post(url, body);
+    }
+
+    public fillWithOptions(distribution: Distribution, locationType: string) {
+    }
+
+    fillAdm1Options(distribution: Distribution) {
+        const appInjector = AppInjector;
+        const location = distribution.fields.location.value;
+
+        appInjector.get(LocationService).getAdm1()
+            .subscribe((options) => {
+                const adm1Options = options.map(adm1 => {
+                    return { fields : {
+                        name: { value: adm1.name },
+                        id: { value: adm1.id }
+                    }};
+                });
+                location.fields.adm1.options = adm1Options;
+                location.fields.adm2.options = [];
+                location.fields.adm3.options = [];
+                location.fields.adm4.options = [];
+                distribution.fields.location.value = location;
+            });
+    }
+
+    fillAdm2Options(distribution: Distribution, adm1Id: Number) {
+        const body = {
+            adm1: adm1Id
+        };
+        const appInjector = AppInjector;
+        const location = distribution.fields.location.value;
+
+        appInjector.get(LocationService).getAdm2(body)
+            .subscribe((options) => {
+                const adm2Options = options.map(adm2 => {
+                    return { fields : {
+                        name: { value: adm2.name },
+                        id: { value: adm2.id }
+                    }};
+                });
+                location.fields.adm2.options = adm2Options;
+                location.fields.adm3.options = [];
+                location.fields.adm4.options = [];
+                distribution.fields.location.value = location;
+            });
+    }
+
+    fillAdm3Options(distribution: Distribution, adm2Id: Number) {
+        const body = {
+            adm2: adm2Id
+        };
+        const appInjector = AppInjector;
+        const location = distribution.fields.location.value;
+
+        appInjector.get(LocationService).getAdm3(body)
+            .subscribe((options) => {
+                const adm3Options = options.map(adm3 => {
+                    return { fields : {
+                        name: { value: adm3.name },
+                        id: { value: adm3.id }
+                    }};
+                });
+                location.fields.adm3.options = adm3Options;
+                location.fields.adm4.options = [];
+                distribution.fields.location.value = location;
+            });
+    }
+
+    fillAdm4Options(distribution: Distribution, adm3Id: Number) {
+        const body = {
+            adm3: adm3Id
+        };
+        const appInjector = AppInjector;
+        const location = distribution.fields.location.value;
+
+        appInjector.get(LocationService).getAdm4(body)
+            .subscribe((options) => {
+                const adm4Options = options.map(adm4 => {
+                    return { fields : {
+                        name: { value: adm4.name },
+                        id: { value: adm4.id }
+                    }};
+                });
+                location.fields.adm4.options = adm4Options;
+                distribution.fields.location.value = location;
+            });
     }
 }

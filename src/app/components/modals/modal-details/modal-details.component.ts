@@ -15,13 +15,6 @@ export class ModalDetailsComponent extends ModalFieldsComponent implements OnIni
 
     modalType = 'Details';
 
-    constructor(
-        public modalReference: MatDialogRef<ModalDetailsComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any,
-    ) {
-        super(modalReference, data);
-    }
-
     isDisabled(field: CustomModelField<any>) {
         return true;
     }

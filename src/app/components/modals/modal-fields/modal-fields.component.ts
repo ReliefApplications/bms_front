@@ -5,7 +5,6 @@ import { APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 import { CustomModel as CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { CustomDateAdapter } from '../../../core/utils/date.adapter';
 
-
 @Component({
     selector: 'app-project',
     templateUrl: './modal-fields.component.html',
@@ -113,7 +112,15 @@ export class ModalFieldsComponent implements OnInit {
         this.modalReference.close(this.modalType);
     }
 
-    private getFieldValidators(required?: boolean, pattern?: RegExp): ValidatorFn[] {
+    type(value: any) {
+        return typeof value;
+    }
+
+    isDisabled(field) {
+        throw new Error('You must override this function in other components');
+    }
+
+    getFieldValidators(required?: boolean, pattern?: RegExp): ValidatorFn[] {
         const validators: ValidatorFn[] = [];
         if (required) {
             validators.push(Validators.required);
@@ -122,13 +129,5 @@ export class ModalFieldsComponent implements OnInit {
             validators.push(Validators.pattern(pattern));
         }
         return validators;
-    }
-
-    type(value: any) {
-        return typeof value;
-    }
-
-    isDisabled(field) {
-        throw new Error('You must override this function in other components');
     }
 }

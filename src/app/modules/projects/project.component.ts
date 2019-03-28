@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { DonorService } from 'src/app/core/api/donor.service';
@@ -12,8 +12,11 @@ import { DistributionService } from '../../core/api/distribution.service';
 import { ProjectService } from '../../core/api/project.service';
 import { ImportedDataService } from '../../core/utils/imported-data.service';
 import { Mapper } from '../../core/utils/mapper.service';
-import { DistributionData } from '../../model/distribution-data';
+import { Distribution } from '../../model/distribution.new';
 import { Project as NewProject } from '../../model/project.new';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { NetworkService } from 'src/app/core/api/network.service';
+import { ModalService } from 'src/app/core/utils/modal.service';
 
 
 
@@ -28,11 +31,13 @@ import { Project as NewProject } from '../../model/project.new';
 export class ProjectComponent implements OnInit {
     public nameComponent = 'projects';
     public language = GlobalText.language;
+    public texts = GlobalText.TEXTS;
+
     loadingExport = false;
 
     projects: NewProject[];
-    distributionData: MatTableDataSource<any>;
-    distributionClass = DistributionData;
+    distributionData: Array<CustomModel>;
+    distributionClass = Distribution;
 
     // loading
     loadingDistributions = true;
@@ -65,6 +70,8 @@ export class ProjectComponent implements OnInit {
         public importedDataService: ImportedDataService,
         private donorService: DonorService,
         private sectorService: SectorService,
+        public networkService: NetworkService,
+        public modalService: ModalService,
     ) { }
 
     ngOnInit() {
@@ -74,6 +81,7 @@ export class ProjectComponent implements OnInit {
         this.getProjects();
         this.checkSize();
         this.extensionType = 'xls';
+        this.checkPermission();
     }
 
     @HostListener('window:resize', ['$event'])
@@ -148,14 +156,17 @@ export class ProjectComponent implements OnInit {
                 )
             ).subscribe(
                 response => {
+                    this.distributionData = null;
+
+                    const instances = [];
                     if (response || response === []) {
                         this.noNetworkData = false;
-                        const distribution = DistributionData.formatArray(response);
+                        for (const item of response ) {
+                            instances.push(Distribution.apiToModel(item));
+                        }
+                        this.distributionData = instances;
                         this.loadingDistributions = false;
-
-                        this.distributionData = new MatTableDataSource(distribution);
                     } else {
-                        this.distributionData = null;
                         this.loadingDistributions = false;
                         this.noNetworkData = true;
                     }
@@ -164,7 +175,7 @@ export class ProjectComponent implements OnInit {
     }
 
     addDistribution() {
-        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.id } });
+        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.fields.id.value } });
     }
 
     /**
@@ -198,5 +209,32 @@ export class ProjectComponent implements OnInit {
                 });
             }
         });
+    }
+
+        openDialog(dialogDetails: any): void {
+
+        this.modalService.openDialog(Distribution, this.distributionService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+            this.getDistributionsByProject(this.selectedProject.fields.id.value);
+        });
+        // if edit, open modal edit date, if details idem
+    }
+
+    checkPermission() {
+        this._cacheService.getUser().subscribe(
+            result => {
+                if (result && result.rights) {
+                    const rights = result.rights;
+                    // TODO: Replace permissions with service (#430)
+                    if (Distribution.rights.includes(rights)) {
+                        this.hasRights = true;
+                    }
+                    if (Distribution.rightsEdit.includes(rights)) {
+                        this.hasRightsEdit = true;
+
+                    }
+                }
+            }
+        );
     }
 }

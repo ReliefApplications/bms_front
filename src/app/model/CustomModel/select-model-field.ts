@@ -18,9 +18,9 @@ export class SelectModelField<T> extends CustomModelField<T> {
 
     /**
      * Method to get multiple choice options
-     * @type {string}
+     * @type {CustomModel[]}
      */
-    options: CustomModel;
+    options: CustomModel[];
 
     /**
      * Label to format for api

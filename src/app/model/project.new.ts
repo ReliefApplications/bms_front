@@ -138,7 +138,6 @@ export class Project extends CustomModel {
                 title: GlobalText.TEXTS.model_notes,
                 placeholder: null,
                 isSettable: true,
-                isUpdatable: true,
                 isDisplayedInModal: true,
                 isLongText: true,
                 isEditable: true,
@@ -147,7 +146,7 @@ export class Project extends CustomModel {
     };
 
 
-    public static apiToModel(projectFromApi: any): object {
+    public static apiToModel(projectFromApi: any): Project {
         const newProject = new Project();
 
         // Assign default fields

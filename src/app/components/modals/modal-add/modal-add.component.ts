@@ -18,14 +18,6 @@ export class ModalAddComponent extends ModalFieldsComponent implements OnInit {
     modalTitle = GlobalText.TEXTS.modal_add_title;
     modalType = 'Add';
 
-
-    constructor(
-        public modalReference: MatDialogRef<ModalAddComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any,
-    ) {
-        super(modalReference, data);
-    }
-
     isDisabled(field: CustomModelField<any>) {
         return !field.isSettable;
     }

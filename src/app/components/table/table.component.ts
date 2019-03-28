@@ -59,6 +59,9 @@ export class TableComponent implements OnInit {
     @Input() editable: boolean;
     @Input() deletable: boolean;
 
+    @Input() validatable = false;
+    @Input() updatable = false;
+
     @Input() printable: boolean;
     @Input() assignable: boolean;
     // For Imported Beneficiaries

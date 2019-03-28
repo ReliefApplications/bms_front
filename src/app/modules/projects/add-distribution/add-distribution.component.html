@@ -4,7 +4,45 @@
       <h2 class="distribution-title">{{distribution.add_project_new_distribution | titlecase}}</h2>
       <div [ngClass]="{'distribution-accordion': language!=='ar', 'distribution-accordion-ar': language==='ar'}">
         <mat-card class="accordion-card">
-          <div *ngFor="let p of properties">
+
+            <form [formGroup]="form">
+
+            <ng-container>
+                <ng-select formControlName="adm1" (change)="loadDistrict($event)" [placeholder]="objectInstance.fields.location.value.fields.adm1.title">
+                    <ng-option *ngFor="let option of objectInstance.fields.location.value.fields.adm1.options" [value]="option.fields.id.value">
+                        {{option.fields.name.value | titlecase}}
+                    </ng-option>
+                </ng-select>
+            </ng-container>
+
+            <ng-container>
+                <ng-select formControlName="adm2" (change)="loadCommunity($event)" [placeholder]="objectInstance.fields.location.value.fields.adm2.title">
+                    <ng-option *ngFor="let option of objectInstance.fields.location.value.fields.adm2.options"  [value]="option.fields.id.value">
+                        {{option.fields.name.value | titlecase}}
+                    </ng-option>
+                </ng-select>
+            </ng-container>
+
+            <ng-container>
+                <ng-select formControlName="adm3"  (change)="loadVillage($event)" [placeholder]="objectInstance.fields.location.value.fields.adm3.title">
+                    <ng-option *ngFor="let option of objectInstance.fields.location.value.fields.adm3.options"[value]="option.fields.id.value">
+                        {{option.fields.name.value | titlecase}}
+                    </ng-option>
+                </ng-select>
+            </ng-container>
+
+            <ng-container>
+                <ng-select formControlName="adm4" [placeholder]="objectInstance.fields.location.value.fields.adm4.title">
+                    <ng-option *ngFor="let option of objectInstance.fields.location.value.fields.adm4.options" [value]="option.fields.id.value">
+                        {{option.fields.name.value | titlecase}}
+                    </ng-option>
+                </ng-select>
+            </ng-container>
+
+            </form>
+          
+
+          <!-- <div *ngFor="let p of properties">
             <ng-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
               (change)="selected(p)" class="single-select" [multiple]="false" [closeOnSelect]="true" [searchable]="true" [ngModelOptions]="{standalone: true}">
               <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.name">{{singleData.name}}</ng-option>
@@ -19,11 +57,11 @@
               <mat-radio-button checked='true' color="warn" value="Household" disabled='false'>{{distribution.households}}</mat-radio-button>
               <mat-radio-button color="warn" value="Individual">{{distribution.individual}}</mat-radio-button>
             </mat-radio-group>
-          </div>
+          </div> -->
         </mat-card>
       </div>
     </div>
-    <div class="field-forms">
+    <!-- <div class="field-forms">
       <div class="forms-criteria">
         <div class="distribution-title">
           <h2>{{distribution.add_distribution_selection_criteria | titlecase}}</h2>
@@ -78,11 +116,11 @@
           <app-table-small-mobile (onRemove)="removeElement($event, commodityAction)" [entity]="commodityClass" [data]="commodityData"></app-table-small-mobile>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
-  <div class="action-buttons content-button content-button-footer">
+  <!-- <div class="action-buttons content-button content-button-footer">
     <button mat-raised-button *ngIf="!loadingCreation" (click)="add()" class="button-background-primary">{{distribution.create}}</button>
     <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
     <button mat-button (click)="cancel()" class="button-text-primary">{{distribution.cancel}}</button>
-  </div>
+  </div> -->
 </div>

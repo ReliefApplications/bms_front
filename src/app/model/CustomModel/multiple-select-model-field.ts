@@ -18,6 +18,11 @@ export class MultipleSelectModelField extends SelectModelField<Array<CustomModel
      */
     apiLabel: string;
 
+    /**
+     * Is displayed as a series of checkboxes ?
+     * @type {boolean}
+     */
+    isCheckbox = false;
 
     formatForApi(): any {
         return this.value.map(option => {

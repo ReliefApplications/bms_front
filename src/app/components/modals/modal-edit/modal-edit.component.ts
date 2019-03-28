@@ -19,13 +19,6 @@ export class ModalEditComponent extends ModalFieldsComponent implements OnInit {
     modalTitle = GlobalText.TEXTS.modal_edit_title;
     modalType = 'Edit';
 
-    constructor(
-        public modalReference: MatDialogRef<ModalEditComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any,
-    ) {
-        super(modalReference, data);
-    }
-
     isDisabled(field: CustomModelField<any>) {
         return !field.isEditable;
     }

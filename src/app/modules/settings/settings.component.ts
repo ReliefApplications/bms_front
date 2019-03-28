@@ -31,6 +31,7 @@ import { CountrySpecific } from '../../model/country-specific.new';
 import { Donor } from '../../model/donor.new';
 import { Project as NewProject } from '../../model/project.new';
 import { User } from '../../model/user';
+import { ModalService } from 'src/app/core/utils/modal.service';
 
 
 
@@ -91,6 +92,7 @@ export class SettingsComponent implements OnInit {
         private snackbar: SnackbarService,
         public productService: ProductService,
         private vendorsService: VendorsService,
+        private modalService: ModalService,
     ) { }
 
     ngOnInit() {
@@ -264,133 +266,9 @@ export class SettingsComponent implements OnInit {
 	* open each modal dialog
 	*/
     openDialog(dialogDetails: any): void {
-        let dialogRef: MatDialogRef<any>;
-        switch (dialogDetails.action) {
-            case 'add':
-                dialogRef = this.openAddDialog();
-                break;
-            case 'details':
-                dialogRef = this.openDetailsDialog(dialogDetails.element);
-                break;
-            case 'edit':
-                dialogRef = this.openEditDialog(dialogDetails.element);
-                break;
-            case 'delete':
-                dialogRef = this.openDeleteDialog(dialogDetails.element);
-                break;
-
-            default:
-                this.snackbar.error('Modal error');
-                break;
-        }
-
-        const subscription = dialogRef.afterClosed().subscribe((closeMethod: string) => {
-            if (closeMethod === 'Add') {
-                this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe(() => {
-                    this.snackbar.error(this.settings.settings_project_exists);
-                    this.load();
-                });
-
-            } else if (closeMethod === 'Edit') {
-                this.updateElement(dialogDetails.element);
-            } else if (closeMethod === 'Delete') {
-                this.deleteElement(dialogDetails.element);
-            }
-            // Reload table
-            this.table.checkData();
-            // Prevent memory leaks
-            subscription.unsubscribe();
-        });
-    }
-
-    openAddDialog() {
-        this.referedClassInstance = new this.referedClassToken();
-        this.referedClassService.fillWithOptions(this.referedClassInstance);
-
-        return this.dialog.open(ModalAddComponent, {
-            data: {
-                objectInstance: this.referedClassInstance,
-            }
-        });
-    }
-
-    openDetailsDialog(objectInfo: CustomModel) {
-        this.referedClassService.fillWithOptions(objectInfo);
-        return this.dialog.open(ModalDetailsComponent, {
-            data: {
-                objectInstance: objectInfo,
-            }
-        });
-    }
-
-    openEditDialog(objectInfo: CustomModel) {
-        this.referedClassService.fillWithOptions(objectInfo);
-            return this.dialog.open(ModalEditComponent, {
-                data: {
-                    objectInstance: objectInfo
-                 }
-            });
-    }
-
-    openDeleteDialog(objectInfo: CustomModel) {
-        return this.dialog.open(ModalDeleteComponent, {
-            data: {
-                data: objectInfo,
-            }
-        });
-    }
-
-
-    updateElement(updateElement) {
-        const apiUpdateElement = updateElement.modelToApi(updateElement);
-        this.referedClassService.update(apiUpdateElement['id'], apiUpdateElement).subscribe((response: any) => {
+        this.modalService.openDialog(this.referedClassToken, this.referedClassService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
             this.load();
         });
-    }
-
-    deleteElement(deleteElement: CustomModel) {
-            this.referedClassService.delete(deleteElement.fields['id'].value).subscribe(response => {
-                this.load();
-            });
-    }
-
-    createElement(createElement: Object) {
-        createElement = this.referedClassToken.formatForApi(createElement);
-        if (this.referedClassToken.__classname__ !== 'User' && this.referedClassToken.__classname__ !== 'Vendors') {
-            this.referedClassService.create(createElement['id'], createElement).subscribe(
-                response => {
-                    this.selectTitle(this.selectedTitle);
-                });
-        } else {
-            // for users, there are two step (one to get the salt and one to create the user)
-            this.authenticationService.initializeUser(createElement['username']).subscribe(response => {
-                if (response) {
-                  if (this.referedClassToken.__classname__ === 'Vendors') {
-                    this.authenticationService.createVendor(createElement, response).subscribe(
-                      () => {
-                        this.selectTitle(this.selectedTitle);
-                      });
-                  } else {
-                    if (createElement['rights'] === 'ROLE_PROJECT_MANAGER'
-                        || createElement['rights'] === 'ROLE_PROJECT_OFFICER'
-                        || createElement['rights'] === 'ROLE_FIELD_OFFICER') {
-                        delete createElement['country'];
-                    } else if (createElement['rights'] === 'ROLE_REGIONAL_MANAGER'
-                        || createElement['rights'] === 'ROLE_COUNTRY_MANAGER'
-                        || createElement['rights'] === 'ROLE_READ_ONLY') {
-                        delete createElement['projects'];
-                    } else {
-                        delete createElement['country'];
-                        delete createElement['projects'];
-                    }
-
-                    this.authenticationService.createUser(createElement, response).subscribe(
-                        () => {
-                            this.selectTitle(this.selectedTitle);
-                        });
-                  }
-                }
-            });
-        }
     }
 }

@@ -74,6 +74,11 @@ export class LoginComponent implements OnInit, DoCheck {
     }
 
     onSubmit = () => {
+        // Prevent captcha bypass by setting button to enabled in production mode
+        if (this.prod() && !this.form.controls['captcha'].value) {
+            this.snackbar.error(GlobalText.TEXTS.login_captcha_invalid);
+            return;
+        }
         this.user.username = this.form.controls['username'].value;
         this.user.password = this.form.controls['password'].value;
         this.loginAction();
@@ -85,11 +90,6 @@ export class LoginComponent implements OnInit, DoCheck {
         if (this.login !== GlobalText.TEXTS) {
             this.login = GlobalText.TEXTS;
         }
-        // tslint:disable-next-line
-        console.log(this)
-        // tslint:disable-next-line
-        console.log(this.form.controls['captcha'].value);
-
     }
 
 
@@ -122,7 +122,7 @@ export class LoginComponent implements OnInit, DoCheck {
     }
 
     onScriptError() {
-        this.snackbar.error('Captcha failed');
+        this.snackbar.error(GlobalText.TEXTS.login_captcha_invalid);
     }
 
     prod() {

@@ -86,6 +86,8 @@ export class LoginComponent implements OnInit, DoCheck {
             this.login = GlobalText.TEXTS;
         }
         // tslint:disable-next-line
+        console.log(this)
+        // tslint:disable-next-line
         console.log(this.form.controls['captcha'].value);
 
     }

@@ -48,14 +48,12 @@ export class UserService {
     }
 
     public updatePassword(user: any, oldPassword: any, newPassword: any) {
-        console.log(user);
 
         return new Promise<void>((resolve, reject) => {
             this.authenticationService.requestSalt(user.username).subscribe(success => {
                 const getSalt = success as SaltInterface;
                 const saltedOldPassword = this.wsseService.saltPassword(getSalt.salt, oldPassword);
                 const saltedNewPassword = this.wsseService.saltPassword(getSalt.salt, newPassword);
-                console.log('here');
                 this.requestPasswordChange(parseInt(user.id, 10), { oldPassword: saltedOldPassword, newPassword: saltedNewPassword })
                     .subscribe(data => {
                         this.authenticationService.setSaltedPassword(user, data.password);

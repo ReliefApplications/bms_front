@@ -47,6 +47,7 @@ export const TEXT = {
     error_interceptor_msg: '(وقع خطأ: لا يمكن الاستجابة (محتوى فارغ',
     forbidden: 'الصفحة ممنوعة',
     forbidden_message: 'عذرا , ليس لديك إذن للدخول إلى هذه الصفحة',
+    not_connected_error: 'Please log in',
     not_found: 'الصفحة غير موجودة',
     not_found_message: 'عذرا , لا يمكن العثور على هذه الصفحة',
 
@@ -375,6 +376,7 @@ export const TEXT = {
     profile_user_hint_new_password_again: 'أعد إدخال كلمة المرور الجديدة',
     profile_user_hint_old_password: 'كلمة المرور القديمة',
     profile_user_information: 'معلومات المستخدم',
+    profile_password_would_not_be_changed: 'The two passwords are identical, ignoring update.',
 
     // Project
     project_add: 'الرجاء إضافة بعض المشاريع أولاً! ثم ستتمكن من إدارة بعض التوزيعات ...',

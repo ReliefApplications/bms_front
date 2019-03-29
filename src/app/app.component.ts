@@ -1,12 +1,12 @@
-import { Component, HostListener, OnInit, DoCheck } from '@angular/core';
-import { User } from './model/user';
-import { AuthenticationService } from './core/authentication/authentication.service';
-import { GlobalText } from '../texts/global';
-
-import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
-import { MatDialog, MatSidenav } from '@angular/material';
+import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
+import { GlobalText } from '../texts/global';
+import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
 import { UpdateService } from './core/api/update.service';
+import { AuthenticationService } from './core/authentication/authentication.service';
+import { User } from './model/user';
+
 
 @Component({
     selector: 'app-root',
@@ -130,7 +130,6 @@ export class AppComponent implements OnInit, DoCheck {
         this._authenticationService.getUser().subscribe(
             user => {
                 this.user = user;
-                this.checkLoggedUser(user);
                 this.checkPermission(user);
             }
         );
@@ -166,18 +165,6 @@ export class AppComponent implements OnInit, DoCheck {
         }
     }
 
-    /**
-     * Check if user is logged in and redirect if necessary.
-     */
-    checkLoggedUser(cachedUser) {
-        if (!cachedUser.loggedIn && this.currentComponent !== 'login') {
-            this.router.navigate(['/login']); // Sometimes this one is making the url throttle
-            GlobalText.resetMenuMargin();
-        } else if (cachedUser.loggedIn && this.currentComponent === 'login') {
-            this.router.navigate(['/']);
-        }
-
-    }
 
     /**
      *  Check again Permissions on each page navigation.

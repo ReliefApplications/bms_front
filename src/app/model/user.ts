@@ -1,5 +1,5 @@
 import { GlobalText } from '../../texts/global';
-import { Project } from './project';
+import { rightsHierarchy } from '../core/permissions/permissions';
 
 export class ErrorInterface {
     message: string;
@@ -360,5 +360,13 @@ export class User {
                 'name': 'Syria',
             }
         ];
+    }
+
+    public hasRights(action: string) {
+        if (!this.id) {
+            return false;
+        }
+        const userRights = rightsHierarchy[this.rights];
+        return userRights.includes(action);
     }
 }

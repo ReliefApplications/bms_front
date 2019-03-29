@@ -1,11 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
-import { CachedItemInterface } from './cached-item.interface';
-import { map, concat, catchError, switchMap, tap } from 'rxjs/operators';
-import { Observable, of, forkJoin, throwError } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, concat, map, switchMap } from 'rxjs/operators';
+import { FailedRequestInterface, StoredRequestInterface } from 'src/app/model/stored-request';
 import { User } from 'src/app/model/user';
-import { HttpClient } from '@angular/common/http';
-import { StoredRequestInterface, FailedRequestInterface } from 'src/app/model/stored-request';
+import { CachedItemInterface } from './cached-item.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -165,7 +165,7 @@ export class AsyncacheService implements OnInit {
                     if (!cachedUser) {
                         return new User();
                     } else {
-                        return cachedUser;
+                        return new User(cachedUser);
                     }
                 }
             )

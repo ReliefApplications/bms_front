@@ -157,7 +157,7 @@ export class AsyncacheService implements OnInit {
     /**
      * Waits for asynchronous user value to return it synchronously.
     */
-    getUser(): Observable<any> {
+    getUser(): Observable<User> {
         return this.get(AsyncacheService.USER).pipe(
             map(
                 result => {

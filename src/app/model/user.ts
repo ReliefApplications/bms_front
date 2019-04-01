@@ -1,5 +1,5 @@
 import { GlobalText } from '../../texts/global';
-import { rightsHierarchy } from '../core/permissions/permissions';
+import { rightsHierarchy, Role } from '../core/permissions/permissions';
 
 export class ErrorInterface {
     message: string;
@@ -363,8 +363,13 @@ export class User {
     }
 
     public hasRights(action: string) {
+        // Logged out users have no rights
         if (!this.id) {
             return false;
+        }
+        // Admins have every rights
+        if (this.rights === Role.admin) {
+            return true;
         }
         const userRights = rightsHierarchy[this.rights];
         return userRights.includes(action);

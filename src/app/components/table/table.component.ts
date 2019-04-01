@@ -1,12 +1,14 @@
-import { Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { HouseholdsService } from 'src/app/core/api/households.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { NetworkService } from 'src/app/core/api/network.service';
+import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { User } from 'src/app/model/user';
 import { GlobalText } from '../../../texts/global';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ExportService } from '../../core/api/export.service';
@@ -45,7 +47,7 @@ const rangeLabel = (page: number, pageSize: number, length: number) => {
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnChanges, DoCheck {
+export class TableComponent implements OnChanges, DoCheck, OnInit {
     public table = GlobalText.TEXTS;
     public paginator: MatPaginator;
     public sort;
@@ -77,14 +79,11 @@ export class TableComponent implements OnChanges, DoCheck {
     @Input() data: any;
     @Input() service;
 
-    // To activate/desactivate action buttons
-    @Input() rights: boolean;
+    // TODO REMOVE THIS
+    @Input() rights: any;
+    @Input() rightsEdit;
+    @Input() rightsDelete;
 
-    // To activate/desactivate action buttons
-    @Input() rightsEdit: boolean;
-
-    // To activate/desactivate action buttons
-    @Input() rightsDelete: boolean;
     @Input() selection: any;
     @Output() selectChecked = new EventEmitter<any>();
 
@@ -95,6 +94,7 @@ export class TableComponent implements OnChanges, DoCheck {
     propertiesActions: any;
     entityInstance = null;
     filled = true;
+    user: User;
 
     public user_action = '';
 
@@ -111,7 +111,8 @@ export class TableComponent implements OnChanges, DoCheck {
         public householdsService: HouseholdsService,
         public networkService: NetworkService,
         public router: Router,
-        public _exportService: ExportService
+        public _exportService: ExportService,
+        public userService: UserService,
     ) { }
 
     ngOnChanges() {

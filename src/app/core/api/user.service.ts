@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { URL_BMS_API } from '../../../environments/environment';
-
-import { HttpService } from './http.service';
-import { WsseService } from '../authentication/wsse.service';
-import { User, ErrorInterface } from '../../model/user';
-import { SaltInterface } from '../../model/salt';
-import { AuthenticationService } from '../authentication/authentication.service';
 import { tap } from 'rxjs/operators';
+import { URL_BMS_API } from '../../../environments/environment';
+import { SaltInterface } from '../../model/salt';
+import { ErrorInterface, User } from '../../model/user';
+import { AuthenticationService } from '../authentication/authentication.service';
+import { WsseService } from '../authentication/wsse.service';
+import { rightsHierarchy, Role } from '../permissions/permissions';
+import { HttpService } from './http.service';
+
 
 @Injectable({
     providedIn: 'root'
@@ -14,12 +15,13 @@ import { tap } from 'rxjs/operators';
 export class UserService {
     readonly api = URL_BMS_API;
 
+    public currentUser: User;
+
     constructor(
         private http: HttpService,
         private wsseService: WsseService,
-        private authenticationService: AuthenticationService
-    ) {
-    }
+        private authenticationService: AuthenticationService,
+    ) { }
 
 
     public get() {
@@ -83,5 +85,18 @@ export class UserService {
                     });
                 })
             );
+    }
+
+    public hasRights(action: string) {
+        // Logged out users have no rights
+        if (!this.currentUser || !this.currentUser.id) {
+            return false;
+        }
+        // Admins have every rights
+        if (this.currentUser.rights === Role.admin) {
+            return true;
+        }
+        const userRights = rightsHierarchy[this.currentUser.rights];
+        return userRights.includes(action);
     }
 }

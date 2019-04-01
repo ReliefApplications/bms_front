@@ -269,6 +269,7 @@ export const TEXT = {
     login_forgot_password: 'Mot de passe oublié ?',
     login_captcha_invalid: 'Le captcha est invalide',
     login_password: '*********',
+    login_prompt: 'Veuillez vous connecter',
     login_title: 'Connexion',
     login_username: 'Identifiant',
 

@@ -1,5 +1,5 @@
 <mat-sidenav-container class="app-component" disableClose="!smallScreenMode" [hasBackdrop]="false">
-    <mat-sidenav #sidenav class="page-menu-wrapper" [ngClass]="{show: isShowing}" [opened]="!smallScreenMode && router.url !=='/login'"
+    <mat-sidenav #sidenav class="page-menu-wrapper" [ngClass]="{show: router.url ==='/login'}" [opened]="!smallScreenMode && router.url !=='/login'"
         (mouseenter)="change()" (mouseleave)="change()" mode="over" [style.marginTop.px]="smallScreenMode ? 56 : 0">
         <mat-nav-list>
             <mat-list-item routerLink="/" *ngIf="!smallScreenMode" routerLink="/">
@@ -25,7 +25,7 @@
                 <span class="full-width" *ngIf="isShowing">{{menu.voucher | titlecase}}</span>
                 <mat-icon mat-list-icon>local_activity</mat-icon>
             </mat-list-item> -->
-            <mat-list-item *ngIf="user.hasRights('ROLE_ADMIN_SETTINGS')" [ngClass]="{selected: router.url ==='/settings'}" routerLink="/settings">
+            <mat-list-item *ngIf="userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS')" [ngClass]="{selected: router.url ==='/settings'}" routerLink="/settings">
                 <span class="full-width" *ngIf="isShowing">{{menu.settings | titlecase}}</span>
                 <mat-icon mat-list-icon>settings</mat-icon>
             </mat-list-item>
@@ -33,10 +33,10 @@
     </mat-sidenav>
 
     <mat-sidenav-content class="page-content-wrapper" [ngClass]="{margin: !smallScreenMode && currentRoute==='/login'}">
-        <mat-toolbar *ngIf="!smallScreenMode">
+        <mat-toolbar *ngIf="!smallScreenMode && router.url !=='/login'">
             <app-header (emitLogOut)="onLogOut($event)" [userData]="user"></app-header>
         </mat-toolbar>
-        <mat-toolbar *ngIf="smallScreenMode" class="mobile">
+        <mat-toolbar *ngIf="smallScreenMode && router.url !=='/login'" class="mobile">
             <app-header-mobile (emitLogOut)="onLogOut($event)" [userData]="user"></app-header-mobile>
         </mat-toolbar>
         <router-outlet></router-outlet>

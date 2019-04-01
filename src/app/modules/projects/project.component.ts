@@ -1,22 +1,22 @@
-import { Component, OnInit, HostListener, SimpleChanges, DoCheck } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
+import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
+import { MatDialog, MatTableDataSource } from '@angular/material';
+import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
+import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { GlobalText } from '../../../texts/global';
-
+import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
+import { DistributionService } from '../../core/api/distribution.service';
+import { ProjectService } from '../../core/api/project.service';
+import { ImportedDataService } from '../../core/utils/imported-data.service';
+import { Mapper } from '../../core/utils/mapper.service';
+import { DistributionData } from '../../model/distribution-data';
 import { Project } from '../../model/project';
 
-import { ProjectService } from '../../core/api/project.service';
-import { DistributionService } from '../../core/api/distribution.service';
-import { DistributionData } from '../../model/distribution-data';
-import { Mapper } from '../../core/utils/mapper.service';
-import { Router } from '@angular/router';
 
-import { ExportInterface } from '../../model/export.interface';
-import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { delay, finalize } from 'rxjs/operators';
-import { ImportedDataService } from '../../core/utils/imported-data.service';
+
+
 
 
 @Component({
@@ -45,8 +45,6 @@ export class ProjectComponent implements OnInit, DoCheck {
     selectedProjectId = null;
     isBoxClicked = false;
     extensionType: string;
-    hasRights = false;
-    hasRightsEdit = false;
 
     public maxHeight = GlobalText.maxHeight;
     public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -64,18 +62,19 @@ export class ProjectComponent implements OnInit, DoCheck {
         private _cacheService: AsyncacheService,
         public snackbar: SnackbarService,
         public dialog: MatDialog,
-        public importedDataService: ImportedDataService
+        public importedDataService: ImportedDataService,
+        public userService: UserService,
     ) { }
 
     ngOnInit() {
         if (this.importedDataService.emittedProject) {
             this.selectedProjectId = parseInt(this.importedDataService.project, 10);
             this.getProjects();
+
         } else {
             this.getProjects();
         }
         this.checkSize();
-        this.checkPermission();
         this.extensionType = 'xls';
     }
 
@@ -232,21 +231,6 @@ export class ProjectComponent implements OnInit, DoCheck {
             this.snackbar.success('Project ' + this.distribution.settings_created);
             this.getProjects();
         });
-    }
-
-    checkPermission() {
-        this._cacheService.getUser().subscribe(
-            result => {
-                const rights = result.rights;
-                if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
-                    this.hasRights = true;
-                }
-
-                if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER') {
-                    this.hasRightsEdit = true;
-                }
-            }
-        );
     }
 
     autoProjectSelect(input: string) {

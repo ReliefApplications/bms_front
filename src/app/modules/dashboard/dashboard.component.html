@@ -27,9 +27,9 @@
         <h1 class="dashboard-title">{{dashboard.dashboard_recent_distributions | titlecase}}</h1>
         <app-placeholder-panel *ngIf='loadingTable' class="distribution-content-placeholder"></app-placeholder-panel>
         <div class="distribution-content" *ngIf='!loadingTable'>
-            <app-table-dashboard *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit'
+            <app-table-dashboard *ngIf="widthScreen > maxWidthMobile"
                 [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-dashboard>
-            <app-table-mobile-dashboard *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit'
+            <app-table-mobile-dashboard *ngIf="widthScreen < maxWidthMobile"
                 [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-mobile-dashboard>
         </div>
     </div>

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { AsyncacheService } from '../storage/asyncache.service';
-import { Observable } from 'rxjs';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { GlobalText } from 'src/texts/global';
+import { SnackbarService } from '../logging/snackbar.service';
+import { AsyncacheService } from '../storage/asyncache.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class AuthGuard implements CanActivate {
 
     constructor (
         private router: Router,
-        private cache: AsyncacheService
+        private cache: AsyncacheService,
+        private snackbar: SnackbarService,
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -20,9 +22,9 @@ export class AuthGuard implements CanActivate {
                 map(user => {
                     if (!user.id) {
                         this.router.navigate(['/login']);
+                        this.snackbar.error(GlobalText.TEXTS.login_prompt);
                         return false;
                     }
-
                     return true;
                 })
             );

@@ -91,16 +91,17 @@ export class Distribution extends CustomModel {
                 isSettable: true,
                 options: [
                     { fields : {
-                        name: { value: 'Household'},
+                        name: { value: GlobalText.TEXTS.households},
                         id: { value: 0}
                     }},
                     { fields : {
-                        name: { value: 'Beneficiary'},
+                        name: { value: GlobalText.TEXTS.individual},
                         id: { value: 1}
                     }},
                 ],
                 bindField: 'name',
-                apiLabel: 'id',
+                apiLabel: 'name',
+                value: GlobalText.TEXTS.households,
             }
         ),
         commodities: new MultipleObjectsModelField<Commodity> (
@@ -119,7 +120,7 @@ export class Distribution extends CustomModel {
         ),
         threshold: new NumberModelField(
             {
-
+                value: 1,
             }
         ),
         finished: new BooleanModelField(
@@ -171,4 +172,6 @@ export class Distribution extends CustomModel {
         });
         return images;
     }
+
+    // In modelToAPi put date.toLocaleDateString()
 }

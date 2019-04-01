@@ -1,6 +1,7 @@
 export abstract class CustomModel {
 
     static rights: Array<string>;
+    title: string;
 
     // TODO: create interface for typing purpose
     abstract fields: any;

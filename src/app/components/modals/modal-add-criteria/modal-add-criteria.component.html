@@ -1,0 +1,75 @@
+<div class="modal-container" *ngIf="objectInstance">
+  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}">{{texts.modal_add_title |titlecase }} {{objectInstance.title | titlecase}}</h4>
+  <form [formGroup]="form">
+    <table class="modal-table">
+      <tr class="modal-row">
+        <th class="table-title">{{ objectInstance.fields.field.title }}</th>
+        <td class="form-item">
+          <ng-select formControlName="field" [placeholder]="objectInstance.fields.field.title" (change)="loadConditions($event)">
+              <ng-option *ngFor="let option of objectInstance.fields.field.options" [value]="option.fields.field.value">
+                  {{option.fields.field.value | titlecase}}
+              </ng-option>
+          </ng-select>
+        </td>
+      </tr>
+
+      <tr class="modal-row" *ngIf="form.controls.field.value !== 'IDPoor' || form.controls.field.value !== 'equityCardNo'">
+        <th class="table-title">{{ objectInstance.fields.condition.title }}</th>
+        <td class="form-item">
+          <ng-select formControlName="condition" [placeholder]="objectInstance.fields.condition.title">
+              <ng-option *ngFor="let option of objectInstance.fields.condition.options" [value]="option.fields.name.value">
+                  {{option.fields.name.value | titlecase}}
+              </ng-option>
+          </ng-select>
+        </td>
+      </tr>
+      
+      <tr class="modal-row" *ngIf="form.controls.field.value === 'gender' || form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'IDPoor' || form.controls.field.value === 'equityCardNo'">
+        <th class="table-title">{{ objectInstance.fields.value.title }}</th>
+        <td class="form-item">
+          <ng-select *ngIf="form.controls.field.value === 'gender'" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true" required>
+            <ng-option [value]="texts.add_distribution_female">{{texts.add_distribution_female}}</ng-option>
+            <ng-option [value]="texts.add_distribution_male">{{texts.add_distribution_male}}</ng-option>
+          </ng-select>
+
+          <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'dateOfBirth'">
+              <input formControlName="value" matInput [matDatepicker]="date" required>
+              <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+              <mat-datepicker #date></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'IDPoor' || form.controls.field.value === 'equityCardNo'">
+              <input formControlName="value" matInput type="text" required>
+          </mat-form-field>
+
+        </td>
+      </tr>
+      <tr>
+          <div class="modal-row">
+              <th class="table-title"></th>
+              <th class="table-value advanced-icon-wrapper">
+                  <div class="advanced-icon">
+                      <button mat-button class="button-text-accent" (click)="changeDisplay()">
+                          <span>{{ texts.add_distribution_advanced_option | titlecase}}</span>
+                          <mat-icon>{{ iconAdvanced }}</mat-icon>
+                      </button>
+                  </div>
+              </th>
+          </div>
+      </tr>
+      <tr *ngIf="displayWeight" class="modal-row">
+          <th class="table-title">{{objectInstance.fields.weight.title}}</th>
+
+          <th class="table-value">
+                  <mat-form-field class="full-width">
+                      <input matInput formControlName="weight" type="number" min="0">
+                  </mat-form-field>
+          </th>
+      </tr>
+    </table>
+    <div class="modal-button action-buttons stickyFooter">
+        <button mat-button (click)="onCancel()" class="button-text-accent">Cancel</button>
+        <button mat-raised-button [disabled]="!form.valid" (click)="onSubmit()" class="button-background-accent">Save</button>
+    </div>
+  </form>
+</div>

@@ -16,7 +16,7 @@ import { ErrorInterface, User } from '../../model/user';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, DoCheck {
+export class LoginComponent implements OnInit {
 
     public nameComponent = GlobalText.TEXTS.login_title;
     public login = GlobalText.TEXTS;
@@ -78,19 +78,18 @@ export class LoginComponent implements OnInit, DoCheck {
         this.user.password = this.form.controls['password'].value;
         this.loginAction();
     }
-    /**
-   	* check if the langage has changed
-   	*/
-    ngDoCheck() {
-        if (this.login !== GlobalText.TEXTS) {
-            this.login = GlobalText.TEXTS;
-        }
-        // tslint:disable-next-line
-        console.log(this)
-        // tslint:disable-next-line
-        console.log(this.form.controls['captcha'].value);
 
-    }
+
+    // ngDoCheck() {
+    //     if (this.login !== GlobalText.TEXTS) {
+    //         this.login = GlobalText.TEXTS;
+    //     }
+    //     // tslint:disable-next-line
+    //     console.log(this)
+    //     // tslint:disable-next-line
+    //     console.log(this.form.controls['captcha'].value);
+
+    // }
 
 
     /**
@@ -129,3 +128,4 @@ export class LoginComponent implements OnInit, DoCheck {
         return environment.production;
     }
 }
+

@@ -4,11 +4,9 @@
       <h2 class="distribution-title">{{distribution.add_project_new_distribution | titlecase}}</h2>
       <div [ngClass]="{'distribution-accordion': language!=='ar', 'distribution-accordion-ar': language==='ar'}">
         <mat-card class="accordion-card">
-
-            <form [formGroup]="form">
-
+          <form [formGroup]="form">
             <ng-container>
-                <ng-select formControlName="adm1" (change)="loadDistrict($event)" [placeholder]="objectInstance.fields.location.value.fields.adm1.title">
+                <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm1" (change)="loadDistrict($event)" [placeholder]="objectInstance.fields.location.value.fields.adm1.title">
                     <ng-option *ngFor="let option of objectInstance.fields.location.value.fields.adm1.options" [value]="option.fields.id.value">
                         {{option.fields.name.value | titlecase}}
                     </ng-option>
@@ -16,7 +14,7 @@
             </ng-container>
 
             <ng-container>
-                <ng-select formControlName="adm2" (change)="loadCommunity($event)" [placeholder]="objectInstance.fields.location.value.fields.adm2.title">
+                <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm2" (change)="loadCommunity($event)" [placeholder]="objectInstance.fields.location.value.fields.adm2.title">
                     <ng-option *ngFor="let option of objectInstance.fields.location.value.fields.adm2.options"  [value]="option.fields.id.value">
                         {{option.fields.name.value | titlecase}}
                     </ng-option>
@@ -24,7 +22,7 @@
             </ng-container>
 
             <ng-container>
-                <ng-select formControlName="adm3"  (change)="loadVillage($event)" [placeholder]="objectInstance.fields.location.value.fields.adm3.title">
+                <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm3"  (change)="loadVillage($event)" [placeholder]="objectInstance.fields.location.value.fields.adm3.title">
                     <ng-option *ngFor="let option of objectInstance.fields.location.value.fields.adm3.options"[value]="option.fields.id.value">
                         {{option.fields.name.value | titlecase}}
                     </ng-option>
@@ -32,35 +30,71 @@
             </ng-container>
 
             <ng-container>
-                <ng-select formControlName="adm4" [placeholder]="objectInstance.fields.location.value.fields.adm4.title">
+                <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm4" [placeholder]="objectInstance.fields.location.value.fields.adm4.title">
                     <ng-option *ngFor="let option of objectInstance.fields.location.value.fields.adm4.options" [value]="option.fields.id.value">
                         {{option.fields.name.value | titlecase}}
                     </ng-option>
                 </ng-select>
             </ng-container>
-
-            </form>
-          
-
-          <!-- <div *ngFor="let p of properties">
-            <ng-select *ngIf="propertiesTypes[p]=='select' && propertiesTypes[p]!='date'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
-              (change)="selected(p)" class="single-select" [multiple]="false" [closeOnSelect]="true" [searchable]="true" [ngModelOptions]="{standalone: true}">
-              <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.name">{{singleData.name}}</ng-option>
-            </ng-select>
-            <mat-form-field class="accordion-field" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]=='date'">
-              <input *ngIf="propertiesTypes[p]=='date'" matInput [matDatepicker]="dateDistribution" placeholder="{{mapperObject[p]}}" (ngModel)="newObject[p]" (dateChange)='selectDate($event)' [min]="projectInfo.startDate" [max]="projectInfo.endDate">
-              <mat-datepicker-toggle *ngIf="propertiesTypes[p]=='date'" matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
+            <mat-form-field class="accordion-field">
+              <input matInput [matDatepicker]="date" [placeholder]="objectInstance.fields.date.title" formControlName="date" [min]="projectInfo.startDate" [max]="projectInfo.endDate">
+              <mat-datepicker-toggle matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
               <mat-datepicker #dateDistribution></mat-datepicker>
             </mat-form-field>
-            <label *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'">{{mapperObject[p]}}</label>
-            <mat-radio-group class="type-distribution" (change)="typeDistributionOnChange($event)" *ngIf="propertiesTypes[p]!='select' && propertiesTypes[p]!='date' && propertiesTypes[p]=='radio'" [(ngModel)]="newObject[p]">
-              <mat-radio-button checked='true' color="warn" value="Household" disabled='false'>{{distribution.households}}</mat-radio-button>
-              <mat-radio-button color="warn" value="Individual">{{distribution.individual}}</mat-radio-button>
+            <label>{{objectInstance.fields.type.title}}</label>
+            <mat-radio-group formControlName="type" class="type-distribution" (change)="typeDistributionOnChange($event)">
+              <mat-radio-button checked='true' color="warn" [value]="objectInstance.fields.type.options[0].fields.name.value" disabled='false'>{{objectInstance.fields.type.options[0].fields.name.value}}</mat-radio-button>
+              <mat-radio-button color="warn" [value]="objectInstance.fields.type.options[1].fields.name.value">{{objectInstance.fields.type.options[1].fields.name.value}}</mat-radio-button>
             </mat-radio-group>
-          </div> -->
+          </form>
         </mat-card>
       </div>
     </div>
+
+
+    <div class="field-forms">
+      <div class="forms-criteria">
+        <div class="distribution-title">
+          <h2>{{texts.add_distribution_selection_criteria | titlecase}}</h2>
+          <button mat-stroked-button class="button-text-accent distribution-add-button" (click)="openDialog(criteriaAction)">
+            <span>{{ texts.add | titlecase }}</span>
+          </button>
+        </div>
+
+        <form [formGroup]="form">
+
+          <div class="form" *ngIf="widthScreen > maxWidthMobile">
+            <app-table (openModal)="removeElement($event)" [entity]="criteriaClass" [data]="criteriaArray" [deletable]="true"></app-table>
+          </div>
+
+          <div class="summary-container">
+            <mat-form-field class="accordion-field" id="threshold">
+              <mat-label>{{ texts.add_distribution_threshold }}</mat-label>
+              <input class="field-input" matInput type="number" formControlName="threshold" (change)="numberOnChange()">
+            </mat-form-field>
+
+            <h3 class="summary-text" *ngIf="criteriaArray.length != 0 && form.controls.type.value === 'Household'">
+              <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span>
+              <span *ngIf="load">
+                <mat-spinner [diameter]="25"></mat-spinner>
+              </span>
+              {{texts.add_distribution_beneficiaries_reached | titlecase}}
+            </h3>
+            <h3 class="summary-text" *ngIf="criteriaArray.length != 0 && form.controls.type.value === 'Individual'">
+              <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span>
+              <span *ngIf="load">
+                <mat-spinner [diameter]="25"></mat-spinner>
+              </span>
+              {{texts.add_distribution_households_reached | titlecase}}
+            </h3>
+          </div>
+          <small id="text-explanation">{{ texts.add_distribution_text_explanation }}</small>
+        </form>
+      </div>
+    </div>
+
+
+
     <!-- <div class="field-forms">
       <div class="forms-criteria">
         <div class="distribution-title">

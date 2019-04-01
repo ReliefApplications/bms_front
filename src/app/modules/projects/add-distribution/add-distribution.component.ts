@@ -19,10 +19,12 @@ import { LocationService } from '../../../core/api/location.service';
 import { Mapper } from '../../../core/utils/mapper.service';
 import { Commodity } from '../../../model/commodity';
 import { Location } from '../../../model/location.new';
-import { Criteria } from '../../../model/criteria';
+import { Criteria } from '../../../model/criteria.new';
 import { DistributionData } from '../../../model/distribution-data';
 import { Distribution } from 'src/app/model/distribution.new';
 import { CustomModelField } from 'src/app/model/CustomModel/custom-model-field';
+import { ModalService } from 'src/app/core/utils/modal.service';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 
 
 
@@ -42,7 +44,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     public objectInstance: Distribution;
     public objectFields: string[];
     public form: FormGroup;
-
+    public texts =  GlobalText.TEXTS;
 
 
     public nameComponent = 'add_project_title';
@@ -56,8 +58,8 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
 
     public criteriaClass = Criteria;
     public criteriaAction = 'addCriteria';
-    public criteriaArray = [];
-    public criteriaData = new MatTableDataSource([]);
+    public criteriaArray = new Array<Criteria>();
+    public criteriaData = new Array<Criteria>();
     public criteriaNbBeneficiaries = 0;
     public load = false;
 
@@ -101,6 +103,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         private _distributionService: DistributionService,
         private _projectService: ProjectService,
         private snackbar: SnackbarService,
+        private modalService: ModalService,
     ) { }
 
     ngOnInit() {
@@ -108,7 +111,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         this.objectInstance = new Distribution();
         this.objectInstance.fields.location.value = new Location();
         // this._distributionService.fillWithOptions(this.objectInstance);
-        this.objectFields = ['adm1', 'adm2', 'adm3', 'adm4'];
+        this.objectFields = ['adm1', 'adm2', 'adm3', 'adm4', 'date', 'type', 'threshold'];
         this.makeForm();
         // this.newObject = Object.create(this.entity.prototype);
         // this.newObject.constructor.apply(this.newObject);
@@ -125,10 +128,11 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
 
     makeForm() {
         const formControls = {};
+        // To Do : default value households for type
         this.objectFields.forEach((fieldName: string) => {
-            formControls[fieldName] = new FormControl({
-                value: null,
-            });
+            formControls[fieldName] = new FormControl(
+                this.objectInstance.fields[fieldName] ? this.objectInstance.fields[fieldName].value : null,
+            );
         });
         this.form = new FormGroup(formControls);
     }
@@ -154,6 +158,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     loadProvince() {
 
         this._distributionService.fillAdm1Options(this.objectInstance);
+        this.form.controls.adm2.setValue(null);
+        this.form.controls.adm3.setValue(null);
+        this.form.controls.adm4.setValue(null);
+
         // this.locationService.getAdm1().subscribe(response => {
         //     this.loadedData.adm1 = response;
 
@@ -168,8 +176,12 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
      *  @param adm1Id
      */
     loadDistrict(adm1Id) {
-        this._distributionService.fillAdm2Options(this.objectInstance, adm1Id);
-
+        if (adm1Id) {
+            this._distributionService.fillAdm2Options(this.objectInstance, adm1Id);
+        }
+        this.form.controls.adm2.setValue(null);
+        this.form.controls.adm3.setValue(null);
+        this.form.controls.adm4.setValue(null);
 
         // adm1$.pipe(
         //     switchMap(
@@ -192,7 +204,11 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
      * @param adm2Id
      */
     loadCommunity(adm2Id) {
-        this._distributionService.fillAdm3Options(this.objectInstance, adm2Id);
+        if (adm2Id) {
+            this._distributionService.fillAdm3Options(this.objectInstance, adm2Id);
+        }
+        this.form.controls.adm3.setValue(null);
+        this.form.controls.adm4.setValue(null);
         // adm2$.pipe(
         //     switchMap(
         //         (value) => {
@@ -213,7 +229,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
      * @param adm3Id
      */
     loadVillage(adm3Id) {
-        this._distributionService.fillAdm4Options(this.objectInstance, adm3Id);
+        if (adm3Id) {
+            this._distributionService.fillAdm4Options(this.objectInstance, adm3Id);
+        }
+        this.form.controls.adm4.setValue(null);
         // adm3$.pipe(
         //     switchMap(
         //         (value) => {
@@ -277,14 +296,12 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
      * Get the distribution type choosen by the user and refresh the research
      */
     typeDistributionOnChange(event) {
-        this.newObject.type = event.value;
-
         if (this.criteriaArray.length !== 0) {
             this.load = true;
             this.criteriaService.getBeneficiariesNumber(
-                this.newObject.type,
+                event.value,
                 this.criteriaArray,
-                this.newObject.threshold,
+                this.form.controls.threshold.value,
                 this.queryParams.project
             ).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
@@ -300,12 +317,12 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         }
     }
 
-    /**
-     * Get the number input inserted by the user
-     */
-    numberOnInput(event) {
-        this.newObject.threshold = event.target.value;
-    }
+    // /**
+    //  * Get the number input inserted by the user
+    //  */
+    // numberOnInput(event) {
+    //     this.newObject.threshold = event.target.value;
+    // }
 
     /**
      * Refresh the research when input changed
@@ -314,9 +331,9 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         if (this.criteriaArray.length !== 0) {
             this.load = true;
             this.criteriaService.getBeneficiariesNumber(
-                this.newObject.type,
+                this.form.controls.type.value,
                 this.criteriaArray,
-                this.newObject.threshold,
+                this.form.controls.threshold.value,
                 this.queryParams.project
             ).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
@@ -457,7 +474,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
                 newDistribution.location.adm2 = this.newObject.adm2;
                 newDistribution.location.adm3 = this.newObject.adm3;
                 newDistribution.location.adm4 = this.newObject.adm3;
-                newDistribution.selection_criteria = this.criteriaArray;
+                // newDistribution.selection_criteria = this.criteriaArray;
                 newDistribution.commodities = this.commodities;
 
                 const formatDateOfBirth = this.newObject.date_distribution.split('/');
@@ -521,9 +538,12 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         let dialogRef;
 
         if (user_action === this.criteriaAction) {
-            dialogRef = this.dialog.open(ModalAddComponent, {
-                data: { data: [], entity: this.criteriaClass, mapper: this.mapper }
+            this.modalService.openAddCriteriaDialog(Criteria, CriteriaService).then((criteria: Criteria) => {
+                this.createElement(criteria, 'addCriteria');
             });
+            // dialogRef = this.dialog.open(ModalAddComponent, {
+            //     data: { data: [], entity: this.criteriaClass, mapper: this.mapper }
+            // });
         } else if (user_action === this.commodityAction) {
             dialogRef = this.dialog.open(ModalAddComponent, {
                 data: { data: [], entity: this.commodityClass, mapper: this.mapper }
@@ -545,16 +565,15 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
      * @param createElement
      * @param user_action
      */
-    createElement(createElement: Object, user_action) {
-        if (user_action === this.criteriaAction) {
+    createElement(createElement: CustomModel, user_action: string) {
+        if (user_action === 'addCriteria') {
             this.load = true;
             this.criteriaArray.push(createElement);
-
             this.criteriaService.getBeneficiariesNumber(
-                this.newObject.type,
+                this.form.controls.type.value,
                 this.criteriaArray,
-                this.newObject.threshold,
-                this.queryParams.project
+                this.form.controls.threshold.value,
+                this.queryParams.project,
             ).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
                 if (this.commodities.length > 0) {
@@ -564,8 +583,8 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
                     });
                 }
                 this.load = false;
-            });
-            this.criteriaData = new MatTableDataSource(this.criteriaArray);
+            }, error => this.load = false);
+            this.criteriaData = this.criteriaArray;
         } else if (user_action === this.commodityAction) {
             this.commodities.push(createElement);
 
@@ -583,39 +602,39 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
      * @param removeElement
      * @param user_action
      */
-    removeElement(removeElement: Object, user_action) {
-        if (user_action === this.criteriaAction) {
-            const index = this.criteriaArray.findIndex((item) => item === removeElement);
-            if (index > -1) {
-                this.criteriaArray.splice(index, 1);
-                this.criteriaData = new MatTableDataSource(this.criteriaArray);
-            }
-            this.load = true;
+    removeElement(details) {
+        // if (user_action === this.criteriaAction) {
+        //     const index = this.criteriaArray.findIndex((item) => item === removeElement);
+        //     if (index > -1) {
+        //         this.criteriaArray.splice(index, 1);
+        //         this.criteriaData = this.criteriaArray;
+        //     }
+        //     this.load = true;
 
-            this.criteriaService.getBeneficiariesNumber(
-                this.newObject.type,
-                this.criteriaArray,
-                this.newObject.threshold,
-                this.queryParams.project
-            ).subscribe(response => {
-                this.criteriaNbBeneficiaries = response.number;
-                if (this.commodities.length > 0) {
-                    this.commodityNb = [];
-                    this.commodities.forEach(commodity => {
-                        this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
-                    });
-                }
-                this.load = false;
+        //     this.criteriaService.getBeneficiariesNumber(
+        //         this.newObject.type,
+        //         this.criteriaArray,
+        //         this.newObject.threshold,
+        //         this.queryParams.project
+        //     ).subscribe(response => {
+        //         this.criteriaNbBeneficiaries = response.number;
+        //         if (this.commodities.length > 0) {
+        //             this.commodityNb = [];
+        //             this.commodities.forEach(commodity => {
+        //                 this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
+        //             });
+        //         }
+        //         this.load = false;
 
-            });
-        } else if (user_action === this.commodityAction) {
-            const index = this.commodities.findIndex((item) => item === removeElement);
-            if (index > -1) {
-                this.commodities.splice(index, 1);
-                this.commodityNb.splice(index, 1);
-                this.commodityData = new MatTableDataSource(this.commodities);
-            }
-        }
+        //     });
+        // } else if (user_action === this.commodityAction) {
+        //     const index = this.commodities.findIndex((item) => item === removeElement);
+        //     if (index > -1) {
+        //         this.commodities.splice(index, 1);
+        //         this.commodityNb.splice(index, 1);
+        //         this.commodityData = new MatTableDataSource(this.commodities);
+        //     }
+        // }
     }
 
     getProjectDates() {
@@ -632,12 +651,12 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         );
     }
 
-    selectDate(event) {
-        if (event.value) {
-            this.newObject.date_distribution = event.value.toLocaleDateString();
-        } else {
-            this.snackbar.error(this.distribution.add_distribution_check_date);
-        }
-    }
+    // selectDate(event) {
+    //     if (event.value) {
+    //         this.newObject.date_distribution = event.value.toLocaleDateString();
+    //     } else {
+    //         this.snackbar.error(this.distribution.add_distribution_check_date);
+    //     }
+    // }
 
 }

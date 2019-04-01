@@ -1,14 +1,11 @@
-export class ConditionCriteria {
+import { CustomModel } from './CustomModel/custom-model';
+import { TextModelField } from './CustomModel/text-model-field';
 
-    /**
-     * ConditionCriteria' field_string
-     * @type {string}
-     */
-    field_string = '';
+export class ConditionCriteria extends CustomModel {
 
-    constructor(fieldString?) {
-        if (fieldString !== undefined) {
-            this.field_string = fieldString;
-        }
-    }
+    public fields = {
+        name: new TextModelField ({
+
+        })
+    };
 }

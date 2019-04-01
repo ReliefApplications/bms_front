@@ -12,6 +12,8 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { NetworkService } from '../api/network.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { Router } from '@angular/router';
+import { Criteria } from 'src/app/model/criteria.new';
+import { ModalAddCriteriaComponent } from 'src/app/components/modals/modal-add-criteria/modal-add-criteria.component';
 
 @Injectable({
     providedIn: 'root'
@@ -60,7 +62,6 @@ export class ModalService {
             case 'visit':
                 this.goToDistribution(dialogDetails.element.fields.id.value);
                 break;
-
             default:
                 this.snackbar.error('Modal error');
                 break;
@@ -119,6 +120,23 @@ export class ModalService {
             }
         });
     }
+
+
+    openAddCriteriaDialog(referedClassToken, referedClassService): Promise<Criteria> {
+        return new Promise<Criteria>((resolve, reject) => {
+            this.referedClassToken = referedClassToken;
+            this.referedClassService = referedClassService;
+            const dialogRef = this.dialog.open(ModalAddCriteriaComponent, {
+                data: {
+                    objectInstance: new Criteria(),
+                }
+            });
+            dialogRef.afterClosed().subscribe((criteria) => {
+                resolve(criteria);
+            });
+        });
+    }
+
 
 
     updateElement(updateElement) {

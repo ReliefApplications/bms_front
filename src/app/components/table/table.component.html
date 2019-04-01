@@ -5,8 +5,7 @@
         {{table.no_data}}
         </h3>
     </div>
-
-    <table *ngIf="data" mat-table [dataSource]= "data" matSort>
+    <table *ngIf="data" mat-table [dataSource]="data" matSort>
         <ng-container *ngFor="let property of displayProperties" matColumnDef="{{property}}">
             <th mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title}}</th>
             <td mat-cell *matCellDef="let element">

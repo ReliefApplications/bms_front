@@ -56,7 +56,7 @@
       <div class="forms-criteria">
         <div class="distribution-title">
           <h2>{{texts.add_distribution_selection_criteria | titlecase}}</h2>
-          <button mat-stroked-button class="button-text-accent distribution-add-button" (click)="openDialog(criteriaAction)">
+          <button mat-stroked-button class="button-text-accent distribution-add-button" (click)="openDialog('addCriteria')">
             <span>{{ texts.add | titlecase }}</span>
           </button>
         </div>
@@ -64,7 +64,7 @@
         <form [formGroup]="form">
 
           <div class="form" *ngIf="widthScreen > maxWidthMobile">
-            <app-table (openModal)="removeElement($event)" [entity]="criteriaClass" [data]="criteriaArray" [deletable]="true"></app-table>
+            <app-table (openModal)="removeElement($event, 'criteria')" [entity]="criteriaClass" [data]="criteriaArray" deletable="true" rights="true"></app-table>
           </div>
 
           <div class="summary-container">
@@ -89,68 +89,33 @@
             </h3>
           </div>
           <small id="text-explanation">{{ texts.add_distribution_text_explanation }}</small>
+          <div class="form" *ngIf="widthScreen < maxWidthMobile">
+            <app-table-mobile (openModal)="removeElement($event, 'criteria')" [entity]="criteriaClass" [data]="criteriaArray"></app-table-mobile>
+          </div>
         </form>
+
+        <div class="forms-commodity">
+          <div class="distribution-title">
+            <h2>{{texts.add_distribution_distributed_commodity | titlecase}}</h2>
+            <button mat-stroked-button class="button-text-accent distribution-add-button" (click)="openDialog('addCommodity')">
+              <span>{{ texts.add | titlecase }}</span>
+            </button>
+          </div>
+          <div class="form" *ngIf="widthScreen > maxWidthMobile">
+            <app-table (openModal)="removeElement($event, 'commidity')" [entity]="commodityClass" [data]="commodityArray"></app-table>
+          </div>
+          <div class="summary-container" *ngIf="commodities.length != 0">
+            <h3 class="summary-text" *ngFor="let commodity of commodities; let i = index;">
+              <span>{{commodityNb[i]}}</span>{{commodity.unit}}
+              {{texts.add_distribution_commodities_delivered | titlecase}}</h3>
+          </div>
+          <div class="form" *ngIf="widthScreen < maxWidthMobile">
+            <app-table-mobile (openModal)="removeElement($event, 'commodity')" [entity]="commodityClass" [data]="commodityArray"></app-table-mobile>
+          </div>
+        </div>
+
       </div>
     </div>
-
-
-
-    <!-- <div class="field-forms">
-      <div class="forms-criteria">
-        <div class="distribution-title">
-          <h2>{{distribution.add_distribution_selection_criteria | titlecase}}</h2>
-          <button mat-stroked-button class="button-text-accent distribution-add-button" (click)="openDialog(criteriaAction)">
-            <span>{{ distribution.add | titlecase }}</span>
-          </button>
-        </div>
-
-        <div class="form" *ngIf="widthScreen > maxWidthMobile">
-          <app-table-small (onRemove)="removeElement($event, criteriaAction)" [entity]="criteriaClass" [data]="criteriaData"></app-table-small>
-        </div>
-
-        <div class="summary-container">
-          <mat-form-field class="accordion-field" id="threshold">
-            <mat-label>{{ distribution.add_distribution_threshold }}</mat-label>
-            <input class="field-input" matInput type="number" [(ngModel)]="newObject.threshold" [formControl]="controlNumber" (input)="numberOnInput($event)" (change)="numberOnChange()">
-          </mat-form-field>
-
-          <h3 class="summary-text" *ngIf="criteriaArray.length != 0 && newObject.type == 'Individual'">
-            <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span><span *ngIf="load">
-              <mat-spinner [diameter]="25"></mat-spinner>
-            </span>{{distribution.add_distribution_beneficiaries_reached |
-                            titlecase}}</h3>
-          <h3 class="summary-text" *ngIf="criteriaArray.length != 0 && newObject.type == 'Household'">
-            <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span><span *ngIf="load">
-              <mat-spinner [diameter]="25"></mat-spinner>
-            </span>{{distribution.add_distribution_households_reached |
-                            titlecase}}</h3>
-        </div>
-        <small id="text-explanation">{{ distribution.add_distribution_text_explanation }}</small>
-
-        <div class="form" *ngIf="widthScreen < maxWidthMobile">
-          <app-table-small-mobile (onRemove)="removeElement($event, criteriaAction)" [entity]="criteriaClass" [data]="criteriaData"></app-table-small-mobile>
-        </div>
-      </div>
-      <div class="forms-commodity">
-        <div class="distribution-title">
-          <h2>{{distribution.add_distribution_distributed_commodity | titlecase}}</h2>
-          <button mat-stroked-button class="button-text-accent distribution-add-button" (click)="openDialog(commodityAction)">
-            <span>{{ distribution.add | titlecase }}</span>
-          </button>
-        </div>
-        <div class="form" *ngIf="widthScreen > maxWidthMobile">
-          <app-table-small (onRemove)="removeElement($event, commodityAction)" [entity]="commodityClass" [data]="commodityData"></app-table-small>
-        </div>
-        <div class="summary-container" *ngIf="commodities.length != 0">
-          <h3 class="summary-text" *ngFor="let commodity of commodities; let i = index;">
-            <span>{{commodityNb[i]}}</span>{{commodity.unit}}
-            {{distribution.add_distribution_commodities_delivered | titlecase}}</h3>
-        </div>
-        <div class="form" *ngIf="widthScreen < maxWidthMobile">
-          <app-table-small-mobile (onRemove)="removeElement($event, commodityAction)" [entity]="commodityClass" [data]="commodityData"></app-table-small-mobile>
-        </div>
-      </div>
-    </div> -->
   </div>
   <!-- <div class="action-buttons content-button content-button-footer">
     <button mat-raised-button *ngIf="!loadingCreation" (click)="add()" class="button-background-primary">{{distribution.create}}</button>

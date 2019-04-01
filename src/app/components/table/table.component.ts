@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatPaginator, MatSort, MatTableDataSource, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { Router } from '@angular/router';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { HouseholdsService } from 'src/app/core/api/households.service';
@@ -15,6 +15,7 @@ import { WsseService } from '../../core/authentication/wsse.service';
 import { Mapper } from '../../core/utils/mapper.service';
 import { Beneficiaries } from '../../model/beneficiary';
 import { DistributionData } from '../../model/distribution-data';
+import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 
 
 const rangeLabel = (page: number, pageSize: number, length: number) => {
@@ -37,7 +38,11 @@ const rangeLabel = (page: number, pageSize: number, length: number) => {
 @Component({
     selector: 'app-table',
     templateUrl: './table.component.html',
-    styleUrls: ['./table.component.scss']
+    styleUrls: ['./table.component.scss'],
+    providers: [
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+    ]
 })
 export class TableComponent implements OnInit {
     public table = GlobalText.TEXTS;
@@ -118,6 +123,10 @@ export class TableComponent implements OnInit {
         this.checkData();
     }
 
+    updateTable(data) {
+        this.data = data;
+        this.data = [...this.data];
+    }
 
     checkEntityUpdateRights() {
         if (this.entity === Beneficiaries) {
@@ -138,44 +147,44 @@ export class TableComponent implements OnInit {
     }
 
 
-    updateData() {
-        if (this.data.data) {
-            if (this.entity.__classname__ === 'DistributionData') {
-                this.distributionService.getByProject(this.data.data[0].project.id).subscribe(response => {
-                    this.data = new MatTableDataSource(this.entity.formatArray(response));
+    // updateData() {
+    //     if (this.data.data) {
+    //         if (this.entity.__classname__ === 'DistributionData') {
+    //             this.distributionService.getByProject(this.data.data[0].project.id).subscribe(response => {
+    //                 this.data = new MatTableDataSource(this.entity.formatArray(response));
 
-                    this.setDataTableProperties();
-                }, error => {
-                    console.error('error', error);
-                });
-            } else if (this.entity.__classname__ === 'Beneficiaries') {
-                this.distributionService.getBeneficiaries(this.parentId).subscribe(
-                    response => {
-                        this.data = new MatTableDataSource(Beneficiaries.formatArray(response));
-                    }
-                );
-            } else if (this.entity.__classname__ === 'Households') {
-                this.data.loadHouseholds(
-                    this.data.filter,
-                    {
-                        sort: this.sort ? this.sort.active : null,
-                        direction: this.sort ? this.sort.direction : null
-                    },
-                    this.paginator.pageIndex,
-                    this.paginator.pageSize
-                );
-            } else if (this.entity.__classname__ === 'Booklet') {
-                this.service.get().subscribe(response => {
-                    this.data = new MatTableDataSource(this.entity.formatArray(response).reverse());
-                });
-            }
-            // else {
-            //     this.service.get().subscribe(response => {
-            //         this.data = new MatTableDataSource(this.entity.formatArray(response));
-            //     });
-            // }
-        }
-    }
+    //                 this.setDataTableProperties();
+    //             }, error => {
+    //                 console.error('error', error);
+    //             });
+    //         } else if (this.entity.__classname__ === 'Beneficiaries') {
+    //             this.distributionService.getBeneficiaries(this.parentId).subscribe(
+    //                 response => {
+    //                     this.data = new MatTableDataSource(Beneficiaries.formatArray(response));
+    //                 }
+    //             );
+    //         } else if (this.entity.__classname__ === 'Households') {
+    //             this.data.loadHouseholds(
+    //                 this.data.filter,
+    //                 {
+    //                     sort: this.sort ? this.sort.active : null,
+    //                     direction: this.sort ? this.sort.direction : null
+    //                 },
+    //                 this.paginator.pageIndex,
+    //                 this.paginator.pageSize
+    //             );
+    //         } else if (this.entity.__classname__ === 'Booklet') {
+    //             this.service.get().subscribe(response => {
+    //                 this.data = new MatTableDataSource(this.entity.formatArray(response).reverse());
+    //             });
+    //         }
+    //         // else {
+    //         //     this.service.get().subscribe(response => {
+    //         //         this.data = new MatTableDataSource(this.entity.formatArray(response));
+    //         //     });
+    //         // }
+    //     }
+    // }
 
     setDataTableProperties() {
         if ((this.data && this.data._data && this.data._data.value) || (this.data && this.data.householdsSubject)) {
@@ -191,7 +200,6 @@ export class TableComponent implements OnInit {
             }
         }
     }
-
 
     checkData() {
 

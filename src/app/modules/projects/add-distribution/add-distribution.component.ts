@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialog, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,10 +14,11 @@ import { Project } from 'src/app/model/project.new';
 import { GlobalText } from '../../../../texts/global';
 import { ModalAddComponent } from '../../../components/modals/modal-add/modal-add.component';
 import { CriteriaService } from '../../../core/api/criteria.service';
+import { CommodityService } from '../../../core/api/commodity.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { LocationService } from '../../../core/api/location.service';
 import { Mapper } from '../../../core/utils/mapper.service';
-import { Commodity } from '../../../model/commodity';
+import { Commodity } from '../../../model/commodity.new';
 import { Location } from '../../../model/location.new';
 import { Criteria } from '../../../model/criteria.new';
 import { DistributionData } from '../../../model/distribution-data';
@@ -25,6 +26,7 @@ import { Distribution } from 'src/app/model/distribution.new';
 import { CustomModelField } from 'src/app/model/CustomModel/custom-model-field';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { TableComponent } from 'src/app/components/table/table.component';
 
 
 
@@ -59,7 +61,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     public criteriaClass = Criteria;
     public criteriaAction = 'addCriteria';
     public criteriaArray = new Array<Criteria>();
-    public criteriaData = new Array<Criteria>();
+    public commodityArray = new Array<Commodity>();
     public criteriaNbBeneficiaries = 0;
     public load = false;
 
@@ -91,6 +93,9 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     lastAdm3;
 
     step = '';
+
+
+    @ViewChild(TableComponent) table: TableComponent;
 
     constructor(
         public mapper: Mapper,
@@ -535,19 +540,22 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     * open each modal dialog
     */
     openDialog(user_action): void {
-        let dialogRef;
+        const dialogRef = null;
 
-        if (user_action === this.criteriaAction) {
+        if (user_action === 'addCriteria') {
             this.modalService.openAddCriteriaDialog(Criteria, CriteriaService).then((criteria: Criteria) => {
                 this.createElement(criteria, 'addCriteria');
             });
             // dialogRef = this.dialog.open(ModalAddComponent, {
             //     data: { data: [], entity: this.criteriaClass, mapper: this.mapper }
             // });
-        } else if (user_action === this.commodityAction) {
-            dialogRef = this.dialog.open(ModalAddComponent, {
-                data: { data: [], entity: this.commodityClass, mapper: this.mapper }
-            });
+        } else if (user_action === 'addCommodity') {
+            // this.modalService.openAddCommodityDialog(Commodity, CommodityService).then((criteria: Criteria) => {
+            //     this.createElement(criteria, 'addCriteria');
+            // });
+            // dialogRef = this.dialog.open(ModalAddComponent, {
+            //     data: { data: [], entity: this.commodityClass, mapper: this.mapper }
+            // });
         }
         if (dialogRef) {
             const create = dialogRef.componentInstance.onCreate.subscribe((data: Criteria) => {
@@ -584,7 +592,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
                 }
                 this.load = false;
             }, error => this.load = false);
-            this.criteriaData = this.criteriaArray;
+            this.table.updateTable(this.criteriaArray);
         } else if (user_action === this.commodityAction) {
             this.commodities.push(createElement);
 
@@ -602,12 +610,25 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
      * @param removeElement
      * @param user_action
      */
-    removeElement(details) {
+    removeElement(details, type: string) {
+
+        if (details.action === 'delete') {
+            const index = this.criteriaArray.findIndex(criterion => {
+                return criterion === details.element;
+            });
+            this.criteriaArray.splice(index, 1);
+
+            // To remove the matSort if the array is empty
+            if (this.criteriaArray.length === 0) {
+                this.criteriaArray = [];
+            }
+
+            this.table.updateTable(this.criteriaArray);
+        }
         // if (user_action === this.criteriaAction) {
         //     const index = this.criteriaArray.findIndex((item) => item === removeElement);
         //     if (index > -1) {
         //         this.criteriaArray.splice(index, 1);
-        //         this.criteriaData = this.criteriaArray;
         //     }
         //     this.load = true;
 

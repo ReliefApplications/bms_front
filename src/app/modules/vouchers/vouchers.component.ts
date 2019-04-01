@@ -158,7 +158,7 @@ export class VouchersComponent implements OnInit, DoCheck {
                         }
                     });
                     dialogRef.afterClosed().subscribe((test) => {
-                        this.tableVoucher.updateData();
+                        this.tableVoucher.checkData();
                     });
                 }
             );

@@ -1,17 +1,7 @@
 import { Injectable                                 } from '@angular/core';
-import { of                                         } from 'rxjs';
-
-import { URL_BMS_API                                } from '../../../environments/environment';
-
 import { HttpService                                } from './http.service';
-
-import { DistributionData                           } from '../../model/distribution-data';
-import { Project                                    } from '../../model/project';
-import { Location                                   } from '../../model/location';
-import { Sector                                     } from '../../model/sector';
 import { CustomModelService } from './custom-model.service';
 import { Criteria } from 'src/app/model/criteria.new';
-import { AppInjector } from 'src/app/app-injector';
 import { ConditionCriteria } from 'src/app/model/condition-criteria';
 
 @Injectable({

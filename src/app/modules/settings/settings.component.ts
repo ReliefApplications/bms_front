@@ -1,36 +1,35 @@
-import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
-
-import { AuthenticationService } from '../../core/authentication/authentication.service';
+import { finalize } from 'rxjs/operators';
+import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
+import { LocationService } from 'src/app/core/api/location.service';
+import { ProductService } from 'src/app/core/api/product-service';
+import { VendorsService } from 'src/app/core/api/vendors.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { FinancialProvider } from 'src/app/model/financial-provider';
+import { Product } from 'src/app/model/product';
+import { Vendors } from 'src/app/model/vendors';
+import { GlobalText } from '../../../texts/global';
+import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
+import { CountrySpecificService } from '../../core/api/country-specific.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { DonorService } from '../../core/api/donor.service';
 import { ProjectService } from '../../core/api/project.service';
+import { SettingsService } from '../../core/api/settings.service';
 import { UserService } from '../../core/api/user.service';
-import { CountrySpecificService } from '../../core/api/country-specific.service';
-
+import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { Mapper } from '../../core/utils/mapper.service';
+import { CountrySpecific } from '../../model/country-specific';
 import { Donor } from '../../model/donor';
 import { Project } from '../../model/project';
 import { User } from '../../model/user';
-import { CountrySpecific } from '../../model/country-specific';
 
-import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
 
-import { GlobalText } from '../../../texts/global';
-import { SettingsService } from '../../core/api/settings.service';
-import { finalize } from 'rxjs/operators';
-import { LocationService } from 'src/app/core/api/location.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Router } from '@angular/router';
-import { FormControl } from '@angular/forms';
-import { FinancialProvider } from 'src/app/model/financial-provider';
-import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
-import { Product } from 'src/app/model/product';
-import { ProductService } from 'src/app/core/api/product-service';
-import { Vendors } from 'src/app/model/vendors';
-import { VendorsService } from 'src/app/core/api/vendors.service';
+
+
 
 @Component({
     selector: 'app-settings',
@@ -65,7 +64,6 @@ export class SettingsComponent implements OnInit, DoCheck {
     public language = GlobalText.language;
     public heightScreen;
     public widthScreen;
-    hasRights: boolean;
     public deletable = true;
     public printable = false;
     public httpSubscriber: Subscription;
@@ -231,8 +229,6 @@ export class SettingsComponent implements OnInit, DoCheck {
 
   // TO DO : get from cache
     load(title): void {
-        this.hasRights = false;
-
         this.httpSubscriber = this.referedClassService.get().
             pipe(
                 finalize(
@@ -261,69 +257,32 @@ export class SettingsComponent implements OnInit, DoCheck {
 
                     response = this.referedClassToken.formatArray(response);
                     this.data = new MatTableDataSource(response);
-
-                    this._cacheService.getUser().subscribe(
-                        result => {
-                            if (result && result.rights) {
-                                const rights = result.rights;
-
-                                if (this.referedClassToken.__classname__ === 'User') {
-                                    if (rights === 'ROLE_ADMIN') {
-                                        this.hasRights = true;
-                                    }
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'CountrySpecific') {
-                                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_COUNTRY_MANAGER' || rights === 'ROLE_PROJECT_MANAGER') {
-                                        this.hasRights = true;
-                                    }
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'Donor') {
-                                    if (rights === 'ROLE_ADMIN') {
-                                        this.hasRights = true;
-                                    }
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'Project') {
-                                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_COUNTRY_MANAGER' || rights === 'ROLE_PROJECT_MANAGER') {
-                                        this.hasRights = true;
-                                    }
-
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'Financial Provider') {
-                                    if (rights === 'ROLE_ADMIN') {
-                                        this.hasRights = true;
-                                    }
-
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'Vendors') {
-                                  if (rights === 'ROLE_ADMIN') {
-                                    this.hasRights = true;
-                                  }
-                                }
-
-                                if (this.referedClassToken.__classname__ === 'Product') {
-                                  if (rights === 'ROLE_ADMIN') {
-                                      this.hasRights = true;
-                                  }
-                                }
-                            }
-                        }
-                    );
-
                 } else {
                     this.data = new MatTableDataSource(null);
                     this.loadingData = false;
                 }
             });
-        // .catch(
-        //     () => {
-        //         this.data = new MatTableDataSource(null);
-        //     }
-        // );
+    }
+
+    checkRights(): boolean {
+        switch (this.referedClassToken) {
+            case (User):
+                return this.userService.hasRights('ROLE_USER_MANAGEMENT');
+            case (CountrySpecific):
+                return this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
+            case (Donor):
+                return this.userService.hasRights('ROLE_DONOR_MANAGEMENT');
+            case (Project):
+                return this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
+            case (FinancialProvider):
+                return this.userService.hasRights('ROLE_FINANCIAL_PROVIDER_MANAGEMENT');
+            case (Vendors):
+                return this.userService.hasRights('ROLE_VENDORS_MANAGEMENT');
+            case (Product):
+                return this.userService.hasRights('ROLE_PRODUCT_MANAGEMENT');
+            default:
+                return false;
+        }
     }
 
     /**

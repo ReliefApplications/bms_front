@@ -1,28 +1,28 @@
-import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
-import { GlobalText } from 'src/texts/global';
-import { DistributionService } from 'src/app/core/api/distribution.service';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog, MatStepper, MatTableDataSource } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
-import { DistributionData } from 'src/app/model/distribution-data';
-import { Beneficiaries } from 'src/app/model/beneficiary';
-import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
-import { MatTableDataSource, MatDialog, MatStepper } from '@angular/material';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { Mapper } from 'src/app/core/utils/mapper.service';
-import { ImportedBeneficiary } from 'src/app/model/imported-beneficiary';
-import { TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
-import { TransactionVoucher } from 'src/app/model/transaction-voucher';
-
-import { TransactionGeneralRelief } from 'src/app/model/transaction-general-relief';
+import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { User } from 'src/app/model/user';
+import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
+import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
+import { DistributionService } from 'src/app/core/api/distribution.service';
+import { NetworkService } from 'src/app/core/api/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
-import { Observable } from 'rxjs';
-import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
-import { NetworkService } from 'src/app/core/api/network.service';
-import { SelectionModel } from '@angular/cdk/collections';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { Mapper } from 'src/app/core/utils/mapper.service';
+import { Beneficiaries } from 'src/app/model/beneficiary';
+import { DistributionData } from 'src/app/model/distribution-data';
+import { ImportedBeneficiary } from 'src/app/model/imported-beneficiary';
+import { TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
+import { TransactionGeneralRelief } from 'src/app/model/transaction-general-relief';
+import { TransactionVoucher } from 'src/app/model/transaction-voucher';
+import { User } from 'src/app/model/user';
+import { GlobalText } from 'src/texts/global';
+
 
 @Component({
     selector: 'app-distributions',
@@ -87,8 +87,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     form4: FormGroup;
 
     actualUser = new User();
-    hasRights = false;
-    hasRightsTransaction = false;
     loaderValidation = false;
     loaderCache = false;
 
@@ -139,7 +137,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
         this.getSelectedDistribution();
 
         this.getDistributionBeneficiaries('initial');
-        this.checkPermission();
     }
 
     @HostListener('window:resize', ['$event'])
@@ -441,7 +438,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
      * To confirm on Validation dialog
      */
     confirmValidation() {
-        if (this.hasRights) {
+        if (this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')) {
             if ((this.finalBeneficiaryData && this.finalBeneficiaryData.data.length > 0) ||
                 (this.initialBeneficiaryData && this.initialBeneficiaryData.data.length > 0)) {
                 this.loaderValidation = true;
@@ -572,24 +569,6 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
 
     jumpStep(stepper: MatStepper) {
         stepper.next();
-    }
-
-    checkPermission() {
-        this.cacheService.getUser().subscribe(
-            result => {
-                this.actualUser = result;
-                if (result && result.rights) {
-                    const rights = result.rights;
-                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
-                        this.hasRights = true;
-                    }
-
-                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
-                        this.hasRightsTransaction = true;
-                    }
-                }
-            }
-        );
     }
 
     /**

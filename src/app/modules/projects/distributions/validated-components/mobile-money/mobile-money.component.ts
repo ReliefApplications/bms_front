@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ValidatedDistributionComponent } from '../validated-distribution.component';
-import { TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
-import { State } from 'src/app/model/transaction-beneficiary';
 import { finalize } from 'rxjs/operators';
+import { State, TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
+import { ValidatedDistributionComponent } from '../validated-distribution.component';
 
 @Component({
     selector: 'app-mobile-money',
@@ -13,6 +12,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
 
     sentStates = [State.Sent, State.AlreadySent, State.PickedUp];
     receivedStates = [State.PickedUp];
+
 
     ngOnInit() {
         super.ngOnInit();
@@ -77,7 +77,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
     }
 
     requestLogs() {
-        if (this.hasRights) {
+        if (this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')) {
             try {
                 this.distributionService.logs(this.distributionId).subscribe(
                     e => { this.snackbar.error('' + e); },
@@ -120,7 +120,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
      * To transact
      */
     confirmTransaction() {
-        if (this.hasRightsTransaction) {
+        if (this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')) {
             this.progression = 0;
             this.cacheService.getUser().subscribe(result => {
                 this.actualUser = result;

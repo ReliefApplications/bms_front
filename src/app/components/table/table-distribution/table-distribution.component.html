@@ -44,11 +44,11 @@
                             [matTooltip]="table.details">
                             <mat-icon>search</mat-icon>
                         </button>
-                        <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+                        <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                             [matTooltip]="table.update" class="light-red" (click)="goToDistribution(element.id); $event.stopPropagation();">
                             <mat-icon>edit</mat-icon>
                         </button>
-                        <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+                        <button mat-icon-button *ngIf="!mapperService.mapValue(element, 'validated') && !element.validated && userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')"
                             [matTooltip]="table.delete" class="red" (click)="openDialog('delete', element); $event.stopPropagation();">
                             <mat-icon>delete_outline</mat-icon>
                         </button>

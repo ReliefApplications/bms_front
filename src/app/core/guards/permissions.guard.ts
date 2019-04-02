@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
@@ -42,18 +42,25 @@ export class PermissionsGuard implements CanActivate {
     private checkPermissions(route: ActivatedRouteSnapshot): boolean {
 
         // If route is undefined (on landing page), the route is set to empty string
-        const routeString = (route.url.length ? route.url[0].path : '');
+        const segmentedRoute = route.url.map((urlSegment: UrlSegment) => urlSegment.path);
         let hasPermissions: boolean;
-        switch (routeString) {
-            case 'settings':
-                hasPermissions = this.userService.currentUser.hasRights('ROLE_VIEW_ADMIN_SETTINGS');
-                break;
-            case 'login':
-                hasPermissions = true;
-                break;
-            default:
-                hasPermissions = this.userService.currentUser !== new User;
+
+        if (segmentedRoute.slice(0, 2).join('/') === 'projects/distributions') {
+            hasPermissions = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
         }
+
+        else if (segmentedRoute[0] === 'settings') {
+            hasPermissions = this.userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS');
+        }
+
+        else if (segmentedRoute[0] === 'login') {
+            hasPermissions = true;
+        }
+        // Make sure the user is logged in
+        else {
+            hasPermissions = this.userService.currentUser !== new User();
+        }
+
         if (!hasPermissions) {
             this.snackbar.error(GlobalText.TEXTS.forbidden_message);
             this.router.navigate(['']);

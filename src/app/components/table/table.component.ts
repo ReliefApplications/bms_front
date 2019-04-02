@@ -1,4 +1,4 @@
-import { Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
@@ -47,7 +47,7 @@ const rangeLabel = (page: number, pageSize: number, length: number) => {
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnChanges, DoCheck, OnInit {
+export class TableComponent implements OnChanges, DoCheck {
     public table = GlobalText.TEXTS;
     public paginator: MatPaginator;
     public sort;
@@ -79,10 +79,6 @@ export class TableComponent implements OnChanges, DoCheck, OnInit {
     @Input() data: any;
     @Input() service;
 
-    // TODO REMOVE THIS
-    @Input() rights: any;
-    @Input() rightsEdit;
-    @Input() rightsDelete;
 
     @Input() selection: any;
     @Output() selectChecked = new EventEmitter<any>();

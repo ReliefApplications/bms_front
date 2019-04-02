@@ -72,7 +72,7 @@
                 </button>
 
                 <mat-spinner [diameter]="35" *ngIf="distributed && checkedLines.length > 0"></mat-spinner>
-                <button mat-raised-button *ngIf="hasRightsTransaction && !distributed && checkedLines.length > 0" class="button-background-accent" (click)="distributeRelief()">
+                <button mat-raised-button *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR') && !distributed && checkedLines.length > 0" class="button-background-accent" (click)="distributeRelief()">
                     <mat-icon>send</mat-icon> {{ TEXT.distribution_distribute | titlecase }}
                 </button>
             </div>

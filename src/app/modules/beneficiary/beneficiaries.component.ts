@@ -173,27 +173,6 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         this.dialog.closeAll();
     }
 
-    // checkPermission() {
-    //     this.cacheService.get('user').subscribe(
-    //         result => {
-    //             if (result && result.rights) {
-    //                 const rights = result.rights;
-    //                 if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER') {
-    //                     this.hasRights = true;
-    //                 }
-
-    //                 if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
-    //                     this.hasRightsDelete = true;
-    //                 }
-
-    //                 if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
-    //                     this.hasRightsExport = true;
-    //                 }
-    //             }
-    //         }
-    //     );
-    // }
-
     /**
      * Check which adm is selected to load the list of adm link to it
      * fro example : if adm1 (province) selected load adm2

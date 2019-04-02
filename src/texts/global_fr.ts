@@ -40,6 +40,7 @@ export const TEXT = {
     settings: 'Paramètres',
     summary: 'Sommaire',
     update: 'Modifier',
+    this: 'ce(tte)',
     voucher: 'Vouchers',
 
     // Error

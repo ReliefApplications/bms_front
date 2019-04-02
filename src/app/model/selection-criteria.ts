@@ -1,3 +1,5 @@
+// Delete this whole class when the old distribution data class is gone
+
 export class SelectionCriteria {
     static __classname__ = 'SelectionCriteria';
     /**

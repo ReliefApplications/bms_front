@@ -236,4 +236,8 @@ export class Beneficiary extends CustomModel {
         }
         return name;
     }
+
+    public getIdentifyingName() {
+        return this.fields.givenName.value + ' ' + this.fields.familyName.value;
+    }
 }

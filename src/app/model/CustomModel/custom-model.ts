@@ -1,3 +1,5 @@
+import { GlobalText } from 'src/texts/global';
+
 export abstract class CustomModel {
 
     static rights: Array<string>;
@@ -26,5 +28,9 @@ export abstract class CustomModel {
         date.setMonth(date.getMonth() + month);
         date.setDate(date.getDate() + day);
         return date;
+    }
+
+    public getIdentifyingName() {
+        return GlobalText.TEXTS.this + ' ' + this.title;
     }
 }

@@ -1,7 +1,7 @@
 <div class="page-container">
   <div class="container-fields">
     <div class="field-distribution">
-      <h2 class="distribution-title">{{distribution.add_project_new_distribution | titlecase}}</h2>
+      <h2 class="distribution-title">{{texts.add_project_new_distribution | titlecase}}</h2>
       <div [ngClass]="{'distribution-accordion': language!=='ar', 'distribution-accordion-ar': language==='ar'}">
         <mat-card class="accordion-card">
           <form [formGroup]="form">
@@ -37,12 +37,12 @@
                 </ng-select>
             </ng-container>
             <mat-form-field class="accordion-field">
-              <input matInput [matDatepicker]="date" [placeholder]="objectInstance.fields.date.title" formControlName="date" [min]="projectInfo.startDate" [max]="projectInfo.endDate">
+              <input matInput [matDatepicker]="dateDistribution" [placeholder]="objectInstance.fields.date.title" formControlName="date" [min]="projectInfo.startDate" [max]="projectInfo.endDate">
               <mat-datepicker-toggle matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
               <mat-datepicker #dateDistribution></mat-datepicker>
             </mat-form-field>
             <label>{{objectInstance.fields.type.title}}</label>
-            <mat-radio-group formControlName="type" class="type-distribution" (change)="typeDistributionOnChange($event)">
+            <mat-radio-group formControlName="type" class="type-distribution" (change)="updateNbBeneficiary()">
               <mat-radio-button checked='true' color="warn" [value]="objectInstance.fields.type.options[0].fields.name.value" disabled='false'>{{objectInstance.fields.type.options[0].fields.name.value}}</mat-radio-button>
               <mat-radio-button color="warn" [value]="objectInstance.fields.type.options[1].fields.name.value">{{objectInstance.fields.type.options[1].fields.name.value}}</mat-radio-button>
             </mat-radio-group>
@@ -64,23 +64,23 @@
         <form [formGroup]="form">
 
           <div class="form" *ngIf="widthScreen > maxWidthMobile">
-            <app-table (openModal)="removeElement($event, 'criteria')" [entity]="criteriaClass" [data]="criteriaArray" deletable="true" rights="true"></app-table>
+            <app-table class="mat-elevation-z8" (openModal)="removeElement($event, 'criteria')" [entity]="criteriaClass" [data]="criteriaArray" deletable="true" rights="true" #criteriaTable></app-table>
           </div>
 
           <div class="summary-container">
             <mat-form-field class="accordion-field" id="threshold">
               <mat-label>{{ texts.add_distribution_threshold }}</mat-label>
-              <input class="field-input" matInput type="number" formControlName="threshold" (change)="numberOnChange()">
+              <input class="field-input" matInput type="number" formControlName="threshold" (change)="updateNbBeneficiary()">
             </mat-form-field>
 
-            <h3 class="summary-text" *ngIf="criteriaArray.length != 0 && form.controls.type.value === 'Household'">
+            <h3 class="summary-text" *ngIf="criteriaArray.length != 0 && form.controls.type.value === 'Individual'">
               <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span>
               <span *ngIf="load">
                 <mat-spinner [diameter]="25"></mat-spinner>
               </span>
               {{texts.add_distribution_beneficiaries_reached | titlecase}}
             </h3>
-            <h3 class="summary-text" *ngIf="criteriaArray.length != 0 && form.controls.type.value === 'Individual'">
+            <h3 class="summary-text" *ngIf="criteriaArray.length != 0 && form.controls.type.value === 'Household'">
               <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span>
               <span *ngIf="load">
                 <mat-spinner [diameter]="25"></mat-spinner>
@@ -102,11 +102,11 @@
             </button>
           </div>
           <div class="form" *ngIf="widthScreen > maxWidthMobile">
-            <app-table (openModal)="removeElement($event, 'commidity')" [entity]="commodityClass" [data]="commodityArray"></app-table>
+            <app-table class="mat-elevation-z8" (openModal)="removeElement($event, 'commodity')" [entity]="commodityClass" [data]="commodityArray" deletable="true" rights="true" #commodityTable></app-table>
           </div>
-          <div class="summary-container" *ngIf="commodities.length != 0">
-            <h3 class="summary-text" *ngFor="let commodity of commodities; let i = index;">
-              <span>{{commodityNb[i]}}</span>{{commodity.unit}}
+          <div class="summary-container" *ngIf="commodityArray.length != 0">
+            <h3 class="summary-text" *ngFor="let commodity of commodityArray; let i = index;">
+              <span>{{commodityNb[i]}}</span>{{commodity.fields.unit.value}}
               {{texts.add_distribution_commodities_delivered | titlecase}}</h3>
           </div>
           <div class="form" *ngIf="widthScreen < maxWidthMobile">
@@ -117,9 +117,9 @@
       </div>
     </div>
   </div>
-  <!-- <div class="action-buttons content-button content-button-footer">
-    <button mat-raised-button *ngIf="!loadingCreation" (click)="add()" class="button-background-primary">{{distribution.create}}</button>
+  <div class="action-buttons content-button content-button-footer">
+    <button mat-raised-button *ngIf="!loadingCreation" (click)="add()" class="button-background-primary">{{texts.create}}</button>
     <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
-    <button mat-button (click)="cancel()" class="button-text-primary">{{distribution.cancel}}</button>
-  </div> -->
+    <button mat-button (click)="cancel()" class="button-text-primary">{{texts.cancel}}</button>
+  </div>
 </div>

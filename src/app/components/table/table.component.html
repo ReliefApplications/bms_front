@@ -62,7 +62,7 @@
                                     <app-icon-svg [imagePath]="field.value.getImage()"></app-icon-svg>
                                 </ng-container>
                                 <ng-template #singleNotImage>
-                                    {{field.value}}
+                                    {{field.value.fields[field.bindField].value}}
                                 </ng-template>
                         </ng-container>
                     </ng-template>

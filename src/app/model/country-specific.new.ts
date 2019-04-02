@@ -74,6 +74,10 @@ export class CountrySpecific extends CustomModel {
 
         };
     }
+
+    public getIdentifyingName() {
+        return this.fields.field.value;
+    }
 }
 
 

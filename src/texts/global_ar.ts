@@ -39,6 +39,7 @@ export const TEXT = {
     save: 'حفظ',
     settings: 'الإعدادات',
     summary: 'ملخص',
+    this: 'this',
     update: 'تحديث',
     voucher: 'قسائم',
 

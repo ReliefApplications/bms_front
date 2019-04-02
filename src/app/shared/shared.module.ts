@@ -29,6 +29,7 @@ import { BoxPropertiesComponent } from '../components/box/box-properties/box-pro
 import { BoxSettingComponent } from '../components/box/box-setting/box-setting.component';
 import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
 import { ModalAddCriteriaComponent } from '../components/modals/modal-add-criteria/modal-add-criteria.component';
+import { ModalAddCommodityComponent } from '../components/modals/modal-add-commodity/modal-add-commodity.component';
 import { ModalAddComponent } from '../components/modals/modal-add/modal-add.component';
 import { ModalAssignComponent } from '../components/modals/modal-assign/modal-assign.component';
 import { ModalDeleteComponent } from '../components/modals/modal-delete/modal-delete.component';
@@ -158,6 +159,7 @@ imports: [
         TableMobileBeneficiariesComponent,
         TransactionTableComponent,
         ModalAddCriteriaComponent,
+        ModalAddCommodityComponent,
         ModalFieldsComponent,
         ModalDeleteComponent,
         ModalUpdateComponent,
@@ -200,6 +202,7 @@ imports: [
         ModalLanguageComponent,
         ModalAddComponent,
         ModalAddCriteriaComponent,
+        ModalAddCommodityComponent,
         ModalAssignComponent,
         ModalLeaveComponent,
         ModalRequestsComponent,
@@ -231,6 +234,7 @@ imports: [
         TableBeneficiariesComponent,
         TransactionTableMobileComponent,
         ModalAddCriteriaComponent,
+        ModalAddCommodityComponent,
         ModalDeleteComponent,
         ModalUpdateComponent,
         ModalDetailsComponent,

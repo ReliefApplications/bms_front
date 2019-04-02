@@ -4,6 +4,7 @@ import { SingleSelectModelField } from './CustomModel/single-select-model-field'
 import { NumberModelField } from './CustomModel/number-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
+import { CustomModel } from './CustomModel/custom-model';
 
 // export class Modality {
 
@@ -37,7 +38,7 @@ import { TextModelField } from './CustomModel/text-model-field';
 //     }
 // }
 
-export class Commodity {
+export class Commodity extends CustomModel {
     title = GlobalText.TEXTS.model_commodity;
 
     public fields = {
@@ -56,6 +57,7 @@ export class Commodity {
                 isRequired: true,
                 isSettable: true,
                 isDisplayedInModal: true,
+                isDisplayedInTable: true,
                 isEditable: true,
                 bindField: 'name',
                 apiLabel: 'name',
@@ -69,6 +71,7 @@ export class Commodity {
                 isRequired: true,
                 isSettable: true,
                 isDisplayedInModal: true,
+                isDisplayedInTable: true,
                 isEditable: true,
                 bindField: 'name',
                 apiLabel: 'name',
@@ -81,6 +84,7 @@ export class Commodity {
                 placeholder: null,
                 isSettable: true,
                 isDisplayedInModal: true,
+                isDisplayedInTable: true,
                 isLongText: false,
                 isEditable: true,
             }
@@ -92,6 +96,7 @@ export class Commodity {
                 isRequired: true,
                 isSettable: true,
                 isDisplayedInModal: true,
+                isDisplayedInTable: true,
                 isEditable: true,
             }
         ),
@@ -116,6 +121,7 @@ export class Commodity {
             unit: this.fields.unit.formatForApi(),
             value: this.fields.value.formatForApi(),
             modality: this.fields.modality.formatForApi(),
+            modality_type: { id: this.fields.modalityType.value.fields.id.value }
         };
     }
 
@@ -137,5 +143,9 @@ export class Commodity {
         if (typeof this.fields.modalityType.value === 'string') {
             return `/assets/images/commodities/${commoditiesImages[this.fields.modalityType.value]}.png`;
         }
+    }
+
+    public getIdentifyingName() {
+        return this.fields.modality.value.fields.name.value;
     }
 }

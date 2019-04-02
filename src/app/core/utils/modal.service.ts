@@ -14,6 +14,10 @@ import { AsyncacheService } from '../storage/asyncache.service';
 import { Router } from '@angular/router';
 import { Criteria } from 'src/app/model/criteria.new';
 import { ModalAddCriteriaComponent } from 'src/app/components/modals/modal-add-criteria/modal-add-criteria.component';
+import { CriteriaService } from '../api/criteria.service';
+import { Commodity } from 'src/app/model/commodity.new';
+import { CommodityService } from '../api/commodity.service';
+import { ModalAddCommodityComponent } from 'src/app/components/modals/modal-add-commodity/modal-add-commodity.component';
 
 @Injectable({
     providedIn: 'root'
@@ -116,16 +120,16 @@ export class ModalService {
     openDeleteDialog(objectInfo: CustomModel) {
         return this.dialog.open(ModalDeleteComponent, {
             data: {
-                data: objectInfo,
+                name: objectInfo.getIdentifyingName(),
             }
         });
     }
 
 
-    openAddCriteriaDialog(referedClassToken, referedClassService): Promise<Criteria> {
+    openAddCriteriaDialog(): Promise<Criteria> {
         return new Promise<Criteria>((resolve, reject) => {
-            this.referedClassToken = referedClassToken;
-            this.referedClassService = referedClassService;
+            this.referedClassToken = Criteria;
+            this.referedClassService = CriteriaService;
             const dialogRef = this.dialog.open(ModalAddCriteriaComponent, {
                 data: {
                     objectInstance: new Criteria(),
@@ -136,6 +140,22 @@ export class ModalService {
             });
         });
     }
+
+    openAddCommodityDialog(): Promise<Commodity> {
+        return new Promise<Commodity>((resolve, reject) => {
+            this.referedClassToken = Commodity;
+            this.referedClassService = CommodityService;
+            const dialogRef = this.dialog.open(ModalAddCommodityComponent, {
+                data: {
+                    objectInstance: new Commodity(),
+                }
+            });
+            dialogRef.afterClosed().subscribe((commodity) => {
+                resolve(commodity);
+            });
+        });
+    }
+
 
 
 

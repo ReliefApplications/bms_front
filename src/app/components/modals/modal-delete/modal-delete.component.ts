@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, Input, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
 import { GlobalText } from 'src/texts/global';
 
 @Component({
@@ -11,7 +12,7 @@ export class ModalDeleteComponent {
 
     texts = GlobalText.TEXTS;
 
-    constructor(public modalReference: MatDialogRef<any>) {
+    constructor(@Inject(MAT_DIALOG_DATA) public data: any, public modalReference: MatDialogRef<any>) {
     }
 
     onDelete(): any {

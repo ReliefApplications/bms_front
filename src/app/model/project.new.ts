@@ -201,4 +201,8 @@ export class Project extends CustomModel {
         };
     }
 
+    public getIdentifyingName() {
+        return this.fields.name.value;
+    }
+
 }

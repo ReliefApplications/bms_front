@@ -39,6 +39,7 @@ export const TEXT = {
     save: 'Save',
     settings: 'Settings',
     summary: 'Summary',
+    this: 'this',
     update: 'Update',
     voucher: 'Vouchers',
 

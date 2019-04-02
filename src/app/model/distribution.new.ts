@@ -11,10 +11,10 @@ import { ObjectModelField } from './CustomModel/object-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 import { Location } from './location.new';
 import { Project } from './project.new';
-import { SelectionCriteria } from './selection-criteria';
 import { Beneficiary } from './beneficiary.new';
 import { GlobalText } from 'src/texts/global';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
+import { Criteria } from './criteria.new';
 
 export class Distribution extends CustomModel {
 
@@ -71,12 +71,12 @@ export class Distribution extends CustomModel {
                 isEditable: true,
             }
         ),
-        project: new ObjectModelField<Project>(
+        projectId: new NumberModelField(
             {
                 title: GlobalText.TEXTS.project
             }
         ),
-        selectionCriteria: new MultipleObjectsModelField<SelectionCriteria>(
+        selectionCriteria: new MultipleObjectsModelField<Criteria>(
             {
 
             }
@@ -171,6 +171,35 @@ export class Distribution extends CustomModel {
             images.push(commodity.getImage());
         });
         return images;
+    }
+
+    public modelToApi(): Object {
+
+        const commodities = this.fields.commodities.value.map(commodity => {
+            return commodity.modelToApi();
+        });
+        const location = this.fields.location.value.modelToApi();
+        const project = { id: this.fields.projectId.value };
+        const selectionCriteria = this.fields.selectionCriteria.value.map(criteria => {
+            return criteria.modelToApi();
+        });
+
+        return {
+            commodities: commodities,
+            date_distribution: this.fields.date.formatForApi(),
+            finished: false,
+            location: location,
+            name: this.fields.name.value,
+            project: project,
+            selection_criteria: selectionCriteria,
+            threshold: this.fields.threshold.value,
+            type: this.fields.type.value
+        };
+
+    }
+
+    public getIdentifyingName() {
+        return this.fields.name.value;
     }
 
     // In modelToAPi put date.toLocaleDateString()

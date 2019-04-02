@@ -52,4 +52,8 @@ export class Sector extends CustomModel {
             return `/assets/images/sectors/${sectorsImages[this.fields.name.value]}.svg`;
         }
     }
+
+    public getIdentifyingName() {
+        return this.fields.name.value;
+    }
 }

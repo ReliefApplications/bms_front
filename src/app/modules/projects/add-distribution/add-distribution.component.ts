@@ -27,6 +27,7 @@ import { CustomModelField } from 'src/app/model/CustomModel/custom-model-field';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { TableComponent } from 'src/app/components/table/table.component';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -43,32 +44,18 @@ import { TableComponent } from 'src/app/components/table/table.component';
 })
 export class AddDistributionComponent implements OnInit, DesactivationGuarded {
 
+    public texts =  GlobalText.TEXTS;
+    public language = GlobalText.language;
+
     public objectInstance: Distribution;
     public objectFields: string[];
     public form: FormGroup;
-    public texts =  GlobalText.TEXTS;
-
-
-    public nameComponent = 'add_project_title';
-    public distribution = GlobalText.TEXTS;
-    public language = GlobalText.language;
-    public newObject: any;
-    mapperObject = null;
-    public properties: any;
-    public propertiesTypes: any;
-    entity = DistributionData;
 
     public criteriaClass = Criteria;
-    public criteriaAction = 'addCriteria';
     public criteriaArray = new Array<Criteria>();
+    public commodityClass = Commodity;
     public commodityArray = new Array<Commodity>();
     public criteriaNbBeneficiaries = 0;
-    public load = false;
-
-    public commodityClass = Commodity;
-    public commodityAction = 'addCommodity';
-    public commodities = [];
-    public commodityData = new MatTableDataSource([]);
     public commodityNb: number[] = [];
 
     public maxHeight = GlobalText.maxHeight;
@@ -80,22 +67,13 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     public widthScreen;
 
     public queryParams;
-    public controls = new FormControl();
-    public controlNumber = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
-
-    public loadedData: any = [];
+    public load = false;
     public loadingCreation: boolean;
     public projectInfo: any = { startDate: '', endDate: '' };
 
-    // Save adm ids for requests.
-    lastAdm1;
-    lastAdm2;
-    lastAdm3;
 
-    step = '';
-
-
-    @ViewChild(TableComponent) table: TableComponent;
+    @ViewChild('criteriaTable') criteriaTable: TableComponent;
+    @ViewChild('commodityTable') commodityTable: TableComponent;
 
     constructor(
         public mapper: Mapper,
@@ -103,8 +81,6 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         private router: Router,
         private criteriaService: CriteriaService,
         private route: ActivatedRoute,
-        private cacheService: AsyncacheService,
-        private locationService: LocationService,
         private _distributionService: DistributionService,
         private _projectService: ProjectService,
         private snackbar: SnackbarService,
@@ -115,25 +91,17 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         this.loadingCreation = false;
         this.objectInstance = new Distribution();
         this.objectInstance.fields.location.value = new Location();
-        // this._distributionService.fillWithOptions(this.objectInstance);
         this.objectFields = ['adm1', 'adm2', 'adm3', 'adm4', 'date', 'type', 'threshold'];
         this.makeForm();
-        // this.newObject = Object.create(this.entity.prototype);
-        // this.newObject.constructor.apply(this.newObject);
-        // this.mapperObject = this.mapper.findMapperObject(this.entity);
-        // this.properties = Object.getOwnPropertyNames(this.newObject.getMapperAdd(this.newObject));
-        // this.propertiesTypes = this.newObject.getTypeProperties(this.newObject);
         this.checkSize();
         this.getQueryParameter();
         this.loadProvince();
-        // this.newObject.type = 'Household';
         this.getProjectDates();
     }
 
 
     makeForm() {
         const formControls = {};
-        // To Do : default value households for type
         this.objectFields.forEach((fieldName: string) => {
             formControls[fieldName] = new FormControl(
                 this.objectInstance.fields[fieldName] ? this.objectInstance.fields[fieldName].value : null,
@@ -148,7 +116,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     */
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
-        if (this.newObject && !this.loadingCreation) {
+        if (this.objectInstance && !this.loadingCreation) {
             const dialogRef = this.dialog.open(ModalLeaveComponent, {});
 
             return dialogRef.afterClosed();
@@ -156,120 +124,6 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
             return (true);
         }
     }
-
-    /**
-     * Get adm1 from the back or from the cache service with the key ADM1
-     */
-    loadProvince() {
-
-        this._distributionService.fillAdm1Options(this.objectInstance);
-        this.form.controls.adm2.setValue(null);
-        this.form.controls.adm3.setValue(null);
-        this.form.controls.adm4.setValue(null);
-
-        // this.locationService.getAdm1().subscribe(response => {
-        //     this.loadedData.adm1 = response;
-
-        // });
-        // this.loadedData.adm2 = [];
-        // this.loadedData.adm3 = [];
-        // this.loadedData.adm4 = [];
-    }
-
-    /**
-     *  Get adm2 from the back or from the cache service with the id of adm1
-     *  @param adm1Id
-     */
-    loadDistrict(adm1Id) {
-        if (adm1Id) {
-            this._distributionService.fillAdm2Options(this.objectInstance, adm1Id);
-        }
-        this.form.controls.adm2.setValue(null);
-        this.form.controls.adm3.setValue(null);
-        this.form.controls.adm4.setValue(null);
-
-        // adm1$.pipe(
-        //     switchMap(
-        //         (value) => {
-        //             const body = {
-        //                 adm1: value
-        //             };
-        //             return this.locationService.getAdm2(body);
-        //         }
-        //     )
-        // ).subscribe(response => {
-        //     this.loadedData.adm2 = response;
-        //     this.loadedData.adm3 = [];
-        //     this.loadedData.adm4 = [];
-        // });
-    }
-
-    /**
-     * Get adm3 from the back or from the cahce service with the if of adm2
-     * @param adm2Id
-     */
-    loadCommunity(adm2Id) {
-        if (adm2Id) {
-            this._distributionService.fillAdm3Options(this.objectInstance, adm2Id);
-        }
-        this.form.controls.adm3.setValue(null);
-        this.form.controls.adm4.setValue(null);
-        // adm2$.pipe(
-        //     switchMap(
-        //         (value) => {
-        //             const body = {
-        //                 adm2: value
-        //             };
-        //             return this.locationService.getAdm3(body);
-        //         }
-        //     )
-        // ).subscribe(response => {
-        //     this.loadedData.adm3 = response;
-        //     this.loadedData.adm4 = [];
-        // });
-    }
-
-    /**
-     *  Get adm4 from the back or from the cahce service with the id of adm3
-     * @param adm3Id
-     */
-    loadVillage(adm3Id) {
-        if (adm3Id) {
-            this._distributionService.fillAdm4Options(this.objectInstance, adm3Id);
-        }
-        this.form.controls.adm4.setValue(null);
-        // adm3$.pipe(
-        //     switchMap(
-        //         (value) => {
-        //             const body = {
-        //                 adm3: value
-        //             };
-        //             return this.locationService.getAdm4(body);
-        //         }
-        //     )
-        // ).subscribe(response => {
-        //     this.loadedData.adm4 = response;
-        // });
-    }
-
-    // /**
-    //  * Check which adm is selected to load the list of adm link to it
-    //  * fro example : if adm1 (province) selected load adm2
-    //  * @param index
-    //  */
-    // selected(index) {
-    //     let adm$;
-    //     if (index === 'adm1') {
-    //         adm$ = this.getAdmID('adm1');
-    //         this.loadDistrict(adm$);
-    //     } else if (index === 'adm2') {
-    //         adm$ = this.getAdmID('adm2');
-    //         this.loadCommunity(adm$);
-    //     } else if (index === 'adm3') {
-    //         adm$ = this.getAdmID('adm3');
-    //         this.loadVillage(adm$);
-    //     }
-    // }
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
@@ -289,144 +143,19 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         this.route.queryParams.subscribe(params => this.queryParams = params);
     }
 
-
-    /**
-     * to cancel the creation of distribution and go back in the distribution page
-     */
-    cancel() {
-        this.router.navigate(['projects']);
+    getProjectDates() {
+        this._projectService.get().subscribe(
+            (projects) => {
+                projects.forEach(project => {
+                    if (project.id === this.queryParams.project) {
+                        this.projectInfo.startDate = project.fields.startDate.value;
+                        this.projectInfo.endDate = project.fields.endDate.value;
+                        return;
+                    }
+                });
+            }
+        );
     }
-
-    /**
-     * Get the distribution type choosen by the user and refresh the research
-     */
-    typeDistributionOnChange(event) {
-        if (this.criteriaArray.length !== 0) {
-            this.load = true;
-            this.criteriaService.getBeneficiariesNumber(
-                event.value,
-                this.criteriaArray,
-                this.form.controls.threshold.value,
-                this.queryParams.project
-            ).subscribe(response => {
-                this.criteriaNbBeneficiaries = response.number;
-                if (this.commodities.length > 0) {
-                    this.commodityNb = [];
-                    this.commodities.forEach(commodity => {
-                        this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
-                    });
-                }
-                this.load = false;
-
-            });
-        }
-    }
-
-    // /**
-    //  * Get the number input inserted by the user
-    //  */
-    // numberOnInput(event) {
-    //     this.newObject.threshold = event.target.value;
-    // }
-
-    /**
-     * Refresh the research when input changed
-     */
-    numberOnChange() {
-        if (this.criteriaArray.length !== 0) {
-            this.load = true;
-            this.criteriaService.getBeneficiariesNumber(
-                this.form.controls.type.value,
-                this.criteriaArray,
-                this.form.controls.threshold.value,
-                this.queryParams.project
-            ).subscribe(response => {
-                this.criteriaNbBeneficiaries = response.number;
-                if (this.commodities.length > 0) {
-                    this.commodityNb = [];
-                    this.commodities.forEach(commodity => {
-                        this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
-                    });
-                }
-                this.load = false;
-            });
-        }
-    }
-
-    // /**
-    //  * Get in the cache service the name of all adm selected
-    //  * @param adm
-    //  */
-    // getAdmID(adm: string) {
-    //     return new Observable(
-    //         observer => {
-    //             const body = {};
-    //             if (adm === 'adm1') {
-    //                 this.locationService.getAdm1().subscribe(
-    //                     result => {
-    //                         const adm1 = result;
-    //                         if (this.newObject.adm1) {
-    //                             for (let i = 0; i < adm1.length; i++) {
-    //                                 if (adm1[i].name === this.newObject.adm1) {
-    //                                     this.lastAdm1 = adm1[i].id;
-    //                                     observer.next(adm1[i].id);
-    //                                     observer.complete();
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                 );
-    //             } else if (adm === 'adm2') {
-    //                 body['adm1'] = this.lastAdm1;
-    //                 this.locationService.getAdm2(body).subscribe(
-    //                     result => {
-    //                         const adm2 = result;
-    //                         if (this.newObject.adm2) {
-    //                             for (let i = 0; i < adm2.length; i++) {
-    //                                 if (adm2[i].name === this.newObject.adm2) {
-    //                                     this.lastAdm2 = adm2[i].id;
-    //                                     observer.next(adm2[i].id);
-    //                                     observer.complete();
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                 );
-    //             } else if (adm === 'adm3') {
-    //                 body['adm2'] = this.lastAdm2;
-    //                 this.locationService.getAdm3(body).subscribe(
-    //                     result => {
-    //                         const adm3 = result;
-    //                         if (this.newObject.adm3) {
-    //                             for (let i = 0; i < adm3.length; i++) {
-    //                                 if (adm3[i].name === this.newObject.adm3) {
-    //                                     this.lastAdm3 = adm3[i].id;
-    //                                     observer.next(adm3[i].id);
-    //                                     observer.complete();
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                 );
-    //             } else if (adm === 'adm4') {
-    //                 body['adm3'] = this.lastAdm3;
-    //                 this.locationService.getAdm4(body).subscribe(
-    //                     result => {
-    //                         const adm4 = result;
-    //                         if (this.newObject.adm4) {
-    //                             for (let i = 0; i < adm4.length; i++) {
-    //                                 if (adm4[i].name === this.newObject.adm4) {
-    //                                     observer.next(adm4[i].id);
-    //                                     observer.complete();
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                 );
-    //             }
-    //         }
-    //     );
-    // }
 
     getNameProject(id): Observable<string> {
         return this._projectService.get().pipe(
@@ -447,93 +176,49 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     }
 
     /**
-     * create the new distribution object before send it to the back
+     * Get adm1 from the back or from the cache service with the key ADM1
      */
-    add() {
-        if (this.newObject.type && this.criteriaArray && this.criteriaArray.length !== 0 &&
-          this.commodities && this.commodities[0] && this.newObject.date_distribution &&
-          this.newObject.threshold > 0 && this.newObject.adm1) {
-
-            if (new Date(this.newObject.date_distribution) < new Date(this.projectInfo.startDate) ||
-            new Date(this.newObject.date_distribution) > new Date(this.projectInfo.endDate)) {
-                this.snackbar.error(this.distribution.add_distribution_date_inside_project);
-                return;
-            } else {
-                const distributionModality = this.commodities[0].modality;
-                for (const commodity of this.commodities) {
-                    if (commodity.value <= 0) {
-                        this.snackbar.error(this.distribution.add_distribution_zero);
-                        return;
-                    } else if (commodity.modality !== distributionModality) {
-                        this.snackbar.error(this.distribution.add_distribution_multiple_modalities);
-                        return;
-                    }
-                }
-
-                this.loadingCreation = true;
-                const newDistribution: DistributionData = new DistributionData;
-                newDistribution.type = this.newObject.type;
-                newDistribution.threshold = this.newObject.threshold;
-                newDistribution.project.id = this.queryParams.project;
-                newDistribution.location.adm1 = this.newObject.adm1;
-                newDistribution.location.adm2 = this.newObject.adm2;
-                newDistribution.location.adm3 = this.newObject.adm3;
-                newDistribution.location.adm4 = this.newObject.adm3;
-                // newDistribution.selection_criteria = this.criteriaArray;
-                newDistribution.commodities = this.commodities;
-
-                const formatDateOfBirth = this.newObject.date_distribution.split('/');
-                if (formatDateOfBirth[0].length < 2) {
-                    formatDateOfBirth[0] = '0' + formatDateOfBirth[0];
-                }
-                if (formatDateOfBirth[1].length < 2) {
-                    formatDateOfBirth[1] = '0' + formatDateOfBirth[1];
-                }
-
-                newDistribution.date_distribution = formatDateOfBirth[2] + '-' + formatDateOfBirth[0] + '-' + formatDateOfBirth[1];
-                let adm;
-                if (this.newObject.adm4) {
-                    adm = this.newObject.adm4;
-                } else if (this.newObject.adm3) {
-                    adm = this.newObject.adm3;
-                } else if (this.newObject.adm2) {
-                    adm = this.newObject.adm2;
-                } else {
-                    adm = this.newObject.adm1;
-                }
-                newDistribution.name = adm + '-' + newDistribution.date_distribution;
-
-                const promise = this._distributionService.create(newDistribution);
-                if (promise) {
-                    promise.toPromise().then(response => {
-                        this.snackbar.success(this.distribution.distribution + ' : ' + response.distribution.name +
-                        this.distribution.add_distribution_created);
-                        this.router.navigate(['projects/distributions/' + response.distribution.id]);
-                    });
-                } else {
-                    this.snackbar.error(this.distribution.add_distribution_error_creating);
-                    this.loadingCreation = false;
-                }
-            }
-        } else if (this.criteriaArray.length === 0) {
-            this.snackbar.error(this.distribution.add_distribution_missing_selection_criteria);
-
-        } else if (!this.commodities[0]) {
-            this.snackbar.error(this.distribution.add_distribution_missing_commodity);
-        } else if (!this.newObject.date_distribution) {
-            this.snackbar.error(this.distribution.add_distribution_missing_date);
-        } else if (this.newObject.threshold <= 0) {
-            this.snackbar.error(this.distribution.add_distribution_missing_threshold);
-        } else if (!this.newObject.adm1) {
-            this.snackbar.error(this.distribution.add_distribution_missing_location);
-        } else {
-            this.snackbar.error(this.distribution.add_distribution_check_fields);
-        }
-
+    loadProvince() {
+        this._distributionService.fillAdm1Options(this.objectInstance);
+        this.form.controls.adm2.setValue(null);
+        this.form.controls.adm3.setValue(null);
+        this.form.controls.adm4.setValue(null);
     }
 
-    setStep(index: string) {
-        this.step = index;
+    /**
+     *  Get adm2 from the back or from the cache service with the id of adm1
+     *  @param adm1Id
+     */
+    loadDistrict(adm1Id) {
+        if (adm1Id) {
+            this._distributionService.fillAdm2Options(this.objectInstance, adm1Id);
+        }
+        this.form.controls.adm2.setValue(null);
+        this.form.controls.adm3.setValue(null);
+        this.form.controls.adm4.setValue(null);
+    }
+
+    /**
+     * Get adm3 from the back or from the cahce service with the if of adm2
+     * @param adm2Id
+     */
+    loadCommunity(adm2Id) {
+        if (adm2Id) {
+            this._distributionService.fillAdm3Options(this.objectInstance, adm2Id);
+        }
+        this.form.controls.adm3.setValue(null);
+        this.form.controls.adm4.setValue(null);
+    }
+
+    /**
+     *  Get adm4 from the back or from the cahce service with the id of adm3
+     * @param adm3Id
+     */
+    loadVillage(adm3Id) {
+        if (adm3Id) {
+            this._distributionService.fillAdm4Options(this.objectInstance, adm3Id);
+        }
+        this.form.controls.adm4.setValue(null);
     }
 
     /**
@@ -543,27 +228,12 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         const dialogRef = null;
 
         if (user_action === 'addCriteria') {
-            this.modalService.openAddCriteriaDialog(Criteria, CriteriaService).then((criteria: Criteria) => {
+            this.modalService.openAddCriteriaDialog().then((criteria: Criteria) => {
                 this.createElement(criteria, 'addCriteria');
             });
-            // dialogRef = this.dialog.open(ModalAddComponent, {
-            //     data: { data: [], entity: this.criteriaClass, mapper: this.mapper }
-            // });
         } else if (user_action === 'addCommodity') {
-            // this.modalService.openAddCommodityDialog(Commodity, CommodityService).then((criteria: Criteria) => {
-            //     this.createElement(criteria, 'addCriteria');
-            // });
-            // dialogRef = this.dialog.open(ModalAddComponent, {
-            //     data: { data: [], entity: this.commodityClass, mapper: this.mapper }
-            // });
-        }
-        if (dialogRef) {
-            const create = dialogRef.componentInstance.onCreate.subscribe((data: Criteria) => {
-                this.createElement(data, user_action);
-            });
-
-            dialogRef.afterClosed().subscribe(result => {
-                create.unsubscribe();
+            this.modalService.openAddCommodityDialog().then((commodity: Commodity) => {
+                this.createElement(commodity, 'addCommodity');
             });
         }
     }
@@ -573,35 +243,19 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
      * @param createElement
      * @param user_action
      */
-    createElement(createElement: CustomModel, user_action: string) {
+    createElement(createElement: any, user_action: string) {
         if (user_action === 'addCriteria') {
             this.load = true;
             this.criteriaArray.push(createElement);
-            this.criteriaService.getBeneficiariesNumber(
-                this.form.controls.type.value,
-                this.criteriaArray,
-                this.form.controls.threshold.value,
-                this.queryParams.project,
-            ).subscribe(response => {
-                this.criteriaNbBeneficiaries = response.number;
-                if (this.commodities.length > 0) {
-                    this.commodityNb = [];
-                    this.commodities.forEach(commodity => {
-                        this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
-                    });
-                }
-                this.load = false;
-            }, error => this.load = false);
-            this.table.updateTable(this.criteriaArray);
-        } else if (user_action === this.commodityAction) {
-            this.commodities.push(createElement);
-
+            this.updateNbBeneficiary();
+            this.criteriaTable.updateTable(this.criteriaArray);
+        } else if (user_action === 'addCommodity') {
+            this.commodityArray.push(createElement);
             this.commodityNb = [];
-            this.commodities.forEach(commodity => {
-                this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
+            this.commodityArray.forEach(commodity => {
+                this.commodityNb.push(commodity.fields.value.value * this.criteriaNbBeneficiaries);
             });
-
-            this.commodityData = new MatTableDataSource(this.commodities);
+            this.commodityTable.updateTable(this.commodityArray);
         }
     }
 
@@ -613,71 +267,155 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     removeElement(details, type: string) {
 
         if (details.action === 'delete') {
-            const index = this.criteriaArray.findIndex(criterion => {
-                return criterion === details.element;
-            });
-            this.criteriaArray.splice(index, 1);
+            if (type === 'criteria') {
+                const index = this.criteriaArray.findIndex(criterion => {
+                    return criterion === details.element;
+                });
+                if (index > -1) {
+                    this.criteriaArray.splice(index, 1);
+                }
 
-            // To remove the matSort if the array is empty
-            if (this.criteriaArray.length === 0) {
-                this.criteriaArray = [];
+                // To remove the matSort if the array is empty
+                if (this.criteriaArray.length === 0) {
+                    this.criteriaArray = [];
+                }
+
+                this.updateNbBeneficiary();
+
+                this.criteriaTable.updateTable(this.criteriaArray);
+            } else if (type === 'commodity') {
+                const index = this.commodityArray.findIndex((commodity) => {
+                    return commodity === details.element;
+                });
+                if (index > -1) {
+                    this.commodityArray.splice(index, 1);
+                    this.commodityNb.splice(index, 1);
+                }
+
+                // To remove the matSort if the array is empty
+                if (this.commodityArray.length === 0) {
+                    this.commodityArray = [];
+                }
+                this.commodityTable.updateTable(this.commodityArray);
             }
 
-            this.table.updateTable(this.criteriaArray);
         }
-        // if (user_action === this.criteriaAction) {
-        //     const index = this.criteriaArray.findIndex((item) => item === removeElement);
-        //     if (index > -1) {
-        //         this.criteriaArray.splice(index, 1);
-        //     }
-        //     this.load = true;
-
-        //     this.criteriaService.getBeneficiariesNumber(
-        //         this.newObject.type,
-        //         this.criteriaArray,
-        //         this.newObject.threshold,
-        //         this.queryParams.project
-        //     ).subscribe(response => {
-        //         this.criteriaNbBeneficiaries = response.number;
-        //         if (this.commodities.length > 0) {
-        //             this.commodityNb = [];
-        //             this.commodities.forEach(commodity => {
-        //                 this.commodityNb.push(commodity.value * this.criteriaNbBeneficiaries);
-        //             });
-        //         }
-        //         this.load = false;
-
-        //     });
-        // } else if (user_action === this.commodityAction) {
-        //     const index = this.commodities.findIndex((item) => item === removeElement);
-        //     if (index > -1) {
-        //         this.commodities.splice(index, 1);
-        //         this.commodityNb.splice(index, 1);
-        //         this.commodityData = new MatTableDataSource(this.commodities);
-        //     }
-        // }
     }
 
-    getProjectDates() {
-        this._projectService.get().subscribe(
-            (projects) => {
-                projects.forEach(project => {
-                    if (project.id === this.queryParams.project) {
-                        this.projectInfo.startDate = project.fields.startDate.value;
-                        this.projectInfo.endDate = project.fields.endDate.value;
+    /**
+     * create the new distribution object before send it to the back
+     */
+    add() {
+        if (this.form.controls.type.value && this.criteriaArray && this.criteriaArray.length !== 0 &&
+          this.commodityArray && this.commodityArray.length !== 0 && this.form.controls.date.value &&
+          this.form.controls.threshold.value > 0 && this.form.controls.adm1) {
+
+            if (new Date(this.form.controls.date.value) < new Date(this.projectInfo.startDate) ||
+            new Date(this.form.controls.date.value) > new Date(this.projectInfo.endDate)) {
+                this.snackbar.error(this.texts.add_distribution_date_inside_project);
+                return;
+            } else {
+                const distributionModality = this.commodityArray[0].fields.modality.value;
+                for (const commodity of this.commodityArray) {
+                    if (commodity.fields.value.value <= 0) {
+                        this.snackbar.error(this.texts.add_distribution_zero);
+                        return;
+                    } else if (commodity.fields.modality.value !== distributionModality) {
+                        this.snackbar.error(this.texts.add_distribution_multiple_modalities);
                         return;
                     }
+                }
+
+                this.loadingCreation = true;
+                const newDistribution = new Distribution();
+                newDistribution.fields.location.value = new Location();
+
+
+                const adms = ['adm1', 'adm2', 'adm3', 'adm4'];
+
+                adms.forEach(field => {
+                    if (this.form.controls[field].value) {
+                        newDistribution.fields.location.value.fields[field].value =
+                            this.objectInstance.fields.location.value.fields[field].options.filter(option => {
+                                return option.fields.id.value === this.form.controls[field].value;
+                            })[0];
+                    }
+                });
+
+                newDistribution.fields.type.value = this.form.controls.type.value;
+                newDistribution.fields.threshold.value = this.form.controls.threshold.value;
+                newDistribution.fields.projectId.value = this.queryParams.project;
+                newDistribution.fields.selectionCriteria.value = this.criteriaArray;
+                newDistribution.fields.commodities.value = this.commodityArray;
+                newDistribution.fields.date.value = this.form.controls.date.value;
+
+                let adm;
+                if (this.form.controls.adm4.value) {
+                    adm = newDistribution.fields.location.value.fields.adm4.value.fields.name.value;
+                } else if (this.form.controls.adm3.value) {
+                    adm = newDistribution.fields.location.value.fields.adm3.value.fields.name.value;
+                } else if (this.form.controls.adm2.value) {
+                    adm = newDistribution.fields.location.value.fields.adm2.value.fields.name.value;
+                } else {
+                    adm = newDistribution.fields.location.value.fields.adm1.value.fields.name.value;
+                }
+
+                const datePipe = new DatePipe('en-US');
+                newDistribution.fields.name.value = adm + '-' + datePipe.transform(this.form.controls.date.value, 'yyyy-MM-dd');
+
+                this._distributionService.create(newDistribution.modelToApi()).subscribe((response) => {
+                    this.snackbar.success(
+                        this.texts.distribution + ' : ' + response.distribution.name + this.texts.add_distribution_created);
+                    this.router.navigate(['projects/distributions/' + response.distribution.id]);
+
+                }, err => {
+                    this.snackbar.error(this.texts.add_distribution_error_creating);
+                    this.loadingCreation = false;
                 });
             }
-        );
+        } else if (this.criteriaArray.length === 0) {
+            this.snackbar.error(this.texts.add_distribution_missing_selection_criteria);
+
+        } else if (!this.commodityArray[0]) {
+            this.snackbar.error(this.texts.add_distribution_missing_commodity);
+        } else if (!this.form.controls.date.value) {
+            this.snackbar.error(this.texts.add_distribution_missing_date);
+        } else if (this.form.controls.threshold.value <= 0) {
+            this.snackbar.error(this.texts.add_distribution_missing_threshold);
+        } else if (!this.form.controls.adm1) {
+            this.snackbar.error(this.texts.add_distribution_missing_location);
+        } else {
+            this.snackbar.error(this.texts.add_distribution_check_fields);
+        }
+
     }
 
-    // selectDate(event) {
-    //     if (event.value) {
-    //         this.newObject.date_distribution = event.value.toLocaleDateString();
-    //     } else {
-    //         this.snackbar.error(this.distribution.add_distribution_check_date);
-    //     }
-    // }
+    /**
+     * to cancel the creation of distribution and go back in the distribution page
+     */
+    cancel() {
+        this.router.navigate(['projects']);
+    }
 
+    updateNbBeneficiary() {
+        if (this.criteriaArray.length !== 0) {
+            this.load = true;
+            this.criteriaService.getBeneficiariesNumber(
+                this.form.controls.type.value,
+                this.criteriaArray,
+                this.form.controls.threshold.value,
+                this.queryParams.project
+            ).subscribe(response => {
+                this.criteriaNbBeneficiaries = response.number;
+                if (this.commodityArray.length > 0) {
+                    this.commodityNb = [];
+                    this.commodityArray.forEach(commodity => {
+                        this.commodityNb.push(commodity.fields.value.value * this.criteriaNbBeneficiaries);
+                    });
+                }
+                this.load = false;
+
+            }, error => this.load = false);
+        }
+    }
 }

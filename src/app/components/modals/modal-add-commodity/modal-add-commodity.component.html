@@ -1,0 +1,53 @@
+<div class="modal-container" *ngIf="commodity">
+    <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}">{{texts.modal_add_title |titlecase }} {{commodity.title | titlecase}}</h4>
+    <form [formGroup]="form">
+      <table class="modal-table">
+        <tr class="modal-row">
+          <th class="table-title">{{ commodity.fields.modality.title }}</th>
+          <td class="form-item">
+            <ng-select formControlName="modality" [placeholder]="commodity.fields.modality.title" (change)="loadTypes($event)">
+                <ng-option *ngFor="let option of commodity.fields.modality.options" [value]="option.fields.id.value">
+                    {{option.fields.name.value | titlecase}}
+                </ng-option>
+            </ng-select>
+          </td>
+        </tr>
+  
+        <tr class="modal-row">
+          <th class="table-title">{{ commodity.fields.modalityType.title }}</th>
+          <td class="form-item">
+            <ng-select formControlName="modalityType" [placeholder]="commodity.fields.modalityType.title">
+                <ng-option *ngFor="let option of commodity.fields.modalityType.options" [value]="option.fields.id.value">
+                    {{option.fields.name.value | titlecase}}
+                </ng-option>
+            </ng-select>
+          </td>
+        </tr>
+
+        <tr class="modal-row">
+          <th class="table-title">{{ getUnit() }}</th>
+          <td class="form-item">
+            <mat-form-field>
+              <input matInput type="text" formControlName="unit" [placeholder]="getUnit()">
+            </mat-form-field>
+          </td>
+        </tr>
+
+        <tr class="modal-row">
+            <th class="table-title">{{ commodity.fields.value.title }}</th>
+            <td class="form-item">
+              <mat-form-field>
+                <input matInput type="text" formControlName="value" [placeholder]="commodity.fields.value.title">
+              </mat-form-field>
+            </td>
+          </tr>
+      
+      
+      </table>
+      <div class="modal-button action-buttons stickyFooter">
+          <button mat-button (click)="onCancel()" class="button-text-accent">Cancel</button>
+          <button mat-raised-button [disabled]="!form.valid" (click)="onSubmit()" class="button-background-accent">Save</button>
+      </div>
+    </form>
+  </div>
+  

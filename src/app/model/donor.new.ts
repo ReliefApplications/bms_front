@@ -70,5 +70,9 @@ export class Donor extends CustomModel {
         return newDonor;
     }
 
+    public getIdentifyingName() {
+        return this.fields.fullname.value;
+    }
+
 
 }

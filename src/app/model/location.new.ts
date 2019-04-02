@@ -75,4 +75,18 @@ export class Location {
 
     }
 
+    public modelToApi(): Object {
+        return {
+            adm1: this.fields.adm1.value ? this.fields.adm1.value.fields.name.value : null,
+            adm2: this.fields.adm2.value ? this.fields.adm2.value.fields.name.value : null,
+            adm3: this.fields.adm3.value ? this.fields.adm3.value.fields.name.value : null,
+            adm4: this.fields.adm4.value ? this.fields.adm4.value.fields.name.value : null,
+
+        };
+    }
+
+    public getIdentifyingName() {
+        return this.getLocationName();
+    }
+
 }

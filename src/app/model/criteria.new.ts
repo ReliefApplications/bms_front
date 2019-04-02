@@ -26,23 +26,27 @@ export class Criteria extends CustomModel {
             {
                 title: GlobalText.TEXTS.model_criteria,
                 isDisplayedInTable: true,
+                isDisplayedInModal: true,
+                bindField: 'name',
             }
         ),
         condition: new SingleSelectModelField(
             {
                 title: GlobalText.TEXTS.model_criteria_operator,
                 isDisplayedInTable: true,
+                isDisplayedInModal: true,
+                bindField: 'name',
             }
         ),
         type: new SingleSelectModelField(
             {
-
             }
         ),
-        value: new NumberModelField(
+        value: new TextModelField(
             {
                 title: GlobalText.TEXTS.model_value,
                 isDisplayedInTable: true,
+                isDisplayedInModal: true,
             }
         ),
         weight: new NumberModelField(
@@ -50,6 +54,7 @@ export class Criteria extends CustomModel {
                 title: GlobalText.TEXTS.model_criteria_weight,
                 value: 1,
                 isDisplayedInTable: true,
+                isDisplayedInModal: true,
             }
         ),
 
@@ -67,13 +72,17 @@ export class Criteria extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            condition_string: this.fields.condition.value,
-            field_string: this.fields.field.value,
+            condition_string: this.fields.condition.value.fields.name.value,
+            field_string: this.fields.field.value.fields.name.value,
             kind_beneficiary: this.fields.kindOfBeneficiary.value,
             table_string: this.fields.tableString.value,
             value_string: this.fields.value.value,
             weight: this.fields.weight.value,
             type: this.fields.type.value,
         };
+    }
+
+    public getIdentifyingName() {
+        return this.fields.field.value.fields.name.value;
     }
 }

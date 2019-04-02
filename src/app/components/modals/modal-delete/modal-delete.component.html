@@ -1,10 +1,7 @@
 <div class="modal-container">
   <h4 class="modal-title underline-primary stickyHeader" [ngClass]="{'arabic': language==='ar'}" >{{texts.delete}}</h4>
   <div class="modal-table" [ngClass]="{'arabic': language==='ar'}" cdkFocusRegionstart>
-      {{texts.modal_delete_sentence}} yourself from the face of the earth {{texts.modal_delete_sentence_2}}
-      Do it
-      Do it
-      Do it
+      {{texts.modal_delete_sentence}} {{ data.name }} {{texts.modal_delete_sentence_2}}
   </div>
   <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
     <button mat-button (click)="onCancel()" class="button-text-primary">{{texts.cancel}}</button>

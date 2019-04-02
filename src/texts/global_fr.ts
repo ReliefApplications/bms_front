@@ -47,6 +47,7 @@ export const TEXT = {
     error_interceptor_msg: 'Un erreur est survenue, la requête n\'a pas abouti (La réponse de retour est vide).',
     forbidden: 'Page interdite',
     forbidden_message: 'Désolé, vous n\'avez pas l\'autorisation d\'accéder à cette page',
+    not_connected_error: 'Veuillez vous connecter',
     not_found: 'Page non trouvée',
     not_found_message: 'Désolé, cette page n\'est pas disponible',
 
@@ -375,6 +376,7 @@ export const TEXT = {
     profile_user_hint_new_password_again: 'Ré-entrez votre nouveau mot de passe',
     profile_user_hint_old_password: 'Mot de passe actuel',
     profile_user_information: 'Informations utilisateur',
+    profile_password_would_not_be_changed: 'Les deux mots de passe sont identiques, les changements seront ignorés.',
 
     // Project
     project_add: 'S\'il vous plait, créez d\'abord des projets ! Ensuite, vous pourrez gérer des distributions...',

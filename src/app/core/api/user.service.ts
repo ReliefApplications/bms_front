@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { URL_BMS_API } from '../../../environments/environment';
 import { SaltInterface } from '../../model/salt';
-import { ErrorInterface, User } from '../../model/user';
+import { User } from '../../model/user';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { WsseService } from '../authentication/wsse.service';
 import { rightsHierarchy, Role } from '../permissions/permissions';
@@ -50,16 +50,18 @@ export class UserService {
         return this.http.get(url);
     }
 
-    public updatePassword(user: any, clearOldPassword: any, clearNewPassword: any) {
-        return new Promise<User | ErrorInterface | null>((resolve, reject) => {
+    public updatePassword(user: any, oldPassword: any, newPassword: any) {
+
+        return new Promise<void>((resolve, reject) => {
             this.authenticationService.requestSalt(user.username).subscribe(success => {
                 const getSalt = success as SaltInterface;
-                const saltedOldPassword = this.wsseService.saltPassword(getSalt.salt, clearOldPassword);
-                const saltedNewPassword = this.wsseService.saltPassword(getSalt.salt, clearNewPassword);
-                this.requestPasswordChange(parseInt(user.user_id, 10), { oldPassword: saltedOldPassword, newPassword: saltedNewPassword })
+                const saltedOldPassword = this.wsseService.saltPassword(getSalt.salt, oldPassword);
+                const saltedNewPassword = this.wsseService.saltPassword(getSalt.salt, newPassword);
+                this.requestPasswordChange(parseInt(user.id, 10), { oldPassword: saltedOldPassword, newPassword: saltedNewPassword })
                     .subscribe(data => {
-                        this.authenticationService.setUser(data);
-                        resolve(data);
+                        this.authenticationService.setSaltedPassword(user, data.password);
+                        this.authenticationService.setUser(user);
+                        resolve();
                     }, error => {
                         reject({ message: 'Wrong password' });
                     });

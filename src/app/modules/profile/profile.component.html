@@ -17,15 +17,14 @@
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput [placeholder]="profilePage.profile_user_hint_new_password" type="password" formControlName="newPassword1">
+          <input autocomplete="new-password" matInput [placeholder]="profilePage.profile_user_hint_new_password" type="password" formControlName="newPassword1">
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput [placeholder]="profilePage.profile_user_hint_new_password_again" type="password" formControlName="newPassword2">
+          <input autocomplete="new-password" matInput [placeholder]="profilePage.profile_user_hint_new_password_again" type="password" formControlName="newPassword2">
         </mat-form-field>
 
         <div class="action-buttons">
-          <button mat-button class="button-text-primary" [routerLink]="['/']"> {{ profilePage.cancel | titlecase }}</button>
           <button mat-raised-button type="submit" [disabled]="!profileForm.valid" class="button-background-primary">
             {{ profilePage.save | titlecase }}
           </button>

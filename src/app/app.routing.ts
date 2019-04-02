@@ -19,6 +19,9 @@ import { ProjectComponent } from './modules/projects/project.component';
 import { LoginComponent } from './modules/public/login.component';
 import { ReportsComponent } from './modules/reports/reports.component';
 import { SettingsComponent } from './modules/settings/settings.component';
+<<<<<<< HEAD
+=======
+>>>>>>> dev
 
 
 
@@ -104,7 +107,11 @@ export const routes: Routes = [
     { path: '', component: DashboardComponent, canActivate: [AuthGuard, PermissionsGuard] },
 
     // otherwise redirect to home
-    { path: '**', component: NotFoundComponent },
+    {
+        path: '**',
+        component: NotFoundComponent,
+        canActivate: [AuthGuard],
+    },
 ];
 
 @NgModule({

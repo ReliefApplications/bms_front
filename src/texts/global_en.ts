@@ -47,6 +47,7 @@ export const TEXT = {
     error_interceptor_msg: 'An error occured, request has failed (Empty back response).',
     forbidden: 'Forbidden Page',
     forbidden_message: 'Sorry, you don\'t have permission to access this page',
+    not_connected_error: 'Please log in',
     not_found: 'Page Not Found',
     not_found_message: 'Sorry, this page could not be found',
 
@@ -375,6 +376,7 @@ export const TEXT = {
     profile_user_hint_new_password_again: 'Re-enter new password',
     profile_user_hint_old_password: 'Old password',
     profile_user_information: 'User information',
+    profile_password_would_not_be_changed: 'The two passwords are identical, ignoring update.',
 
     // Project
     project_add: 'Please add some projects first! Then you will be able to manage some distributions...',

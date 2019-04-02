@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { Households } from '../../model/households';
+import { Households } from '../../model/households.new';
 import { HouseholdsService } from '../../core/api/households.service';
 import { GlobalText } from '../../../texts/global';
 import { Router } from '@angular/router';

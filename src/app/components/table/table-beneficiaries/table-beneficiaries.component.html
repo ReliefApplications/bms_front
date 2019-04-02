@@ -3,40 +3,40 @@
   <div *ngIf="!filled" class="noDataContainer">
     <h3>
       <mat-icon>clear</mat-icon>
-      {{table.no_data}}
+      {{texts.no_data}}
     </h3>
   </div>
 
   <div class="container-header" *ngIf="filled">
     <mat-form-field>
       <input matInput [(ngModel)]="keyWords" (keyup)="applyFilter($event.target.value, 'familyName'); sendSortedData()"
-        placeholder="{{table.table_filter|titlecase}}">
+        placeholder="{{texts.table_filter|titlecase}}">
     </mat-form-field>
 
     <div *ngIf="advancedResearch" class="filter-combo">
       <ng-select class="input-filter multiple-select" [(ngModel)]="project" bindLabel="name" [items]="data.projects.value"
-        [multiple]="true" placeholder="{{table.project}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
+        [multiple]="true" placeholder="{{texts.project}}" [closeOnSelect]="false" [searchable]="true" (change)="applyFilter($event, 'projects'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter single-select" bindLabel="name" [items]="data.adm1.value" [closeOnSelect]="false"
-        [searchable]="true" placeholder="{{table.adm1}}" (clear)="applyFilter($event, 'locations', true)" [(ngModel)]="newObject['adm1']"
+        [searchable]="true" placeholder="{{texts.adm1}}" (clear)="applyFilter($event, 'locations', true)" [(ngModel)]="newObject['adm1']"
         (change)="selected('adm1'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter single-select" bindLabel="name" [items]="data.adm2.value" [closeOnSelect]="false"
-        [searchable]="true" placeholder="{{table.adm2}}" [(ngModel)]="newObject['adm2']" (change)="selected('adm2'); applyFilter($event, 'locations', false); sendSortedData()">
+        [searchable]="true" placeholder="{{texts.adm2}}" [(ngModel)]="newObject['adm2']" (change)="selected('adm2'); applyFilter($event, 'locations', false); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter single-select" bindLabel="name" [items]="data.adm3.value" [closeOnSelect]="false"
-        [searchable]="true" placeholder="{{table.adm3}}" [(ngModel)]="newObject['adm3']" (change)="selected('adm3'); applyFilter($event, 'locations'); sendSortedData()">
+        [searchable]="true" placeholder="{{texts.adm3}}" [(ngModel)]="newObject['adm3']" (change)="selected('adm3'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter single-select" bindLabel="name" [items]="data.adm4.value" [closeOnSelect]="false"
-        [searchable]="true" placeholder="{{table.adm4}}" [(ngModel)]="newObject['adm4']" (change)="selected('adm4'); applyFilter($event, 'locations'); sendSortedData()">
+        [searchable]="true" placeholder="{{texts.adm4}}" [(ngModel)]="newObject['adm4']" (change)="selected('adm4'); applyFilter($event, 'locations'); sendSortedData()">
       </ng-select>
 
       <ng-select class="input-filter multiple-select" bindLabel="name" [(ngModel)]="vulnerability" [items]="data.vulnerabilities.value"
-        [multiple]="true" placeholder="{{table.model_vulnerabilities}}" [closeOnSelect]="false" [searchable]="true"
+        [multiple]="true" placeholder="{{texts.model_vulnerabilities}}" [closeOnSelect]="false" [searchable]="true"
         (change)="applyFilter($event, 'vulnerabilities'); sendSortedData()">
       </ng-select>
     </div>
@@ -85,14 +85,14 @@
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions | titlecase}}</th>
+          <th mat-header-cell class="header-cell" *matHeaderCellDef>{{texts.table_actions | titlecase}}</th>
           <td mat-cell class="content-cell" *matCellDef="let element">
             <button *ngIf="editable && checkEntityUpdateRights() && rights" mat-icon-button (click)="update(element); $event.stopPropagation()"
-              [matTooltip]="table.update" class="light-red">
+              [matTooltip]="texts.update" class="light-red">
               <mat-icon>edit</mat-icon>
             </button>
             <button *ngIf="editable && rightsDelete" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
-              [matTooltip]="table.delete" class="red">
+              [matTooltip]="texts.delete" class="red">
               <mat-icon>delete_outline</mat-icon>
             </button>
           </td>
@@ -112,7 +112,7 @@
       <div *ngIf="this.data.householdsSubject._value.length === 0 && !testLoading" class="loadingContent">
         <h4 class="no-data">
           <mat-icon>cloud_off</mat-icon>
-          <span> {{table.no_data}} </span>
+          <span> {{texts.no_data}} </span>
         </h4>
       </div>
     </div>

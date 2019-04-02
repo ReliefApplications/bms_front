@@ -1,7 +1,7 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
-import { Households } from './households';
+import { Households } from './households.new';
 import { HouseholdsService } from '../core/api/households.service';
 
 export class HouseholdsDataSource implements DataSource<Households> {
@@ -46,7 +46,10 @@ export class HouseholdsDataSource implements DataSource<Households> {
             .subscribe(response => {
                 let households = [];
                 if (response) {
-                    households = Households.formatArray(response[1]);
+                    households = response[1].map(household => {
+                        return Households.apiToModel(household);
+                    });
+                    // households = Households.formatArray(response[1]);
                     this.householdsSubject.next(households);
                     this.lengthSubject.next(response[0]);
             }

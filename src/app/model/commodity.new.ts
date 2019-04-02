@@ -106,8 +106,8 @@ export class Commodity extends CustomModel {
         const newCommodity = new Commodity();
 
         newCommodity.fields.id.value = commodityFromApi.id;
-        newCommodity.fields.modalityType.value = commodityFromApi.modality_type.name;
-        newCommodity.fields.modality.value = commodityFromApi.modality_type.modality;
+        newCommodity.fields.modalityType.value = { fields: { name: { value: commodityFromApi.modality_type.name }, id: { value: null}}};
+        newCommodity.fields.modality.value = { fields: { name: { value: commodityFromApi.modality_type.modality }}};
         newCommodity.fields.value.value = commodityFromApi.value;
         newCommodity.fields.unit.value = commodityFromApi.unit;
 
@@ -140,8 +140,13 @@ export class Commodity extends CustomModel {
             'RTE Kit': 'rte-kit',
         };
         // Todo: Use global variable, fix typing in order to not do this if check
-        if (typeof this.fields.modalityType.value === 'string') {
-            return `/assets/images/commodities/${commoditiesImages[this.fields.modalityType.value]}.png`;
+
+        const modalityName = this.fields.modalityType.value.fields.name.value;
+
+        if (typeof modalityName === 'string') {
+            return `/assets/images/commodities/${commoditiesImages[modalityName]}.png`;
+        } else {
+            return '';
         }
     }
 

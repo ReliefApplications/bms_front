@@ -36,7 +36,7 @@ export class ProjectComponent implements OnInit {
     loadingExport = false;
 
     projects: NewProject[];
-    distributionData: Array<CustomModel>;
+    distributionData: Array<Distribution>;
     distributionClass = Distribution;
 
     // loading
@@ -68,8 +68,6 @@ export class ProjectComponent implements OnInit {
         public snackbar: SnackbarService,
         public dialog: MatDialog,
         public importedDataService: ImportedDataService,
-        private donorService: DonorService,
-        private sectorService: SectorService,
         public networkService: NetworkService,
         public modalService: ModalService,
     ) { }

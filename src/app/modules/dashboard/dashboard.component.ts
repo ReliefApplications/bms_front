@@ -7,6 +7,8 @@ import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';
 import { LeafletService } from '../../core/external/leaflet.service';
 import { DistributionData } from '../../model/distribution-data';
+import { Distribution } from 'src/app/model/distribution.new';
+import { ModalService } from 'src/app/core/utils/modal.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -14,11 +16,17 @@ import { DistributionData } from '../../model/distribution-data';
     styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+
+    distributionData: Array<Distribution>;
+
+
+
+
     public dashboard = GlobalText.TEXTS;
     public nameComponent = 'dashboard_title';
     public actualCountry: string;
 
-    referedClassToken = DistributionData;
+    distributionClass = Distribution;
     distributions: MatTableDataSource<DistributionData>;
     public userData;
     // Loaders
@@ -40,7 +48,7 @@ export class DashboardComponent implements OnInit {
         private _cacheService: AsyncacheService,
         public _distributionService: DistributionService,
         public _generalService: GeneralService,
-
+        public modalService: ModalService,
     ) { }
 
     ngOnInit() {
@@ -86,19 +94,25 @@ export class DashboardComponent implements OnInit {
     */
 
     checkDistributions(): void {
-        let distribs;
         this.loadingTable = true;
         this._distributionService.get()
             .subscribe(
                 response => {
-                    if (response) {
-                        distribs = new MatTableDataSource(this.referedClassToken.formatArray(response));
-                        this.distributions = distribs;
+                    this.distributionData = null;
+
+                    const instances = [];
+                    if (response || response === []) {
+                        for (const item of response ) {
+                            instances.push(Distribution.apiToModel(item));
+                        }
+                        this.distributionData = instances;
+                        this.loadingTable = false;
+                    } else {
                         this.loadingTable = false;
                     }
                 },
                 error => {
-                    this.distributions = null;
+                    this.distributionData = null;
                     this.loadingTable = false;
                 }
             );
@@ -144,5 +158,13 @@ export class DashboardComponent implements OnInit {
                 this.hasRightsEdit = true;
             }
         }
+    }
+
+    openDialog(dialogDetails: any): void {
+
+        this.modalService.openDialog(Distribution, this._distributionService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+            this.checkDistributions();
+        });
     }
 }

@@ -25,6 +25,11 @@ export class DistributionService extends CustomModelService {
         super(http);
     }
 
+    public delete(distributionId) {
+        const url = this.api + '/distributions/archive/' + distributionId;
+        return this.http.post(url, '');
+    }
+
     public getOne(id: number) {
         const url = this.api + '/distributions/' + id;
         return this.http.get(url);

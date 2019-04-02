@@ -50,6 +50,8 @@ export class Sector extends CustomModel {
         // Todo: Use global variable, fix typing in order to not do this if check
         if (typeof this.fields.name.value === 'string') {
             return `/assets/images/sectors/${sectorsImages[this.fields.name.value]}.svg`;
+        } else {
+            return '';
         }
     }
 

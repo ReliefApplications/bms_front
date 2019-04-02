@@ -202,7 +202,6 @@ export class TableComponent implements OnInit {
     }
 
     checkData() {
-
         this.entityInstance = null;
         this.entityInstance = new this.entity();
 

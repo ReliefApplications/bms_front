@@ -175,16 +175,21 @@ export class Distribution extends CustomModel {
 
     public modelToApi(): Object {
 
-        const commodities = this.fields.commodities.value.map(commodity => {
-            return commodity.modelToApi();
-        });
+        const commodities = this.fields.commodities.value ?
+            this.fields.commodities.value.map(commodity => {
+                return commodity.modelToApi();
+            }) :
+            [];
         const location = this.fields.location.value.modelToApi();
         const project = { id: this.fields.projectId.value };
-        const selectionCriteria = this.fields.selectionCriteria.value.map(criteria => {
-            return criteria.modelToApi();
-        });
+        const selectionCriteria = this.fields.selectionCriteria.value ?
+            this.fields.selectionCriteria.value.map(criteria => {
+                return criteria.modelToApi();
+            }) :
+            [];
 
         return {
+            id: this.fields.id.value,
             commodities: commodities,
             date_distribution: this.fields.date.formatForApi(),
             finished: false,

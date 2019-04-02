@@ -68,7 +68,12 @@
                     </ng-template>
 
                     <ng-template #isNotSelect>
-                            {{field.value }}
+                        <ng-container *ngIf="field.kindOfField === 'Date'; else isNotDate">
+                            {{ field.formatForApi() }}
+                        </ng-container>
+                    </ng-template>
+                    <ng-template #isNotDate>
+                        {{field.value }}
                     </ng-template>
 
                 </ng-container>

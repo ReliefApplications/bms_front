@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, OnInit, DoCheck, AfterViewInit } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit, DoCheck, AfterViewInit, ViewChild } from '@angular/core';
 import { TableComponent } from '../table.component';
 import { Beneficiaries } from '../../../model/beneficiary';
 import { emit } from 'cluster';
@@ -18,6 +18,8 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
 
     @Output() updating = new EventEmitter<number>();
     @Output() selectedAdm = new EventEmitter<any>();
+
+    public texts = GlobalText.TEXTS;
 
     selectedFilter;
     keyWords = '';
@@ -89,9 +91,9 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
         );
     }
 
-    getImageName(t2: String) {
-        return (t2.substring(25).split('.')[0]);
-    }
+    // getImageName(t2: String) {
+    //     return (t2.substring(25).split('.')[0]);
+    // }
 
     update(selectedBeneficiary: Beneficiaries) {
         this.updating.emit(selectedBeneficiary.id);

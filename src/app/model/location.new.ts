@@ -68,9 +68,9 @@ export class Location {
 
     getLocationName(): string {
         let name =  this.fields.adm1 && this.fields.adm1.value.fields.name.value ? this.fields.adm1.value.fields.name.value : '';
-        name += this.fields.adm2 && this.fields.adm2.value.fields.name.value ? this.fields.adm2.value.fields.name.value : '';
-        name += this.fields.adm3 && this.fields.adm3.value.fields.name.value ? this.fields.adm3.value.fields.name.value : '';
-        name += this.fields.adm4 && this.fields.adm4.value.fields.name.value ? this.fields.adm4.value.fields.name.value : '';
+        name += this.fields.adm2 && this.fields.adm2.value.fields.name.value ? ' ' + this.fields.adm2.value.fields.name.value : '';
+        name += this.fields.adm3 && this.fields.adm3.value.fields.name.value ? ' ' + this.fields.adm3.value.fields.name.value : '';
+        name += this.fields.adm4 && this.fields.adm4.value.fields.name.value ? ' ' + this.fields.adm4.value.fields.name.value : '';
         return name;
 
     }

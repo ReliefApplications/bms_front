@@ -19,7 +19,6 @@ export class AppComponent implements OnInit, DoCheck {
 
     public currentRoute = '';
     public currentComponent;
-    public menuHover = false;
     public openTopMenu = false;
     public smallScreenMode = false;
     public maxHeight = 600;
@@ -87,14 +86,6 @@ export class AppComponent implements OnInit, DoCheck {
         if ((window.innerHeight > this.maxHeight) && (window.innerWidth > this.maxWidth)) {
             this.isShowing = false;
         }
-    }
-
-    hoverMenu(): void {
-        this.menuHover = true;
-    }
-
-    outMenu(): void {
-        this.menuHover = false;
     }
 
     setCurrentRoute(currentRoute): void {

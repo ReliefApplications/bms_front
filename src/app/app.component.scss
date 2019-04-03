@@ -32,9 +32,11 @@
     .page-menu-wrapper {
         height: 100%;
         background: $bms_black;
+        width: 64px;
+        transition: width 0.25s ease-in-out 0.25s;
 
         &.show {
-            width: 30vh;
+            width: 25vw;
         }
 
         mat-list-item {

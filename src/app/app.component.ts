@@ -125,7 +125,7 @@ export class AppComponent implements OnInit {
      */
     onActivate(event) {
         // Update the new component name.
-        this.refreshCurrentComponent(event);
+        // this.refreshCurrentComponent(event);
         // Verify the user.
         this._authenticationService.getUser().subscribe(
             user => {

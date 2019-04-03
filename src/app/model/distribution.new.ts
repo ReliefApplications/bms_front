@@ -49,14 +49,15 @@ export class Distribution extends CustomModel {
                 title: GlobalText.TEXTS.location,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
-                displayFunction: null,
+                displayTableFunction: null,
+                displayModalFunction: null,
             }
         ),
         beneficiaries: new MultipleObjectsModelField<Beneficiary>(
             {
                 title: GlobalText.TEXTS.beneficiaries,
                 isDisplayedInTable: true,
-                displayFunction: null,
+                displayTableFunction: null,
                 value: [],
             }
         ),
@@ -110,7 +111,7 @@ export class Distribution extends CustomModel {
                 isDisplayedInTable: true,
                 isImageInTable: true,
                 value: [],
-                displayFunction: null,
+                displayTableFunction: null,
             }
         ),
         validated: new BooleanModelField(
@@ -141,9 +142,10 @@ export class Distribution extends CustomModel {
         newDistribution.fields.validated.value = distributionFromApi.validated;
         newDistribution.fields.location.value = Location.apiToModel(distributionFromApi.location);
 
-        newDistribution.fields.location.displayFunction = value => value.getLocationName();
-        newDistribution.fields.beneficiaries.displayFunction = value => value.length;
-        newDistribution.fields.commodities.displayFunction = value => this.displayCommodities(value);
+        newDistribution.fields.location.displayTableFunction = value => value.getLocationName();
+        newDistribution.fields.location.displayModalFunction = value => value.getLocationName();
+        newDistribution.fields.beneficiaries.displayTableFunction = value => value.length;
+        newDistribution.fields.commodities.displayTableFunction = value => this.displayCommodities(value);
 
 
         distributionFromApi.distribution_beneficiaries.forEach(beneficiary => {

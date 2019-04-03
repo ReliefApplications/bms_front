@@ -11,9 +11,6 @@
                             <ng-container *ngIf="field.kindOfField === 'Boolean' ; else isMultipleSelect">
                                 Hello
                             </ng-container>
-            
-                            
-        
                                    
                             <ng-template #isMultipleSelect>
                                 <ng-container *ngIf="field.kindOfField === 'MultipleSelect'; else isSingleSelect">
@@ -69,27 +66,13 @@
 
                                     <ng-template #isObject>
                                         <ng-container *ngIf="field.kindOfField === 'Object'; else isMultipleObject">
-                                                <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="field.displayFunction(field.value)">
+                                                <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="field.displayModalFunction(field.value)">
                                         </ng-container>
                                     </ng-template>
                             
                                     <ng-template #isMultipleObject>
                                         <ng-container *ngIf="field.kindOfField === 'MultipleObject'; else isArrayInputField">
-                                            <ng-container *ngIf="!field.displayFunction(field.value).length; else isArrayMultipleObjects">
-                                                    <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="field.displayFunction(field.value)">
-                                            </ng-container>
-                                            <ng-template #isArrayMultipleObjects>
-                                                <div class="multiple-items">
-                                                    <span *ngFor="let value of field.displayFunction(field.value)">
-                                                            <ng-container *ngIf="field.isImageInTable; else notImage">
-                                                                <app-icon-svg [imagePath]="value"></app-icon-svg>
-                                                            </ng-container>
-                                                            <ng-template #notImage>
-                                                                    <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="value">
-                                                            </ng-template>
-                                                    </span>
-                                                </div>
-                                            </ng-template>
+                                            <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="field.displayModalFunction(field.value)">
                                         </ng-container>
                                     </ng-template>
                                         

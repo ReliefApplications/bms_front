@@ -6,7 +6,7 @@ import { URL_BMS_API } from '../../../environments/environment';
 import { HttpService } from './http.service';
 import { ExportService } from './export.service';
 
-import { Households } from '../../model/households';
+import { Households } from '../../model/households.new';
 import { Project } from '../../model/project';
 import { Location } from '../../model/location';
 import { Sector } from '../../model/sector';
@@ -152,5 +152,8 @@ export class HouseholdsService {
             .then((response) => {
                 saveAs(response, 'templateSyria.xls');
             });
+    }
+
+    public fillWithOptions(household: Households, locationType: string) {
     }
 }

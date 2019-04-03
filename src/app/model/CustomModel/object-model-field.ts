@@ -9,9 +9,16 @@ export class ObjectModelField<CustomModel> extends CustomModelField<CustomModel>
      */
     value: CustomModel;
 
-    /**
-     * What to display and how
+     /**
+     * What to display in the table and how
      * @type {Function}
      */
-    displayFunction: Function;
+    displayTableFunction: Function;
+
+    /**
+     * What to display in the table and how
+     * @type {Function}
+     */
+    displayModalFunction: Function;
+
 }

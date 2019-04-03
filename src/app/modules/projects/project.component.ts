@@ -209,7 +209,7 @@ export class ProjectComponent implements OnInit {
         });
     }
 
-        openDialog(dialogDetails: any): void {
+    openDialog(dialogDetails: any): void {
 
         this.modalService.openDialog(Distribution, this.distributionService, dialogDetails);
         this.modalService.isCompleted.subscribe(() => {

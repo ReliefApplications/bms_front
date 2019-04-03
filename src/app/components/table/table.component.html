@@ -17,18 +17,18 @@
 
                 <ng-template #isObject>
                     <ng-container *ngIf="field.kindOfField === 'Object'; else isMultipleObject">
-                        {{ field.displayFunction(field.value) }}
+                        {{ field.displayTableFunction(field.value) }}
                     </ng-container>
                 </ng-template>
 
                 <ng-template #isMultipleObject>
                     <ng-container *ngIf="field.kindOfField === 'MultipleObject'; else isArrayField">
-                        <ng-container *ngIf="!field.displayFunction(field.value).length; else isArrayMultipleObjects">
-                            {{ field.displayFunction(field.value) }}
+                        <ng-container *ngIf="!field.displayTableFunction(field.value).length; else isArrayMultipleObjects">
+                            {{ field.displayTableFunction(field.value) }}
                         </ng-container>
                         <ng-template #isArrayMultipleObjects>
                                 <div class="multiple-items">
-                                    <span *ngFor="let value of field.displayFunction(field.value)">
+                                    <span *ngFor="let value of field.displayTableFunction(field.value)">
                                             <ng-container *ngIf="field.isImageInTable; else notImage">
                                                 <app-icon-svg [imagePath]="value"></app-icon-svg>
                                             </ng-container>
@@ -94,6 +94,9 @@
                         <mat-icon *ngIf="!element.fields.validated.value && updatable" class="light-red">edit</mat-icon>
                     </button>
                 </ng-container>
+                <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
+                        <mat-icon *ngIf="!validatable && updatable" class="light-red">edit</mat-icon>
+                </button>
 
                 <button *ngIf="editable && rights && (!validatable || !element.fields.validated.value)" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
                     [matTooltip]="table.update" class="green">

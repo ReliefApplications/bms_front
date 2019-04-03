@@ -1,8 +1,12 @@
 import { URL_BMS_API } from '../../../environments/environment';
 import { HttpService } from './http.service';
+import { GlobalText } from 'src/texts/global';
 
 export abstract class CustomModelService {
     readonly apiBase = URL_BMS_API;
+
+    public texts = GlobalText.TEXTS;
+
     customModelPath: string;
 
     constructor(protected http: HttpService) {

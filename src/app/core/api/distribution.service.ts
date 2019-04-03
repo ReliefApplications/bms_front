@@ -9,6 +9,10 @@ import { AppInjector } from 'src/app/app-injector';
 import { LocationService } from './location.service';
 import { Location } from 'src/app/model/location.new';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { SnackbarService } from '../logging/snackbar.service';
+import { Router } from '@angular/router';
+import { AsyncacheService } from '../storage/asyncache.service';
+import { NetworkService } from './network.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,6 +25,10 @@ export class DistributionService extends CustomModelService {
     constructor(
         protected http: HttpService,
         protected exportService: ExportService,
+        private snackbar: SnackbarService,
+        public networkService: NetworkService,
+        private _cacheService: AsyncacheService,
+        private router: Router,
     ) {
         super(http);
     }
@@ -195,5 +203,22 @@ export class DistributionService extends CustomModelService {
                 location.fields.adm4.options = adm4Options;
                 distribution.fields.location.value = location;
             });
+    }
+
+    visit(id) {
+        if (!this.networkService.getStatus()) {
+            this._cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + id + '_beneficiaries')
+                .subscribe(
+                    result => {
+                        if (!result) {
+                            this.snackbar.error(this.texts.cache_no_distribution);
+                        } else {
+                            this.router.navigate(['/projects/distributions/' + id]);
+                        }
+                    }
+                );
+        } else {
+            this.router.navigate(['/projects/distributions/' + id]);
+        }
     }
 }

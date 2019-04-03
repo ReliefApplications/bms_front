@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
+import { Component, OnInit, HostListener, DoCheck, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { Households } from '../../model/households.new';
@@ -13,6 +13,8 @@ import { HouseholdsDataSource } from '../../model/households-data-source';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ModalService } from 'src/app/core/utils/modal.service';
+import { TableBeneficiariesComponent } from 'src/app/components/table/table-beneficiaries/table-beneficiaries.component';
 
 @Component({
     selector: 'app-beneficiaries',
@@ -43,6 +45,9 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
     // addButtons
     addToggled = false;
 
+    @ViewChild(TableBeneficiariesComponent) tableBeneficiaries: TableBeneficiariesComponent;
+
+
     constructor(
         private cacheService: AsyncacheService,
         public householdsService: HouseholdsService,
@@ -51,6 +56,7 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         public projectService: ProjectService,
         public dialog: MatDialog,
         public locationService: LocationService,
+        public modalService: ModalService,
     ) { }
 
     // For windows size
@@ -264,5 +270,15 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
 
     getChecked(event)  {
         this.checkedElements = event;
+    }
+
+    openDialog(event): void {
+
+        this.modalService.openDialog(Households, this.householdsService, event.event);
+        this.modalService.isCompleted.subscribe(() => {
+            this.tableBeneficiaries.reload();
+            // this.getDistributionsByProject(this.selectedProject.fields.id.value);
+        });
+        // if edit, open modal edit date, if details idem
     }
 }

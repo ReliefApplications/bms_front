@@ -6,15 +6,15 @@ import { ProjectService } from '../../../core/api/project.service';
 import { LocationService } from '../../../core/api/location.service';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { CountrySpecificService } from '../../../core/api/country-specific.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatTableDataSource, MatStepper } from '@angular/material';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { LIVELIHOOD } from '../../../model/livelihood';
-import { Location } from '../../../model/location';
-import { Project } from '../../../model/project';
-import { Criteria } from '../../../model/criteria';
-import { CountrySpecific } from '../../../model/country-specific';
+import { Location } from '../../../model/location.new';
+import { Project } from '../../../model/project.new';
+import { Criteria } from '../../../model/criteria.new';
+import { CountrySpecific } from '../../../model/country-specific.new';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
@@ -24,6 +24,10 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
+import { Households } from 'src/app/model/households.new';
+import { Beneficiary } from 'src/app/model/beneficiary.new';
+import { NationalId } from 'src/app/model/nationalId.new';
+import { Phone } from 'src/app/model/phone.new';
 
 @Component({
     selector: 'app-update-beneficiary',
@@ -34,7 +38,7 @@ import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.ada
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
-export class UpdateBeneficiaryComponent implements OnInit, DoCheck, DesactivationGuarded {
+export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded {
 
     // Mode
     public mode: string;
@@ -42,6 +46,17 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
 
     // Translate
     public Text = GlobalText.TEXTS;
+
+    public household: Households;
+    public mainFields: string[];
+    public mainForm: FormGroup;
+
+    public beneficiaries: Beneficiary[] = [];
+
+    // public headBeneficiary: Beneficiary;
+    public beneficiaryFields: string[];
+    public beneficiariesForm: FormGroup[] = [];
+
 
     // Household objects
     public originalHousehold: any;
@@ -56,8 +71,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
     public communeList = [];
     public villageList = [];
     public livelihoodsList: string[];
-    public vulnerabilityList = [];
-    public projectList = [];
+    public vulnerabilityList: Array<Criteria>;
+    // public projectList = [];
 
     // Country Codes (PhoneNumber lib)
     private CodesMethods = require('google-libphonenumber').PhoneNumberUtil.getInstance();
@@ -66,17 +81,17 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
     public filteredCountryCodesList: Observable<any[]>;
 
     // Constant lists
-    public genderList: string[] = ['F', 'M'];
-    public typePhoneList: string[] = ['Mobile', 'Landline'];
-    public typeNationalIdList: string[] = ['Passport', 'ID Card', 'Driver\'s License', 'Family Registry', 'Other'];
-    public typeNationalIdNamesList: object = {
-        'Passport': this.Text.national_id_passport,
-        'ID Card': this.Text.national_id_card,
-        'Driver\'s License': this.Text.national_id_license,
-        'Family Registry': this.Text.national_id_family_registry,
-        'Other': this.Text.national_id_other
-    };
-    public residencyStatusList: string[] = ['Refugee', 'IDP', 'Resident'];
+    // public genderList: string[] = ['F', 'M'];
+    // public typePhoneList: string[] = ['Mobile', 'Landline'];
+    // public typeNationalIdList: string[] = ['Passport', 'ID Card', 'Driver\'s License', 'Family Registry', 'Other'];
+    // public typeNationalIdNamesList: object = {
+    //     'Passport': this.Text.national_id_passport,
+    //     'ID Card': this.Text.national_id_card,
+    //     'Driver\'s License': this.Text.national_id_license,
+    //     'Family Registry': this.Text.national_id_family_registry,
+    //     'Other': this.Text.national_id_other
+    // };
+    // public residencyStatusList: string[] = ['Refugee', 'IDP', 'Resident'];
 
     // Checkpoint
     validStep1 = false;
@@ -84,7 +99,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
     validStep3 = false;
 
     // Table
-    public tableColumns: string[] = ['Given name', 'Family name', 'Gender', 'Birth date', 'Phone', 'National id'];
+    // public tableColumns: string[] = ['Given name', 'Family name', 'Gender', 'Birth date', 'Phone', 'National id'];
     public tableData: MatTableDataSource<any>;
 
     // Edit watcher
@@ -114,160 +129,279 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
             this.mode = 'create';
         }
 
-        // Get lists
+
+        this.initiateHousehold().then(() => {
+            this.getVulnerabilityCriteria().subscribe(() => {
+                const countrySpecificNames = this.household.fields.countrySpecifics.value.map(countrySpecific => {
+                    return countrySpecific.fields.field.value;
+                });
+                this.mainFields = [
+                    'adm1', 'adm2', 'adm3', 'adm4', 'addressNumber', 'addressPostcode', 'addressStreet', 'livelihood', 'notes', 'projects'];
+                this.mainFields = this.mainFields.concat(countrySpecificNames);
+
+                const vulnerabilityCriteria = this.vulnerabilityList.map(vulnerability => {
+                    return vulnerability.fields.field.value;
+                });
+                this.beneficiaryFields = [
+                    'familyName', 'givenName', 'gender', 'dateOfBirth', 'IDType', 'IDNumber', 'residencyStatus',
+                    'phoneType0', 'phoneNumber0', 'phonePrefix0', 'phoneProxy0',
+                    'phoneType1', 'phoneNumber1', 'phonePrefix1', 'phoneProxy1'];
+                this.beneficiaryFields = this.beneficiaryFields.concat(vulnerabilityCriteria);
+
+
+                this.makeMainForm();
+                this.beneficiaries.forEach((beneficiary: Beneficiary) => {
+                    this.makeBeneficiaryForm(beneficiary);
+                });
+                this.loadProvince();
+                this.loader = false;
+            });
+        });
+
+        // Get select options
         this.livelihoodsList = LIVELIHOOD;
-        this.getVulnerabilityCriteria();
-        this.getProvince();
         this.getProjects();
 
-        // Prefill
-        this.initiateHousehold();
     }
 
-    /**
-     * check if the langage has changed
-     */
-    ngDoCheck() {
-        if (this.Text !== GlobalText.TEXTS) {
-            this.Text = GlobalText.TEXTS;
-        }
+    makeMainForm() {
+        const mainFormControls = {};
+        this.mainFields.forEach((fieldName: string) => {
+
+            // check if it is a field of beneficiary directly
+            const field = this.household.fields[fieldName] ? this.household.fields[fieldName] : null;
+            if (field && field.kindOfField === 'MultipleSelect') {
+                // TODO: type this
+                const selectedOptions = field.value.map(option => {
+                    return option.fields.id.value;
+                });
+                mainFormControls[fieldName] = new FormControl(selectedOptions);
+            } else {
+                mainFormControls[fieldName] = new FormControl(
+                    field ? field.value : null,
+                );
+            }
+        });
+        ['adm1', 'adm2', 'adm3', 'adm4'].forEach((fieldName: string) => {
+            mainFormControls[fieldName].setValue(
+                this.household.fields.location.value.fields[fieldName].value,
+            );
+        });
+        this.mainForm = new FormGroup(mainFormControls);
     }
+
+    makeBeneficiaryForm(beneficiary: Beneficiary) {
+        const beneficiaryFormControls = {};
+        this.beneficiaryFields.forEach((fieldName: string) => {
+
+            // check if it is a field of beneficiary directly
+            const field = beneficiary.fields[fieldName] ? beneficiary.fields[fieldName] : null;
+            if (field && field.kindOfField === 'SingleSelect') {
+                beneficiaryFormControls[fieldName] = new FormControl(
+                    field.value ? field.value.fields.id.value : null
+                );
+            } else {
+                beneficiaryFormControls[fieldName] = new FormControl(
+                    field ? field.value : null,
+                );
+            }
+        });
+
+        beneficiaryFormControls['phoneType0'].setValue(beneficiary.fields.phones.value[0].fields.type.value.fields.id.value);
+        beneficiaryFormControls['phoneType1'].setValue(beneficiary.fields.phones.value[1].fields.type.value.fields.id.value);
+        beneficiaryFormControls['phonePrefix0'].setValue(this.getPhonePrefix(beneficiary.fields.phones.value[0]));
+        beneficiaryFormControls['phonePrefix1'].setValue(this.getPhonePrefix(beneficiary.fields.phones.value[1]));
+        beneficiaryFormControls['IDType'].setValue(beneficiary.fields.nationalIds.value[0].fields.type.value.fields.id.value);
+        beneficiaryFormControls['IDNumber'].setValue(beneficiary.fields.nationalIds.value[0].fields.number.value);
+
+        const beneficiaryForm = new FormGroup(beneficiaryFormControls);
+        this.beneficiariesForm.push(beneficiaryForm);
+    }
+
+
+    // /**
+    //  * check if the langage has changed
+    //  */
+    // ngDoCheck() {
+    //     if (this.Text !== GlobalText.TEXTS) {
+    //         this.Text = GlobalText.TEXTS;
+    //     }
+    // }
 
     /**
      * Gets household from backend and loads the method that will fill our 'updatedHousehold' attribute for input display and update.
      */
     initiateHousehold() {
-        this.updatedHousehold = {
-            // First set the format of a Household for Input Forms
-            // id: 0,
-            address_number: '',
-            address_postcode: '',
-            address_street: '',
-            livelihood: '',
-            notes: '',
-            beneficiaries: [],
-            projects: [],
-            specificAnswers: [],
-            location: {
-                adm1: '',
-                adm2: '',
-                adm3: '',
-                adm4: '',
-            },
-        };
+        // this.updatedHousehold = {
+        //     // First set the format of a Household for Input Forms
+        //     // id: 0,
+        //     address_number: '',
+        //     address_postcode: '',
+        //     address_street: '',
+        //     livelihood: '',
+        //     notes: '',
+        //     beneficiaries: [],
+        //     projects: [],
+        //     specificAnswers: [],
+        //     location: {
+        //         adm1: '',
+        //         adm2: '',
+        //         adm3: '',
+        //         adm4: '',
+        //     },
+        // };
 
-        // Set the Head if the user is creating
-        if (this.mode === 'create') {
-            this._cacheService.get(AsyncacheService.COUNTRY).subscribe(
-                result => {
-                    this.loader = false;
-                    const cacheCountry = result;
-                    if (cacheCountry) {
-                        this.countryISO3 = cacheCountry;
-                    } else {
-                        this.countryISO3 = 'KHM';
-                    }
-                    this.getCountryCodes();
-                    this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
-                    this.getCountrySpecifics().subscribe((countrySpecificsList: any) => {
-                        this.updatedHousehold.specificAnswers = countrySpecificsList;
-                        this.snapshot();
-                    });
-
-                }
-            );
-        }
-
-        // Get the selected household if the user is updating
-        if (this.mode === 'update') {
-            this.route.params.subscribe(
-                result => {
-                    if (result['id']) {
-                        this._householdsService.getOne(result['id']).subscribe(
-                            household => {
-                                this.originalHousehold = household;
-                                this.getCountryCodes();
-                                this.formatHouseholdForForm();
-                                this.loader = false;
-                                this.snapshot();
-                            }
-                        );
-                    }
-                }
-            );
-        }
-    }
-
-    /**
-     * Transforms an instance of backend beneficiary in a formated Household readable for the inputs.
-     */
-    formatHouseholdForForm() {
-        // Id & address & livelihood & notes.
-        this.updateId = this.originalHousehold.id;
-        this.updatedHousehold.address_number = this.originalHousehold.address_number;
-        this.updatedHousehold.address_postcode = this.originalHousehold.address_postcode;
-        this.updatedHousehold.address_street = this.originalHousehold.address_street;
-        this.updatedHousehold.notes = this.originalHousehold.notes;
-        this.updatedHousehold.livelihood = this.livelihoodsList[this.originalHousehold.livelihood];
-
-        // CountrySpecifics
-        if (this.originalHousehold.country_specific_answers) {
-            this.originalHousehold.country_specific_answers.forEach(
-                element => {
-                    this.updatedHousehold.specificAnswers.push(
-                        {
-                            // Country Specific format for Form
-                            answer: element.answer,
-                            countryIso3: element.country_specific.country_iso3,
-                            field_string: element.country_specific.field_string,
-                            id: element.country_specific.id,
-                            type: element.country_specific.type
+        return new Promise((resolve, reject) => {
+            if (this.mode === 'create') {
+                this._cacheService.get(AsyncacheService.COUNTRY).subscribe(
+                    result => {
+                        const cacheCountry = result;
+                        if (cacheCountry) {
+                            this.countryISO3 = cacheCountry;
+                        } else {
+                            this.countryISO3 = 'KHM';
                         }
-                    );
-                }
-            );
-        }
+                        this.getCountryPhoneCodes();
+                        this.household = new Households();
+                        this.household.fields.location.value = new Location();
 
-        // Projects.
-        this.updatedHousehold.projects = [];
-        this.originalHousehold.projects.forEach(
-            element => {
-                this.updatedHousehold.projects.push('' + element.id + ' - ' + element.name);
+                        this.beneficiaries[0] = this.createNewBeneficiary();
+
+                        // this.household.fields.beneficiaries.value.push(this.beneficiaries[0])
+                        // this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
+                        // this.getCountrySpecifics().subscribe((countrySpecificsList: any) => {
+                        //     this.updatedHousehold.specificAnswers = countrySpecificsList;
+                        //     this.snapshot();
+                        // });
+                        this.getCountrySpecifics().subscribe(() => {
+                            resolve();
+                        });
+                    }
+                );
             }
-        );
 
-        // Location.
-        const location = Location.formatAdmFromApi(this.originalHousehold.location);
-        this.countryISO3 = location.country_iso3;
-        this.updatedHousehold.location.adm1 = Location.formatOneAdm(location.adm1);
-
-        if (location.adm1) {
-            this.getDistrict(String(location.adm1.id));
-        }
-        if (location.adm2) {
-            this.updatedHousehold.location.adm2 = Location.formatOneAdm(location.adm2);
-            this.getCommune(String(location.adm2.id));
-        }
-        if (location.adm3) {
-            this.updatedHousehold.location.adm3 = Location.formatOneAdm(location.adm3);
-            this.getVillage(String(location.adm3.id));
-        }
-        if (location.adm4) {
-            this.updatedHousehold.location.adm4 = Location.formatOneAdm(location.adm4);
-        }
-
-        // Beneficiaries.
-        this.originalHousehold.beneficiaries.forEach(
-            beneficiary => {
-                // Head.
-                if (beneficiary.status === true) {
-                    this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary(beneficiary));
-                } else {
-                    this.updatedHousehold.beneficiaries.push(this.pushBeneficiary(beneficiary));
-                }
+            if (this.mode === 'update') {
+                this.route.params.subscribe(
+                    result => {
+                        if (result['id']) {
+                            this._householdsService.getOne(result['id']).subscribe(
+                                household => {
+                                    // this.originalHousehold = household;
+                                    // this.getCountryPhoneCodes();
+                                    // this.formatHouseholdForForm();
+                                    // this.loader = false;
+                                    // this.snapshot();
+                                    resolve();
+                                }
+                            );
+                        }
+                    }
+                );
             }
-        );
+        });
     }
+
+    createNewBeneficiary() {
+        const beneficiary = new Beneficiary();
+        beneficiary.fields.nationalIds.value = [new NationalId()];
+        const phone1 = new Phone();
+        const phone2 = new Phone();
+        phone1.fields.type.value = phone1.fields.type.options[0];
+        phone2.fields.type.value = phone2.fields.type.options[1];
+        beneficiary.fields.phones.value = [phone1, phone2];
+        return beneficiary;
+    }
+
+    addBeneficiary() {
+        const beneficiary = this.createNewBeneficiary();
+        this.beneficiaries.push(beneficiary);
+        this.makeBeneficiaryForm(beneficiary);
+    }
+
+     /**
+     * To delete a beneficiary from the actual household.
+     * @param index
+     */
+    removeBeneficiary(index: number) {
+        if (index < this.beneficiaries.length) {
+            this.beneficiaries.splice(index, 1);
+        }
+        if (index < this.beneficiariesForm.length) {
+            this.beneficiariesForm.splice(index, 1);
+        }
+    }
+
+
+    // /**
+    //  * Transforms an instance of backend beneficiary in a formated Household readable for the inputs.
+    //  */
+    // formatHouseholdForForm() {
+    //     // Id & address & livelihood & notes.
+    //     this.updateId = this.originalHousehold.id;
+    //     this.updatedHousehold.address_number = this.originalHousehold.address_number;
+    //     this.updatedHousehold.address_postcode = this.originalHousehold.address_postcode;
+    //     this.updatedHousehold.address_street = this.originalHousehold.address_street;
+    //     this.updatedHousehold.notes = this.originalHousehold.notes;
+    //     this.updatedHousehold.livelihood = this.livelihoodsList[this.originalHousehold.livelihood];
+
+    //     // CountrySpecifics
+    //     if (this.originalHousehold.country_specific_answers) {
+    //         this.originalHousehold.country_specific_answers.forEach(
+    //             element => {
+    //                 this.updatedHousehold.specificAnswers.push(
+    //                     {
+    //                         // Country Specific format for Form
+    //                         answer: element.answer,
+    //                         countryIso3: element.country_specific.country_iso3,
+    //                         field_string: element.country_specific.field_string,
+    //                         id: element.country_specific.id,
+    //                         type: element.country_specific.type
+    //                     }
+    //                 );
+    //             }
+    //         );
+    //     }
+
+    //     // Projects.
+    //     this.updatedHousehold.projects = [];
+    //     this.originalHousehold.projects.forEach(
+    //         element => {
+    //             this.updatedHousehold.projects.push('' + element.id + ' - ' + element.name);
+    //         }
+    //     );
+
+    //     // Location.
+    //     const location = Location.formatAdmFromApi(this.originalHousehold.location);
+    //     this.countryISO3 = location.country_iso3;
+    //     this.updatedHousehold.location.adm1 = Location.formatOneAdm(location.adm1);
+
+    //     if (location.adm1) {
+    //         this.getDistrict(String(location.adm1.id));
+    //     }
+    //     if (location.adm2) {
+    //         this.updatedHousehold.location.adm2 = Location.formatOneAdm(location.adm2);
+    //         this.getCommune(String(location.adm2.id));
+    //     }
+    //     if (location.adm3) {
+    //         this.updatedHousehold.location.adm3 = Location.formatOneAdm(location.adm3);
+    //         this.getVillage(String(location.adm3.id));
+    //     }
+    //     if (location.adm4) {
+    //         this.updatedHousehold.location.adm4 = Location.formatOneAdm(location.adm4);
+    //     }
+
+    //     // Beneficiaries.
+    //     this.originalHousehold.beneficiaries.forEach(
+    //         beneficiary => {
+    //             // Head.
+    //             if (beneficiary.status === true) {
+    //                 this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary(beneficiary));
+    //             } else {
+    //                 this.updatedHousehold.beneficiaries.push(this.pushBeneficiary(beneficiary));
+    //             }
+    //         }
+    //     );
+    // }
 
     /**
      * Format beneficiary date to a short string.
@@ -278,294 +412,284 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
         return (pipedDate);
     }
 
-    /**
-     * Formats all the changes in the updatedHousehold object linked to the forms into a Household object readable by the Backend.
-     */
-    formatHouseholdForApi(): any {
-        const finalHousehold = this.updatedHousehold;
+    // /**
+    //  * Formats all the changes in the updatedHousehold object linked to the forms into a Household object readable by the Backend.
+    //  */
+    // formatHouseholdForApi(): any {
+    //     const finalHousehold = this.updatedHousehold;
 
-        const finalBeneficiaries = this.updatedHousehold.beneficiaries.slice(0);
-        let dataHousehold;
+    //     const finalBeneficiaries = this.updatedHousehold.beneficiaries.slice(0);
+    //     let dataHousehold;
 
-        dataHousehold = {
-            address_number: '',
-            address_postcode: '',
-            address_street: '',
-            beneficiaries: [],
-            country_specific_answers: [],
-            // id: undefined,
-            latitude: '0',
-            livelihood: undefined,
-            location: {},
-            longitude: '0',
-            notes: '',
-        };
+    //     dataHousehold = {
+    //         address_number: '',
+    //         address_postcode: '',
+    //         address_street: '',
+    //         beneficiaries: [],
+    //         country_specific_answers: [],
+    //         // id: undefined,
+    //         latitude: '0',
+    //         livelihood: undefined,
+    //         location: {},
+    //         longitude: '0',
+    //         notes: '',
+    //     };
 
-        if (this.nextValidation(4, null, true)) {
+    //     if (this.nextValidation(4, null, true)) {
 
-            // Format address & basic fields
-            dataHousehold.address_number = finalHousehold.address_number;
-            dataHousehold.address_postcode = finalHousehold.address_postcode;
-            dataHousehold.address_street = finalHousehold.address_street;
-            dataHousehold.livelihood = this.livelihoodsList.indexOf(finalHousehold.livelihood);
-            dataHousehold.notes = finalHousehold.notes;
-            // dataHousehold.id = finalHousehold.id;
+    //         // Format address & basic fields
+    //         dataHousehold.address_number = finalHousehold.address_number;
+    //         dataHousehold.address_postcode = finalHousehold.address_postcode;
+    //         dataHousehold.address_street = finalHousehold.address_street;
+    //         dataHousehold.livelihood = this.livelihoodsList.indexOf(finalHousehold.livelihood);
+    //         dataHousehold.notes = finalHousehold.notes;
+    //         // dataHousehold.id = finalHousehold.id;
 
-            // Beneficiaries
-            finalBeneficiaries.forEach(
-                element => {
-                    const beneficiary = {
-                        date_of_birth: '',
-                        residency_status: '',
-                        family_name: '',
-                        gender: 0,
-                        given_name: '',
-                        national_ids: [],
-                        phones: [],
-                        profile: {
-                            photo: '',
-                        },
-                        status: 0,
-                        // updated_on: new Date(),
-                        vulnerability_criteria: [],
-                    };
-                    beneficiary.date_of_birth = this.formatDate(element.birth_date);
-                    beneficiary.residency_status = element.residency_status;
-                    beneficiary.family_name = element.family_name;
+    //         // Beneficiaries
+    //         finalBeneficiaries.forEach(
+    //             element => {
+    //                 const beneficiary = {
+    //                     date_of_birth: '',
+    //                     residency_status: '',
+    //                     family_name: '',
+    //                     gender: 0,
+    //                     given_name: '',
+    //                     national_ids: [],
+    //                     phones: [],
+    //                     profile: {
+    //                         photo: '',
+    //                     },
+    //                     status: 0,
+    //                     // updated_on: new Date(),
+    //                     vulnerability_criteria: [],
+    //                 };
+    //                 beneficiary.date_of_birth = this.formatDate(element.birth_date);
+    //                 beneficiary.residency_status = element.residency_status;
+    //                 beneficiary.family_name = element.family_name;
 
-                    if (element.gender === 'F') {
-                        beneficiary.gender = 0;
-                    } else if (element.gender === 'M') {
-                        beneficiary.gender = 1;
-                    }
+    //                 if (element.gender === 'F') {
+    //                     beneficiary.gender = 0;
+    //                 } else if (element.gender === 'M') {
+    //                     beneficiary.gender = 1;
+    //                 }
 
-                    beneficiary.given_name = element.given_name;
+    //                 beneficiary.given_name = element.given_name;
 
-                    if (element.id) {
-                        beneficiary['id'] = element.id;
-                    }
+    //                 if (element.id) {
+    //                     beneficiary['id'] = element.id;
+    //                 }
 
-                    if (finalBeneficiaries.indexOf(element) === 0) {
-                        beneficiary.status = 1;
-                    } else {
-                        beneficiary.status = 0;
-                    }
+    //                 if (finalBeneficiaries.indexOf(element) === 0) {
+    //                     beneficiary.status = 1;
+    //                 } else {
+    //                     beneficiary.status = 0;
+    //                 }
 
-                    if (element.national_id.number && element.national_id.type) {
-                        beneficiary.national_ids.push(
-                            {
-                                id: undefined,
-                                id_number: element.national_id.number,
-                                id_type: element.national_id.type,
-                            }
-                        );
-                    }
+    //                 if (element.national_id.number && element.national_id.type) {
+    //                     beneficiary.national_ids.push(
+    //                         {
+    //                             id: undefined,
+    //                             id_number: element.national_id.number,
+    //                             id_type: element.national_id.type,
+    //                         }
+    //                     );
+    //                 }
 
-                    element.phone.forEach(
-                        phone => {
-                            if (phone.number) {
-                                beneficiary.phones.push(
-                                    {
-                                        id: undefined,
-                                        number: phone.number,
-                                        type: phone.type,
-                                        proxy: phone.proxy,
-                                        prefix: phone.code ? phone.code.split('- ')[1] : undefined
-                                    }
-                                );
-                            }
-                        }
-                    );
-                    if (this.originalHousehold) {
-                        this.originalHousehold.beneficiaries.forEach(
-                            benef => {
-                                if (beneficiary['id'] && benef.id === beneficiary['id']) {
-                                    beneficiary.profile = benef.profile;
-                                }
-                            }
-                        );
-                    }
-                    element.vulnerabilities.forEach(
-                        (vulnerability, index) => {
-                            if (vulnerability === true) {
-                                beneficiary.vulnerability_criteria.push(
-                                    {
-                                        id: this.vulnerabilityList[index].id_field,
-                                        field_string: this.vulnerabilityList[index].field_string,
-                                    }
-                                );
-                            }
-                        }
-                    );
-                    dataHousehold.beneficiaries.push(beneficiary);
-                }
-            );
+    //                 element.phone.forEach(
+    //                     phone => {
+    //                         if (phone.number) {
+    //                             beneficiary.phones.push(
+    //                                 {
+    //                                     id: undefined,
+    //                                     number: phone.number,
+    //                                     type: phone.type,
+    //                                     proxy: phone.proxy,
+    //                                     prefix: phone.code ? phone.code.split('- ')[1] : undefined
+    //                                 }
+    //                             );
+    //                         }
+    //                     }
+    //                 );
+    //                 if (this.originalHousehold) {
+    //                     this.originalHousehold.beneficiaries.forEach(
+    //                         benef => {
+    //                             if (beneficiary['id'] && benef.id === beneficiary['id']) {
+    //                                 beneficiary.profile = benef.profile;
+    //                             }
+    //                         }
+    //                     );
+    //                 }
+    //                 element.vulnerabilities.forEach(
+    //                     (vulnerability, index) => {
+    //                         if (vulnerability === true) {
+    //                             beneficiary.vulnerability_criteria.push(
+    //                                 {
+    //                                     id: this.vulnerabilityList[index].id_field,
+    //                                     field_string: this.vulnerabilityList[index].field_string,
+    //                                 }
+    //                             );
+    //                         }
+    //                     }
+    //                 );
+    //                 dataHousehold.beneficiaries.push(beneficiary);
+    //             }
+    //         );
 
-            // Location
-            const copyAdm1 = finalHousehold.location.adm1.split(' - ')[1];
-            let copyAdm2;
-            let copyAdm3;
-            let copyAdm4;
+    //         // Location
+    //         const copyAdm1 = finalHousehold.location.adm1.split(' - ')[1];
+    //         let copyAdm2;
+    //         let copyAdm3;
+    //         let copyAdm4;
 
-            if (finalHousehold.location.adm2) {
-                copyAdm2 = finalHousehold.location.adm2.split(' - ')[1];
-            }
-            if (finalHousehold.location.adm3) {
-                copyAdm3 = finalHousehold.location.adm3.split(' - ')[1];
-            }
-            if (finalHousehold.location.adm4) {
-                copyAdm4 = finalHousehold.location.adm4.split(' - ')[1];
-            }
+    //         if (finalHousehold.location.adm2) {
+    //             copyAdm2 = finalHousehold.location.adm2.split(' - ')[1];
+    //         }
+    //         if (finalHousehold.location.adm3) {
+    //             copyAdm3 = finalHousehold.location.adm3.split(' - ')[1];
+    //         }
+    //         if (finalHousehold.location.adm4) {
+    //             copyAdm4 = finalHousehold.location.adm4.split(' - ')[1];
+    //         }
 
-            dataHousehold.location = {
-                adm1: copyAdm1,
-                adm2: copyAdm2,
-                adm3: copyAdm3,
-                adm4: copyAdm4,
-                country_iso3: this.countryISO3,
-            };
+    //         dataHousehold.location = {
+    //             adm1: copyAdm1,
+    //             adm2: copyAdm2,
+    //             adm3: copyAdm3,
+    //             adm4: copyAdm4,
+    //             country_iso3: this.countryISO3,
+    //         };
 
-            // Specifics
-            finalHousehold.specificAnswers.forEach(
-                result => {
-                    const specific = {
-                        countryIso3: this.countryISO3,
-                        field: result.field_string,
-                        id: result.id,
-                        name: '',
-                        type: result.type,
-                    };
+    //         // Specifics
+    //         finalHousehold.specificAnswers.forEach(
+    //             result => {
+    //                 const specific = {
+    //                     countryIso3: this.countryISO3,
+    //                     field: result.field_string,
+    //                     id: result.id,
+    //                     name: '',
+    //                     type: result.type,
+    //                 };
 
-                    dataHousehold.country_specific_answers.push(
-                        {
-                            answer: result.answer,
-                            country_specific: specific,
-                        }
-                    );
-                }
-            );
-            return (dataHousehold);
-        } else {
-            // Minimum data not filled -> Error !
-            this.snackbar.error(this.Text.update_beneficiary_check_steps);
-            return (undefined);
-        }
+    //                 dataHousehold.country_specific_answers.push(
+    //                     {
+    //                         answer: result.answer,
+    //                         country_specific: specific,
+    //                     }
+    //                 );
+    //             }
+    //         );
+    //         return (dataHousehold);
+    //     } else {
+    //         // Minimum data not filled -> Error !
+    //         this.snackbar.error(this.Text.update_beneficiary_check_steps);
+    //         return (undefined);
+    //     }
 
-    }
+    // }
 
-    /**
-     * Returns a formated Beneficiary readable for the inputs from an instance of backend beneficiary.
-     * @param beneficiary
-     */
-    pushBeneficiary(beneficiary?: any) {
-        const formatedBeneficiary = {
-            // Format of a beneficiary for Form
-            id: undefined,
-            birth_date: new Date(),
-            residency_status: 'Resident',
-            family_name: this.updatedHousehold.beneficiaries[0] ? this.updatedHousehold.beneficiaries[0].family_name : '',
-            given_name: '',
-            gender: '',
-            national_id: {
-                number: '',
-                type: 'ID Card'
-            },
-            phone: [
-                {
-                    code: this.countryCodesList[this.getUserPhoneCode()],
-                    number: '',
-                    type: 'Mobile',
-                    proxy: false
-                },
-                {
-                    code: this.countryCodesList[this.getUserPhoneCode()],
-                    number: '',
-                    type: 'Landline',
-                    proxy: false
-                }
-            ],
-            vulnerabilities: []
-        };
+    // /**
+    //  * Returns a formated Beneficiary readable for the inputs from an instance of backend beneficiary.
+    //  * @param beneficiary
+    //  */
+    // pushBeneficiary(beneficiary?: any) {
+    //     const formatedBeneficiary = {
+    //         // Format of a beneficiary for Form
+    //         id: undefined,
+    //         birth_date: new Date(),
+    //         residency_status: 'Resident',
+    //         family_name: this.updatedHousehold.beneficiaries[0] ? this.updatedHousehold.beneficiaries[0].family_name : '',
+    //         given_name: '',
+    //         gender: '',
+    //         national_id: {
+    //             number: '',
+    //             type: 'ID Card'
+    //         },
+    //         phone: [
+    //             {
+    //                 code: this.countryCodesList[this.getUserPhoneCode()],
+    //                 number: '',
+    //                 type: 'Mobile',
+    //                 proxy: false
+    //             },
+    //             {
+    //                 code: this.countryCodesList[this.getUserPhoneCode()],
+    //                 number: '',
+    //                 type: 'Landline',
+    //                 proxy: false
+    //             }
+    //         ],
+    //         vulnerabilities: []
+    //     };
 
-        if (beneficiary) {
-            formatedBeneficiary.id = beneficiary.id;
-            formatedBeneficiary.family_name = beneficiary.family_name;
-            formatedBeneficiary.given_name = beneficiary.given_name;
+    //     if (beneficiary) {
+    //         formatedBeneficiary.id = beneficiary.id;
+    //         formatedBeneficiary.family_name = beneficiary.family_name;
+    //         formatedBeneficiary.given_name = beneficiary.given_name;
 
-            if (beneficiary.gender === 0) {
-                formatedBeneficiary.gender = 'F';
-            } else if (beneficiary.gender === 1) {
-                formatedBeneficiary.gender = 'M';
-            }
-        }
+    //         if (beneficiary.gender === 0) {
+    //             formatedBeneficiary.gender = 'F';
+    //         } else if (beneficiary.gender === 1) {
+    //             formatedBeneficiary.gender = 'M';
+    //         }
+    //     }
 
-        if (beneficiary && beneficiary.date_of_birth) {
-            const benefDate = beneficiary.date_of_birth.split('-');
-            formatedBeneficiary.birth_date = new Date(benefDate[0], benefDate[1] - 1, benefDate[2], 0, 0);
-        }
+    //     if (beneficiary && beneficiary.date_of_birth) {
+    //         const benefDate = beneficiary.date_of_birth.split('-');
+    //         formatedBeneficiary.birth_date = new Date(benefDate[0], benefDate[1] - 1, benefDate[2], 0, 0);
+    //     }
 
-        if (beneficiary && beneficiary.residency_status) {
-            formatedBeneficiary.residency_status = beneficiary.residency_status;
-        }
+    //     if (beneficiary && beneficiary.residency_status) {
+    //         formatedBeneficiary.residency_status = beneficiary.residency_status;
+    //     }
 
-        if (beneficiary && beneficiary.national_ids[0]) {
-            formatedBeneficiary.national_id.number = beneficiary.national_ids[0].id_number;
-            formatedBeneficiary.national_id.type = beneficiary.national_ids[0].id_type;
-        }
+    //     if (beneficiary && beneficiary.national_ids[0]) {
+    //         formatedBeneficiary.national_id.number = beneficiary.national_ids[0].id_number;
+    //         formatedBeneficiary.national_id.type = beneficiary.national_ids[0].id_type;
+    //     }
 
-        if (beneficiary && beneficiary.phones) {
-            beneficiary.phones.forEach((phone, i) => {
-                formatedBeneficiary.phone[i].number = phone.number;
-                formatedBeneficiary.phone[i].type = phone.type;
-                formatedBeneficiary.phone[i].proxy = phone.proxy;
-                formatedBeneficiary.phone[i].code = this.countryCodesList[this.getUserPhoneCode(phone.prefix)];
-            });
-        }
+    //     if (beneficiary && beneficiary.phones) {
+    //         beneficiary.phones.forEach((phone, i) => {
+    //             formatedBeneficiary.phone[i].number = phone.number;
+    //             formatedBeneficiary.phone[i].type = phone.type;
+    //             formatedBeneficiary.phone[i].proxy = phone.proxy;
+    //             formatedBeneficiary.phone[i].code = this.countryCodesList[this.getUserPhoneCode(phone.prefix)];
+    //         });
+    //     }
 
-        this.vulnerabilityList.forEach(
-            element => {
-                formatedBeneficiary.vulnerabilities.push(false);
-                if (beneficiary && beneficiary.vulnerability_criteria) {
-                    beneficiary.vulnerability_criteria.forEach(
-                        vulnerability => {
-                            if (element.field_string === vulnerability.field_string) {
-                                formatedBeneficiary.vulnerabilities[this.vulnerabilityList.indexOf(element)] = true;
-                            }
-                        });
-                }
-            });
-        return (formatedBeneficiary);
-    }
-
-    /**
-     * To delete a beneficiary from the actual household.
-     * @param index
-     */
-    removeBeneficiary(index: number) {
-        if (index < this.updatedHousehold.beneficiaries.length) {
-            this.updatedHousehold.beneficiaries.splice(index, 1);
-        }
-    }
+    //     this.vulnerabilityList.forEach(
+    //         element => {
+    //             formatedBeneficiary.vulnerabilities.push(false);
+    //             if (beneficiary && beneficiary.vulnerability_criteria) {
+    //                 beneficiary.vulnerability_criteria.forEach(
+    //                     vulnerability => {
+    //                         if (element.field_string === vulnerability.field_string) {
+    //                             formatedBeneficiary.vulnerabilities[this.vulnerabilityList.indexOf(element)] = true;
+    //                         }
+    //                     });
+    //             }
+    //         });
+    //     return (formatedBeneficiary);
+    // }
 
     passHousehold() {
         this.tableData = new MatTableDataSource(this.updatedHousehold.beneficiaries);
     }
 
-    /**
-     * Get child locations again list when an adm is selected.
-     */
-    reloadLocation(adm: number) {
-        switch (adm) {
-            case 1: this.getDistrict(this.updatedHousehold.location.adm1);
-                break;
-            case 2: this.getCommune(this.updatedHousehold.location.adm2);
-                break;
-            case 3: this.getVillage(this.updatedHousehold.location.adm3);
-                break;
-            default:
-                break;
-        }
-    }
+    // /**
+    //  * Get child locations again list when an adm is selected.
+    //  */
+    // reloadLocation(adm: number) {
+    //     switch (adm) {
+    //         case 1: this.getDistrict(this.updatedHousehold.location.adm1);
+    //             break;
+    //         case 2: this.getCommune(this.updatedHousehold.location.adm2);
+    //             break;
+    //         case 3: this.getVillage(this.updatedHousehold.location.adm3);
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
 
     /**
      * Get correct list of country codes matching the user input.
@@ -580,78 +704,87 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
      * Call backend to create a new household with filled data.
      */
     create() {
-        if (this.updatedHousehold.projects.length === 0) {
-            this.snackbar.error('You must select at least one project');
-            return;
-        }
+        // console.log(this.mainForm)
+        // console.log(this.beneficiariesForm)
 
-        const body = this.formatHouseholdForApi();
 
-        const selectedProjectsIds = new Array<string>();
-        this.updatedHousehold.projects.forEach(
-            project => {
-                selectedProjectsIds.push(project.split(' - ')[0]);
-            }
-        );
-        if (body) {
-            this.validationLoading = true;
-            this._householdsService.add(body, selectedProjectsIds).toPromise()
-                .then(
-                    success => {
-                        if (success) {
-                            this.snackbar.success(this.Text.update_beneficiary_created_successfully);
-                            this.leave();
-                        } else {
-                            this.validationLoading = false;
-                        }
-                    }
-                )
-                .catch(
-                    error => {
-                        this.snackbar.error(this.Text.update_beneficiary_error_creating + error);
-                        this.validationLoading = false;
-                    }
-                );
-        }
+        // if (this.updatedHousehold.projects.length === 0) {
+        //     this.snackbar.error('You must select at least one project');
+        //     return;
+        // }
+
+        // const body = this.formatHouseholdForApi();
+
+        // const selectedProjectsIds = new Array<string>();
+
+        // // MDR
+        // this.updatedHousehold.projects.forEach(
+        //     project => {
+        //         selectedProjectsIds.push(project.split(' - ')[0]);
+        //     }
+        // );
+        // if (body) {
+        //     this.validationLoading = true;
+        //     this._householdsService.add(body, selectedProjectsIds).toPromise()
+        //         .then(
+        //             success => {
+        //                 if (success) {
+        //                     this.snackbar.success(this.Text.update_beneficiary_created_successfully);
+        //                     this.leave();
+        //                 } else {
+        //                     this.validationLoading = false;
+        //                 }
+        //             }
+        //         )
+        //         .catch(
+        //             error => {
+        //                 this.snackbar.error(this.Text.update_beneficiary_error_creating + error);
+        //                 this.validationLoading = false;
+        //             }
+        //         );
+        // }
     }
 
     /**
      * Call backend to update the selected household with filled data.
      */
     update() {
-        if (this.updatedHousehold.projects.length === 0) {
-            this.snackbar.error('You must select at least one project');
-            return;
-        }
+        // console.log(this.mainForm)
+        // console.log(this.beneficiariesForm)
 
-        const body = this.formatHouseholdForApi();
+        // if (this.updatedHousehold.projects.length === 0) {
+        //     this.snackbar.error('You must select at least one project');
+        //     return;
+        // }
 
-        const selectedProjectsIds = new Array<string>();
-        this.updatedHousehold.projects.forEach(
-            project => {
-                selectedProjectsIds.push(project.split(' - ')[0]);
-            }
-        );
-        if (body) {
-            this.validationLoading = true;
-            this._householdsService.edit(this.updateId, body, selectedProjectsIds).toPromise()
-                .then(
-                    success => {
-                        if (success) {
-                            this.snackbar.success(this.Text.update_beneficiary_updated_successfully);
-                            this.leave();
-                        } else {
-                            this.validationLoading = false;
-                        }
-                    }
-                )
-                .catch(
-                    error => {
-                        this.snackbar.error(this.Text.update_beneficiary_error_updated + error);
-                        this.validationLoading = false;
-                    }
-                );
-        }
+        // const body = this.formatHouseholdForApi();
+
+        // const selectedProjectsIds = new Array<string>();
+        // this.updatedHousehold.projects.forEach(
+        //     project => {
+        //         selectedProjectsIds.push(project.split(' - ')[0]);
+        //     }
+        // );
+        // if (body) {
+        //     this.validationLoading = true;
+        //     this._householdsService.edit(this.updateId, body, selectedProjectsIds).toPromise()
+        //         .then(
+        //             success => {
+        //                 if (success) {
+        //                     this.snackbar.success(this.Text.update_beneficiary_updated_successfully);
+        //                     this.leave();
+        //                 } else {
+        //                     this.validationLoading = false;
+        //                 }
+        //             }
+        //         )
+        //         .catch(
+        //             error => {
+        //                 this.snackbar.error(this.Text.update_beneficiary_error_updated + error);
+        //                 this.validationLoading = false;
+        //             }
+        //         );
+        // }
     }
 
     /**
@@ -666,84 +799,84 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
         }
 
         if (step === 1 || final) {
-            const hh = this.updatedHousehold;
+            // const hh = this.updatedHousehold;
 
-            if (!hh.location.adm1) {
+            if (!this.mainForm.controls.adm1.value) {
                 message = 'You must select a location';
-            } else if (!hh.address_number) {
+            } else if (!this.mainForm.controls.address_number.value) {
                 message = 'You must enter an address number';
-            } else if (!hh.address_postcode) {
+            } else if (!this.mainForm.controls.address_postcode.value) {
                 message = 'You must enter an address postcode';
-            } else if (!hh.address_street) {
+            } else if (!this.mainForm.controls.address_street.value) {
                 message = 'You must enter an address street';
-            } else if (hh.livelihood && !this.elementExists(hh.livelihood, this.livelihoodsList)) {
+            } else if (this.mainForm.controls.livelihood.value && (this.mainForm.controls.livelihood.value > this.livelihoodsList.length)) {
                 message = 'Please select an existing livelihood from the list';
             } else {
                 if (step <= 1) { stepper.next(); }
                 if (final) { validSteps++; }
             }
         }
-        if (step === 2 || final) {
-            const head = this.updatedHousehold.beneficiaries[0];
+        // if (step === 2 || final) {
+        //     const head = this.updatedHousehold.beneficiaries[0];
 
-            if (!head.family_name) {
-                message = 'You must enter a family name';
-            } else if (!head.given_name) {
-                message = 'You must enter a given name';
-            } else if (!head.gender) {
-                message = 'You must select a gender';
-            } else if (head.phone.number && isNaN(Number(head.phone.number))) {
-                message = 'Phone can only be composed by digits';
-            } else if (head.phone.number && head.phone.code && !this.elementExists(head.phone.code, this.countryCodesList)) {
-                message = 'Please select an existing country code from the list';
-            } else if ((head.phone.number && !head.phone.code) || (head.phone.number && head.phone.code === '')) {
-                message = 'Please select a country code for the phone number';
-            } else if (head.birth_date && head.birth_date.getTime() > (new Date()).getTime()) {
-                message = 'Please select a valid birth date';
-            } else {
-                if (step <= 2) { stepper.next(); }
-                if (final) { validSteps++; }
-            }
-        }
-        if (step === 3 || final) {
-            let counter = 1;
-            let gotError = false;
-            const members = this.updatedHousehold.beneficiaries;
+        //     if (!head.family_name) {
+        //         message = 'You must enter a family name';
+        //     } else if (!head.given_name) {
+        //         message = 'You must enter a given name';
+        //     } else if (!head.gender) {
+        //         message = 'You must select a gender';
+        //     } else if (head.phone.number && isNaN(Number(head.phone.number))) {
+        //         message = 'Phone can only be composed by digits';
+        //     } else if (head.phone.number && head.phone.code && !this.elementExists(head.phone.code, this.countryCodesList)) {
+        //         message = 'Please select an existing country code from the list';
+        //     } else if ((head.phone.number && !head.phone.code) || (head.phone.number && head.phone.code === '')) {
+        //         message = 'Please select a country code for the phone number';
+        //     } else if (head.birth_date && head.birth_date.getTime() > (new Date()).getTime()) {
+        //         message = 'Please select a valid birth date';
+        //     } else {
+        //         if (step <= 2) { stepper.next(); }
+        //         if (final) { validSteps++; }
+        //     }
+        // }
+        // if (step === 3 || final) {
+        //     let counter = 1;
+        //     let gotError = false;
+        //     const members = this.updatedHousehold.beneficiaries;
 
-            for (let i = 1; i < members.length && !gotError; i++) {
-                gotError = true;
-                if (!members[i].family_name) {
-                    message = 'You must enter a family name for member ' + i;
-                } else if (!members[i].given_name) {
-                    message = 'You must enter a given name for member ' + i;
-                } else if (!members[i].gender) {
-                    message = 'You must select a gender for member ' + i;
-                } else if (members[i].phone.number && isNaN(Number(members[i].phone.number))) {
-                    message = 'Phone can only be composed by digits for member ' + i;
-                } else if (members[i].phone.number && members[i].phone.code
-                    && !this.elementExists(members[i].phone.code, this.countryCodesList)) {
-                    message = 'Please select an existing country code from the list for member ' + i;
-                } else if ((members[i].phone.number && !members[i].phone.code)
-                    || (members[i].phone.number && members[i].phone.code === '')) {
-                    message = 'Please select a country code for the phone number of member ' + i;
-                } else if (members[i].birth_date && members[i].birth_date.getTime() > (new Date()).getTime()) {
-                    message = 'Please select a valid birth date for member ' + i;
-                } else {
-                    gotError = false;
-                    counter++;
-                }
-            }
-            if (counter === members.length) {
-                if (step <= 3) { stepper.next(); }
-                if (final) { validSteps++; }
-            }
-        }
+        //     for (let i = 1; i < members.length && !gotError; i++) {
+        //         gotError = true;
+        //         if (!members[i].family_name) {
+        //             message = 'You must enter a family name for member ' + i;
+        //         } else if (!members[i].given_name) {
+        //             message = 'You must enter a given name for member ' + i;
+        //         } else if (!members[i].gender) {
+        //             message = 'You must select a gender for member ' + i;
+        //         } else if (members[i].phone.number && isNaN(Number(members[i].phone.number))) {
+        //             message = 'Phone can only be composed by digits for member ' + i;
+        //         } else if (members[i].phone.number && members[i].phone.code
+        //             && !this.elementExists(members[i].phone.code, this.countryCodesList)) {
+        //             message = 'Please select an existing country code from the list for member ' + i;
+        //         } else if ((members[i].phone.number && !members[i].phone.code)
+        //             || (members[i].phone.number && members[i].phone.code === '')) {
+        //             message = 'Please select a country code for the phone number of member ' + i;
+        //         } else if (members[i].birth_date && members[i].birth_date.getTime() > (new Date()).getTime()) {
+        //             message = 'Please select a valid birth date for member ' + i;
+        //         } else {
+        //             gotError = false;
+        //             counter++;
+        //         }
+        //     }
+        //     if (counter === members.length) {
+        //         if (step <= 3) { stepper.next(); }
+        //         if (final) { validSteps++; }
+        //     }
+        // }
 
-        if (final) {
-            return (validSteps === 3);
-        } else if (message !== '') {
-            this.snackbar.error(message);
-        }
+        // if (final) {
+        //     return (validSteps === 3);
+        // } else if (message !== '') {
+        //     this.snackbar.error(message);
+        // }
 
         return (false);
     }
@@ -783,19 +916,27 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
      */
     getFullLocation() {
         let fullLocation: string;
-        const actualLocation = this.updatedHousehold.location;
 
-        if (actualLocation.adm1) {
-            fullLocation = actualLocation.adm1.split('-')[1];
+
+        // getting the full adms corresponding to the mainForm adms values (ids)
+        const adms = ['adm1', 'adm2', 'adm3', 'adm4'].map(adm => {
+            // We look in the list of adms which one correspond to the mainForm id
+            return this.household.fields.location.value.fields[adm].options.filter(option => {
+                return option.fields.id.value === this.mainForm.controls[adm].value;
+            })[0];
+        });
+
+        if (adms[0]) {
+            fullLocation = adms[0].fields.name.value;
         }
-        if (actualLocation.adm2) {
-            fullLocation += ', ' + actualLocation.adm2.split('-')[1];
+        if (adms[1]) {
+            fullLocation += ', ' + adms[1].fields.name.value;
         }
-        if (actualLocation.adm3) {
-            fullLocation += ', ' + actualLocation.adm3.split('-')[1];
+        if (adms[2]) {
+            fullLocation += ', ' + adms[2].fields.name.value;
         }
-        if (actualLocation.adm4) {
-            fullLocation += ', ' + actualLocation.adm4.split('-')[1];
+        if (adms[3]) {
+            fullLocation += ', ' + adms[3].fields.name.value;
         }
         return (fullLocation);
     }
@@ -803,7 +944,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
     /**
      * Get list of all country codes and put it in the list
      */
-    getCountryCodes() {
+    getCountryPhoneCodes() {
         this.countryCodesList = this.CodesMethods.getSupportedRegions();
 
         for (let i = 0; i < this.countryCodesList.length; i++) {
@@ -817,125 +958,176 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
      */
     getProjects() {
         this._projectService.get().subscribe(response => {
-            this.projectList = [];
-            const responseProject = Project.formatArray(response);
-            responseProject.forEach(element => {
-                const concat = element.id + ' - ' + element.name;
-                this.projectList.push(concat);
-            });
+            this.household.fields.projects.options = response.map(project => Project.apiToModel(project));
+            // this.projectList = [];
+            // const responseProject = Project.formatArray(response);
+            // responseProject.forEach(element => {
+            //     const concat = element.id + ' - ' + element.name;
+            //     this.projectList.push(concat);
+            // });
         });
     }
 
     /**
      * Get list of all Province (adm1) and put it in the province selector
      */
-    getProvince() {
-        this.provinceList = [];
-        this.districtList = [];
-        this.communeList = [];
-        this.villageList = [];
-        this._locationService.getAdm1().subscribe(response => {
-            this.provinceList = [];
-            const responseAdm1 = Location.formatAdm(response);
-            responseAdm1.forEach(element => {
-                this.provinceList.push(element);
-            });
-        });
+    loadProvince() {
+
+        this._locationService.fillAdm1Options(this.household);
+        this.mainForm.controls.adm2.setValue(null);
+        this.mainForm.controls.adm3.setValue(null);
+        this.mainForm.controls.adm4.setValue(null);
+        // this.provinceList = [];
+        // this.districtList = [];
+        // this.communeList = [];
+        // this.villageList = [];
+        // this._locationService.getAdm1().subscribe(response => {
+        //     this.provinceList = [];
+        //     const responseAdm1 = Location.formatAdm(response);
+        //     responseAdm1.forEach(element => {
+        //         this.provinceList.push(element);
+        //     });
+        // });
     }
 
     /**
      * Get list of all District (adm2) and put it in the district selector
      */
-    getDistrict(adm1: string) {
-        this.districtList = [];
-        this.communeList = [];
-        this.villageList = [];
-        const body = {};
-        body['adm1'] = adm1;
-        this._locationService.getAdm2(body).subscribe(response => {
-            this.districtList = [];
-            const responseAdm2 = Location.formatAdm(response);
-            responseAdm2.forEach(element => {
-                this.districtList.push(element);
-            });
-        });
+    loadDistrict(adm1Id: number) {
+        if (adm1Id) {
+            this._locationService.fillAdm2Options(this.household, adm1Id);
+        }
+        this.mainForm.controls.adm2.setValue(null);
+        this.mainForm.controls.adm3.setValue(null);
+        this.mainForm.controls.adm4.setValue(null);
+        // this.districtList = [];
+        // this.communeList = [];
+        // this.villageList = [];
+        // const body = {};
+        // body['adm1'] = adm1;
+        // this._locationService.getAdm2(body).subscribe(response => {
+        //     this.districtList = [];
+        //     const responseAdm2 = Location.formatAdm(response);
+        //     responseAdm2.forEach(element => {
+        //         this.districtList.push(element);
+        //     });
+        // });
     }
 
     /**
      * Get list of all Commune (adm3) and put it in the commune selector
      */
-    getCommune(adm2: string) {
-        this.communeList = [];
-        this.villageList = [];
-        const body = {};
-        body['adm2'] = adm2;
-        this._locationService.getAdm3(body).subscribe(response => {
-            this.communeList = [];
-            const responseAdm3 = Location.formatAdm(response);
-            responseAdm3.forEach(element => {
-                this.communeList.push(element);
-            });
-        });
+    loadCommune(adm2Id: number) {
+        if (adm2Id) {
+            this._locationService.fillAdm3Options(this.household, adm2Id);
+        }
+        this.mainForm.controls.adm3.setValue(null);
+        this.mainForm.controls.adm4.setValue(null);
+        // this.communeList = [];
+        // this.villageList = [];
+        // const body = {};
+        // body['adm2'] = adm2;
+        // this._locationService.getAdm3(body).subscribe(response => {
+        //     this.communeList = [];
+        //     const responseAdm3 = Location.formatAdm(response);
+        //     responseAdm3.forEach(element => {
+        //         this.communeList.push(element);
+        //     });
+        // });
     }
 
     /**
      * Get list of all Vilage (adm4) and put it in the village selector
      */
-    getVillage(adm3: string) {
-        this.villageList = [];
-        const body = {};
-        body['adm3'] = adm3;
-        this._locationService.getAdm4(body).subscribe(response => {
-            this.villageList = [];
-            const responseAdm4 = Location.formatAdm(response);
-            responseAdm4.forEach(element => {
-                this.villageList.push(element);
-            });
-        });
+    loadVillage(adm3Id: number) {
+        if (adm3Id) {
+            this._locationService.fillAdm4Options(this.household, adm3Id);
+        }
+        this.mainForm.controls.adm4.setValue(null);
+        // this.villageList = [];
+        // const body = {};
+        // body['adm3'] = adm3;
+        // this._locationService.getAdm4(body).subscribe(response => {
+        //     this.villageList = [];
+        //     const responseAdm4 = Location.formatAdm(response);
+        //     responseAdm4.forEach(element => {
+        //         this.villageList.push(element);
+        //     });
+        // });
     }
 
     /**
      * Get list of all Vulnerabilities
      */
     getVulnerabilityCriteria() {
-        const promise = this._criteriaService.getVulnerabilityCriteria();
-        if (promise) {
-            promise.subscribe(
-                response => {
-                    this.vulnerabilityList = [];
-                    const responseCriteria = Criteria.formatArray(response);
-                    responseCriteria.forEach(element => {
-                        this.vulnerabilityList.push(element);
+        return this._criteriaService.getVulnerabilityCriteria().pipe(
+            map(response => {
+                    this.vulnerabilityList = response.map(criteria => {
+                        return Criteria.apiToModel(criteria);
                     });
-                });
-        }
+                    // const responseCriteria = Criteria.formatArray(response);
+                    // responseCriteria.forEach(element => {
+                    //     this.vulnerabilityList.push(element);
+                    // });
+                })
+        );
     }
 
     /**
      * Get list of field and type of all country specifics
      */
     getCountrySpecifics() {
-        const promise = this._countrySpecificsService.get();
-        if (promise) {
-            return promise.pipe(
-                map(response => {
-                    const countrySpecificsList = [];
-
-                    const responseCountrySpecifics = CountrySpecific.formatArray(response);
-                    responseCountrySpecifics.forEach(element => {
-                        countrySpecificsList.push(
-                            {
-                                answer: '',
-                                countryIso3: this.countryISO3,
-                                field_string: element.field,
-                                id: element.id,
-                                type: element.type,
-                                name: element.name,
-                            }
-                        );
+            return this._countrySpecificsService.get().pipe(
+                map((countrySpecifics) => {
+                    this.household.fields.countrySpecifics.value = countrySpecifics.map(countrySpecific => {
+                        return CountrySpecific.apiToModel(countrySpecific);
                     });
-                    return countrySpecificsList;
-                }));
+                })
+            );
+
+
+
+        // const promise = this._countrySpecificsService.get();
+        // if (promise) {
+        //     return promise.pipe(
+        //         map(response => {
+        //             const countrySpecificsList = [];
+
+        //             const responseCountrySpecifics = CountrySpecific.formatArray(response);
+        //             responseCountrySpecifics.forEach(element => {
+        //                 countrySpecificsList.push(
+        //                     {
+        //                         answer: '',
+        //                         countryIso3: this.countryISO3,
+        //                         field_string: element.field,
+        //                         id: element.id,
+        //                         type: element.type,
+        //                         name: element.name,
+        //                     }
+        //                 );
+        //             });
+        //             return countrySpecificsList;
+        //         }));
+        // }
+    }
+
+
+
+    // For update, inspire from the function below (should already work)
+    getPhonePrefix(phone: Phone) {
+        let phoneCode;
+
+        if (phone.fields.prefix.value) {
+            const phonePrefix = phone.fields.prefix.value;
+            return this.countryCodesList.map(element => {
+                return element.split('- ')[1] === phonePrefix;
+            })[0];
+        } else {
+            phoneCode = String(this.getCountryISO2(String(this.countryISO3)));
+            phoneCode = phoneCode + ' - '
+                + '+' + this.CodesMethods.getCountryCodeForRegion(phoneCode);
+
+            return this.countryCodesList.includes(phoneCode) ? phoneCode : null;
         }
     }
 
@@ -945,7 +1137,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
     getUserPhoneCode(beneficiary?: any) {
 
         if (this.countryISO3) {
-            if (beneficiary && typeof beneficiary === 'string') {
+            if (beneficiary && typeof beneficiary === 'string') { // means the 'beneficiary' is a 'phone prefix', would not be bad to type
                 return this.countryCodesList.findIndex(element => {
                     return element.split('- ')[1] === beneficiary;
                 });
@@ -1013,7 +1205,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
     }
 
     private snapshot(): void {
-        this.uneditedSnapshot = this.deepCopy(this.updatedHousehold);
+        this.uneditedSnapshot = this.deepCopy(this.household);
+        // this.uneditedSnapshot = this.deepCopy(this.updatedHousehold);
     }
 
     private deepCopy(object: any) {

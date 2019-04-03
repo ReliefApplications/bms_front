@@ -45,22 +45,49 @@ export class Location {
         const newLocation = new Location();
         newLocation.fields.id.value = locationFromApi.id;
 
+        let adm1;
+        let adm2;
+        let adm3;
+        let adm4;
+
+        if (locationFromApi.adm4) {
+            adm4 = locationFromApi.adm4;
+            adm3 = locationFromApi.adm4.adm3;
+            adm2 = locationFromApi.adm4.adm3.adm2;
+            adm1 = locationFromApi.adm4.adm3.adm2.adm1;
+        } else if (locationFromApi.adm3) {
+            adm4 = null;
+            adm3 = locationFromApi.adm3;
+            adm2 = locationFromApi.adm3.adm2;
+            adm1 = locationFromApi.adm3.adm2.adm1;
+        } else if (locationFromApi.adm2) {
+            adm4 = null;
+            adm3 = null;
+            adm2 = locationFromApi.adm2;
+            adm1 = locationFromApi.adm2.adm1;
+        } else if (locationFromApi.adm1) {
+            adm4 = null;
+            adm3 = null;
+            adm2 = null;
+            adm1 = locationFromApi.adm1;
+        }
+
 
         newLocation.fields.adm1.value = { fields : {
-            name: { value: locationFromApi.adm1 ? locationFromApi.adm1.name : null },
-            id: { value: locationFromApi.adm1 ? locationFromApi.adm1.id : null }
+            name: { value: adm1 ? adm1.name : null },
+            id: { value: adm1 ? adm1.id : null }
         }};
         newLocation.fields.adm2.value = { fields : {
-            name: { value: locationFromApi.adm2 ? locationFromApi.adm2.name : null },
-            id: { value: locationFromApi.adm2 ? locationFromApi.adm2.id : null }
+            name: { value: adm2 ? adm2.name : null },
+            id: { value: adm2 ? adm2.id : null }
         }};
         newLocation.fields.adm3.value = { fields : {
-            name: { value: locationFromApi.adm3 ? locationFromApi.adm3.name : null },
-            id: { value: locationFromApi.adm3 ? locationFromApi.adm3.id : null }
+            name: { value: adm3 ? adm3.name : null },
+            id: { value: adm3 ? adm3.id : null }
         }};
         newLocation.fields.adm4.value = { fields : {
-            name: { value: locationFromApi.adm4 ? locationFromApi.adm4.name : null },
-            id: { value: locationFromApi.adm4 ? locationFromApi.adm4.id : null }
+            name: { value: adm4 ? adm4.name : null },
+            id: { value: adm4 ? adm4.id : null }
         }};
         return newLocation;
     }

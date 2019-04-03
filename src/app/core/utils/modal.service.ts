@@ -64,7 +64,7 @@ export class ModalService {
                 dialogRef = this.openDeleteDialog(dialogDetails.element);
                 break;
             case 'visit':
-                this.goToDistribution(dialogDetails.element.fields.id.value);
+                this.referedClassService.visit(dialogDetails.element.fields.id.value);
                 break;
             default:
                 this.snackbar.error('Modal error');
@@ -208,23 +208,6 @@ export class ModalService {
                   }
                 }
             });
-        }
-    }
-
-    goToDistribution(id) {
-        if (!this.networkService.getStatus()) {
-            this._cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + id + '_beneficiaries')
-                .subscribe(
-                    result => {
-                        if (!result) {
-                            this.snackbar.error(this.texts.cache_no_distribution);
-                        } else {
-                            this.router.navigate(['/projects/distributions/' + id]);
-                        }
-                    }
-                );
-        } else {
-            this.router.navigate(['/projects/distributions/' + id]);
         }
     }
 }

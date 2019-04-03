@@ -7,7 +7,10 @@ import { DateModelField } from './CustomModel/date-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { ArrayInputField } from './CustomModel/array-input-field';
 import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
-
+import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
+import { Phone } from './phone.new';
+import { ObjectModelField } from './CustomModel/object-model-field';
+import { NationalId } from './nationalId.new';
 export class Beneficiary extends CustomModel {
     title = GlobalText.TEXTS.beneficiary;
 
@@ -95,11 +98,15 @@ export class Beneficiary extends CustomModel {
                     }},
                     { fields : {
                         name: { value: 'Resident'},
-                        id: { value: 3}
+                        id: { value: 2}
                     }},
                 ],
                 bindField: 'name',
                 apiLabel: 'name',
+                value: { fields : {
+                    name: { value: 'Resident'},
+                    id: { value: 2}
+                }}
             }
         ),
         beneficiaryStatus: new BooleanModelField(
@@ -112,27 +119,21 @@ export class Beneficiary extends CustomModel {
                 isEditable: true,
             }
         ),
-        nationalIds: new ArrayInputField<string>(
+        nationalIds: new MultipleObjectsModelField<NationalId>(
             {
                 title: GlobalText.TEXTS.model_beneficiaries_nationalids,
-                isDisplayedInModal: true,
-                isDisplayedInTable: true,
-                isRequired: true,
-                isSettable: true,
-                isEditable: true,
-                numberOfInputs: 1,
-                value: []
+                isDisplayedInModal: false,
+                isDisplayedInTable: false,
             }
         ),
-        phones: new ArrayInputField<string>(
+        phones: new MultipleObjectsModelField<Phone>(
             {
                 title: GlobalText.TEXTS.model_beneficiaries_phones,
-                isDisplayedInModal: true,
-                isDisplayedInTable: true,
+                isDisplayedInModal: false,
+                isDisplayedInTable: false,
                 isRequired: true,
                 isSettable: true,
                 isEditable: true,
-                numberOfInputs: 2,
                 value: []
             }
         ),
@@ -179,12 +180,12 @@ export class Beneficiary extends CustomModel {
 
         if (beneficiaryFromApi.national_ids) {
             beneficiaryFromApi.national_ids.forEach(nationalId => {
-                newBeneficiary.fields.nationalIds.value.push(nationalId.id_number);
+                newBeneficiary.fields.nationalIds.value.push(NationalId.apiToModel(nationalId));
             });
         }
         if (beneficiaryFromApi.phones) {
             beneficiaryFromApi.phones.forEach(phone => {
-                newBeneficiary.fields.phones.value.push(phone.number);
+                newBeneficiary.fields.phones.value.push(phone.apiToModel());
             });
         }
         if (beneficiaryFromApi.vulnerability_criteria) {
@@ -207,7 +208,7 @@ export class Beneficiary extends CustomModel {
             residency_status: this.fields.residencyStatus.formatForApi(),
             status: this.fields.beneficiaryStatus.formatForApi(),
             vulnerability_criteria: this.fields.vulnerabilities.formatForApi(),
-            phones: this.fields.phones.formatForApi(),
+            phones: this.fields.phones.formatForApi(), // put modelToApi there
             national_ids: this.fields.nationalIds.formatForApi(),
         };
     }

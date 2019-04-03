@@ -7,6 +7,9 @@ import { tap, finalize } from 'rxjs/operators';
 import { DistributionData } from '../../../model/distribution-data';
 import { GlobalText } from '../../../../texts/global';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatPaginator } from '@angular/material';
+import { Households } from 'src/app/model/households.new';
+import { HouseholdsService } from 'src/app/core/api/households.service';
 
 
 @Component({
@@ -31,6 +34,12 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
     _timeout: any = null;
     mapperObject = null;
     public newObject: any;
+
+
+    class = Households;
+    servicename = HouseholdsService;
+
+    @ViewChild(MatPaginator) paginator: MatPaginator;
 
     ngOnInit() {
         super.checkData();
@@ -169,5 +178,18 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
             this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
             this.sendSortedData();
         }
+    }
+
+    /**
+    * open each modal dialog
+    */
+    openDialog(event): void {
+        this.openModal.emit({
+            event
+        });
+    }
+
+    reload() {
+        // console.log('reload')
     }
 }

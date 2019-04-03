@@ -52,16 +52,38 @@ export class CountrySpecific extends CustomModel {
                 apiLabel: 'name',
             }
         ),
+        answer: new TextModelField(
+            {
+
+            }
+        ),
+        countryIso3: new TextModelField(
+            {
+
+            }
+        ),
+        name: new TextModelField(
+            {
+
+            }
+        )
     };
 
-    public static apiToModel(countrySpecificFromApi: any): object {
+    public static apiToModel(countrySpecificFromApi: any): CountrySpecific {
         const newCountrySpecific = new CountrySpecific();
+
+        if (countrySpecificFromApi.country_specific) {
+            newCountrySpecific.fields.answer.value = countrySpecificFromApi.answer;
+            countrySpecificFromApi = countrySpecificFromApi.country_specific;
+        }
         newCountrySpecific.fields.id.value = countrySpecificFromApi.id;
         newCountrySpecific.fields.type.value = countrySpecificFromApi.type === 'text' ?
             newCountrySpecific.fields.type.options[0] :
             newCountrySpecific.fields.type.options[1];
 
         newCountrySpecific.fields.field.value = countrySpecificFromApi.field_string;
+        newCountrySpecific.fields.countryIso3.value = countrySpecificFromApi.country_iso3 ? countrySpecificFromApi.country_iso3 : null;
+        newCountrySpecific.fields.name.value = countrySpecificFromApi.field ? countrySpecificFromApi.field : null;
 
         return newCountrySpecific;
     }

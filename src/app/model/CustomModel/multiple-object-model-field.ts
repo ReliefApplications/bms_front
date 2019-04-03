@@ -10,9 +10,15 @@ export class MultipleObjectsModelField<CustomModel> extends CustomModelField<Cus
     value: Array<CustomModel>;
 
     /**
-     * What to display and how
+     * What to display in the table and how
      * @type {Function}
      */
-    displayFunction: Function;
+    displayTableFunction: Function;
+
+    /**
+     * What to display in the table and how
+     * @type {Function}
+     */
+    displayModalFunction: Function;
 
 }

@@ -44,4 +44,18 @@ export class TableSearchComponent extends TableComponent implements OnInit {
     print(element: any) {
         this.service.print(element);
     }
+
+    getLocationName(element) {
+        if (element.location && element.location.adm4) {
+            return element.location.adm4;
+        } else if (element.location && element.location.adm3) {
+            return element.location.adm3;
+        } else if (element.location && element.location.adm2) {
+            return element.location.adm2;
+        } else if (element.location && element.location.adm1) {
+            return element.location.adm1;
+        } else {
+            return null;
+        }
+    }
 }

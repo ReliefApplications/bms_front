@@ -31,7 +31,8 @@
                         <img [matTooltip]="element.name" class="png" [src]="element[property]">
                     </span>
                     <span *ngIf="property=='rights'">{{recoverRights(element)}}</span>
-                    <span *ngIf="propertiesTypes[property]!='document' && propertiesTypes[property]!='image' && propertiesTypes[property]!='png' && property!='rights'">{{mapperService.mapValue(element,
+                    <span *ngIf="property==='location'">{{ getLocationName(element) }}</span>
+                    <span *ngIf="propertiesTypes[property]!='location' && propertiesTypes[property]!='document' && propertiesTypes[property]!='image' && propertiesTypes[property]!='png' && property!='rights'">{{mapperService.mapValue(element,
                         property)}}</span>
                 </td>
             </ng-container>

@@ -12,7 +12,7 @@
       <th class="table-title checkbox-line" *ngIf="propertiesTypes[p]==='checkbox'">{{mapperObject[p] | titlecase }}</th>
       <th class="table-value">
                 <form class="form" [formGroup]="form" ngNoForm>
-                    <mat-form-field class="general" *ngIf="propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
+                    <mat-form-field class="general" *ngIf="propertiesTypes[p]!=='location' && propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
                         class="full-width">
 
             <input matInput [maxlength]="this.maxLength" *ngIf="propertiesTypes[p]=='text'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
@@ -124,6 +124,29 @@
               <input type="file" id="file" (change)="onFileChange(p, $event)" #fileInput>
               <p *ngIf="filename">{{ filename }}</p>
               <p *ngIf="!filename">{{ modal.modal_no_file }}</p>
+          </div>
+
+          <div *ngIf="propertiesTypes[p]=='location' && newObject.location">
+            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder={{modal.adm1}} [(ngModel)]="newObject.location.adm1" [ngModelOptions]="{standalone: true}" (change)='getDistrict($event)' required>
+              <ng-option *ngFor="let province of provinceList" [value]="province.name" >
+                {{province.name}}
+              </ng-option>
+            </ng-select>
+            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{modal.adm2}} [(ngModel)]="newObject.location.adm2" [ngModelOptions]="{standalone: true}"  (change)='getCommunity($event)'>
+              <ng-option *ngFor="let district of districtList" [value]="district.name">
+                {{district.name}}
+              </ng-option>
+            </ng-select>
+            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{modal.adm3}} [(ngModel)]="newObject.location.adm3" [ngModelOptions]="{standalone: true}"  (change)='getVillage($event)'>
+              <ng-option *ngFor="let commune of communeList" [value]="commune.name">
+                {{commune.name}}
+              </ng-option>
+            </ng-select>
+            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{modal.adm4}} [(ngModel)]="newObject.location.adm4" [ngModelOptions]="{standalone: true}" >
+              <ng-option *ngFor="let village of villageList" [value]="village.name">
+                {{village.name}}
+              </ng-option>
+            </ng-select>
           </div>
 
         </form>

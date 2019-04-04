@@ -352,19 +352,16 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
         this.newObject.location.adm3 = null;
         this.newObject.location.adm4 = null;
         this.loadDistrict(adm1Name).subscribe();
-
     }
 
     getCommunity(adm2Name) {
         this.newObject.location.adm3 = null;
         this.newObject.location.adm4 = null;
         this.loadCommunity(adm2Name).subscribe();
-
     }
 
     getVillage(adm3Name) {
         this.newObject.location.adm4 = null;
         this.loadVillage(adm3Name).subscribe();
-
     }
 }

@@ -332,19 +332,16 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
         this.updateObject.location.adm3 = null;
         this.updateObject.location.adm4 = null;
         this.loadDistrict(adm1Name).subscribe();
-
     }
 
     getCommunity(adm2Name) {
         this.updateObject.location.adm3 = null;
         this.updateObject.location.adm4 = null;
         this.loadCommunity(adm2Name).subscribe();
-
     }
 
     getVillage(adm3Name) {
         this.updateObject.location.adm4 = null;
         this.loadVillage(adm3Name).subscribe();
-
     }
 }

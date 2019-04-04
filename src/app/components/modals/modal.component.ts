@@ -43,6 +43,7 @@ export class ModalComponent implements OnInit, DoCheck {
     public controls = new FormControl();
 
     public passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+    public individualValuesRegex =  /^([\d]+,?\s?,?\s?)+$/;
 
     public defaultValue: FormControl = new FormControl({ value: ''});
     public projectsControl: FormControl = new FormControl({ value: '', disabled: 'true' });
@@ -58,6 +59,11 @@ export class ModalComponent implements OnInit, DoCheck {
         updateOn: 'change',
     });
 
+    public individualValuesFormControl = new FormControl('', {
+        validators: [Validators.required, Validators.pattern(this.individualValuesRegex)],
+        updateOn: 'change',
+    });
+
     public notesFormControl = new FormControl(null, Validators.required);
 
     form = new FormGroup({
@@ -66,7 +72,8 @@ export class ModalComponent implements OnInit, DoCheck {
         countryControl: this.countryControl,
         emailFormControl: this.emailFormControl,
         passwordFormControl: this.passwordFormControl,
-        notesFormControl: this.notesFormControl
+        notesFormControl: this.notesFormControl,
+        individualValuesFormControl: this.individualValuesFormControl
     });
 
 

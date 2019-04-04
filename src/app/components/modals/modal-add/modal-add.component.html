@@ -26,7 +26,7 @@
 
             <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="0">
             <input matInput *ngIf="propertiesTypes[p]=='positive-number' && p !== 'number_vouchers'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1">
-            <input matInput *ngIf="p === 'number_vouchers'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1" (change)="handleChangeNumberVouchers()">
+            <input matInput *ngIf="p === 'number_vouchers'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1">
 
                         <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
                             matInput [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
@@ -111,12 +111,16 @@
             <input [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" matInput type="number" min="1">
           </mat-form-field>
 
-          <mat-form-field class="values" *ngIf="propertiesTypes[p]==='individual_values' && newObject.individual_to_all === true" class="full-width">
-            <div class="array">
-              <span *ngFor="let value of newObject.individual_values; let i=index; trackBy: trackByFn" >
-                <input [(ngModel)]="newObject[p][i]" [ngModelOptions]="{standalone: true}" matInput type="number" min="1">
-              </span>
-            </div>
+          <mat-form-field class="general" class="full-width" *ngIf="propertiesTypes[p]==='individual_values' && newObject.individual_to_all === true" class="full-width">
+            <input [(ngModel)]="newObject[p]" matInput type="text"
+              formControlName="individualValuesFormControl" [errorStateMatcher]="matcher" >
+            <mat-hint align="start"><strong>{{modal.modal_values_format_error}}</strong></mat-hint>
+            <mat-error *ngIf="individualValuesFormControl.hasError('pattern') && !individualValuesFormControl.hasError('required')">
+              {{modal.modal_values_format_error}}
+            </mat-error>
+            <mat-error *ngIf="individualValuesFormControl.hasError('required')">
+              {{modal.modal_values_required | titlecase}}
+            </mat-error>
           </mat-form-field>
 
           <div *ngIf="propertiesTypes[p]=='document'" class="input-file">

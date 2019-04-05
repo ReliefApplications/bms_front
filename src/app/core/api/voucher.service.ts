@@ -2,8 +2,6 @@ import { Injectable                                 } from '@angular/core';
 import { URL_BMS_API                                } from '../../../environments/environment';
 import { HttpService                                } from './http.service';
 import { ExportService                              } from './export.service';
-import { HttpHeaders } from '@angular/common/http';
-
 
 @Injectable({
     providedIn: 'root'

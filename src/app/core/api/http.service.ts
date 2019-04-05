@@ -1,16 +1,14 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { URL_BMS_API } from '../../../environments/environment';
-
+import { Injectable } from '@angular/core';
 // Services
-import { Observable, concat, of, merge, timer } from 'rxjs';
-import { AsyncacheService } from '../storage/asyncache.service';
+import { concat, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { NetworkService } from './network.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { StoredRequestInterface } from 'src/app/model/stored-request';
-import { element } from '@angular/core/src/render3/instructions';
-import { keyframes } from '@angular/animations';
+import { URL_BMS_API } from '../../../environments/environment';
+import { AsyncacheService } from '../storage/asyncache.service';
+import { NetworkService } from './network.service';
+
 
 @Injectable({
     providedIn: 'root'

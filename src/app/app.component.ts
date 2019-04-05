@@ -125,7 +125,6 @@ export class AppComponent implements OnInit, DoCheck {
      */
     onActivate(event) {
         // Update the new component name.
-        this.refreshCurrentComponent(event);
         // Verify the user.
         this._authenticationService.getUser().subscribe(
             user => {

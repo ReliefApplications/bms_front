@@ -1,22 +1,21 @@
-import { Component, OnInit, ViewChild, HostListener, DoCheck } from '@angular/core';
-import { HouseholdsService } from '../../../core/api/households.service';
-
-import { saveAs } from 'file-saver/FileSaver';
-import { ImportService } from '../../../core/utils/import.service';
-import { ProjectService } from '../../../core/api/project.service';
-import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { Project } from '../../../model/project';
-import { GlobalText } from '../../../../texts/global';
+import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { MatTableDataSource, MatDialog } from '@angular/material';
+import { Observable } from 'rxjs';
+import { finalize, switchMap } from 'rxjs/operators';
+import { LocationService } from 'src/app/core/api/location.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Households } from 'src/app/model/households';
 import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
-import { LocationService } from 'src/app/core/api/location.service';
-import { switchMap, finalize } from 'rxjs/operators';
-import { Observable, from } from 'rxjs';
+import { Households } from 'src/app/model/households';
+import { GlobalText } from '../../../../texts/global';
+import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
+import { HouseholdsService } from '../../../core/api/households.service';
+import { ProjectService } from '../../../core/api/project.service';
+import { ImportService } from '../../../core/utils/import.service.new';
+import { Project } from '../../../model/project';
+
 
 @Component({
     selector: 'app-beneficiaries-import',
@@ -37,12 +36,8 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
     selectedTitle = 'file import';
     isBoxClicked = false;
 
-    // for the selector
-    form = new FormGroup({
-        projects: new FormControl({ value: '', disabled: 'true' })
-    });
-    projectList: string[] = [];
-    public selectedProject: string = null;
+    projectList: Project[] = [];
+    public selectedProject: Project = null;
 
     // upload
     response = '';
@@ -62,8 +57,11 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
     public ParamsToDisplay: any = [];
     public chosenItem: string;
 
-    public text = new FormControl('', [Validators.pattern('[a-zA-Z ]*'), Validators.required]);
-    public number = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
+    public form = new FormGroup({
+        projects : new FormControl({ value: '', disabled: 'true' }),
+        text : new FormControl('', [Validators.pattern('[a-zA-Z ]*'), Validators.required]),
+        number : new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]),
+    });
     public paramToSend = {};
     public provider: string;
     extensionType: string;
@@ -107,6 +105,8 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
 
     ngOnInit() {
         let rights;
+
+
         this._cacheService.get('user').subscribe(
             result => {
                 rights = result.rights;
@@ -152,14 +152,9 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
      * Get list of all project and put it in the project selector
      */
     getProjects() {
-        this.referedClassService = this._projectService;
-        this.referedClassService.get().subscribe(response => {
-            this.projectList = [];
-            response = this.referedClassToken.formatArray(response);
-            response.forEach(element => {
-                const concat = element.id + ' - ' + element.name;
-                this.projectList.push(concat);
-            });
+        this._projectService.get().subscribe((response: any) => {
+            this.projectList = Project.formatArray(response);
+            this.form.controls['projects'].reset(this.projectList[0]);
         });
     }
 
@@ -186,11 +181,12 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
                 this.csv2 = fileList[0];
             } else {
                 this.csv = fileList[0];
+
                 this.isProjectsDisabled = false;
             }
 
+            this.form.controls['projects'].enable();
             if (this.projectList.length > 0) {
-                this.form.controls['projects'].enable();
                 this.selectedProject = this.projectList[0];
             }
         }
@@ -222,25 +218,12 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
      * Send csv file and project to import new households
      */
     addHouseholds() {
-        const data = new FormData();
-        if (!this.csv || !this.selectedProject || this.load) {
+        if (!this.csv || !this.form.controls['projects'].valid || this.load) {
             this.snackbar.error(this.household.beneficiaries_import_select_project);
         } else {
-            const project = this.selectedProject.split(' - ');
-            data.append('file', this.csv);
-            const step = 1;
             this.load = true;
-            this._importService.sendData(this.email, data, project[0], step).then(() => {
-                this.router.navigate(['/beneficiaries/import/data-validation']);
-            }, (err) => {
-                this.load = false;
-            })
-                .catch(
-                    () => {
-                        this.load = false;
-                        this.snackbar.error(this.household.beneficiaries_import_error_importing);
-                    }
-                );
+            this._importService.setImportContext(this.email, this.form.controls['projects'].value, this.csv);
+            this.router.navigate(['/beneficiaries/import/data-validation']);
         }
     }
 
@@ -463,20 +446,20 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
             body.adm = 1;
             body.name = this.saveLocation.adm1;
         }
-
-        this._importService.testFileTemplate(data, body)
-            .then(() => {
-            }, (err) => {
-                this.dialog.closeAll();
-                this.csv2 = null;
-                this.snackbar.info(this.household.beneficiaries_import_response);
-            })
-            .catch(
-                () => {
-                    this.dialog.closeAll();
-                    this.csv2 = null;
-                    this.snackbar.error(this.household.beneficiaries_import_error_importing);
-                });
+        // TODO Important: enable this
+        // this._importService.testFileTemplate(data, body)
+        //     .then(() => {
+        //     }, (err) => {
+        //         this.dialog.closeAll();
+        //         this.csv2 = null;
+        //         this.snackbar.info(this.household.beneficiaries_import_response);
+        //     })
+        //     .catch(
+        //         () => {
+        //             this.dialog.closeAll();
+        //             this.csv2 = null;
+        //             this.snackbar.error(this.household.beneficiaries_import_error_importing);
+        //         });
     }
 
     /**
@@ -575,14 +558,14 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
      */
     addBeneficiaries() {
         if (Object.keys(this.paramToSend).length === this.APIParams.length && Object.keys(this.paramToSend).length > 0) {
-            if (this.selectedProject == null) {
+            if (this.selectedProject) {
                 this.snackbar.error(this.household.beneficiaries_missing_selected_project);
             } else {
-                const project = this.selectedProject.split(' - ');
-                this._importService.project = project[0];
+                // TODO Important: enable this
+                // this._importService.project = project[0];
                 this.load = true;
                 this.paramToSend['provider'] = this.provider;
-                this._beneficiariesService.importApi(this.paramToSend, project[0])
+                this._beneficiariesService.importApi(this.paramToSend, this.form.controls['projects'].value)
                     .subscribe(response => {
                         if (response.error) {
                             this.load = false;

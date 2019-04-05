@@ -20,6 +20,8 @@ projects, like the [API](https://github.com/ReliefApplications/bms_api) is hoste
 
 ## Contributing
 
+We welcome contributions from anyone who acts in good faith and in a respectful manner and adds value to the project.
+
 **We are looking for collaboration from the Open Source community!**
 There's so much we want to do, including but not limited to: enhancing existing 
 applications with new features, optimizing the technical tools and algorithms 

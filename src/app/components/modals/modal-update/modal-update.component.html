@@ -8,7 +8,7 @@
       <th class="table-title checkbox-line" *ngIf="propertiesTypes[p]==='checkbox'">{{data.mapper.mapTitle(p) | titlecase }}</th>
       <th class="table-value">
         <form class="form" [formGroup]="form" ngNoForm>
-          <mat-form-field *ngIf="propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p]!='array'" class="full-width">
+          <mat-form-field *ngIf="propertiesTypes[p]!=='currency' && propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p]!='array'" class="full-width">
             <input matInput *ngIf="propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='positive-number' && propertiesTypes[p] != 'selectDonor' && propertiesTypes[p] != 'date' && propertiesTypes[p]!='selectSingle'  && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry' && propertiesTypes[p] != 'selectCountry'"
               [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries' || p=='name' || p=='code' || p=='number_vouchers' || p=='status' || propertiesTypes[p] === 'disabled')"
               [type]="propertiesTypes[p]">
@@ -38,6 +38,11 @@
               [searchable]="true" [ngModelOptions]="{standalone: true}"
               (change)="selected(updateObject[p])">
               <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string | titlecase}}{{singleData.name | titlecase}}</ng-option>
+        </ng-select>
+
+        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+            *ngIf="propertiesTypes[p]=='currency'" [(ngModel)]="updateObject[p]" placeholder="{{data.mapper.mapTitle(p) | titlecase}}"
+            [ngModelOptions]="{standalone: true}" [items]="loadedData[p]">
         </ng-select>
 
           <ng-select *ngIf="propertiesTypes[p]=='select'" class="multiple-select" [(ngModel)]="updateObject[p]" bindLabel="name"

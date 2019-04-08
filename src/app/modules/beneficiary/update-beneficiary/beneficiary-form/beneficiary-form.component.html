@@ -42,7 +42,7 @@
     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
       placeholder={{Text.model_residencystatus}} formControlName="residencyStatus">
       <ng-option *ngFor="let option of beneficiary.fields.residencyStatus.options" [value]="option.fields.id.value">
-        {{option.fields.name.value}}
+        {{option.fields.name.value | titlecase }}
       </ng-option>
     </ng-select>
   </div>
@@ -68,8 +68,8 @@
     </div>
   </div>
   <div class="lign-container">
-    <mat-checkbox color='primary' *ngFor="let vulnerability of vulnerabilityList" [formControlName]="vulnerability.fields.field.value">
-      {{vulnerability.fields.field.value | titlecase }}
+    <mat-checkbox color='primary' *ngFor="let vulnerability of vulnerabilityList" [formControlName]="vulnerability.fields.name.value">
+      {{vulnerability.fields.name.value | titlecase }}
     </mat-checkbox>
   </div>
 </form>

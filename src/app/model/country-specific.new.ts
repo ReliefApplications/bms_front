@@ -3,6 +3,7 @@ import { GlobalText } from 'src/texts/global';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
+import { ObjectModelField } from './CustomModel/object-model-field';
 
 export class CountrySpecific extends CustomModel {
 
@@ -93,7 +94,6 @@ export class CountrySpecific extends CustomModel {
             id: this.fields.id.formatForApi(),
             type: this.fields.type.formatForApi(),
             field: this.fields.field.formatForApi()
-
         };
     }
 
@@ -106,14 +106,28 @@ export class CountrySpecific extends CustomModel {
 
 
 export class CountrySpecificAnswer {
-    static __classname__ = 'CountrySpecificAnswer';
-    /**
-     * Answer
-     * @type { string}
-     */
-    answer = '';
-    /**
-     * @type {CountrySpecific}
-     */
-    country_specific: CountrySpecific;
+
+    public fields = {
+        countrySpecific: new ObjectModelField<CountrySpecific>({
+
+        }),
+        answer: new TextModelField({
+
+        })
+    };
+
+    public static apiToModel(countrySpecificAnswerFromApi: any): CountrySpecificAnswer {
+        const newCountrySpecificAnswer = new CountrySpecificAnswer();
+        newCountrySpecificAnswer.fields.answer.value = countrySpecificAnswerFromApi.answer;
+        newCountrySpecificAnswer.fields.countrySpecific.value = CountrySpecific.apiToModel(countrySpecificAnswerFromApi.country_specific);
+
+        return newCountrySpecificAnswer;
+    }
+
+    public modelToApi(): object {
+        return {
+            country_specific: this.fields.countrySpecific.value.modelToApi(),
+            answer: this.fields.answer.value
+        };
+    }
 }

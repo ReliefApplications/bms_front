@@ -119,9 +119,9 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         this.router.navigate(['/beneficiaries/add-beneficiaries']);
     }
 
-    updateBeneficiary(event) {
-        this.router.navigate(['/beneficiaries/update-beneficiary', event]);
-    }
+    // updateBeneficiary(event) {
+    //     this.router.navigate(['/beneficiaries/update-beneficiary', event]);
+    // }
 
     setType(choice: string) {
         this.extensionType = choice;
@@ -276,7 +276,7 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
 
         this.modalService.openDialog(Households, this.householdsService, event.event);
         this.modalService.isCompleted.subscribe(() => {
-            this.tableBeneficiaries.reload();
+            this.dataSource.loadHouseholds();
             // this.getDistributionsByProject(this.selectedProject.fields.id.value);
         });
         // if edit, open modal edit date, if details idem

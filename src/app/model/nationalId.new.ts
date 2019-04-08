@@ -32,6 +32,7 @@ export class NationalId {
                     name: { value: GlobalText.TEXTS.national_id_card },
                     id: { value: 1 },
                 }},
+                apiLabel: 'name'
             }
         ),
         number: new TextModelField(
@@ -50,5 +51,12 @@ export class NationalId {
         });
         newId.fields.number.value = idFromApi.id_number;
         return newId;
+    }
+
+    public modelToApi(): Object {
+        return {
+            id_number: this.fields.number.value,
+            id_type: this.fields.type.formatForApi()
+        };
     }
 }

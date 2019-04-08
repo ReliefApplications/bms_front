@@ -11,6 +11,9 @@ import { CountrySpecific } from './country-specific.new';
 import { CustomModel } from './CustomModel/custom-model';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
+import { ThousandsPipe } from '../core/utils/thousands.pipe';
+import { CountrySpecificAnswer } from './country-specific.new';
+import { LIVELIHOOD } from './livelihood';
 
 export class Households extends CustomModel {
 
@@ -86,7 +89,7 @@ export class Households extends CustomModel {
                 value: []
             }
         ),
-        countrySpecifics: new MultipleObjectsModelField<CountrySpecific>(
+        countrySpecificAnswers: new MultipleObjectsModelField<CountrySpecificAnswer>(
             {
                 value: []
             }
@@ -109,7 +112,15 @@ export class Households extends CustomModel {
             {
                 isLongText: true
             }
-        )
+        ),
+
+        // For now they are never used, set, displayed, or equal to anything other than zero
+        longitude: new TextModelField({
+            value: '0'
+        }),
+        latitude: new TextModelField({
+            value: '0'
+        }),
 
     };
 
@@ -121,7 +132,10 @@ export class Households extends CustomModel {
         newHousehold.fields.addressPostcode.value = householdFromApi.address_postcode;
         newHousehold.fields.addressStreet.value = householdFromApi.address_street;
         newHousehold.fields.notes.value = householdFromApi.notes;
-        newHousehold.fields.livelihood.value = { fields: {id: {value: householdFromApi.livelihood }}};
+        newHousehold.fields.livelihood.value =
+            householdFromApi.livelihood ?
+            LIVELIHOOD.filter(livelihood => livelihood.id === householdFromApi.livelihood + 1)[0] :
+            null;
 
         let dependents: number;
         if (householdFromApi.number_dependents == null) {
@@ -142,23 +156,17 @@ export class Households extends CustomModel {
         });
         newHousehold.fields.vulnerabilities.displayTableFunction = value => this.displayTableVulnerabilities(value);
         newHousehold.fields.vulnerabilities.displayModalFunction = value => this.displayModalVulnerabilities(value);
-
-
-        // let projectString = '';
-        // householdFromApi.projects.forEach(project => {
-        //     if (projectString === '') {
-        //         projectString = project.name;
-        //     } else {
-        //         projectString = projectString + ', ' + project.name;
-        //     }
-        // });
         newHousehold.fields.projects.value = householdFromApi.projects.map(project => Project.apiToModel(project));
-
         newHousehold.fields.location.value = Location.apiToModel(householdFromApi.location);
         newHousehold.fields.location.displayTableFunction = value => value.getLocationName();
         newHousehold.fields.location.displayModalFunction = value => value.getLocationName();
 
-        // Write the lines for beneficiaries and country specific
+        newHousehold.fields.beneficiaries.value = householdFromApi.beneficiaries.map(beneficiary => Beneficiary.apiToModel(beneficiary));
+        newHousehold.fields.countrySpecificAnswers.value = householdFromApi.country_specific_answers ?
+        householdFromApi.country_specific_answers.map(
+            countrySpecificAnswer => CountrySpecificAnswer.apiToModel(countrySpecificAnswer)
+        )
+        : null;
 
         return newHousehold;
     }
@@ -188,4 +196,22 @@ export class Households extends CustomModel {
     public getIdentifyingName() {
         return this.fields.firstName.value + ' ' + this.fields.familyName.value;
     }
+
+
+    public modelToApi(): Object {
+        return {
+            address_number: this.fields.addressNumber.value,
+            address_street: this.fields.addressStreet.value,
+            address_postcode: this.fields.addressPostcode.value,
+            livelihood: this.fields.livelihood.value ? this.fields.livelihood.value.id - 1 : null,
+            longitude: this.fields.longitude.value,
+            latitude: this.fields.latitude.value,
+            notes: this.fields.notes.value,
+            location: this.fields.location.value.modelToApi(),
+            country_specific_answers: this.fields.countrySpecificAnswers.value.map(answer => answer.modelToApi()),
+            beneficiaries: this.fields.beneficiaries.value.map(beneficiary => beneficiary.modelToApi())
+        };
+    }
+
+    // In modelToApi, do livelihoodId - 1
 }

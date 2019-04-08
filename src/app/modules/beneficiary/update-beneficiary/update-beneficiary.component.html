@@ -5,13 +5,13 @@
   </div>
 
   <app-placeholder-stepper *ngIf="!household"></app-placeholder-stepper>
-  <app-placeholder-panel *ngIf="loader"></app-placeholder-panel>
+  <app-placeholder-panel *ngIf="!household"></app-placeholder-panel>
 
-  <mat-horizontal-stepper #stepper *ngIf="!loader && (mode == 'create' || (mode == 'update' && household.beneficiaries[0]))">
+  <mat-horizontal-stepper #stepper linear *ngIf="!loader && (mode == 'create' || (mode == 'update' && beneficiaries[0]))">
     <ng-template matStepperIcon="done">
       <mat-icon>done</mat-icon>
     </ng-template>
-      <mat-step>
+      <mat-step [completed]="validStep1">
         <form [formGroup]="mainForm">
           <ng-template class="step" matStepLabel>{{Text.add_beneficiary_step1}} </ng-template>
           <div class="container-table">
@@ -59,21 +59,14 @@
                   </div>
                   <div class="column-container">
                       <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getOccupation}} formControlName="livelihood">
-                        <ng-option *ngFor="let livelihood of livelihoodsList; let index = index" [value]="index">
-                          {{livelihood | titlecase}}
+                        <ng-option *ngFor="let livelihood of livelihoodsList" [value]="livelihood.id">
+                          {{livelihood.name | titlecase}}
                         </ng-option>
                       </ng-select>
-                    <!-- <mat-form-field>
-                      <input matInput placeholder={{Text.add_beneficiary_getOccupation}} [matAutocomplete]="autoLivelihood" formControlName="livelihood">
-                      <mat-autocomplete #autoLivelihood="matAutocomplete">
-                        <mat-option *ngFor="let livelihood of livelihoodsList; let index = index;" [value]="index">
-                          {{livelihood}} </mat-option>
-                      </mat-autocomplete>
-                    </mat-form-field> -->
-                    <div class="specifics" *ngIf="household.fields.countrySpecifics.value.length">
+                    <div class="specifics" *ngIf="household.fields.countrySpecificAnswers.value.length">
                       <h4>{{ Text.settings_country_specific_options | titlecase }}</h4>
-                      <mat-form-field *ngFor="let countrySpecific of household.fields.countrySpecifics.value">
-                        <input matInput [type]="countrySpecific.fields.type.value" placeholder={{countrySpecific.fields.field.value}} [formControlName]="countrySpecific.fields.field.value">
+                      <mat-form-field *ngFor="let countrySpecificAnswer of household.fields.countrySpecificAnswers.value">
+                        <input matInput [type]="countrySpecificAnswer.fields.countrySpecific.value.fields.type.value" placeholder={{countrySpecificAnswer.fields.countrySpecific.value.fields.field.value}} [formControlName]="countrySpecificAnswer.fields.countrySpecific.value.fields.field.value">
                       </mat-form-field>
                     </div>
                   </div>
@@ -100,7 +93,7 @@
         </form>
       </mat-step>
 
-      <mat-step>
+      <mat-step [completed]="validStep2">
         <ng-template class="step" matStepLabel>{{Text.add_beneficiary_step2}}</ng-template>
         <div class="container-table">
           <div class="stepInMobile">
@@ -130,7 +123,7 @@
         </div>
       </mat-step>
 
-      <mat-step>
+      <mat-step [completed]="validStep3">
         <ng-template class="step" matStepLabel>{{Text.add_beneficiary_step3}}</ng-template>
         <div class="container-table">
           <div class="stepInMobile">
@@ -177,7 +170,7 @@
         </div>
       </mat-step>
 
-      <mat-step [editable]="true">
+      <mat-step [completed]="step4Complete">
         <ng-template matStepLabel>{{Text.summary}}</ng-template>
         <div class="container-table">
           <div class="stepInMobile">
@@ -196,9 +189,9 @@
               <div class="summary">
                 <h3>{{Text.beneficiaries_household_info}}</h3>
                 <div class="info-resume">
-                  <div class="info-container" *ngIf="mainForm.controls.livelihood.value >= 0">
+                  <div class="info-container" *ngIf="mainForm.controls.livelihood.value > 0">
                     <h4 class='summary-title'>{{Text.add_beneficiary_getOccupation}}: </h4>
-                    <p class="summary-title-value">{{livelihoodsList[mainForm.controls.livelihood.value]}}</p>
+                    <p class="summary-title-value">{{getLivelihood().name}}</p>
                   </div>
                   <div class="info-container" *ngIf="mainForm.controls.addressNumber.value && mainForm.controls.addressPostcode.value && mainForm.controls.addressStreet.value">
                     <h4 class='summary-title'> {{Text.beneficiaries_full_address}} </h4>
@@ -216,45 +209,43 @@
                   </div>
                 </div>
                 <h3> {{ Text.beneficiaries}} : </h3>
-                <!-- <table mat-table [dataSource]="tableData" class="mat-elevation-z8 summary">
-                  <ng-container [matColumnDef]=tableColumns[0]>
-                    <th mat-header-cell *matHeaderCellDef> {{ tableColumns[0] |titlecase}} </th>
-                    <td mat-cell *matCellDef="let element"> {{element.given_name}} </td>
+                <table mat-table [dataSource]="tableData" class="mat-elevation-z8 summary">
+                  <ng-container matColumnDef="givenName">
+                    <th mat-header-cell *matHeaderCellDef> {{ Text.add_beneficiary_getGivenName | titlecase }} </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.controls.givenName.value }} </td>
                   </ng-container>
 
-                  <ng-container [matColumnDef]=tableColumns[1]>
-                    <th mat-header-cell *matHeaderCellDef> {{ tableColumns[1] |titlecase}} </th>
-                    <td mat-cell *matCellDef="let element"> {{element.family_name}} </td>
+                  <ng-container matColumnDef=familyName>
+                    <th mat-header-cell *matHeaderCellDef> {{ Text.add_beneficiary_getFamilyName | titlecase }} </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.controls.familyName.value }} </td>
                   </ng-container>
 
-                  <ng-container [matColumnDef]=tableColumns[2]>
-                    <th mat-header-cell *matHeaderCellDef> {{ tableColumns[2] |titlecase}} </th>
-                    <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+                  <ng-container matColumnDef="gender">
+                    <th mat-header-cell *matHeaderCellDef> {{ Text.gender |titlecase }} </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.controls.gender.value }} </td>
                   </ng-container>
 
-                  <ng-container [matColumnDef]=tableColumns[3]>
-                    <th mat-header-cell *matHeaderCellDef> {{ tableColumns[3] |titlecase}} </th>
-                    <td mat-cell *matCellDef="let element"> {{ this.formatDate(element.birth_date) }}
+                  <ng-container matColumnDef="dateOfBirth">
+                    <th mat-header-cell *matHeaderCellDef> {{ Text.add_beneficiary_getDateOfBirth |titlecase }} </th>
+                    <td mat-cell *matCellDef="let element"> {{ this.formatDate(element.controls.dateOfBirth.value) }}
                     </td>
                   </ng-container>
 
-                  <ng-container [matColumnDef]=tableColumns[4]>
-                    <th mat-header-cell *matHeaderCellDef> {{ tableColumns[4] |titlecase}} </th>
+                  <ng-container matColumnDef="phone">
+                    <th mat-header-cell *matHeaderCellDef> {{ Text.phone |titlecase}} </th>
                     <td mat-cell *matCellDef="let element">
-                      <p *ngIf="element.phone[0].number">
-                        {{ element.phone[0].number }}
-                      </p>
+                      {{ element.controls.phoneNumber0.value }} {{ element.controls.phoneNumber1.value }}
                     </td>
                   </ng-container>
 
-                  <ng-container [matColumnDef]=tableColumns[5]>
-                    <th mat-header-cell *matHeaderCellDef> {{ tableColumns[5] |titlecase}} </th>
-                    <td mat-cell *matCellDef="let element"> {{element.national_id.number}} </td>
+                  <ng-container matColumnDef="nationalId">
+                    <th mat-header-cell *matHeaderCellDef> {{ Text.add_beneficiary_nationalID | titlecase }} </th>
+                    <td mat-cell *matCellDef="let element"> {{element.controls.IDNumber.value}} </td>
                   </ng-container>
 
                   <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
                   <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
-                </table> -->
+                </table>
               </div>
               <div class="content-button-footer">
                 <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
@@ -263,9 +254,9 @@
 
                   <mat-spinner [diameter]="25" *ngIf="validationLoading"></mat-spinner>
                   <button mat-raised-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading"
-                    (click)="create()">{{Text.create}}</button>
+                    (click)="submit()">{{Text.create}}</button>
                   <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
-                    (click)="update()">{{Text.update}}</button>
+                    (click)="submit()">{{Text.update}}</button>
                 </div>
               </div>
 

@@ -5,6 +5,7 @@ import { URL_BMS_API } from '../../../environments/environment';
 
 import { HttpService } from './http.service';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -64,8 +65,9 @@ export class LocationService {
     fillAdm1Options(object: CustomModel) {
         const location = object.fields.location.value;
 
-        this.getAdm1()
-            .subscribe((options) => {
+        return this.getAdm1()
+            .pipe(
+                map((options) => {
                 const adm1Options = options.map(adm1 => {
                     return { fields : {
                         name: { value: adm1.name },
@@ -77,7 +79,7 @@ export class LocationService {
                 location.fields.adm3.options = [];
                 location.fields.adm4.options = [];
                 object.fields.location.value = location;
-            });
+            }));
     }
 
     fillAdm2Options(object: CustomModel, adm1Id: Number) {
@@ -86,8 +88,9 @@ export class LocationService {
         };
         const location = object.fields.location.value;
 
-        this.getAdm2(body)
-            .subscribe((options) => {
+        return this.getAdm2(body)
+            .pipe(
+                map((options) => {
                 const adm2Options = options.map(adm2 => {
                     return { fields : {
                         name: { value: adm2.name },
@@ -98,7 +101,7 @@ export class LocationService {
                 location.fields.adm3.options = [];
                 location.fields.adm4.options = [];
                 object.fields.location.value = location;
-            });
+            }));
     }
 
     fillAdm3Options(object: CustomModel, adm2Id: Number) {
@@ -107,18 +110,19 @@ export class LocationService {
         };
         const location = object.fields.location.value;
 
-        this.getAdm3(body)
-            .subscribe((options) => {
-                const adm3Options = options.map(adm3 => {
-                    return { fields : {
-                        name: { value: adm3.name },
-                        id: { value: adm3.id }
-                    }};
-                });
-                location.fields.adm3.options = adm3Options;
-                location.fields.adm4.options = [];
-                object.fields.location.value = location;
-            });
+        return this.getAdm3(body)
+            .pipe(
+                map((options) => {
+                    const adm3Options = options.map(adm3 => {
+                        return { fields : {
+                            name: { value: adm3.name },
+                            id: { value: adm3.id }
+                        }};
+                    });
+                    location.fields.adm3.options = adm3Options;
+                    location.fields.adm4.options = [];
+                    object.fields.location.value = location;
+                }));
     }
 
     fillAdm4Options(object: CustomModel, adm3Id: Number) {
@@ -127,16 +131,17 @@ export class LocationService {
         };
         const location = object.fields.location.value;
 
-        this.getAdm4(body)
-            .subscribe((options) => {
-                const adm4Options = options.map(adm4 => {
-                    return { fields : {
-                        name: { value: adm4.name },
-                        id: { value: adm4.id }
-                    }};
-                });
-                location.fields.adm4.options = adm4Options;
-                object.fields.location.value = location;
-            });
+        return this.getAdm4(body)
+            .pipe(
+                map((options) => {
+                    const adm4Options = options.map(adm4 => {
+                        return { fields : {
+                            name: { value: adm4.name },
+                            id: { value: adm4.id }
+                        }};
+                    });
+                    location.fields.adm4.options = adm4Options;
+                    object.fields.location.value = location;
+                }));
     }
 }

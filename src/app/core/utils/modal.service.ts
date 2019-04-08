@@ -71,21 +71,23 @@ export class ModalService {
                 break;
         }
 
-        const subscription = dialogRef.afterClosed().subscribe((closeMethod: string) => {
-            if (closeMethod === 'Add') {
-                this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe(() => {
-                    this.snackbar.error(this.texts.settings_project_exists);
-                    this.isCompleted.next();
-                });
+        if (dialogRef) {
+            const subscription = dialogRef.afterClosed().subscribe((closeMethod: string) => {
+                if (closeMethod === 'Add') {
+                    this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe(() => {
+                        this.snackbar.error(this.texts.settings_project_exists);
+                        this.isCompleted.next();
+                    });
 
-            } else if (closeMethod === 'Edit') {
-                this.updateElement(dialogDetails.element);
-            } else if (closeMethod === 'Delete') {
-                this.deleteElement(dialogDetails.element);
-            }
-            // Prevent memory leaks
-            subscription.unsubscribe();
-        });
+                } else if (closeMethod === 'Edit') {
+                    this.updateElement(dialogDetails.element);
+                } else if (closeMethod === 'Delete') {
+                    this.deleteElement(dialogDetails.element);
+                }
+                // Prevent memory leaks
+                subscription.unsubscribe();
+            });
+        }
     }
 
     openAddDialog() {

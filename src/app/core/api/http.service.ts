@@ -31,7 +31,7 @@ export class HttpService {
     resolveItemKey(url: string) {
         this.save = true;
 
-        if (url.includes(URL_BMS_API, 0)) {
+        if (false && url.includes(URL_BMS_API, 0)) {
             url = url.split(URL_BMS_API)[1];
 
             switch (url) {

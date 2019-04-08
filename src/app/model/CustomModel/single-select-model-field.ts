@@ -19,7 +19,7 @@ export class SingleSelectModelField<CustomModel> extends SelectModelField<Custom
     kindOfField = 'SingleSelect';
 
     formatForApi(): any {
-        return this.value.fields[this.apiLabel].value;
+        return this.value.fields ? this.value.fields[this.apiLabel].value : null;
     }
 }
 

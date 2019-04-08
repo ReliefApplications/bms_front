@@ -36,7 +36,8 @@ export class Phone {
                         name: { value: 'Mobile' },
                         id: { value: 1 }
                     }}
-                ]
+                ],
+                apiLabel: 'name'
             }
         )
     };
@@ -47,8 +48,18 @@ export class Phone {
         newPhone.fields.number.value = phoneFromApi.number;
         newPhone.fields.prefix.value = phoneFromApi.prefix;
         newPhone.fields.proxy.value = phoneFromApi.proxy;
-        newPhone.fields.type.value = phoneFromApi.type;
+        newPhone.fields.type.value = newPhone.fields.type.options.filter(option => option.fields.name.value === phoneFromApi.type)[0];
 
         return newPhone;
+    }
+
+    public modelToApi(): Object {
+        return {
+            number: this.fields.number.value,
+            prefix: this.fields.prefix.value,
+            proxy: this.fields.proxy.value ? true : false,
+            type: this.fields.type.formatForApi(),
+
+        };
     }
 }

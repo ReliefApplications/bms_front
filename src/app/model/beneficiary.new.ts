@@ -11,6 +11,8 @@ import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-f
 import { Phone } from './phone.new';
 import { ObjectModelField } from './CustomModel/object-model-field';
 import { NationalId } from './nationalId.new';
+import { VulnerabilityCriteria } from './vulnerability-criteria.new';
+import { Profile } from './profile.new';
 export class Beneficiary extends CustomModel {
     title = GlobalText.TEXTS.beneficiary;
 
@@ -56,15 +58,15 @@ export class Beneficiary extends CustomModel {
                 options: [
                     { fields : {
                         name: { value: 'woman'},
-                        id: { value: 0}
+                        id: { value: '0'}
                     }},
                     { fields : {
                         name: { value: 'man'},
-                        id: { value: 1}
+                        id: { value: '1'}
                     }},
                 ],
                 bindField: 'name',
-                apiLabel: 'name',
+                apiLabel: 'id',
 
             }
         ),
@@ -89,27 +91,27 @@ export class Beneficiary extends CustomModel {
                 isLongText: false,
                 options: [
                     { fields : {
-                        name: { value: 'Refugee'},
-                        id: { value: 0}
+                        name: { value: 'refugee'},
+                        id: { value: '0'}
                     }},
                     { fields : {
                         name: { value: 'IDP'},
-                        id: { value: 1}
+                        id: { value: '1'}
                     }},
                     { fields : {
-                        name: { value: 'Resident'},
-                        id: { value: 2}
+                        name: { value: 'resident'},
+                        id: { value: '2'}
                     }},
                 ],
                 bindField: 'name',
                 apiLabel: 'name',
                 value: { fields : {
-                    name: { value: 'Resident'},
+                    name: { value: 'resident'},
                     id: { value: 2}
                 }}
             }
         ),
-        beneficiaryStatus: new BooleanModelField(
+        beneficiaryStatus: new NumberModelField(
             {
                 title: GlobalText.TEXTS.model_beneficiaries_status,
                 isDisplayedInModal: true,
@@ -124,6 +126,7 @@ export class Beneficiary extends CustomModel {
                 title: GlobalText.TEXTS.model_beneficiaries_nationalids,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
+                value: []
             }
         ),
         phones: new MultipleObjectsModelField<Phone>(
@@ -137,7 +140,7 @@ export class Beneficiary extends CustomModel {
                 value: []
             }
         ),
-        vulnerabilities: new MultipleSelectModelField(
+        vulnerabilities: new MultipleObjectsModelField<VulnerabilityCriteria>(
             {
                 title: GlobalText.TEXTS.model_vulnerabilities,
                 placeholder: null,
@@ -162,7 +165,10 @@ export class Beneficiary extends CustomModel {
                 isSettable: true,
                 isLongText: false,
             }
-        )
+        ),
+        profile: new ObjectModelField<Profile>({
+
+        })
     };
 
 
@@ -172,27 +178,65 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.fields.id.value = beneficiaryFromApi.id;
         newBeneficiary.fields.givenName.value = beneficiaryFromApi.given_name;
         newBeneficiary.fields.familyName.value = beneficiaryFromApi.family_name;
-        newBeneficiary.fields.gender.value = beneficiaryFromApi.gender;
-        newBeneficiary.fields.dateOfBirth.value = beneficiaryFromApi.date_of_birth;
-        newBeneficiary.fields.residencyStatus.value = beneficiaryFromApi.residency_status;
+        newBeneficiary.fields.dateOfBirth.value = new Date(beneficiaryFromApi.date_of_birth);
         newBeneficiary.fields.beneficiaryStatus.value = beneficiaryFromApi.status;
         newBeneficiary.fields.fullName.value = beneficiaryFromApi.given_name + ' ' + beneficiaryFromApi.family_name;
 
-        if (beneficiaryFromApi.national_ids) {
-            beneficiaryFromApi.national_ids.forEach(nationalId => {
-                newBeneficiary.fields.nationalIds.value.push(NationalId.apiToModel(nationalId));
-            });
+        newBeneficiary.fields.residencyStatus.value = beneficiaryFromApi.residency_status ?
+            newBeneficiary.fields.residencyStatus.options.filter(
+                option => option.fields.name.value === beneficiaryFromApi.residency_status)[0] :
+            newBeneficiary.fields.residencyStatus.value;
+
+        newBeneficiary.fields.gender.value = beneficiaryFromApi.gender !== null && beneficiaryFromApi.gender !== undefined ?
+            newBeneficiary.fields.gender.options.filter(option => option.fields.id.value === beneficiaryFromApi.gender.toString())[0] :
+            null;
+
+        newBeneficiary.fields.nationalIds.value =
+            beneficiaryFromApi.national_ids && beneficiaryFromApi.national_ids.length !== 0 ?
+            beneficiaryFromApi.national_ids.map(nationalId => NationalId.apiToModel(nationalId)) :
+            [new NationalId()];
+
+
+        // if (beneficiaryFromApi.national_ids && beneficiaryFromApi.national_ids.length !== 0) {
+        //     beneficiaryFromApi.national_ids.forEach(nationalId => {
+        //         newBeneficiary.fields.nationalIds.value.push(NationalId.apiToModel(nationalId));
+        //     });
+        // } else {
+        //     newBeneficiary.fields.nationalIds.value = [new NationalId()]
+        // }
+
+        newBeneficiary.fields.phones.value =
+            beneficiaryFromApi.phones && beneficiaryFromApi.phones.length !== 0 ?
+            beneficiaryFromApi.phones.map(phone => Phone.apiToModel(phone)) :
+            [new Phone(), new Phone()];
+
+        if (newBeneficiary.fields.phones.value.length === 1) {
+            newBeneficiary.fields.phones.value.push(new Phone());
         }
-        if (beneficiaryFromApi.phones) {
-            beneficiaryFromApi.phones.forEach(phone => {
-                newBeneficiary.fields.phones.value.push(phone.apiToModel());
-            });
-        }
-        if (beneficiaryFromApi.vulnerability_criteria) {
-            beneficiaryFromApi.vulnerability_criteria.forEach(vulnerability => {
-                newBeneficiary.fields.vulnerabilities.value.push(vulnerability.field_string);
-            });
-        }
+
+
+        newBeneficiary.fields.vulnerabilities.value =
+            beneficiaryFromApi.vulnerability_criteria ?
+            beneficiaryFromApi.vulnerability_criteria.map(criteria => VulnerabilityCriteria.apiToModel(criteria)) :
+            [];
+
+        // if (beneficiaryFromApi.phones && beneficiaryFromApi.phones.length !== 0) {
+        //     beneficiaryFromApi.phones.forEach(phone => {
+        //         newBeneficiary.fields.phones.value.push(Phone.apiToModel(phone));
+        //     });
+        //     if (newBeneficiary.fields.phones.value.length === 1) {
+        //         newBeneficiary.fields.phones.value.push(new Phone());
+        //     }
+        // } else {
+        //     newBeneficiary.fields.phones.value = [new Phone(), new Phone()]
+        // }
+        // if (beneficiaryFromApi.vulnerability_criteria) {
+        //     beneficiaryFromApi.vulnerability_criteria.forEach(vulnerability => {
+        //         newBeneficiary.fields.vulnerabilities.value.push(VulnerabilityCriteria.apiToModel(vulnerability));
+        //     });
+        // }
+
+        newBeneficiary.fields.profile.value = beneficiaryFromApi.profile ? Profile.apiToModel(beneficiaryFromApi.profile) : new Profile();
 
         return newBeneficiary;
 
@@ -207,9 +251,10 @@ export class Beneficiary extends CustomModel {
             date_of_birth: this.fields.dateOfBirth.formatForApi(),
             residency_status: this.fields.residencyStatus.formatForApi(),
             status: this.fields.beneficiaryStatus.formatForApi(),
-            vulnerability_criteria: this.fields.vulnerabilities.formatForApi(),
-            phones: this.fields.phones.formatForApi(), // put modelToApi there
-            national_ids: this.fields.nationalIds.formatForApi(),
+            vulnerability_criteria: this.fields.vulnerabilities.value.map(vulnerability => vulnerability.modelToApi()),
+            phones: this.fields.phones.value.map(phone => phone.modelToApi()),
+            national_ids: this.fields.nationalIds.value.map(nationalId => nationalId.modelToApi()),
+            profile: this.fields.profile.value ? this.fields.profile.value.modelToApi() : null
         };
     }
 

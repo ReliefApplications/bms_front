@@ -11,17 +11,23 @@ import { Project } from '../../model/project';
 import { Location } from '../../model/location';
 import { Sector } from '../../model/sector';
 import { saveAs      } from 'file-saver/FileSaver';
+import { CustomModelService } from './custom-model.service';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
 })
-export class HouseholdsService {
+export class HouseholdsService extends CustomModelService {
     readonly api = URL_BMS_API;
+    customModelPath = 'households';
+
 
     constructor(
         private http: HttpService,
-        private exportService: ExportService
+        private exportService: ExportService,
+        private router: Router,
     ) {
+        super(http);
     }
 
     /**
@@ -155,5 +161,9 @@ export class HouseholdsService {
     }
 
     public fillWithOptions(household: Households, locationType: string) {
+    }
+
+    public visit(householdId) {
+        this.router.navigate(['/beneficiaries/update-beneficiary', householdId]);
     }
 }

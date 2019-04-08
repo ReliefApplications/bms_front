@@ -95,6 +95,7 @@ export const TEXT = {
     add_beneficiary_step3: 'Members',
     add_beneficiary_title: 'add beneficiary',
     add_beneficiary_code: 'Country code',
+    add_beneficiary_nationalID: 'National Id',
 
     // Add beneficiary options
     national_id_passport: 'Passport',

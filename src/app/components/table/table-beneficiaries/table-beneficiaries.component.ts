@@ -19,7 +19,7 @@ import { HouseholdsService } from 'src/app/core/api/households.service';
 })
 export class TableBeneficiariesComponent extends TableComponent implements OnInit, DoCheck, AfterViewInit {
 
-    @Output() updating = new EventEmitter<number>();
+    // @Output() updating = new EventEmitter<number>();
     @Output() selectedAdm = new EventEmitter<any>();
 
     public texts = GlobalText.TEXTS;
@@ -104,9 +104,9 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
     //     return (t2.substring(25).split('.')[0]);
     // }
 
-    update(selectedBeneficiary: Beneficiaries) {
-        this.updating.emit(selectedBeneficiary.id);
-    }
+    // update(selectedBeneficiary: Beneficiaries) {
+    //     this.updating.emit(selectedBeneficiary.id);
+    // }
 
     sendSortedData() {
         // Cancel preexisting timout process
@@ -187,9 +187,5 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
         this.openModal.emit({
             event
         });
-    }
-
-    reload() {
-        // console.log('reload')
     }
 }

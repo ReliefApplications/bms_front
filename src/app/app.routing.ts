@@ -19,11 +19,6 @@ import { ProjectComponent } from './modules/projects/project.component';
 import { LoginComponent } from './modules/public/login.component';
 import { ReportsComponent } from './modules/reports/reports.component';
 import { SettingsComponent } from './modules/settings/settings.component';
-<<<<<<< HEAD
-=======
->>>>>>> dev
-
-
 
 // Do not change the order of the routes, it matters
 export const routes: Routes = [

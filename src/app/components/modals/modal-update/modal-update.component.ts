@@ -50,6 +50,23 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
                 this.form.controls['countryControl'].enable();
             }
         }
+
+        if (this.properties.includes('location')) {
+            this.updateObject.location = this.updateObject.location ? this.updateObject.location : new Location();
+            this.loadProvince().subscribe(() => {
+                if (this.updateObject.location.adm1) {
+                    this.loadDistrict(this.updateObject.location.adm1).subscribe(() => {
+                        if (this.updateObject.location.adm2) {
+                            this.loadCommunity(this.updateObject.location.adm2).subscribe(() => {
+                                if (this.updateObject.location.adm3) {
+                                    this.loadVillage(this.updateObject.location.adm3).subscribe();
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
     }
 
   selected(updateObject) {
@@ -284,5 +301,23 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
             formData.append('file', file);
             this.updateObject.imageData = formData;
         }
+    }
+
+    getDistrict(adm1Name) {
+        this.updateObject.location.adm2 = null;
+        this.updateObject.location.adm3 = null;
+        this.updateObject.location.adm4 = null;
+        this.loadDistrict(adm1Name).subscribe();
+    }
+
+    getCommunity(adm2Name) {
+        this.updateObject.location.adm3 = null;
+        this.updateObject.location.adm4 = null;
+        this.loadCommunity(adm2Name).subscribe();
+    }
+
+    getVillage(adm3Name) {
+        this.updateObject.location.adm4 = null;
+        this.loadVillage(adm3Name).subscribe();
     }
 }

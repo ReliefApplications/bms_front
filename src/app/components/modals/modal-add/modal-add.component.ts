@@ -5,6 +5,7 @@ import { Criteria } from '../../../model/criteria';
 import { Commodity } from '../../../model/commodity';
 import { count } from '@swimlane/ngx-charts';
 import { Project } from '../../../model/project';
+import { Location } from '../../../model/location';
 
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
@@ -41,6 +42,11 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
 
         if ((this.properties[0] === 'modality' && this.properties[2] === 'unit')) {
             this.displayAdd = true;
+        }
+
+        if (this.properties.includes('location')) {
+            this.newObject.location = new Location();
+            this.loadProvince().subscribe();
         }
     }
 
@@ -314,5 +320,23 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
             formData.append('file', file);
             this.newObject.imageData = formData;
         }
+    }
+
+    getDistrict(adm1Name) {
+        this.newObject.location.adm2 = null;
+        this.newObject.location.adm3 = null;
+        this.newObject.location.adm4 = null;
+        this.loadDistrict(adm1Name).subscribe();
+    }
+
+    getCommunity(adm2Name) {
+        this.newObject.location.adm3 = null;
+        this.newObject.location.adm4 = null;
+        this.loadCommunity(adm2Name).subscribe();
+    }
+
+    getVillage(adm3Name) {
+        this.newObject.location.adm4 = null;
+        this.loadVillage(adm3Name).subscribe();
     }
 }

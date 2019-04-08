@@ -17,6 +17,8 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { UploadService } from '../../core/api/upload.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { BookletService } from 'src/app/core/api/booklet.service';
+import { LocationService } from 'src/app/core/api/location.service';
+import { map } from 'rxjs/operators';
 import { VoucherService } from 'src/app/core/api/voucher.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -84,6 +86,13 @@ export class ModalComponent implements OnInit, DoCheck {
     matcher = new MyErrorStateMatcher();
     user = new User();
 
+
+    public provinceList: any[];
+    public districtList: any[];
+    public communeList: any[];
+    public villageList: any[];
+
+
     constructor(public dialogRef: MatDialogRef<ModalComponent>,
         public _cacheService: AsyncacheService,
         public donorService: DonorService,
@@ -98,6 +107,7 @@ export class ModalComponent implements OnInit, DoCheck {
         public bookletService: BookletService,
         public dialog: MatDialog,
         public voucherService: VoucherService,
+        private locationService: LocationService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
@@ -240,5 +250,92 @@ export class ModalComponent implements OnInit, DoCheck {
 
             return finalRight;
         }
+    }
+
+     /**
+     * Get adm1 from the back or from the cache service with the key ADM1
+     */
+    loadProvince() {
+        return this.locationService.getAdm1().pipe(
+            map(response => {
+                this.provinceList = response.map(province => {
+                    return {
+                        id: province.id,
+                        name: province.name
+                    };
+                });
+                this.districtList = [];
+                this.communeList = [];
+                this.villageList = [];
+        }));
+    }
+
+    /**
+     *  Get adm2 from the back or from the cache service with the key ADM2
+     * @param adm1
+     */
+    loadDistrict(adm1Name) {
+        const adm1Id = this.provinceList.filter(province => {
+            return province.name === adm1Name;
+        })[0].id;
+        const body = {
+            adm1: adm1Id
+        };
+        return this.locationService.getAdm2(body).pipe(
+            map(response => {
+                this.districtList = response.map(district => {
+                    return {
+                        id: district.id,
+                        name: district.name
+                    };
+                });
+                this.communeList = [];
+                this.villageList = [];
+        }));
+    }
+
+    /**
+     * Get adm3 from the back or from the cahce service with the key ADM3
+     * @param adm2
+     */
+    loadCommunity(adm2Name) {
+        const adm2Id = this.districtList.filter(district => {
+            return district.name === adm2Name;
+        })[0].id;
+        const body = {
+            adm2: adm2Id
+        };
+        return this.locationService.getAdm3(body).pipe(
+            map(response => {
+                this.communeList = response.map(commune => {
+                    return {
+                        id: commune.id,
+                        name: commune.name
+                    };
+                });
+                this.villageList = [];
+        }));
+    }
+
+    /**
+     *  Get adm4 from the back or from the cahce service with the key ADM4
+     * @param adm3
+     */
+    loadVillage(adm3Name) {
+        const adm3Id = this.communeList.filter(commune => {
+            return commune.name === adm3Name;
+        })[0].id;
+        const body = {
+            adm3: adm3Id
+        };
+        return this.locationService.getAdm4(body).pipe(
+            map(response => {
+                this.villageList = response.map(village => {
+                    return {
+                        id: village.id,
+                        name: village.name
+                    };
+                });
+        }));
     }
 }

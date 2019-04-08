@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { URL_BMS_API } from '../../../environments/environment';
+import { SaltInterface } from '../../model/salt';
+import { ErrorInterface, User } from '../../model/user';
+import { AsyncacheService } from '../storage/asyncache.service';
 import { WsseService } from './wsse.service';
 
-import { URL_BMS_API } from '../../../environments/environment';
-import { User, ErrorInterface } from '../../model/user';
-import { SaltInterface } from '../../model/salt';
-import { AsyncacheService } from '../storage/asyncache.service';
-import { Observable, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 
 @Injectable({
     providedIn: 'root'
@@ -89,6 +89,10 @@ export class AuthenticationService {
         this._cacheService.set(AsyncacheService.USER, user);
     }
 
+    setSaltedPassword(user: User, saltedPassword: string) {
+        user.salted_password = saltedPassword;
+    }
+
     resetUser() {
         this.user = new User();
         this._cacheService.remove(AsyncacheService.USER);
@@ -110,5 +114,12 @@ export class AuthenticationService {
         body.password = saltedPassword;
         body.salt = salt.salt;
         return body;
+    }
+
+    public isLoggedIn(): boolean {
+        if (!this.user) {
+            return false;
+        }
+        return this.user.loggedIn;
     }
 }

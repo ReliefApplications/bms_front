@@ -298,31 +298,6 @@ export class ModalAddComponent extends ModalComponent implements OnInit, DoCheck
     handleCheckbox() {
         if (this.data.entity.__classname__ === 'Booklet') {
             this.newObject.individual_to_all = !this.newObject.individual_to_all;
-            if (!this.newObject.individual_values) {
-                const individual_values = new Array(this.newObject.number_vouchers);
-                const individual_value = this.newObject.individual_value ? this.newObject.individual_value : 1;
-                individual_values.fill(individual_value);
-                this.newObject.individual_values = individual_values;
-                this.newObject.individual_value = null;
-            } else {
-                this.newObject.individual_value = this.newObject.individual_values ? this.newObject.individual_values[0] : 1;
-                this.newObject.individual_values = null;
-            }
-        }
-    }
-
-    handleChangeNumberVouchers() {
-        if (this.newObject.individual_to_all) {
-            if (this.newObject.individual_values.length > this.newObject.number_vouchers) {
-                while (this.newObject.individual_values.length > this.newObject.number_vouchers) {
-                    this.newObject.individual_values.pop();
-                }
-            } else if (this.newObject.individual_values.length < this.newObject.number_vouchers) {
-                while (this.newObject.individual_values.length < this.newObject.number_vouchers) {
-                    const value = this.newObject.individual_values[0] ? this.newObject.individual_values[0] : 1;
-                    this.newObject.individual_values.push(value);
-                }
-            }
         }
     }
 

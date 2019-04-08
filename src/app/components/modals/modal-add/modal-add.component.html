@@ -12,7 +12,7 @@
       <th class="table-title checkbox-line" *ngIf="propertiesTypes[p]==='checkbox'">{{mapperObject[p] | titlecase }}</th>
       <th class="table-value">
                 <form class="form" [formGroup]="form" ngNoForm>
-                    <mat-form-field class="general" *ngIf="propertiesTypes[p]!=='location' && propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
+                    <mat-form-field class="general" *ngIf="propertiesTypes[p]!=='currency' && propertiesTypes[p]!=='location' && propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
                         class="full-width">
 
             <input matInput [maxlength]="this.maxLength" *ngIf="propertiesTypes[p]=='text'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
@@ -21,12 +21,12 @@
             <mat-hint align="end" *ngIf="newObject[p] && p=='name' && data.entity.__classname__ !== 'Product' && data.entity.__classname__ !== 'Vendors'"> {{newObject[p].length}} /
               {{this.maxLength}} </mat-hint>
 
-            <input matInput *ngIf="propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='positive-number' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'selectCountry' && propertiesTypes[p]!='text'"
+            <input matInput *ngIf="propertiesTypes[p]!=='currency' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='positive-number' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'selectCountry' && propertiesTypes[p]!='text'"
                 [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
 
             <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="0">
             <input matInput *ngIf="propertiesTypes[p]=='positive-number' && p !== 'number_vouchers'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1">
-            <input matInput *ngIf="p === 'number_vouchers'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1" (change)="handleChangeNumberVouchers()">
+            <input matInput *ngIf="p === 'number_vouchers'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1">
 
                         <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
                             matInput [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
@@ -38,6 +38,10 @@
                     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
                         *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
                         (change)="selected(newObject[p])" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" bindLabel="name" bindValue="id">
+                    </ng-select>
+                    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                        *ngIf="propertiesTypes[p]=='currency'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
+                        [ngModelOptions]="{standalone: true}" [items]="loadedData[p]">
                     </ng-select>
 
                     <ng-select *ngIf="propertiesTypes[p]=='select'" class="multiple-select" [(ngModel)]="newObject[p]"
@@ -111,12 +115,16 @@
             <input [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" matInput type="number" min="1">
           </mat-form-field>
 
-          <mat-form-field class="values" *ngIf="propertiesTypes[p]==='individual_values' && newObject.individual_to_all === true" class="full-width">
-            <div class="array">
-              <span *ngFor="let value of newObject.individual_values; let i=index; trackBy: trackByFn" >
-                <input [(ngModel)]="newObject[p][i]" [ngModelOptions]="{standalone: true}" matInput type="number" min="1">
-              </span>
-            </div>
+          <mat-form-field class="general" class="full-width" *ngIf="propertiesTypes[p]==='individual_values' && newObject.individual_to_all === true" class="full-width">
+            <input [(ngModel)]="newObject[p]" matInput type="text"
+              formControlName="individualValuesFormControl" [errorStateMatcher]="matcher" >
+            <mat-hint align="start"><strong>{{modal.modal_values_format_error}}</strong></mat-hint>
+            <mat-error *ngIf="individualValuesFormControl.hasError('pattern') && !individualValuesFormControl.hasError('required')">
+              {{modal.modal_values_format_error}}
+            </mat-error>
+            <mat-error *ngIf="individualValuesFormControl.hasError('required')">
+              {{modal.modal_values_required | titlecase}}
+            </mat-error>
           </mat-form-field>
 
           <div *ngIf="propertiesTypes[p]=='document'" class="input-file">

@@ -19,6 +19,7 @@ import { DistributionService } from 'src/app/core/api/distribution.service';
 import { BookletService } from 'src/app/core/api/booklet.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { map } from 'rxjs/operators';
+import { VoucherService } from 'src/app/core/api/voucher.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -45,6 +46,7 @@ export class ModalComponent implements OnInit, DoCheck {
     public controls = new FormControl();
 
     public passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+    public individualValuesRegex =  /^([\d]+,?\s?,?\s?)+$/;
 
     public defaultValue: FormControl = new FormControl({ value: ''});
     public projectsControl: FormControl = new FormControl({ value: '', disabled: 'true' });
@@ -60,6 +62,11 @@ export class ModalComponent implements OnInit, DoCheck {
         updateOn: 'change',
     });
 
+    public individualValuesFormControl = new FormControl('', {
+        validators: [Validators.required, Validators.pattern(this.individualValuesRegex)],
+        updateOn: 'change',
+    });
+
     public notesFormControl = new FormControl(null, Validators.required);
 
     form = new FormGroup({
@@ -68,7 +75,8 @@ export class ModalComponent implements OnInit, DoCheck {
         countryControl: this.countryControl,
         emailFormControl: this.emailFormControl,
         passwordFormControl: this.passwordFormControl,
-        notesFormControl: this.notesFormControl
+        notesFormControl: this.notesFormControl,
+        individualValuesFormControl: this.individualValuesFormControl
     });
 
 
@@ -98,6 +106,7 @@ export class ModalComponent implements OnInit, DoCheck {
         public distributionService: DistributionService,
         public bookletService: BookletService,
         public dialog: MatDialog,
+        public voucherService: VoucherService,
         private locationService: LocationService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
     }
@@ -214,6 +223,12 @@ export class ModalComponent implements OnInit, DoCheck {
                 }
             );
         }
+
+       if (this.data.entity.__classname__ === 'Booklet') {
+            this.voucherService.getCurrencies().subscribe(currencies => {
+                this.loadedData['currency'] = Object.keys(currencies);
+            });
+       }
     }
 
     /**

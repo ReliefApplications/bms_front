@@ -8,7 +8,7 @@
       <th class="table-title checkbox-line" *ngIf="propertiesTypes[p]==='checkbox'">{{data.mapper.mapTitle(p) | titlecase }}</th>
       <th class="table-value">
         <form class="form" [formGroup]="form" ngNoForm>
-          <mat-form-field *ngIf="propertiesTypes[p]!=='location' && propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p]!='array'" class="full-width">
+          <mat-form-field *ngIf="propertiesTypes[p]!=='currency' && propertiesTypes[p]!=='location' && propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p]!='array'" class="full-width">
             <input matInput *ngIf="propertiesTypes[p]!=='location' && propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='positive-number' && propertiesTypes[p] != 'selectDonor' && propertiesTypes[p] != 'date' && propertiesTypes[p]!='selectSingle'  && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'inputCountry' && propertiesTypes[p] != 'selectCountry'"
               [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" [disabled]="(p=='location_name' || p=='number_beneficiaries' || p=='name' || p=='code' || p=='number_vouchers' || p=='status' || propertiesTypes[p] === 'disabled')"
               [type]="propertiesTypes[p]">
@@ -17,7 +17,7 @@
 
             <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="0">
 
-            <input matInput *ngIf="p === 'number_vouchers'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1" (change)="handleChangeNumberVouchers()">
+            <input matInput *ngIf="p === 'number_vouchers'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1">
 
 
           <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
@@ -38,6 +38,11 @@
               [searchable]="true" [ngModelOptions]="{standalone: true}"
               (change)="selected(updateObject[p])">
               <ng-option *ngFor="let singleData of loadedData[p]" [value]="singleData.id">{{singleData.field_string | titlecase}}{{singleData.name | titlecase}}</ng-option>
+        </ng-select>
+
+        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+            *ngIf="propertiesTypes[p]=='currency'" [(ngModel)]="updateObject[p]" placeholder="{{data.mapper.mapTitle(p) | titlecase}}"
+            [ngModelOptions]="{standalone: true}" [items]="loadedData[p]">
         </ng-select>
 
           <ng-select *ngIf="propertiesTypes[p]=='select'" class="multiple-select" [(ngModel)]="updateObject[p]" bindLabel="name"
@@ -102,8 +107,6 @@
             (change)="handleCheckbox()"
             type="checkbox"
             color="primary"
-            [(ngModel)]="updateObject[p]"
-            [ngModelOptions]="{standalone: true}"
             [checked]="updateObject[p]">
           </mat-checkbox>
 
@@ -111,13 +114,19 @@
             <input [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" matInput type="number" min="1">
           </mat-form-field>
 
-          <mat-form-field class="values" *ngIf="propertiesTypes[p]==='individual_values' && updateObject.individual_to_all === true" class="full-width">
-            <div class="array">
-              <span *ngFor="let value of updateObject.individual_values; let i=index; trackBy: trackByFn" >
-                <input [(ngModel)]="updateObject[p][i]" [ngModelOptions]="{standalone: true}" matInput type="number" min="1">
-              </span>
-            </div>
-          </mat-form-field>
+          <mat-form-field class="general" class="full-width" *ngIf="propertiesTypes[p]==='individual_values' && updateObject.individual_to_all === true" class="full-width">
+              <input [(ngModel)]="updateObject[p]" matInput type="text"
+                formControlName="individualValuesFormControl" [errorStateMatcher]="matcher" >
+              <mat-hint align="start"><strong>{{modal.modal_values_format_error}}</strong></mat-hint>
+              <mat-error *ngIf="individualValuesFormControl.hasError('pattern') && !individualValuesFormControl.hasError('required')">
+                {{modal.modal_values_format_error}}
+              </mat-error>
+              <mat-error *ngIf="individualValuesFormControl.hasError('required')">
+                {{modal.modal_values_required | titlecase}}
+              </mat-error>
+            </mat-form-field>
+
+
           <ng-container *ngIf="propertiesTypes[p]=='array' && p === 'notes'">
             <mat-form-field class="full-width" *ngFor="let generalRelief of updateObject['generalReliefs'], let i = index">
               <input [(ngModel)]="updateObject['generalReliefs'][i]['notes']" matInput placeholder="{{modal.notes}}" [ngModelOptions]="{standalone: true}"

@@ -18,7 +18,7 @@ import { ProjectComponent } from './modules/projects/project.component';
 import { LoginComponent } from './modules/public/login.component';
 import { ReportsComponent } from './modules/reports/reports.component';
 import { SettingsComponent } from './modules/settings/settings.component';
-
+import { VouchersComponent } from './modules/vouchers/vouchers.component';
 
 
 // Do not change the order of the routes, it matters
@@ -93,11 +93,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
     },
 
-    // {
-    //     path: 'vouchers',
-    //     component: VouchersComponent
-    //     canActivate: [AuthGuard],
-        // },
+    {
+        path: 'vouchers',
+        component: VouchersComponent,
+        canActivate: [AuthGuard]
+    },
 
     // home route protected by auth guard
     {

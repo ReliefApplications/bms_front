@@ -284,31 +284,7 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
 
     handleCheckbox() {
         if (this.data.entity.__classname__ === 'Booklet') {
-            if (this.updateObject.individual_to_all) {
-                const individual_values = new Array(this.updateObject.number_vouchers);
-                const individual_value = this.updateObject.individual_value ? this.updateObject.individual_value : 1;
-                individual_values.fill(individual_value);
-                this.updateObject.individual_values = individual_values;
-                this.updateObject.individual_value = null;
-            } else {
-                this.updateObject.individual_value = this.updateObject.individual_values ? this.updateObject.individual_values[0] : 1;
-                this.updateObject.individual_values = null;
-            }
-        }
-    }
-
-    handleChangeNumberVouchers() {
-        if (this.updateObject.individual_to_all) {
-            if (this.updateObject.individual_values.length > this.updateObject.number_vouchers) {
-                while (this.updateObject.individual_values.length > this.updateObject.number_vouchers) {
-                    this.updateObject.individual_values.pop();
-                }
-            } else if (this.updateObject.individual_values.length < this.updateObject.number_vouchers) {
-                while (this.updateObject.individual_values.length < this.updateObject.number_vouchers) {
-                    const value = this.updateObject.individual_values[0] ? this.updateObject.individual_values[0] : 1;
-                    this.updateObject.individual_values.push(value);
-                }
-            }
+            this.updateObject.individual_to_all = !this.updateObject.individual_to_all;
         }
     }
 

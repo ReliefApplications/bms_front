@@ -37,9 +37,9 @@ export class Booklet {
 
     /**
      * Array of voucher's individual values.
-     * @type {number[]}
+     * @type {string}
      */
-    individual_values: number[];
+    individual_values: string;
 
     /**
      * Booklet currency
@@ -137,16 +137,23 @@ export class Booklet {
     public static formatElement(instance: any): Booklet {
         const booklet = new Booklet(instance);
 
-        booklet.individual_values = [];
+        booklet.individual_values = '';
         booklet.individual_to_all = false;
+        const individual_values = [];
         instance.vouchers.forEach(voucher => {
-            booklet.individual_values.push(voucher.value);
+            individual_values.push(voucher.value);
         });
-        const unique = booklet.individual_values.filter((value, index, array) => array.indexOf(value) === index);
+        const unique = individual_values.filter((value, index, array) => array.indexOf(value) === index);
         if (unique.length > 1) {
             booklet.individual_to_all = true;
             booklet.individual_value = null;
+            individual_values.forEach(value => {
+                booklet.individual_values += value + ',';
+            });
+            // Remove last comma
+            booklet.individual_values = booklet.individual_values.substring(0, booklet.individual_values.length - 1);
         } else {
+            booklet.individual_values = null;
             booklet.individual_value = instance.vouchers.length > 0 ? instance.vouchers[0].value : null;
         }
         return booklet;
@@ -154,9 +161,26 @@ export class Booklet {
 
     public static formatForApi(instance: any) {
         instance.password = instance.password ? CryptoJS.SHA1(instance.password).toString(CryptoJS.enc.Base64) : null;
-        if (instance.individual_value) {
+        if (!instance.individual_to_all) {
             instance.individual_values = new Array(instance.number_vouchers);
             instance.individual_values.fill(instance.individual_value);
+        } else {
+            let values = instance.individual_values.replace(/ /g, '').split(',');
+            if (values.length === 0) {
+                values = new Array(instance.number_vouchers);
+                values.fill('0');
+            } else if (values.length < instance.number_vouchers) {
+                const lastValue = values.pop();
+                while (values.length < instance.number_vouchers) {
+                    values.push(lastValue);
+                }
+            } else if (values.length > instance.number_vouchers) {
+                while (values.length > instance.number_vouchers) {
+                    values.pop();
+                }
+            }
+            instance.individual_values = values;
+
         }
         return new Booklet(instance);
     }
@@ -200,9 +224,7 @@ export class Booklet {
         return {
             code: selfinstance.code,
             number_vouchers: selfinstance.number_vouchers,
-            individual_value: selfinstance.individual_values ?
-                this.formatValues(selfinstance.individual_values) :
-                selfinstance.individual_value,
+            individual_value: selfinstance.individual_value ? selfinstance.individual_value : selfinstance.individual_values,
             currency: selfinstance.currency,
             status: Booklet.__status__[selfinstance.status],
             distribution: selfinstance.distribution_beneficiary ? selfinstance.distribution_beneficiary.distribution_data.name : null,
@@ -240,9 +262,7 @@ export class Booklet {
         return {
             code: selfinstance.code,
             number_vouchers: selfinstance.number_vouchers,
-            individual_value: selfinstance.individual_values ?
-                this.formatValues(selfinstance.individual_values) :
-                selfinstance.individual_value,
+            individual_value: selfinstance.individual_value ? selfinstance.individual_value : selfinstance.individual_values,
             currency: selfinstance.currency,
             status: Booklet.__status__[selfinstance.status],
             distribution: selfinstance.distribution_beneficiary ? selfinstance.distribution_beneficiary.distribution_data.name : null,
@@ -300,13 +320,5 @@ export class Booklet {
             individual_to_all: 'checkbox',
             number_booklets: 'positive-number'
         };
-    }
-
-    formatValues(values: Array<string>): string {
-        let formattedValues = values[0];
-        values.forEach((value, index) => {
-            formattedValues = index !== 0 ? formattedValues + ', ' + value : formattedValues;
-        });
-        return formattedValues;
     }
 }

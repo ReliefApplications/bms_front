@@ -17,7 +17,7 @@
 
             <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="0">
 
-            <input matInput *ngIf="p === 'number_vouchers'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1" (change)="handleChangeNumberVouchers()">
+            <input matInput *ngIf="p === 'number_vouchers'" [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1">
 
 
           <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
@@ -102,8 +102,6 @@
             (change)="handleCheckbox()"
             type="checkbox"
             color="primary"
-            [(ngModel)]="updateObject[p]"
-            [ngModelOptions]="{standalone: true}"
             [checked]="updateObject[p]">
           </mat-checkbox>
 
@@ -111,13 +109,19 @@
             <input [(ngModel)]="updateObject[p]" [ngModelOptions]="{standalone: true}" matInput type="number" min="1">
           </mat-form-field>
 
-          <mat-form-field class="values" *ngIf="propertiesTypes[p]==='individual_values' && updateObject.individual_to_all === true" class="full-width">
-            <div class="array">
-              <span *ngFor="let value of updateObject.individual_values; let i=index; trackBy: trackByFn" >
-                <input [(ngModel)]="updateObject[p][i]" [ngModelOptions]="{standalone: true}" matInput type="number" min="1">
-              </span>
-            </div>
-          </mat-form-field>
+          <mat-form-field class="general" class="full-width" *ngIf="propertiesTypes[p]==='individual_values' && updateObject.individual_to_all === true" class="full-width">
+              <input [(ngModel)]="updateObject[p]" matInput type="text"
+                formControlName="individualValuesFormControl" [errorStateMatcher]="matcher" >
+              <mat-hint align="start"><strong>{{modal.modal_values_format_error}}</strong></mat-hint>
+              <mat-error *ngIf="individualValuesFormControl.hasError('pattern') && !individualValuesFormControl.hasError('required')">
+                {{modal.modal_values_format_error}}
+              </mat-error>
+              <mat-error *ngIf="individualValuesFormControl.hasError('required')">
+                {{modal.modal_values_required | titlecase}}
+              </mat-error>
+            </mat-form-field>
+
+
           <ng-container *ngIf="propertiesTypes[p]=='array' && p === 'notes'">
             <mat-form-field class="full-width" *ngFor="let generalRelief of updateObject['generalReliefs'], let i = index">
               <input [(ngModel)]="updateObject['generalReliefs'][i]['notes']" matInput placeholder="{{modal.notes}}" [ngModelOptions]="{standalone: true}"

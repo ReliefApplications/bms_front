@@ -17,6 +17,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { UploadService } from '../../core/api/upload.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { BookletService } from 'src/app/core/api/booklet.service';
+import { VoucherService } from 'src/app/core/api/voucher.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -96,6 +97,7 @@ export class ModalComponent implements OnInit, DoCheck {
         public distributionService: DistributionService,
         public bookletService: BookletService,
         public dialog: MatDialog,
+        public voucherService: VoucherService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
@@ -211,6 +213,12 @@ export class ModalComponent implements OnInit, DoCheck {
                 }
             );
         }
+
+       if (this.data.entity.__classname__ === 'Booklet') {
+            this.voucherService.getCurrencies().subscribe(currencies => {
+                this.loadedData['currency'] = Object.keys(currencies);
+            });
+       }
     }
 
     /**

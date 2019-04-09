@@ -9,8 +9,8 @@ import { ImportService } from './../../../core/utils/import.service.new';
 enum Step {
     Import = 1,
     Typos = 2,
-    Add = 3,
-    Remove = 4,
+    More = 3,
+    Less = 4,
     Duplicates = 5,
     Review = 6,
 }
@@ -38,6 +38,11 @@ export class DataValidationComponent implements OnInit {
     oldControl: FormArray;
     newControl: FormArray;
 
+    showMembers: boolean;
+
+    // For Html step checking
+    step = Step;
+
 
     constructor(
         private importService: ImportService,
@@ -49,32 +54,46 @@ export class DataValidationComponent implements OnInit {
         try {
             this.importService.sendCsv().subscribe((response: any) => {
                 this.errors = response.data;
+                this.setStepFromResponse(response);
                 this.generateControls();
-
-                this.stepper.selectedIndex = response.step - 2 ;
-
             });
             // If the import context has not been set
         } catch (error) {
             this.snackbar.error('Please import a file');
             this.router.navigate(['beneficiaries/import']);
-
         }
     }
 
     validateStep() {
-        this.importService.sendStepUserData([]).subscribe((response: any) => {
-            this.errors = response.data;
-            this.generateControls();
+        this.importService.sendStepUserData(this.generateResponse())
+            .subscribe((response: any) => {
+                this.errors = response.data;
+                this.setStepFromResponse(response);
+                this.generateControls();
         });
     }
 
+    setStepFromResponse(response: any) {
+        this.currentStep = response.step;
+        this.stepper.selectedIndex = this.currentStep - 2 ;
+    }
 
     generateControls() {
+        console.log(this.currentStep);
+        if (this.currentStep === Step.Typos || this.currentStep === Step.Duplicates) {
+            this.generateIndividualControls();
+        } else if (this.currentStep === Step.More ) {
+            this.generateMoreControls();
+        } else if (this.currentStep === Step.Less ) {
+            this.generateLessControls();
+        }
+    }
+
+    // Generate a control entity for the 'typos' and 'duplicates' steps
+    generateIndividualControls() {
         const formArray = [];
 
-
-        this.errors.forEach((_: any, index: number) => {
+        this.errors.forEach((_: any) => {
             formArray.push(
                 new FormGroup({
                     old: new FormControl(false),
@@ -88,7 +107,29 @@ export class DataValidationComponent implements OnInit {
         this.form = new FormArray(formArray);
     }
 
-    getControlsValues() {
+    // Generate a control entity for the 'more' and 'less' steps
+
+    generateMoreControls() {
+        this.generateAddOrLessControls('new');
+    }
+
+    generateLessControls() {
+        this.generateAddOrLessControls('old');
+    }
+
+    generateAddOrLessControls(newOrOld: string) {
+        const initialState = (newOrOld === 'new');
+
+        const householdsFormArray = new FormArray([]);
+        this.errors.forEach((error: any) => {
+            const beneficiariesFormArray = new FormArray([]);
+            error[newOrOld]['beneficiaries'].forEach((_: any) => {
+                beneficiariesFormArray.push(new FormControl(initialState));
+            });
+            householdsFormArray.push(beneficiariesFormArray);
+        });
+
+        this.form = householdsFormArray;
     }
 
     setAllOldCheckboxesValues(checkboxState: MatCheckbox) {
@@ -112,14 +153,64 @@ export class DataValidationComponent implements OnInit {
         }
         return { noOptionSelected: true};
     }
+    generateResponse(): any {
+        if (this.currentStep === Step.Typos || this.currentStep === Step.Duplicates) {
+            return this.generateIndividualResponse();
+        } else if (this.currentStep === Step.More) {
+            return this.generateMoreResponse();
+        } else if (this.currentStep === Step.Less) {
+            return this.generateLessResponse();
+        }
+    }
 
-    generateResponse() {
-        this.errors.map((error: any, index: number) => {
+    // Send back the housholds new / old pair, adding a 'state' entry describing which HH to keep.
+    generateIndividualResponse() {
+
+        const response = this.errors.map((error: any, index: number) => {
             return {
                 ...error,
-                state: this.getErrorStep(this.form.controls[index].get('old').value, this.form.controls[index].get('new').value)
+                state: this.getErrorStep(
+                    this.getValueFromStatusAndIndex('old', index),
+                    this.getValueFromStatusAndIndex('new', index)
+                )
             };
         });
+
+        return {
+            errors: response
+        };
+    }
+    // Send back the housholds new / old pair, adding a 'state' entry describing which Beneficiary to keep.
+    generateMoreResponse(): object {
+        return this.generateAddOrLessResponse('new');
+    }
+
+    generateLessResponse(): object {
+        return this.generateAddOrLessResponse('old');
+    }
+
+    generateAddOrLessResponse(newOrOld: string) {
+        const response = this.errors.map((error: object, householdIndex: number) => {
+            error[newOrOld].beneficiaries =  error[newOrOld].beneficiaries.filter((_beneficiaries: any, beneficiaryIndex: number) => {
+                // Ensure the head is always returned
+                if (beneficiaryIndex === 0 ) {
+                    return true;
+                }
+                return this.getValueFromIndexes(householdIndex, beneficiaryIndex);
+            });
+            return error;
+        });
+        return {
+            errors: response,
+        };
+    }
+
+    getValueFromStatusAndIndex(status: string, index: number) {
+        return this.form.controls[index].get(status).value;
+    }
+
+    getValueFromIndexes(householdIndex: number, beneficiaryIndex: number) {
+        return this.form.controls[householdIndex].get([beneficiaryIndex]).value;
     }
 
     getErrorStep(oldValue: boolean, newValue: boolean) {
@@ -133,6 +224,12 @@ export class DataValidationComponent implements OnInit {
         else {
             this.snackbar.error('Please select at least one value.');
         }
+    }
+
+    getOldRestoredBeneficiaries(householdIndex: number) {
+        return this.errors[householdIndex]['old'].beneficiaries.filter((_beneficiary: any, beneficiaryIndex: number) => {
+            return this.getValueFromIndexes(householdIndex, beneficiaryIndex);
+        });
     }
 
     // generateDisplayErrorObject(errors: Array<any>) {

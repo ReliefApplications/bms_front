@@ -2,54 +2,192 @@
     <div class="container-title">
         <h2>Verif</h2>
     </div>
-    <mat-horizontal-stepper linear #stepper>
-        <mat-step [editable]="false" [completed]="false">
+    <mat-horizontal-stepper class="disable-step" #stepper>
+        <mat-step>
             <ng-template matStepLabel>
                 Typos
             </ng-template>
-            <div class="step-info">
+            <div class="step-info" *ngIf="currentStep === step.Typos">
+
+                <ng-content select="h1"></ng-content>
                 <h3>Typo Verification</h3>
-                <div class="container-table">
 
+                <mat-checkbox (change)="setAllOldCheckboxesValues(oldCheckBox)" color="primary" #oldCheckBox>OLD</mat-checkbox>
+                <mat-checkbox (change)="setAllNewCheckboxesValues(newCheckBox)" color="primary" #newCheckBox>NEW</mat-checkbox>
+                <form *ngIf="form" [formGroup]="form">
+                    <div class ="error" *ngFor="let error of errors; let i=index">
+                        <div class="error-tab" [ngClass]="{'valid': form.controls[i].valid}"></div>
+                        <div class="beneficiary old">
+                            <mat-checkbox [formControl]="form.controls[i].controls.old" color="primary">Keep Old</mat-checkbox>
+                            <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
+                            <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
+                            <p>Last updated :</p>
+                        </div>
+                        <div class="beneficiary new">
+                            <mat-checkbox [formControl]="form.controls[i].controls.new" color="primary">Keep New</mat-checkbox>
 
-
-                </div>
+                            <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
+                            <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
+                        </div>
+                    </div>
+                </form>
+                <button mat-raised-button (click)="validateStep()">Confirm</button>
             </div>
         </mat-step>
-        <mat-step [editable]="false" [completed]="false">
+
+
+        <mat-step>
             <ng-template matStepLabel>
                 Add
             </ng-template>
-            <div class="step-info">
-                <div class="container-table">
-                    <h3>Add Verification</h3>
-                    <button mat-raised-button (click)="validateStep()">Confirm</button>
-                </div>
+
+            <div class="step-info" *ngIf="currentStep === step.More">
+                <h3>Add Verification</h3>
+                <mat-checkbox (change)="setAllNewCheckboxesValues(newCheckBox)" color="primary" #newCheckBox>KEEP ALL</mat-checkbox>
+                <form class="errors" *ngIf="form" [formGroup]="form">
+                    <div class="error-tab" class="valid"></div>
+                    <div class ="error" *ngFor="let error of errors; let householdIndex=index">
+                        <div class="household old">
+                            <div class="head">
+                                <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
+                                <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
+                            </div>
+                            <div class="members">
+                                <ng-container *ngFor="let beneficiary of error.old.beneficiaries; let beneficiaryIndex=index">
+                                    <div class="member" *ngIf="beneficiaryIndex !== 0">
+                                        <h4>{{error.old.beneficiaries[beneficiaryIndex].given_name}} {{error.old.beneficiaries[beneficiaryIndex].family_name}}</h4>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="household new">
+                            <div class="head">
+                                <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
+                                <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
+                            </div>
+                            <div class="members">
+                                <ng-container *ngFor="let beneficiary of error.new.beneficiaries; let beneficiaryIndex=index">
+                                    <div class="member" *ngIf="beneficiaryIndex !== 0">
+                                        <mat-checkbox [formControl]="form.controls[householdIndex].controls[beneficiaryIndex]" color="primary" >
+                                            <h4>{{error.new.beneficiaries[beneficiaryIndex].given_name}} {{error.new.beneficiaries[beneficiaryIndex].family_name}}</h4>
+                                        </mat-checkbox>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <button mat-raised-button (click)="validateStep()">Confirm</button>
             </div>
+
+
         </mat-step>
-        <mat-step [editable]="false" [completed]="false">
+
+        <mat-step>
             <ng-template matStepLabel>
                 Remove
             </ng-template>
-            <div class="step-info">
-                <div class="container-table">
-                    <h3>Remove Verification</h3>
-                    <button mat-raised-button (click)="validateStep()">Confirm</button>
-                </div>
+
+            <div class="step-info" *ngIf="currentStep === step.Less">
+                <h3>Remove Verification</h3>
+                <mat-checkbox (change)="setAllNewCheckboxesValues(newCheckBox)" color="primary" #newCheckBox>KEEP ALL</mat-checkbox>
+                <form class="errors" *ngIf="form" [formGroup]="form">
+                    <div class="error-tab" class="valid"></div>
+                    <div class ="error" *ngFor="let error of errors; let householdIndex=index">
+                        <div class="household old">
+                            <div class="head">
+                                <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
+                                <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
+                            </div>
+                            <div class="members">
+                                <ng-container *ngFor="let beneficiary of error.old.beneficiaries; let beneficiaryIndex=index">
+                                    <div class="member" *ngIf="beneficiaryIndex !== 0">
+                                        <mat-checkbox [formControl]="form.controls[householdIndex].controls[beneficiaryIndex]" color="primary" >
+                                            <h4>{{error.old.beneficiaries[beneficiaryIndex].given_name}} {{error.old.beneficiaries[beneficiaryIndex].family_name}}</h4>
+                                        </mat-checkbox>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="household new">
+                            <div class="head">
+                                <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
+                                <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
+                            </div>
+                            <div class="members">
+                                <ng-container *ngFor="let beneficiary of error.new.beneficiaries; let beneficiaryIndex=index">
+                                    <div class="member" *ngIf="beneficiaryIndex !== 0">
+                                        <h4>{{error.new.beneficiaries[beneficiaryIndex].given_name}} {{error.new.beneficiaries[beneficiaryIndex].family_name}}</h4>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngFor="let beneficiary of getOldRestoredBeneficiaries(householdIndex)">
+                                    <div class="member" *ngIf="beneficiaryIndex !== 0">
+                                        <h4>{{beneficiary.given_name}} {{beneficiary.family_name}}</h4>
+                                    </div>
+                                </ng-container>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <button mat-raised-button (click)="validateStep()">Confirm</button>
             </div>
         </mat-step>
-        <mat-step [editable]="false" [completed]="false">
+
+
+        <mat-step>
             <ng-template matStepLabel>
                 Duplicates
             </ng-template>
-            <div class="step-info">
-                <div class="container-table">
-                    <h3>Duplicates Verification</h3>
-                    <button mat-raised-button (click)="validateStep()">Confirm</button>
-                </div>
+            <div class="step-info" *ngIf="currentStep === step.Duplicates">
+                <h3>Duplicates Verification</h3>
+                <mat-checkbox (change)="setAllNewCheckboxesValues(newCheckBox)" color="primary" #newCheckBox>KEEP ALL</mat-checkbox>
+                <form class="errors" *ngIf="form" [formGroup]="form">
+                    <div class="error-tab" class="valid"></div>
+                    <div class ="error" *ngFor="let error of errors; let householdIndex=index">
+                        <div class="household old">
+                            <div class="head">
+                                <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
+                                <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
+                            </div>
+                            <div class="members">
+                                <ng-container *ngFor="let beneficiary of error.old.beneficiaries; let beneficiaryIndex=index">
+                                    <div class="member" *ngIf="beneficiaryIndex !== 0">
+                                        <h4>{{error.old.beneficiaries[beneficiaryIndex].given_name}} {{error.old.beneficiaries[beneficiaryIndex].family_name}}</h4>
+                                    </div>
+                                </ng-container>
+                                <div class="member duplicate">
+                                    <mat-checkbox [formControl]="form.controls[householdIndex].controls[beneficiaryIndex]" color="primary" >
+                                        <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="household new">
+                            <div class="head">
+                                <h4>{{error.new_household.beneficiaries[0].given_name}} {{error.new_household.beneficiaries[0].family_name}}</h4>
+                                <p>{{error.new_household.address_number}} {{error.new_household.address_street}} {{error.new_household.address_postcode}}</p>
+                            </div>
+                            <div class="members">
+                                <ng-container *ngFor="let beneficiary of error.new_household.beneficiaries; let beneficiaryIndex=index">
+                                    <div class="member" *ngIf="beneficiaryIndex !== 0">
+                                        <h4>{{error.new_household.beneficiaries[beneficiaryIndex].given_name}} {{error.new_household.beneficiaries[beneficiaryIndex].family_name}}</h4>
+                                    </div>
+                                </ng-container>
+                                <div class="member duplicate">
+                                    <mat-checkbox [formControl]="form.controls[householdIndex].controls[beneficiaryIndex]" color="primary" >
+                                        <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <button mat-raised-button (click)="validateStep()">Confirm</button>
             </div>
         </mat-step>
-        <mat-step [editable]="false" [completed]="false">
+
+        <mat-step>
             <ng-template matStepLabel>
                 Review
             </ng-template>
@@ -62,29 +200,5 @@
         </mat-step>
     </mat-horizontal-stepper>
 
-    <div class="step-info">
-
-        <mat-checkbox (change)="setAllOldCheckboxesValues(oldCheckBox)" #oldCheckBox>OLD</mat-checkbox>
-        <mat-checkbox (change)="setAllNewCheckboxesValues(newCheckBox)" #newCheckBox>NEW</mat-checkbox>
-        <form *ngIf="form" [formGroup]="form">
-            <div class ="error" *ngFor="let error of errors; let i=index">
-                <div class="error-tab" [ngClass]="{'valid': form.controls[i].valid}"></div>
-                <div class="error-old">
-                    <mat-checkbox [formControl]="form.controls[i].controls.old">Keep Old</mat-checkbox>
-                    <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
-                    <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
-                    <!-- {{error.old.beneficiaries[0] |json}} -->
-                    <p>Last updated :</p>
-                </div>
-                <div class="error-new">
-                    <mat-checkbox [formControl]="form.controls[i].controls.new">Keep New</mat-checkbox>
-
-                    <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
-                    <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
-                    <!-- {{error.new.beneficiaries[0] |json}} -->
-                </div>
-            </div>
-        </form>
-    </div>
-    <button mat-raised-button (click)="validateStep()">Confirm</button>
 </div>
+

@@ -36,8 +36,6 @@ export class ImportService {
         return this.sendStepUserData(body);
     }
 
-
-
     sendStepUserData(data: any) {
         return this.householdsService.sendDataToValidation(this.email, data, this.project.id, this.token).pipe(
             map((response: Response) => {

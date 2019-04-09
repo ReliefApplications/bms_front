@@ -1,13 +1,24 @@
 @import '../../../../assets/css/variable.scss';
 @import '../../../../assets/css/animations.scss';
 
-// Prevent stepper navigation
-.mat-horizontal-stepper-header{
-    pointer-events: none !important;
+h4, p {
+    margin: unset;
+}
+
+mat-horizontal-stepper {
+    width: 100%;
 }
 
 .step-info {
     width: 100%;
+}
+
+.errors {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
 }
 
 .error {
@@ -19,6 +30,53 @@
     margin: 10px;
     box-shadow: $bms_shadow;
     overflow: hidden;
+    flex-grow: 1;
+
+
+
+    .household {
+        margin: 10px;
+        border: 3px solid;
+        border-radius: 10px;
+        padding: 0;
+
+        &.new {
+            border-color: $bms_green;
+            .head {
+                background-color: $bms_green;
+            }
+
+        }
+        &.old {
+            border-color: $bms_red;
+            .head {
+                background-color: $bms_red;
+            }
+        }
+
+        .head {
+            padding: 10px;
+            border-bottom: 3px solid;
+            border-color: inherit;
+            color: $bms_white;
+
+
+        }
+        .members {
+            border-color: inherit;
+
+            .member {
+                padding: 10px;
+                border-top: 1px solid;
+                border-color: inherit;
+
+                &.duplicate {
+                    color: $bms_red;
+                    font-weight: bolder;
+                }
+            }
+        }
+    }
 
     .error-tab {
         width: 10px;
@@ -29,22 +87,24 @@
         }
     }
 
-    .error-old {
+    .beneficiary, .household{
         width: auto;
-        border: 3px solid $bms_red;
+        border: 3px solid;
         border-radius: 10px;
         flex-grow: 5;
+    }
+
+    .old {
+
+        border-color: $bms_red;
         margin: 10px 5px 10px 10px;
-        padding: 10px;
     }
-    .error-new {
-        width: auto;
-        border: 3px solid $bms_green;
-        border-radius: 10px;
-        flex-grow: 5;
+
+    .new {
+        border-color: $bms_green;
         margin: 10px 10px 10px 5px;
-        padding: 10px;
     }
+
 }
 // .content-table {
 //     padding-top : 20px !important;

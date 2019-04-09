@@ -15,6 +15,19 @@ import { ThousandsPipe } from '../core/utils/thousands.pipe';
 import { CountrySpecificAnswer } from './country-specific.new';
 import { LIVELIHOOD } from './livelihood';
 
+export class Livelihood extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
 export class Households extends CustomModel {
 
     title = GlobalText.TEXTS.households;
@@ -105,7 +118,7 @@ export class Households extends CustomModel {
         }),
         livelihood: new SingleSelectModelField(
             {
-
+                options: LIVELIHOOD.map(livelihood => new Livelihood(livelihood.id, livelihood.name))
             }
         ),
         notes: new TextModelField(
@@ -127,15 +140,16 @@ export class Households extends CustomModel {
     public static apiToModel(householdFromApi: any): Households {
         const newHousehold = new Households();
 
-        newHousehold.fields.id.value = householdFromApi.id;
-        newHousehold.fields.addressNumber.value = householdFromApi.address_number;
-        newHousehold.fields.addressPostcode.value = householdFromApi.address_postcode;
-        newHousehold.fields.addressStreet.value = householdFromApi.address_street;
-        newHousehold.fields.notes.value = householdFromApi.notes;
-        newHousehold.fields.livelihood.value =
+        newHousehold.set('id', householdFromApi.id);
+        newHousehold.set('addressNumber', householdFromApi.address_number);
+        newHousehold.set('addressPostcode', householdFromApi.address_postcode);
+        newHousehold.set('addressStreet', householdFromApi.address_street);
+        newHousehold.set('notes', householdFromApi.notes);
+        newHousehold.set('livelihood',
             householdFromApi.livelihood ?
-            LIVELIHOOD.filter(livelihood => livelihood.id === householdFromApi.livelihood + 1)[0] :
-            null;
+            newHousehold.getOptions('livelihood')
+                .filter((livelihood: Livelihood) => livelihood.get('id') === householdFromApi.livelihood.toString())[0] :
+            null);
 
         let dependents: number;
         if (householdFromApi.number_dependents == null) {
@@ -143,30 +157,30 @@ export class Households extends CustomModel {
         } else {
             dependents = householdFromApi.number_dependents;
         }
-        newHousehold.fields.dependents.value = dependents;
+        newHousehold.set('dependents', dependents);
 
         householdFromApi.beneficiaries.forEach(beneficiary => {
             if (beneficiary.status === true) {
-                newHousehold.fields.familyName.value = beneficiary.family_name;
-                newHousehold.fields.firstName.value = beneficiary.given_name;
+                newHousehold.set('familyName', beneficiary.family_name);
+                newHousehold.set('firstName', beneficiary.given_name);
             }
             beneficiary.vulnerability_criteria.forEach(vulnerability => {
-                newHousehold.fields.vulnerabilities.value.push(VulnerabilityCriteria.apiToModel(vulnerability));
+                newHousehold.add('vulnerabilities', VulnerabilityCriteria.apiToModel(vulnerability));
             });
         });
         newHousehold.fields.vulnerabilities.displayTableFunction = value => this.displayTableVulnerabilities(value);
         newHousehold.fields.vulnerabilities.displayModalFunction = value => this.displayModalVulnerabilities(value);
-        newHousehold.fields.projects.value = householdFromApi.projects.map(project => Project.apiToModel(project));
-        newHousehold.fields.location.value = Location.apiToModel(householdFromApi.location);
+        newHousehold.set('projects', householdFromApi.projects.map(project => Project.apiToModel(project)));
+        newHousehold.set('location', Location.apiToModel(householdFromApi.location));
         newHousehold.fields.location.displayTableFunction = value => value.getLocationName();
         newHousehold.fields.location.displayModalFunction = value => value.getLocationName();
 
-        newHousehold.fields.beneficiaries.value = householdFromApi.beneficiaries.map(beneficiary => Beneficiary.apiToModel(beneficiary));
-        newHousehold.fields.countrySpecificAnswers.value = householdFromApi.country_specific_answers ?
+        newHousehold.set('beneficiaries', householdFromApi.beneficiaries.map(beneficiary => Beneficiary.apiToModel(beneficiary)));
+        newHousehold.set('countrySpecificAnswers', householdFromApi.country_specific_answers ?
         householdFromApi.country_specific_answers.map(
             countrySpecificAnswer => CountrySpecificAnswer.apiToModel(countrySpecificAnswer)
         )
-        : null;
+        : null);
 
         return newHousehold;
     }
@@ -194,24 +208,23 @@ export class Households extends CustomModel {
     }
 
     public getIdentifyingName() {
-        return this.fields.firstName.value + ' ' + this.fields.familyName.value;
+        return this.get('firstName') + ' ' + this.get('familyName');
     }
 
 
     public modelToApi(): Object {
         return {
-            address_number: this.fields.addressNumber.value,
-            address_street: this.fields.addressStreet.value,
-            address_postcode: this.fields.addressPostcode.value,
-            livelihood: this.fields.livelihood.value ? this.fields.livelihood.value.id - 1 : null,
-            longitude: this.fields.longitude.value,
-            latitude: this.fields.latitude.value,
-            notes: this.fields.notes.value,
-            location: this.fields.location.value.modelToApi(),
-            country_specific_answers: this.fields.countrySpecificAnswers.value.map(answer => answer.modelToApi()),
-            beneficiaries: this.fields.beneficiaries.value.map(beneficiary => beneficiary.modelToApi())
+            address_number: this.get('addressNumber'),
+            address_street: this.get('addressStreet'),
+            address_postcode: this.get('addressPostcode'),
+            livelihood: this.get('livelihood') ? this.get('livelihood').get('id') : null,
+            longitude: this.get('longitude'),
+            latitude: this.get('latitude'),
+            notes: this.get('notes'),
+            location: this.get('location').modelToApi(),
+            country_specific_answers: this.get<CountrySpecificAnswer[]>('countrySpecificAnswers').map(answer => answer.modelToApi()),
+            beneficiaries: this.get<Beneficiary[]>('beneficiaries').map(beneficiary => beneficiary.modelToApi())
         };
     }
 
-    // In modelToApi, do livelihoodId - 1
 }

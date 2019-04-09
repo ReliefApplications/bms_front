@@ -25,23 +25,23 @@
                   <div class="column-container">
                     <h4 class="location">{{ Text.location }}</h4>
                     <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder={{Text.adm1}} formControlName="adm1" (change)='loadDistrict($event)' required>
-                      <ng-option *ngFor="let option of household.fields.location.value.fields.adm1.options" [value]="option.fields.id.value">
-                        {{option.fields.name.value | titlecase}}
+                      <ng-option *ngFor="let option of household.get('location').getOptions('adm1')" [value]="option.get('id')">
+                        {{option.get('name') | titlecase}}
                       </ng-option>
                     </ng-select>
                     <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.adm2}} formControlName="adm2" (change)='loadCommune($event)'>
-                      <ng-option *ngFor="let option of household.fields.location.value.fields.adm2.options" [value]="option.fields.id.value">
-                        {{option.fields.name.value | titlecase}}
+                      <ng-option *ngFor="let option of household.get('location').getOptions('adm2')" [value]="option.get('id')">
+                        {{option.get('name') | titlecase}}
                       </ng-option>
                     </ng-select>
                     <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.adm3}} formControlName="adm3" (change)='loadVillage($event)'>
-                      <ng-option *ngFor="let option of household.fields.location.value.fields.adm3.options" [value]="option.fields.id.value">
-                        {{option.fields.name.value | titlecase}}
+                      <ng-option *ngFor="let option of household.get('location').getOptions('adm3')" [value]="option.get('id')">
+                        {{option.get('name') | titlecase}}
                       </ng-option>
                     </ng-select>
                     <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{Text.adm4}} formControlName="adm4">
-                      <ng-option *ngFor="let option of household.fields.location.value.fields.adm4.options" [value]="option.fields.id.value">
-                        {{option.fields.name.value | titlecase}}
+                      <ng-option *ngFor="let option of household.get('location').getOptions('adm4')" [value]="option.get('id')">
+                        {{option.get('name') | titlecase}}
                       </ng-option>
                     </ng-select>
                   </div>
@@ -59,15 +59,15 @@
                   </div>
                   <div class="column-container">
                       <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder={{Text.add_beneficiary_getOccupation}} formControlName="livelihood">
-                        <ng-option *ngFor="let livelihood of livelihoodsList" [value]="livelihood.id">
-                          {{livelihood.name | titlecase}}
+                        <ng-option *ngFor="let livelihood of household.getOptions('livelihood')" [value]="livelihood.get('id')">
+                          {{livelihood.get('name') | titlecase}}
                         </ng-option>
                       </ng-select>
-                    <div class="specifics" *ngIf="household.fields.countrySpecificAnswers.value.length">
+                    <div class="specifics" *ngIf="household.get('countrySpecificAnswers').length">
                       <h4>{{ Text.settings_country_specific_options | titlecase }}</h4>
-                      <mat-form-field *ngFor="let countrySpecificAnswer of household.fields.countrySpecificAnswers.value">
-                        <input *ngIf="countrySpecificAnswer.fields.countrySpecific.value.fields.field.value === 'IDPoor'" matInput [type]="countrySpecificAnswer.fields.countrySpecific.value.fields.type.value" placeholder="IDPoor No." [formControlName]="countrySpecificAnswer.fields.countrySpecific.value.fields.field.value">
-                        <input *ngIf="countrySpecificAnswer.fields.countrySpecific.value.fields.field.value !== 'IDPoor'" matInput [type]="countrySpecificAnswer.fields.countrySpecific.value.fields.type.value" placeholder={{countrySpecificAnswer.fields.countrySpecific.value.fields.field.value}} [formControlName]="countrySpecificAnswer.fields.countrySpecific.value.fields.field.value">
+                      <mat-form-field *ngFor="let countrySpecificAnswer of household.get('countrySpecificAnswers')">
+                        <input *ngIf="countrySpecificAnswer.get('countrySpecific').get('field') === 'IDPoor'" matInput [type]="countrySpecificAnswer.get('countrySpecific').get('type')" placeholder="IDPoor No." [formControlName]="countrySpecificAnswer.get('countrySpecific').get('field')">
+                        <input *ngIf="countrySpecificAnswer.get('countrySpecific').get('field') !== 'IDPoor'" matInput [type]="countrySpecificAnswer.get('countrySpecific').get('type')" [placeholder]="countrySpecificAnswer.get('countrySpecific').get('field')" [formControlName]="countrySpecificAnswer.get('countrySpecific').get('field')">
                       </mat-form-field>
                     </div>
                   </div>
@@ -182,15 +182,15 @@
             <div class="content-table">
               <form [formGroup]="mainForm">
                 <ng-select class="multiple-select" formControlName="projects" placeholder="{{Text.projects}}" [multiple]="true"  [closeOnSelect]="false" [searchable]="true" required>
-                    <ng-option *ngFor="let option of household.fields.projects.options" [value]="option.fields.id.value">
-                        {{option.fields[household.fields.projects.bindField].value | titlecase}}
+                    <ng-option *ngFor="let option of household.getOptions('projects')" [value]="option.get('id')">
+                        {{option.get(household.fields.projects.bindField) | titlecase}}
                     </ng-option>
                 </ng-select>
               </form>
               <div class="summary">
                 <h3>{{Text.beneficiaries_household_info}}</h3>
                 <div class="info-resume">
-                  <div class="info-container" *ngIf="mainForm.controls.livelihood.value > 0">
+                  <div class="info-container" *ngIf="mainForm.controls.livelihood.value">
                     <h4 class='summary-title'>{{Text.add_beneficiary_getOccupation}}: </h4>
                     <p class="summary-title-value">{{getLivelihood().name}}</p>
                   </div>

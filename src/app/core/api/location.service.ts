@@ -6,6 +6,7 @@ import { URL_BMS_API } from '../../../environments/environment';
 import { HttpService } from './http.service';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { map } from 'rxjs/operators';
+import { Adm } from 'src/app/model/location.new';
 
 
 @Injectable({
@@ -68,12 +69,7 @@ export class LocationService {
         return this.getAdm1()
             .pipe(
                 map((options) => {
-                const adm1Options = options.map(adm1 => {
-                    return { fields : {
-                        name: { value: adm1.name },
-                        id: { value: adm1.id }
-                    }};
-                });
+                const adm1Options = options.map(adm1 => new Adm(adm1.id, adm1.name));
                 location.fields.adm1.options = adm1Options;
                 location.fields.adm2.options = [];
                 location.fields.adm3.options = [];
@@ -91,12 +87,7 @@ export class LocationService {
         return this.getAdm2(body)
             .pipe(
                 map((options) => {
-                const adm2Options = options.map(adm2 => {
-                    return { fields : {
-                        name: { value: adm2.name },
-                        id: { value: adm2.id }
-                    }};
-                });
+                const adm2Options = options.map(adm2 => new Adm(adm2.id, adm2.name));
                 location.fields.adm2.options = adm2Options;
                 location.fields.adm3.options = [];
                 location.fields.adm4.options = [];
@@ -113,12 +104,7 @@ export class LocationService {
         return this.getAdm3(body)
             .pipe(
                 map((options) => {
-                    const adm3Options = options.map(adm3 => {
-                        return { fields : {
-                            name: { value: adm3.name },
-                            id: { value: adm3.id }
-                        }};
-                    });
+                    const adm3Options = options.map(adm3 => new Adm(adm3.id, adm3.name));
                     location.fields.adm3.options = adm3Options;
                     location.fields.adm4.options = [];
                     object.fields.location.value = location;
@@ -134,12 +120,7 @@ export class LocationService {
         return this.getAdm4(body)
             .pipe(
                 map((options) => {
-                    const adm4Options = options.map(adm4 => {
-                        return { fields : {
-                            name: { value: adm4.name },
-                            id: { value: adm4.id }
-                        }};
-                    });
+                    const adm4Options = options.map(adm4 => new Adm(adm4.id, adm4.name));
                     location.fields.adm4.options = adm4Options;
                     object.fields.location.value = location;
                 }));

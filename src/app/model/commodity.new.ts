@@ -6,37 +6,31 @@ import { ObjectModelField } from './CustomModel/object-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 import { CustomModel } from './CustomModel/custom-model';
 
-// export class Modality {
+export class Modality extends CustomModel {
 
-//     public fields = {
-//         name: new SingleSelectModelField({
+    public fields = {
+        name: new TextModelField({}),
+    };
 
-//         })
-//     }
-// }
+    constructor(name: string) {
+        super();
+        this.set('name', name);
+    }
+}
 
+export class ModalityType extends CustomModel {
 
-// export class ModalityType {
+    public fields = {
+        id: new TextModelField({}),
+        name: new TextModelField({}),
+    };
 
-//     public fields = {
-//         id : new NumberModelField(
-//             {
-//                 title: null,
-//                 placeholder: null,
-//                 isDisplayedInTable: false,
-//                 isDisplayedInModal: false,
-//             },
-//         ),
-//         name: new SingleSelectModelField({
-
-//         }),
-//         modality: new ObjectModelField<Modality>(
-//             {
-
-//             }
-//         )
-//     }
-// }
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
 
 export class Commodity extends CustomModel {
     title = GlobalText.TEXTS.model_commodity;
@@ -105,11 +99,11 @@ export class Commodity extends CustomModel {
     public static apiToModel(commodityFromApi: any): Commodity {
         const newCommodity = new Commodity();
 
-        newCommodity.fields.id.value = commodityFromApi.id;
-        newCommodity.fields.modalityType.value = { fields: { name: { value: commodityFromApi.modality_type.name }, id: { value: null}}};
-        newCommodity.fields.modality.value = { fields: { name: { value: commodityFromApi.modality_type.modality }}};
-        newCommodity.fields.value.value = commodityFromApi.value;
-        newCommodity.fields.unit.value = commodityFromApi.unit;
+        newCommodity.set('id', commodityFromApi.id);
+        newCommodity.set('modalityType', new ModalityType(null, commodityFromApi.modality_type.name));
+        newCommodity.set('modality', new Modality(commodityFromApi.modality_type.modality));
+        newCommodity.set('value', commodityFromApi.value);
+        newCommodity.set('unit', commodityFromApi.unit);
 
         return newCommodity;
     }
@@ -121,7 +115,7 @@ export class Commodity extends CustomModel {
             unit: this.fields.unit.formatForApi(),
             value: this.fields.value.formatForApi(),
             modality: this.fields.modality.formatForApi(),
-            modality_type: { id: this.fields.modalityType.value.fields.id.value }
+            modality_type: { id: this.get('modalityType').get('id') }
         };
     }
 
@@ -141,7 +135,7 @@ export class Commodity extends CustomModel {
         };
         // Todo: Use global variable, fix typing in order to not do this if check
 
-        const modalityName = this.fields.modalityType.value.fields.name.value;
+        const modalityName = this.get('modalityType').get('name');
 
         if (typeof modalityName === 'string') {
             return `/assets/images/commodities/${commoditiesImages[modalityName]}.png`;
@@ -151,6 +145,6 @@ export class Commodity extends CustomModel {
     }
 
     public getIdentifyingName() {
-        return this.fields.modality.value.fields.name.value;
+        return this.get('modality').get<string>('name');
     }
 }

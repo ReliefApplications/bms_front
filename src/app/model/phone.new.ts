@@ -2,8 +2,23 @@ import { TextModelField } from './CustomModel/text-model-field';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
+import { CustomModel } from './CustomModel/custom-model';
 
-export class Phone {
+export class PhoneType extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
+
+export class Phone extends CustomModel {
     public fields = {
         id: new NumberModelField(
             {
@@ -27,16 +42,7 @@ export class Phone {
         ),
         type: new SingleSelectModelField(
             {
-                options: [
-                    {fields: {
-                        name: { value: 'Landline' },
-                        id: { value: 1 }
-                    }},
-                    {fields: {
-                        name: { value: 'Mobile' },
-                        id: { value: 2 }
-                    }}
-                ],
+                options: [new PhoneType('1', 'Landline'), new PhoneType('2', 'Mobile')],
                 apiLabel: 'name'
             }
         )
@@ -44,21 +50,21 @@ export class Phone {
 
     public static apiToModel(phoneFromApi): Phone {
         const newPhone = new Phone();
-        newPhone.fields.id.value = phoneFromApi.id;
-        newPhone.fields.number.value = phoneFromApi.number;
-        newPhone.fields.prefix.value = phoneFromApi.prefix;
-        newPhone.fields.proxy.value = phoneFromApi.proxy;
-        newPhone.fields.type.value = newPhone.fields.type.options.filter(option => option.fields.name.value === phoneFromApi.type)[0];
+        newPhone.set('id', phoneFromApi.id);
+        newPhone.set('number', phoneFromApi.number);
+        newPhone.set('prefix', phoneFromApi.prefix);
+        newPhone.set('proxy', phoneFromApi.proxy);
+        newPhone.set('type', newPhone.getOptions('type').filter((option: PhoneType) => option.get('name') === phoneFromApi.type)[0]);
 
         return newPhone;
     }
 
     public modelToApi(): Object {
         return {
-            number: this.fields.number.value,
-            prefix: this.fields.prefix.value,
-            proxy: this.fields.proxy.value ? true : false,
-            type: this.fields.type.value ? this.fields.type.formatForApi() : null,
+            number: this.get('number'),
+            prefix: this.get('prefix'),
+            proxy: this.get('proxy') ? true : false,
+            type: this.get('type') ? this.fields.type.formatForApi() : null,
 
         };
     }

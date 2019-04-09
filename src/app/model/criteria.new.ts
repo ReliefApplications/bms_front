@@ -5,6 +5,45 @@ import { NumberModelField } from './CustomModel/number-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 
+export class CriteriaField extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
+export class CriteriaCondition extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
+export class CriteriaType extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
 export class Criteria extends CustomModel {
     title =  GlobalText.TEXTS.model_criteria;
 
@@ -63,26 +102,26 @@ export class Criteria extends CustomModel {
     public static apiToModel(criteriaFromApi: any): Criteria {
         const newCriteria = new Criteria();
 
-        newCriteria.fields.field.value = criteriaFromApi.field_string;
-        newCriteria.fields.type.value = criteriaFromApi.type;
-        newCriteria.fields.kindOfBeneficiary.value = criteriaFromApi.distribution_type;
-        newCriteria.fields.tableString.value = criteriaFromApi.table_string;
+        newCriteria.set('field', criteriaFromApi.field_string);
+        newCriteria.set('type', criteriaFromApi.type);
+        newCriteria.set('kindOfBeneficiary', criteriaFromApi.distribution_type);
+        newCriteria.set('tableString', criteriaFromApi.table_string);
         return newCriteria;
     }
 
     public modelToApi(): Object {
         return {
-            condition_string: this.fields.condition.value.fields.name.value,
-            field_string: this.fields.field.value.fields.name.value,
-            kind_beneficiary: this.fields.kindOfBeneficiary.value,
-            table_string: this.fields.tableString.value,
-            value_string: this.fields.value.value,
-            weight: this.fields.weight.value,
-            type: this.fields.type.value,
+            condition_string: this.get('condition').get('name'),
+            field_string: this.get('field').get('name'),
+            kind_beneficiary: this.get('kindOfBeneficiary'),
+            table_string: this.get('tableString'),
+            value_string: this.get('value'),
+            weight: this.get('weight'),
+            type: this.get('type'),
         };
     }
 
     public getIdentifyingName() {
-        return this.fields.field.value.fields.name.value;
+        return this.get('field').get<string>('name');
     }
 }

@@ -5,6 +5,19 @@ import { SingleSelectModelField } from './CustomModel/single-select-model-field'
 import { TextModelField } from './CustomModel/text-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
 
+export class CountrySpecificType extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: number, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
 export class CountrySpecific extends CustomModel {
 
     public static rights = ['ROLE_ADMIN', 'ROLE_COUNTRY_MANAGER', 'ROLE_PROJECT_MANAGER'];
@@ -37,16 +50,7 @@ export class CountrySpecific extends CustomModel {
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
-                options: [
-                    { fields : {
-                        name: { value: 'text'},
-                        id: { value: 1}
-                    }},
-                    { fields : {
-                        name: { value: 'number'},
-                        id: { value: 2}
-                    }},
-                ],
+                options: [ new CountrySpecificType(1, 'text'), new CountrySpecificType(2, 'number') ],
                 bindField: 'name',
                 isEditable: true,
                 isSettable: true,
@@ -74,17 +78,17 @@ export class CountrySpecific extends CustomModel {
         const newCountrySpecific = new CountrySpecific();
 
         if (countrySpecificFromApi.country_specific) {
-            newCountrySpecific.fields.answer.value = countrySpecificFromApi.answer;
+            newCountrySpecific.set('answer', countrySpecificFromApi.answer);
             countrySpecificFromApi = countrySpecificFromApi.country_specific;
         }
-        newCountrySpecific.fields.id.value = countrySpecificFromApi.id;
-        newCountrySpecific.fields.type.value = countrySpecificFromApi.type === 'text' ?
-            newCountrySpecific.fields.type.options[0] :
-            newCountrySpecific.fields.type.options[1];
+        newCountrySpecific.set('id', countrySpecificFromApi.id);
+        newCountrySpecific.set('type', countrySpecificFromApi.type === 'text' ?
+            newCountrySpecific.getOptions('type')[0] :
+            newCountrySpecific.getOptions('type')[1]);
 
-        newCountrySpecific.fields.field.value = countrySpecificFromApi.field_string;
-        newCountrySpecific.fields.countryIso3.value = countrySpecificFromApi.country_iso3 ? countrySpecificFromApi.country_iso3 : null;
-        newCountrySpecific.fields.name.value = countrySpecificFromApi.field ? countrySpecificFromApi.field : null;
+        newCountrySpecific.set('field', countrySpecificFromApi.field_string);
+        newCountrySpecific.set('countryIso3', countrySpecificFromApi.country_iso3 ? countrySpecificFromApi.country_iso3 : null);
+        newCountrySpecific.set('name', countrySpecificFromApi.field ? countrySpecificFromApi.field : null);
 
         return newCountrySpecific;
     }
@@ -105,7 +109,7 @@ export class CountrySpecific extends CustomModel {
 
 
 
-export class CountrySpecificAnswer {
+export class CountrySpecificAnswer extends CustomModel {
 
     public fields = {
         countrySpecific: new ObjectModelField<CountrySpecific>({
@@ -118,16 +122,16 @@ export class CountrySpecificAnswer {
 
     public static apiToModel(countrySpecificAnswerFromApi: any): CountrySpecificAnswer {
         const newCountrySpecificAnswer = new CountrySpecificAnswer();
-        newCountrySpecificAnswer.fields.answer.value = countrySpecificAnswerFromApi.answer;
-        newCountrySpecificAnswer.fields.countrySpecific.value = CountrySpecific.apiToModel(countrySpecificAnswerFromApi.country_specific);
+        newCountrySpecificAnswer.set('answer', countrySpecificAnswerFromApi.answer);
+        newCountrySpecificAnswer.set('countrySpecific', CountrySpecific.apiToModel(countrySpecificAnswerFromApi.country_specific));
 
         return newCountrySpecificAnswer;
     }
 
     public modelToApi(): object {
         return {
-            country_specific: this.fields.countrySpecific.value.modelToApi(),
-            answer: this.fields.answer.value
+            country_specific: this.get('countrySpecific').modelToApi(),
+            answer: this.get('answer')
         };
     }
 }

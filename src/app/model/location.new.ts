@@ -3,8 +3,22 @@ import { NumberModelField } from './CustomModel/number-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 import { GlobalText } from 'src/texts/global';
+import { CustomModel } from './CustomModel/custom-model';
 
-export class Location {
+export class Adm extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
+export class Location extends CustomModel {
 
     title = 'Location';
 
@@ -43,7 +57,7 @@ export class Location {
 
     public static apiToModel(locationFromApi: any): Location {
         const newLocation = new Location();
-        newLocation.fields.id.value = locationFromApi.id;
+        newLocation.set('id', locationFromApi.id);
 
         let adm1;
         let adm2;
@@ -52,19 +66,19 @@ export class Location {
 
         if (locationFromApi.adm4) {
             adm4 = locationFromApi.adm4;
-            adm3 = locationFromApi.adm4.adm3;
-            adm2 = locationFromApi.adm4.adm3.adm2;
-            adm1 = locationFromApi.adm4.adm3.adm2.adm1;
+            adm3 = adm4.adm3;
+            adm2 = adm3.adm2;
+            adm1 = adm2.adm1;
         } else if (locationFromApi.adm3) {
             adm4 = null;
             adm3 = locationFromApi.adm3;
-            adm2 = locationFromApi.adm3.adm2;
-            adm1 = locationFromApi.adm3.adm2.adm1;
+            adm2 = adm3.adm2;
+            adm1 = adm2.adm1;
         } else if (locationFromApi.adm2) {
             adm4 = null;
             adm3 = null;
             adm2 = locationFromApi.adm2;
-            adm1 = locationFromApi.adm2.adm1;
+            adm1 = adm2.adm1;
         } else if (locationFromApi.adm1) {
             adm4 = null;
             adm3 = null;
@@ -72,43 +86,30 @@ export class Location {
             adm1 = locationFromApi.adm1;
         }
 
+        newLocation.set('adm1', adm1 ? new Adm(adm1.id, adm1.name) : new Adm(null, null));
+        newLocation.set('adm2', adm2 ? new Adm(adm2.id, adm2.name) : new Adm(null, null));
+        newLocation.set('adm3', adm3 ? new Adm(adm3.id, adm3.name) : new Adm(null, null));
+        newLocation.set('adm4', adm4 ? new Adm(adm4.id, adm4.name) : new Adm(null, null));
 
-        newLocation.fields.adm1.value = { fields : {
-            name: { value: adm1 ? adm1.name : null },
-            id: { value: adm1 ? adm1.id : null }
-        }};
-        newLocation.fields.adm2.value = { fields : {
-            name: { value: adm2 ? adm2.name : null },
-            id: { value: adm2 ? adm2.id : null }
-        }};
-        newLocation.fields.adm3.value = { fields : {
-            name: { value: adm3 ? adm3.name : null },
-            id: { value: adm3 ? adm3.id : null }
-        }};
-        newLocation.fields.adm4.value = { fields : {
-            name: { value: adm4 ? adm4.name : null },
-            id: { value: adm4 ? adm4.id : null }
-        }};
         return newLocation;
     }
 
 
     getLocationName(): string {
-        let name =  this.fields.adm1 && this.fields.adm1.value.fields.name.value ? this.fields.adm1.value.fields.name.value : '';
-        name += this.fields.adm2 && this.fields.adm2.value.fields.name.value ? ' ' + this.fields.adm2.value.fields.name.value : '';
-        name += this.fields.adm3 && this.fields.adm3.value.fields.name.value ? ' ' + this.fields.adm3.value.fields.name.value : '';
-        name += this.fields.adm4 && this.fields.adm4.value.fields.name.value ? ' ' + this.fields.adm4.value.fields.name.value : '';
+        let name =  this.get('adm1') && this.get('adm1').get('name') ? this.get('adm1').get<string>('name') : '';
+        name += this.get('adm2') && this.get('adm2').get('name') ? ' ' + this.get('adm2').get<string>('name') : '';
+        name += this.get('adm3') && this.get('adm3').get('name') ? ' ' + this.get('adm3').get<string>('name') : '';
+        name += this.get('adm4') && this.get('adm4').get('name') ? ' ' + this.get('adm4').get<string>('name') : '';
         return name;
 
     }
 
     public modelToApi(): Object {
         return {
-            adm1: this.fields.adm1.value ? this.fields.adm1.value.fields.name.value : null,
-            adm2: this.fields.adm2.value ? this.fields.adm2.value.fields.name.value : null,
-            adm3: this.fields.adm3.value ? this.fields.adm3.value.fields.name.value : null,
-            adm4: this.fields.adm4.value ? this.fields.adm4.value.fields.name.value : null,
-
+            adm1: this.get('adm1') ? this.get('adm1').get('name') : null,
+            adm2: this.get('adm2') ? this.get('adm2').get('name') : null,
+            adm3: this.get('adm3') ? this.get('adm3').get('name') : null,
+            adm4: this.get('adm4') ? this.get('adm4').get('name') : null,
         };
     }
 

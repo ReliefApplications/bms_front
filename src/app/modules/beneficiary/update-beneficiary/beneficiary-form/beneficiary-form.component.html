@@ -10,8 +10,8 @@
   <div class="column-container">
     <ng-select class="single-select gender" [multiple]="false" [searchable]=true [closeOnSelect]="true"
       placeholder={{Text.gender}} formControlName="gender" required>
-      <ng-option *ngFor="let option of options.genderList" [value]="option.fields.id.value">
-        {{option.fields.name.value | titlecase}}
+      <ng-option *ngFor="let option of options.genderList" [value]="option.get('id')">
+        {{option.get('name') | titlecase}}
       </ng-option>
     </ng-select>
     <mat-form-field class="datepicker-computer" required>
@@ -30,8 +30,8 @@
   <div class="column-container">
     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
       placeholder={{Text.add_beneficiary_getTypeNationalId}} formControlName="IDType">
-      <ng-option *ngFor="let option of options.nationalIdList" [value]="option.fields.id.value">
-        {{option.fields.name.value}}
+      <ng-option *ngFor="let option of options.nationalIdList" [value]="option.get('id')">
+        {{option.get('name')}}
       </ng-option>
     </ng-select>
     <mat-form-field>
@@ -41,8 +41,8 @@
   <div class="column-container">
     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
       placeholder={{Text.model_residencystatus}} formControlName="residencyStatus">
-      <ng-option *ngFor="let option of options.residencyStatusList" [value]="option.fields.id.value">
-        {{option.fields.name.value | titlecase }}
+      <ng-option *ngFor="let option of options.residencyStatusList" [value]="option.get('id')">
+        {{option.get('name') | titlecase }}
       </ng-option>
     </ng-select>
   </div>
@@ -50,8 +50,8 @@
     <div class="items-line">
       <ng-select class="single-select phone-type" [multiple]="false" [searchable]=true [closeOnSelect]="true"
         placeholder={{Text.add_beneficiary_getTypePhone}} [formControlName]="'phoneType'+index">
-        <ng-option *ngFor="let option of options.phoneList" [value]="option.fields.id.value">
-          {{ option.fields.name.value }}
+        <ng-option *ngFor="let option of options.phoneList" [value]="option.get('id')">
+          {{ option.get('name') }}
         </ng-option>
       </ng-select>
       <mat-checkbox color="primary" [formControlName]="'phoneProxy'+index">{{Text.beneficiaries_proxy}}</mat-checkbox>
@@ -68,8 +68,8 @@
     </div>
   </div>
   <div class="lign-container">
-    <mat-checkbox color='primary' *ngFor="let vulnerability of options.vulnerabilityList" [formControlName]="vulnerability.fields.name.value">
-      {{vulnerability.fields.name.value | titlecase }}
+    <mat-checkbox color='primary' *ngFor="let vulnerability of options.vulnerabilityList" [formControlName]="vulnerability.get('name')">
+      {{vulnerability.get('name') | titlecase }}
     </mat-checkbox>
   </div>
 </form>

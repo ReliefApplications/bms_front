@@ -33,4 +33,28 @@ export abstract class CustomModel {
     public getIdentifyingName() {
         return GlobalText.TEXTS.this + ' ' + this.title;
     }
+
+    public get<T = CustomModel>(field: string): T {
+        return this.fields[field] ? this.fields[field].value : null;
+    }
+
+    public set(field: string, value: any) {
+        if (this.fields[field]) {
+            this.fields[field].value = value;
+        }
+    }
+
+    public getOptions(field: string) {
+        return this.fields[field] ? this.fields[field].options : null;
+    }
+
+    public setOptions(field: string, value: any[]) {
+        if (this.fields[field]) {
+            this.fields[field].options = value;
+        }
+    }
+
+    public add(field: string, value: any) {
+        this.fields[field].value.push(value);
+    }
 }

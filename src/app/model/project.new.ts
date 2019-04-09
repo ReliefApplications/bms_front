@@ -150,27 +150,25 @@ export class Project extends CustomModel {
         const newProject = new Project();
 
         // Assign default fields
-        newProject.fields.id.value = projectFromApi.id;
-        newProject.fields.name.value = projectFromApi.name;
-        newProject.fields.startDate.value = projectFromApi.start_date;
-        newProject.fields.endDate.value = projectFromApi.end_date;
-        newProject.fields.numberOfHouseholds.value = projectFromApi.number_of_households;
-        newProject.fields.iso3.value = projectFromApi.iso3;
-        newProject.fields.value.value = projectFromApi.value;
-        newProject.fields.notes.value = projectFromApi.notes;
+        newProject.set('id', projectFromApi.id);
+        newProject.set('name', projectFromApi.name);
+        newProject.set('startDate', projectFromApi.start_date);
+        newProject.set('endDate', projectFromApi.end_date);
+        newProject.set('numberOfHouseholds', projectFromApi.number_of_households);
+        newProject.set('iso3', projectFromApi.iso3);
+        newProject.set('value', projectFromApi.value);
+        newProject.set('notes', projectFromApi.notes);
 
         // Assign select fields
-        newProject.fields.sectors.value = projectFromApi.sectors ?
-            projectFromApi.sectors.map((sector: object) => {
-                return Sector.apiToModel(sector);
-            }) :
-            [];
+        newProject.set('sectors',
+            projectFromApi.sectors ?
+            projectFromApi.sectors.map((sector: object) => Sector.apiToModel(sector)) :
+            []);
 
-        newProject.fields.donors.value = projectFromApi.donors ?
-            projectFromApi.donors.map((donor: object) => {
-            return Donor.apiToModel(donor);
-            }) :
-            [];
+        newProject.set('donors',
+            projectFromApi.donors ?
+            projectFromApi.donors.map((donor: object) => Donor.apiToModel(donor)) :
+            []);
 
         // Move to distributions.new.ts
         const reachedBeneficiaries = [];
@@ -182,7 +180,7 @@ export class Project extends CustomModel {
             });
         }
         const uniqueReachedBeneficiaries = reachedBeneficiaries ? [new Set(reachedBeneficiaries)] : [];
-        newProject.fields.reachedBeneficiaries.value = uniqueReachedBeneficiaries[0].size;
+        newProject.set('reachedBeneficiaries', uniqueReachedBeneficiaries[0].size);
         return newProject;
     }
 

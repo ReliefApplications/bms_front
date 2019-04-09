@@ -62,16 +62,16 @@ export class Donor extends CustomModel {
     public static apiToModel(donorFromApi: any): Donor {
         const newDonor = new Donor();
 
-        newDonor.fields.id.value = donorFromApi.id;
-        newDonor.fields.fullname.value = donorFromApi.fullname;
-        newDonor.fields.shortname.value = donorFromApi.shortname;
-        newDonor.fields.notes.value = donorFromApi.notes;
+        newDonor.set('id', donorFromApi.id);
+        newDonor.set('fullname', donorFromApi.fullname);
+        newDonor.set('shortname', donorFromApi.shortname);
+        newDonor.set('notes', donorFromApi.notes);
 
         return newDonor;
     }
 
     public getIdentifyingName() {
-        return this.fields.fullname.value;
+        return this.get<string>('fullname');
     }
 
 

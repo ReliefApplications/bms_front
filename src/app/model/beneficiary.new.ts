@@ -13,6 +13,34 @@ import { ObjectModelField } from './CustomModel/object-model-field';
 import { NationalId } from './nationalId.new';
 import { VulnerabilityCriteria } from './vulnerability-criteria.new';
 import { Profile } from './profile.new';
+
+export class Gender extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
+
+export class ResidencyStatus extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
 export class Beneficiary extends CustomModel {
     title = GlobalText.TEXTS.beneficiary;
 
@@ -55,16 +83,7 @@ export class Beneficiary extends CustomModel {
                 isSettable: true,
                 isDisplayedInModal: true,
                 isEditable: true,
-                options: [
-                    { fields : {
-                        name: { value: 'woman'},
-                        id: { value: '0'}
-                    }},
-                    { fields : {
-                        name: { value: 'man'},
-                        id: { value: '1'}
-                    }},
-                ],
+                options: [ new Gender('0', 'woman'), new Gender('1', 'man')],
                 bindField: 'name',
                 apiLabel: 'id',
 
@@ -89,26 +108,10 @@ export class Beneficiary extends CustomModel {
                 isRequired: true,
                 isSettable: true,
                 isLongText: false,
-                options: [
-                    { fields : {
-                        name: { value: 'refugee'},
-                        id: { value: '0'}
-                    }},
-                    { fields : {
-                        name: { value: 'IDP'},
-                        id: { value: '1'}
-                    }},
-                    { fields : {
-                        name: { value: 'resident'},
-                        id: { value: '2'}
-                    }},
-                ],
+                options: [ new ResidencyStatus('0', 'refugee'), new ResidencyStatus('1', 'IDP'), new ResidencyStatus('2', 'resident')],
                 bindField: 'name',
                 apiLabel: 'name',
-                value: { fields : {
-                    name: { value: 'resident'},
-                    id: { value: '2'}
-                }}
+                value: new ResidencyStatus('2', 'resident')
             }
         ),
         beneficiaryStatus: new NumberModelField(
@@ -175,68 +178,44 @@ export class Beneficiary extends CustomModel {
     public static apiToModel(beneficiaryFromApi: any): Beneficiary {
         const newBeneficiary = new Beneficiary();
 
-        newBeneficiary.fields.id.value = beneficiaryFromApi.id;
-        newBeneficiary.fields.givenName.value = beneficiaryFromApi.given_name;
-        newBeneficiary.fields.familyName.value = beneficiaryFromApi.family_name;
-        newBeneficiary.fields.dateOfBirth.value = new Date(beneficiaryFromApi.date_of_birth);
-        newBeneficiary.fields.beneficiaryStatus.value = beneficiaryFromApi.status;
-        newBeneficiary.fields.fullName.value = beneficiaryFromApi.given_name + ' ' + beneficiaryFromApi.family_name;
+        newBeneficiary.set('id', beneficiaryFromApi.id);
+        newBeneficiary.set('givenName', beneficiaryFromApi.given_name);
+        newBeneficiary.set('familyName', beneficiaryFromApi.family_name);
+        newBeneficiary.set('dateOfBirth', new Date(beneficiaryFromApi.date_of_birth));
+        newBeneficiary.set('beneficiaryStatus', beneficiaryFromApi.status);
+        newBeneficiary.set('fullName', beneficiaryFromApi.given_name + ' ' + beneficiaryFromApi.family_name);
 
-        newBeneficiary.fields.residencyStatus.value = beneficiaryFromApi.residency_status ?
-            newBeneficiary.fields.residencyStatus.options.filter(
-                option => option.fields.name.value === beneficiaryFromApi.residency_status)[0] :
-            newBeneficiary.fields.residencyStatus.value;
+        newBeneficiary.set('residencyStatus',
+            beneficiaryFromApi.residency_status ?
+            newBeneficiary.getOptions('residencyStatus')
+                .filter((option: ResidencyStatus) => option.get('name') === beneficiaryFromApi.residency_status)[0] :
+            newBeneficiary.get('residencyStatus'));
 
-        newBeneficiary.fields.gender.value = beneficiaryFromApi.gender !== null && beneficiaryFromApi.gender !== undefined ?
-            newBeneficiary.fields.gender.options.filter(option => option.fields.id.value === beneficiaryFromApi.gender.toString())[0] :
-            null;
+        newBeneficiary.set('gender',
+            beneficiaryFromApi.gender !== null && beneficiaryFromApi.gender !== undefined ?
+            newBeneficiary.getOptions('gender').filter((option: Gender) => option.get('id') === beneficiaryFromApi.gender.toString())[0] :
+            null);
 
-        newBeneficiary.fields.nationalIds.value =
+        newBeneficiary.set('nationalIds',
             beneficiaryFromApi.national_ids && beneficiaryFromApi.national_ids.length !== 0 ?
             beneficiaryFromApi.national_ids.map(nationalId => NationalId.apiToModel(nationalId)) :
-            [new NationalId()];
+            [new NationalId()]);
 
-
-        // if (beneficiaryFromApi.national_ids && beneficiaryFromApi.national_ids.length !== 0) {
-        //     beneficiaryFromApi.national_ids.forEach(nationalId => {
-        //         newBeneficiary.fields.nationalIds.value.push(NationalId.apiToModel(nationalId));
-        //     });
-        // } else {
-        //     newBeneficiary.fields.nationalIds.value = [new NationalId()]
-        // }
-
-        newBeneficiary.fields.phones.value =
+        newBeneficiary.set('phones',
             beneficiaryFromApi.phones && beneficiaryFromApi.phones.length !== 0 ?
             beneficiaryFromApi.phones.map(phone => Phone.apiToModel(phone)) :
-            [new Phone(), new Phone()];
+            [new Phone(), new Phone()]);
 
         if (newBeneficiary.fields.phones.value.length === 1) {
             newBeneficiary.fields.phones.value.push(new Phone());
         }
 
-
-        newBeneficiary.fields.vulnerabilities.value =
+        newBeneficiary.set('vulnerabilities',
             beneficiaryFromApi.vulnerability_criteria ?
             beneficiaryFromApi.vulnerability_criteria.map(criteria => VulnerabilityCriteria.apiToModel(criteria)) :
-            [];
+            []);
 
-        // if (beneficiaryFromApi.phones && beneficiaryFromApi.phones.length !== 0) {
-        //     beneficiaryFromApi.phones.forEach(phone => {
-        //         newBeneficiary.fields.phones.value.push(Phone.apiToModel(phone));
-        //     });
-        //     if (newBeneficiary.fields.phones.value.length === 1) {
-        //         newBeneficiary.fields.phones.value.push(new Phone());
-        //     }
-        // } else {
-        //     newBeneficiary.fields.phones.value = [new Phone(), new Phone()]
-        // }
-        // if (beneficiaryFromApi.vulnerability_criteria) {
-        //     beneficiaryFromApi.vulnerability_criteria.forEach(vulnerability => {
-        //         newBeneficiary.fields.vulnerabilities.value.push(VulnerabilityCriteria.apiToModel(vulnerability));
-        //     });
-        // }
-
-        newBeneficiary.fields.profile.value = beneficiaryFromApi.profile ? Profile.apiToModel(beneficiaryFromApi.profile) : new Profile();
+        newBeneficiary.set('profile', beneficiaryFromApi.profile ? Profile.apiToModel(beneficiaryFromApi.profile) : new Profile());
 
         return newBeneficiary;
 
@@ -286,4 +265,8 @@ export class Beneficiary extends CustomModel {
     public getIdentifyingName() {
         return this.fields.givenName.value + ' ' + this.fields.familyName.value;
     }
+
 }
+
+
+

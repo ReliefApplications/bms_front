@@ -1,37 +1,34 @@
 import { TextModelField } from './CustomModel/text-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { GlobalText } from 'src/texts/global';
+import { CustomModel } from './CustomModel/custom-model';
 
-export class NationalId {
+export class NationalIdType extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
+
+export class NationalId extends CustomModel {
     public fields = {
         type: new SingleSelectModelField(
             {
                 options: [
-                    { fields : {
-                        name: { value: GlobalText.TEXTS.national_id_passport },
-                        id: { value: 0 },
-                    }},
-                    { fields : {
-                        name: { value: GlobalText.TEXTS.national_id_card },
-                        id: { value: 1 },
-                    }},
-                    { fields : {
-                        name: { value: GlobalText.TEXTS.national_id_license },
-                        id: { value: 2 },
-                    }},
-                    { fields : {
-                        name: { value: GlobalText.TEXTS.national_id_family_registry },
-                        id: { value: 3 },
-                    }},
-                    { fields : {
-                        name: { value: GlobalText.TEXTS.national_id_other },
-                        id: { value: 4 },
-                    }},
+                    new NationalIdType('0', GlobalText.TEXTS.national_id_passport),
+                    new NationalIdType('1', GlobalText.TEXTS.national_id_card),
+                    new NationalIdType('2', GlobalText.TEXTS.national_id_license),
+                    new NationalIdType('3', GlobalText.TEXTS.national_id_family_registry),
+                    new NationalIdType('4', GlobalText.TEXTS.national_id_other)
                 ],
-                value: { fields : {
-                    name: { value: GlobalText.TEXTS.national_id_card },
-                    id: { value: 1 },
-                }},
+                value: new NationalIdType('1', GlobalText.TEXTS.national_id_card),
                 apiLabel: 'name'
             }
         ),
@@ -44,18 +41,18 @@ export class NationalId {
 
     public static apiToModel(idFromApi): NationalId {
         const newId = new NationalId();
-        newId.fields.type.options.forEach(option => {
-            if (option.fields.name.value === idFromApi.id_type) {
-                newId.fields.type.value = option;
+        newId.getOptions('type').forEach((option: NationalIdType) => {
+            if (option.get('name') === idFromApi.id_type) {
+                newId.set('type', option);
             }
         });
-        newId.fields.number.value = idFromApi.id_number;
+        newId.set('number', idFromApi.id_number);
         return newId;
     }
 
     public modelToApi(): Object {
         return {
-            id_number: this.fields.number.value,
+            id_number: this.get('number'),
             id_type: this.fields.type.formatForApi()
         };
     }

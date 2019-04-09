@@ -12,13 +12,13 @@ export class Profile extends CustomModel {
 
     public static apiToModel(profileFromApi): Profile {
         const newProfile = new Profile();
-        newProfile.fields.photo.value = profileFromApi.photo;
+        newProfile.set('photo', profileFromApi.photo);
         return newProfile;
     }
 
     public modelToApi(): Object {
         return {
-            photo: this.fields.photo.value
+            photo: this.get('photo')
         };
     }
 }

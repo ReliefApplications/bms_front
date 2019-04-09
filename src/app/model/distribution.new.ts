@@ -16,6 +16,19 @@ import { GlobalText } from 'src/texts/global';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { Criteria } from './criteria.new';
 
+export class DistributionType extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
 export class Distribution extends CustomModel {
 
     constructor() {
@@ -90,16 +103,7 @@ export class Distribution extends CustomModel {
                 isDisplayedInTable: true,
                 isRequired: true,
                 isSettable: true,
-                options: [
-                    { fields : {
-                        name: { value: GlobalText.TEXTS.households},
-                        id: { value: 0}
-                    }},
-                    { fields : {
-                        name: { value: GlobalText.TEXTS.individual},
-                        id: { value: 1}
-                    }},
-                ],
+                options: [new DistributionType('0', GlobalText.TEXTS.households), new DistributionType('1', GlobalText.TEXTS.individual)],
                 bindField: 'name',
                 apiLabel: 'name',
                 value: GlobalText.TEXTS.households,
@@ -135,32 +139,32 @@ export class Distribution extends CustomModel {
         const newDistribution = new Distribution();
 
         // Assign default fields
-        newDistribution.fields.id.value = distributionFromApi.id;
-        newDistribution.fields.date.value = distributionFromApi.date_distribution;
-        newDistribution.fields.type.value = newDistribution.fields.type.options[distributionFromApi.type];
-        newDistribution.fields.name.value = distributionFromApi.name;
-        newDistribution.fields.validated.value = distributionFromApi.validated;
-        newDistribution.fields.location.value = Location.apiToModel(distributionFromApi.location);
+        newDistribution.set('id', distributionFromApi.id);
+        newDistribution.set('date', distributionFromApi.date_distribution);
+        newDistribution.set('type', distributionFromApi.type ?
+            newDistribution.getOptions('type').filter((option: DistributionType) => distributionFromApi.type === option.get('id'))[0] :
+            null);
+        newDistribution.set('name', distributionFromApi.name);
+        newDistribution.set('validated', distributionFromApi.validated);
+        newDistribution.set('location', Location.apiToModel(distributionFromApi.location));
 
         newDistribution.fields.location.displayTableFunction = value => value.getLocationName();
         newDistribution.fields.location.displayModalFunction = value => value.getLocationName();
         newDistribution.fields.beneficiaries.displayTableFunction = value => value.length;
         newDistribution.fields.commodities.displayTableFunction = value => this.displayCommodities(value);
 
+        newDistribution.set('beneficiaries',
+            distributionFromApi.distribution_beneficiaries.map((beneficiary: any) => Beneficiary.apiToModel(beneficiary)));
 
-        distributionFromApi.distribution_beneficiaries.forEach(beneficiary => {
-            newDistribution.fields.beneficiaries.value.push(Beneficiary.apiToModel(beneficiary));
-        });
-        distributionFromApi.commodities.forEach(commodity => {
-            newDistribution.fields.commodities.value.push(Commodity.apiToModel(commodity));
-        });
+        newDistribution.set('commodities',
+            distributionFromApi.commodities.map((commodity: any) => Commodity.apiToModel(commodity)));
 
-        newDistribution.fields.finished.value = true;
+        newDistribution.set('finished', true);
         distributionFromApi.distribution_beneficiaries.forEach(benef => {
             if (benef.transactions.length === 0) {
-                newDistribution.fields.finished.value = false;
+                newDistribution.set('finished', false);
             } else if (benef.transactions && benef.transactions[0].transaction_status !== 1) {
-                newDistribution.fields.finished.value = false;
+                newDistribution.set('finished', false);
             }
         });
 
@@ -177,36 +181,32 @@ export class Distribution extends CustomModel {
 
     public modelToApi(): Object {
 
-        const commodities = this.fields.commodities.value ?
-            this.fields.commodities.value.map(commodity => {
-                return commodity.modelToApi();
-            }) :
+        const commodities = this.get('commodities') ?
+            this.get<Commodity[]>('commodities').map(commodity => commodity.modelToApi()) :
             [];
-        const location = this.fields.location.value.modelToApi();
-        const project = { id: this.fields.projectId.value };
-        const selectionCriteria = this.fields.selectionCriteria.value ?
-            this.fields.selectionCriteria.value.map(criteria => {
-                return criteria.modelToApi();
-            }) :
+        const location = this.get('location').modelToApi();
+        const project = { id: this.get('projectId') };
+        const selectionCriteria = this.get('selectionCriteria') ?
+            this.get<Criteria[]>('selectionCriteria').map(criteria => criteria.modelToApi()) :
             [];
 
         return {
-            id: this.fields.id.value,
+            id: this.get('id'),
             commodities: commodities,
             date_distribution: this.fields.date.formatForApi(),
             finished: false,
             location: location,
-            name: this.fields.name.value,
+            name: this.get('name'),
             project: project,
             selection_criteria: selectionCriteria,
-            threshold: this.fields.threshold.value,
-            type: this.fields.type.value
+            threshold: this.get('threshold'),
+            type: this.get('type')
         };
 
     }
 
     public getIdentifyingName() {
-        return this.fields.name.value;
+        return this.get<string>('name');
     }
 
     // In modelToAPi put date.toLocaleDateString()

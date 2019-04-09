@@ -24,8 +24,8 @@ export class Sector extends CustomModel {
     public static apiToModel(sectorFromApi): Sector {
         const newSector = new Sector();
 
-        newSector.fields.id.value = sectorFromApi.id;
-        newSector.fields.name.value = sectorFromApi.name;
+        newSector.set('id', sectorFromApi.id);
+        newSector.set('name', sectorFromApi.name);
 
         return newSector;
     }
@@ -48,14 +48,14 @@ export class Sector extends CustomModel {
             'water sanitation': 'water_sanitation',
         };
         // Todo: Use global variable, fix typing in order to not do this if check
-        if (typeof this.fields.name.value === 'string') {
-            return `/assets/images/sectors/${sectorsImages[this.fields.name.value]}.svg`;
+        if (typeof this.get('name') === 'string') {
+            return `/assets/images/sectors/${sectorsImages[this.get<string>('name')]}.svg`;
         } else {
             return '';
         }
     }
 
     public getIdentifyingName() {
-        return this.fields.name.value;
+        return this.get<string>('name');
     }
 }

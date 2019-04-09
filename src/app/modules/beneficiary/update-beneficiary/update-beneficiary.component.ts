@@ -11,7 +11,7 @@ import { MatDialog, MatTableDataSource, MatStepper } from '@angular/material';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { LIVELIHOOD } from '../../../model/livelihood';
-import { Location } from '../../../model/location.new';
+import { Location, Adm } from '../../../model/location.new';
 import { Project } from '../../../model/project.new';
 import { CountrySpecific } from '../../../model/country-specific.new';
 import { Observable } from 'rxjs';
@@ -23,13 +23,14 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
-import { Households } from 'src/app/model/households.new';
-import { Beneficiary } from 'src/app/model/beneficiary.new';
-import { NationalId } from 'src/app/model/nationalId.new';
-import { Phone } from 'src/app/model/phone.new';
+import { Households, Livelihood } from 'src/app/model/households.new';
+import { Beneficiary, Gender, ResidencyStatus } from 'src/app/model/beneficiary.new';
+import { NationalId, NationalIdType } from 'src/app/model/nationalId.new';
+import { Phone, PhoneType } from 'src/app/model/phone.new';
 import { VulnerabilityCriteria } from 'src/app/model/vulnerability-criteria.new';
 import { CountrySpecificAnswer } from 'src/app/model/country-specific.new';
 import { Profile } from 'src/app/model/profile.new';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 
 @Component({
     selector: 'app-update-beneficiary',
@@ -66,7 +67,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public districtList = [];
     public communeList = [];
     public villageList = [];
-    public livelihoodsList: any[];
     public vulnerabilityList: Array<VulnerabilityCriteria>;
 
     // Country Codes (PhoneNumber lib)
@@ -114,15 +114,14 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         this.initiateHousehold().then(() => {
             this.getVulnerabilityCriteria().subscribe(() => {
-                const countrySpecificNames = this.household.fields.countrySpecificAnswers.value.map(countrySpecificAnswer => {
-                    return countrySpecificAnswer.fields.countrySpecific.value.fields.field.value;
-                });
+                const countrySpecificNames = this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers')
+                    .map(countrySpecificAnswer => countrySpecificAnswer.get('countrySpecific').get<string>('field'));
                 this.mainFields = [
                     'adm1', 'adm2', 'adm3', 'adm4', 'addressNumber', 'addressPostcode', 'addressStreet', 'livelihood', 'notes', 'projects'];
                 this.mainFields = this.mainFields.concat(countrySpecificNames);
 
-                const vulnerabilityCriteriaNames = this.vulnerabilityList.map(vulnerability => {
-                    return vulnerability.fields.name.value;
+                const vulnerabilityCriteriaNames = this.vulnerabilityList.map((vulnerability: VulnerabilityCriteria) => {
+                    return vulnerability.get<string>('name');
                 });
                 this.beneficiaryFields = [
                     'id', 'familyName', 'givenName', 'gender', 'dateOfBirth', 'IDType', 'IDNumber', 'residencyStatus',
@@ -131,13 +130,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 this.beneficiaryFields = this.beneficiaryFields.concat(vulnerabilityCriteriaNames);
 
                 this.makeMainForm();
-                this.household.fields.beneficiaries.value.forEach((beneficiary: Beneficiary) => {
-                    this.makeBeneficiaryForm(beneficiary);
-                });
+                this.household.get<Beneficiary[]>('beneficiaries').forEach(beneficiary => this.makeBeneficiaryForm(beneficiary));
 
                 this.beneficiarySnapshot();
                 this.loader = false;
-                this.livelihoodsList = LIVELIHOOD;
                 this.getProjects();
             });
         });
@@ -159,8 +155,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                         }
                         this.getCountryPhoneCodes();
                         this.household = new Households();
-                        this.household.fields.location.value = new Location();
-                        this.household.fields.beneficiaries.value = [this.createNewBeneficiary()];
+                        this.household.set('location', new Location());
+                        this.household.set('beneficiaries', [this.createNewBeneficiary()]);
                         this.getCountrySpecifics().subscribe(() => {
                             resolve();
                         });
@@ -197,43 +193,41 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             const field = this.household.fields[fieldName] ? this.household.fields[fieldName] : null;
             if (field && field.kindOfField === 'MultipleSelect') {
                 // TODO: type this
-                const selectedOptions = field.value.map(option => {
-                    return option.fields.id.value;
+                const selectedOptions = this.household.get<CustomModel[]>(fieldName).map(option => {
+                    return option.get('id');
                 });
                 mainFormControls[fieldName] = new FormControl(selectedOptions);
             } else {
                 mainFormControls[fieldName] = new FormControl(
-                    field ? field.value : null,
+                    this.household.get(fieldName) ? this.household.get(fieldName) : null,
                 );
             }
         });
 
-        this.household.fields.countrySpecificAnswers.value.forEach(countrySpecificAnswer => {
-            mainFormControls[countrySpecificAnswer.fields.countrySpecific.value.fields.field.value]
-                .setValue(countrySpecificAnswer.fields.answer.value);
+        this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers').forEach(countrySpecificAnswer => {
+            mainFormControls[countrySpecificAnswer.get('countrySpecific').get<string>('field')]
+                .setValue(countrySpecificAnswer.get('answer'));
         });
 
-        mainFormControls['livelihood'].setValue(this.household.fields.livelihood.value ? this.household.fields.livelihood.value.id : null);
+        mainFormControls['livelihood'].setValue(this.household.get('livelihood') ? this.household.get('livelihood').get('id') : null);
 
         this.loadProvince().subscribe(() => {
-            if (this.household.fields.location.value.fields.adm1.value &&
-                this.household.fields.location.value.fields.adm1.value.fields.id.value) {
-                const adm1Id = this.household.fields.location.value.fields.adm1.value.fields.id.value;
+            const location = this.household.get('location');
+            if (location.get('adm1') && location.get('adm1').get('id')) {
+                const adm1Id = location.get('adm1').get<number>('id');
                 mainFormControls['adm1'].setValue(adm1Id);
                 this._locationService.fillAdm2Options(this.household, adm1Id).subscribe(() => {
-                    if (this.household.fields.location.value.fields.adm2.value &&
-                        this.household.fields.location.value.fields.adm2.value.fields.id.value) {
-                        const adm2Id = this.household.fields.location.value.fields.adm2.value.fields.id.value;
+                    if (location.get('adm2') && location.get('adm2').get('id')) {
+                        const adm2Id = location.get('adm2').get<number>('id');
                         mainFormControls['adm2'].setValue(adm2Id);
                         this._locationService.fillAdm3Options(this.household, adm2Id).subscribe(() => {
-                            if (this.household.fields.location.value.fields.adm3.value &&
-                                this.household.fields.location.value.fields.adm3.value.fields.id.value) {
-                                const adm3Id = this.household.fields.location.value.fields.adm3.value.fields.id.value;
+                            if (location.get('adm3') && location.get('adm3').get('id')) {
+                                const adm3Id = location.get('adm3').get<number>('id');
                                 mainFormControls['adm3'].setValue(adm3Id);
                                 this._locationService.fillAdm4Options(this.household, adm3Id).subscribe(() => {
-                                    if (this.household.fields.location.value.fields.adm4.value) {
+                                    if (location.get('adm4')) {
                                         mainFormControls['adm4'].setValue(
-                                            this.household.fields.location.value.fields.adm4.value.fields.id.value);
+                                            location.get('adm4').get('id'));
                                         this.snapshot();
                                     } else {
                                         this.snapshot();
@@ -263,11 +257,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             const field = beneficiary.fields[fieldName] ? beneficiary.fields[fieldName] : null;
             if (field && field.kindOfField === 'SingleSelect') {
                 beneficiaryFormControls[fieldName] = new FormControl(
-                    field.value ? field.value.fields.id.value : null
+                    beneficiary.get(fieldName) instanceof CustomModel ? beneficiary.get(fieldName).get('id') : null
                 );
             } else {
                 beneficiaryFormControls[fieldName] = new FormControl(
-                    field ? field.value : null,
+                    beneficiary.get(fieldName) ? beneficiary.get(fieldName) : null,
                 );
             }
             if ( beneficiaryFormControls['familyName'] &&
@@ -279,34 +273,32 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             }
         });
 
-        const phone0 = beneficiary.fields.phones.value[0];
-        const phone1 = beneficiary.fields.phones.value[1];
+        const phone0 = beneficiary.get<Phone[]>('phones')[0];
+        const phone1 = beneficiary.get<Phone[]>('phones')[1];
 
         if (phone0) {
-            beneficiaryFormControls['phoneType0'].setValue(
-                phone0.fields.type.value ? phone0.fields.type.value.fields.id.value : null);
-            beneficiaryFormControls['phoneNumber0'].setValue(phone0.fields.number.value);
-            beneficiaryFormControls['phoneProxy0'].setValue(phone0.fields.proxy.value);
+            beneficiaryFormControls['phoneType0'].setValue(phone0.get('type') ? phone0.get('type').get('id') : null);
+            beneficiaryFormControls['phoneNumber0'].setValue(phone0.get('number'));
+            beneficiaryFormControls['phoneProxy0'].setValue(phone0.get('proxy'));
             beneficiaryFormControls['phonePrefix0'].setValue(this.getPhonePrefix(phone0));
         }
 
         if (phone1) {
-            beneficiaryFormControls['phoneType1'].setValue(
-                phone1.fields.type.value ? phone1.fields.type.value.fields.id.value : null);
-            beneficiaryFormControls['phoneNumber1'].setValue(phone1.fields.number.value);
-            beneficiaryFormControls['phoneProxy1'].setValue(phone1.fields.proxy.value);
+            beneficiaryFormControls['phoneType1'].setValue(phone1.get('type') ? phone1.get('type').get('id') : null);
+            beneficiaryFormControls['phoneNumber1'].setValue(phone1.get('number'));
+            beneficiaryFormControls['phoneProxy1'].setValue(phone1.get('proxy'));
             beneficiaryFormControls['phonePrefix1'].setValue(this.getPhonePrefix(phone1));
         }
 
-        beneficiaryFormControls['IDType'].setValue(beneficiary.fields.nationalIds.value[0].fields.type.value.fields.id.value);
-        beneficiaryFormControls['IDNumber'].setValue(beneficiary.fields.nationalIds.value[0].fields.number.value);
+        beneficiaryFormControls['IDType'].setValue(beneficiary.get<NationalId[]>('nationalIds')[0].get('type').get('id'));
+        beneficiaryFormControls['IDNumber'].setValue(beneficiary.get<NationalId[]>('nationalIds')[0].get('number'));
 
-        beneficiary.fields.vulnerabilities.value.forEach(vulnerability => {
-            beneficiaryFormControls[vulnerability.fields.name.value].setValue(true);
+        beneficiary.get<VulnerabilityCriteria[]>('vulnerabilities').forEach(vulnerability => {
+            beneficiaryFormControls[vulnerability.get<string>('name')].setValue(true);
         });
 
         beneficiaryFormControls['residencyStatus'].setValue(
-            beneficiary.fields.residencyStatus.value ? beneficiary.fields.residencyStatus.value.fields.id.value : null);
+            beneficiary.get('residencyStatus') ? beneficiary.get('residencyStatus').get('id') : null);
 
         const beneficiaryForm = new FormGroup(beneficiaryFormControls);
         this.beneficiariesForm.push(beneficiaryForm);
@@ -315,13 +307,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
     createNewBeneficiary() {
         const beneficiary = new Beneficiary();
-        beneficiary.fields.profile.value = new Profile();
-        beneficiary.fields.nationalIds.value = [new NationalId()];
+        beneficiary.set('profile', new Profile());
+        beneficiary.set('nationalIds', [new NationalId()]);
         const phone1 = new Phone();
         const phone2 = new Phone();
-        phone1.fields.type.value = phone1.fields.type.options[0];
-        phone2.fields.type.value = phone2.fields.type.options[1];
-        beneficiary.fields.phones.value = [phone1, phone2];
+        phone1.set('type', phone1.getOptions('type')[0]);
+        phone2.set('type', phone2.getOptions('type')[1]);
+        beneficiary.set('phones', [phone1, phone2]);
         return beneficiary;
     }
 
@@ -346,10 +338,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         return {
             vulnerabilityList: this.vulnerabilityList,
             countryCodesList: this.countryCodesList,
-            genderList: this.household.fields.beneficiaries.value[0].fields.gender.options,
-            nationalIdList: this.household.fields.beneficiaries.value[0].fields.nationalIds.value[0].fields.type.options,
-            residencyStatusList: this.household.fields.beneficiaries.value[0].fields.residencyStatus.options,
-            phoneList: this.household.fields.beneficiaries.value[0].fields.phones.value[0].fields.type.options
+            genderList: this.household.get<Beneficiary[]>('beneficiaries')[0].getOptions('gender'),
+            nationalIdList: this.household.get<Beneficiary[]>('beneficiaries')[0].get<NationalId[]>('nationalIds')[0].getOptions('type'),
+            residencyStatusList: this.household.get<Beneficiary[]>('beneficiaries')[0].getOptions('residencyStatus'),
+            phoneList: this.household.get<Beneficiary[]>('beneficiaries')[0].get<Phone[]>('phones')[0].getOptions('type')
 
         };
     }
@@ -368,35 +360,44 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             return;
         }
 
-        this.household.fields.addressNumber.value = this.mainForm.controls.addressNumber.value;
-        this.household.fields.addressStreet.value = this.mainForm.controls.addressStreet.value;
-        this.household.fields.addressPostcode.value = this.mainForm.controls.addressPostcode.value;
-        this.household.fields.livelihood.value = this.getLivelihood();
-        this.household.fields.notes.value = this.mainForm.controls.notes.value;
+        this.household.set('addressNumber', this.mainForm.controls.addressNumber.value);
+        this.household.set('addressStreet', this.mainForm.controls.addressStreet.value);
+        this.household.set('addressPostcode', this.mainForm.controls.addressPostcode.value),
+        this.household.set('livelihood', this.getLivelihood());
+        this.household.set('notes', this.mainForm.controls.notes.value);
 
-        this.household.fields.projects.value = this.household.fields.projects.options.filter(project => {
-            return this.mainForm.controls.projects.value.includes(project.fields.id.value);
-        });
+        this.household.set(
+            'projects',
+            this.household.getOptions('projects').filter((project: Project) => {
+                return this.mainForm.controls.projects.value.includes(project.get('id'));
+            })
+        );
         const adms = ['adm1', 'adm2', 'adm3', 'adm4'];
+        const location = this.household.get('location');
 
         adms.forEach(field => {
             if (this.mainForm.controls[field].value) {
-                this.household.fields.location.value.fields[field].value =
-                    this.household.fields.location.value.fields[field].options.filter(option => {
-                        return option.fields.id.value === this.mainForm.controls[field].value;
-                    })[0];
+                location.set(field,
+                    location.getOptions(field).filter((option: Adm) => {
+                        return option.get('id') === this.mainForm.controls[field].value;
+                    })[0]);
+            } else {
+                location.set(field, null);
             }
         });
 
         this._cacheService.get('country')
             .subscribe(
                 result => {
-                    this.household.fields.location.value.fields.countryIso3 = result;
+                    location.set('countryIso3', result);
                 }
             );
-        this.household.fields.countrySpecificAnswers.value.forEach(countrySpecificAnswer => {
-            countrySpecificAnswer.fields.answer.value =
-                this.mainForm.controls[countrySpecificAnswer.fields.countrySpecific.value.fields.field.value].value;
+
+        this.household.set('location', location);
+
+        this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers').forEach(countrySpecificAnswer => {
+            countrySpecificAnswer.set('answer',
+                this.mainForm.controls[countrySpecificAnswer.get('countrySpecific').get<string>('field')].value);
         });
 
         const beneficiaries: Beneficiary[] = [];
@@ -404,66 +405,69 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         this.beneficiariesForm.forEach((form, index) => {
             let beneficiary: Beneficiary;
             if (form.controls.id.value) {
-                beneficiary = this.household.fields.beneficiaries.value.filter((householdBeneficiary: Beneficiary) => {
-                    return householdBeneficiary.fields.id.value === form.controls.id.value;
+                beneficiary = this.household.get<Beneficiary[]>('beneficiaries').filter(householdBeneficiary => {
+                    return householdBeneficiary.get('id') === form.controls.id.value;
                 })[0];
             } else {
                 beneficiary = this.createNewBeneficiary();
             }
 
-            beneficiary.fields.familyName.value = form.controls.familyName.value;
-            beneficiary.fields.givenName.value = form.controls.givenName.value;
-            beneficiary.fields.dateOfBirth.value = form.controls.dateOfBirth.value;
-            beneficiary.fields.beneficiaryStatus.value = index === 0 ? 1 : 0;
-            beneficiary.fields.gender.value = beneficiary.fields.gender.options.filter(option => {
-                return  option.fields.id.value === form.controls.gender.value;
-            })[0];
-            beneficiary.fields.residencyStatus.value = beneficiary.fields.residencyStatus.options.filter(option => {
-                return  option.fields.id.value === form.controls.residencyStatus.value;
-            })[0];
+            beneficiary.set('familyName', form.controls.familyName.value);
+            beneficiary.set('givenName', form.controls.givenName.value);
+            beneficiary.set('dateOfBirth', form.controls.dateOfBirth.value);
+            beneficiary.set('beneficiaryStatus', index === 0 ? 1 : 0);
+            beneficiary.set(
+                'gender',
+                beneficiary.getOptions('gender').filter((option: Gender) => {
+                    return  option.get('id') === form.controls.gender.value;
+                })[0]
+            );
+            beneficiary.set('residencyStatus', beneficiary.getOptions('residencyStatus').filter((option: ResidencyStatus) => {
+                return  option.get('id') === form.controls.residencyStatus.value;
+            })[0]);
 
-            beneficiary.fields.nationalIds.value[0].fields.type.value =
-                beneficiary.fields.nationalIds.value[0].fields.type.options.filter(option => {
-                    return form.controls.IDType.value === option.fields.id.value;
-                })[0];
-            beneficiary.fields.nationalIds.value[0].fields.number.value = form.controls.IDNumber.value;
+            const nationalId = beneficiary.get<NationalId[]>('nationalIds')[0];
+            nationalId.set('type',
+                nationalId.getOptions('type').filter((option: NationalIdType) => {
+                    return form.controls.IDType.value === option.get('id');
+                })[0]);
+            nationalId.set('number', form.controls.IDNumber.value);
+            beneficiary.set('nationalIds', [nationalId]);
 
+            const phone0 = beneficiary.get<Phone[]>('phones')[0];
+            const phone1 = beneficiary.get<Phone[]>('phones')[1];
 
-            beneficiary.fields.phones.value[0].fields.type.value = form.controls.phoneType0.value ?
-                beneficiary.fields.phones.value[0].fields.type.options.filter(
-                    type => type.fields.id.value === form.controls.phoneType0.value
-                )[0] :
-                null;
-            beneficiary.fields.phones.value[1].fields.type.value = form.controls.phoneType1.value ?
-                beneficiary.fields.phones.value[1].fields.type.options.filter(
-                    type => type.fields.id.value === form.controls.phoneType1.value
-                )[0] :
-                null;
+            phone0.set('type', form.controls.phoneType0.value ?
+                phone0.getOptions('type').filter((type: PhoneType) => type.get('id') === form.controls.phoneType0.value)[0] :
+                null);
+            phone1.set('type', form.controls.phoneType1.value ?
+                phone1.getOptions('type').filter((type: PhoneType) => type.get('id') === form.controls.phoneType1.value)[0] :
+                null);
 
-            beneficiary.fields.phones.value[0].fields.number.value = form.controls.phoneNumber0.value;
-            beneficiary.fields.phones.value[1].fields.number.value = form.controls.phoneNumber1.value;
-            beneficiary.fields.phones.value[0].fields.proxy.value = form.controls.phoneProxy0.value;
-            beneficiary.fields.phones.value[1].fields.proxy.value = form.controls.phoneProxy1.value;
-            beneficiary.fields.phones.value[0].fields.prefix.value =
-                form.controls.phonePrefix0.value ?
+            phone0.set('number', form.controls.phoneNumber0.value);
+            phone1.set('number', form.controls.phoneNumber1.value);
+            phone0.set('proxy', form.controls.phoneProxy0.value);
+            phone1.set('proxy', form.controls.phoneProxy1.value);
+            phone0.set('prefix', form.controls.phonePrefix0.value ?
                 form.controls.phonePrefix0.value.split('- ')[1] :
-                null;
-            beneficiary.fields.phones.value[1].fields.prefix.value =
-                form.controls.phonePrefix1.value ?
+                null);
+            phone1.set('prefix', form.controls.phonePrefix1.value ?
                 form.controls.phonePrefix1.value.split('- ')[1] :
-                null;
+                null);
 
-            beneficiary.fields.vulnerabilities.value = this.vulnerabilityList.filter((vulnerability: VulnerabilityCriteria) => {
-                return form.controls[vulnerability.fields.name.value].value === true;
-            });
+            beneficiary.set('phones', [phone0, phone1]);
+
+            beneficiary.set('vulnerabilities', this.vulnerabilityList.filter((vulnerability: VulnerabilityCriteria) => {
+                return form.controls[vulnerability.get<string>('name')].value === true;
+            }));
             beneficiaries.push(beneficiary);
         });
 
-        this.household.fields.beneficiaries.value = beneficiaries;
+        this.household.set('beneficiaries', beneficiaries);
 
         const body = {
             household: this.household.modelToApi(),
-            projects: this.household.fields.projects.value.map(project => project.fields.id.value)
+            projects: this.household.get<Project[]>('projects').map(project => project.get('id'))
         };
 
         this.validationLoading = true;
@@ -478,7 +482,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 this.validationLoading = false;
             });
         } else if (this.mode === 'update') {
-            this._householdsService.update(this.household.fields.id.value, body).subscribe(success => {
+            this._householdsService.update(this.household.get('id'), body).subscribe(success => {
                 this.snackbar.success(this.Text.update_beneficiary_updated_successfully);
                 this.validationLoading = false;
                 this.leave();
@@ -509,7 +513,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 message = 'You must enter an address postcode';
             } else if (!this.mainForm.controls.addressStreet.value) {
                 message = 'You must enter an address street';
-            } else if (this.mainForm.controls.livelihood.value && (this.mainForm.controls.livelihood.value > this.livelihoodsList.length)) {
+            } else if (!this.mainForm.controls.livelihood.value) {
                 message = 'Please select an existing livelihood from the list';
             } else {
                 this.validStep1 = true;
@@ -643,38 +647,38 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         // getting the full adms corresponding to the mainForm adms values (ids)
         const adms = ['adm1', 'adm2', 'adm3', 'adm4'].map(adm => {
             // We look in the list of adms which one correspond to the mainForm id
-            return this.household.fields.location.value.fields[adm].options ?
-                this.household.fields.location.value.fields[adm].options.filter(option => {
-                    return option.fields.id.value === this.mainForm.controls[adm].value;
+            return this.household.get('location').getOptions(adm) ?
+                this.household.get('location').getOptions(adm).filter((option: Adm) => {
+                    return option.get('id') === this.mainForm.controls[adm].value;
                 })[0] :
                 null;
         });
 
         if (adms[0]) {
-            fullLocation = adms[0].fields.name.value;
+            fullLocation = adms[0].get('name');
         }
         if (adms[1]) {
-            fullLocation += ', ' + adms[1].fields.name.value;
+            fullLocation += ', ' + adms[1].get('name');
         }
         if (adms[2]) {
-            fullLocation += ', ' + adms[2].fields.name.value;
+            fullLocation += ', ' + adms[2].get('name');
         }
         if (adms[3]) {
-            fullLocation += ', ' + adms[3].fields.name.value;
+            fullLocation += ', ' + adms[3].get('name');
         }
         return (fullLocation);
     }
 
     getLivelihood() {
-        return this.livelihoodsList.filter(livelihood => {
-            return livelihood.id === this.mainForm.controls.livelihood.value;
+        return this.household.getOptions('livelihood').filter((livelihood: Livelihood) => {
+            return livelihood.get('id') === this.mainForm.controls.livelihood.value;
         })[0];
     }
 
-    getGender(id) {
+    getGender(id: string) {
         return id ?
-            this.household.fields.beneficiaries.value[0].fields.gender.options.filter(
-                gender => gender.fields.id.value === id)[0].fields.name.value :
+            this.household.get<Beneficiary[]>('beneficiaries')[0].getOptions('gender').filter(
+                (gender: Gender) => gender.get<string>('id') === id)[0].get('name') :
             null;
     }
 
@@ -695,7 +699,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      */
     getProjects() {
         this._projectService.get().subscribe(response => {
-            this.household.fields.projects.options = response.map(project => Project.apiToModel(project));
+            this.household.setOptions('projects', response.map(project => Project.apiToModel(project)));
         });
     }
 
@@ -766,11 +770,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     getCountrySpecifics() {
         return this._countrySpecificsService.get().pipe(
             map((countrySpecifics) => {
-                this.household.fields.countrySpecificAnswers.value = countrySpecifics.map(countrySpecific => {
+                this.household.set('countrySpecificAnswers', countrySpecifics.map(countrySpecific => {
                     const countrySpecificAnswer = new CountrySpecificAnswer();
-                    countrySpecificAnswer.fields.countrySpecific.value = CountrySpecific.apiToModel(countrySpecific);
+                    countrySpecificAnswer.set('countrySpecific', CountrySpecific.apiToModel(countrySpecific));
                     return countrySpecificAnswer;
-                });
+                }));
             })
         );
     }
@@ -780,9 +784,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     // For update, inspire from the function below (should already work)
     getPhonePrefix(phone: Phone) {
         let phoneCode;
+        const phonePrefix = phone.get('prefix');
 
-        if (phone.fields.prefix.value) {
-            const phonePrefix = phone.fields.prefix.value;
+        if (phonePrefix) {
             return this.countryCodesList.filter(element => {
                 return element.split('- ')[1] === phonePrefix;
             })[0];

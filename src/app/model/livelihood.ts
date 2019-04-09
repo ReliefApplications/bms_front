@@ -1,102 +1,102 @@
 export const LIVELIHOOD = [
     {
-        id: 1,
+        id: '0',
         name: 'Agriculture - Livestock'
     },
     {
-        id: 2,
+        id: '1',
         name: 'Agriculture - Crops'
     },
     {
-        id: 3,
+        id: '2',
         name: 'Agriculture – Fishing'
     },
     {
-        id: 4,
+        id: '3',
         name: 'Agriculture – Other'
     },
     {
-        id: 5,
+        id: '4',
         name: 'Mining'
     },
     {
-        id: 6,
+        id: '5',
         name: 'Construction'
     },
     {
-        id: 7,
+        id: '6',
         name: 'Manufacturing'
     },
     {
-        id: 8,
+        id: '7',
         name: 'Retail'
     },
     {
-        id: 9,
+        id: '8',
         name: 'Transportation'
     },
     {
-        id: 10,
+        id: '9',
         name: 'Education'
     },
     {
-        id: 11,
+        id: '10',
         name: 'Health Care'
     },
     {
-        id: 12,
+        id: '11',
         name: 'Hospitality & Tourism'
     },
     {
-        id: 13,
+        id: '12',
         name: 'Legal Services'
     },
     {
-        id: 14,
+        id: '13',
         name: 'Home Duties'
     },
     {
-        id: 15,
+        id: '14',
         name: 'Religious Service'
     },
     {
-        id: 16,
+        id: '15',
         name: 'IT & Telecommunications'
     },
     {
-        id: 17,
+        id: '16',
         name: 'Finance & Insurance'
     },
     {
-        id: 18,
+        id: '17',
         name: 'Manual Labour'
     },
     {
-        id: 19,
+        id: '18',
         name: 'NGO & Not for Profit'
     },
     {
-        id: 21,
+        id: '19',
         name: 'Military or Police'
     },
     {
-        id: 22,
+        id: '20',
         name: 'Government & Public Enterprise'
     },
     {
-        id: 23,
+        id: '21',
         name: 'Garment Industry'
     },
     {
-        id: 24,
+        id: '22',
         name: 'Security Industry'
     },
     {
-        id: 25,
+        id: '23',
         name: 'Service Industry & Other Professionals'
     },
     {
-        id: 26,
+        id: '24',
         name: 'Other'
     }
 ];

@@ -85,6 +85,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         private _projectService: ProjectService,
         private snackbar: SnackbarService,
         private modalService: ModalService,
+        private locationService: LocationService
     ) { }
 
     ngOnInit() {
@@ -179,10 +180,11 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
      * Get adm1 from the back or from the cache service with the key ADM1
      */
     loadProvince() {
-        this._distributionService.fillAdm1Options(this.objectInstance);
-        this.form.controls.adm2.setValue(null);
-        this.form.controls.adm3.setValue(null);
-        this.form.controls.adm4.setValue(null);
+        this.locationService.fillAdm1Options(this.objectInstance).subscribe(() => {
+            this.form.controls.adm2.setValue(null);
+            this.form.controls.adm3.setValue(null);
+            this.form.controls.adm4.setValue(null);
+        });
     }
 
     /**
@@ -191,11 +193,12 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
      */
     loadDistrict(adm1Id) {
         if (adm1Id) {
-            this._distributionService.fillAdm2Options(this.objectInstance, adm1Id);
+            this.locationService.fillAdm2Options(this.objectInstance, adm1Id).subscribe(() => {
+                this.form.controls.adm2.setValue(null);
+                this.form.controls.adm3.setValue(null);
+                this.form.controls.adm4.setValue(null);
+            });
         }
-        this.form.controls.adm2.setValue(null);
-        this.form.controls.adm3.setValue(null);
-        this.form.controls.adm4.setValue(null);
     }
 
     /**
@@ -204,10 +207,11 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
      */
     loadCommunity(adm2Id) {
         if (adm2Id) {
-            this._distributionService.fillAdm3Options(this.objectInstance, adm2Id);
+            this.locationService.fillAdm3Options(this.objectInstance, adm2Id).subscribe(() => {
+                this.form.controls.adm3.setValue(null);
+                this.form.controls.adm4.setValue(null);
+            });
         }
-        this.form.controls.adm3.setValue(null);
-        this.form.controls.adm4.setValue(null);
     }
 
     /**
@@ -216,9 +220,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
      */
     loadVillage(adm3Id) {
         if (adm3Id) {
-            this._distributionService.fillAdm4Options(this.objectInstance, adm3Id);
+            this.locationService.fillAdm4Options(this.objectInstance, adm3Id).subscribe(() => {
+                this.form.controls.adm4.setValue(null);
+            });
         }
-        this.form.controls.adm4.setValue(null);
     }
 
     /**

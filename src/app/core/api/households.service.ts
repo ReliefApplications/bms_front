@@ -7,12 +7,14 @@ import { HttpService } from './http.service';
 import { ExportService } from './export.service';
 
 import { Households } from '../../model/households.new';
-import { Project } from '../../model/project';
+import { Project } from '../../model/project.new';
 import { Location } from '../../model/location';
 import { Sector } from '../../model/sector';
 import { saveAs      } from 'file-saver/FileSaver';
 import { CustomModelService } from './custom-model.service';
 import { Router } from '@angular/router';
+import { AppInjector } from 'src/app/app-injector';
+import { ProjectService } from './project.service';
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +25,7 @@ export class HouseholdsService extends CustomModelService {
 
 
     constructor(
-        private http: HttpService,
+        protected http: HttpService,
         private exportService: ExportService,
         private router: Router,
     ) {
@@ -160,7 +162,17 @@ export class HouseholdsService extends CustomModelService {
             });
     }
 
-    public fillWithOptions(household: Households, locationType: string) {
+    public fillWithOptions(household: Households) {
+
+        const appInjector = AppInjector;
+        appInjector.get(ProjectService).get().subscribe((projects: any) => {
+
+            const projectOptions = projects.map(project => {
+                return Project.apiToModel(project);
+            });
+
+            household.fields.projects.options = projectOptions;
+        });
     }
 
     public visit(householdId) {

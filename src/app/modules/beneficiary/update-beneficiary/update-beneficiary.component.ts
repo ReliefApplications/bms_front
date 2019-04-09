@@ -273,6 +273,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             beneficiaryFormControls[vulnerability.fields.name.value].setValue(true);
         });
 
+        beneficiaryFormControls['residencyStatus'].setValue(
+            beneficiary.fields.residencyStatus.value ? beneficiary.fields.residencyStatus.value.fields.id.value : null);
+
         const beneficiaryForm = new FormGroup(beneficiaryFormControls);
         this.beneficiariesForm.push(beneficiaryForm);
     }
@@ -340,6 +343,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             }
 
             if (this.mode === 'update') {
+                this.validStep1 = true;
+                this.validStep2 = true;
+                this.validStep3 = true;
                 this.route.params.subscribe(
                     result => {
                         if (result['id']) {
@@ -834,12 +840,18 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 })[0];
             beneficiary.fields.nationalIds.value[0].fields.number.value = form.controls.IDNumber.value;
 
-            beneficiary.fields.phones.value[0].fields.type.value = beneficiary.fields.phones.value[0].fields.type.options.filter(
-                type => type.fields.id.value === form.controls.phoneType0.value
-            );
-            beneficiary.fields.phones.value[1].fields.type.value = beneficiary.fields.phones.value[1].fields.type.options.filter(
-                type => type.fields.id.value === form.controls.phoneType1.value
-            );
+
+            beneficiary.fields.phones.value[0].fields.type.value = form.controls.phoneType0.value ?
+                beneficiary.fields.phones.value[0].fields.type.options.filter(
+                    type => type.fields.id.value === form.controls.phoneType0.value
+                )[0] :
+                null;
+            beneficiary.fields.phones.value[1].fields.type.value = form.controls.phoneType1.value ?
+                beneficiary.fields.phones.value[1].fields.type.options.filter(
+                    type => type.fields.id.value === form.controls.phoneType1.value
+                )[0] :
+                null;
+
             beneficiary.fields.phones.value[0].fields.number.value = form.controls.phoneNumber0.value;
             beneficiary.fields.phones.value[1].fields.number.value = form.controls.phoneNumber1.value;
             beneficiary.fields.phones.value[0].fields.proxy.value = form.controls.phoneProxy0.value;
@@ -1125,6 +1137,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         return this.livelihoodsList.filter(livelihood => {
             return livelihood.id === this.mainForm.controls.livelihood.value;
         })[0];
+    }
+
+    getGender(id) {
+        return this.beneficiaries[0].fields.gender.options.filter(gender => gender.fields.id.value === id)[0].fields.name.value;
     }
 
     /**

@@ -16,7 +16,7 @@ export abstract class CustomModelService {
         this.customModelPath = path;
     }
 
-    public get() {
+    public get(filter?: any, sort?: any, pageIndex?: number, pageSize?: number) {
         return this.http.get(this.makeUrl());
     }
 

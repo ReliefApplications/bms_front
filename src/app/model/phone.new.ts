@@ -30,11 +30,11 @@ export class Phone {
                 options: [
                     {fields: {
                         name: { value: 'Landline' },
-                        id: { value: 0 }
+                        id: { value: 1 }
                     }},
                     {fields: {
                         name: { value: 'Mobile' },
-                        id: { value: 1 }
+                        id: { value: 2 }
                     }}
                 ],
                 apiLabel: 'name'
@@ -58,7 +58,7 @@ export class Phone {
             number: this.fields.number.value,
             prefix: this.fields.prefix.value,
             proxy: this.fields.proxy.value ? true : false,
-            type: this.fields.type.formatForApi(),
+            type: this.fields.type.value ? this.fields.type.formatForApi() : null,
 
         };
     }

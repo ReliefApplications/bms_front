@@ -107,7 +107,7 @@ export class Beneficiary extends CustomModel {
                 apiLabel: 'name',
                 value: { fields : {
                     name: { value: 'resident'},
-                    id: { value: 2}
+                    id: { value: '2'}
                 }}
             }
         ),

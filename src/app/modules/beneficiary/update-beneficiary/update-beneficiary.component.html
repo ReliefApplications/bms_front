@@ -66,7 +66,8 @@
                     <div class="specifics" *ngIf="household.fields.countrySpecificAnswers.value.length">
                       <h4>{{ Text.settings_country_specific_options | titlecase }}</h4>
                       <mat-form-field *ngFor="let countrySpecificAnswer of household.fields.countrySpecificAnswers.value">
-                        <input matInput [type]="countrySpecificAnswer.fields.countrySpecific.value.fields.type.value" placeholder={{countrySpecificAnswer.fields.countrySpecific.value.fields.field.value}} [formControlName]="countrySpecificAnswer.fields.countrySpecific.value.fields.field.value">
+                        <input *ngIf="countrySpecificAnswer.fields.countrySpecific.value.fields.field.value === 'IDPoor'" matInput [type]="countrySpecificAnswer.fields.countrySpecific.value.fields.type.value" placeholder="IDPoor No." [formControlName]="countrySpecificAnswer.fields.countrySpecific.value.fields.field.value">
+                        <input *ngIf="countrySpecificAnswer.fields.countrySpecific.value.fields.field.value !== 'IDPoor'" matInput [type]="countrySpecificAnswer.fields.countrySpecific.value.fields.type.value" placeholder={{countrySpecificAnswer.fields.countrySpecific.value.fields.field.value}} [formControlName]="countrySpecificAnswer.fields.countrySpecific.value.fields.field.value">
                       </mat-form-field>
                     </div>
                   </div>
@@ -82,7 +83,7 @@
                       <button mat-raised-button class="button-background-primary" (click)="nextValidation(1, stepper)">
                         {{Text.next}}
                       </button>
-                      <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="update(); nextValidation(1, stepper, true)">{{Text.update}}</button>
+                      <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="submit(); nextValidation(1, stepper, true)">{{Text.update}}</button>
                     </div>
                   </div>
                 </div>
@@ -115,7 +116,7 @@
                     {{Text.next}}
                   </button>
                   <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
-                    (click)="update(); nextValidation(2, stepper, true)">{{Text.update}}</button>
+                    (click)="submit(); nextValidation(2, stepper, true)">{{Text.update}}</button>
                 </div>
               </div>
             </div>
@@ -160,7 +161,7 @@
                     {{Text.next}}
                   </button>
                   <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
-                    (click)="update(); nextValidation(3, stepper, true)">
+                    (click)="submit(); nextValidation(3, stepper, true)">
                     {{Text.update}}
                   </button>
                 </div>
@@ -222,7 +223,7 @@
 
                   <ng-container matColumnDef="gender">
                     <th mat-header-cell *matHeaderCellDef> {{ Text.gender |titlecase }} </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.controls.gender.value }} </td>
+                    <td mat-cell *matCellDef="let element"> {{ getGender(element.controls.gender.value) | titlecase }} </td>
                   </ng-container>
 
                   <ng-container matColumnDef="dateOfBirth">

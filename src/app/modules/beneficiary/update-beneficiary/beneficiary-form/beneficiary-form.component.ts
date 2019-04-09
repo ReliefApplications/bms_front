@@ -12,9 +12,7 @@ import { Criteria } from 'src/app/model/criteria.new';
 export class BeneficiaryFormComponent implements OnInit {
 
   @Input() form: FormGroup;
-  @Input() beneficiary: Beneficiary;
-  @Input() vulnerabilityList: Array<Criteria>;
-  @Input() countryCodesList;
+  @Input() options: Object;
 
   public Text = GlobalText.TEXTS;
 

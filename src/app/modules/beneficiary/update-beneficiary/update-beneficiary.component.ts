@@ -106,7 +106,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public tableData: MatTableDataSource<any>;
 
     // Edit watcher
-    private uneditedSnapshot: any;
+    private uneditedHouseholdSnapshot: any;
+    private uneditedBeneficiariesSnapshot: any;
+
 
     @ViewChild(MatStepper) stepper: MatStepper;
 
@@ -156,9 +158,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
 
                 this.makeMainForm();
-                this.beneficiaries.forEach((beneficiary: Beneficiary) => {
+                this.household.fields.beneficiaries.value.forEach((beneficiary: Beneficiary) => {
                     this.makeBeneficiaryForm(beneficiary);
                 });
+
+                this.beneficiarySnapshot();
                 this.loader = false;
                 this.livelihoodsList = LIVELIHOOD;
                 this.getProjects();
@@ -185,6 +189,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             }
         });
 
+        this.household.fields.countrySpecificAnswers.value.forEach(countrySpecificAnswer => {
+            mainFormControls[countrySpecificAnswer.fields.countrySpecific.value.fields.field.value]
+                .setValue(countrySpecificAnswer.fields.answer.value);
+        });
+
+        mainFormControls['livelihood'].setValue(this.household.fields.livelihood.value ? this.household.fields.livelihood.value.id : null);
+
         this.loadProvince().subscribe(() => {
             if (this.household.fields.location.value.fields.adm1.value &&
                 this.household.fields.location.value.fields.adm1.value.fields.id.value) {
@@ -204,21 +215,23 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                                     if (this.household.fields.location.value.fields.adm4.value) {
                                         mainFormControls['adm4'].setValue(
                                             this.household.fields.location.value.fields.adm4.value.fields.id.value);
+                                        this.snapshot();
+                                    } else {
+                                        this.snapshot();
                                     }
                                 });
+                            } else {
+                                this.snapshot();
                             }
                         });
+                    } else {
+                        this.snapshot();
                     }
                 });
+            } else {
+                this.snapshot();
             }
         });
-
-        this.household.fields.countrySpecificAnswers.value.forEach(countrySpecificAnswer => {
-            mainFormControls[countrySpecificAnswer.fields.countrySpecific.value.fields.field.value]
-                .setValue(countrySpecificAnswer.fields.answer.value);
-        });
-
-        mainFormControls['livelihood'].setValue(this.household.fields.livelihood.value ? this.household.fields.livelihood.value.id : null);
 
         this.mainForm = new FormGroup(mainFormControls);
     }
@@ -327,7 +340,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                         this.household = new Households();
                         this.household.fields.location.value = new Location();
 
-                        this.beneficiaries[0] = this.createNewBeneficiary();
+                        this.household.fields.beneficiaries.value = [this.createNewBeneficiary()];
 
                         // this.household.fields.beneficiaries.value.push(this.beneficiaries[0])
                         // this.updatedHousehold.beneficiaries.unshift(this.pushBeneficiary());
@@ -353,14 +366,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                                 household => {
                                     this.getCountryPhoneCodes();
                                     this.household = Households.apiToModel(household);
-                                    this.snapshot();
                                     // this.originalHousehold = household;
                                     // this.getCountryPhoneCodes();
                                     // this.formatHouseholdForForm();
                                     // this.loader = false;
                                     // this.snapshot();
 
-                                    this.beneficiaries = this.household.fields.beneficiaries.value;
+                                    // this.beneficiaries = this.household.fields.beneficiaries.value;
                                     resolve();
                                 }
                             );
@@ -385,7 +397,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
     addBeneficiary() {
         const beneficiary = this.createNewBeneficiary();
-        this.beneficiaries.push(beneficiary);
+        // this.beneficiaries.push(beneficiary);
         this.makeBeneficiaryForm(beneficiary);
     }
 
@@ -393,13 +405,24 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * To delete a beneficiary from the actual household.
      * @param index
      */
-    removeBeneficiary(index: number) {
-        if (index < this.beneficiaries.length) {
-            this.beneficiaries.splice(index, 1);
-        }
+    removeBeneficiary(beneficiaryForm: FormGroup) {
+
+        const index = this.beneficiariesForm.indexOf(beneficiaryForm);
         if (index < this.beneficiariesForm.length) {
             this.beneficiariesForm.splice(index, 1);
         }
+    }
+
+    getBeneficiaryOptions(): Object {
+        return {
+            vulnerabilityList: this.vulnerabilityList,
+            countryCodesList: this.countryCodesList,
+            genderList: this.household.fields.beneficiaries.value[0].fields.gender.options,
+            nationalIdList: this.household.fields.beneficiaries.value[0].fields.nationalIds.value[0].fields.type.options,
+            residencyStatusList: this.household.fields.beneficiaries.value[0].fields.residencyStatus.options,
+            phoneList: this.household.fields.beneficiaries.value[0].fields.phones.value[0].fields.type.options
+
+        };
     }
 
 
@@ -1085,10 +1108,14 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
     }
     private checkIfFormHasBeenModified(): boolean {
-        if (this.checkEqualValues(this.updatedHousehold, this.uneditedSnapshot)) {
-            return false;
+        if (!this.checkEqualValues(this.mainForm.value, this.uneditedHouseholdSnapshot)) {
+            return true;
         }
-        return true;
+        const beneficiariesValue = this.beneficiariesForm.map(beneficiaryForm => beneficiaryForm.value);
+        if (!this.checkEqualValues(beneficiariesValue, this.uneditedBeneficiariesSnapshot)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -1140,7 +1167,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     }
 
     getGender(id) {
-        return this.beneficiaries[0].fields.gender.options.filter(gender => gender.fields.id.value === id)[0].fields.name.value;
+        return this.household.fields.beneficiaries.value[0].fields.gender.options.filter(
+            gender => gender.fields.id.value === id)[0].fields.name.value;
     }
 
     /**
@@ -1415,8 +1443,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
     }
 
+    private beneficiarySnapshot(): void {
+        this.uneditedBeneficiariesSnapshot = this.beneficiariesForm.map(beneficiaryForm => this.deepCopy(beneficiaryForm.value));
+    }
+
     private snapshot(): void {
-        this.uneditedSnapshot = this.deepCopy(this.household);
+        this.uneditedHouseholdSnapshot = this.deepCopy(this.mainForm.value);
         // this.uneditedSnapshot = this.deepCopy(this.updatedHousehold);
     }
 

@@ -7,7 +7,7 @@
   <app-placeholder-stepper *ngIf="!household"></app-placeholder-stepper>
   <app-placeholder-panel *ngIf="!household"></app-placeholder-panel>
 
-  <mat-horizontal-stepper #stepper linear *ngIf="!loader && (mode == 'create' || (mode == 'update' && beneficiaries[0]))">
+  <mat-horizontal-stepper #stepper linear *ngIf="!loader && (mode == 'create' || (mode == 'update' && beneficiariesForm[0]))">
     <ng-template matStepperIcon="done">
       <mat-icon>done</mat-icon>
     </ng-template>
@@ -103,8 +103,8 @@
           </div>
           <div class="container-content box-primary">
             <div class="content-table">
-              <div class="step2 head" *ngIf="beneficiaries[0]">
-                <app-beneficiary-form [form]="beneficiariesForm[0]" [beneficiary]="beneficiaries[0]" [vulnerabilityList]="vulnerabilityList" [countryCodesList]="countryCodesList"></app-beneficiary-form>
+              <div class="step2 head" *ngIf="beneficiariesForm[0]">
+                <app-beneficiary-form [form]="beneficiariesForm[0]" [options]="getBeneficiaryOptions()"></app-beneficiary-form>
               </div>
               <div class="content-button-footer">
                 <div class="action-buttons">
@@ -133,19 +133,19 @@
           </div>
           <div class="container-content box-primary">
             <div class="content-table">
-              <div class="step3 head" *ngFor="let member of beneficiaries, let memberIndex=index">
+              <div class="step3 head" *ngFor="let memberForm of beneficiariesForm, let memberIndex=index">
                 <div class="container member" *ngIf="memberIndex>0">
                   <div class="button-container">
                     <div class="member-rank">
                       {{memberIndex}}
                     </div>
-                    <button mat-mini-fab color='primary' class='delete' (click)="removeBeneficiary(memberIndex)">
+                    <button mat-mini-fab color='primary' class='delete' (click)="removeBeneficiary(memberForm)">
                       <mat-icon>delete_outline</mat-icon>
                     </button>
                   </div>
-                  <app-beneficiary-form [form]="beneficiariesForm[memberIndex]" [beneficiary]="beneficiaries[memberIndex]" [vulnerabilityList]="vulnerabilityList" [countryCodesList]="countryCodesList"></app-beneficiary-form>
+                  <app-beneficiary-form [form]="memberForm" [options]="getBeneficiaryOptions()"></app-beneficiary-form>
                 </div>
-                <mat-divider *ngIf="memberIndex>0 && memberIndex < beneficiaries.length-1"></mat-divider>
+                <mat-divider *ngIf="memberIndex>0 && memberIndex < beneficiariesForm.length-1"></mat-divider>
               </div>
               <div class="content-button-footer">
                 <mat-progress-bar mode="determinate" value="70"></mat-progress-bar>

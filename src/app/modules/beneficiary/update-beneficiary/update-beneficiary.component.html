@@ -7,7 +7,7 @@
   <app-placeholder-stepper *ngIf="!household"></app-placeholder-stepper>
   <app-placeholder-panel *ngIf="!household"></app-placeholder-panel>
 
-  <mat-horizontal-stepper #stepper linear *ngIf="!loader && (mode == 'create' || (mode == 'update' && beneficiariesForm[0]))">
+  <mat-horizontal-stepper (selectionChange)="passHousehold()" #stepper linear *ngIf="!loader && (mode == 'create' || (mode == 'update' && beneficiariesForm[0]))">
     <ng-template matStepperIcon="done">
       <mat-icon>done</mat-icon>
     </ng-template>
@@ -228,7 +228,7 @@
 
                   <ng-container matColumnDef="dateOfBirth">
                     <th mat-header-cell *matHeaderCellDef> {{ Text.add_beneficiary_getDateOfBirth |titlecase }} </th>
-                    <td mat-cell *matCellDef="let element"> {{ this.formatDate(element.controls.dateOfBirth.value) }}
+                    <td mat-cell *matCellDef="let element"> {{ element.controls.dateOfBirth.value | date: 'yyyy-MM-dd' }}
                     </td>
                   </ng-container>
 

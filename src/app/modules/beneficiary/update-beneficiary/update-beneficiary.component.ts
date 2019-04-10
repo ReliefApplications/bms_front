@@ -273,9 +273,22 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
      * Format beneficiary date to a short string.
      */
     formatDate(date: Date) {
-        const pipedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
-
+        const pipedDate = this.datePipe.transform(date, 'dd-MM-yyyy');
         return (pipedDate);
+    }
+
+     /**
+     * Format beneficiary date to a short string.
+     */
+    changeDateOfBirth(event, index) {
+
+        // the date is typed as dd-mm-yyyy and need to be put to mm-dd-yyy to use new Date
+        const splittedDate = event.target.value.split('-');
+        const day = splittedDate[0];
+        const month = splittedDate[1];
+        const year = splittedDate[2];
+        const date = month + '-' + day + '-' + year;
+        this.updatedHousehold.beneficiaries[index].birth_date = new Date(date);
     }
 
     /**

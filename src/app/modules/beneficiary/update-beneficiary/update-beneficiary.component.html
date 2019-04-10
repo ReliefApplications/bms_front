@@ -129,13 +129,13 @@
                 </ng-select>
                 <mat-form-field class="datepicker-computer" required>
                   <input #DateOfBirthHead matInput [matDatepicker]="birthHeadComputer" placeholder={{Text.add_beneficiary_getDateOfBirth}}
-                    [(ngModel)]="updatedHousehold.beneficiaries[0].birth_date">
+                    [(ngModel)]="updatedHousehold.beneficiaries[0].birth_date" (change)='changeDateOfBirth($event, 0)'>
                   <mat-datepicker-toggle matSuffix [for]="birthHeadComputer"></mat-datepicker-toggle>
                   <mat-datepicker #birthHeadComputer></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field class="datepicker-mobile" required>
                   <input #DateOfBirthHead matInput [matDatepicker]="birthHeadMobile" placeholder={{Text.add_beneficiary_getDateOfBirth}}
-                    [(ngModel)]="updatedHousehold.beneficiaries[0].birth_date">
+                    [(ngModel)]="updatedHousehold.beneficiaries[0].birth_date" (change)='changeDateOfBirth($event, 0)'>
                   <mat-datepicker-toggle matSuffix [for]="birthHeadMobile"></mat-datepicker-toggle>
                   <mat-datepicker touchUi #birthHeadMobile></mat-datepicker>
                 </mat-form-field>
@@ -266,15 +266,15 @@
                   </ng-select>
                   <mat-form-field class="datepicker-computer" required>
                     <input matInput [matDatepicker]="birthHeadComputer" placeholder={{Text.add_beneficiary_getDateOfBirth}}
-                      [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].birth_date" #DateOfBirthHead>
+                      [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].birth_date" #DateOfBirthHead (change)="changeDateOfBirth($event, memberIndex)">
                     <mat-datepicker-toggle matSuffix [for]="birthHeadComputer"></mat-datepicker-toggle>
-                    <mat-datepicker #birthHeadComputer (selectedChanged)="formatDate(memberIndex)"></mat-datepicker>
+                    <mat-datepicker #birthHeadComputer></mat-datepicker>
                   </mat-form-field>
                   <mat-form-field class="datepicker-mobile" required>
                     <input #DateOfBirthHead matInput [matDatepicker]="birthHeadMobile" placeholder={{Text.add_beneficiary_getDateOfBirth}}
-                      [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].birth_date">
+                      [(ngModel)]="updatedHousehold.beneficiaries[memberIndex].birth_date" (change)="changeDateOfBirth($event, memberIndex)">
                     <mat-datepicker-toggle matSuffix [for]="birthHeadMobile"></mat-datepicker-toggle>
-                    <mat-datepicker touchUi #birthHeadMobile (selectedChanged)="formatDate(memberIndex)"></mat-datepicker>
+                    <mat-datepicker touchUi #birthHeadMobile></mat-datepicker>
                   </mat-form-field>
                 </div>
                 <div class="column-container">

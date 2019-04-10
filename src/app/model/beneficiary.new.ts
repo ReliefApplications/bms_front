@@ -82,6 +82,7 @@ export class Beneficiary extends CustomModel {
                 isRequired: true,
                 isSettable: true,
                 isDisplayedInModal: true,
+                isDisplayedInTable: true,
                 isEditable: true,
                 options: [ new Gender('0', 'woman'), new Gender('1', 'man')],
                 bindField: 'name',
@@ -118,7 +119,7 @@ export class Beneficiary extends CustomModel {
             {
                 title: GlobalText.TEXTS.model_beneficiaries_status,
                 isDisplayedInModal: true,
-                isDisplayedInTable: true,
+                isDisplayedInTable: false,
                 isRequired: true,
                 isSettable: true,
                 isEditable: true,
@@ -129,33 +130,25 @@ export class Beneficiary extends CustomModel {
                 title: GlobalText.TEXTS.model_beneficiaries_nationalids,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
+                displayTableFunction: null,
                 value: []
             }
         ),
         phones: new MultipleObjectsModelField<Phone>(
             {
-                title: GlobalText.TEXTS.model_beneficiaries_phones,
+                title: GlobalText.TEXTS.phone,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
-                isRequired: true,
-                isSettable: true,
-                isEditable: true,
                 value: []
             }
         ),
         vulnerabilities: new MultipleObjectsModelField<VulnerabilityCriteria>(
             {
                 title: GlobalText.TEXTS.model_vulnerabilities,
-                placeholder: null,
-                isDisplayedInModal: true,
+                isDisplayedInModal: false,
                 isDisplayedInTable: true,
-                isSettable: true,
-                isImageInTable: true,
-                options: undefined,
-                bindField: 'name',
-                isEditable: true,
-                value: [],
-                apiLabel: 'name',
+                displayTableFunction: null,
+                value: []
             }
         ),
         fullName: new TextModelField(
@@ -163,7 +156,7 @@ export class Beneficiary extends CustomModel {
                 title: GlobalText.TEXTS.model_donor_fullname,
                 placeholder: null,
                 isDisplayedInModal: true,
-                isDisplayedInTable: true,
+                isDisplayedInTable: false,
                 isRequired: true,
                 isSettable: true,
                 isLongText: false,
@@ -181,7 +174,7 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.set('id', beneficiaryFromApi.id);
         newBeneficiary.set('givenName', beneficiaryFromApi.given_name);
         newBeneficiary.set('familyName', beneficiaryFromApi.family_name);
-        newBeneficiary.set('dateOfBirth', new Date(beneficiaryFromApi.date_of_birth));
+        newBeneficiary.set('dateOfBirth', beneficiaryFromApi.date_of_birth ? new Date(beneficiaryFromApi.date_of_birth) : null);
         newBeneficiary.set('beneficiaryStatus', beneficiaryFromApi.status);
         newBeneficiary.set('fullName', beneficiaryFromApi.given_name + ' ' + beneficiaryFromApi.family_name);
 
@@ -217,8 +210,22 @@ export class Beneficiary extends CustomModel {
 
         newBeneficiary.set('profile', beneficiaryFromApi.profile ? Profile.apiToModel(beneficiaryFromApi.profile) : new Profile());
 
+
+        newBeneficiary.fields.vulnerabilities.displayTableFunction = value => this.displayTableVulnerabilities(value);
+
         return newBeneficiary;
 
+    }
+
+    public static displayTableVulnerabilities(value) {
+        const images = [];
+        value.forEach((vulnerability: VulnerabilityCriteria) => {
+            const image = vulnerability.getImage();
+            if (!images.includes(image)) {
+                images.push(image);
+            }
+        });
+        return images;
     }
 
     public modelToApi(): Object {
@@ -265,6 +272,7 @@ export class Beneficiary extends CustomModel {
     public getIdentifyingName() {
         return this.get('givenName') + ' ' + this.get('familyName');
     }
+
 
 }
 

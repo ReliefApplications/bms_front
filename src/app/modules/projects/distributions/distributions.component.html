@@ -64,12 +64,12 @@
                             <div class="waitingDataContainer" *ngIf="loadingFirstStep">
                                 <mat-spinner></mat-spinner>
                             </div>
-                            <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated"
+                            <app-table *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="hasRights"
                                 [parentId]="distributionId" [rights]="hasRights">
-                            </app-table-search>
-                            <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated"
+                            </app-table>
+                            <app-table-mobile *ngIf="widthScreen < maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="hasRights"
                                 [parentId]="distributionId" [rights]="hasRights">
-                            </app-table-mobile-search>
+                            </app-table-mobile>
                         </div>
                         <div class="content-button content-button-footer">
                             <button mat-raised-button class="button-background-primary" matStepperNext (click)="this.getDistributionBeneficiaries('both')">{{TEXT.next}}</button>

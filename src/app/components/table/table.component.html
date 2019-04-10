@@ -62,14 +62,14 @@
                                     <app-icon-svg [imagePath]="field.value.getImage()"></app-icon-svg>
                                 </ng-container>
                                 <ng-template #singleNotImage>
-                                    {{field.value.get(field.bindField)}}
+                                    <ng-container *ngIf="field.value">{{field.value.get(field.bindField)}}</ng-container>
                                 </ng-template>
                         </ng-container>
                     </ng-template>
 
                     <ng-template #isNotSelect>
                         <ng-container *ngIf="field.kindOfField === 'Date'; else isNotDate">
-                            {{ field.formatForApi() }}
+                            <ng-container *ngIf="field.value">{{ field.formatForApi() }}</ng-container>
                         </ng-container>
                     </ng-template>
                     <ng-template #isNotDate>

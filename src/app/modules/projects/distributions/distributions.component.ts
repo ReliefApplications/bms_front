@@ -23,6 +23,7 @@ import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
 import { NetworkService } from 'src/app/core/api/network.service';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Beneficiary } from 'src/app/model/beneficiary.new';
 
 @Component({
     selector: 'app-distributions',
@@ -51,7 +52,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     extensionTypeTransaction: string; // 1.xls / 2.csv / 3.ods
 
     // Entities passed to table components.
-    beneficiaryEntity = Beneficiaries;
+    beneficiaryEntity = Beneficiary;
     distributionEntity = DistributionData;
     importedBeneficiaryEntity = ImportedBeneficiary;
     entity: any;
@@ -60,9 +61,9 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
     distributed = false;
 
     // Datas.
-    initialBeneficiaryData: MatTableDataSource<any>;
+    initialBeneficiaryData: MatTableDataSource<Beneficiary>;
     randomSampleData: MatTableDataSource<any>;
-    finalBeneficiaryData: MatTableDataSource<any>;
+    finalBeneficiaryData: MatTableDataSource<Beneficiary>;
     transactionData: MatTableDataSource<any>;
 
     // Screen display variables.
@@ -116,7 +117,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
 
     ngOnInit() {
         this.checkSize();
-        this.actualDistribution.validated = true;
+        // this.actualDistribution.validated = true;
         this.loadingFirstStep = false;
         this.loadingThirdStep = false;
         this.loadingFinalStep = false;
@@ -252,18 +253,22 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                     data = response;
                 }
 
+                const beneficiaries: Beneficiary[] = data.map((beneficiary: any): Beneficiary => {
+                    return Beneficiary.apiToModel(beneficiary);
+                });
+
+
                 if (type === 'initial') {
                     // Step 1 table
-                    this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
+                    this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
                     this.loadingFirstStep = false;
                 } else if (type === 'final') {
                     // Step 4 table
-                    this.finalBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(data));
+                    this.finalBeneficiaryData = new MatTableDataSource(beneficiaries);
                     this.loadingFinalStep = false;
                 } else if (type === 'both') {
-                    const beneficiariesData = Beneficiaries.formatArray(data);
-                    this.initialBeneficiaryData = new MatTableDataSource(beneficiariesData);
-                    this.finalBeneficiaryData = new MatTableDataSource(beneficiariesData);
+                    this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
+                    this.finalBeneficiaryData = new MatTableDataSource(beneficiaries);
                     this.loadingFirstStep = false;
                     this.loadingFinalStep = false;
                 } else if (type === 'transaction') {
@@ -429,11 +434,18 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
      * @param template
      */
     openDialog(template) {
+
         const distributionDate = new Date(this.actualDistribution.date_distribution);
-        if (new Date() < distributionDate) {
-            this.dialog.open(template);
-        } else {
+        const currentDate = new Date();
+        if (currentDate.getFullYear() > distributionDate.getFullYear() ||
+        (currentDate.getFullYear() === distributionDate.getFullYear() &&
+        currentDate.getMonth() > distributionDate.getMonth()) ||
+        (currentDate.getFullYear() === distributionDate.getFullYear() &&
+        currentDate.getMonth() === distributionDate.getMonth()) &&
+        currentDate.getDate() > distributionDate.getDate()) {
             this.snackbar.error(GlobalText.TEXTS.snackbar_invalid_transaction_date);
+        } else {
+            this.dialog.open(template);
         }
     }
 
@@ -528,7 +540,9 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
                             .subscribe(
                                 response => {
                                     if (response) {
-                                        this.initialBeneficiaryData = new MatTableDataSource(Beneficiaries.formatArray(response));
+                                        this.initialBeneficiaryData = new MatTableDataSource(response.map((beneficiary: any) => {
+                                            return Beneficiary.apiToModel(beneficiary);
+                                        }));
                                     }
                                 }
                             );
@@ -601,7 +615,7 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
         const project = this.actualDistribution.project;
 
         this.actualDistribution.distribution_beneficiaries.forEach((element, i) => {
-            element.beneficiary = this.initialBeneficiaryData.data[i];
+            element.beneficiary = this.initialBeneficiaryData.data[i].modelToApi();
         });
         const distribution = this.actualDistribution;
 

@@ -17,6 +17,7 @@ import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.c
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { delay, finalize } from 'rxjs/operators';
 import { ImportedDataService } from '../../core/utils/imported-data.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -55,6 +56,8 @@ export class ProjectComponent implements OnInit, DoCheck {
     public maxWidth = GlobalText.maxWidth;
     public heightScreen;
     public widthScreen;
+
+    public httpSubscriber: Subscription;
 
     constructor(
         public projectService: ProjectService,
@@ -108,6 +111,9 @@ export class ProjectComponent implements OnInit, DoCheck {
      * @param project
      */
     selectTitle(title, project): void {
+        if (this.httpSubscriber) {
+            this.httpSubscriber.unsubscribe();
+        }
         this.isBoxClicked = true;
         this.selectedTitle = title;
         this.selectedProject = project;
@@ -164,7 +170,7 @@ export class ProjectComponent implements OnInit, DoCheck {
      * @param projectId
      */
     getDistributionsByProject(projectId: number): void {
-        this.distributionService.
+        this.httpSubscriber = this.distributionService.
             getByProject(projectId).pipe(
                 finalize(
                     () => {

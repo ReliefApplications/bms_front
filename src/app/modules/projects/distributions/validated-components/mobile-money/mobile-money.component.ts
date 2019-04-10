@@ -33,7 +33,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
         (currentDate.getFullYear() === distributionDate.getFullYear() &&
         currentDate.getMonth() === distributionDate.getMonth()) &&
         currentDate.getDate() > distributionDate.getDate()) {
-            this.snackbar.error(GlobalText.TEXTS.snackbar_invalid_transaction_date);
+            this.snackbar.error(this.TEXT.snackbar_invalid_transaction_date);
         } else {
             this.dialog.open(template);
         }

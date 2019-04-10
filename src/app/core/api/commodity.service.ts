@@ -2,7 +2,8 @@ import { Injectable                                 } from '@angular/core';
 import { HttpService                                } from './http.service';
 import { CustomModelService } from './custom-model.service';
 import { ModalitiesService } from './modalities.service';
-import { Commodity } from 'src/app/model/commodity.new';
+import { Commodity, ModalityType } from 'src/app/model/commodity.new';
+import { Modality } from 'src/app/model/commodity.new';
 
 @Injectable({
     providedIn: 'root'
@@ -18,23 +19,17 @@ export class CommodityService extends CustomModelService {
 
     fillModalitiesOptions(commodity: Commodity) {
         this.modalityService.getModalities().subscribe(modalities => {
-            commodity.fields.modality.options = modalities.map(modality => {
-                return { fields : {
-                    name: { value: modality.name },
-                    id: { value: modality.id }
-                }};
-            });
+            commodity.setOptions('modality', modalities.map(modality => {
+                return new Modality(modality.id, modality.name);
+            }));
         });
     }
 
     fillTypeOptions(commodity: Commodity, modalityId) {
         this.modalityService.getModalitiesType(modalityId).subscribe(types => {
-            commodity.fields.modalityType.options = types.map(modality => {
-                return { fields : {
-                    name: { value: modality.name },
-                    id: { value: modality.id }
-                }};
-            });
+            commodity.setOptions('modalityType', types.map(modalityType => {
+                return new ModalityType(modalityType.id, modalityType.name);
+            }));
         });
     }
 }

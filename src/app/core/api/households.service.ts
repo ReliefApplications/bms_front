@@ -171,7 +171,7 @@ export class HouseholdsService extends CustomModelService {
                 return Project.apiToModel(project);
             });
 
-            household.fields.projects.options = projectOptions;
+            household.setOptions('projects', projectOptions);
         });
     }
 

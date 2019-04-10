@@ -9,11 +9,13 @@ import { CustomModel } from './CustomModel/custom-model';
 export class Modality extends CustomModel {
 
     public fields = {
+        id: new TextModelField({}),
         name: new TextModelField({}),
     };
 
-    constructor(name: string) {
+    constructor(id: string, name: string) {
         super();
+        this.set('id', id);
         this.set('name', name);
     }
 }
@@ -101,7 +103,7 @@ export class Commodity extends CustomModel {
 
         newCommodity.set('id', commodityFromApi.id);
         newCommodity.set('modalityType', new ModalityType(null, commodityFromApi.modality_type.name));
-        newCommodity.set('modality', new Modality(commodityFromApi.modality_type.modality));
+        newCommodity.set('modality', new Modality(null, commodityFromApi.modality_type.modality));
         newCommodity.set('value', commodityFromApi.value);
         newCommodity.set('unit', commodityFromApi.unit);
 

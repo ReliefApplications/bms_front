@@ -211,42 +211,42 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         mainFormControls['livelihood'].setValue(this.household.get('livelihood') ? this.household.get('livelihood').get('id') : null);
 
-        this.loadProvince().subscribe(() => {
-            const location = this.household.get('location');
-            if (location.get('adm1') && location.get('adm1').get('id')) {
-                const adm1Id = location.get('adm1').get<number>('id');
-                mainFormControls['adm1'].setValue(adm1Id);
-                this._locationService.fillAdm2Options(this.household, adm1Id).subscribe(() => {
-                    if (location.get('adm2') && location.get('adm2').get('id')) {
-                        const adm2Id = location.get('adm2').get<number>('id');
-                        mainFormControls['adm2'].setValue(adm2Id);
-                        this._locationService.fillAdm3Options(this.household, adm2Id).subscribe(() => {
-                            if (location.get('adm3') && location.get('adm3').get('id')) {
-                                const adm3Id = location.get('adm3').get<number>('id');
-                                mainFormControls['adm3'].setValue(adm3Id);
-                                this._locationService.fillAdm4Options(this.household, adm3Id).subscribe(() => {
-                                    if (location.get('adm4')) {
-                                        mainFormControls['adm4'].setValue(
-                                            location.get('adm4').get('id'));
-                                        this.snapshot();
-                                    } else {
-                                        this.snapshot();
-                                    }
-                                });
-                            } else {
-                                this.snapshot();
-                            }
-                        });
-                    } else {
-                        this.snapshot();
-                    }
-                });
-            } else {
-                this.snapshot();
-            }
-        });
-
         this.mainForm = new FormGroup(mainFormControls);
+
+        const location = this.household.get('location');
+        this.loadProvince().subscribe(() => {
+            if (!location.get('adm1') || !location.get('adm1').get('id')) {
+                this.snapshot();
+                return;
+            }
+            const adm1Id = location.get('adm1').get<number>('id');
+            mainFormControls['adm1'].setValue(adm1Id);
+            this._locationService.fillAdm2Options(this.household, adm1Id).subscribe(() => {
+                if (!location.get('adm2') || !location.get('adm2').get('id')) {
+                    this.snapshot();
+                    return;
+                }
+                const adm2Id = location.get('adm2').get<number>('id');
+                mainFormControls['adm2'].setValue(adm2Id);
+                this._locationService.fillAdm3Options(this.household, adm2Id).subscribe(() => {
+                    if (!location.get('adm3') || !location.get('adm3').get('id')) {
+                        this.snapshot();
+                        return;
+                    }
+                    const adm3Id = location.get('adm3').get<number>('id');
+                    mainFormControls['adm3'].setValue(adm3Id);
+                    this._locationService.fillAdm4Options(this.household, adm3Id).subscribe(() => {
+                        if (!location.get('adm4')) {
+                            this.snapshot();
+                            return;
+                        }
+                        mainFormControls['adm4'].setValue(
+                        location.get('adm4').get('id'));
+                        this.snapshot();
+                    });
+                });
+            });
+        });
     }
 
     makeBeneficiaryForm(beneficiary: Beneficiary) {

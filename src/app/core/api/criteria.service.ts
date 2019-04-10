@@ -40,7 +40,7 @@ export class CriteriaService extends CustomModelService {
                 const fields = options.map(criterion => {
                     return Criteria.apiToModel(criterion);
                 });
-                criteria.fields.field.options = fields;
+                criteria.setOptions('fields', fields);
                 return;
             });
     }
@@ -61,10 +61,10 @@ export class CriteriaService extends CustomModelService {
 
             conditionNames.forEach(name => {
                 const condition = new ConditionCriteria();
-                condition.fields.name.value = name;
+                condition.set('name', name);
                 conditions.push(condition);
             });
-            criteria.fields.condition.options = conditions;
+            criteria.setOptions('condition', conditions);
     }
 }
 

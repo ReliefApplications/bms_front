@@ -50,7 +50,7 @@ export class ModalFieldsComponent implements OnInit {
             if (field.kindOfField === 'MultipleSelect') {
                 // TODO: type this
                 const selectedOptions = field.value.map(option => {
-                    return option.fields.id.value;
+                    return option.get('id');
                 });
                 formControls[fieldName] = new FormControl({
                     value: selectedOptions,
@@ -58,7 +58,7 @@ export class ModalFieldsComponent implements OnInit {
                 }, validators);
             } else if (field.kindOfField === 'SingleSelect') {
                 formControls[fieldName] = new FormControl({
-                    value: field.value ? field.value.fields.id.value : null, // 🤔
+                    value: field.value ? field.value.get('id') : null, // 🤔
                     disabled: this.isDisabled(field)
                 }, validators);
             } else {
@@ -90,22 +90,22 @@ export class ModalFieldsComponent implements OnInit {
         // TODO: fix ngselect value that should make this code useles
         for (const field of this.objectFields) {
             if (this.form.controls[field].value && this.objectInstance.fields[field].kindOfField === 'MultipleSelect') {
-                this.objectInstance.fields[field].value = [];
+                this.objectInstance.set(field, []);
 
                 this.form.controls[field].value.forEach(optionId => {
-                    const selectedOption = this.objectInstance.fields[field].options.filter(option => {
-                        return option.fields.id.value === optionId;
+                    const selectedOption = this.objectInstance.getOptions(field).filter(option => {
+                        return option.get('id') === optionId;
                     })[0];
 
-                    this.objectInstance.fields[field].value.push(selectedOption);
+                    this.objectInstance.add(field, selectedOption);
                 });
             } else if (this.form.controls[field].value && this.objectInstance.fields[field].kindOfField === 'SingleSelect') {
-                this.objectInstance.fields[field].value = this.objectInstance.fields[field].options.filter(option => {
-                    return option.fields.id.value === this.form.controls[field].value;
-                })[0];
+                this.objectInstance.set(field, this.objectInstance.getOptions(field).filter(option => {
+                    return option.get('id') === this.form.controls[field].value;
+                })[0]);
 
             } else if (this.form.controls[field].value) {
-                this.objectInstance.fields[field].value = this.form.controls[field].value;
+                this.objectInstance.set(field, this.form.controls[field].value);
             }
 
         }

@@ -46,8 +46,8 @@ export class ProjectService extends CustomModelService {
                 return Sector.apiToModel(sector);
             });
 
-            project.fields.donors.options = donorsOptions;
-            project.fields.sectors.options = sectorsOptions;
+            project.setOptions('donors', donorsOptions);
+            project.setOptions('sectors', sectorsOptions);
         });
     }
 }

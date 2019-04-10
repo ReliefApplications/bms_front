@@ -26,7 +26,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
      */
     openDialog(template: any) {
         const distributionDate = new Date(this.actualDistribution.date_distribution);
-        if (new Date() < distributionDate) {
+        if (new Date() <= distributionDate) {
             this.dialog.open(template);
         } else {
             this.snackbar.error(this.TEXT.snackbar_invalid_transaction_date);

@@ -26,10 +26,16 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
      */
     openDialog(template: any) {
         const distributionDate = new Date(this.actualDistribution.date_distribution);
-        if (new Date() <= distributionDate) {
-            this.dialog.open(template);
+        const currentDate = new Date();
+        if (currentDate.getFullYear() > distributionDate.getFullYear() ||
+        (currentDate.getFullYear() === distributionDate.getFullYear() &&
+        currentDate.getMonth() > distributionDate.getMonth()) ||
+        (currentDate.getFullYear() === distributionDate.getFullYear() &&
+        currentDate.getMonth() === distributionDate.getMonth()) &&
+        currentDate.getDate() > distributionDate.getDate()) {
+            this.snackbar.error(GlobalText.TEXTS.snackbar_invalid_transaction_date);
         } else {
-            this.snackbar.error(this.TEXT.snackbar_invalid_transaction_date);
+            this.dialog.open(template);
         }
     }
 

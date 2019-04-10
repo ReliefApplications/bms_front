@@ -141,9 +141,12 @@ export class Distribution extends CustomModel {
         // Assign default fields
         newDistribution.set('id', distributionFromApi.id);
         newDistribution.set('date', distributionFromApi.date_distribution);
-        newDistribution.set('type', distributionFromApi.type ?
-            newDistribution.getOptions('type').filter((option: DistributionType) => distributionFromApi.type === option.get('id'))[0] :
+
+        newDistribution.set('type', distributionFromApi.type >= 0  ?
+            newDistribution.getOptions('type').filter(
+                (option: DistributionType) => distributionFromApi.type.toString() === option.get('id'))[0] :
             null);
+
         newDistribution.set('name', distributionFromApi.name);
         newDistribution.set('validated', distributionFromApi.validated);
         newDistribution.set('location', Location.apiToModel(distributionFromApi.location));

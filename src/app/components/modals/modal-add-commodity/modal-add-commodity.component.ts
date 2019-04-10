@@ -37,7 +37,7 @@ export class ModalAddCommodityComponent implements OnInit {
   makeForm() {
     const formControls = {};
     this.fields.forEach((fieldName: string) => {
-      formControls[fieldName] = new FormControl(this.commodity.fields[fieldName].value);
+      formControls[fieldName] = new FormControl(this.commodity.get(fieldName));
     });
     this.form = new FormGroup(formControls);
   }
@@ -81,11 +81,11 @@ export class ModalAddCommodityComponent implements OnInit {
   onSubmit() {
       for (const field of this.fields) {
         if (this.form.controls[field].value && this.commodity.fields[field].kindOfField === 'SingleSelect') {
-          this.commodity.fields[field].value = this.commodity.fields[field].options.filter(option => {
-              return option.fields.id.value === this.form.controls[field].value;
-          })[0];
+          this.commodity.set(field, this.commodity.getOptions(field).filter(option => {
+              return option.get('id') === this.form.controls[field].value;
+          })[0]);
         } else {
-          this.commodity.fields[field].value = this.form.controls[field].value;
+          this.commodity.set(field, this.form.controls[field].value);
         }
       }
 

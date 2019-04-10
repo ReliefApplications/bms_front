@@ -1,8 +1,7 @@
 import { Injectable                                 } from '@angular/core';
 import { HttpService                                } from './http.service';
 import { CustomModelService } from './custom-model.service';
-import { Criteria } from 'src/app/model/criteria.new';
-import { ConditionCriteria } from 'src/app/model/condition-criteria';
+import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/model/criteria.new';
 
 @Injectable({
     providedIn: 'root'
@@ -38,15 +37,15 @@ export class CriteriaService extends CustomModelService {
         this.get()
             .subscribe((options) => {
                 const fields = options.map(criterion => {
-                    return Criteria.apiToModel(criterion);
+                    return CriteriaField.apiToModel(criterion);
                 });
-                criteria.setOptions('fields', fields);
+                criteria.setOptions('field', fields);
                 return;
             });
     }
 
     fillConditionOptions(criteria: Criteria, fieldName: string) {
-            const conditions = new Array<ConditionCriteria>();
+            const conditions = new Array<CriteriaCondition>();
             let conditionNames = [];
 
             if ((fieldName === 'dateOfBirth')) {
@@ -59,9 +58,8 @@ export class CriteriaService extends CustomModelService {
                 conditionNames = ['true', 'false'];
             }
 
-            conditionNames.forEach(name => {
-                const condition = new ConditionCriteria();
-                condition.set('name', name);
+            conditionNames.forEach((name, index) => {
+                const condition = new CriteriaCondition(index.toString(), name);
                 conditions.push(condition);
             });
             criteria.setOptions('condition', conditions);

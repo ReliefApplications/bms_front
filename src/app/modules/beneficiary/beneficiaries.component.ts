@@ -277,7 +277,7 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         this.modalService.openDialog(Households, this.householdsService, event.event);
         this.modalService.isCompleted.subscribe(() => {
             this.dataSource.loadHouseholds();
-            // this.getDistributionsByProject(this.selectedProject.fields.id.value);
+            // this.getDistributionsByProject(this.selectedProject.get('id'));
         });
         // if edit, open modal edit date, if details idem
     }

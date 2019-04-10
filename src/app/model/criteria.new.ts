@@ -9,13 +9,21 @@ export class CriteriaField extends CustomModel {
 
     public fields = {
         name: new TextModelField({}),
-        id: new TextModelField({})
+        id: new TextModelField({}),
+        kindOfBeneficiary: new NumberModelField({}),
+        tableString: new TextModelField({}),
+        type: new SingleSelectModelField({}),
+        field: new SingleSelectModelField({})
     };
 
-    constructor(id: string, name: string) {
-        super();
-        this.set('id', id);
-        this.set('name', name);
+    public static apiToModel(criteriaFromApi: any): CriteriaField {
+        const newCriteriaField = new CriteriaField();
+
+        newCriteriaField.set('field', criteriaFromApi.field_string);
+        newCriteriaField.set('type', criteriaFromApi.type);
+        newCriteriaField.set('kindOfBeneficiary', criteriaFromApi.distribution_type);
+        newCriteriaField.set('tableString', criteriaFromApi.table_string);
+        return newCriteriaField;
     }
 }
 export class CriteriaCondition extends CustomModel {
@@ -66,7 +74,7 @@ export class Criteria extends CustomModel {
                 title: GlobalText.TEXTS.model_criteria,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
-                bindField: 'name',
+                bindField: 'field',
             }
         ),
         condition: new SingleSelectModelField(
@@ -112,7 +120,7 @@ export class Criteria extends CustomModel {
     public modelToApi(): Object {
         return {
             condition_string: this.get('condition').get('name'),
-            field_string: this.get('field').get('name'),
+            field_string: this.get('field').get('field'),
             kind_beneficiary: this.get('kindOfBeneficiary'),
             table_string: this.get('tableString'),
             value_string: this.get('value'),

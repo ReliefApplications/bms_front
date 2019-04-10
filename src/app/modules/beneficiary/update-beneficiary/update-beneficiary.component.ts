@@ -10,7 +10,6 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatTableDataSource, MatStepper } from '@angular/material';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
-import { LIVELIHOOD } from '../../../model/livelihood';
 import { Location, Adm } from '../../../model/location.new';
 import { Project } from '../../../model/project.new';
 import { CountrySpecific } from '../../../model/country-specific.new';
@@ -18,7 +17,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
-import { DatePipe } from '@angular/common';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';

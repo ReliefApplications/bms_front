@@ -1,37 +1,26 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { DateAdapter, MatDialog, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
+import { FormControl, FormGroup } from '@angular/forms';
+import { DateAdapter, MatDialog, MAT_DATE_FORMATS } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
-import { Project } from 'src/app/model/project.new';
 import { GlobalText } from '../../../../texts/global';
-import { ModalAddComponent } from '../../../components/modals/modal-add/modal-add.component';
 import { CriteriaService } from '../../../core/api/criteria.service';
-import { CommodityService } from '../../../core/api/commodity.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { LocationService } from '../../../core/api/location.service';
 import { Mapper } from '../../../core/utils/mapper.service';
 import { Commodity } from '../../../model/commodity.new';
 import { Location } from '../../../model/location.new';
 import { Criteria } from '../../../model/criteria.new';
-import { DistributionData } from '../../../model/distribution-data';
 import { Distribution } from 'src/app/model/distribution.new';
-import { CustomModelField } from 'src/app/model/CustomModel/custom-model-field';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { TableComponent } from 'src/app/components/table/table.component';
 import { DatePipe } from '@angular/common';
-
-
-
-
 
 @Component({
     selector: 'app-add-distribution',
@@ -91,7 +80,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     ngOnInit() {
         this.loadingCreation = false;
         this.objectInstance = new Distribution();
-        this.objectInstance.fields.location.value = new Location();
+        this.objectInstance.set('location', new Location());
         this.objectFields = ['adm1', 'adm2', 'adm3', 'adm4', 'date', 'type', 'threshold'];
         this.makeForm();
         this.checkSize();
@@ -105,7 +94,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         const formControls = {};
         this.objectFields.forEach((fieldName: string) => {
             formControls[fieldName] = new FormControl(
-                this.objectInstance.fields[fieldName] ? this.objectInstance.fields[fieldName].value : null,
+                this.objectInstance.fields[fieldName] ? this.objectInstance.get(fieldName) : null,
             );
         });
         this.form = new FormGroup(formControls);
@@ -147,10 +136,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     getProjectDates() {
         this._projectService.get().subscribe(
             (projects) => {
-                projects.forEach(project => {
+                projects.forEach((project: any) => {
                     if (project.id === this.queryParams.project) {
-                        this.projectInfo.startDate = project.fields.startDate.value;
-                        this.projectInfo.endDate = project.fields.endDate.value;
+                        this.projectInfo.startDate = project.start_date;
+                        this.projectInfo.endDate = project.end_date;
                         return;
                     }
                 });
@@ -258,7 +247,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
             this.commodityArray.push(createElement);
             this.commodityNb = [];
             this.commodityArray.forEach(commodity => {
-                this.commodityNb.push(commodity.fields.value.value * this.criteriaNbBeneficiaries);
+                this.commodityNb.push(commodity.get<number>('value') * this.criteriaNbBeneficiaries);
             });
             this.commodityTable.updateTable(this.commodityArray);
         }
@@ -320,12 +309,12 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
                 this.snackbar.error(this.texts.add_distribution_date_inside_project);
                 return;
             } else {
-                const distributionModality = this.commodityArray[0].fields.modality.value;
+                const distributionModality = this.commodityArray[0].get('modality');
                 for (const commodity of this.commodityArray) {
-                    if (commodity.fields.value.value <= 0) {
+                    if (commodity.get<number>('value') <= 0) {
                         this.snackbar.error(this.texts.add_distribution_zero);
                         return;
-                    } else if (commodity.fields.modality.value !== distributionModality) {
+                    } else if (commodity.get('modality') !== distributionModality) {
                         this.snackbar.error(this.texts.add_distribution_multiple_modalities);
                         return;
                     }
@@ -333,40 +322,40 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
 
                 this.loadingCreation = true;
                 const newDistribution = new Distribution();
-                newDistribution.fields.location.value = new Location();
 
+                const location = new Location();
 
-                const adms = ['adm1', 'adm2', 'adm3', 'adm4'];
-
-                adms.forEach(field => {
-                    if (this.form.controls[field].value) {
-                        newDistribution.fields.location.value.fields[field].value =
-                            this.objectInstance.fields.location.value.fields[field].options.filter(option => {
-                                return option.fields.id.value === this.form.controls[field].value;
-                            })[0];
+                ['adm1', 'adm2', 'adm3', 'adm4'].forEach(adm => {
+                    if (this.form.controls[adm].value) {
+                        location.set(adm,
+                            this.objectInstance.get('location').getOptions(adm).filter(option => {
+                                return option.get('id') === this.form.controls[adm].value;
+                            })[0]);
                     }
                 });
 
-                newDistribution.fields.type.value = this.form.controls.type.value;
-                newDistribution.fields.threshold.value = this.form.controls.threshold.value;
-                newDistribution.fields.projectId.value = this.queryParams.project;
-                newDistribution.fields.selectionCriteria.value = this.criteriaArray;
-                newDistribution.fields.commodities.value = this.commodityArray;
-                newDistribution.fields.date.value = this.form.controls.date.value;
-
-                let adm;
+                let admName;
                 if (this.form.controls.adm4.value) {
-                    adm = newDistribution.fields.location.value.fields.adm4.value.fields.name.value;
+                    admName = location.get('adm4').get('name');
                 } else if (this.form.controls.adm3.value) {
-                    adm = newDistribution.fields.location.value.fields.adm3.value.fields.name.value;
+                    admName = location.get('adm3').get('name');
                 } else if (this.form.controls.adm2.value) {
-                    adm = newDistribution.fields.location.value.fields.adm2.value.fields.name.value;
+                    admName = location.get('adm2').get('name');
                 } else {
-                    adm = newDistribution.fields.location.value.fields.adm1.value.fields.name.value;
+                    admName = location.get('adm1').get('name');
                 }
 
+                newDistribution.set('location', location);
+
                 const datePipe = new DatePipe('en-US');
-                newDistribution.fields.name.value = adm + '-' + datePipe.transform(this.form.controls.date.value, 'yyyy-MM-dd');
+                newDistribution.set('name', admName + '-' + datePipe.transform(this.form.controls.date.value, 'yyyy-MM-dd'));
+
+                newDistribution.set('type', this.form.controls.type.value);
+                newDistribution.set('threshold', this.form.controls.threshold.value);
+                newDistribution.set('projectId', this.queryParams.project);
+                newDistribution.set('selectionCriteria', this.criteriaArray);
+                newDistribution.set('commodities', this.commodityArray);
+                newDistribution.set('date', this.form.controls.date.value);
 
                 this._distributionService.create(newDistribution.modelToApi()).subscribe((response) => {
                     this.snackbar.success(
@@ -415,7 +404,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
                 if (this.commodityArray.length > 0) {
                     this.commodityNb = [];
                     this.commodityArray.forEach(commodity => {
-                        this.commodityNb.push(commodity.fields.value.value * this.criteriaNbBeneficiaries);
+                        this.commodityNb.push(commodity.get<number>('value') * this.criteriaNbBeneficiaries);
                     });
                 }
                 this.load = false;

@@ -99,7 +99,7 @@ export class ProjectComponent implements OnInit {
     selectProject(project: NewProject): void {
         this.selectedProject = project;
         this.loadingDistributions = true;
-        this.getDistributionsByProject(project.fields.id.value);
+        this.getDistributionsByProject(project.get('id'));
     }
 
     setType(choice: string) {
@@ -173,7 +173,7 @@ export class ProjectComponent implements OnInit {
     }
 
     addDistribution() {
-        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.fields.id.value } });
+        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.get('id') } });
     }
 
     /**
@@ -213,7 +213,7 @@ export class ProjectComponent implements OnInit {
 
         this.modalService.openDialog(Distribution, this.distributionService, dialogDetails);
         this.modalService.isCompleted.subscribe(() => {
-            this.getDistributionsByProject(this.selectedProject.fields.id.value);
+            this.getDistributionsByProject(this.selectedProject.get('id'));
         });
         // if edit, open modal edit date, if details idem
     }

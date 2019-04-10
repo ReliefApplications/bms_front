@@ -26,7 +26,7 @@ export class MultipleSelectModelField extends SelectModelField<Array<CustomModel
 
     formatForApi(): any {
         return this.value.map(option => {
-            return option.fields[this.apiLabel].value;
+            return option.get(this.apiLabel);
         });
     }
 }

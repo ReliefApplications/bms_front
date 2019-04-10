@@ -11,7 +11,7 @@
                             </ng-container>
                             <ng-template #notImage>
                                 <h3>
-                                    {{value.fields[field.bindField].value}}
+                                    {{value.get(field.bindField)}}
                                 </h3>
                             </ng-template>
 

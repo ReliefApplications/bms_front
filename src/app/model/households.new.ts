@@ -199,7 +199,7 @@ export class Households extends CustomModel {
     public static displayModalVulnerabilities(value) {
         let vulnerabilityNames = '';
         value.forEach((vulnerability: VulnerabilityCriteria, index: number) => {
-            const name = vulnerability.fields.name.value;
+            const name = vulnerability.get<string>('name');
             if (!vulnerabilityNames.includes(name)) {
                 vulnerabilityNames += index === 0 ? name : ', ' + name;
             }

@@ -192,7 +192,7 @@ export class Beneficiary extends CustomModel {
             newBeneficiary.get('residencyStatus'));
 
         newBeneficiary.set('gender',
-            beneficiaryFromApi.gender !== null && beneficiaryFromApi.gender !== undefined ?
+            beneficiaryFromApi.gender >= 0 ?
             newBeneficiary.getOptions('gender').filter((option: Gender) => option.get('id') === beneficiaryFromApi.gender.toString())[0] :
             null);
 
@@ -206,8 +206,8 @@ export class Beneficiary extends CustomModel {
             beneficiaryFromApi.phones.map(phone => Phone.apiToModel(phone)) :
             [new Phone(), new Phone()]);
 
-        if (newBeneficiary.fields.phones.value.length === 1) {
-            newBeneficiary.fields.phones.value.push(new Phone());
+        if (newBeneficiary.get<Phone[]>('phones').length === 1) {
+            newBeneficiary.get<Phone[]>('phones').push(new Phone());
         }
 
         newBeneficiary.set('vulnerabilities',
@@ -230,10 +230,10 @@ export class Beneficiary extends CustomModel {
             date_of_birth: this.fields.dateOfBirth.formatForApi(),
             residency_status: this.fields.residencyStatus.formatForApi(),
             status: this.fields.beneficiaryStatus.formatForApi(),
-            vulnerability_criteria: this.fields.vulnerabilities.value.map(vulnerability => vulnerability.modelToApi()),
-            phones: this.fields.phones.value.map(phone => phone.modelToApi()),
-            national_ids: this.fields.nationalIds.value.map(nationalId => nationalId.modelToApi()),
-            profile: this.fields.profile.value ? this.fields.profile.value.modelToApi() : null
+            vulnerability_criteria: this.get<VulnerabilityCriteria[]>('vulnerabilities').map(vulnerability => vulnerability.modelToApi()),
+            phones: this.get<Phone[]>('phones').map(phone => phone.modelToApi()),
+            national_ids: this.get<NationalId[]>('nationalIds').map(nationalId => nationalId.modelToApi()),
+            profile: this.get('profile') ? this.get('profile').modelToApi() : null
         };
     }
 
@@ -263,7 +263,7 @@ export class Beneficiary extends CustomModel {
     }
 
     public getIdentifyingName() {
-        return this.fields.givenName.value + ' ' + this.fields.familyName.value;
+        return this.get('givenName') + ' ' + this.get('familyName');
     }
 
 }

@@ -5,7 +5,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MatDialogRef } from '@angular/material';
 import {CustomDateAdapter, APP_DATE_FORMATS} from 'src/app/core/utils/date.adapter';
 import { CriteriaService } from 'src/app/core/api/criteria.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Criteria } from 'src/app/model/criteria.new';
+import { Criteria, CriteriaField, CriteriaCondition } from 'src/app/model/criteria.new';
 import { DatePipe } from '@angular/common';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 
@@ -41,7 +41,7 @@ export class ModalAddCriteriaComponent implements OnInit {
   makeForm() {
     const formControls = {};
     this.fields.forEach((fieldName: string) => {
-      formControls[fieldName] = new FormControl(this.criteria.fields[fieldName].value);
+      formControls[fieldName] = new FormControl(this.criteria.get(fieldName));
     });
     this.form = new FormGroup(formControls);
   }
@@ -78,25 +78,25 @@ export class ModalAddCriteriaComponent implements OnInit {
 
   onSubmit() {
 
-    this.criteria.fields.field.value = { fields: { name: { value: this.form.controls.field.value }}};
-    this.criteria.fields.condition.value = this.criteria.fields.condition.options.filter(option => {
-      return option.fields.name.value === this.form.controls.condition.value;
-    })[0];
-    this.criteria.fields.value.value = this.form.controls.value.value;
-    this.criteria.fields.weight.value = this.form.controls.weight.value;
+    this.criteria.set('condition', this.criteria.getOptions('condition').filter((option: CriteriaCondition) => {
+      return option.get('name') === this.form.controls.condition.value;
+    })[0]);
+    this.criteria.set('value', this.form.controls.value.value);
+    this.criteria.set('weight', this.form.controls.weight.value);
 
     // In case the criteria is the dateOfBirth
     if (this.form.controls.value.value instanceof Date) {
       const datePipe = new DatePipe('en-US');
-      this.criteria.fields.value.value = datePipe.transform(this.form.controls.value.value, 'yyyy-MM-dd');
+      this.criteria.set('value', datePipe.transform(this.form.controls.value.value, 'yyyy-MM-dd'));
     }
 
     // get the information about the field with the selected field name
-    this.criteria.fields.field.options.forEach((option) => {
-      if (option.fields.field.value === this.form.controls.field.value ) {
-        this.criteria.fields.kindOfBeneficiary.value = option.fields.kindOfBeneficiary.value;
-        this.criteria.fields.tableString.value = option.fields.tableString.value;
-        this.criteria.fields.type.value = option.fields.type.value;
+    this.criteria.getOptions('field').forEach((option: CriteriaField) => {
+      if (option.get('field') === this.form.controls.field.value ) {
+        this.criteria.set('kindOfBeneficiary', option.get('kindOfBeneficiary'));
+        this.criteria.set('tableString', option.get('tableString'));
+        this.criteria.set('type', option.get('type'));
+        this.criteria.set('field', option);
       }
     });
 

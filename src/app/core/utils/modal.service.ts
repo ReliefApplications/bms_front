@@ -64,7 +64,7 @@ export class ModalService {
                 dialogRef = this.openDeleteDialog(dialogDetails.element);
                 break;
             case 'visit':
-                this.referedClassService.visit(dialogDetails.element.fields.id.value);
+                this.referedClassService.visit(dialogDetails.element.get('id'));
                 break;
             default:
                 this.snackbar.error('Modal error');
@@ -75,7 +75,7 @@ export class ModalService {
             const subscription = dialogRef.afterClosed().subscribe((closeMethod: string) => {
                 if (closeMethod === 'Add') {
                     this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe(() => {
-                        this.snackbar.error(this.texts.settings_project_exists);
+                        this.snackbar.success(this.referedClassInstance.title + ' ' + this.texts.update_beneficiary_created_successfully);
                         this.isCompleted.next();
                     });
 
@@ -169,7 +169,7 @@ export class ModalService {
     }
 
     deleteElement(deleteElement: CustomModel) {
-            this.referedClassService.delete(deleteElement.fields['id'].value).subscribe(response => {
+            this.referedClassService.delete(deleteElement.get('id')).subscribe(response => {
             this.isCompleted.next();
             });
     }

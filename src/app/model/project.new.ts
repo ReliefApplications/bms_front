@@ -200,7 +200,7 @@ export class Project extends CustomModel {
     }
 
     public getIdentifyingName() {
-        return this.fields.name.value;
+        return this.get<string>('name');
     }
 
 }

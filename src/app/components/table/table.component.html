@@ -49,7 +49,7 @@
                                     <app-icon-svg [imagePath]="value.getImage()"></app-icon-svg>
                                 </ng-container>
                                 <ng-template #notImage>
-                                        {{value.fields[field.bindField].value}}
+                                        {{value.get(field.bindField)}}
                                 </ng-template>
                             </span>
                         </div>
@@ -62,7 +62,7 @@
                                     <app-icon-svg [imagePath]="field.value.getImage()"></app-icon-svg>
                                 </ng-container>
                                 <ng-template #singleNotImage>
-                                    {{field.value.fields[field.bindField].value}}
+                                    {{field.value.get(field.bindField)}}
                                 </ng-template>
                         </ng-container>
                     </ng-template>
@@ -89,20 +89,20 @@
 
                 <ng-container *ngIf="validatable">
                     <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
-                        <mat-icon *ngIf="element.fields.validated.value && element.fields.finished.value">done</mat-icon>
-                        <mat-icon *ngIf="element.fields.validated.value && !element.fields.finished.value" class="red">lock</mat-icon>
-                        <mat-icon *ngIf="!element.fields.validated.value && updatable" class="light-red">edit</mat-icon>
+                        <mat-icon *ngIf="element.get('validated') && element.get('finished')">done</mat-icon>
+                        <mat-icon *ngIf="element.get('validated') && !element.get('finished')" class="red">lock</mat-icon>
+                        <mat-icon *ngIf="!element.get('validated') && updatable" class="light-red">edit</mat-icon>
                     </button>
                 </ng-container>
                 <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
                         <mat-icon *ngIf="!validatable && updatable" class="light-red">edit</mat-icon>
                 </button>
 
-                <button *ngIf="editable && rights && (!validatable || !element.fields.validated.value)" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
+                <button *ngIf="editable && rights && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
                     [matTooltip]="table.update" class="green">
                     <mat-icon>search</mat-icon>
                 </button>
-                <button *ngIf="rights && deletable && (!validatable || !element.fields.validated.value)" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
+                <button *ngIf="rights && deletable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
                     [matTooltip]="table.delete" class="red">
                     <mat-icon>delete_outline</mat-icon>
                 </button>

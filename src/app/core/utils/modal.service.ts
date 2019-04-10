@@ -138,7 +138,11 @@ export class ModalService {
                 }
             });
             dialogRef.afterClosed().subscribe((criteria) => {
-                resolve(criteria);
+                if (criteria) {
+                    resolve(criteria);
+                } else {
+                    reject();
+                }
             });
         });
     }
@@ -153,7 +157,11 @@ export class ModalService {
                 }
             });
             dialogRef.afterClosed().subscribe((commodity) => {
-                resolve(commodity);
+                if (commodity) {
+                    resolve(commodity);
+                } else {
+                    reject();
+                }
             });
         });
     }

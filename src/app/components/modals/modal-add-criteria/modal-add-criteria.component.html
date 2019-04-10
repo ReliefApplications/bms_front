@@ -7,7 +7,7 @@
         <td class="form-item">
           <ng-select formControlName="field" [placeholder]="criteria.fields.field.title" (change)="loadConditions($event)">
               <ng-option *ngFor="let option of criteria.getOptions('field')" [value]="option.get('field')">
-                  {{option.get('field') | titlecase}}
+                  {{option.get('field') | formatCamelCase }}
               </ng-option>
           </ng-select>
         </td>
@@ -16,11 +16,13 @@
       <tr class="modal-row" *ngIf="form.controls.field.value !== 'IDPoor' || form.controls.field.value !== 'equityCardNo'">
         <th class="table-title">{{ criteria.fields.condition.title }}</th>
         <td class="form-item">
-          <ng-select formControlName="condition" [placeholder]="criteria.fields.condition.title">
-              <ng-option *ngFor="let option of criteria.getOptions('condition')" [value]="option.get('name')">
-                  {{option.get('name') | titlecase}}
-              </ng-option>
-          </ng-select>
+          <mat-form-field class="full-width">
+            <mat-select formControlName="condition" [placeholder]="criteria.fields.condition.title">
+                <mat-option *ngFor="let option of criteria.getOptions('condition')" [value]="option.get('name')">
+                    {{option.get('name') | titlecase}}
+                </mat-option>
+            </mat-select>
+          </mat-form-field>
         </td>
       </tr>
       

@@ -224,11 +224,11 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         if (user_action === 'addCriteria') {
             this.modalService.openAddCriteriaDialog().then((criteria: Criteria) => {
                 this.createElement(criteria, 'addCriteria');
-            });
+            }, error => {});
         } else if (user_action === 'addCommodity') {
             this.modalService.openAddCommodityDialog().then((commodity: Commodity) => {
                 this.createElement(commodity, 'addCommodity');
-            });
+            }, error => {});
         }
     }
 

@@ -1,9 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MatDialog, MatTableDataSource, MatDialogRef } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { DonorService } from 'src/app/core/api/donor.service';
-import { SectorService } from 'src/app/core/api/sector.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { GlobalText } from '../../../texts/global';
@@ -14,14 +12,8 @@ import { ImportedDataService } from '../../core/utils/imported-data.service';
 import { Mapper } from '../../core/utils/mapper.service';
 import { Distribution } from '../../model/distribution.new';
 import { Project as NewProject } from '../../model/project.new';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { NetworkService } from 'src/app/core/api/network.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-
-
-
-
-
 
 @Component({
     selector: 'app-project',
@@ -215,7 +207,6 @@ export class ProjectComponent implements OnInit {
         this.modalService.isCompleted.subscribe(() => {
             this.getDistributionsByProject(this.selectedProject.get('id'));
         });
-        // if edit, open modal edit date, if details idem
     }
 
     checkPermission() {

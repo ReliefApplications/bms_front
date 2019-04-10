@@ -115,6 +115,15 @@ export class ProjectComponent implements OnInit, DoCheck {
         this.getDistributionsByProject(project.id);
     }
 
+    autoProjectSelect(input: string) {
+        const selector = parseInt(input, 10);
+        this.projects.forEach(e => {
+            if (e.id === selector) {
+                this.selectTitle(e.name, e);
+            }
+        });
+    }
+
     setType(choice: string) {
         this.extensionType = choice;
     }
@@ -134,14 +143,14 @@ export class ProjectComponent implements OnInit, DoCheck {
             response => {
                 if (response && response.length > 0) {
                     const formattedResponse = this.projectClass.formatArray(response).reverse();
+                    this.projects = formattedResponse;
                     if (!this.projects || formattedResponse.length !== this.projects.length) {
-                        this.projects = formattedResponse;
-                        if (this.selectedProjectId) {
-                            this.autoProjectSelect(this.selectedProjectId);
-                        } else {
-                            this.selectTitle(this.projects[0].name, this.projects[0]);
-                        }
                         this.loadingProjects = false;
+                    }
+                    if (this.selectedProjectId) {
+                        this.autoProjectSelect(this.selectedProjectId);
+                    } else {
+                        this.selectTitle(this.projects[0].name, this.projects[0]);
                     }
                 } else if (response === null) {
                     this.loadingProjects = false;
@@ -247,14 +256,5 @@ export class ProjectComponent implements OnInit, DoCheck {
                 }
             }
         );
-    }
-
-    autoProjectSelect(input: string) {
-        const selector = parseInt(input, 10);
-        this.projects.forEach(e => {
-            if (e.id === selector) {
-                this.selectTitle(e.name, e);
-            }
-        });
     }
 }

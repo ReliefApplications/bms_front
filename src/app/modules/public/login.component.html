@@ -13,11 +13,10 @@
                     formControlName="username">
                     <input autocomplete="new-password" type="password" class="user-input" aria-describedby="basic-addon1" placeholder="{{login.login_password | titlecase}}" formControlName="password">
                     <h5 *ngIf="forgotMessage" class="user-forgot-password">{{login.login_forgot_password}}</h5>
-                    <recaptcha formControlName="captcha" *ngIf="prod()" (scriptError)="onScriptError()"> </recaptcha>
+                    <!-- <recaptcha formControlName="captcha" *ngIf="prod()" (scriptError)="onScriptError()"> </recaptcha> -->
                 </div>
                 <div class="login-button">
-                    <button type="submit" mat-raised-button *ngIf="prod() && !loader" [disabled]="form.invalid" class="button-background-primary">{{login.login_title | titlecase}}</button>
-                    <button type="submit" mat-raised-button *ngIf="!prod() && !loader" [disabled]="form.invalid" class="button-background-primary">{{login.login_title | titlecase}}</button>
+                    <button type="submit" mat-raised-button *ngIf="!loader" [disabled]="form.invalid" class="button-background-primary">{{login.login_title | titlecase}}</button>
                     <mat-spinner [diameter]="35" *ngIf="loader"></mat-spinner>
                 </div>
             </form>

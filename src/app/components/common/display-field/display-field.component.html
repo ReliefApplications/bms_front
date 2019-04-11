@@ -60,5 +60,10 @@
     </ng-container>
 </ng-template>
 <ng-template #isNotDate>
-    {{field.value | titlecase }}
+    <ng-container *ngIf="isString(field.value); else notAString">
+        {{field.value | titlecase }}
+    </ng-container>
+    <ng-template #notAString>
+        {{field.value }}
+    </ng-template>
 </ng-template>

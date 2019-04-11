@@ -11,10 +11,11 @@ import { ObjectModelField } from './CustomModel/object-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 import { Location } from './location.new';
 import { Project } from './project.new';
-import { Beneficiary } from './beneficiary.new';
+import { DistributionBeneficiary } from './distribution-beneficiary.new';
 import { GlobalText } from 'src/texts/global';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { Criteria } from './criteria.new';
+import { projection } from '@angular/core/src/render3/instructions';
 
 export class DistributionType extends CustomModel {
 
@@ -62,15 +63,17 @@ export class Distribution extends CustomModel {
                 title: GlobalText.TEXTS.location,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
+                isDisplayedInSummary: true,
                 displayTableFunction: null,
                 displayModalFunction: null,
             }
         ),
-        beneficiaries: new MultipleObjectsModelField<Beneficiary>(
+        distributionBeneficiaries: new MultipleObjectsModelField<DistributionBeneficiary>(
             {
                 title: GlobalText.TEXTS.beneficiaries,
                 isDisplayedInTable: true,
                 displayTableFunction: null,
+                isDisplayedInSummary: true,
                 value: [],
             }
         ),
@@ -80,11 +83,22 @@ export class Distribution extends CustomModel {
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
+                isDisplayedInSummary: true,
                 isRequired: true,
                 isSettable: true,
                 isEditable: true,
             }
         ),
+        project: new ObjectModelField<Project>(
+            {
+                title: GlobalText.TEXTS.project,
+                displayTableFunction: null,
+                isDisplayedInSummary: true,
+                value: [],
+            }
+        ),
+
+        // We need this field when we want to create a distribution in a precise project
         projectId: new NumberModelField(
             {
                 title: GlobalText.TEXTS.project
@@ -101,6 +115,7 @@ export class Distribution extends CustomModel {
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
+                isDisplayedInSummary: true,
                 isRequired: true,
                 isSettable: true,
                 options: [new DistributionType('0', GlobalText.TEXTS.households), new DistributionType('1', GlobalText.TEXTS.individual)],
@@ -114,6 +129,7 @@ export class Distribution extends CustomModel {
                 title: GlobalText.TEXTS.model_commodity,
                 isDisplayedInTable: true,
                 isImageInTable: true,
+                isDisplayedInSummary: true,
                 value: [],
                 displayTableFunction: null,
             }
@@ -150,14 +166,17 @@ export class Distribution extends CustomModel {
         newDistribution.set('name', distributionFromApi.name);
         newDistribution.set('validated', distributionFromApi.validated);
         newDistribution.set('location', Location.apiToModel(distributionFromApi.location));
+        newDistribution.set('project', distributionFromApi.project ? Project.apiToModel(distributionFromApi.project) : null);
 
         newDistribution.fields.location.displayTableFunction = value => value.getLocationName();
         newDistribution.fields.location.displayModalFunction = value => value.getLocationName();
-        newDistribution.fields.beneficiaries.displayTableFunction = value => value.length;
+        newDistribution.fields.distributionBeneficiaries.displayTableFunction = value => value.length;
         newDistribution.fields.commodities.displayTableFunction = value => this.displayCommodities(value);
+        newDistribution.fields.project.displayTableFunction = (value: Project) => value.get('name');
 
-        newDistribution.set('beneficiaries',
-            distributionFromApi.distribution_beneficiaries.map((beneficiary: any) => Beneficiary.apiToModel(beneficiary)));
+        newDistribution.set('distributionBeneficiaries',
+            distributionFromApi.distribution_beneficiaries
+                .map((distributionBeneficiary: any) => DistributionBeneficiary.apiToModel(distributionBeneficiary)));
 
         newDistribution.set('commodities',
             distributionFromApi.commodities.map((commodity: any) => Commodity.apiToModel(commodity)));

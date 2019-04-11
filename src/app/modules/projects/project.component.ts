@@ -173,7 +173,7 @@ export class ProjectComponent implements OnInit {
      */
     export() {
         this.loadingExport = true;
-        this.distributionService.export('project', this.extensionType, this.selectedProject.id).then(
+        this.distributionService.export('project', this.extensionType, this.selectedProject.get('id')).then(
             () => { this.loadingExport = false; }
         ).catch(
             () => { this.loadingExport = false; }

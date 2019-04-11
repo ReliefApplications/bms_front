@@ -2,30 +2,21 @@
     <mat-grid-tile *ngFor="let property of displayedPropertyNames" colspan="1" rowspan="1">
         <mat-card>
             <ng-container *ngIf="displayedInstance.fields[property]; let field">
-                <h5>{{field.title | titlecase}}</h5>
-                <span *ngIf="field.kindOfField === 'MultipleSelect'; else notMultipleSelect" class="sector-icons">
-                    <div class="multiple-items">
-                        <span *ngFor="let value of field.value">
-                            <ng-container *ngIf="field.isImageInTable; else notImage">
-                                <app-icon-svg [imagePath]="value.getImage()"></app-icon-svg>
-                            </ng-container>
-                            <ng-template #notImage>
-                                <h3>
-                                    {{value.get(field.bindField)}}
-                                </h3>
-                            </ng-template>
 
-                        </span>
-                    </div>
-                </span>
-                <ng-template #notMultipleSelect>
+                <ng-container *ngIf="isLocation(field.value); else notALocation">
+                        <h5>{{getLocationTitle(field.value)}}</h5>
+                        <h3>{{getLocationValue(field.value)}}</h3>
+                </ng-container>
+
+                <ng-template #notALocation>
+                    <h5>{{field.title | titlecase}}</h5>
                     <span *ngIf="field.kindOfField === 'Number'; else notANumber">
                             <h3 counto [step]="100" [countTo]="field.value" [countFrom]="0" [duration]="1" (countoChange)="this['my_' + property + '_variable'] = $event">
                                 {{this['my_' + property + '_variable'] | number:'1.0-0'}}
                             </h3>
                     </span>
                     <ng-template #notANumber>
-                        <span>
+                        <span *ngIf="isString(field.value); else commonField">
                             <h3 *ngIf="field.value.length <= MAX_PROP_LENGTH; else isTooLong">
                                 {{field.value}}
                             </h3>
@@ -35,6 +26,9 @@
                                 </h3>
                             </ng-template>
                         </span>
+                        <ng-template #commonField>
+                            <h3><app-display-field [field]="field"></app-display-field></h3>
+                        </ng-template>
                     </ng-template>
                 </ng-template>
             </ng-container>

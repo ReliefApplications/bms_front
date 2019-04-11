@@ -26,6 +26,7 @@ import { ThousandsPipe } from 'src/app/core/utils/thousands.pipe';
 import { UppercaseFirstPipe } from 'src/app/core/utils/uppercase-first.pipe';
 import { BoxDashboardComponent } from '../components/box/box-dashboard/box-dashboard.component';
 import { BoxPropertiesComponent } from '../components/box/box-properties/box-properties.component';
+import { DisplayFieldComponent } from '../components/common/display-field/display-field.component';
 import { BoxSettingComponent } from '../components/box/box-setting/box-setting.component';
 import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
 import { ModalAddCriteriaComponent } from '../components/modals/modal-add-criteria/modal-add-criteria.component';
@@ -171,6 +172,7 @@ imports: [
         ModalLanguageComponent,
         BoxSettingComponent,
         BoxPropertiesComponent,
+        DisplayFieldComponent,
         DataValidationComponent,
         DistributionsComponent,
         MobileMoneyComponent,
@@ -221,6 +223,7 @@ imports: [
         IconSvgComponent,
         BoxDashboardComponent,
         BoxPropertiesComponent,
+        DisplayFieldComponent,
         TableComponent,
         TableSearchComponent,
         TableMobileComponent,

@@ -3,14 +3,16 @@ import { GlobalText } from '../../../../texts/global';
 import { FieldMapper } from '../../../model/field-mapper';
 import { CountoModule } from 'angular2-counto';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { Location } from 'src/app/model/location.new';
+import { cp } from '@angular/core/src/render3';
 
 @Component({
     selector: 'app-box-properties',
     templateUrl: './box-properties.component.html',
     styleUrls: ['./box-properties.component.scss']
 })
-export class BoxPropertiesComponent implements OnInit, DoCheck {
-    public box = GlobalText.TEXTS;
+export class BoxPropertiesComponent implements OnInit {
+    public texts = GlobalText.TEXTS;
     mapper: FieldMapper = new FieldMapper();
     mapperObject = null;
     elementObject = null;
@@ -45,24 +47,24 @@ export class BoxPropertiesComponent implements OnInit, DoCheck {
         this.getNumberOfColumns();
     }
 
-    ngDoCheck() {
-        if (this.box !== GlobalText.TEXTS) {
-            this.box = GlobalText.TEXTS;
-            this.mapperObject = this.mapperService.findMapperObject(this.entity);
-            this.oldComponentDisplayed = null;
-        }
-        // if (this.displayedInstance !== this.oldComponentDisplayed) {
-        //     const entityInstance = Object.create(this.entity.prototype);
-        //     entityInstance.constructor.apply(entityInstance);
-        //     this.elementObject = entityInstance.getMapperBox(this.displayedInstance);
-        //     this.oldComponentDisplayed = this.displayedInstance;
-        // }
+    // ngDoCheck() {
+    //     if (this.texts !== GlobalText.TEXTS) {
+    //         this.texts = GlobalText.TEXTS;
+    //         this.mapperObject = this.mapperService.findMapperObject(this.entity);
+    //         this.oldComponentDisplayed = null;
+    //     }
+    //     // if (this.displayedInstance !== this.oldComponentDisplayed) {
+    //     //     const entityInstance = Object.create(this.entity.prototype);
+    //     //     entityInstance.constructor.apply(entityInstance);
+    //     //     this.elementObject = entityInstance.getMapperBox(this.displayedInstance);
+    //     //     this.oldComponentDisplayed = this.displayedInstance;
+    //     // }
 
-        // if (this.data && this.elementObject.number_beneficiaries !== this.data.length) {
-        //     this.elementObject.number_beneficiaries = this.data.length;
-        //     this.displayedInstance.distribution_beneficiaries = this.data;
-        // }
-    }
+    //     // if (this.data && this.elementObject.number_beneficiaries !== this.data.length) {
+    //     //     this.elementObject.number_beneficiaries = this.data.length;
+    //     //     this.displayedInstance.distribution_beneficiaries = this.data;
+    //     // }
+    // }
 
     cleanUsefullProperties() {
         const cleaned = new Array();
@@ -85,6 +87,36 @@ export class BoxPropertiesComponent implements OnInit, DoCheck {
 
     isNumber(obj: any) {
         return (typeof (obj) === 'number');
+    }
+
+    isString(obj: any) {
+        return (typeof (obj) === 'string');
+    }
+
+    isLocation(obj: any) {
+        return (obj instanceof Location);
+    }
+
+    getLocationTitle(location: Location) {
+        const adm = this.getMorePreciseAdm(location);
+        return this.texts[adm];
+    }
+
+    getLocationValue(location: Location) {
+        const adm = this.getMorePreciseAdm(location);
+        return location.get(adm).get('name');
+    }
+
+    getMorePreciseAdm(location: Location) {
+        if (location.get('adm4') && location.get('adm4').get('name')) {
+            return 'adm4';
+        } else  if (location.get('adm3') && location.get('adm3').get('name')) {
+            return 'adm3';
+        } else  if (location.get('adm2') && location.get('adm2').get('name')) {
+            return 'adm2';
+        } else {
+            return 'adm1';
+        }
     }
 
     getNumberOfColumns(): void {

@@ -14,4 +14,7 @@ export class DisplayFieldComponent implements OnInit {
   ngOnInit() {
   }
 
+  isString(obj: any) {
+    return (typeof (obj) === 'string');
+  }
 }

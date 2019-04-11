@@ -147,6 +147,7 @@ export class Beneficiary extends CustomModel {
                 title: GlobalText.TEXTS.model_vulnerabilities,
                 isDisplayedInModal: false,
                 isDisplayedInTable: true,
+                isImageInTable: true,
                 displayTableFunction: null,
                 value: []
             }

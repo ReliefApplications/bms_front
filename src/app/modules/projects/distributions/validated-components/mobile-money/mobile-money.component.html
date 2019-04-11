@@ -1,8 +1,8 @@
-<div class="container-table">
+<div class="container-table" *ngIf="transactionData">
     <div class="container-content box-primary">
         <div *ngIf="transactionData !== undefined" class="progression">
-            <div class="commodities" *ngFor="let commodity of actualDistribution.commodities">
-                <h4>{{ commodity.modality_type.name }} {{ TEXT.transaction_progress }} {{ getPercentageValue(commodity) }} % </h4>
+            <div class="commodities" *ngFor="let commodity of actualDistribution.get('commodities')">
+                <h4>{{ commodity.get('modalityType').get('name') }} {{ TEXT.transaction_progress }} {{ getPercentageValue(commodity) }} % </h4>
                 <mat-progress-bar mode="determinate" [value]="getPercentageValue(commodity)"></mat-progress-bar>
                 <div class="details">
                     <div class="info_1">
@@ -70,11 +70,13 @@
         </div>
 
         <div class="content-table" *ngIf="!loadingTransaction">
-            <app-transaction-table *ngIf="widthScreen >= maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false" [selection]="selection" [checkbox]="true"
+
+            <!-- Add filters and checkboxes -->
+            <app-table *ngIf="widthScreen >= maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false" [selection]="selection"
                 (selectChecked)="getChecked($event)">
-            </app-transaction-table>
-            <app-transaction-table-mobile *ngIf="widthScreen < maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false">
-            </app-transaction-table-mobile>
+            </app-table>
+            <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false">
+            </app-table-mobile>
         </div>
 
         <div class="content-button content-button-footer">

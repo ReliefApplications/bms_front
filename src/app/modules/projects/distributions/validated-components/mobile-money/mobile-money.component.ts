@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
 import { TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
-import { State } from 'src/app/model/transaction-beneficiary';
 import { finalize } from 'rxjs/operators';
+import { TransactionMobileMoney, State } from 'src/app/model/transaction-mobile-money.new';
+import { MatTableDataSource } from '@angular/material';
+import { Commodity } from 'src/app/model/commodity.new';
 
 @Component({
     selector: 'app-mobile-money',
@@ -11,45 +13,68 @@ import { finalize } from 'rxjs/operators';
 })
 export class MobileMoneyComponent extends ValidatedDistributionComponent implements OnInit {
 
-    sentStates = [State.Sent, State.AlreadySent, State.PickedUp];
-    receivedStates = [State.PickedUp];
+    // sentStates = [State.Sent, State.AlreadySent, State.PickedUp];
+    // receivedStates = [State.PickedUp];
+
+    transactionData: MatTableDataSource<TransactionMobileMoney>;
 
     ngOnInit() {
         super.ngOnInit();
-        this.refreshStatuses();
-        this.entity = TransactionBeneficiary;
+        this.entity = TransactionMobileMoney;
     }
 
-    /**
-     * Opens a dialog corresponding to the ng-template passed as a parameter
-     * @param template
-     */
-    openDialog(template: any) {
-        const distributionDate = new Date(this.actualDistribution.date_distribution);
-        if (new Date() < distributionDate) {
-            this.dialog.open(template);
-        } else {
-            this.snackbar.error(this.TEXT.snackbar_invalid_transaction_date);
-        }
+    setDistributionBeneficiaries(distributionBeneficiaries: any) {
+        this.actualDistribution.set(
+            'distributionBeneficiaries',
+            distributionBeneficiaries
+                .map((distributionBeneficiariy: any) => TransactionMobileMoney.apiToModel(distributionBeneficiariy)));
     }
 
-    getCommoditySentAmountFromBeneficiary(commodity: any, beneficiary: any): number {
-        return (this.sentStates.includes(beneficiary.state) ? commodity.value : 0);
-    }
+    formatTransactionTable() {
 
-    getCommodityReceivedAmountFromBeneficiary(commodity: any, beneficiary: any): number {
-        return (this.receivedStates.includes(beneficiary.state) ? commodity.value : 0);
-    }
-
-    getPeopleCount(): number {
-        const states = [State.NoPhone, State.NotSent, State.SendError];
-        let peopleCount = 0;
-        for (const beneficiary of this.transactionData.data) {
-            if (states.includes(beneficiary.state)) {
-                peopleCount++;
+        let values = '';
+        this.actualDistribution.get<Commodity[]>('commodities').forEach((commodity, index) => {
+            if (index > 0) {
+                values += ', ';
             }
+            values += commodity.get('value') + ' ' + commodity.get('unit');
+        });
+
+        const distributionBeneficiaries = this.actualDistribution.get<TransactionMobileMoney[]>('distributionBeneficiaries')
+            .map((transaction: TransactionMobileMoney) => {
+                transaction.set('values', values);
+                return transaction;
+            });
+
+        this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
+        this.transactionData = new MatTableDataSource(distributionBeneficiaries);
+        this.verifiyIsFinished();
+        this.loadingTransaction = false;
+        this.refreshStatuses();
+    }
+
+     /**
+     * To be used everytime transactionData changes
+     */
+    verifiyIsFinished() {
+        let amount: number;
+
+        if (!this.transactionData) {
+            amount = 0;
+        } else {
+            amount = 0;
+            this.transactionData.data.forEach(
+                (distributionBeneficiary: TransactionMobileMoney) => {
+                    const stateId = distributionBeneficiary.get<State>('state').get<string>('id');
+                    if (stateId === '-1' || stateId === '-2' || stateId === '0') {
+                        amount++;
+                    }
+                }
+            );
         }
-        return peopleCount;
+         if (amount === 0) {
+            this.finishedEmitter.emit();
+         }
     }
 
     refreshStatuses() {
@@ -59,27 +84,58 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                     return;
                 }
                 this.transactionData.data.forEach(
-                    (transaction, index) => {
-                        if (transaction.state === 0) {
+                    (transaction: TransactionMobileMoney, index) => {
+                        if (transaction.get('state').get<string>('id') === '0') {
                             return;
                         }
-                        result.forEach(
-                            element => {
-                                if (transaction.id === element.id) {
-                                    this.transactionData.data[index].updateForPickup(element.moneyReceived);
-                                }
+                        result.forEach(distributionBeneficiary => {
+                            if (transaction.get('beneficiary').get('id') === distributionBeneficiary.beneficiary.id) {
+                                // Is moneyReceived really a field ???
+                                this.transactionData.data[index].updateForPickup(distributionBeneficiary.moneyReceived);
+                                this.verifiyIsFinished();
                             }
-                        );
+                        });
                     }
                 );
             }
         );
     }
 
+    /**
+     * Opens a dialog corresponding to the ng-template passed as a parameter
+     * @param template
+     */
+    openDialog(template: any) {
+        const distributionDate = new Date(this.actualDistribution.get('date'));
+        if (new Date() < distributionDate) {
+            this.dialog.open(template);
+        } else {
+            this.snackbar.error(this.TEXT.snackbar_invalid_transaction_date);
+        }
+    }
+
+    getCommoditySentAmountFromBeneficiary(commodity: Commodity, beneficiary: TransactionMobileMoney): number {
+        return (parseInt(beneficiary.get('state').get('id'), 10) > 0 ? commodity.get('value') : 0);
+    }
+
+    getCommodityReceivedAmountFromBeneficiary(commodity: Commodity, beneficiary: any): number {
+        return (parseInt(beneficiary.get('state').get('id'), 10) > 2 ? commodity.get('value') : 0);
+    }
+
+    getPeopleCount(): number {
+        let peopleCount = 0;
+        for (const distributionBeneficiary of this.transactionData.data) {
+            if (parseInt(distributionBeneficiary.get('state').get('id'), 10) <= 0) {
+                peopleCount++;
+            }
+        }
+        return peopleCount;
+    }
+
     requestLogs() {
         if (this.hasRights) {
             try {
-                this.distributionService.logs(this.distributionId).subscribe(
+                this.distributionService.logs(this.actualDistribution.get('id')).subscribe(
                     e => { this.snackbar.error('' + e); },
                     () => { this.snackbar.success('Logs have been sent'); },
                 );
@@ -93,7 +149,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
 
     codeVerif() {
         if ((new Date()).getTime() - this.lastCodeSentTime > this.SENDING_CODE_FREQ) {
-            this.distributionService.sendCode(this.distributionId).toPromise()
+            this.distributionService.sendCode(this.actualDistribution.get('id')).toPromise()
                 .then(
                     anwser => {
                         if (anwser === 'Email sent') {
@@ -127,65 +183,69 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                 if (!this.actualUser.email && this.actualUser.username) {
                     this.actualUser['email'] = this.actualUser.username;
                 }
-                if (this.actualDistribution.commodities && this.actualDistribution.commodities[0]) {
-                    this.transacting = true;
-                    this.correctCode = true;
-                    this.distributionService.transaction(this.distributionId, this.enteredCode)
-                        .pipe(
-                            finalize(
-                                () => {
-                                    this.transacting = false;
-                                    this.chartAccepted = false;
-                                    this.correctCode = false;
-                                    this.enteredCode = '';
-                                    this.dialog.closeAll();
-                                    clearInterval(this.interval);
-                                    this.refreshStatuses();
-                                }
-                            )
-                        ).subscribe(
-                            (success: any) => {
-                                if (this.transactionData) {
-                                    this.transactionData.data.forEach(
-                                        (element, index) => {
-
-                                            success.already_sent.forEach(
-                                                beneficiary => {
-                                                    if (element.id === beneficiary.beneficiary.id) {
-                                                        this.transactionData.data[index].updateState('Already sent');
-                                                        this.setTransactionMessage(beneficiary, index);
-                                                    }
-                                                }
-                                            );
-                                            success.failure.forEach(
-                                                beneficiary => {
-                                                    if (element.id === beneficiary.beneficiary.id) {
-                                                        this.transactionData.data[index].updateState('Sending failed');
-                                                        this.setTransactionMessage(beneficiary, index);
-                                                    }
-                                                }
-                                            );
-                                            success.no_mobile.forEach(
-                                                beneficiary => {
-                                                    if (element.id === beneficiary.beneficiary.id) {
-                                                        this.transactionData.data[index].updateState('No phone');
-                                                        this.setTransactionMessage(beneficiary, index);
-                                                    }
-                                                }
-                                            );
-                                            success.sent.forEach(
-                                                beneficiary => {
-                                                    if (element.id === beneficiary.beneficiary.id) {
-                                                        this.transactionData.data[index].updateState('Sent');
-                                                        this.setTransactionMessage(beneficiary, index);
-                                                    }
-                                                }
-                                            );
-                                        }
-                                    );
-                                }
+                this.transacting = true;
+                this.correctCode = true;
+                this.distributionService.transaction(this.actualDistribution.get('id'), this.enteredCode)
+                    .pipe(
+                        finalize(
+                            () => {
+                                this.transacting = false;
+                                this.chartAccepted = false;
+                                this.correctCode = false;
+                                this.enteredCode = '';
+                                this.dialog.closeAll();
+                                clearInterval(this.interval);
+                                this.refreshStatuses();
                             }
-                        );
+                        )
+                    ).subscribe(
+                        (success: any) => {
+                            if (this.transactionData) {
+                                this.transactionData.data.forEach((actualDistributionBeneficiary: TransactionMobileMoney) => {
+                                        const actualBeneficiaryId = actualDistributionBeneficiary.get('beneficiary').get('id');
+
+                                        success.already_sent.forEach(
+                                            distributionBeneficiaryFromApi => {
+                                                if (actualBeneficiaryId === distributionBeneficiaryFromApi.beneficiary.id) {
+                                                    actualDistributionBeneficiary.updateState('2');
+                                                    actualDistributionBeneficiary = this.setTransactionMessage(
+                                                        distributionBeneficiaryFromApi, actualDistributionBeneficiary);
+                                                }
+                                            }
+                                        );
+                                        success.failure.forEach(
+                                            distributionBeneficiaryFromApi => {
+                                                if (actualBeneficiaryId === distributionBeneficiaryFromApi.beneficiary.id) {
+                                                    actualDistributionBeneficiary.updateState('0');
+                                                    actualDistributionBeneficiary = this.setTransactionMessage(
+                                                        distributionBeneficiaryFromApi, actualDistributionBeneficiary);
+                                                }
+                                            }
+                                        );
+                                        success.no_mobile.forEach(
+                                            distributionBeneficiaryFromApi => {
+                                                if (actualBeneficiaryId === distributionBeneficiaryFromApi.beneficiary.id) {
+                                                    actualDistributionBeneficiary.updateState('-1');
+                                                    actualDistributionBeneficiary = this.setTransactionMessage(
+                                                        distributionBeneficiaryFromApi, actualDistributionBeneficiary);
+                                                }
+                                            }
+                                        );
+                                        success.sent.forEach(
+                                            distributionBeneficiaryFromApi => {
+                                                if (actualBeneficiaryId === distributionBeneficiaryFromApi.beneficiary.id) {
+                                                    actualDistributionBeneficiary.updateState('1');
+                                                    actualDistributionBeneficiary = this.setTransactionMessage(
+                                                        distributionBeneficiaryFromApi, actualDistributionBeneficiary);
+                                                }
+                                            }
+                                        );
+                                    }
+                                );
+                            }
+                            this.verifiyIsFinished();
+                        }
+                    );
 
                     const progression = 0;
                     // let peopleLeft = this.getAmount('waiting', this.actualDistribution.commodities[0]);
@@ -206,14 +266,10 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                     //         );
                     // }, 3000);
 
-                } else {
-                    this.snackbar.error(this.TEXT.distribution_no_valid_commodity);
-                }
             });
         } else {
             this.snackbar.error(this.TEXT.distribution_no_right_transaction);
         }
-
         this.chartAccepted = false;
     }
 }

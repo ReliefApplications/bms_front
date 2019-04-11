@@ -10,12 +10,17 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
 import { finalize, distinct } from 'rxjs/operators';
 import { State } from 'src/app/model/transaction-beneficiary';
+import { Distribution } from 'src/app/model/distribution.new';
+import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.new';
+import { Commodity } from 'src/app/model/commodity.new';
+import { TransactionMobileMoney } from 'src/app/model/transaction-mobile-money.new';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 
 @Component({
     template: './validated-distribution.component.html',
     styleUrls: ['./validated-distribution.component.scss']
 })
-export class ValidatedDistributionComponent implements OnInit, DoCheck {
+export class ValidatedDistributionComponent implements OnInit {
 
     TEXT = GlobalText.TEXTS;
     entity: any;
@@ -39,17 +44,17 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     enteredCode = '';
     chartAccepted = false;
 
-    distributionIsStored = false;
+    // distributionIsStored = false;
+    distributionId: number;
 
-    @Input() actualDistribution: DistributionData;
-    @Input() transactionData: MatTableDataSource<any>;
-    @Input() distributionId: number;
-    @Input() hasRights = false;
-    @Input() hasRightsTransaction = false;
+    @Input() actualDistribution: Distribution;
+    transactionData: MatTableDataSource<any>;
+    hasRights = false;
+    hasRightsTransaction = false;
     @Input() loaderCache = false;
 
-    @Output() storeEmitter: EventEmitter<any> = new EventEmitter();
-
+    @Output() storeEmitter: EventEmitter<Distribution> = new EventEmitter();
+    @Output() finishedEmitter: EventEmitter<any> = new EventEmitter();
 
     @HostListener('window:resize', ['$event'])
     onResize(event: any) {
@@ -57,18 +62,81 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     }
 
     ngOnInit() {
+        this.distributionId = this.actualDistribution.get<number>('id');
         this.checkSize();
-        this.loadingTransaction = false;
-        this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
-            (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
+        this.checkPermission();
+        this.getDistributionBeneficiaries();
+
+
+        // this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
+        //     (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
+        // );
+    }
+
+    checkPermission() {
+        this.cacheService.getUser().subscribe(
+            result => {
+                this.actualUser = result;
+                if (result && result.rights) {
+                    const rights = result.rights;
+                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
+                        this.hasRights = true;
+                    }
+                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
+                        this.hasRightsTransaction = true;
+                    }
+                }
+            }
         );
     }
 
-    ngDoCheck(): void {
-        if (this.language !== GlobalText.language) {
-            this.language = GlobalText.language;
-        }
+        /**
+     * Gets the Beneficiaries of the actual distribution to display the table
+     */
+    getDistributionBeneficiaries() {
+        this.loadingTransaction = true;
+        this.distributionService.getBeneficiaries(this.actualDistribution.get('id'))
+            .subscribe(distributionBeneficiaries => {
+                if (!distributionBeneficiaries) {
+                    this.getDistributionBeneficiariesFromCache();
+                    this.formatTransactionTable();
+
+                } else {
+                    this.setDistributionBeneficiaries(distributionBeneficiaries);
+                    this.formatTransactionTable();
+                }
+            });
     }
+
+    formatTransactionTable() {
+        throw new Error('Abstract Method');
+    }
+
+    setDistributionBeneficiaries(distributionBeneficiaries: any) {
+        throw new Error('Abstract Method');
+    }
+
+    getDistributionBeneficiariesFromCache() {
+        this.cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + this.actualDistribution.get('id') + '_beneficiaries')
+            .subscribe((distribution) => {
+                if (distribution) {
+                    this.setDistributionBeneficiaries(distribution.distribution_beneficiaries);
+                    this.formatTransactionTable();
+                }
+            });
+    }
+
+    /**
+     * To be used everytime transactionData changes
+     */
+    verifiyIsFinished() {
+        throw new Error('Abstract Method');
+    }
+
+    storeBeneficiaries() {
+        this.storeEmitter.emit(this.actualDistribution);
+    }
+
 
     constructor(
         protected distributionService: DistributionService,
@@ -84,7 +152,7 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
 
         this.dialog.closeAll();
         this.loadingExport = true;
-        this.distributionService.export(distributionType, fileType, this.distributionId).then(
+        this.distributionService.export(distributionType, fileType, this.actualDistribution.get('id')).then(
             () => {
                 this.loadingExport = false;
             }
@@ -94,50 +162,50 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         );
     }
 
-    getTotalCommodityValue(commodity: any): number {
-        return this.transactionData.data.length * commodity.value;
-    }
 
-    getReceivedValue(commodity: any): number {
+    getReceivedValue(commodity: Commodity): number {
         let amountReceived = 0;
-        for (const beneficiary of this.transactionData.data) {
-            amountReceived += this.getCommodityReceivedAmountFromBeneficiary(commodity, beneficiary);
+        for (const distributionBeneficiary of this.transactionData.data) {
+            amountReceived += this.getCommodityReceivedAmountFromBeneficiary(commodity, distributionBeneficiary);
         }
         return amountReceived;
     }
 
-    getPercentageValue(commodity: any): number {
+    getPercentageValue(commodity: Commodity): number {
         const percentage = (this.getAmountSent(commodity) / this.getTotalCommodityValue(commodity) * 100);
         return Math.round(percentage * 100) / 100;
     }
 
-    getAmountSent(commodity: any): number {
+    getAmountSent(commodity: Commodity): number {
         let amountSent = 0;
-        for (const beneficiary of this.transactionData.data) {
-            amountSent += this.getCommoditySentAmountFromBeneficiary(commodity, beneficiary);
+        for (const distributionBeneficiary of this.transactionData.data) {
+            amountSent += this.getCommoditySentAmountFromBeneficiary(commodity, distributionBeneficiary);
         }
         return amountSent;
     }
 
+    getTotalCommodityValue(commodity: Commodity): number {
+        return this.transactionData.data.length * commodity.get<number>('value');
+    }
+
     // Abstract
-    getCommoditySentAmountFromBeneficiary(commodity: any, beneficiary: any): number {
+    getCommoditySentAmountFromBeneficiary(commodity: Commodity, beneficiary: DistributionBeneficiary): number {
         throw new Error('Abstract Method');
     }
 
     // Abstract
-    getCommodityReceivedAmountFromBeneficiary(commodity: any, beneficiary: any): number {
+    getCommodityReceivedAmountFromBeneficiary(commodity: Commodity, beneficiary: DistributionBeneficiary): number {
         throw new Error('Abstract Method');
     }
 
-    setTransactionMessage(beneficiary, i) {
+    // Here actualBeneficiary is of one of the children types of DistributionBeneficiary
+    setTransactionMessage(beneficiaryFromApi: any, actualBeneficiary: any) {
 
-        this.transactionData.data[i].message = beneficiary.transactions[beneficiary.transactions.length - 1].message ?
-            beneficiary.transactions[beneficiary.transactions.length - 1].message : '';
-    }
-
-    storeBeneficiaries() {
-        this.storeEmitter.emit();
-        this.distributionIsStored = true;
+        actualBeneficiary.set('message',
+            beneficiaryFromApi.transactions[beneficiaryFromApi.transactions.length - 1].message ?
+            beneficiaryFromApi.transactions[beneficiaryFromApi.transactions.length - 1].message :
+            '');
+        return actualBeneficiary;
     }
 
     exit(message: string) {
@@ -145,8 +213,8 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         this.dialog.closeAll();
     }
 
-    private checkSize(): void {
-        this.heightScreen = window.innerHeight;
-        this.widthScreen = window.innerWidth;
-    }
+   private checkSize(): void {
+       this.heightScreen = window.innerHeight;
+       this.widthScreen = window.innerWidth;
+   }
 }

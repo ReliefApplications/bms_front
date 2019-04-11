@@ -1,20 +1,16 @@
 import { Component, ViewChild, OnInit, Input, Output, EventEmitter, HostListener, DoCheck } from '@angular/core';
-import { DistributionData } from 'src/app/model/distribution-data';
 import { GlobalText } from 'src/texts/global';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
-import { finalize, distinct } from 'rxjs/operators';
-import { State } from 'src/app/model/transaction-beneficiary';
 import { Distribution } from 'src/app/model/distribution.new';
 import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.new';
 import { Commodity } from 'src/app/model/commodity.new';
-import { TransactionMobileMoney } from 'src/app/model/transaction-mobile-money.new';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { Observable } from 'rxjs';
+import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
 
 @Component({
     template: './validated-distribution.component.html',
@@ -71,6 +67,20 @@ export class ValidatedDistributionComponent implements OnInit {
         // this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
         //     (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
         // );
+    }
+
+    /**
+     * Verify if modifications have been made to prevent the user from leaving and display dialog to confirm we wiwhes to delete them
+     */
+    @HostListener('window:beforeunload')
+    canDeactivate(): Observable<boolean> | boolean {
+        if (this.transacting) {
+            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+
+            return dialogRef.afterClosed();
+        } else {
+            return (true);
+        }
     }
 
     checkPermission() {

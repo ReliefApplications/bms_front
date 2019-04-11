@@ -28,27 +28,22 @@ import { finalize } from 'rxjs/operators';
 export class NotValidatedDistributionComponent implements OnInit {
 
   @Input() actualDistribution: Distribution;
-
   @Input() loaderCache: boolean;
-
 
   @Output() emitStore = new EventEmitter<Distribution>();
   loadingExport = false;
 
   loadingDatas = true;
   loadingDistribution = true;
-  transacting = false;
 
   // Control variables.
 
   loadingFirstStep = false;
   loadingThirdStep = false;
   loadingFinalStep = false;
-  loadingTransaction = false;
   sampleSize = 10;
   extensionTypeStep1 = 'xls';
   extensionTypeStep3 = 'xls';
-  extensionTypeTransaction = 'xls';
 
   loadingAdd: boolean;
 
@@ -64,7 +59,6 @@ export class NotValidatedDistributionComponent implements OnInit {
   initialBeneficiaryData: MatTableDataSource<Beneficiary>;
   randomSampleData: MatTableDataSource<any>;
   finalBeneficiaryData: MatTableDataSource<Beneficiary>;
-  transactionData: MatTableDataSource<DistributionBeneficiary>;
 
   // Screen display variables.
   public maxHeight = GlobalText.maxHeight;
@@ -75,7 +69,6 @@ export class NotValidatedDistributionComponent implements OnInit {
   public language = GlobalText.language;
 
   // AddBeneficiary Dialog variables.
-  beneficiaryForm = new FormControl();
   beneficiaryList = new Array<Beneficiary>();
   selectedBeneficiaries = new Array<Beneficiary>();
   selected = false;
@@ -93,9 +86,7 @@ export class NotValidatedDistributionComponent implements OnInit {
       public distributionService: DistributionService,
       public cacheService: AsyncacheService,
       // private formBuilder: FormBuilder,
-      private route: ActivatedRoute,
       private beneficiariesService: BeneficiariesService,
-      private userService: UserService,
       public snackbar: SnackbarService,
       public mapperService: Mapper,
       private dialog: MatDialog,
@@ -127,19 +118,6 @@ checkSize(): void {
 //         }
 //     }
 
-/**
-* Verify if modifications have been made to prevent the user from leaving and display dialog to confirm we wiwhes to delete them
-*/
-@HostListener('window:beforeunload')
-canDeactivate(): Observable<boolean> | boolean {
-    if (this.transacting) {
-        const dialogRef = this.dialog.open(ModalLeaveComponent, {});
-
-        return dialogRef.afterClosed();
-    } else {
-        return (true);
-    }
-}
 
 /**
  * Gets the Beneficiaries of the actual distribution to display the table
@@ -317,7 +295,6 @@ confirmValidation() {
                     success => {
                         this.actualDistribution.set('validated', true);
                         this.snackbar.success(this.TEXT.distribution_validated);
-                        this.getDistributionBeneficiaries('transaction');
                         this.cacheService.get(
                             AsyncacheService.DISTRIBUTIONS + '_' + this.actualDistribution.get('id') + '_beneficiaries')
                             .subscribe(
@@ -429,8 +406,6 @@ setType(step, choice) {
         case 1: this.extensionTypeStep1 = choice;
             break;
         case 3: this.extensionTypeStep3 = choice;
-            break;
-        case 5: this.extensionTypeTransaction = choice;
             break;
         default:
             break;

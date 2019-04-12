@@ -47,7 +47,6 @@ export class DashboardComponent implements OnInit, DoCheck {
         this._cacheService.getUser().subscribe(result => {
             if (result.loggedIn) {
                 this.serviceMap.createMap('map');
-                this.serviceMap.addTileLayer();
 
                 this.getSummary();
                 this.checkDistributions();

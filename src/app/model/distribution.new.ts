@@ -161,7 +161,7 @@ export class Distribution extends CustomModel {
 
         newDistribution.set('name', distributionFromApi.name);
         newDistribution.set('validated', distributionFromApi.validated);
-        newDistribution.set('location', Location.apiToModel(distributionFromApi.location));
+        newDistribution.set('location', distributionFromApi.location ? Location.apiToModel(distributionFromApi.location) : null);
         newDistribution.set('project', distributionFromApi.project ? Project.apiToModel(distributionFromApi.project) : null);
 
         newDistribution.fields.location.displayTableFunction = value => value.getLocationName();
@@ -171,21 +171,25 @@ export class Distribution extends CustomModel {
         newDistribution.fields.project.displayTableFunction = (value: Project) => value.get('name');
 
         newDistribution.set('commodities',
-            distributionFromApi.commodities.map((commodity: any) => Commodity.apiToModel(commodity)));
+        distributionFromApi.commodities ?
+            distributionFromApi.commodities.map((commodity: any) => Commodity.apiToModel(commodity)) :
+            null);
 
         newDistribution.set('finished', true);
-        distributionFromApi.distribution_beneficiaries.forEach(benef => {
-            if (benef.transactions.length === 0) {
-                newDistribution.set('finished', false);
-            } else if (benef.transactions && benef.transactions[0].transaction_status !== 1) {
-                newDistribution.set('finished', false);
-            }
-        });
 
-        if (newDistribution.get<boolean>('validated') === false) {
-            newDistribution.set('distributionBeneficiaries',
-                distributionFromApi.distribution_beneficiaries
-                    .map((distributionBeneficiary: any) => DistributionBeneficiary.apiToModel(distributionBeneficiary)));
+        if (distributionFromApi.distribution_beneficiaries) {
+            distributionFromApi.distribution_beneficiaries.forEach(benef => {
+                if (benef.transactions.length === 0) {
+                    newDistribution.set('finished', false);
+                } else if (benef.transactions && benef.transactions[0].transaction_status !== 1) {
+                    newDistribution.set('finished', false);
+                }
+            });
+            if (newDistribution.get<boolean>('validated') === false) {
+                newDistribution.set('distributionBeneficiaries',
+                    distributionFromApi.distribution_beneficiaries
+                        .map((distributionBeneficiary: any) => DistributionBeneficiary.apiToModel(distributionBeneficiary)));
+            }
         }
 
         return newDistribution;

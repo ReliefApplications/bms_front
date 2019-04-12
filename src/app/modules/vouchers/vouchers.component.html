@@ -48,10 +48,11 @@
       </div>
 
       <div class="content-table" *ngIf="!load && bookletData">
-        <app-table-vouchers *ngIf="widthScreen > maxWidthMobile" [entity]="bookletClass" [service]="bookletService"
-          [data]="bookletData" [selection]="selection" (selectChecked)="getChecked($event)"></app-table-vouchers>
-        <app-table-mobile-vouchers *ngIf="widthScreen < maxWidthMobile" [entity]="bookletClass" [service]="bookletService"
-          [data]="bookletData"></app-table-mobile-vouchers>
+        <app-table *ngIf="widthScreen > maxWidthMobile" [entity]="bookletClass" [service]="bookletService"
+          [data]="bookletData" [selection]="selection" (selectChecked)="getChecked($event)"
+          [editable]="true" [rights]='true' [deletable]="true" (openModal)="openDialog($event)" [printable]="true"></app-table>
+        <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="bookletClass" [service]="bookletService"
+          [data]="bookletData" [editable]="true" [rights]='true' [deletable]="true" (openModal)="openDialog($event)" [printable]="true"></app-table-mobile>
       </div>
 
       <div>

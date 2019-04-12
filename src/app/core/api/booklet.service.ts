@@ -4,6 +4,7 @@ import { HttpService                                } from './http.service';
 import { ExportService                              } from './export.service';
 import * as CryptoJS from 'crypto-js';
 import { finalize } from 'rxjs/operators';
+import { Currency, Booklet } from 'src/app/model/booklet.new';
 
 @Injectable({
     providedIn: 'root'
@@ -52,5 +53,13 @@ export class BookletService {
         };
         const url = this.api + `/booklets/assign/${idBeneficiary}/${idDistribution}`;
         return this.http.post(url, body);
+    }
+
+    public fillWithOptions(booklet: Booklet) {
+        this.http.get('https://openexchangerates.org/api/currencies.json').subscribe((currencies) => {
+            Object.keys(currencies).forEach((currency, index) => {
+                booklet.fields.currency.options.push(new Currency(index.toString(), currency));
+            });
+        });
     }
 }

@@ -49,7 +49,7 @@ export const routes: Routes = [
     { path: 'beneficiaries/add-beneficiaries', component: UpdateBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
     { path: 'beneficiaries/update-beneficiary/:id', component: UpdateBeneficiaryComponent , canDeactivate : [DeactivateGuard]},
 
-    // { path: 'vouchers', component: VouchersComponent },
+    { path: 'vouchers', component: VouchersComponent },
 
     // home route protected by auth guard
     { path: '', component: DashboardComponent, canActivate: [AuthGuard] },

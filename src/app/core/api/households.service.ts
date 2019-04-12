@@ -54,14 +54,6 @@ export class HouseholdsService {
     }
 
     /**
-     * Get all households
-     */
-    public getCachedHouseholds(email: string) {
-        const url = this.api + '/households/get/cached?email=' + email;
-        return this.http.get(url);
-    }
-
-    /**
      * Upload CSV  and data validation to import new household
      * @param body any
      * @param projectId number

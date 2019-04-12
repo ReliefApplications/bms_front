@@ -3,7 +3,9 @@ import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/for
 import { MatCheckbox, MatStepper } from '@angular/material';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { Households } from 'src/app/model/households';
 import { ImportService } from './../../../core/utils/import.service.new';
+import { ImportedDataService } from './../../../core/utils/imported-data.service';
 
 
 enum Step {
@@ -12,13 +14,19 @@ enum Step {
     More = 3,
     Less = 4,
     Duplicates = 5,
-    Review = 6,
+    Submit = 6,
 }
 
 enum State {
     KeepOld = 0,
     KeepNew = 1,
     KeepBoth = 2,
+}
+
+enum CheckboxState {
+    NotChecked = 0,
+    Indeterminate = 1,
+    Checked = 2,
 }
 
 @Component({
@@ -40,17 +48,20 @@ export class DataValidationComponent implements OnInit {
 
     showMembers: boolean;
 
-    // For Html step checking
-    step = Step;
+    public step = Step;
+    public checkboxState = CheckboxState;
 
-
+//
+// ─── INIT ───────────────────────────────────────────────────────────────────────
+//
     constructor(
         private importService: ImportService,
         private router: Router,
         private snackbar: SnackbarService,
+        private importedDataService: ImportedDataService,
     ) {}
 
-    ngOnInit() {
+    public ngOnInit() {
         try {
             this.importService.sendCsv().subscribe((response: any) => {
                 this.errors = response.data;
@@ -64,7 +75,11 @@ export class DataValidationComponent implements OnInit {
         }
     }
 
-    validateStep() {
+//
+// ─── SUBMIT STEP ────────────────────────────────────────────────────────────────
+//
+    // Send step data to the server
+    public validateStep() {
         this.importService.sendStepUserData(this.generateResponse())
             .subscribe((response: any) => {
                 this.errors = response.data;
@@ -72,25 +87,40 @@ export class DataValidationComponent implements OnInit {
                 this.generateControls();
         });
     }
-
-    setStepFromResponse(response: any) {
+    // Get the step from the response and set it in the component
+    private setStepFromResponse(response: any) {
         this.currentStep = response.step;
         this.stepper.selectedIndex = this.currentStep - 2 ;
     }
 
-    generateControls() {
-        console.log(this.currentStep);
-        if (this.currentStep === Step.Typos || this.currentStep === Step.Duplicates) {
-            this.generateIndividualControls();
+    public finishImport() {
+
+        this.importService.sendStepUserData(this.generateResponse())
+            .subscribe((response: any) => {
+                this.importedDataService.data = Households.formatArray(response);
+
+                this.router.navigate(['/beneficiaries/imported']);
+            });
+    }
+
+//
+// ─── FORM CONTROL GENERATION ────────────────────────────────────────────────────
+//
+    private generateControls() {
+        if (this.currentStep === Step.Typos) {
+            this.generateTyposOrDuplicatesControls();
         } else if (this.currentStep === Step.More ) {
             this.generateMoreControls();
         } else if (this.currentStep === Step.Less ) {
             this.generateLessControls();
+        } else if (this.currentStep === Step.Duplicates ) {
+            this.generateTyposOrDuplicatesControls();
+        } else {
+            this.form = null;
         }
     }
 
-    // Generate a control entity for the 'typos' and 'duplicates' steps
-    generateIndividualControls() {
+    private generateTyposOrDuplicatesControls() {
         const formArray = [];
 
         this.errors.forEach((_: any) => {
@@ -107,17 +137,22 @@ export class DataValidationComponent implements OnInit {
         this.form = new FormArray(formArray);
     }
 
-    // Generate a control entity for the 'more' and 'less' steps
+    private validateCheckboxPair(control: AbstractControl): object {
+        if (control.get('old').value || control.get('new').value) {
+            return null;
+        }
+        return { noOptionSelected: true};
+    }
 
-    generateMoreControls() {
+    private generateMoreControls() {
         this.generateAddOrLessControls('new');
     }
 
-    generateLessControls() {
+    private generateLessControls() {
         this.generateAddOrLessControls('old');
     }
 
-    generateAddOrLessControls(newOrOld: string) {
+    private generateAddOrLessControls(newOrOld: string) {
         const initialState = (newOrOld === 'new');
 
         const householdsFormArray = new FormArray([]);
@@ -128,43 +163,105 @@ export class DataValidationComponent implements OnInit {
             });
             householdsFormArray.push(beneficiariesFormArray);
         });
-
         this.form = householdsFormArray;
     }
-
-    setAllOldCheckboxesValues(checkboxState: MatCheckbox) {
-        this.setAllTypedCheckboxesValues('old', checkboxState.checked);
+//
+// ─── CHECKBOXES STATES UPDATERS ─────────────────────────────────────────────────
+//
+    // For less and more steps
+    public setAllCheckboxesValues(checkboxState: MatCheckbox) {
+        this.form.value.forEach((householdValue: boolean[], householdIndex: number)  => {
+            householdValue.forEach((_beneficiaryValue: boolean, beneficiaryIndex: number) => {
+                this.form.get([householdIndex, beneficiaryIndex]).setValue(checkboxState.checked);
+            });
+        });
     }
 
-    setAllNewCheckboxesValues(checkboxState: MatCheckbox) {
+    // For typo and dups steps
+    public setAllOldCheckboxesValues(checkboxState: MatCheckbox) {
+        this.setAllTypedCheckboxesValues('old', checkboxState.checked);
+    }
+    // For typo and dups steps
+    public setAllNewCheckboxesValues(checkboxState: MatCheckbox) {
         this.setAllTypedCheckboxesValues('new', checkboxState.checked);
     }
 
-    setAllTypedCheckboxesValues(type: string, value: boolean ) {
+    private setAllTypedCheckboxesValues(type: string, value: boolean ) {
         this.form.controls.forEach((_: AbstractControl, index: number) => {
             this.form.controls[index].get(type).setValue(value);
         });
     }
 
 
-    validateCheckboxPair(control: AbstractControl) {
-        if (control.get('old').value || control.get('new').value) {
-            return null;
-        }
-        return { noOptionSelected: true};
+//
+// ─── CHECKBOXES VALUES FETCHERS ─────────────────────────────────────────────────
+//
+    // Global checkbox is not checked if one checkbox is not checked (except head of household)
+    public getGlobalCheckboxState(): CheckboxState {
+        let hasChecked = false;
+        let hasNotChecked = false;
+        this.form.value.forEach((householdValue: boolean[])  => {
+            householdValue.forEach((beneficiaryValue: boolean, beneficiaryIndex: number) => {
+                if (beneficiaryIndex !== 0) {
+                    switch (beneficiaryValue) {
+                        case true:
+                            hasChecked = true;
+                            break;
+                        case false:
+                            hasNotChecked = true;
+                            break;
+                    }
+                }
+            });
+        });
+        return this.getCheckboxState(hasChecked, hasNotChecked);
     }
-    generateResponse(): any {
-        if (this.currentStep === Step.Typos || this.currentStep === Step.Duplicates) {
-            return this.generateIndividualResponse();
+
+    public getStatusCheckboxState(oldOrNew: string): CheckboxState {
+        let hasChecked = false;
+        let hasNotChecked = false;
+        this.form.value.forEach((headValue: any) => {
+            switch (headValue[oldOrNew]) {
+                case true:
+                    hasChecked = true;
+                    break;
+                case false:
+                    hasNotChecked = true;
+            }
+        });
+        return this.getCheckboxState(hasChecked, hasNotChecked);
+    }
+
+    private getCheckboxState(hasChecked: boolean, hasNotChecked: boolean): CheckboxState {
+        // If one (or more) checkbox is checked and another one (or more) not checked, then state is indeterminate
+        if (hasChecked && hasNotChecked) {
+            return CheckboxState.Indeterminate;
+        }
+        if (hasChecked) {
+            return CheckboxState.Checked;
+        }
+        if (hasNotChecked) {
+            return CheckboxState.NotChecked;
+        }
+    }
+
+//
+// ─── RESPONSES GENERATORS ───────────────────────────────────────────────────────
+//
+    private generateResponse(): object {
+        if (this.currentStep === Step.Typos) {
+            return this.generateTyposOrDuplicatesResponse();
         } else if (this.currentStep === Step.More) {
             return this.generateMoreResponse();
         } else if (this.currentStep === Step.Less) {
             return this.generateLessResponse();
+        } else if (this.currentStep === Step.Duplicates) {
+            return this.generateTyposOrDuplicatesResponse();
         }
     }
 
     // Send back the housholds new / old pair, adding a 'state' entry describing which HH to keep.
-    generateIndividualResponse() {
+    private generateTyposOrDuplicatesResponse(): object {
 
         const response = this.errors.map((error: any, index: number) => {
             return {
@@ -180,16 +277,34 @@ export class DataValidationComponent implements OnInit {
             errors: response
         };
     }
+
+    private getErrorStep(oldValue: boolean, newValue: boolean) {
+        if (oldValue && newValue) {
+            return State.KeepBoth;
+        } else if (oldValue) {
+            return State.KeepOld;
+        } else if (newValue) {
+            return State.KeepNew;
+        }
+        else {
+            this.snackbar.error('Please select at least one value.');
+        }
+    }
+
+    private getValueFromStatusAndIndex(status: string, index: number) {
+        return this.form.controls[index].get(status).value;
+    }
+
     // Send back the housholds new / old pair, adding a 'state' entry describing which Beneficiary to keep.
-    generateMoreResponse(): object {
+    private generateMoreResponse(): object {
         return this.generateAddOrLessResponse('new');
     }
 
-    generateLessResponse(): object {
+    private generateLessResponse(): object {
         return this.generateAddOrLessResponse('old');
     }
 
-    generateAddOrLessResponse(newOrOld: string) {
+    private generateAddOrLessResponse(newOrOld: string): object {
         const response = this.errors.map((error: object, householdIndex: number) => {
             error[newOrOld].beneficiaries =  error[newOrOld].beneficiaries.filter((_beneficiaries: any, beneficiaryIndex: number) => {
                 // Ensure the head is always returned
@@ -205,29 +320,20 @@ export class DataValidationComponent implements OnInit {
         };
     }
 
-    getValueFromStatusAndIndex(status: string, index: number) {
-        return this.form.controls[index].get(status).value;
-    }
-
-    getValueFromIndexes(householdIndex: number, beneficiaryIndex: number) {
+    private getValueFromIndexes(householdIndex: number, beneficiaryIndex: number): boolean {
         return this.form.controls[householdIndex].get([beneficiaryIndex]).value;
     }
 
-    getErrorStep(oldValue: boolean, newValue: boolean) {
-        if (oldValue && newValue) {
-            return State.KeepBoth;
-        } else if (oldValue) {
-            return State.KeepOld;
-        } else if (newValue) {
-            return State.KeepNew;
-        }
-        else {
-            this.snackbar.error('Please select at least one value.');
-        }
-    }
 
-    getOldRestoredBeneficiaries(householdIndex: number) {
+//
+// ─── MISC ───────────────────────────────────────────────────────────────────────
+//
+    // Get the list of checked beneficiaries in the 'old' column to display them in the 'new' coumn at 'less' step
+    getOldRestoredBeneficiaries(householdIndex: number): object {
         return this.errors[householdIndex]['old'].beneficiaries.filter((_beneficiary: any, beneficiaryIndex: number) => {
+            if (beneficiaryIndex === 0) {
+                return false;
+            }
             return this.getValueFromIndexes(householdIndex, beneficiaryIndex);
         });
     }

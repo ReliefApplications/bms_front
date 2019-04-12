@@ -5,13 +5,46 @@ h4, p {
     margin: unset;
 }
 
+.container-table {
+    width: unset;
+}
+.content-table {
+    display: block!important;
+}
+
 mat-horizontal-stepper {
     width: 100%;
 }
 
-.step-info {
-    width: 100%;
+.step-title {
+    margin: 0 0 10px 0;
 }
+
+.global-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: bold;
+
+    &.align-end {
+        justify-content: flex-end;
+    }
+    &.align-start {
+        justify-content: flex-start;
+    }
+
+    .new {
+        color: $bms_green;
+    }
+
+    .old {
+        color: $bms_red;
+    }
+
+
+}
+
+form
 
 .errors {
     display: flex;
@@ -24,51 +57,52 @@ mat-horizontal-stepper {
 .error {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    background-color: $bms_white;
-    border-radius: 15px;
-    margin: 10px;
-    box-shadow: $bms_shadow;
-    overflow: hidden;
-    flex-grow: 1;
+    justify-content: space-between;
+    margin: 20px 0;
+
+    .beneficiary {
+        box-shadow: $bms_shadow;
+        width: 100%;
+        padding: 10px;
+
+        &.old {
+            margin-right: 10px;
+        }
+        &.new {
+            margin-left: 10px;
+        }
+
+        mat-chip-list {
+            float: right;
+        }
+    }
 
 
 
     .household {
-        margin: 10px;
-        border: 3px solid;
-        border-radius: 10px;
-        padding: 0;
+        width: 100%;
+        box-shadow: $bms_shadow;
 
-        &.new {
-            border-color: $bms_green;
-            .head {
-                background-color: $bms_green;
-            }
-
-        }
         &.old {
-            border-color: $bms_red;
-            .head {
-                background-color: $bms_red;
-            }
+            margin-right: 10px;
+        }
+        &.new {
+            margin-left: 10px;
         }
 
         .head {
+            background-color: lighten($bms_neutral_grey, 15%);
             padding: 10px;
-            border-bottom: 3px solid;
-            border-color: inherit;
-            color: $bms_white;
 
+            mat-chip-list {
+                float: right;
+            }
 
         }
         .members {
-            border-color: inherit;
 
             .member {
                 padding: 10px;
-                border-top: 1px solid;
-                border-color: inherit;
 
                 &.duplicate {
                     color: $bms_red;
@@ -77,34 +111,6 @@ mat-horizontal-stepper {
             }
         }
     }
-
-    .error-tab {
-        width: 10px;
-        background-color: $bms_red;
-        transition: background-color 1s;
-        &.valid {
-            background-color: $bms_black;
-        }
-    }
-
-    .beneficiary, .household{
-        width: auto;
-        border: 3px solid;
-        border-radius: 10px;
-        flex-grow: 5;
-    }
-
-    .old {
-
-        border-color: $bms_red;
-        margin: 10px 5px 10px 10px;
-    }
-
-    .new {
-        border-color: $bms_green;
-        margin: 10px 10px 10px 5px;
-    }
-
 }
 // .content-table {
 //     padding-top : 20px !important;

@@ -57,4 +57,12 @@ export abstract class CustomModel {
     public add(field: string, value: any) {
         this.fields[field].value.push(value);
     }
+
+    public isPrintable() {
+        return false;
+    }
+
+    public isAssignable() {
+        return false;
+    }
 }

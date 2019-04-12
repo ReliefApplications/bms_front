@@ -1,9 +1,7 @@
 
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { Beneficiaries } from './beneficiary';
 import { Commodity } from './commodity.new';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
-import { CustomModelField } from './CustomModel/custom-model-field';
 import { DateModelField } from './CustomModel/date-model-field';
 import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
 import { NumberModelField } from './CustomModel/number-model-field';
@@ -15,8 +13,6 @@ import { DistributionBeneficiary } from './distribution-beneficiary.new';
 import { GlobalText } from 'src/texts/global';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { Criteria } from './criteria.new';
-import { projection } from '@angular/core/src/render3/instructions';
-
 export class DistributionType extends CustomModel {
 
     public fields = {
@@ -174,10 +170,6 @@ export class Distribution extends CustomModel {
         newDistribution.fields.commodities.displayTableFunction = value => this.displayCommodities(value);
         newDistribution.fields.project.displayTableFunction = (value: Project) => value.get('name');
 
-        newDistribution.set('distributionBeneficiaries',
-            distributionFromApi.distribution_beneficiaries
-                .map((distributionBeneficiary: any) => DistributionBeneficiary.apiToModel(distributionBeneficiary)));
-
         newDistribution.set('commodities',
             distributionFromApi.commodities.map((commodity: any) => Commodity.apiToModel(commodity)));
 
@@ -189,6 +181,12 @@ export class Distribution extends CustomModel {
                 newDistribution.set('finished', false);
             }
         });
+
+        if (newDistribution.get<boolean>('validated') === false) {
+            newDistribution.set('distributionBeneficiaries',
+                distributionFromApi.distribution_beneficiaries
+                    .map((distributionBeneficiary: any) => DistributionBeneficiary.apiToModel(distributionBeneficiary)));
+        }
 
         return newDistribution;
     }

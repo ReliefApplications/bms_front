@@ -2,11 +2,8 @@ import { GlobalText } from '../../texts/global';
 import { CustomModel } from './CustomModel/custom-model';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
-import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { DateModelField } from './CustomModel/date-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
-import { ArrayInputField } from './CustomModel/array-input-field';
-import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
 import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
 import { Phone } from './phone.new';
 import { ObjectModelField } from './CustomModel/object-model-field';
@@ -128,27 +125,32 @@ export class Beneficiary extends CustomModel {
         nationalIds: new MultipleObjectsModelField<NationalId>(
             {
                 title: GlobalText.TEXTS.model_beneficiaries_nationalids,
-                isDisplayedInModal: false,
+                isDisplayedInModal: true,
                 isDisplayedInTable: false,
                 displayTableFunction: null,
+                displayModalFunction: null,
                 value: []
             }
         ),
         phones: new MultipleObjectsModelField<Phone>(
             {
                 title: GlobalText.TEXTS.phone,
-                isDisplayedInModal: false,
+                isDisplayedInModal: true,
                 isDisplayedInTable: false,
+                displayTableFunction: null,
+                displayModalFunction: null,
+                nullValue: 'none',
                 value: []
             }
         ),
         vulnerabilities: new MultipleObjectsModelField<VulnerabilityCriteria>(
             {
                 title: GlobalText.TEXTS.model_vulnerabilities,
-                isDisplayedInModal: false,
+                isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isImageInTable: true,
                 displayTableFunction: null,
+                displayModalFunction: null,
                 value: []
             }
         ),
@@ -156,7 +158,7 @@ export class Beneficiary extends CustomModel {
             {
                 title: GlobalText.TEXTS.model_donor_fullname,
                 placeholder: null,
-                isDisplayedInModal: true,
+                isDisplayedInModal: false,
                 isDisplayedInTable: false,
                 isRequired: true,
                 isSettable: true,
@@ -213,6 +215,11 @@ export class Beneficiary extends CustomModel {
 
 
         newBeneficiary.fields.vulnerabilities.displayTableFunction = value => this.displayTableVulnerabilities(value);
+        newBeneficiary.fields.vulnerabilities.displayModalFunction =
+            value => value.map((vulnerability: VulnerabilityCriteria) => vulnerability.get('name'));
+        newBeneficiary.fields.phones.displayTableFunction = value => value.map((phone: Phone) => phone.get('number'));
+        newBeneficiary.fields.phones.displayModalFunction = value => value.map((phone: Phone) => phone.get('number'));
+        newBeneficiary.fields.nationalIds.displayModalFunction = value => value.map((nationalId: NationalId) => nationalId.get('number'));
 
         return newBeneficiary;
 

@@ -28,13 +28,11 @@ export abstract class CustomModelService {
         return this.http.post(`${this.makeUrl()}/${id}`, body);
     }
 
-    public delete(id: number) {
+    public delete(id: number, parentId?: any) {
         return this.http.delete(`${this.makeUrl()}/${id}`);
     }
 
     private makeUrl(): string {
         return `${this.apiBase}/${this.customModelPath}`;
     }
-
-
 }

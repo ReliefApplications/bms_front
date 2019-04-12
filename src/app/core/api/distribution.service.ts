@@ -105,7 +105,7 @@ export class DistributionService extends CustomModelService {
         return this.http.get(url);
     }
 
-    public addNotes(generalReliefs: {id: number, notes: string}[]) {
+    public addNotes(generalReliefs: any[]) {
         const url  = `${this.api}/distributions/generalrelief/notes`;
         const body = { generalReliefs };
         return this.http.post(url, body);

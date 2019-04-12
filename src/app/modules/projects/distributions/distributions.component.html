@@ -29,11 +29,11 @@
             [loaderCache]="loaderCache" (storeEmitter)="storeBeneficiaries($event)" (finishedEmitter)="distributionFinished()">
         </app-mobile-money>
 
-        <!-- <app-general-relief *ngIf="getDistributionType() === 'general-relief' && !loadingDatas" [actualDistribution]="actualDistribution"
-            [loaderCache]="loaderCache" (storeEmitter)="storeBeneficiaries($event)">
+        <app-general-relief *ngIf="getDistributionType() === 'general-relief' && !loadingDatas" [actualDistribution]="actualDistribution"
+            [loaderCache]="loaderCache" (storeEmitter)="storeBeneficiaries($event)" (finishedEmitter)="distributionFinished()">
         </app-general-relief>
 
-        <app-qr-voucher (reloadTable)="getSelectedDistribution()" *ngIf="getDistributionType() === 'qr-voucher' && !loadingDatas" [actualDistribution]="actualDistribution"
+        <!-- <app-qr-voucher (reloadTable)="getSelectedDistribution()" *ngIf="getDistributionType() === 'qr-voucher' && !loadingDatas" [actualDistribution]="actualDistribution"
             [loaderCache]="loaderCache" (storeEmitter)="storeBeneficiaries($event)">
         </app-qr-voucher> -->
     </ng-container>

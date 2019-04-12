@@ -11,6 +11,8 @@ import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.
 import { Commodity } from 'src/app/model/commodity.new';
 import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
+import { ModalService } from 'src/app/core/utils/modal.service';
+import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 
 @Component({
     template: './validated-distribution.component.html',
@@ -109,7 +111,6 @@ export class ValidatedDistributionComponent implements OnInit {
             .subscribe(distributionBeneficiaries => {
                 if (!distributionBeneficiaries) {
                     this.getDistributionBeneficiariesFromCache();
-                    this.formatTransactionTable();
 
                 } else {
                     this.setDistributionBeneficiaries(distributionBeneficiaries);
@@ -153,6 +154,9 @@ export class ValidatedDistributionComponent implements OnInit {
         public snackbar: SnackbarService,
         public dialog: MatDialog,
         protected cacheService: AsyncacheService,
+        protected modalService: ModalService,
+        public beneficiariesService: BeneficiariesService,
+        public _cacheService: AsyncacheService,
     ) { }
 
     /**

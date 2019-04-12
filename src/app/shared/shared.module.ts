@@ -76,6 +76,8 @@ import { GeneralReliefComponent } from '../modules/projects/distributions/valida
 import { MobileMoneyComponent } from '../modules/projects/distributions/validated-components/mobile-money/mobile-money.component';
 import { QrVoucherComponent } from '../modules/projects/distributions/validated-components/qr-voucher/qr-voucher.component';
 import { ValidatedDistributionComponent } from '../modules/projects/distributions/validated-components/validated-distribution.component';
+// tslint:disable-next-line
+import { NotValidatedDistributionComponent } from '../modules/projects/distributions/not-validated-distribution/not-validated-distribution.component';
 import { ProjectComponent } from '../modules/projects/project.component';
 import { LoginComponent } from '../modules/public/login.component';
 import { SettingsComponent } from '../modules/settings/settings.component';
@@ -191,6 +193,7 @@ imports: [
         FormatCamelCasePipe,
         UppercaseFirstPipe,
         ValidatedDistributionComponent,
+        NotValidatedDistributionComponent,
         GeneralReliefComponent,
         MobileMoneyComponent,
         QrVoucherComponent,

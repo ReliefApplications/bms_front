@@ -19,6 +19,7 @@ import { NetworkService } from 'src/app/core/api/network.service';
 import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
 import { finalize } from 'rxjs/operators';
+import { ModalService } from 'src/app/core/utils/modal.service';
 
 @Component({
   selector: 'app-not-validated-distribution',
@@ -91,6 +92,7 @@ export class NotValidatedDistributionComponent implements OnInit {
       public mapperService: Mapper,
       private dialog: MatDialog,
       private networkService: NetworkService,
+      protected modalService: ModalService,
   ) {
   }
   ngOnInit() {
@@ -411,5 +413,15 @@ setType(step, choice) {
             break;
     }
 }
+
+/**
+	* open each modal dialog
+	*/
+    openModal(dialogDetails: any): void {
+        // Can only be a modalDetails
+        this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+        });
+    }
 
 }

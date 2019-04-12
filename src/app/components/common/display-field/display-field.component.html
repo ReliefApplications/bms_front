@@ -1,6 +1,12 @@
-<ng-container *ngIf="field.kindOfField === 'Boolean' ; else isObject">
-    Hello
+<ng-container *ngIf="isEmpty(field); else isBoolean">
+    {{ field.nullValue }}
 </ng-container>
+
+<ng-template #isBoolean>
+    <ng-container *ngIf="field.kindOfField === 'Boolean' ; else isObject">
+        Hello
+    </ng-container>
+</ng-template>
 
 <ng-template #isObject>
     <ng-container *ngIf="field.kindOfField === 'Object'; else isMultipleObject">
@@ -20,7 +26,7 @@
                                 <app-icon-svg [imagePath]="value"></app-icon-svg>
                             </ng-container>
                             <ng-template #notImage>
-                                    {{value}}
+                                {{value}}
                             </ng-template>
                     </span>
                 </div>
@@ -64,6 +70,7 @@
         {{field.value | titlecase }}
     </ng-container>
     <ng-template #notAString>
+        <span *ngIf="!field.value">none</span>
         {{field.value }}
     </ng-template>
 </ng-template>

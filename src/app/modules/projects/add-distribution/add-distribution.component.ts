@@ -309,12 +309,12 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
                 this.snackbar.error(this.texts.add_distribution_date_inside_project);
                 return;
             } else {
-                const distributionModality = this.commodityArray[0].get('modality');
+                const distributionModality = this.commodityArray[0].get('modality').get('name');
                 for (const commodity of this.commodityArray) {
                     if (commodity.get<number>('value') <= 0) {
                         this.snackbar.error(this.texts.add_distribution_zero);
                         return;
-                    } else if (commodity.get('modality') !== distributionModality) {
+                    } else if (commodity.get('modality').get('name') !== distributionModality) {
                         this.snackbar.error(this.texts.add_distribution_multiple_modalities);
                         return;
                     }

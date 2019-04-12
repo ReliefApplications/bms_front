@@ -19,30 +19,35 @@ export class TransactionTableComponent extends TableComponent {
     @Input() parentObject: DistributionData;
     @Output() reloadTable = new EventEmitter<string>();
 
-    updateElement(updateElement) {
-        // Only keeps general reliefs where a note has been set
-        const notes = updateElement.generalReliefs
-            .filter((generalRelief: GeneralRelief) => {
-                return {
-                    id: generalRelief.id,
-                    notes: generalRelief.notes
-                };
-            });
+    // THE NEXT FUNCTION NEEDS TO BE PUT IN THE GENERAL RELIEF COMPONENT
 
-        // Send a request to the server to add a note
-        this.distributionService.addNotes(notes).subscribe(() => {
-            const beneficiaries = this.parentObject.distribution_beneficiaries;
-            // Update the beneficiary locally
-            for (let i = 0; i < beneficiaries.length; i++) {
-                if (beneficiaries[i].beneficiary.id === updateElement.id) {
-                    beneficiaries[i].general_reliefs = updateElement.generalReliefs;
-                    // Save the modification to the cache
-                    this._cacheService.set(`${AsyncacheService.DISTRIBUTIONS}_${this.parentObject.id}_beneficiaries`, this.parentObject);
-                    return;
-                }
-            }
-        });
-    }
+
+    // updateElement(updateElement) {
+    //     // Only keeps general reliefs where a note has been set
+    //     const notes = updateElement.generalReliefs
+    //         .filter((generalRelief: GeneralRelief) => {
+    //             return {
+    //                 id: generalRelief.id,
+    //                 notes: generalRelief.notes
+    //             };
+    //         });
+
+    //     // Send a request to the server to add a note
+    //     this.distributionService.addNotes(notes).subscribe(() => {
+    //         const beneficiaries = this.parentObject.distribution_beneficiaries;
+    //         // Update the beneficiary locally
+    //         for (let i = 0; i < beneficiaries.length; i++) {
+    //             if (beneficiaries[i].beneficiary.id === updateElement.id) {
+    //                 beneficiaries[i].general_reliefs = updateElement.generalReliefs;
+    //                 // Save the modification to the cache
+    //                 this._cacheService.set(`${AsyncacheService.DISTRIBUTIONS}_${this.parentObject.id}_beneficiaries`, this.parentObject);
+    //                 return;
+    //             }
+    //         }
+    //     });
+    // }
+
+    // THE NEXT TWO FUNCTIONS NEED TO BE PUT IN THE QR VOUCHER COMPONENT
 
     print(element: any) {
         return this._exportService.printVoucher(element.booklet.id);
@@ -60,6 +65,8 @@ export class TransactionTableComponent extends TableComponent {
             this.reloadTable.emit();
         });
     }
+
+    // THE NEXT TWO FUNCTIONS NEED TO BE PUT IN THE TRANSACTIONVOUCHER MODEL
 
     isPrintable(element: any): boolean {
         return element.booklet;

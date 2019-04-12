@@ -5,6 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { TransactionMobileMoney, State } from 'src/app/model/transaction-mobile-money.new';
 import { MatTableDataSource } from '@angular/material';
 import { Commodity } from 'src/app/model/commodity.new';
+import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 
 @Component({
     selector: 'app-mobile-money',
@@ -271,5 +272,15 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
             this.snackbar.error(this.TEXT.distribution_no_right_transaction);
         }
         this.chartAccepted = false;
+    }
+
+    /**
+	* open each modal dialog
+	*/
+    openModal(dialogDetails: any): void {
+        // Can only be a modalDetails
+        this.modalService.openDialog(TransactionMobileMoney, this.beneficiariesService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+        });
     }
 }

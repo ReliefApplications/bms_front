@@ -4,6 +4,7 @@ import { DateAdapter, MatDialogRef, MAT_DATE_FORMATS, MAT_DIALOG_DATA } from '@a
 import { APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 import { CustomModel as CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { CustomDateAdapter } from '../../../core/utils/date.adapter';
+import { FieldService } from 'src/app/core/api/field.service';
 
 @Component({
     selector: 'app-project',
@@ -29,6 +30,7 @@ export class ModalFieldsComponent implements OnInit {
     modalTitle = 'Default Modal Text';
     constructor(
         public modalReference: MatDialogRef<any>,
+        public fieldService: FieldService,
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) {}
 
@@ -39,6 +41,19 @@ export class ModalFieldsComponent implements OnInit {
         this.objectFields = Object.keys(this.objectInstance.fields);
         // Create the form
         this.makeForm();
+    }
+
+    display(field) {
+        if (field.kindOfField === 'Children') {
+            return this.objectInstance.get(field.childrenObject).fields[field.childrenFieldName];
+        } else {
+            return field;
+        }
+    }
+
+    // To see if a value is null, undefined, empty....
+    isEmpty(field) {
+       return this.fieldService.isEmpty(field, 'modal');
     }
 
     makeForm() {
@@ -58,9 +73,23 @@ export class ModalFieldsComponent implements OnInit {
                 }, validators);
             } else if (field.kindOfField === 'SingleSelect') {
                 formControls[fieldName] = new FormControl({
-                    value: field.value ? field.value.get('id') : null, // 🤔
+                    value: field.value ? field.value.get('id') : null,
                     disabled: this.isDisabled(field)
                 }, validators);
+            } else if (field.kindOfField === 'Children') {
+                formControls[fieldName] = new FormControl({
+                    value: this.objectInstance.get(field.childrenObject) ?
+                        this.objectInstance.get(field.childrenObject).get(field.childrenFieldName) :
+                        null,
+                    disabled: this.isDisabled(field)
+                }, validators);
+            } else if (field.kindOfField === 'ArrayInputField') {
+                field.value.forEach((singleValue, index) => {
+                    formControls[fieldName + index.toString()] = new FormControl({
+                        value: singleValue,
+                        disabled: this.isDisabled(field)
+                    }, validators);
+                });
             } else {
                 // Create field's form control
                 formControls[fieldName] = new FormControl({
@@ -89,7 +118,13 @@ export class ModalFieldsComponent implements OnInit {
     onSubmit() {
         // TODO: fix ngselect value that should make this code useles
         for (const field of this.objectFields) {
-            if (this.form.controls[field].value && this.objectInstance.fields[field].kindOfField === 'MultipleSelect') {
+            if (this.objectInstance.fields[field].kindOfField === 'ArrayInputField') {
+                const array = [];
+                this.objectInstance.fields[field].value.forEach((singleValue, index) => {
+                    array.push(this.form.controls[field + index.toString()].value);
+                });
+                this.objectInstance.set(field, array);
+            } else if (this.form.controls[field].value && this.objectInstance.fields[field].kindOfField === 'MultipleSelect') {
                 this.objectInstance.set(field, []);
 
                 this.form.controls[field].value.forEach(optionId => {

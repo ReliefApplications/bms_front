@@ -2,16 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { URL_BMS_API } from '../../../environments/environment';
 import { Beneficiaries } from '../../model/beneficiary';
+import { Beneficiary } from 'src/app/model/beneficiary.new';
+import { CustomModelService } from './custom-model.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BeneficiariesService {
+export class BeneficiariesService extends CustomModelService {
   readonly api = URL_BMS_API;
+  customModelPath = 'beneficiaries';
 
   constructor(
-    private http: HttpService
-  ) { }
+    protected http: HttpService
+  ) {
+    super(http);
+  }
 
   public get(distributionId) {
     const url = this.api + '/distributions/' + distributionId + '/beneficiaries';
@@ -59,5 +64,8 @@ export class BeneficiariesService {
   public importApi(apiObject: any, project: string) {
     const url = this.api + '/import/api/households/project/' + project;
     return this.http.post(url, apiObject);
+  }
+
+  public fillWithOptions(beneficiary: any) {
   }
 }

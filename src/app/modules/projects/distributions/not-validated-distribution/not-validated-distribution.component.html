@@ -39,10 +39,10 @@
                         <mat-spinner></mat-spinner>
                     </div>
                     <app-table *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="hasRights"
-                        [rights]="hasRights">
+                        [rights]="hasRights" (openModal)="openModal($event)">
                     </app-table>
                     <app-table-mobile *ngIf="widthScreen < maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="hasRights"
-                        [rights]="hasRights">
+                        [rights]="hasRights" (openModal)="openModal($event)">
                     </app-table-mobile>
                 </div>
                 <div class="content-button content-button-footer">
@@ -122,9 +122,9 @@
                     <mat-spinner></mat-spinner>
                 </div>
                 <div class="content-table" *ngIf="randomSampleData">
-                    <app-table *ngIf="widthScreen > maxWidthMobile && !loadingThirdStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" >
+                    <app-table *ngIf="widthScreen > maxWidthMobile && !loadingThirdStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)">
                     </app-table>
-                    <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" >
+                    <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)">
                     </app-table-mobile>
                 </div>
                 <div class="content-button content-button-footer">
@@ -151,9 +151,9 @@
                         <mat-spinner></mat-spinner>
                     </div>
                     <div class="content-table" *ngIf="finalBeneficiaryData">
-                        <app-table *ngIf="widthScreen > maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [editable]="!actualDistribution.get('validated')" >
+                        <app-table *ngIf="widthScreen > maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [editable]="!actualDistribution.get('validated')" (openModal)="openModal($event)">
                         </app-table>
-                        <app-table-mobile *ngIf="widthScreen < maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [editable]="!actualDistribution.get('validated')">
+                        <app-table-mobile *ngIf="widthScreen < maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [editable]="!actualDistribution.get('validated')" (openModal)="openModal($event)">
                         </app-table-mobile>
                     </div>
                     <div class="content-button content-button-footer">

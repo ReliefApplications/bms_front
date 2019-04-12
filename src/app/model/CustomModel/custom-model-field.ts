@@ -50,6 +50,12 @@ export class CustomModelField<T> {
      * @type {boolean}
      */
     isEditable: boolean;
+    /**
+     * What to display if the value is null/empty
+     * @type {string}
+     */
+    nullValue: string;
+
 
     /**
      * @param  {Props} properties
@@ -71,6 +77,7 @@ export class CustomModelField<T> {
         this.isRequired             = properties['isRequired'];
         this.isSettable             = properties['isSettable'];
         this.isEditable             = properties['isEditable'];
+        this.nullValue             = properties['nullValue'];
     }
 
     // Field specific value should never be omitted
@@ -89,6 +96,7 @@ export class CustomModelField<T> {
             isRequired:             false,
             isSettable:             false,
             isEditable:             false,
+            nullValue:              'none',
 
             ...properties,
         };

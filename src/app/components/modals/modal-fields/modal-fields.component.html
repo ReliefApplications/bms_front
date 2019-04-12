@@ -3,14 +3,31 @@
     <form [formGroup]="form">
         <table class="modal-table">
             <ng-container *ngFor="let fieldName of objectFields">
-                <tr class="modal-row" *ngIf="objectInstance.fields[fieldName]; let field">
-                    <ng-container *ngIf="field.isDisplayedInModal">
+                <ng-container *ngIf="objectInstance.fields[fieldName].isDisplayedInModal">
+                    <tr class="modal-row" *ngIf="display(objectInstance.fields[fieldName]); let field">
                         <th class="table-title">{{ field.title | titlecase }}</th>
                         <td class="form-item">
-
-                            <ng-container *ngIf="field.kindOfField === 'Boolean' ; else isMultipleSelect">
-                                Hello
+                            <ng-container *ngIf="((form.controls[fieldName] && form.controls[fieldName].disabled) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].disabled)) && isEmpty(field); else isArrayInputField">
+                                <mat-form-field>
+                                        <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="field.nullValue">
+                                </mat-form-field>
                             </ng-container>
+
+                            <ng-template #isArrayInputField>
+                                <ng-container *ngIf="field.kindOfField === 'ArrayInputField'; else isBoolean">
+                                        <ng-container *ngFor="let value of field.value; let index=index">
+                                            <mat-form-field>
+                                                <input matInput type="text" [formControlName]="fieldName+index.toString()">
+                                            </mat-form-field>
+                                        </ng-container>
+                                </ng-container>
+                            </ng-template>
+
+                            <ng-template #isBoolean>
+                                <ng-container *ngIf="field.kindOfField === 'Boolean' ; else isMultipleSelect">
+                                    Hello
+                                </ng-container>
+                            </ng-template>
                                    
                             <ng-template #isMultipleSelect>
                                 <ng-container *ngIf="field.kindOfField === 'MultipleSelect'; else isSingleSelect">
@@ -71,31 +88,25 @@
                                     </ng-template>
                             
                                     <ng-template #isMultipleObject>
-                                        <ng-container *ngIf="field.kindOfField === 'MultipleObject'; else isArrayInputField">
+                                        <ng-container *ngIf="field.kindOfField === 'MultipleObject'">
                                             <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="field.displayModalFunction(field.value)">
                                         </ng-container>
                                     </ng-template>
                                         
-                                    <ng-template #isArrayInputField>
-                                            <ng-container *ngIf="field.kindOfField === 'ArrayInputField'">
-                                                    Need to put some individual inputs there
-                                            </ng-container>
-                                    </ng-template>
+                                   
 
 
-                                    <mat-error *ngIf="form.controls[fieldName].hasError('required')">
+                                    <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('required')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('required'))">
                                         {{ fieldName | titlecase}} is required
                                     </mat-error>
-                                    <mat-error *ngIf="form.controls[fieldName].hasError('pattern')">
+                                    <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('pattern')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('pattern'))">
                                         The {{ fieldName | titlecase}} must contain {{ field.pattern }}
                                     </mat-error>
                                 </mat-form-field>
-
                             </ng-template>
                         </td>
-                    </ng-container>
-
-                </tr>
+                    </tr>
+                </ng-container>
             </ng-container>
         </table>
         <div class="modal-button action-buttons stickyFooter" *ngIf="modalType !== 'Details'">

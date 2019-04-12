@@ -146,11 +146,10 @@ export class DistributionsComponent implements OnInit {
 
         if (this.actualDistribution.get('commodities')[0].get('modalityType').get('name') === 'Mobile Money') {
             return 'mobile-money';
+        } else if (this.actualDistribution.get('commodities')[0].get('modalityType').get('name') === 'QR Code Voucher') {
+            return 'qr-voucher';
+        } else {
+            return 'general-relief';
         }
-        // else if (distributionBeneficiary instanceof TransactionGeneral) {
-        //     return 'general-relief';
-        // } else if (distributionBeneficiary instanceof TransactionVoucher) {
-        //     return 'qr-voucher';
-        // }
     }
 }

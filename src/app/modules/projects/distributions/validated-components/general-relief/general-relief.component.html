@@ -1,19 +1,19 @@
 <div class="container-table">
     <div class="container-content box-primary">
         <div *ngIf="transactionData !== undefined" class="progression">
-            <div class="commodities" *ngFor="let commodity of actualDistribution.commodities">
-                <h4>{{ commodity.modality_type.name }} {{ TEXT.transaction_progress }} {{ getPercentageValue(commodity) }} % </h4>
+            <div class="commodities" *ngFor="let commodity of actualDistribution.get('commodities')">
+                <h4>{{ commodity.get('modalityType').get('name') }} {{ TEXT.transaction_progress }} {{ getPercentageValue(commodity) }} % </h4>
                 <mat-progress-bar mode="determinate" [value]="getPercentageValue(commodity)"></mat-progress-bar>
                 <div class="details">
                     <div class="info_1">
                         <h5>{{TEXT.transaction_amount_total | titlecase}}</h5>
-                        {{ getTotalCommodityValue(commodity) }} {{commodity.unit}}
+                        {{ getTotalCommodityValue(commodity) }} {{commodity.get('unit')}}
                     </div>
 
                     <ng-container>
                         <div class="info_2">
                             <h5>{{TEXT.transaction_amount_distributed | titlecase}}</h5>
-                            {{ getAmountSent(commodity) }} {{commodity.unit}}
+                            {{ getAmountSent(commodity) }} {{commodity.get('unit')}}
                         </div>
                     </ng-container>
 
@@ -51,11 +51,11 @@
         </div>
 
         <div class="content-table" *ngIf="!loadingTransaction">
-            <app-transaction-table *ngIf="widthScreen >= maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" [selection]="selection" [checkbox]="true"
-                (selectChecked)="getChecked($event)">
-            </app-transaction-table>
-            <app-transaction-table-mobile *ngIf="widthScreen < maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true">
-            </app-transaction-table-mobile>
+            <app-table *ngIf="widthScreen >= maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true"
+                rights="true" (selectChecked)="getChecked($event)" (openModal)="openDialog($event)">
+            </app-table>
+            <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" rights="true" (openModal)="openDialog($event)">
+            </app-table-mobile>
         </div>
 
         <div class="content-button content-button-footer">

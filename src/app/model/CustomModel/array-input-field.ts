@@ -5,7 +5,7 @@ export class ArrayInputField<T> extends CustomModelField<T[]> {
 
     /**
      * Number of inputs
-     * @type {string}
+     * @type {number}
      */
-    numberOfInputs: string;
+    numberOfInputs: number;
 }

@@ -10,7 +10,7 @@
             <th mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title}}</th>
             <td mat-cell *matCellDef="let element">
                 <ng-container *ngIf="element.fields[property]; let field">
-                    <app-display-field [field]="field"></app-display-field>
+                    <app-display-field [field]="field" [element]="element"></app-display-field>
                 </ng-container>
             </td>
         </ng-container>
@@ -38,6 +38,13 @@
                 <button *ngIf="rights && deletable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
                     [matTooltip]="table.delete" class="red">
                     <mat-icon>delete_outline</mat-icon>
+                </button>
+                <button *ngIf="printable" mat-icon-button (click)="print(element); $event.stopPropagation()"
+                    [matTooltip]="'print'" class="grey" [disabled]="!element.isPrintable()">
+                    <mat-icon>printer</mat-icon>
+                </button>
+                <button mat-icon-button [matTooltip]="'assign'" *ngIf="assignable" (click)="assign(element); $event.stopPropagation()" class="grey" [disabled]="!element.isAssignable()">
+                    <mat-icon>assignment</mat-icon>
                 </button>
             </td>
         </ng-container>

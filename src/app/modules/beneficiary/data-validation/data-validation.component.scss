@@ -10,10 +10,21 @@ h4, p {
 }
 .content-table {
     display: block!important;
+    .centered {
+        text-align: center;
+    }
 }
 
 mat-horizontal-stepper {
     width: 100%;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s;
+
+    &.invisible {
+        opacity: 0;
+        visibility: hidden;
+    }
 }
 
 .step-title {

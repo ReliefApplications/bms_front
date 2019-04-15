@@ -9,6 +9,7 @@ import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { Beneficiary } from './beneficiary.new';
 import { Distribution } from './distribution.new';
 import { NestedFieldModelField } from './CustomModel/nested-field';
+import { CURRENCIES } from './currencies';
 
 export class BookletStatus extends CustomModel {
 
@@ -53,23 +54,52 @@ export class Booklet extends CustomModel {
             isDisplayedInTable: true,
             isDisplayedInModal: true,
         }),
+        numberOfBooklets: new NumberModelField({
+            title: GlobalText.TEXTS.model_number_booklets,
+            value: 1,
+            isDisplayedInModal: true,
+            isSettable: true,
+        }),
         numberOfVouchers: new NumberModelField({
             title: GlobalText.TEXTS.model_number_vouchers,
             value: 1,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
+            isEditable: true,
+            isSettable: true,
         }),
+        // individualToAll: new BooleanModelField({
+        //     title: GlobalText.TEXTS.model_individual_to_all,
+        //     value: false,
+        //     isDisplayedInModal: true,
+        //     isEditable: true,
+        //     handleCheckbox: null,
+        //     isSettable: true,
+        // }),
         individualValues: new TextModelField({
             title: GlobalText.TEXTS.model_individual_value,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
+            isEditable: true,
+            isSettable: true,
+            hint: GlobalText.TEXTS.modal_values_format_error,
+            pattern: /^([\d]+,?\s?,?\s?)+$/,
         }),
         currency: new SingleSelectModelField({
             title: GlobalText.TEXTS.model_currency,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             bindField: 'name',
-            options: [],
+            options: CURRENCIES.map(currency => new Currency(currency.id, currency.name)),
+            isEditable: true,
+            isSettable: true,
+        }),
+        password: new TextModelField({
+            title: GlobalText.TEXTS.model_password,
+            isDisplayedInModal: true,
+            isEditable: true,
+            isSettable: true,
+            isPassword: true,
         }),
         status: new SingleSelectModelField({
             title: GlobalText.TEXTS.model_state,
@@ -81,11 +111,8 @@ export class Booklet extends CustomModel {
             ],
             isDisplayedInTable: true,
             isDisplayedInModal: true,
-            bindField: 'name'
-        }),
-        password: new TextModelField({
-            title: GlobalText.TEXTS.model_password,
-
+            bindField: 'name',
+            value: new BookletStatus('0', 'Unassigned'),
         }),
         beneficiary: new ObjectModelField<Beneficiary>({
             title: GlobalText.TEXTS.beneficiary,
@@ -101,15 +128,6 @@ export class Booklet extends CustomModel {
             displayTableFunction: null,
             displayModalFunction: null,
         }),
-        individualToAll: new BooleanModelField({
-            title: GlobalText.TEXTS.model_individual_to_all,
-            value: false,
-        }),
-        numberOfBooklets: new NumberModelField({
-            title: GlobalText.TEXTS.model_number_booklets,
-            value: 1
-
-        })
     };
 
     public static apiToModel(bookletFromApi): Booklet {
@@ -118,7 +136,11 @@ export class Booklet extends CustomModel {
         newBooklet.set('id', bookletFromApi.id);
         newBooklet.set('code', bookletFromApi.code);
         newBooklet.set('numberOfVouchers', bookletFromApi.number_vouchers);
-        newBooklet.set('currency', new Currency(null, bookletFromApi.currency));
+        newBooklet.set('currency',
+            bookletFromApi.currency ?
+            newBooklet.getOptions('currency')
+                .filter((currency: Currency) => currency.get('name') === bookletFromApi.currency)[0] :
+            null);
         const status = newBooklet.fields.status.options.filter((option: BookletStatus) => {
             return option.get('id') === bookletFromApi.status.toString();
         })[0];
@@ -130,12 +152,12 @@ export class Booklet extends CustomModel {
         });
         const unique = individualValues.filter((value, index, array) => array.indexOf(value) === index);
         if (unique.length > 1) {
-            newBooklet.set('individualToAll', true);
+            // newBooklet.set('individualToAll', true);
             let individualValuesString = '';
             individualValues.forEach((value) => individualValuesString += value + ', ');
             newBooklet.set('individualValues', individualValuesString);
         } else {
-            newBooklet.set('individualToAll', false);
+            // newBooklet.set('individualToAll', false);
             newBooklet.set('individualValues',  bookletFromApi.vouchers.length > 0 ? bookletFromApi.vouchers[0].value : null);
         }
 
@@ -150,6 +172,10 @@ export class Booklet extends CustomModel {
         newBooklet.fields.beneficiary.displayModalFunction = (value: Beneficiary) => value ? value.get('fullName') : null;
         newBooklet.fields.distribution.displayTableFunction = (value: Distribution) => value ? value.get('name') : null;
         newBooklet.fields.distribution.displayModalFunction = (value: Distribution) => value ? value.get('name') : null;
+        // newBooklet.fields.individualToAll.handleCheckbox = (booklet: Booklet) => {
+        //     const individualToAll = booklet.get('individualToAll');
+        //     booklet.set('individualToAll', !individualToAll);
+        // };
         return newBooklet;
     }
 
@@ -172,12 +198,17 @@ export class Booklet extends CustomModel {
             }
         }
         return {
+            id: this.get('id'),
             password: password,
             individual_values: values,
             currency: this.get('currency').get('name'),
-            inidividual_to_all: this.get('individualToAll'),
-            number_booklets: this.get('NumberOfBooklets'),
-            number_vouchers: this.get('NumberOfVouchers'),
+            // inidividual_to_all: this.get('individualToAll'),
+            number_booklets: this.get('numberOfBooklets'),
+            number_vouchers: this.get('numberOfVouchers'),
         };
+    }
+
+    isPrintable() {
+        return true;
     }
 }

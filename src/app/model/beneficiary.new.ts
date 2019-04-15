@@ -180,8 +180,8 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.set('dateOfBirth', beneficiaryFromApi.date_of_birth ? new Date(beneficiaryFromApi.date_of_birth) : null);
         newBeneficiary.set('beneficiaryStatus', beneficiaryFromApi.status);
         newBeneficiary.set('fullName',
-        beneficiaryFromApi.given_name ? beneficiaryFromApi.given_name : null + ' ' +
-        beneficiaryFromApi.family_name ? beneficiaryFromApi.family_name : null);
+        (beneficiaryFromApi.given_name ? beneficiaryFromApi.given_name : '') + ' ' +
+        (beneficiaryFromApi.family_name ? beneficiaryFromApi.family_name : ''));
 
         newBeneficiary.set('residencyStatus',
             beneficiaryFromApi.residency_status ?

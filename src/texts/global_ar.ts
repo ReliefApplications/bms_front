@@ -305,6 +305,7 @@ export const TEXT = {
     modal_success: 'نجاح',
     modal_required: 'مطلوب',
     modal_valid_email: 'من فضلك أدخل البريد الكتروني الصحيح',
+    modal_values_format_error: 'If you want to set individual values, type numeric values separated by commas (max 5)',
     modal_warning_pending_requests_1: 'ابحث عن الطلبات التي قمت بإنشائها خلال وقت عدم الاتصال الخاص بك أدناه ، يمكنك إرسال تلك التي تريد تطبيقها لتعديل قاعدة البيانات.',
     modal_warning_pending_requests_2: 'تحذير: ستفشل الطلبات المرتبطة بعنصر أنشأته دون   اتصال بشبكة  الإنترنت !',
     modal_no_file: 'لم تقم باختيار ملف',

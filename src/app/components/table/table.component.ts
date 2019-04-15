@@ -94,6 +94,7 @@ export class TableComponent implements OnInit {
     @Output() selectChecked = new EventEmitter<any>();
 
     @Output() openModal = new EventEmitter<object>();
+    @Output() printOne = new EventEmitter<any>();
 
     sortedData: any;
     allData: any = undefined;
@@ -362,6 +363,10 @@ export class TableComponent implements OnInit {
         }
 
         this.selectChecked.emit(this.selection.selected);
+    }
+
+    print(element) {
+        this.printOne.emit(element);
     }
 
 }

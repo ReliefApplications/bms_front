@@ -55,6 +55,16 @@ export class CustomModelField<T> {
      * @type {string}
      */
     nullValue: string;
+    /**
+     * What to display in the hint
+     * @type {string}
+     */
+    hint: string;
+    /**
+     * The pattern that must be respected by the field
+     * @type {string}
+     */
+    pattern: string;
 
 
     /**
@@ -77,7 +87,9 @@ export class CustomModelField<T> {
         this.isRequired             = properties['isRequired'];
         this.isSettable             = properties['isSettable'];
         this.isEditable             = properties['isEditable'];
-        this.nullValue             = properties['nullValue'];
+        this.nullValue              = properties['nullValue'];
+        this.hint                   = properties['hint'];
+        this.pattern                = properties['pattern'];
     }
 
     // Field specific value should never be omitted
@@ -97,6 +109,8 @@ export class CustomModelField<T> {
             isSettable:             false,
             isEditable:             false,
             nullValue:              'none',
+            hint:                   null,
+            pattern:                null,
 
             ...properties,
         };

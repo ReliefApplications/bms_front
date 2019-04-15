@@ -7,7 +7,7 @@ import { BookletService } from 'src/app/core/api/booklet.service';
 import { ModalAddComponent } from 'src/app/components/modals/modal-add/modal-add.component';
 import { Mapper } from 'src/app/core/utils/mapper.service';
 import { ProjectService } from 'src/app/core/api/project.service';
-import { Project } from 'src/app/model/project';
+import { Project } from 'src/app/model/project.new';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Voucher } from '../../model/voucher.new';
 import { ExportService } from '../../core/api/export.service';
@@ -15,6 +15,7 @@ import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { TableVouchersComponent } from 'src/app/components/table/table-vouchers/table-vouchers.component';
 import { ModalAssignComponent } from 'src/app/components/modals/modal-assign/modal-assign.component';
 import { ModalService } from 'src/app/core/utils/modal.service';
+import { TableComponent } from 'src/app/components/table/table.component';
 @Component({
     selector: 'app-vouchers',
     templateUrl: './vouchers.component.html',
@@ -50,7 +51,7 @@ export class VouchersComponent implements OnInit {
     public selection = new SelectionModel<Voucher>(true, []);
     public checkedElements: any = [];
 
-    @ViewChild(TableVouchersComponent) tableVoucher: TableVouchersComponent;
+    @ViewChild(TableComponent) tableVoucher: TableComponent;
 
     constructor(
         public bookletService: BookletService,
@@ -123,49 +124,36 @@ export class VouchersComponent implements OnInit {
         });
     }
 
-    // openAssignDialog() {
-    //     this.loadingAssign = true;
-    //     this.projectService.get()
-    //         .subscribe(
-    //             response => {
-    //                 this.loadingAssign = false;
-    //                 if (response && response.length > 0) {
-    //                     this.projects = this.projectClass.formatArray(response).reverse();
-    //                 } else if (response === null) {
-    //                     this.projects = [];
-    //                 }
-    //                 const dialogRef = this.dialog.open(ModalAssignComponent, {
-    //                     id: 'modal-vouchers',
-    //                     data: {
-    //                         projects: this.projects
-    //                     }
-    //                 });
-    //                 dialogRef.afterClosed().subscribe((test) => {
-    //                     this.tableVoucher.checkData();
-    //                 });
-    //             }
-    //         );
-    // }
+    openAssignDialog() {
+        this.loadingAssign = true;
+        this.projectService.get()
+            .subscribe(
+                response => {
+                    this.loadingAssign = false;
+                    if (response && response.length > 0) {
+                        this.projects = response.reverse().map((project: any) => Project.apiToModel(project));
+                        // this.projects = this.projectClass.formatArray(response).reverse();
+                    } else if (response === null) {
+                        this.projects = [];
+                    }
+                    const dialogRef = this.dialog.open(ModalAssignComponent, {
+                        id: 'modal-vouchers',
+                        data: {
+                            projects: this.projects
+                        }
+                    });
+                    dialogRef.afterClosed().subscribe((test) => {
+                        this.getBooklets();
+                        // this.tableVoucher.checkData();
+                    });
+                }
+            );
+    }
 
-    // /**
-    //    * To cancel on a dialog
-    //    */
-    // exit(message: string) {
-    //     this.snackbar.info(message);
-    //     this.dialog.closeAll();
-    // }
+    print(event: Booklet) {
+        return this._exportService.printVoucher(event.get('id'));
+    }
 
-    // createElement(createElement: Object) {
-    //     this.bookletService.create(createElement).subscribe(
-    //         () => {
-    //             this.snackbar.success(this.voucher.voucher_created);
-    //             this.getBooklets();
-    //         });
-    // }
-
-    // getChecked(event) {
-    //     this.checkedElements = event;
-    // }
 
     // printMany() {
     //     const bookletIds = [];
@@ -176,12 +164,12 @@ export class VouchersComponent implements OnInit {
     //     return !error ? this._exportService.printManyVouchers(bookletIds) : null;
     // }
 
-    // export() {
-    //     this.loadingExport = true;
-    //     this._exportService.export('booklets', true, this.extensionType).then(
-    //         () => { this.loadingExport = false; }
-    //     ).catch(
-    //         () => { this.loadingExport = false; }
-    //     );
-    //   }
+    export() {
+        this.loadingExport = true;
+        this._exportService.export('booklets', true, this.extensionType).then(
+            () => { this.loadingExport = false; }
+        ).catch(
+            () => { this.loadingExport = false; }
+        );
+      }
 }

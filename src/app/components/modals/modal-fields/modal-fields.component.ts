@@ -139,7 +139,7 @@ export class ModalFieldsComponent implements OnInit {
                     return option.get('id') === this.form.controls[field].value;
                 })[0]);
 
-            } else if (this.form.controls[field].value) {
+            } else if (this.form.controls[field].value !== null && this.form.controls[field].value !== undefined) {
                 this.objectInstance.set(field, this.form.controls[field].value);
             }
 

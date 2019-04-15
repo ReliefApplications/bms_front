@@ -37,11 +37,11 @@
           </div>
         </div>
 
-        <button mat-raised-button *ngIf="widthScreen > maxWidthMobile" (click)="openDialog('create')" class="add-button-create">
+        <button mat-raised-button *ngIf="widthScreen > maxWidthMobile" (click)="openDialog({action: 'add'})" class="add-button-create">
           <mat-icon>add</mat-icon>
           {{voucher.add | titlecase}}
         </button>
-        <button mat-fab *ngIf="widthScreen <= maxWidthMobile" (click)="openDialog('create')" class="add-button"
+        <button mat-fab *ngIf="widthScreen <= maxWidthMobile" (click)="openDialog({action: 'add'})" class="add-button"
           [ngClass]="{'add-button-arabic': language == 'ar'}">
           <mat-icon>add</mat-icon>
         </button>
@@ -50,9 +50,9 @@
       <div class="content-table" *ngIf="!load && bookletData">
         <app-table *ngIf="widthScreen > maxWidthMobile" [entity]="bookletClass" [service]="bookletService"
           [data]="bookletData" [selection]="selection" (selectChecked)="getChecked($event)"
-          [editable]="true" [rights]='true' [deletable]="true" (openModal)="openDialog($event)" [printable]="true"></app-table>
+          [editable]="true" [rights]='true' [deletable]="true" (openModal)="openDialog($event)" [printable]="true" (printOne)="print($event)"></app-table>
         <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="bookletClass" [service]="bookletService"
-          [data]="bookletData" [editable]="true" [rights]='true' [deletable]="true" (openModal)="openDialog($event)" [printable]="true"></app-table-mobile>
+          [data]="bookletData" [editable]="true" [rights]='true' [deletable]="true" (openModal)="openDialog($event)" [printable]="true" (printOne)="print($event)"></app-table-mobile>
       </div>
 
       <div>

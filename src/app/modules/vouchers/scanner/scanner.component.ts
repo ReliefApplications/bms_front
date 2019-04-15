@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 import { VouchersComponent } from '../vouchers.component';
+import { GlobalText } from 'src/texts/global';
 
 @Component({
   selector: 'app-scanner',
@@ -20,6 +21,7 @@ export class ScannerComponent extends VouchersComponent implements OnInit {
   public availableDevices: MediaDeviceInfo[] = [];
   public currentDevice: MediaDeviceInfo;
   public selected = 'default';
+  public texts = GlobalText.TEXTS;
 
   ngOnInit(): void {
 
@@ -43,6 +45,14 @@ export class ScannerComponent extends VouchersComponent implements OnInit {
 
   onDeviceSelectChange(selectedValue: string) {
     this.currentDevice = this.scanner.getDeviceById(selectedValue);
+  }
+
+  /**
+   * To cancel on a dialog
+   */
+  exit(message: string) {
+    this.snackbar.info(message);
+    this.dialog.closeAll();
   }
 
   // DO NOT REMOVE

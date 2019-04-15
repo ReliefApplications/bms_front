@@ -9,6 +9,9 @@ export class FieldService {
 
   // To see if a value is null, undefined, empty....
   isEmpty(field, type) {
+    if (field.isPassword) {
+        return false;
+    }
     const value = field.value;
     if (field.kindOfField === 'Object' || field.kindOfField === 'MultipleObject') {
         const displayedValue = type === 'modal' ? field.displayModalFunction(field.value) : field.displayTableFunction(field.value);

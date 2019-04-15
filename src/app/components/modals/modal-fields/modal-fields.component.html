@@ -5,9 +5,11 @@
             <ng-container *ngFor="let fieldName of objectFields">
                 <ng-container *ngIf="objectInstance.fields[fieldName].isDisplayedInModal">
                     <tr class="modal-row" *ngIf="display(objectInstance.fields[fieldName]); let field">
-                        <th class="table-title">{{ field.title | titlecase }}</th>
+                        <th class="table-title" *ngIf="modalType === 'Details' || (field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject')">
+                            {{ field.title | titlecase }}
+                        </th>
                         <td class="form-item">
-                            <ng-container *ngIf="((form.controls[fieldName] && form.controls[fieldName].disabled) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].disabled)) && isEmpty(field); else isArrayInputField">
+                            <ng-container *ngIf="modalType === 'Details' && isEmpty(field); else isArrayInputField">
                                 <mat-form-field>
                                         <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="field.nullValue">
                                 </mat-form-field>
@@ -25,7 +27,8 @@
 
                             <ng-template #isBoolean>
                                 <ng-container *ngIf="field.kindOfField === 'Boolean' ; else isMultipleSelect">
-                                    Hello
+                                    <mat-checkbox [formControlName]="fieldName" (change)="field.handleCheckbox(objectInstance)" type="checkbox" color="primary" [checked]="default">
+                                    </mat-checkbox>
                                 </ng-container>
                             </ng-template>
                                    
@@ -50,10 +53,10 @@
                             </ng-template>
 
                             <ng-template #isMaterialField>
-                                <mat-form-field>
+                                <mat-form-field *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
                                     <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
                                         <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title"
-                                            matInput type="password" [formControlName]="fieldName">
+                                            matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
 
                                         <ng-template #checkForTextArea>
                                             <ng-container *ngIf="field.isLongText; else checkForTextInput">
@@ -76,33 +79,34 @@
                                     </ng-template>
 
                                     <ng-template #checkForNumberField>
-                                        <ng-container *ngIf="field.kindOfField === 'Number'; else isObject">
+                                        <ng-container *ngIf="field.kindOfField === 'Number'">
                                             <input matInput type="number" [formControlName]="fieldName">
                                         </ng-container>
-                                    </ng-template>
+                                    </ng-template> 
+                                    <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('required')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('required'))">
+                                        {{ fieldName | titlecase}} is required
+                                    </mat-error>
+                                    <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('pattern')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('pattern'))">
+                                        {{field.hint | titlecase}}
+                                    </mat-error>
+                                    <mat-hint align="start" *ngIf="field.hint"><strong>{{field.hint | titlecase}}</strong> </mat-hint>
+                                </mat-form-field>
 
                                     <ng-template #isObject>
                                         <ng-container *ngIf="field.kindOfField === 'Object'; else isMultipleObject">
+                                            <mat-form-field *ngIf="modalType === 'Details'">
                                                 <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="field.displayModalFunction(field.value)">
+                                            </mat-form-field>
                                         </ng-container>
                                     </ng-template>
                             
                                     <ng-template #isMultipleObject>
                                         <ng-container *ngIf="field.kindOfField === 'MultipleObject'">
-                                            <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="field.displayModalFunction(field.value)">
+                                            <mat-form-field *ngIf="modalType === 'Details'">
+                                                <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="field.displayModalFunction(field.value)">
+                                            </mat-form-field>
                                         </ng-container>
                                     </ng-template>
-                                        
-                                   
-
-
-                                    <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('required')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('required'))">
-                                        {{ fieldName | titlecase}} is required
-                                    </mat-error>
-                                    <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('pattern')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('pattern'))">
-                                        The {{ fieldName | titlecase}} must contain {{ field.pattern }}
-                                    </mat-error>
-                                </mat-form-field>
                             </ng-template>
                         </td>
                     </tr>

@@ -181,7 +181,7 @@ export const TEXT = {
     data_verification_chip_add: 'To add',
     data_verification_chip_existing: 'Existing',
     data_verification_chip_remove: 'To remove',
-    data_verification_description_duplicate: 'The duplicate check page displays any potential duplicate beneficiary records in the database. If the existing beneficiary is not a head of household, you can overwrite their information, ignored the changes, or save both as different beneficiaries if you are sure they are different people.',
+    data_verification_description_duplicates: 'The duplicate check page displays any potential duplicate beneficiary records in the database. If the existing beneficiary is not a head of household, you can overwrite their information, ignored the changes, or save both as different beneficiaries if you are sure they are different people.',
     data_verification_description_less: 'We found records which you’ve indicated you wish to remove from the database. Please select those which you wish to remove.',
     data_verification_description_more: 'We found records that do not appear to exist in the database already. Please select those that you wish to add to the project database.',
     data_verification_description_typos: 'This panel will display any suspected data entry errors found in the imported beneficiary data. Please choose whether to keep the existing one, update it with the imported data or save both as separate beneficiary records.',

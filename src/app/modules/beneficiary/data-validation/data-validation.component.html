@@ -234,12 +234,14 @@
                             <div class ="error" *ngFor="let error of errors; let householdIndex=index">
                                 <div class="household old">
                                     <div class="head">
-                                        <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
-                                        <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
+                                        <div class="head-info">
+                                            <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
+                                            <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
+                                        </div>
+                                        <mat-chip-list>
+                                            <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
+                                        </mat-chip-list>
                                     </div>
-                                    <mat-chip-list>
-                                        <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
-                                    </mat-chip-list>
                                     <div class="members">
                                         <ng-container *ngFor="let beneficiary of error.old.beneficiaries; let beneficiaryIndex=index">
                                             <div class="member" *ngIf="beneficiaryIndex !== 0">
@@ -255,12 +257,14 @@
                                 </div>
                                 <div class="household new">
                                     <div class="head">
-                                        <h4>{{error.new_household.beneficiaries[0].given_name}} {{error.new_household.beneficiaries[0].family_name}}</h4>
-                                        <p>{{error.new_household.address_number}} {{error.new_household.address_street}} {{error.new_household.address_postcode}}</p>
+                                        <div class="head-info">
+                                            <h4>{{error.new_household.beneficiaries[0].given_name}} {{error.new_household.beneficiaries[0].family_name}}</h4>
+                                            <p>{{error.new_household.address_number}} {{error.new_household.address_street}} {{error.new_household.address_postcode}}</p>
+                                        </div>
+                                        <mat-chip-list>
+                                            <mat-chip>{{texts.data_verification_chip_add| titlecase}}</mat-chip>
+                                        </mat-chip-list>
                                     </div>
-                                    <mat-chip-list>
-                                        <mat-chip>{{texts.data_verification_chip_add| titlecase}}</mat-chip>
-                                    </mat-chip-list>
                                     <div class="members">
                                         <ng-container *ngFor="let beneficiary of error.new_household.beneficiaries; let beneficiaryIndex=index">
                                             <div class="member" *ngIf="beneficiaryIndex !== 0">

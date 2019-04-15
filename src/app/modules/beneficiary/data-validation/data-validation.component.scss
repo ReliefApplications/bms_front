@@ -125,6 +125,7 @@ form
 }
 
 .step-info {
+
     background-color: rgba($bms_green, 0.2);
     border-radius: 8px;
     text-align: center;
@@ -132,6 +133,10 @@ form
     margin: 10px 0;
     overflow: hidden;
     max-height: 300px;
+
+    h3, p {
+        margin: 10px 0;
+    }
 
     &:not(.displayed) {
         animation: disappear 0.5s forwards;

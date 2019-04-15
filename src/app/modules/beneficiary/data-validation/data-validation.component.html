@@ -8,11 +8,14 @@
                 {{texts.data_verification_step_typos | titlecase}}
             </ng-template>
             <div class="container-table">
+
+            <ng-container *ngTemplateOutlet="stepInfo; context: {title: texts.data_verification_step_typos, description: texts.data_verification_description_typos}"></ng-container>
+
+
                 <div class="container-content box-primary">
 
                     <div class="content-table" *ngIf="currentStep === step.Typos">
 
-                        <h3 class="step-title">{{texts.data_verification_step_typos | titlecase}}</h3>
 
                         <div class="global-actions">
                             <mat-checkbox class="old" color="primary" #oldCheckBox
@@ -32,25 +35,24 @@
                         <form *ngIf="form" [formGroup]="form">
                             <div class ="error" *ngFor="let error of errors; let i=index">
                                 <div class="beneficiary old">
-                                    <mat-chip-list>
-                                        <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
-                                    </mat-chip-list>
                                     <mat-checkbox [formControl]="form.controls[i].controls.old" color="primary">
                                         <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
                                         <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
                                         <p>{{texts.data_verification_last_updated| titlecase}}: {{error.old.beneficiaries[0].updated_on}}</p>
                                     </mat-checkbox>
+                                    <mat-chip-list>
+                                        <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
+                                    </mat-chip-list>
                                 </div>
                                 <div class="beneficiary new">
-                                    <mat-chip-list>
-                                        <mat-chip>{{texts.data_verification_chip_add| titlecase}}</mat-chip>
-                                    </mat-chip-list>
                                     <mat-checkbox [formControl]="form.controls[i].controls.new" color="primary">
                                         <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
                                         <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
                                         <p>{{texts.data_verification_last_updated| titlecase}}: {{texts.data_verification_just_now| titlecase}}</p>
                                     </mat-checkbox>
-
+                                    <mat-chip-list>
+                                        <mat-chip>{{texts.data_verification_chip_add| titlecase}}</mat-chip>
+                                    </mat-chip-list>
                                 </div>
                             </div>
                         </form>
@@ -66,9 +68,11 @@
                 {{texts.data_verification_step_more | titlecase}}
             </ng-template>
             <div class="container-table">
+
+                <ng-container *ngTemplateOutlet="stepInfo; context: {title: texts.data_verification_step_more, description: texts.data_verification_description_more}"></ng-container>
+
                 <div class="container-content box-primary">
                     <div class="content-table" *ngIf="currentStep === step.More">
-                        <h3 class="step-title">{{texts.data_verification_step_more | titlecase}}</h3>
                         <div class="global-actions align-end">
                                 <mat-checkbox class="new" color="primary" #checkBox
                                     [checked]="getGlobalCheckboxState()===checkboxState.Checked"
@@ -81,12 +85,14 @@
                             <div class ="error" *ngFor="let error of errors; let householdIndex=index">
                                 <div class="household old">
                                     <div class="head">
+                                        <div class="head-info">
+                                            <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
+                                            <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
+                                            <p>{{texts.data_verification_last_updated| titlecase}}: {{error.old.beneficiaries[0].updated_on}}</p>
+                                        </div>
                                         <mat-chip-list>
                                             <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
                                         </mat-chip-list>
-                                        <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
-                                        <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
-                                        <p>{{texts.data_verification_last_updated| titlecase}}: {{error.old.beneficiaries[0].updated_on}}</p>
                                     </div>
                                     <div class="members">
                                         <ng-container *ngFor="let beneficiary of error.old.beneficiaries; let beneficiaryIndex=index">
@@ -98,12 +104,14 @@
                                 </div>
                                 <div class="household new">
                                     <div class="head">
+                                        <div class="head-info">
+                                            <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
+                                            <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
+                                            <p>{{texts.data_verification_last_updated| titlecase}}: {{texts.data_verification_just_now| titlecase}}</p>
+                                        </div>
                                         <mat-chip-list>
                                             <mat-chip>{{texts.data_verification_chip_add| titlecase}}</mat-chip>
                                         </mat-chip-list>
-                                        <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
-                                        <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
-                                        <p>{{texts.data_verification_last_updated| titlecase}}: {{texts.data_verification_just_now| titlecase}}</p>
                                     </div>
                                     <div class="members">
                                         <ng-container *ngFor="let beneficiary of error.new.beneficiaries; let beneficiaryIndex=index">
@@ -129,9 +137,11 @@
                 {{texts.data_verification_step_less | titlecase}}
             </ng-template>
             <div class="container-table">
+
+                <ng-container *ngTemplateOutlet="stepInfo; context: {title: texts.data_verification_step_less, description: texts.data_verification_description_less}"></ng-container>
+
                 <div class="container-content box-primary">
                     <div class="content-table" *ngIf="currentStep === step.Less">
-                        <h3 class="step-title">{{texts.data_verification_step_less | titlecase}}</h3>
                         <div class="global-actions align-start">
                             <mat-checkbox class="new" color="primary" #checkBox
                                 [checked]="getGlobalCheckboxState()===checkboxState.Checked"
@@ -144,11 +154,13 @@
                             <div class ="error" *ngFor="let error of errors; let householdIndex=index">
                                 <div class="household old">
                                     <div class="head">
+                                        <div class="head-info">
+                                            <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
+                                            <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
+                                        </div>
                                         <mat-chip-list>
                                             <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
                                         </mat-chip-list>
-                                        <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
-                                        <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
                                     </div>
                                     <div class="members">
                                         <ng-container *ngFor="let beneficiary of error.old.beneficiaries; let beneficiaryIndex=index">
@@ -162,11 +174,13 @@
                                 </div>
                                 <div class="household new">
                                     <div class="head">
+                                        <div class="head-info">
+                                            <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
+                                            <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
+                                        </div>
                                         <mat-chip-list>
                                             <mat-chip>{{texts.data_verification_chip_add| titlecase}}</mat-chip>
                                         </mat-chip-list>
-                                        <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
-                                        <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
                                     </div>
                                     <div class="members">
                                         <ng-container *ngFor="let beneficiary of error.new.beneficiaries; let beneficiaryIndex=index">
@@ -196,9 +210,11 @@
                 {{texts.data_verification_step_duplicates | titlecase}}
             </ng-template>
             <div class="container-table">
+
+                <ng-container *ngTemplateOutlet="stepInfo; context: {title: texts.data_verification_step_duplicates, description: texts.data_verification_description_duplicates}"></ng-container>
+
                 <div class="container-content box-primary">
                     <div class="content-table" *ngIf="currentStep === step.Duplicates">
-                        <h3 class="step-title">{{texts.data_verification_step_duplicates | titlecase}}</h3>
                         <div class="global-actions">
                             <mat-checkbox class="old" color="primary" #oldCheckBox
                                 [checked]="getStatusCheckboxState('old')===checkboxState.Checked"
@@ -218,12 +234,12 @@
                             <div class ="error" *ngFor="let error of errors; let householdIndex=index">
                                 <div class="household old">
                                     <div class="head">
-                                        <mat-chip-list>
-                                            <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
-                                        </mat-chip-list>
                                         <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
                                         <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
                                     </div>
+                                    <mat-chip-list>
+                                        <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
+                                    </mat-chip-list>
                                     <div class="members">
                                         <ng-container *ngFor="let beneficiary of error.old.beneficiaries; let beneficiaryIndex=index">
                                             <div class="member" *ngIf="beneficiaryIndex !== 0">
@@ -239,12 +255,12 @@
                                 </div>
                                 <div class="household new">
                                     <div class="head">
-                                        <mat-chip-list>
-                                            <mat-chip>{{texts.data_verification_chip_add| titlecase}}</mat-chip>
-                                        </mat-chip-list>
                                         <h4>{{error.new_household.beneficiaries[0].given_name}} {{error.new_household.beneficiaries[0].family_name}}</h4>
                                         <p>{{error.new_household.address_number}} {{error.new_household.address_street}} {{error.new_household.address_postcode}}</p>
                                     </div>
+                                    <mat-chip-list>
+                                        <mat-chip>{{texts.data_verification_chip_add| titlecase}}</mat-chip>
+                                    </mat-chip-list>
                                     <div class="members">
                                         <ng-container *ngFor="let beneficiary of error.new_household.beneficiaries; let beneficiaryIndex=index">
                                             <div class="member" *ngIf="beneficiaryIndex !== 0">
@@ -291,4 +307,14 @@
         <button [disabled]="!form.valid" class="button-background-primary" mat-raised-button (click)="validateStep()">{{texts.next| titlecase}}</button>
     </div>
 </ng-template>
+
+<ng-template #stepInfo let-title="title" let-description="description">
+    <div class="step-info" [ngClass]="{'displayed': helpDisplayed}">
+        <mat-icon (click)="helpDisplayed = false">close</mat-icon>
+        <h3> {{title|titlecase}} {{texts.data_verification_step_info|titlecase}}</h3>
+        <p>{{description}}</p>
+        <p>{{texts.data_verification_description_end}}</p>
+    </div>
+</ng-template>
+
 

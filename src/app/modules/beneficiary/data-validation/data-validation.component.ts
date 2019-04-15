@@ -54,6 +54,8 @@ export class DataValidationComponent implements OnInit {
 
     public loading = true;
 
+    public helpDisplayed = true;
+
     public texts = GlobalText.TEXTS;
 //
 // ─── INIT ───────────────────────────────────────────────────────────────────────
@@ -94,6 +96,7 @@ export class DataValidationComponent implements OnInit {
     }
     // Get the step from the response and set it in the component
     private setStepFromResponse(response: any) {
+        this.helpDisplayed = true;
         this.currentStep = response.step;
         this.stepper.selectedIndex = this.currentStep - 2 ;
     }

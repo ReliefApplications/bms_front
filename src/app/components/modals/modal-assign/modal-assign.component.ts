@@ -48,15 +48,15 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
     ngOnInit() {
 
         if (this.data.project && this.data.distribution) {
-            // this.projectControl.setValue(this.data.project.id);
-            // this.distributionControl.setValue(this.data.distribution.id);
-            // this.distributionName = this.data.distribution.name;
-            // if (this.data.beneficiary) {
-            //     this.beneficiaryControl.setValue(this.data.beneficiary.beneficiaryId);
-            //     this.beneficiaryName = this.data.beneficiary.givenName + ' ' + this.data.beneficiary.familyName;
-            // } else if (this.data.beneficiaries) {
-            //     this.beneficiaries = this.data.beneficiaries;
-            // }
+            this.projectControl.setValue(this.data.project.get('id'));
+            this.distributionControl.setValue(this.data.distribution.get('id'));
+            this.distributionName = this.data.distribution.get('name');
+            if (this.data.beneficiary) {
+                this.beneficiaryControl.setValue(this.data.beneficiary.get('id'));
+                this.beneficiaryName = this.data.beneficiary.get('fullName');
+            } else if (this.data.beneficiaries) {
+                this.beneficiaries = this.data.beneficiaries;
+            }
         } else if (this.data.projects) {
             this.projects = this.data.projects;
         }

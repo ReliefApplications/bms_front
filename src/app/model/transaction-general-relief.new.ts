@@ -118,8 +118,8 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
 
         return {
             id: this.get('id'),
-            givenName: this.get('givenName'),
-            familyName: this.get('familyName'),
+            given_name: this.get('givenName'),
+            family_name: this.get('familyName'),
             used: this.fields.distributedAt.formatForApi(),
             values: this.get('values'),
             notes: this.get('notes'),

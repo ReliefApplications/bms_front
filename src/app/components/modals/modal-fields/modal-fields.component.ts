@@ -5,6 +5,7 @@ import { APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 import { CustomModel as CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { CustomDateAdapter } from '../../../core/utils/date.adapter';
 import { FieldService } from 'src/app/core/api/field.service';
+import { TextModelField } from 'src/app/model/CustomModel/text-model-field';
 
 @Component({
     selector: 'app-project',
@@ -45,7 +46,12 @@ export class ModalFieldsComponent implements OnInit {
 
     display(field) {
         if (field.kindOfField === 'Children') {
-            return this.objectInstance.get(field.childrenObject).fields[field.childrenFieldName];
+            return this.objectInstance.get(field.childrenObject) ?
+                this.objectInstance.get(field.childrenObject).fields[field.childrenFieldName] :
+                new TextModelField({
+                    title: field.title,
+                    nullValue: field.nullValue
+                });
         } else {
             return field;
         }

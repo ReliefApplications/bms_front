@@ -10,6 +10,9 @@ import { Beneficiary } from './beneficiary.new';
 import { Distribution } from './distribution.new';
 import { NestedFieldModelField } from './CustomModel/nested-field';
 import { CURRENCIES } from './currencies';
+import { Voucher } from './voucher.new';
+import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
+import { DateModelField } from './CustomModel/date-model-field';
 
 export class BookletStatus extends CustomModel {
 
@@ -128,6 +131,16 @@ export class Booklet extends CustomModel {
             displayTableFunction: null,
             displayModalFunction: null,
         }),
+        vouchers: new MultipleObjectsModelField<Voucher>({
+
+        }),
+        value: new NumberModelField({
+            title: GlobalText.TEXTS.model_value,
+        }),
+        usedAt: new DateModelField({
+            title: GlobalText.TEXTS.model_used,
+            nullValue: 'Not yet'
+        }),
     };
 
     public static apiToModel(bookletFromApi): Booklet {
@@ -147,6 +160,7 @@ export class Booklet extends CustomModel {
         newBooklet.set('status', status ? status : null);
 
         const individualValues = [];
+        newBooklet.set('vouchers', bookletFromApi.vouchers.map((voucher: any) => Voucher.apiToModel(voucher)));
         bookletFromApi.vouchers.forEach(voucher => {
             individualValues.push(voucher.value);
         });
@@ -158,7 +172,10 @@ export class Booklet extends CustomModel {
             newBooklet.set('individualValues', individualValuesString);
         } else {
             // newBooklet.set('individualToAll', false);
-            newBooklet.set('individualValues',  bookletFromApi.vouchers.length > 0 ? bookletFromApi.vouchers[0].value : null);
+            newBooklet.set('individualValues',
+                bookletFromApi.vouchers.length > 0 && bookletFromApi.vouchers[0].value ?
+                bookletFromApi.vouchers[0].value.toString() :
+                null);
         }
 
         newBooklet.set('beneficiary',
@@ -167,6 +184,9 @@ export class Booklet extends CustomModel {
             bookletFromApi.distribution_beneficiary ?
             Distribution.apiToModel(bookletFromApi.distribution_beneficiary.distribution_data) :
             null);
+
+        newBooklet.set('value', newBooklet.getTotalValue());
+        newBooklet.set('usedAt', newBooklet.getUsedAt());
 
         newBooklet.fields.beneficiary.displayTableFunction = (value: Beneficiary) => value ? value.get('fullName') : null;
         newBooklet.fields.beneficiary.displayModalFunction = (value: Beneficiary) => value ? value.get('fullName') : null;
@@ -210,5 +230,26 @@ export class Booklet extends CustomModel {
 
     isPrintable() {
         return true;
+    }
+
+    public getTotalValue(): number {
+        let value = 0;
+        this.get<Voucher[]>('vouchers').forEach((voucher: Voucher) => {
+            value += voucher.get<number>('value');
+        });
+        return value;
+    }
+
+    public getUsedAt(): Date {
+        let date = null;
+        if (this.get('status').get<string>('id') === '2' || this.get('status').get<string>('id') === '3') {
+            this.get<Voucher[]>('vouchers').forEach((voucher: Voucher) => {
+                if (date === null || date < voucher.get('usedAt')) {
+                    date = voucher.get('usedAt');
+                }
+            });
+        }
+
+        return date;
     }
 }

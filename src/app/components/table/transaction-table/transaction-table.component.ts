@@ -49,33 +49,33 @@ export class TransactionTableComponent extends TableComponent {
 
     // THE NEXT TWO FUNCTIONS NEED TO BE PUT IN THE QR VOUCHER COMPONENT
 
-    print(element: any) {
-        return this._exportService.printVoucher(element.booklet.id);
-    }
+    // print(element: any) {
+    //     return this._exportService.printVoucher(element.booklet.id);
+    // }
 
-    assign(element: any) {
-        const dialogRef = this.dialog.open(ModalAssignComponent, {
-            data: {
-                beneficiary: element,
-                project: this.parentObject.project,
-                distribution: this.parentObject,
-            }
-        });
-        dialogRef.afterClosed().subscribe((test) => {
-            this.reloadTable.emit();
-        });
-    }
+    // assign(element: any) {
+    //     const dialogRef = this.dialog.open(ModalAssignComponent, {
+    //         data: {
+    //             beneficiary: element,
+    //             project: this.parentObject.project,
+    //             distribution: this.parentObject,
+    //         }
+    //     });
+    //     dialogRef.afterClosed().subscribe((test) => {
+    //         this.reloadTable.emit();
+    //     });
+    // }
 
     // THE NEXT TWO FUNCTIONS NEED TO BE PUT IN THE TRANSACTIONVOUCHER MODEL
 
-    isPrintable(element: any): boolean {
-        return element.booklet;
-    }
+    // isPrintable(element: any): boolean {
+    //     return element.booklet;
+    // }
 
-    isAssignable(element: any): boolean {
-        if (element.booklet && element.booklet.status !== 3) {
-          return false;
-        }
-        return true;
-    }
+    // isAssignable(element: any): boolean {
+    //     if (element.booklet && element.booklet.status !== 3) {
+    //       return false;
+    //     }
+    //     return true;
+    // }
 }

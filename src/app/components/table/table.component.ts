@@ -95,6 +95,7 @@ export class TableComponent implements OnInit {
 
     @Output() openModal = new EventEmitter<object>();
     @Output() printOne = new EventEmitter<any>();
+    @Output() assignOne = new EventEmitter<any>();
 
     sortedData: any;
     allData: any = undefined;
@@ -369,4 +370,7 @@ export class TableComponent implements OnInit {
         this.printOne.emit(element);
     }
 
+    assign(element) {
+        this.assignOne.emit(element);
+    }
 }

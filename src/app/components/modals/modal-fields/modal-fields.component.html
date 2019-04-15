@@ -89,7 +89,7 @@
                                     <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('pattern')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('pattern'))">
                                         {{field.hint | titlecase}}
                                     </mat-error>
-                                    <mat-hint align="start" *ngIf="field.hint"><strong>{{field.hint | titlecase}}</strong> </mat-hint>
+                                    <mat-hint align="start" *ngIf="field.hint && modalType !== 'Details'"><strong>{{field.hint | titlecase}}</strong> </mat-hint>
                                 </mat-form-field>
 
                                     <ng-template #isObject>

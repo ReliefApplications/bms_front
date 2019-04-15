@@ -6,6 +6,7 @@ import { Booklet } from './booklet.new';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
+import { DateModelField } from './CustomModel/date-model-field';
 
 export class Voucher extends CustomModel {
 
@@ -26,22 +27,26 @@ export class Voucher extends CustomModel {
         //     title: GlobalText.TEXTS.model_vendor,
 
         // }),
-        used: new BooleanModelField({
+        usedAt: new DateModelField({
             title: GlobalText.TEXTS.model_used,
 
         }),
         code: new TextModelField({
             title:  GlobalText.TEXTS.model_code,
+        }),
+        value: new NumberModelField({
+
         })
     };
 
     public static apiToModel(voucherFromApi: any): Voucher {
         const newVoucher = new Voucher();
         newVoucher.set('id', voucherFromApi.id);
-        newVoucher.set('booklet', Booklet.apiToModel(voucherFromApi.booklet));
+        newVoucher.set('booklet', voucherFromApi.booklet ? Booklet.apiToModel(voucherFromApi.booklet) : null);
         // newVoucher.set('vendor', Vendor.apiToModel(voucherFromApi.vendor));
-        newVoucher.set('used', voucherFromApi.used);
+        newVoucher.set('usedAt', voucherFromApi.used_at);
         newVoucher.set('code', voucherFromApi.code);
+        newVoucher.set('value', voucherFromApi.value);
 
         return newVoucher;
     }

@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { TableComponent } from 'src/app/components/table/table.component';
@@ -10,8 +10,8 @@ import { ProductService } from 'src/app/core/api/product-service';
 import { VendorsService } from 'src/app/core/api/vendors.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { ModalService } from 'src/app/core/utils/modal.service';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { FinancialProvider } from 'src/app/model/financial-provider';
 import { Product } from 'src/app/model/product';
 import { Vendors } from 'src/app/model/vendors';
 import { GlobalText } from 'src/texts/global';
@@ -27,7 +27,7 @@ import { CountrySpecific } from '../../model/country-specific.new';
 import { Donor } from '../../model/donor.new';
 import { Project as NewProject } from '../../model/project.new';
 import { User } from '../../model/user.new';
-import { ModalService } from 'src/app/core/utils/modal.service';
+import { FinancialProvider } from './../../model/financial-provider.new';
 
 
 

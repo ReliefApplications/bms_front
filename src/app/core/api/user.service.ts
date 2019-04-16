@@ -11,6 +11,7 @@ import { CustomModelService } from './custom-model.service';
 import { AppInjector } from 'src/app/app-injector';
 import { ProjectService } from './project.service';
 import { Project } from 'src/app/model/project.new';
+import { LocationService } from './location.service';
 
 @Injectable({
     providedIn: 'root'

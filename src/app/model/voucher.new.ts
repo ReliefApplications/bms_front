@@ -7,6 +7,7 @@ import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
 import { DateModelField } from './CustomModel/date-model-field';
+import { Vendor } from './vendor.new';
 
 export class Voucher extends CustomModel {
 
@@ -22,11 +23,11 @@ export class Voucher extends CustomModel {
         booklet: new ObjectModelField<Booklet>({
             title: GlobalText.TEXTS.model_booklet,
         }),
-        // // before, was used as vendor (name ?) string
-        // vendor: new ObjectModelField<Vendors>({
-        //     title: GlobalText.TEXTS.model_vendor,
+        // before, was used as vendor (name ?) string
+        vendor: new ObjectModelField<Vendor>({
+            title: GlobalText.TEXTS.model_vendor,
 
-        // }),
+        }),
         usedAt: new DateModelField({
             title: GlobalText.TEXTS.model_used,
 
@@ -43,7 +44,7 @@ export class Voucher extends CustomModel {
         const newVoucher = new Voucher();
         newVoucher.set('id', voucherFromApi.id);
         newVoucher.set('booklet', voucherFromApi.booklet ? Booklet.apiToModel(voucherFromApi.booklet) : null);
-        // newVoucher.set('vendor', Vendor.apiToModel(voucherFromApi.vendor));
+        newVoucher.set('vendor', voucherFromApi.vendor ? Vendor.apiToModel(voucherFromApi.vendor) : null);
         newVoucher.set('usedAt', voucherFromApi.used_at);
         newVoucher.set('code', voucherFromApi.code);
         newVoucher.set('value', voucherFromApi.value);

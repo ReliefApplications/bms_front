@@ -7,6 +7,7 @@ import { MultipleSelectModelField } from './CustomModel/multiple-select-model-fi
 import { CustomModel } from './CustomModel/custom-model';
 import { Project } from './project.new';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
+import { FormGroup } from '@angular/forms';
 
 export class ErrorInterface {
     message: string;
@@ -49,7 +50,7 @@ export class User extends CustomModel {
 
         }),
         username: new TextModelField({
-
+            title: GlobalText.TEXTS.login_username,
         }),
         email: new TextModelField({
             title: GlobalText.TEXTS.email,
@@ -85,16 +86,21 @@ export class User extends CustomModel {
             isEditable: true,
             isSettable: true,
             isTrigger: true,
-            triggerFunction: (user: User) => {
-                if (user.get('rights').get<string>('id') === 'ROLE_REGIONAL_MANAGER' ||
-                user.get('rights').get<string>('id') === 'ROLE_REGIONAL_MANROLE_COUNTRY_MANAGERAGER' ||
-                user.get('rights').get<string>('id') === 'ROLE_READ_ONLY' ) {
-                    user.fields.countries.isSettable = true;
+            triggerFunction: (user: User, value: string, form: FormGroup) => {
+                if (value === 'ROLE_REGIONAL_MANAGER' ||
+                value === 'ROLE_REGIONAL_MANROLE_COUNTRY_MANAGERAGER' ||
+                value === 'ROLE_READ_ONLY' ) {
+                    form.controls.countries.enable();
+                    form.controls.projects.disable();
 
-                } else if (this.get('rights').get<string>('id') === 'ROLE_PROJECT_MANAGER' ||
-                this.get('rights').get<string>('id') === 'ROLE_PROJECT_OFFICER' ||
-                this.get('rights').get<string>('id') === 'ROLE_FIELD_OFFICER') {
-                    user.fields.projects.isSettable = true;
+                } else if (value === 'ROLE_PROJECT_MANAGER' ||
+                value === 'ROLE_PROJECT_OFFICER' ||
+                value === 'ROLE_FIELD_OFFICER') {
+                    form.controls.projects.enable();
+                    form.controls.countries.disable();
+                } else {
+                    form.controls.countries.disable();
+                    form.controls.projects.disable();
                 }
                 return user;
             },
@@ -105,7 +111,6 @@ export class User extends CustomModel {
         projects: new MultipleSelectModelField({
             title: GlobalText.TEXTS.project,
             isDisplayedInModal: true,
-            displayModalFunction: null,
             bindField: 'name',
 
         }),
@@ -113,6 +118,7 @@ export class User extends CustomModel {
             title: GlobalText.TEXTS.model_countryIso3,
             options: [new Country('KHM', 'Cambodia'), new Country('SYR', 'Syria')],
             isDisplayedInModal: true,
+            bindField: 'name',
         }),
         language: new TextModelField({
 
@@ -122,16 +128,22 @@ export class User extends CustomModel {
 
     public static apiToModel(userFromApi: any): User {
         const newUser = new User();
-        newUser.set('rights', newUser.getOptions('rights').filter((role: Role) => role.get('id') === userFromApi.roles[0])[0]);
-        newUser.set('countries', userFromApi.countries.map((countryFromApi: any) => {
-            return newUser.getOptions('countries').filter((country: Country) => country.get('id') === countryFromApi.iso3)[0];
-        }));
-        newUser.set('projects', userFromApi.user_projects.map((project: any) => {
-            if (newUser.get<Country[]>('countries').filter((country: Country) => country.get('name') === project.project.iso3).length > 0) {
-                newUser.add('countries', new Country(null, project.project.iso3));
-            }
-            return Project.apiToModel(project.project);
-        }));
+        newUser.set('rights', userFromApi.roles ?
+            newUser.getOptions('rights').filter((role: Role) => role.get('id') === userFromApi.roles[0])[0] :
+            null);
+        newUser.set('countries', userFromApi.countries ?
+            userFromApi.countries.map((countryFromApi: any) => {
+                return newUser.getOptions('countries').filter((country: Country) => country.get('id') === countryFromApi.iso3)[0];
+            }) :
+            null);
+        newUser.set('projects', userFromApi.user_projects ?
+            userFromApi.user_projects.map((project: any) => {
+                if (newUser.get<Country[]>('countries').filter((country) => country.get('name') === project.project.iso3).length > 0) {
+                    newUser.add('countries', new Country(null, project.project.iso3));
+                }
+                return Project.apiToModel(project.project);
+            }) :
+            null);
         newUser.set('saltedPassword', userFromApi.password);
         newUser.set('password', '');
         newUser.set('email', userFromApi.email);
@@ -154,12 +166,14 @@ export class User extends CustomModel {
         if (this.get('rights').get<string>('id') === 'ROLE_REGIONAL_MANAGER' ||
         this.get('rights').get<string>('id') === 'ROLE_REGIONAL_MANROLE_COUNTRY_MANAGERAGER' ||
         this.get('rights').get<string>('id') === 'ROLE_READ_ONLY') {
-            userForApi['country'] = this.fields.countries.formatForApi();
+            userForApi['country'] = this.fields.countries.value ?
+            this.fields.countries.value.map((country: Country) => country.get('id')) :
+            null;
         } else if (this.get('rights').get<string>('id') === 'ROLE_PROJECT_MANAGER' ||
         this.get('rights').get<string>('id') === 'ROLE_PROJECT_OFFICER' ||
         this.get('rights').get<string>('id') === 'ROLE_FIELD_OFFICER') {
-            userForApi['user_projects'] = this.fields.projects.value ?
-                this.fields.projects.value.map((project: Project) => project.modelToApi()) :
+            userForApi['projects'] = this.fields.projects.value ?
+                this.fields.projects.value.map((project: Project) => project.get('id')) :
                 null;
         }
         return userForApi;

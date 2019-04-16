@@ -30,22 +30,26 @@ export class Location extends CustomModel {
         ),
         adm1: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.adm1
+                title: GlobalText.TEXTS.adm1,
+                bindField: 'name'
             }
         ),
         adm2: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.adm2
+                title: GlobalText.TEXTS.adm2,
+                bindField: 'name'
             }
         ),
         adm3: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.adm3
+                title: GlobalText.TEXTS.adm3,
+                bindField: 'name'
             }
         ),
         adm4: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.adm4
+                title: GlobalText.TEXTS.adm4,
+                bindField: 'name'
             }
         ),
         countryIso3: new TextModelField(

@@ -41,10 +41,7 @@ export class AppComponent implements OnInit, DoCheck {
         this._authenticationService.getUser()
             .subscribe((user: User) => {
                 this.userService.currentUser = user;
-                console.log('init');
-                if (this.router.url !== '/login') {
                     GlobalText.changeLanguage(user.language);
-                }
             });
     }
 

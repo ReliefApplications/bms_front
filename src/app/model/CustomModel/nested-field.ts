@@ -15,11 +15,18 @@ export class NestedFieldModelField extends CustomModelField<any> {
      */
     childrenFieldName: string;
 
+    /**
+     * Is it a password ?
+     * @type {boolean}
+     */
+    isPassword: boolean;
+
     constructor(properties: any) {
         super(properties);
 
         this.childrenObject              = properties['childrenObject'];
-        this.childrenFieldName                = properties['childrenFieldName'];
+        this.childrenFieldName           = properties['childrenFieldName'];
+        this.isPassword                  = properties['isPassword'];
     }
 
 }

@@ -56,12 +56,7 @@ export class ModalFieldsComponent implements OnInit {
 
     display(field) {
         if (field.kindOfField === 'Children') {
-            return this.objectInstance.get(field.childrenObject) ?
-                this.objectInstance.get(field.childrenObject).fields[field.childrenFieldName] :
-                new TextModelField({
-                    title: field.title,
-                    nullValue: field.nullValue
-                });
+            return this.objectInstance.get(field.childrenObject).fields[field.childrenFieldName];
         } else {
             return field;
         }
@@ -124,13 +119,8 @@ export class ModalFieldsComponent implements OnInit {
     onChanges(): void {
         const triggeringFieldsNames = this.objectFields.filter((fieldName) => this.objectInstance.fields[fieldName].isTrigger === true);
         triggeringFieldsNames.forEach((fieldName) => {
-            this.form.get(fieldName).valueChanges.subscribe(val => {
-                // We store the values already entered in the form, in the object
-                this.updateObjectFromForm();
-                // We apply the changes to the object
-                this.objectInstance = this.objectInstance.fields[fieldName].triggerFunction(this.objectInstance);
-                 // Before remaking the form with the changed object
-                this.makeForm();
+            this.form.get(fieldName).valueChanges.subscribe(value => {
+                this.objectInstance = this.objectInstance.fields[fieldName].triggerFunction(this.objectInstance, value, this.form);
             });
         });
     }
@@ -150,43 +140,55 @@ export class ModalFieldsComponent implements OnInit {
     updateObjectFromForm() {
         // TODO: fix ngselect value that should make this code useles
         let subscription: Observable<string> = of(null);
-        for (const field of this.objectFields) {
-            if (this.objectInstance.fields[field].kindOfField === 'File') {
-                if (this.form.controls[field].value) {
+        for (const fieldName of this.objectFields) {
+            const field = this.objectInstance.fields[fieldName];
+            if (field.kindOfField === 'Children') {
+                if (this.form.controls[fieldName].value) {
+                    const childrenField = this.objectInstance.get(field.childrenObject);
+                    const childrenFieldName = field.childrenFieldName;
+                    if (childrenField.fields[childrenFieldName].kindOfField === 'SingleSelect') {
+                        childrenField.set(childrenFieldName, childrenField.getOptions(childrenFieldName).filter(option => {
+                            return option.get('id') === this.form.controls[fieldName].value;
+                        })[0]);
+                    } else {
+                        childrenField.set(childrenFieldName, this.form.controls[fieldName].value);
+                    }
+                    this.objectInstance.set(field.childrenObject, childrenField);
+                }
+            } else if (field.kindOfField === 'File') {
+                if (this.form.controls[fieldName].value) {
                     subscription = this.uploadService
-                        .uploadImage(this.form.controls[field].value, this.objectInstance.fields[field].uploadPath)
+                        .uploadImage(this.form.controls[fieldName].value, field.uploadPath)
                         .pipe(
                             tap((fileUrl: string) => {
-                                this.objectInstance.set(this.objectInstance.fields[field].fileUrlField, fileUrl);
+                                this.objectInstance.set(field.fileUrlField, fileUrl);
                             })
                         );
                 }
-            } else if (this.objectInstance.fields[field].kindOfField === 'ArrayInputField') {
+            } else if (field.kindOfField === 'ArrayInputField') {
                 const array = [];
-                this.objectInstance.fields[field].value.forEach((singleValue, index) => {
-                    array.push(this.form.controls[field + index.toString()].value);
+                field.value.forEach((singleValue, index) => {
+                    array.push(this.form.controls[fieldName + index.toString()].value);
                 });
-                this.objectInstance.set(field, array);
-            } else if (this.form.controls[field].value && this.objectInstance.fields[field].kindOfField === 'MultipleSelect') {
-                this.objectInstance.set(field, []);
+                this.objectInstance.set(fieldName, array);
+            } else if (this.form.controls[fieldName].value && field.kindOfField === 'MultipleSelect') {
+                this.objectInstance.set(fieldName, []);
 
-                this.form.controls[field].value.forEach(optionId => {
-                    const selectedOption = this.objectInstance.getOptions(field).filter(option => {
+                this.form.controls[fieldName].value.forEach(optionId => {
+                    const selectedOption = this.objectInstance.getOptions(fieldName).filter(option => {
                         return option.get('id') === optionId;
                     })[0];
 
-                    this.objectInstance.add(field, selectedOption);
+                    this.objectInstance.add(fieldName, selectedOption);
                 });
-            } else if (this.form.controls[field].value && this.objectInstance.fields[field].kindOfField === 'SingleSelect') {
-                this.objectInstance.set(field, this.objectInstance.getOptions(field).filter(option => {
-                    return option.get('id') === this.form.controls[field].value;
+            } else if (this.form.controls[fieldName].value && field.kindOfField === 'SingleSelect') {
+                this.objectInstance.set(fieldName, this.objectInstance.getOptions(fieldName).filter(option => {
+                    return option.get('id') === this.form.controls[fieldName].value;
                 })[0]);
-
-            } else if (this.form.controls[field].value !== null && this.form.controls[field].value !== undefined) {
-                this.objectInstance.set(field, this.form.controls[field].value);
+            } else if (this.form.controls[fieldName].value !== null && this.form.controls[fieldName].value !== undefined) {
+                this.objectInstance.set(fieldName, this.form.controls[fieldName].value);
             }
         }
-
         return subscription;
     }
 

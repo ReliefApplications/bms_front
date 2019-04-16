@@ -8,7 +8,7 @@ export class TextModelField extends CustomModelField<string> {
      */
     isLongText: boolean;
     /**
-     * Is the input a long string ?
+     * Is it a password ?
      * @type {boolean}
      */
     isPassword: boolean;

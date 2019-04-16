@@ -10,7 +10,6 @@ import { CustomModelService } from './custom-model.service';
 import { HttpService } from './http.service';
 import { ProjectService } from './project.service';
 
-
 @Injectable({
     providedIn: 'root'
 })

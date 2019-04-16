@@ -14,7 +14,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { Product } from 'src/app/model/product.new';
-import { Vendors } from 'src/app/model/vendors';
+import { Vendor } from 'src/app/model/vendor.new';
 import { GlobalText } from 'src/texts/global';
 import { CountrySpecificService } from '../../core/api/country-specific.service';
 import { DistributionService } from '../../core/api/distribution.service';
@@ -224,7 +224,7 @@ export class SettingsComponent implements OnInit {
         this.printable = false;
         break;
       case 'vendors':
-        this.referedClassToken = Vendors;
+        this.referedClassToken = Vendor;
         this.referedClassService = this.vendorsService;
         this.deletable = true;
         this.printable = true;

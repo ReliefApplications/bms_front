@@ -65,6 +65,16 @@ export class CustomModelField<T> {
      * @type {string}
      */
     pattern: string;
+    /**
+     * Does changing the value of the field triggers something ?
+     * @type {boolean}
+     */
+    isTrigger: boolean;
+    /**
+     * The function triggered when changes are made
+     * @type {Function}
+     */
+    triggerFunction: Function;
 
 
     /**
@@ -90,6 +100,8 @@ export class CustomModelField<T> {
         this.nullValue              = properties['nullValue'];
         this.hint                   = properties['hint'];
         this.pattern                = properties['pattern'];
+        this.isTrigger              = properties['isTrigger'];
+        this.triggerFunction              = properties['triggerFunction'];
     }
 
     // Field specific value should never be omitted
@@ -111,6 +123,7 @@ export class CustomModelField<T> {
             nullValue:              'none',
             hint:                   null,
             pattern:                null,
+            isTrigger:              false,
 
             ...properties,
         };

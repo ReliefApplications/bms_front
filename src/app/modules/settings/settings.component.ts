@@ -26,7 +26,7 @@ import { Mapper } from '../../core/utils/mapper.service';
 import { CountrySpecific } from '../../model/country-specific.new';
 import { Donor } from '../../model/donor.new';
 import { Project as NewProject } from '../../model/project.new';
-import { User } from '../../model/user';
+import { User } from '../../model/user.new';
 import { ModalService } from 'src/app/core/utils/modal.service';
 
 

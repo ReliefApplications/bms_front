@@ -3,24 +3,32 @@ import { URL_BMS_API } from '../../../environments/environment';
 
 import { HttpService } from './http.service';
 import { WsseService } from '../authentication/wsse.service';
-import { User, ErrorInterface } from '../../model/user';
+import { User, ErrorInterface } from '../../model/user.new';
 import { SaltInterface } from '../../model/salt';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { tap } from 'rxjs/operators';
+import { CustomModelService } from './custom-model.service';
+import { AppInjector } from 'src/app/app-injector';
+import { ProjectService } from './project.service';
+import { Project } from 'src/app/model/project.new';
 
 @Injectable({
     providedIn: 'root'
 })
-export class UserService {
+export class UserService extends CustomModelService {
     readonly api = URL_BMS_API;
 
     constructor(
-        private http: HttpService,
+        protected http: HttpService,
         private wsseService: WsseService,
         private authenticationService: AuthenticationService
     ) {
+        super(http);
     }
 
+    public create(body: any) {
+        return this.authenticationService.createUser(body);
+    }
 
     public get() {
         const url = this.api + '/web-users';
@@ -83,5 +91,17 @@ export class UserService {
                     });
                 })
             );
+    }
+
+    public fillWithOptions(user: User) {
+        const appInjector = AppInjector;
+        appInjector.get(ProjectService).get().subscribe((projects: any) => {
+
+            const projectOptions = projects.map(project => {
+                return Project.apiToModel(project);
+            });
+
+            user.setOptions('projects', projectOptions);
+        });
     }
 }

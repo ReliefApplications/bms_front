@@ -6,6 +6,7 @@ import { CustomModel as CustomModel } from 'src/app/model/CustomModel/custom-mod
 import { CustomDateAdapter } from '../../../core/utils/date.adapter';
 import { FieldService } from 'src/app/core/api/field.service';
 import { TextModelField } from 'src/app/model/CustomModel/text-model-field';
+import { CustomModelField } from 'src/app/model/CustomModel/custom-model-field';
 
 @Component({
     selector: 'app-project',
@@ -42,6 +43,7 @@ export class ModalFieldsComponent implements OnInit {
         this.objectFields = Object.keys(this.objectInstance.fields);
         // Create the form
         this.makeForm();
+        this.onChanges();
     }
 
     display(field) {
@@ -70,9 +72,12 @@ export class ModalFieldsComponent implements OnInit {
 
             if (field.kindOfField === 'MultipleSelect') {
                 // TODO: type this
-                const selectedOptions = field.value.map(option => {
-                    return option.get('id');
-                });
+                const selectedOptions =
+                    field.value ?
+                    field.value.map(option => {
+                        return option.get('id');
+                    }) :
+                    null;
                 formControls[fieldName] = new FormControl({
                     value: selectedOptions,
                     disabled: this.isDisabled(field)
@@ -108,6 +113,20 @@ export class ModalFieldsComponent implements OnInit {
         this.form = new FormGroup(formControls);
     }
 
+    onChanges(): void {
+        const triggeringFieldsNames = this.objectFields.filter((fieldName) => this.objectInstance.fields[fieldName].isTrigger === true);
+        triggeringFieldsNames.forEach((fieldName) => {
+            this.form.get(fieldName).valueChanges.subscribe(val => {
+                // We store the values already entered in the form, in the object
+                this.updateObjectFromForm();
+                // We apply the changes to the object
+                this.objectInstance = this.objectInstance.fields[fieldName].triggerFunction(this.objectInstance);
+                 // Before remaking the form with the changed object
+                this.makeForm();
+            });
+        });
+      }
+
     makeSelectFormControl(fieldName: string) {
 
     }
@@ -120,8 +139,7 @@ export class ModalFieldsComponent implements OnInit {
         this.modalReference.close();
     }
 
-    // Create a new object from the form's data and emit it to its parent component
-    onSubmit() {
+    updateObjectFromForm() {
         // TODO: fix ngselect value that should make this code useles
         for (const field of this.objectFields) {
             if (this.objectInstance.fields[field].kindOfField === 'ArrayInputField') {
@@ -148,8 +166,12 @@ export class ModalFieldsComponent implements OnInit {
             } else if (this.form.controls[field].value !== null && this.form.controls[field].value !== undefined) {
                 this.objectInstance.set(field, this.form.controls[field].value);
             }
-
         }
+    }
+
+    // Create a new object from the form's data and emit it to its parent component
+    onSubmit() {
+        this.updateObjectFromForm();
         this.modalReference.close(this.modalType);
     }
 

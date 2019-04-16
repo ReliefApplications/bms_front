@@ -1,354 +1,166 @@
 import { GlobalText } from '../../texts/global';
+import { NumberModelField } from './CustomModel/number-model-field';
+import { TextModelField } from './CustomModel/text-model-field';
+import { BooleanModelField } from './CustomModel/boolan-model-field';
+import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
+import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
+import { CustomModel } from './CustomModel/custom-model';
+import { Project } from './project.new';
+import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 
 export class ErrorInterface {
     message: string;
 }
 
-export class User {
-    static __classname__ = 'User';
-    /**
-	 * User id
-	 * @type {string}
-	 */
-    id = '';
-    /**
-	 * Username
-	 * @type {string}
-	 */
-    username = '';
-    /**
-	 * Plain text password
-	 * @type {string}
-	 */
-    password = '';
-    /**
-	 * Salted password
-	 * @type {string}
-	 */
-    salted_password = '';
-    /**
-	 * Email
-	 * @type {string}
-	 */
-    email = '';
-    /**
-	* User's rights
-	* @type {string}
-	*/
-    rights: string = undefined;
-    /**
-	 * loggedIn state
-	 * @type {boolean}
-	 */
-    loggedIn = false;
-    /**
-	 * User's projects
-	 * @type {number[]}
-	 */
-    projects: any = undefined;
-    /**
-	 * User's country
-	 * @type {number[]}
-	 */
-    country: any = undefined;
-    /**
-	 * User's language
-	 * @type {string}
-	 */
-    language = '';
+export class Country extends CustomModel {
 
-    constructor(instance?) {
-        if (instance !== undefined) {
-            this.id = instance.id;
-            this.username = instance.username;
-            this.password = instance.password;
-            this.email = instance.email;
-            this.salted_password = instance.salted_password;
-            this.rights = instance.rights;
-            this.projects = instance.projects;
-            this.country = instance.country;
-            this.loggedIn = instance.loggedIn;
-            this.language = instance.language;
-        }
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
     }
+}
 
-    public static getDisplayedName() {
-        return GlobalText.TEXTS.model_user;
+export class Role extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
     }
+}
+export class User extends CustomModel {
 
-    /**
-	* return User properties name displayed
-	*/
+    public static rights = ['ROLE_ADMIN'];
+    title = GlobalText.TEXTS.model_user;
 
-    public static formatArray(instance): User[] {
-        const users: User[] = [];
-        if (instance) {
-            instance.forEach(element => {
-                users.push(this.formatFromApi(element));
-            });
-        }
-        return users;
-    }
+    public fields = {
+        id: new NumberModelField({
 
-    public static formatFromApi(element: any): User {
-        const user = new User(element);
-        if (element.roles) {
-            element.roles.forEach(role => {
-                user.rights = '' + role + '';
-            });
-        }
-        if (element.countries) {
-            user.country = [];
-            element.countries.forEach(
-                country => {
-                    user.country.push(country.iso3);
+        }),
+        username: new TextModelField({
+
+        }),
+        email: new TextModelField({
+            title: GlobalText.TEXTS.email,
+            isDisplayedInModal: true,
+            isDisplayedInTable: true,
+            pattern: /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/,
+            isSettable: true,
+        }),
+        password: new TextModelField({
+            title: GlobalText.TEXTS.model_password,
+            isPassword: true,
+            pattern:  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+            isDisplayedInModal: true,
+            isEditable: true,
+            isSettable: true,
+        }),
+        saltedPassword: new TextModelField({
+
+        }),
+        rights: new SingleSelectModelField({
+            title: GlobalText.TEXTS.rights,
+            isDisplayedInTable: true,
+            options: [
+                new Role('ROLE_ADMIN', GlobalText.TEXTS.role_user_admin),
+                new Role('ROLE_FIELD_OFFICER', GlobalText.TEXTS.role_user_field_officer),
+                new Role('ROLE_PROJECT_OFFICER', GlobalText.TEXTS.role_user_project_officer),
+                new Role('ROLE_PROJECT_MANAGER', GlobalText.TEXTS.role_user_project_manager),
+                new Role('ROLE_COUNTRY_MANAGER', GlobalText.TEXTS.role_user_country_manager),
+                new Role('ROLE_REGIONAL_MANAGER', GlobalText.TEXTS.role_user_regional_manager),
+            ],
+            bindField: 'name',
+            isDisplayedInModal: true,
+            isEditable: true,
+            isSettable: true,
+            isTrigger: true,
+            triggerFunction: (user: User) => {
+                if (user.get('rights').get<string>('id') === 'ROLE_REGIONAL_MANAGER' ||
+                user.get('rights').get<string>('id') === 'ROLE_REGIONAL_MANROLE_COUNTRY_MANAGERAGER' ||
+                user.get('rights').get<string>('id') === 'ROLE_READ_ONLY' ) {
+                    user.fields.countries.isSettable = true;
+
+                } else if (this.get('rights').get<string>('id') === 'ROLE_PROJECT_MANAGER' ||
+                this.get('rights').get<string>('id') === 'ROLE_PROJECT_OFFICER' ||
+                this.get('rights').get<string>('id') === 'ROLE_FIELD_OFFICER') {
+                    user.fields.projects.isSettable = true;
                 }
-            );
-        }
-        if (element.user_projects) {
-            user.projects = [];
-            element.user_projects.forEach(
-                project => {
-                    if (!project.project) {
-                        return;
-                    }
-                    user.projects.push(
-                        {
-                            name: project.project.name,
-                            id: project.project.id
-                        }
-                    );
-                    if (!user.country.includes(project.project.iso3)) {
-                        user.country.push(project.project.iso3);
-                    }
-                }
-            );
-        }
+                return user;
+            },
+        }),
+        loggedIn: new BooleanModelField({
+            value: false,
+        }),
+        projects: new MultipleSelectModelField({
+            title: GlobalText.TEXTS.project,
+            isDisplayedInModal: true,
+            displayModalFunction: null,
+            bindField: 'name',
 
-        if (element.password) {
-            user.password = '';
-            user.salted_password = element.password;
-        }
+        }),
+        countries: new MultipleSelectModelField({
+            title: GlobalText.TEXTS.model_countryIso3,
+            options: [new Country('KHM', 'Cambodia'), new Country('SYR', 'Syria')],
+            isDisplayedInModal: true,
+        }),
+        language: new TextModelField({
 
-        return user;
-    }
+        })
 
-    /**
-	 * used in modal add
-	 * @param element
-	 * @param loadedData
-	 */
-    public static formatFromModalAdd(element: any, loadedData: any): User {
-        const newObject = new User(element);
+    };
 
-        // Format projects for the API
-        const projects = [];
-        if (newObject.projects && newObject.projects[0]) {
-            newObject.projects.forEach(project => {
-                projects.push(project.id);
-            });
-        } else if (newObject.projects) {
-            projects.push(newObject.projects.id);
-        }
-        newObject.projects = projects;
-
-        // Format countries for the API
-        const country = [];
-        if (newObject.country && newObject.country[0]) {
-            newObject.country.forEach((c: any) => {
-                country.push(c.id);
-            });
-        } else if (newObject.country) {
-            country.push(newObject.country.id);
-        }
-        newObject.country = country;
-
-        return newObject;
-    }
-
-    public static formatForApi(element: User): any {
-        return new User(element);
-    }
-
-    mapAllProperties(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
-        }
-
-        let projects = [];
-        if (selfinstance.rights === 'ROLE_PROJECT_MANAGER' && selfinstance.projects) {
-            projects = selfinstance.projects;
-        } else if (selfinstance.projects) {
-            projects = selfinstance.projects[0];
-        }
-
-        let country = [];
-        if (selfinstance.rights === 'ROLE_REGIONAL_MANAGER' && selfinstance.country) {
-            country = selfinstance.country;
-        } else if (selfinstance.country) {
-            country = selfinstance.country[0];
-        }
-
-        return {
-            id: selfinstance.id,
-            username: selfinstance.username,
-            email: selfinstance.email,
-            salted_password: selfinstance.salted_password,
-            rights: selfinstance.rights,
-            projects: projects,
-            country: country
-        };
-    }
-
-    /**
-	* return a User after formatting its properties
-	*/
-    getMapper(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
-        }
-
-        return {
-            username: selfinstance.username,
-            rights: selfinstance.rights
-        };
-    }
-
-    /**
-	* return a User after formatting its properties for the modal details
-	*/
-    getMapperDetails(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
-        }
-
-        if (selfinstance.rights === undefined) {
-            selfinstance.rights = '';
-        }
-
-        let finalRight;
-        const re = /\ /gi;
-
-        selfinstance.rights = selfinstance.rights.replace(re, '');
-
-        this.getAllRights().forEach(rights => {
-            const value = Object.values(rights);
-            if (value[0] === selfinstance.rights) {
-                finalRight = value[1];
+    public static apiToModel(userFromApi: any): User {
+        const newUser = new User();
+        newUser.set('rights', newUser.getOptions('rights').filter((role: Role) => role.get('id') === userFromApi.roles[0])[0]);
+        newUser.set('countries', userFromApi.countries.map((countryFromApi: any) => {
+            return newUser.getOptions('countries').filter((country: Country) => country.get('id') === countryFromApi.iso3)[0];
+        }));
+        newUser.set('projects', userFromApi.user_projects.map((project: any) => {
+            if (newUser.get<Country[]>('countries').filter((country: Country) => country.get('name') === project.project.iso3).length > 0) {
+                newUser.add('countries', new Country(null, project.project.iso3));
             }
-        });
+            return Project.apiToModel(project.project);
+        }));
+        newUser.set('saltedPassword', userFromApi.password);
+        newUser.set('password', '');
+        newUser.set('email', userFromApi.email);
+        newUser.set('username', userFromApi.username);
+        return newUser;
+    }
 
-        let projects = '';
-        if (selfinstance.projects) {
-            selfinstance.projects.forEach(project => {
-                projects = projects === '' ? project.name : projects + ', ' + project.name;
-            });
+    public modelToApi(): Object {
+        const userForApi = {
+            id: this.get('id'),
+            email: this.get('email'),
+            username: this.get('email'),
+            password: this.get('password'),
+            language: this.get('language'),
+            rights: this.get('rights').get('id'),
+            vendor: null,
+        };
+
+        if (this.get('rights').get<string>('id') === 'ROLE_REGIONAL_MANAGER' ||
+        this.get('rights').get<string>('id') === 'ROLE_REGIONAL_MANROLE_COUNTRY_MANAGERAGER' ||
+        this.get('rights').get<string>('id') === 'ROLE_READ_ONLY') {
+            userForApi['country'] = this.fields.countries.formatForApi();
+        } else if (this.get('rights').get<string>('id') === 'ROLE_PROJECT_MANAGER' ||
+        this.get('rights').get<string>('id') === 'ROLE_PROJECT_OFFICER' ||
+        this.get('rights').get<string>('id') === 'ROLE_FIELD_OFFICER') {
+            userForApi['user_projects'] = this.fields.projects.value ?
+                this.fields.projects.value.map((project: Project) => project.modelToApi()) :
+                null;
         }
-
-        return {
-            username: selfinstance.username,
-            rights: finalRight,
-            projects: projects,
-            country: selfinstance.country
-        };
-    }
-
-    /**
-	 * return a User after formatting its properties for the modal add
-	 */
-    getMapperAdd(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
-        }
-
-        return {
-            username: selfinstance.username,
-            password: selfinstance.password,
-            rights: selfinstance.rights,
-            projects: selfinstance.projects,
-            country: selfinstance.country
-        };
-    }
-
-    /**
-	 * return a User after formatting its properties for the modal update
-	 */
-    getMapperUpdate(selfinstance): Object {
-        if (!selfinstance) {
-            return selfinstance;
-        }
-
-        return {
-            username: selfinstance.username,
-            password: selfinstance.password,
-            rights: selfinstance.rights,
-            projects: selfinstance.projects,
-            country: selfinstance.country
-        };
-    }
-
-    /**
-	* return the type of User properties
-	*/
-    getTypeProperties(selfinstance): Object {
-        return {
-            username: 'text',
-            rights: 'text'
-        };
-    }
-
-    /**
-	* return the type of User properties for modals
-	*/
-    getModalTypeProperties(selfinstance): Object {
-        return {
-            username: 'email',
-            password: 'password',
-            rights: 'selectSingle',
-            projects: 'selectProjects',
-            country: 'selectCountry',
-        };
-    }
-
-    public getAllRights() {
-        return [
-            {
-                'id': 'ROLE_ADMIN',
-                'name': GlobalText.TEXTS.role_user_admin,
-            },
-            {
-                'id': 'ROLE_FIELD_OFFICER',
-                'name': GlobalText.TEXTS.role_user_field_officer,
-            },
-            {
-                'id': 'ROLE_PROJECT_OFFICER',
-                'name': GlobalText.TEXTS.role_user_project_officer,
-            },
-            {
-                'id': 'ROLE_PROJECT_MANAGER',
-                'name': GlobalText.TEXTS.role_user_project_manager,
-            },
-            {
-                'id': 'ROLE_COUNTRY_MANAGER',
-                'name': GlobalText.TEXTS.role_user_country_manager,
-            },
-            {
-                'id': 'ROLE_REGIONAL_MANAGER',
-                'name': GlobalText.TEXTS.role_user_regional_manager,
-            }
-        ];
-    }
-
-    public getAllCountries() {
-        return [
-            {
-                'id': 'KHM',
-                'name': 'Cambodia',
-            },
-            {
-                'id': 'SYR',
-                'name': 'Syria',
-            }
-        ];
+        return userForApi;
     }
 }

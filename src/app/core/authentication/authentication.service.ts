@@ -94,9 +94,12 @@ export class AuthenticationService {
         this._cacheService.remove(AsyncacheService.USER);
     }
 
-    public createUser(body: any, salt: any) {
-        body = this.createSaltedPassword(body, salt);
-        return this.http.put(URL_BMS_API + '/users', body);
+    public createUser(body: any) {
+        return this.initializeUser(body.username).pipe(
+            map((salt: string) => {
+                body = this.createSaltedPassword(body, salt);
+                return this.http.put(URL_BMS_API + '/users', body).subscribe();
+            }));
     }
 
     public createVendor(body: any, salt: any) {

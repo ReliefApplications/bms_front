@@ -11,11 +11,8 @@ export class UploadService {
 
     constructor(private http: HttpService) {}
 
-    uploadImage(file, className: string) {
-        let url = this.api + '/uploadImage';
-        if (className === 'Product') {
-            url = this.api + '/products/upload/image';
-        }
+    uploadImage(file, path: string) {
+        const url = this.api + path;
         return this.http.post(url, file);
     }
 }

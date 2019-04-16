@@ -67,7 +67,12 @@
 </ng-template>
 <ng-template #isNotDate>
     <ng-container *ngIf="isString(field.value); else notAString">
-        {{field.value | titlecase }}
+        <ng-container *ngIf="field.isImageInTable; else isString">
+            <app-icon-svg [imagePath]="field.value"></app-icon-svg>
+        </ng-container>
+        <ng-template #isString>
+            {{field.value | titlecase }}
+        </ng-template>
     </ng-container>
     <ng-template #notAString>
         {{field.value }}

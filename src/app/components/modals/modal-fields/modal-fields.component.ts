@@ -7,6 +7,10 @@ import { CustomDateAdapter } from '../../../core/utils/date.adapter';
 import { FieldService } from 'src/app/core/api/field.service';
 import { TextModelField } from 'src/app/model/CustomModel/text-model-field';
 import { CustomModelField } from 'src/app/model/CustomModel/custom-model-field';
+import { GlobalText } from 'src/texts/global';
+import { UploadService } from 'src/app/core/api/upload.service';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-project',
@@ -21,6 +25,7 @@ export class ModalFieldsComponent implements OnInit {
 
     // The reactive form corresponding to the html form
     form: FormGroup;
+    public texts = GlobalText.TEXTS;
 
     modalType: string = null;
 
@@ -29,10 +34,13 @@ export class ModalFieldsComponent implements OnInit {
     // Name of the different fields of the class
     objectFields: string[];
 
+    filename: string;
+
     modalTitle = 'Default Modal Text';
     constructor(
         public modalReference: MatDialogRef<any>,
         public fieldService: FieldService,
+        public uploadService: UploadService,
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) {}
 
@@ -125,7 +133,7 @@ export class ModalFieldsComponent implements OnInit {
                 this.makeForm();
             });
         });
-      }
+    }
 
     makeSelectFormControl(fieldName: string) {
 
@@ -141,8 +149,19 @@ export class ModalFieldsComponent implements OnInit {
 
     updateObjectFromForm() {
         // TODO: fix ngselect value that should make this code useles
+        let subscription: Observable<string> = of(null);
         for (const field of this.objectFields) {
-            if (this.objectInstance.fields[field].kindOfField === 'ArrayInputField') {
+            if (this.objectInstance.fields[field].kindOfField === 'File') {
+                if (this.form.controls[field].value) {
+                    subscription = this.uploadService
+                        .uploadImage(this.form.controls[field].value, this.objectInstance.fields[field].uploadPath)
+                        .pipe(
+                            tap((fileUrl: string) => {
+                                this.objectInstance.set(this.objectInstance.fields[field].fileUrlField, fileUrl);
+                            })
+                        );
+                }
+            } else if (this.objectInstance.fields[field].kindOfField === 'ArrayInputField') {
                 const array = [];
                 this.objectInstance.fields[field].value.forEach((singleValue, index) => {
                     array.push(this.form.controls[field + index.toString()].value);
@@ -167,12 +186,15 @@ export class ModalFieldsComponent implements OnInit {
                 this.objectInstance.set(field, this.form.controls[field].value);
             }
         }
+
+        return subscription;
     }
 
     // Create a new object from the form's data and emit it to its parent component
     onSubmit() {
-        this.updateObjectFromForm();
-        this.modalReference.close(this.modalType);
+        this.updateObjectFromForm().subscribe(() => {
+            this.modalReference.close(this.modalType);
+        });
     }
 
     type(value: any) {
@@ -192,5 +214,18 @@ export class ModalFieldsComponent implements OnInit {
             validators.push(Validators.pattern(pattern));
         }
         return validators;
+    }
+
+    onFileChange(property, event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.filename = file.name;
+
+            const formData = new FormData();
+            formData.append('file', file);
+            const fileField = this.objectFields
+                .filter((fieldName: string) => this.objectInstance.fields[fieldName].kindOfField === 'File')[0];
+            this.form.controls[fileField].setValue(formData);
+        }
     }
 }

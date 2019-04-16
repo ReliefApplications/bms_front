@@ -8,8 +8,8 @@ import { URL_BMS_API } from '../../../environments/environment';
 import { User, ErrorInterface } from '../../model/user';
 import { SaltInterface } from '../../model/salt';
 import { AsyncacheService } from '../storage/asyncache.service';
-import { Observable, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -33,7 +33,7 @@ export class AuthenticationService {
 
     initializeUser(username) {
       this._wsseService.setUsername(username);
-      return this.http.get(URL_BMS_API + '/initialize/' + username);
+      return this.http.get<string>(URL_BMS_API + '/initialize/' + username);
     }
 
     logUser(user) {
@@ -103,19 +103,23 @@ export class AuthenticationService {
     }
 
     public createUser(body: any) {
-        return this.initializeUser(body.username).pipe(
-            map((salt: string) => {
-                body = this.createSaltedPassword(body, salt);
-                return this.http.put(URL_BMS_API + '/users', body).subscribe();
-            }));
+        return this.initializeUser(body.username)
+            .pipe(
+                switchMap((salt: string) => {
+                    body = this.createSaltedPassword(body, salt);
+                    return this.http.put(URL_BMS_API + '/users', body);
+                })
+            );
     }
 
     public createVendor(body: any) {
-        return this.initializeUser(body.username).pipe(
-            map((salt: string) => {
-                body = this.createSaltedPassword(body, salt);
-                return this.http.put(URL_BMS_API + '/vendors', body).subscribe();
-            }));
+        return this.initializeUser(body.username)
+            .pipe(
+                switchMap((salt: string) => {
+                    body = this.createSaltedPassword(body, salt);
+                    return this.http.put(URL_BMS_API + '/vendors', body);
+                })
+            );
     }
 
     public createSaltedPassword(body: any, salt: any) {

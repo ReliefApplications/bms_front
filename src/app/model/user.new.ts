@@ -136,6 +136,7 @@ export class User extends CustomModel {
         newUser.set('password', '');
         newUser.set('email', userFromApi.email);
         newUser.set('username', userFromApi.username);
+        newUser.set('id', userFromApi.id);
         return newUser;
     }
 

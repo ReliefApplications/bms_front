@@ -12,7 +12,7 @@ import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { Product } from 'src/app/model/product';
+import { Product } from 'src/app/model/product.new';
 import { Vendors } from 'src/app/model/vendors';
 import { GlobalText } from 'src/texts/global';
 import { CountrySpecificService } from '../../core/api/country-specific.service';

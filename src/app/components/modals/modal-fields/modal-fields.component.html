@@ -9,11 +9,24 @@
                             {{ field.title | titlecase }}
                         </th>
                         <td class="form-item">
-                            <ng-container *ngIf="modalType === 'Details' && isEmpty(field); else isArrayInputField">
+                            <ng-container *ngIf="modalType === 'Details' && isEmpty(field); else isFile">
                                 <mat-form-field>
                                         <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="field.nullValue">
                                 </mat-form-field>
                             </ng-container>
+
+                            <ng-template #isFile>
+                                <ng-container *ngIf="field.kindOfField === 'File'; else isArrayInputField">
+                                    <div class="input-file">
+                                        <label for="file"><mat-icon>cloud_upload</mat-icon></label>
+                                        <input type="file" id="file" (change)="onFileChange(p, $event)" #fileInput>
+                                        <p *ngIf="filename">{{ filename }}</p>
+                                        <p *ngIf="!filename">{{ texts.modal_no_file }}</p>
+                                    </div>                      
+                                </ng-container>
+                            </ng-template>
+
+                            
 
                             <ng-template #isArrayInputField>
                                 <ng-container *ngIf="field.kindOfField === 'ArrayInputField'; else isBoolean">

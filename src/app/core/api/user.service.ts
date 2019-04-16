@@ -38,7 +38,7 @@ export class UserService extends CustomModelService {
 
     public update(id: number, body: any) {
         const url = this.api + '/users/' + id;
-        return this.http.post(url, body);
+        return this.authenticationService.updateUser(body, url);
     }
 
     public delete(id: number, body: any) {

@@ -94,6 +94,14 @@ export class AuthenticationService {
         this._cacheService.remove(AsyncacheService.USER);
     }
 
+    public updateUser(body: any, url) {
+        return this.requestSalt(body.username).pipe(
+            map((salt: string) => {
+                body = this.createSaltedPassword(body, salt);
+                return this.http.post(url, body).subscribe();
+            }));
+    }
+
     public createUser(body: any) {
         return this.initializeUser(body.username).pipe(
             map((salt: string) => {

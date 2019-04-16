@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { TableMobileComponent } from 'src/app/components/table/table-mobile/table-mobile.component';
 import { TableComponent } from 'src/app/components/table/table.component';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { LocationService } from 'src/app/core/api/location.service';
@@ -28,9 +29,6 @@ import { Donor } from '../../model/donor.new';
 import { Project as NewProject } from '../../model/project.new';
 import { User } from '../../model/user.new';
 import { FinancialProvider } from './../../model/financial-provider.new';
-
-
-
 
 
 @Component({
@@ -71,6 +69,10 @@ export class SettingsComponent implements OnInit {
     public httpSubscriber: Subscription;
 
     @ViewChild(TableComponent) table: TableComponent;
+    @ViewChild(TableMobileComponent) tableMobile: TableMobileComponent;
+
+    public mobileMode = false;
+    public displayedTable = this.table;
 
     constructor(
         public dialog: MatDialog,
@@ -92,10 +94,10 @@ export class SettingsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.checkSize();
         this.selectTitle('users');
         this.extensionType = 'xls';
     }
+
 
 
   @HostListener('window:resize', ['$event'])
@@ -104,8 +106,18 @@ export class SettingsComponent implements OnInit {
   }
 
   checkSize(): void {
-    this.heightScreen = window.innerHeight;
-    this.widthScreen = window.innerWidth;
+    if ( window.innerWidth <= this.maxWidthMobile) {
+        this.mobileMode = true;
+        this.displayedTable = this.tableMobile;
+    }
+    else {
+        this.mobileMode = false;
+        this.displayedTable = this.table;
+    }
+    if (this.displayedTable) {
+        this.displayedTable.checkData();
+    }
+
   }
 
   selectTitle(title): void {
@@ -253,7 +265,8 @@ export class SettingsComponent implements OnInit {
                         }
                     }
                 });
-        this.table.checkData();
+                this.checkSize();
+
         });
     }
 

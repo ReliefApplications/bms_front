@@ -1,23 +1,23 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
-import { MatDialogRef, MatDialog } from '@angular/material';
-import { SnackbarService } from '../logging/snackbar.service';
-import { GlobalText } from 'src/texts/global';
+import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { ModalAddCommodityComponent } from 'src/app/components/modals/modal-add-commodity/modal-add-commodity.component';
+import { ModalAddCriteriaComponent } from 'src/app/components/modals/modal-add-criteria/modal-add-criteria.component';
 import { ModalAddComponent } from 'src/app/components/modals/modal-add/modal-add.component';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { ModalDeleteComponent } from 'src/app/components/modals/modal-delete/modal-delete.component';
 import { ModalDetailsComponent } from 'src/app/components/modals/modal-details/modal-details.component';
 import { ModalEditComponent } from 'src/app/components/modals/modal-edit/modal-edit.component';
-import { ModalDeleteComponent } from 'src/app/components/modals/modal-delete/modal-delete.component';
-import { AuthenticationService } from '../authentication/authentication.service';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { NetworkService } from '../api/network.service';
-import { AsyncacheService } from '../storage/asyncache.service';
-import { Router } from '@angular/router';
-import { Criteria } from 'src/app/model/criteria.new';
-import { ModalAddCriteriaComponent } from 'src/app/components/modals/modal-add-criteria/modal-add-criteria.component';
-import { CriteriaService } from '../api/criteria.service';
 import { Commodity } from 'src/app/model/commodity.new';
+import { Criteria } from 'src/app/model/criteria.new';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { GlobalText } from 'src/texts/global';
 import { CommodityService } from '../api/commodity.service';
-import { ModalAddCommodityComponent } from 'src/app/components/modals/modal-add-commodity/modal-add-commodity.component';
+import { CriteriaService } from '../api/criteria.service';
+import { NetworkService } from '../api/network.service';
+import { AuthenticationService } from '../authentication/authentication.service';
+import { SnackbarService } from '../logging/snackbar.service';
+import { AsyncacheService } from '../storage/asyncache.service';
 
 @Injectable({
     providedIn: 'root'
@@ -73,6 +73,7 @@ export class ModalService {
 
         if (dialogRef) {
             const subscription = dialogRef.afterClosed().subscribe((closeMethod: string) => {
+                // TODO: add enum for modal methods
                 if (closeMethod === 'Add') {
                     this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe(() => {
                         this.snackbar.success(this.referedClassInstance.title + ' ' + this.texts.update_beneficiary_created_successfully);
@@ -89,7 +90,7 @@ export class ModalService {
             });
         }
     }
-
+    // TODO: don't fill with options if not necessary
     openAddDialog() {
         this.referedClassInstance = new this.referedClassToken();
         this.referedClassService.fillWithOptions(this.referedClassInstance);

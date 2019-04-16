@@ -1,23 +1,19 @@
 import { Injectable } from '@angular/core';
-import { URL_BMS_API } from '../../../environments/environment';
-
-import { HttpService } from './http.service';
-import { WsseService } from '../authentication/wsse.service';
-import { User, ErrorInterface } from '../../model/user.new';
-import { SaltInterface } from '../../model/salt';
-import { AuthenticationService } from '../authentication/authentication.service';
 import { tap } from 'rxjs/operators';
-import { CustomModelService } from './custom-model.service';
 import { AppInjector } from 'src/app/app-injector';
-import { ProjectService } from './project.service';
 import { Project } from 'src/app/model/project.new';
-import { LocationService } from './location.service';
+import { SaltInterface } from '../../model/salt';
+import { ErrorInterface, User } from '../../model/user.new';
+import { AuthenticationService } from '../authentication/authentication.service';
+import { WsseService } from '../authentication/wsse.service';
+import { CustomModelService } from './custom-model.service';
+import { HttpService } from './http.service';
+import { ProjectService } from './project.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService extends CustomModelService {
-    readonly api = URL_BMS_API;
 
     constructor(
         protected http: HttpService,
@@ -32,28 +28,28 @@ export class UserService extends CustomModelService {
     }
 
     public get() {
-        const url = this.api + '/web-users';
+        const url = this.apiBase + '/web-users';
         return this.http.get(url);
     }
 
 
     public update(id: number, body: any) {
-        const url = this.api + '/users/' + id;
+        const url = this.apiBase + '/users/' + id;
         return this.authenticationService.updateUser(body, url);
     }
 
     public delete(id: number, body: any) {
-        const url = this.api + '/users/' + id;
+        const url = this.apiBase + '/users/' + id;
         return this.http.delete(url, body);
     }
 
     public requestPasswordChange(id: number, body: any) {
-        const url = this.api + '/users/' + id + '/password';
+        const url = this.apiBase + '/users/' + id + '/password';
         return this.http.post(url, body);
     }
 
     public requestLogs(id: number) {
-        const url = this.api + '/users/' + id + '/logs';
+        const url = this.apiBase + '/users/' + id + '/logs';
         return this.http.get(url);
     }
 
@@ -77,12 +73,12 @@ export class UserService extends CustomModelService {
     }
 
     public getProjectUser(id: number) {
-        const url = this.api + '/users/' + id + '/projects';
+        const url = this.apiBase + '/users/' + id + '/projects';
         return this.http.get(url);
     }
 
     public setDefaultLanguage(id: number, body: string) {
-        const url = this.api + '/users/' + id + '/language';
+        const url = this.apiBase + '/users/' + id + '/language';
         return this.http.post(url, {language: body})
             .pipe(
                 tap(_ => {

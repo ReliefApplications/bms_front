@@ -44,7 +44,7 @@
                                     </mat-checkbox>
                                 </ng-container>
                             </ng-template>
-                                   
+
                             <ng-template #isMultipleSelect>
                                 <ng-container *ngIf="field.kindOfField === 'MultipleSelect'; else isSingleSelect">
                                         <ng-select [formControlName]="fieldName" [placeholder]="field.title" [multiple]="true" [closeOnSelect]="false">
@@ -95,7 +95,7 @@
                                         <ng-container *ngIf="field.kindOfField === 'Number'">
                                             <input matInput type="number" [formControlName]="fieldName">
                                         </ng-container>
-                                    </ng-template> 
+                                    </ng-template>
                                     <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('required')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('required'))">
                                         {{ fieldName | titlecase}} is required
                                     </mat-error>
@@ -112,7 +112,7 @@
                                             </mat-form-field>
                                         </ng-container>
                                     </ng-template>
-                            
+
                                     <ng-template #isMultipleObject>
                                         <ng-container *ngIf="field.kindOfField === 'MultipleObject'">
                                             <mat-form-field *ngIf="modalType === 'Details'">
@@ -127,7 +127,7 @@
             </ng-container>
         </table>
         <div class="modal-button action-buttons stickyFooter" *ngIf="modalType !== 'Details'">
-            <button mat-button (click)="onCancel()" class="button-text-accent">Cancel</button>
+            <button type="button" mat-button (click)="onCancel()" class="button-text-accent">Cancel</button>
             <button mat-raised-button [disabled]="!form.valid" (click)="onSubmit()" class="button-background-accent">Save</button>
         </div>
         <div class="modal-button action-buttons stickyFooter" *ngIf="modalType === 'Details'">

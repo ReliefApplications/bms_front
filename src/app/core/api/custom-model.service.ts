@@ -1,6 +1,6 @@
+import { GlobalText } from 'src/texts/global';
 import { URL_BMS_API } from '../../../environments/environment';
 import { HttpService } from './http.service';
-import { GlobalText } from 'src/texts/global';
 
 export abstract class CustomModelService {
     readonly apiBase = URL_BMS_API;
@@ -32,7 +32,7 @@ export abstract class CustomModelService {
         return this.http.delete(`${this.makeUrl()}/${id}`);
     }
 
-    private makeUrl(): string {
+    protected makeUrl(): string {
         return `${this.apiBase}/${this.customModelPath}`;
     }
 }

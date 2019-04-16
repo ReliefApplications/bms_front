@@ -73,6 +73,7 @@ export class ModalService {
 
         if (dialogRef) {
             const subscription = dialogRef.afterClosed().subscribe((closeMethod: string) => {
+                // TODO: add enum for modal methods
                 if (closeMethod === 'Add') {
                     this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe(() => {
                         this.snackbar.success(this.referedClassInstance.title + ' ' + this.texts.update_beneficiary_created_successfully);

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as CryptoJS from 'crypto-js';
 import { URL_BMS_API } from '../../../environments/environment';
 import { FinancialProvider } from './../../model/financial-provider';
 import { CustomModelService } from './custom-model.service';
@@ -16,14 +17,10 @@ export class FinancialProviderService extends CustomModelService {
         super(http);
     }
 
-    // public get() {
-    //     const url = this.api + '/financial/provider';
-    //     return this.http.get(url);
-    // }
-
-    public update(body) {
-        const url = this.api + this.customModelPath;
-        return this.http.post(url, { username: body['username'], password: body['password'] });
+    // Not expecting an Id here, as there is only one financial provider.
+    public update(_id: number, body: object) {
+        body['password'] = CryptoJS.SHA1(body['password']).toString(CryptoJS.enc.Base64);
+        return this.http.post(this.makeUrl(), body);
     }
 
     fillWithOptions(financialProvider: FinancialProvider) {

@@ -13,7 +13,7 @@ import { GlobalText } from '../../../../texts/global';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { ProjectService } from '../../../core/api/project.service';
-import { ImportService } from '../../../core/utils/import.service.new';
+import { ImportService } from '../../../core/utils/beneficiaries-import.service';
 import { Project } from '../../../model/project';
 
 
@@ -599,28 +599,6 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
                 this.load = false;
                 this.snackbar.error(error);
             });
-
-
-        // if (! this.apiForm.controls['apiSelector'].valid ||
-        // ! (this.apiForm.controls['text'].valid || this.apiForm.controls['number'].valid) ||
-        // ! this.apiForm.controls['projects'].valid) {
-        //     this.snackbar.error(this.household.beneficiaries_import_check_fields);
-        // } else {
-        //     this.load = true;
-        //     const params = {
-        //         provider: this.apiForm.controls['apiSelector'].value
-        //     };
-        //     this._beneficiariesService.importApi(params, this.apiForm.controls['projects'].value)
-        //     .subscribe(response => {
-        //         this.load = false;
-        //         this.snackbar.success(response.message + this.household.beneficiaries_import_beneficiaries_imported);
-        //         this.newHouseholds = response.households;
-        //         this.importedHouseholds();
-        //     }, error => {
-        //         this.load = false;
-        //         this.snackbar.error(error);
-        //     });
-        // }
     }
 
     /**

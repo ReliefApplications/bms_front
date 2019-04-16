@@ -1,11 +1,11 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { HouseholdsService } from 'src/app/core/api/households.service';
-import { ImportService } from 'src/app/core/utils/import.service';
-import { Households } from 'src/app/model/households';
-import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
-import { GlobalText } from 'src/texts/global';
 import { Router } from '@angular/router';
+import { HouseholdsService } from 'src/app/core/api/households.service';
+import { ImportService } from 'src/app/core/utils/distribution-import.service';
+import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
+import { Households } from 'src/app/model/households';
+import { GlobalText } from 'src/texts/global';
 
 @Component({
     selector: 'app-imported-data',

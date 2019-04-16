@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { Households } from 'src/app/model/households';
 import { GlobalText } from 'src/texts/global';
-import { ImportService } from './../../../core/utils/import.service.new';
+import { ImportService } from '../../../core/utils/beneficiaries-import.service';
 import { ImportedDataService } from './../../../core/utils/imported-data.service';
 
 

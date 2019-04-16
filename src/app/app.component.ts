@@ -39,8 +39,12 @@ export class AppComponent implements OnInit, DoCheck {
     ngOnInit() {
         this.checkSize();
         this._authenticationService.getUser()
-            .subscribe(user => {
-                GlobalText.changeLanguage(user.language);
+            .subscribe((user: User) => {
+                this.userService.currentUser = user;
+                console.log('init');
+                if (this.router.url !== '/login') {
+                    GlobalText.changeLanguage(user.language);
+                }
             });
     }
 

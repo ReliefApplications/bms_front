@@ -32,12 +32,13 @@
         </mat-nav-list>
     </mat-sidenav>
 
-    <mat-sidenav-content class="page-content-wrapper" [ngClass]="{margin: !smallScreenMode && currentRoute==='/login'}">
+
+    <mat-sidenav-content  class="page-content-wrapper" [ngClass]="{noMargin: !smallScreenMode && router.url ==='/login'}">
         <mat-toolbar *ngIf="!smallScreenMode && router.url !=='/login'">
-            <app-header (emitLogOut)="onLogOut($event)" [userData]="user"></app-header>
+            <app-header *ngIf="userService.currentUser" (emitLogOut)="onLogOut($event)"></app-header>
         </mat-toolbar>
         <mat-toolbar *ngIf="smallScreenMode && router.url !=='/login'" class="mobile">
-            <app-header-mobile (emitLogOut)="onLogOut($event)" [userData]="user"></app-header-mobile>
+            <app-header-mobile *ngIf="userService.currentUser" (emitLogOut)="onLogOut($event)"></app-header-mobile>
         </mat-toolbar>
         <router-outlet></router-outlet>
     </mat-sidenav-content>

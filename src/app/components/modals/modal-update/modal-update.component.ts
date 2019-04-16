@@ -1,9 +1,8 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
 import { ModalComponent } from '../modal.component';
-import { Donor } from '../../../model/donor';
 
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
-import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 
 @Component({
     selector: 'app-modal-update',
@@ -71,15 +70,6 @@ export class ModalUpdateComponent extends ModalComponent implements OnInit {
 
           this.form.controls['projectsControl'].disable();
           this.form.controls['countryControl'].disable();
-      }
-
-      // TODO check if necessary
-      if (updateObject === 'ROLE_ADMIN') {
-          this.user.getAllCountries().forEach(
-              element => {
-                  this.updateObject['country'].push(element.id);
-              }
-          );
       }
   }
 

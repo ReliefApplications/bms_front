@@ -26,45 +26,47 @@ export class PermissionsGuard implements CanActivate {
         state: RouterStateSnapshot
     ): Observable<boolean> | Promise<boolean> | boolean {
 
-        if (!this.userService.currentUser) {
-            return this.authenticationService.getUser().pipe(
+        if (this.userService.currentUser === undefined) {
+            return this.authenticationService.getUser()
+            .pipe(
                 map((user: User) => {
-                    this.userService.currentUser = user;
-                    return this.checkPermissions(route);
-                }
-            )
-        );
-        } else {
-            return this.checkPermissions(route);
+                this.userService.currentUser = user;
+                return this.checkPermissionsWrapper(route);
+            }));
         }
+        else {
+            return this.checkPermissionsWrapper(route);
+        }
+
     }
 
-    private checkPermissions(route: ActivatedRouteSnapshot): boolean {
+    private checkPermissionsWrapper (route: ActivatedRouteSnapshot): boolean {
+        const permissionGranted = this.checkPermissions(route, this.userService.currentUser);
 
-        // If route is undefined (on landing page), the route is set to empty string
-        const segmentedRoute = route.url.map((urlSegment: UrlSegment) => urlSegment.path);
-        let hasPermissions: boolean;
-
-        if (segmentedRoute.slice(0, 2).join('/') === 'projects/distributions') {
-            hasPermissions = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
-        }
-
-        else if (segmentedRoute[0] === 'settings') {
-            hasPermissions = this.userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS');
-        }
-
-        else if (segmentedRoute[0] === 'login') {
-            hasPermissions = true;
-        }
-        // Make sure the user is logged in
-        else {
-            hasPermissions = this.userService.currentUser !== new User();
-        }
-
-        if (!hasPermissions) {
+        if (!permissionGranted) {
             this.snackbar.error(GlobalText.TEXTS.forbidden_message);
-            this.router.navigate(['']);
+            this.router.navigateByUrl('');
         }
-        return hasPermissions;
+
+        return permissionGranted;
+    }
+
+    private checkPermissions(route: ActivatedRouteSnapshot, user: User): boolean {
+
+        const segmentedRoute = route.url.map((urlSegment: UrlSegment) => urlSegment.path);
+
+        // Deny access to distributions if the user is not authorized
+        if (segmentedRoute.slice(0, 2).join('/') === 'projects/distributions') {
+            return (this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT'));
+        }
+
+        if (segmentedRoute[0] === 'settings') {
+            return this.userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS');
+
+        }
+        return true;
+
     }
 }
+
+

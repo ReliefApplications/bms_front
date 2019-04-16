@@ -1,13 +1,13 @@
-import { Component, OnInit, DoCheck, Input, Output, EventEmitter } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-
-import { GlobalText } from '../../../../texts/global';
-
-import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
 import { UserService } from 'src/app/core/api/user.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
+import { GlobalText } from '../../../../texts/global';
+import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
+
+
 
 @Component({
     selector: 'app-header-mobile',
@@ -63,16 +63,14 @@ export class HeaderMobileComponent implements OnInit, DoCheck {
     }
 
     getCorrectCountries() {
-        const countries = this.userData.getAllCountries();
-
+        let user = this.userService.currentUser;
         this.countries = [];
-        if (this.userData.rights === 'ROLE_ADMIN') {
-            countries.forEach(element => {
-                this.countries.push(element.id);
-            });
-        } else  {
-            this.userData.country.forEach(element => {
-                this.countries.push(element);
+        if (!user) {
+            user = this.userData;
+        }
+        if (this.userService.hasRights('ROLE_SWITCH_COUNTRY')) {
+            this.userService.currentUser.getAllCountries().forEach((country: object[]) => {
+                this.countries.push(country['id']);
             });
         }
 

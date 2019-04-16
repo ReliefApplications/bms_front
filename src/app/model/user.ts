@@ -348,7 +348,7 @@ export class User {
         ];
     }
 
-    public getAllCountries() {
+    public getAllCountries(): object[] {
         return [
             {
                 'id': 'KHM',
@@ -360,6 +360,4 @@ export class User {
             }
         ];
     }
-
-
 }

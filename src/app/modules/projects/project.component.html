@@ -36,7 +36,7 @@
         <div class="container-table">
             <div class="container-content box-primary" >
                 <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
-                    <div class="action-buttons" *ngIf="distributionData && distributionData.length>0">
+                    <div class="action-buttons" *ngIf="distributionData && distributionData.data.length>0">
                     <div class="button-with-extension">
                         <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
@@ -58,7 +58,7 @@
                         </div>
                     </div>
                     </div>
-                    <h3 *ngIf="distributionData && distributionData.length > 0">{{texts.distributions }}</h3>
+                    <h3 *ngIf="distributionData && distributionData.data.length > 0">{{texts.distributions }}</h3>
                     <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button-create">
                     <mat-icon>add</mat-icon>
                     {{texts.add | titlecase}}
@@ -78,7 +78,7 @@
                     {{texts.project_go_import_beneficiaries}}
                     </button>
                 </div>
-                <div class="undisplay empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData && distributionData.length==0 && !noNetworkData">
+                <div class="undisplay empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData && distributionData.data.length==0 && !noNetworkData">
                     <mat-icon>find_in_page</mat-icon>
                     <div class="resume">
                     <p> {{texts.project_no_distribution}}</p>
@@ -87,7 +87,7 @@
                     <mat-icon>add_circle</mat-icon>
                     </i>
                 </div>
-                <div class="content-table" *ngIf="(distributionData && distributionData.length>0) && !noNetworkData">
+                <div class="content-table" *ngIf="(distributionData && distributionData.data.length>0) && !noNetworkData">
                     <app-table *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [validatable]="true" [deletable]='hasRights' [editable]="true" [updatable]='hasRightsEdit' [entity]="distributionClass" [service]="distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table>
                     <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [validatable]="true" [deletable]='hasRights' [editable]="true" [updatable]='hasRightsEdit' [entity]="distributionClass" [service]="distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table-mobile>
                 </div>

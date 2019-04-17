@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
@@ -28,7 +28,7 @@ export class ProjectComponent implements OnInit {
     loadingExport = false;
 
     projects: NewProject[];
-    distributionData: Array<Distribution>;
+    distributionData: MatTableDataSource<Distribution>;
     distributionClass = Distribution;
 
     // loading
@@ -146,7 +146,7 @@ export class ProjectComponent implements OnInit {
                 )
             ).subscribe(
                 response => {
-                    this.distributionData = null;
+                    this.distributionData = new MatTableDataSource();
 
                     const instances = [];
                     if (response || response === []) {
@@ -154,7 +154,7 @@ export class ProjectComponent implements OnInit {
                         for (const item of response ) {
                             instances.push(Distribution.apiToModel(item));
                         }
-                        this.distributionData = instances;
+                        this.distributionData = new MatTableDataSource(instances);
                         this.loadingDistributions = false;
                     } else {
                         this.loadingDistributions = false;

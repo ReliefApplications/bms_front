@@ -1,9 +1,7 @@
-import { Component, Output, EventEmitter, Input, OnChanges, AfterViewInit } from '@angular/core';
-import { TableBeneficiariesComponent } from '../table-beneficiaries/table-beneficiaries.component';
-import { Beneficiaries } from '../../../model/beneficiary';
-import { emit } from 'cluster';
-import { element } from 'protractor';
+import { AfterViewInit, Component, EventEmitter, Output } from '@angular/core';
 import { tap } from 'rxjs/operators';
+import { Beneficiaries } from '../../../model/beneficiary';
+import { TableBeneficiariesComponent } from '../table-beneficiaries/table-beneficiaries.component';
 
 @Component({
     selector: 'app-table-mobile-beneficiaries',
@@ -24,8 +22,8 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
     }
 
     loadHouseholdsPage() {
-        this.data.loadHouseholds(
-            this.data.filter,
+        this.dataaaa.loadHouseholds(
+            this.dataaaa.filter,
             {},
             this.paginator.pageIndex,
             this.paginator.pageSize
@@ -38,11 +36,11 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
             window.clearTimeout(this._timeout);
         }
         this._timeout = window.setTimeout(() => {
-            if (this.data.filter && ( this.data.filter.filter || this.data.filter.filter === '') ) {
+            if (this.dataaaa.filter && ( this.dataaaa.filter.filter || this.dataaaa.filter.filter === '') ) {
               if (this.paginator) {
                 this.paginator.pageIndex = 0;
-                this.data.loadHouseholds(
-                  this.data.filter,
+                this.dataaaa.loadHouseholds(
+                  this.dataaaa.filter,
                   {},
                   this.paginator.pageIndex,
                   this.paginator.pageSize,
@@ -84,7 +82,7 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
     }
 
     clearSearch() {
-        while ( this.data.filter.length !== 0 ) {
+        while ( this.dataaaa.filter.length !== 0 ) {
             this.project = '';
             this.vulnerability = '';
             this.keyWords = '';

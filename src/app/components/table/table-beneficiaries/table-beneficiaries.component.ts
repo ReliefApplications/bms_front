@@ -1,15 +1,11 @@
-import { Component, Output, EventEmitter, Input, OnInit, DoCheck, AfterViewInit, ViewChild } from '@angular/core';
-import { TableComponent } from '../table.component';
-import { Beneficiaries } from '../../../model/beneficiary';
-import { emit } from 'cluster';
-import { element } from 'protractor';
-import { tap, finalize } from 'rxjs/operators';
-import { DistributionData } from '../../../model/distribution-data';
-import { GlobalText } from '../../../../texts/global';
-import { SelectionModel } from '@angular/cdk/collections';
+import { AfterViewInit, Component, DoCheck, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material';
-import { Households } from 'src/app/model/households.new';
+import { tap } from 'rxjs/operators';
 import { HouseholdsService } from 'src/app/core/api/households.service';
+import { Households } from 'src/app/model/households.new';
+import { GlobalText } from '../../../../texts/global';
+import { DistributionData } from '../../../model/distribution-data';
+import { TableComponent } from '../table.component';
 
 
 @Component({
@@ -51,7 +47,7 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
 
     ngDoCheck() {
         const interval = window.setInterval(() => {
-            if (this.data.loading === false) {
+            if (this.dataaaa.loading === false) {
                 this.testLoading = false;
                 window.clearInterval(interval);
             }
@@ -69,8 +65,8 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
                     this.testLoading = true;
 
                     this.paginator.pageIndex = 0;
-                    this.data.loadHouseholds(
-                        this.data.filter,
+                    this.dataaaa.loadHouseholds(
+                        this.dataaaa.filter,
                         {
                             sort: this.sort.active,
                             direction: this.sort.direction
@@ -89,8 +85,8 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
     }
 
     loadHouseholdsPage() {
-        this.data.loadHouseholds(
-            this.data.filter,
+        this.dataaaa.loadHouseholds(
+            this.dataaaa.filter,
             {
                 sort: this.sort ? this.sort.active : null,
                 direction: this.sort ? this.sort.direction : null
@@ -114,12 +110,12 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
             window.clearTimeout(this._timeout);
         }
         this._timeout = window.setTimeout(() => {
-            if (this.data.filter && (this.data.filter.filter || (this.data.filter.filter === ''))) {
+            if (this.dataaaa.filter && (this.dataaaa.filter.filter || (this.dataaaa.filter.filter === ''))) {
                 if (this.paginator) {
                     this.testLoading = true;
                     this.paginator.pageIndex = 0;
-                    this.data.loadHouseholds(
-                        this.data.filter,
+                    this.dataaaa.loadHouseholds(
+                        this.dataaaa.filter,
                         {
                             sort: this.sort ? this.sort.active : null,
                             direction: this.sort ? this.sort.direction : null
@@ -134,7 +130,7 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
     }
 
     dataIsLoading() {
-        this.data.getLoadingState().subscribe(
+        this.dataaaa.getLoadingState().subscribe(
             result => {
                 return (result);
             }

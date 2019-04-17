@@ -100,25 +100,19 @@ export class SettingsComponent implements OnInit {
 
 
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.checkSize();
-  }
-
-  checkSize(): void {
-    if ( window.innerWidth <= this.maxWidthMobile) {
-        this.mobileMode = true;
-        this.displayedTable = this.tableMobile;
-    }
-    else {
-        this.mobileMode = false;
-        this.displayedTable = this.table;
-    }
-    if (this.displayedTable) {
-        this.displayedTable.checkData();
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        if ( window.innerWidth <= this.maxWidthMobile) {
+            this.mobileMode = true;
+            this.displayedTable = this.tableMobile;
+        }
+        else {
+            this.mobileMode = false;
+            this.displayedTable = this.table;
+        }
     }
 
-  }
+
 
   selectTitle(title): void {
     if (this.httpSubscriber) {
@@ -265,8 +259,6 @@ export class SettingsComponent implements OnInit {
                         }
                     }
                 });
-                this.checkSize();
-
         });
     }
 

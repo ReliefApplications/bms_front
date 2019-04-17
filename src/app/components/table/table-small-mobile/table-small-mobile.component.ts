@@ -1,8 +1,8 @@
 import { Component, DoCheck, EventEmitter, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
-import { TableComponent } from '../table.component';
-import { FieldMapper } from '../../../model/field-mapper';
 import { GlobalText } from '../../../../texts/global';
+import { FieldMapper } from '../../../model/field-mapper';
+import { TableComponent } from '../table.component';
 
 @Component({
     selector: 'app-table-small-mobile',
@@ -27,8 +27,8 @@ export class TableSmallMobileComponent extends TableComponent implements DoCheck
     }
 
     checkData() {
-        if (!this.data) {
-            this.data = new MatTableDataSource([]);
+        if (!this.dataaaa) {
+            this.dataaaa = new MatTableDataSource([]);
         }
         this.setDataTableProperties();
         if (this.entity) {

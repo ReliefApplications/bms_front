@@ -64,8 +64,9 @@ export class SettingsComponent implements OnInit, DoCheck {
     public language = GlobalText.language;
     public heightScreen;
     public widthScreen;
-    public deletable = true;
+    public deletable = false;
     public printable = false;
+    public editable  = false;
     public httpSubscriber: Subscription;
 
     constructor(
@@ -182,44 +183,51 @@ export class SettingsComponent implements OnInit, DoCheck {
       case 'users':
         this.referedClassToken = User;
         this.referedClassService = this.userService;
-        this.deletable = true;
-        this.printable = false;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.printable  = false;
         break;
       case 'donors':
         this.referedClassToken = Donor;
         this.referedClassService = this.donorService;
-        this.deletable = true;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = false;
 
         break;
       case 'projects':
         this.referedClassToken = Project;
         this.referedClassService = this.projectService;
-        this.deletable = true;
+        this.editable   = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
+        this.deletable  = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
         this.printable = false;
         break;
       case 'country specific options':
         this.referedClassToken = CountrySpecific;
         this.referedClassService = this.countrySpecificService;
-        this.deletable = true;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = false;
         break;
       case 'financialProvider':
         this.referedClassToken = FinancialProvider;
         this.referedClassService = this.financialProviderService;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.deletable = false;
         this.printable = false;
         break;
       case 'product':
         this.referedClassToken = Product;
         this.referedClassService = this.productService;
-        this.deletable = true;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = false;
         break;
       case 'vendors':
         this.referedClassToken = Vendors;
         this.referedClassService = this.vendorsService;
-        this.deletable = true;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = true;
         break;
       default: break;

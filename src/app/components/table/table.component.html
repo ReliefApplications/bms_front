@@ -28,11 +28,11 @@
           <div class="validated-distribution" *ngIf="element.validated" routerLink="/projects/distributions/{{element.id}}">
             <mat-icon>done</mat-icon>
           </div>
-          <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('update', element); $event.stopPropagation()"
+          <button mat-icon-button *ngIf="editable" (click)="openDialog('update', element); $event.stopPropagation()"
             class="light-red">
             <mat-icon>search</mat-icon>
           </button>
-          <button mat-icon-button *ngIf="checkItemStateRights(element)" (click)="openDialog('delete', element); $event.stopPropagation()"
+          <button mat-icon-button *ngIf="deletable" (click)="openDialog('delete', element); $event.stopPropagation()"
             class="red">
             <mat-icon>delete_outline</mat-icon>
           </button>

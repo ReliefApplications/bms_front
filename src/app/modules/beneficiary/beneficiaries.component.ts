@@ -5,7 +5,6 @@ import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { LocationService } from 'src/app/core/api/location.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { GlobalText } from '../../../texts/global';
 import { HouseholdsService } from '../../core/api/households.service';
 import { ProjectService } from '../../core/api/project.service';
@@ -38,10 +37,12 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
     // addButtons
     addToggled = false;
 
+    canEdit     = false;
+    canDelete   = false;
+
     constructor(
-        private cacheService: AsyncacheService,
-        public householdsService: HouseholdsService,
         private router: Router,
+        public householdsService: HouseholdsService,
         public snackbar: SnackbarService,
         public projectService: ProjectService,
         public dialog: MatDialog,
@@ -71,6 +72,8 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         this.dataSource.vulnerabilities.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
         this.getProjects('updateSelection');
         this.loadProvince();
+        this.canEdit    = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
+        this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
     }
 
     /**

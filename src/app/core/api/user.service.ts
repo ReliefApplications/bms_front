@@ -90,7 +90,7 @@ export class UserService {
     }
 
     public hasRights(action: string) {
-        // Logged out users have no rights
+        // Logged out users have no righ;ts
         if (!this.currentUser || !this.currentUser.id) {
             return false;
         }

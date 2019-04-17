@@ -65,6 +65,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
     // To activate/desactivate action buttons
     @Input() editable: boolean;
+    @Input() deletable: boolean;
     @Input() printable: boolean;
     @Input() assignable: boolean;
     // For Imported Beneficiaries

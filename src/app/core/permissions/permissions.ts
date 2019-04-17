@@ -53,11 +53,6 @@ export const rightsHierarchy = {
     ],
     [Role.admin]: [
         // Not used, admin can do everything on the app
-        // 'ROLE_USER_MANAGEMENT'
-        // 'ROLE_FINANCIAL_PROVIDER_MANAGEMENT'
-        // 'ROLE_DONOR_MANAGEMENT'
-        // 'ROLE_VENDORS_MANAGEMENT'
-        // 'ROLE_PRODUCT_MANAGEMENT'
     ]
 };
 

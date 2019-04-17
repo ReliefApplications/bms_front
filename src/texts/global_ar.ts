@@ -269,6 +269,7 @@ export const TEXT = {
     login_forgot_password: 'هل نسيت كلمة المرور',
     login_captcha_invalid: 'The captcha is invalid',
     login_password: 'كلمة المرور',
+    login_prompt: 'Please log in',
     login_title: ' تسجيل الدخول الى الحساب',
     login_username: 'اسم المستخدم',
 

@@ -1,12 +1,12 @@
-import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
+import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
-import { LeafletService } from '../../core/external/leaflet.service';
-import { DistributionService } from '../../core/api/distribution.service';
-import { GeneralService } from '../../core/api/general.service';
-import { DistributionData } from '../../model/distribution-data';
-import { GlobalText } from '../../../texts/global';
 import { finalize } from 'rxjs/operators';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { GlobalText } from '../../../texts/global';
+import { DistributionService } from '../../core/api/distribution.service';
+import { GeneralService } from '../../core/api/general.service';
+import { LeafletService } from '../../core/external/leaflet.service';
+import { DistributionData } from '../../model/distribution-data';
 
 @Component({
     selector: 'app-dashboard',
@@ -32,9 +32,6 @@ export class DashboardComponent implements OnInit, DoCheck {
 
     public summary = [];
 
-    hasRights = false;
-    hasRightsEdit = false;
-
     constructor(
         private serviceMap: LeafletService,
         private _cacheService: AsyncacheService,
@@ -51,7 +48,6 @@ export class DashboardComponent implements OnInit, DoCheck {
                 this.getSummary();
                 this.checkDistributions();
                 this.checkSize();
-                this.checkPermission(result);
             }
         });
     }
@@ -128,20 +124,5 @@ export class DashboardComponent implements OnInit, DoCheck {
                     this.summary = null;
                 }
             );
-    }
-
-    checkPermission(result) {
-        this.userData = result;
-
-        if (result && result.rights) {
-            const rights = result.rights;
-            if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
-                this.hasRights = true;
-            }
-
-            if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER') {
-                this.hasRightsEdit = true;
-            }
-        }
     }
 }

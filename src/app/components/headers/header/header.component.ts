@@ -1,14 +1,14 @@
-import { Component, OnInit, DoCheck, Input, Output, EventEmitter } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Component, DoCheck, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { NavigationEnd, Router } from '@angular/router';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-
-import { GlobalText } from '../../../../texts/global';
-
-import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/model/user';
-import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
+import { GlobalText } from '../../../../texts/global';
+import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
+import { UserService } from './../../../core/api/user.service';
+
+
 
 @Component({
     selector: 'app-header',
@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit, DoCheck {
     constructor(
         public dialog: MatDialog,
         public router: Router,
-        private authService: AuthenticationService,
+        private userService: UserService,
         private asyncacheService: AsyncacheService,
         private snackbar: SnackbarService,
     ) {
@@ -82,16 +82,14 @@ export class HeaderComponent implements OnInit, DoCheck {
     }
 
     getCorrectCountries() {
-        const countries = this.userData.getAllCountries();
-
+        const user = this.userService.currentUser;
         this.countries = [];
-        if (this.userData.rights === 'ROLE_ADMIN') {
-            countries.forEach( element => {
-                this.countries.push(element.id);
-            });
-        } else {
-            this.userData.country.forEach( element => {
-                this.countries.push(element);
+        if (!user) {
+            return;
+        }
+        if (this.userService.hasRights('ROLE_SWITCH_COUNTRY')) {
+            this.userService.currentUser.getAllCountries().forEach((country: object[]) => {
+                this.countries.push(country['id']);
             });
         }
 

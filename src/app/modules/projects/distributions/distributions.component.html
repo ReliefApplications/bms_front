@@ -52,11 +52,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button-create" [disabled]="actualDistribution.validated">
+                            <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+                                (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button-create" [disabled]="actualDistribution.validated">
                                 <mat-icon>add</mat-icon>
                                 {{TEXT.add | titlecase}}
                             </button>
-                            <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}" [disabled]="actualDistribution.validated">
+                            <button mat-fab *ngIf="widthScreen <= maxWidthMobile && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+                                (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}"
+                                [disabled]="actualDistribution.validated">
                                 <mat-icon>add</mat-icon>
                             </button>
                         </div>
@@ -65,10 +68,10 @@
                                 <mat-spinner></mat-spinner>
                             </div>
                             <app-table-search *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated"
-                                [parentId]="distributionId" [rights]="hasRights">
+                                [parentId]="distributionId">
                             </app-table-search>
                             <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [editable]="!actualDistribution.validated"
-                                [parentId]="distributionId" [rights]="hasRights">
+                                [parentId]="distributionId">
                             </app-table-mobile-search>
                         </div>
                         <div class="content-button content-button-footer">
@@ -85,7 +88,7 @@
                 <div class="container-table">
                     <div class="container-content box-primary">
                         <div class="import-content">
-                            <app-import-distribution *ngIf="!actualDistribution.validated" [distribution]="this.actualDistribution" [rights]="hasRights" (success)=" this.getDistributionBeneficiaries('final');
+                            <app-import-distribution *ngIf="!actualDistribution.validated" [distribution]="this.actualDistribution" (success)=" this.getDistributionBeneficiaries('final');
                                             this.getDistributionBeneficiaries('initial');
                                             jumpStep(myStepper)"
                                 (selected)="fileSelected($event)">
@@ -220,16 +223,15 @@
     </mat-horizontal-stepper>
 
     <ng-container *ngIf="actualDistribution.commodities">
-        <app-mobile-money *ngIf="actualDistribution.validated && getDistributionType() === 'mobile-money' && !loadingDatas" [actualDistribution]="actualDistribution" [transactionData]="transactionData" [distributionId]="distributionId" [hasRights]="hasRights"
-            [loaderCache]="loaderCache" [hasRightsTransaction]="hasRightsTransaction" (exportEmitter)="exportTransaction($event)" (storeEmitter)="storeBeneficiaries()">
+        <app-mobile-money *ngIf="actualDistribution.validated && getDistributionType() === 'mobile-money' && !loadingDatas" [actualDistribution]="actualDistribution" [transactionData]="transactionData" [distributionId]="distributionId"
+            [loaderCache]="loaderCache" (exportEmitter)="exportTransaction($event)" (storeEmitter)="storeBeneficiaries()">
         </app-mobile-money>
 
         <app-general-relief *ngIf="actualDistribution.validated && getDistributionType() === 'general-relief' && !loadingDatas" [actualDistribution]="actualDistribution" [transactionData]="transactionData" [distributionId]="distributionId"
-            [loaderCache]="loaderCache" [hasRights]="hasRights" [hasRightsTransaction]="hasRightsTransaction" (exportEmitter)="exportTransaction($event)" (storeEmitter)="storeBeneficiaries()">
+            [loaderCache]="loaderCache" (exportEmitter)="exportTransaction($event)" (storeEmitter)="storeBeneficiaries()">
         </app-general-relief>
 
-        <app-qr-voucher (reloadTable)="getSelectedDistribution()" *ngIf="actualDistribution.validated && getDistributionType() === 'qr-voucher' && !loadingDatas" [actualDistribution]="actualDistribution" [transactionData]="transactionData" [distributionId]="distributionId" [hasRights]="hasRights"
-            [loaderCache]="loaderCache" [hasRightsTransaction]="hasRightsTransaction" (exportEmitter)="exportTransaction($event)" (storeEmitter)="storeBeneficiaries()">
+        <app-qr-voucher (reloadTable)="getSelectedDistribution()" *ngIf="actualDistribution.validated && getDistributionType() === 'qr-voucher' && !loadingDatas" [actualDistribution]="actualDistribution" [transactionData]="transactionData" [distributionId]="distributionId" [loaderCache]="loaderCache" (exportEmitter)="exportTransaction($event)" (storeEmitter)="storeBeneficiaries()">
         </app-qr-voucher>
     </ng-container>
 </div>

@@ -5,8 +5,10 @@ import { FinancialProviderService } from 'src/app/core/api/financial-provider.se
 import { HouseholdsService } from 'src/app/core/api/households.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { NetworkService } from 'src/app/core/api/network.service';
+import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { User } from 'src/app/model/user';
 import { GlobalText } from '../../../texts/global';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ExportService } from '../../core/api/export.service';
@@ -63,6 +65,7 @@ export class TableComponent implements OnChanges, DoCheck {
 
     // To activate/desactivate action buttons
     @Input() editable: boolean;
+    @Input() deletable: boolean;
     @Input() printable: boolean;
     @Input() assignable: boolean;
     // For Imported Beneficiaries
@@ -77,14 +80,7 @@ export class TableComponent implements OnChanges, DoCheck {
     @Input() data: any;
     @Input() service;
 
-    // To activate/desactivate action buttons
-    @Input() rights: boolean;
 
-    // To activate/desactivate action buttons
-    @Input() rightsEdit: boolean;
-
-    // To activate/desactivate action buttons
-    @Input() rightsDelete: boolean;
     @Input() selection: any;
     @Output() selectChecked = new EventEmitter<any>();
 
@@ -95,6 +91,7 @@ export class TableComponent implements OnChanges, DoCheck {
     propertiesActions: any;
     entityInstance = null;
     filled = true;
+    user: User;
 
     public user_action = '';
 
@@ -111,7 +108,8 @@ export class TableComponent implements OnChanges, DoCheck {
         public householdsService: HouseholdsService,
         public networkService: NetworkService,
         public router: Router,
-        public _exportService: ExportService
+        public _exportService: ExportService,
+        public userService: UserService,
     ) { }
 
     ngOnChanges() {

@@ -16,8 +16,7 @@
                     <recaptcha formControlName="captcha" *ngIf="prod()" (scriptError)="onScriptError()"> </recaptcha>
                 </div>
                 <div class="login-button">
-                    <button type="submit" mat-raised-button *ngIf="prod() && !loader" [disabled]="form.invalid" class="button-background-primary">{{login.login_title | titlecase}}</button>
-                    <button type="submit" mat-raised-button *ngIf="!prod() && !loader" [disabled]="form.invalid" class="button-background-primary">{{login.login_title | titlecase}}</button>
+                    <button type="submit" mat-raised-button *ngIf="!loader" [disabled]="form.invalid" class="button-background-primary">{{login.login_title | titlecase}}</button>
                     <mat-spinner [diameter]="35" *ngIf="loader"></mat-spinner>
                 </div>
             </form>

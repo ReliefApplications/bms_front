@@ -21,6 +21,7 @@
         width: 40%;
         min-height: 30vh;
         margin: 0 auto;
+        height: 100%;
 
         .card-drag-and-drop {
             width: 80%;
@@ -73,6 +74,10 @@
 .content-select {
     display: flex;
     flex-direction: column;
+
+    mat-radio-button {
+        margin: 5px 0;
+    }
 
     mat-form-field {
         width: 200px;

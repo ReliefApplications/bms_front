@@ -427,10 +427,16 @@ export class DistributionsComponent implements OnInit, DesactivationGuarded, DoC
      */
     openDialog(template) {
         const distributionDate = new Date(this.actualDistribution.date_distribution);
-        if (new Date() < distributionDate) {
-            this.dialog.open(template);
-        } else {
+        const currentDate = new Date();
+        if (currentDate.getFullYear() > distributionDate.getFullYear() ||
+        (currentDate.getFullYear() === distributionDate.getFullYear() &&
+        currentDate.getMonth() > distributionDate.getMonth()) ||
+        (currentDate.getFullYear() === distributionDate.getFullYear() &&
+        currentDate.getMonth() === distributionDate.getMonth()) &&
+        currentDate.getDate() > distributionDate.getDate()) {
             this.snackbar.error(GlobalText.TEXTS.snackbar_invalid_transaction_date);
+        } else {
+            this.dialog.open(template);
         }
     }
 

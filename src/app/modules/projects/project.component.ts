@@ -1,6 +1,7 @@
 import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
@@ -13,11 +14,6 @@ import { ImportedDataService } from '../../core/utils/imported-data.service';
 import { Mapper } from '../../core/utils/mapper.service';
 import { DistributionData } from '../../model/distribution-data';
 import { Project } from '../../model/project';
-
-
-
-
-
 
 @Component({
     selector: 'app-project',
@@ -53,6 +49,8 @@ export class ProjectComponent implements OnInit, DoCheck {
     public maxWidth = GlobalText.maxWidth;
     public heightScreen;
     public widthScreen;
+
+    public httpSubscriber: Subscription;
 
     constructor(
         public projectService: ProjectService,
@@ -107,11 +105,23 @@ export class ProjectComponent implements OnInit, DoCheck {
      * @param project
      */
     selectTitle(title, project): void {
+        if (this.httpSubscriber) {
+            this.httpSubscriber.unsubscribe();
+        }
         this.isBoxClicked = true;
         this.selectedTitle = title;
         this.selectedProject = project;
         this.loadingDistributions = true;
         this.getDistributionsByProject(project.id);
+    }
+
+    autoProjectSelect(input: string) {
+        const selector = parseInt(input, 10);
+        this.projects.forEach(e => {
+            if (e.id === selector) {
+                this.selectTitle(e.name, e);
+            }
+        });
     }
 
     setType(choice: string) {
@@ -133,14 +143,14 @@ export class ProjectComponent implements OnInit, DoCheck {
             response => {
                 if (response && response.length > 0) {
                     const formattedResponse = this.projectClass.formatArray(response).reverse();
+                    this.projects = formattedResponse;
                     if (!this.projects || formattedResponse.length !== this.projects.length) {
-                        this.projects = formattedResponse;
-                        if (this.selectedProjectId) {
-                            this.autoProjectSelect(this.selectedProjectId);
-                        } else {
-                            this.selectTitle(this.projects[0].name, this.projects[0]);
-                        }
                         this.loadingProjects = false;
+                    }
+                    if (this.selectedProjectId) {
+                        this.autoProjectSelect(this.selectedProjectId);
+                    } else {
+                        this.selectTitle(this.projects[0].name, this.projects[0]);
                     }
                 } else if (response === null) {
                     this.loadingProjects = false;
@@ -154,7 +164,7 @@ export class ProjectComponent implements OnInit, DoCheck {
      * @param projectId
      */
     getDistributionsByProject(projectId: number): void {
-        this.distributionService.
+        this.httpSubscriber = this.distributionService.
             getByProject(projectId).pipe(
                 finalize(
                     () => {
@@ -230,15 +240,6 @@ export class ProjectComponent implements OnInit, DoCheck {
         this.projectService.create(createElement['id'], createElement).subscribe(response => {
             this.snackbar.success('Project ' + this.distribution.settings_created);
             this.getProjects();
-        });
-    }
-
-    autoProjectSelect(input: string) {
-        const selector = parseInt(input, 10);
-        this.projects.forEach(e => {
-            if (e.id === selector) {
-                this.selectTitle(e.name, e);
-            }
         });
     }
 }

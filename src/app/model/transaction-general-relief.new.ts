@@ -25,7 +25,7 @@ export class GeneralRelief extends CustomModel {
         const newGeneralRelief = new GeneralRelief();
         newGeneralRelief.set('id', generalReliefFromApi.id);
         newGeneralRelief.set('notes', generalReliefFromApi.notes);
-        newGeneralRelief.set('distributedAt', generalReliefFromApi.distributedAt);
+        newGeneralRelief.set('distributedAt', generalReliefFromApi.distributed_at);
 
         return newGeneralRelief;
     }
@@ -44,6 +44,7 @@ export class GeneralRelief extends CustomModel {
 export class TransactionGeneralRelief extends DistributionBeneficiary {
 
     title = 'General Relief';
+    matSortActive = 'familyName';
 
     public fields = {
         id: new NumberModelField({
@@ -125,6 +126,10 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             notes: this.get('notes'),
         };
 
+    }
+
+    isCheckable() {
+        return this.get('distributedAt') === null;
     }
 
 }

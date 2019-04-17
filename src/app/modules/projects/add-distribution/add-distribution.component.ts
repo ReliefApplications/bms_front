@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DateAdapter, MatDialog, MAT_DATE_FORMATS } from '@angular/material';
+import { DateAdapter, MatDialog, MAT_DATE_FORMATS, MatTableDataSource } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -41,9 +41,9 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     public form: FormGroup;
 
     public criteriaClass = Criteria;
-    public criteriaArray = new Array<Criteria>();
+    public criteriaData = new MatTableDataSource<Criteria>();
     public commodityClass = Commodity;
-    public commodityArray = new Array<Commodity>();
+    public commodityData = new MatTableDataSource<Commodity>();
     public criteriaNbBeneficiaries = 0;
     public commodityNb: number[] = [];
 
@@ -240,16 +240,14 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     createElement(createElement: any, user_action: string) {
         if (user_action === 'addCriteria') {
             this.load = true;
-            this.criteriaArray.push(createElement);
+            this.criteriaData.data = [... this.criteriaData.data, createElement];
             this.updateNbBeneficiary();
-            this.criteriaTable.updateTable(this.criteriaArray);
         } else if (user_action === 'addCommodity') {
-            this.commodityArray.push(createElement);
+            this.commodityData.data = [...this.commodityData.data, createElement];
             this.commodityNb = [];
-            this.commodityArray.forEach(commodity => {
+            this.commodityData.data.forEach(commodity => {
                 this.commodityNb.push(commodity.get<number>('value') * this.criteriaNbBeneficiaries);
             });
-            this.commodityTable.updateTable(this.commodityArray);
         }
     }
 
@@ -262,35 +260,33 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
 
         if (details.action === 'delete') {
             if (type === 'criteria') {
-                const index = this.criteriaArray.findIndex(criterion => {
+                const index = this.criteriaData.data.findIndex(criterion => {
                     return criterion === details.element;
                 });
                 if (index > -1) {
-                    this.criteriaArray.splice(index, 1);
+                    this.criteriaData.data = this.criteriaData.data.slice(index, 1);
                 }
 
                 // To remove the matSort if the array is empty
-                if (this.criteriaArray.length === 0) {
-                    this.criteriaArray = [];
+                if (this.criteriaData.data.length === 0) {
+                    this.criteriaData.data = [];
                 }
 
                 this.updateNbBeneficiary();
 
-                this.criteriaTable.updateTable(this.criteriaArray);
             } else if (type === 'commodity') {
-                const index = this.commodityArray.findIndex((commodity) => {
+                const index = this.commodityData.data.findIndex((commodity) => {
                     return commodity === details.element;
                 });
                 if (index > -1) {
-                    this.commodityArray.splice(index, 1);
+                    this.commodityData.data = this.commodityData.data.slice(index, 1);
                     this.commodityNb.splice(index, 1);
                 }
 
                 // To remove the matSort if the array is empty
-                if (this.commodityArray.length === 0) {
-                    this.commodityArray = [];
+                if (this.commodityData.data.length === 0) {
+                    this.commodityData.data = [];
                 }
-                this.commodityTable.updateTable(this.commodityArray);
             }
 
         }
@@ -300,8 +296,8 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
      * create the new distribution object before send it to the back
      */
     add() {
-        if (this.form.controls.type.value && this.criteriaArray && this.criteriaArray.length !== 0 &&
-          this.commodityArray && this.commodityArray.length !== 0 && this.form.controls.date.value &&
+        if (this.form.controls.type.value && this.criteriaData.data && this.criteriaData.data.length !== 0 &&
+          this.commodityData.data && this.commodityData.data.length !== 0 && this.form.controls.date.value &&
           this.form.controls.threshold.value > 0 && this.form.controls.adm1) {
 
             if (new Date(this.form.controls.date.value) < new Date(this.projectInfo.startDate) ||
@@ -309,8 +305,8 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
                 this.snackbar.error(this.texts.add_distribution_date_inside_project);
                 return;
             } else {
-                const distributionModality = this.commodityArray[0].get('modality').get('name');
-                for (const commodity of this.commodityArray) {
+                const distributionModality = this.commodityData.data[0].get('modality').get('name');
+                for (const commodity of this.commodityData.data) {
                     if (commodity.get<number>('value') <= 0) {
                         this.snackbar.error(this.texts.add_distribution_zero);
                         return;
@@ -353,8 +349,8 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
                 newDistribution.set('type', this.form.controls.type.value);
                 newDistribution.set('threshold', this.form.controls.threshold.value);
                 newDistribution.set('projectId', this.queryParams.project);
-                newDistribution.set('selectionCriteria', this.criteriaArray);
-                newDistribution.set('commodities', this.commodityArray);
+                newDistribution.set('selectionCriteria', this.criteriaData.data);
+                newDistribution.set('commodities', this.commodityData.data);
                 newDistribution.set('date', this.form.controls.date.value);
 
                 this._distributionService.create(newDistribution.modelToApi()).subscribe((response) => {
@@ -367,10 +363,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
                     this.loadingCreation = false;
                 });
             }
-        } else if (this.criteriaArray.length === 0) {
+        } else if (this.criteriaData.data.length === 0) {
             this.snackbar.error(this.texts.add_distribution_missing_selection_criteria);
 
-        } else if (!this.commodityArray[0]) {
+        } else if (!this.commodityData.data[0]) {
             this.snackbar.error(this.texts.add_distribution_missing_commodity);
         } else if (!this.form.controls.date.value) {
             this.snackbar.error(this.texts.add_distribution_missing_date);
@@ -392,18 +388,18 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     }
 
     updateNbBeneficiary() {
-        if (this.criteriaArray.length !== 0) {
+        if (this.criteriaData.data.length !== 0) {
             this.load = true;
             this.criteriaService.getBeneficiariesNumber(
                 this.form.controls.type.value,
-                this.criteriaArray,
+                this.criteriaData.data,
                 this.form.controls.threshold.value,
                 this.queryParams.project
             ).subscribe(response => {
                 this.criteriaNbBeneficiaries = response.number;
-                if (this.commodityArray.length > 0) {
+                if (this.commodityData.data.length > 0) {
                     this.commodityNb = [];
-                    this.commodityArray.forEach(commodity => {
+                    this.commodityData.data.forEach(commodity => {
                         this.commodityNb.push(commodity.get<number>('value') * this.criteriaNbBeneficiaries);
                     });
                 }

@@ -1,0 +1,142 @@
+<div class="table-container">
+    <div class="noDataContainer" *ngIf="tableServerData.loading$ | async; else dataInTable">
+        <h3>
+        <mat-icon>clear</mat-icon>
+        {{table.no_data}}
+        </h3>
+    </div>
+
+    <ng-template #dataInTable>
+        <div class="container-header">
+            <mat-form-field>
+                <input matInput (keyup)="applySpecificFilter($event.target.value, 'any')" placeholder="{{table.table_filter}}">
+            </mat-form-field>
+        </div>
+        
+        <div *ngIf="filtersForm">
+            <form [formGroup]="filtersForm">
+                <ng-container *ngFor="let fieldName of objectFields">
+                    <div *ngIf="display(filters.fields[fieldName]); let field">
+                        <ng-container *ngIf="field.kindOfField === 'MultipleSelect'; else isSingleSelect">
+                                <ng-select [formControlName]="fieldName" [placeholder]="field.title" [multiple]="true" [closeOnSelect]="false">
+                                    <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
+                                        {{option.get(field.bindField) | titlecase}}
+                                    </ng-option>
+                                </ng-select>
+                        </ng-container>
+            
+                        <ng-template #isSingleSelect>
+                            <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isMaterialField">
+                                <ng-select [formControlName]="fieldName" [placeholder]="field.title">
+                                    <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
+                                        {{option.get(field.bindField) | titlecase}}
+                                    </ng-option>
+                                </ng-select>
+                            </ng-container>
+                        </ng-template>
+            
+                        <ng-template #isMaterialField>
+                            <mat-form-field *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
+                                <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
+                                    <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title"
+                                        matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
+            
+                                    <ng-template #checkForTextArea>
+                                        <ng-container *ngIf="field.isLongText; else checkForTextInput">
+                                            <textarea matInput type="text" [formControlName]="fieldName" [placeholder]="field.title"></textarea>
+                                        </ng-container>
+                                    </ng-template>
+            
+                                    <ng-template #checkForTextInput>
+                                        <input matInput type="text" [formControlName]="fieldName" [placeholder]="field.title">
+                                    </ng-template>
+                                </ng-container>
+            
+            
+                                <ng-template #checkForDateField>
+                                    <ng-container *ngIf="field.kindOfField === 'Date'; else checkForNumberField">
+                                        <input matInput [matDatepicker]="picker" [formControlName]="fieldName" [placeholder]="field.title">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </ng-container>
+                                </ng-template>
+            
+                                <ng-template #checkForNumberField>
+                                    <ng-container *ngIf="field.kindOfField === 'Number'">
+                                        <input matInput type="number" [formControlName]="fieldName">
+                                    </ng-container>
+                                </ng-template>
+                                <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('required')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('required'))">
+                                    {{ fieldName | titlecase}} is required
+                                </mat-error>
+                                <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('pattern')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('pattern'))">
+                                    {{field.hint | titlecase}}
+                                </mat-error>
+                                <mat-hint align="start" *ngIf="field.hint && modalType !== 'Details'"><strong>{{field.hint | titlecase}}</strong> </mat-hint>
+                            </mat-form-field>
+                        </ng-template>
+                    </div>
+                </ng-container>
+            </form>
+        </div>
+
+        <div class="spinner-container" *ngIf="tableServerData.loading$ | async">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <table mat-table [dataSource]="tableServerData" matSort>
+            <ng-container *ngFor="let property of displayProperties" matColumnDef="{{property}}">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title}}</th>
+                <td mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="element.fields[property]; let field">
+                        <app-display-field [field]="field" [element]="element"></app-display-field>
+                    </ng-container>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>{{table.table_actions | titlecase }}</th>
+                <td mat-cell *matCellDef="let element">
+
+                    <ng-container *ngIf="validatable">
+                        <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
+                            <mat-icon *ngIf="element.get('validated') && element.get('finished')">done</mat-icon>
+                            <mat-icon *ngIf="element.get('validated') && !element.get('finished')" class="red">lock</mat-icon>
+                            <mat-icon *ngIf="!element.get('validated') && updatable" class="light-red">edit</mat-icon>
+                        </button>
+                    </ng-container>
+                    <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
+                            <mat-icon *ngIf="!validatable && updatable" class="light-red">edit</mat-icon>
+                    </button>
+
+                    <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton"
+                        *ngIf="loggable" [matTooltip]="table.settings_log_button">
+                        <mat-icon>history</mat-icon>
+                    </button>
+
+                    <button *ngIf="editable && rights && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
+                        [matTooltip]="table.update" class="green">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                    <button *ngIf="rights && deletable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
+                        [matTooltip]="table.delete" class="red">
+                        <mat-icon>delete_outline</mat-icon>
+                    </button>
+                    <button *ngIf="printable" mat-icon-button (click)="print(element); $event.stopPropagation()"
+                        [matTooltip]="'print'" class="grey" [disabled]="!element.isPrintable()">
+                        <mat-icon>printer</mat-icon>
+                    </button>
+                    <button mat-icon-button [matTooltip]="'assign'" *ngIf="assignable" (click)="assign(element); $event.stopPropagation()" class="grey" [disabled]="!element.isAssignable()">
+                        <mat-icon>assignment</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+            <tr mat-row *matRowDef="let row; columns: getDisplayedColumns(); let element" class="cursor-pointer" (click)="openDialog('details', element)"></tr>
+        </table>
+
+        <mat-paginator [length]="tableServerData.length$ | async" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+    </ng-template>
+</div>
+

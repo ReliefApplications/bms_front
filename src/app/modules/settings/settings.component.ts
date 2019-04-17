@@ -66,6 +66,7 @@ export class SettingsComponent implements OnInit {
     hasRights: boolean;
     public deletable = true;
     public printable = false;
+    public loggable = false;
     public httpSubscriber: Subscription;
 
     @ViewChild(TableComponent) table: TableComponent;
@@ -185,6 +186,7 @@ export class SettingsComponent implements OnInit {
         this.referedClassService = this.userService;
         this.deletable = true;
         this.printable = false;
+        this.loggable = true;
         break;
       case 'donors':
         this.referedClassToken = Donor;

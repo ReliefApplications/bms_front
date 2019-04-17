@@ -19,6 +19,7 @@ export class Vendor extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
     title = GlobalText.TEXTS.settings_vendors;
+    matSortActive = 'username';
 
     public fields = {
         id: new NumberModelField({

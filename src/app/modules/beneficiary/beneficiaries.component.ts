@@ -78,7 +78,7 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         this.checkSize();
         this.extensionType = 'xls';
         this.dataSource = new HouseholdsDataSource(this.householdsService);
-        this.dataSource.vulnerabilities.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
+        // this.dataSource.vulnerabilities.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
         this.getProjects('updateSelection');
         this.checkPermission();
         this.loadProvince();
@@ -163,7 +163,7 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
                             tmpProjects.push(project.name);
                         });
 
-                        this.dataSource.projects.next(tmpProjects);
+                        // this.dataSource.projects.next(tmpProjects);
                     }
                 },
                 error => {
@@ -234,7 +234,7 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
      */
     loadProvince() {
         this.locationService.getAdm1().subscribe(response => {
-            this.dataSource.adm1.next(response);
+            // this.dataSource.adm1.next(response);
         });
     }
 
@@ -244,7 +244,7 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
      */
     loadDistrict(adm1) {
         this.locationService.getAdm2(adm1).subscribe(response => {
-            this.dataSource.adm2.next(response);
+            // this.dataSource.adm2.next(response);
         });
     }
 
@@ -254,7 +254,7 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
      */
     loadCommunity(adm2) {
         this.locationService.getAdm3(adm2).subscribe(response => {
-            this.dataSource.adm3.next(response);
+            // this.dataSource.adm3.next(response);
         });
     }
 
@@ -264,7 +264,7 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
      */
     loadVillage(adm3) {
         this.locationService.getAdm4(adm3).subscribe(response => {
-            this.dataSource.adm4.next(response);
+            // this.dataSource.adm4.next(response);
         });
     }
 
@@ -276,7 +276,7 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
 
         this.modalService.openDialog(Households, this.householdsService, event.event);
         this.modalService.isCompleted.subscribe(() => {
-            this.dataSource.loadHouseholds();
+            // this.dataSource.loadHouseholds();
             // this.getDistributionsByProject(this.selectedProject.get('id'));
         });
         // if edit, open modal edit date, if details idem

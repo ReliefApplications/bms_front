@@ -40,7 +40,7 @@ export class ResidencyStatus extends CustomModel {
 }
 export class Beneficiary extends CustomModel {
     title = GlobalText.TEXTS.beneficiary;
-
+    matSortActive = 'familyName';
     public fields = {
         id : new NumberModelField(
             {

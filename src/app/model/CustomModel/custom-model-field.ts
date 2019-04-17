@@ -75,6 +75,11 @@ export class CustomModelField<T> {
      * @type {Function}
      */
     triggerFunction: Function;
+    /**
+     * The name of the corresponding filter for the api
+     * @type {string}
+     */
+    filterName: string;
 
 
     /**
@@ -101,7 +106,8 @@ export class CustomModelField<T> {
         this.hint                   = properties['hint'];
         this.pattern                = properties['pattern'];
         this.isTrigger              = properties['isTrigger'];
-        this.triggerFunction              = properties['triggerFunction'];
+        this.triggerFunction        = properties['triggerFunction'];
+        this.filterName             = properties['filterName'];
     }
 
     // Field specific value should never be omitted
@@ -124,6 +130,7 @@ export class CustomModelField<T> {
             hint:                   null,
             pattern:                null,
             isTrigger:              false,
+            filterName:             '',
 
             ...properties,
         };

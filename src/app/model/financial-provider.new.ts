@@ -11,6 +11,7 @@ export class FinancialProvider extends CustomModel {
     public static rights = ['ROLE_ADMIN', 'ROLE_COUNTRY_MANAGER', 'ROLE_PROJECT_MANAGER'];
 
     title = GlobalText.TEXTS.settings_financial_provider;
+    matSortActive = 'username';
 
     fields = {
         id: new TextModelField({

@@ -44,6 +44,7 @@ export class User extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
     title = GlobalText.TEXTS.model_user;
+    matSortActive = 'username';
 
     public fields = {
         id: new NumberModelField({

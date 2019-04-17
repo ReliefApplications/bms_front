@@ -21,6 +21,7 @@ export class Adm extends CustomModel {
 export class Location extends CustomModel {
 
     title = 'Location';
+    matSortActive = 'adm1';
 
     fields = {
         id: new NumberModelField(

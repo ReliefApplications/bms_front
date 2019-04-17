@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material';
 import { Commodity } from 'src/app/model/commodity.new';
 import { ModalEditComponent } from 'src/app/components/modals/modal-edit/modal-edit.component';
 import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.new';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
     selector: 'app-general-relief',
@@ -14,8 +15,9 @@ import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.
 })
 export class GeneralReliefComponent extends ValidatedDistributionComponent implements OnInit {
 
-    checkedLines: any[] = [];
+    checkedLines: TransactionGeneralRelief[] = [];
     distributed = false;
+    selection = new SelectionModel<TransactionGeneralRelief>(true, []);
 
     ngOnInit() {
         super.ngOnInit();
@@ -90,6 +92,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                         .map((generalRelief: GeneralRelief) => {
                             generalReliefsId.push(generalRelief.get('id'));
                             generalRelief.set('distributedAt', new Date());
+                            return generalRelief;
                         });
                     storeDistributionBeneficiary.set('generalReliefs', generalReliefs);
                     storeDistributionBeneficiary.set('distributedAt', new Date());
@@ -105,6 +108,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
             this.cacheService.set(
                 `${AsyncacheService.DISTRIBUTIONS}_${this.actualDistribution.get('id')}_beneficiaries`,
                 this.actualDistribution.modelToApi());
+                this.verifiyIsFinished();
         }, err => {
             console.error(err);
         }, () => {

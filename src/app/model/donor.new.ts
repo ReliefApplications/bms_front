@@ -8,6 +8,7 @@ export class Donor extends CustomModel {
     public static rights = ['ROLE_ADMIN'];
 
     title = GlobalText.TEXTS.model_donor;
+    matSortActive = 'fullname';
 
     // TODO: Fill with options
     fields = {

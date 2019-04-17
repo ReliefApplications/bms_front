@@ -8,13 +8,17 @@ import { ExportService } from './export.service';
 
 import { Households } from '../../model/households.new';
 import { Project } from '../../model/project.new';
-import { Location } from '../../model/location';
+import { Location } from '../../model/location.new';
 import { Sector } from '../../model/sector';
 import { saveAs      } from 'file-saver/FileSaver';
 import { CustomModelService } from './custom-model.service';
 import { Router } from '@angular/router';
 import { AppInjector } from 'src/app/app-injector';
 import { ProjectService } from './project.service';
+import { HouseholdFilters } from 'src/app/model/households-data-source';
+import { CriteriaService } from './criteria.service';
+import { VulnerabilityCriteria } from 'src/app/model/vulnerability-criteria.new';
+import { LocationService } from './location.service';
 
 @Injectable({
     providedIn: 'root'
@@ -173,6 +177,34 @@ export class HouseholdsService extends CustomModelService {
 
             household.setOptions('projects', projectOptions);
         });
+    }
+
+    public fillFiltersWithOptions(filters: HouseholdFilters) {
+        const appInjector = AppInjector;
+
+        // Get Projects
+        appInjector.get(ProjectService).get().subscribe((projects: any) => {
+
+            const projectOptions = projects.map(project => {
+                return Project.apiToModel(project);
+            });
+
+            filters.setOptions('projects', projectOptions);
+        });
+
+        // Get vulnerabilities
+        appInjector.get(CriteriaService).getVulnerabilityCriteria().subscribe((vulnerabilities: any) => {
+
+            const vulnerabilityOptions = vulnerabilities.map(vulnerability => {
+                return VulnerabilityCriteria.apiToModel(vulnerability);
+            });
+
+            filters.setOptions('vulnerabilities', vulnerabilityOptions);
+        });
+
+        // Get adm1
+        filters.set('location', new Location());
+        appInjector.get(LocationService).fillAdm1Options(filters).subscribe();
     }
 
     public visit(householdId) {

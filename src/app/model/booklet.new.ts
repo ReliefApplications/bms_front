@@ -45,6 +45,7 @@ export class Currency extends CustomModel {
 export class Booklet extends CustomModel {
 
     title = GlobalText.TEXTS.model_booklet;
+    matSortActive = 'code';
 
     public fields = {
         id: new NumberModelField(
@@ -230,6 +231,10 @@ export class Booklet extends CustomModel {
 
     isPrintable() {
         return true;
+    }
+
+    isCheckable() {
+        return this.get('usedAt') === null;
     }
 
     public getTotalValue(): number {

@@ -38,7 +38,7 @@
                     <div class="waitingDataContainer" *ngIf="loadingFirstStep">
                         <mat-spinner></mat-spinner>
                     </div>
-                    <app-table *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="hasRights"
+                    <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="hasRights"
                         [rights]="hasRights" (openModal)="openModal($event)">
                     </app-table>
                     <app-table-mobile *ngIf="widthScreen < maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="hasRights"
@@ -122,7 +122,7 @@
                     <mat-spinner></mat-spinner>
                 </div>
                 <div class="content-table" *ngIf="randomSampleData">
-                    <app-table *ngIf="widthScreen > maxWidthMobile && !loadingThirdStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)">
+                    <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile && !loadingThirdStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)">
                     </app-table>
                     <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)">
                     </app-table-mobile>
@@ -151,7 +151,7 @@
                         <mat-spinner></mat-spinner>
                     </div>
                     <div class="content-table" *ngIf="finalBeneficiaryData">
-                        <app-table *ngIf="widthScreen > maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [editable]="!actualDistribution.get('validated')" (openModal)="openModal($event)">
+                        <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [editable]="!actualDistribution.get('validated')" (openModal)="openModal($event)">
                         </app-table>
                         <app-table-mobile *ngIf="widthScreen < maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [editable]="!actualDistribution.get('validated')" (openModal)="openModal($event)">
                         </app-table-mobile>

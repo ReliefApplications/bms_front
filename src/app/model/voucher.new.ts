@@ -11,6 +11,7 @@ import { Vendor } from './vendor.new';
 export class Voucher extends CustomModel {
 
     title = GlobalText.TEXTS.voucher;
+    matSortActive = 'code';
 
     public fields = {
         id: new NumberModelField(

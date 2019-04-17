@@ -46,10 +46,10 @@
         </div>
       </ng-template>
       <div class="table-content">
-        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="addingData" [editable]="false">
-        </app-table-search>
-        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="addingData" [editable]="false">
-        </app-table-mobile-search>
+        <app-table *ngIf="widthScreen > maxWidthMobile" [searchable]="true" [paginable]="true" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="addingData" [editable]="false">
+        </app-table>
+        <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="addingData" [editable]="false">
+        </app-table-mobile>
       </div>
     </mat-tab>
     <mat-tab>
@@ -64,10 +64,10 @@
         </div>
       </ng-template>
       <div class="table-content">
-        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="removingData" [editable]="false">
-        </app-table-search>
-        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="removingData" [editable]="false">
-        </app-table-mobile-search>
+        <app-table *ngIf="widthScreen > maxWidthMobile" [searchable]="true" [paginable]="true" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="removingData" [editable]="false">
+        </app-table>
+        <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="removingData" [editable]="false">
+        </app-table-mobile>
       </div>
     </mat-tab>
     <mat-tab>
@@ -82,10 +82,10 @@
         </div>
       </ng-template>
       <div class="table-content">
-        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="createData" [editable]="false">
-        </app-table-search>
-        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="createData" [editable]="false">
-        </app-table-mobile-search>
+        <app-table *ngIf="widthScreen > maxWidthMobile" [searchable]="true" [paginable]="true" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="createData" [editable]="false">
+        </app-table>
+        <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="createData" [editable]="false">
+        </app-table-mobile>
       </div>
     </mat-tab>
     <mat-tab>
@@ -100,10 +100,10 @@
         </div>
       </ng-template>
       <div class="table-content">
-        <app-table-search *ngIf="widthScreen > maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="updateData" [editable]="false">
-        </app-table-search>
-        <app-table-mobile-search *ngIf="widthScreen < maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="updateData" [editable]="false">
-        </app-table-mobile-search>
+        <app-table *ngIf="widthScreen > maxWidthMobile" [searchable]="true" [paginable]="true" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="updateData" [editable]="false">
+        </app-table>
+        <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="updateData" [editable]="false">
+        </app-table-mobile>
       </div>
     </mat-tab>
   </mat-tab-group>

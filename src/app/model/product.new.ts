@@ -13,6 +13,7 @@ export class Product extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
     title = GlobalText.TEXTS.settings_product;
+    matSortActive = 'name';
 
     public fields = {
         id: new NumberModelField({

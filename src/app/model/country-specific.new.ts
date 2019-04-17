@@ -23,6 +23,7 @@ export class CountrySpecific extends CustomModel {
     public static rights = ['ROLE_ADMIN', 'ROLE_COUNTRY_MANAGER', 'ROLE_PROJECT_MANAGER'];
 
     title = GlobalText.TEXTS.model_country_specific;
+    matSortActive = 'field';
 
     public fields = {
         id : new NumberModelField(

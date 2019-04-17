@@ -36,6 +36,7 @@ export class ModalityType extends CustomModel {
 
 export class Commodity extends CustomModel {
     title = GlobalText.TEXTS.model_commodity;
+    matSortActive = 'modality';
 
     public fields = {
         id : new NumberModelField(

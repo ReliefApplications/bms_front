@@ -127,7 +127,7 @@ export class ProjectComponent implements OnInit {
                     }
                     // Auto select latest project if no project is selected
                     if (!this.projects.includes(this.selectedProject)) {
-                        this.selectedProject = this.projects[0];
+                        this.selectProject(this.projects[0]);
                     }
 
                 } else if (response === null) {

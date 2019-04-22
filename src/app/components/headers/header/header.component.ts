@@ -92,6 +92,9 @@ export class HeaderComponent implements OnInit, DoCheck {
                 this.countries.push(country['id']);
             });
         }
+        else {
+            this.countries = this.userService.currentUser.country;
+        }
 
         this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(
             result => {

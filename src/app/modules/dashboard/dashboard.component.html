@@ -28,9 +28,9 @@
         <app-placeholder-panel *ngIf='loadingTable' class="distribution-content-placeholder"></app-placeholder-panel>
         <div class="distribution-content" *ngIf='!loadingTable'>
             <app-table-dashboard *ngIf="widthScreen > maxWidthMobile"
-                [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-dashboard>
+                [entity]="referedClassToken" [service]="_distributionService" [deletable]="deletable" [editable]="editable" [data]="distributions"></app-table-dashboard>
             <app-table-mobile-dashboard *ngIf="widthScreen < maxWidthMobile"
-                [entity]="referedClassToken" [service]="_distributionService" [data]="distributions"></app-table-mobile-dashboard>
+                [entity]="referedClassToken" [service]="_distributionService" [deletable]="deletable" [editable]="editable" [data]="distributions"></app-table-mobile-dashboard>
         </div>
     </div>
 </div>

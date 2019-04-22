@@ -31,6 +31,7 @@ export const rightsHierarchy = {
         'ROLE_REPORTING_PROJECT',
         'ROLE_USER_MANAGEMENT',
         'ROLE_VIEW_ADMIN_SETTINGS',
+        'ROLE_SWITCH_COUNTRY',
     ],
     [Role.countryManager]: [
         'ROLE_AUTHORISE_PAYMENT',

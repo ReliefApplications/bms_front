@@ -1,6 +1,7 @@
 import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { finalize } from 'rxjs/operators';
+import { UserService } from 'src/app/core/api/user.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { GlobalText } from '../../../texts/global';
 import { DistributionService } from '../../core/api/distribution.service';
@@ -30,6 +31,9 @@ export class DashboardComponent implements OnInit, DoCheck {
     public heightScreen;
     public widthScreen;
 
+    public deletable = false;
+    public editable = false;
+
     public summary = [];
 
     constructor(
@@ -37,7 +41,7 @@ export class DashboardComponent implements OnInit, DoCheck {
         private _cacheService: AsyncacheService,
         public _distributionService: DistributionService,
         public _generalService: GeneralService,
-
+        private userService: UserService,
     ) { }
 
     ngOnInit() {
@@ -50,6 +54,8 @@ export class DashboardComponent implements OnInit, DoCheck {
                 this.checkSize();
             }
         });
+        this.deletable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
+        this.editable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
     }
 
     /**

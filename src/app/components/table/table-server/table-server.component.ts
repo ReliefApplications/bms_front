@@ -18,7 +18,7 @@ export interface Filter {
 @Component({
   selector: 'app-table-server',
   templateUrl: './table-server.component.html',
-  styleUrls: ['./table-server.component.scss'],
+  styleUrls: ['./table-server.component.scss', '../table.component.scss'],
   providers: [
       { provide: DateAdapter, useClass: CustomDateAdapter },
       { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
@@ -44,14 +44,19 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
 
   public filtersForAPI: Array<Filter> = [];
 
+  advancedResearch = false;
+
   ngOnInit() {
   }
 
   ngAfterViewInit() {
     // define and get filters
     this.filters = this.tableServerData.getFilterFields();
-    this.filterFields = Object.keys(this.filters.fields);
+    this.filterFields = Object.keys(this.filters.fields).filter(property => {
+      return this.filters.fields[property].isDisplayedInTable === true;
+  });
     this.createForm();
+    this.listenToChanges();
     this.service.fillFiltersWithOptions(this.filters);
     // get data
     this.tableServerData.loadData([], { sort: null, direction: null }, 0, 10);
@@ -77,7 +82,7 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
   }
 
   applySpecificFilter(filterValue: any, category: string) {
-    if (typeof(filterValue) === 'string') {
+    if (typeof(filterValue) === 'string' && category !== 'locations') {
       filterValue = filterValue.trim().toLowerCase();
     }
     if (category === 'any') {
@@ -90,11 +95,12 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
     if (indexInFilter >= 0) {
       this.filtersForAPI.splice(indexInFilter, 1);
     }
-
-    this.filtersForAPI.push({
-      category: category,
-      filter: filterValue
-    });
+    if (filterValue) {
+      this.filtersForAPI.push({
+        category: category,
+        filter: filterValue
+      });
+    }
 
     this.paginator.pageIndex = 0;
     this.loadDataPage();
@@ -117,12 +123,16 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
     }
   }
 
+  showAdvancedResearch() {
+    this.advancedResearch = !this.advancedResearch;
+  }
+
   listenToChanges() {
     this.filterFields.forEach((fieldName: string) => {
       this.filtersForm.get(fieldName).valueChanges.subscribe((value) => {
         const field = this.filters.fields[fieldName];
         // Change filters and form according to changes
-        if (field.isTrigger) {
+        if (value && field.isTrigger) {
           this.filters = field.triggerFunction(this.filters, value, this.filtersForm);
         }
 
@@ -157,4 +167,10 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
     });
   }
 
+  clearSearch() {
+    this.filterFields.forEach((fieldName: string) => {
+      this.filtersForm.controls[fieldName].setValue(null);
+    });
+    this.filtersForAPI = [];
+  }
 }

@@ -26,12 +26,14 @@ export class HouseholdFilters extends CustomModel {
             filterName: 'projects',
             bindField: 'name',
             apiLabel: 'name',
+            isDisplayedInTable: true,
         }),
         vulnerabilities: new MultipleSelectModelField({
             title: GlobalText.TEXTS.model_vulnerabilities,
             filterName: 'vulnerabilities',
             bindField: 'name',
             apiLabel: 'name',
+            isDisplayedInTable: true,
         }),
         location: new ObjectModelField<Location>({
             title: GlobalText.TEXTS.location,
@@ -52,6 +54,7 @@ export class HouseholdFilters extends CustomModel {
                 appInjector.get(LocationService).fillAdm2Options(householdFilters, parseInt(value, 10)).subscribe();
                 return householdFilters;
             },
+            isDisplayedInTable: true,
         }),
         adm2: new NestedFieldModelField({
             title: GlobalText.TEXTS.adm2,
@@ -67,6 +70,7 @@ export class HouseholdFilters extends CustomModel {
                 appInjector.get(LocationService).fillAdm3Options(householdFilters, parseInt(value, 10)).subscribe();
                 return householdFilters;
             },
+            isDisplayedInTable: true,
         }),
         adm3: new NestedFieldModelField({
             title: GlobalText.TEXTS.adm3,
@@ -81,6 +85,7 @@ export class HouseholdFilters extends CustomModel {
                 appInjector.get(LocationService).fillAdm4Options(householdFilters, parseInt(value, 10)).subscribe();
                 return householdFilters;
             },
+            isDisplayedInTable: true,
         }),
         adm4: new NestedFieldModelField({
             title: GlobalText.TEXTS.adm4,
@@ -88,6 +93,7 @@ export class HouseholdFilters extends CustomModel {
             childrenObject: 'location',
             childrenFieldName: 'adm4',
             apiLabel: 'name',
+            isDisplayedInTable: true,
         })
     };
 }

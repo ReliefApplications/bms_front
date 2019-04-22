@@ -13,10 +13,10 @@
             </mat-form-field>
         </div>
         
-        <div *ngIf="filtersForm">
-            <form [formGroup]="filtersForm">
-                <ng-container *ngFor="let fieldName of objectFields">
-                    <div *ngIf="display(filters.fields[fieldName]); let field">
+        <div *ngIf="filtersForm && advancedResearch">
+            <form [formGroup]="filtersForm" class="filters">
+                <ng-container *ngFor="let fieldName of filterFields">
+                    <div *ngIf="display(filters.fields[fieldName]); let field" class="filter-fields">
                         <ng-container *ngIf="field.kindOfField === 'MultipleSelect'; else isSingleSelect">
                                 <ng-select [formControlName]="fieldName" [placeholder]="field.title" [multiple]="true" [closeOnSelect]="false">
                                     <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
@@ -79,6 +79,18 @@
                 </ng-container>
             </form>
         </div>
+
+        <div class="buttons-search-clear">
+            <button mat-raised-button class="button-text-accent" (click)="showAdvancedResearch()">
+              {{table.beneficiaries_advanced_research | titlecase}}
+              <mat-icon *ngIf="!advancedResearch">keyboard_arrow_down</mat-icon>
+              <mat-icon *ngIf="advancedResearch">keyboard_arrow_up</mat-icon>
+            </button>
+            <button *ngIf="advancedResearch" mat-raised-button class="button-text-accent" (click)="clearSearch()">
+              <mat-icon>clear</mat-icon>
+              {{table.beneficiaries_clear_all_research | titlecase}}
+            </button>
+          </div>
 
         <div class="spinner-container" *ngIf="tableServerData.loading$ | async">
             <mat-spinner></mat-spinner>

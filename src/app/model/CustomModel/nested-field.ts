@@ -21,12 +21,19 @@ export class NestedFieldModelField extends CustomModelField<any> {
      */
     isPassword: boolean;
 
+    /**
+     * Label to format for api
+     * @type {string}
+     */
+    apiLabel: string;
+
     constructor(properties: any) {
         super(properties);
 
         this.childrenObject              = properties['childrenObject'];
         this.childrenFieldName           = properties['childrenFieldName'];
         this.isPassword                  = properties['isPassword'];
+        this.apiLabel                    = properties['apiLabel'];
     }
 
 }

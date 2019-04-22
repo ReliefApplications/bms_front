@@ -151,7 +151,12 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
 
     updateElement(updateElement: TransactionGeneralRelief) {
         // First, distribute the global notes array between all the general reliefs of the transaction
-        const notes = updateElement.get('notes');
+        const notes = updateElement.get<Array<string>>('notes');
+        notes.forEach((note: string, index: number, array: string[]) =>  {
+            if (note === null) {
+                array[index] = '';
+            }
+        });
         const generalReliefs = updateElement.get<GeneralRelief[]>('generalReliefs');
         generalReliefs.forEach((generalRelief: GeneralRelief, index) => {
             generalRelief.set('notes', notes[index]);

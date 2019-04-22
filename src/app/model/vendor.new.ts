@@ -33,6 +33,7 @@ export class Vendor extends CustomModel {
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isSettable: true,
+            isEditable: true,
             childrenObject: 'user',
             childrenFieldName: 'username',
         }),
@@ -40,6 +41,7 @@ export class Vendor extends CustomModel {
             title: GlobalText.TEXTS.model_password,
             isDisplayedInModal: true,
             isSettable: true,
+            isEditable: true,
             childrenObject: 'user',
             childrenFieldName: 'password',
         }),
@@ -54,24 +56,28 @@ export class Vendor extends CustomModel {
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isSettable: true,
+            isEditable: true,
         }),
         addressStreet: new TextModelField({
             isDisplayedInTable: true,
             title: GlobalText.TEXTS.add_beneficiary_getAddressStreet,
             isDisplayedInModal: true,
             isSettable: true,
+            isEditable: true,
         }),
         addressNumber: new TextModelField({
             isDisplayedInTable: true,
             title:  GlobalText.TEXTS.add_beneficiary_getAddressNumber,
             isDisplayedInModal: true,
             isSettable: true,
+            isEditable: true,
         }),
         addressPostcode: new TextModelField({
             isDisplayedInTable: true,
             title: GlobalText.TEXTS.add_beneficiary_getAddressPostcode,
             isDisplayedInModal: true,
             isSettable: true,
+            isEditable: true,
         }),
         location: new ObjectModelField<Location>({
             isDisplayedInTable: true,
@@ -83,15 +89,21 @@ export class Vendor extends CustomModel {
             title: GlobalText.TEXTS.adm1,
             isDisplayedInModal: true,
             isSettable: true,
+            isEditable: true,
             childrenObject: 'location',
             childrenFieldName: 'adm1',
             isTrigger: true,
             triggerFunction: (vendor: Vendor, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
-                vendor.set('adm2', null);
-                vendor.set('adm3', null);
-                vendor.set('adm4', null);
-                appInjector.get(LocationService).fillAdm2Options(vendor, parseInt(value, 10)).subscribe();
+                // vendor.set('adm2', null);
+                // vendor.set('adm3', null);
+                // vendor.set('adm4', null);
+                form.controls.adm2.setValue(null);
+                form.controls.adm3.setValue(null);
+                form.controls.adm4.setValue(null);
+                if (value) {
+                    appInjector.get(LocationService).fillAdm2Options(vendor, parseInt(value, 10)).subscribe();
+                }
                 return vendor;
             },
         }),
@@ -99,14 +111,19 @@ export class Vendor extends CustomModel {
             title: GlobalText.TEXTS.adm2,
             isDisplayedInModal: true,
             isSettable: true,
+            isEditable: true,
             childrenObject: 'location',
             childrenFieldName: 'adm2',
             isTrigger: true,
             triggerFunction: (vendor: Vendor, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
-                vendor.set('adm3', null);
-                vendor.set('adm4', null);
-                appInjector.get(LocationService).fillAdm3Options(vendor, parseInt(value, 10)).subscribe();
+                // vendor.set('adm3', null);
+                // vendor.set('adm4', null);
+                form.controls.adm3.setValue(null);
+                form.controls.adm4.setValue(null);
+                if (value) {
+                    appInjector.get(LocationService).fillAdm3Options(vendor, parseInt(value, 10)).subscribe();
+                }
                 return vendor;
             },
         }),
@@ -114,13 +131,17 @@ export class Vendor extends CustomModel {
             title: GlobalText.TEXTS.adm3,
             isDisplayedInModal: true,
             isSettable: true,
+            isEditable: true,
             childrenObject: 'location',
             childrenFieldName: 'adm3',
             isTrigger: true,
             triggerFunction: (vendor: Vendor, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
-                vendor.set('adm4', null);
-                appInjector.get(LocationService).fillAdm4Options(vendor, parseInt(value, 10)).subscribe();
+                // vendor.set('adm4', null);
+                form.controls.adm4.setValue(null);
+                if (value) {
+                    appInjector.get(LocationService).fillAdm4Options(vendor, parseInt(value, 10)).subscribe();
+                }
                 return vendor;
             },
         }),
@@ -128,6 +149,7 @@ export class Vendor extends CustomModel {
             title: GlobalText.TEXTS.adm4,
             isDisplayedInModal: true,
             isSettable: true,
+            isEditable: true,
             childrenObject: 'location',
             childrenFieldName: 'adm4',
         }),
@@ -135,6 +157,7 @@ export class Vendor extends CustomModel {
 
     public static apiToModel(vendorFromApi: any): Vendor {
         const newVendor = new Vendor();
+        newVendor.set('id', vendorFromApi.id);
         newVendor.set('user', User.apiToModel(vendorFromApi.user));
         newVendor.set('shopName', vendorFromApi.name);
         newVendor.set('shopType', vendorFromApi.shop);
@@ -149,6 +172,7 @@ export class Vendor extends CustomModel {
 
     public modelToApi(): Object {
         return {
+            id: this.get('id'),
             address_number: this.get('addressNumber'),
             address_street: this.get('addressStreet'),
             address_postcode: this.get('addressPostcode'),

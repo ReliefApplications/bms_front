@@ -11,6 +11,7 @@ import { GlobalText } from 'src/texts/global';
 import { UploadService } from 'src/app/core/api/upload.service';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { LocationService } from 'src/app/core/api/location.service';
 
 @Component({
     selector: 'app-project',
@@ -37,10 +38,12 @@ export class ModalFieldsComponent implements OnInit {
     filename: string;
 
     modalTitle = 'Default Modal Text';
+
     constructor(
         public modalReference: MatDialogRef<any>,
         public fieldService: FieldService,
         public uploadService: UploadService,
+        public locationService: LocationService,
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) {}
 
@@ -96,10 +99,23 @@ export class ModalFieldsComponent implements OnInit {
                     disabled: this.isDisabled(field)
                 }, validators);
             } else if (field.kindOfField === 'Children') {
+                let value = null;
+                if (field.childrenFieldName === 'adm1') {
+                    this.initLocation(this.objectInstance);
+                } else if (field.childrenFieldName === 'adm2' || field.childrenFieldName === 'adm3' || field.childrenFieldName === 'adm4') {
+                    // Do nothing because it was initialized the line before
+                } else {
+                    const childrenField = this.objectInstance.get(field.childrenObject);
+                    const childrenFieldName = field.childrenFieldName;
+                    if (childrenField && childrenField.fields[childrenFieldName].kindOfField === 'SingleSelect') {
+                        value = childrenField.get(childrenFieldName) ? childrenField.get(childrenFieldName).get('id') : null;
+                    } else {
+                        value =  childrenField.get(childrenFieldName);
+                    }
+                }
+
                 formControls[fieldName] = new FormControl({
-                    value: this.objectInstance.get(field.childrenObject) ?
-                        this.objectInstance.get(field.childrenObject).get(field.childrenFieldName) :
-                        null,
+                    value: value,
                     disabled: this.isDisabled(field)
                 }, validators);
             } else if (field.kindOfField === 'ArrayInputField') {
@@ -119,6 +135,37 @@ export class ModalFieldsComponent implements OnInit {
         });
 
         this.form = new FormGroup(formControls);
+    }
+
+    // TO DO : Prevent the double call to the api
+    initLocation(object: CustomModel) {
+        this.locationService.fillAdm1Options(object).subscribe(() => {
+            if (!object.get('location').get('adm1') || !object.get('location').get('adm1').get('id')) {
+                return;
+            }
+            const adm1Id = object.get('location').get('adm1').get<number>('id');
+            this.form.controls['adm1'].setValue(adm1Id);
+            this.locationService.fillAdm2Options(object, adm1Id).subscribe(() => {
+                if (!object.get('location').get('adm2') || !object.get('location').get('adm2').get('id')) {
+                    return;
+                }
+                const adm2Id = object.get('location').get('adm2').get<number>('id');
+                this.form.controls['adm2'].setValue(adm2Id);
+                this.locationService.fillAdm3Options(object, adm2Id).subscribe(() => {
+                    if (!object.get('location').get('adm3') || !object.get('location').get('adm3').get('id')) {
+                        return;
+                    }
+                    const adm3Id = object.get('location').get('adm3').get<number>('id');
+                    this.form.controls['adm3'].setValue(adm3Id);
+                    this.locationService.fillAdm4Options(object, adm3Id).subscribe(() => {
+                        if (!object.get('location').get('adm4')) {
+                            return;
+                        }
+                        this.form.controls['adm4'].setValue(object.get('location').get('adm4').get('id'));
+                    });
+                });
+            });
+        });
     }
 
     onChanges(): void {

@@ -8,7 +8,6 @@ import { ObjectModelField } from './CustomModel/object-model-field';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { Beneficiary } from './beneficiary.new';
 import { Distribution } from './distribution.new';
-import { NestedFieldModelField } from './CustomModel/nested-field';
 import { CURRENCIES } from './currencies';
 import { Voucher } from './voucher.new';
 import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';

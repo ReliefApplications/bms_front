@@ -264,7 +264,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
                     return criterion === details.element;
                 });
                 if (index > -1) {
-                    this.criteriaData.data = this.criteriaData.data.slice(index, 1);
+                    this.criteriaData.data.splice(index, 1);
+
+                    // Need to 'set' criteriaData.data to trigger the child component 'set' function
+                    this.criteriaData.data = this.criteriaData.data;
                 }
 
                 // To remove the matSort if the array is empty
@@ -279,7 +282,11 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
                     return commodity === details.element;
                 });
                 if (index > -1) {
-                    this.commodityData.data = this.commodityData.data.slice(index, 1);
+                    this.commodityData.data.splice(index, 1);
+
+                    // Need to 'set' commodityData.data to trigger the child component 'set' function
+                    this.commodityData.data = this.commodityData.data;
+
                     this.commodityNb.splice(index, 1);
                 }
 

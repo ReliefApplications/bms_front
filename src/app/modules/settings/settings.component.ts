@@ -121,7 +121,6 @@ export class SettingsComponent implements OnInit {
     }
     this.getData(title);
     this.selectedTitle = title;
-    this.table.setDataTableProperties();
   }
 
   setType(choice) {
@@ -250,6 +249,9 @@ export class SettingsComponent implements OnInit {
                     instances.push(this.referedClassToken.apiToModel(item));
                 }
                 this.data = new MatTableDataSource(instances);
+                if (this.table) {
+                  this.table.setDataTableProperties();
+                }
             }
 
             this._cacheService.getUser().subscribe(

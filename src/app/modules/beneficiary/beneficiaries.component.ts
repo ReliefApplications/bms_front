@@ -14,7 +14,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { TableBeneficiariesComponent } from 'src/app/components/table/table-beneficiaries/table-beneficiaries.component';
+import { TableServerComponent } from 'src/app/components/table/table-server/table-server.component';
 
 @Component({
     selector: 'app-beneficiaries',
@@ -39,13 +39,15 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
     dataSource: HouseholdsDataSource;
 
     hasRights = false;
-    hasRightsDelete = false;
     hasRightsExport = false;
 
     // addButtons
     addToggled = false;
 
-    @ViewChild(TableBeneficiariesComponent) tableBeneficiaries: TableBeneficiariesComponent;
+    updatable = false;
+    deletable = false;
+
+    @ViewChild(TableServerComponent) table: TableServerComponent;
 
 
     constructor(
@@ -81,7 +83,6 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         // this.dataSource.vulnerabilities.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
         this.getProjects('updateSelection');
         this.checkPermission();
-        this.loadProvince();
     }
 
     /**
@@ -191,10 +192,11 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
                     const rights = result.rights;
                     if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER') {
                         this.hasRights = true;
+                        this.updatable = true;
                     }
 
                     if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
-                        this.hasRightsDelete = true;
+                        this.deletable = true;
                     }
 
                     if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
@@ -205,68 +207,6 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         );
     }
 
-    /**
-     * Check which adm is selected to load the list of adm link to it
-     * fro example : if adm1 (province) selected load adm2
-     * @param index
-     */
-    selected(index) {
-        const newObject = index.object;
-        index = index.index;
-
-        if (index === 'adm1') {
-            const body = {};
-            body['adm1'] = newObject.adm1.id;
-            this.loadDistrict(body);
-        } else if (index === 'adm2') {
-            const body = {};
-            body['adm2'] = newObject.adm2.id;
-            this.loadCommunity(body);
-        } else if (index === 'adm3') {
-            const body = {};
-            body['adm3'] = newObject.adm3.id;
-            this.loadVillage(body);
-        }
-    }
-
-    /**
-     * Get adm1 from the back or from the cache service with the key ADM1
-     */
-    loadProvince() {
-        this.locationService.getAdm1().subscribe(response => {
-            // this.dataSource.adm1.next(response);
-        });
-    }
-
-    /**
-     *  Get adm2 from the back or from the cache service with the key ADM2
-     * @param adm1
-     */
-    loadDistrict(adm1) {
-        this.locationService.getAdm2(adm1).subscribe(response => {
-            // this.dataSource.adm2.next(response);
-        });
-    }
-
-    /**
-     * Get adm3 from the back or from the cahce service with the key ADM3
-     * @param adm2
-     */
-    loadCommunity(adm2) {
-        this.locationService.getAdm3(adm2).subscribe(response => {
-            // this.dataSource.adm3.next(response);
-        });
-    }
-
-    /**
-     *  Get adm4 from the back or from the cahce service with the key ADM4
-     * @param adm3
-     */
-    loadVillage(adm3) {
-        this.locationService.getAdm4(adm3).subscribe(response => {
-            // this.dataSource.adm4.next(response);
-        });
-    }
 
     getChecked(event)  {
         this.checkedElements = event;
@@ -274,11 +214,9 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
 
     openDialog(event): void {
 
-        this.modalService.openDialog(Households, this.householdsService, event.event);
+        this.modalService.openDialog(Households, this.householdsService, event);
         this.modalService.isCompleted.subscribe(() => {
-            // this.dataSource.loadHouseholds();
-            // this.getDistributionsByProject(this.selectedProject.get('id'));
+            this.table.loadDataPage();
         });
-        // if edit, open modal edit date, if details idem
     }
 }

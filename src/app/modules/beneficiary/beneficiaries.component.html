@@ -53,7 +53,7 @@
       </div>
 
       <div class="content-table">
-          <app-table-server [rights]='hasRights' [deletable]='deletable' [entity]="referedClassToken" [service]="householdsService" [data]="dataSource" [updatable]="true" (openModal)="openDialog($event)"></app-table-server>
+          <app-table-server [rights]='hasRights' [deletable]='deletable' [entity]="referedClassToken" [service]="householdsService" [data]="dataSource" [updatable]="updatable" (openModal)="openDialog($event)"></app-table-server>
         <!-- <app-table-beneficiaries *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [deletable]='hasRightsDelete' [entity]="referedClassToken" [service]="referedClassService" [data]="dataSource" [updatable]="true"
             (selectedAdm)="selected($event)" [selection]="selection" (selectChecked)="getChecked($event)" (openModal)="openDialog($event)"></app-table-beneficiaries> -->
         <!-- <app-table-mobile-beneficiaries *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [deletable]='hasRightsDelete' [entity]="referedClassToken" [service]="referedClassService" [data]="dataSource" [updatable]="true"

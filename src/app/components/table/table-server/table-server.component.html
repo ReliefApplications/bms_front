@@ -1,9 +1,13 @@
 <div class="table-container">
-    <div class="noDataContainer" *ngIf="tableServerData.loading$ | async; else dataInTable">
+    <div class="noDataContainer" *ngIf="!tableServerData">
         <h3>
         <mat-icon>clear</mat-icon>
         {{table.no_data}}
         </h3>
+    </div>
+
+    <div class="spinner-container" *ngIf="tableServerData.loading$ | async; else dataInTable">
+        <mat-spinner></mat-spinner>
     </div>
 
     <ng-template #dataInTable>
@@ -82,19 +86,17 @@
 
         <div class="buttons-search-clear">
             <button mat-raised-button class="button-text-accent" (click)="showAdvancedResearch()">
-              {{table.beneficiaries_advanced_research | titlecase}}
-              <mat-icon *ngIf="!advancedResearch">keyboard_arrow_down</mat-icon>
-              <mat-icon *ngIf="advancedResearch">keyboard_arrow_up</mat-icon>
+                {{table.beneficiaries_advanced_research | titlecase}}
+                <mat-icon *ngIf="!advancedResearch">keyboard_arrow_down</mat-icon>
+                <mat-icon *ngIf="advancedResearch">keyboard_arrow_up</mat-icon>
             </button>
             <button *ngIf="advancedResearch" mat-raised-button class="button-text-accent" (click)="clearSearch()">
-              <mat-icon>clear</mat-icon>
-              {{table.beneficiaries_clear_all_research | titlecase}}
+                <mat-icon>clear</mat-icon>
+                {{table.beneficiaries_clear_all_research | titlecase}}
             </button>
-          </div>
-
-        <div class="spinner-container" *ngIf="tableServerData.loading$ | async">
-            <mat-spinner></mat-spinner>
         </div>
+
+        
 
         <table mat-table [dataSource]="tableServerData" matSort>
             <ng-container *ngFor="let property of displayProperties" matColumnDef="{{property}}">

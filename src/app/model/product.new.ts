@@ -24,6 +24,7 @@ export class Product extends CustomModel {
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isSettable: true,
+            isRequired: true,
         }),
         unit: new TextModelField({
             title: GlobalText.TEXTS.model_product_unit,
@@ -31,6 +32,7 @@ export class Product extends CustomModel {
             isDisplayedInTable: true,
             isSettable: true,
             isEditable: true,
+            isRequired: true,
         }),
         image: new TextModelField({
             title: GlobalText.TEXTS.model_product_image,
@@ -43,6 +45,7 @@ export class Product extends CustomModel {
             isSettable: true,
             uploadPath: '/products/upload/image',
             fileUrlField: 'image',
+            isRequired: true,
         })
 
     };

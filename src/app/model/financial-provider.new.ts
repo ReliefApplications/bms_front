@@ -22,6 +22,7 @@ export class FinancialProvider extends CustomModel {
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isEditable: true,
+            isRequired: true,
         }),
         password: new TextModelField({
             title: GlobalText.TEXTS.model_password,

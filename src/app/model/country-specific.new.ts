@@ -42,7 +42,6 @@ export class CountrySpecific extends CustomModel {
                 isEditable: true,
                 isRequired: true,
                 isSettable: true,
-
             }
         ),
         type : new SingleSelectModelField<string>(

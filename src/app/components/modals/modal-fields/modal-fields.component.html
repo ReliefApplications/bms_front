@@ -97,7 +97,7 @@
                                         </ng-container>
                                     </ng-template>
                                     <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('required')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('required'))">
-                                        {{ fieldName | titlecase}} is required
+                                        {{ field.title | titlecase}} is required
                                     </mat-error>
                                     <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('pattern')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('pattern'))">
                                         {{field.hint | titlecase}}

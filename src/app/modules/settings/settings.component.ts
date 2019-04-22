@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { TableMobileComponent } from 'src/app/components/table/table-mobile/table-mobile.component';
@@ -47,7 +47,7 @@ export class SettingsComponent implements OnInit {
     public referedClassService;
     referedClassToken;
     referedClassInstance: any;
-    data: Array<CustomModel>;
+    data: MatTableDataSource<CustomModel>;
     public user_action = '';
     public extensionType;
 
@@ -66,6 +66,7 @@ export class SettingsComponent implements OnInit {
     hasRights: boolean;
     public deletable = true;
     public printable = false;
+    public loggable = false;
     public httpSubscriber: Subscription;
 
     @ViewChild(TableComponent) table: TableComponent;
@@ -185,6 +186,7 @@ export class SettingsComponent implements OnInit {
         this.referedClassService = this.userService;
         this.deletable = true;
         this.printable = false;
+        this.loggable = true;
         break;
       case 'donors':
         this.referedClassToken = Donor;
@@ -230,7 +232,7 @@ export class SettingsComponent implements OnInit {
 
   // TO DO : get from cache
     load(): void {
-        this.data = null;
+        this.data = new MatTableDataSource();
         this.hasRights = false;
 
         this.httpSubscriber = this.referedClassService.get().
@@ -246,7 +248,10 @@ export class SettingsComponent implements OnInit {
                 for (const item of response ) {
                     instances.push(this.referedClassToken.apiToModel(item));
                 }
-                this.data = instances;
+                this.data = new MatTableDataSource(instances);
+                if (this.table) {
+                  this.table.setDataTableProperties();
+                }
             }
 
             this._cacheService.getUser().subscribe(

@@ -53,10 +53,11 @@
       </div>
 
       <div class="content-table">
-        <app-table-beneficiaries #benefTable *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [deletable]='hasRightsDelete' [entity]="referedClassToken" [service]="referedClassService" [data]="dataSource" [updatable]="true"
-            (selectedAdm)="selected($event)" [selection]="selection" (selectChecked)="getChecked($event)" (openModal)="openDialog($event)"></app-table-beneficiaries>
-        <app-table-mobile-beneficiaries #benefTable *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [deletable]='hasRightsDelete' [entity]="referedClassToken" [service]="referedClassService" [data]="dataSource" [updatable]="true"
-            (updating)="updateBeneficiary($event)" (selectedAdm)="selected($event)"></app-table-mobile-beneficiaries>
+          <app-table-server [rights]='hasRights' [deletable]='deletable' [entity]="referedClassToken" [service]="householdsService" [data]="dataSource" [updatable]="updatable" (openModal)="openDialog($event)"></app-table-server>
+        <!-- <app-table-beneficiaries *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [deletable]='hasRightsDelete' [entity]="referedClassToken" [service]="referedClassService" [data]="dataSource" [updatable]="true"
+            (selectedAdm)="selected($event)" [selection]="selection" (selectChecked)="getChecked($event)" (openModal)="openDialog($event)"></app-table-beneficiaries> -->
+        <!-- <app-table-mobile-beneficiaries *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [deletable]='hasRightsDelete' [entity]="referedClassToken" [service]="referedClassService" [data]="dataSource" [updatable]="true"
+            (updating)="updateBeneficiary($event)" (selectedAdm)="selected($event)"></app-table-mobile-beneficiaries> -->
       </div>
     </div>
   </div>

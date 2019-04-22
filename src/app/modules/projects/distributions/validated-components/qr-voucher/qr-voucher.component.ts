@@ -6,7 +6,6 @@ import { Beneficiary } from 'src/app/model/beneficiary.new';
 import { MatTableDataSource } from '@angular/material';
 import { Commodity } from 'src/app/model/commodity.new';
 import { BookletStatus } from 'src/app/model/booklet.new';
-import { TransactionTableComponent } from 'src/app/components/table/transaction-table/transaction-table.component';
 import { Booklet } from 'src/app/model/booklet.new';
 import { ModalAssignComponent } from 'src/app/components/modals/modal-assign/modal-assign.component';
 
@@ -16,7 +15,6 @@ import { ModalAssignComponent } from 'src/app/components/modals/modal-assign/mod
   styleUrls: ['../validated-distribution.component.scss']
 })
 export class QrVoucherComponent extends ValidatedDistributionComponent implements OnInit {
-    // checkedLines: any[] = [];
     // distributed = false;
     loadingAssign = false;
     // beneficiaries = [];
@@ -71,11 +69,6 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
           this.finishedEmitter.emit();
        }
   }
-
-  // getChecked(event: any) {
-  //     this.checkedLines = event;
-  // }
-
 
   // Total ammount assigned/distributed to a benefeciary
   getCommoditySentAmountFromBeneficiary(commodity: any, transaction: TransactionQRVoucher): number {

@@ -54,6 +54,7 @@ export class CriteriaType extends CustomModel {
 }
 export class Criteria extends CustomModel {
     title =  GlobalText.TEXTS.model_criteria;
+    matSortActive = 'field';
 
     public fields = {
         // id: new NumberModelField(

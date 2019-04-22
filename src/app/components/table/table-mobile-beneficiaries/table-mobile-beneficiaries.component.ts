@@ -22,8 +22,8 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
     }
 
     loadHouseholdsPage() {
-        this.dataaaa.loadHouseholds(
-            this.dataaaa.filter,
+        this.data.loadHouseholds(
+            this.data.filter,
             {},
             this.paginator.pageIndex,
             this.paginator.pageSize
@@ -36,11 +36,11 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
             window.clearTimeout(this._timeout);
         }
         this._timeout = window.setTimeout(() => {
-            if (this.dataaaa.filter && ( this.dataaaa.filter.filter || this.dataaaa.filter.filter === '') ) {
+            if (this.data.filter && ( this.data.filter.filter || this.data.filter.filter === '') ) {
               if (this.paginator) {
                 this.paginator.pageIndex = 0;
-                this.dataaaa.loadHouseholds(
-                  this.dataaaa.filter,
+                this.data.loadHouseholds(
+                  this.data.filter,
                   {},
                   this.paginator.pageIndex,
                   this.paginator.pageSize,
@@ -82,13 +82,13 @@ export class TableMobileBeneficiariesComponent extends TableBeneficiariesCompone
     }
 
     clearSearch() {
-        while ( this.dataaaa.filter.length !== 0 ) {
+        while ( this.data.filter.length !== 0 ) {
             this.project = '';
             this.vulnerability = '';
             this.keyWords = '';
-            this.applyFilter('', 'vulnerabilities') ;
-            this.applyFilter('', 'familyName');
-            this.applyFilter('', 'projects');
+            // this.applyFilter('', 'vulnerabilities') ;
+            // this.applyFilter('', 'familyName');
+            // this.applyFilter('', 'projects');
             this.newObject = { adm1: null, adm2: null, adm3: null, adm4: null };
             this.sendSortedData();
         }

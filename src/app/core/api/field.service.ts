@@ -7,7 +7,7 @@ export class FieldService {
 
   constructor() { }
 
-  // To see if a value is null, undefined, empty....
+  // To see if a value is null, undefined, empty.... Warning, 0 and false must be real values
   isEmpty(field, type) {
     if (field.isPassword) {
         return false;
@@ -25,7 +25,7 @@ export class FieldService {
         }
     } else if (field.kindOfField === 'SingleSelect' || field.kindOfField === 'MultipleSelect') {
         if (!(value instanceof Array)) {
-            return !value.get(field.bindField);
+            return value === null || value === undefined || value === '' || !value.get(field.bindField);
         } else {
             const notEmptyValue = value.filter(singleValue => {
                 return singleValue.get(field.bindField);

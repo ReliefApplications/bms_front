@@ -47,7 +47,7 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
 
     ngDoCheck() {
         const interval = window.setInterval(() => {
-            if (this.dataaaa.loading === false) {
+            if (this.data.loading === false) {
                 this.testLoading = false;
                 window.clearInterval(interval);
             }
@@ -65,8 +65,8 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
                     this.testLoading = true;
 
                     this.paginator.pageIndex = 0;
-                    this.dataaaa.loadHouseholds(
-                        this.dataaaa.filter,
+                    this.data.loadHouseholds(
+                        this.data.filter,
                         {
                             sort: this.sort.active,
                             direction: this.sort.direction
@@ -85,8 +85,8 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
     }
 
     loadHouseholdsPage() {
-        this.dataaaa.loadHouseholds(
-            this.dataaaa.filter,
+        this.data.loadHouseholds(
+            this.data.filter,
             {
                 sort: this.sort ? this.sort.active : null,
                 direction: this.sort ? this.sort.direction : null
@@ -110,12 +110,12 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
             window.clearTimeout(this._timeout);
         }
         this._timeout = window.setTimeout(() => {
-            if (this.dataaaa.filter && (this.dataaaa.filter.filter || (this.dataaaa.filter.filter === ''))) {
+            if (this.data.filter && (this.data.filter.filter || (this.data.filter.filter === ''))) {
                 if (this.paginator) {
                     this.testLoading = true;
                     this.paginator.pageIndex = 0;
-                    this.dataaaa.loadHouseholds(
-                        this.dataaaa.filter,
+                    this.data.loadHouseholds(
+                        this.data.filter,
                         {
                             sort: this.sort ? this.sort.active : null,
                             direction: this.sort ? this.sort.direction : null
@@ -130,7 +130,7 @@ export class TableBeneficiariesComponent extends TableComponent implements OnIni
     }
 
     dataIsLoading() {
-        this.dataaaa.getLoadingState().subscribe(
+        this.data.getLoadingState().subscribe(
             result => {
                 return (result);
             }

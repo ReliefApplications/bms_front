@@ -30,6 +30,7 @@ export class State extends CustomModel {
 export class TransactionMobileMoney extends DistributionBeneficiary {
 
     title = GlobalText.TEXTS.beneficiary;
+    matSortActive = 'familyName';
 
     public fields = {
         idTransaction: new NumberModelField({

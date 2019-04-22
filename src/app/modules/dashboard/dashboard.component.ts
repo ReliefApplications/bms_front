@@ -17,17 +17,12 @@ import { ModalService } from 'src/app/core/utils/modal.service';
 })
 export class DashboardComponent implements OnInit {
 
-    distributionData: Array<Distribution>;
-
-
-
-
+    distributionData: MatTableDataSource<Distribution>;
     public dashboard = GlobalText.TEXTS;
     public nameComponent = 'dashboard_title';
     public actualCountry: string;
 
     distributionClass = Distribution;
-    distributions: MatTableDataSource<DistributionData>;
     public userData;
     // Loaders
     loadingTable = true;
@@ -98,21 +93,21 @@ export class DashboardComponent implements OnInit {
         this._distributionService.get()
             .subscribe(
                 response => {
-                    this.distributionData = null;
+                    this.distributionData = new MatTableDataSource();
 
                     const instances = [];
                     if (response || response === []) {
                         for (const item of response ) {
                             instances.push(Distribution.apiToModel(item));
                         }
-                        this.distributionData = instances;
+                        this.distributionData = new MatTableDataSource(instances);
                         this.loadingTable = false;
                     } else {
                         this.loadingTable = false;
                     }
                 },
                 error => {
-                    this.distributionData = null;
+                    this.distributionData = new MatTableDataSource();
                     this.loadingTable = false;
                 }
             );

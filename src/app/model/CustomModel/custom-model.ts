@@ -4,6 +4,7 @@ export abstract class CustomModel {
 
     static rights: Array<string>;
     title: string;
+    matSortActive: string;
 
     // TODO: create interface for typing purpose
     abstract fields: any;
@@ -64,5 +65,9 @@ export abstract class CustomModel {
 
     public isAssignable() {
         return false;
+    }
+
+    public isCheckable() {
+        return true;
     }
 }

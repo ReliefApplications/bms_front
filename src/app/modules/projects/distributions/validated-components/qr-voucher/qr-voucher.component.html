@@ -56,8 +56,8 @@
         </div>
 
         <div class="content-table" *ngIf="!loadingTransaction">
-            <app-table *ngIf="widthScreen >= maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false" [printable]="true" [selection]="selection"
-                (selectChecked)="getChecked($event)" [assignable]="true" (openModal)="openModal($event)" (printOne)="print($event)" (assignOne)="assign($event)">
+            <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen >= maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false" [printable]="true"
+                [assignable]="true" (openModal)="openModal($event)" (printOne)="print($event)" (assignOne)="assign($event)">
             </app-table>
             <app-table-mobile *ngIf="widthScreen < maxWidthMobile" (openModal)="openModal($event)" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true" [editable]="false" [assignable]="true" (printOne)="print($event)">
             </app-table-mobile>

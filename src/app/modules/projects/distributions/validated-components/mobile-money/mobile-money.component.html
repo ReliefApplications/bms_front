@@ -72,8 +72,7 @@
         <div class="content-table" *ngIf="!loadingTransaction">
 
             <!-- Add filters and checkboxes -->
-            <app-table *ngIf="widthScreen >= maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false" [selection]="selection"
-                (selectChecked)="getChecked($event)" (openModal)="openModal($event)">
+            <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen >= maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false" (openModal)="openModal($event)">
             </app-table>
             <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="false" (openModal)="openModal($event)">
             </app-table-mobile>

@@ -31,6 +31,7 @@ export class Livelihood extends CustomModel {
 export class Households extends CustomModel {
 
     title = GlobalText.TEXTS.households;
+    matSortActive = 'familyName';
 
     public fields = {
         id: new NumberModelField(
@@ -226,5 +227,4 @@ export class Households extends CustomModel {
             beneficiaries: this.get<Beneficiary[]>('beneficiaries').map(beneficiary => beneficiary.modelToApi())
         };
     }
-
 }

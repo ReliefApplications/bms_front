@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
@@ -14,6 +14,7 @@ import { Distribution } from '../../model/distribution.new';
 import { Project as NewProject } from '../../model/project.new';
 import { NetworkService } from 'src/app/core/api/network.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-project',
@@ -28,8 +29,9 @@ export class ProjectComponent implements OnInit {
     loadingExport = false;
 
     projects: NewProject[];
-    distributionData: Array<Distribution>;
+    distributionData: MatTableDataSource<Distribution>;
     distributionClass = Distribution;
+    public httpSubscriber: Subscription;
 
     // loading
     loadingDistributions = true;
@@ -89,6 +91,9 @@ export class ProjectComponent implements OnInit {
      * @param project
      */
     selectProject(project: NewProject): void {
+        if (this.httpSubscriber) {
+            this.httpSubscriber.unsubscribe();
+        }
         this.selectedProject = project;
         this.loadingDistributions = true;
         this.getDistributionsByProject(project.get('id'));
@@ -137,7 +142,7 @@ export class ProjectComponent implements OnInit {
      * @param projectId
      */
     getDistributionsByProject(projectId: number): void {
-        this.distributionService.
+        this.httpSubscriber = this.distributionService.
             getByProject(projectId).pipe(
                 finalize(
                     () => {
@@ -146,7 +151,7 @@ export class ProjectComponent implements OnInit {
                 )
             ).subscribe(
                 response => {
-                    this.distributionData = null;
+                    this.distributionData = new MatTableDataSource();
 
                     const instances = [];
                     if (response || response === []) {
@@ -154,7 +159,7 @@ export class ProjectComponent implements OnInit {
                         for (const item of response ) {
                             instances.push(Distribution.apiToModel(item));
                         }
-                        this.distributionData = instances;
+                        this.distributionData = new MatTableDataSource(instances);
                         this.loadingDistributions = false;
                     } else {
                         this.loadingDistributions = false;
@@ -181,23 +186,10 @@ export class ProjectComponent implements OnInit {
     }
 
     openNewProjectDialog() {
-        const newProjectInstance = new NewProject;
-        this.projectService.fillWithOptions(newProjectInstance);
 
-        const dialogRef = this.dialog.open(
-            ModalAddComponent, {
-                data: {
-                    objectInstance: newProjectInstance,
-                }
-            }
-        );
-        dialogRef.afterClosed().subscribe((closeMethod: string) => {
-            if (closeMethod === 'Submit') {
-                this.projectService.create(newProjectInstance.modelToApi()).subscribe(() => {
-                    this.snackbar.success('Project ' + GlobalText.TEXTS.settings_created);
-                    this.getProjects();
-                });
-            }
+        this.modalService.openDialog(NewProject, this.projectService, {action: 'add'});
+        this.modalService.isCompleted.subscribe(() => {
+            this.getProjects();
         });
     }
 

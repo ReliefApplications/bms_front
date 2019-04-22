@@ -35,6 +35,7 @@ export class Distribution extends CustomModel {
 
     public static rights = ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER'];
     public static rightsEdit = ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER', 'ROLE_PROJECT_OFFICER'];
+    matSortActive = 'date';
     title = GlobalText.TEXTS.distribution;
 
 

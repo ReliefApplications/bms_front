@@ -12,7 +12,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Voucher } from '../../model/voucher.new';
 import { ExportService } from '../../core/api/export.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { TableVouchersComponent } from 'src/app/components/table/table-vouchers/table-vouchers.component';
 import { ModalAssignComponent } from 'src/app/components/modals/modal-assign/modal-assign.component';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { TableComponent } from 'src/app/components/table/table.component';
@@ -49,7 +48,7 @@ export class VouchersComponent implements OnInit {
     public projects = [];
 
     public selection = new SelectionModel<Voucher>(true, []);
-    public checkedElements: any = [];
+    public checkedElements: Booklet[] = [];
 
     @ViewChild(TableComponent) tableVoucher: TableComponent;
 
@@ -151,18 +150,24 @@ export class VouchersComponent implements OnInit {
     }
 
     print(event: Booklet) {
+        this.snackbar.info(this.voucher.voucher_print_starting);
+
         return this._exportService.printVoucher(event.get('id'));
     }
 
+    getChecked(event) {
+        this.checkedElements = event;
+    }
 
-    // printMany() {
-    //     const bookletIds = [];
-    //     const error = false;
-    //     this.checkedElements.forEach(element => {
-    //         bookletIds.push(element.id);
-    //     });
-    //     return !error ? this._exportService.printManyVouchers(bookletIds) : null;
-    // }
+
+    printMany() {
+        const bookletIds = [];
+        const error = false;
+        this.checkedElements.forEach((booklet: Booklet) => {
+            bookletIds.push(booklet.get('id'));
+        });
+        return !error ? this._exportService.printManyVouchers(bookletIds) : null;
+    }
 
     export() {
         this.loadingExport = true;

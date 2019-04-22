@@ -13,6 +13,7 @@ export class Project extends CustomModel {
     public static rights = ['ROLE_ADMIN', 'ROLE_COUNTRY_MANAGER', 'ROLE_PROJECT_MANAGER'];
 
     title = GlobalText.TEXTS.project;
+    matSortActive = 'name';
 
 
     public fields = {

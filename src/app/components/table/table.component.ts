@@ -1,5 +1,5 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { DateAdapter, MatDialog, MatPaginator, MatSort, MAT_DATE_FORMATS } from '@angular/material';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, AfterViewInit } from '@angular/core';
+import { DateAdapter, MatDialog, MatPaginator, MatSort, MAT_DATE_FORMATS, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { CustomModelService } from 'src/app/core/api/custom-model.service';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
@@ -17,6 +17,10 @@ import { AuthenticationService } from '../../core/authentication/authentication.
 import { WsseService } from '../../core/authentication/wsse.service';
 import { Mapper } from '../../core/utils/mapper.service';
 import { DistributionData } from '../../model/distribution-data';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { CustomModelField } from 'src/app/model/CustomModel/custom-model-field';
+import { DataSource } from '@angular/cdk/collections';
+import { TextModelField } from 'src/app/model/CustomModel/text-model-field';
 
 
 const rangeLabel = (page: number, pageSize: number, length: number) => {
@@ -45,16 +49,18 @@ const rangeLabel = (page: number, pageSize: number, length: number) => {
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit,  AfterViewInit {
     public table = GlobalText.TEXTS;
     public paginator: MatPaginator;
     public sort;
 
-    @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    @ViewChild(MatPaginator)
+    set matPaginator(mp: MatPaginator) {
         this.paginator = mp;
     }
 
-    @ViewChild(MatSort) set content(content: ElementRef<MatSort>) {
+    @ViewChild(MatSort)
+    set content(content: ElementRef<MatSort>) {
         this.sort = content;
         if (this.sort && this.tableData) {
             this.tableData.sort = this.sort;
@@ -62,12 +68,17 @@ export class TableComponent implements OnInit {
     }
 
     // To activate/desactivate action buttons
-    @Input() editable: boolean;
-    @Input() deletable: boolean;
+    @Input() loggable = false;
+    @Input() editable = false;
+    @Input() deletable = false;
     @Input() validatable = false;
     @Input() updatable = false;
-    @Input() printable: boolean;
-    @Input() assignable: boolean;
+    @Input() printable = false;
+    @Input() assignable = false;
+
+    @Input() searchable = false;
+    @Input() paginable = false;
+    @Input() selectable = false;
 
     // For Imported Beneficiaries
     @Input() parentId: number = null;
@@ -76,17 +87,15 @@ export class TableComponent implements OnInit {
 
     @Input() entity;
 
-    public tableData: any;
+    public tableData: MatTableDataSource<any>;
     @Input()
     set data(value: any) {
         if (value) {
             this.tableData = value;
             this.checkData();
+            this.setDataTableProperties();
         }
     }
-
-
-
 
     @Input() service: CustomModelService;
 
@@ -132,26 +141,109 @@ export class TableComponent implements OnInit {
     ngOnInit(): void {
         this.checkData();
     }
-
-    updateTable(data) {
-        this.tableData = data;
-        this.tableData = [...this.tableData];
+    // Get the string displayed for each element property to filter/sort according to this string
+    ngAfterViewInit() {
+        this.setDataTableProperties();
     }
 
-    checkEntityUpdateRights() {
-        if (this.entity === Beneficiaries) {
-            return false;
-        } else {
-            return true;
+
+    getFieldStringValues(field: any): string {
+                let value = '';
+                let values = [];
+                if (
+                    ['Object', 'MultipleObject'].includes(field.kindOfField) &&
+                    field.displayTableFunction &&
+                    field.displayTableFunction(field.value) &&
+                    !(field.displayTableFunction(field.value) instanceof Array)
+                ) {
+                    value = field.displayTableFunction(field.value);
+                } else if (field.kindOfField === 'MultipleObject') {
+                    values = field.value && field.displayTableFunction ? field.displayTableFunction(field.value) : [];
+                } else if (field.kindOfField === 'MultipleSelect') {
+                    values = field.value.map((selectValue: CustomModel) => {
+                        return selectValue ? selectValue.get<string>(field.bindField) : '';
+                    });
+                } else if (field.kindOfField === 'SingleSelect') {
+                    value = field.value ? field.value.get(field.bindField) : '';
+                } else if (field.kindOfField === 'Date') {
+                    value = field.formatForApi();
+                } else {
+                    if (typeof(field.value) === 'number') {
+                        value = field.value.toString();
+                    } else {
+                        value = field.value;
+                    }
+                }
+
+                if (typeof(value) === 'string') {
+                    return value;
+                }
+                if (values !== []) {
+                    let stringValue = '';
+                    values.forEach(arrayValue => {
+                        if (typeof(arrayValue) === 'number') {
+                            stringValue += ' ' + arrayValue.toString();
+                        } else if (typeof(arrayValue) === 'string') {
+                            stringValue += ' ' + arrayValue;
+                        }
+                    });
+                    return stringValue;
+                }
+    }
+
+
+
+    setDataTableProperties() {
+        if (this.searchable) {
+            this.tableData.filterPredicate = (element: CustomModel, filter: string) => {
+                if (!filter) {
+                    return true;
+                }
+
+                const fieldStringValues = [];
+                this.displayProperties.forEach((property: string) => {
+                    let field = element.fields[property];
+
+                    if (field.kindOfField === 'Children') {
+                        field = element.get(field.childrenObject) ?
+                            element.get(field.childrenObject).fields[field.childrenFieldName] :
+                            new TextModelField({});
+                    }
+                    fieldStringValues.push(this.getFieldStringValues(field));
+                });
+
+                let containsFilter = false;
+
+                fieldStringValues.forEach((value: string) => {
+                    if (value.toLowerCase().includes(filter)) {
+                        containsFilter = true;
+                    }
+                });
+                return containsFilter;
+            };
         }
-    }
 
-    checkItemStateRights(item: any) {
-        if (item instanceof DistributionData) {
-            if (item.validated) {
-                return false;
-            } else {
-                return true;
+        this.tableData.sortingDataAccessor = (item, property) => {
+            let field = item.fields[property];
+
+            if (field.kindOfField === 'Children') {
+                field = item.get(field.childrenObject) ?
+                    item.get(field.childrenObject).fields[field.childrenFieldName] :
+                    new TextModelField({});
+            }
+            return this.getFieldStringValues(field);
+        };
+
+        if ((this.tableData && this.tableData.data)) {
+            this.tableData.sort = this.sort;
+            if (this.paginator && this.paginable) {
+                this.paginator._intl.itemsPerPageLabel = this.table.table_items_per_page;
+                this.paginator._intl.firstPageLabel = this.table.table_first_page;
+                this.paginator._intl.previousPageLabel = this.table.table_previous_page;
+                this.paginator._intl.nextPageLabel = this.table.table_next_page;
+                this.paginator._intl.lastPageLabel = this.table.table_last_page;
+                this.paginator._intl.getRangeLabel = rangeLabel;
+                this.tableData.paginator = this.paginator;
             }
         }
     }
@@ -168,6 +260,9 @@ export class TableComponent implements OnInit {
     }
 
     public getDisplayedColumns(): string[] {
+        if (this.selectable) {
+            return this.displayProperties ? ['check', ...this.displayProperties, 'actions'] : [];
+        }
         return this.displayProperties ? [...this.displayProperties, 'actions'] : [];
     }
 
@@ -182,61 +277,68 @@ export class TableComponent implements OnInit {
         });
     }
 
-    applyFilter(filterValue: any, category?: string, suppress?: boolean): void {
-        if (suppress) {
-            const index = this.tableData.filter.findIndex(function(value) {
-                return value.category === category;
-            });
-
-            this.tableData.filter.splice(index, 1);
-        } else {
-            if (filterValue !== undefined) {
-                if (category) {
-                    if (category === 'familyName') {
-                        if (filterValue.length !== 0 || filterValue !== '') {
-                            filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-                            filterValue = filterValue.split(/[\s,]+/);
-                            if (filterValue[filterValue.length - 1] === '') {
-                                filterValue.pop();
-                            }
-                        }
-                    }
-
-                    if (category === 'locations') {
-                        filterValue = filterValue.name;
-                    }
-
-                    const index = this.tableData.filter.findIndex(function(value) {
-                        return value.category === category;
-                    });
-
-                    if (index >= 0) {
-                        if (filterValue.length === 0 || filterValue === '') {
-                            this.tableData.filter.splice(index, 1);
-                        } else {
-                            this.tableData.filter[index] = { filter: filterValue, category: category };
-                        }
-                    } else
-                        if (filterValue.length !== 0 || filterValue !== '') {
-                            this.tableData.filter.push({ filter: filterValue, category: category });
-                        }
-
-                } else {
-                    filterValue = filterValue.trim(); // Remove whitespace
-                    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-                    this.tableData.filter = filterValue;
-                }
-            } else {
-                if (category && category === 'familyName') {
-                    const index = this.tableData.filter.findIndex(function(value) {
-                        return value.category === category;
-                    });
-
-                    this.tableData.filter.splice(index, 1);
-                }
-            }
-        }
+    applyFilter(filterValue: string) {
+        filterValue = filterValue.trim(); // Remove whitespace
+        filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+        this.tableData.filter = filterValue;
     }
+
+    // applyFilter(filterValue: any, category?: string, suppress?: boolean): void {
+
+    //     if (suppress) {
+    //         const index = this.tableData.filter.findIndex(function(value) {
+    //             return value.category === category;
+    //         });
+
+    //         this.tableData.filter.splice(index, 1);
+    //     } else {
+    //         if (filterValue !== undefined) {
+    //             if (category) {
+    //                 if (category === 'familyName') {
+    //                     if (filterValue.length !== 0 || filterValue !== '') {
+    //                         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    //                         filterValue = filterValue.split(/[\s,]+/);
+    //                         if (filterValue[filterValue.length - 1] === '') {
+    //                             filterValue.pop();
+    //                         }
+    //                     }
+    //                 }
+
+    //                 if (category === 'locations') {
+    //                     filterValue = filterValue.name;
+    //                 }
+
+    //                 const index = this.tableData.filter.findIndex(function(value) {
+    //                     return value.category === category;
+    //                 });
+
+    //                 if (index >= 0) {
+    //                     if (filterValue.length === 0 || filterValue === '') {
+    //                         this.tableData.filter.splice(index, 1);
+    //                     } else {
+    //                         this.tableData.filter[index] = { filter: filterValue, category: category };
+    //                     }
+    //                 } else
+    //                     if (filterValue.length !== 0 || filterValue !== '') {
+    //                         this.tableData.filter.push({ filter: filterValue, category: category });
+    //                     }
+
+    //             } else {
+    //                 filterValue = filterValue.trim(); // Remove whitespace
+    //                 filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    //                 this.tableData.filter = filterValue;
+    //             }
+    //         } else {
+    //             if (category && category === 'familyName') {
+    //                 const index = this.tableData.filter.findIndex(function(value) {
+    //                     return value.category === category;
+    //                 });
+
+    //                 this.tableData.filter.splice(index, 1);
+    //             }
+    //         }
+    //     }
+    // }
 
     rangeLabel(page: number, pageSize: number, length: number) {
         const table = GlobalText.TEXTS;
@@ -258,33 +360,33 @@ export class TableComponent implements OnInit {
     isAllSelected() {
         const numSelected = this.selection.selected.length;
         let numRows;
-        if (this.tableData.householdsSubject) {
-            numRows = this.tableData.householdsSubject._value.length;
-        } else {
+        // if (this.tableData.householdsSubject) {
+        //     numRows = this.tableData.householdsSubject._value.length;
+        // } else {
             numRows = this.tableData.data.length;
-        }
+        // }
 
         return numSelected === numRows;
     }
 
     masterToggle() {
-        if (this.tableData.householdsSubject) {
-            if (this.isAllSelected()) {
-                this.selection.clear();
-            } else {
-                this.tableData.householdsSubject._value.forEach(row => this.selection.select(row));
-            }
-        } else {
+        // if (this.tableData.householdsSubject) {
+        //     if (this.isAllSelected()) {
+        //         this.selection.clear();
+        //     } else {
+        //         this.tableData.householdsSubject._value.forEach(row => this.selection.select(row));
+        //     }
+        // } else {
             if (this.isAllSelected()) {
                 this.selection.clear();
             } else {
                 this.tableData.data.forEach(row => {
-                    if (!row.used) {
+                    // if (!row.used) {
                         this.selection.select(row);
-                    }
+                    // }
                 });
             }
-        }
+        // }
         this.selectChecked.emit(this.selection.selected);
     }
 
@@ -304,5 +406,17 @@ export class TableComponent implements OnInit {
 
     assign(element) {
         this.assignOne.emit(element);
+    }
+
+    requestLogs(element: any) {
+        this.service.requestLogs(element.get('id')).toPromise()
+            .then(
+                () => { this.snackbar.success('Logs have been sent'); }
+            )
+            .catch(
+                (e) => {
+                    this.snackbar.error('Logs could not be sent');
+                }
+            );
     }
 }

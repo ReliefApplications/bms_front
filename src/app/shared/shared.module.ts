@@ -47,21 +47,10 @@ import { PlaceholderStepperComponent } from '../components/placeholders/placehol
 import { PlaceholderSummaryComponent } from '../components/placeholders/placeholder-summary/placeholder-summary.component';
 import { PlaceholderTitleComponent } from '../components/placeholders/placeholder-title/placeholder-title.component';
 import { TableBeneficiariesComponent } from '../components/table/table-beneficiaries/table-beneficiaries.component';
-import { TableDashboardComponent } from '../components/table/table-dashboard/table-dashboard.component';
-import { TableDistributionComponent } from '../components/table/table-distribution/table-distribution.component';
+import { TableServerComponent } from '../components/table/table-server/table-server.component';
 import { TableMobileBeneficiariesComponent } from '../components/table/table-mobile-beneficiaries/table-mobile-beneficiaries.component';
-import { TableMobileDashboardComponent } from '../components/table/table-mobile-dashboard/table-mobile-dashboard.component';
-import { TableMobileDistributionComponent } from '../components/table/table-mobile-distribution/table-mobile-distribution.component';
-import { TableMobileSearchComponent } from '../components/table/table-mobile-search/table-mobile-search.component';
-import { TableMobileVouchersComponent } from '../components/table/table-mobile-vouchers/table-mobile-vouchers.component';
 import { TableMobileComponent } from '../components/table/table-mobile/table-mobile.component';
-import { TableSearchComponent } from '../components/table/table-search/table-search.component';
-import { TableSmallMobileComponent } from '../components/table/table-small-mobile/table-small-mobile.component';
-import { TableSmallComponent } from '../components/table/table-small/table-small.component';
-import { TableVouchersComponent } from '../components/table/table-vouchers/table-vouchers.component';
 import { TableComponent } from '../components/table/table.component';
-import { TransactionTableMobileComponent } from '../components/table/transaction-table-mobile/transaction-table-mobile.component';
-import { TransactionTableComponent } from '../components/table/transaction-table/transaction-table.component';
 import { BeneficiariesImportComponent } from '../modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
 import { ImportedDataComponent } from '../modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
 import { BeneficiariesComponent } from '../modules/beneficiary/beneficiaries.component';
@@ -149,19 +138,10 @@ imports: [
         IconSvgComponent,
         BoxDashboardComponent,
         TableComponent,
-        TableSearchComponent,
         TableMobileComponent,
-        TableMobileSearchComponent,
-        TableDistributionComponent,
-        TableMobileDistributionComponent,
-        TableSmallComponent,
-        TableSmallMobileComponent,
-        TableDashboardComponent,
-        TableMobileDashboardComponent,
         TableBeneficiariesComponent,
-        TransactionTableMobileComponent,
+        TableServerComponent,
         TableMobileBeneficiariesComponent,
-        TransactionTableComponent,
         ModalAddCriteriaComponent,
         ModalAddCommodityComponent,
         ModalFieldsComponent,
@@ -198,8 +178,6 @@ imports: [
         MobileMoneyComponent,
         QrVoucherComponent,
         VouchersComponent,
-        TableVouchersComponent,
-        TableMobileVouchersComponent,
         ScannerComponent,
     ],
     entryComponents: [
@@ -228,19 +206,10 @@ imports: [
         BoxPropertiesComponent,
         DisplayFieldComponent,
         TableComponent,
-        TableSearchComponent,
         TableMobileComponent,
-        TableMobileSearchComponent,
-        TableDistributionComponent,
-        TableMobileDistributionComponent,
-        TableSmallComponent,
-        TableSmallMobileComponent,
         TableMobileBeneficiariesComponent,
-        TransactionTableComponent,
-        TableDashboardComponent,
-        TableMobileDashboardComponent,
         TableBeneficiariesComponent,
-        TransactionTableMobileComponent,
+        TableServerComponent,
         ModalAddCriteriaComponent,
         ModalAddCommodityComponent,
         ModalDeleteComponent,

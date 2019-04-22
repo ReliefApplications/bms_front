@@ -1,6 +1,7 @@
 import { GlobalText } from 'src/texts/global';
 import { URL_BMS_API } from '../../../environments/environment';
 import { HttpService } from './http.service';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 
 export abstract class CustomModelService {
     readonly apiBase = URL_BMS_API;
@@ -34,5 +35,14 @@ export abstract class CustomModelService {
 
     protected makeUrl(): string {
         return `${this.apiBase}/${this.customModelPath}`;
+    }
+
+    public requestLogs(id: number) {
+        const url = this.apiBase + this.customModelPath + id + '/logs';
+        return this.http.get(url);
+    }
+
+    public fillFiltersWithOptions(filters: CustomModel) {
+
     }
 }

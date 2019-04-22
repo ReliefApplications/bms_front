@@ -4,6 +4,8 @@ import { NumberModelField } from './CustomModel/number-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 
 export class Sector extends CustomModel {
+    matSortActive = 'name';
+
     fields = {
         id: new NumberModelField(
             {

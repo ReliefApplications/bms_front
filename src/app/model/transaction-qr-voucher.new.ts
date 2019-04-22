@@ -9,6 +9,7 @@ import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-f
 export class TransactionQRVoucher extends DistributionBeneficiary {
 
     title = GlobalText.TEXTS.beneficiary;
+    matSortActive = 'familyName';
 
     public fields = {
         // id: new NumberModelField({

@@ -121,6 +121,7 @@ export class SettingsComponent implements OnInit {
     }
     this.getData(title);
     this.selectedTitle = title;
+    this.table.setDataTableProperties();
   }
 
   setType(choice) {

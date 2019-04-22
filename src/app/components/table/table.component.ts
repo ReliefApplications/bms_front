@@ -143,48 +143,9 @@ export class TableComponent implements OnInit,  AfterViewInit {
     }
     // Get the string displayed for each element property to filter/sort according to this string
     ngAfterViewInit() {
-
-        if (this.searchable) {
-            this.tableData.filterPredicate = (element: CustomModel, filter: string) => {
-                if (!filter) {
-                    return true;
-                }
-
-                const fieldStringValues = [];
-                this.displayProperties.forEach((property: string) => {
-                    let field = element.fields[property];
-
-                    if (field.kindOfField === 'Children') {
-                        field = element.get(field.childrenObject) ?
-                            element.get(field.childrenObject).fields[field.childrenFieldName] :
-                            new TextModelField({});
-                    }
-                    fieldStringValues.push(this.getFieldStringValues(field));
-                });
-
-                let containsFilter = false;
-
-                fieldStringValues.forEach((value: string) => {
-                    if (value.toLowerCase().includes(filter)) {
-                        containsFilter = true;
-                    }
-                });
-                return containsFilter;
-            };
-        }
-
-        this.tableData.sortingDataAccessor = (item, property) => {
-            let field = item.fields[property];
-
-            if (field.kindOfField === 'Children') {
-                field = item.get(field.childrenObject) ?
-                    item.get(field.childrenObject).fields[field.childrenFieldName] :
-                    new TextModelField({});
-            }
-            return this.getFieldStringValues(field);
-          };
-          this.setDataTableProperties();
+        this.setDataTableProperties();
     }
+
 
     getFieldStringValues(field: any): string {
                 let value = '';
@@ -233,6 +194,46 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
 
     setDataTableProperties() {
+        if (this.searchable) {
+            this.tableData.filterPredicate = (element: CustomModel, filter: string) => {
+                if (!filter) {
+                    return true;
+                }
+
+                const fieldStringValues = [];
+                this.displayProperties.forEach((property: string) => {
+                    let field = element.fields[property];
+
+                    if (field.kindOfField === 'Children') {
+                        field = element.get(field.childrenObject) ?
+                            element.get(field.childrenObject).fields[field.childrenFieldName] :
+                            new TextModelField({});
+                    }
+                    fieldStringValues.push(this.getFieldStringValues(field));
+                });
+
+                let containsFilter = false;
+
+                fieldStringValues.forEach((value: string) => {
+                    if (value.toLowerCase().includes(filter)) {
+                        containsFilter = true;
+                    }
+                });
+                return containsFilter;
+            };
+        }
+
+        this.tableData.sortingDataAccessor = (item, property) => {
+            let field = item.fields[property];
+
+            if (field.kindOfField === 'Children') {
+                field = item.get(field.childrenObject) ?
+                    item.get(field.childrenObject).fields[field.childrenFieldName] :
+                    new TextModelField({});
+            }
+            return this.getFieldStringValues(field);
+        };
+
         if ((this.tableData && this.tableData.data)) {
             this.tableData.sort = this.sort;
             if (this.paginator && this.paginable) {

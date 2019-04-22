@@ -56,7 +56,12 @@ export class ModalFieldsComponent implements OnInit {
 
     display(field) {
         if (field.kindOfField === 'Children') {
-            return this.objectInstance.get(field.childrenObject).fields[field.childrenFieldName];
+            return this.objectInstance.get(field.childrenObject) ?
+                this.objectInstance.get(field.childrenObject).fields[field.childrenFieldName] :
+                new TextModelField({
+                    title: field.title,
+                    isPassword: field.isPassword
+                });
         } else {
             return field;
         }

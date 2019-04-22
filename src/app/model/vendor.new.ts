@@ -28,6 +28,21 @@ export class Vendor extends CustomModel {
         user: new ObjectModelField<User>({
 
         }),
+        username: new NestedFieldModelField({
+            title: GlobalText.TEXTS.login_username,
+            isDisplayedInTable: true,
+            isDisplayedInModal: true,
+            isSettable: true,
+            childrenObject: 'user',
+            childrenFieldName: 'username',
+        }),
+        password: new NestedFieldModelField({
+            title: GlobalText.TEXTS.model_password,
+            isDisplayedInModal: true,
+            isSettable: true,
+            childrenObject: 'user',
+            childrenFieldName: 'password',
+        }),
         shopName: new TextModelField({
             title: GlobalText.TEXTS.model_distribution_name,
             isDisplayedInTable: true,
@@ -63,21 +78,6 @@ export class Vendor extends CustomModel {
             displayTableFunction: null,
             title: GlobalText.TEXTS.location,
 
-        }),
-        username: new NestedFieldModelField({
-            title: GlobalText.TEXTS.login_username,
-            isDisplayedInTable: true,
-            isDisplayedInModal: true,
-            isSettable: true,
-            childrenObject: 'user',
-            childrenFieldName: 'username',
-        }),
-        password: new NestedFieldModelField({
-            title: GlobalText.TEXTS.model_password,
-            isDisplayedInModal: true,
-            isSettable: true,
-            childrenObject: 'user',
-            childrenFieldName: 'password',
         }),
         adm1: new NestedFieldModelField({
             title: GlobalText.TEXTS.adm1,

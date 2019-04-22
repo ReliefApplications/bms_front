@@ -12,7 +12,8 @@
                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
             </mat-form-field>
         </div>
-        <table mat-table [dataSource]="tableData" matSort matSortActive="entityInstance.matSortActive">
+
+        <table mat-table [dataSource]="tableData" matSort [matSortActive]="entityInstance.matSortActive" matSortDirection="desc">
 
             <ng-container *ngIf="selectable" matColumnDef="check">
                 <th mat-header-cell class="header-cell" *matHeaderCellDef>

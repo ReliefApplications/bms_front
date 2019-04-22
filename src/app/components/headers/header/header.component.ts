@@ -1,9 +1,8 @@
-import { Component, DoCheck, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, DoCheck, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { NavigationEnd, Router } from '@angular/router';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { User } from 'src/app/model/user';
 import { GlobalText } from '../../../../texts/global';
 import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
 import { UserService } from './../../../core/api/user.service';
@@ -25,7 +24,6 @@ export class HeaderComponent implements OnInit, DoCheck {
     selectedCountry: string;
 
     @Output() emitLogOut = new EventEmitter();
-    @Input() userData: User;
 
     public currentRoute = '/';
     public breadcrumb: Array<any> = [{
@@ -57,7 +55,6 @@ export class HeaderComponent implements OnInit, DoCheck {
 
     ngOnInit() {
         this.language = GlobalText.language;
-        this.userData = new User(this.userData);
         this.getCorrectCountries();
         this.updateTooltip();
 
@@ -119,7 +116,7 @@ export class HeaderComponent implements OnInit, DoCheck {
     }
 
     autoLanguage(c: string) {
-        if (!this.userData.language) {
+        if (!this.userService.currentUser.language) {
             if (c === 'SYR') {
                 GlobalText.changeLanguage('ar');
             } else if (c === 'KHM') {

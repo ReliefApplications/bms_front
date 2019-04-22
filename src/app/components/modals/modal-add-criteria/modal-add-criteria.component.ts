@@ -8,6 +8,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Criteria, CriteriaField, CriteriaCondition } from 'src/app/model/criteria.new';
 import { DatePipe } from '@angular/common';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { FieldService } from 'src/app/core/api/field.service';
 
 @Component({
     selector: 'app-modal-add-criteria',
@@ -28,6 +29,7 @@ export class ModalAddCriteriaComponent implements OnInit {
     private criteriaService: CriteriaService,
     public modalReference: MatDialogRef<any>,
     private snackbar: SnackbarService,
+    public fieldService: FieldService,
   ) {}
 
   ngOnInit() {
@@ -41,7 +43,12 @@ export class ModalAddCriteriaComponent implements OnInit {
   makeForm() {
     const formControls = {};
     this.fields.forEach((fieldName: string) => {
-      formControls[fieldName] = new FormControl(this.criteria.get(fieldName));
+      const field = this.criteria.fields[fieldName];
+      const validators = this.fieldService.getFieldValidators(field.isRequired, field.pattern);
+      formControls[fieldName] = new FormControl({
+        value: this.criteria.get(fieldName),
+        disabled: field.isDisabled
+    }, validators);
     });
     this.form = new FormGroup(formControls);
   }

@@ -79,7 +79,7 @@ export class ModalFieldsComponent implements OnInit {
         const formControls = {};
         this.objectFields.forEach((fieldName: string) => {
             const field = this.objectInstance.fields[fieldName];
-            const validators = this.getFieldValidators(field.isRequired, field.pattern);
+            const validators = this.fieldService.getFieldValidators(field.isRequired, field.pattern);
 
             if (field.kindOfField === 'MultipleSelect') {
                 // TODO: type this
@@ -257,17 +257,6 @@ export class ModalFieldsComponent implements OnInit {
 
     isDisabled(field) {
         throw new Error('You must override this function in other components');
-    }
-
-    getFieldValidators(required?: boolean, pattern?: RegExp): ValidatorFn[] {
-        const validators: ValidatorFn[] = [];
-        if (required) {
-            validators.push(Validators.required);
-        }
-        if (pattern) {
-            validators.push(Validators.pattern(pattern));
-        }
-        return validators;
     }
 
     onFileChange(property, event) {

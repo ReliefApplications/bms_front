@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ValidatorFn, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +41,16 @@ export class FieldService {
     } else {
         return value === null || value === undefined || value === '';
     }
+  }
+
+  getFieldValidators(required?: boolean, pattern?: RegExp): ValidatorFn[] {
+    const validators: ValidatorFn[] = [];
+    if (required) {
+        validators.push(Validators.required);
+    }
+    if (pattern) {
+        validators.push(Validators.pattern(pattern));
+    }
+    return validators;
   }
 }

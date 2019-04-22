@@ -2,11 +2,12 @@ import { Component, OnInit, DoCheck, ViewChildren, QueryList, Input } from '@ang
 import { GlobalText } from 'src/texts/global';
 
 import { MatDialogRef } from '@angular/material';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Criteria } from 'src/app/model/criteria.new';
 import { DatePipe } from '@angular/common';
 import { Commodity } from 'src/app/model/commodity.new';
 import { CommodityService } from 'src/app/core/api/commodity.service';
+import { FieldService } from 'src/app/core/api/field.service';
 
 @Component({
   selector: 'app-modal-add-commodity',
@@ -24,7 +25,11 @@ export class ModalAddCommodityComponent implements OnInit {
   public language = GlobalText.language;
 
 
-  constructor(private commodityService: CommodityService, public modalReference: MatDialogRef<any>, ) {}
+  constructor(
+    private commodityService: CommodityService,
+    public modalReference: MatDialogRef<any>,
+    public fieldService: FieldService
+    ) {}
 
   ngOnInit() {
     this.commodity = new Commodity();
@@ -37,7 +42,12 @@ export class ModalAddCommodityComponent implements OnInit {
   makeForm() {
     const formControls = {};
     this.fields.forEach((fieldName: string) => {
-      formControls[fieldName] = new FormControl(this.commodity.get(fieldName));
+      const field = this.commodity.fields[fieldName];
+      const validators = this.fieldService.getFieldValidators(field.isRequired, field.pattern);
+      formControls[fieldName] = new FormControl({
+        value: this.commodity.get(fieldName),
+        disabled: field.isDisabled
+    }, validators);
     });
     this.form = new FormGroup(formControls);
   }

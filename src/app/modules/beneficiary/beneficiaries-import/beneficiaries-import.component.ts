@@ -445,6 +445,20 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
             body.adm = 1;
             body.name = this.saveLocation.adm1;
         }
+
+        this._householdsService.testFileTemplate(data, body)
+            .then(() => {
+            }, (err) => {
+                this.dialog.closeAll();
+                this.csv2 = null;
+                this.snackbar.info(this.household.beneficiaries_import_response);
+            })
+            .catch(
+                () => {
+                    this.dialog.closeAll();
+                    this.csv2 = null;
+                    this.snackbar.error(this.household.beneficiaries_import_error_importing);
+                });
     }
 
     /**

@@ -99,6 +99,20 @@
         
 
         <table mat-table [dataSource]="tableServerData" matSort>
+
+            <ng-container *ngIf="selectable" matColumnDef="check">
+                <th mat-header-cell class="header-cell" *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()" color="primary">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell class="content-cell" *matCellDef="let element">
+                    <mat-checkbox (click)="$event.stopPropagation()" (change)="selectCheck($event, element)" [checked]="selection.isSelected(element)"
+                    color="primary">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
             <ng-container *ngFor="let property of displayProperties" matColumnDef="{{property}}">
                 <th mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title}}</th>
                 <td mat-cell *matCellDef="let element">

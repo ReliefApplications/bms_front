@@ -176,9 +176,13 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
 
     confirmAdding() {
         if (this.projectsList && this.dataSource) {
-            this.projectService.addBeneficiaries(this.selectedProject, this.checkedElements).subscribe(
+            const benefForApi = this.checkedElements.map((household: Households) => {
+                return {id: household.get('id')};
+            });
+            this.projectService.addBeneficiaries(this.selectedProject, benefForApi).subscribe(
                 success => {
                     this.snackbar.success(this.household.beneficiaries_added);
+                    this.table.loadDataPage();
                 }
             );
         }

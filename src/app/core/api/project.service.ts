@@ -24,7 +24,7 @@ export class ProjectService extends CustomModelService {
 
 
     public addBeneficiaries(projectId: number, checkedElements: any) {
-        const url =  '/projects/' + projectId + '/beneficiaries/add';
+        const url =  `${this.apiBase}/projects/${projectId}/beneficiaries/add`;
         const body = {
             beneficiaries: checkedElements
         };

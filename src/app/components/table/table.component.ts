@@ -358,35 +358,17 @@ export class TableComponent implements OnInit,  AfterViewInit {
     }
 
     isAllSelected() {
-        const numSelected = this.selection.selected.length;
-        let numRows;
-        // if (this.tableData.householdsSubject) {
-        //     numRows = this.tableData.householdsSubject._value.length;
-        // } else {
-            numRows = this.tableData.data.length;
-        // }
-
-        return numSelected === numRows;
+        return this.selection.selected.length === this.tableData.data.length;
     }
 
     masterToggle() {
-        // if (this.tableData.householdsSubject) {
-        //     if (this.isAllSelected()) {
-        //         this.selection.clear();
-        //     } else {
-        //         this.tableData.householdsSubject._value.forEach(row => this.selection.select(row));
-        //     }
-        // } else {
-            if (this.isAllSelected()) {
-                this.selection.clear();
-            } else {
-                this.tableData.data.forEach(row => {
-                    // if (!row.used) {
-                        this.selection.select(row);
-                    // }
-                });
-            }
-        // }
+        if (this.isAllSelected()) {
+            this.selection.clear();
+        } else {
+            this.tableData.data.forEach(row => {
+                this.selection.select(row);
+            });
+        }
         this.selectChecked.emit(this.selection.selected);
     }
 

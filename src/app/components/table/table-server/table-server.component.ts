@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ViewChild, EventEmitter, ElementRef, Output } from '@angular/core';
 import { TableComponent } from '../table.component';
 import { DateAdapter, MAT_DATE_FORMATS, MatSort, MatPaginator } from '@angular/material';
 import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
@@ -45,6 +45,11 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
   public filtersForAPI: Array<Filter> = [];
 
   advancedResearch = false;
+
+  @Input() selectable = false;
+  @Input() selection: any;
+
+  @Output() selectChecked = new EventEmitter<any>();
 
   ngOnInit() {
   }
@@ -173,4 +178,28 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
     });
     this.filtersForAPI = [];
   }
+
+  isAllSelected() {
+    return this.selection.selected.length === this.tableServerData.dataSubject.value.length;
+  }
+
+  masterToggle() {
+    if (this.isAllSelected()) {
+        this.selection.clear();
+    } else {
+      this.tableServerData.dataSubject.value.forEach(row => this.selection.select(row));
+    }
+    this.selectChecked.emit(this.selection.selected);
+  }
+
+  selectCheck(event, element) {
+      if (event.checked) {
+          this.selection.select(element);
+      } else {
+          this.selection.deselect(element);
+      }
+
+      this.selectChecked.emit(this.selection.selected);
+  }
+
 }

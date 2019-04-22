@@ -473,7 +473,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         if (this.mode === 'create') {
             this._householdsService.create(body).subscribe(success => {
                 this.snackbar.success(this.Text.update_beneficiary_created_successfully);
-                this.validationLoading = false;
                 this.leave();
             }, error => {
                 this.snackbar.error(this.Text.update_beneficiary_error_creating + error);
@@ -482,7 +481,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         } else if (this.mode === 'update') {
             this._householdsService.update(this.household.get('id'), body).subscribe(success => {
                 this.snackbar.success(this.Text.update_beneficiary_updated_successfully);
-                this.validationLoading = false;
                 this.leave();
             }, error => {
                 this.snackbar.error(this.Text.update_beneficiary_error_updated + error);

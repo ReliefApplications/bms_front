@@ -668,3 +668,8 @@ app-icon-svg {
 .cursor-pointer {
     cursor: pointer;
 }
+
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+    background-color: $bms_dark_grey;
+}

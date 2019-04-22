@@ -5,7 +5,7 @@ import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.ada
 import { GlobalText } from 'src/texts/global';
 import { DataSource } from '@angular/cdk/collections';
 import { CustomDataSource } from 'src/app/model/data-source/custom-data-source.interface';
-import { tap } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
 import { merge } from 'rxjs';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -66,13 +66,15 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
     // get data
     this.tableServerData.loadData([], { sort: null, direction: null }, 0, 10);
 
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    if (this.sort) {
+      this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-          tap(() => this.loadDataPage())
-      )
-      .subscribe();
+      merge(this.sort.sortChange, this.paginator.page)
+        .pipe(
+            tap(() => this.loadDataPage())
+        )
+        .subscribe();
+    }
   }
 
   loadDataPage() {
@@ -100,7 +102,7 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
     if (indexInFilter >= 0) {
       this.filtersForAPI.splice(indexInFilter, 1);
     }
-    if (filterValue) {
+    if (filterValue && filterValue.length !== 0) {
       this.filtersForAPI.push({
         category: category,
         filter: filterValue

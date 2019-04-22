@@ -29,7 +29,7 @@
         <div class="distribution-content" *ngIf='!loadingTable'>
             <app-table *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [editable]='hasRightsEdit' [deletable]='hasRights'
                 [entity]="distributionClass" [service]="_distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table>
-            <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [deletable]='hasRights'
+            <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [editable]='hasRightsEdit' [deletable]='hasRights'
                 [entity]="distributionClass" [service]="_distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table-mobile>
         </div>
     </div>

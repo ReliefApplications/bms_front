@@ -48,7 +48,7 @@ import { PlaceholderSummaryComponent } from '../components/placeholders/placehol
 import { PlaceholderTitleComponent } from '../components/placeholders/placeholder-title/placeholder-title.component';
 import { TableBeneficiariesComponent } from '../components/table/table-beneficiaries/table-beneficiaries.component';
 import { TableServerComponent } from '../components/table/table-server/table-server.component';
-import { TableMobileBeneficiariesComponent } from '../components/table/table-mobile-beneficiaries/table-mobile-beneficiaries.component';
+import { TableMobileServerComponent } from '../components/table/table-mobile-server/table-mobile-server.component';
 import { TableMobileComponent } from '../components/table/table-mobile/table-mobile.component';
 import { TableComponent } from '../components/table/table.component';
 import { BeneficiariesImportComponent } from '../modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
@@ -141,7 +141,7 @@ imports: [
         TableMobileComponent,
         TableBeneficiariesComponent,
         TableServerComponent,
-        TableMobileBeneficiariesComponent,
+        TableMobileServerComponent,
         ModalAddCriteriaComponent,
         ModalAddCommodityComponent,
         ModalFieldsComponent,
@@ -207,7 +207,7 @@ imports: [
         DisplayFieldComponent,
         TableComponent,
         TableMobileComponent,
-        TableMobileBeneficiariesComponent,
+        TableMobileServerComponent,
         TableBeneficiariesComponent,
         TableServerComponent,
         ModalAddCriteriaComponent,

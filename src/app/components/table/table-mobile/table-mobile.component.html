@@ -1,39 +1,51 @@
 <!-- TABLE -->
 <div class="table-container">
-  <div class="noDataContainer" *ngIf="!filled">
+  <div class="noDataContainer" *ngIf="!tableData">
       <h3>
-          <mat-icon>clear</mat-icon>
-          {{table.no_data}}
+        <mat-icon>clear</mat-icon>
+        {{table.no_data}}
       </h3>
   </div>
-  <div *ngIf="filled">
-    <table *ngFor="let element of data.filteredData" class="box-element">
+  <div *ngIf="tableData">
+    <table *ngFor="let element of tableData.data" class="box-element">
       <tbody>
-        <tr *ngFor="let property of properties" (click)="openDialog('details', element)" class="cursor-pointer">
+        <tr *ngFor="let property of displayProperties" (click)="openDialog('details', element)" class="cursor-pointer">
           <td class="element-title">
-            <span> {{mapperService.mapTitle(property)}}</span>
+            <span> {{entityInstance.fields[property].title}}</span>
           </td>
-          <td class="element-value" *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">
-            <span>{{mapperService.mapValue(element, property)}}</span>
-          </td>
-          <td *ngIf="propertiesTypes[property]=='image'">
-            <app-icon-svg  class="icon" [name]="mapperService.mapValue(element, property)"></app-icon-svg>
-          </td>
-          <td  *ngIf="propertiesTypes[property]=='png'">
-              <img class="png" src={{mapperService.mapValue(element,property)}}>
+          <td class="element-value" *ngIf="element.fields[property]; let field">
+              <app-display-field [field]="field" [element]="element"></app-display-field>
           </td>
         </tr>
       </tbody>
       <tfoot>
-          <button mat-button (click)="openDialog('details', element); $event.stopPropagation()" class="green">
-            <mat-icon inline=true>search</mat-icon>
-            </button>
-            <button mat-button (click)="openDialog('update', element); $event.stopPropagation()" class="light-red">
-              <mat-icon inline=true>edit</mat-icon>
-            </button>
-            <button mat-button (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
-              <mat-icon inline=true>close</mat-icon>
-            </button>
+          <ng-container *ngIf="validatable">
+              <button mat-button (click)="openDialog('visit', element); $event.stopPropagation();" class="light-red">
+                  <mat-icon *ngIf="element.get('validated') && element.get('finished')">done</mat-icon>
+                  <mat-icon *ngIf="element.get('validated') && !element.get('finished')">lock</mat-icon>
+                  <mat-icon *ngIf="!element.get('validated') && updatable">edit</mat-icon>
+              </button>
+          </ng-container>
+          <button mat-button *ngIf="!validatable && updatable" (click)="openDialog('visit', element); $event.stopPropagation();"  class="light-red">
+                  <mat-icon inline=true>edit</mat-icon>
+          </button>
+
+          <button mat-button (click)="requestLogs(element); $event.stopPropagation()" *ngIf="loggable" class="grey">
+              <mat-icon>history</mat-icon>
+          </button>
+
+          <button *ngIf="editable && rights && (!validatable || !element.get('validated'))" mat-button (click)="openDialog('edit', element); $event.stopPropagation()" class="green">
+              <mat-icon>search</mat-icon>
+          </button>
+          <button *ngIf="rights && deletable && (!validatable || !element.get('validated'))" mat-button (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
+              <mat-icon>close</mat-icon>
+          </button>
+          <button *ngIf="printable" mat-button (click)="print(element); $event.stopPropagation()" class="grey" [disabled]="!element.isPrintable()">
+              <mat-icon>description</mat-icon>
+          </button>
+          <button mat-button *ngIf="assignable" (click)="assign(element); $event.stopPropagation()" class="grey" [disabled]="!element.isAssignable()">
+              <mat-icon>assignment</mat-icon>
+          </button>
       </tfoot>
     </table>
   </div>

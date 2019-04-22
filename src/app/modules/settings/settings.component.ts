@@ -193,37 +193,42 @@ export class SettingsComponent implements OnInit {
         this.referedClassService = this.donorService;
         this.deletable = true;
         this.printable = false;
-
+        this.loggable = false;
         break;
       case 'projects':
         this.referedClassToken = NewProject;
         this.referedClassService = this.projectService;
         this.deletable = true;
         this.printable = false;
+        this.loggable = false;
         break;
       case 'country specific options':
         this.referedClassToken = CountrySpecific;
         this.referedClassService = this.countrySpecificService;
         this.deletable = true;
         this.printable = false;
+        this.loggable = false;
         break;
       case 'financialProvider':
         this.referedClassToken = FinancialProvider;
         this.referedClassService = this.financialProviderService;
         this.deletable = false;
         this.printable = false;
+        this.loggable = false;
         break;
       case 'product':
         this.referedClassToken = Product;
         this.referedClassService = this.productService;
         this.deletable = true;
         this.printable = false;
+        this.loggable = false;
         break;
       case 'vendors':
         this.referedClassToken = Vendor;
         this.referedClassService = this.vendorsService;
         this.deletable = true;
         this.printable = true;
+        this.loggable = false;
         break;
       default: break;
     }

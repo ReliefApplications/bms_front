@@ -620,6 +620,11 @@ snack-bar-container {
   .next {
       padding-left: 0 !important;
   }
+
+  app-icon-svg {
+        width: 7vh !important;
+        height: 7vh !important;
+    }
 }
 
 .single-select, .multiple-select {

@@ -90,7 +90,7 @@
           </div>
           <small id="text-explanation">{{ texts.add_distribution_text_explanation }}</small>
           <div class="form" *ngIf="widthScreen < maxWidthMobile">
-            <app-table-mobile (openModal)="removeElement($event, 'criteria')" [entity]="criteriaClass" [data]="criteriaData"></app-table-mobile>
+            <app-table-mobile (openModal)="removeElement($event, 'criteria')" [entity]="criteriaClass" [data]="criteriaData" deletable="true" rights="true"></app-table-mobile>
           </div>
         </form>
 
@@ -110,7 +110,7 @@
               {{texts.add_distribution_commodities_delivered | titlecase}}</h3>
           </div>
           <div class="form" *ngIf="widthScreen < maxWidthMobile">
-            <app-table-mobile (openModal)="removeElement($event, 'commodity')" [entity]="commodityClass" [data]="commodityData"></app-table-mobile>
+            <app-table-mobile (openModal)="removeElement($event, 'commodity')" [entity]="commodityClass" [data]="commodityData" deletable="true" rights="true"></app-table-mobile>
           </div>
         </div>
 

@@ -47,7 +47,7 @@
       </div>
       <div class="content-table">
         <app-table [searchable]="true" [paginable]="true" *ngIf="!mobileMode" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="true" [rights]='hasRights' [deletable]="deletable" (openModal)="openDialog($event)" [printable]="printable" [loggable]="loggable"></app-table>
-        <app-table-mobile *ngIf="mobileMode" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="true" [rights]='hasRights' [deletable]="deletable" [printable]="printable" [loggable]="loggable"></app-table-mobile>
+        <app-table-mobile *ngIf="mobileMode" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="true" [rights]='hasRights' [deletable]="deletable" [printable]="printable" [loggable]="loggable" (openModal)="openDialog($event)"></app-table-mobile>
       </div>
     </div>
   </div>

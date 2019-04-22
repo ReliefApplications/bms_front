@@ -38,6 +38,22 @@ export class ResidencyStatus extends CustomModel {
         this.set('name', name);
     }
 }
+
+
+export class BeneficiaryStatus extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
+
 export class Beneficiary extends CustomModel {
     title = GlobalText.TEXTS.beneficiary;
     matSortActive = 'familyName';
@@ -112,14 +128,17 @@ export class Beneficiary extends CustomModel {
                 value: new ResidencyStatus('2', 'resident')
             }
         ),
-        beneficiaryStatus: new NumberModelField(
+        beneficiaryStatus: new SingleSelectModelField(
             {
                 title: GlobalText.TEXTS.model_beneficiaries_status,
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
+                options: [ new BeneficiaryStatus('0', 'Member'), new BeneficiaryStatus('1', 'Head')],
                 isRequired: true,
                 isSettable: true,
                 isEditable: true,
+                bindField: 'name',
+                apiLabel: 'id',
             }
         ),
         nationalIds: new MultipleObjectsModelField<NationalId>(
@@ -178,7 +197,9 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.set('givenName', beneficiaryFromApi.given_name);
         newBeneficiary.set('familyName', beneficiaryFromApi.family_name);
         newBeneficiary.set('dateOfBirth', beneficiaryFromApi.date_of_birth ? new Date(beneficiaryFromApi.date_of_birth) : null);
-        newBeneficiary.set('beneficiaryStatus', beneficiaryFromApi.status);
+        const status = beneficiaryFromApi.status ? '1' : '0';
+        newBeneficiary.set('beneficiaryStatus', newBeneficiary.getOptions('beneficiaryStatus')
+                .filter((option: BeneficiaryStatus) => option.get<string>('id') === status)[0]);
         newBeneficiary.set('fullName',
         (beneficiaryFromApi.given_name ? beneficiaryFromApi.given_name : '') + ' ' +
         (beneficiaryFromApi.family_name ? beneficiaryFromApi.family_name : ''));

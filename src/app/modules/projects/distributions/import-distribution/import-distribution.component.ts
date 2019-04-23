@@ -8,8 +8,9 @@ import { DistributionService } from '../../../../core/api/distribution.service';
 import { HouseholdsService } from '../../../../core/api/households.service';
 import { ImportService } from '../../../../core/utils/distribution-import.service';
 import { Beneficiaries } from '../../../../model/beneficiary';
-import { DistributionData } from '../../../../model/distribution-data';
 import { ImportedBeneficiary } from '../../../../model/imported-beneficiary';
+import { UserService } from 'src/app/core/api/user.service';
+import { Distribution } from 'src/app/model/distribution.new';
 
 const IMPORT_COMPARE = 1;
 const IMPORT_UPDATE = 2;
@@ -21,8 +22,7 @@ const IMPORT_UPDATE = 2;
 })
 export class ImportDistributionComponent implements OnInit, DoCheck {
 
-    @Input() distribution: DistributionData;
-    @Input() rights: DistributionData;
+    @Input() distribution: Distribution;
 
     @Output() success = new EventEmitter<boolean>();
     @Output() selected = new EventEmitter<boolean>();
@@ -34,7 +34,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     comparing: boolean;
 
     // indicators
-    referedClassToken = DistributionData;
+    referedClassToken = Distribution;
     beneficiaryEntity = Beneficiaries;
     importedBeneficiaryEntity = ImportedBeneficiary;
     public loadFile = false;
@@ -67,6 +67,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
         public _importService: ImportService,
         public distributionService: DistributionService,
         public beneficiaryService: BeneficiariesService,
+        public userService: UserService,
     ) { }
 
     ngOnInit() {
@@ -116,14 +117,14 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
      * Upload csv and import the new distribution (list of beneficiaries)
      */
     updateDistribution(step: number) {
-        if (this.rights) {
+        if (this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')) {
 
             const data = new FormData();
             data.append('file', this.csv);
 
             if (this.csv && step === IMPORT_COMPARE) {
                 this.loadFile = true;
-                this.beneficiaryService.import(this.distribution.id, data, IMPORT_COMPARE).subscribe(
+                this.beneficiaryService.import(this.distribution.get('id'), data, IMPORT_COMPARE).subscribe(
                     result => {
                         this.comparing = true;
                         this.loadFile = false;
@@ -154,7 +155,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                 );
             } else if (this.importedData && step === IMPORT_UPDATE) {
                 this.loadUpdate = true;
-                this.beneficiaryService.import(this.distribution.id, { data: this.importedData }, IMPORT_UPDATE).pipe(
+                this.beneficiaryService.import(this.distribution.get('id'), { data: this.importedData }, IMPORT_UPDATE).pipe(
                     finalize(() => {
                         this.loadUpdate = false;
                     })

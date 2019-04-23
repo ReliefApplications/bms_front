@@ -260,7 +260,7 @@ export const TEXT = {
     import_created: 'Newly created',
     import_deleted: 'Will be deleted',
     import_description: 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.',
-    import_distribution_no_right_update: 'لا يحق لك تحديث التوزيع ، اسأل مدير المشروع الخاص بك',
+    import_distribution_no_right_update: 'You don\'t have the rights to update this distribution, please ask your project manager',
     import_distribution_updated: 'Distribution updated',
     import_select_new: 'Select all new',
     import_select_old: 'Select all old',

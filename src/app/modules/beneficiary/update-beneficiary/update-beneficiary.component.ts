@@ -1,29 +1,28 @@
-import { Component, OnInit, DoCheck, HostListener } from '@angular/core';
-import { GlobalText } from '../../../../texts/global';
-import { Router, ActivatedRoute } from '@angular/router';
-import { HouseholdsService } from '../../../core/api/households.service';
-import { ProjectService } from '../../../core/api/project.service';
-import { LocationService } from '../../../core/api/location.service';
-import { CriteriaService } from '../../../core/api/criteria.service';
-import { CountrySpecificService } from '../../../core/api/country-specific.service';
+import { DatePipe } from '@angular/common';
+import { Component, DoCheck, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MatDialog, MatTableDataSource, MatStepper } from '@angular/material';
+import { DateAdapter, MatDialog, MatStepper, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
+import { GlobalText } from '../../../../texts/global';
+import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
+import { CountrySpecificService } from '../../../core/api/country-specific.service';
+import { CriteriaService } from '../../../core/api/criteria.service';
+import { HouseholdsService } from '../../../core/api/households.service';
+import { LocationService } from '../../../core/api/location.service';
+import { ProjectService } from '../../../core/api/project.service';
+import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
+import { CountrySpecific } from '../../../model/country-specific';
+import { Criteria } from '../../../model/criteria';
 import { LIVELIHOOD } from '../../../model/livelihood';
 import { Location } from '../../../model/location';
 import { Project } from '../../../model/project';
-import { Criteria } from '../../../model/criteria';
-import { CountrySpecific } from '../../../model/country-specific';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
-import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
-import { DatePipe } from '@angular/common';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
-import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 
 @Component({
     selector: 'app-update-beneficiary',
@@ -89,6 +88,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
 
     // Edit watcher
     private uneditedSnapshot: any;
+
+    @ViewChild('stepper') stepper: MatStepper;
 
     constructor(
         public route: ActivatedRoute,
@@ -679,7 +680,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
             } else if (hh.livelihood && !this.elementExists(hh.livelihood, this.livelihoodsList)) {
                 message = 'Please select an existing livelihood from the list';
             } else {
-                if (step <= 1) { stepper.next(); }
+                if (step <= 1) { this.goToNextStep(); }
                 if (final) { validSteps++; }
             }
         }
@@ -701,7 +702,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
             } else if (head.birth_date && head.birth_date.getTime() > (new Date()).getTime()) {
                 message = 'Please select a valid birth date';
             } else {
-                if (step <= 2) { stepper.next(); }
+                if (step <= 2) { this.goToNextStep(); }
                 if (final) { validSteps++; }
             }
         }
@@ -734,7 +735,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
                 }
             }
             if (counter === members.length) {
-                if (step <= 3) { stepper.next(); }
+                if (step <= 3) { this.goToNextStep(); }
                 if (final) { validSteps++; }
             }
         }
@@ -746,6 +747,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DoCheck, Desactivatio
         }
 
         return (false);
+    }
+
+    goToNextStep(): void {
+        this.stepper.selected.completed = true;
+        this.stepper.next();
     }
 
     /**

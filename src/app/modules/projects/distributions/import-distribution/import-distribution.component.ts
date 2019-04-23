@@ -7,8 +7,7 @@ import { BeneficiariesService } from '../../../../core/api/beneficiaries.service
 import { DistributionService } from '../../../../core/api/distribution.service';
 import { HouseholdsService } from '../../../../core/api/households.service';
 import { ImportService } from '../../../../core/utils/distribution-import.service';
-import { Beneficiaries } from '../../../../model/beneficiary';
-import { ImportedBeneficiary } from '../../../../model/imported-beneficiary';
+import { ImportedBeneficiary } from '../../../../model/imported-beneficiary.new';
 import { UserService } from 'src/app/core/api/user.service';
 import { Distribution } from 'src/app/model/distribution.new';
 
@@ -34,17 +33,15 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     comparing: boolean;
 
     // indicators
-    referedClassToken = Distribution;
-    beneficiaryEntity = Beneficiaries;
     importedBeneficiaryEntity = ImportedBeneficiary;
     public loadFile = false;
     public loadUpdate = false;
 
     // data
-    addingData: MatTableDataSource<any>;
-    removingData: MatTableDataSource<any>;
-    createData: MatTableDataSource<any>;
-    updateData: MatTableDataSource<any>;
+    addingData: MatTableDataSource<ImportedBeneficiary>;
+    removingData: MatTableDataSource<ImportedBeneficiary>;
+    createData: MatTableDataSource<ImportedBeneficiary>;
+    updateData: MatTableDataSource<ImportedBeneficiary>;
 
     // data info
     numberAdded = 0;
@@ -130,10 +127,10 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                         this.loadFile = false;
                         this.importedData = result;
 
-                        const createList = ImportedBeneficiary.formatArray(this.importedData.created);
-                        const addList = ImportedBeneficiary.formatArray(this.importedData.added);
-                        const removeList = ImportedBeneficiary.formatArray(this.importedData.deleted);
-                        const updateList = ImportedBeneficiary.formatArray(this.importedData.updated);
+                        const createList = this.importedData.created.map((beneficiary: any) => ImportedBeneficiary.apiToModel(beneficiary));
+                        const addList = this.importedData.added.map((beneficiary: any) => ImportedBeneficiary.apiToModel(beneficiary));
+                        const removeList = this.importedData.deleted.map((beneficiary: any) => ImportedBeneficiary.apiToModel(beneficiary));
+                        const updateList = this.importedData.updated.map((beneficiary: any) => ImportedBeneficiary.apiToModel(beneficiary));
 
                         this.numberCreated = createList ? createList.length : 0;
                         this.numberAdded = addList ? addList.length : 0;

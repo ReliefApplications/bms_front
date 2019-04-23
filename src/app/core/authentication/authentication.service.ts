@@ -49,7 +49,6 @@ export class AuthenticationService {
                 const getSalt = success as SaltInterface;
                 user.set('password', this._wsseService.saltPassword(getSalt.salt, user.get<string>('password')));
                 this.logUser(user.modelToApi()).subscribe((userFromApi: object) => {
-                    console.log(userFromApi, User.apiToModel(userFromApi));
                     if (userFromApi) {
                         this.user = User.apiToModel(userFromApi);
                         this.user.set('loggedIn', true);
@@ -82,7 +81,6 @@ export class AuthenticationService {
     }
 
     setUser(user: User) {
-        console.log(user, user.modelToApi());
         this._cacheService.set(AsyncacheService.USER, user.modelToApi());
     }
 

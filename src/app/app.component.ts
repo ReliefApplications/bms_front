@@ -1,11 +1,11 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, DoCheck } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { GlobalText } from '../texts/global';
 import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
 import { UpdateService } from './core/api/update.service';
 import { AuthenticationService } from './core/authentication/authentication.service';
-import { User } from './model/user.new';
+import { User, Role } from './model/user.new';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { User } from './model/user.new';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, DoCheck {
 
     user: User = new User();
 
@@ -184,9 +184,8 @@ export class AppComponent implements OnInit {
      * @param user
      */
     checkPermission(user: User) {
-        console.log(user);
         if (user && user.get('rights')) {
-            const rights = user.get('rights').get<string>('name');
+            const rights = user.get<Role>('rights').get<string>('id');
             if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
                 this.hasRights = true;
             } else {

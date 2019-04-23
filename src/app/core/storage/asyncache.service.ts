@@ -163,7 +163,6 @@ export class AsyncacheService implements OnInit {
                     if (!cachedUser) {
                         return new User();
                     } else {
-                        console.log(cachedUser);
                         return User.apiToModel(cachedUser);
                     }
                 }

@@ -12,7 +12,7 @@ export class ModalLanguageComponent extends ModalComponent implements OnInit {
     public languages = GlobalText.languages;
     public language = GlobalText.language;
     public isCheckedDefault = false;
-    public actualUser;
+    public actualUser: User;
     public default = false;
     public isArabic = false;
 
@@ -25,7 +25,7 @@ export class ModalLanguageComponent extends ModalComponent implements OnInit {
     }
 
     choseLanguage() {
-        this.language !== this.actualUser.language ? this.default = false : this.default = true;
+        this.language !== this.actualUser.get<string>('language') ? this.default = false : this.default = true;
     }
 
     saveDefault() {
@@ -36,7 +36,7 @@ export class ModalLanguageComponent extends ModalComponent implements OnInit {
         GlobalText.changeLanguage(this.language);
         this.isArabic = this.language === 'ar' ? true : false;
         if (this.isCheckedDefault) {
-            this.userService.setDefaultLanguage(this.actualUser.id, this.language).subscribe(response => {
+            this.userService.setDefaultLanguage(this.actualUser.get('id'), this.language).subscribe(response => {
                 this.snackbar.success('Default Language Saved');
             });
         }

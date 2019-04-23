@@ -1,5 +1,5 @@
 <mat-sidenav-container class="app-component" disableClose="!smallScreenMode" [hasBackdrop]="false">
-    <mat-sidenav #sidenav class="page-menu-wrapper" [ngClass]="{show: isShowing}" [opened]="!smallScreenMode && user.loggedIn"
+    <mat-sidenav #sidenav class="page-menu-wrapper" [ngClass]="{show: isShowing}" [opened]="!smallScreenMode && user.get('loggedIn')"
         (mouseenter)="change()" (mouseleave)="change()" mode="over" [style.marginTop.px]="smallScreenMode ? 56 : 0">
         <mat-nav-list>
             <mat-list-item routerLink="/" (click)="setCurrentRoute('')" *ngIf="!smallScreenMode">
@@ -34,11 +34,11 @@
         </mat-nav-list>
     </mat-sidenav>
 
-    <mat-sidenav-content class="page-content-wrapper" [ngClass]="{margin: !smallScreenMode && user.loggedIn}">
-        <mat-toolbar *ngIf="!smallScreenMode && user.loggedIn">
+    <mat-sidenav-content class="page-content-wrapper" [ngClass]="{margin: !smallScreenMode && user.get('loggedIn')}">
+        <mat-toolbar *ngIf="!smallScreenMode && user.get('loggedIn')">
             <app-header (emitLogOut)="onLogOut($event)" [user]="user"></app-header>
         </mat-toolbar>
-        <mat-toolbar *ngIf="smallScreenMode && user.loggedIn" class="mobile">
+        <mat-toolbar *ngIf="smallScreenMode && user.get('loggedIn')" class="mobile">
             <app-header-mobile (emitLogOut)="onLogOut($event)" (emitCurrentRoute)="setCurrentRoute($event)"
                 (emitToggle)="sidenav.toggle()" [user]="user"></app-header-mobile>
         </mat-toolbar>

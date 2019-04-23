@@ -4,7 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { User } from 'src/app/model/user.new';
+import { User, Country } from 'src/app/model/user.new';
 import { GlobalText } from '../../../../texts/global';
 import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
 
@@ -82,16 +82,16 @@ export class HeaderComponent implements OnInit, DoCheck {
     }
 
     getCorrectCountries() {
-        const countries = this.user.getAllCountries();
+        const countries = this.user.getOptions('countries');
 
         this.countries = [];
-        if (this.user.get('rights').get<string>('name') === 'ROLE_ADMIN') {
+        if (this.user.get('rights').get<string>('id') === 'ROLE_ADMIN') {
             countries.forEach((element) => {
-                this.countries.push(element.id);
+                this.countries.push(element.get('id'));
             });
         } else {
-            this.user.get<Array<string>>('country').forEach((element) => {
-                this.countries.push(element);
+            this.user.get<Country[]>('country').forEach((element) => {
+                this.countries.push(element.get('id'));
             });
         }
 

@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
         this._cacheService.getUser().subscribe(result => {
-            if (result.loggedIn) {
+            if (result.get('loggedIn')) {
                 this.serviceMap.createMap('map');
                 this.serviceMap.addTileLayer();
 

@@ -77,7 +77,6 @@ export class LoginComponent implements OnInit {
     onSubmit = () => {
         this.user.set('email', this.form.controls['username'].value);
         this.user.set('password', this.form.controls['password'].value);
-        console.log(this.user.fields);
         this.loginAction();
     }
 

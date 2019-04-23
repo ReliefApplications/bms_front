@@ -143,23 +143,24 @@ export class User extends CustomModel {
                 return Project.apiToModel(project.project);
             }) :
             null);
-        newUser.set('password', '');
+        newUser.set('password', userFromApi.password);
         newUser.set('email', userFromApi.email);
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);
+        newUser.set('loggedIn', userFromApi.loggedIn);
         return newUser;
     }
 
     public modelToApi(): object {
-        console.log(this.fields);
         const userForApi = {
             id: this.get('id'),
             email: this.get('email'),
             username: this.get('email'),
             password: this.get('password'),
             language: this.get('language'),
-            rights: (this.get('rights') ? this.get('rights').get('id') : undefined),
+            roles: (this.get('rights') ? [this.get('rights').get('id')] : null),
             vendor: null,
+            loggedIn: this.get('loggedIn')
         };
 
         if (!this.get('rights')) {
@@ -181,17 +182,17 @@ export class User extends CustomModel {
         }
         return userForApi;
     }
-    // Todo: remove this (temporary fix)
-    public getAllCountries() {
-        return [
-            {
-                'id': 'KHM',
-                'name': 'Cambodia',
-            },
-            {
-                'id': 'SYR',
-                'name': 'Syria',
-            }
-        ];
-    }
+    // // Todo: remove this (temporary fix)
+    // public getAllCountries() {
+    //     return [
+    //         {
+    //             'id': 'KHM',
+    //             'name': 'Cambodia',
+    //         },
+    //         {
+    //             'id': 'SYR',
+    //             'name': 'Syria',
+    //         }
+    //     ];
+    // }
 }

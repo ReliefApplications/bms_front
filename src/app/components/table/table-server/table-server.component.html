@@ -6,17 +6,17 @@
         </h3>
     </div>
 
+    <div class="container-header" *ngIf="tableServerData">
+        <mat-form-field>
+            <input matInput (keyup)="applySpecificFilter($event.target.value, 'any')" placeholder="{{table.table_filter}}">
+        </mat-form-field>
+    </div>
+
     <div class="spinner-container" *ngIf="tableServerData.loading$ | async; else dataInTable">
         <mat-spinner></mat-spinner>
     </div>
 
     <ng-template #dataInTable>
-        <div class="container-header">
-            <mat-form-field>
-                <input matInput (keyup)="applySpecificFilter($event.target.value, 'any')" placeholder="{{table.table_filter}}">
-            </mat-form-field>
-        </div>
-        
         <div *ngIf="filtersForm && advancedResearch">
             <form [formGroup]="filtersForm" class="filters">
                 <ng-container *ngFor="let fieldName of filterFields">

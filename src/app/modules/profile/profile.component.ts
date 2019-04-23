@@ -1,12 +1,12 @@
-import { Component, OnInit, DoCheck } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { Component, DoCheck, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { GlobalText } from '../../../texts/global';
 import { UserService } from '../../core/api/user.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { User, ErrorInterface } from '../../model/user';
-import { GlobalText } from '../../../texts/global';
 import { WsseService } from '../../core/authentication/wsse.service';
-import { SaltInterface } from '../../model/salt';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { User } from '../../model/user.new';
+import { ErrorInterface } from './../../model/user.new';
 
 @Component({
     selector: 'app-profile',
@@ -50,7 +50,7 @@ export class ProfileComponent implements OnInit, DoCheck {
                 this.actualUser = result;
                 if (this.actualUser) {
                     this.profileForm.patchValue({
-                        email: this.actualUser.username
+                        email: this.actualUser.get<string>('username')
                     });
                 } else {
                 }

@@ -1,13 +1,12 @@
-import { GlobalText } from '../../texts/global';
-import { NumberModelField } from './CustomModel/number-model-field';
-import { TextModelField } from './CustomModel/text-model-field';
-import { BooleanModelField } from './CustomModel/boolan-model-field';
-import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
-import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
-import { CustomModel } from './CustomModel/custom-model';
-import { Project } from './project.new';
-import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { FormGroup } from '@angular/forms';
+import { GlobalText } from '../../texts/global';
+import { BooleanModelField } from './CustomModel/boolan-model-field';
+import { CustomModel } from './CustomModel/custom-model';
+import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
+import { NumberModelField } from './CustomModel/number-model-field';
+import { SingleSelectModelField } from './CustomModel/single-select-model-field';
+import { TextModelField } from './CustomModel/text-model-field';
+import { Project } from './project.new';
 
 export class ErrorInterface {
     message: string;
@@ -67,9 +66,6 @@ export class User extends CustomModel {
             isDisplayedInModal: true,
             isEditable: true,
             isSettable: true,
-        }),
-        saltedPassword: new TextModelField({
-
         }),
         rights: new SingleSelectModelField({
             title: GlobalText.TEXTS.rights,
@@ -145,7 +141,6 @@ export class User extends CustomModel {
                 return Project.apiToModel(project.project);
             }) :
             null);
-        newUser.set('saltedPassword', userFromApi.password);
         newUser.set('password', '');
         newUser.set('email', userFromApi.email);
         newUser.set('username', userFromApi.username);
@@ -153,16 +148,21 @@ export class User extends CustomModel {
         return newUser;
     }
 
-    public modelToApi(): Object {
+    public modelToApi(): object {
+        console.log(this.fields);
         const userForApi = {
             id: this.get('id'),
             email: this.get('email'),
             username: this.get('email'),
             password: this.get('password'),
             language: this.get('language'),
-            rights: this.get('rights').get('id'),
+            rights: (this.get('rights') ? this.get('rights').get('id') : undefined),
             vendor: null,
         };
+
+        if (!this.get('rights')) {
+            return userForApi;
+        }
 
         if (this.get('rights').get<string>('id') === 'ROLE_REGIONAL_MANAGER' ||
         this.get('rights').get<string>('id') === 'ROLE_REGIONAL_MANROLE_COUNTRY_MANAGERAGER' ||
@@ -178,5 +178,18 @@ export class User extends CustomModel {
                 null;
         }
         return userForApi;
+    }
+    // Todo: remove this (temporary fix)
+    public getAllCountries() {
+        return [
+            {
+                'id': 'KHM',
+                'name': 'Cambodia',
+            },
+            {
+                'id': 'SYR',
+                'name': 'Syria',
+            }
+        ];
     }
 }

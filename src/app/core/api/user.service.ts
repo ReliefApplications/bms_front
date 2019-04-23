@@ -83,7 +83,7 @@ export class UserService extends CustomModelService {
             .pipe(
                 tap(_ => {
                     this.authenticationService.getUser().subscribe(user => {
-                        user.language = body;
+                        user.set('language', body);
                         this.authenticationService.setUser(user);
                     });
                 })

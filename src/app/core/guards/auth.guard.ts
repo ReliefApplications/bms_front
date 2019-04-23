@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { AsyncacheService } from '../storage/asyncache.service';
-import { Observable } from 'rxjs';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { AsyncacheService } from '../storage/asyncache.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +17,12 @@ export class AuthGuard implements CanActivate {
         return this.cache.getUser()
             .pipe(
                 map(user => {
-                    if (!user.id) {
+                    console.log(user, user.get<string>('id'));
+                    if (!user.get<string>('id')) {
                         this.router.navigate(['/login']);
                         return false;
                     }
-
+                    console.log('passed guard');
                     return true;
                 })
             );

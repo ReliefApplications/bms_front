@@ -36,11 +36,11 @@
 
     <mat-sidenav-content class="page-content-wrapper" [ngClass]="{margin: !smallScreenMode && user.loggedIn}">
         <mat-toolbar *ngIf="!smallScreenMode && user.loggedIn">
-            <app-header (emitLogOut)="onLogOut($event)" [userData]="user"></app-header>
+            <app-header (emitLogOut)="onLogOut($event)" [user]="user"></app-header>
         </mat-toolbar>
         <mat-toolbar *ngIf="smallScreenMode && user.loggedIn" class="mobile">
             <app-header-mobile (emitLogOut)="onLogOut($event)" (emitCurrentRoute)="setCurrentRoute($event)"
-                (emitToggle)="sidenav.toggle()" [userData]="user"></app-header-mobile>
+                (emitToggle)="sidenav.toggle()" [user]="user"></app-header-mobile>
         </mat-toolbar>
         <router-outlet (activate)="onActivate($event)"></router-outlet>
     </mat-sidenav-content>

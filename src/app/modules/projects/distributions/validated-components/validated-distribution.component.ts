@@ -1,19 +1,19 @@
-import { Component, ViewChild, OnInit, Input, Output, EventEmitter, HostListener, DoCheck } from '@angular/core';
-import { GlobalText } from 'src/texts/global';
-import { MatDialog, MatTableDataSource } from '@angular/material';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { DistributionService } from 'src/app/core/api/distribution.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { User } from 'src/app/model/user';
-import { Distribution } from 'src/app/model/distribution.new';
-import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.new';
-import { Commodity } from 'src/app/model/commodity.new';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
-import { ModalService } from 'src/app/core/utils/modal.service';
 import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
+import { DistributionService } from 'src/app/core/api/distribution.service';
 import { ExportService } from 'src/app/core/api/export.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { ModalService } from 'src/app/core/utils/modal.service';
+import { Commodity } from 'src/app/model/commodity.new';
+import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.new';
+import { Distribution } from 'src/app/model/distribution.new';
+import { User } from 'src/app/model/user.new';
+import { GlobalText } from 'src/texts/global';
 
 @Component({
     template: './validated-distribution.component.html',

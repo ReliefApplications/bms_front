@@ -1,11 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
-import { MatCheckbox, MatStepper } from '@angular/material';
+import { MatCheckbox, MatDialog, MatStepper } from '@angular/material';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { Households } from 'src/app/model/households';
 import { GlobalText } from 'src/texts/global';
 import { ImportService } from '../../../core/utils/beneficiaries-import.service';
+import { ModalLeaveComponent } from './../../../components/modals/modal-leave/modal-leave.component';
 import { ImportedDataService } from './../../../core/utils/imported-data.service';
 
 
@@ -15,7 +17,9 @@ enum Step {
     More = 3,
     Less = 4,
     Duplicates = 5,
-    Done = 6,
+    Update = 6,
+    Completed = 7,
+
 }
 
 enum State {
@@ -67,6 +71,7 @@ export class DataValidationComponent implements OnInit {
         private router: Router,
         private snackbar: SnackbarService,
         private importedDataService: ImportedDataService,
+        public dialog: MatDialog,
     ) {}
 
     public ngOnInit() {
@@ -107,8 +112,11 @@ export class DataValidationComponent implements OnInit {
     public finishImport() {
         this.loading = true;
         this.importService.sendStepUserData(this.generateResponse())
-            .subscribe((response: any) => {
-                this.loading = false;
+        .subscribe((response: any) => {
+            this.loading = false;
+                // No further interaction with the backend after this
+                this.currentStep = Step.Completed;
+
                 this.importedDataService.data = Households.formatArray(response);
 
                 this.router.navigate(['/beneficiaries/imported']);
@@ -376,4 +384,19 @@ export class DataValidationComponent implements OnInit {
             return this.getValueFromIndexes(householdIndex, beneficiaryIndex);
         });
     }
+
+//
+// ─── LEAVE CONFIRMATION ─────────────────────────────────────────────────────────
+//
+
+    @HostListener('window:beforeunload')
+    canDeactivate(): Observable<boolean> | boolean {
+        if (this.currentStep === Step.Completed) {
+            return true;
+        }
+        const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+
+        return dialogRef.afterClosed();
+    }
+
 }

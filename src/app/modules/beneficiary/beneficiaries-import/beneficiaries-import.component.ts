@@ -444,6 +444,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
 
         this._householdsService.testFileTemplate(data, body)
             .then(() => {
+                this.dialog.closeAll();
             }, (err) => {
                 this.dialog.closeAll();
                 this.csv2 = null;

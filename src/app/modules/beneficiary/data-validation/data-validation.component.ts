@@ -111,10 +111,12 @@ export class DataValidationComponent implements OnInit {
 
     public finishImport() {
         this.loading = true;
-        this.currentStep = Step.Completed;
         this.importService.sendStepUserData(this.generateResponse())
-            .subscribe((response: any) => {
-                this.loading = false;
+        .subscribe((response: any) => {
+            this.loading = false;
+                // No further interaction with the backend after this
+                this.currentStep = Step.Completed;
+
                 this.importedDataService.data = Households.formatArray(response);
 
                 this.router.navigate(['/beneficiaries/imported']);

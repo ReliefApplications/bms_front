@@ -1,22 +1,21 @@
-import { Component, OnInit, DoCheck, Input, Inject } from '@angular/core';
-import { MatDialogRef, MatDialog, MAT_DIALOG_DATA, ErrorStateMatcher } from '@angular/material';
+import { Component, DoCheck, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { BookletService } from 'src/app/core/api/booklet.service';
+import { DistributionService } from 'src/app/core/api/distribution.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
-
-import { DonorService } from '../../core/api/donor.service';
-import { ProjectService } from '../../core/api/project.service';
-import { SectorService } from '../../core/api/sector.service';
-
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { GlobalText } from '../../../texts/global';
 import { CriteriaService } from '../../core/api/criteria.service';
+import { DonorService } from '../../core/api/donor.service';
 import { ModalitiesService } from '../../core/api/modalities.service';
-import { isArray } from 'util';
-import { User } from '../../model/user';
-import { UserService } from '../../core/api/user.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { ProjectService } from '../../core/api/project.service';
+import { SectorService } from '../../core/api/sector.service';
 import { UploadService } from '../../core/api/upload.service';
-import { DistributionService } from 'src/app/core/api/distribution.service';
-import { BookletService } from 'src/app/core/api/booklet.service';
+import { UserService } from '../../core/api/user.service';
+import { User } from '../../model/user.new';
+
+
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {

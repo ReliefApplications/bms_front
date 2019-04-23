@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { from } from 'rxjs';
@@ -7,7 +7,8 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { environment } from 'src/environments/environment';
 import { GlobalText } from '../../../texts/global';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { ErrorInterface, User } from '../../model/user';
+import { ErrorInterface, User } from '../../model/user.new';
+import { Country } from './../../model/user.new';
 
 
 
@@ -56,14 +57,14 @@ export class LoginComponent implements OnInit {
      */
     blankUser() {
         this.user = new User();
-        this.user.username = '';
-        this.user.password = '';
+        this.user.set('username', '');
+        this.user.set('password', '');
     }
 
     makeForm = () => {
         this.form = new FormGroup( {
-            username  : new FormControl(this.user.username, [Validators.required]),
-            password : new FormControl(this.user.password, [Validators.required]),
+            username  : new FormControl(this.user.get<string>('username'), [Validators.required]),
+            password : new FormControl(this.user.get<string>('password'), [Validators.required]),
         });
 
         if (this.prod()) {
@@ -74,8 +75,9 @@ export class LoginComponent implements OnInit {
     }
 
     onSubmit = () => {
-        this.user.username = this.form.controls['username'].value;
-        this.user.password = this.form.controls['password'].value;
+        this.user.set('email', this.form.controls['username'].value);
+        this.user.set('password', this.form.controls['password'].value);
+        console.log(this.user.fields);
         this.loginAction();
     }
 
@@ -100,14 +102,16 @@ export class LoginComponent implements OnInit {
         const subscription = from(this._authService.login(this.user));
         subscription.subscribe(
             (user: User) => {
-                if (user.country && user.country.length === 0 && user.rights === 'ROLE_ADMIN') {
+                if (user.get('countries') &&
+                    user.get<Array<Country>>('countries').length === 0 &&
+                    user.get('rights').get<string>('name') === 'Administrator') {
                     this.initCountry('KHM');
                 } else {
-                    this.initCountry(user.country[0]);
+                    this.initCountry(user.get<Array<Country>>('countries')[0].get<string>('name'));
                 }
                 this.router.navigate(['/']);
-                if (user.language) {
-                    GlobalText.changeLanguage(user.language);
+                if (user.get<string>('language')) {
+                    GlobalText.changeLanguage(user.get<string>('language'));
                 } else {
                     GlobalText.changeLanguage();
                 }

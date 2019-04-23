@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatCheckboxModule } from '@angular/material';
-import { ModalComponent } from '../modal.component';
 import { GlobalText } from '../../../../texts/global';
+import { ModalComponent } from '../modal.component';
+import { User } from './../../../model/user.new';
 
 @Component({
     selector: 'app-modal-language',
@@ -17,9 +17,9 @@ export class ModalLanguageComponent extends ModalComponent implements OnInit {
     public isArabic = false;
 
     ngOnInit() {
-        this._cacheService.getUser().subscribe(response => {
-            this.actualUser = response;
-            this.default = response.language === this.language ? true : false;
+        this._cacheService.getUser().subscribe((user: User) => {
+            this.actualUser = user;
+            this.default = user.get<string>('language') === this.language ? true : false;
         });
         this.isArabic = this.language === 'ar' ? true : false;
     }

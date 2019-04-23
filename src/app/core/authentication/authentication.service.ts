@@ -1,15 +1,13 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { WsseService } from './wsse.service';
-
-import { URL_BMS_API } from '../../../environments/environment';
-import { User, ErrorInterface } from '../../model/user';
-import { SaltInterface } from '../../model/salt';
-import { AsyncacheService } from '../storage/asyncache.service';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { URL_BMS_API } from '../../../environments/environment';
+import { SaltInterface } from '../../model/salt';
+import { ErrorInterface, User } from '../../model/user.new';
+import { AsyncacheService } from '../storage/asyncache.service';
+import { WsseService } from './wsse.service';
 
 @Injectable({
     providedIn: 'root'
@@ -26,12 +24,12 @@ export class AuthenticationService {
     ) { }
 
     // Request to the API to get the salt corresponding to a username
-    requestSalt(username) {
+    requestSalt(username: string) {
       this._wsseService.setUsername(username);
       return this.http.get(URL_BMS_API + '/salt/' + username);
     }
 
-    initializeUser(username) {
+    initializeUser(username: string) {
       this._wsseService.setUsername(username);
       return this.http.get<string>(URL_BMS_API + '/initialize/' + username);
     }
@@ -47,24 +45,23 @@ export class AuthenticationService {
 
     login(user: User) {
         return new Promise<User | ErrorInterface | null>((resolve, reject) => {
-            this.requestSalt(user.username).subscribe(success => {
+            this.requestSalt(user.get<string>('email')).subscribe(success => {
                 const getSalt = success as SaltInterface;
-                user.salted_password = this._wsseService.saltPassword(getSalt.salt, user.password);
-                delete user.password;
-                this.logUser(user).subscribe(data => {
-                    if (data) {
-                        this.user = data as User;
-                        this.user.loggedIn = true;
-                        this.user = User.formatFromApi(this.user);
+                user.set('password', this._wsseService.saltPassword(getSalt.salt, user.get<string>('password')));
+                this.logUser(user.modelToApi()).subscribe((userFromApi: object) => {
+                    console.log(userFromApi, User.apiToModel(userFromApi));
+                    if (userFromApi) {
+                        this.user = User.apiToModel(userFromApi);
+                        this.user.set('loggedIn', true);
                         this.setUser(this.user);
                         resolve(this.user);
                     } else {
                         reject({ message: 'Bad credentials' });
                     }
-                }, error => {
+                }, _error => {
                     reject({ message: 'Bad credentials' });
                 });
-            }, error => {
+            }, _error => {
                 reject({ message: 'User not found' });
             });
         });
@@ -72,7 +69,7 @@ export class AuthenticationService {
 
     logout(): Observable<User> {
         this.resetUser();
-        this.user.loggedIn = false;
+        this.user.set('loggedIn', false);
         return this._cacheService.clear(false, [AsyncacheService.COUNTRY]).pipe(
             map(
                 () => this.user
@@ -85,8 +82,8 @@ export class AuthenticationService {
     }
 
     setUser(user: User) {
-        this.user = user;
-        this._cacheService.set(AsyncacheService.USER, user);
+        console.log(user, user.modelToApi());
+        this._cacheService.set(AsyncacheService.USER, user.modelToApi());
     }
 
     resetUser() {
@@ -94,7 +91,7 @@ export class AuthenticationService {
         this._cacheService.remove(AsyncacheService.USER);
     }
 
-    public updateUser(body: any, url) {
+    public updateUser(body: any, url: string) {
         return this.requestSalt(body.username).pipe(
             map((salt: string) => {
                 body = this.createSaltedPassword(body, salt);

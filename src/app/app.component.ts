@@ -5,7 +5,7 @@ import { GlobalText } from '../texts/global';
 import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
 import { UpdateService } from './core/api/update.service';
 import { AuthenticationService } from './core/authentication/authentication.service';
-import { User } from './model/user';
+import { User } from './model/user.new';
 
 
 @Component({
@@ -41,15 +41,15 @@ export class AppComponent implements OnInit {
         this.checkSize();
         this._authenticationService.getUser()
             .subscribe(user => {
-                GlobalText.changeLanguage(user.language);
+                GlobalText.changeLanguage(user.get<string>('language'));
             });
     }
 
-    // ngDoCheck() {
-    //     if (this.menu !== GlobalText.TEXTS) {
-    //         this.menu = GlobalText.TEXTS;
-    //     }
-    // }
+    ngDoCheck() {
+        if (this.menu !== GlobalText.TEXTS) {
+            this.menu = GlobalText.TEXTS;
+        }
+    }
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
@@ -169,11 +169,11 @@ export class AppComponent implements OnInit {
     /**
      * Check if user is logged in and redirect if necessary.
      */
-    checkLoggedUser(cachedUser) {
-        if (!cachedUser.loggedIn && this.currentComponent !== 'login') {
+    checkLoggedUser(user: User) {
+        if (!user.get('loggedIn') && this.currentComponent !== 'login') {
             this.router.navigate(['/login']); // Sometimes this one is making the url throttle
             GlobalText.resetMenuMargin();
-        } else if (cachedUser.loggedIn && this.currentComponent === 'login') {
+        } else if (user.get('loggedIn') && this.currentComponent === 'login') {
             this.router.navigate(['/']);
         }
 
@@ -181,11 +181,12 @@ export class AppComponent implements OnInit {
 
     /**
      *  Check again Permissions on each page navigation.
-     * @param cachedUser
+     * @param user
      */
-    checkPermission(cachedUser) {
-        if (cachedUser && cachedUser.rights) {
-            const rights = cachedUser.rights;
+    checkPermission(user: User) {
+        console.log(user);
+        if (user && user.get('rights')) {
+            const rights = user.get('rights').get<string>('name');
             if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
                 this.hasRights = true;
             } else {

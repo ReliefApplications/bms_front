@@ -1,20 +1,22 @@
+import { Beneficiaries } from './beneficiary';
+import { Booklet } from './booklet';
+import { Commodity } from './commodity';
+import { CountrySpecific } from './country-specific';
+import { Criteria } from './criteria';
 import { DistributionData } from './distribution-data';
 import { Donor } from './donor';
-import { Project } from './project';
-import { User } from './user';
-import { CountrySpecific } from './country-specific';
-import { Households } from './households';
-import { Criteria } from './criteria';
-import { Commodity } from './commodity';
-import { Beneficiaries } from './beneficiary';
-import { ImportedBeneficiary } from './imported-beneficiary';
-import { TransactionBeneficiary } from './transaction-beneficiary';
 import { FinancialProvider } from './financial-provider';
-import { Booklet } from './booklet';
+import { Households } from './households';
+import { ImportedBeneficiary } from './imported-beneficiary';
 import { Product } from './product';
-import { Vendors } from './vendors';
+import { Project } from './project';
+import { TransactionBeneficiary } from './transaction-beneficiary';
 import { TransactionGeneralRelief } from './transaction-general-relief';
 import { TransactionVoucher } from './transaction-voucher';
+import { Vendors } from './vendors';
+
+
+
 
 export class FieldMapper {
 

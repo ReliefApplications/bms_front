@@ -7,7 +7,6 @@ import { Location } from './location.new';
 import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
 import { VulnerabilityCriteria } from './vulnerability-criteria.new';
 import { Beneficiary } from './beneficiary.new';
-import { CountrySpecific } from './country-specific.new';
 import { CustomModel } from './CustomModel/custom-model';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { URL_BMS_API } from '../../../environments/environment';
-import { FinancialProvider } from './../../model/financial-provider';
+import { FinancialProvider } from './../../model/financial-provider.new';
 import { CustomModelService } from './custom-model.service';
 import { HttpService } from './http.service';
 

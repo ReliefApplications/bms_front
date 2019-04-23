@@ -1,4 +1,3 @@
-import { SectorMapper } from './sector-mapper';
 import { GlobalText } from '../../texts/global';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { NumberModelField } from './CustomModel/number-model-field';

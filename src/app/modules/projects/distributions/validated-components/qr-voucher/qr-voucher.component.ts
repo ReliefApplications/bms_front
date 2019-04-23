@@ -4,7 +4,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { TransactionQRVoucher } from 'src/app/model/transaction-qr-voucher.new';
 import { Beneficiary } from 'src/app/model/beneficiary.new';
 import { MatTableDataSource } from '@angular/material';
-import { Commodity } from 'src/app/model/commodity.new';
 import { BookletStatus } from 'src/app/model/booklet.new';
 import { Booklet } from 'src/app/model/booklet.new';
 import { ModalAssignComponent } from 'src/app/components/modals/modal-assign/modal-assign.component';

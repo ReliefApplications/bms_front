@@ -1,9 +1,7 @@
 import { Component, OnInit, DoCheck, ViewChild, Input, EventEmitter, Output } from '@angular/core';
 import { ModalComponent } from '../modal.component';
-import { DistributionData } from 'src/app/model/distribution-data';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Project } from 'src/app/model/project.new';
-import { Beneficiaries } from 'src/app/model/beneficiary';
 import { GlobalText } from '../../../../texts/global';
 import { finalize } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';

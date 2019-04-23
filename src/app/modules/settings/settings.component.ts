@@ -24,7 +24,6 @@ import { ProjectService } from '../../core/api/project.service';
 import { SettingsService } from '../../core/api/settings.service';
 import { UserService } from '../../core/api/user.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { Mapper } from '../../core/utils/mapper.service';
 import { CountrySpecific } from '../../model/country-specific.new';
 import { Donor } from '../../model/donor.new';
 import { Project } from '../../model/project.new';
@@ -77,7 +76,6 @@ export class SettingsComponent implements OnInit {
 
     constructor(
         public dialog: MatDialog,
-        public mapperService: Mapper,
         public authenticationService: AuthenticationService,
         public distributionService: DistributionService,
         public donorService: DonorService,

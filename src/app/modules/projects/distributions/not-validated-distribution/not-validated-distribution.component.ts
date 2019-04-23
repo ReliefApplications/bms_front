@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
 import { Distribution } from 'src/app/model/distribution.new';
 import { Beneficiary } from 'src/app/model/beneficiary.new';
-import { DistributionData } from 'src/app/model/distribution-data';
-import { ImportedBeneficiary } from 'src/app/model/imported-beneficiary';
 import { MatTableDataSource, MatDialog, MatStepper } from '@angular/material';
 import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.new';
 import { GlobalText } from 'src/texts/global';
@@ -14,7 +12,6 @@ import { ActivatedRoute } from '@angular/router';
 import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { Mapper } from 'src/app/core/utils/mapper.service';
 import { NetworkService } from 'src/app/core/api/network.service';
 import { Observable } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
@@ -50,8 +47,6 @@ export class NotValidatedDistributionComponent implements OnInit {
 
   // Entities passed to table components.
   beneficiaryEntity = Beneficiary;
-  distributionEntity = DistributionData;
-  importedBeneficiaryEntity = ImportedBeneficiary;
   entity: any;
   checkedLines: any = [];
   distributed = false;
@@ -89,7 +84,6 @@ export class NotValidatedDistributionComponent implements OnInit {
       // private formBuilder: FormBuilder,
       private beneficiariesService: BeneficiariesService,
       public snackbar: SnackbarService,
-      public mapperService: Mapper,
       private dialog: MatDialog,
       private networkService: NetworkService,
       protected modalService: ModalService,

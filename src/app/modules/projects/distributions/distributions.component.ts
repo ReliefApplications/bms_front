@@ -5,7 +5,6 @@ import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Mapper } from 'src/app/core/utils/mapper.service';
 import { Distribution } from 'src/app/model/distribution.new';
 import { GlobalText } from 'src/texts/global';
 
@@ -37,7 +36,6 @@ export class DistributionsComponent implements OnInit {
         private route: ActivatedRoute,
         private beneficiariesService: BeneficiariesService,
         public snackbar: SnackbarService,
-        public mapperService: Mapper,
     ) {
     }
 

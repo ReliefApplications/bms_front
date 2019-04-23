@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Beneficiary } from 'src/app/model/beneficiary.new';
 import { FormGroup } from '@angular/forms';
 import { GlobalText } from 'src/texts/global';
-import { Criteria } from 'src/app/model/criteria.new';
 
 @Component({
   selector: 'app-beneficiary-form',

@@ -10,14 +10,11 @@ import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
-import { Beneficiaries } from 'src/app/model/beneficiary';
 import { GlobalText } from '../../../texts/global';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ExportService } from '../../core/api/export.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
-import { Mapper } from '../../core/utils/mapper.service';
-import { DistributionData } from '../../model/distribution-data';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { CustomModelField } from 'src/app/model/CustomModel/custom-model-field';
 import { DataSource } from '@angular/cdk/collections';
@@ -116,7 +113,6 @@ export class TableComponent implements OnInit,  AfterViewInit {
     public user_action = '';
 
     constructor(
-        public mapperService: Mapper,
         public dialog: MatDialog,
         public _cacheService: AsyncacheService,
         public snackbar: SnackbarService,

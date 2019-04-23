@@ -13,7 +13,6 @@ import { GlobalText } from '../../../../texts/global';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { LocationService } from '../../../core/api/location.service';
-import { Mapper } from '../../../core/utils/mapper.service';
 import { Commodity } from '../../../model/commodity.new';
 import { Location } from '../../../model/location.new';
 import { Criteria } from '../../../model/criteria.new';
@@ -65,7 +64,6 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     @ViewChild('commodityTable') commodityTable: TableComponent;
 
     constructor(
-        public mapper: Mapper,
         public dialog: MatDialog,
         private router: Router,
         private criteriaService: CriteriaService,

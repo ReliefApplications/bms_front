@@ -40,7 +40,6 @@ import { ModalFieldsComponent } from '../components/modals/modal-fields/modal-fi
 import { ModalLanguageComponent } from '../components/modals/modal-language/modal-language.component';
 import { ModalLeaveComponent } from '../components/modals/modal-leave/modal-leave.component';
 import { ModalRequestsComponent } from '../components/modals/modal-requests/modal-requests.component';
-import { ModalUpdateComponent } from '../components/modals/modal-update/modal-update.component';
 import { PlaceholderBoxlineComponent } from '../components/placeholders/placeholder-boxline/placeholder-boxline.component';
 import { PlaceholderPanelComponent } from '../components/placeholders/placeholder-panel/placeholder-panel.component';
 import { PlaceholderStepperComponent } from '../components/placeholders/placeholder-stepper/placeholder-stepper.component';
@@ -144,7 +143,6 @@ imports: [
         ModalAddCommodityComponent,
         ModalFieldsComponent,
         ModalDeleteComponent,
-        ModalUpdateComponent,
         ModalAddComponent,
         ModalEditComponent,
         ModalAssignComponent,
@@ -210,7 +208,6 @@ imports: [
         ModalAddCriteriaComponent,
         ModalAddCommodityComponent,
         ModalDeleteComponent,
-        ModalUpdateComponent,
         ModalDetailsComponent,
         ModalLanguageComponent,
         ModalAddComponent,

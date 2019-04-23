@@ -7,7 +7,6 @@ import { finalize, switchMap } from 'rxjs/operators';
 import { LocationService } from 'src/app/core/api/location.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
 import { Households } from 'src/app/model/households.new';
 import { GlobalText } from '../../../../texts/global';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
@@ -105,7 +104,6 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
         private router: Router,
         public snackbar: SnackbarService,
         private _cacheService: AsyncacheService,
-        private importedDataService: ImportedDataService,
         private dialog: MatDialog,
         private locationService: LocationService,
         private userService: UserService,
@@ -562,8 +560,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
             this.snackbar.error(this.household.beneficiaries_import_select_project);
         } else {
             this.load = true;
-            this._importService.setImportContext(this.email, this.fileForm.controls['projects'].value, this.csv);
-            this._importService.sendCsv().subscribe((response: any) => {
+            this._importService.sendCsv(this.csv, this.email, this.fileForm.controls['projects'].value).subscribe((response: any) => {
                 this._importService.setResponse(response);
                 this.load = false;
                 this.router.navigate(['/beneficiaries/import/data-validation']);
@@ -612,7 +609,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
             .subscribe(
                 response => {
                     this.newHouseholds = response.map((household: Households) => Households.apiToModel(household));
-                    this.importedDataService.data = this.newHouseholds;
+                    this._importService.importedHouseholds = this.newHouseholds;
                     this.router.navigate(['/beneficiaries/imported']);
                 }
             );

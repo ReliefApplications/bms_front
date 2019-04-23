@@ -6,7 +6,6 @@ import { GlobalText } from '../../../../../texts/global';
 import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
 import { DistributionService } from '../../../../core/api/distribution.service';
 import { HouseholdsService } from '../../../../core/api/households.service';
-import { ImportService } from '../../../../core/utils/distribution-import.service';
 import { ImportedBeneficiary } from '../../../../model/imported-beneficiary.new';
 import { UserService } from 'src/app/core/api/user.service';
 import { Distribution } from 'src/app/model/distribution.new';
@@ -61,7 +60,6 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     constructor(
         public _householdsService: HouseholdsService,
         public snackbar: SnackbarService,
-        public _importService: ImportService,
         public distributionService: DistributionService,
         public beneficiaryService: BeneficiariesService,
         public userService: UserService,

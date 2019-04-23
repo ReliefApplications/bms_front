@@ -5,7 +5,6 @@ import { finalize } from 'rxjs/operators';
 import { Booklet } from 'src/app/model/booklet.new';
 import { BookletService } from 'src/app/core/api/booklet.service';
 import { ModalAddComponent } from 'src/app/components/modals/modal-add/modal-add.component';
-import { Mapper } from 'src/app/core/utils/mapper.service';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { Project } from 'src/app/model/project.new';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -55,7 +54,6 @@ export class VouchersComponent implements OnInit {
     constructor(
         public bookletService: BookletService,
         public dialog: MatDialog,
-        public mapperService: Mapper,
         public projectService: ProjectService,
         public _exportService: ExportService,
         public snackbar: SnackbarService,

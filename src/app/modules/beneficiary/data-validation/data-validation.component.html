@@ -36,7 +36,7 @@
                                     <mat-checkbox [formControl]="form.controls[i].controls.old" color="primary">
                                         <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
                                         <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
-                                        <p>{{texts.data_verification_last_updated| titlecase}}: {{error.old.beneficiaries[0].updated_on}}</p>
+                                        <p>{{texts.data_verification_last_updated| titlecase}}: {{error.old.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
                                     </mat-checkbox>
                                     <mat-chip-list>
                                         <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
@@ -86,7 +86,7 @@
                                         <div class="head-info">
                                             <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
                                             <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
-                                            <p>{{texts.data_verification_last_updated| titlecase}}: {{error.old.beneficiaries[0].updated_on}}</p>
+                                            <p>{{texts.data_verification_last_updated| titlecase}}: {{error.old.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
                                         </div>
                                         <mat-chip-list>
                                             <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
@@ -155,6 +155,7 @@
                                         <div class="head-info">
                                             <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
                                             <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
+                                            <p>{{texts.data_verification_last_updated| titlecase}}: {{error.old.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
                                         </div>
                                         <mat-chip-list>
                                             <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
@@ -175,6 +176,8 @@
                                         <div class="head-info">
                                             <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
                                             <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
+                                            <p>{{texts.data_verification_last_updated| titlecase}}: {{texts.data_verification_just_now| titlecase}}</p>
+
                                         </div>
                                         <mat-chip-list>
                                             <mat-chip>{{texts.data_verification_chip_add| titlecase}}</mat-chip>
@@ -235,6 +238,7 @@
                                         <div class="head-info">
                                             <h4>{{error.old_household.beneficiaries[0].given_name}} {{error.old_household.beneficiaries[0].family_name}}</h4>
                                             <p>{{error.old_household.address_number}} {{error.old_household.address_street}} {{error.old_household.address_postcode}}</p>
+                                            <p>{{texts.data_verification_last_updated| titlecase}}: {{error.old_household.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
                                         </div>
                                         <mat-chip-list>
                                             <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
@@ -258,6 +262,7 @@
                                         <div class="head-info">
                                             <h4>{{error.new_household.beneficiaries[0].given_name}} {{error.new_household.beneficiaries[0].family_name}}</h4>
                                             <p>{{error.new_household.address_number}} {{error.new_household.address_street}} {{error.new_household.address_postcode}}</p>
+                                            <p>{{texts.data_verification_last_updated| titlecase}}: {{texts.data_verification_just_now| titlecase}}</p>
                                         </div>
                                         <mat-chip-list>
                                             <mat-chip>{{texts.data_verification_chip_add| titlecase}}</mat-chip>

@@ -4,7 +4,7 @@
   </div>
   <app-placeholder-boxline *ngIf="loadingProjects && projects != undefined" class="container-boxes"></app-placeholder-boxline>
   <div class="container-boxes" *ngIf="!loadingProjects">
-    <button class="button-add-project" *ngIf="!loadingProjects && hasRights" (click)="openNewProjectDialog()">
+    <button class="button-add-project" *ngIf="!loadingProjects && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="openNewProjectDialog()">
       <mat-icon>add</mat-icon>
       <h3>{{texts.new | titlecase}}</h3>
     </button>
@@ -29,7 +29,7 @@
       <div class="container-content" *ngIf="selectedProject">
           <h3 class="container-subtitle">{{selectedProject.name | titlecase}}</h3>
           <app-box-properties class="properties-displayed" [displayedInstance]="selectedProject"></app-box-properties>
-        </div>
+      </div>
     </div>
     <app-placeholder-panel *ngIf="loadingDistributions || !projects; else distributionsLoaded" class="container-table" ></app-placeholder-panel>
     <ng-template #distributionsLoaded>
@@ -59,11 +59,11 @@
                     </div>
                     </div>
                     <h3 *ngIf="distributionData && distributionData.data.length > 0">{{texts.distributions }}</h3>
-                    <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button-create">
+                    <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button-create">
                     <mat-icon>add</mat-icon>
                     {{texts.add | titlecase}}
                     </button>
-                    <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}">
+                    <button mat-fab *ngIf="widthScreen <= maxWidthMobile && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}">
                     <mat-icon>add</mat-icon>
                     </button>
                 </div>
@@ -88,8 +88,8 @@
                     </i>
                 </div>
                 <div class="content-table" *ngIf="(distributionData && distributionData.data.length>0) && !noNetworkData">
-                    <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [validatable]="true" [deletable]='hasRights' [editable]="true" [updatable]='hasRightsEdit' [entity]="distributionClass" [service]="distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table>
-                    <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [validatable]="true" [deletable]='hasRights' [editable]="true" [updatable]='hasRightsEdit' [entity]="distributionClass" [service]="distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table-mobile>
+                    <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile" [validatable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [entity]="distributionClass" [service]="distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table>
+                    <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [validatable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [entity]="distributionClass" [service]="distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table-mobile>
                 </div>
                 <div>
                     <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>

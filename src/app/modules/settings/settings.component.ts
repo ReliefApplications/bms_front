@@ -13,6 +13,7 @@ import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { FinancialProvider } from 'src/app/model/financial-provider.new';
 import { Product } from 'src/app/model/product.new';
 import { Vendor } from 'src/app/model/vendor.new';
 import { GlobalText } from 'src/texts/global';
@@ -26,9 +27,12 @@ import { AuthenticationService } from '../../core/authentication/authentication.
 import { Mapper } from '../../core/utils/mapper.service';
 import { CountrySpecific } from '../../model/country-specific.new';
 import { Donor } from '../../model/donor.new';
-import { Project as NewProject } from '../../model/project.new';
+import { Project } from '../../model/project.new';
 import { User } from '../../model/user.new';
-import { FinancialProvider } from './../../model/financial-provider.new';
+
+
+
+
 
 
 @Component({
@@ -63,10 +67,10 @@ export class SettingsComponent implements OnInit {
     public language = GlobalText.language;
     public heightScreen;
     public widthScreen;
-    hasRights: boolean;
-    public deletable = true;
+    public deletable = false;
     public printable = false;
     public loggable = false;
+    public editable  = false;
     public httpSubscriber: Subscription;
 
     @ViewChild(TableComponent) table: TableComponent;
@@ -184,34 +188,39 @@ export class SettingsComponent implements OnInit {
       case 'users':
         this.referedClassToken = User;
         this.referedClassService = this.userService;
-        this.deletable = true;
-        this.printable = false;
         this.loggable = true;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.printable  = false;
         break;
       case 'donors':
         this.referedClassToken = Donor;
         this.referedClassService = this.donorService;
-        this.deletable = true;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = false;
         this.loggable = false;
         break;
       case 'projects':
-        this.referedClassToken = NewProject;
+        this.referedClassToken = Project;
         this.referedClassService = this.projectService;
-        this.deletable = true;
+        this.editable   = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
+        this.deletable  = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
         this.printable = false;
         this.loggable = false;
         break;
       case 'country specific options':
         this.referedClassToken = CountrySpecific;
         this.referedClassService = this.countrySpecificService;
-        this.deletable = true;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = false;
         this.loggable = false;
         break;
       case 'financialProvider':
         this.referedClassToken = FinancialProvider;
         this.referedClassService = this.financialProviderService;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.deletable = false;
         this.printable = false;
         this.loggable = false;
@@ -219,14 +228,16 @@ export class SettingsComponent implements OnInit {
       case 'product':
         this.referedClassToken = Product;
         this.referedClassService = this.productService;
-        this.deletable = true;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = false;
         this.loggable = false;
         break;
       case 'vendors':
         this.referedClassToken = Vendor;
         this.referedClassService = this.vendorsService;
-        this.deletable = true;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = true;
         this.loggable = false;
         break;
@@ -238,7 +249,6 @@ export class SettingsComponent implements OnInit {
   // TO DO : get from cache
     load(): void {
         this.data = new MatTableDataSource();
-        this.hasRights = false;
 
         this.httpSubscriber = this.referedClassService.get().
             pipe(
@@ -248,30 +258,39 @@ export class SettingsComponent implements OnInit {
                     }
                 )
             ).subscribe( (response: any) => {
-            const instances = [];
-            if (response && response.length !== 0) {
-                for (const item of response ) {
-                    instances.push(this.referedClassToken.apiToModel(item));
-                }
-                this.data = new MatTableDataSource(instances);
-                if (this.table) {
-                  this.table.setDataTableProperties();
-                }
-            }
-
-            this._cacheService.getUser().subscribe(
-                result => {
-                    if (result && result.rights) {
-                        const rights = result.rights;
-                        // TODO: Replace permissions with service (#430)
-                        if (this.referedClassToken.rights.includes(rights)) {
-                            this.hasRights = true;
-                        }
+                const instances = [];
+                if (response && response.length !== 0) {
+                    for (const item of response ) {
+                        instances.push(this.referedClassToken.apiToModel(item));
                     }
-                });
-        });
+                    this.data = new MatTableDataSource(instances);
+                    if (this.table) {
+                    this.table.setDataTableProperties();
+                    }
+                }
+            });
     }
 
+    checkRights(): boolean {
+        switch (this.referedClassToken) {
+            case (User):
+                return this.userService.hasRights('ROLE_USER_MANAGEMENT');
+            case (CountrySpecific):
+                return this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
+            case (Donor):
+                return this.userService.hasRights('ROLE_DONOR_MANAGEMENT');
+            case (Project):
+                return this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
+            case (FinancialProvider):
+                return this.userService.hasRights('ROLE_FINANCIAL_PROVIDER_MANAGEMENT');
+            case (Vendor):
+                return this.userService.hasRights('ROLE_VENDORS_MANAGEMENT');
+            case (Product):
+                return this.userService.hasRights('ROLE_PRODUCT_MANAGEMENT');
+            default:
+                return false;
+        }
+    }
 
     /**
 	* open each modal dialog

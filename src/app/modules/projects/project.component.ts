@@ -1,20 +1,20 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { NetworkService } from 'src/app/core/api/network.service';
+import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { ModalService } from 'src/app/core/utils/modal.service';
 import { GlobalText } from '../../../texts/global';
-import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ProjectService } from '../../core/api/project.service';
 import { ImportedDataService } from '../../core/utils/imported-data.service';
 import { Mapper } from '../../core/utils/mapper.service';
 import { Distribution } from '../../model/distribution.new';
 import { Project as NewProject } from '../../model/project.new';
-import { NetworkService } from 'src/app/core/api/network.service';
-import { ModalService } from 'src/app/core/utils/modal.service';
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-project',
@@ -42,8 +42,6 @@ export class ProjectComponent implements OnInit {
     selectedProject = null;
     selectedProjectId = null;
     extensionType: string;
-    hasRights = false;
-    hasRightsEdit = false;
 
     public maxHeight = GlobalText.maxHeight;
     public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -64,16 +62,20 @@ export class ProjectComponent implements OnInit {
         public importedDataService: ImportedDataService,
         public networkService: NetworkService,
         public modalService: ModalService,
+        public userService: UserService,
     ) { }
 
     ngOnInit() {
         if (this.importedDataService.emittedProject) {
             this.selectedProjectId = parseInt(this.importedDataService.project, 10);
+            this.getProjects();
+
+        } else {
+            this.getProjects();
         }
         this.getProjects();
         this.checkSize();
         this.extensionType = 'xls';
-        this.checkPermission();
     }
 
     @HostListener('window:resize', ['$event'])
@@ -199,23 +201,5 @@ export class ProjectComponent implements OnInit {
         this.modalService.isCompleted.subscribe(() => {
             this.getDistributionsByProject(this.selectedProject.get('id'));
         });
-    }
-
-    checkPermission() {
-        this._cacheService.getUser().subscribe(
-            result => {
-                if (result && result.rights) {
-                    const rights = result.rights;
-                    // TODO: Replace permissions with service (#430)
-                    if (Distribution.rights.includes(rights)) {
-                        this.hasRights = true;
-                    }
-                    if (Distribution.rightsEdit.includes(rights)) {
-                        this.hasRightsEdit = true;
-
-                    }
-                }
-            }
-        );
     }
 }

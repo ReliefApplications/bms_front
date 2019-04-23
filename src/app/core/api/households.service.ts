@@ -1,16 +1,11 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
-
+import { saveAs } from 'file-saver/FileSaver';
 import { URL_BMS_API } from '../../../environments/environment';
-
-import { HttpService } from './http.service';
 import { ExportService } from './export.service';
-
+import { HttpService } from './http.service';
 import { Households } from '../../model/households.new';
 import { Project } from '../../model/project.new';
 import { Location } from '../../model/location.new';
-import { Sector } from '../../model/sector';
-import { saveAs      } from 'file-saver/FileSaver';
 import { CustomModelService } from './custom-model.service';
 import { Router } from '@angular/router';
 import { AppInjector } from 'src/app/app-injector';
@@ -71,30 +66,19 @@ export class HouseholdsService extends CustomModelService {
     }
 
     /**
-     * Get all households
-     */
-    public getCachedHouseholds(email: string) {
-        const url = this.api + '/households/get/cached?email=' + email;
-        return this.http.get(url);
-    }
-
-    /**
      * Upload CSV  and data validation to import new household
      * @param body any
-     * @param idProject number
+     * @param projectId number
      * @param step number
      * @param token string
      */
-    public sendDataToValidation(email: string, body: any, idProject: number, step: number, token?: string) {
-        let url;
-        if (token) {
-            url = this.api + '/import/households/project/' + idProject + '?step=' + step + '&token=' + token + '&email=' + email;
-        } else {
-            url = this.api + '/import/households/project/' + idProject + '?step=' + step + '&email=' + email;
+    public sendDataToValidation(email: string, body: any, projectId: number, token?: string) {
+        const params = {
+            token: token !== undefined ? token : '',
+            email: email,
+        } ;
 
-        }
-
-        return this.http.post(url, body);
+        return this.http.post(`${this.api}/import/households/project/${projectId}`, body, {params});
     }
 
     /**

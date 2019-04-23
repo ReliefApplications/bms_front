@@ -1,20 +1,18 @@
-import { Component, OnInit, HostListener, DoCheck, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatDialog } from '@angular/material';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { Households } from '../../model/households.new';
-import { HouseholdsService } from '../../core/api/households.service';
-import { GlobalText } from '../../../texts/global';
-import { Router } from '@angular/router';
-import { saveAs } from 'file-saver/FileSaver';
-import { ExportInterface } from '../../model/export.interface';
-import { ProjectService } from '../../core/api/project.service';
-import { FormControl } from '@angular/forms';
-import { HouseholdsDataSource } from '../../model/households-data-source';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { LocationService } from 'src/app/core/api/location.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ModalService } from 'src/app/core/utils/modal.service';
+import { Component, DoCheck, HostListener, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDialog, MatTableDataSource } from '@angular/material';
+import { Router } from '@angular/router';
 import { TableServerComponent } from 'src/app/components/table/table-server/table-server.component';
+import { LocationService } from 'src/app/core/api/location.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { ModalService } from 'src/app/core/utils/modal.service';
+import { GlobalText } from '../../../texts/global';
+import { HouseholdsService } from '../../core/api/households.service';
+import { ProjectService } from '../../core/api/project.service';
+import { HouseholdsDataSource } from '../../model/households-data-source';
+import { Households } from '../../model/households.new';
+import { UserService } from 'src/app/core/api/user.service';
 
 @Component({
     selector: 'app-beneficiaries',
@@ -38,27 +36,25 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
 
     dataSource: HouseholdsDataSource;
 
-    hasRights = false;
-    hasRightsExport = false;
-
     // addButtons
     addToggled = false;
 
-    updatable = false;
-    deletable = false;
 
     @ViewChild(TableServerComponent) table: TableServerComponent;
 
 
+    canEdit     = false;
+    canDelete   = false;
+
     constructor(
-        private cacheService: AsyncacheService,
-        public householdsService: HouseholdsService,
         private router: Router,
+        public householdsService: HouseholdsService,
         public snackbar: SnackbarService,
         public projectService: ProjectService,
         public dialog: MatDialog,
         public locationService: LocationService,
         public modalService: ModalService,
+        public userService: UserService,
     ) { }
 
     // For windows size
@@ -82,7 +78,8 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         this.dataSource = new HouseholdsDataSource(this.householdsService);
         // this.dataSource.vulnerabilities.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
         this.getProjects('updateSelection');
-        this.checkPermission();
+        this.canEdit    = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
+        this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
     }
 
     /**
@@ -188,29 +185,6 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         }
         this.dialog.closeAll();
     }
-
-    checkPermission() {
-        this.cacheService.get('user').subscribe(
-            result => {
-                if (result && result.rights) {
-                    const rights = result.rights;
-                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER') {
-                        this.hasRights = true;
-                        this.updatable = true;
-                    }
-
-                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
-                        this.deletable = true;
-                    }
-
-                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
-                        this.hasRightsExport = true;
-                    }
-                }
-            }
-        );
-    }
-
 
     getChecked(event)  {
         this.checkedElements = event;

@@ -27,10 +27,10 @@
         <h1 class="dashboard-title">{{dashboard.dashboard_recent_distributions | titlecase}}</h1>
         <app-placeholder-panel *ngIf='loadingTable' class="distribution-content-placeholder"></app-placeholder-panel>
         <div class="distribution-content" *ngIf='!loadingTable'>
-            <app-table *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [editable]='hasRightsEdit' [deletable]='hasRights'
-                [entity]="distributionClass" [service]="_distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table>
-            <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [editable]='hasRightsEdit' [deletable]='hasRights'
-                [entity]="distributionClass" [service]="_distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table-mobile>
+        <app-table *ngIf="widthScreen > maxWidthMobile" [deletable]="deletable" [editable]="editable"
+            [entity]="distributionClass" [service]="_distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table>
+        <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [deletable]="deletable" [editable]="editable"
+            [entity]="distributionClass" [service]="_distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table-mobile>
         </div>
     </div>
 </div>

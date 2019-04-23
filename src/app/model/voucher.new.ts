@@ -1,7 +1,6 @@
 import { GlobalText } from '../../texts/global';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { CustomModel } from './CustomModel/custom-model';
-// import { Vendors } from './vendors'; // change with new
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';

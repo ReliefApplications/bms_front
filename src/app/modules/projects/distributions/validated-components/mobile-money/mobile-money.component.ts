@@ -1,11 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ValidatedDistributionComponent } from '../validated-distribution.component';
-import { TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
-import { finalize } from 'rxjs/operators';
-import { TransactionMobileMoney, State } from 'src/app/model/transaction-mobile-money.new';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
+import { finalize } from 'rxjs/operators';
 import { Commodity } from 'src/app/model/commodity.new';
-import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
+import { State, TransactionMobileMoney } from 'src/app/model/transaction-mobile-money.new';
+import { ValidatedDistributionComponent } from '../validated-distribution.component';
 
 @Component({
     selector: 'app-mobile-money',
@@ -18,6 +16,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
     // receivedStates = [State.PickedUp];
 
     transactionData: MatTableDataSource<TransactionMobileMoney>;
+
 
     ngOnInit() {
         super.ngOnInit();
@@ -134,7 +133,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
     }
 
     requestLogs() {
-        if (this.hasRights) {
+        if (this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')) {
             try {
                 this.distributionService.logs(this.actualDistribution.get('id')).subscribe(
                     e => { this.snackbar.error('' + e); },
@@ -155,12 +154,12 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                     anwser => {
                         if (anwser === 'Email sent') {
                             this.lastCodeSentTime = (new Date()).getTime();
-                            this.snackbar.success('Verification code has been sent at ' + this.actualUser.email);
+                            this.snackbar.success('Verification code has been sent at ' + this.actualUser.get('email'));
                         }
                     },
                     () => {
                         this.lastCodeSentTime = (new Date()).getTime();
-                        this.snackbar.success('Verification code has been sent at ' + this.actualUser.email);
+                        this.snackbar.success('Verification code has been sent at ' + this.actualUser.get('email'));
                     }
                 )
                 .catch(
@@ -177,12 +176,12 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
      * To transact
      */
     confirmTransaction() {
-        if (this.hasRightsTransaction) {
+        if (this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')) {
             this.progression = 0;
             this.cacheService.getUser().subscribe(result => {
                 this.actualUser = result;
-                if (!this.actualUser.email && this.actualUser.username) {
-                    this.actualUser['email'] = this.actualUser.username;
+                if (!this.actualUser.get('email') && this.actualUser.get('username')) {
+                    this.actualUser.set('email', this.actualUser.get('username'));
                 }
                 this.transacting = true;
                 this.correctCode = true;

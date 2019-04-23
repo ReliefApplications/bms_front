@@ -1,13 +1,14 @@
-import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
-import { GlobalText } from 'src/texts/global';
-import { DistributionService } from 'src/app/core/api/distribution.service';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { Mapper } from 'src/app/core/utils/mapper.service';
 import { finalize } from 'rxjs/operators';
+import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
+import { DistributionService } from 'src/app/core/api/distribution.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { Mapper } from 'src/app/core/utils/mapper.service';
 import { Distribution } from 'src/app/model/distribution.new';
+import { GlobalText } from 'src/texts/global';
+
 
 @Component({
     selector: 'app-distributions',
@@ -43,17 +44,7 @@ export class DistributionsComponent implements OnInit {
     ngOnInit() {
         // this.checkSize();
         this.getSelectedDistribution();
-        // this.checkPermission();
     }
-
-// //     /**
-// //    * check if the langage has changed
-// //    */
-// //     ngDoCheck() {
-// //         if (this.language !== GlobalText.language) {
-// //             this.language = GlobalText.language;
-// //         }
-// //     }
 
     /**
      * Gets the launched distribution from the cache

@@ -1,12 +1,12 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { Constants } from 'src/app/core/utils/constants';
 import { GlobalText } from '../../../texts/global';
 import { UserService } from '../../core/api/user.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
 import { User } from '../../model/user.new';
-import { ErrorInterface } from './../../model/user.new';
 
 @Component({
     selector: 'app-profile',
@@ -59,25 +59,23 @@ export class ProfileComponent implements OnInit, DoCheck {
 
     }
 
-    onProfileFormSubmit() {
-        const checkPass = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/);
-        if (this.profileForm.value.newPassword1 === this.profileForm.value.newPassword2) {
-            if (checkPass.test(this.profileForm.value.newPassword1)) {
-                this.userService.updatePassword(this.actualUser, this.profileForm.value.oldPassword, this.profileForm.value.newPassword1)
-                    .then(
-                        (user) => {
-                            this.snackbar.success(this.profilePage.snackbar_change_password_done);
-                        })
-                    .catch((error: ErrorInterface) => {
-                        this.snackbar.error(this.profilePage.snackbar_change_password_fail);
-                    });
-            } else {
-                this.snackbar.error(this.profilePage.modal_not_enough_strong);
-            }
-        } else {
+    onProfileFormSubmit(): void {
+        if (this.profileForm.value.newPassword1 !== this.profileForm.value.newPassword2) {
             this.snackbar.error(this.profilePage.snackbar_change_password_not_possible);
+            return;
         }
-
-        this.setActualUser();
-    }
+        if (this.profileForm.value.newPassword1 === this.profileForm.value.oldPassword) {
+            this.snackbar.warning(this.profilePage.profile_password_would_not_be_changed);
+            return;
+        }
+        if (!Constants.REGEX_PASSWORD.test(this.profileForm.value.newPassword1)) {
+            this.snackbar.error(this.profilePage.modal_not_enough_strong);
+            return;
+        }
+        this.userService.updatePassword(this.actualUser, this.profileForm.value.oldPassword, this.profileForm.value.newPassword1)
+            .then(
+                () => {
+                    this.snackbar.success('Password changed');
+                });
+        }
 }

@@ -496,6 +496,10 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     display : none;
 }
 
+mat-horizontal-stepper.disable-step mat-step-header.mat-horizontal-stepper-header {
+    pointer-events: none !important;
+}
+
 //Header alignment
 .mat-menu-panel {
     button {

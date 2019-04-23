@@ -39,10 +39,10 @@
                         <mat-spinner></mat-spinner>
                     </div>
                     <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="hasRights"
-                        [rights]="hasRights" (openModal)="openModal($event)">
+                       (openModal)="openModal($event)">
                     </app-table>
                     <app-table-mobile *ngIf="widthScreen < maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="hasRights"
-                        [rights]="hasRights" (openModal)="openModal($event)">
+                       (openModal)="openModal($event)">
                     </app-table-mobile>
                 </div>
                 <div class="content-button content-button-footer">
@@ -56,7 +56,7 @@
         <div class="container-table">
             <div class="container-content box-primary">
                 <div class="import-content">
-                    <app-import-distribution *ngIf="!actualDistribution.get('validated')" [distribution]="actualDistribution" [rights]="hasRights" (success)=" this.getDistributionBeneficiaries('final');
+                    <app-import-distribution *ngIf="!actualDistribution.get('validated')" [distribution]="actualDistribution" (success)=" this.getDistributionBeneficiaries('final');
                                     this.getDistributionBeneficiaries('initial');
                                     jumpStep(myStepper)"
                         (selected)="fileSelected($event)">

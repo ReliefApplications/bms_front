@@ -1,14 +1,14 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { finalize } from 'rxjs/operators';
+import { UserService } from 'src/app/core/api/user.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { ModalService } from 'src/app/core/utils/modal.service';
+import { Distribution } from 'src/app/model/distribution.new';
 import { GlobalText } from '../../../texts/global';
 import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';
 import { LeafletService } from '../../core/external/leaflet.service';
-import { DistributionData } from '../../model/distribution-data';
-import { Distribution } from 'src/app/model/distribution.new';
-import { ModalService } from 'src/app/core/utils/modal.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -33,10 +33,10 @@ export class DashboardComponent implements OnInit {
     public heightScreen;
     public widthScreen;
 
-    public summary = [];
+    public deletable = false;
+    public editable = false;
 
-    hasRights = false;
-    hasRightsEdit = false;
+    public summary = [];
 
     constructor(
         private serviceMap: LeafletService,
@@ -44,20 +44,21 @@ export class DashboardComponent implements OnInit {
         public _distributionService: DistributionService,
         public _generalService: GeneralService,
         public modalService: ModalService,
+        private userService: UserService,
     ) { }
 
     ngOnInit() {
         this._cacheService.getUser().subscribe(result => {
             if (result.get('loggedIn')) {
                 this.serviceMap.createMap('map');
-                this.serviceMap.addTileLayer();
 
                 this.getSummary();
                 this.checkDistributions();
                 this.checkSize();
-                this.checkPermission(result);
             }
         });
+        this.deletable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
+        this.editable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
     }
 
     /**
@@ -138,21 +139,6 @@ export class DashboardComponent implements OnInit {
                     this.summary = null;
                 }
             );
-    }
-
-    checkPermission(result) {
-        this.userData = result;
-
-        if (result && result.rights) {
-            const rights = result.rights;
-            if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
-                this.hasRights = true;
-            }
-
-            if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER') {
-                this.hasRightsEdit = true;
-            }
-        }
     }
 
     openDialog(dialogDetails: any): void {

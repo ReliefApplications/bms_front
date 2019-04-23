@@ -46,7 +46,6 @@ import { PlaceholderPanelComponent } from '../components/placeholders/placeholde
 import { PlaceholderStepperComponent } from '../components/placeholders/placeholder-stepper/placeholder-stepper.component';
 import { PlaceholderSummaryComponent } from '../components/placeholders/placeholder-summary/placeholder-summary.component';
 import { PlaceholderTitleComponent } from '../components/placeholders/placeholder-title/placeholder-title.component';
-import { TableBeneficiariesComponent } from '../components/table/table-beneficiaries/table-beneficiaries.component';
 import { TableServerComponent } from '../components/table/table-server/table-server.component';
 import { TableMobileServerComponent } from '../components/table/table-mobile-server/table-mobile-server.component';
 import { TableMobileComponent } from '../components/table/table-mobile/table-mobile.component';
@@ -139,7 +138,6 @@ imports: [
         BoxDashboardComponent,
         TableComponent,
         TableMobileComponent,
-        TableBeneficiariesComponent,
         TableServerComponent,
         TableMobileServerComponent,
         ModalAddCriteriaComponent,
@@ -208,7 +206,6 @@ imports: [
         TableComponent,
         TableMobileComponent,
         TableMobileServerComponent,
-        TableBeneficiariesComponent,
         TableServerComponent,
         ModalAddCriteriaComponent,
         ModalAddCommodityComponent,

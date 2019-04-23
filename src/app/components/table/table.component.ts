@@ -6,6 +6,7 @@ import { FinancialProviderService } from 'src/app/core/api/financial-provider.se
 import { HouseholdsService } from 'src/app/core/api/households.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { NetworkService } from 'src/app/core/api/network.service';
+import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
@@ -98,14 +99,6 @@ export class TableComponent implements OnInit,  AfterViewInit {
     }
 
     @Input() service: CustomModelService;
-
-    // To activate/desactivate action buttons
-    @Input() rights: boolean;
-    // To activate/desactivate action buttons
-    @Input() rightsEdit: boolean;
-    // To activate/desactivate action buttons
-    @Input() rightsDelete: boolean;
-
     @Input() selection: any;
 
     @Output() selectChecked = new EventEmitter<any>();
@@ -136,6 +129,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
         public networkService: NetworkService,
         public router: Router,
         public _exportService: ExportService,
+        public userService: UserService,
     ) { }
 
     ngOnInit(): void {
@@ -282,63 +276,6 @@ export class TableComponent implements OnInit,  AfterViewInit {
         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
         this.tableData.filter = filterValue;
     }
-
-    // applyFilter(filterValue: any, category?: string, suppress?: boolean): void {
-
-    //     if (suppress) {
-    //         const index = this.tableData.filter.findIndex(function(value) {
-    //             return value.category === category;
-    //         });
-
-    //         this.tableData.filter.splice(index, 1);
-    //     } else {
-    //         if (filterValue !== undefined) {
-    //             if (category) {
-    //                 if (category === 'familyName') {
-    //                     if (filterValue.length !== 0 || filterValue !== '') {
-    //                         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    //                         filterValue = filterValue.split(/[\s,]+/);
-    //                         if (filterValue[filterValue.length - 1] === '') {
-    //                             filterValue.pop();
-    //                         }
-    //                     }
-    //                 }
-
-    //                 if (category === 'locations') {
-    //                     filterValue = filterValue.name;
-    //                 }
-
-    //                 const index = this.tableData.filter.findIndex(function(value) {
-    //                     return value.category === category;
-    //                 });
-
-    //                 if (index >= 0) {
-    //                     if (filterValue.length === 0 || filterValue === '') {
-    //                         this.tableData.filter.splice(index, 1);
-    //                     } else {
-    //                         this.tableData.filter[index] = { filter: filterValue, category: category };
-    //                     }
-    //                 } else
-    //                     if (filterValue.length !== 0 || filterValue !== '') {
-    //                         this.tableData.filter.push({ filter: filterValue, category: category });
-    //                     }
-
-    //             } else {
-    //                 filterValue = filterValue.trim(); // Remove whitespace
-    //                 filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    //                 this.tableData.filter = filterValue;
-    //             }
-    //         } else {
-    //             if (category && category === 'familyName') {
-    //                 const index = this.tableData.filter.findIndex(function(value) {
-    //                     return value.category === category;
-    //                 });
-
-    //                 this.tableData.filter.splice(index, 1);
-    //             }
-    //         }
-    //     }
-    // }
 
     rangeLabel(page: number, pageSize: number, length: number) {
         const table = GlobalText.TEXTS;

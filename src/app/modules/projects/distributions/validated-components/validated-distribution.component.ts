@@ -6,6 +6,7 @@ import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal
 import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { ExportService } from 'src/app/core/api/export.service';
+import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
@@ -48,8 +49,6 @@ export class ValidatedDistributionComponent implements OnInit {
 
     @Input() actualDistribution: Distribution;
     transactionData: MatTableDataSource<any>;
-    hasRights = false;
-    hasRightsTransaction = false;
     @Input() loaderCache = false;
 
     @Output() storeEmitter: EventEmitter<Distribution> = new EventEmitter();
@@ -63,7 +62,6 @@ export class ValidatedDistributionComponent implements OnInit {
     ngOnInit() {
         this.distributionId = this.actualDistribution.get<number>('id');
         this.checkSize();
-        this.checkPermission();
         this.getDistributionBeneficiaries();
 
 
@@ -84,23 +82,6 @@ export class ValidatedDistributionComponent implements OnInit {
         } else {
             return (true);
         }
-    }
-
-    checkPermission() {
-        this.cacheService.getUser().subscribe(
-            result => {
-                this.actualUser = result;
-                if (result && result.rights) {
-                    const rights = result.rights;
-                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
-                        this.hasRights = true;
-                    }
-                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
-                        this.hasRightsTransaction = true;
-                    }
-                }
-            }
-        );
     }
 
         /**
@@ -158,7 +139,8 @@ export class ValidatedDistributionComponent implements OnInit {
         protected modalService: ModalService,
         public beneficiariesService: BeneficiariesService,
         public _cacheService: AsyncacheService,
-        public _exportService: ExportService
+        public _exportService: ExportService,
+        public userService: UserService,
     ) { }
 
     /**

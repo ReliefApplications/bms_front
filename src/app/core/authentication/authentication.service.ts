@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { ErrorInterface, User } from '../../model/user.new';
 import { URL_BMS_API } from '../../../environments/environment';
 import { SaltInterface } from '../../model/salt';
-import { ErrorInterface, User } from '../../model/user.new';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { WsseService } from './wsse.service';
+
+
 
 @Injectable({
     providedIn: 'root'
@@ -84,6 +86,10 @@ export class AuthenticationService {
         this._cacheService.set(AsyncacheService.USER, user.modelToApi());
     }
 
+    setSaltedPassword(user: User, saltedPassword: string) {
+        user.set('password', saltedPassword);
+    }
+
     resetUser() {
         this.user = new User();
         this._cacheService.remove(AsyncacheService.USER);
@@ -123,5 +129,12 @@ export class AuthenticationService {
         body.password = saltedPassword;
         body.salt = salt.salt;
         return body;
+    }
+
+    public isLoggedIn(): boolean {
+        if (!this.user) {
+            return false;
+        }
+        return this.user.get('loggedIn');
     }
 }

@@ -37,17 +37,17 @@
             </div>
           </div>
         </div>
-        <button mat-raised-button *ngIf="!mobileMode && hasRights && deletable" (click)="openDialog({action: 'add'})" class="add-button-create">
+        <button mat-raised-button *ngIf="!mobileMode && checkRights() && deletable" (click)="openDialog({action: 'add'})" class="add-button-create">
           <mat-icon>add</mat-icon>
           {{settings.add | titlecase}}
         </button>
-        <button mat-fab *ngIf="mobileMode && hasRights && deletable" (click)="openDialog({action: 'add'})" class="add-button" [ngClass]="{'add-button-arabic':language==='ar'}">
+        <button mat-fab *ngIf="mobileMode && checkRights() && deletable" (click)="openDialog({action: 'add'})" class="add-button" [ngClass]="{'add-button-arabic':language==='ar'}">
           <mat-icon>add</mat-icon>
         </button>
       </div>
       <div class="content-table">
-        <app-table [searchable]="true" [paginable]="true" *ngIf="!mobileMode" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="true" [rights]='hasRights' [deletable]="deletable" (openModal)="openDialog($event)" [printable]="printable" [loggable]="loggable"></app-table>
-        <app-table-mobile *ngIf="mobileMode" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="true" [rights]='hasRights' [deletable]="deletable" [printable]="printable" [loggable]="loggable" (openModal)="openDialog($event)"></app-table-mobile>
+        <app-table [searchable]="true" [paginable]="true" *ngIf="!mobileMode" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="editable" [deletable]="deletable" (openModal)="openDialog($event)" [printable]="printable" [loggable]="loggable"></app-table>
+        <app-table-mobile *ngIf="mobileMode" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="editable" [deletable]="deletable" [printable]="printable" [loggable]="loggable" (openModal)="openDialog($event)"></app-table-mobile>
       </div>
     </div>
   </div>

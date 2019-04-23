@@ -1,17 +1,20 @@
+import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
+import { User, Country } from 'src/app/model/user.new';
 import { Component, DoCheck, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { NavigationEnd, Router } from '@angular/router';
-import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { User, Country } from 'src/app/model/user.new';
 import { GlobalText } from '../../../../texts/global';
 import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
+import { UserService } from './../../../core/api/user.service';
+
+
 
 @Component({
     selector: 'app-header-mobile',
     templateUrl: './header-mobile.component.html',
-    styleUrls: ['./header-mobile.component.scss']
+    styleUrls: [ './header-mobile.component.scss' ]
 })
 export class HeaderMobileComponent implements OnInit, DoCheck {
     public header = GlobalText.TEXTS;
@@ -23,7 +26,6 @@ export class HeaderMobileComponent implements OnInit, DoCheck {
     selectedCountry: string;
 
     @Output() emitLogOut = new EventEmitter();
-    @Input() user: User;
 
     public currentRoute = '/';
     public breadcrumb: Array<any> = [
@@ -39,7 +41,7 @@ export class HeaderMobileComponent implements OnInit, DoCheck {
     constructor(
         public dialog: MatDialog,
         public router: Router,
-        private authService: AuthenticationService,
+        private userService: UserService,
         private asyncacheService: AsyncacheService,
         private snackbar: SnackbarService
     ) {
@@ -82,15 +84,18 @@ export class HeaderMobileComponent implements OnInit, DoCheck {
     }
 
     getCorrectCountries() {
-        const countries = this.user.getOptions('countries');
-
+        const user = this.userService.currentUser;
         this.countries = [];
-        if (this.user.get('rights').get<string>('id') === 'ROLE_ADMIN') {
-            countries.forEach((element) => {
-                this.countries.push(element.get('id'));
+        if (!user) {
+            return;
+        }
+        if (this.userService.hasRights('ROLE_SWITCH_COUNTRY')) {
+            this.userService.currentUser.getOptions('countries').forEach((country: Country) => {
+                this.countries.push(country.get('id'));
             });
-        } else {
-            this.user.get<Country[]>('country').forEach((element) => {
+        }
+        else {
+            this.userService.currentUser.get<Country[]>('country').forEach((element) => {
                 this.countries.push(element.get('id'));
             });
         }
@@ -119,7 +124,7 @@ export class HeaderMobileComponent implements OnInit, DoCheck {
     }
 
     autoLanguage(c: string) {
-        if (!this.user.get<string>('language')) {
+        if (!this.userService.currentUser.get<string>('language')) {
             if (c === 'SYR') {
                 GlobalText.changeLanguage('ar');
             } else if (c === 'KHM') {

@@ -36,7 +36,7 @@
                             <mat-icon>refresh</mat-icon>
                             <span class="text-button">{{TEXT.transaction_refresh}}</span>
                         </button>
-                        <button mat-menu-item *ngIf="hasRights" (click)="requestLogs()">
+                        <button mat-menu-item *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (click)="requestLogs()">
                             <mat-icon>history</mat-icon>
                             <span class="text-button">{{TEXT.distribution_request_logs}}</span>
                         </button>
@@ -91,7 +91,7 @@
                     </ng-template>
                 </button>
                 <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
-                <button mat-raised-button *ngIf="hasRightsTransaction && !transacting && transactionData" (click)="openDialog(transaction);" class="button-background-accent" [matBadge]="getPeopleCount()" matBadgePosition="before" matBadgeColor="primary">
+                <button mat-raised-button *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR') && !transacting && transactionData" (click)="openDialog(transaction);" class="button-background-accent" [matBadge]="getPeopleCount()" matBadgePosition="before" matBadgeColor="primary">
                     <mat-icon>send</mat-icon> {{TEXT.transaction_transaction}}
                 </button>
             </div>

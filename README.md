@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/ReliefApplications/bms_front.svg?branch=dev)](https://travis-ci.org/ReliefApplications/bms_front)
 [![GitHub version](https://badge.fury.io/gh/ReliefApplications%2Fbms_front.svg)](https://badge.fury.io/gh/ReliefApplications%2Fbms_front)
 
-BMS
+AKEZI
 ==============
 A platform that allows humanitarian organisations to manage relief items (Food, Non Food Items, CASH) to people in need for life-saving humanitarian responses to emergency situations.
 
@@ -14,11 +14,13 @@ If you're an experienced developer and you would like to get involved, contact u
 
 ## What's here
 
-This repo is the "master" repo for all BMS-related projects. It hosts 
+This repo is the "master" repo for all Akezi-related projects. It hosts 
 the documentation, the frontend and other misc. Code for other
 projects, like the [API](https://github.com/ReliefApplications/bms_api) is hosted in other repositories. 
 
 ## Contributing
+
+We welcome contributions from anyone who acts in good faith and in a respectful manner and adds value to the project.
 
 **We are looking for collaboration from the Open Source community!**
 There's so much we want to do, including but not limited to: enhancing existing 
@@ -38,7 +40,7 @@ We are hoping to establish a more user-friendly version soon, one that is readab
 
 ## Resources
 
-To understand BMS better:
+To understand Akezi better:
 
 * Read the README for each repo. An architecture diagram of how these components are connected to one another is coming soon.
 

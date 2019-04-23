@@ -142,11 +142,11 @@
                         <mat-icon>history</mat-icon>
                     </button>
 
-                    <button *ngIf="editable && rights && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
+                    <button *ngIf="editable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
                         [matTooltip]="table.update" class="green">
                         <mat-icon>search</mat-icon>
                     </button>
-                    <button *ngIf="rights && deletable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
+                    <button *ngIf="deletable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
                         [matTooltip]="table.delete" class="red">
                         <mat-icon>delete_outline</mat-icon>
                     </button>

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { URL_BMS_API } from '../../../environments/environment';
-import { Vendors } from '../../model/vendors';
 import { Location } from '../../model/location.new';
 import { HttpService } from './http.service';
 import { ExportService } from '../../core/api/export.service';
@@ -45,9 +44,9 @@ export class VendorsService extends CustomModelService {
         return this.http.post(url, {});
     }
 
-    public print(vendor: Vendors) {
-        return this._exportService.printInvoice(parseInt(vendor.id, 10));
-    }
+    // public print(vendor: Vendors) {
+    //     return this._exportService.printInvoice(parseInt(vendor.id, 10));
+    // }
 
     // TO DO : make an empty method by default for every service
     public fillWithOptions(vendor: Vendor) {

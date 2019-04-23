@@ -290,7 +290,7 @@
             </ng-template>
             <div class="container-table">
                 <div class="container-content box-primary">
-                    <div class="content-table centered" *ngIf="currentStep === step.Done">
+                    <div class="content-table centered" *ngIf="currentStep === step.Update">
                         <div class="centered">
                             <h3 class="step-title">{{texts.data_verification_done | titlecase}}</h3>
                             <button *ngIf="!loading" class="button-background-primary" mat-raised-button (click)="finishImport()">{{texts.done | titlecase}}</button>

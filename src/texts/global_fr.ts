@@ -490,6 +490,9 @@ export const TEXT = {
     update_beneficiary_title: 'Modifier un bénéficiaire',
     update_beneficiary_updated_successfully: 'Modifié avec succès !',
 
+    // Vendors
+    vendor_print_starting: 'Le téléchargement de la facture va démarrer',
+  
     //Vouchers
     voucher_ask_code: 'S\'il vous plaît, demandez au bénéficiaire de saisir 4 chiffres ci-dessous',
     voucher_assign: 'Assigner aux vouchers',

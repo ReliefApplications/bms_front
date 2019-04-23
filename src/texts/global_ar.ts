@@ -491,6 +491,9 @@ export const TEXT = {
     update_beneficiary_title: 'تحديث المستفيدين',
     update_beneficiary_updated_successfully: ' !تم التحديث بنجاح',
 
+    // Vendors
+    vendor_print_starting: 'Your invoice download is starting',
+
     //Vouchers
     voucher_ask_code: 'الرجاء مطالبة المستفيد بإدخال رمزه المكون من 4 أرقام هنا',
     voucher_assign: 'تعيين قسائم',

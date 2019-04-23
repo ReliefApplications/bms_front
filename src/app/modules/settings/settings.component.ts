@@ -31,10 +31,6 @@ import { Project } from '../../model/project.new';
 import { User } from '../../model/user.new';
 
 
-
-
-
-
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.component.html',
@@ -301,4 +297,9 @@ export class SettingsComponent implements OnInit {
             this.load();
         });
     }
+
+    print(event: CustomModel) {
+      this.snackbar.info(this.settings.vendor_print_starting);
+      return this.referedClassService.print(event);
+  }
 }

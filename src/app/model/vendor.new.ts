@@ -189,4 +189,8 @@ export class Vendor extends CustomModel {
         };
     }
 
+    public isPrintable(): boolean {
+        return true;
+    }
+
 }

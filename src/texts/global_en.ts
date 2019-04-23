@@ -489,7 +489,11 @@ export const TEXT = {
     update_beneficiary_title: 'Update Beneficiary',
     update_beneficiary_updated_successfully: 'Updated successfuly !',
 
-    //Vouchers
+
+    // Vendors
+    vendor_print_starting: 'Your invoice download is starting',
+  
+    // Vouchers
     voucher_ask_code: 'Please ask beneficiary to enter his 4 digits code here',
     voucher_assign: 'Assign vouchers',
     voucher_assign_title: 'Assign booklet to a beneficiary',
@@ -510,4 +514,5 @@ export const TEXT = {
     voucher_print_selection: 'Print selection',
     voucher_print_error: 'You can\'t print a booklet if it has no beneficiary',
     voucher_print_starting: 'Your voucher download is starting',
+
 };

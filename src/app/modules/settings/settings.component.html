@@ -46,8 +46,8 @@
         </button>
       </div>
       <div class="content-table">
-        <app-table [searchable]="true" [paginable]="true" *ngIf="!mobileMode" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="editable" [deletable]="deletable" (openModal)="openDialog($event)" [printable]="printable" [loggable]="loggable"></app-table>
-        <app-table-mobile *ngIf="mobileMode" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="editable" [deletable]="deletable" [printable]="printable" [loggable]="loggable" (openModal)="openDialog($event)"></app-table-mobile>
+        <app-table [searchable]="true" [paginable]="true" *ngIf="!mobileMode" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="editable" [deletable]="deletable" (openModal)="openDialog($event)" [printable]="printable" [loggable]="loggable" (printOne)="print($event)"></app-table>
+        <app-table-mobile *ngIf="mobileMode" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="editable" [deletable]="deletable" [printable]="printable" [loggable]="loggable" (openModal)="openDialog($event)" (printOne)="print($event)"></app-table-mobile>
       </div>
     </div>
   </div>

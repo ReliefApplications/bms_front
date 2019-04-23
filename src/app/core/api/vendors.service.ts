@@ -44,9 +44,9 @@ export class VendorsService extends CustomModelService {
         return this.http.post(url, {});
     }
 
-    // public print(vendor: Vendors) {
-    //     return this._exportService.printInvoice(parseInt(vendor.id, 10));
-    // }
+    public print(vendor: Vendor) {
+        return this._exportService.printInvoice(vendor.get('id'));
+    }
 
     // TO DO : make an empty method by default for every service
     public fillWithOptions(vendor: Vendor) {

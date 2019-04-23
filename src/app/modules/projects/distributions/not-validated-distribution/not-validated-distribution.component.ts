@@ -93,12 +93,12 @@ export class NotValidatedDistributionComponent implements OnInit {
       private dialog: MatDialog,
       private networkService: NetworkService,
       protected modalService: ModalService,
+      public userService: UserService,
   ) {
   }
   ngOnInit() {
     this.checkSize();
     this.getDistributionBeneficiaries('initial');
-    this.checkPermission();
 }
 
 @HostListener('window:resize', ['$event'])
@@ -180,20 +180,6 @@ setDistributionBenefAndGetBenef(distributionBeneficiaries: any): Beneficiary[] {
 storeBeneficiaries() {
 
   this.emitStore.emit(this.actualDistribution);
-}
-
-checkPermission() {
-    this.cacheService.getUser().subscribe(
-        result => {
-            this.actualUser = result;
-            if (result && result.rights) {
-                const rights = result.rights;
-                if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
-                    this.hasRights = true;
-                }
-            }
-        }
-    );
 }
 
   jumpStep(stepper: MatStepper) {

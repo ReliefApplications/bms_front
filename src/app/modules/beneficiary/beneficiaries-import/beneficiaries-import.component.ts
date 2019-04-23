@@ -8,13 +8,14 @@ import { LocationService } from 'src/app/core/api/location.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
-import { Households } from 'src/app/model/households';
+import { Households } from 'src/app/model/households.new';
 import { GlobalText } from '../../../../texts/global';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { ImportService } from '../../../core/utils/beneficiaries-import.service';
-import { Project } from '../../../model/project';
+import { Project } from '../../../model/project.new';
+import { UserService } from 'src/app/core/api/user.service';
 
 
 export interface Api {
@@ -107,24 +108,19 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
         private importedDataService: ImportedDataService,
         private dialog: MatDialog,
         private locationService: LocationService,
+        private userService: UserService,
     ) { }
 
     ngOnInit() {
-        let rights;
 
-        this._cacheService.get('user').subscribe(
-            result => {
-                rights = result.rights;
-                if (rights !== 'ROLE_ADMIN' && rights !== 'ROLE_PROJECT_MANAGER' && rights !== 'ROLE_PROJECT_OFFICER') {
-                    this.snackbar.error(this.household.forbidden_message);
-                    this.router.navigate(['']);
-                } else {
-                    this.getProjects();
-                    this.getAPINames();
-                    this.extensionType = 'xls';
-                }
-            }
-        );
+        if (!this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT')) {
+            this.snackbar.error(this.household.forbidden_message);
+            this.router.navigate(['']);
+        } else {
+            this.getProjects();
+            this.getAPINames();
+            this.extensionType = 'xls';
+        }
 
         this._cacheService.get('country')
             .subscribe(
@@ -136,7 +132,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
         this._cacheService.getUser()
             .subscribe(
                 response => {
-                    this.email = response.username;
+                    this.email = response.get('username');
                     this.email = this.email.replace('@', '');
                 }
             );
@@ -164,7 +160,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
      */
     getProjects() {
         this._projectService.get().subscribe((response: any) => {
-            this.projectList = Project.formatArray(response);
+            this.projectList = response.map((project: any) => Project.apiToModel(project));
             // this.form.controls['projects'].reset(this.projectList[0]);
         });
     }
@@ -614,8 +610,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
         this._householdsService.getImported(this.newHouseholds)
             .subscribe(
                 response => {
-                    this.newHouseholds = response;
-                    this.newHouseholds = Households.formatArray(this.newHouseholds);
+                    this.newHouseholds = response.map((household: Households) => Households.apiToModel(household));
                     this.importedDataService.data = this.newHouseholds;
                     this.router.navigate(['/beneficiaries/imported']);
                 }

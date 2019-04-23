@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { URL_BMS_API } from '../../../environments/environment';
 import { CustomModelService } from './custom-model.service';
 import { HttpService } from './http.service';
+import { Project } from 'src/app/model/project.new';
 
 @Injectable({
   providedIn: 'root'
@@ -59,8 +60,8 @@ export class BeneficiariesService extends CustomModelService {
     return this.http.get(url);
   }
 
-  public importApi(apiObject: any, project: any) {
-    const url = this.api + '/import/api/households/project/' + project.id;
+  public importApi(apiObject: any, project: Project) {
+    const url = this.api + '/import/api/households/project/' + project.get('id');
     return this.http.post(url, apiObject);
   }
 

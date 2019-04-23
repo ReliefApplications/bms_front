@@ -4,8 +4,8 @@
   </div>
 
   <div class="container-boxes">
-    <app-box-setting (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "folder", color: "green", title:household.beneficiaries_import_file, subtitle:"", ref:"file import"}'></app-box-setting>
-    <app-box-setting class="isLast" (emitClickedTitle)="selectTitle($event)" [selectedTitle]="selectedTitle" [info]='{icon: "settings/api", color: "red", title:household.beneficiaries_import_api, subtitle:"", ref:"api import"}'></app-box-setting>
+    <app-box-setting (click)="selectTitle('file import')" [isSelected]="selectedTitle === 'file import'" [info]='{icon: "folder", color: "green", title:household.beneficiaries_import_file, subtitle:"", ref:"file import"}'></app-box-setting>
+    <app-box-setting class="isLast" (click)="selectTitle('api import')" [isSelected]="selectedTitle === 'api import'" [info]='{icon: "settings/api", color: "red", title:household.beneficiaries_import_api, subtitle:"", ref:"api import"}'></app-box-setting>
   </div>
 
   <form [formGroup]="fileForm" class="container-table" *ngIf="selectedTitle == 'file import'">
@@ -70,7 +70,7 @@
             </div>
             <div class="select-file project-input">
               <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder={{household.projects}} >
-                <ng-option *ngFor="let project of projectList" [value]="project">{{project.name}}</ng-option>
+                <ng-option *ngFor="let project of projectList" [value]="project">{{project.get('name')}}</ng-option>
               </ng-select>
             </div>
           </mat-card>
@@ -127,7 +127,7 @@
             </div>
             <div class="select-file project-input">
               <ng-select formControlName="projects" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{household.projects}}>
-                <ng-option *ngFor="let project of projectList" [value]="project">{{project.name}}</ng-option>
+                <ng-option *ngFor="let project of projectList" [value]="project">{{project.get('name')}}</ng-option>
               </ng-select>
             </div>
           </mat-card>

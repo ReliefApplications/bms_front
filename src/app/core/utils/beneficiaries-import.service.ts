@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { Project } from 'src/app/model/project';
+import { Project } from 'src/app/model/project.new';
 import { HouseholdsService } from '../api/households.service';
 
 
@@ -39,7 +39,7 @@ export class ImportService {
     }
 
     sendStepUserData(data: any) {
-        return this.householdsService.sendDataToValidation(this.email, data, this.project.id, this.token).pipe(
+        return this.householdsService.sendDataToValidation(this.email, data, this.project.get('id'), this.token).pipe(
             map((response: Response) => {
                 this.token = response['token'];
                 delete response['token'];

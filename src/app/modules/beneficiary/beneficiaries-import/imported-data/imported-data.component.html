@@ -9,10 +9,10 @@
     <div class="container-content box-primary">
       <div class="content-table">
         <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
-          [data]="data" [editable]="true">
+          [data]="data">
         </app-table>
         <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
-          [data]="data" [editable]="true">
+          [data]="data">
         </app-table-mobile>
       </div>
 

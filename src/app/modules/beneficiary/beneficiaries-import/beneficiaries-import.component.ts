@@ -560,13 +560,19 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
      /**
      * Send csv file and project to import new households
      */
-    importHousholdsFile() {
+    importHouseholdsFile() {
         if (!this.csv || !this.fileForm.controls['projects'].valid || this.load) {
             this.snackbar.error(this.household.beneficiaries_import_select_project);
         } else {
             this.load = true;
             this._importService.setImportContext(this.email, this.fileForm.controls['projects'].value, this.csv);
-            this.router.navigate(['/beneficiaries/import/data-validation']);
+            this._importService.sendCsv().subscribe((response: any) => {
+                this._importService.setResponse(response);
+                this.load = false;
+                this.router.navigate(['/beneficiaries/import/data-validation']);
+            }, (error: any) => {
+                this.load = false;
+            });
         }
     }
 

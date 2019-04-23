@@ -52,11 +52,13 @@ export class DataValidationComponent implements OnInit {
     public step = Step;
     public checkboxState = CheckboxState;
 
-    public loading = true;
-
     public helpDisplayed = true;
 
     public texts = GlobalText.TEXTS;
+
+    public loading = false;
+    public loadingStep = false;
+
 //
 // ─── INIT ───────────────────────────────────────────────────────────────────────
 //
@@ -69,13 +71,11 @@ export class DataValidationComponent implements OnInit {
 
     public ngOnInit() {
         try {
-            this.importService.sendCsv().subscribe((response: any) => {
-                this.loading = false;
-                this.errors = response.data;
-                this.setStepFromResponse(response);
-                this.generateControls();
-            });
-            // If the import context has not been set
+            const response = this.importService.getResponse();
+            this.errors = response.data;
+            this.setStepFromResponse(response);
+            this.generateControls();
+        // If the import context has not been set
         } catch (error) {
             this.snackbar.error(this.texts.beneficiaries_import_error_importing);
             this.router.navigate(['beneficiaries/import']);
@@ -87,13 +87,16 @@ export class DataValidationComponent implements OnInit {
 //
     // Send step data to the server
     public validateStep() {
+        this.loadingStep = true;
         this.importService.sendStepUserData(this.generateResponse())
             .subscribe((response: any) => {
                 this.errors = response.data;
                 this.setStepFromResponse(response);
                 this.generateControls();
+                this.loadingStep = false;
         });
     }
+
     // Get the step from the response and set it in the component
     private setStepFromResponse(response: any) {
         this.helpDisplayed = true;
@@ -102,9 +105,10 @@ export class DataValidationComponent implements OnInit {
     }
 
     public finishImport() {
-
+        this.loading = true;
         this.importService.sendStepUserData(this.generateResponse())
             .subscribe((response: any) => {
+                this.loading = false;
                 this.importedDataService.data = Households.formatArray(response);
 
                 this.router.navigate(['/beneficiaries/imported']);
@@ -116,19 +120,19 @@ export class DataValidationComponent implements OnInit {
 //
     private generateControls() {
         if (this.currentStep === Step.Typos) {
-            this.generateTyposOrDuplicatesControls();
+            this.generateTyposControls();
         } else if (this.currentStep === Step.More ) {
             this.generateMoreControls();
         } else if (this.currentStep === Step.Less ) {
             this.generateLessControls();
         } else if (this.currentStep === Step.Duplicates ) {
-            this.generateTyposOrDuplicatesControls();
+            this.generateDuplicatesControls();
         } else {
             this.form = null;
         }
     }
 
-    private generateTyposOrDuplicatesControls() {
+    private generateTyposControls() {
         const formArray = [];
 
         this.errors.forEach((_: any) => {
@@ -141,6 +145,33 @@ export class DataValidationComponent implements OnInit {
                     validators: this.validateCheckboxPair
                 })
             );
+        });
+        this.form = new FormArray(formArray);
+    }
+
+    private generateDuplicatesControls() {
+        const formArray = [];
+
+        this.errors.forEach((error: any) => {
+            const duplicatesFormGroup = new FormGroup({
+                old: new FormControl(false),
+                new: new FormControl(false),
+            },
+            {
+                validators: this.validateCheckboxPair
+            });
+
+            // Check and disable head of households
+            if (error.old.status === true || error.old.status === '1') {
+                duplicatesFormGroup.controls['old'].setValue(true);
+                duplicatesFormGroup.controls['old'].disable();
+            }
+            if (error.new.status === true || error.new.status === '1') {
+                duplicatesFormGroup.controls['new'].setValue(true);
+                duplicatesFormGroup.controls['new'].disable();
+            }
+
+            formArray.push(duplicatesFormGroup);
         });
         this.form = new FormArray(formArray);
     }

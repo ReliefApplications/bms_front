@@ -17,6 +17,8 @@ export class ImportService {
 
     private csvFile: File;
 
+    private response: any;
+
     constructor(
         private householdsService: HouseholdsService,
     ) {}
@@ -44,5 +46,14 @@ export class ImportService {
                 return response;
             })
         );
+    }
+
+    // Getter and setter to pass response from beneficiaries-import component to data-validation
+    getResponse() {
+        return this.response;
+    }
+
+    setResponse(response: any) {
+        this.response = response;
     }
 }

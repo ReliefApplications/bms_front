@@ -95,7 +95,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             });
         }
         else {
-            this.userService.currentUser.get<Country[]>('country').forEach((element) => {
+            this.userService.currentUser.get<Country[]>('countries').forEach((element) => {
                 this.countries.push(element.get('id'));
             });
         }

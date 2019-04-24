@@ -12,7 +12,6 @@
     width: 100%;
     justify-content: left;
     font-size: 14px;
-    
 
     .mat-raised-button {
         background-color:$bms_white !important;
@@ -25,12 +24,20 @@
             height:16px;
             font-size: 16px;
             line-height: 16px;
-            padding-bottom:5px;
+            padding-bottom: 5px;
         }
     }
 }
 
+.server-table {
+    min-height: 360px;
+}
+
 .spinner-container {
+    min-height: 360px;
+    width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
 }

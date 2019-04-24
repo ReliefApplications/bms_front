@@ -6,9 +6,9 @@ import { GlobalText } from '../../../../../texts/global';
 import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
 import { DistributionService } from '../../../../core/api/distribution.service';
 import { HouseholdsService } from '../../../../core/api/households.service';
+import { Distribution } from 'src/app/model/distribution.new';
 import { ImportedBeneficiary } from '../../../../model/imported-beneficiary.new';
 import { UserService } from 'src/app/core/api/user.service';
-import { Distribution } from 'src/app/model/distribution.new';
 
 const IMPORT_COMPARE = 1;
 const IMPORT_UPDATE = 2;

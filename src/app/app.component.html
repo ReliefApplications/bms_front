@@ -1,8 +1,8 @@
 <mat-sidenav-container class="app-component" disableClose="!smallScreenMode" [hasBackdrop]="false">
-    <mat-sidenav #sidenav class="page-menu-wrapper" [ngClass]="{show: router.url ==='/login'}" [opened]="!smallScreenMode && router.url !=='/login'"
-        (mouseenter)="change()" (mouseleave)="change()" mode="over" [style.marginTop.px]="smallScreenMode ? 56 : 0">
+    <mat-sidenav #sidenav class="page-menu-wrapper" [ngClass]="{show: isShowing}" [opened]="!smallScreenMode && router.url !=='/login'"
+        (mouseenter)="change()" (mouseleave)="change()" mode="over" [style.marginTop.px]="smallScreenMode ? 56 : 0" [disableClose]="true">
         <mat-nav-list>
-            <mat-list-item routerLink="/" *ngIf="!smallScreenMode" routerLink="/">
+            <mat-list-item *ngIf="!smallScreenMode" routerLink="/">
                 <img src="assets/images/bms_logo.png" mat-list-icon>
             </mat-list-item>
             <mat-list-item [ngClass]="{selected: router.url ==='/'}" routerLink="/">
@@ -35,10 +35,10 @@
 
     <mat-sidenav-content  class="page-content-wrapper" [ngClass]="{noMargin: !smallScreenMode && router.url ==='/login'}">
         <mat-toolbar *ngIf="!smallScreenMode && router.url !=='/login'">
-            <app-header *ngIf="userService.currentUser" (emitLogOut)="onLogOut($event)"></app-header>
+            <app-header *ngIf="userService.currentUser"></app-header>
         </mat-toolbar>
         <mat-toolbar *ngIf="smallScreenMode && router.url !=='/login'" class="mobile">
-            <app-header-mobile *ngIf="userService.currentUser" (emitLogOut)="onLogOut($event)"></app-header-mobile>
+            <app-header-mobile *ngIf="userService.currentUser" (emitToggle)="toggle(sidenav)"></app-header-mobile>
         </mat-toolbar>
         <router-outlet></router-outlet>
     </mat-sidenav-content>

@@ -33,10 +33,10 @@
         height: 100%;
         background: $bms_black;
         width: 64px;
-        transition: width 0.25s ease-in-out 0.25s;
+        // transition: max-width 0.2s ease-in-out 0.2s;
 
         &.show {
-            width: 25vw;
+            width: auto;
         }
 
         mat-list-item {
@@ -69,6 +69,11 @@
         }
     }
 }
+
+mat-sidenav-content.noMargin {
+    margin:0 !important;
+}
+
 @media only screen and (max-width: 750px) {
     .page-content-wrapper {
         margin-left: 0 !important;
@@ -76,7 +81,7 @@
     }
 
     .app-component .page-menu-wrapper.show {
-        width: 30vw;
+        width: auto;
 
         mat-list-item {
             height: 13vh;

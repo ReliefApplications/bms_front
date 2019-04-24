@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ValidatedDistributionComponent } from '../validated-distribution.component';
-import { TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
-import { State } from 'src/app/model/transaction-beneficiary';
 import { finalize } from 'rxjs/operators';
+import { State, TransactionBeneficiary } from 'src/app/model/transaction-beneficiary';
+import { ValidatedDistributionComponent } from '../validated-distribution.component';
 
 @Component({
     selector: 'app-mobile-money',
@@ -13,6 +12,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
 
     sentStates = [State.Sent, State.AlreadySent, State.PickedUp];
     receivedStates = [State.PickedUp];
+
 
     ngOnInit() {
         super.ngOnInit();
@@ -26,10 +26,16 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
      */
     openDialog(template: any) {
         const distributionDate = new Date(this.actualDistribution.date_distribution);
-        if (new Date() < distributionDate) {
-            this.dialog.open(template);
-        } else {
+        const currentDate = new Date();
+        if (currentDate.getFullYear() > distributionDate.getFullYear() ||
+        (currentDate.getFullYear() === distributionDate.getFullYear() &&
+        currentDate.getMonth() > distributionDate.getMonth()) ||
+        (currentDate.getFullYear() === distributionDate.getFullYear() &&
+        currentDate.getMonth() === distributionDate.getMonth()) &&
+        currentDate.getDate() > distributionDate.getDate()) {
             this.snackbar.error(this.TEXT.snackbar_invalid_transaction_date);
+        } else {
+            this.dialog.open(template);
         }
     }
 
@@ -77,7 +83,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
     }
 
     requestLogs() {
-        if (this.hasRights) {
+        if (this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')) {
             try {
                 this.distributionService.logs(this.distributionId).subscribe(
                     e => { this.snackbar.error('' + e); },
@@ -120,7 +126,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
      * To transact
      */
     confirmTransaction() {
-        if (this.hasRightsTransaction) {
+        if (this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')) {
             this.progression = 0;
             this.cacheService.getUser().subscribe(result => {
                 this.actualUser = result;

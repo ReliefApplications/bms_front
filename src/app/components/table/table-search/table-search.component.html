@@ -44,11 +44,11 @@
                         <mat-icon>history</mat-icon>
                     </button>
 
-                    <button *ngIf="editable && checkEntityUpdateRights() && rights" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()"
+                    <button *ngIf="editable" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()"
                         [matTooltip]="table.update" class="green">
                         <mat-icon>search</mat-icon>
                     </button>
-                    <button *ngIf="editable && rights && deletable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
+                    <button *ngIf="deletable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
                         [matTooltip]="table.delete" class="red">
                         <mat-icon>delete_outline</mat-icon>
                     </button>

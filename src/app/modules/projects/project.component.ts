@@ -1,23 +1,19 @@
-import { Component, OnInit, HostListener, SimpleChanges, DoCheck } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-
-import { GlobalText } from '../../../texts/global';
-
-import { Project } from '../../model/project';
-
-import { ProjectService } from '../../core/api/project.service';
-import { DistributionService } from '../../core/api/distribution.service';
-import { DistributionData } from '../../model/distribution-data';
-import { Mapper } from '../../core/utils/mapper.service';
+import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
-
-import { ExportInterface } from '../../model/export.interface';
-import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
+import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { UserService } from 'src/app/core/api/user.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { delay, finalize } from 'rxjs/operators';
+import { GlobalText } from '../../../texts/global';
+import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
+import { DistributionService } from '../../core/api/distribution.service';
+import { ProjectService } from '../../core/api/project.service';
 import { ImportedDataService } from '../../core/utils/imported-data.service';
-
+import { Mapper } from '../../core/utils/mapper.service';
+import { DistributionData } from '../../model/distribution-data';
+import { Project } from '../../model/project';
 
 @Component({
     selector: 'app-project',
@@ -45,8 +41,6 @@ export class ProjectComponent implements OnInit, DoCheck {
     selectedProjectId = null;
     isBoxClicked = false;
     extensionType: string;
-    hasRights = false;
-    hasRightsEdit = false;
 
     public maxHeight = GlobalText.maxHeight;
     public maxWidthMobile = GlobalText.maxWidthMobile;
@@ -56,6 +50,8 @@ export class ProjectComponent implements OnInit, DoCheck {
     public heightScreen;
     public widthScreen;
 
+    public httpSubscriber: Subscription;
+
     constructor(
         public projectService: ProjectService,
         public distributionService: DistributionService,
@@ -64,18 +60,19 @@ export class ProjectComponent implements OnInit, DoCheck {
         private _cacheService: AsyncacheService,
         public snackbar: SnackbarService,
         public dialog: MatDialog,
-        public importedDataService: ImportedDataService
+        public importedDataService: ImportedDataService,
+        public userService: UserService,
     ) { }
 
     ngOnInit() {
         if (this.importedDataService.emittedProject) {
             this.selectedProjectId = parseInt(this.importedDataService.project, 10);
             this.getProjects();
+
         } else {
             this.getProjects();
         }
         this.checkSize();
-        this.checkPermission();
         this.extensionType = 'xls';
     }
 
@@ -108,11 +105,23 @@ export class ProjectComponent implements OnInit, DoCheck {
      * @param project
      */
     selectTitle(title, project): void {
+        if (this.httpSubscriber) {
+            this.httpSubscriber.unsubscribe();
+        }
         this.isBoxClicked = true;
         this.selectedTitle = title;
         this.selectedProject = project;
         this.loadingDistributions = true;
         this.getDistributionsByProject(project.id);
+    }
+
+    autoProjectSelect(input: string) {
+        const selector = parseInt(input, 10);
+        this.projects.forEach(e => {
+            if (e.id === selector) {
+                this.selectTitle(e.name, e);
+            }
+        });
     }
 
     setType(choice: string) {
@@ -134,14 +143,14 @@ export class ProjectComponent implements OnInit, DoCheck {
             response => {
                 if (response && response.length > 0) {
                     const formattedResponse = this.projectClass.formatArray(response).reverse();
+                    this.projects = formattedResponse;
                     if (!this.projects || formattedResponse.length !== this.projects.length) {
-                        this.projects = formattedResponse;
-                        if (this.selectedProjectId) {
-                            this.autoProjectSelect(this.selectedProjectId);
-                        } else {
-                            this.selectTitle(this.projects[0].name, this.projects[0]);
-                        }
                         this.loadingProjects = false;
+                    }
+                    if (this.selectedProjectId) {
+                        this.autoProjectSelect(this.selectedProjectId);
+                    } else {
+                        this.selectTitle(this.projects[0].name, this.projects[0]);
                     }
                 } else if (response === null) {
                     this.loadingProjects = false;
@@ -155,7 +164,7 @@ export class ProjectComponent implements OnInit, DoCheck {
      * @param projectId
      */
     getDistributionsByProject(projectId: number): void {
-        this.distributionService.
+        this.httpSubscriber = this.distributionService.
             getByProject(projectId).pipe(
                 finalize(
                     () => {
@@ -231,30 +240,6 @@ export class ProjectComponent implements OnInit, DoCheck {
         this.projectService.create(createElement['id'], createElement).subscribe(response => {
             this.snackbar.success('Project ' + this.distribution.settings_created);
             this.getProjects();
-        });
-    }
-
-    checkPermission() {
-        this._cacheService.getUser().subscribe(
-            result => {
-                const rights = result.rights;
-                if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
-                    this.hasRights = true;
-                }
-
-                if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER') {
-                    this.hasRightsEdit = true;
-                }
-            }
-        );
-    }
-
-    autoProjectSelect(input: string) {
-        const selector = parseInt(input, 10);
-        this.projects.forEach(e => {
-            if (e.id === selector) {
-                this.selectTitle(e.name, e);
-            }
         });
     }
 }

@@ -14,7 +14,7 @@
     </div>
 
     <div class="align-items">
-      <mat-checkbox color="primary" [checked]="default" (click)="saveDefault()"></mat-checkbox>
+      <mat-checkbox color="primary" [checked]="default" [(ngModel)]="isCheckedDefault"></mat-checkbox>
       <span class="spacement">{{ modal.modal_save_language_as_default }}</span>
     </div>
   </div>

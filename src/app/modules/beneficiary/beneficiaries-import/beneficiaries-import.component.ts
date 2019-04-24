@@ -1,48 +1,49 @@
-import { Component, OnInit, ViewChild, HostListener, DoCheck } from '@angular/core';
-import { HouseholdsService } from '../../../core/api/households.service';
-
-import { saveAs } from 'file-saver/FileSaver';
-import { ImportService } from '../../../core/utils/import.service';
-import { ProjectService } from '../../../core/api/project.service';
-import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { Project } from '../../../model/project';
-import { GlobalText } from '../../../../texts/global';
+import { Component, DoCheck, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { MatTableDataSource, MatDialog } from '@angular/material';
+import { Observable, Subscription } from 'rxjs';
+import { finalize, switchMap } from 'rxjs/operators';
+import { LocationService } from 'src/app/core/api/location.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Households } from 'src/app/model/households';
 import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
-import { LocationService } from 'src/app/core/api/location.service';
-import { switchMap, finalize } from 'rxjs/operators';
-import { Observable, from } from 'rxjs';
+import { Households } from 'src/app/model/households';
+import { GlobalText } from '../../../../texts/global';
+import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
+import { HouseholdsService } from '../../../core/api/households.service';
+import { ProjectService } from '../../../core/api/project.service';
+import { ImportService } from '../../../core/utils/beneficiaries-import.service';
+import { Project } from '../../../model/project';
+
+
+export interface Api {
+    name: string;
+    parameters: Array<ApiParameter>;
+}
+
+export interface ApiParameter {
+    paramName: string;
+    paramType: string;
+}
 
 @Component({
     selector: 'app-beneficiaries-import',
     templateUrl: './beneficiaries-import.component.html',
     styleUrls: ['./beneficiaries-import.component.scss', '../../../components/modals/modal.component.scss']
 })
-export class BeneficiariesImportComponent implements OnInit, DoCheck {
+export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy {
     public nameComponent = 'beneficiaries_import_title';
     public language = GlobalText.language;
     public household = GlobalText.TEXTS;
     loadingExport = false;
 
-    // to disable / enable the second box
-    public isProjectsDisabled = true;
-    public isApiDisabled = true;
 
     // for the items button
     selectedTitle = 'file import';
     isBoxClicked = false;
 
-    // for the selector
-    form = new FormGroup({
-        projects: new FormControl({ value: '', disabled: 'true' })
-    });
-    projectList: string[] = [];
-    public selectedProject: string = null;
+    projectList: Project[] = [];
 
     // upload
     response = '';
@@ -56,16 +57,15 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
     public project;
     public load = false;
 
+    public apiForm = new FormGroup({
+        apiSelector: new FormControl(undefined, Validators.required),
+        projects : new FormControl({ value: undefined, disabled: true}, Validators.required),
+    });
 
-    public APINames: string[] = [];
-    public APIParams: any = [];
-    public ParamsToDisplay: any = [];
-    public chosenItem: string;
+    public fileForm = new FormGroup({
+        projects : new FormControl({ value: undefined, disabled: true }, Validators.required),
+    });
 
-    public text = new FormControl('', [Validators.pattern('[a-zA-Z ]*'), Validators.required]);
-    public number = new FormControl('', [Validators.pattern('[0-9]*'), Validators.required]);
-    public paramToSend = {};
-    public provider: string;
     extensionType: string;
     public newHouseholds: any = {};
     public email: string;
@@ -92,6 +92,10 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
     public loadDownload = false;
     public country: boolean;
 
+    public apiList: Array<Api> = [];
+    public selectedApi: Api;
+    apiSelectorSubscriber: Subscription;
+
     constructor(
         public _householdsService: HouseholdsService,
         public _importService: ImportService,
@@ -107,6 +111,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
 
     ngOnInit() {
         let rights;
+
         this._cacheService.get('user').subscribe(
             result => {
                 rights = result.rights;
@@ -135,7 +140,9 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
                     this.email = this.email.replace('@', '');
                 }
             );
+
     }
+
 
     /**
      * check if the langage has changed
@@ -148,18 +155,17 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
         }
     }
 
+    ngOnDestroy(): void {
+        this.apiSelectorSubscriber.unsubscribe();
+    }
+
     /**
      * Get list of all project and put it in the project selector
      */
     getProjects() {
-        this.referedClassService = this._projectService;
-        this.referedClassService.get().subscribe(response => {
-            this.projectList = [];
-            response = this.referedClassToken.formatArray(response);
-            response.forEach(element => {
-                const concat = element.id + ' - ' + element.name;
-                this.projectList.push(concat);
-            });
+        this._projectService.get().subscribe((response: any) => {
+            this.projectList = Project.formatArray(response);
+            // this.form.controls['projects'].reset(this.projectList[0]);
         });
     }
 
@@ -186,12 +192,14 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
                 this.csv2 = fileList[0];
             } else {
                 this.csv = fileList[0];
-                this.isProjectsDisabled = false;
+
             }
 
+            this.fileForm.controls['projects'].enable();
             if (this.projectList.length > 0) {
-                this.form.controls['projects'].enable();
-                this.selectedProject = this.projectList[0];
+                this.fileForm.patchValue({
+                    projects: this.projectList[0],
+                });
             }
         }
     }
@@ -216,32 +224,6 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
         ).catch(
             () => { this.loadingExport = false; }
         );
-    }
-
-    /**
-     * Send csv file and project to import new households
-     */
-    addHouseholds() {
-        const data = new FormData();
-        if (!this.csv || !this.selectedProject || this.load) {
-            this.snackbar.error(this.household.beneficiaries_import_select_project);
-        } else {
-            const project = this.selectedProject.split(' - ');
-            data.append('file', this.csv);
-            const step = 1;
-            this.load = true;
-            this._importService.sendData(this.email, data, project[0], step).then(() => {
-                this.router.navigate(['/beneficiaries/import/data-validation']);
-            }, (err) => {
-                this.load = false;
-            })
-                .catch(
-                    () => {
-                        this.load = false;
-                        this.snackbar.error(this.household.beneficiaries_import_error_importing);
-                    }
-                );
-        }
     }
 
     /**
@@ -464,8 +446,9 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
             body.name = this.saveLocation.adm1;
         }
 
-        this._importService.testFileTemplate(data, body)
+        this._householdsService.testFileTemplate(data, body)
             .then(() => {
+                this.dialog.closeAll();
             }, (err) => {
                 this.dialog.closeAll();
                 this.csv2 = null;
@@ -518,92 +501,111 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck {
      */
     getAPINames() {
         this._beneficiariesService.listApi()
-            .subscribe(names => {
-                if (names['listAPI'].length > 0) {
-                    names = names['listAPI'];
-                    const param = {};
-
-                    Object.values(names).forEach(listAPI => {
-                        this.APINames.push(listAPI['APIName']);
-
-                        for (let j = 0; j < listAPI['params'].length; j++) {
-                            if (listAPI['params'][j].paramType === 'string') {
-                                param['paramType'] = 'text';
-                            } else if (listAPI['params'][j].paramType === 'int') {
-                                param['paramType'] = 'number';
-                            }
-                            param['paramName'] = listAPI['params'][j].paramName;
-                        }
-
-                        this.APIParams.push(param);
-                    });
-
-                    this.chosenItem = this.APINames[0];
-                    this.ParamsToDisplay.push({ 'paramType': this.APIParams[0].paramType, 'paramName': this.APIParams[0].paramName });
-                    this.provider = this.chosenItem;
-                    if (this.chosenItem) { this.isApiDisabled = false; }
+            .subscribe((response: object) => {
+                if (!response) {
+                    this.snackbar.warning('NO API FOUND');
+                    return;
                 }
+                response['listAPI'].map((apiInfo: any) => {
+                    this.apiList.push({name: apiInfo.APIName, parameters: apiInfo.params});
+                });
+
+                this.listenForApiSelectorChanges();
+
+                this.apiForm.patchValue({
+                    apiSelector: this.apiList[0].name,
+                });
             });
     }
 
-    /**
-     * Get the index of the radiogroup to display the right inputs
-     * @param  event
-     */
-    onChangeRadioAPI(event) {
-        this.ParamsToDisplay = [];
-        const index = this.APINames.indexOf(event.value);
-        this.ParamsToDisplay.push({ 'paramType': this.APIParams[index].paramType, 'paramName': this.APIParams[index].paramName });
-        this.provider = event.value;
+    setSelectedApi(apiName: string): void {
+        this.apiList.forEach((api: Api) => {
+            if (api.name === apiName) {
+                this.selectedApi = api;
+                return;
+            }
+        });
     }
 
-    /**
-     * Get each value in inputs
-     * @param  event
-     * @param  paramName
-     */
-    getValue(event, paramName) {
-        const text = event.target.value;
+    listenForApiSelectorChanges() {
+        this.apiSelectorSubscriber = this.apiForm.get('apiSelector').valueChanges.subscribe((apiName: string) => {
+            this.setSelectedApi(apiName);
+            this.updateParameterControl();
+            this.apiForm.controls['projects'].enable();
+        });
+    }
 
-        this.paramToSend['params'] = { [paramName]: text };
-        this.isProjectsDisabled = false;
-        this.form.controls['projects'].enable();
+    updateParameterControl() {
+        const parametersFormGroup = new FormGroup({});
+        this.selectedApi.parameters.forEach((parameter: ApiParameter) => {
+            if (parameter.paramType === 'string') {
+                parametersFormGroup.addControl(
+                    parameter.paramName,
+                    new FormControl( undefined, [Validators.pattern(/\w+/), Validators.required])
+                    );
+            } else if (parameter.paramType === 'int') {
+                parametersFormGroup.addControl(
+                    parameter.paramName,
+                    new FormControl(undefined, [Validators.pattern(/\d+/), Validators.required])
+                );
+            }
+        });
+        if (this.apiForm.contains('parameters')) {
+            this.apiForm.removeControl('parameters');
+        }
+        this.apiForm.addControl('parameters', parametersFormGroup);
+        this.apiForm.controls['parameters'].enable();
+    }
+
+
+     /**
+     * Send csv file and project to import new households
+     */
+    importHouseholdsFile() {
+        if (!this.csv || !this.fileForm.controls['projects'].valid || this.load) {
+            this.snackbar.error(this.household.beneficiaries_import_select_project);
+        } else {
+            this.load = true;
+            this._importService.setImportContext(this.email, this.fileForm.controls['projects'].value, this.csv);
+            this._importService.sendCsv().subscribe((response: any) => {
+                this._importService.setResponse(response);
+                this.load = false;
+                this.router.navigate(['/beneficiaries/import/data-validation']);
+            }, (error: any) => {
+                this.load = false;
+            });
+        }
     }
 
     /**
      * Check if all fields are set, and import all the beneficiaries
      */
-    addBeneficiaries() {
-        if (Object.keys(this.paramToSend).length === this.APIParams.length && Object.keys(this.paramToSend).length > 0) {
-            if (this.selectedProject == null) {
-                this.snackbar.error(this.household.beneficiaries_missing_selected_project);
-            } else {
-                const project = this.selectedProject.split(' - ');
-                this._importService.project = project[0];
-                this.load = true;
-                this.paramToSend['provider'] = this.provider;
-                this._beneficiariesService.importApi(this.paramToSend, project[0])
-                    .subscribe(response => {
-                        if (response.error) {
-                            this.load = false;
-                            this.snackbar.error(response.error);
-                            delete this.paramToSend['provider'];
-                        } else if (response.exist) {
-                            this.load = false;
-                            this.snackbar.warning(response.exist);
-                            delete this.paramToSend['provider'];
-                        } else {
-                            this.snackbar.success(response.message + this.household.beneficiaries_import_beneficiaries_imported);
-                            this.newHouseholds = response.households;
-
-                            this.importedHouseholds();
-                        }
-                    });
-            }
-        } else {
+    importHousholdsApi() {
+        if (!this.apiForm.valid) {
             this.snackbar.error(this.household.beneficiaries_import_check_fields);
+            return;
         }
+        const params = {};
+        this.selectedApi.parameters.forEach((parameter: ApiParameter) => {
+            params[parameter.paramName] = this.apiForm.get(['parameters', parameter.paramName]).value;
+        });
 
+        const body = {
+            params: params,
+            provider: this.selectedApi.name,
+        };
+
+
+        this._beneficiariesService.importApi(body, this.apiForm.controls['projects'].value)
+            .subscribe(response => {
+                this.load = false;
+                this.snackbar.success(response.message + this.household.beneficiaries_import_beneficiaries_imported);
+                this.newHouseholds = response.households;
+                this.importedHouseholds();
+            }, error => {
+                this.load = false;
+                this.snackbar.error(error);
+            });
     }
 
     /**

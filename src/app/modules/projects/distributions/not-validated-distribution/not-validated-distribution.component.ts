@@ -27,6 +27,7 @@ export class NotValidatedDistributionComponent implements OnInit {
 
   @Input() actualDistribution: Distribution;
   @Input() loaderCache: boolean;
+  @Input() distributionIsStored: boolean;
 
   @Output() emitStore = new EventEmitter<Distribution>();
   loadingExport = false;
@@ -53,7 +54,7 @@ export class NotValidatedDistributionComponent implements OnInit {
 
   // Datas.
   initialBeneficiaryData: MatTableDataSource<Beneficiary>;
-  randomSampleData: MatTableDataSource<any>;
+  randomSampleData: MatTableDataSource<Beneficiary>;
   finalBeneficiaryData: MatTableDataSource<Beneficiary>;
 
   // Screen display variables.
@@ -162,7 +163,8 @@ setDistributionBenefAndGetBenef(distributionBeneficiaries: any): Beneficiary[] {
     this.actualDistribution.set(
         'distributionBeneficiaries',
         distributionBeneficiaries
-            .map((distributionBeneficiariy: any) => DistributionBeneficiary.apiToModel(distributionBeneficiariy)));
+            .map((distributionBeneficiariy: any) =>
+                DistributionBeneficiary.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
     return this.actualDistribution.get<DistributionBeneficiary[]>('distributionBeneficiaries').map(
         (distributionBeneficiariy: any) => distributionBeneficiariy.get('beneficiary')
     );
@@ -324,7 +326,11 @@ generateRandom() {
         this.beneficiariesService.getRandom(this.actualDistribution.get('id'), sampleLength)
             .subscribe(
                 response => {
-                    const data = response.map((beneficiary: any) => Beneficiary.apiToModel(beneficiary));
+                    const data = response.map((beneficiary: any) => {
+                        const newBeneficiary = Beneficiary.apiToModel(beneficiary);
+                        newBeneficiary.set('distributionId', this.actualDistribution.get('id'));
+                        return newBeneficiary;
+                    });
                     this.randomSampleData = new MatTableDataSource(data);
                     this.loadingThirdStep = false;
                 }
@@ -401,6 +407,7 @@ setType(step, choice) {
         // Can only be a modalDetails
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
         this.modalService.isCompleted.subscribe(() => {
+            this.getDistributionBeneficiaries('both');
         });
     }
 

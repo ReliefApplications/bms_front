@@ -186,6 +186,9 @@ export class Beneficiary extends CustomModel {
         ),
         profile: new ObjectModelField<Profile>({
 
+        }),
+        distributionId: new NumberModelField({
+
         })
     };
 

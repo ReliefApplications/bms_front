@@ -50,6 +50,7 @@ export class ValidatedDistributionComponent implements OnInit {
     @Input() actualDistribution: Distribution;
     transactionData: MatTableDataSource<any>;
     @Input() loaderCache = false;
+    @Input() distributionIsStored: boolean;
 
     @Output() storeEmitter: EventEmitter<Distribution> = new EventEmitter();
     @Output() finishedEmitter: EventEmitter<any> = new EventEmitter();

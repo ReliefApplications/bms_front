@@ -18,6 +18,7 @@ import { NetworkService } from '../api/network.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { SnackbarService } from '../logging/snackbar.service';
 import { AsyncacheService } from '../storage/asyncache.service';
+import { Beneficiary } from 'src/app/model/beneficiary.new';
 
 @Injectable({
     providedIn: 'root'
@@ -178,9 +179,16 @@ export class ModalService {
     }
 
     deleteElement(deleteElement: CustomModel) {
+
+        if (deleteElement instanceof Beneficiary) {
+            this.referedClassService.delete(deleteElement.get('id'), deleteElement.get('distributionId')).subscribe(response => {
+                this.isCompleted.next();
+                });
+        } else {
             this.referedClassService.delete(deleteElement.get('id')).subscribe(response => {
-            this.isCompleted.next();
+                this.isCompleted.next();
             });
+        }
     }
 
     // createElement(createElement: Object) {

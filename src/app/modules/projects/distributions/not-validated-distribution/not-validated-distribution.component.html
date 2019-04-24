@@ -38,10 +38,10 @@
                     <div class="waitingDataContainer" *ngIf="loadingFirstStep">
                         <mat-spinner></mat-spinner>
                     </div>
-                    <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [editable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                    <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                        (openModal)="openModal($event)">
                     </app-table>
-                    <app-table-mobile *ngIf="widthScreen < maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [editable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                    <app-table-mobile *ngIf="widthScreen < maxWidthMobile && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                        (openModal)="openModal($event)">
                     </app-table-mobile>
                 </div>
@@ -122,9 +122,9 @@
                     <mat-spinner></mat-spinner>
                 </div>
                 <div class="content-table" *ngIf="randomSampleData">
-                    <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile && !loadingThirdStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)" [editable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
+                    <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile && !loadingThirdStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
                     </app-table>
-                    <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)" [editable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
+                    <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
                     </app-table-mobile>
                 </div>
                 <div class="content-button content-button-footer">
@@ -151,9 +151,9 @@
                         <mat-spinner></mat-spinner>
                     </div>
                     <div class="content-table" *ngIf="finalBeneficiaryData">
-                        <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [editable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (openModal)="openModal($event)">
+                        <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (openModal)="openModal($event)">
                         </app-table>
-                        <app-table-mobile *ngIf="widthScreen < maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [editable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (openModal)="openModal($event)">
+                        <app-table-mobile *ngIf="widthScreen < maxWidthMobile && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (openModal)="openModal($event)">
                         </app-table-mobile>
                     </div>
                     <div class="content-button content-button-footer">

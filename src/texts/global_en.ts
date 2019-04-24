@@ -141,6 +141,7 @@ export const TEXT = {
     beneficiaries_advanced_research: 'Advanced search',
     beneficiaries_clear_all_research: 'Clear all',
     beneficiaries_full_address: 'Full household address:',
+    beneficiaries_head: 'Head',
     beneficiaries_household_info: 'Household information summary:',
     beneficiaries_import_addFile: 'add file or drag and drop',
     beneficiaries_import_addModal: 'add file',
@@ -158,8 +159,13 @@ export const TEXT = {
     beneficiaries_import_title: 'import beneficiary data',
     beneficiaries_import_warning: 'Warning: if the provided file is incomplete, the resulting one may need to be completed for the import to succeed.',
     beneficiaries_location: 'Household Location:',
+    beneficiaries_member: 'Member',
     beneficiaries_missing_selected_project: 'You must select a project before uploading',
     beneficiaries_proxy: 'Proxy',
+    beneficiaries_residency_refugee: 'Refugee',
+    beneficiaries_residency_idp: 'IDP',
+    beneficiaries_residency_resident: 'Resident',
+
     beneficiaries_select_api: 'Select API',
     beneficiaries_selected_project: 'selected beneficiaries:',
 
@@ -320,6 +326,8 @@ export const TEXT = {
     model_booklet: 'Booklet',
     model_code: 'Code',
     model_commodity: 'Commodity',
+    model_commodity_kgs: 'Kgs',
+    model_commodity_kit: 'Kit',
     model_commodity_modality: 'Modality',
     model_commodity_unit: 'Unit',
     model_commodity_value: 'Quantity',
@@ -370,6 +378,10 @@ export const TEXT = {
     model_vendors_address: 'Address',
     model_vendor: 'Vendor',
     model_vulnerabilities: 'Vulnerabilities',
+
+    // Phone
+    phone_type_landline: 'Landline',
+    phone_type_mobile: 'Mobile',
 
     // Placeholder
     placeholder_one_many: 'Select one or many',

@@ -142,6 +142,7 @@ export const TEXT = {
     beneficiaries_clear_all_research: 'Réinitialiser les filtres',
     beneficiaries_full_address: 'Adresse entière du ménage :',
     beneficiaries_household_info: 'Résumé des informations du ménage:',
+    beneficiaries_head: 'Chef de famille',
     beneficiaries_import_addFile: 'ajouter un fichier ou glisser-déposer',
     beneficiaries_import_addModal: 'ajouter un fichier',
     beneficiaries_import_api: 'import depuis une source externe',
@@ -158,8 +159,12 @@ export const TEXT = {
     beneficiaries_import_title: 'import de bénéficiaires',
     beneficiaries_import_warning: 'Attention : si le fichier importé est incomplet, le fichier résultant pourra nécessiter d\'être complété pour que l\'import fonctionne',
     beneficiaries_location: 'Localisation du ménage :',
+    beneficiaries_member: 'Membre',
     beneficiaries_missing_selected_project: 'Vous devez selectionner un projet avant l\'importation',
     beneficiaries_proxy: 'Proxy',
+    beneficiaries_residency_refugee: 'Réfugié',
+    beneficiaries_residency_idp: 'IDP',
+    beneficiaries_residency_resident: 'Résident',
     beneficiaries_select_api: 'Sélectionner une API',
     beneficiaries_selected_project: 'bénéficiaires sélectionnés:',
 
@@ -321,6 +326,8 @@ export const TEXT = {
     model_code: 'Code',
     model_commodity: 'Ressource',
     model_commodity_modality: 'Modalité',
+    model_commodity_kgs: 'Kgs',
+    model_commodity_kit: 'Kit',
     model_commodity_unit: 'Unité',
     model_commodity_value: 'Quantité',
     model_countryIso3: 'Pays',
@@ -371,6 +378,10 @@ export const TEXT = {
     model_vendor: 'Vendeur',
     model_vulnerabilities: 'Vulnérabilités',
 
+      // Phone
+      phone_type_landline: 'Fixe',
+      phone_type_mobile: 'Portable',
+    
     // Placeholder
     placeholder_one_many: 'Select one or many',
 

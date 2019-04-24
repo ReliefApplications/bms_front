@@ -97,7 +97,10 @@ export class Beneficiary extends CustomModel {
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isEditable: true,
-                options: [ new Gender('0', 'woman'), new Gender('1', 'man')],
+                options: [
+                    new Gender('0', GlobalText.TEXTS.add_distribution_female),
+                    new Gender('1', GlobalText.TEXTS.add_distribution_male)
+                ],
                 bindField: 'name',
                 apiLabel: 'id',
 
@@ -122,7 +125,11 @@ export class Beneficiary extends CustomModel {
                 isRequired: true,
                 isSettable: true,
                 isLongText: false,
-                options: [ new ResidencyStatus('0', 'refugee'), new ResidencyStatus('1', 'IDP'), new ResidencyStatus('2', 'resident')],
+                options: [
+                    new ResidencyStatus('0', GlobalText.TEXTS.beneficiaries_residency_refugee),
+                    new ResidencyStatus('1', GlobalText.TEXTS.beneficiaries_residency_idp),
+                    new ResidencyStatus('2', GlobalText.TEXTS.beneficiaries_residency_resident)
+                ],
                 bindField: 'name',
                 apiLabel: 'name',
                 value: new ResidencyStatus('2', 'resident')
@@ -133,7 +140,10 @@ export class Beneficiary extends CustomModel {
                 title: GlobalText.TEXTS.model_beneficiaries_status,
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
-                options: [ new BeneficiaryStatus('0', 'Member'), new BeneficiaryStatus('1', 'Head')],
+                options: [
+                    new BeneficiaryStatus('0', GlobalText.TEXTS.beneficiaries_member),
+                    new BeneficiaryStatus('1', GlobalText.TEXTS.beneficiaries_head)
+                ],
                 isRequired: true,
                 isSettable: true,
                 isEditable: true,

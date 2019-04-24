@@ -66,20 +66,20 @@ export class ModalAddCommodityComponent implements OnInit {
   getUnit(): string {
     switch (this.form.controls.modalityType.value) {
         case 1: // Mobile Cash
-            return 'Currency';
+            return this.texts.model_currency;
         case 2: // QR Code Voucher
-            return 'Unit';
+            return this.texts.model_commodity_unit;
         case 3: // Food
         case 4: // RTE Kit
         case 6: // Agricultural Kit
         case 7: // Wash kit
-            return 'Kit';
+            return this.texts.model_commodity_kit;
         case 5: // Bread
-            return 'Kgs';
+            return this.texts.model_commodity_kgs;
         case 8: // Loan
-            return 'Currency';
+            return this.texts.model_currency;
         default:
-            return 'Unit';
+            return this.texts.model_commodity_unit;
     }
 }
 

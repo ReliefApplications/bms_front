@@ -3,6 +3,7 @@ import { NumberModelField } from './CustomModel/number-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { CustomModel } from './CustomModel/custom-model';
+import { GlobalText } from 'src/texts/global';
 
 export class PhoneType extends CustomModel {
 
@@ -42,7 +43,7 @@ export class Phone extends CustomModel {
         ),
         type: new SingleSelectModelField(
             {
-                options: [new PhoneType('1', 'Landline'), new PhoneType('2', 'Mobile')],
+                options: [new PhoneType('1', GlobalText.TEXTS.phone_type_landline), new PhoneType('2', GlobalText.TEXTS.phone_type_mobile)],
                 apiLabel: 'name'
             }
         )

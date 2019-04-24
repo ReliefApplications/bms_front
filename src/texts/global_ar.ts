@@ -142,6 +142,7 @@ export const TEXT = {
     beneficiaries_clear_all_research: 'امسح الكل',
     beneficiaries_full_address: 'عنوان المنزل بالكامل:',
     beneficiaries_household_info: 'ملخص المعلومات الخاصة بالمنزل  :',
+    beneficiaries_head: 'رب الأسرة',
     beneficiaries_import_addFile: ' إضافة ملف أو وضع ملف ',
     beneficiaries_import_addModal: 'add file',
     beneficiaries_import_api: 'تحميل من مصدر بيانات خارجي',
@@ -158,8 +159,12 @@ export const TEXT = {
     beneficiaries_import_title: 'تحميل بيانات المستفيد',
     beneficiaries_import_warning: 'تحذير: إذا كان الملف المقدم غير كامل  ، عليك  إكمال العنصر الناتج حتى ينجح الاستيراد.',
     beneficiaries_location: 'مكان الأسرة:',
+    beneficiaries_member: 'فرد من العائلة',
     beneficiaries_missing_selected_project: 'يجب أن تختار مشروعاقبل التحميل',
     beneficiaries_proxy: 'الوكيل',
+    beneficiaries_residency_refugee: 'لاجئ',
+    beneficiaries_residency_idp: 'IDP',
+    beneficiaries_residency_resident: 'مقيم',
     beneficiaries_select_api: 'API اختر',
     beneficiaries_selected_project: 'المستفيدين المختارين:',
 
@@ -320,6 +325,8 @@ export const TEXT = {
     model_booklet: 'كتيب',
     model_code: 'الشفرة',
     model_commodity: 'السلع',
+    model_commodity_kgs: 'كلغ',
+    model_commodity_kit: 'عدة',
     model_commodity_modality: 'القيد',
     model_commodity_unit: 'وحدة',
     model_commodity_value: 'كمية',
@@ -354,7 +361,7 @@ export const TEXT = {
     model_project_name: 'اسم المشروع',
     model_project_number_of_households: 'عدد الأسر',
     model_project_start_date: 'تاريخ البداية',
-    model_project_value: 'Total Target Beneficiaries',
+    model_project_value: 'مجموع المستفيدين المستهدفين',
     model_residencystatus: 'حالة الإقامة',
     model_sector: 'القطاع',
     model_sectors_name: 'القطاعات',
@@ -372,6 +379,10 @@ export const TEXT = {
     model_vendor: 'بائع',
     model_state: 'الحالة',
 
+    // Phone
+    phone_type_landline: 'ارضي',
+    phone_type_mobile: 'محمول',
+    
     // Placeholder
     placeholder_one_many: 'اختر واحدة أو أكثر',
 

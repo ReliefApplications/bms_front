@@ -137,8 +137,8 @@ export class TableComponent implements OnInit,  AfterViewInit {
     }
 
 
-    getFieldStringValues(field: any): string {
-                let value = '';
+    getFieldStringValues(field: any): any {
+                let value: any = '';
                 let values = [];
                 if (
                     ['Object', 'MultipleObject'].includes(field.kindOfField) &&
@@ -158,17 +158,10 @@ export class TableComponent implements OnInit,  AfterViewInit {
                 } else if (field.kindOfField === 'Date') {
                     value = field.formatForApi();
                 } else {
-                    if (typeof(field.value) === 'number') {
-                        value = field.value.toString();
-                    } else {
-                        value = field.value;
-                    }
+                    value = field.value;
                 }
 
-                if (typeof(value) === 'string') {
-                    return value;
-                }
-                if (values !== []) {
+                if (values.length > 0) {
                     let stringValue = '';
                     values.forEach(arrayValue => {
                         if (typeof(arrayValue) === 'number') {
@@ -177,7 +170,14 @@ export class TableComponent implements OnInit,  AfterViewInit {
                             stringValue += ' ' + arrayValue;
                         }
                     });
-                    return stringValue;
+                    return stringValue.toLowerCase();
+                }
+
+                if (typeof(value) === 'number') {
+                    return value;
+                }
+                if (typeof(value) === 'string') {
+                    return value.toLowerCase();
                 }
     }
 
@@ -199,7 +199,10 @@ export class TableComponent implements OnInit,  AfterViewInit {
                             element.get(field.childrenObject).fields[field.childrenFieldName] :
                             new TextModelField({});
                     }
-                    fieldStringValues.push(this.getFieldStringValues(field));
+                    const value = typeof(this.getFieldStringValues(field)) === 'string' ?
+                        this.getFieldStringValues(field) :
+                        this.getFieldStringValues(field).toString();
+                    fieldStringValues.push(value);
                 });
 
                 let containsFilter = false;

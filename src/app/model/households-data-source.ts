@@ -1,16 +1,12 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
+import { CollectionViewer } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { Households } from './households.new';
 import { HouseholdsService } from '../core/api/households.service';
 import { CustomDataSource } from './data-source/custom-data-source.interface';
 import { CustomModel } from './CustomModel/custom-model';
-import { Project } from './project.new';
-import { ProjectService } from '../core/api/project.service';
 import { Location } from './location.new';
 import { LocationService } from '../core/api/location.service';
-import { VulnerabilityCriteria } from './vulnerability-criteria.new';
-import { CriteriaService } from '../core/api/criteria.service';
 import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
 import { NestedFieldModelField } from './CustomModel/nested-field';
@@ -110,11 +106,11 @@ export class HouseholdsDataSource implements CustomDataSource<Households> {
     constructor(private householdsService: HouseholdsService) {
     }
 
-    connect(collectionViewer: CollectionViewer): Observable<Households[]> {
+    connect(_collectionViewer: CollectionViewer): Observable<Households[]> {
         return this.dataSubject.asObservable();
     }
 
-    disconnect(collectionViewer: CollectionViewer): void {
+    disconnect(_collectionViewer: CollectionViewer): void {
         this.dataSubject.complete();
         this.loadingSubject.complete();
     }

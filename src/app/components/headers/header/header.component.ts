@@ -6,6 +6,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { GlobalText } from '../../../../texts/global';
 import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
 import { UserService } from './../../../core/api/user.service';
+import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 
 
 
@@ -39,6 +40,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         public router: Router,
         private userService: UserService,
         private asyncacheService: AsyncacheService,
+        private authenticationService: AuthenticationService,
         private snackbar: SnackbarService,
     ) {
         router.events.subscribe(event => {
@@ -186,7 +188,11 @@ export class HeaderComponent implements OnInit, DoCheck {
     }
 
     logOut(): void {
-        this.emitLogOut.emit();
+        this.authenticationService.logout().subscribe(
+            _response => {
+                this.userService.currentUser = undefined;
+            }
+        );
     }
 
     /**

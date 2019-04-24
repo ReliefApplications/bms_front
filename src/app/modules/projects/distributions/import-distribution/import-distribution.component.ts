@@ -10,6 +10,7 @@ import { ImportService } from '../../../../core/utils/distribution-import.servic
 import { Beneficiaries } from '../../../../model/beneficiary';
 import { DistributionData } from '../../../../model/distribution-data';
 import { ImportedBeneficiary } from '../../../../model/imported-beneficiary';
+import { UserService } from 'src/app/core/api/user.service';
 
 const IMPORT_COMPARE = 1;
 const IMPORT_UPDATE = 2;
@@ -67,6 +68,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
         public _importService: ImportService,
         public distributionService: DistributionService,
         public beneficiaryService: BeneficiariesService,
+        public userService: UserService,
     ) { }
 
     ngOnInit() {
@@ -116,7 +118,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
      * Upload csv and import the new distribution (list of beneficiaries)
      */
     updateDistribution(step: number) {
-        if (this.rights) {
+        if (this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')) {
 
             const data = new FormData();
             data.append('file', this.csv);

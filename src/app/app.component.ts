@@ -15,19 +15,12 @@ import { User } from './model/user';
 })
 export class AppComponent implements OnInit, DoCheck {
 
-    user: User = new User();
-
-    public currentRoute = '';
-    public currentComponent;
-    public menuHover = false;
-    public openTopMenu = false;
     public smallScreenMode = false;
     public maxHeight = 600;
     public maxWidth = 750;
 
     public isShowing = false;
     public menu = GlobalText.TEXTS;
-
 
     constructor(
         private _authenticationService: AuthenticationService,
@@ -89,24 +82,9 @@ export class AppComponent implements OnInit, DoCheck {
         }
     }
 
-    hoverMenu(): void {
-        this.menuHover = true;
-    }
-
-    outMenu(): void {
-        this.menuHover = false;
-    }
-
-    onLogOut(event: Event): void {
-        this._authenticationService.logout().subscribe(
-            disconnectedUser => {
-                this.userService.currentUser = undefined;
-                this.user = disconnectedUser;
-            }
-        );
-    }
-
-    clickOnTopMenu(event: Event): void {
-        this.openTopMenu = !this.openTopMenu;
+    toggle(sidenav) {
+        if (this.smallScreenMode) {
+            sidenav.toggle();
+        }
     }
 }

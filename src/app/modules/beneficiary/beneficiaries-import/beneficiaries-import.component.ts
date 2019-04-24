@@ -574,6 +574,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
      * Check if all fields are set, and import all the beneficiaries
      */
     importHousholdsApi() {
+        this.load = true;
         if (!this.apiForm.valid) {
             this.snackbar.error(this.household.beneficiaries_import_check_fields);
             return;

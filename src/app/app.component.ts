@@ -17,7 +17,6 @@ export class AppComponent implements OnInit, DoCheck {
 
     public currentRoute = '';
     public currentComponent;
-    public openTopMenu = false;
     public smallScreenMode = false;
     public maxHeight = 600;
     public maxWidth = 750;
@@ -84,10 +83,6 @@ export class AppComponent implements OnInit, DoCheck {
         if ((window.innerHeight > this.maxHeight) && (window.innerWidth > this.maxWidth)) {
             this.isShowing = false;
         }
-    }
-
-    clickOnTopMenu(event: Event): void {
-        this.openTopMenu = !this.openTopMenu;
     }
 
     toggle(sidenav) {

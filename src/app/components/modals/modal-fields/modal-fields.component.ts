@@ -126,9 +126,13 @@ export class ModalFieldsComponent implements OnInit {
                     }, validators);
                 });
             } else {
+                let value = field.value;
+                if (field.isPassword) {
+                    value = null;
+                }
                 // Create field's form control
                 formControls[fieldName] = new FormControl({
-                    value: field.value,
+                    value: value,
                     disabled: this.isDisabled(field)
                 }, validators);
             }

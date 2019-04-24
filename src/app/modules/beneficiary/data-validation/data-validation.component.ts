@@ -120,7 +120,10 @@ export class DataValidationComponent implements OnInit {
                 this.importedDataService.data = Households.formatArray(response);
 
                 this.router.navigate(['/beneficiaries/imported']);
-            });
+            },
+        (_error: any) => {
+            this.loading = false;
+        });
     }
 
 //

@@ -71,7 +71,6 @@ export class NotValidatedDistributionComponent implements OnInit {
   selected = false;
 
   actualUser = new User();
-  hasRights = false;
   loaderValidation = false;
 
   interval: any;
@@ -270,7 +269,7 @@ confirmAdding() {
  * To confirm on Validation dialog
  */
 confirmValidation() {
-    if (this.hasRights) {
+    if (this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')) {
         if ((this.finalBeneficiaryData && this.finalBeneficiaryData.data.length > 0) ||
             (this.initialBeneficiaryData && this.initialBeneficiaryData.data.length > 0)) {
             this.loaderValidation = true;

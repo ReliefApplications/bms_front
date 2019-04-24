@@ -26,11 +26,11 @@
                             </div>
                         </div>
                     </div>
-                    <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button-create" [disabled]="actualDistribution.get('validated')">
+                    <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button-create" [disabled]="actualDistribution.get('validated')">
                         <mat-icon>add</mat-icon>
                         {{TEXT.add | titlecase}}
                     </button>
-                    <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}" [disabled]="actualDistribution.get('validated')">
+                    <button mat-fab *ngIf="widthScreen <= maxWidthMobile && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}" [disabled]="actualDistribution.get('validated')">
                         <mat-icon>add</mat-icon>
                     </button>
                 </div>

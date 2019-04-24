@@ -15,15 +15,12 @@ import { User } from './model/user';
 })
 export class AppComponent implements OnInit, DoCheck {
 
-    public currentRoute = '';
-    public currentComponent;
     public smallScreenMode = false;
     public maxHeight = 600;
     public maxWidth = 750;
 
     public isShowing = false;
     public menu = GlobalText.TEXTS;
-
 
     constructor(
         private _authenticationService: AuthenticationService,

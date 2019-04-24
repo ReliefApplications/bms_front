@@ -100,17 +100,20 @@ export class ModalFieldsComponent implements OnInit {
                 }, validators);
             } else if (field.kindOfField === 'Children') {
                 let value = null;
-                if (field.childrenFieldName === 'adm1') {
-                    this.initLocation(this.objectInstance);
-                } else if (field.childrenFieldName === 'adm2' || field.childrenFieldName === 'adm3' || field.childrenFieldName === 'adm4') {
-                    // Do nothing because it was initialized the line before
-                } else {
-                    const childrenField = this.objectInstance.get(field.childrenObject);
-                    const childrenFieldName = field.childrenFieldName;
-                    if (childrenField && childrenField.fields[childrenFieldName].kindOfField === 'SingleSelect') {
-                        value = childrenField.get(childrenFieldName) ? childrenField.get(childrenFieldName).get('id') : null;
+                if (!field.isPassword) {
+                    if (field.childrenFieldName === 'adm1') {
+                        this.initLocation(this.objectInstance);
+                    } else if (
+                        field.childrenFieldName === 'adm2' || field.childrenFieldName === 'adm3' || field.childrenFieldName === 'adm4') {
+                        // Do nothing because it was initialized the line before
                     } else {
-                        value =  childrenField.get(childrenFieldName);
+                        const childrenField = this.objectInstance.get(field.childrenObject);
+                        const childrenFieldName = field.childrenFieldName;
+                        if (childrenField && childrenField.fields[childrenFieldName].kindOfField === 'SingleSelect') {
+                            value = childrenField.get(childrenFieldName) ? childrenField.get(childrenFieldName).get('id') : null;
+                        } else {
+                            value =  childrenField.get(childrenFieldName);
+                        }
                     }
                 }
 

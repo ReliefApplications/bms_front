@@ -40,6 +40,7 @@ export class Vendor extends CustomModel {
         }),
         password: new NestedFieldModelField({
             title: GlobalText.TEXTS.model_password,
+            isPassword: true,
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,

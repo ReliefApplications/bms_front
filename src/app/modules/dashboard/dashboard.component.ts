@@ -1,21 +1,24 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
+import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Distribution } from 'src/app/model/distribution.new';
+import { LanguageService } from 'src/texts/language.service';
 import { GlobalText } from '../../../texts/global';
 import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';
 import { LeafletService } from '../../core/external/leaflet.service';
+import { Language } from './../../../texts/language';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
     distributionData: MatTableDataSource<Distribution>;
     public dashboard = GlobalText.TEXTS;
@@ -38,6 +41,11 @@ export class DashboardComponent implements OnInit {
 
     public summary = [];
 
+    // Language
+    public language: Language;
+    private languageSubscription: Subscription;
+
+
     constructor(
         private serviceMap: LeafletService,
         private _cacheService: AsyncacheService,
@@ -45,9 +53,13 @@ export class DashboardComponent implements OnInit {
         public _generalService: GeneralService,
         public modalService: ModalService,
         private userService: UserService,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {
+        this.languageSubscription = this.languageService.languageSource.subscribe((language: Language) => {
+            this.language = language;
+        });
         this._cacheService.getUser().subscribe(result => {
             if (result.get('loggedIn')) {
                 this.serviceMap.createMap('map');
@@ -60,19 +72,9 @@ export class DashboardComponent implements OnInit {
         this.deletable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
         this.editable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
     }
-
-    /**
-     * check if the langage has changed
-     */
-    // ngDoCheck() {
-    //     if (this.dashboard !== GlobalText.TEXTS) {
-    //         this.dashboard = GlobalText.TEXTS;
-    //     }
-
-    //     if (LeafletService.loading !== this.loadingMap) {
-    //         this.loadingMap = LeafletService.loading;
-    //     }
-    // }
+    ngOnDestroy(): void {
+        this.languageSubscription.unsubscribe();
+    }
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {

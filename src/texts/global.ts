@@ -1,11 +1,10 @@
-import { TEXT as TEXT_FR } from './global_fr';
-import { TEXT as TEXT_EN } from './global_en';
-import { TEXT as TEXT_AR } from './global_ar';
+import { English } from './global_en';
+import { Language } from './language';
 
 export class GlobalText {
     static language = 'en';
     static languages = ['en', 'ar'];
-    static TEXTS = TEXT_EN;
+    static TEXTS = English;
     static country;
 
     static maxHeight = 700;
@@ -14,23 +13,8 @@ export class GlobalText {
     static maxWidthSecondRow = 800;
     static maxWidth = 750;
 
-    public static changeLanguage(language: string = this.language) {
-        GlobalText.language = language;
-
-        switch (language) {
-            case 'en':
-                GlobalText.TEXTS = TEXT_EN;
-                break;
-            case 'fr':
-                GlobalText.TEXTS = TEXT_FR;
-                break;
-            case 'ar':
-                GlobalText.TEXTS = TEXT_AR;
-                break;
-            default: GlobalText.TEXTS = TEXT_EN;
-                break;
-        }
-        this.language = language;
+    public static changeLanguage(language: Language) {
+        // GlobalText.language = language;
         this.adaptMargin();
     }
 

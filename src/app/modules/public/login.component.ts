@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { from } from 'rxjs';
+import { from, Subscription } from 'rxjs';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { environment } from 'src/environments/environment';
-import { GlobalText } from '../../../texts/global';
+import { LanguageService } from 'src/texts/language.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { ErrorInterface, User } from '../../model/user.new';
+import { Language } from './../../../texts/language';
 import { Country } from './../../model/user.new';
 
 
@@ -18,10 +19,7 @@ import { Country } from './../../model/user.new';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
-
-    public nameComponent = GlobalText.TEXTS.login_title;
-    public login = GlobalText.TEXTS;
+export class LoginComponent implements OnInit, OnDestroy {
 
     public user: User;
     public forgotMessage = false;
@@ -29,19 +27,31 @@ export class LoginComponent implements OnInit {
     public loginCaptcha = false;
     public form: FormGroup;
 
+    public language: Language;
+    private languageSubscription: Subscription;
+
     constructor(
         public _authService: AuthenticationService,
         private userService: UserService,
         public asyncacheService: AsyncacheService,
         public router: Router,
         public snackbar: SnackbarService,
-    ) { }
+        private languageService: LanguageService,
+        ) { }
 
     ngOnInit() {
-        GlobalText.resetMenuMargin();
+        this.languageSubscription = this.languageService.languageSource.subscribe((language: Language) => {
+            this.language = language;
+        });
+        // TODO: enable this
+        // GlobalText.resetMenuMargin();
         this.initCountry('KHM');
         this.blankUser();
         this.makeForm();
+    }
+
+    ngOnDestroy(): void {
+        this.languageSubscription.unsubscribe();
     }
 
     initCountry(country: string) {
@@ -82,7 +92,7 @@ export class LoginComponent implements OnInit {
         this.user.set('password', this.form.controls['password'].value);
         // Prevent captcha bypass by setting button to enabled in production mode
         if (this.prod() && !this.form.controls['captcha'].value) {
-            this.snackbar.error(GlobalText.TEXTS.login_captcha_invalid);
+            this.snackbar.error(this.language.login_captcha_invalid);
             return;
         }
         this.loginAction();
@@ -107,9 +117,9 @@ export class LoginComponent implements OnInit {
                 }
                 this.router.navigate(['/']);
                 if (user.get<string>('language')) {
-                    GlobalText.changeLanguage(user.get<string>('language'));
+                    this.languageService.changeLanguage(this.languageService.stringToLanguage(user.get<string>('language')));
                 } else {
-                    GlobalText.changeLanguage();
+                    this.languageService.changeLanguage(this.languageService.stringToLanguage('en'));
                 }
 
                 this.loader = false;
@@ -121,7 +131,7 @@ export class LoginComponent implements OnInit {
     }
 
     onScriptError() {
-        this.snackbar.error(GlobalText.TEXTS.login_captcha_invalid);
+        this.snackbar.error(this.language.login_captcha_invalid);
     }
 
     prod() {

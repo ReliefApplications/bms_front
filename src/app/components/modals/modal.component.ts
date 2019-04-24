@@ -1,11 +1,12 @@
-import { Component, DoCheck, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Subscription } from 'rxjs';
 import { BookletService } from 'src/app/core/api/booklet.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { GlobalText } from '../../../texts/global';
+import { Language } from 'src/texts/language';
 import { CriteriaService } from '../../core/api/criteria.service';
 import { DonorService } from '../../core/api/donor.service';
 import { ModalitiesService } from '../../core/api/modalities.service';
@@ -14,6 +15,7 @@ import { SectorService } from '../../core/api/sector.service';
 import { UploadService } from '../../core/api/upload.service';
 import { UserService } from '../../core/api/user.service';
 import { User } from '../../model/user.new';
+import { LanguageService } from './../../../texts/language.service';
 
 
 
@@ -30,9 +32,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     templateUrl: './modal.component.html',
     styleUrls: ['./modal.component.scss']
 })
-export class ModalComponent implements OnInit, DoCheck {
-    public modal = GlobalText.TEXTS;
-    public language = GlobalText.language;
+export class ModalComponent implements OnInit, OnDestroy {
 
     public entityInstance = null;
     public properties: any;
@@ -68,7 +68,9 @@ export class ModalComponent implements OnInit, DoCheck {
         notesFormControl: this.notesFormControl
     });
 
-
+    // Language
+    public language: Language;
+    protected languageSubscription: Subscription;
 
     public allCriteria = [];
 
@@ -88,20 +90,20 @@ export class ModalComponent implements OnInit, DoCheck {
         public distributionService: DistributionService,
         public bookletService: BookletService,
         public dialog: MatDialog,
+        protected languageService: LanguageService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit() {
+        this.languageSubscription = this.languageService.languageSource.subscribe((language: Language) => {
+            this.language = language;
+        });
     }
 
-    /**
-     * check if the langage has changed
-     */
-    ngDoCheck() {
-        if (this.modal !== GlobalText.TEXTS) {
-            this.modal = GlobalText.TEXTS;
-        }
+    ngOnDestroy(): void {
+        this.languageSubscription.unsubscribe();
     }
+
 
     public closeDialog(): void {
         this.dialogRef.close(true);
@@ -185,7 +187,10 @@ export class ModalComponent implements OnInit, DoCheck {
 
         // for criterias
         if (this.newObject && this.newObject.kind_beneficiary === '') {
-            this.loadedData.kind_beneficiary = [{ 'field_string': this.modal.beneficiary }, { 'field_string': this.modal.households }];
+            this.loadedData.kind_beneficiary = [
+                { 'field_string': this.language.beneficiary },
+                { 'field_string': this.language.households }
+            ];
         }
 
         // for commodities

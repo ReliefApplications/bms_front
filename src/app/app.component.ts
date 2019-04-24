@@ -1,11 +1,13 @@
-import { Component, HostListener, OnInit, DoCheck } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { GlobalText } from '../texts/global';
+import { Subscription } from 'rxjs';
+import { Language } from 'src/texts/language';
+import { LanguageService } from 'src/texts/language.service';
 import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
-import { AuthenticationService } from './core/authentication/authentication.service';
-import { User, Role } from './model/user.new';
 import { UserService } from './core/api/user.service';
+import { AuthenticationService } from './core/authentication/authentication.service';
+import { User } from './model/user.new';
 
 
 @Component({
@@ -13,7 +15,7 @@ import { UserService } from './core/api/user.service';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, DoCheck {
+export class AppComponent implements OnInit, OnDestroy {
 
     user: User = new User();
 
@@ -26,30 +28,37 @@ export class AppComponent implements OnInit, DoCheck {
     public maxWidth = 750;
 
     public isShowing = false;
-    public menu = GlobalText.TEXTS;
 
+    public language: Language;
+    private languageSubscription: Subscription;
 
     constructor(
         private _authenticationService: AuthenticationService,
         public router: Router,
         public dialog: MatDialog,
         public userService: UserService,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {
-        this.checkSize();
-        this._authenticationService.getUser()
-            .subscribe(user => {
-                this.userService.currentUser = user;
-                GlobalText.changeLanguage(user.get<string>('language'));
-            });
+        this.languageSubscription = this.languageService.languageSource.subscribe((language: Language) => {
+            this.language = language;
+        });
+
+        // TODO: REDO AUTO LANGUAGE SELECT
+        // this.checkSize();
+        // this._authenticationService.getUser()
+        //     .subscribe(user => {
+        //         this.userService.currentUser = user;
+        //         GlobalText.changeLanguage(user.get<string>('language'));
+        //     });
     }
 
-    ngDoCheck() {
-        if (this.menu !== GlobalText.TEXTS) {
-            this.menu = GlobalText.TEXTS;
-        }
+    ngOnDestroy(): void {
+        this.languageSubscription.unsubscribe();
     }
+
+
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
@@ -80,7 +89,8 @@ export class AppComponent implements OnInit, DoCheck {
         if (this.smallScreenMode === false && ((window.innerHeight < this.maxHeight) || (window.innerWidth < this.maxWidth))) {
             this.smallScreenMode = true;
             this.isShowing = true;
-            GlobalText.resetMenuMargin();
+            // TODO: REDO MARGINS
+            // GlobalText.resetMenuMargin();
         } else if (this.smallScreenMode === true && (window.innerHeight > this.maxHeight) && (window.innerWidth > this.maxWidth)) {
             this.smallScreenMode = false;
         }

@@ -1,4 +1,5 @@
 import { FormGroup } from '@angular/forms';
+import { Language } from 'src/texts/language';
 import { GlobalText } from '../../texts/global';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { CustomModel } from './CustomModel/custom-model';
@@ -33,16 +34,19 @@ export class Role extends CustomModel {
         id: new TextModelField({})
     };
 
+    language: Language;
+
     constructor(id: string, name: string) {
         super();
         this.set('id', id);
         this.set('name', name);
+
     }
 }
 export class User extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
-    title = GlobalText.TEXTS.model_user;
+    title = 'model_user';
     matSortActive = 'email';
 
     public fields = {
@@ -50,10 +54,10 @@ export class User extends CustomModel {
 
         }),
         username: new TextModelField({
-            title: GlobalText.TEXTS.login_username,
+            title: 'login_username',
         }),
         email: new TextModelField({
-            title: GlobalText.TEXTS.email,
+            title: 'email',
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isRequired: true,
@@ -61,7 +65,7 @@ export class User extends CustomModel {
             isSettable: true,
         }),
         password: new TextModelField({
-            title: GlobalText.TEXTS.model_password,
+            title: 'model_password',
             isPassword: true,
             isRequired: true,
             pattern:  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
@@ -70,7 +74,7 @@ export class User extends CustomModel {
             isSettable: true,
         }),
         rights: new SingleSelectModelField({
-            title: GlobalText.TEXTS.rights,
+            title: 'rights',
             isDisplayedInTable: true,
             options: [
                 new Role('ROLE_ADMIN', GlobalText.TEXTS.role_user_admin),
@@ -108,13 +112,13 @@ export class User extends CustomModel {
             value: false,
         }),
         projects: new MultipleSelectModelField({
-            title: GlobalText.TEXTS.project,
+            title: 'project',
             isDisplayedInModal: true,
             bindField: 'name',
 
         }),
         countries: new MultipleSelectModelField({
-            title: GlobalText.TEXTS.model_countryIso3,
+            title: 'model_countryIso3',
             options: [new Country('KHM', 'Cambodia'), new Country('SYR', 'Syria')],
             isDisplayedInModal: true,
             bindField: 'name',
@@ -148,6 +152,8 @@ export class User extends CustomModel {
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);
         newUser.set('loggedIn', userFromApi.loggedIn);
+        newUser.set('language', userFromApi.language);
+        console.log(newUser);
         return newUser;
     }
 

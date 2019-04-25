@@ -126,9 +126,9 @@ export class Beneficiary extends CustomModel {
                 isSettable: true,
                 isLongText: false,
                 options: [
-                    new ResidencyStatus('0', GlobalText.TEXTS.beneficiaries_residency_refugee),
-                    new ResidencyStatus('1', GlobalText.TEXTS.beneficiaries_residency_idp),
-                    new ResidencyStatus('2', GlobalText.TEXTS.beneficiaries_residency_resident)
+                    new ResidencyStatus('0', 'refugee'),
+                    new ResidencyStatus('1', 'IDP'),
+                    new ResidencyStatus('2', 'resident')
                 ],
                 bindField: 'name',
                 apiLabel: 'name',

@@ -97,8 +97,8 @@ export class Beneficiary extends CustomModel {
                 isDisplayedInTable: true,
                 isEditable: true,
                 options: [
-                    new Gender('0', GlobalText.TEXTS.add_distribution_female),
-                    new Gender('1', GlobalText.TEXTS.add_distribution_male)
+                    new Gender('0', this.language.add_distribution_female),
+                    new Gender('1', this.language.add_distribution_male)
                 ],
                 bindField: 'name',
                 apiLabel: 'id',
@@ -140,8 +140,8 @@ export class Beneficiary extends CustomModel {
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
                 options: [
-                    new BeneficiaryStatus('0', GlobalText.TEXTS.beneficiaries_member),
-                    new BeneficiaryStatus('1', GlobalText.TEXTS.beneficiaries_head)
+                    new BeneficiaryStatus('0', this.language.beneficiaries_member),
+                    new BeneficiaryStatus('1', this.language.beneficiaries_head)
                 ],
                 isRequired: true,
                 isSettable: true,

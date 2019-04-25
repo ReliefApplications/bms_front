@@ -105,10 +105,10 @@ export class Booklet extends CustomModel {
         status: new SingleSelectModelField({
             title: this.language.model_state,
             options: [
-                new BookletStatus('0', GlobalText.TEXTS.model_unassigned),
-                new BookletStatus('1', GlobalText.TEXTS.model_distributed),
-                new BookletStatus('2', GlobalText.TEXTS.model_used),
-                new BookletStatus('3', GlobalText.TEXTS.model_deactivated),
+                new BookletStatus('0', this.language.model_unassigned),
+                new BookletStatus('1', this.language.model_distributed),
+                new BookletStatus('2', this.language.model_used),
+                new BookletStatus('3', this.language.model_deactivated),
             ],
             isDisplayedInTable: true,
             isDisplayedInModal: true,

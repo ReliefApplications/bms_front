@@ -11,9 +11,11 @@ export class DistributionBeneficiary extends CustomModel {
         )
     };
 
-    public static apiToModel(distributionBeneficiaryFromApi): DistributionBeneficiary {
+    public static apiToModel(distributionBeneficiaryFromApi, distributionId: number): DistributionBeneficiary {
         const newDistributionBeneficiary = new DistributionBeneficiary();
-        newDistributionBeneficiary.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
+        const beneficiary = Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary);
+        beneficiary.set('distributionId', distributionId);
+        newDistributionBeneficiary.set('beneficiary', beneficiary);
 
         return newDistributionBeneficiary;
     }

@@ -76,7 +76,7 @@ export class Arabic implements Language {
     'أكتوبر',
     'نوفمبر',
     'ديسمبر',
-]
+    ]
 
 
     // SPECIFIC VARIABLES
@@ -136,34 +136,39 @@ export class Arabic implements Language {
     add_project_title = 'مشروع جديد'
 
     // Beneficiaries
-    beneficiaries_add_distribution = 'إضافة المستفيدين لهذا التوزيع'
-    beneficiaries_add_list = 'العالمي'
-    beneficiaries_add_project = 'يرجى تحديد المشروع (المشاريع) الذي/الذين  ترغب في إضافته/هم '
-    beneficiaries_added = 'تم إضافة المستفيدين الى المشروع'
-    beneficiaries_advanced_research = 'بحث متقدم'
-    beneficiaries_clear_all_research = 'امسح الكل'
-    beneficiaries_full_address = 'عنوان المنزل بالكامل:'
-    beneficiaries_household_info = 'ملخص المعلومات الخاصة بالمنزل  :'
-    beneficiaries_import_addFile = ' إضافة ملف أو وضع ملف '
-    beneficiaries_import_addModal = 'add file'
-    beneficiaries_import_api = 'تحميل من مصدر بيانات خارجي'
-    beneficiaries_import_beneficiaries_imported = 'تم إضافة المستفيدين '
-    beneficiaries_import_check_fields = ' محتوى فارغ , تثبت من أدخال جميع المعطيات و اختيار مشروع '
-    beneficiaries_import_csv = ' تنزيل ملف'
-    beneficiaries_import_convert = 'تحويل الملف'
-    beneficiaries_import_error_importing = 'وقع خطأ عندالتحميل البيانات'
-    beneficiaries_import_error_selection = 'You must to select at least one choice'
-    beneficiaries_import_file = 'تحميل من ملف'
-    beneficiaries_import_response = 'استعد لاستعادة الملف'
-    beneficiaries_import_select_location = 'يجب تحديد الموقع وإضافة ملف قبل التحميل'
-    beneficiaries_import_select_project = 'يجب أن تختار مشروعا و ملفا قبل التحميل'
-    beneficiaries_import_title = 'تحميل بيانات المستفيد'
-    beneficiaries_import_warning = 'تحذير: إذا كان الملف المقدم غير كامل  ، عليك  إكمال العنصر الناتج حتى ينجح الاستيراد.'
-    beneficiaries_location = 'مكان الأسرة:'
-    beneficiaries_missing_selected_project = 'يجب أن تختار مشروعاقبل التحميل'
-    beneficiaries_proxy = 'الوكيل'
-    beneficiaries_select_api = 'API اختر'
-    beneficiaries_selected_project = 'المستفيدين المختارين:'
+    beneficiaries_add_distribution= 'إضافة المستفيدين لهذا التوزيع'
+    beneficiaries_add_list= 'العالمي'
+    beneficiaries_add_project= 'يرجى تحديد المشروع (المشاريع) الذي/الذين  ترغب في إضافته/هم '
+    beneficiaries_added= 'تم إضافة المستفيدين الى المشروع'
+    beneficiaries_advanced_research= 'بحث متقدم'
+    beneficiaries_clear_all_research= 'امسح الكل'
+    beneficiaries_full_address= 'عنوان المنزل بالكامل:'
+    beneficiaries_household_info= 'ملخص المعلومات الخاصة بالمنزل  :'
+    beneficiaries_head= 'رب الأسرة'
+    beneficiaries_import_addFile= ' إضافة ملف أو وضع ملف '
+    beneficiaries_import_addModal= 'add file'
+    beneficiaries_import_api= 'تحميل من مصدر بيانات خارجي'
+    beneficiaries_import_beneficiaries_imported= 'تم إضافة المستفيدين '
+    beneficiaries_import_check_fields= ' محتوى فارغ  تثبت من أدخال جميع المعطيات و اختيار مشروع '
+    beneficiaries_import_csv= ' تنزيل ملف'
+    beneficiaries_import_convert= 'تحويل الملف'
+    beneficiaries_import_error_importing= 'وقع خطأ عندالتحميل البيانات'
+    beneficiaries_import_error_selection= 'You must to select at least one choice'
+    beneficiaries_import_file= 'تحميل من ملف'
+    beneficiaries_import_response= 'استعد لاستعادة الملف'
+    beneficiaries_import_select_location= 'يجب تحديد الموقع وإضافة ملف قبل التحميل'
+    beneficiaries_import_select_project= 'يجب أن تختار مشروعا و ملفا قبل التحميل'
+    beneficiaries_import_title= 'تحميل بيانات المستفيد'
+    beneficiaries_import_warning= 'تحذير: إذا كان الملف المقدم غير كامل  ، عليك  إكمال العنصر الناتج حتى ينجح الاستيراد.'
+    beneficiaries_location= 'مكان الأسرة='
+    beneficiaries_member= 'فرد من العائلة'
+    beneficiaries_missing_selected_project= 'يجب أن تختار مشروعاقبل التحميل'
+    beneficiaries_proxy= 'الوكيل'
+    beneficiaries_residency_refugee= 'لاجئ'
+    beneficiaries_residency_idp= 'IDP'
+    beneficiaries_residency_resident= 'مقيم'
+    beneficiaries_select_api= 'API اختر'
+    beneficiaries_selected_project: 'المستفيدين المختارين='
 
     // Cache
     cache_distribution_added = 'التوزيع والمستفيدين من المشروع تم  إضافتهم في ذاكرة التخزين المؤقت'
@@ -320,6 +325,8 @@ export class Arabic implements Language {
     model_booklet = 'كتيب'
     model_code = 'الشفرة'
     model_commodity = 'السلع'
+    model_commodity_kgs= 'كلغ'
+    model_commodity_kit= 'عدة'
     model_commodity_modality = 'القيد'
     model_commodity_unit = 'وحدة'
     model_commodity_value = 'كمية'
@@ -331,7 +338,8 @@ export class Arabic implements Language {
     model_criteria_weight = 'وزن النتيجة'
     model_currency = 'دقة'
     model_dateofbirth = 'تاريخ الميلاد'
-    model_distributed = 'Distributed'
+    model_deactivated = 'إبطال مفعولها'
+    model_distributed: 'وزعت'
     model_distribution_beneficiary = 'توزيع المستفيد'
     model_distribution_date = 'تاريخ التوزيع'
     model_distribution_name = 'الاسم'
@@ -371,6 +379,10 @@ export class Arabic implements Language {
     model_transaction_state = 'الحالة'
     model_vendor = 'بائع'
     model_state = 'الحالة'
+
+    // Phone
+    phone_type_landline= 'ارضي'
+    phone_type_mobile= 'محمول'
 
     // Placeholder
     placeholder_one_many = 'اختر واحدة أو أكثر'

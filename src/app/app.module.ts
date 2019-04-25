@@ -17,7 +17,6 @@ import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave
 import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
 import { UpdateService } from './core/api/update.service';
 import { httpInterceptorProviders } from './core/interceptors/index-interceptors';
-import { ImportedDataService } from './core/utils/imported-data.service';
 import { ProfileComponent } from './modules/profile/profile.component';
 import { ReportsModule } from './modules/reports/reports.module';
 import { SharedModule } from './shared/shared.module';
@@ -58,7 +57,6 @@ import { SharedModule } from './shared/shared.module';
         DatePipe,
         UpdateService,
         httpInterceptorProviders,
-        ImportedDataService,
         TitleCasePipe,
     ],
     bootstrap: [AppComponent]

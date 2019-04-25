@@ -11,7 +11,7 @@
     <app-box-setting
         *ngFor="let project of projects"
         (click)="selectProject(project)"
-        [isSelected]="project === selectedProject"
+        [isSelected]="project.get('id') === selectedProject.get('id')"
         [info]='{icon: "settings/projects", color: "green", title:project.get("name"), ref:project.get("name")}'>
     </app-box-setting>
     <div container-boxes *ngIf="projects === null || projects === undefined || projects.length == 0" class="empty-box">

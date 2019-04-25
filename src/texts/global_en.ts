@@ -74,8 +74,8 @@ export class English implements Language {
       'Sep' ,
       'Oct' ,
       'Nov' ,
-      'Dec']
-
+      'Dec'
+    ]
 
     // SPECIFIC VARIABLES
 
@@ -141,6 +141,7 @@ export class English implements Language {
     beneficiaries_advanced_research = 'Advanced search'
     beneficiaries_clear_all_research = 'Clear all'
     beneficiaries_full_address = 'Full household address:'
+    beneficiaries_head = 'Head'
     beneficiaries_household_info = 'Household information summary:'
     beneficiaries_import_addFile = 'add file or drag and drop'
     beneficiaries_import_addModal = 'add file'
@@ -156,10 +157,15 @@ export class English implements Language {
     beneficiaries_import_select_location = 'You must select a location and add a file before uploading'
     beneficiaries_import_select_project = 'You must select a project and add a file before uploading'
     beneficiaries_import_title = 'import beneficiary data'
-    beneficiaries_import_warning = 'Warning = if the provided file is incomplete, the resulting one may need to be completed for the import to succeed.'
+    beneficiaries_import_warning = 'Warning: if the provided file is incomplete, the resulting one may need to be completed for the import to succeed.'
     beneficiaries_location = 'Household Location:'
+    beneficiaries_member = 'Member'
     beneficiaries_missing_selected_project = 'You must select a project before uploading'
     beneficiaries_proxy = 'Proxy'
+    beneficiaries_residency_refugee = 'Refugee'
+    beneficiaries_residency_idp = 'IDP'
+    beneficiaries_residency_resident = 'Resident'
+
     beneficiaries_select_api = 'Select API'
     beneficiaries_selected_project = 'selected beneficiaries:'
 
@@ -318,6 +324,8 @@ export class English implements Language {
     model_booklet = 'Booklet'
     model_code = 'Code'
     model_commodity = 'Commodity'
+    model_commodity_kgs = 'Kgs'
+    model_commodity_kit = 'Kit'
     model_commodity_modality = 'Modality'
     model_commodity_unit = 'Unit'
     model_commodity_value = 'Quantity'
@@ -329,6 +337,7 @@ export class English implements Language {
     model_criteria_weight = 'Score weight'
     model_currency = 'Currency'
     model_dateofbirth = 'Date of birth'
+    model_deactivated = 'Deactivated'
     model_distributed = 'Distributed'
     model_distribution_beneficiary = 'Beneficiary\'s distribution'
     model_distribution_date = 'Date of Distribution'
@@ -345,7 +354,7 @@ export class English implements Language {
     model_product_name = 'Name'
     model_product_unit = 'Unit'
     model_product_image = 'Image'
-    model_number_booklets = 'Quantity of booklets to create'
+    model_number_booklets = 'Quantity of booklets'
     model_number_vouchers = 'Quantity of vouchers'
     model_project_donors_name = 'Donors'
     model_project_end_date = 'End Date'
@@ -361,6 +370,7 @@ export class English implements Language {
     model_state = 'Status'
     model_type = 'Type'
     model_type_shop = 'Type of shop'
+    model_unassigned = 'Unassigned'
     model_used = 'Used'
     model_user = 'User'
     model_password = 'Password'
@@ -368,6 +378,10 @@ export class English implements Language {
     model_vendors_address = 'Address'
     model_vendor = 'Vendor'
     model_vulnerabilities = 'Vulnerabilities'
+
+    // Phone
+    phone_type_landline = 'Landline'
+    phone_type_mobile = 'Mobile'
 
     // Placeholder
     placeholder_one_many = 'Select one or many'

@@ -2,10 +2,10 @@ import { CollectionViewer } from '@angular/cdk/collections';
 import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { AppInjector } from '../app-injector';
 import { HouseholdsService } from '../core/api/households.service';
 import { LocationService } from '../core/api/location.service';
-import { CustomModel } from './CustomModel/custom-model';
 import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
 import { NestedFieldModelField } from './CustomModel/nested-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
@@ -105,11 +105,11 @@ export class HouseholdsDataSource implements CustomDataSource<Households> {
     constructor(private householdsService: HouseholdsService) {
     }
 
-    connect(collectionViewer: CollectionViewer): Observable<Households[]> {
+    connect(_collectionViewer: CollectionViewer): Observable<Households[]> {
         return this.dataSubject.asObservable();
     }
 
-    disconnect(collectionViewer: CollectionViewer): void {
+    disconnect(_collectionViewer: CollectionViewer): void {
         this.dataSubject.complete();
         this.loadingSubject.complete();
     }

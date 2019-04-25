@@ -3,6 +3,7 @@ import { NumberModelField } from './CustomModel/number-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { CustomModel } from './CustomModel/custom-model';
+import { GlobalText } from 'src/texts/global';
 
 export class PhoneType extends CustomModel {
 

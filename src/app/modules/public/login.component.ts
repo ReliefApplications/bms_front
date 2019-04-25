@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { from } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
@@ -41,18 +42,17 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         // TODO: enable this
         // GlobalText.resetMenuMargin();
-        this.initCountry('KHM');
         this.blankUser();
         this.makeForm();
     }
 
-    initCountry(country: string) {
-        this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(
-            (result: any) => {
-                if (!result) {
+    initCountry(country: string, getFromCache: boolean) {
+        return this.asyncacheService.get(AsyncacheService.COUNTRY).pipe(
+            map((result: any) => {
+                if (!result || !getFromCache) {
                     this.asyncacheService.set(AsyncacheService.COUNTRY, country);
                 }
-            }
+            })
         );
     }
 
@@ -102,10 +102,14 @@ export class LoginComponent implements OnInit {
                 this.userService.currentUser = user;
                 if (user.get('countries') &&
                     user.get<Array<Country>>('countries').length === 0 &&
-                    user.get('rights').get<string>('id') === 'ROLE_ADMIN') {
-                    this.initCountry('KHM');
+                    this.userService.hasRights('ROLE_SWITCH_COUNTRY')) {
+                    this.initCountry('KHM', true).subscribe(success => {
+                        this.goToHomePage(user);
+                    });
                 } else {
-                    this.initCountry(user.get<Array<Country>>('countries')[0].get<string>('name'));
+                    this.initCountry(user.get<Array<Country>>('countries')[0].get<string>('id'), false).subscribe(success => {
+                        this.goToHomePage(user);
+                    });
                 }
                 this.router.navigate(['/']);
                 if (user.get<string>('language')) {
@@ -120,6 +124,17 @@ export class LoginComponent implements OnInit {
                 this.forgotMessage = true;
                 this.loader = false;
             });
+    }
+
+    goToHomePage(user: User) {
+        if (user.get<string>('language')) {
+            this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
+        } else {
+            // TODO: load default language
+            this.languageService.selectedLanguage = this.languageService.enabledLanguages[0];
+
+        }
+        this.router.navigate(['/']);
     }
 
     onScriptError() {

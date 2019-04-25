@@ -6,10 +6,10 @@ import { finalize } from 'rxjs/operators';
 import { NetworkService } from 'src/app/core/api/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ProjectService } from '../../core/api/project.service';
-import { ImportedDataService } from '../../core/utils/imported-data.service';
 import { Distribution } from '../../model/distribution.new';
 import { Project as NewProject } from '../../model/project.new';
 import { LanguageService } from './../../../texts/language.service';
@@ -56,7 +56,7 @@ export class ProjectComponent implements OnInit {
         private router: Router,
         public snackbar: SnackbarService,
         public dialog: MatDialog,
-        public importedDataService: ImportedDataService,
+        public importService: ImportService,
         public networkService: NetworkService,
         public modalService: ModalService,
         public userService: UserService,
@@ -64,12 +64,9 @@ export class ProjectComponent implements OnInit {
         ) { }
 
     ngOnInit() {
-        if (this.importedDataService.emittedProject) {
-            this.selectedProjectId = parseInt(this.importedDataService.project, 10);
-            this.getProjects();
-
-        } else {
-            this.getProjects();
+        if (this.importService.project) {
+            this.selectProject(this.importService.project);
+            this.importService.project = null;
         }
         this.getProjects();
         this.checkSize();
@@ -126,7 +123,10 @@ export class ProjectComponent implements OnInit {
                         return;
                     }
                     // Auto select latest project if no project is selected
-                    if (!this.projects.includes(this.selectedProject)) {
+                    if (
+                        !this.selectedProject ||
+                        this.projects.filter((project: NewProject) => this.selectedProject.get('id') === project.get('id')).length === 0
+                    ) {
                         this.selectProject(this.projects[0]);
                     }
 

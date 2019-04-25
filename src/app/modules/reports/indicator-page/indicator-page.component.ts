@@ -16,6 +16,7 @@ import { ProjectService } from '../../../core/api/project.service';
 import { UserService } from '../../../core/api/user.service';
 import { AbstractFilter, FilterEvent, FilterInterface } from '../../../model/filter';
 import { Indicator } from '../../../model/indicator';
+import { Project } from '../../../model/project.new';
 import { ButtonFilterDateComponent } from '../filters/button-filter/button-filter-data/button-filter-date.component';
 import { ButtonFilterData } from '../filters/button-filter/button-filter.component';
 import { ChartRegistration, RegisteredItem } from '../services/chart-registration.service';
@@ -270,10 +271,11 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
     getProjects() {
         this.projectService.get().subscribe(response => {
             this.projectList = [];
-            const projectList = response.map((project: any) => project.name);
-            // projectResponse.forEach((element) => {
-            //     this.projectList.push(element.name);
-            // });
+            const projectResponse = response.map((project: any) => Project.apiToModel(project));
+            projectResponse.forEach((element: Project) => {
+                const concat = element.get('id') + ' - ' + element.get('name');
+                this.projectList.push(concat);
+            });
         });
     }
 
@@ -284,9 +286,9 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
         this.distributionList = [];
         this.distributionService.getByProject(this.selectedProject[0]).subscribe(response => {
             this.distributionList = [];
-            const distributionResponse = response.map((distribution: any) => { Distribution.apiToModel(distribution); });
-            distributionResponse.forEach(element => {
-                const concat = element.id + ' - ' + element.name;
+            const distributionResponse = response.map((distribution: any) => Distribution.apiToModel(distribution));
+            distributionResponse.forEach((element: Distribution) => {
+                const concat = element.get('id') + ' - ' + element.get('name');
                 this.distributionList.push(concat);
             });
         });

@@ -74,7 +74,8 @@ export class French implements Language {
       'Sep',
       'Oct',
       'Nov',
-      'Déc']
+      'Déc',
+    ]
 
 
     // SPECIFIC VARIABLES
@@ -142,6 +143,7 @@ export class French implements Language {
     beneficiaries_clear_all_research = 'Réinitialiser les filtres'
     beneficiaries_full_address = 'Adresse entière du ménage :'
     beneficiaries_household_info = 'Résumé des informations du ménage:'
+    beneficiaries_head = 'Chef de famille'
     beneficiaries_import_addFile = 'ajouter un fichier ou glisser-déposer'
     beneficiaries_import_addModal = 'ajouter un fichier'
     beneficiaries_import_api = 'import depuis une source externe'
@@ -158,8 +160,12 @@ export class French implements Language {
     beneficiaries_import_title = 'import de bénéficiaires'
     beneficiaries_import_warning = 'Attention : si le fichier importé est incomplet, le fichier résultant pourra nécessiter d\'être complété pour que l\'import fonctionne'
     beneficiaries_location = 'Localisation du ménage :'
+    beneficiaries_member = 'Membre'
     beneficiaries_missing_selected_project = 'Vous devez selectionner un projet avant l\'importation'
     beneficiaries_proxy = 'Proxy'
+    beneficiaries_residency_refugee = 'Réfugié'
+    beneficiaries_residency_idp = 'IDP'
+    beneficiaries_residency_resident = 'Résident'
     beneficiaries_select_api = 'Sélectionner une API'
     beneficiaries_selected_project = 'bénéficiaires sélectionnés:'
 
@@ -236,12 +242,12 @@ export class French implements Language {
     distribution_want_add = 'que vous souhaitez ajouter à la '
 
     // Header
-    'header_add-beneficiaries': 'Ajouter un ménage'
-    'header_add-distribution': 'Ajouter une distribution'
+    'header_add-beneficiaries' = 'Ajouter un ménage'
+    'header_add-distribution' = 'Ajouter une distribution'
     header_beneficiaries = 'Bénéficiaires'
-    'header_data-validation': 'Validation de données'
+    'header_data-validation' = 'Validation de données'
     header_disconnect = 'déconnexion'
-    'header_distributions': 'Distribution'
+    'header_distributions' = 'Distribution'
     header_home = 'Accueil'
     header_import = 'Import de bénéficiaires'
     header_imported = 'Données des bénéficiaires importés'
@@ -250,7 +256,7 @@ export class French implements Language {
     header_projects = 'Projets'
     header_reports = 'Rapports'
     header_settings = 'Paramètres'
-    'header_update-beneficiary': 'Modifier'
+    'header_update-beneficiary' = 'Modifier'
     header_vouchers = 'Brochures'
 
     // Import
@@ -305,7 +311,7 @@ export class French implements Language {
     modal_success = 'Succès'
     modal_required = 'obligatoire'
     modal_valid_email = 'Veuillez utiliser un mail valide'
-    modal_values_format_error: 'Si vous souhaitez déterminer les valeurs individuellement, vous devez taper des nombres séparés par des virgules (maximum 5)'
+    modal_values_format_error = 'Si vous souhaitez déterminer les valeurs individuellement, vous devez taper des nombres séparés par des virgules (maximum 5)'
     modal_warning_pending_requests_1 = 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.'
     modal_warning_pending_requests_2 = 'WARNING = Requests linked to an item you created offline will fail !'
     modal_no_file = 'Aucun fichier selectionné'
@@ -319,6 +325,8 @@ export class French implements Language {
     model_code = 'Code'
     model_commodity = 'Ressource'
     model_commodity_modality = 'Modalité'
+    model_commodity_kgs = 'Kgs'
+    model_commodity_kit = 'Kit'
     model_commodity_unit = 'Unité'
     model_commodity_value = 'Quantité'
     model_countryIso3 = 'Pays'
@@ -329,6 +337,7 @@ export class French implements Language {
     model_criteria_weight = 'Score du poids'
     model_currency = 'Devise'
     model_dateofbirth = 'Date de naissance'
+    model_deactivated = 'Désactivé'
     model_distributed = 'Distribué'
     model_distribution_beneficiary = 'Distribution du bénéficiaire'
     model_distribution_date = 'Date de la Distribution'
@@ -345,14 +354,14 @@ export class French implements Language {
     model_product_name = 'Nom'
     model_product_unit = 'Unité'
     model_product_image = 'Image'
-    model_number_booklets = 'Nombre de brochures à créer'
+    model_number_booklets = 'Nombre de brochures'
     model_number_vouchers = 'Nombre de bons'
     model_project_donors_name = 'Donneurs'
     model_project_end_date = 'Date de fin de projet'
     model_project_name = 'Nom  du projet'
     model_project_number_of_households = 'Nombre de ménages'
     model_project_start_date = 'Date de début de projet'
-    model_project_value = 'Montant à distribuer'
+    model_project_value = 'Nombre de bénéficiaires ciblés'
     model_residencystatus = 'Status de résidence'
     model_sector = 'Secteur'
     model_sectors_name = 'Secteurs'
@@ -361,6 +370,7 @@ export class French implements Language {
     model_state = 'État'
     model_type = 'Type'
     model_type_shop = 'Type de boutique'
+    model_unassigned = 'Non assigné'
     model_used = 'Utilisé'
     model_user = 'Utilisateur'
     model_password = 'Mot de passe'
@@ -368,6 +378,10 @@ export class French implements Language {
     model_vendors_address = 'Adresse'
     model_vendor = 'Vendeur'
     model_vulnerabilities = 'Vulnérabilités'
+
+      // Phone
+      phone_type_landline = 'Fixe'
+      phone_type_mobile = 'Portable'
 
     // Placeholder
     placeholder_one_many = 'Select one or many'
@@ -452,7 +466,7 @@ export class French implements Language {
     transaction_amount_waiting = 'Reste à envoyer'
     transaction_confirm = 'Confirmer la transaction'
     transaction_confirm_button = 'Confirmer'
-    transaction_email_code = 'Un email contenant votre code de validation a été envoyé à : '
+    transaction_email_code = 'Un email contenant votre code de validation a été envoyé à  = '
     transaction_id_transaction = 'ID Transaction'
     transaction_info_export = 'Si la distribution n\'a pas de transactions, vous n\'aurez aucun fichier exporté'
     transaction_inProgress = 'Transaction en cours...'

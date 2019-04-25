@@ -185,11 +185,11 @@ export class Distribution extends CustomModel {
                     newDistribution.set('finished', false);
                 }
             });
-            if (newDistribution.get<boolean>('validated') === false) {
-                newDistribution.set('distributionBeneficiaries',
-                    distributionFromApi.distribution_beneficiaries
-                        .map((distributionBeneficiary: any) => DistributionBeneficiary.apiToModel(distributionBeneficiary)));
-            }
+
+            newDistribution.set('distributionBeneficiaries',
+                distributionFromApi.distribution_beneficiaries
+                    .map((distributionBeneficiary: any) =>
+                        DistributionBeneficiary.apiToModel(distributionBeneficiary, distributionFromApi.id)));
         }
 
         return newDistribution;

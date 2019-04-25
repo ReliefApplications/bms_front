@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { LanguageService } from './../../../../../texts/language.service';
 

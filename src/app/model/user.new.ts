@@ -90,8 +90,7 @@ export class User extends CustomModel {
             isTrigger: true,
             triggerFunction: (user: User, value: string, form: FormGroup) => {
                 if (value === 'ROLE_REGIONAL_MANAGER' ||
-                value === 'ROLE_REGIONAL_MANROLE_COUNTRY_MANAGERAGER' ||
-                value === 'ROLE_READ_ONLY' ) {
+                value === 'ROLE_COUNTRY_MANAGER') {
                     form.controls.countries.enable();
                     form.controls.projects.disable();
 
@@ -133,11 +132,19 @@ export class User extends CustomModel {
         newUser.set('rights', userFromApi.roles ?
             newUser.getOptions('rights').filter((role: Role) => role.get('id') === userFromApi.roles[0])[0] :
             null);
-        newUser.set('countries', userFromApi.countries ?
-            userFromApi.countries.map((countryFromApi: any) => {
-                return newUser.getOptions('countries').filter((country: Country) => country.get('id') === countryFromApi.iso3)[0];
+
+        // TO DO : make the cache and the back coherent by sending the same key that we receive
+        const countries = userFromApi.countries ? userFromApi.countries : userFromApi.country;
+        newUser.set('countries', countries ?
+            countries.map((countryFromApi: any) => {
+                return newUser.getOptions('countries').filter((country: Country) => {
+                    // TO DO : same as above
+                    const formattedCountryFromApi = countryFromApi.iso3 ? countryFromApi.iso3 : countryFromApi;
+                    return country.get('id') === formattedCountryFromApi;
+                })[0];
             }) :
             null);
+
         newUser.set('projects', userFromApi.user_projects ?
             userFromApi.user_projects.map((project: any) => {
                 if (newUser.get<Country[]>('countries').filter((country) => country.get('name') === project.project.iso3).length > 0) {
@@ -172,8 +179,7 @@ export class User extends CustomModel {
         }
 
         if (this.get('rights').get<string>('id') === 'ROLE_REGIONAL_MANAGER' ||
-        this.get('rights').get<string>('id') === 'ROLE_REGIONAL_MANROLE_COUNTRY_MANAGERAGER' ||
-        this.get('rights').get<string>('id') === 'ROLE_READ_ONLY') {
+        this.get('rights').get<string>('id') === 'ROLE_COUNTRY_MANAGER') {
             userForApi['country'] = this.fields.countries.value ?
             this.fields.countries.value.map((country: Country) => country.get('id')) :
             null;

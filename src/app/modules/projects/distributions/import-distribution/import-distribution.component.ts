@@ -64,7 +64,6 @@ export class ImportDistributionComponent implements OnInit {
     constructor(
         public _householdsService: HouseholdsService,
         public snackbar: SnackbarService,
-        public _importService: ImportService,
         public distributionService: DistributionService,
         public beneficiaryService: BeneficiariesService,
         public userService: UserService,

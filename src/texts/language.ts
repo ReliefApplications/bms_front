@@ -128,6 +128,7 @@ export interface Language {
     beneficiaries_advanced_research: string
     beneficiaries_clear_all_research: string
     beneficiaries_full_address: string
+    beneficiaries_head: string
     beneficiaries_household_info: string
     beneficiaries_import_addFile: string
     beneficiaries_import_addModal: string
@@ -145,8 +146,12 @@ export interface Language {
     beneficiaries_import_title: string
     beneficiaries_import_warning: string
     beneficiaries_location: string
+    beneficiaries_member: string
     beneficiaries_missing_selected_project: string
     beneficiaries_proxy: string
+    beneficiaries_residency_refugee: string
+    beneficiaries_residency_idp: string
+    beneficiaries_residency_resident: string
     beneficiaries_select_api: string
     beneficiaries_selected_project: string
 
@@ -304,6 +309,8 @@ export interface Language {
     model_booklet: string
     model_code: string
     model_commodity: string
+    model_commodity_kgs: string
+    model_commodity_kit: string
     model_commodity_modality: string
     model_commodity_unit: string
     model_commodity_value: string
@@ -315,6 +322,7 @@ export interface Language {
     model_criteria_weight: string
     model_currency: string
     model_dateofbirth: string
+    model_deactivated: string
     model_distributed: string
     model_distribution_beneficiary: string
     model_distribution_date: string
@@ -347,6 +355,7 @@ export interface Language {
     model_state: string
     model_type: string
     model_type_shop: string
+    model_unassigned: string
     model_used: string
     model_user: string
     model_password: string
@@ -355,6 +364,10 @@ export interface Language {
     model_vendors_address: string
     model_vendor: string
     model_vulnerabilities: string
+
+    // Phone
+    phone_type_landline: string
+    phone_type_mobile: string
 
     // Placeholder
     placeholder_one_many: string

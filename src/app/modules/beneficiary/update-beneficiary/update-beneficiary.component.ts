@@ -413,7 +413,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             beneficiary.set('familyName', form.controls.familyName.value);
             beneficiary.set('givenName', form.controls.givenName.value);
             beneficiary.set('dateOfBirth', form.controls.dateOfBirth.value);
-            beneficiary.set('beneficiaryStatus', index === 0 ? 1 : 0);
+            beneficiary.set('beneficiaryStatus', index === 0 ?
+                beneficiary.getOptions('beneficiaryStatus')[1] : // Head
+                beneficiary.getOptions('beneficiaryStatus')[0]); // Member
             beneficiary.set(
                 'gender',
                 beneficiary.getOptions('gender').filter((option: Gender) => {

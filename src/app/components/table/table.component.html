@@ -13,34 +13,34 @@
             </mat-form-field>
         </div>
 
-        <table mat-table [dataSource]="tableData" matSort [matSortActive]="entityInstance.matSortActive" matSortDirection="desc">
+        <mat-table [dataSource]="tableData" matSort [matSortActive]="entityInstance.matSortActive" matSortDirection="desc">
 
             <ng-container *ngIf="selectable" matColumnDef="check">
-                <th mat-header-cell class="header-cell" *matHeaderCellDef>
+                <mat-header-cell class="header-cell" *matHeaderCellDef>
                     <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
                     [indeterminate]="selection.hasValue() && !isAllSelected()" color="primary">
                     </mat-checkbox>
-                </th>
-                <td mat-cell class="content-cell" *matCellDef="let element">
+                </mat-header-cell>
+                <mat-cell class="content-cell" *matCellDef="let element">
                     <mat-checkbox *ngIf="element.isCheckable()" (click)="$event.stopPropagation()" (change)="selectCheck($event, element)" [checked]="selection.isSelected(element)"
                     color="primary">
                     </mat-checkbox>
                     <i class="material-icons" *ngIf="!element.isCheckable()">check</i>
-                </td>
+                </mat-cell>
             </ng-container>
 
             <ng-container *ngFor="let property of displayProperties" matColumnDef="{{property}}">
-                <th mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title | titlecase}}</th>
-                <td mat-cell *matCellDef="let element">
+                <mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title | titlecase}}</mat-header-cell>
+                <mat-cell *matCellDef="let element">
                     <ng-container *ngIf="element.fields[property]; let field">
                         <app-display-field [field]="field" [element]="element"></app-display-field>
                     </ng-container>
-                </td>
+                </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef>{{language.table_actions | titlecase }}</th>
-                <td mat-cell *matCellDef="let element">
+                <mat-header-cell *matHeaderCellDef>{{table.table_actions | titlecase }}</mat-header-cell>
+                <mat-cell *matCellDef="let element">
 
                     <ng-container *ngIf="validatable">
                         <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
@@ -73,12 +73,12 @@
                     <button mat-icon-button [matTooltip]="'assign'" *ngIf="assignable" (click)="assign(element); $event.stopPropagation()" class="grey" [disabled]="!element.isAssignable()">
                         <mat-icon>assignment</mat-icon>
                     </button>
-                </td>
+                </mat-cell>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
-            <tr mat-row *matRowDef="let row; columns: getDisplayedColumns(); let element" class="cursor-pointer" (click)="openDialog('details', element)"></tr>
-        </table>
+            <mat-header-row *matHeaderRowDef="getDisplayedColumns()"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: getDisplayedColumns(); let element" class="cursor-pointer" (click)="openDialog('details', element)"></mat-row>
+        </mat-table>
     </ng-template>
     <mat-paginator *ngIf="paginable" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
 </div>

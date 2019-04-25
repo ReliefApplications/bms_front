@@ -8,7 +8,6 @@ import { Households } from 'src/app/model/households.new';
 import { LanguageService } from 'src/texts/language.service';
 import { ImportService } from '../../../core/utils/beneficiaries-import.service';
 import { ModalLeaveComponent } from './../../../components/modals/modal-leave/modal-leave.component';
-import { ImportedDataService } from './../../../core/utils/imported-data.service';
 
 
 enum Step {
@@ -73,7 +72,6 @@ export class DataValidationComponent implements OnInit {
         private importService: ImportService,
         private router: Router,
         private snackbar: SnackbarService,
-        private importedDataService: ImportedDataService,
         public dialog: MatDialog,
         private languageService: LanguageService,
     ) {}
@@ -121,7 +119,7 @@ export class DataValidationComponent implements OnInit {
                 // No further interaction with the backend after this
                 this.currentStep = Step.Completed;
 
-                this.importedDataService.data = response.map((household: Households) => Households.apiToModel(household));
+                this.importService.importedHouseholds = response.map((household: Households) => Households.apiToModel(household));
 
                 this.router.navigate(['/beneficiaries/imported']);
             });

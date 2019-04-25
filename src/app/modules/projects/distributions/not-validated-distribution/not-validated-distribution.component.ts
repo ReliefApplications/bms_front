@@ -1,11 +1,12 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MatDialog, MatStepper, MatTableDataSource } from '@angular/material';
-import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { NetworkService } from 'src/app/core/api/network.service';
-import { UserService } from 'src/app/core/api/user.service';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { Beneficiary } from 'src/app/model/beneficiary.new';
+import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.new';
+import { Distribution } from 'src/app/model/distribution.new';
+import { User } from 'src/app/model/user.new';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Beneficiary } from 'src/app/model/beneficiary.new';
 import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.new';
@@ -23,6 +24,7 @@ export class NotValidatedDistributionComponent implements OnInit {
 
   @Input() actualDistribution: Distribution;
   @Input() loaderCache: boolean;
+  @Input() distributionIsStored: boolean;
 
   @Output() emitStore = new EventEmitter<Distribution>();
   loadingExport = false;
@@ -43,15 +45,18 @@ export class NotValidatedDistributionComponent implements OnInit {
 
   // Entities passed to table components.
   beneficiaryEntity = Beneficiary;
+<<<<<<< HEAD
   distributionEntity = Distribution;
   importedBeneficiaryEntity = ImportedBeneficiary;
+=======
+>>>>>>> dev-refactor-models
   entity: any;
   checkedLines: any = [];
   distributed = false;
 
   // Datas.
   initialBeneficiaryData: MatTableDataSource<Beneficiary>;
-  randomSampleData: MatTableDataSource<any>;
+  randomSampleData: MatTableDataSource<Beneficiary>;
   finalBeneficiaryData: MatTableDataSource<Beneficiary>;
 
   // Screen display variables.
@@ -66,7 +71,6 @@ export class NotValidatedDistributionComponent implements OnInit {
   selected = false;
 
   actualUser = new User();
-  hasRights = false;
   loaderValidation = false;
 
   interval: any;
@@ -152,7 +156,8 @@ setDistributionBenefAndGetBenef(distributionBeneficiaries: any): Beneficiary[] {
     this.actualDistribution.set(
         'distributionBeneficiaries',
         distributionBeneficiaries
-            .map((distributionBeneficiariy: any) => DistributionBeneficiary.apiToModel(distributionBeneficiariy)));
+            .map((distributionBeneficiariy: any) =>
+                DistributionBeneficiary.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
     return this.actualDistribution.get<DistributionBeneficiary[]>('distributionBeneficiaries').map(
         (distributionBeneficiariy: any) => distributionBeneficiariy.get('beneficiary')
     );
@@ -258,7 +263,7 @@ confirmAdding() {
  * To confirm on Validation dialog
  */
 confirmValidation() {
-    if (this.hasRights) {
+    if (this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')) {
         if ((this.finalBeneficiaryData && this.finalBeneficiaryData.data.length > 0) ||
             (this.initialBeneficiaryData && this.initialBeneficiaryData.data.length > 0)) {
             this.loaderValidation = true;
@@ -314,7 +319,11 @@ generateRandom() {
         this.beneficiariesService.getRandom(this.actualDistribution.get('id'), sampleLength)
             .subscribe(
                 response => {
-                    const data = response.map((beneficiary: any) => Beneficiary.apiToModel(beneficiary));
+                    const data = response.map((beneficiary: any) => {
+                        const newBeneficiary = Beneficiary.apiToModel(beneficiary);
+                        newBeneficiary.set('distributionId', this.actualDistribution.get('id'));
+                        return newBeneficiary;
+                    });
                     this.randomSampleData = new MatTableDataSource(data);
                     this.loadingThirdStep = false;
                 }
@@ -391,6 +400,7 @@ setType(step, choice) {
         // Can only be a modalDetails
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
         this.modalService.isCompleted.subscribe(() => {
+            this.getDistributionBeneficiaries('both');
         });
     }
 

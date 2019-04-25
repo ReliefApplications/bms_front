@@ -9,17 +9,9 @@ import { LanguageService } from 'src/texts/language.service';
     styleUrls: ['./box-properties.component.scss']
 })
 export class BoxPropertiesComponent implements OnInit {
-    mapperObject = null;
+
     elementObject = null;
-    // Todo: Remove this
-    @Input() componentDisplayed;
-    // Todo: Remove this
-    @Input() mapperService;
-    // Todo: Remove this
-    @Input() entity;
-    // Todo: Remove this
-    @Input() data;
-    // Todo: Remove this
+
     @Input() displayedInstance: CustomModel;
 
     private oldComponentDisplayed = null;
@@ -49,7 +41,6 @@ export class BoxPropertiesComponent implements OnInit {
         });
         this.getNumberOfColumns();
     }
-
 
     cleanUsefullProperties() {
         const cleaned = new Array();

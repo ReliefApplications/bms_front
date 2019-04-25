@@ -2,8 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { HouseholdsService } from 'src/app/core/api/households.service';
-import { ImportService } from 'src/app/core/utils/distribution-import.service';
-import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
+import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
 import { Households } from 'src/app/model/households.new';
 import { LanguageService } from './../../../../../texts/language.service';
 
@@ -33,7 +32,6 @@ export class ImportedDataComponent implements OnInit {
 
     constructor(
         private _householdsService: HouseholdsService,
-        private importedDataService: ImportedDataService,
         private importService: ImportService,
         private router: Router,
         private languageService: LanguageService,
@@ -41,8 +39,7 @@ export class ImportedDataComponent implements OnInit {
 
     ngOnInit() {
         this.checkSize();
-
-        const newHouseholds = this.importedDataService.data;
+        const newHouseholds = this.importService.importedHouseholds;
         this.data = new MatTableDataSource(newHouseholds);
         this.loadingTable = false;
     }
@@ -67,8 +64,6 @@ export class ImportedDataComponent implements OnInit {
     }
 
     goProject() {
-        this.router.navigate(['/projects']).then(() => {
-            this.importedDataService.redirectToProject(this.importService.getProject());
-        });
+        this.router.navigate(['/projects']);
     }
 }

@@ -8,6 +8,7 @@ import { LanguageService } from 'src/texts/language.service';
 import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
 import { Language } from './../../../../texts/language';
 import { UserService } from './../../../core/api/user.service';
+import { AuthenticationService } from './../../../core/authentication/authentication.service';
 
 
 
@@ -48,6 +49,7 @@ export class HeaderComponent implements OnInit {
         private asyncacheService: AsyncacheService,
         private snackbar: SnackbarService,
         private languageService: LanguageService,
+        private authenticationService: AuthenticationService,
     ) {
         router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
@@ -87,7 +89,7 @@ export class HeaderComponent implements OnInit {
             });
         }
         else {
-            this.userService.currentUser.get<Country[]>('country').forEach((element) => {
+            this.userService.currentUser.get<Country[]>('countries').forEach((element) => {
                 this.countries.push(element.get('id'));
             });
         }
@@ -192,7 +194,11 @@ export class HeaderComponent implements OnInit {
     }
 
     logOut(): void {
-        this.emitLogOut.emit();
+        this.authenticationService.logout().subscribe(
+            _response => {
+                this.userService.currentUser = undefined;
+            }
+        );
     }
 
     /**

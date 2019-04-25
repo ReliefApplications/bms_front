@@ -14,6 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
+
         // Do not add headers on salt request
         if (!/salt/.test(req.url) && req.url !== 'https://openexchangerates.org/api/currencies.json') {
             let user;

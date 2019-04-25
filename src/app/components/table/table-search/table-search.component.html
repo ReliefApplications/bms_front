@@ -1,0 +1,89 @@
+<div class="table-container">
+    <div *ngIf="filled==false" class="noDataContainer">
+        <h3>
+            <mat-icon>clear</mat-icon>
+            {{table.no_data}}
+        </h3>
+    </div>
+
+    <div class="container-header" *ngIf="filled==true">
+        <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
+        </mat-form-field>
+    </div>
+
+    <div *ngIf="filled==true && data && data.data && data.data.length > 0">
+        <table mat-table [dataSource]="data" matSort>
+
+            <ng-container *ngFor="let property of properties" matColumnDef="{{property}}">
+                <th mat-header-cell *matHeaderCellDef id="table-header" mat-sort-header [ngClass]="{'integered':propertiesTypes[property]=='number'}">
+                    {{mapperService.mapTitle(property) | titlecase}}</th>
+                <td mat-cell *matCellDef="let element">
+                    <span *ngIf="propertiesTypes[property]=='image'" class="scrollable-icons">
+                        <app-icon-svg class="icon" *ngFor="let image of mapperService.mapValue(element, property)"
+                            [name]="image"></app-icon-svg>
+                    </span>
+                    <span *ngIf="propertiesTypes[property]=='png'">
+                        <img [matTooltip]="getImageName(image)" *ngFor="let image of mapperService.mapValue(element, property)"
+                            class="png" [src]="image">
+                    </span>
+                    <span *ngIf="propertiesTypes[property]=='document'">
+                        <img [matTooltip]="element.name" class="png" [src]="element[property]">
+                    </span>
+                    <span *ngIf="property=='rights'">{{recoverRights(element)}}</span>
+                    <span *ngIf="property==='location'">{{ getLocationName(element) }}</span>
+                    <span *ngIf="propertiesTypes[property]!='location' && propertiesTypes[property]!='document' && propertiesTypes[property]!='image' && propertiesTypes[property]!='png' && property!='rights'">{{mapperService.mapValue(element,
+                        property)}}</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell class="header-cell" *matHeaderCellDef>{{table.table_actions | titlecase }}</th>
+                <td mat-cell class="content-cell" *matCellDef="let element">
+                    <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton"
+                        *ngIf="entityIsUser()" [matTooltip]="table.settings_log_button">
+                        <mat-icon>history</mat-icon>
+                    </button>
+
+                    <button *ngIf="editable" mat-icon-button (click)="openDialog('update', element); $event.stopPropagation()"
+                        [matTooltip]="table.update" class="green">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                    <button *ngIf="deletable" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
+                        [matTooltip]="table.delete" class="red">
+                        <mat-icon>delete_outline</mat-icon>
+                    </button>
+                    <button *ngIf="printable" mat-icon-button (click)="print(element); $event.stopPropagation()"
+                        [matTooltip]="'print'" class="grey">
+                        <mat-icon>printer</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="propertiesActions; sticky: true;" class="header-row"></tr>
+            <tr mat-row *matRowDef="let row; columns: propertiesActions; let element" class="single-row cursor-pointer"
+                (click)="editable && checkEntityUpdateRights() && rights ? openDialog('update', element) : openDialog('details', element)"></tr>
+        </table>
+    </div>
+
+
+    <div class="no-data-container" *ngIf="!data || !data._data || !data._data.value ||  data.data.length == 0">
+        <div class="loadingContent">
+            <h4 class="no-data">
+                <mat-icon>cloud_off</mat-icon>
+                <span> {{table.no_data}} </span>
+            </h4>
+        </div>
+    </div>
+
+    <mat-paginator *ngIf="filled==true" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+</div>
+
+
+<td mat-cell *matCellDef="let element">
+    <app-icon-svg *ngIf="propertiesTypes[property]=='image'" class="icon" [name]="mapperService.mapValue(element, property)"></app-icon-svg>
+    <span class="icon" *ngIf="propertiesTypes[property]=='png'">
+        <img src={{mapperService.mapValue(element,property)}}>
+    </span>
+    <span *ngIf="propertiesTypes[property]!='image' && propertiesTypes[property]!='png'">{{mapperService.mapValue(element,
+        property)}}</span>
+</td>

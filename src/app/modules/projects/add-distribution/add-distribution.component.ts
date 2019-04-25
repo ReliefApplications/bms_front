@@ -349,7 +349,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
                 newDistribution.set('location', location);
 
                 const datePipe = new DatePipe('en-US');
-                newDistribution.set('name', admName + '-' + datePipe.transform(this.form.controls.date.value, 'yyyy-MM-dd'));
+                newDistribution.set('name', admName + '-' + datePipe.transform(this.form.controls.date.value, 'dd-MM-yyyy'));
 
                 newDistribution.set('type', this.form.controls.type.value);
                 newDistribution.set('threshold', this.form.controls.threshold.value);

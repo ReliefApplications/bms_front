@@ -118,7 +118,10 @@ export class DataValidationComponent implements OnInit {
                 this.importService.importedHouseholds = response.map((household: Households) => Households.apiToModel(household));
 
                 this.router.navigate(['/beneficiaries/imported']);
-            });
+            },
+        (_error: any) => {
+            this.loading = false;
+        });
     }
 
 //
@@ -232,8 +235,10 @@ export class DataValidationComponent implements OnInit {
     }
 
     private setAllTypedCheckboxesValues(type: string, value: boolean ) {
-        this.form.controls.forEach((_: AbstractControl, index: number) => {
-            this.form.controls[index].get(type).setValue(value);
+        this.form.controls.forEach((control: FormGroup) => {
+            if (control.contains(type)) {
+                control.get(type).setValue(value);
+            }
         });
     }
 

@@ -316,7 +316,7 @@ export const TEXT = {
     modal_warning_pending_requests_1: 'ابحث عن الطلبات التي قمت بإنشائها خلال وقت عدم الاتصال الخاص بك أدناه ، يمكنك إرسال تلك التي تريد تطبيقها لتعديل قاعدة البيانات.',
     modal_warning_pending_requests_2: 'تحذير: ستفشل الطلبات المرتبطة بعنصر أنشأته دون   اتصال بشبكة  الإنترنت !',
     modal_no_file: 'لم تقم باختيار ملف',
-
+    modal_values_required: 'You must type individual values',
     // Model
     model_beneficiaries_dependents: 'عضو',
     model_beneficiaries_nationalids: 'رقم الهوية',

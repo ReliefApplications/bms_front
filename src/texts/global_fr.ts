@@ -316,6 +316,7 @@ export const TEXT = {
     modal_warning_pending_requests_1: 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.',
     modal_warning_pending_requests_2: 'WARNING: Requests linked to an item you created offline will fail !',
     modal_no_file: 'Aucun fichier selectionné',
+    modal_values_required: 'Champ obligatoire',
 
     // Model
     model_beneficiaries_dependents: 'Membres',

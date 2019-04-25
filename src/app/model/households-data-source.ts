@@ -21,14 +21,14 @@ export class HouseholdFilters extends CustomModel {
             title: GlobalText.TEXTS.project,
             filterName: 'projects',
             bindField: 'name',
-            apiLabel: 'name',
+            apiLabel: 'id',
             isDisplayedInTable: true,
         }),
         vulnerabilities: new MultipleSelectModelField({
             title: GlobalText.TEXTS.model_vulnerabilities,
             filterName: 'vulnerabilities',
             bindField: 'name',
-            apiLabel: 'name',
+            apiLabel: 'id',
             isDisplayedInTable: true,
         }),
         location: new ObjectModelField<Location>({
@@ -40,7 +40,7 @@ export class HouseholdFilters extends CustomModel {
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm1',
-            apiLabel: 'name',
+            apiLabel: 'id',
             isTrigger: true,
             triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
@@ -57,7 +57,7 @@ export class HouseholdFilters extends CustomModel {
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm2',
-            apiLabel: 'name',
+            apiLabel: 'id',
             isTrigger: true,
             triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
@@ -73,7 +73,7 @@ export class HouseholdFilters extends CustomModel {
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm3',
-            apiLabel: 'name',
+            apiLabel: 'id',
             isTrigger: true,
             triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
@@ -88,7 +88,7 @@ export class HouseholdFilters extends CustomModel {
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm4',
-            apiLabel: 'name',
+            apiLabel: 'id',
             isDisplayedInTable: true,
         })
     };

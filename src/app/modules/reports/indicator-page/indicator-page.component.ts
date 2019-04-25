@@ -1,29 +1,26 @@
-import {
-    Component, OnInit, ViewChild, SimpleChanges, ElementRef, ViewChildren,
-    QueryList, HostListener, Output, EventEmitter, AfterViewInit, DoCheck
-} from '@angular/core';
-import { IndicatorService } from '../services/indicator.service';
-import { FilterEvent, FilterInterface, AbstractFilter } from '../../../model/filter';
-import { Indicator } from '../../../model/indicator';
-import { ButtonFilterData, ButtonFilterComponent } from '../filters/button-filter/button-filter.component';
-import { ChartRegistration, RegisteredItem } from '../services/chart-registration.service';
-import { forEach } from '@angular/router/src/utils/collection';
-import { MAT_CHIPS_DEFAULT_OPTIONS, MatButton, MatSelect, MatOption } from '@angular/material';
+import { TitleCasePipe } from '@angular/common';
+// tslint:disable-next-line
+import { AfterViewInit, Component, DoCheck, EventEmitter, HostListener, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { GlobalText } from '../../../../texts/global';
-import { ProjectService } from '../../../core/api/project.service';
-import { Project } from '../../../model/project';
-import { DistributionService } from '../../../core/api/distribution.service';
-import { DistributionData } from '../../../model/distribution-data';
-import { filterQueryId } from '@angular/core/src/view/util';
-import { ButtonFilterDateComponent } from '../filters/button-filter/button-filter-data/button-filter-date.component';
-import { finalize } from 'rxjs/operators';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { MatOption } from '@angular/material';
+import { saveAs } from 'file-saver';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { TitleCasePipe } from '@angular/common';
-import { saveAs } from 'file-saver';
+import { finalize } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { GlobalText } from '../../../../texts/global';
+import { DistributionService } from '../../../core/api/distribution.service';
+import { ProjectService } from '../../../core/api/project.service';
+import { UserService } from '../../../core/api/user.service';
+import { DistributionData } from '../../../model/distribution-data';
+import { AbstractFilter, FilterEvent, FilterInterface } from '../../../model/filter';
+import { Indicator } from '../../../model/indicator';
+import { Project } from '../../../model/project';
+import { ButtonFilterDateComponent } from '../filters/button-filter/button-filter-data/button-filter-date.component';
+import { ButtonFilterData } from '../filters/button-filter/button-filter.component';
+import { ChartRegistration, RegisteredItem } from '../services/chart-registration.service';
+import { IndicatorService } from '../services/indicator.service';
 
 @Component({
     selector: 'app-indicator-page',
@@ -96,12 +93,13 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
         public chartRegistrationService: ChartRegistration,
         public projectService: ProjectService,
         public distributionService: DistributionService,
-        private snackBar: SnackbarService
+        private snackBar: SnackbarService,
+        private userService: UserService,
     ) {
     }
 
     ngOnInit() {
-        this.checkPermission();
+
         this.checkSize();
         this.getProjects();
 
@@ -124,6 +122,7 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
                     this.indicators = null;
                 });
         }
+        this.generateReportsCards();
 
     }
 
@@ -376,54 +375,32 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
         this.selectedPeriodFrequency = from + '-' + to;
     }
 
-    checkPermission() {
-        this.cacheService.getUser().subscribe(
-            result => {
-                if (result && result.rights) {
-                    const rights = result.rights;
+    generateReportsCards() {
+        if (this.userService.hasRights('ROLE_REPORTING_COUNTRY')) {
+            this.dataFilter2.push(
+                {
+                    level: '0', icon: 'settings/api', color: 'green',
+                    label: this.toTitleCase(this.indicator.report_country_report), value: 'Country', active: false,
+                },
+            );
+            this.onFilter(new FilterEvent('bms', 'reporting', 'Country'));
+        }
 
-                    if (rights === 'ROLE_ADMIN' || rights === 'ROLE_REGIONAL_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
-                        this.dataFilter2 = [
-                            {
-                                level: '0', icon: 'settings/api', color: 'red',
-                                label: this.toTitleCase(this.indicator.report_country_report), value: 'Country', active: true
-                            },
-                            {
-                                level: '0', icon: 'reporting/projects', color: 'green',
-                                label: this.toTitleCase(this.indicator.report_project_report), value: 'Project', active: false
-                            },
-                            {
-                                level: '0', icon: 'reporting/distribution', color: 'red',
-                                label: this.toTitleCase(this.indicator.report_distribution_report), value: 'Distribution', active: false
-                            },
-                        ];
+        if (this.userService.hasRights('ROLE_REPORTING_PROJECT')) {
+            this.dataFilter2.push(
+                {
+                    level: '0', icon: 'reporting/projects', color: 'green',
+                    label: this.toTitleCase(this.indicator.report_project_report), value: 'Project', active: false,
+                },
+            );
+            this.onFilter(new FilterEvent('bms', 'reporting', 'Project'));
+        }
 
-                        this.onFilter(new FilterEvent('bms', 'reporting', 'Country'));
-                    } else if (rights === 'ROLE_PROJECT_OFFICER' || rights === 'ROLE_PROJECT_MANAGER') {
-                        this.dataFilter2 = [
-                            {
-                                level: '0', icon: 'reporting/projects', color: 'green',
-                                label: this.toTitleCase(this.indicator.report_project_report), value: 'Project', active: true
-                            },
-                            {
-                                level: '0', icon: 'reporting/distribution', color: 'red',
-                                label: this.toTitleCase(this.indicator.report_distribution_report), value: 'Distribution', active: false
-                            },
-                        ];
-
-                        this.onFilter(new FilterEvent('bms', 'reporting', 'Project'));
-                    } else {
-                        this.dataFilter2 = [
-                            {
-                                level: '0', icon: 'reporting/distribution', color: 'red',
-                                label: this.toTitleCase(this.indicator.report_distribution_report), value: 'Distribution', active: true
-                            },
-                        ];
-
-                        this.onFilter(new FilterEvent('bms', 'reporting', 'Distribution'));
-                    }
-                }
-            }
+        this.dataFilter2.push(
+            {
+                level: '0', icon: 'reporting/distribution', color: 'green',
+                label: this.toTitleCase(this.indicator.report_distribution_report), value: 'Distribution', active: false,
+            },
         );
     }
 

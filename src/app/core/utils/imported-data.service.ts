@@ -1,10 +1,11 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImportedDataService {
     /**
+     * // TODO
      * @todo replace with genuine eventemitter
      */
   data: any;

@@ -2,6 +2,7 @@ import { Component, DoCheck, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { from } from 'rxjs';
+import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { environment } from 'src/environments/environment';
@@ -29,6 +30,7 @@ export class LoginComponent implements OnInit, DoCheck {
 
     constructor(
         public _authService: AuthenticationService,
+        private userService: UserService,
         public asyncacheService: AsyncacheService,
         public router: Router,
         public snackbar: SnackbarService,
@@ -56,6 +58,7 @@ export class LoginComponent implements OnInit, DoCheck {
      */
     blankUser() {
         this.user = new User();
+        this.userService.currentUser = this.user;
         this.user.username = '';
         this.user.password = '';
     }
@@ -101,6 +104,8 @@ export class LoginComponent implements OnInit, DoCheck {
         const subscription = from(this._authService.login(this.user));
         subscription.subscribe(
             (user: User) => {
+                // Replace user in cache
+                this.userService.currentUser = user;
                 if (user.country && user.country.length === 0 && user.rights === 'ROLE_ADMIN') {
                     this.initCountry('KHM');
                 } else {

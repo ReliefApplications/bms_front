@@ -1,14 +1,14 @@
-import { Component, OnInit, DoCheck, Input, Output, EventEmitter } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Component, DoCheck, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { NavigationEnd, Router } from '@angular/router';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-
-import { GlobalText } from '../../../../texts/global';
-
-import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { User } from 'src/app/model/user';
+import { GlobalText } from '../../../../texts/global';
+import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
+import { UserService } from './../../../core/api/user.service';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
+
+
 
 @Component({
     selector: 'app-header',
@@ -25,7 +25,6 @@ export class HeaderComponent implements OnInit, DoCheck {
     selectedCountry: string;
 
     @Output() emitLogOut = new EventEmitter();
-    @Input() userData: User;
 
     public currentRoute = '/';
     public breadcrumb: Array<any> = [{
@@ -39,8 +38,9 @@ export class HeaderComponent implements OnInit, DoCheck {
     constructor(
         public dialog: MatDialog,
         public router: Router,
-        private authService: AuthenticationService,
+        private userService: UserService,
         private asyncacheService: AsyncacheService,
+        private authenticationService: AuthenticationService,
         private snackbar: SnackbarService,
     ) {
         router.events.subscribe(event => {
@@ -57,7 +57,6 @@ export class HeaderComponent implements OnInit, DoCheck {
 
     ngOnInit() {
         this.language = GlobalText.language;
-        this.userData = new User(this.userData);
         this.getCorrectCountries();
         this.updateTooltip();
 
@@ -82,17 +81,18 @@ export class HeaderComponent implements OnInit, DoCheck {
     }
 
     getCorrectCountries() {
-        const countries = this.userData.getAllCountries();
-
+        const user = this.userService.currentUser;
         this.countries = [];
-        if (this.userData.rights === 'ROLE_ADMIN') {
-            countries.forEach( element => {
-                this.countries.push(element.id);
+        if (!user) {
+            return;
+        }
+        if (this.userService.hasRights('ROLE_SWITCH_COUNTRY')) {
+            this.userService.currentUser.getAllCountries().forEach((country: object[]) => {
+                this.countries.push(country['id']);
             });
-        } else {
-            this.userData.country.forEach( element => {
-                this.countries.push(element);
-            });
+        }
+        else {
+            this.countries = this.userService.currentUser.country;
         }
 
         this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(
@@ -121,7 +121,7 @@ export class HeaderComponent implements OnInit, DoCheck {
     }
 
     autoLanguage(c: string) {
-        if (!this.userData.language) {
+        if (!this.userService.currentUser.language) {
             if (c === 'SYR') {
                 GlobalText.changeLanguage('ar');
             } else if (c === 'KHM') {
@@ -188,7 +188,11 @@ export class HeaderComponent implements OnInit, DoCheck {
     }
 
     logOut(): void {
-        this.emitLogOut.emit();
+        this.authenticationService.logout().subscribe(
+            _response => {
+                this.userService.currentUser = undefined;
+            }
+        );
     }
 
     /**

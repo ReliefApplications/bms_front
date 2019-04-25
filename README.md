@@ -14,7 +14,7 @@ If you're an experienced developer and you would like to get involved, contact u
 
 ## What's here
 
-This repo is the "master" repo for all BMS-related projects. It hosts 
+This repo is the "master" repo for all Akezi-related projects. It hosts 
 the documentation, the frontend and other misc. Code for other
 projects, like the [API](https://github.com/ReliefApplications/bms_api) is hosted in other repositories. 
 
@@ -40,7 +40,7 @@ We are hoping to establish a more user-friendly version soon, one that is readab
 
 ## Resources
 
-To understand BMS better:
+To understand Akezi better:
 
 * Read the README for each repo. An architecture diagram of how these components are connected to one another is coming soon.
 

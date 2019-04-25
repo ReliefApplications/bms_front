@@ -4,6 +4,7 @@ import { NotFoundComponent } from './components/error-pages/not-found/not-found.
 // Services
 import { AuthGuard } from './core/guards/auth.guard';
 import { DeactivateGuard } from './core/guards/deactivate.guard';
+import { PermissionsGuard } from './core/guards/permissions.guard';
 import { BeneficiariesImportComponent } from './modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
 import { ImportedDataComponent } from './modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
 import { BeneficiariesComponent } from './modules/beneficiary/beneficiaries.component';
@@ -30,81 +31,77 @@ export const routes: Routes = [
     {
         path: 'projects',
         component: ProjectComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard, PermissionsGuard]
     },
     {
         path: 'projects/add-distribution',
         component: AddDistributionComponent,
         canDeactivate: [DeactivateGuard],
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PermissionsGuard],
     },
     {
         path: 'projects/distributions/:id',
         component: DistributionsComponent,
         canDeactivate: [DeactivateGuard],
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PermissionsGuard],
     },
     {
         path: 'beneficiaries',
         component: BeneficiariesComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PermissionsGuard],
     },
     {
         path: 'reports',
         component: ReportsComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PermissionsGuard],
     },
     {
         path: 'settings',
         component: SettingsComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PermissionsGuard],
     },
     {
         path: 'profile',
         component: ProfileComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PermissionsGuard],
     },
     {
         path: 'beneficiaries/import',
         component: BeneficiariesImportComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PermissionsGuard],
     },
     {
         path: 'beneficiaries/imported',
         component: ImportedDataComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PermissionsGuard],
     },
     {
         path: 'beneficiaries/import/data-validation',
         component: DataValidationComponent,
         canDeactivate: [DeactivateGuard],
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PermissionsGuard],
     },
     {
         path: 'beneficiaries/add-beneficiaries',
         component: UpdateBeneficiaryComponent ,
         canDeactivate : [DeactivateGuard],
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PermissionsGuard],
     },
     {
         path: 'beneficiaries/update-beneficiary/:id',
         component: UpdateBeneficiaryComponent ,
         canDeactivate : [DeactivateGuard],
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PermissionsGuard]
     },
 
     {
         path: 'vouchers',
         component: VouchersComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard, PermissionsGuard],
     },
 
     // home route protected by auth guard
-    {
-        path: '',
-        component: DashboardComponent,
-        canActivate: [AuthGuard],
-    },
+    { path: '', component: DashboardComponent, canActivate: [AuthGuard, PermissionsGuard] },
 
     // otherwise redirect to home
     {

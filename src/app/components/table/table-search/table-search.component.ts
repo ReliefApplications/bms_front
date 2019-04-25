@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
-
-import { TableComponent } from '../table.component';
+import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/model/user';
+import { TableComponent } from '../table.component';
+
 
 @Component({
     selector: 'app-table-search',
@@ -10,7 +10,6 @@ import { User } from 'src/app/model/user';
 })
 export class TableSearchComponent extends TableComponent implements OnInit {
 
-    @Input() deletable;
 
     ngOnInit() {
         if (!this.deletable) {

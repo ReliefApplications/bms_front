@@ -1,18 +1,17 @@
 
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { Commodity } from './commodity.new';
+import { Criteria } from './criteria.new';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { DateModelField } from './CustomModel/date-model-field';
 import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
+import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
+import { DistributionBeneficiary } from './distribution-beneficiary.new';
 import { Location } from './location.new';
 import { Project } from './project.new';
-import { DistributionBeneficiary } from './distribution-beneficiary.new';
-import { GlobalText } from 'src/texts/global';
-import { SingleSelectModelField } from './CustomModel/single-select-model-field';
-import { Criteria } from './criteria.new';
 export class DistributionType extends CustomModel {
 
     public fields = {
@@ -36,7 +35,7 @@ export class Distribution extends CustomModel {
     public static rights = ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER'];
     public static rightsEdit = ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER', 'ROLE_PROJECT_OFFICER'];
     matSortActive = 'date';
-    title = GlobalText.TEXTS.distribution;
+    title = this.language.distribution;
 
 
     public fields = {
@@ -47,7 +46,7 @@ export class Distribution extends CustomModel {
             ),
         name: new TextModelField(
             {
-                title: GlobalText.TEXTS.model_distribution_name,
+                title: this.language.model_distribution_name,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -57,7 +56,7 @@ export class Distribution extends CustomModel {
         ),
         location: new ObjectModelField<Location> (
             {
-                title: GlobalText.TEXTS.location,
+                title: this.language.location,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
@@ -67,7 +66,7 @@ export class Distribution extends CustomModel {
         ),
         distributionBeneficiaries: new MultipleObjectsModelField<DistributionBeneficiary>(
             {
-                title: GlobalText.TEXTS.beneficiaries,
+                title: this.language.beneficiaries,
                 isDisplayedInTable: true,
                 displayTableFunction: null,
                 isDisplayedInSummary: true,
@@ -76,7 +75,7 @@ export class Distribution extends CustomModel {
         ),
         date: new DateModelField(
             {
-                title: GlobalText.TEXTS.model_distribution_date,
+                title: this.language.model_distribution_date,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -88,7 +87,7 @@ export class Distribution extends CustomModel {
         ),
         project: new ObjectModelField<Project>(
             {
-                title: GlobalText.TEXTS.project,
+                title: this.language.project,
                 displayTableFunction: null,
                 isDisplayedInSummary: true,
                 value: [],
@@ -98,7 +97,7 @@ export class Distribution extends CustomModel {
         // We need this field when we want to create a distribution in a precise project
         projectId: new NumberModelField(
             {
-                title: GlobalText.TEXTS.project
+                title: this.language.project
             }
         ),
         selectionCriteria: new MultipleObjectsModelField<Criteria>(
@@ -108,22 +107,22 @@ export class Distribution extends CustomModel {
         ),
         type: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.model_distribution_type,
+                title: this.language.model_distribution_type,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isDisplayedInSummary: true,
                 isRequired: true,
                 isSettable: true,
-                options: [new DistributionType('0', GlobalText.TEXTS.households), new DistributionType('1', GlobalText.TEXTS.individual)],
+                options: [new DistributionType('0', this.language.households), new DistributionType('1', this.language.individual)],
                 bindField: 'name',
                 apiLabel: 'name',
-                value: GlobalText.TEXTS.households,
+                value: this.language.households,
             }
         ),
         commodities: new MultipleObjectsModelField<Commodity> (
             {
-                title: GlobalText.TEXTS.model_commodity,
+                title: this.language.model_commodity,
                 isDisplayedInTable: true,
                 isImageInTable: true,
                 isDisplayedInSummary: true,

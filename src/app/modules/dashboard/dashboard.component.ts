@@ -1,13 +1,11 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
-import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Distribution } from 'src/app/model/distribution.new';
 import { LanguageService } from 'src/texts/language.service';
-import { GlobalText } from '../../../texts/global';
 import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';
 import { LeafletService } from '../../core/external/leaflet.service';
@@ -18,10 +16,9 @@ import { Language } from './../../../texts/language';
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
 
     distributionData: MatTableDataSource<Distribution>;
-    public dashboard = GlobalText.TEXTS;
     public nameComponent = 'dashboard_title';
     public actualCountry: string;
 
@@ -42,8 +39,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public summary = [];
 
     // Language
-    public language: Language;
-    private languageSubscription: Subscription;
+    public language: Language = this.languageService.selectedLanguage;
 
 
     constructor(
@@ -57,9 +53,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.languageSubscription = this.languageService.languageSource.subscribe((language: Language) => {
-            this.language = language;
-        });
         this._cacheService.getUser().subscribe(result => {
             if (result.get('loggedIn')) {
                 this.serviceMap.createMap('map');
@@ -71,9 +64,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
         this.deletable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
         this.editable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
-    }
-    ngOnDestroy(): void {
-        this.languageSubscription.unsubscribe();
     }
 
     @HostListener('window:resize', ['$event'])

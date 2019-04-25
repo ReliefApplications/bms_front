@@ -1,34 +1,33 @@
-import { Component, OnInit, DoCheck, HostListener, ViewChild } from '@angular/core';
-import { GlobalText } from '../../../../texts/global';
-import { Router, ActivatedRoute } from '@angular/router';
-import { HouseholdsService } from '../../../core/api/households.service';
-import { ProjectService } from '../../../core/api/project.service';
-import { LocationService } from '../../../core/api/location.service';
-import { CriteriaService } from '../../../core/api/criteria.service';
-import { CountrySpecificService } from '../../../core/api/country-specific.service';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog, MatTableDataSource, MatStepper } from '@angular/material';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
-import { Location, Adm } from '../../../model/location.new';
-import { Project } from '../../../model/project.new';
-import { CountrySpecific } from '../../../model/country-specific.new';
+import { DateAdapter, MatDialog, MatStepper, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
-import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
-import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
-import { Households, Livelihood } from 'src/app/model/households.new';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
 import { Beneficiary, Gender, ResidencyStatus } from 'src/app/model/beneficiary.new';
+import { CountrySpecificAnswer } from 'src/app/model/country-specific.new';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { Households, Livelihood } from 'src/app/model/households.new';
 import { NationalId, NationalIdType } from 'src/app/model/nationalId.new';
 import { Phone, PhoneType } from 'src/app/model/phone.new';
-import { VulnerabilityCriteria } from 'src/app/model/vulnerability-criteria.new';
-import { CountrySpecificAnswer } from 'src/app/model/country-specific.new';
 import { Profile } from 'src/app/model/profile.new';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { VulnerabilityCriteria } from 'src/app/model/vulnerability-criteria.new';
+import { LanguageService } from 'src/texts/language.service';
+import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
+import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
+import { CountrySpecificService } from '../../../core/api/country-specific.service';
+import { CriteriaService } from '../../../core/api/criteria.service';
+import { HouseholdsService } from '../../../core/api/households.service';
+import { LocationService } from '../../../core/api/location.service';
+import { ProjectService } from '../../../core/api/project.service';
+import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
+import { CountrySpecific } from '../../../model/country-specific.new';
+import { Adm, Location } from '../../../model/location.new';
+import { Project } from '../../../model/project.new';
+
 
 @Component({
     selector: 'app-update-beneficiary',
@@ -44,9 +43,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     // Mode
     public mode: string;
     public validationLoading = false;
-
-    // Translate
-    public Text = GlobalText.TEXTS;
 
     public household: Households;
     public mainFields: string[];
@@ -87,6 +83,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
     @ViewChild(MatStepper) stepper: MatStepper;
 
+    // Language
+    public language = this.languageService.selectedLanguage;
+
     constructor(
         public route: ActivatedRoute,
         public _projectService: ProjectService,
@@ -100,6 +99,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         public dialog: MatDialog,
         public snackbar: SnackbarService,
         public router: Router,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {
@@ -472,18 +472,18 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         if (this.mode === 'create') {
             this._householdsService.create(body).subscribe(success => {
-                this.snackbar.success(this.Text.update_beneficiary_created_successfully);
+                this.snackbar.success(this.language.update_beneficiary_created_successfully);
                 this.leave();
             }, error => {
-                this.snackbar.error(this.Text.update_beneficiary_error_creating + error);
+                this.snackbar.error(this.language.update_beneficiary_error_creating + error);
                 this.validationLoading = false;
             });
         } else if (this.mode === 'update') {
             this._householdsService.update(this.household.get('id'), body).subscribe(success => {
-                this.snackbar.success(this.Text.update_beneficiary_updated_successfully);
+                this.snackbar.success(this.language.update_beneficiary_updated_successfully);
                 this.leave();
             }, error => {
-                this.snackbar.error(this.Text.update_beneficiary_error_updated + error);
+                this.snackbar.error(this.language.update_beneficiary_error_updated + error);
                 this.validationLoading = false;
             });
         }

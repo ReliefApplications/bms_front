@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Distribution } from 'src/app/model/distribution.new';
+import { LanguageService } from 'src/texts/language.service';
 import { SnackbarService } from '../logging/snackbar.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { CustomModelService } from './custom-model.service';
@@ -21,8 +22,9 @@ export class DistributionService extends CustomModelService {
         public networkService: NetworkService,
         private _cacheService: AsyncacheService,
         private router: Router,
+        protected languageService: LanguageService,
     ) {
-        super(http);
+        super(http, languageService);
     }
 
     public delete(distributionId) {
@@ -121,7 +123,7 @@ export class DistributionService extends CustomModelService {
                 .subscribe(
                     result => {
                         if (!result) {
-                            this.snackbar.error(this.texts.cache_no_distribution);
+                            this.snackbar.error(this.language.cache_no_distribution);
                         } else {
                             this.router.navigate(['/projects/distributions/' + id]);
                         }

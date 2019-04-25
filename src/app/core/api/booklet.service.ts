@@ -1,11 +1,10 @@
-import { Injectable                                 } from '@angular/core';
-import { URL_BMS_API                                } from '../../../environments/environment';
-import { HttpService                                } from './http.service';
-import { ExportService                              } from './export.service';
+import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
-import { finalize } from 'rxjs/operators';
-import { Currency, Booklet } from 'src/app/model/booklet.new';
+import { Booklet } from 'src/app/model/booklet.new';
+import { LanguageService } from 'src/texts/language.service';
+import { URL_BMS_API } from '../../../environments/environment';
 import { CustomModelService } from './custom-model.service';
+import { HttpService } from './http.service';
 
 @Injectable({
     providedIn: 'root'
@@ -16,9 +15,9 @@ export class BookletService extends CustomModelService {
 
     constructor(
         protected http: HttpService,
-        private exportService: ExportService,
+        protected languageService: LanguageService,
     ) {
-        super(http);
+        super(http, languageService);
     }
     public setPassword(code: string, password: string) {
         const body = {

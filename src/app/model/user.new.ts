@@ -1,6 +1,5 @@
 import { FormGroup } from '@angular/forms';
 import { Language } from 'src/texts/language';
-import { GlobalText } from '../../texts/global';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { CustomModel } from './CustomModel/custom-model';
 import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
@@ -77,12 +76,12 @@ export class User extends CustomModel {
             title: 'rights',
             isDisplayedInTable: true,
             options: [
-                new Role('ROLE_ADMIN', GlobalText.TEXTS.role_user_admin),
-                new Role('ROLE_FIELD_OFFICER', GlobalText.TEXTS.role_user_field_officer),
-                new Role('ROLE_PROJECT_OFFICER', GlobalText.TEXTS.role_user_project_officer),
-                new Role('ROLE_PROJECT_MANAGER', GlobalText.TEXTS.role_user_project_manager),
-                new Role('ROLE_COUNTRY_MANAGER', GlobalText.TEXTS.role_user_country_manager),
-                new Role('ROLE_REGIONAL_MANAGER', GlobalText.TEXTS.role_user_regional_manager),
+                new Role('ROLE_ADMIN', this.language.role_user_admin),
+                new Role('ROLE_FIELD_OFFICER', this.language.role_user_field_officer),
+                new Role('ROLE_PROJECT_OFFICER', this.language.role_user_project_officer),
+                new Role('ROLE_PROJECT_MANAGER', this.language.role_user_project_manager),
+                new Role('ROLE_COUNTRY_MANAGER', this.language.role_user_country_manager),
+                new Role('ROLE_REGIONAL_MANAGER', this.language.role_user_regional_manager),
             ],
             bindField: 'name',
             isDisplayedInModal: true,
@@ -153,7 +152,6 @@ export class User extends CustomModel {
         newUser.set('id', userFromApi.id);
         newUser.set('loggedIn', userFromApi.loggedIn);
         newUser.set('language', userFromApi.language);
-        console.log(newUser);
         return newUser;
     }
 

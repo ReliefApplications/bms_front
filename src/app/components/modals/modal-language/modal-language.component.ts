@@ -1,58 +1,65 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material';
+import { UserService } from 'src/app/core/api/user.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { Arabic } from 'src/texts/global_ar';
-import { ModalComponent } from '../modal.component';
+import { LanguageService } from 'src/texts/language.service';
 import { Language } from './../../../../texts/language';
-import { User } from './../../../model/user.new';
 
 @Component({
     selector: 'app-modal-language',
     templateUrl: './modal-language.component.html',
     styleUrls: ['../modal.component.scss', './modal-language.component.scss']
 })
-export class ModalLanguageComponent extends ModalComponent implements OnInit {
+export class ModalLanguageComponent implements OnInit {
     public isCheckedDefault = false;
-    public actualUser: User;
     public default = false;
     public isArabic = false;
-    public form: FormGroup;
+    public languageForm: FormGroup;
 
+    // Language
+    public language: Language = this.languageService.selectedLanguage;
 
+    constructor(
+        public dialogRef: MatDialogRef<ModalLanguageComponent>,
+        private languageService: LanguageService,
+        public userService: UserService,
+        private snackbar: SnackbarService,
+        ) {
+
+    }
 
     ngOnInit() {
-        this.languageSubscription = this.languageService.languageSource.subscribe((language: Language) => {
-            this.language = language;
-        });
         this.makeControls();
         this.isArabic = this.language instanceof Arabic;
     }
 
     makeControls() {
 
-        this.form = new FormGroup(
+        this.languageForm = new FormGroup(
             {
-                languageControl: new FormControl('', Validators.required),
-                defaultControl: new FormControl(this.currentLanguageIsDefault())
+                languageControl: new FormControl(this.language, Validators.required),
+                defaultControl: new FormControl(this.languageIsDefault(this.language))
             }
-        );
+            );
     }
 
     updateDefault() {
-        this.form.patchValue(
+        this.languageForm.patchValue(
             {
-                defaultControl: this.currentLanguageIsDefault(),
+                defaultControl: this.languageIsDefault(this.languageForm.value.languageControl)
             }
         );
-        console.log(this.form);
     }
 
-    private currentLanguageIsDefault() {
+    private languageIsDefault(language: Language) {
 
         const defaultLanguage = this.languageService.stringToLanguage(
             this.userService.currentUser.get<string>('language')
             );
         // TODO: language should be stored as a Language object and not a string in user
-        return defaultLanguage.LANGUAGE_ISO ===  this.language.LANGUAGE_ISO;
+        return defaultLanguage.LANGUAGE_ISO ===  language.LANGUAGE_ISO;
     }
 
 
@@ -66,4 +73,18 @@ export class ModalLanguageComponent extends ModalComponent implements OnInit {
     //     }
     //     this.closeDialog();
     // }
+
+    save() {
+        const newLanguage = this.languageForm.value.languageControl;
+        if (this.languageForm.value.defaultControl) {
+            this.userService.setDefaultLanguage(
+                this.userService.currentUser.get<number>('id'),
+                this.languageService.languageToString(newLanguage)).subscribe((_response: any) => {
+                this.snackbar.success('Default Language Saved');
+                }
+            );
+        }
+        this.languageService.selectedLanguage = newLanguage;
+        window.location.reload();
+    }
 }

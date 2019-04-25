@@ -1,5 +1,5 @@
 <div class="modal-container" *ngIf="commodity">
-    <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}">{{texts.modal_add_title |titlecase }} {{commodity.title | titlecase}}</h4>
+    <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}">{{language.modal_add_title |titlecase }} {{commodity.title | titlecase}}</h4>
     <form [formGroup]="form">
       <table class="modal-table">
         <tr class="modal-row">
@@ -12,7 +12,7 @@
             </ng-select>
           </td>
         </tr>
-  
+
         <tr class="modal-row">
           <th class="table-title">{{ commodity.fields.modalityType.title }}</th>
           <td class="form-item">
@@ -41,8 +41,8 @@
               </mat-form-field>
             </td>
           </tr>
-      
-      
+
+
       </table>
       <div class="modal-button action-buttons stickyFooter">
           <button mat-button (click)="onCancel()" class="button-text-accent">Cancel</button>
@@ -50,4 +50,3 @@
       </div>
     </form>
   </div>
-  

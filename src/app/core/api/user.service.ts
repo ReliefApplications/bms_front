@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { AppInjector } from 'src/app/app-injector';
 import { Project } from 'src/app/model/project.new';
-import { ErrorInterface, User } from '../../model/user.new';
-import { CustomModelService } from './custom-model.service';
-import { HttpService } from './http.service';
-import { ProjectService } from './project.service';
-import { URL_BMS_API } from '../../../environments/environment';
+import { LanguageService } from 'src/texts/language.service';
 import { SaltInterface } from '../../model/salt';
+import { User } from '../../model/user.new';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { WsseService } from '../authentication/wsse.service';
 import { rightsHierarchy, Role } from '../permissions/permissions';
+import { CustomModelService } from './custom-model.service';
+import { HttpService } from './http.service';
+import { ProjectService } from './project.service';
 
 
 @Injectable({
@@ -22,10 +22,11 @@ export class UserService extends CustomModelService {
 
     constructor(
         protected http: HttpService,
+        protected languageService: LanguageService,
         private wsseService: WsseService,
-        private authenticationService: AuthenticationService
+        private authenticationService: AuthenticationService,
     ) {
-        super(http);
+        super(http, languageService);
     }
 
     public create(body: any) {

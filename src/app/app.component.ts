@@ -1,8 +1,6 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Language } from 'src/texts/language';
 import { LanguageService } from 'src/texts/language.service';
 import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
 import { UserService } from './core/api/user.service';
@@ -15,7 +13,7 @@ import { User } from './model/user.new';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent {
 
     user: User = new User();
 
@@ -29,8 +27,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     public isShowing = false;
 
-    public language: Language;
-    private languageSubscription: Subscription;
+    // Language
+    public language = this.languageService.selectedLanguage;
 
     constructor(
         private _authenticationService: AuthenticationService,
@@ -39,24 +37,6 @@ export class AppComponent implements OnInit, OnDestroy {
         public userService: UserService,
         private languageService: LanguageService,
     ) { }
-
-    ngOnInit() {
-        this.languageSubscription = this.languageService.languageSource.subscribe((language: Language) => {
-            this.language = language;
-        });
-
-        // TODO: REDO AUTO LANGUAGE SELECT
-        // this.checkSize();
-        // this._authenticationService.getUser()
-        //     .subscribe(user => {
-        //         this.userService.currentUser = user;
-        //         GlobalText.changeLanguage(user.get<string>('language'));
-        //     });
-    }
-
-    ngOnDestroy(): void {
-        this.languageSubscription.unsubscribe();
-    }
 
 
 

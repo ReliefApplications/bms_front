@@ -5,9 +5,8 @@ import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Mapper } from 'src/app/core/utils/mapper.service';
 import { Distribution } from 'src/app/model/distribution.new';
-import { GlobalText } from 'src/texts/global';
+import { LanguageService } from 'src/texts/language.service';
 
 
 @Component({
@@ -24,11 +23,12 @@ export class DistributionsComponent implements OnInit {
     loadingDistribution = true;
 
     // Screen display variables.
-    TEXT = GlobalText.TEXTS;
-    public language = GlobalText.language;
     loaderCache = false;
     hideSnack = false;
     distributionIsStored = false;
+
+    // Language
+    public language = this.languageService.selectedLanguage;
 
     constructor(
         public distributionService: DistributionService,
@@ -37,7 +37,7 @@ export class DistributionsComponent implements OnInit {
         private route: ActivatedRoute,
         private beneficiariesService: BeneficiariesService,
         public snackbar: SnackbarService,
-        public mapperService: Mapper,
+        private languageService: LanguageService,
     ) {
     }
 
@@ -112,7 +112,7 @@ export class DistributionsComponent implements OnInit {
                                 () => {
                                     // Data added in cache
                                     if (!this.hideSnack) {
-                                        this.snackbar.success(this.TEXT.cache_distribution_added);
+                                        this.snackbar.success(this.language.cache_distribution_added);
                                     }
                                     this.hideSnack = false;
                                 }

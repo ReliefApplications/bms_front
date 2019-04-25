@@ -1,21 +1,18 @@
-import { Component, OnInit, DoCheck, ViewChild, Input, EventEmitter, Output } from '@angular/core';
-import { ModalComponent } from '../modal.component';
-import { DistributionData } from 'src/app/model/distribution-data';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Project } from 'src/app/model/project.new';
-import { Beneficiaries } from 'src/app/model/beneficiary';
-import { GlobalText } from '../../../../texts/global';
-import { finalize } from 'rxjs/operators';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
-import { Distribution } from 'src/app/model/distribution.new';
+import { finalize } from 'rxjs/operators';
 import { Beneficiary } from 'src/app/model/beneficiary.new';
+import { Distribution } from 'src/app/model/distribution.new';
+import { Project } from 'src/app/model/project.new';
+import { ModalComponent } from '../modal.component';
 
 @Component({
     selector: 'app-modal-assign',
     templateUrl: './modal-assign.component.html',
     styleUrls: ['../modal.component.scss', './modal-assign.component.scss'],
 })
-export class ModalAssignComponent extends ModalComponent implements OnInit, DoCheck {
+export class ModalAssignComponent extends ModalComponent implements OnInit {
 
     @Input() data: any;
     public step = 1;
@@ -39,7 +36,6 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
     public beneficiaryName = '';
     public bookletQRCode;
     public password = '';
-    public texts = GlobalText.TEXTS;
     public loadingPassword = false;
     public displayPassword = false;
     public loadingAssignation = false;
@@ -104,11 +100,11 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
     nextStep() {
         if (this.step === 1) {
             if (this.projectControl.value === 0) {
-                this.snackbar.error(this.texts.voucher_select_project);
+                this.snackbar.error(this.language.voucher_select_project);
             } else if (this.distributionControl.value === 0) {
-                this.snackbar.error(this.texts.voucher_select_distribution);
+                this.snackbar.error(this.language.voucher_select_distribution);
             } else if (this.beneficiaryControl.value === 0) {
-                this.snackbar.error(this.texts.voucher_select_beneficiary);
+                this.snackbar.error(this.language.voucher_select_beneficiary);
             } else {
                 if (!this.data.distribution || !this.data.project) {
                     this.distributionName = this.distributions.filter(
@@ -125,7 +121,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
             this.step = 4;
         } else if (this.step === 4) {
             if (this.voucherPasswordControl.hasError('pattern')) {
-                this.snackbar.error(this.texts.voucher_only_digits);
+                this.snackbar.error(this.language.voucher_only_digits);
             } else {
                 this.loadingPassword = true;
 
@@ -163,7 +159,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
                     );
                 forkJoin(assignObservable, passwordObservable).subscribe((res: any) => {
                     this.snackbar.success(
-                    this.texts.voucher_assigned_success + this.beneficiaryName);
+                    this.language.voucher_assigned_success + this.beneficiaryName);
                     this.dialog.closeAll();
                 }, err => {
                     this.snackbar.error(err.error);
@@ -171,7 +167,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
             } else {
                 assignObservable.subscribe((res: any) => {
                     this.snackbar.success(
-                    this.texts.voucher_assigned_success + this.beneficiaryName);
+                    this.language.voucher_assigned_success + this.beneficiaryName);
                     this.dialog.closeAll();
                 }, err => {
                     this.snackbar.error(err.error);

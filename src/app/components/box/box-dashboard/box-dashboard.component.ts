@@ -1,24 +1,22 @@
-import { Component, Input, DoCheck } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { GlobalText } from 'src/texts/global';
+import { LanguageService } from 'src/texts/language.service';
 
 @Component({
   selector: 'app-box-dashboard',
   templateUrl: './box-dashboard.component.html',
   styleUrls: ['./box-dashboard.component.scss']
 })
-export class BoxDashboardComponent implements DoCheck {
+export class BoxDashboardComponent {
   @Input() info: any;
 
-  public box = GlobalText.TEXTS;
-  public language = GlobalText.language;
+  public language = this.languageService.selectedLanguage;
 
-  ngDoCheck() {
-    this.language = GlobalText.language;
-  }
 
   constructor(
     private router: Router,
+    private languageService: LanguageService,
+
   ) { }
 
   changeRoute(route): void {

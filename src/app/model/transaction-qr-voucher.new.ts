@@ -1,14 +1,12 @@
-import { GlobalText } from '../../texts/global';
-import { Booklet } from './booklet.new';
-import { ObjectModelField } from './CustomModel/object-model-field';
 import { Beneficiary } from './beneficiary.new';
+import { Booklet } from './booklet.new';
 import { NestedFieldModelField } from './CustomModel/nested-field';
+import { ObjectModelField } from './CustomModel/object-model-field';
 import { DistributionBeneficiary } from './distribution-beneficiary.new';
-import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
 
 export class TransactionQRVoucher extends DistributionBeneficiary {
 
-    title = GlobalText.TEXTS.beneficiary;
+    title = this.language.beneficiary;
     matSortActive = 'familyName';
 
     public fields = {
@@ -22,35 +20,35 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
 
         }),
         givenName: new NestedFieldModelField({
-            title: GlobalText.TEXTS.model_firstName,
+            title: this.language.model_firstName,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'givenName'
         }),
         familyName: new NestedFieldModelField({
-            title: GlobalText.TEXTS.model_familyName,
+            title: this.language.model_familyName,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'familyName'
         }),
         bookletCode: new NestedFieldModelField({
-            title: GlobalText.TEXTS.model_booklet,
+            title: this.language.model_booklet,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'booklet',
             childrenFieldName: 'code',
         }),
         status: new NestedFieldModelField({
-            title: GlobalText.TEXTS.model_state,
+            title: this.language.model_state,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'booklet',
             childrenFieldName: 'status',
         }),
         usedAt: new NestedFieldModelField({
-            title: GlobalText.TEXTS.model_used,
+            title: this.language.model_used,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'booklet',
@@ -58,7 +56,7 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             nullValue: 'Not yet'
         }),
         value: new NestedFieldModelField({
-            title: GlobalText.TEXTS.model_value,
+            title: this.language.model_value,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'booklet',

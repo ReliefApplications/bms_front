@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { LanguageService } from 'src/texts/language.service';
 import { URL_BMS_API } from '../../../environments/environment';
-
-import { HttpService } from './http.service';
 import { CustomModelService } from './custom-model.service';
+import { HttpService } from './http.service';
 
+// TODO: Rename this service to .service.ts
 @Injectable({
   providedIn: 'root'
 })
@@ -12,9 +13,10 @@ export class ProductService extends CustomModelService {
 
   constructor(
     protected http: HttpService,
-  ) {
-    super(http);
-  }
+    protected languageService: LanguageService,
+) {
+    super(http, languageService);
+}
 
   public get() {
     const url = this.api + '/products';

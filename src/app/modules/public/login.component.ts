@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { from, Subscription } from 'rxjs';
+import { from } from 'rxjs';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
@@ -9,7 +9,6 @@ import { environment } from 'src/environments/environment';
 import { LanguageService } from 'src/texts/language.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { ErrorInterface, User } from '../../model/user.new';
-import { Language } from './../../../texts/language';
 import { Country } from './../../model/user.new';
 
 
@@ -19,16 +18,16 @@ import { Country } from './../../model/user.new';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
 
     public user: User;
     public forgotMessage = false;
     public loader = false;
     public loginCaptcha = false;
     public form: FormGroup;
+    // Language
+    public language = this.languageService.selectedLanguage;
 
-    public language: Language;
-    private languageSubscription: Subscription;
 
     constructor(
         public _authService: AuthenticationService,
@@ -40,18 +39,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         ) { }
 
     ngOnInit() {
-        this.languageSubscription = this.languageService.languageSource.subscribe((language: Language) => {
-            this.language = language;
-        });
         // TODO: enable this
         // GlobalText.resetMenuMargin();
         this.initCountry('KHM');
         this.blankUser();
         this.makeForm();
-    }
-
-    ngOnDestroy(): void {
-        this.languageSubscription.unsubscribe();
     }
 
     initCountry(country: string) {
@@ -117,9 +109,9 @@ export class LoginComponent implements OnInit, OnDestroy {
                 }
                 this.router.navigate(['/']);
                 if (user.get<string>('language')) {
-                    this.languageService.changeLanguage(this.languageService.stringToLanguage(user.get<string>('language')));
+                    this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
                 } else {
-                    this.languageService.changeLanguage(this.languageService.stringToLanguage('en'));
+                    this.languageService.selectedLanguage = this.languageService.stringToLanguage('en');
                 }
 
                 this.loader = false;

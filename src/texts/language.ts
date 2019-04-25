@@ -39,6 +39,7 @@ export interface Language {
     save: string
     settings: string
     summary: string
+    this: string
     update: string
     voucher: string
 
@@ -350,6 +351,7 @@ export interface Language {
     model_user: string
     model_password: string
     model_value: string
+    modal_values_format_error: string
     model_vendors_address: string
     model_vendor: string
     model_vulnerabilities: string

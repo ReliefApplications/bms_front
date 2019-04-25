@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ModalAddCommodityComponent } from 'src/app/components/modals/modal-add-commodity/modal-add-commodity.component';
 import { ModalAddCriteriaComponent } from 'src/app/components/modals/modal-add-criteria/modal-add-criteria.component';
@@ -11,13 +10,12 @@ import { ModalEditComponent } from 'src/app/components/modals/modal-edit/modal-e
 import { Commodity } from 'src/app/model/commodity.new';
 import { Criteria } from 'src/app/model/criteria.new';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { GlobalText } from 'src/texts/global';
+import { LanguageService } from 'src/texts/language.service';
 import { CommodityService } from '../api/commodity.service';
 import { CriteriaService } from '../api/criteria.service';
 import { NetworkService } from '../api/network.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { SnackbarService } from '../logging/snackbar.service';
-import { AsyncacheService } from '../storage/asyncache.service';
 
 @Injectable({
     providedIn: 'root'
@@ -27,17 +25,18 @@ export class ModalService {
     public referedClassToken;
     public referedClassService;
     public referedClassInstance;
-    public texts = GlobalText.TEXTS;
 
     isCompleted = new Subject;
+
+    // Language
+    public language = this.languageService.selectedLanguage;
 
     constructor(
         private snackbar: SnackbarService,
         public dialog: MatDialog,
         public authenticationService: AuthenticationService,
         public networkService: NetworkService,
-        private _cacheService: AsyncacheService,
-        private router: Router,
+        private languageService: LanguageService,
     ) {
 
     }
@@ -76,7 +75,9 @@ export class ModalService {
                 // TODO: add enum for modal methods
                 if (closeMethod === 'Add') {
                     this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe(() => {
-                        this.snackbar.success(this.referedClassInstance.title + ' ' + this.texts.update_beneficiary_created_successfully);
+                        this.snackbar.success(
+                            this.referedClassInstance.title + ' ' + this.language.update_beneficiary_created_successfully
+                        );
                         this.isCompleted.next();
                     });
 

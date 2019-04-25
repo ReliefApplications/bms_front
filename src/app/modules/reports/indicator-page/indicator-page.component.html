@@ -1,6 +1,6 @@
 <div class="page-container">
     <div class="container-title">
-        <h2>{{indicator.reports | titlecase}}</h2>
+        <h2>{{language.reports | titlecase}}</h2>
     </div>
 
     <app-placeholder-boxline *ngIf="indicatorsLoading" class="container-boxes"></app-placeholder-boxline>
@@ -26,7 +26,7 @@
                     <div class="extension button-with-extension" [ngClass]="{'arabic':language==='ar'}" *ngIf='!isDownloading'>
                         <button mat-raised-button class="button-background-primary" (click)="export()">
                             <mat-icon>get_app</mat-icon>
-                            <span>{{indicator.export | titlecase}}</span>
+                            <span>{{language.export | titlecase}}</span>
                         </button>
                         <div mat-button class="dropdown" [ngClass]="{'arabic':language==='ar'}" [matMenuTriggerFor]="exportType">
                             <mat-icon>keyboard_arrow_down</mat-icon>
@@ -45,19 +45,19 @@
             <div class="content-select-period" *ngIf="period == true">
                 <mat-card>
                     <mat-form-field>
-                        <input matInput [matDatepicker]="pickerFrom" placeholder="{{indicator.report_from}}"
+                        <input matInput [matDatepicker]="pickerFrom" placeholder="{{language.report_from}}"
                             [formControl]="from" #inputFrom required>
                         <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
                         <mat-datepicker #pickerFrom></mat-datepicker>
                     </mat-form-field>
                     <mat-form-field>
-                        <input matInput [matDatepicker]="pickerTo" placeholder="{{indicator.report_to}}" [formControl]="to"
+                        <input matInput [matDatepicker]="pickerTo" placeholder="{{language.report_to}}" [formControl]="to"
                             #inputTo required>
                         <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
                         <mat-datepicker #pickerTo></mat-datepicker>
                     </mat-form-field>
                     <button mat-raised-button *ngIf="!from.hasError('required') && !to.hasError('required')" class="apply-period"
-                        (click)="applyPeriod(inputFrom.value, inputTo.value)">{{indicator.report_apply | titlecase}}</button>
+                        (click)="applyPeriod(inputFrom.value, inputTo.value)">{{language.report_apply | titlecase}}</button>
                 </mat-card>
             </div>
 
@@ -65,7 +65,7 @@
             <div class="content-select" *ngIf="type == 'Project'">
                 <mat-card>
                     <ng-select class="multiple-select" [(ngModel)]="selectedBeneficiaries" bindLabel="name" [items]="projectList"
-                        [multiple]="true" placeholder="{{indicator.projects}}" [closeOnSelect]="false" [searchable]="true"
+                        [multiple]="true" placeholder="{{language.projects}}" [closeOnSelect]="false" [searchable]="true"
                         [ngModelOptions]="{standalone: true}" (change)="getProjectSelected($event)" required>
                     </ng-select>
                 </mat-card>
@@ -80,7 +80,7 @@
                     </ng-select>
 
                     <ng-select class="multiple-select" *ngIf="type == 'Distribution'" bindLabel="name" [items]="distributionList"
-                        [multiple]="true" placeholder="{{indicator.distributions}}" [closeOnSelect]="false"
+                        [multiple]="true" placeholder="{{language.distributions}}" [closeOnSelect]="false"
                         [searchable]="true" (change)="getDistributionSelected($event)" #selectorDistribution
                         required>
                     </ng-select>
@@ -93,7 +93,7 @@
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            {{indicator.report_select_frequency}}
+                            {{language.report_select_frequency}}
                         </mat-panel-title>
                         <mat-panel-description>
                             {{frequency}}
@@ -106,16 +106,16 @@
                             <div class="content-select-period-mobile" *ngIf="period == true">
                                 <div class="datepicker">
                                     <mat-form-field>
-                                        <input matInput [matDatepicker]="pickerFrom" placeholder="{{indicator.report_from}}">
+                                        <input matInput [matDatepicker]="pickerFrom" placeholder="{{language.report_from}}">
                                         <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
                                         <mat-datepicker touchUi #pickerFrom></mat-datepicker>
                                     </mat-form-field>
                                     <mat-form-field>
-                                        <input matInput [matDatepicker]="pickerTo" placeholder="{{indicator.report_to}}">
+                                        <input matInput [matDatepicker]="pickerTo" placeholder="{{language.report_to}}">
                                         <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
                                         <mat-datepicker touchUi #pickerTo></mat-datepicker>
                                     </mat-form-field>
-                                    <button mat-raised-button class="apply-period-mobile">{{indicator.report_apply |
+                                    <button mat-raised-button class="apply-period-mobile">{{language.report_apply |
                                         titlecase}}</button>
                                 </div>
                             </div>
@@ -135,7 +135,7 @@
                 </div>
 
                 <div *ngIf="indicators && (indicators.length == 0) && !indicatorsLoading" class="no-data-box">
-                    <h1 class="box-title">{{indicator.report_upcoming_reporting}}</h1>
+                    <h1 class="box-title">{{language.report_upcoming_reporting}}</h1>
                 </div>
 
                 <div class="no-data-container" *ngIf="!indicators">

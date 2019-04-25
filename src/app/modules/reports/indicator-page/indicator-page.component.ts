@@ -9,14 +9,13 @@ import jsPDF from 'jspdf';
 import { finalize } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { GlobalText } from '../../../../texts/global';
+import { Distribution } from 'src/app/model/distribution.new';
+import { LanguageService } from 'src/texts/language.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { UserService } from '../../../core/api/user.service';
-import { DistributionData } from '../../../model/distribution-data';
 import { AbstractFilter, FilterEvent, FilterInterface } from '../../../model/filter';
 import { Indicator } from '../../../model/indicator';
-import { Project } from '../../../model/project';
 import { ButtonFilterDateComponent } from '../filters/button-filter/button-filter-data/button-filter-date.component';
 import { ButtonFilterData } from '../filters/button-filter/button-filter.component';
 import { ChartRegistration, RegisteredItem } from '../services/chart-registration.service';
@@ -28,7 +27,6 @@ import { IndicatorService } from '../services/indicator.service';
     styleUrls: ['./indicator-page.component.scss']
 })
 export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
-    public indicator = GlobalText.TEXTS;
     from = new FormControl('', [Validators.required]);
     to = new FormControl('', [Validators.required]);
 
@@ -64,13 +62,15 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
     public heightScreen;
     public widthScreen;
 
+    // Language
+    public language = this.languageService.selectedLanguage;
 
     // Data Button Declaration
     public dataFilter1: Array<ButtonFilterData> = [
-        { level: '1', label: this.toTitleCase(this.indicator.report_filter_per_year), value: 'Year', active: false },
-        { level: '1', label: this.toTitleCase(this.indicator.report_filter_per_quarter), value: 'Quarter', active: false },
-        { level: '1', label: this.toTitleCase(this.indicator.report_filter_per_month), value: 'Month', active: true },
-        { level: '1', label: this.toTitleCase(this.indicator.report_filter_chose_periode), value: 'Period', active: false },
+        { level: '1', label: this.toTitleCase(this.language.report_filter_per_year), value: 'Year', active: false },
+        { level: '1', label: this.toTitleCase(this.language.report_filter_per_quarter), value: 'Quarter', active: false },
+        { level: '1', label: this.toTitleCase(this.language.report_filter_per_month), value: 'Month', active: true },
+        { level: '1', label: this.toTitleCase(this.language.report_filter_chose_periode), value: 'Period', active: false },
     ];
 
     public dataFilter2: Array<ButtonFilterData> = [];
@@ -86,6 +86,7 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
     // Defines the type of the file to export
     exportFileType = 'xls';
 
+
     constructor(
         public titleCase: TitleCasePipe,
         public indicatorService: IndicatorService,
@@ -95,6 +96,7 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
         public distributionService: DistributionService,
         private snackBar: SnackbarService,
         private userService: UserService,
+        private languageService: LanguageService,
     ) {
     }
 
@@ -143,10 +145,7 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
      * check if the langage has changed
      */
     ngDoCheck() {
-        if (this.indicator !== GlobalText.TEXTS) {
-            this.indicator = GlobalText.TEXTS;
-            this.updateFiltersWithLanguage();
-        }
+
         if (this.type !== this.oldType) {
             this.oldType = this.type;
             this.dataFilter1.forEach(filterDate => {
@@ -256,13 +255,13 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
     }
 
     updateFiltersWithLanguage() {
-        this.dataFilter1[0].label = this.toTitleCase(this.indicator.report_filter_per_year);
-        this.dataFilter1[1].label = this.toTitleCase(this.indicator.report_filter_per_quarter);
-        this.dataFilter1[2].label = this.toTitleCase(this.indicator.report_filter_per_month);
+        this.dataFilter1[0].label = this.toTitleCase(this.language.report_filter_per_year);
+        this.dataFilter1[1].label = this.toTitleCase(this.language.report_filter_per_quarter);
+        this.dataFilter1[2].label = this.toTitleCase(this.language.report_filter_per_month);
 
-        this.dataFilter2[0].label = this.toTitleCase(this.indicator.report_country_report);
-        this.dataFilter2[1].label = this.toTitleCase(this.indicator.report_project_report);
-        this.dataFilter2[2].label = this.toTitleCase(this.indicator.report_distribution_report);
+        this.dataFilter2[0].label = this.toTitleCase(this.language.report_country_report);
+        this.dataFilter2[1].label = this.toTitleCase(this.language.report_project_report);
+        this.dataFilter2[2].label = this.toTitleCase(this.language.report_distribution_report);
     }
 
     /**
@@ -271,11 +270,10 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
     getProjects() {
         this.projectService.get().subscribe(response => {
             this.projectList = [];
-            const projectResponse = Project.formatArray(response);
-            projectResponse.forEach(element => {
-                const concat = element.id + ' - ' + element.name;
-                this.projectList.push(concat);
-            });
+            const projectList = response.map((project: any) => project.name);
+            // projectResponse.forEach((element) => {
+            //     this.projectList.push(element.name);
+            // });
         });
     }
 
@@ -286,7 +284,7 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
         this.distributionList = [];
         this.distributionService.getByProject(this.selectedProject[0]).subscribe(response => {
             this.distributionList = [];
-            const distributionResponse = DistributionData.formatArray(response);
+            const distributionResponse = response.map((distribution: any) => { Distribution.apiToModel(distribution); });
             distributionResponse.forEach(element => {
                 const concat = element.id + ' - ' + element.name;
                 this.distributionList.push(concat);
@@ -380,7 +378,7 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
             this.dataFilter2.push(
                 {
                     level: '0', icon: 'settings/api', color: 'green',
-                    label: this.toTitleCase(this.indicator.report_country_report), value: 'Country', active: false,
+                    label: this.toTitleCase(this.language.report_country_report), value: 'Country', active: false,
                 },
             );
             this.onFilter(new FilterEvent('bms', 'reporting', 'Country'));
@@ -390,7 +388,7 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
             this.dataFilter2.push(
                 {
                     level: '0', icon: 'reporting/projects', color: 'green',
-                    label: this.toTitleCase(this.indicator.report_project_report), value: 'Project', active: false,
+                    label: this.toTitleCase(this.language.report_project_report), value: 'Project', active: false,
                 },
             );
             this.onFilter(new FilterEvent('bms', 'reporting', 'Project'));
@@ -399,7 +397,7 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
         this.dataFilter2.push(
             {
                 level: '0', icon: 'reporting/distribution', color: 'green',
-                label: this.toTitleCase(this.indicator.report_distribution_report), value: 'Distribution', active: false,
+                label: this.toTitleCase(this.language.report_distribution_report), value: 'Distribution', active: false,
             },
         );
     }

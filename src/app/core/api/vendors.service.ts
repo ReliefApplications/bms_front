@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { URL_BMS_API } from '../../../environments/environment';
-import { Location } from '../../model/location.new';
-import { HttpService } from './http.service';
-import { ExportService } from '../../core/api/export.service';
-import { CustomModelService } from './custom-model.service';
-import { AuthenticationService } from '../authentication/authentication.service';
-import { LocationService } from './location.service';
-import { Vendor } from 'src/app/model/vendor.new';
-import { User } from 'src/app/model/user.new';
 import { AppInjector } from 'src/app/app-injector';
+import { User } from 'src/app/model/user.new';
+import { Vendor } from 'src/app/model/vendor.new';
+import { LanguageService } from 'src/texts/language.service';
+import { URL_BMS_API } from '../../../environments/environment';
+import { ExportService } from '../../core/api/export.service';
+import { Location } from '../../model/location.new';
+import { AuthenticationService } from '../authentication/authentication.service';
+import { CustomModelService } from './custom-model.service';
+import { HttpService } from './http.service';
+import { LocationService } from './location.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,8 +22,9 @@ export class VendorsService extends CustomModelService {
         public _exportService: ExportService,
         private authenticationService: AuthenticationService,
         private locationService: LocationService,
+        protected languageService: LanguageService,
     ) {
-        super(http);
+        super(http, languageService);
     }
 
     public get() {

@@ -1,12 +1,10 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Subscription } from 'rxjs';
 import { BookletService } from 'src/app/core/api/booklet.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Language } from 'src/texts/language';
 import { CriteriaService } from '../../core/api/criteria.service';
 import { DonorService } from '../../core/api/donor.service';
 import { ModalitiesService } from '../../core/api/modalities.service';
@@ -32,7 +30,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     templateUrl: './modal.component.html',
     styleUrls: ['./modal.component.scss']
 })
-export class ModalComponent implements OnInit, OnDestroy {
+export class ModalComponent {
 
     public entityInstance = null;
     public properties: any;
@@ -69,8 +67,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     });
 
     // Language
-    public language: Language;
-    protected languageSubscription: Subscription;
+    public language = this.languageService.selectedLanguage;
 
     public allCriteria = [];
 
@@ -94,15 +91,7 @@ export class ModalComponent implements OnInit, OnDestroy {
         @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
-    ngOnInit() {
-        this.languageSubscription = this.languageService.languageSource.subscribe((language: Language) => {
-            this.language = language;
-        });
-    }
 
-    ngOnDestroy(): void {
-        this.languageSubscription.unsubscribe();
-    }
 
 
     public closeDialog(): void {

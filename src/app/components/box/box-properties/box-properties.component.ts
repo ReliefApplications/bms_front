@@ -1,10 +1,7 @@
-import { Component, HostListener, OnInit, DoCheck, Input } from '@angular/core';
-import { GlobalText } from '../../../../texts/global';
-import { FieldMapper } from '../../../model/field-mapper';
-import { CountoModule } from 'angular2-counto';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { Location } from 'src/app/model/location.new';
-import { cp } from '@angular/core/src/render3';
+import { LanguageService } from 'src/texts/language.service';
 
 @Component({
     selector: 'app-box-properties',
@@ -12,8 +9,6 @@ import { cp } from '@angular/core/src/render3';
     styleUrls: ['./box-properties.component.scss']
 })
 export class BoxPropertiesComponent implements OnInit {
-    public texts = GlobalText.TEXTS;
-    mapper: FieldMapper = new FieldMapper();
     mapperObject = null;
     elementObject = null;
     // Todo: Remove this
@@ -34,10 +29,18 @@ export class BoxPropertiesComponent implements OnInit {
 
     readonly MAX_PROP_LENGTH = 20;
 
+    // Language
+    public language = this.languageService.selectedLanguage;
+
+    constructor (
+        private languageService: LanguageService,
+    ) {}
+
     @HostListener('window:resize', ['$event'])
     onResize(event) {
         this.getNumberOfColumns();
     }
+
 
     ngOnInit() {
         const allPropertyNames = Object.keys(this.displayedInstance.fields);
@@ -47,24 +50,6 @@ export class BoxPropertiesComponent implements OnInit {
         this.getNumberOfColumns();
     }
 
-    // ngDoCheck() {
-    //     if (this.texts !== GlobalText.TEXTS) {
-    //         this.texts = GlobalText.TEXTS;
-    //         this.mapperObject = this.mapperService.findMapperObject(this.entity);
-    //         this.oldComponentDisplayed = null;
-    //     }
-    //     // if (this.displayedInstance !== this.oldComponentDisplayed) {
-    //     //     const entityInstance = Object.create(this.entity.prototype);
-    //     //     entityInstance.constructor.apply(entityInstance);
-    //     //     this.elementObject = entityInstance.getMapperBox(this.displayedInstance);
-    //     //     this.oldComponentDisplayed = this.displayedInstance;
-    //     // }
-
-    //     // if (this.data && this.elementObject.number_beneficiaries !== this.data.length) {
-    //     //     this.elementObject.number_beneficiaries = this.data.length;
-    //     //     this.displayedInstance.distribution_beneficiaries = this.data;
-    //     // }
-    // }
 
     cleanUsefullProperties() {
         const cleaned = new Array();
@@ -99,7 +84,7 @@ export class BoxPropertiesComponent implements OnInit {
 
     getLocationTitle(location: Location) {
         const adm = this.getMorePreciseAdm(location);
-        return this.texts[adm];
+        return this.language[adm];
     }
 
     getLocationValue(location: Location) {

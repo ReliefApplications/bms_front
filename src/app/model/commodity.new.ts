@@ -1,10 +1,7 @@
-import { SectorMapper } from './sector-mapper';
-import { GlobalText } from '../../texts/global';
-import { SingleSelectModelField } from './CustomModel/single-select-model-field';
-import { NumberModelField } from './CustomModel/number-model-field';
-import { ObjectModelField } from './CustomModel/object-model-field';
-import { TextModelField } from './CustomModel/text-model-field';
 import { CustomModel } from './CustomModel/custom-model';
+import { NumberModelField } from './CustomModel/number-model-field';
+import { SingleSelectModelField } from './CustomModel/single-select-model-field';
+import { TextModelField } from './CustomModel/text-model-field';
 
 export class Modality extends CustomModel {
 
@@ -35,7 +32,7 @@ export class ModalityType extends CustomModel {
 }
 
 export class Commodity extends CustomModel {
-    title = GlobalText.TEXTS.model_commodity;
+    title = this.language.model_commodity;
     matSortActive = 'modality';
 
     public fields = {
@@ -49,7 +46,7 @@ export class Commodity extends CustomModel {
         ),
         modality: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.model_commodity_modality,
+                title: this.language.model_commodity_modality,
                 placeholder: null,
                 isRequired: true,
                 isSettable: true,
@@ -63,7 +60,7 @@ export class Commodity extends CustomModel {
         ),
         modalityType: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.model_type,
+                title: this.language.model_type,
                 placeholder: null,
                 isRequired: true,
                 isSettable: true,
@@ -77,7 +74,7 @@ export class Commodity extends CustomModel {
         ),
         unit: new TextModelField(
             {
-                title: GlobalText.TEXTS.model_commodity_unit,
+                title: this.language.model_commodity_unit,
                 placeholder: null,
                 isSettable: true,
                 isDisplayedInModal: true,
@@ -88,7 +85,7 @@ export class Commodity extends CustomModel {
         ),
         value: new NumberModelField(
             {
-                title: GlobalText.TEXTS.model_commodity_value,
+                title: this.language.model_commodity_value,
                 placeholder: null,
                 isRequired: true,
                 isSettable: true,

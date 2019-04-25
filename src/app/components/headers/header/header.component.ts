@@ -1,14 +1,12 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Country } from 'src/app/model/user.new';
-import { Language } from 'src/texts/language';
 import { LanguageService } from 'src/texts/language.service';
-import { GlobalText } from '../../../../texts/global';
 import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
+import { Language } from './../../../../texts/language';
 import { UserService } from './../../../core/api/user.service';
 
 
@@ -18,7 +16,7 @@ import { UserService } from './../../../core/api/user.service';
     templateUrl: './header.component.html',
     styleUrls: [ './header.component.scss' ]
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
 
     // User countries
     requesting = false;
@@ -35,7 +33,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     // Language
     public language: Language;
-    private languageSubscription: Subscription;
 
     // public breadcrumb: Array<any> = [
     //     {
@@ -58,17 +55,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 if (this.currentRoute.indexOf('?') > -1) {
                     this.currentRoute = this.currentRoute.substring(0, this.currentRoute.indexOf('?'));
                 }
-                this.updateTooltip();
+                if (this.language) {
+                    this.updateTooltip();
+                }
             }
         });
     }
 
     ngOnInit() {
-        this.languageSubscription = this.languageService.languageSource.subscribe((language: Language) => {
-            this.language = language;
-        });
+
         this.getCorrectCountries();
-        this.updateTooltip();
 
         // if (this.breadcrumb.length === 1) {
         //     this.currentRoute = this.router.url;
@@ -78,11 +74,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         //     this.updateBreadcrumb();
         // }
     }
-
-    ngOnDestroy(): void {
-        this.languageSubscription.unsubscribe();
-    }
-
 
     getCorrectCountries() {
         const user = this.userService.currentUser;
@@ -101,37 +92,45 @@ export class HeaderComponent implements OnInit, OnDestroy {
             });
         }
 
+
         this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe((result) => {
             if (result) {
-                this.selectCountry(result);
+                this.setLanguage(result);
             } else {
-                this.selectCountry(this.countries[0]);
+                this.setLanguage(this.countries[0]);
             }
+
+            this.updateTooltip();
+
         });
     }
 
-    selectCountry(c: string) {
-        if (c) {
-            if (!this.selectedCountry || !GlobalText.country) {
-                this.autoLanguage(c);
-            } else if (GlobalText.country && this.selectedCountry && c !== this.selectedCountry) {
-                this.preventSnack(c);
-            }
+    // selectCountry(c: string) {
+    //     if (c) {
+    //         if (!this.selectedCountry || !this.language.country) {
+    //             this.autoLanguage(c);
+    //         } else if (GlobalText.country && this.selectedCountry && c !== this.selectedCountry) {
+    //             this.preventSnack(c);
+    //         }
 
-            this.selectedCountry = c;
-            GlobalText.country = c;
-            this.asyncacheService.set(AsyncacheService.COUNTRY, this.selectedCountry);
-        }
-    }
+    //         this.selectedCountry = c;
+    //         GlobalText.country = c;
+    //         this.asyncacheService.set(AsyncacheService.COUNTRY, this.selectedCountry);
+    //     }
+    // }
 
-    autoLanguage(c: string) {
-        if (!this.userService.currentUser.get<string>('language')) {
+    setLanguage(c: string) {
+        const userLanguage = this.userService.currentUser.get<string>('language');
+        if (!userLanguage) {
             if (c === 'SYR') {
-                this.languageService.changeLanguage(this.languageService.stringToLanguage('ar'));
+                this.languageService.selectedLanguage = this.languageService.stringToLanguage('ar');
             } else if (c === 'KHM') {
-                this.languageService.changeLanguage(this.languageService.stringToLanguage('en'));
+                this.languageService.selectedLanguage = this.languageService.stringToLanguage('en');
             }
+        } else {
+            this.languageService.selectedLanguage = this.languageService.stringToLanguage(userLanguage);
         }
+        this.language = this.languageService.selectedLanguage;
     }
 
     preventSnack(country: string) {
@@ -206,9 +205,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
             dialogRef = this.dialog.open(ModalLanguageComponent, {});
         }
 
-        dialogRef.afterClosed().subscribe((result: Language) => {
-            this.languageService.changeLanguage(result);
-        });
+        // dialogRef.afterClosed().subscribe((result: Language) => {
+        //     this.languageService.changeLanguage(result);
+        // });
     }
 
 }

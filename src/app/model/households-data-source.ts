@@ -1,46 +1,41 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
-import { Households } from './households.new';
-import { HouseholdsService } from '../core/api/households.service';
-import { CustomDataSource } from './data-source/custom-data-source.interface';
-import { CustomModel } from './CustomModel/custom-model';
-import { Project } from './project.new';
-import { ProjectService } from '../core/api/project.service';
-import { Location } from './location.new';
-import { LocationService } from '../core/api/location.service';
-import { VulnerabilityCriteria } from './vulnerability-criteria.new';
-import { CriteriaService } from '../core/api/criteria.service';
-import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
-import { ObjectModelField } from './CustomModel/object-model-field';
-import { NestedFieldModelField } from './CustomModel/nested-field';
+import { CollectionViewer } from '@angular/cdk/collections';
 import { FormGroup } from '@angular/forms';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
 import { AppInjector } from '../app-injector';
-import { GlobalText } from 'src/texts/global';
+import { HouseholdsService } from '../core/api/households.service';
+import { LocationService } from '../core/api/location.service';
+import { CustomModel } from './CustomModel/custom-model';
+import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
+import { NestedFieldModelField } from './CustomModel/nested-field';
+import { ObjectModelField } from './CustomModel/object-model-field';
+import { CustomDataSource } from './data-source/custom-data-source.interface';
+import { Households } from './households.new';
+import { Location } from './location.new';
 
 export class HouseholdFilters extends CustomModel {
     // TODO: Change apiLabels to get id for API (backend)
     public fields = {
         projects: new MultipleSelectModelField({
-            title: GlobalText.TEXTS.project,
+            title: this.language.project,
             filterName: 'projects',
             bindField: 'name',
             apiLabel: 'name',
             isDisplayedInTable: true,
         }),
         vulnerabilities: new MultipleSelectModelField({
-            title: GlobalText.TEXTS.model_vulnerabilities,
+            title: this.language.model_vulnerabilities,
             filterName: 'vulnerabilities',
             bindField: 'name',
             apiLabel: 'name',
             isDisplayedInTable: true,
         }),
         location: new ObjectModelField<Location>({
-            title: GlobalText.TEXTS.location,
+            title: this.language.location,
             filterName: 'locations'
         }),
         adm1: new NestedFieldModelField({
-            title: GlobalText.TEXTS.adm1,
+            title: this.language.adm1,
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm1',
@@ -57,7 +52,7 @@ export class HouseholdFilters extends CustomModel {
             isDisplayedInTable: true,
         }),
         adm2: new NestedFieldModelField({
-            title: GlobalText.TEXTS.adm2,
+            title: this.language.adm2,
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm2',
@@ -73,7 +68,7 @@ export class HouseholdFilters extends CustomModel {
             isDisplayedInTable: true,
         }),
         adm3: new NestedFieldModelField({
-            title: GlobalText.TEXTS.adm3,
+            title: this.language.adm3,
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm3',
@@ -88,7 +83,7 @@ export class HouseholdFilters extends CustomModel {
             isDisplayedInTable: true,
         }),
         adm4: new NestedFieldModelField({
-            title: GlobalText.TEXTS.adm4,
+            title: this.language.adm4,
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm4',

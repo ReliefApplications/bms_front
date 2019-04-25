@@ -1,12 +1,12 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{texts.projects | titlecase}}</h2>
+    <h2>{{language.projects | titlecase}}</h2>
   </div>
   <app-placeholder-boxline *ngIf="loadingProjects && projects != undefined" class="container-boxes"></app-placeholder-boxline>
   <div class="container-boxes" *ngIf="!loadingProjects">
     <button class="button-add-project" *ngIf="!loadingProjects && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="openNewProjectDialog()">
       <mat-icon>add</mat-icon>
-      <h3>{{texts.new | titlecase}}</h3>
+      <h3>{{language.new | titlecase}}</h3>
     </button>
     <app-box-setting
         *ngFor="let project of projects"
@@ -19,7 +19,7 @@
         <div class="loadingContent">
           <h4 class="no-data">
             <mat-icon>cloud_off</mat-icon>
-            <span> {{texts.no_data}} </span>
+            <span> {{language.no_data}} </span>
           </h4>
         </div>
       </div>
@@ -40,7 +40,7 @@
                     <div class="button-with-extension">
                         <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
-                        <span>{{texts.export | titlecase}}</span>
+                        <span>{{language.export | titlecase}}</span>
                         </button>
                         <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                         <div class="extension" *ngIf="!loadingExport">
@@ -58,10 +58,10 @@
                         </div>
                     </div>
                     </div>
-                    <h3 *ngIf="distributionData && distributionData.data.length > 0">{{texts.distributions }}</h3>
+                    <h3 *ngIf="distributionData && distributionData.data.length > 0">{{language.distributions }}</h3>
                     <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button-create">
                     <mat-icon>add</mat-icon>
-                    {{texts.add | titlecase}}
+                    {{language.add | titlecase}}
                     </button>
                     <button mat-fab *ngIf="widthScreen <= maxWidthMobile && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}">
                     <mat-icon>add</mat-icon>
@@ -70,20 +70,20 @@
                 <div class="undisplay new-project" *ngIf="selectedProject.number_of_households == '0' &&  !noNetworkData">
                     <mat-icon>group_add</mat-icon>
                     <div class="resume">
-                    <p> {{texts.project_no_household}}</p>
+                    <p> {{language.project_no_household}}</p>
                     </div>
-                    <p> {{texts.project_add_household}}
+                    <p> {{language.project_add_household}}
                     </p>
                     <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries/import">
-                    {{texts.project_go_import_beneficiaries}}
+                    {{language.project_go_import_beneficiaries}}
                     </button>
                 </div>
                 <div class="undisplay empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData && distributionData.data.length==0 && !noNetworkData">
                     <mat-icon>find_in_page</mat-icon>
                     <div class="resume">
-                    <p> {{texts.project_no_distribution}}</p>
+                    <p> {{language.project_no_distribution}}</p>
                     </div>
-                    <i> {{texts.project_click}}
+                    <i> {{language.project_click}}
                     <mat-icon>add_circle</mat-icon>
                     </i>
                 </div>
@@ -98,7 +98,7 @@
                     <div class="loadingContent">
                     <h4 class="no-data">
                         <mat-icon>cloud_off</mat-icon>
-                        <span> {{texts.no_data}} </span>
+                        <span> {{language.no_data}} </span>
                     </h4>
                     </div>
                 </div>
@@ -108,11 +108,11 @@
                     <div class="undisplay new-project">
                         <mat-icon>note_add</mat-icon>
                         <div class="resume">
-                        <p> {{texts.project_no_projects}}</p>
+                        <p> {{language.project_no_projects}}</p>
                         </div>
-                        <p> {{texts.project_add}} </p>
+                        <p> {{language.project_add}} </p>
                         <button mat-raised-button class="button-background-primary" (click)="openNewProjectDialog()">
-                        {{texts.project_create}}
+                        {{language.project_create}}
                         </button>
                     </div>
                     </div>

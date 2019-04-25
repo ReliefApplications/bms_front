@@ -1,17 +1,15 @@
-import { GlobalText } from '../../texts/global';
 import * as CryptoJS from 'crypto-js';
-import { CustomModel } from './CustomModel/custom-model';
-import { TextModelField } from './CustomModel/text-model-field';
-import { NumberModelField } from './CustomModel/number-model-field';
-import { SingleSelectModelField } from './CustomModel/single-select-model-field';
-import { ObjectModelField } from './CustomModel/object-model-field';
-import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { Beneficiary } from './beneficiary.new';
-import { Distribution } from './distribution.new';
 import { CURRENCIES } from './currencies';
-import { Voucher } from './voucher.new';
-import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
+import { CustomModel } from './CustomModel/custom-model';
 import { DateModelField } from './CustomModel/date-model-field';
+import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
+import { NumberModelField } from './CustomModel/number-model-field';
+import { ObjectModelField } from './CustomModel/object-model-field';
+import { SingleSelectModelField } from './CustomModel/single-select-model-field';
+import { TextModelField } from './CustomModel/text-model-field';
+import { Distribution } from './distribution.new';
+import { Voucher } from './voucher.new';
 
 export class BookletStatus extends CustomModel {
 
@@ -43,7 +41,7 @@ export class Currency extends CustomModel {
 
 export class Booklet extends CustomModel {
 
-    title = GlobalText.TEXTS.model_booklet;
+    title = this.language.model_booklet;
     matSortActive = 'code';
 
     public fields = {
@@ -53,18 +51,18 @@ export class Booklet extends CustomModel {
             },
         ),
         code: new TextModelField({
-            title: GlobalText.TEXTS.model_code,
+            title: this.language.model_code,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
         }),
         numberOfBooklets: new NumberModelField({
-            title: GlobalText.TEXTS.model_number_booklets,
+            title: this.language.model_number_booklets,
             value: 1,
             isDisplayedInModal: true,
             isSettable: true,
         }),
         numberOfVouchers: new NumberModelField({
-            title: GlobalText.TEXTS.model_number_vouchers,
+            title: this.language.model_number_vouchers,
             value: 1,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
@@ -72,7 +70,7 @@ export class Booklet extends CustomModel {
             isSettable: true,
         }),
         // individualToAll: new BooleanModelField({
-        //     title: GlobalText.TEXTS.model_individual_to_all,
+        //     title: this.language.model_individual_to_all,
         //     value: false,
         //     isDisplayedInModal: true,
         //     isEditable: true,
@@ -80,16 +78,16 @@ export class Booklet extends CustomModel {
         //     isSettable: true,
         // }),
         individualValues: new TextModelField({
-            title: GlobalText.TEXTS.model_individual_value,
+            title: this.language.model_individual_value,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isEditable: true,
             isSettable: true,
-            hint: GlobalText.TEXTS.modal_values_format_error,
+            hint: this.language.modal_values_format_error,
             pattern: /^([\d]+,?\s?,?\s?)+$/,
         }),
         currency: new SingleSelectModelField({
-            title: GlobalText.TEXTS.model_currency,
+            title: this.language.model_currency,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             bindField: 'name',
@@ -98,14 +96,14 @@ export class Booklet extends CustomModel {
             isSettable: true,
         }),
         password: new TextModelField({
-            title: GlobalText.TEXTS.model_password,
+            title: this.language.model_password,
             isDisplayedInModal: true,
             isEditable: true,
             isSettable: true,
             isPassword: true,
         }),
         status: new SingleSelectModelField({
-            title: GlobalText.TEXTS.model_state,
+            title: this.language.model_state,
             options: [
                 new BookletStatus('0', 'Unassigned'),
                 new BookletStatus('1', 'Distributed'),
@@ -118,14 +116,14 @@ export class Booklet extends CustomModel {
             value: new BookletStatus('0', 'Unassigned'),
         }),
         beneficiary: new ObjectModelField<Beneficiary>({
-            title: GlobalText.TEXTS.beneficiary,
+            title: this.language.beneficiary,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             displayTableFunction: null,
             displayModalFunction: null,
         }),
         distribution: new ObjectModelField<Distribution>({
-            title: GlobalText.TEXTS.distribution,
+            title: this.language.distribution,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             displayTableFunction: null,
@@ -135,10 +133,10 @@ export class Booklet extends CustomModel {
 
         }),
         value: new NumberModelField({
-            title: GlobalText.TEXTS.model_value,
+            title: this.language.model_value,
         }),
         usedAt: new DateModelField({
-            title: GlobalText.TEXTS.model_used,
+            title: this.language.model_used,
             nullValue: 'Not yet'
         }),
     };

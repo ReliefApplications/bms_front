@@ -2,13 +2,13 @@
   <div class="content-table">
     <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
       <mat-card class="card-drag-and-drop">
-        <p>{{TEXT.import_description}}</p>
+        <p>{{language.import_description}}</p>
         <div>
           <img class='img-folder' src="assets/images/folder.png">
         </div>
         <div class="select-file">
           <a href="javascript:void(0)" (click)="file.click()">
-            <button mat-stroked-button color="primary">{{TEXT.beneficiaries_import_addFile | titlecase}}</button>
+            <button mat-stroked-button color="primary">{{language.beneficiaries_import_addFile | titlecase}}</button>
           </a>
           <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
         </div>
@@ -19,7 +19,7 @@
   <div class="content-button content-button-footer">
     <button mat-raised-button class="upload-button" (click)="updateDistribution(1)" *ngIf="csv && !loadFile">
       <mat-icon>publish</mat-icon>
-      <span>{{TEXT.import | titlecase }}</span>
+      <span>{{language.import | titlecase }}</span>
     </button>
     <mat-spinner [diameter]="35" *ngIf="loadFile"></mat-spinner>
     <mat-list *ngIf="csv">
@@ -38,7 +38,7 @@
       <ng-template mat-tab-label>
         <div class="badge">
           <label>
-            {{ TEXT.import_added | titlecase }}
+            {{ language.import_added | titlecase }}
           </label>
           <mat-chip-list>
             <mat-chip>{{numberAdded}}</mat-chip>
@@ -56,7 +56,7 @@
       <ng-template mat-tab-label>
         <div class="badge">
           <label>
-            {{ TEXT.import_deleted | titlecase }}
+            {{ language.import_deleted | titlecase }}
           </label>
           <mat-chip-list>
             <mat-chip>{{numberRemoved}}</mat-chip>
@@ -74,7 +74,7 @@
       <ng-template mat-tab-label>
         <div class="badge">
           <label>
-            {{ TEXT.import_created | titlecase }}
+            {{ language.import_created | titlecase }}
           </label>
           <mat-chip-list>
             <mat-chip>{{numberCreated}}</mat-chip>
@@ -92,7 +92,7 @@
       <ng-template mat-tab-label>
         <div class="badge">
           <label>
-            {{ TEXT.import_updated | titlecase }}
+            {{ language.import_updated | titlecase }}
           </label>
           <mat-chip-list>
             <mat-chip>{{numberUpdated}}</mat-chip>
@@ -109,7 +109,7 @@
   </mat-tab-group>
   <div *ngIf="noChanges" class="no-data-box">
     <h2 class="box-title">
-      {{TEXT.distribution_no_beneficiaries}}
+      {{language.distribution_no_beneficiaries}}
     </h2>
   </div>
 
@@ -117,11 +117,11 @@
   <div class="footer-content" *ngIf="! loadUpdate">
     <button mat-button class="button-text-accent" (click)="goBack()">
       <mat-icon>arrow_back</mat-icon>
-      <span>{{TEXT.back}}</span>
+      <span>{{language.back}}</span>
     </button>
     <button mat-raised-button class="button-background-accent" (click)="updateDistribution(2)">
       <mat-icon>check_circle</mat-icon>
-      <span>{{TEXT.distribution_accept_changed}}</span>
+      <span>{{language.distribution_accept_changed}}</span>
     </button>
   </div>
 </div>

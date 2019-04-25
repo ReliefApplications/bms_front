@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{voucher.voucher | titlecase}}</h2>
+    <h2>{{language.voucher | titlecase}}</h2>
   </div>
 
   <app-placeholder-panel class="container-table min-height" *ngIf="loadingBooklet"></app-placeholder-panel>
@@ -9,16 +9,16 @@
       <div class="content-button">
         <div class="action-buttons">
           <button mat-raised-button *ngIf="checkedElements.length > 0" class="button-background-primary" (click)="printMany()" [matBadge]="checkedElements.length">
-              {{voucher.voucher_print_selection | titlecase}}
+              {{language.voucher_print_selection | titlecase}}
           </button>
           <button mat-raised-button *ngIf="bookletData && !loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
-              <span>{{voucher.voucher_assign | titlecase }}</span>
+              <span>{{language.voucher_assign | titlecase }}</span>
           </button>
           <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
           <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
             <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
               <mat-icon>get_app</mat-icon>
-              <span>{{voucher.export | titlecase}}</span>
+              <span>{{language.export | titlecase}}</span>
             </button>
             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
             <div class="extension" *ngIf="!loadingExport">
@@ -39,7 +39,7 @@
 
         <button mat-raised-button *ngIf="widthScreen > maxWidthMobile" (click)="openDialog({action: 'add'})" class="add-button-create">
           <mat-icon>add</mat-icon>
-          {{voucher.add | titlecase}}
+          {{language.add | titlecase}}
         </button>
         <button mat-fab *ngIf="widthScreen <= maxWidthMobile" (click)="openDialog({action: 'add'})" class="add-button"
           [ngClass]="{'add-button-arabic': language == 'ar'}">
@@ -63,7 +63,7 @@
         <div class="loadingContent">
           <h4 class="no-data">
             <mat-icon>cloud_off</mat-icon>
-            <span> {{voucher.no_data}} </span>
+            <span> {{language.no_data}} </span>
           </h4>
         </div>
       </div>

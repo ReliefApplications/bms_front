@@ -1,15 +1,13 @@
-import { GlobalText } from '../../texts/global';
-import { User } from './user.new';
-import { NumberModelField } from './CustomModel/number-model-field';
+import { FormGroup } from '@angular/forms';
+import { AppInjector } from '../app-injector';
+import { LocationService } from '../core/api/location.service';
 import { CustomModel } from './CustomModel/custom-model';
+import { NestedFieldModelField } from './CustomModel/nested-field';
+import { NumberModelField } from './CustomModel/number-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 import { Location } from './location.new';
-import { NestedFieldModelField } from './CustomModel/nested-field';
-import { UserService } from '../core/api/user.service';
-import { LocationService } from '../core/api/location.service';
-import { AppInjector } from '../app-injector';
-import { FormGroup } from '@angular/forms';
+import { User } from './user.new';
 
 export class ErrorInterface {
     message: string;
@@ -18,7 +16,7 @@ export class ErrorInterface {
 export class Vendor extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
-    title = GlobalText.TEXTS.settings_vendors;
+    title = this.language.settings_vendors;
     matSortActive = 'username';
 
     public fields = {
@@ -29,7 +27,7 @@ export class Vendor extends CustomModel {
 
         }),
         username: new NestedFieldModelField({
-            title: GlobalText.TEXTS.login_username,
+            title: this.language.login_username,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isSettable: true,
@@ -39,7 +37,7 @@ export class Vendor extends CustomModel {
             childrenFieldName: 'username',
         }),
         password: new NestedFieldModelField({
-            title: GlobalText.TEXTS.model_password,
+            title: this.language.model_password,
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
@@ -48,14 +46,14 @@ export class Vendor extends CustomModel {
             childrenFieldName: 'password',
         }),
         shopName: new TextModelField({
-            title: GlobalText.TEXTS.model_distribution_name,
+            title: this.language.model_distribution_name,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isRequired: true,
             isSettable: true,
         }),
         shopType: new TextModelField({
-            title: GlobalText.TEXTS.model_type_shop,
+            title: this.language.model_type_shop,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isRequired: true,
@@ -64,21 +62,21 @@ export class Vendor extends CustomModel {
         }),
         addressStreet: new TextModelField({
             isDisplayedInTable: true,
-            title: GlobalText.TEXTS.add_beneficiary_getAddressStreet,
+            title: this.language.add_beneficiary_getAddressStreet,
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
         }),
         addressNumber: new TextModelField({
             isDisplayedInTable: true,
-            title:  GlobalText.TEXTS.add_beneficiary_getAddressNumber,
+            title:  this.language.add_beneficiary_getAddressNumber,
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
         }),
         addressPostcode: new TextModelField({
             isDisplayedInTable: true,
-            title: GlobalText.TEXTS.add_beneficiary_getAddressPostcode,
+            title: this.language.add_beneficiary_getAddressPostcode,
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
@@ -86,11 +84,11 @@ export class Vendor extends CustomModel {
         location: new ObjectModelField<Location>({
             isDisplayedInTable: true,
             displayTableFunction: null,
-            title: GlobalText.TEXTS.location,
+            title: this.language.location,
 
         }),
         adm1: new NestedFieldModelField({
-            title: GlobalText.TEXTS.adm1,
+            title: this.language.adm1,
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
@@ -112,7 +110,7 @@ export class Vendor extends CustomModel {
             },
         }),
         adm2: new NestedFieldModelField({
-            title: GlobalText.TEXTS.adm2,
+            title: this.language.adm2,
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
@@ -132,7 +130,7 @@ export class Vendor extends CustomModel {
             },
         }),
         adm3: new NestedFieldModelField({
-            title: GlobalText.TEXTS.adm3,
+            title: this.language.adm3,
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
@@ -150,7 +148,7 @@ export class Vendor extends CustomModel {
             },
         }),
         adm4: new NestedFieldModelField({
-            title: GlobalText.TEXTS.adm4,
+            title: this.language.adm4,
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,

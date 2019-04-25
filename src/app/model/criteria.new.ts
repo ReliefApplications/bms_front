@@ -1,9 +1,7 @@
-import { SectorMapper } from './sector-mapper';
-import { GlobalText } from '../../texts/global';
 import { CustomModel } from './CustomModel/custom-model';
 import { NumberModelField } from './CustomModel/number-model-field';
-import { TextModelField } from './CustomModel/text-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
+import { TextModelField } from './CustomModel/text-model-field';
 
 export class CriteriaField extends CustomModel {
 
@@ -53,7 +51,7 @@ export class CriteriaType extends CustomModel {
     }
 }
 export class Criteria extends CustomModel {
-    title =  GlobalText.TEXTS.model_criteria;
+    title =  this.language.model_criteria;
     matSortActive = 'field';
 
     public fields = {
@@ -72,7 +70,7 @@ export class Criteria extends CustomModel {
         }),
         field: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.model_criteria,
+                title: this.language.model_criteria,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
                 bindField: 'field',
@@ -80,7 +78,7 @@ export class Criteria extends CustomModel {
         ),
         condition: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.model_criteria_operator,
+                title: this.language.model_criteria_operator,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
                 bindField: 'name',
@@ -92,14 +90,14 @@ export class Criteria extends CustomModel {
         ),
         value: new TextModelField(
             {
-                title: GlobalText.TEXTS.model_value,
+                title: this.language.model_value,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
             }
         ),
         weight: new NumberModelField(
             {
-                title: GlobalText.TEXTS.model_criteria_weight,
+                title: this.language.model_criteria_weight,
                 value: 1,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,

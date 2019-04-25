@@ -1,20 +1,18 @@
-import { Component, OnInit, HostListener, ViewChild, DoCheck } from '@angular/core';
-import { GlobalText } from '../../../texts/global';
-import { MatTableDataSource, MatDialog } from '@angular/material';
-import { finalize } from 'rxjs/operators';
-import { Booklet } from 'src/app/model/booklet.new';
-import { BookletService } from 'src/app/core/api/booklet.service';
-import { ModalAddComponent } from 'src/app/components/modals/modal-add/modal-add.component';
-import { Mapper } from 'src/app/core/utils/mapper.service';
-import { ProjectService } from 'src/app/core/api/project.service';
-import { Project } from 'src/app/model/project.new';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Voucher } from '../../model/voucher.new';
-import { ExportService } from '../../core/api/export.service';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatTableDataSource } from '@angular/material';
+import { finalize } from 'rxjs/operators';
 import { ModalAssignComponent } from 'src/app/components/modals/modal-assign/modal-assign.component';
-import { ModalService } from 'src/app/core/utils/modal.service';
 import { TableComponent } from 'src/app/components/table/table.component';
+import { BookletService } from 'src/app/core/api/booklet.service';
+import { ProjectService } from 'src/app/core/api/project.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { ModalService } from 'src/app/core/utils/modal.service';
+import { Booklet } from 'src/app/model/booklet.new';
+import { Project } from 'src/app/model/project.new';
+import { LanguageService } from 'src/texts/language.service';
+import { ExportService } from '../../core/api/export.service';
+import { Voucher } from '../../model/voucher.new';
 @Component({
     selector: 'app-vouchers',
     templateUrl: './vouchers.component.html',
@@ -22,17 +20,15 @@ import { TableComponent } from 'src/app/components/table/table.component';
 })
 export class VouchersComponent implements OnInit {
 
-    public maxHeight = GlobalText.maxHeight;
-    public maxWidthMobile = GlobalText.maxWidthMobile;
-    public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
-    public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
-    public maxWidth = GlobalText.maxWidth;
+    public maxHeight = 600;
+    public maxWidth = 750;
+    // public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
+    // public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
+    // public maxWidth = GlobalText.maxWidth;
     public heightScreen;
     public widthScreen;
 
     public nameComponent = 'vouchers';
-    public voucher = GlobalText.TEXTS;
-    public language = GlobalText.language;
 
     public loadingAssign = false;
     public loadingBooklet = true;
@@ -50,16 +46,20 @@ export class VouchersComponent implements OnInit {
     public selection = new SelectionModel<Voucher>(true, []);
     public checkedElements: Booklet[] = [];
 
+    // Language
+    public language = this.languageService.selectedLanguage;
+
+
     @ViewChild(TableComponent) tableVoucher: TableComponent;
 
     constructor(
         public bookletService: BookletService,
         public dialog: MatDialog,
-        public mapperService: Mapper,
         public projectService: ProjectService,
         public _exportService: ExportService,
         public snackbar: SnackbarService,
         private modalService: ModalService,
+        protected languageService: LanguageService
     ) { }
 
 
@@ -70,13 +70,6 @@ export class VouchersComponent implements OnInit {
 
         this.getBooklets();
     }
-
-    // ngDoCheck() {
-    //     if (this.voucher !== GlobalText.TEXTS) {
-    //         this.language = GlobalText.language;
-    //         this.voucher = GlobalText.TEXTS;
-    //     }
-    // }
 
 
     @HostListener('window:resize', ['$event'])
@@ -150,7 +143,7 @@ export class VouchersComponent implements OnInit {
     }
 
     print(event: Booklet) {
-        this.snackbar.info(this.voucher.voucher_print_starting);
+        this.snackbar.info(this.language.voucher_print_starting);
 
         return this._exportService.printVoucher(event.get('id'));
     }

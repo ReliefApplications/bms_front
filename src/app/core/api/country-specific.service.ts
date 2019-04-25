@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { LanguageService } from 'src/texts/language.service';
 import { CountrySpecific } from '../../model/country-specific.new';
 import { CustomModelService } from './custom-model.service';
 import { HttpService } from './http.service';
@@ -13,8 +14,11 @@ export class CountrySpecificService extends CustomModelService {
     customModelPath = 'country_specifics';
 
 
-    constructor(protected http: HttpService) {
-        super(http);
+    constructor(
+        protected http: HttpService,
+        protected languageService: LanguageService,
+    ) {
+        super(http, languageService);
     }
 
     fillWithOptions(countrySpecific: CountrySpecific) {

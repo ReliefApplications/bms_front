@@ -1,7 +1,6 @@
-import { TextModelField } from './CustomModel/text-model-field';
-import { SingleSelectModelField } from './CustomModel/single-select-model-field';
-import { GlobalText } from 'src/texts/global';
 import { CustomModel } from './CustomModel/custom-model';
+import { SingleSelectModelField } from './CustomModel/single-select-model-field';
+import { TextModelField } from './CustomModel/text-model-field';
 
 export class NationalIdType extends CustomModel {
 
@@ -22,13 +21,13 @@ export class NationalId extends CustomModel {
         type: new SingleSelectModelField(
             {
                 options: [
-                    new NationalIdType('0', GlobalText.TEXTS.national_id_passport),
-                    new NationalIdType('1', GlobalText.TEXTS.national_id_card),
-                    new NationalIdType('2', GlobalText.TEXTS.national_id_license),
-                    new NationalIdType('3', GlobalText.TEXTS.national_id_family_registry),
-                    new NationalIdType('4', GlobalText.TEXTS.national_id_other)
+                    new NationalIdType('0', this.language.national_id_passport),
+                    new NationalIdType('1', this.language.national_id_card),
+                    new NationalIdType('2', this.language.national_id_license),
+                    new NationalIdType('3', this.language.national_id_family_registry),
+                    new NationalIdType('4', this.language.national_id_other)
                 ],
-                value: new NationalIdType('1', GlobalText.TEXTS.national_id_card),
+                value: new NationalIdType('1', this.language.national_id_card),
                 apiLabel: 'name'
             }
         ),

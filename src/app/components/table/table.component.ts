@@ -156,7 +156,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
                 } else if (field.kindOfField === 'SingleSelect') {
                     value = field.value ? field.value.get(field.bindField) : '';
                 } else if (field.kindOfField === 'Date') {
-                    value = field.formatForApi();
+                    value = field.value;
                 } else {
                     value = field.value;
                 }

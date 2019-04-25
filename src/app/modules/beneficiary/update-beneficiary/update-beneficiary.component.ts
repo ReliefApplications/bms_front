@@ -2,6 +2,8 @@ import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialog, MatStepper, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as CountryIso from 'country-iso-3-to-2';
+import * as PhoneLib from 'google-libphonenumber';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
@@ -27,7 +29,6 @@ import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
 import { CountrySpecific } from '../../../model/country-specific.new';
 import { Adm, Location } from '../../../model/location.new';
 import { Project } from '../../../model/project.new';
-
 
 @Component({
     selector: 'app-update-beneficiary',
@@ -64,8 +65,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public vulnerabilityList: Array<VulnerabilityCriteria>;
 
     // Country Codes (PhoneNumber lib)
-    private CodesMethods = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-    private getCountryISO2 = require('country-iso-3-to-2');
+    private CodesMethods = PhoneLib.PhoneNumberUtil.getInstance();
+    private getCountryISO2 = CountryIso;
     public countryCodesList = [];
 
     // Checkpoint

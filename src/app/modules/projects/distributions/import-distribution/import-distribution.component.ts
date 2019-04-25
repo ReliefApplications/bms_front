@@ -8,7 +8,6 @@ import { LanguageService } from 'src/texts/language.service';
 import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
 import { DistributionService } from '../../../../core/api/distribution.service';
 import { HouseholdsService } from '../../../../core/api/households.service';
-import { ImportService } from '../../../../core/utils/distribution-import.service';
 import { ImportedBeneficiary } from '../../../../model/imported-beneficiary.new';
 
 const IMPORT_COMPARE = 1;

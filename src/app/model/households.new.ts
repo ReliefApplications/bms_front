@@ -116,7 +116,7 @@ export class Households extends CustomModel {
         }),
         livelihood: new SingleSelectModelField(
             {
-                options: LIVELIHOOD.map(livelihood => new Livelihood(livelihood.id, livelihood.name))
+                options: LIVELIHOOD.map(livelihood => new Livelihood(livelihood.id, this.language[livelihood.language_key]))
             }
         ),
         notes: new TextModelField(

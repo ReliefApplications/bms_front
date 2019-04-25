@@ -258,6 +258,32 @@ export interface Language {
     import_select_old: string
     import_updated: string
 
+    livelihood_livestock: string
+    livelihood_crops: string
+    livelihood_fishing: string
+    livelihood_agriculture_other: string
+    livelihood_mining: string
+    livelihood_construction: string
+    livelihood_manufacturing: string
+    livelihood_retail: string
+    livelihood_transportation: string
+    livelihood_education: string
+    livelihood_health: string
+    livelihood_tourism: string
+    livelihood_legal: string
+    livelihood_home: string
+    livelihood_religious: string
+    livelihood_telecom: string
+    livelihood_finance: string
+    livelihood_manual: string
+    livelihood_ngo: string
+    livelihood_military: string
+    livelihood_government: string
+    livelihood_garment: string
+    livelihood_security: string
+    livelihood_service: string
+    livelihood_other: string
+
     // Login
     login_bms: string
     login_captcha_invalid: string

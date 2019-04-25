@@ -2,6 +2,9 @@
 
 # first parameter: environment to deploy to (front | testing)
 
+#immediately exits if a command exits with an non-zero status
+set -e
+
 # build the project (contents will be in directory dist/bms-front)
 echo "Build starting"
 if [[ $1 == "front" ]]; then

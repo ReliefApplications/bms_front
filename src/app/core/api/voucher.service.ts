@@ -3,7 +3,6 @@ import { URL_BMS_API                                } from '../../../environment
 import { HttpService                                } from './http.service';
 import { ExportService                              } from './export.service';
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -18,6 +17,11 @@ export class VoucherService {
 
     public get() {
         const url = this.api + '/vouchers';
+        return this.http.get(url);
+    }
+
+    public getCurrencies() {
+        const url = 'https://openexchangerates.org/api/currencies.json';
         return this.http.get(url);
     }
 }

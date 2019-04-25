@@ -1,8 +1,11 @@
 import { Component, DoCheck, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { map } from 'rxjs/operators';
 import { BookletService } from 'src/app/core/api/booklet.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
+import { LocationService } from 'src/app/core/api/location.service';
+import { VoucherService } from 'src/app/core/api/voucher.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { GlobalText } from '../../../texts/global';
@@ -42,6 +45,7 @@ export class ModalComponent implements OnInit, DoCheck {
     public controls = new FormControl();
 
     public passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+    public individualValuesRegex =  /^([\d]+,?\s?,?\s?)+$/;
 
     public defaultValue: FormControl = new FormControl({ value: ''});
     public projectsControl: FormControl = new FormControl({ value: '', disabled: 'true' });
@@ -57,6 +61,11 @@ export class ModalComponent implements OnInit, DoCheck {
         updateOn: 'change',
     });
 
+    public individualValuesFormControl = new FormControl('', {
+        validators: [Validators.required, Validators.pattern(this.individualValuesRegex)],
+        updateOn: 'change',
+    });
+
     public notesFormControl = new FormControl(null, Validators.required);
 
     form = new FormGroup({
@@ -65,7 +74,8 @@ export class ModalComponent implements OnInit, DoCheck {
         countryControl: this.countryControl,
         emailFormControl: this.emailFormControl,
         passwordFormControl: this.passwordFormControl,
-        notesFormControl: this.notesFormControl
+        notesFormControl: this.notesFormControl,
+        individualValuesFormControl: this.individualValuesFormControl
     });
 
 
@@ -74,6 +84,13 @@ export class ModalComponent implements OnInit, DoCheck {
 
     matcher = new MyErrorStateMatcher();
     user = new User();
+
+
+    public provinceList: any[];
+    public districtList: any[];
+    public communeList: any[];
+    public villageList: any[];
+
 
     constructor(public dialogRef: MatDialogRef<ModalComponent>,
         public _cacheService: AsyncacheService,
@@ -88,6 +105,8 @@ export class ModalComponent implements OnInit, DoCheck {
         public distributionService: DistributionService,
         public bookletService: BookletService,
         public dialog: MatDialog,
+        public voucherService: VoucherService,
+        private locationService: LocationService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
@@ -203,6 +222,12 @@ export class ModalComponent implements OnInit, DoCheck {
                 }
             );
         }
+
+       if (this.data.entity.__classname__ === 'Booklet') {
+            this.voucherService.getCurrencies().subscribe(currencies => {
+                this.loadedData['currency'] = Object.keys(currencies);
+            });
+       }
     }
 
     /**
@@ -224,5 +249,92 @@ export class ModalComponent implements OnInit, DoCheck {
 
             return finalRight;
         }
+    }
+
+     /**
+     * Get adm1 from the back or from the cache service with the key ADM1
+     */
+    loadProvince() {
+        return this.locationService.getAdm1().pipe(
+            map(response => {
+                this.provinceList = response.map(province => {
+                    return {
+                        id: province.id,
+                        name: province.name
+                    };
+                });
+                this.districtList = [];
+                this.communeList = [];
+                this.villageList = [];
+        }));
+    }
+
+    /**
+     *  Get adm2 from the back or from the cache service with the key ADM2
+     * @param adm1
+     */
+    loadDistrict(adm1Name) {
+        const adm1Id = this.provinceList.filter(province => {
+            return province.name === adm1Name;
+        })[0].id;
+        const body = {
+            adm1: adm1Id
+        };
+        return this.locationService.getAdm2(body).pipe(
+            map(response => {
+                this.districtList = response.map(district => {
+                    return {
+                        id: district.id,
+                        name: district.name
+                    };
+                });
+                this.communeList = [];
+                this.villageList = [];
+        }));
+    }
+
+    /**
+     * Get adm3 from the back or from the cahce service with the key ADM3
+     * @param adm2
+     */
+    loadCommunity(adm2Name) {
+        const adm2Id = this.districtList.filter(district => {
+            return district.name === adm2Name;
+        })[0].id;
+        const body = {
+            adm2: adm2Id
+        };
+        return this.locationService.getAdm3(body).pipe(
+            map(response => {
+                this.communeList = response.map(commune => {
+                    return {
+                        id: commune.id,
+                        name: commune.name
+                    };
+                });
+                this.villageList = [];
+        }));
+    }
+
+    /**
+     *  Get adm4 from the back or from the cahce service with the key ADM4
+     * @param adm3
+     */
+    loadVillage(adm3Name) {
+        const adm3Id = this.communeList.filter(commune => {
+            return commune.name === adm3Name;
+        })[0].id;
+        const body = {
+            adm3: adm3Id
+        };
+        return this.locationService.getAdm4(body).pipe(
+            map(response => {
+                this.villageList = response.map(village => {
+                    return {
+                        id: village.id,
+                        name: village.name
+                    };
+                });
+        }));
     }
 }

@@ -20,6 +20,10 @@ import { LoginComponent } from './modules/public/login.component';
 import { ReportsComponent } from './modules/reports/reports.component';
 import { SettingsComponent } from './modules/settings/settings.component';
 import { VouchersComponent } from './modules/vouchers/vouchers.component';
+<<<<<<< HEAD
+=======
+
+>>>>>>> voucher
 
 // Do not change the order of the routes, it matters
 export const routes: Routes = [
@@ -92,6 +96,7 @@ export const routes: Routes = [
         canDeactivate : [DeactivateGuard],
         canActivate: [AuthGuard, PermissionsGuard]
     },
+
     {
         path: 'vouchers',
         component: VouchersComponent,

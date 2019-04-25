@@ -49,8 +49,8 @@
                             <mat-icon *ngIf="!element.get('validated') && updatable" class="light-red">edit</mat-icon>
                         </button>
                     </ng-container>
-                    <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
-                            <mat-icon *ngIf="!validatable && updatable" class="light-red">edit</mat-icon>
+                    <button mat-icon-button *ngIf="!validatable && updatable" (click)="openDialog('visit', element); $event.stopPropagation();">
+                            <mat-icon class="light-red">edit</mat-icon>
                     </button>
 
                     <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton"

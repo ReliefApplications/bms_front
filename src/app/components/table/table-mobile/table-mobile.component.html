@@ -34,10 +34,10 @@
               <mat-icon>history</mat-icon>
           </button>
 
-          <button *ngIf="editable && rights && (!validatable || !element.get('validated'))" mat-button (click)="openDialog('edit', element); $event.stopPropagation()" class="green">
+          <button *ngIf="editable && (!validatable || !element.get('validated'))" mat-button (click)="openDialog('edit', element); $event.stopPropagation()" class="green">
               <mat-icon>search</mat-icon>
           </button>
-          <button *ngIf="rights && deletable && (!validatable || !element.get('validated'))" mat-button (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
+          <button *ngIf="deletable && (!validatable || !element.get('validated'))" mat-button (click)="openDialog('delete', element); $event.stopPropagation()" class="red">
               <mat-icon>close</mat-icon>
           </button>
           <button *ngIf="printable" mat-button (click)="print(element); $event.stopPropagation()" class="grey" [disabled]="!element.isPrintable()">

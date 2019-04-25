@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { Arabic } from 'src/texts/global_ar';
+import { Arabic } from 'src/texts/language-arabic';
 import { LanguageService } from 'src/texts/language.service';
 import { Language } from './../../../../texts/language';
 

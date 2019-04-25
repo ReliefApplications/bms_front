@@ -373,6 +373,7 @@ export class Arabic implements Language {
     model_vulnerabilities = 'نقاط الضعف'
     model_used = 'مستخدم'
     model_user = 'المستخدم'
+    model_unassigned = 'COLINE REMPLACE CA STPPPPP'
     model_password = 'كلمة المرور'
     model_value = 'القيمة'
     model_vendors_address = 'عنوان'

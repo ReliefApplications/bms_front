@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Arabic } from './global_ar';
-import { English } from './global_en';
 import { Language } from './language';
+import { Arabic } from './language-arabic';
+import { English } from './language-english';
 
 @Injectable({
     providedIn: 'root',

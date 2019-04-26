@@ -23,6 +23,7 @@ export class English implements Language {
     done = 'Done'
     email = 'Email'
     export = 'Export'
+    export_codes = 'Export booklet codes'
     gender = 'Gender'
     home = 'Home'
     households = 'Household'

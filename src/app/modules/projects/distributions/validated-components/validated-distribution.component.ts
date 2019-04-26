@@ -28,7 +28,7 @@ export class ValidatedDistributionComponent implements OnInit {
     transacting = false;
     widthScreen: number;
     heightScreen: number;
-    // maxWidthMobile = GlobalText.maxWidthMobile;
+    public maxWidth = 750;
     selection: SelectionModel<any>;
     extensionType = 'xls';
     progression = 0;

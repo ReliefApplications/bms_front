@@ -59,11 +59,11 @@
                     </div>
                     </div>
                     <h3 *ngIf="distributionData && distributionData.data.length > 0">{{language.distributions }}</h3>
-                    <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button-create">
+                    <button mat-raised-button *ngIf="widthScreen > maxWidth && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button-create">
                     <mat-icon>add</mat-icon>
                     {{language.add | titlecase}}
                     </button>
-                    <button mat-fab *ngIf="widthScreen <= maxWidthMobile && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}">
+                    <button mat-fab *ngIf="widthScreen <= maxWidth && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}">
                     <mat-icon>add</mat-icon>
                     </button>
                 </div>

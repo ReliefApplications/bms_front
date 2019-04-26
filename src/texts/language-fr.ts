@@ -23,6 +23,7 @@ export class French implements Language {
     done = 'Fin'
     email = 'Email'
     export = 'Export'
+    export_codes = 'Export des codes des brochures'
     gender = 'Sexe'
     home = 'Accueil'
     households = 'Ménage'

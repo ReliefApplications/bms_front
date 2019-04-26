@@ -22,6 +22,7 @@ export interface Language {
     done: string
     email: string
     export: string
+    export_codes: string
     gender: string
     home: string
     households: string

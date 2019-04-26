@@ -24,6 +24,7 @@ export class Arabic implements Language {
     done = 'النهاية'
     email = 'البريد الالكتروني'
     export = 'تحميل'
+    export_codes = 'رموز كتيب التصدير'
     gender = 'الجنس'
     home = 'الصفحة الرئيسية'
     households = 'الأسرة'

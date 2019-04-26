@@ -35,6 +35,27 @@
               </mat-menu>
             </div>
           </div>
+
+          <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
+              <button mat-raised-button class="button-background-primary" (click)="exportCodes()" *ngIf="!loadingExportCodes">
+                <mat-icon>get_app</mat-icon>
+                <span>{{language.export_codes | titlecase}}</span>
+              </button>
+              <mat-spinner [diameter]='25' *ngIf="loadingExportCodes"></mat-spinner>
+              <div class="extension" *ngIf="!loadingExportCodes">
+                <div mat-button class="dropdown" [matMenuTriggerFor]="exportCodesType" [ngClass]="{'arabic':language==='ar'}">
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </div>
+                <mat-menu #exportCodesType>
+                  <button mat-menu-item (click)="setTypeCode('xls')"> .xls <mat-icon *ngIf="extensionTypeCode=='xls'">done</mat-icon>
+                  </button>
+                  <button mat-menu-item (click)="setTypeCode('csv')"> .csv <mat-icon *ngIf="extensionTypeCode=='csv'">done</mat-icon>
+                  </button>
+                  <button mat-menu-item (click)="setTypeCode('ods')"> .ods <mat-icon *ngIf="extensionTypeCode=='ods'">done</mat-icon>
+                  </button>
+                </mat-menu>
+              </div>
+            </div>
         </div>
 
         <button mat-raised-button *ngIf="widthScreen > maxWidth" (click)="openDialog({action: 'add'})" class="add-button-create">

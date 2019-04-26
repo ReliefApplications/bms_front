@@ -397,7 +397,7 @@ export class English implements Language {
     model_transaction_pickupDate = 'Pick up date'
     model_state = 'Status'
     model_type = 'Type'
-    model_type_shop = 'Type of shop'
+    model_type_shop = 'Description'
     model_unassigned = 'Unassigned'
     model_used = 'Used'
     model_user = 'User'

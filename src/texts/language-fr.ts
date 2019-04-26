@@ -396,7 +396,7 @@ export class French implements Language {
     model_transaction_pickupDate = 'Date de récupération'
     model_state = 'État'
     model_type = 'Type'
-    model_type_shop = 'Type de boutique'
+    model_type_shop = 'Description'
     model_unassigned = 'Non assigné'
     model_used = 'Utilisé'
     model_user = 'Utilisateur'

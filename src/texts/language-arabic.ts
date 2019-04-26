@@ -396,7 +396,7 @@ export class Arabic implements Language {
     model_transaction_message = 'رسالة'
     model_transaction_pickupDate = 'اختر تاريخا'
     model_type = 'النوع'
-    model_type_shop = 'نوع المحل'
+    model_type_shop = 'وصف'
     model_vulnerabilities = 'نقاط الضعف'
     model_used = 'مستخدم'
     model_user = 'المستخدم'

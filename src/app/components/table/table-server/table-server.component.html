@@ -2,13 +2,13 @@
     <div class="noDataContainer" *ngIf="!tableServerData">
         <h3>
         <mat-icon>clear</mat-icon>
-        {{table.no_data}}
+        {{language.no_data}}
         </h3>
     </div>
 
     <div class="container-header" *ngIf="tableServerData">
         <mat-form-field>
-            <input matInput (keyup)="applySpecificFilter($event.target.value, 'any')" placeholder="{{table.table_filter}}">
+            <input matInput (keyup)="applySpecificFilter($event.target.value, 'familyName')" placeholder="{{language.table_filter}}">
         </mat-form-field>
     </div>
 
@@ -66,7 +66,7 @@
                                 </ng-container>
                             </ng-template>
                             <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('required')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('required'))">
-                                {{ fieldName | titlecase}} is required
+                                {{ fieldName | titlecase}} {{ language.is_required }}
                             </mat-error>
                             <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('pattern')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('pattern'))">
                                 {{field.hint | titlecase}}
@@ -81,13 +81,13 @@
 
     <div class="buttons-search-clear">
         <button mat-raised-button class="button-text-accent" (click)="showAdvancedResearch()">
-            {{table.beneficiaries_advanced_research | titlecase}}
+            {{language.beneficiaries_advanced_research | titlecase}}
             <mat-icon *ngIf="!advancedResearch">keyboard_arrow_down</mat-icon>
             <mat-icon *ngIf="advancedResearch">keyboard_arrow_up</mat-icon>
         </button>
         <button *ngIf="advancedResearch" mat-raised-button class="button-text-accent" (click)="clearSearch()">
             <mat-icon>clear</mat-icon>
-            {{table.beneficiaries_clear_all_research | titlecase}}
+            {{language.beneficiaries_clear_all_research | titlecase}}
         </button>
     </div>
 
@@ -119,7 +119,7 @@
         </ng-container>
 
         <ng-container matColumnDef="actions">
-            <mat-header-cell *matHeaderCellDef>{{table.table_actions | titlecase }}</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>{{language.table_actions | titlecase }}</mat-header-cell>
             <mat-cell *matCellDef="let element">
                 <ng-container *ngIf="validatable">
                     <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
@@ -133,16 +133,16 @@
                 </button>
 
                 <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton"
-                    *ngIf="loggable" [matTooltip]="table.settings_log_button">
+                    *ngIf="loggable" [matTooltip]="language.settings_log_button">
                     <mat-icon>history</mat-icon>
                 </button>
 
                 <button *ngIf="editable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
-                    [matTooltip]="table.update" class="green">
+                    [matTooltip]="language.update" class="green">
                     <mat-icon>search</mat-icon>
                 </button>
                 <button *ngIf="deletable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
-                    [matTooltip]="table.delete" class="red">
+                    [matTooltip]="language.delete" class="red">
                     <mat-icon>delete_outline</mat-icon>
                 </button>
                 <button *ngIf="printable" mat-icon-button (click)="print(element); $event.stopPropagation()"

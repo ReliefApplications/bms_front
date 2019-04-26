@@ -1,38 +1,34 @@
-import { NgModule, Injector } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { DatePipe, TitleCasePipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { Injector, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
-import { httpInterceptorProviders } from './core/interceptors/index-interceptors';
-
-import { AppComponent } from './app.component';
-import { ForbiddenComponent } from './components/error-pages/forbidden/forbidden.component';
-import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
-
-import { AppRouting } from './app.routing';
-import { SharedModule } from './shared/shared.module';
-
-import { ReportsModule } from './modules/reports/reports.module';
-import { ProfileComponent } from './modules/profile/profile.component';
-import { HeaderMobileComponent } from './components/headers/header-mobile/header-mobile.component';
-import { HeaderComponent } from './components/headers/header/header.component';
-import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave.component';
-import { DatePipe } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { UpdateService } from './core/api/update.service';
-import { RequestDisplayComponent } from './components/headers/request-display/request-display.component';
-import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
-import { TitleCasePipe } from '@angular/common';
 import { setAppInjector } from './app-injector';
+import { AppComponent } from './app.component';
+import { AppRouting } from './app.routing';
+import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
+import { HeaderMobileComponent } from './components/headers/header-mobile/header-mobile.component';
+import { HeaderComponent } from './components/headers/header/header.component';
+import { RequestDisplayComponent } from './components/headers/request-display/request-display.component';
+import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave.component';
+import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
+import { UpdateService } from './core/api/update.service';
+import { httpInterceptorProviders } from './core/interceptors/index-interceptors';
+import { ProfileComponent } from './modules/profile/profile.component';
+import { ReportsModule } from './modules/reports/reports.module';
+import { SharedModule } from './shared/shared.module';
+
+
+
+
 
 
 @NgModule({
     declarations: [
         AppComponent,
-        ForbiddenComponent,
         NotFoundComponent,
         ProfileComponent,
         HeaderMobileComponent,

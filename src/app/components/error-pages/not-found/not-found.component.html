@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{error.not_found | titlecase}}</h2>
+    <h2>{{language.not_found | titlecase}}</h2>
   </div>
   <div class="container-table">
       <div class="container-content box-red">
@@ -8,7 +8,7 @@
               <div>
                 <mat-card>
                     <div>
-                        <h4>{{error.not_found_message}}</h4>
+                        <h4>{{language.not_found_message}}</h4>
                     </div>
                 </mat-card>
               </div>
@@ -16,7 +16,7 @@
           <div class="content-button-footer">
               <button mat-raised-button routerLink="/">
                   <mat-icon>backspace</mat-icon>
-                  <span> {{error.back_to_homepage | titlecase }}</span>
+                  <span> {{language.back_to_homepage | titlecase }}</span>
               </button>
           </div>
       </div>

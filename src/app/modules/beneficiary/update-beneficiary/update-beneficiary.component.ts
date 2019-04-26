@@ -2,6 +2,8 @@ import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialog, MatStepper, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as CountryIso from 'country-iso-3-to-2';
+import * as PhoneLib from 'google-libphonenumber';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
@@ -15,7 +17,7 @@ import { NationalId, NationalIdType } from 'src/app/model/nationalId.new';
 import { Phone, PhoneType } from 'src/app/model/phone.new';
 import { Profile } from 'src/app/model/profile.new';
 import { VulnerabilityCriteria } from 'src/app/model/vulnerability-criteria.new';
-import { GlobalText } from '../../../../texts/global';
+import { LanguageService } from 'src/texts/language.service';
 import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { CountrySpecificService } from '../../../core/api/country-specific.service';
@@ -27,7 +29,6 @@ import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
 import { CountrySpecific } from '../../../model/country-specific.new';
 import { Adm, Location } from '../../../model/location.new';
 import { Project } from '../../../model/project.new';
-
 
 @Component({
     selector: 'app-update-beneficiary',
@@ -43,9 +44,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     // Mode
     public mode: string;
     public validationLoading = false;
-
-    // Translate
-    public Text = GlobalText.TEXTS;
 
     public household: Households;
     public mainFields: string[];
@@ -67,8 +65,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public vulnerabilityList: Array<VulnerabilityCriteria>;
 
     // Country Codes (PhoneNumber lib)
-    private CodesMethods = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-    private getCountryISO2 = require('country-iso-3-to-2');
+    private CodesMethods = PhoneLib.PhoneNumberUtil.getInstance();
+    private getCountryISO2 = CountryIso;
     public countryCodesList = [];
 
     // Checkpoint
@@ -86,6 +84,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
     @ViewChild(MatStepper) stepper: MatStepper;
 
+    // Language
+    public language = this.languageService.selectedLanguage;
+
     constructor(
         public route: ActivatedRoute,
         public _projectService: ProjectService,
@@ -99,6 +100,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         public dialog: MatDialog,
         public snackbar: SnackbarService,
         public router: Router,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {
@@ -473,15 +475,15 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         if (this.mode === 'create') {
             this._householdsService.create(body).subscribe(success => {
-                this.snackbar.success(this.Text.update_beneficiary_created_successfully);
+                this.snackbar.success(this.language.update_beneficiary_created_successfully);
                 this.leave();
             }, error => {
-                this.snackbar.error(this.Text.update_beneficiary_error_creating + error);
+                this.snackbar.error(this.language.update_beneficiary_error_creating + error);
                 this.validationLoading = false;
             });
         } else if (this.mode === 'update') {
             this._householdsService.update(this.household.get('id'), body).subscribe(success => {
-                this.snackbar.success(this.Text.update_beneficiary_updated_successfully);
+                this.snackbar.success(this.language.update_beneficiary_updated_successfully);
                 this.leave();
             }, error => {
                 this.validationLoading = false;

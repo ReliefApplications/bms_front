@@ -1,17 +1,15 @@
-import { GlobalText } from '../../texts/global';
 import { isNumber } from '@swimlane/ngx-charts/release/utils';
-import { isNull } from 'util';
-
-import { DistributionBeneficiary } from './distribution-beneficiary.new';
-import { ObjectModelField } from './CustomModel/object-model-field';
 import { Beneficiary } from './beneficiary.new';
-import { NumberModelField } from './CustomModel/number-model-field';
-import { TextModelField } from './CustomModel/text-model-field';
-import { DateModelField } from './CustomModel/date-model-field';
-import { Phone } from './phone.new';
-import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { CustomModel } from './CustomModel/custom-model';
+import { DateModelField } from './CustomModel/date-model-field';
 import { NestedFieldModelField } from './CustomModel/nested-field';
+import { NumberModelField } from './CustomModel/number-model-field';
+import { ObjectModelField } from './CustomModel/object-model-field';
+import { SingleSelectModelField } from './CustomModel/single-select-model-field';
+import { TextModelField } from './CustomModel/text-model-field';
+import { DistributionBeneficiary } from './distribution-beneficiary.new';
+import { Phone } from './phone.new';
+
 
 export class State extends CustomModel {
 
@@ -29,12 +27,12 @@ export class State extends CustomModel {
 
 export class TransactionMobileMoney extends DistributionBeneficiary {
 
-    title = GlobalText.TEXTS.beneficiary;
+    title = this.language.beneficiary;
     matSortActive = 'familyName';
 
     public fields = {
         idTransaction: new NumberModelField({
-            title: GlobalText.TEXTS.transaction_id_transaction,
+            title: this.language.transaction_id_transaction,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
         }),
@@ -44,21 +42,21 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
             }
         ),
         givenName: new NestedFieldModelField({
-            title: GlobalText.TEXTS.model_firstName,
+            title: this.language.model_firstName,
             isDisplayedInTable: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'givenName',
             isDisplayedInModal: true,
         }),
         familyName: new NestedFieldModelField({
-            title: GlobalText.TEXTS.model_familyName,
+            title: this.language.model_familyName,
             isDisplayedInTable: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'familyName',
             isDisplayedInModal: true,
         }),
         phones: new NestedFieldModelField({
-            title: GlobalText.TEXTS.phone,
+            title: this.language.phone,
             isDisplayedInTable: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'phones',
@@ -66,16 +64,16 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
         }),
         // Status : -2. not sent / -1. no phone / 0. fail to send / 1.Successfully sent / 2. already sent / 3. picked up
         state: new SingleSelectModelField({
-            title: GlobalText.TEXTS.model_state,
+            title: this.language.model_state,
             options: [
-                new State('-2', 'Not sent'),
-                new State('-1', 'No phone'),
-                new State('0', 'Sending failed'),
-                new State('1', 'Sent'),
-                new State('2', 'Already sent'),
-                new State('3', 'Picked up')
+                new State('-2', this.language.transaction_state_not_sent),
+                new State('-1', this.language.transaction_state_no_phone),
+                new State('0', this.language.transaction_state_sending_failed),
+                new State('1', this.language.transaction_state_sent),
+                new State('2', this.language.transaction_state_already_sent),
+                new State('3', this.language.transaction_state_picked_up)
             ],
-            value: new State('-2', 'Not sent'),
+            value: new State('-2', this.language.transaction_state_not_sent),
             isDisplayedInTable: true,
             bindField: 'name',
             isDisplayedInModal: true,
@@ -84,18 +82,18 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
 
         // Can only be filled by the distribution, in Distribution.apiToModel()
         values: new TextModelField({
-            title: GlobalText.TEXTS.model_value,
+            title: this.language.model_value,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
         }),
 
         // Can only be filled by the updateForPickup function
         pickupDate: new DateModelField({
-            title: GlobalText.TEXTS.model_transaction_pickupDate,
+            title: this.language.model_transaction_pickupDate,
 
         }),
         message: new TextModelField({
-            title: GlobalText.TEXTS.model_transaction_message,
+            title: this.language.model_transaction_message,
             isDisplayedInModal: true,
         }),
     };

@@ -1,4 +1,3 @@
-import { GlobalText } from 'src/texts/global';
 import { CustomModel } from './CustomModel/custom-model';
 import { TextModelField } from './CustomModel/text-model-field';
 
@@ -10,7 +9,7 @@ export class FinancialProvider extends CustomModel {
 
     public static rights = ['ROLE_ADMIN', 'ROLE_COUNTRY_MANAGER', 'ROLE_PROJECT_MANAGER'];
 
-    title = GlobalText.TEXTS.settings_financial_provider;
+    title = this.language.settings_financial_provider;
     matSortActive = 'username';
 
     fields = {
@@ -18,14 +17,14 @@ export class FinancialProvider extends CustomModel {
             // Not displayed anywhere
         }),
         username: new TextModelField({
-            title: GlobalText.TEXTS.login_username,
+            title: this.language.login_username,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isEditable: true,
             isRequired: true,
         }),
         password: new TextModelField({
-            title: GlobalText.TEXTS.model_password,
+            title: this.language.model_password,
             isDisplayedInModal: true,
             isEditable: true,
             isPassword: true,

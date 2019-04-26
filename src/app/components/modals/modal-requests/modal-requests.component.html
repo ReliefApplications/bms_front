@@ -1,15 +1,15 @@
 <mat-dialog-content class="modal-container">
     <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}">
-        {{modal.modal_pending_requests}}
+        {{language.modal_pending_requests}}
     </h4>
 
     <div class="warning-info">
         <div class="container">
             <mat-icon>warning</mat-icon>
             <div>
-                {{modal.modal_warning_pending_requests_1}}
+                {{language.modal_warning_pending_requests_1}}
                 <br/>
-                <strong>{{modal.modal_warning_pending_requests_2}}</strong>
+                <strong>{{language.modal_warning_pending_requests_2}}</strong>
             </div>
         </div>
     </div>
@@ -76,8 +76,8 @@
         <h3>Sending {{progressLength}} requests:</h3>
         <mat-progress-bar mode="determinate" [value]="getProgressValue()"></mat-progress-bar>
         <div class="progress-info">
-            <span>{{modal.modal_success}}: {{progressCountSuccess}}</span>
-            <span>{{modal.modal_failure}}: {{progressCountFail}}</span>
+            <span>{{language.modal_success}}: {{progressCountSuccess}}</span>
+            <span>{{language.modal_failure}}: {{progressCountFail}}</span>
         </div>
         <div class="progress-errors" *ngIf="errors && errors.length > 0">
             <div class="error-row" *ngFor="let error of errors, i as index">
@@ -88,7 +88,7 @@
     </div>
 
     <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':language==='ar'}" cdkFocusRegionstart>
-        <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.modal_leave}}</button>
+        <button mat-button (click)="closeDialog()" class="button-text-accent">{{language.modal_leave}}</button>
         <button mat-raised-button class="send-all button-background-accent" (click)="sendAllRequests()" *ngIf="!inProgress">Send All</button>
     </div>
 </mat-dialog-content>

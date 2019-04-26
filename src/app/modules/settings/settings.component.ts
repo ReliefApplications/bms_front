@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
@@ -16,7 +16,6 @@ import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { FinancialProvider } from 'src/app/model/financial-provider.new';
 import { Product } from 'src/app/model/product.new';
 import { Vendor } from 'src/app/model/vendor.new';
-import { GlobalText } from 'src/texts/global';
 import { CountrySpecificService } from '../../core/api/country-specific.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { DonorService } from '../../core/api/donor.service';
@@ -28,6 +27,7 @@ import { CountrySpecific } from '../../model/country-specific.new';
 import { Donor } from '../../model/donor.new';
 import { Project } from '../../model/project.new';
 import { User } from '../../model/user.new';
+import { LanguageService } from './../../../texts/language.service';
 
 
 @Component({
@@ -37,7 +37,6 @@ import { User } from '../../model/user.new';
 })
 export class SettingsComponent implements OnInit {
     public nameComponent = 'settings';
-    public settings = GlobalText.TEXTS;
     loadingExport = false;
 
     selectedTitle = '';
@@ -54,12 +53,11 @@ export class SettingsComponent implements OnInit {
     userLogForm = new FormControl();
     private selectedUserId: number = null;
 
-    public maxHeight = GlobalText.maxHeight;
-    public maxWidthMobile = GlobalText.maxWidthMobile;
-    public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
-    public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
-    public maxWidth = GlobalText.maxWidth;
-    public language = GlobalText.language;
+    public maxHeight = 600;
+    public maxWidth = 750;
+    // public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
+    // public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
+    // public maxWidth = GlobalText.maxWidth;
     public heightScreen;
     public widthScreen;
     public deletable = false;
@@ -73,6 +71,9 @@ export class SettingsComponent implements OnInit {
 
     public mobileMode = false;
     public displayedTable = this.table;
+
+    // Language
+    public language = this.languageService.selectedLanguage;
 
     constructor(
         public dialog: MatDialog,
@@ -90,6 +91,7 @@ export class SettingsComponent implements OnInit {
         public productService: ProductService,
         private vendorsService: VendorsService,
         private modalService: ModalService,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {
@@ -99,17 +101,17 @@ export class SettingsComponent implements OnInit {
 
 
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        if ( window.innerWidth <= this.maxWidthMobile) {
-            this.mobileMode = true;
-            this.displayedTable = this.tableMobile;
-        }
-        else {
-            this.mobileMode = false;
-            this.displayedTable = this.table;
-        }
-    }
+    // @HostListener('window:resize', ['$event'])
+    // onResize(event) {
+    //     if ( window.innerWidth <= this.maxWidthMobile) {
+    //         this.mobileMode = true;
+    //         this.displayedTable = this.tableMobile;
+    //     }
+    //     else {
+    //         this.mobileMode = false;
+    //         this.displayedTable = this.table;
+    //     }
+    // }
 
 
 
@@ -300,7 +302,7 @@ export class SettingsComponent implements OnInit {
     }
 
     print(event: CustomModel) {
-      this.snackbar.info(this.settings.vendor_print_starting);
+      this.snackbar.info(this.language.voucher_print_starting);
       return this.referedClassService.print(event);
   }
 }

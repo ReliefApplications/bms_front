@@ -1,4 +1,3 @@
-import { GlobalText } from 'src/texts/global';
 import { CustomModel } from './CustomModel/custom-model';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
@@ -7,7 +6,7 @@ export class Donor extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
 
-    title = GlobalText.TEXTS.model_donor;
+    title = this.language.model_donor;
     matSortActive = 'fullname';
 
     // TODO: Fill with options
@@ -19,7 +18,7 @@ export class Donor extends CustomModel {
         ),
         fullname: new TextModelField(
             {
-                title: GlobalText.TEXTS.model_donor_fullname,
+                title: this.language.model_donor_fullname,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isEditable: true,
@@ -29,7 +28,7 @@ export class Donor extends CustomModel {
         ),
         shortname: new TextModelField(
             {
-                title: GlobalText.TEXTS.model_donor_shortname,
+                title: this.language.model_donor_shortname,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isEditable: true,
@@ -39,7 +38,7 @@ export class Donor extends CustomModel {
         ),
         notes: new TextModelField(
             {
-                title: GlobalText.TEXTS.model_notes,
+                title: this.language.model_notes,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isEditable: true,

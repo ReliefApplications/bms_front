@@ -1,4 +1,4 @@
-import { Component, DoCheck, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { map } from 'rxjs/operators';
@@ -8,7 +8,6 @@ import { LocationService } from 'src/app/core/api/location.service';
 import { VoucherService } from 'src/app/core/api/voucher.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { GlobalText } from '../../../texts/global';
 import { CriteriaService } from '../../core/api/criteria.service';
 import { DonorService } from '../../core/api/donor.service';
 import { ModalitiesService } from '../../core/api/modalities.service';
@@ -17,6 +16,7 @@ import { SectorService } from '../../core/api/sector.service';
 import { UploadService } from '../../core/api/upload.service';
 import { UserService } from '../../core/api/user.service';
 import { User } from '../../model/user.new';
+import { LanguageService } from './../../../texts/language.service';
 
 
 
@@ -33,9 +33,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     templateUrl: './modal.component.html',
     styleUrls: ['./modal.component.scss']
 })
-export class ModalComponent implements OnInit, DoCheck {
-    public modal = GlobalText.TEXTS;
-    public language = GlobalText.language;
+export class ModalComponent {
 
     public entityInstance = null;
     public properties: any;
@@ -78,7 +76,8 @@ export class ModalComponent implements OnInit, DoCheck {
         individualValuesFormControl: this.individualValuesFormControl
     });
 
-
+    // Language
+    public language = this.languageService.selectedLanguage;
 
     public allCriteria = [];
 
@@ -105,22 +104,14 @@ export class ModalComponent implements OnInit, DoCheck {
         public distributionService: DistributionService,
         public bookletService: BookletService,
         public dialog: MatDialog,
+        protected languageService: LanguageService,
         public voucherService: VoucherService,
         private locationService: LocationService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
-    ngOnInit() {
-    }
 
-    /**
-     * check if the langage has changed
-     */
-    ngDoCheck() {
-        if (this.modal !== GlobalText.TEXTS) {
-            this.modal = GlobalText.TEXTS;
-        }
-    }
+
 
     public closeDialog(): void {
         this.dialogRef.close(true);
@@ -204,7 +195,10 @@ export class ModalComponent implements OnInit, DoCheck {
 
         // for criterias
         if (this.newObject && this.newObject.kind_beneficiary === '') {
-            this.loadedData.kind_beneficiary = [{ 'field_string': this.modal.beneficiary }, { 'field_string': this.modal.households }];
+            this.loadedData.kind_beneficiary = [
+                { 'field_string': this.language.beneficiary },
+                { 'field_string': this.language.households }
+            ];
         }
 
         // for commodities

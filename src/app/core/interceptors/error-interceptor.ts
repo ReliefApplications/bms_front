@@ -1,20 +1,22 @@
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-    HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpEventType, HttpErrorResponse
-} from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { URL_BMS_API } from '../../../environments/environment';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { GlobalText } from '../../../texts/global';
+import { URL_BMS_API } from '../../../environments/environment';
+import { LanguageService } from './../../../texts/language.service';
 
 const api = URL_BMS_API;
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
+    // Language
+    public language = this.languageService.selectedLanguage;
+
     constructor(
         public snackbar: SnackbarService,
+        private languageService: LanguageService,
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
@@ -45,7 +47,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 this.showSnackbar(response.message);
             }
         } else {
-            this.showSnackbar(GlobalText.TEXTS.error_interceptor_msg);
+            this.showSnackbar(this.language.error_interceptor_msg);
         }
     }
 

@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { from } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { environment } from 'src/environments/environment';
-import { GlobalText } from '../../../texts/global';
+import { LanguageService } from 'src/texts/language.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { ErrorInterface, User } from '../../model/user.new';
 import { Country } from './../../model/user.new';
-import { map } from 'rxjs/operators';
 
 
 
@@ -21,14 +21,14 @@ import { map } from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit {
 
-    public nameComponent = GlobalText.TEXTS.login_title;
-    public login = GlobalText.TEXTS;
-
     public user: User;
     public forgotMessage = false;
     public loader = false;
     public loginCaptcha = false;
     public form: FormGroup;
+    // Language
+    public language = this.languageService.selectedLanguage;
+
 
     constructor(
         public _authService: AuthenticationService,
@@ -36,10 +36,12 @@ export class LoginComponent implements OnInit {
         public asyncacheService: AsyncacheService,
         public router: Router,
         public snackbar: SnackbarService,
-    ) { }
+        private languageService: LanguageService,
+        ) { }
 
     ngOnInit() {
-        GlobalText.resetMenuMargin();
+        // TODO: enable this
+        // GlobalText.resetMenuMargin();
         this.blankUser();
         this.makeForm();
     }
@@ -82,7 +84,7 @@ export class LoginComponent implements OnInit {
         this.user.set('password', this.form.controls['password'].value);
         // Prevent captcha bypass by setting button to enabled in production mode
         if (this.prod() && !this.form.controls['captcha'].value) {
-            this.snackbar.error(GlobalText.TEXTS.login_captcha_invalid);
+            this.snackbar.error(this.language.login_captcha_invalid);
             return;
         }
         this.loginAction();
@@ -109,6 +111,13 @@ export class LoginComponent implements OnInit {
                         this.goToHomePage(user);
                     });
                 }
+                this.router.navigate(['/']);
+                if (user.get<string>('language')) {
+                    this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
+                } else {
+                    this.languageService.selectedLanguage = this.languageService.stringToLanguage('en');
+                }
+
                 this.loader = false;
             },
             (error: ErrorInterface) => {
@@ -119,15 +128,17 @@ export class LoginComponent implements OnInit {
 
     goToHomePage(user: User) {
         if (user.get<string>('language')) {
-            GlobalText.changeLanguage(user.get<string>('language'));
+            this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
         } else {
-            GlobalText.changeLanguage();
+            // TODO: load default language
+            this.languageService.selectedLanguage = this.languageService.enabledLanguages[0];
+
         }
         this.router.navigate(['/']);
     }
 
     onScriptError() {
-        this.snackbar.error(GlobalText.TEXTS.login_captcha_invalid);
+        this.snackbar.error(this.language.login_captcha_invalid);
     }
 
     prod() {

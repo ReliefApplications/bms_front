@@ -6,14 +6,13 @@ import { finalize } from 'rxjs/operators';
 import { NetworkService } from 'src/app/core/api/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { GlobalText } from '../../../texts/global';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ProjectService } from '../../core/api/project.service';
 import { Distribution } from '../../model/distribution.new';
 import { Project as NewProject } from '../../model/project.new';
-import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
+import { LanguageService } from './../../../texts/language.service';
 
 @Component({
     selector: 'app-project',
@@ -22,8 +21,6 @@ import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
 })
 export class ProjectComponent implements OnInit {
     public nameComponent = 'projects';
-    public language = GlobalText.language;
-    public texts = GlobalText.TEXTS;
 
     loadingExport = false;
 
@@ -42,26 +39,29 @@ export class ProjectComponent implements OnInit {
     selectedProjectId = null;
     extensionType: string;
 
-    public maxHeight = GlobalText.maxHeight;
-    public maxWidthMobile = GlobalText.maxWidthMobile;
-    public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
-    public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
-    public maxWidth = GlobalText.maxWidth;
+    public maxHeight = 600;
+    public maxWidth = 750;
+    // public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
+    // public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
+    // public maxWidth = GlobalText.maxWidth;
     public heightScreen;
     public widthScreen;
+
+    // Language
+    public language = this.languageService.selectedLanguage;
 
     constructor(
         public projectService: ProjectService,
         public distributionService: DistributionService,
         private router: Router,
-        private _cacheService: AsyncacheService,
         public snackbar: SnackbarService,
         public dialog: MatDialog,
         public importService: ImportService,
         public networkService: NetworkService,
         public modalService: ModalService,
         public userService: UserService,
-    ) { }
+        private languageService: LanguageService,
+        ) { }
 
     ngOnInit() {
         if (this.importService.project) {

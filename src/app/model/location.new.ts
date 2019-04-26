@@ -1,9 +1,8 @@
 
+import { CustomModel } from './CustomModel/custom-model';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
-import { GlobalText } from 'src/texts/global';
-import { CustomModel } from './CustomModel/custom-model';
 
 export class Adm extends CustomModel {
 
@@ -31,25 +30,25 @@ export class Location extends CustomModel {
         ),
         adm1: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.adm1,
+                title: this.language.adm1,
                 bindField: 'name'
             }
         ),
         adm2: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.adm2,
+                title: this.language.adm2,
                 bindField: 'name'
             }
         ),
         adm3: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.adm3,
+                title: this.language.adm3,
                 bindField: 'name'
             }
         ),
         adm4: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.adm4,
+                title: this.language.adm4,
                 bindField: 'name'
             }
         ),

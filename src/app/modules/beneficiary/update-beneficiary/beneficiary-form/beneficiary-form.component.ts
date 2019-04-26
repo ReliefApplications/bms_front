@@ -1,22 +1,22 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { GlobalText } from 'src/texts/global';
+import { LanguageService } from './../../../../../texts/language.service';
 
 @Component({
-  selector: 'app-beneficiary-form',
-  templateUrl: './beneficiary-form.component.html',
-  styleUrls: ['./beneficiary-form.component.scss', '../update-beneficiary.component.scss']
+    selector: 'app-beneficiary-form',
+    templateUrl: './beneficiary-form.component.html',
+    styleUrls: [ './beneficiary-form.component.scss', '../update-beneficiary.component.scss' ]
 })
 export class BeneficiaryFormComponent implements OnInit {
+    @Input() form: FormGroup;
+    @Input() options: Object;
 
-  @Input() form: FormGroup;
-  @Input() options: Object;
+    // Language
+    public language = this.languageService.selectedLanguage;
 
-  public Text = GlobalText.TEXTS;
+    constructor (
+    private languageService: LanguageService,
+    ) {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+    ngOnInit() {}
 }

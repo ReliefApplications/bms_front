@@ -1,5 +1,5 @@
+import { Exception } from '@zxing/library';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { GlobalText } from '../../texts/global';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 
@@ -19,8 +19,10 @@ export class Sector extends CustomModel {
         )
     };
 
+    // TODO: change this to instance method and fix it
     public static getDisplayedName() {
-        return GlobalText.TEXTS.model_sector;
+        throw new Exception();
+        // return this.language.model_sector;
     }
 
     public static apiToModel(sectorFromApi): Sector {

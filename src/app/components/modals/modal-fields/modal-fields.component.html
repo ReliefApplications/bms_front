@@ -21,12 +21,12 @@
                                         <label for="file"><mat-icon>cloud_upload</mat-icon></label>
                                         <input type="file" id="file" (change)="onFileChange(p, $event)" #fileInput>
                                         <p *ngIf="filename">{{ filename }}</p>
-                                        <p *ngIf="!filename">{{ texts.modal_no_file }}</p>
-                                    </div>                      
+                                        <p *ngIf="!filename">{{ language.modal_no_file }}</p>
+                                    </div>
                                 </ng-container>
                             </ng-template>
 
-                            
+
 
                             <ng-template #isArrayInputField>
                                 <ng-container *ngIf="field.kindOfField === 'ArrayInputField'; else isBoolean">
@@ -97,7 +97,7 @@
                                         </ng-container>
                                     </ng-template>
                                     <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('required')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('required'))">
-                                        {{ field.title | titlecase}} is required
+                                        {{ field.title | titlecase}} {{ language.is_required }}
                                     </mat-error>
                                     <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('pattern')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('pattern'))">
                                         {{field.hint | titlecase}}

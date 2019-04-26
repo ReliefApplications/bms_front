@@ -1,17 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialogRef, MAT_DATE_FORMATS, MAT_DIALOG_DATA } from '@angular/material';
-import { APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
-import { CustomModel as CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { CustomDateAdapter } from '../../../core/utils/date.adapter';
-import { FieldService } from 'src/app/core/api/field.service';
-import { TextModelField } from 'src/app/model/CustomModel/text-model-field';
-import { CustomModelField } from 'src/app/model/CustomModel/custom-model-field';
-import { GlobalText } from 'src/texts/global';
-import { UploadService } from 'src/app/core/api/upload.service';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { FieldService } from 'src/app/core/api/field.service';
 import { LocationService } from 'src/app/core/api/location.service';
+import { UploadService } from 'src/app/core/api/upload.service';
+import { APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
+import { CustomModel as CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { TextModelField } from 'src/app/model/CustomModel/text-model-field';
+import { CustomDateAdapter } from '../../../core/utils/date.adapter';
+import { LanguageService } from './../../../../texts/language.service';
 
 @Component({
     selector: 'app-project',
@@ -26,7 +25,6 @@ export class ModalFieldsComponent implements OnInit {
 
     // The reactive form corresponding to the html form
     form: FormGroup;
-    public texts = GlobalText.TEXTS;
 
     modalType: string = null;
 
@@ -39,11 +37,15 @@ export class ModalFieldsComponent implements OnInit {
 
     modalTitle = 'Default Modal Text';
 
+    // Language
+    public language = this.languageService.selectedLanguage;
+
     constructor(
         public modalReference: MatDialogRef<any>,
         public fieldService: FieldService,
         public uploadService: UploadService,
         public locationService: LocationService,
+        private languageService: LanguageService,
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) {}
 

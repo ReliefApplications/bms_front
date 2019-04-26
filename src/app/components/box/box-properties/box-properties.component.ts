@@ -1,9 +1,7 @@
-import { Component, HostListener, OnInit, DoCheck, Input } from '@angular/core';
-import { GlobalText } from '../../../../texts/global';
-import { CountoModule } from 'angular2-counto';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { Location } from 'src/app/model/location.new';
-import { cp } from '@angular/core/src/render3';
+import { LanguageService } from 'src/texts/language.service';
 
 @Component({
     selector: 'app-box-properties',
@@ -11,7 +9,7 @@ import { cp } from '@angular/core/src/render3';
     styleUrls: ['./box-properties.component.scss']
 })
 export class BoxPropertiesComponent implements OnInit {
-    public texts = GlobalText.TEXTS;
+
     elementObject = null;
 
     @Input() displayedInstance: CustomModel;
@@ -23,10 +21,18 @@ export class BoxPropertiesComponent implements OnInit {
 
     readonly MAX_PROP_LENGTH = 20;
 
+    // Language
+    public language = this.languageService.selectedLanguage;
+
+    constructor (
+        private languageService: LanguageService,
+    ) {}
+
     @HostListener('window:resize', ['$event'])
     onResize(event) {
         this.getNumberOfColumns();
     }
+
 
     ngOnInit() {
         const allPropertyNames = Object.keys(this.displayedInstance.fields);
@@ -69,7 +75,7 @@ export class BoxPropertiesComponent implements OnInit {
 
     getLocationTitle(location: Location) {
         const adm = this.getMorePreciseAdm(location);
-        return this.texts[adm];
+        return this.language[adm];
     }
 
     getLocationValue(location: Location) {

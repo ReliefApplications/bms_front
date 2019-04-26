@@ -1,18 +1,16 @@
-import { GlobalText } from '../../texts/global';
-import { Project } from './project.new';
-import { NumberModelField } from './CustomModel/number-model-field';
-import { TextModelField } from './CustomModel/text-model-field';
-import { ObjectModelField } from './CustomModel/object-model-field';
-import { Location } from './location.new';
-import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
-import { VulnerabilityCriteria } from './vulnerability-criteria.new';
 import { Beneficiary } from './beneficiary.new';
-import { CustomModel } from './CustomModel/custom-model';
-import { SingleSelectModelField } from './CustomModel/single-select-model-field';
-import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
-import { ThousandsPipe } from '../core/utils/thousands.pipe';
 import { CountrySpecificAnswer } from './country-specific.new';
+import { CustomModel } from './CustomModel/custom-model';
+import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
+import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
+import { NumberModelField } from './CustomModel/number-model-field';
+import { ObjectModelField } from './CustomModel/object-model-field';
+import { SingleSelectModelField } from './CustomModel/single-select-model-field';
+import { TextModelField } from './CustomModel/text-model-field';
 import { LIVELIHOOD } from './livelihood';
+import { Location } from './location.new';
+import { Project } from './project.new';
+import { VulnerabilityCriteria } from './vulnerability-criteria.new';
 
 export class Livelihood extends CustomModel {
 
@@ -29,7 +27,7 @@ export class Livelihood extends CustomModel {
 }
 export class Households extends CustomModel {
 
-    title = GlobalText.TEXTS.households;
+    title = this.language.households;
     matSortActive = 'familyName';
 
     public fields = {
@@ -40,7 +38,7 @@ export class Households extends CustomModel {
         ),
         familyName: new TextModelField(
             {
-                title: GlobalText.TEXTS.model_familyName,
+                title: this.language.model_familyName,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -51,7 +49,7 @@ export class Households extends CustomModel {
         ),
         firstName: new TextModelField(
             {
-                title: GlobalText.TEXTS.model_firstName,
+                title: this.language.model_firstName,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -62,7 +60,7 @@ export class Households extends CustomModel {
         ),
         location: new ObjectModelField<Location> (
             {
-                title: GlobalText.TEXTS.location,
+                title: this.language.location,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
                 displayTableFunction: null,
@@ -71,14 +69,14 @@ export class Households extends CustomModel {
         ),
         dependents: new NumberModelField(
             {
-                title: GlobalText.TEXTS.model_beneficiaries_dependents,
+                title: this.language.model_beneficiaries_dependents,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
             }
         ),
         vulnerabilities: new MultipleObjectsModelField<VulnerabilityCriteria>(
             {
-                title: GlobalText.TEXTS.model_vulnerabilities,
+                title: this.language.model_vulnerabilities,
                 isDisplayedInTable: true,
                 isImageInTable: true,
                 value: [],
@@ -89,7 +87,7 @@ export class Households extends CustomModel {
         ),
         projects: new MultipleSelectModelField (
             {
-                title: GlobalText.TEXTS.projects,
+                title: this.language.projects,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
                 bindField: 'name',
@@ -118,7 +116,7 @@ export class Households extends CustomModel {
         }),
         livelihood: new SingleSelectModelField(
             {
-                options: LIVELIHOOD.map(livelihood => new Livelihood(livelihood.id, livelihood.name))
+                options: LIVELIHOOD.map(livelihood => new Livelihood(livelihood.id, this.language[livelihood.language_key]))
             }
         ),
         notes: new TextModelField(

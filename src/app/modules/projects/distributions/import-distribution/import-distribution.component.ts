@@ -1,14 +1,14 @@
-import { Component, DoCheck, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { finalize } from 'rxjs/operators';
+import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { GlobalText } from '../../../../../texts/global';
+import { Distribution } from 'src/app/model/distribution.new';
+import { LanguageService } from 'src/texts/language.service';
 import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
 import { DistributionService } from '../../../../core/api/distribution.service';
 import { HouseholdsService } from '../../../../core/api/households.service';
-import { Distribution } from 'src/app/model/distribution.new';
 import { ImportedBeneficiary } from '../../../../model/imported-beneficiary.new';
-import { UserService } from 'src/app/core/api/user.service';
 
 const IMPORT_COMPARE = 1;
 const IMPORT_UPDATE = 2;
@@ -18,7 +18,7 @@ const IMPORT_UPDATE = 2;
     templateUrl: './import-distribution.component.html',
     styleUrls: ['./import-distribution.component.scss']
 })
-export class ImportDistributionComponent implements OnInit, DoCheck {
+export class ImportDistributionComponent implements OnInit {
 
     @Input() distribution: Distribution;
 
@@ -51,11 +51,14 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
 
     // Screen display variables.
     dragAreaClass = 'dragarea';
-    public maxHeight = GlobalText.maxHeight;
-    public maxWidthMobile = GlobalText.maxWidthMobile;
+    public maxHeight = 600;
+    public maxWidth = 750;
     public heightScreen;
     public widthScreen;
-    TEXT = GlobalText.TEXTS;
+
+    // Language
+    public language = this.languageService.selectedLanguage;
+
 
     constructor(
         public _householdsService: HouseholdsService,
@@ -63,6 +66,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
         public distributionService: DistributionService,
         public beneficiaryService: BeneficiariesService,
         public userService: UserService,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {
@@ -78,15 +82,6 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     checkSize(): void {
         this.heightScreen = window.innerHeight;
         this.widthScreen = window.innerWidth;
-    }
-
-    /**
-     * check if the langage has changed
-     */
-    ngDoCheck() {
-        if (this.TEXT !== GlobalText.TEXTS) {
-            this.TEXT = GlobalText.TEXTS;
-        }
     }
 
     /**
@@ -156,7 +151,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                     })
                 ).subscribe(
                     success => {
-                        this.snackbar.success(this.TEXT.import_distribution_updated);
+                        this.snackbar.success(this.language.import_distribution_updated);
                         this.success.emit(true);
                         this.loadUpdate = false;
                         this.importedData = null;
@@ -169,7 +164,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                 );
             }
         } else {
-            this.snackbar.error(this.TEXT.import_distribution_no_right_update);
+            this.snackbar.error(this.language.import_distribution_no_right_update);
         }
     }
 

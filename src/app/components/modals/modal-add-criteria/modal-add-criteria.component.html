@@ -1,5 +1,5 @@
 <div class="modal-container" *ngIf="criteria">
-  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}">{{texts.modal_add_title |titlecase }} {{criteria.title | titlecase}}</h4>
+  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}">{{language.modal_add_title |titlecase }} {{criteria.title | titlecase}}</h4>
   <form [formGroup]="form">
     <table class="modal-table">
       <tr class="modal-row">
@@ -25,13 +25,13 @@
           </mat-form-field>
         </td>
       </tr>
-      
+
       <tr class="modal-row" *ngIf="form.controls.field.value === 'gender' || form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'IDPoor' || form.controls.field.value === 'equityCardNo'">
         <th class="table-title">{{ criteria.fields.value.title }}</th>
         <td class="form-item">
           <ng-select *ngIf="form.controls.field.value === 'gender'" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
-            <ng-option [value]="texts.add_distribution_female">{{texts.add_distribution_female}}</ng-option>
-            <ng-option [value]="texts.add_distribution_male">{{texts.add_distribution_male}}</ng-option>
+            <ng-option [value]="language.add_distribution_female">{{language.add_distribution_female}}</ng-option>
+            <ng-option [value]="language.add_distribution_male">{{language.add_distribution_male}}</ng-option>
           </ng-select>
 
           <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'dateOfBirth'">
@@ -52,7 +52,7 @@
               <th class="table-value advanced-icon-wrapper">
                   <div class="advanced-icon">
                       <button mat-button class="button-text-accent" (click)="changeDisplay()">
-                          <span>{{ texts.add_distribution_advanced_option | titlecase}}</span>
+                          <span>{{ language.add_distribution_advanced_option | titlecase}}</span>
                           <mat-icon>{{ iconAdvanced }}</mat-icon>
                       </button>
                   </div>

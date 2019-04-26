@@ -1,13 +1,14 @@
-import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
-import { User, Country } from 'src/app/model/user.new';
-import { Component, DoCheck, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { NavigationEnd, Router } from '@angular/router';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { GlobalText } from '../../../../texts/global';
+import { Country } from 'src/app/model/user.new';
+import { LanguageService } from 'src/texts/language.service';
 import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
+import { Language } from './../../../../texts/language';
 import { UserService } from './../../../core/api/user.service';
+import { AuthenticationService } from './../../../core/authentication/authentication.service';
 
 
 
@@ -16,9 +17,7 @@ import { UserService } from './../../../core/api/user.service';
     templateUrl: './header.component.html',
     styleUrls: [ './header.component.scss' ]
 })
-export class HeaderComponent implements OnInit, DoCheck {
-    public header = GlobalText.TEXTS;
-    public language = 'en';
+export class HeaderComponent implements OnInit {
 
     // User countries
     requesting = false;
@@ -28,23 +27,29 @@ export class HeaderComponent implements OnInit, DoCheck {
     @Output() emitLogOut = new EventEmitter();
 
     public currentRoute = '/';
-    public breadcrumb: Array<any> = [
-        {
-            route: '/',
-            name: this.header.home
-        }
-    ];
+
 
     // Tooltip
     public tooltip;
+
+    // Language
+    public language: Language;
+
+    // public breadcrumb: Array<any> = [
+    //     {
+    //         route: '/',
+    //         name: this.language.home
+    //     }
+    // ];
 
     constructor(
         public dialog: MatDialog,
         public router: Router,
         private userService: UserService,
         private asyncacheService: AsyncacheService,
-        private authenticationService: AuthenticationService,
         private snackbar: SnackbarService,
+        private languageService: LanguageService,
+        private authenticationService: AuthenticationService,
     ) {
         router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
@@ -52,36 +57,24 @@ export class HeaderComponent implements OnInit, DoCheck {
                 if (this.currentRoute.indexOf('?') > -1) {
                     this.currentRoute = this.currentRoute.substring(0, this.currentRoute.indexOf('?'));
                 }
-                this.updateBreadcrumb();
-                this.updateTooltip();
+                if (this.language) {
+                    this.updateTooltip();
+                }
             }
         });
     }
 
     ngOnInit() {
-        this.language = GlobalText.language;
+
         this.getCorrectCountries();
-        this.updateTooltip();
 
-        if (this.breadcrumb.length === 1) {
-            this.currentRoute = this.router.url;
-            if (this.currentRoute.indexOf('?') > -1) {
-                this.currentRoute = this.currentRoute.substring(0, this.currentRoute.indexOf('?'));
-            }
-            this.updateBreadcrumb();
-        }
-    }
-
-    ngDoCheck() {
-        if (this.header !== GlobalText.TEXTS) {
-            this.header = GlobalText.TEXTS;
-            this.updateBreadcrumb();
-            this.updateTooltip();
-        }
-
-        if (this.language !== GlobalText.language) {
-            this.language = GlobalText.language;
-        }
+        // if (this.breadcrumb.length === 1) {
+        //     this.currentRoute = this.router.url;
+        //     if (this.currentRoute.indexOf('?') > -1) {
+        //         this.currentRoute = this.currentRoute.substring(0, this.currentRoute.indexOf('?'));
+        //     }
+        //     this.updateBreadcrumb();
+        // }
     }
 
     getCorrectCountries() {
@@ -101,37 +94,45 @@ export class HeaderComponent implements OnInit, DoCheck {
             });
         }
 
+
         this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe((result) => {
             if (result) {
-                this.selectCountry(result);
+                this.setLanguage(result);
             } else {
-                this.selectCountry(this.countries[0]);
+                this.setLanguage(this.countries[0]);
             }
+
+            this.updateTooltip();
+
         });
     }
 
-    selectCountry(c: string) {
-        if (c) {
-            if (!this.selectedCountry || !GlobalText.country) {
-                this.autoLanguage(c);
-            } else if (GlobalText.country && this.selectedCountry && c !== this.selectedCountry) {
-                this.preventSnack(c);
-            }
+    // selectCountry(c: string) {
+    //     if (c) {
+    //         if (!this.selectedCountry || !this.language.country) {
+    //             this.autoLanguage(c);
+    //         } else if (GlobalText.country && this.selectedCountry && c !== this.selectedCountry) {
+    //             this.preventSnack(c);
+    //         }
 
-            this.selectedCountry = c;
-            GlobalText.country = c;
-            this.asyncacheService.set(AsyncacheService.COUNTRY, this.selectedCountry);
-        }
-    }
+    //         this.selectedCountry = c;
+    //         GlobalText.country = c;
+    //         this.asyncacheService.set(AsyncacheService.COUNTRY, this.selectedCountry);
+    //     }
+    // }
 
-    autoLanguage(c: string) {
-        if (!this.userService.currentUser.get<string>('language')) {
+    setLanguage(c: string) {
+        const userLanguage = this.userService.currentUser.get<string>('language');
+        if (!userLanguage) {
             if (c === 'SYR') {
-                GlobalText.changeLanguage('ar');
+                this.languageService.selectedLanguage = this.languageService.stringToLanguage('ar');
             } else if (c === 'KHM') {
-                GlobalText.changeLanguage('en');
+                this.languageService.selectedLanguage = this.languageService.stringToLanguage('en');
             }
+        } else {
+            this.languageService.selectedLanguage = this.languageService.stringToLanguage(userLanguage);
         }
+        this.language = this.languageService.selectedLanguage;
     }
 
     preventSnack(country: string) {
@@ -148,35 +149,35 @@ export class HeaderComponent implements OnInit, DoCheck {
             window.location.reload();
         });
     }
-
+    // TODO: fix breadcrumbs
     /**
      * Update the breadcrumb according to the current route
      */
-    updateBreadcrumb() {
-        const parsedRoute = this.currentRoute.split('/');
+    // updateBreadcrumb() {
+    //     const parsedRoute = this.currentRoute.split('/');
 
-        this.breadcrumb = [
-            {
-                route: '/',
-                name: this.header.home
-            }
-        ];
+    //     this.breadcrumb = [
+    //         {
+    //             route: '/',
+    //             name: this.header.home
+    //         }
+    //     ];
 
-        parsedRoute.forEach((item, index) => {
-            if (index > 0 && item !== '') {
-                if (isNaN(+item)) {
-                    const breadcrumbItem = {
-                        route: this.breadcrumb[index - 1].route + (index === 1 ? '' : '/') + item,
-                        name: this.header['header_' + item]
-                    };
-                    this.breadcrumb.push(breadcrumbItem);
-                } else {
-                    const length = this.breadcrumb.length;
-                    this.breadcrumb[length - 1].route = this.breadcrumb[length - 1].route + '/' + item;
-                }
-            }
-        });
-    }
+    //     parsedRoute.forEach((item, index) => {
+    //         if (index > 0 && item !== '') {
+    //             if (isNaN(+item)) {
+    //                 const breadcrumbItem = {
+    //                     route: this.breadcrumb[index - 1].route + (index === 1 ? '' : '/') + item,
+    //                     name: this.header['header_' + item]
+    //                 };
+    //                 this.breadcrumb.push(breadcrumbItem);
+    //             } else {
+    //                 const length = this.breadcrumb.length;
+    //                 this.breadcrumb[length - 1].route = this.breadcrumb[length - 1].route + '/' + item;
+    //             }
+    //         }
+    //     });
+    // }
 
     /**
      * Update the text of the tooltip
@@ -186,9 +187,9 @@ export class HeaderComponent implements OnInit, DoCheck {
         const page = parsedRoute[parsedRoute.length - 1];
 
         if (page === '') {
-            this.tooltip = this.header['tooltip_dashboard'];
+            this.tooltip = this.language.tooltip_dashboard;
         } else {
-            this.tooltip = this.header['tooltip_' + page.replace('-', '_')];
+            this.tooltip = this.language['tooltip_' + page.replace('-', '_')];
         }
     }
 
@@ -210,9 +211,9 @@ export class HeaderComponent implements OnInit, DoCheck {
             dialogRef = this.dialog.open(ModalLanguageComponent, {});
         }
 
-        dialogRef.afterClosed().subscribe((result) => {
-            this.language = GlobalText.language;
-        });
+        // dialogRef.afterClosed().subscribe((result: Language) => {
+        //     this.languageService.changeLanguage(result);
+        // });
     }
 
 }

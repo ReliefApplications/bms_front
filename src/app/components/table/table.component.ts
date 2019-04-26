@@ -1,5 +1,5 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, AfterViewInit } from '@angular/core';
-import { DateAdapter, MatDialog, MatPaginator, MatSort, MAT_DATE_FORMATS, MatTableDataSource } from '@angular/material';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { DateAdapter, MatDialog, MatPaginator, MatSort, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { Router } from '@angular/router';
 import { CustomModelService } from 'src/app/core/api/custom-model.service';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
@@ -10,33 +10,32 @@ import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
-import { GlobalText } from '../../../texts/global';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { TextModelField } from 'src/app/model/CustomModel/text-model-field';
+import { LanguageService } from 'src/texts/language.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ExportService } from '../../core/api/export.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { CustomModelField } from 'src/app/model/CustomModel/custom-model-field';
-import { DataSource } from '@angular/cdk/collections';
-import { TextModelField } from 'src/app/model/CustomModel/text-model-field';
 
 
-const rangeLabel = (page: number, pageSize: number, length: number) => {
-    const table = GlobalText.TEXTS;
+// Todo: is this necessary ?
+// const rangeLabel = (page: number, pageSize: number, length: number) => {
+//     const table = GlobalText.TEXTS;
 
-    if (length === 0 || pageSize === 0) { return `0 ` + table.table_of_page + ` ${length}`; }
+//     if (length === 0 || pageSize === 0) { return `0 ` + table.table_of_page + ` ${length}`; }
 
-    length = Math.max(length, 0);
+//     length = Math.max(length, 0);
 
-    const startIndex = page * pageSize;
+//     const startIndex = page * pageSize;
 
-    // If the start index exceeds the list length, do not try and fix the end index to the end.
-    const endIndex = startIndex < length ?
-        Math.min(startIndex + pageSize, length) :
-        startIndex + pageSize;
+//     // If the start index exceeds the list length, do not try and fix the end index to the end.
+//     const endIndex = startIndex < length ?
+//         Math.min(startIndex + pageSize, length) :
+//         startIndex + pageSize;
 
-    return `${startIndex + 1} - ${endIndex} ` + table.table_of_page + ` ${length}`;
-};
+//     return `${startIndex + 1} - ${endIndex} ` + table.table_of_page + ` ${length}`;
+// };
 
 @Component({
     selector: 'app-table',
@@ -48,7 +47,6 @@ const rangeLabel = (page: number, pageSize: number, length: number) => {
     ]
 })
 export class TableComponent implements OnInit,  AfterViewInit {
-    public table = GlobalText.TEXTS;
     public paginator: MatPaginator;
     public sort;
 
@@ -112,6 +110,9 @@ export class TableComponent implements OnInit,  AfterViewInit {
     entityInstance = null;
     public user_action = '';
 
+    // Language
+    public language = this.languageService.selectedLanguage;
+
     constructor(
         public dialog: MatDialog,
         public _cacheService: AsyncacheService,
@@ -126,6 +127,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
         public router: Router,
         public _exportService: ExportService,
         public userService: UserService,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit(): void {
@@ -230,12 +232,12 @@ export class TableComponent implements OnInit,  AfterViewInit {
         if ((this.tableData && this.tableData.data)) {
             this.tableData.sort = this.sort;
             if (this.paginator && this.paginable) {
-                this.paginator._intl.itemsPerPageLabel = this.table.table_items_per_page;
-                this.paginator._intl.firstPageLabel = this.table.table_first_page;
-                this.paginator._intl.previousPageLabel = this.table.table_previous_page;
-                this.paginator._intl.nextPageLabel = this.table.table_next_page;
-                this.paginator._intl.lastPageLabel = this.table.table_last_page;
-                this.paginator._intl.getRangeLabel = rangeLabel;
+                this.paginator._intl.itemsPerPageLabel = this.language.table_items_per_page;
+                this.paginator._intl.firstPageLabel = this.language.table_first_page;
+                this.paginator._intl.previousPageLabel = this.language.table_previous_page;
+                this.paginator._intl.nextPageLabel = this.language.table_next_page;
+                this.paginator._intl.lastPageLabel = this.language.table_last_page;
+                this.paginator._intl.getRangeLabel = this.rangeLabel;
                 this.tableData.paginator = this.paginator;
             }
         }
@@ -277,9 +279,8 @@ export class TableComponent implements OnInit,  AfterViewInit {
     }
 
     rangeLabel(page: number, pageSize: number, length: number) {
-        const table = GlobalText.TEXTS;
 
-        if (length === 0 || pageSize === 0) { return `0 ` + table.table_of_page + ` ${length}`; }
+        if (length === 0 || pageSize === 0) { return `0 / ${length}`; }
 
         length = Math.max(length, 0);
 
@@ -290,7 +291,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
             Math.min(startIndex + pageSize, length) :
             startIndex + pageSize;
 
-        return `${startIndex + 1} - ${endIndex} ` + table.table_of_page + ` ${length}`;
+        return `${startIndex + 1} - ${endIndex} / ${length}`;
     }
 
     isAllSelected() {

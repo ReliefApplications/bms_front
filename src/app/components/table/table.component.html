@@ -2,14 +2,14 @@
     <div class="noDataContainer" *ngIf="!tableData; else dataInTable">
         <h3>
         <mat-icon>clear</mat-icon>
-        {{table.no_data}}
+        {{language.no_data}}
         </h3>
     </div>
 
     <ng-template #dataInTable>
         <div class="container-header" *ngIf="searchable">
             <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{table.table_filter}}">
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{language.table_filter}}">
             </mat-form-field>
         </div>
 
@@ -30,7 +30,7 @@
             </ng-container>
 
             <ng-container *ngFor="let property of displayProperties" matColumnDef="{{property}}">
-                <mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title}}</mat-header-cell>
+                <mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title | titlecase}}</mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container *ngIf="element.fields[property]; let field">
                         <app-display-field [field]="field" [element]="element"></app-display-field>
@@ -39,7 +39,7 @@
             </ng-container>
 
             <ng-container matColumnDef="actions">
-                <mat-header-cell *matHeaderCellDef>{{table.table_actions | titlecase }}</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>{{language.table_actions | titlecase }}</mat-header-cell>
                 <mat-cell *matCellDef="let element">
 
                     <ng-container *ngIf="validatable">
@@ -54,16 +54,16 @@
                     </button>
 
                     <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton"
-                        *ngIf="loggable" [matTooltip]="table.settings_log_button">
+                        *ngIf="loggable" [matTooltip]="language.settings_log_button">
                         <mat-icon>history</mat-icon>
                     </button>
 
                     <button *ngIf="editable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
-                        [matTooltip]="table.update" class="green">
+                        [matTooltip]="language.update" class="green">
                         <mat-icon>search</mat-icon>
                     </button>
                     <button *ngIf="deletable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
-                        [matTooltip]="table.delete" class="red">
+                        [matTooltip]="language.delete" class="red">
                         <mat-icon>delete_outline</mat-icon>
                     </button>
                     <button *ngIf="printable" mat-icon-button (click)="print(element); $event.stopPropagation()"

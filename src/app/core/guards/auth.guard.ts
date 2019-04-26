@@ -1,23 +1,26 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { AsyncacheService } from '../storage/asyncache.service';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { User } from 'src/app/model/user.new';
-import { GlobalText } from 'src/texts/global';
 import { UserService } from '../api/user.service';
+import { LanguageService } from './../../../texts/language.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
 
+    // Language
+    public language = this.languageService.selectedLanguage;
+
     constructor (
         private router: Router,
         private userService: UserService,
         private authenticationService: AuthenticationService,
         private snackbar: SnackbarService,
+        private languageService: LanguageService,
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -38,7 +41,7 @@ export class AuthGuard implements CanActivate {
         const accessGranted = this.checkLogin(this.userService.currentUser);
 
         if (!accessGranted) {
-            this.snackbar.error(GlobalText.TEXTS.login_prompt);
+            this.snackbar.error(this.language.login_prompt);
             this.router.navigateByUrl('/login');
         }
 

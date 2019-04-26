@@ -14,7 +14,7 @@
     <ng-template #dataInTable>
         <div class="container-header">
             <mat-form-field>
-                <input matInput (keyup)="applySpecificFilter($event.target.value, 'any')" placeholder="{{table.table_filter}}">
+                <input matInput (keyup)="applySpecificFilter($event.target.value, 'any')" placeholder="{{language.table_filter}}">
             </mat-form-field>
         </div>
         
@@ -72,7 +72,7 @@
                                     </ng-container>
                                 </ng-template>
                                 <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('required')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('required'))">
-                                    {{ fieldName | titlecase}} is required
+                                    {{ fieldName | titlecase}} {{ language.is_required }}
                                 </mat-error>
                                 <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('pattern')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('pattern'))">
                                     {{field.hint | titlecase}}

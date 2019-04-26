@@ -1,11 +1,11 @@
 <mat-dialog-content class="modal-container">
-  <h4 class="modal-title underline-accent">{{texts.voucher_assign_title | titlecase}}</h4>
+  <h4 class="modal-title underline-accent">{{language.voucher_assign_title | titlecase}}</h4>
   <div class="dialog-template" *ngIf="step === 1">
     <div class="modal-body">
       <form class="form" [formGroup]="form">
       <table class="modal-table">
         <tr class="modal-row">
-          <th class="table-title">{{ texts.project }}</th>
+          <th class="table-title">{{ language.project }}</th>
           <th class="table-value">
               <ng-select *ngIf="!data.project" class="full-width single-select" [clearable]=false formControlName="projectControl" (change)="getDistributions()">
                 <ng-option *ngFor="let project of projects" [value]="project.get('id')">{{project.get('name')}}</ng-option>
@@ -15,7 +15,7 @@
         </tr>
 
         <tr class="modal-row">
-          <th class="table-title">{{ texts.distribution }}</th>
+          <th class="table-title">{{ language.distribution }}</th>
           <th class="table-value">
               <ng-select *ngIf="!data.distribution" class="full-width single-select" [clearable]=false formControlName="distributionControl"
                 (change)="getBeneficiaries()">
@@ -26,7 +26,7 @@
         </tr>
 
         <tr class="modal-row">
-          <th class="table-title">{{ texts.beneficiary }}</th>
+          <th class="table-title">{{ language.beneficiary }}</th>
           <th class="table-value">
               <ng-select class="full-width single-select" [clearable]=false
               formControlName="beneficiaryControl" *ngIf="!data.beneficiary">
@@ -40,8 +40,8 @@
       </form>
     </div>
     <div class="modal-footer action">
-      <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{texts.cancel}}</button>
-      <button mat-button class="confirm" (click)="nextStep()" [disabled]="!form.valid && !data.beneficiary">{{texts.next}}</button>
+      <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{language.cancel}}</button>
+      <button mat-button class="confirm" (click)="nextStep()" [disabled]="!form.valid && !data.beneficiary">{{language.next}}</button>
     </div>
   </div>
 
@@ -50,7 +50,7 @@
   </div>
 
   <div *ngIf="step === 3">
-    <p>{{texts.voucher_scan_text }}</p>
+    <p>{{language.voucher_scan_text }}</p>
 
     <div class="scan-checked">
       <mat-icon>check_circle_outline</mat-icon>
@@ -63,20 +63,20 @@
 
     <div class="dialog-template">
       <div class="modal-footer action">
-        <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{texts.cancel}}</button>
-        <button mat-button class="confirm" (click)="nextStep()">{{texts.next}}</button>
+        <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{language.cancel}}</button>
+        <button mat-button class="confirm" (click)="nextStep()">{{language.next}}</button>
       </div>
     </div>
   </div>
 
   <div *ngIf="step === 4">
-    <span>{{ texts.voucher_define_password}} {{ bookletQRCode }} ?</span>
+    <span>{{ language.voucher_define_password}} {{ bookletQRCode }} ?</span>
     <mat-checkbox color="primary" [(ngModel)]="displayPassword" class="margin-left"></mat-checkbox>
     <div [hidden]="!displayPassword">
-      <p>{{ texts.voucher_ask_code }}</p>
+      <p>{{ language.voucher_ask_code }}</p>
       <div class="dialog-template">
         <mat-form-field class="full-width">
-          <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl" placeholder={{texts.model_password}} />
+          <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl" placeholder={{language.model_password}} />
           <mat-error *ngIf=""></mat-error>
         </mat-form-field>
       </div>
@@ -84,22 +84,22 @@
 
     <div class="dialog-template">
       <div class="modal-footer action">
-        <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{texts.cancel}}</button>
+        <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{language.cancel}}</button>
         <mat-spinner [diameter]="25" *ngIf="loadingPassword"></mat-spinner>
-        <button mat-button class="confirm" (click)="nextStep()" *ngIf="!loadingPassword">{{texts.next}}</button>
+        <button mat-button class="confirm" (click)="nextStep()" *ngIf="!loadingPassword">{{language.next}}</button>
       </div>
     </div>
   </div>
 
   <div *ngIf="step === 5">
-    <p>{{ texts.model_booklet }} {{ bookletQRCode }} {{ texts.voucher_step5 }} {{ beneficiaryName }} {{
-      texts.voucher_for }} {{ distributionName }}</p>
+    <p>{{ language.model_booklet }} {{ bookletQRCode }} {{ language.voucher_step5 }} {{ beneficiaryName }} {{
+      language.voucher_for }} {{ distributionName }}</p>
 
     <div class="dialog-template">
       <div class="modal-footer action">
-        <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{texts.cancel}}</button>
+        <button mat-button class="cancel button-text-accent" (click)="exit('Assignation canceled')">{{language.cancel}}</button>
         <mat-spinner [diameter]="25" *ngIf="loadingAssignation"></mat-spinner>
-        <button mat-button class="confirm" (click)="assignBooklet()" *ngIf="!loadingAssignation">{{texts.transaction_confirm_button}}</button>
+        <button mat-button class="confirm" (click)="assignBooklet()" *ngIf="!loadingAssignation">{{language.transaction_confirm_button}}</button>
       </div>
     </div>
   </div>

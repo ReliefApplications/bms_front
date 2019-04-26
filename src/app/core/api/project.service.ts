@@ -4,6 +4,7 @@ import { SectorService } from 'src/app/core/api/sector.service';
 import { Donor } from 'src/app/model/donor.new';
 import { Project } from 'src/app/model/project.new';
 import { Sector } from 'src/app/model/sector.new';
+import { LanguageService } from 'src/texts/language.service';
 import { AppInjector } from '../../app-injector';
 import { CustomModelService } from './custom-model.service';
 import { DonorService } from './donor.service';
@@ -18,8 +19,11 @@ export class ProjectService extends CustomModelService {
 
     customModelPath = 'projects';
 
-    constructor(protected http: HttpService) {
-        super(http);
+    constructor(
+        protected http: HttpService,
+        protected languageService: LanguageService,
+    ) {
+        super(http, languageService);
     }
 
 

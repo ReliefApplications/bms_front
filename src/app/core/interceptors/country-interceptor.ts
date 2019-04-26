@@ -17,10 +17,16 @@ export class CountryInterceptor implements HttpInterceptor {
         if (req.url !== 'https://openexchangerates.org/api/currencies.json') {
             return this.asyncacheService.get(AsyncacheService.COUNTRY).pipe(
                 concatMap(
-                    (cacheResult: string) =>
+                    (cacheResult: string) => {
+                        if (cacheResult) {
                         // Clone the request and add the country header.
                         // Send cloned request with header to the next handler.
-                        next.handle( req.clone({ headers: req.headers.append('country', cacheResult )}))
+                            return next.handle( req.clone({ headers: req.headers.append('country', cacheResult )}));
+                        } else {
+                            return next.handle(req);
+                        }
+
+                    }
                 )
             );
         }

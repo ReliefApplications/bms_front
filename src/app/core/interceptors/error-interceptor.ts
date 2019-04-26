@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { URL_BMS_API } from '../../../environments/environment';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { GlobalText } from '../../../texts/global';
+import { Router } from '@angular/router';
 
 const api = URL_BMS_API;
 
@@ -15,6 +16,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(
         public snackbar: SnackbarService,
+        public router: Router
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
@@ -24,6 +26,9 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(
             catchError(
                 (error: any, caught: Observable<HttpEvent<any>>) => {
+                    if (error.status === 403 && error.error === 'You are not authenticated') {
+                        this.router.navigate(['/login']);
+                    }
                     this.snackErrors(error);
                     return throwError(error);
                 }

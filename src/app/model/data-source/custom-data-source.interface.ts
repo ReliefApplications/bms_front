@@ -5,6 +5,7 @@ import { CustomModel } from '../CustomModel/custom-model';
 export interface CustomDataSource<T> extends DataSource<T> {
 
     dataSubject: BehaviorSubject<T[]>;
+    data$: Observable<T[]>;
 
     loadingSubject: BehaviorSubject<boolean>;
     loading$: Observable<boolean>;

@@ -44,7 +44,7 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
 
     advancedResearch = false;
 
-    public keyupTimeout: number;
+    public keyupTimeout: any;
 
     @Input() selectable = false;
     @Input() selection: any;
@@ -74,6 +74,12 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
                     tap(() => this.loadDataPage())
                 )
                 .subscribe();
+        } else {
+            this.paginator.page
+                .pipe(
+                    tap(() => this.loadDataPage())
+                )
+                .subscribe();
         }
     }
 
@@ -99,7 +105,7 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
             });
         }
 
-        if (category === 'locations') {
+        if (category === 'locations' && filterValue) {
             let existingValue = {};
             const existingLocation = this.filtersForAPI.find((element: Filter) => {
                 return element.category === 'locations';
@@ -132,7 +138,7 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         // Wait until user has finished typing to send data
         if (category === 'any') {
             clearTimeout(this.keyupTimeout);
-            this.keyupTimeout = window.setTimeout(
+            this.keyupTimeout = setTimeout(
                 this.loadDataPage.bind(this), 500
             );
         } else {
@@ -155,10 +161,6 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         } else {
             return field;
         }
-    }
-
-    showAdvancedResearch() {
-        this.advancedResearch = !this.advancedResearch;
     }
 
     listenToChanges() {
@@ -185,11 +187,14 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         });
     }
 
+    showAdvancedResearch() {
+        this.advancedResearch = !this.advancedResearch;
+    }
+
     clearSearch() {
         this.filterFields.forEach((fieldName: string) => {
             this.filtersForm.controls[fieldName].setValue(null);
         });
-        this.filtersForAPI = [];
     }
 
     isAllSelected() {

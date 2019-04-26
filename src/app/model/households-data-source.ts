@@ -95,6 +95,7 @@ export class HouseholdFilters extends CustomModel {
 export class HouseholdsDataSource implements CustomDataSource<Households> {
 
     dataSubject = new BehaviorSubject<Households[]>([]);
+    public data$ = this.dataSubject.asObservable();
 
     loadingSubject = new BehaviorSubject<boolean>(false);
     public loading$ = this.loadingSubject.asObservable();

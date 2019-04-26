@@ -351,6 +351,7 @@ export class English implements Language {
     model_beneficiaries_phones = 'Phones (no country code)'
     model_beneficiaries_status = 'Satus'
     model_booklet = 'Booklet'
+    model_booklet_password_pattern = 'The password must be four digits'
     model_code = 'Code'
     model_commodity = 'Commodity'
     model_commodity_kgs = 'Kgs'

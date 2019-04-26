@@ -350,6 +350,7 @@ export class French implements Language {
     model_beneficiaries_phones = 'Téléphones (sans le code pays)'
     model_beneficiaries_status = 'Satut'
     model_booklet = 'Brochure'
+    model_booklet_password_pattern = 'Le mot de passe doit se composer de 4 chiffres'
     model_code = 'Code'
     model_commodity = 'Ressource'
     model_commodity_modality = 'Modalité'

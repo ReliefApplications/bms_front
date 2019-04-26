@@ -123,6 +123,7 @@ export class Booklet extends CustomModel {
             isSettable: true,
             isPassword: true,
             pattern: /^(\d{4})/,
+            hint: this.language.model_booklet_password_pattern
         }),
         beneficiary: new ObjectModelField<Beneficiary>({
             title: this.language.beneficiary,

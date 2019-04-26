@@ -335,6 +335,7 @@ export interface Language {
     model_beneficiaries_phones: string
     model_beneficiaries_status: string
     model_booklet: string
+    model_booklet_password_pattern: string
     model_code: string
     model_commodity: string
     model_commodity_kgs: string

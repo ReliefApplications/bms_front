@@ -351,6 +351,7 @@ export class Arabic implements Language {
     model_beneficiaries_phones = 'الهاتف'
     model_beneficiaries_status = 'الرتبة في الأسرة'
     model_booklet = 'كتيب'
+    model_booklet_password_pattern = 'يجب أن تتكون كلمة المرور من 4 أرقام'
     model_code = 'الشفرة'
     model_commodity = 'السلع'
     model_commodity_kgs= 'كلغ'

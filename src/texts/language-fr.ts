@@ -366,6 +366,8 @@ export class French implements Language {
     model_currency = 'Devise'
     model_dateofbirth = 'Date de naissance'
     model_deactivated = 'Désactivé'
+    model_define_password = 'Définir un mot de passe'
+    model_update_password = 'Modifier le mot de passe'
     model_distributed = 'Distribué'
     model_distribution_beneficiary = 'Distribution du bénéficiaire'
     model_distribution_date = 'Date de la Distribution'

@@ -367,6 +367,8 @@ export class Arabic implements Language {
     model_currency = 'دقة'
     model_dateofbirth = 'تاريخ الميلاد'
     model_deactivated = 'إبطال مفعولها'
+    model_define_password = 'تحديد كلمة المرور'
+    model_update_password = 'تحديث كلمة المرور'
     model_distributed: 'وزعت'
     model_distribution_beneficiary = 'توزيع المستفيد'
     model_distribution_date = 'تاريخ التوزيع'

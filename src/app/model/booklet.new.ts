@@ -105,7 +105,7 @@ export class Booklet extends CustomModel {
             value: new BookletStatus('0', 'Unassigned'),
         }),
         definePassword: new BooleanModelField({
-            title: 'Define a password',
+            title: this.language.model_define_password,
             isTrigger: true,
             isDisplayedInModal: true,
             isSettable: true,
@@ -201,7 +201,7 @@ export class Booklet extends CustomModel {
         newBooklet.fields.distribution.displayModalFunction = (value: Distribution) => value ? value.get('name') : null;
 
         if (bookletFromApi.password) {
-            newBooklet.fields.definePassword.title = 'Update Password';
+            newBooklet.fields.definePassword.title = newBooklet.language.model_update_password;
             newBooklet.set('definePassword', false);
             newBooklet.fields.password.isDisplayedInModal = false;
         }

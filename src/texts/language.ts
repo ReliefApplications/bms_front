@@ -351,6 +351,8 @@ export interface Language {
     model_currency: string
     model_dateofbirth: string
     model_deactivated: string
+    model_define_password: string
+    model_update_password: string
     model_distributed: string
     model_distribution_beneficiary: string
     model_distribution_date: string

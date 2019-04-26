@@ -367,6 +367,8 @@ export class English implements Language {
     model_currency = 'Currency'
     model_dateofbirth = 'Date of birth'
     model_deactivated = 'Deactivated'
+    model_define_password = 'Define a password'
+    model_update_password = 'Update the password'
     model_distributed = 'Distributed'
     model_distribution_beneficiary = 'Beneficiary\'s distribution'
     model_distribution_date = 'Date of Distribution'

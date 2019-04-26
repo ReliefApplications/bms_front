@@ -112,7 +112,7 @@ export class Booklet extends CustomModel {
             isSettable: true,
             isEditable: true,
             value: true,
-            triggerFunction: (booklet: Booklet, value: boolean, form: FormGroup, objectFields: string[]) => {
+            triggerFunction: (booklet: Booklet, value: boolean, form: FormGroup) => {
                 booklet.fields.password.isDisplayedInModal = value;
                 return booklet;
             },

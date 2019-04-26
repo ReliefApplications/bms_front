@@ -85,7 +85,7 @@ export class User extends CustomModel {
             isEditable: true,
             isSettable: true,
             isTrigger: true,
-            triggerFunction: (user: User, value: string, form: FormGroup, objectFields: string[]) => {
+            triggerFunction: (user: User, value: string, form: FormGroup) => {
                 if (value === 'ROLE_REGIONAL_MANAGER' ||
                 value === 'ROLE_COUNTRY_MANAGER') {
                     form.controls.countries.enable();

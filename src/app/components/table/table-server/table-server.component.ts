@@ -167,7 +167,7 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
                 const field = this.filters.fields[fieldName];
                 // Change filters and form according to changes
                 if (value && field.isTrigger) {
-                    this.filters = field.triggerFunction(this.filters, value, this.filtersForm, this.filterFields);
+                    this.filters = field.triggerFunction(this.filters, value, this.filtersForm);
                 }
 
                 // Format values

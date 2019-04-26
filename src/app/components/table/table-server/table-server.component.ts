@@ -74,6 +74,12 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
                     tap(() => this.loadDataPage())
                 )
                 .subscribe();
+        } else {
+            this.paginator.page
+                .pipe(
+                    tap(() => this.loadDataPage())
+                )
+                .subscribe();
         }
     }
 

@@ -1,14 +1,15 @@
 <div class="table-container">
     <div class="noDataContainer" *ngIf="!tableServerData">
         <h3>
-        <mat-icon>clear</mat-icon>
-        {{table.no_data}}
+            <mat-icon>clear</mat-icon>
+            {{table.no_data}}
         </h3>
     </div>
 
     <div class="container-header" *ngIf="tableServerData">
         <mat-form-field>
-            <input matInput (keyup)="applySpecificFilter($event.target.value, 'any')" placeholder="{{table.table_filter}}">
+            <input matInput (keyup)="applySpecificFilter($event.target.value, 'any')"
+                placeholder="{{table.table_filter}}">
         </mat-form-field>
     </div>
 
@@ -17,11 +18,12 @@
             <ng-container *ngFor="let fieldName of filterFields">
                 <div *ngIf="display(filters.fields[fieldName]); let field" class="filter-fields">
                     <ng-container *ngIf="field.kindOfField === 'MultipleSelect'; else isSingleSelect">
-                            <ng-select [formControlName]="fieldName" [placeholder]="field.title" [multiple]="true" [closeOnSelect]="false">
-                                <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
-                                    {{option.get(field.bindField) | titlecase}}
-                                </ng-option>
-                            </ng-select>
+                        <ng-select [formControlName]="fieldName" [placeholder]="field.title" [multiple]="true"
+                            [closeOnSelect]="false">
+                            <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
+                                {{option.get(field.bindField) | titlecase}}
+                            </ng-option>
+                        </ng-select>
                     </ng-container>
 
                     <ng-template #isSingleSelect>
@@ -35,26 +37,30 @@
                     </ng-template>
 
                     <ng-template #isMaterialField>
-                        <mat-form-field *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
+                        <mat-form-field
+                            *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
                             <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
                                 <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title"
                                     matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
 
                                 <ng-template #checkForTextArea>
                                     <ng-container *ngIf="field.isLongText; else checkForTextInput">
-                                        <textarea matInput type="text" [formControlName]="fieldName" [placeholder]="field.title"></textarea>
+                                        <textarea matInput type="text" [formControlName]="fieldName"
+                                            [placeholder]="field.title"></textarea>
                                     </ng-container>
                                 </ng-template>
 
                                 <ng-template #checkForTextInput>
-                                    <input matInput type="text" [formControlName]="fieldName" [placeholder]="field.title">
+                                    <input matInput type="text" [formControlName]="fieldName"
+                                        [placeholder]="field.title">
                                 </ng-template>
                             </ng-container>
 
 
                             <ng-template #checkForDateField>
                                 <ng-container *ngIf="field.kindOfField === 'Date'; else checkForNumberField">
-                                    <input matInput [matDatepicker]="picker" [formControlName]="fieldName" [placeholder]="field.title">
+                                    <input matInput [matDatepicker]="picker" [formControlName]="fieldName"
+                                        [placeholder]="field.title">
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
                                 </ng-container>
@@ -65,13 +71,16 @@
                                     <input matInput type="number" [formControlName]="fieldName">
                                 </ng-container>
                             </ng-template>
-                            <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('required')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('required'))">
+                            <mat-error
+                                *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('required')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('required'))">
                                 {{ fieldName | titlecase}} is required
                             </mat-error>
-                            <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('pattern')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('pattern'))">
+                            <mat-error
+                                *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('pattern')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('pattern'))">
                                 {{field.hint | titlecase}}
                             </mat-error>
-                            <mat-hint align="start" *ngIf="field.hint && modalType !== 'Details'"><strong>{{field.hint | titlecase}}</strong> </mat-hint>
+                            <mat-hint align="start" *ngIf="field.hint && modalType !== 'Details'">
+                                <strong>{{field.hint | titlecase}}</strong> </mat-hint>
                         </mat-form-field>
                     </ng-template>
                 </div>
@@ -98,19 +107,21 @@
     <mat-table class="server-table" [dataSource]="tableServerData" matSort>
         <ng-container *ngIf="selectable" matColumnDef="check">
             <mat-header-cell class="header-cell" *matHeaderCellDef>
-                <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-                [indeterminate]="selection.hasValue() && !isAllSelected()" color="primary">
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()" color="primary">
                 </mat-checkbox>
             </mat-header-cell>
             <mat-cell class="content-cell" *matCellDef="let element">
-                <mat-checkbox (click)="$event.stopPropagation()" (change)="selectCheck($event, element)" [checked]="selection.isSelected(element)"
-                color="primary">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="selectCheck($event, element)"
+                    [checked]="selection.isSelected(element)" color="primary">
                 </mat-checkbox>
             </mat-cell>
         </ng-container>
 
         <ng-container *ngFor="let property of displayProperties" matColumnDef="{{property}}">
-            <mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title}}</mat-header-cell>
+            <mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title}}
+            </mat-header-cell>
             <mat-cell *matCellDef="let element">
                 <ng-container *ngIf="element.fields[property]; let field">
                     <app-display-field [field]="field" [element]="element"></app-display-field>
@@ -124,12 +135,13 @@
                 <ng-container *ngIf="validatable">
                     <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
                         <mat-icon *ngIf="element.get('validated') && element.get('finished')">done</mat-icon>
-                        <mat-icon *ngIf="element.get('validated') && !element.get('finished')" class="red">lock</mat-icon>
+                        <mat-icon *ngIf="element.get('validated') && !element.get('finished')" class="red">lock
+                        </mat-icon>
                         <mat-icon *ngIf="!element.get('validated') && updatable" class="light-red">edit</mat-icon>
                     </button>
                 </ng-container>
                 <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
-                        <mat-icon *ngIf="!validatable && updatable" class="light-red">edit</mat-icon>
+                    <mat-icon *ngIf="!validatable && updatable" class="light-red">edit</mat-icon>
                 </button>
 
                 <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton"
@@ -137,28 +149,33 @@
                     <mat-icon>history</mat-icon>
                 </button>
 
-                <button *ngIf="editable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
-                    [matTooltip]="table.update" class="green">
+                <button *ngIf="editable && (!validatable || !element.get('validated'))" mat-icon-button
+                    (click)="openDialog('edit', element); $event.stopPropagation()" [matTooltip]="table.update"
+                    class="green">
                     <mat-icon>search</mat-icon>
                 </button>
-                <button *ngIf="deletable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
-                    [matTooltip]="table.delete" class="red">
+                <button *ngIf="deletable && (!validatable || !element.get('validated'))" mat-icon-button
+                    (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="table.delete"
+                    class="red">
                     <mat-icon>delete_outline</mat-icon>
                 </button>
                 <button *ngIf="printable" mat-icon-button (click)="print(element); $event.stopPropagation()"
                     [matTooltip]="'print'" class="grey" [disabled]="!element.isPrintable()">
                     <mat-icon>printer</mat-icon>
                 </button>
-                <button mat-icon-button [matTooltip]="'assign'" *ngIf="assignable" (click)="assign(element); $event.stopPropagation()" class="grey" [disabled]="!element.isAssignable()">
+                <button mat-icon-button [matTooltip]="'assign'" *ngIf="assignable"
+                    (click)="assign(element); $event.stopPropagation()" class="grey"
+                    [disabled]="!element.isAssignable()">
                     <mat-icon>assignment</mat-icon>
                 </button>
             </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="getDisplayedColumns()"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: getDisplayedColumns(); let element" class="cursor-pointer" (click)="openDialog('details', element)"></mat-row>
+        <mat-row *matRowDef="let row; columns: getDisplayedColumns(); let element" class="cursor-pointer"
+            (click)="openDialog('details', element)"></mat-row>
     </mat-table>
 
-    <mat-paginator [length]="tableServerData.length$ | async" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+    <mat-paginator [length]="tableServerData.length$ | async" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10"
+        showFirstLastButtons></mat-paginator>
 </div>
-

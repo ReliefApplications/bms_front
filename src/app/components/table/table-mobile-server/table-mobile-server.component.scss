@@ -1,5 +1,10 @@
 @import '../../../../assets/css/variable.scss';
 
+.spinner-container {
+    display: flex;
+    justify-content: center;
+}
+
 .buttons-search-clear {
     display:flex;
     width: 100%;

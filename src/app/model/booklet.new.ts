@@ -12,7 +12,7 @@ import { CURRENCIES } from './currencies';
 import { Voucher } from './voucher.new';
 import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
 import { DateModelField } from './CustomModel/date-model-field';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 export class BookletStatus extends CustomModel {
 

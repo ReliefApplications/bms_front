@@ -99,7 +99,7 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
             });
         }
 
-        if (category === 'locations') {
+        if (category === 'locations' && filterValue) {
             let existingValue = {};
             const existingLocation = this.filtersForAPI.find((element: Filter) => {
                 return element.category === 'locations';
@@ -130,14 +130,10 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         this.paginator.pageIndex = 0;
 
         // Wait until user has finished typing to send data
-        if (category === 'any') {
-            clearTimeout(this.keyupTimeout);
-            this.keyupTimeout = setTimeout(
-                this.loadDataPage.bind(this), 500
-            );
-        } else {
-            this.loadDataPage();
-        }
+        clearTimeout(this.keyupTimeout);
+        this.keyupTimeout = setTimeout(
+            this.loadDataPage.bind(this), 500
+        );
     }
 
     createForm() {
@@ -155,10 +151,6 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         } else {
             return field;
         }
-    }
-
-    showAdvancedResearch() {
-        this.advancedResearch = !this.advancedResearch;
     }
 
     listenToChanges() {
@@ -185,11 +177,14 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         });
     }
 
+    showAdvancedResearch() {
+        this.advancedResearch = !this.advancedResearch;
+    }
+
     clearSearch() {
         this.filterFields.forEach((fieldName: string) => {
             this.filtersForm.controls[fieldName].setValue(null);
         });
-        this.filtersForAPI = [];
     }
 
     isAllSelected() {

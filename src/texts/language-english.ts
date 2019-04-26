@@ -28,6 +28,7 @@ export class English implements Language {
     households = 'Household'
     import = 'Import'
     individual = 'Individual'
+    is_required = 'is required'
     location = 'Location'
     new = 'New'
     next = 'Next'
@@ -406,6 +407,11 @@ export class English implements Language {
     model_vendor = 'Vendor'
     model_vulnerabilities = 'Vulnerabilities'
 
+     // Null values
+     null_none = 'none'
+     null_not_yet = 'not yet'
+     null_not_distributed = 'not distributed'
+
     // Phone
     phone_type_landline = 'Landline'
     phone_type_mobile = 'Mobile'
@@ -452,6 +458,12 @@ export class English implements Language {
     report_select_frequency = 'Select frequency'
     report_to = 'to'
     report_upcoming_reporting = 'Upcoming reporting'
+
+    // Beneficiary residency status
+    residency_resident = 'Resident'
+    residency_refugee = 'Refugee'
+    residency_idp = 'IDP'
+
 
     // Settings
     settings_country_specific_options = 'country specific options'
@@ -500,6 +512,12 @@ export class English implements Language {
     transaction_prevention = 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.'
     transaction_progress = 'commodity distribution progress:'
     transaction_refresh = 'Check pickup status'
+    transaction_state_not_sent = 'Not sent'
+    transaction_state_no_phone = 'No phone'
+    transaction_state_sending_failed = 'Sending failed'
+    transaction_state_sent = 'Sent'
+    transaction_state_already_sent = 'Already sent'
+    transaction_state_picked_up = 'Picked up'
     transaction_transaction = 'Start transaction'
     transaction_validate_distribution = 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.'
     transaction_validation = 'Confirm the validation'

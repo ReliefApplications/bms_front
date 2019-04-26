@@ -1,5 +1,11 @@
+import { AppInjector } from 'src/app/app-injector';
+import { LanguageService } from 'src/texts/language.service';
 
 export class CustomModelField<T> {
+
+    protected languageService = AppInjector.get(LanguageService);
+    protected language = this.languageService.selectedLanguage;
+
     /**
      * Described field
      * @type {T}
@@ -126,7 +132,7 @@ export class CustomModelField<T> {
             isRequired:             false,
             isSettable:             false,
             isEditable:             false,
-            nullValue:              'none',
+            nullValue:              AppInjector.get(LanguageService).selectedLanguage.null_none,
             hint:                   null,
             pattern:                null,
             isTrigger:              false,

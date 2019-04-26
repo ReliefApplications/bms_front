@@ -29,6 +29,7 @@ export class Arabic implements Language {
     households = 'الأسرة'
     import = 'تحميل'
     individual = 'فرد '
+    is_required = 'مطلوب'
     location = 'الموقع'
     new = 'الجديد'
     next = 'التالى'
@@ -407,6 +408,11 @@ export class Arabic implements Language {
     model_vendor = 'بائع'
     model_state = 'الحالة'
 
+    // Null values
+    null_none = 'لا شيء'
+    null_not_yet = 'ليس بعد'
+    null_not_distributed = 'غير موزعة'
+
     // Phone
     phone_type_landline= 'ارضي'
     phone_type_mobile= 'محمول'
@@ -455,6 +461,11 @@ export class Arabic implements Language {
     report_to = 'إلى'
     report_upcoming_reporting = 'الرسوم البيانية القادمة'
 
+    // Beneficiary residency status
+    residency_resident = 'مقيم'
+    residency_refugee = 'لاجئ'
+    residency_idp = 'IDP'
+
     // Settings
     settings_country_specific_options = 'الخيارات حسب البلد'
     settings_created = 'تم انشاء '
@@ -502,6 +513,12 @@ export class Arabic implements Language {
     transaction_prevention = 'لا تزال هذه المنصة قيد التطوير وقد لا تكون وظيفة المعاملات النقدية عبر الإنترنت مستقرة تمامًا حتى الآن. ينكر فريق التطوير المسؤولية عن أي أخطاء قد تحدث من حيث فقدان المال. بوضع علامة في المربع أدناه ، فإنك توافق على استخدام النظام بمعرفة حدوده تمامًا وتحمل المسؤولية عن نتائج المعاملة.'
     transaction_progress = 'تقدم توزيع السلع:'
     transaction_refresh = 'تحقق من حالة التقاط'
+    transaction_state_not_sent = 'لم ترسل'
+    transaction_state_no_phone = 'لا يوجد هاتف'
+    transaction_state_sending_failed = 'لقد تعذر الارسال'
+    transaction_state_sent = 'أرسلت'
+    transaction_state_already_sent = 'أرسلت مسبقا'
+    transaction_state_picked_up = 'التقط'
     transaction_transaction = 'عملية تجارية'
     transaction_validate_distribution = 'هل تريد حقًا التحقق من صحة هذا التوزيع؟ لن تتمكن من تعديله بعد الآن.'
     transaction_validation = 'تأكيد التحقق من الصحة'

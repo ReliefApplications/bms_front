@@ -66,14 +66,14 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
         state: new SingleSelectModelField({
             title: this.language.model_state,
             options: [
-                new State('-2', 'Not sent'),
-                new State('-1', 'No phone'),
-                new State('0', 'Sending failed'),
-                new State('1', 'Sent'),
-                new State('2', 'Already sent'),
-                new State('3', 'Picked up')
+                new State('-2', this.language.transaction_state_not_sent),
+                new State('-1', this.language.transaction_state_no_phone),
+                new State('0', this.language.transaction_state_sending_failed),
+                new State('1', this.language.transaction_state_sent),
+                new State('2', this.language.transaction_state_already_sent),
+                new State('3', this.language.transaction_state_picked_up)
             ],
-            value: new State('-2', 'Not sent'),
+            value: new State('-2', this.language.transaction_state_not_sent),
             isDisplayedInTable: true,
             bindField: 'name',
             isDisplayedInModal: true,

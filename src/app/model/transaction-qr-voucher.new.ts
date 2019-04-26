@@ -53,7 +53,7 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             isDisplayedInModal: true,
             childrenObject: 'booklet',
             childrenFieldName: 'usedAt',
-            nullValue: 'Not yet'
+            nullValue: this.language.null_not_yet
         }),
         value: new NestedFieldModelField({
             title: this.language.model_value,

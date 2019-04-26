@@ -27,6 +27,7 @@ export interface Language {
     households: string
     import: string
     individual: string
+    is_required: string
     location: string
     new: string
     next: string
@@ -391,6 +392,11 @@ export interface Language {
     model_vendor: string
     model_vulnerabilities: string
 
+    // Null values
+    null_none: string
+    null_not_yet: string
+    null_not_distributed: string
+
     // Phone
     phone_type_landline: string
     phone_type_mobile: string
@@ -437,6 +443,12 @@ export interface Language {
     report_select_frequency: string
     report_to: string
     report_upcoming_reporting: string
+
+    // Beneficiary residency status
+    residency_resident: string
+    residency_refugee: string
+    residency_idp: string
+
 
     // Settings
     settings_country_specific_options: string
@@ -485,6 +497,13 @@ export interface Language {
     transaction_prevention: string
     transaction_progress: string
     transaction_refresh: string
+    transaction_state_not_sent: string
+    transaction_state_no_phone: string
+    transaction_state_sending_failed: string
+    transaction_state_sent: string
+    transaction_state_already_sent: string
+    transaction_state_picked_up: string
+
     transaction_transaction: string
     transaction_validate_distribution: string
     transaction_validation: string

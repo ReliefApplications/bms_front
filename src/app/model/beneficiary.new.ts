@@ -125,13 +125,13 @@ export class Beneficiary extends CustomModel {
                 isSettable: true,
                 isLongText: false,
                 options: [
-                    new ResidencyStatus('0', 'refugee'),
-                    new ResidencyStatus('1', 'IDP'),
-                    new ResidencyStatus('2', 'resident')
+                    new ResidencyStatus('refugee', this.language.residency_refugee),
+                    new ResidencyStatus('IDP', this.language.residency_idp),
+                    new ResidencyStatus('resident', this.language.residency_resident)
                 ],
                 bindField: 'name',
-                apiLabel: 'name',
-                value: new ResidencyStatus('2', 'resident')
+                apiLabel: 'id',
+                value: new ResidencyStatus('resident', this.language.residency_resident)
             }
         ),
         beneficiaryStatus: new SingleSelectModelField(
@@ -167,7 +167,7 @@ export class Beneficiary extends CustomModel {
                 isDisplayedInTable: false,
                 displayTableFunction: null,
                 displayModalFunction: null,
-                nullValue: 'none',
+                nullValue: this.language.null_none,
                 value: []
             }
         ),
@@ -208,7 +208,7 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.set('id', beneficiaryFromApi.id);
         newBeneficiary.set('givenName', beneficiaryFromApi.given_name);
         newBeneficiary.set('familyName', beneficiaryFromApi.family_name);
-        newBeneficiary.set('dateOfBirth', beneficiaryFromApi.date_of_birth ? new Date(beneficiaryFromApi.date_of_birth) : null);
+        newBeneficiary.set('dateOfBirth', beneficiaryFromApi.date_of_birth);
         const status = beneficiaryFromApi.status ? '1' : '0';
         newBeneficiary.set('beneficiaryStatus', newBeneficiary.getOptions('beneficiaryStatus')
                 .filter((option: BeneficiaryStatus) => option.get<string>('id') === status)[0]);
@@ -219,7 +219,7 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.set('residencyStatus',
             beneficiaryFromApi.residency_status ?
             newBeneficiary.getOptions('residencyStatus')
-                .filter((option: ResidencyStatus) => option.get('name') === beneficiaryFromApi.residency_status)[0] :
+                .filter((option: ResidencyStatus) => option.get('id') === beneficiaryFromApi.residency_status)[0] :
             newBeneficiary.get('residencyStatus'));
 
         newBeneficiary.set('gender',

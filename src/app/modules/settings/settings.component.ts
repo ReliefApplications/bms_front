@@ -148,8 +148,11 @@ export class SettingsComponent implements OnInit {
       case 'financialProvider':
         category = 'financialProvider';
         break;
-      case 'products':
-        category = 'product';
+      case 'product':
+        category = 'products';
+        break;
+      case 'vendors':
+        category = 'vendors';
         break;
       default:
         break;

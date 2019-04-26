@@ -486,7 +486,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 this.snackbar.success(this.language.update_beneficiary_updated_successfully);
                 this.leave();
             }, error => {
-                this.snackbar.error(this.language.update_beneficiary_error_updated + error);
                 this.validationLoading = false;
             });
         }

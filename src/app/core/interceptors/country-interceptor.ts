@@ -13,6 +13,7 @@ export class CountryInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
+
         if (req.url !== 'https://openexchangerates.org/api/currencies.json') {
             return this.asyncacheService.get(AsyncacheService.COUNTRY).pipe(
                 concatMap(
@@ -24,5 +25,6 @@ export class CountryInterceptor implements HttpInterceptor {
             );
         }
         return next.handle(req);
+
     }
 }

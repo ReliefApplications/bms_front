@@ -110,10 +110,10 @@ export class Location extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            adm1: this.get('adm1') ? this.get('adm1').get('name') : null,
-            adm2: this.get('adm2') ? this.get('adm2').get('name') : null,
-            adm3: this.get('adm3') ? this.get('adm3').get('name') : null,
-            adm4: this.get('adm4') ? this.get('adm4').get('name') : null,
+            adm1: this.get('adm1') ? this.get('adm1').get('id') : null,
+            adm2: this.get('adm2') ? this.get('adm2').get('id') : null,
+            adm3: this.get('adm3') ? this.get('adm3').get('id') : null,
+            adm4: this.get('adm4') ? this.get('adm4').get('id') : null,
         };
     }
 

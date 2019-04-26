@@ -76,7 +76,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             title: this.language.model_distributed,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
-            nullValue: 'Not distributed'
+            nullValue: this.language.null_not_distributed
         }),
         // Can only be filled by the distribution, in Distribution.apiToModel()
         values: new TextModelField({

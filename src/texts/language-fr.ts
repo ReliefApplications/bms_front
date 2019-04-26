@@ -28,6 +28,7 @@ export class French implements Language {
     households = 'Ménage'
     import = 'Import'
     individual = 'Individual'
+    is_required = 'est un champ obligatoire'
     location = 'Lieu'
     new = 'Nouveau'
     next = 'Suivant'
@@ -405,9 +406,14 @@ export class French implements Language {
     model_vendor = 'Vendeur'
     model_vulnerabilities = 'Vulnérabilités'
 
-      // Phone
-      phone_type_landline = 'Fixe'
-      phone_type_mobile = 'Portable'
+    // Null values
+    null_none = 'aucun'
+    null_not_yet = 'pas encore'
+    null_not_distributed = 'pas distribué'
+  
+    // Phone
+    phone_type_landline = 'Fixe'
+    phone_type_mobile = 'Portable'
 
     // Placeholder
     placeholder_one_many = 'Select one or many'
@@ -452,6 +458,11 @@ export class French implements Language {
     report_select_frequency = 'Choisir fréquence'
     report_to = 'à'
     report_upcoming_reporting = 'Graphiques à venir'
+
+    // Beneficiary residency status
+    residency_resident = 'Resident'
+    residency_refugee = 'Refugee'
+    residency_idp = 'IDP'
 
     // Settings
     settings_country_specific_options = 'options par pays'
@@ -500,6 +511,12 @@ export class French implements Language {
     transaction_prevention = 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.'
     transaction_progress = 'progrès de la distribution des produits:'
     transaction_refresh = 'Vérifier les retraits'
+    transaction_state_not_sent = 'Non envoyé'
+    transaction_state_no_phone = 'Pas de téléphone'
+    transaction_state_sending_failed = 'Envoie échoué'
+    transaction_state_sent = 'Envoyé'
+    transaction_state_already_sent = 'Déjà envoyé'
+    transaction_state_picked_up = 'Récupéré'
     transaction_transaction = 'Démarrer la transaction'
     transaction_validate_distribution = 'Voulez vous vraiment valider la distribution ? Vous ne serez plus capable de la modifier'
     transaction_validation = 'Confirmer la validation'

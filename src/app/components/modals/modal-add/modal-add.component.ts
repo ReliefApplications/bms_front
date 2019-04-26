@@ -4,6 +4,8 @@ import { APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 import { CustomDateAdapter } from '../../../core/utils/date.adapter';
 import { CustomModelField } from '../../../model/CustomModel/custom-model-field';
 import { ModalFieldsComponent } from '../modal-fields/modal-fields.component';
+
+
 @Component({
     selector: 'app-modal-add',
     templateUrl: '../modal-fields/modal-fields.component.html',

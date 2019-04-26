@@ -137,7 +137,7 @@ export class Booklet extends CustomModel {
         }),
         usedAt: new DateModelField({
             title: this.language.model_used,
-            nullValue: 'Not yet'
+            nullValue: this.language.null_not_yet
         }),
     };
 

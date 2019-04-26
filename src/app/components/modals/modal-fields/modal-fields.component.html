@@ -66,7 +66,7 @@
                             </ng-template>
 
                             <ng-template #isMaterialField>
-                                <mat-form-field *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
+                                <mat-form-field [ngClass]="{date: field.kindOfField === 'Date'}" *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
                                     <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
                                         <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title"
                                             matInput type="password" [formControlName]="fieldName" autocomplete="new-password">

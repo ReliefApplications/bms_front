@@ -14,8 +14,9 @@
 }
 
 
-/deep/ .mat-form-field-flex div.mat-form-field-infix  {
+/deep/ .date .mat-form-field-flex div.mat-form-field-infix  {
   display: flex;
+  padding: 0;
 
   mat-datepicker-toggle svg {
     height: 20px;

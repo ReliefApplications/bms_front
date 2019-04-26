@@ -42,7 +42,7 @@ export class HouseholdFilters extends CustomModel {
             childrenFieldName: 'adm1',
             apiLabel: 'id',
             isTrigger: true,
-            triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
+            triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup, objectFields: string[]) => {
                 const appInjector = AppInjector;
                 householdFilters.set('adm2', null);
                 householdFilters.set('adm3', null);
@@ -59,7 +59,7 @@ export class HouseholdFilters extends CustomModel {
             childrenFieldName: 'adm2',
             apiLabel: 'id',
             isTrigger: true,
-            triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
+            triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup, objectFields: string[]) => {
                 const appInjector = AppInjector;
                 householdFilters.set('adm3', null);
                 householdFilters.set('adm4', null);
@@ -75,7 +75,7 @@ export class HouseholdFilters extends CustomModel {
             childrenFieldName: 'adm3',
             apiLabel: 'id',
             isTrigger: true,
-            triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
+            triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup, objectFields: string[]) => {
                 const appInjector = AppInjector;
                 householdFilters.set('adm4', null);
                 appInjector.get(LocationService).fillAdm4Options(householdFilters, parseInt(value, 10)).subscribe();

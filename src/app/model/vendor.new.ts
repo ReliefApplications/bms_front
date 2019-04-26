@@ -98,7 +98,7 @@ export class Vendor extends CustomModel {
             childrenObject: 'location',
             childrenFieldName: 'adm1',
             isTrigger: true,
-            triggerFunction: (vendor: Vendor, value: string, form: FormGroup) => {
+            triggerFunction: (vendor: Vendor, value: string, form: FormGroup, objectFields: string[]) => {
                 const appInjector = AppInjector;
                 // vendor.set('adm2', null);
                 // vendor.set('adm3', null);
@@ -120,7 +120,7 @@ export class Vendor extends CustomModel {
             childrenObject: 'location',
             childrenFieldName: 'adm2',
             isTrigger: true,
-            triggerFunction: (vendor: Vendor, value: string, form: FormGroup) => {
+            triggerFunction: (vendor: Vendor, value: string, form: FormGroup, objectFields: string[]) => {
                 const appInjector = AppInjector;
                 // vendor.set('adm3', null);
                 // vendor.set('adm4', null);
@@ -140,7 +140,7 @@ export class Vendor extends CustomModel {
             childrenObject: 'location',
             childrenFieldName: 'adm3',
             isTrigger: true,
-            triggerFunction: (vendor: Vendor, value: string, form: FormGroup) => {
+            triggerFunction: (vendor: Vendor, value: string, form: FormGroup, objectFields: string[]) => {
                 const appInjector = AppInjector;
                 // vendor.set('adm4', null);
                 form.controls.adm4.setValue(null);

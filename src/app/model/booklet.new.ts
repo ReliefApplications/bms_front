@@ -12,6 +12,7 @@ import { CURRENCIES } from './currencies';
 import { Voucher } from './voucher.new';
 import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
 import { DateModelField } from './CustomModel/date-model-field';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 
 export class BookletStatus extends CustomModel {
 
@@ -71,20 +72,13 @@ export class Booklet extends CustomModel {
             isEditable: true,
             isSettable: true,
         }),
-        // individualToAll: new BooleanModelField({
-        //     title: GlobalText.TEXTS.model_individual_to_all,
-        //     value: false,
-        //     isDisplayedInModal: true,
-        //     isEditable: true,
-        //     handleCheckbox: null,
-        //     isSettable: true,
-        // }),
         individualValues: new TextModelField({
             title: GlobalText.TEXTS.model_individual_value,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isEditable: true,
             isSettable: true,
+            isRequired: true,
             hint: GlobalText.TEXTS.modal_values_format_error,
             pattern: /^([\d]+,?\s?,?\s?)+$/,
         }),
@@ -96,13 +90,7 @@ export class Booklet extends CustomModel {
             options: CURRENCIES.map(currency => new Currency(currency.id, currency.name)),
             isEditable: true,
             isSettable: true,
-        }),
-        password: new TextModelField({
-            title: GlobalText.TEXTS.model_password,
-            isDisplayedInModal: true,
-            isEditable: true,
-            isSettable: true,
-            isPassword: true,
+            isRequired: true,
         }),
         status: new SingleSelectModelField({
             title: GlobalText.TEXTS.model_state,
@@ -116,6 +104,26 @@ export class Booklet extends CustomModel {
             isDisplayedInModal: true,
             bindField: 'name',
             value: new BookletStatus('0', 'Unassigned'),
+        }),
+        definePassword: new BooleanModelField({
+            title: 'Define a password',
+            isTrigger: true,
+            isDisplayedInModal: true,
+            isSettable: true,
+            isEditable: true,
+            value: true,
+            triggerFunction: (booklet: Booklet, value: boolean, form: FormGroup, objectFields: string[]) => {
+                booklet.fields.password.isDisplayedInModal = value;
+                return booklet;
+            },
+        }),
+        password: new TextModelField({
+            title: GlobalText.TEXTS.model_password,
+            isDisplayedInModal: true,
+            isEditable: true,
+            isSettable: true,
+            isPassword: true,
+            pattern: /^(\d{4})/,
         }),
         beneficiary: new ObjectModelField<Beneficiary>({
             title: GlobalText.TEXTS.beneficiary,
@@ -192,10 +200,13 @@ export class Booklet extends CustomModel {
         newBooklet.fields.beneficiary.displayModalFunction = (value: Beneficiary) => value ? value.get('fullName') : null;
         newBooklet.fields.distribution.displayTableFunction = (value: Distribution) => value ? value.get('name') : null;
         newBooklet.fields.distribution.displayModalFunction = (value: Distribution) => value ? value.get('name') : null;
-        // newBooklet.fields.individualToAll.handleCheckbox = (booklet: Booklet) => {
-        //     const individualToAll = booklet.get('individualToAll');
-        //     booklet.set('individualToAll', !individualToAll);
-        // };
+
+        if (bookletFromApi.password) {
+            newBooklet.fields.definePassword.title = 'Update Password';
+            newBooklet.set('definePassword', false);
+            newBooklet.fields.password.isDisplayedInModal = false;
+        }
+
         return newBooklet;
     }
 

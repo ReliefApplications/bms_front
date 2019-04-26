@@ -40,7 +40,7 @@
 
                             <ng-template #isBoolean>
                                 <ng-container *ngIf="field.kindOfField === 'Boolean' ; else isMultipleSelect">
-                                    <mat-checkbox [formControlName]="fieldName" (change)="field.handleCheckbox(objectInstance)" type="checkbox" color="primary" [checked]="default">
+                                    <mat-checkbox [formControlName]="fieldName" type="checkbox" color="primary" [checked]="default">
                                     </mat-checkbox>
                                 </ng-container>
                             </ng-template>

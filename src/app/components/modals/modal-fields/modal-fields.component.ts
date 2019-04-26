@@ -179,7 +179,8 @@ export class ModalFieldsComponent implements OnInit {
         const triggeringFieldsNames = this.objectFields.filter((fieldName) => this.objectInstance.fields[fieldName].isTrigger === true);
         triggeringFieldsNames.forEach((fieldName) => {
             this.form.get(fieldName).valueChanges.subscribe(value => {
-                this.objectInstance = this.objectInstance.fields[fieldName].triggerFunction(this.objectInstance, value, this.form);
+                this.objectInstance = this.objectInstance.fields[fieldName]
+                    .triggerFunction(this.objectInstance, value, this.form, this.objectFields);
             });
         });
     }

@@ -8,7 +8,7 @@
 
     <div class="container-header" *ngIf="tableServerData">
         <mat-form-field>
-            <input matInput (keyup)="applySpecificFilter($event.target.value, 'familyName')" placeholder="{{language.table_filter}}">
+            <input matInput (keyup)="applySpecificFilter($event.target.value, 'any')" placeholder="{{language.table_filter}}">
         </mat-form-field>
     </div>
 

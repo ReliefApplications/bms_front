@@ -21,7 +21,6 @@ export class LanguageResolver implements Resolve<Language | Observable<Language>
 
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Language | Observable<Language> {
-
         // Language is already selected and previous page is not login
         if (this.router.url !== '/login' && this.languageService.enabledLanguages.includes(this.languageService.selectedLanguage)) {
             return this.languageService.selectedLanguage;
@@ -32,12 +31,12 @@ export class LanguageResolver implements Resolve<Language | Observable<Language>
         if (isObservable(defaultLanguage)) {
             return defaultLanguage.pipe(
                 tap((language: Language) => {
-                    this.languageService.selectedLanguage = language;
+                    this.languageService.setLanguage(language);
                 })
-            );
-        }
+                );
+            }
 
-        this.languageService.selectedLanguage = defaultLanguage;
+        this.languageService.setLanguage(defaultLanguage);
         return defaultLanguage;
     }
 

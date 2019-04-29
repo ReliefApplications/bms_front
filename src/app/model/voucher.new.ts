@@ -42,7 +42,7 @@ export class Voucher extends CustomModel {
         newVoucher.set('id', voucherFromApi.id);
         // newVoucher.set('booklet', voucherFromApi.booklet ? Booklet.apiToModel(voucherFromApi.booklet) : null);
         newVoucher.set('vendor', voucherFromApi.vendor ? Vendor.apiToModel(voucherFromApi.vendor) : null);
-        newVoucher.set('usedAt', voucherFromApi.used_at);
+        newVoucher.set('usedAt', DateModelField.formatFromApi(voucherFromApi.used_at));
         newVoucher.set('code', voucherFromApi.code);
         newVoucher.set('value', voucherFromApi.value);
 

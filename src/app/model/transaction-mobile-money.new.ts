@@ -148,7 +148,7 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
     updateForPickup(pickupState) {
         if (pickupState.moneyReceived) {
             this.updateState('3');
-            this.set('pickupDate', pickupState.date);
+            this.set('pickupDate', DateModelField.formatFromApi(pickupState.date));
         }
     }
 

@@ -66,7 +66,7 @@
                             </ng-template>
 
                             <ng-template #isMaterialField>
-                                <mat-form-field [ngClass]="{date: field.kindOfField === 'Date'}" *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
+                                <mat-form-field [ngClass]="{date: field.kindOfField === 'Date' && !isDisabled(field)}" *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
                                     <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
                                         <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title"
                                             matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
@@ -85,9 +85,16 @@
 
                                     <ng-template #checkForDateField>
                                         <ng-container *ngIf="field.kindOfField === 'Date'; else checkForNumberField">
-                                            <input matInput [matDatepicker]="picker" [formControlName]="fieldName" [placeholder]="field.title">
-                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                            <mat-datepicker #picker></mat-datepicker>
+                                            <!-- If we don't do this, the date won't be formatted in the date picker when disabled -->
+                                            <ng-container *ngIf="isDisabled(field)">
+                                                <input matInput *ngIf="field.value && !field.displayTime" disabled value="{{ field.value | date: 'dd-MM-yyyy' }}" [placeholder]="field.title">
+                                                <input matInput *ngIf="field.value && field.displayTime" disabled value="{{ field.value | date: 'dd-MM-yyyy HH:mm' }}" [placeholder]="field.title">
+                                            </ng-container>
+                                            <ng-container *ngIf="!isDisabled(field)">
+                                                <input matInput [matDatepicker]="picker" [formControlName]="fieldName" [placeholder]="field.title">
+                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </ng-container>
                                         </ng-container>
                                     </ng-template>
 

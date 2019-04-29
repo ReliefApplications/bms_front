@@ -152,7 +152,7 @@ export class Distribution extends CustomModel {
 
         // Assign default fields
         newDistribution.set('id', distributionFromApi.id);
-        newDistribution.set('date', distributionFromApi.date_distribution);
+        newDistribution.set('date', DateModelField.formatFromApi(distributionFromApi.date_distribution));
 
         newDistribution.set('type', distributionFromApi.type >= 0  ?
             newDistribution.getOptions('type').filter(

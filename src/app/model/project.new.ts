@@ -152,8 +152,8 @@ export class Project extends CustomModel {
         // Assign default fields
         newProject.set('id', projectFromApi.id);
         newProject.set('name', projectFromApi.name);
-        newProject.set('startDate', projectFromApi.start_date);
-        newProject.set('endDate', projectFromApi.end_date);
+        newProject.set('startDate', DateModelField.formatFromApi(projectFromApi.start_date));
+        newProject.set('endDate', DateModelField.formatFromApi(projectFromApi.end_date));
         newProject.set('numberOfHouseholds', projectFromApi.number_of_households);
         newProject.set('iso3', projectFromApi.iso3);
         newProject.set('value', projectFromApi.value);

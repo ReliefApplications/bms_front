@@ -1,18 +1,23 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { CriteriaService } from 'src/app/core/api/criteria.service';
 import { FieldService } from 'src/app/core/api/field.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/model/criteria.new';
 import { LanguageService } from './../../../../texts/language.service';
+import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 
 
 @Component({
     selector: 'app-modal-add-criteria',
     templateUrl: './modal-add-criteria.component.html',
-    styleUrls: [ '../modal-fields/modal-fields.component.scss', './modal-add-criteria.component.scss' ]
+    styleUrls: [ '../modal-fields/modal-fields.component.scss', './modal-add-criteria.component.scss' ],
+    providers: [
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+    ],
 })
 export class ModalAddCriteriaComponent implements OnInit {
     public criteria: Criteria;

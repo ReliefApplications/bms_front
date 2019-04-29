@@ -22,6 +22,7 @@ export interface Language {
     done: string
     email: string
     export: string
+    export_codes: string
     gender: string
     home: string
     households: string
@@ -334,6 +335,7 @@ export interface Language {
     model_beneficiaries_phones: string
     model_beneficiaries_status: string
     model_booklet: string
+    model_booklet_password_pattern: string
     model_code: string
     model_commodity: string
     model_commodity_kgs: string
@@ -350,6 +352,8 @@ export interface Language {
     model_currency: string
     model_dateofbirth: string
     model_deactivated: string
+    model_define_password: string
+    model_update_password: string
     model_distributed: string
     model_distribution_beneficiary: string
     model_distribution_date: string

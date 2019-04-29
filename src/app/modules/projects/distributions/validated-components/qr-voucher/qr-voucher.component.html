@@ -2,19 +2,19 @@
     <div class="container-content box-primary">
         <div *ngIf="transactionData !== undefined" class="progression">
             <div class="commodities" *ngFor="let commodity of actualDistribution.get('commodities')">
-                <h4>{{ commodity.get('modalityType').get('name') }} {{ TEXT.transaction_progress }} {{ getPercentageValue(commodity) }} % </h4>
+                <h4>{{ commodity.get('modalityType').get('name') }} {{ language.transaction_progress }} {{ getPercentageValue(commodity) }} % </h4>
                 <mat-progress-bar mode="determinate" [value]="getPercentageValue(commodity)"></mat-progress-bar>
                 <div class="details">
                     <div class="info_1">
-                        <h5>{{TEXT.transaction_amount_total | titlecase}}</h5>
+                        <h5>{{language.transaction_amount_total | titlecase}}</h5>
                         {{ getTotalCommodityValue(commodity) }} {{commodity.get('unit')}}
                     </div>
                     <div class="info_2">
-                        <h5>{{TEXT.transaction_amount_distributed | titlecase}}</h5>
+                        <h5>{{language.transaction_amount_distributed | titlecase}}</h5>
                         {{ getAmountSent(commodity) }} {{commodity.get('unit')}}
                     </div>
                     <div class="info_3">
-                        <h5>{{TEXT.transaction_amount_used | titlecase}}</h5>
+                        <h5>{{language.transaction_amount_used | titlecase}}</h5>
                         {{ getReceivedValue(commodity) }} {{commodity.get('unit')}}
                     </div>
 
@@ -25,13 +25,13 @@
         <div class="content-button">
             <div class="action-buttons">
                 <button mat-raised-button *ngIf="!loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
-                        <span>{{TEXT.voucher_assign | titlecase }}</span>
+                        <span>{{language.voucher_assign | titlecase }}</span>
                 </button>
                 <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
                 <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
                     <button mat-raised-button class="button-background-primary" (click)="exportTransaction(extensionType, 'voucherDistribution')" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
-                        <span>{{TEXT.export | titlecase}}</span>
+                        <span>{{language.export | titlecase}}</span>
                     </button>
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension" *ngIf="!loadingExport">
@@ -56,10 +56,10 @@
         </div>
 
         <div class="content-table" *ngIf="!loadingTransaction">
-            <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen >= maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true"
+            <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen >= maxWidth" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true"
                 [assignable]="true" (openModal)="openModal($event)" (printOne)="print($event)" (assignOne)="assign($event)">
             </app-table>
-            <app-table-mobile *ngIf="widthScreen < maxWidthMobile" (openModal)="openModal($event)" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true" [assignable]="true" (printOne)="print($event)" (assignOne)="assign($event)">
+            <app-table-mobile *ngIf="widthScreen < maxWidth" (openModal)="openModal($event)" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true" [assignable]="true" (printOne)="print($event)" (assignOne)="assign($event)">
             </app-table-mobile>
         </div>
 
@@ -69,10 +69,10 @@
                 <button mat-stroked-button [disabled]="distributionIsStored" *ngIf="!loaderCache" class="button-text-accent" (click)="storeBeneficiaries()">
                     <mat-icon>save</mat-icon>
                     <ng-container *ngIf="distributionIsStored; else distributionIsntStored">
-                        {{TEXT.cache_stored_beneficiaries}}
+                        {{language.cache_stored_beneficiaries}}
                     </ng-container>
                     <ng-template #distributionIsntStored>
-                        {{TEXT.cache_store_beneficiaries}}
+                        {{language.cache_store_beneficiaries}}
                     </ng-template>
                 </button>
 

@@ -208,7 +208,7 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.set('id', beneficiaryFromApi.id);
         newBeneficiary.set('givenName', beneficiaryFromApi.given_name);
         newBeneficiary.set('familyName', beneficiaryFromApi.family_name);
-        newBeneficiary.set('dateOfBirth', beneficiaryFromApi.date_of_birth);
+        newBeneficiary.set('dateOfBirth', DateModelField.formatFromApi(beneficiaryFromApi.date_of_birth));
         const status = beneficiaryFromApi.status ? '1' : '0';
         newBeneficiary.set('beneficiaryStatus', newBeneficiary.getOptions('beneficiaryStatus')
                 .filter((option: BeneficiaryStatus) => option.get<string>('id') === status)[0]);

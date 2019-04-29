@@ -33,12 +33,14 @@ export class VouchersComponent implements OnInit {
     public loadingAssign = false;
     public loadingBooklet = true;
     public loadingExport = false;
+    public loadingExportCodes = false;
     public load = false;
 
     public bookletClass = Booklet;
     public booklets: Booklet[];
     public bookletData: MatTableDataSource<Booklet>;
     public extensionType: string;
+    public extensionTypeCode: string;
     public projectClass = Project;
 
     public projects = [];
@@ -85,6 +87,10 @@ export class VouchersComponent implements OnInit {
 
     setType(choice: string) {
         this.extensionType = choice;
+    }
+
+    setTypeCode(choice: string) {
+        this.extensionTypeCode = choice;
     }
 
     getBooklets() {
@@ -170,4 +176,13 @@ export class VouchersComponent implements OnInit {
             () => { this.loadingExport = false; }
         );
       }
+
+    exportCodes() {
+        this.loadingExportCodes = true;
+        this._exportService.export('bookletCodes', true, this.extensionTypeCode).then(
+            () => { this.loadingExportCodes = false; }
+        ).catch(
+            () => { this.loadingExportCodes = false; }
+        );
+    }
 }

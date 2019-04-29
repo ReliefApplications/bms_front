@@ -62,7 +62,8 @@
 
 <ng-template #isNotSelect>
     <ng-container *ngIf="field.kindOfField === 'Date'; else isNotDate">
-        <ng-container *ngIf="field.value">{{ field.value }}</ng-container>
+        <ng-container *ngIf="field.value && !field.displayTime">{{ field.value | date: 'dd-MM-yyyy' }}</ng-container>
+        <ng-container *ngIf="field.value && field.displayTime">{{ field.value | date: 'dd-MM-yyyy HH:mm' }}</ng-container>
     </ng-container>
 </ng-template>
 <ng-template #isNotDate>

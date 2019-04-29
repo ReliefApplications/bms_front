@@ -76,7 +76,8 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             title: this.language.model_distributed,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
-            nullValue: this.language.null_not_distributed
+            nullValue: this.language.null_not_distributed,
+            displayTime: true,
         }),
         // Can only be filled by the distribution, in Distribution.apiToModel()
         values: new TextModelField({
@@ -98,7 +99,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
         const newGeneralRelief = new TransactionGeneralRelief();
         newGeneralRelief.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
         newGeneralRelief.set('distributedAt', distributionBeneficiaryFromApi.general_reliefs[0] ?
-            distributionBeneficiaryFromApi.general_reliefs[0].distributed_at :
+            DateModelField.formatDateTimeFromApi(distributionBeneficiaryFromApi.general_reliefs[0].distributed_at) :
             null);
         newGeneralRelief.set('notes', distributionBeneficiaryFromApi.general_reliefs.map((generalRelief: any) => generalRelief.notes));
         newGeneralRelief.set('generalReliefs',

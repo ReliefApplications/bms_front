@@ -184,7 +184,19 @@ export class ModalFieldsComponent implements OnInit {
                 this.objectInstance = this.objectInstance.fields[fieldName].triggerFunction(this.objectInstance, value, this.form);
             });
         });
-    }
+        const multipleSelects = this.objectFields.filter((fieldName) => {
+            return this.objectInstance.fields[fieldName].kindOfField === 'MultipleSelect';
+        });
+        multipleSelects.forEach((fieldName) => {
+            this.form.get(fieldName).valueChanges.subscribe(value => {
+                if (this.objectInstance.fields[fieldName].maxSelectionLength &&
+                    value.length > this.objectInstance.fields[fieldName].maxSelectionLength) {
+                    value.shift();
+                    this.form.controls[fieldName].setValue(value);
+                }
+            });
+        });
+        }
 
     makeSelectFormControl(fieldName: string) {
 

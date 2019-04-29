@@ -177,6 +177,17 @@ export class French implements Language {
     cache_stored_beneficiaries = 'Sauvegardée Pour Le Mode Offline'
     cache_no_distribution = 'Cette distribution n\'est pas enregistrée dans le cache, vous ne pouvez pas y accéder hors-ligne'
 
+    // Commodities tooltips
+    commodity_cash = 'Cash'
+    commodity_qr_voucher = 'Coupon QR Code'
+    commodity_paper_voucher = 'Coupon papier'
+    commodity_bread = 'Pain'
+    commodity_loan = 'Prêt'
+    commodity_food = 'Nourriture'
+    commodity_wash = 'Kit d\'hygiène'
+    commodity_agriculture = 'Kit d\'agriculture'
+    commodity_rte = 'Kit RTE'
+
     // Dashboard
     dashboard_distribution_map = 'répartition des distributions'
     dashboard_recent_distributions = 'distributions récentes'
@@ -468,6 +479,19 @@ export class French implements Language {
     residency_refugee = 'Refugee'
     residency_idp = 'IDP'
 
+    // Sectors tooltips
+    sector_cccm = 'Management et organisation de camp'
+    sector_recovery = 'Relèvement précoce'
+    sector_education = 'Education'
+    sector_telecom = 'Urgence télécommunications'
+    sector_food = 'Sécurité alimentaire'
+    sector_health = 'Santé'
+    sector_logistics = 'Logistique'
+    sector_nutrition = 'Nutrition'
+    sector_protection = 'Protection'
+    sector_shelter = 'Hébergement'
+    sector_water = 'Assainissement de l\'eau'
+
     // Settings
     settings_country_specific_options = 'options par pays'
     settings_created = ' créé(e)'
@@ -570,4 +594,11 @@ export class French implements Language {
     voucher_print_selection = 'Imprimer la sélection'
     voucher_print_error = 'Vous ne pouvez pas imprimer un booklet sans bénéficiaire'
     voucher_print_starting = 'Le téléchargement du coupon va démarrer'
-};
+
+    // Vulnerability
+    vulnerability_pregnant = 'grossesse'
+    vulnerability_disabled = 'handicap'
+    vulnerability_lactating = 'allaitement'
+    vulnerability_solo_parent = 'parent célibataire'
+    vulnerability_nutrional = 'malnutrition'
+  };

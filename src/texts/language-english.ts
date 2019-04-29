@@ -177,6 +177,18 @@ export class English implements Language {
     cache_stored_beneficiaries = 'Saved For Offline Mode'
     cache_no_distribution = 'This distribution isn\'t stored in the cache, you can\'t access it offline'
 
+    // Commodities tooltips
+    commodity_cash = 'Mobile Money'
+    commodity_qr_voucher = 'QR Code Voucher'
+    commodity_paper_voucher = 'Paper Voucher'
+    commodity_bread = 'Bread'
+    commodity_loan = 'Loan'
+    commodity_food = 'Food'
+    commodity_wash = 'WASH Kit'
+    commodity_agriculture = 'Agricultural Kit'
+    commodity_rte = 'RTE Kit'
+
+
     // Dashboard
     dashboard_distribution_map = 'distribution map'
     dashboard_recent_distributions = 'upcoming distributions'
@@ -468,6 +480,18 @@ export class English implements Language {
     residency_refugee = 'Refugee'
     residency_idp = 'IDP'
 
+    // Sectors tooltips
+    sector_cccm = 'Camp coordination and management'
+    sector_recovery = 'Early recovery'
+    sector_education = 'Education'
+    sector_telecom = 'Emergency telecommunications'
+    sector_food = 'Food security'
+    sector_health = 'Health'
+    sector_logistics = 'Logistics'
+    sector_nutrition = 'Nutrition'
+    sector_protection = 'Protection'
+    sector_shelter = 'Shelter'
+    sector_water = 'Water sanitation'
 
     // Settings
     settings_country_specific_options = 'country specific options'
@@ -571,4 +595,11 @@ export class English implements Language {
     voucher_print_selection = 'Print selection'
     voucher_print_error = 'You can\'t print a booklet if it has no beneficiary'
     voucher_print_starting = 'Your voucher download is starting'
-};
+
+    // Vulnerability
+    vulnerability_pregnant = 'pregnant'
+    vulnerability_disabled = 'disabled'
+    vulnerability_lactating = 'lactating'
+    vulnerability_solo_parent = 'solo parent'
+    vulnerability_nutrional = 'nutritional issues'
+  };

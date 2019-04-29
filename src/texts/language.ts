@@ -163,6 +163,17 @@ export interface Language {
     cache_stored_beneficiaries: string
     cache_no_distribution: string
 
+    commodity_cash: string
+    commodity_qr_voucher: string
+    commodity_paper_voucher: string
+    commodity_bread: string
+    commodity_loan: string
+    commodity_food: string
+    commodity_wash: string
+    commodity_agriculture: string
+    commodity_rte: string
+
+
     // Dashboard
     dashboard_distribution_map: string
     dashboard_recent_distributions: string
@@ -453,6 +464,18 @@ export interface Language {
     residency_refugee: string
     residency_idp: string
 
+    // Sectors tooltips
+    sector_cccm: string
+    sector_recovery: string
+    sector_education: string
+    sector_telecom: string
+    sector_food: string
+    sector_health: string
+    sector_logistics: string
+    sector_nutrition: string
+    sector_protection: string
+    sector_shelter: string
+    sector_water: string
 
     // Settings
     settings_country_specific_options: string
@@ -557,4 +580,12 @@ export interface Language {
     voucher_print_selection: string
     voucher_print_error: string
     voucher_print_starting: string
+
+    // Vulnerability
+    vulnerability_pregnant: string
+    vulnerability_disabled: string
+    vulnerability_lactating: string
+    vulnerability_solo_parent: string
+    vulnerability_nutrional: string
+
 }

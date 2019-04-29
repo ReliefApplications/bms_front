@@ -178,6 +178,17 @@ export class Arabic implements Language {
     cache_stored_beneficiaries = 'تم الحفظ في وضع عدم الاتصال'
     cache_no_distribution = 'لم يتم تخزين هذا التوزيع في ذاكرة التخزين المؤقت ، ولا يمكنك الحصول عليه خارج خدمة الانترنت. '
 
+    // Commodities tooltips
+    commodity_cash = 'المال المحمول'
+    commodity_qr_voucher = 'قسيمة كود qr'
+    commodity_paper_voucher = 'قسيمة ورقة'
+    commodity_bread = 'خبز'
+    commodity_loan = 'قرض'
+    commodity_food = 'طعام'
+    commodity_wash = 'غسل عدة'
+    commodity_agriculture = 'مجموعة الزراعية'
+    commodity_rte = 'RTE عدة'
+    
     // Dashboard
     dashboard_distribution_map = 'خريطة التوزيع'
     dashboard_recent_distributions = 'التوزيعات الحديثة'
@@ -470,6 +481,19 @@ export class Arabic implements Language {
     residency_refugee = 'لاجئ'
     residency_idp = 'IDP'
 
+    // Sectors tooltips
+    sector_cccm = 'معسكر التنسيق والإدارة'
+    sector_recovery = 'الانتعاش المبكر'
+    sector_education = 'التعليم'
+    sector_telecom = 'الاتصالات في حالات الطوارئ'
+    sector_food = 'أمن غذائي'
+    sector_health = 'الصحة'
+    sector_logistics = 'الخدمات اللوجستية'
+    sector_nutrition = 'تغذية'
+    sector_protection = 'حماية'
+    sector_shelter = 'مأوى'
+    sector_water = 'مياه الصرف الصحي'
+
     // Settings
     settings_country_specific_options = 'الخيارات حسب البلد'
     settings_created = 'تم انشاء '
@@ -572,4 +596,11 @@ export class Arabic implements Language {
     voucher_print_selection = 'اختيار الطباعة'
     voucher_print_error = 'لا يمكنك طباعة كتيب إذا لم يكن لديه مستفيد'
     voucher_print_starting = 'بدأ تنزيل القسيمة'
+
+    // Vulnerability
+    vulnerability_pregnant = 'حامل'
+    vulnerability_disabled = 'معاق'
+    vulnerability_lactating = 'المرضعات'
+    vulnerability_solo_parent = 'الوالد منفردا'
+    vulnerability_nutrional = 'القضايا الغذائية'
 };

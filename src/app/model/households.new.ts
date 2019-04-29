@@ -166,7 +166,7 @@ export class Households extends CustomModel {
                 newHousehold.add('vulnerabilities', VulnerabilityCriteria.apiToModel(vulnerability));
             });
         });
-        newHousehold.fields.vulnerabilities.displayTableFunction = value => this.displayTableVulnerabilities(value);
+        newHousehold.fields.vulnerabilities.displayTableFunction = value => value;
         newHousehold.fields.vulnerabilities.displayModalFunction = value => this.displayModalVulnerabilities(value);
         newHousehold.set('projects', householdFromApi.projects.map(project => Project.apiToModel(project)));
         newHousehold.set('location', Location.apiToModel(householdFromApi.location));
@@ -181,17 +181,6 @@ export class Households extends CustomModel {
         : null);
 
         return newHousehold;
-    }
-
-    public static displayTableVulnerabilities(value) {
-        const images = [];
-        value.forEach((vulnerability: VulnerabilityCriteria) => {
-            const image = vulnerability.getImage();
-            if (!images.includes(image)) {
-                images.push(image);
-            }
-        });
-        return images;
     }
 
     public static displayModalVulnerabilities(value) {

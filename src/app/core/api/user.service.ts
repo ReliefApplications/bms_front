@@ -125,7 +125,7 @@ export class UserService extends CustomModelService {
     }
 
     public hasRights(action: string) {
-        // Logged out users have no righ;ts
+        // Logged out users have no rights
         if (!this.currentUser || !this.currentUser.get('id')) {
             return false;
         }

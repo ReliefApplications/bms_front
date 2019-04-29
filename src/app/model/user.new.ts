@@ -1,5 +1,6 @@
 import { FormGroup } from '@angular/forms';
 import { Language } from 'src/texts/language';
+import { Country } from './country';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { CustomModel } from './CustomModel/custom-model';
 import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
@@ -10,19 +11,6 @@ import { Project } from './project.new';
 
 export class ErrorInterface {
     message: string;
-}
-
-export class Country extends CustomModel {
-
-    public fields = {
-        name: new TextModelField({}),
-        id: new TextModelField({}),
-    };
-
-    constructor(id: string, name: string) {
-        super();
-        this.set('id', id).set('name', name);
-    }
 }
 
 export class Role extends CustomModel {

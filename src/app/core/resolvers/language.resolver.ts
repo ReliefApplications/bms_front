@@ -9,7 +9,9 @@ import { LanguageService } from '../../../texts/language.service';
 import { AppInjector } from '../../app-injector';
 import { AsyncacheService } from '../storage/asyncache.service';
 
-@Injectable()
+@Injectable(({
+    providedIn: 'root'
+}))
 export class LanguageResolver implements Resolve<Language | Observable<Language>> {
 
     private userService = AppInjector.get(UserService);

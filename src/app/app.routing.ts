@@ -6,6 +6,7 @@ import { NotFoundComponent } from './components/error-pages/not-found/not-found.
 import { AuthGuard } from './core/guards/auth.guard';
 import { DeactivateGuard } from './core/guards/deactivate.guard';
 import { PermissionsGuard } from './core/guards/permissions.guard';
+import { CountryResolver } from './core/resolvers/countries.resolver';
 import { BeneficiariesImportComponent } from './modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
 import { ImportedDataComponent } from './modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
 import { BeneficiariesComponent } from './modules/beneficiary/beneficiaries.component';
@@ -28,98 +29,98 @@ export const routes: Routes = [
     {
         path: 'login',
         component: LoginComponent,
-        resolve: { language: LanguageResolver}
+        resolve: {language: LanguageResolver, country: CountryResolver}
     },
     {
         path: 'projects',
         component: ProjectComponent,
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: { language: LanguageResolver}
+        resolve: {language: LanguageResolver, country: CountryResolver}
     },
     {
         path: 'projects/add-distribution',
         component: AddDistributionComponent,
         canDeactivate: [DeactivateGuard],
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: { language: LanguageResolver}
+        resolve: {language: LanguageResolver, country: CountryResolver}
     },
     {
         path: 'projects/distributions/:id',
         component: DistributionsComponent,
         canDeactivate: [DeactivateGuard],
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: { language: LanguageResolver},
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
     {
         path: 'beneficiaries',
         component: BeneficiariesComponent,
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: { language: LanguageResolver},
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
     {
         path: 'reports',
         component: ReportsComponent,
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: { language: LanguageResolver},
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
     {
         path: 'settings',
         component: SettingsComponent,
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: { language: LanguageResolver},
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
     {
         path: 'profile',
         component: ProfileComponent,
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: { language: LanguageResolver},
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
     {
         path: 'beneficiaries/import',
         component: BeneficiariesImportComponent,
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: { language: LanguageResolver},
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
     {
         path: 'beneficiaries/imported',
         component: ImportedDataComponent,
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: { language: LanguageResolver},
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
     {
         path: 'beneficiaries/import/data-validation',
         component: DataValidationComponent,
         canDeactivate: [DeactivateGuard],
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: { language: LanguageResolver},
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
     {
         path: 'beneficiaries/add-beneficiaries',
         component: UpdateBeneficiaryComponent ,
         canDeactivate : [DeactivateGuard],
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: { language: LanguageResolver},
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
     {
         path: 'beneficiaries/update-beneficiary/:id',
         component: UpdateBeneficiaryComponent ,
         canDeactivate : [DeactivateGuard],
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: { language: LanguageResolver},
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
 
     {
         path: 'vouchers',
         component: VouchersComponent,
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: { language: LanguageResolver},
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
 
     // home route protected by auth guard
     {
         path: '', component: DashboardComponent,
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: { language: LanguageResolver},
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
 
     // otherwise redirect to home
@@ -127,7 +128,7 @@ export const routes: Routes = [
         path: '**',
         component: NotFoundComponent,
         canActivate: [AuthGuard],
-        resolve: { language: LanguageResolver},
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
 ];
 

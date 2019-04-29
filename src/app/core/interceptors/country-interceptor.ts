@@ -1,9 +1,8 @@
+import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-    HttpEvent, HttpInterceptor, HttpHandler, HttpRequest
-} from '@angular/common/http';
-import { AsyncacheService } from '../storage/asyncache.service';
 import { concatMap } from 'rxjs/operators';
+import { URL_BMS_API } from 'src/environments/environment';
+import { AsyncacheService } from '../storage/asyncache.service';
 
 @Injectable()
 export class CountryInterceptor implements HttpInterceptor {
@@ -14,7 +13,7 @@ export class CountryInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
 
-        if (req.url !== 'https://openexchangerates.org/api/currencies.json') {
+        if (req.url.match(URL_BMS_API)) {
             return this.asyncacheService.get(AsyncacheService.COUNTRY).pipe(
                 concatMap(
                     (cacheResult: string) => {

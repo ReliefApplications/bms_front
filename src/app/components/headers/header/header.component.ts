@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { UserService } from 'src/app/core/api/user.service';
+import { CountriesService } from 'src/app/core/countries/countries.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { Country } from 'src/app/model/country';
 import { LanguageService } from 'src/texts/language.service';
-import { Country } from './../../../model/user.new';
 import { ModalLanguageComponent } from './../../modals/modal-language/modal-language.component';
 
 
@@ -26,6 +27,7 @@ export class HeaderComponent implements OnInit {
         private languageService: LanguageService,
         private userService: UserService,
         private asynCacheService: AsyncacheService,
+        private countriesService: CountriesService,
     ) {}
 
     ngOnInit(): void {
@@ -53,8 +55,10 @@ export class HeaderComponent implements OnInit {
     }
 
     public selectCountry(country: Country): void {
-        this.asynCacheService.setCountry(country);
-        window.location.reload();
+        this.asynCacheService.setCountry(country).subscribe((_: any) => {
+            this.countriesService.clearCountries();
+            window.location.reload();
+        });
     }
 
 //

@@ -3,11 +3,11 @@ import { Injectable, OnInit } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, concat, map, switchMap, tap } from 'rxjs/operators';
+import { Country } from 'src/app/model/country';
 import { FailedRequestInterface, StoredRequestInterface } from 'src/app/model/stored-request';
 import { User } from 'src/app/model/user.new';
 import { Language } from 'src/texts/language';
 import { LanguageService } from './../../../texts/language.service';
-import { Country } from './../../model/user.new';
 import { CachedItemInterface } from './cached-item.interface';
 
 @Injectable({
@@ -176,8 +176,8 @@ export class AsyncacheService implements OnInit {
         );
     }
 
-    setCountry(country: Country) {
-        this.set(AsyncacheService.COUNTRY, country.get<string>('id'));
+    setCountry(country: Country): Observable<boolean> {
+        return this.newSet(AsyncacheService.COUNTRY, country.get<string>('id'));
     }
 
     getCountry(): Observable<Country> {

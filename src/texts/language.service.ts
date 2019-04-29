@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Country } from './../app/model/user.new';
+import { Country } from 'src/app/model/country';
 import { Language } from './language';
 import { Arabic } from './language-arabic';
 import { English } from './language-english';

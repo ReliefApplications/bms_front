@@ -1,9 +1,9 @@
 import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { Country } from 'src/app/model/user.new';
 import { LanguageService } from 'src/texts/language.service';
 import { UserService } from './core/api/user.service';
+import { Country } from './model/country';
 
 
 @Component({

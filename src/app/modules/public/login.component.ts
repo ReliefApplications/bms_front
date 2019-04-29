@@ -21,7 +21,6 @@ import { Country } from './../../model/user.new';
 })
 export class LoginComponent implements OnInit {
 
-    public user: User;
     public forgotMessage = false;
     public loader = false;
     public loginCaptcha = false;
@@ -42,7 +41,8 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         // TODO: enable this
         // GlobalText.resetMenuMargin();
-        this.blankUser();
+        this.userService.resetCacheUser();
+        // this.asyncacheService.reset;
         this.makeForm();
     }
 
@@ -56,20 +56,11 @@ export class LoginComponent implements OnInit {
         );
     }
 
-    /**
-     * Reset the user to empty.
-     */
-    blankUser() {
-        this.user = new User();
-        this.user.set('username', '');
-        this.user.set('password', '');
-        this.userService.currentUser = this.user;
-    }
+    makeForm() {
 
-    makeForm = () => {
         this.form = new FormGroup( {
-            username  : new FormControl(this.user.get<string>('username'), [Validators.required]),
-            password : new FormControl(this.user.get<string>('password'), [Validators.required]),
+            username  : new FormControl('', [Validators.required]),
+            password : new FormControl('', [Validators.required]),
         });
 
         if (this.prod()) {
@@ -79,9 +70,7 @@ export class LoginComponent implements OnInit {
         }
     }
 
-    onSubmit = () => {
-        this.user.set('email', this.form.controls['username'].value);
-        this.user.set('password', this.form.controls['password'].value);
+    onSubmit() {
         // Prevent captcha bypass by setting button to enabled in production mode
         if (this.prod() && !this.form.controls['captcha'].value) {
             this.snackbar.error(this.language.login_captcha_invalid);
@@ -96,7 +85,10 @@ export class LoginComponent implements OnInit {
      */
     private loginAction(): void {
         this.loader = true;
-        const subscription = from(this._authService.login(this.user));
+        const subscription = from(this._authService.login(
+            this.form.controls['username'].value,
+            this.form.controls['password'].value
+        ));
         subscription.subscribe(
             (user: User) => {
                 this.userService.currentUser = user;

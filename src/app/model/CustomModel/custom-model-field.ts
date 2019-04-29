@@ -132,7 +132,7 @@ export class CustomModelField<T> {
             isRequired:             false,
             isSettable:             false,
             isEditable:             false,
-            nullValue:              AppInjector.get(LanguageService).selectedLanguage.null_none,
+            nullValue:              null,
             hint:                   null,
             pattern:                null,
             isTrigger:              false,

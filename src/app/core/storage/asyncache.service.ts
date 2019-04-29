@@ -2,9 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { forkJoin, Observable, of } from 'rxjs';
-import { catchError, concat, map, switchMap } from 'rxjs/operators';
+import { catchError, concat, map, switchMap, tap } from 'rxjs/operators';
 import { FailedRequestInterface, StoredRequestInterface } from 'src/app/model/stored-request';
 import { User } from 'src/app/model/user.new';
+import { Language } from 'src/texts/language';
+import { LanguageService } from './../../../texts/language.service';
+import { Country } from './../../model/user.new';
 import { CachedItemInterface } from './cached-item.interface';
 
 @Injectable({
@@ -39,6 +42,7 @@ export class AsyncacheService implements OnInit {
     static readonly SUMMARY = 'summary';
     static readonly COUNTRY = 'country';
     static readonly PENDING_REQUESTS = 'pending_requests';
+    static readonly LANGUAGE = 'language';
 
     private storage: any;
 
@@ -48,6 +52,7 @@ export class AsyncacheService implements OnInit {
     readonly MSTIMEOUT = this.SECTIMEOUT * 1000;
 
     constructor(
+        private languageService: LanguageService,
         protected localStorage: LocalStorage,
         protected http: HttpClient,
     ) {
@@ -64,7 +69,7 @@ export class AsyncacheService implements OnInit {
 
     formatKey(key: string): string {
         if (key === AsyncacheService.COUNTRY || key === AsyncacheService.USER || key === AsyncacheService.USERS
-            || key === AsyncacheService.PENDING_REQUESTS) {
+            || key === AsyncacheService.PENDING_REQUESTS || key === AsyncacheService.LANGUAGE) {
             return this.PREFIX + '_' + key;
         } else {
             return this.PREFIX + '_' + AsyncacheService.actual_country + '_' + key;
@@ -154,6 +159,42 @@ export class AsyncacheService implements OnInit {
         );
     }
 
+    setLanguage(language: Language) {
+        this.set(AsyncacheService.LANGUAGE, this.languageService.languageToString(language));
+    }
+
+    // Get and delete language from cache
+    getLanguage(): Observable<Language> {
+        return this.get(AsyncacheService.LANGUAGE).pipe(
+            map((languageString: string) => {
+                if (!languageString) {
+                    return undefined;
+                }
+                this.remove(AsyncacheService.LANGUAGE);
+                return this.languageService.stringToLanguage(languageString);
+            })
+        );
+    }
+
+    setCountry(country: Country) {
+        this.set(AsyncacheService.COUNTRY, country.get<string>('id'));
+    }
+
+    getCountry(): Observable<Country> {
+        // countries are stored in user object TODO: don't
+        const countries = new User().get('countries').fields.options;
+
+        return this.get(AsyncacheService.COUNTRY).pipe(
+            map((countryId: string) => {
+                return countries.forEach((country: Country) => {
+                    if (country.get<string>('id') === countryId) {
+                        return country;
+                    }
+                });
+            })
+        );
+    }
+
     /**
      * Waits for asynchronous user value to return it synchronously.
     */
@@ -161,7 +202,8 @@ export class AsyncacheService implements OnInit {
         return this.get(AsyncacheService.USER).pipe(
             map((cachedUser: object) => {
                     if (!cachedUser) {
-                        return new User();
+                        // TODO: remove this case (useless)
+                        return undefined;
                     } else {
                         return User.apiToModel(cachedUser);
                     }
@@ -170,16 +212,22 @@ export class AsyncacheService implements OnInit {
         );
     }
 
+   setUser(user: User): Observable<boolean> {
+        return this.newSet(AsyncacheService.USER, user.modelToApi());
+    }
+
     /**
-     * Set an item in the cache semi-asynchronously.
+     * Set an item in the cache
+     * DEPRECATED
+     * TODO: remove this
      * @param key
      * @param value
      * @param options
+     *
      */
     set(key: string, value: any, options: any = {}) {
         key = this.formatKey(key);
-
-        this.localStorage.setItemSubscribe(key, value);
+        // this.localStorage.setItemSubscribe(key, value);
         if (options.canBeDeleted == null) {
             options.canBeDeleted = true;
         }
@@ -199,6 +247,38 @@ export class AsyncacheService implements OnInit {
         if (key === this.formatKey(AsyncacheService.COUNTRY)) {
             AsyncacheService.actual_country = value;
         }
+    }
+
+    /**
+     * Observable version of set
+     * @param key
+     * @param value
+     * @param options
+     */
+    newSet(key: string, value: any, options: any = {}): Observable<boolean> {
+        key = this.formatKey(key);
+        // this.localStorage.setItemSubscribe(key, value);
+        if (options.canBeDeleted == null) {
+            options.canBeDeleted = true;
+        }
+
+        if (options.timeout == null) {
+            options.timeout = this.MSTIMEOUT;
+        }
+
+        const object: CachedItemInterface = {
+            storageTime: (new Date()).getTime(), // in milliseconds
+            value: value,
+            limit: options.timeout, // in milliseconds
+            canBeDeleted: options.canBeDeleted
+        };
+        return this.localStorage.setItem(key, object).pipe(
+            tap((_: any) => {
+                if (key === this.formatKey(AsyncacheService.COUNTRY)) {
+                    AsyncacheService.actual_country = value;
+                }
+            })
+        );
     }
 
     /**

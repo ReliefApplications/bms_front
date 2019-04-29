@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { map } from 'rxjs/operators';
 import { AsyncacheService } from '../storage/asyncache.service';
-import { User } from './../../model/user.new';
 
 
 
@@ -44,7 +43,7 @@ export class WsseService {
     }
 
     // Get headers for HTTP request
-    getHeaderValue(user?: User) {
+    getHeaderValue(user?: object) {
         return this.cache.getUser().pipe(
             map(
                 result => {
@@ -54,8 +53,8 @@ export class WsseService {
                         this.username = cachedUser.get<string>('email');
                         this.salted = cachedUser.get<string>('password');
                     } else {
-                        this.username = user.get<string>('email');
-                        this.salted = user.get<string>('password');
+                        this.username = user['email'];
+                        this.salted = user['password'];
                     }
 
                     const nonce = this.generateNonce(16);

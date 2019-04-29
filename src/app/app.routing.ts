@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LanguageResolver } from 'src/app/core/resolvers/language.resolver';
 import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
 // Services
 import { AuthGuard } from './core/guards/auth.guard';
@@ -27,93 +28,113 @@ export const routes: Routes = [
     {
         path: 'login',
         component: LoginComponent,
+        resolve: { language: LanguageResolver}
     },
     {
         path: 'projects',
         component: ProjectComponent,
-        canActivate: [AuthGuard, PermissionsGuard]
+        canActivate: [AuthGuard, PermissionsGuard],
+        resolve: { language: LanguageResolver}
     },
     {
         path: 'projects/add-distribution',
         component: AddDistributionComponent,
         canDeactivate: [DeactivateGuard],
         canActivate: [AuthGuard, PermissionsGuard],
+        resolve: { language: LanguageResolver}
     },
     {
         path: 'projects/distributions/:id',
         component: DistributionsComponent,
         canDeactivate: [DeactivateGuard],
         canActivate: [AuthGuard, PermissionsGuard],
+        resolve: { language: LanguageResolver},
     },
     {
         path: 'beneficiaries',
         component: BeneficiariesComponent,
         canActivate: [AuthGuard, PermissionsGuard],
+        resolve: { language: LanguageResolver},
     },
     {
         path: 'reports',
         component: ReportsComponent,
         canActivate: [AuthGuard, PermissionsGuard],
+        resolve: { language: LanguageResolver},
     },
     {
         path: 'settings',
         component: SettingsComponent,
         canActivate: [AuthGuard, PermissionsGuard],
+        resolve: { language: LanguageResolver},
     },
     {
         path: 'profile',
         component: ProfileComponent,
         canActivate: [AuthGuard, PermissionsGuard],
+        resolve: { language: LanguageResolver},
     },
     {
         path: 'beneficiaries/import',
         component: BeneficiariesImportComponent,
         canActivate: [AuthGuard, PermissionsGuard],
+        resolve: { language: LanguageResolver},
     },
     {
         path: 'beneficiaries/imported',
         component: ImportedDataComponent,
         canActivate: [AuthGuard, PermissionsGuard],
+        resolve: { language: LanguageResolver},
     },
     {
         path: 'beneficiaries/import/data-validation',
         component: DataValidationComponent,
         canDeactivate: [DeactivateGuard],
         canActivate: [AuthGuard, PermissionsGuard],
+        resolve: { language: LanguageResolver},
     },
     {
         path: 'beneficiaries/add-beneficiaries',
         component: UpdateBeneficiaryComponent ,
         canDeactivate : [DeactivateGuard],
         canActivate: [AuthGuard, PermissionsGuard],
+        resolve: { language: LanguageResolver},
     },
     {
         path: 'beneficiaries/update-beneficiary/:id',
         component: UpdateBeneficiaryComponent ,
         canDeactivate : [DeactivateGuard],
-        canActivate: [AuthGuard, PermissionsGuard]
+        canActivate: [AuthGuard, PermissionsGuard],
+        resolve: { language: LanguageResolver},
     },
 
     {
         path: 'vouchers',
         component: VouchersComponent,
         canActivate: [AuthGuard, PermissionsGuard],
+        resolve: { language: LanguageResolver},
     },
 
     // home route protected by auth guard
-    { path: '', component: DashboardComponent, canActivate: [AuthGuard, PermissionsGuard] },
+    {
+        path: '', component: DashboardComponent,
+        canActivate: [AuthGuard, PermissionsGuard],
+        resolve: { language: LanguageResolver},
+    },
 
     // otherwise redirect to home
     {
         path: '**',
         component: NotFoundComponent,
         canActivate: [AuthGuard],
+        resolve: { language: LanguageResolver},
     },
 ];
 
 @NgModule({
     providers: [
-        DeactivateGuard
+        DeactivateGuard,
+        LanguageResolver,
     ],
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],

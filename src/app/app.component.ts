@@ -1,10 +1,9 @@
 import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
+import { Country } from 'src/app/model/user.new';
 import { LanguageService } from 'src/texts/language.service';
-import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
 import { UserService } from './core/api/user.service';
-import { AuthenticationService } from './core/authentication/authentication.service';
 
 
 @Component({
@@ -20,18 +19,18 @@ export class AppComponent {
 
     public isShowing = false;
 
+    public countries: Array<Country>;
+
+
     // Language
     public language = this.languageService.selectedLanguage;
 
     constructor(
-        private _authenticationService: AuthenticationService,
         public router: Router,
         public dialog: MatDialog,
         public userService: UserService,
         private languageService: LanguageService,
     ) { }
-
-
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
@@ -42,20 +41,6 @@ export class AppComponent {
         if (!this.smallScreenMode) {
             this.isShowing = !this.isShowing;
         }
-    }
-
-    /**LogOut
-    * open each modal dialog
-    */
-    openDialog(user_action): void {
-        let dialogRef;
-
-        if (user_action === 'language') {
-            dialogRef = this.dialog.open(ModalLanguageComponent, {});
-        }
-
-        dialogRef.afterClosed().subscribe(result => {
-        });
     }
 
     checkSize(): void {

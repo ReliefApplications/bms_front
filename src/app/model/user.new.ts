@@ -16,13 +16,12 @@ export class Country extends CustomModel {
 
     public fields = {
         name: new TextModelField({}),
-        id: new TextModelField({})
+        id: new TextModelField({}),
     };
 
     constructor(id: string, name: string) {
         super();
-        this.set('id', id);
-        this.set('name', name);
+        this.set('id', id).set('name', name);
     }
 }
 
@@ -37,8 +36,7 @@ export class Role extends CustomModel {
 
     constructor(id: string, name: string) {
         super();
-        this.set('id', id);
-        this.set('name', name);
+        this.set('id', id).set('name', name);
 
     }
 }
@@ -129,6 +127,7 @@ export class User extends CustomModel {
 
     public static apiToModel(userFromApi: any): User {
         const newUser = new User();
+
         newUser.set('rights', userFromApi.roles ?
             newUser.getOptions('rights').filter((role: Role) => role.get('id') === userFromApi.roles[0])[0] :
             null);
@@ -153,6 +152,7 @@ export class User extends CustomModel {
                 return Project.apiToModel(project.project);
             }) :
             null);
+
         newUser.set('password', userFromApi.password);
         newUser.set('email', userFromApi.email);
         newUser.set('username', userFromApi.username);
@@ -192,7 +192,8 @@ export class User extends CustomModel {
         }
         return userForApi;
     }
-    // // Todo: remove this (temporary fix)
+
+    // Todo: remove this (temporary fix)
     // public getAllCountries() {
     //     return [
     //         {

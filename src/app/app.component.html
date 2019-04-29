@@ -33,7 +33,7 @@
     </mat-sidenav>
 
 
-    <mat-sidenav-content  class="page-content-wrapper" [ngClass]="{noMargin: !smallScreenMode && router.url ==='/login'}">
+    <mat-sidenav-content class="page-content-wrapper" [ngClass]="{noMargin: !smallScreenMode && router.url ==='/login'}">
         <mat-toolbar *ngIf="!smallScreenMode && router.url !=='/login'">
             <app-header *ngIf="userService.currentUser"></app-header>
         </mat-toolbar>

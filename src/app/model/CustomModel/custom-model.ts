@@ -45,10 +45,11 @@ export abstract class CustomModel {
         return this.fields[field] ? this.fields[field].value : null;
     }
 
-    public set(field: string, value: any) {
+    public set(field: string, value: any): CustomModel {
         if (this.fields[field]) {
             this.fields[field].value = value;
         }
+        return this;
     }
 
     public getOptions(field: string) {

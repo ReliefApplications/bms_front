@@ -9,7 +9,7 @@
             </a>
         </span>
     </div>
-    <div class="container-buttons" *ngIf="language">
+    <div class="container-buttons">
         <div class="buttons">
             <app-request-display></app-request-display>
             <button mat-icon-button color=primary [matTooltip]="tooltip">
@@ -17,23 +17,23 @@
             </button>
             <button class="round-button" *ngIf="countries.length === 1">
                 <mat-icon>language</mat-icon>
-                <span>{{selectedCountry}}</span>
+                <span>{{selectedCountry.get('id')}}</span>
             </button>
             <button class="round-button" [matMenuTriggerFor]="country" *ngIf="countries.length > 1">
                 <mat-icon>language</mat-icon>
-                <span>{{selectedCountry}}</span>
+                <span>{{selectedCountry.get('id')}}</span>
             </button>
-            <mat-menu #country="matMenu" overlapTrigger=false>
-                <button class="flag-button" *ngFor="let c of countries" mat-menu-item (click)="selectCountry(c)">
+            <mat-menu #country overlapTrigger=false>
+                <button class="flag-button" [ngClass]="{'selected': country === selectedCountry}" *ngFor="let country of countries" mat-menu-item (click)="selectCountry(country)">
                     <mat-icon>language</mat-icon>
-                    <span>{{c}}</span>
+                    <span>{{country.get('id')}}</span>
                 </button>
             </mat-menu>
             <button class="round-button" [matMenuTriggerFor]="menu">
                 <mat-icon>account_circle</mat-icon>
             </button>
             <mat-menu #menu="matMenu" overlapTrigger=false>
-                <button mat-menu-item (click)="openDialog('language')">
+                <button mat-menu-item (click)="openLanguageDialog()">
                     <mat-icon>language</mat-icon>
                     <span>{{language.header_language | titlecase}}</span>
                 </button>
@@ -41,7 +41,7 @@
                     <mat-icon>person_outline</mat-icon>
                     <span>{{language.header_profile | titlecase}}</span>
                 </button>
-                <button mat-menu-item (click)="logOut()" routerLink="/login">
+                <button mat-menu-item routerLink="/login">
                     <mat-icon>exit_to_app</mat-icon>
                     <span>{{language.header_disconnect | titlecase}}</span>
                 </button>

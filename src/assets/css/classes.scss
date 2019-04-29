@@ -516,8 +516,12 @@ mat-horizontal-stepper.disable-step mat-step-header.mat-horizontal-stepper-heade
           justify-self: flex-end;
       }
     }
-
   }
+
+// Remove padding from mat-menus
+.mat-menu-content {
+    padding: 0 !important;
+}
 
 // Snackbar
 snack-bar-container {

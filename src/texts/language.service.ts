@@ -1,20 +1,33 @@
 import { Injectable } from '@angular/core';
+import { Country } from './../app/model/user.new';
 import { Language } from './language';
 import { Arabic } from './language-arabic';
 import { English } from './language-english';
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class LanguageService {
+//
+// ─── VARIABLES ──────────────────────────────────────────────────────────────────
+//
+    public english = new English();
+    public arabic = new Arabic();
 
+    public readonly enabledLanguages: Array<Language> = [ this.english, this.arabic ];
 
-    private english = new English();
-    private arabic = new Arabic();
-
-    public readonly enabledLanguages: Array<Language> = [this.english, this.arabic];
-
-    public selectedLanguage: Language = this.english;
+    // This default value's reference is not contained in enabledLanguages.
+    public selectedLanguage: Language = new English();
+//
+// ─── HELPER FUNCTIONS ───────────────────────────────────────────────────────────
+//
+    public clearLanguage(): Language {
+        this.selectedLanguage = undefined;
+        return this.selectedLanguage;
+    }
+//
+// ─── TYPE CONVERSION ────────────────────────────────────────────────────────────
+//
     // TODO: do not use language as string anymore
     public stringToLanguage(language: string): Language {
         switch (language) {
@@ -37,4 +50,18 @@ export class LanguageService {
                 return 'fr';
         }
     }
+//
+// ─── MISC ───────────────────────────────────────────────────────────────────────
+//
+    public countryToDefaultLanguage(country: Country): Language {
+        switch (country.get<string>('id')) {
+            case 'SYR':
+                return this.arabic;
+            case 'KHM':
+            default:
+                return this.english;
+        }
+    }
+
+
 }

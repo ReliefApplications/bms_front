@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Arabic } from 'src/texts/language-arabic';
 import { LanguageService } from 'src/texts/language.service';
 import { Language } from './../../../../texts/language';
@@ -26,6 +27,7 @@ export class ModalLanguageComponent implements OnInit {
         private languageService: LanguageService,
         public userService: UserService,
         private snackbar: SnackbarService,
+        private asyncacheService: AsyncacheService,
         ) {
 
     }
@@ -62,29 +64,21 @@ export class ModalLanguageComponent implements OnInit {
         return defaultLanguage.LANGUAGE_ISO ===  language.LANGUAGE_ISO;
     }
 
-
-    // save() {
-    //     this.languageService.changeLanguage();
-    //     this.isArabic = this.language instanceof Arabic;
-    //     if (this.isCheckedDefault) {
-    //         this.userService.setDefaultLanguage(this.actualUser.get('id'), this.language).subscribe(response => {
-    //             this.snackbar.success('Default Language Saved');
-    //         });
-    //     }
-    //     this.closeDialog();
-    // }
-
     save() {
         const newLanguage = this.languageForm.value.languageControl;
         if (this.languageForm.value.defaultControl) {
             this.userService.setDefaultLanguage(
                 this.userService.currentUser.get<number>('id'),
-                this.languageService.languageToString(newLanguage)).subscribe((_response: any) => {
-                this.snackbar.success('Default Language Saved');
+                newLanguage
+                ).subscribe((_response: any) => {
+                    this.snackbar.success('Default Language Saved');
+                    this.asyncacheService.setLanguage(newLanguage);
+                    window.location.reload();
                 }
             );
+        } else {
+            this.asyncacheService.setLanguage(newLanguage);
+            window.location.reload();
         }
-        this.languageService.selectedLanguage = newLanguage;
-        window.location.reload();
     }
 }

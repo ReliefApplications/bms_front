@@ -189,6 +189,10 @@ export class Arabic implements Language {
     commodity_agriculture = 'مجموعة الزراعية'
     commodity_rte = 'RTE عدة'
     
+    // Countries
+    country_khm = 'كمبوديا'
+    country_syr = 'سوريا'
+
     // Dashboard
     dashboard_distribution_map = 'خريطة التوزيع'
     dashboard_recent_distributions = 'التوزيعات الحديثة'
@@ -334,6 +338,8 @@ export class Arabic implements Language {
     modal_check_fields = 'تحقق جيدا انك أدخلت جميع المعطيات'
     modal_delete_sentence = 'أنت على وشك الحذف'
     modal_delete_sentence_2 = 'هل أنت متأكد'
+    modal_details_title = 'تفاصيل هذا'
+    modal_edit_title = 'تحرير هذا'
     modal_email_is = 'البريد الالكتروني هو'
     modal_language_actual = 'اللغة الحالية'
     modal_failure = 'بالفشل'
@@ -479,7 +485,7 @@ export class Arabic implements Language {
     // Beneficiary residency status
     residency_resident = 'مقيم'
     residency_refugee = 'لاجئ'
-    residency_idp = 'IDP'
+    residency_idp = 'اشخاص الارشاد الداخلى'
 
     // Sectors tooltips
     sector_cccm = 'معسكر التنسيق والإدارة'

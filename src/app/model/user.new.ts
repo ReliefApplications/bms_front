@@ -59,7 +59,7 @@ export class User extends CustomModel {
             isSettable: true,
         }),
         rights: new SingleSelectModelField({
-            title: 'rights',
+            title: this.language.rights,
             isDisplayedInTable: true,
             options: [
                 new Role('ROLE_ADMIN', this.language.role_user_admin),
@@ -110,7 +110,7 @@ export class User extends CustomModel {
         }),
         countries: new MultipleSelectModelField({
             title: this.language.model_countryIso3,
-            options: [new Country('KHM', 'Cambodia'), new Country('SYR', 'Syria')],
+            options: [new Country('KHM', this.language.country_khm), new Country('SYR', this.language.country_syr)],
             isDisplayedInModal: true,
             bindField: 'name',
         }),
@@ -126,7 +126,7 @@ export class User extends CustomModel {
         newUser.set('rights', userFromApi.roles ?
             newUser.getOptions('rights').filter((role: Role) => role.get('id') === userFromApi.roles[0])[0] :
             null);
-        const rights = newUser.get('rights').get<string>('id');
+        const rights = newUser.get('rights') ? newUser.get('rights').get<string>('id') : null;
         if (rights === 'ROLE_REGIONAL_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
             newUser.fields.countries.isEditable = true;
 
@@ -212,4 +212,8 @@ export class User extends CustomModel {
     //         }
     //     ];
     // }
+
+    public getIdentifyingName() {
+        return this.get<string>('username');
+    }
 }

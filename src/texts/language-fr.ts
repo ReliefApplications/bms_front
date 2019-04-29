@@ -188,6 +188,10 @@ export class French implements Language {
     commodity_agriculture = 'Kit d\'agriculture'
     commodity_rte = 'Kit RTE'
 
+    // Countries
+    country_khm = 'Cambodge'
+    country_syr = 'Syrie'
+  
     // Dashboard
     dashboard_distribution_map = 'répartition des distributions'
     dashboard_recent_distributions = 'distributions récentes'
@@ -333,6 +337,8 @@ export class French implements Language {
     modal_check_fields = 'Champs invalides = vérifiez que vous avez rempli tous les champs'
     modal_delete_sentence = 'Vous êtes sur le point de supprimer '
     modal_delete_sentence_2 = '. '
+    modal_details_title = 'Détails de ce'
+    modal_edit_title = 'Modifier ce'
     modal_email_is = 'Email '
     modal_language_actual = 'Langue actuelle :'
     modal_language_title = 'Langage'

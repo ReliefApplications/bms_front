@@ -173,6 +173,10 @@ export interface Language {
     commodity_agriculture: string
     commodity_rte: string
 
+    // Countries
+    country_khm: string
+    country_syr: string
+
 
     // Dashboard
     dashboard_distribution_map: string
@@ -319,6 +323,8 @@ export interface Language {
     modal_check_fields: string
     modal_delete_sentence: string
     modal_delete_sentence_2: string
+    modal_details_title: string
+    modal_edit_title: string
     modal_email_is: string
     modal_failure: string
     modal_leave: string

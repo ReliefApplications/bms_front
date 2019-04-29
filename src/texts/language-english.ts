@@ -188,6 +188,9 @@ export class English implements Language {
     commodity_agriculture = 'Agricultural Kit'
     commodity_rte = 'RTE Kit'
 
+    // Countries
+    country_khm = 'Cambodia'
+    country_syr = 'Syria'
 
     // Dashboard
     dashboard_distribution_map = 'distribution map'
@@ -334,6 +337,8 @@ export class English implements Language {
     modal_check_date = 'Invalid fields = Your start date cannot be older than the end date'
     modal_check_fields = 'Invalid fields = check you filled every field'
     modal_delete_sentence = 'You are about to delete '
+    modal_details_title = 'Details of this'
+    modal_edit_title = 'Edit this'
     modal_delete_sentence_2 = '. Are you sure? '
     modal_email_is = 'Email is'
     modal_failure = 'Failure'

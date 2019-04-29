@@ -2,6 +2,7 @@ import { Beneficiary } from './beneficiary.new';
 import { CustomModel } from './CustomModel/custom-model';
 import { NestedFieldModelField } from './CustomModel/nested-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
+import { DateModelField } from './CustomModel/date-model-field';
 
 export class ImportedBeneficiary extends CustomModel {
 
@@ -52,7 +53,9 @@ export class ImportedBeneficiary extends CustomModel {
         beneficiary.set('familyName',
             importedBeneficiaryFromApi.familyName ? importedBeneficiaryFromApi.familyName : importedBeneficiaryFromApi.family_name);
         beneficiary.set('dateOfBirth',
-            importedBeneficiaryFromApi.dateOfBirth ? importedBeneficiaryFromApi.dateOfBirth : importedBeneficiaryFromApi.date_of_birth);
+            importedBeneficiaryFromApi.dateOfBirth ?
+            DateModelField.formatFromApi(importedBeneficiaryFromApi.dateOfBirth) :
+            importedBeneficiaryFromApi.date_of_birth);
         newImportedBeneficiary.set('beneficiary', beneficiary);
 
         return newImportedBeneficiary;

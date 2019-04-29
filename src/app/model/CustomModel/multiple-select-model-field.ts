@@ -28,7 +28,7 @@ export class MultipleSelectModelField extends SelectModelField<Array<CustomModel
      * Max selection length
      * @type {number}
      */
-    maxSelectionLength;
+    maxSelectionLength: number;
 
 
     formatForApi(): any {

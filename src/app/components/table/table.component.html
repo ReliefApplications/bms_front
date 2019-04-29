@@ -13,7 +13,8 @@
             </mat-form-field>
         </div>
 
-        <mat-table [dataSource]="tableData" matSort [matSortActive]="entityInstance.matSortActive" matSortDirection="desc">
+        <mat-table [dataSource]="tableData" matSort [matSortActive]="entityInstance.matSortActive" matSortDirection="desc"
+            [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
 
             <ng-container *ngIf="selectable" matColumnDef="check">
                 <mat-header-cell class="header-cell" *matHeaderCellDef>

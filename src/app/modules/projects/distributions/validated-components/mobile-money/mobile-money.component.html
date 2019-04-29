@@ -42,14 +42,14 @@
                         </button>
                     </mat-menu>
                 </div>
-                <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
+                <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                     <button mat-raised-button class="button-background-primary" (click)="exportTransaction(extensionType, 'transactionDistribution')" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{language.export | titlecase}}</span>
                     </button>
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension" *ngIf="!loadingExport">
-                        <div mat-button class="dropdown" [matMenuTriggerFor]="exportTypeTransaction" [ngClass]="{'arabic':language==='ar'}">
+                        <div mat-button class="dropdown" [matMenuTriggerFor]="exportTypeTransaction" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </div>
                         <mat-menu #exportTypeTransaction class="extMenu">
@@ -127,7 +127,7 @@
                 <h4>{{ progression }} %</h4>
                 <mat-progress-bar mode="determinate" [value]="progression"></mat-progress-bar>
             </div>
-            <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':language==='ar'}">
+            <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                 <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')" *ngIf="!correctCode">{{language.cancel}}</button>
                 <button mat-raised-button class="button-background-accent confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()" *ngIf="chartAccepted && !correctCode">{{language.transaction_confirm_button}}</button>
             </div>

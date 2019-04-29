@@ -19,12 +19,12 @@
             <span>{{language.beneficiaries_import_convert | titlecase }}</span>
           </button>
 
-          <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
+          <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
             <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">
               {{language.beneficiaries_import_csv | titlecase }}
             </button>
             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-            <div class="extension" *ngIf="!loadingExport" [ngClass]="{'arabic':language==='ar'}">
+            <div class="extension" *ngIf="!loadingExport" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
               <div mat-button class="template pointer" [matMenuTriggerFor]="exportType">
                 <mat-icon>keyboard_arrow_down</mat-icon>
               </div>
@@ -225,7 +225,7 @@
         </div>
       </div>
 
-      <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
+      <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
         <button mat-button class="button-text-accent" (click)="exit('Import canceled')">{{language.cancel}}</button>
         <button mat-button class="button-background-accent" (click)="confirmImport()">{{language.transaction_confirm_button}}</button>
       </div>

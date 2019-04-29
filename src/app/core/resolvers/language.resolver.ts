@@ -32,11 +32,13 @@ export class LanguageResolver implements Resolve<Language | Observable<Language>
             return defaultLanguage.pipe(
                 tap((language: Language) => {
                     this.languageService.setLanguage(language);
+                    this.languageService.setMargins();
                 })
                 );
             }
 
         this.languageService.setLanguage(defaultLanguage);
+        this.languageService.setMargins();
         return defaultLanguage;
     }
 

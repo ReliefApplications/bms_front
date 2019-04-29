@@ -23,14 +23,14 @@
 
         <div class="content-button">
             <div class="action-buttons">
-                <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
+                <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                     <button mat-raised-button class="button-background-primary" (click)="exportTransaction(extensionType, 'generalreliefDistribution')" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{language.export | titlecase}}</span>
                     </button>
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension" *ngIf="!loadingExport">
-                        <div mat-button class="dropdown" [matMenuTriggerFor]="exportTypeTransaction" [ngClass]="{'arabic':language==='ar'}">
+                        <div mat-button class="dropdown" [matMenuTriggerFor]="exportTypeTransaction" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </div>
                         <mat-menu #exportTypeTransaction class="extMenu">

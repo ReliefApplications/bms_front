@@ -6,7 +6,6 @@ import { UserService } from './core/api/user.service';
 import { Country } from './model/country';
 import { Language } from 'src/texts/language';
 
-
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',

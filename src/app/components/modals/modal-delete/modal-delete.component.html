@@ -1,9 +1,9 @@
 <div class="modal-container">
-  <h4 class="modal-title underline-primary stickyHeader" [ngClass]="{'arabic': language==='ar'}" >{{language.delete}}</h4>
-  <div class="modal-table" [ngClass]="{'arabic': language==='ar'}" cdkFocusRegionstart>
+  <h4 class="modal-title underline-primary stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}" >{{language.delete}}</h4>
+  <div class="modal-table" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}" cdkFocusRegionstart>
       {{language.modal_delete_sentence}} {{ data.name }} {{language.modal_delete_sentence_2}}
   </div>
-  <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
+  <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
     <button mat-button (click)="onCancel()" class="button-text-primary">{{language.cancel}}</button>
     <button mat-raised-button (click)="onDelete()" class="button-background-primary">{{language.delete}}</button>
   </div>

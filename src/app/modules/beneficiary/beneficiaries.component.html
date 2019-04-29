@@ -9,14 +9,14 @@
           <button mat-raised-button *ngIf="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT') && checkedElements.length > 0" class="button-background-primary" (click)="addToProject(addBeneficiaries)" [matBadge]="checkedElements.length">
             {{language.beneficiaries_add_list}}
           </button>
-          <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
+          <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
             <button mat-raised-button *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport" class="button-background-primary" (click)="export()">
               <mat-icon>get_app</mat-icon>
               <span>{{language.export | titlecase}}</span>
             </button>
             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
             <div class="extension" *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport">
-              <div mat-button class="dropdown" [ngClass]="{'arabic':language==='ar'}" [matMenuTriggerFor]="exportType">
+              <div mat-button class="dropdown" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" [matMenuTriggerFor]="exportType">
                 <mat-icon>keyboard_arrow_down</mat-icon>
               </div>
               <mat-menu #exportType>
@@ -31,7 +31,7 @@
           </div>
         </div>
 
-        <div class="add-buttons" [ngClass]="{'add-buttons-arabic': language == 'ar', 'add-buttons-mobile': widthScreen <= maxWidth}" (mouseenter)="widthScreen > maxWidth && this.addToggled = true" (mouseleave)="widthScreen > maxWidth && this.addToggled = false">
+        <div class="add-buttons" [ngClass]="{'add-buttons-arabic': languageService.languageToString(language)==='ar', 'add-buttons-mobile': widthScreen <= maxWidth}" (mouseenter)="widthScreen > maxWidth && this.addToggled = true" (mouseleave)="widthScreen > maxWidth && this.addToggled = false">
           <div class="toggled-buttons" [ngClass]="{'toggled': addToggled}">
             <button mat-raised-button class="button-background-accent" routerLink="/beneficiaries/import">
               <mat-icon>publish</mat-icon>
@@ -47,7 +47,7 @@
           <mat-icon>add</mat-icon>
           {{language.create | titlecase}}
         </button>
-        <button mat-fab *ngIf="widthScreen <= maxWidth && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_READ')" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}" (click)="toggleAddButtons()">
+        <button mat-fab *ngIf="widthScreen <= maxWidth && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_READ')" class="add-button" [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}" (click)="toggleAddButtons()">
           <mat-icon>add</mat-icon>
         </button>
       </div>
@@ -75,7 +75,7 @@
           </ng-select>
         </div>
       </div>
-      <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
+      <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
         <button mat-button class="cancel" (click)="dialog.closeAll()">{{language.cancel}}</button>
         <button mat-raised-button class="button-background-accent" (click)="confirmAdding()">{{language.transaction_confirm_button}}</button>
       </div>

@@ -50,7 +50,6 @@ export class AuthenticationService {
             this.requestSalt(username).subscribe(success => {
                 const getSalt = success as SaltInterface;
                 const saltedPassword = this._wsseService.saltPassword(getSalt.salt, password);
-
                 const user = new User().set('email', username).set('password', saltedPassword);
                 this.logUser(user.modelToApi()).subscribe((userFromApi: object) => {
                     if (userFromApi) {

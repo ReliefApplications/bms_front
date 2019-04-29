@@ -202,7 +202,7 @@ export class AsyncacheService implements OnInit {
         return this.get(AsyncacheService.USER).pipe(
             map((cachedUser: object) => {
                     if (!cachedUser) {
-                        // TODO: remove this case (useless)
+                        // TODO: remove this case
                         return undefined;
                     } else {
                         return User.apiToModel(cachedUser);

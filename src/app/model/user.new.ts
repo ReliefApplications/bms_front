@@ -164,7 +164,7 @@ export class User extends CustomModel {
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);
         newUser.set('loggedIn', userFromApi.loggedIn);
-        newUser.set('language', userFromApi.language);
+        newUser.set('language', userFromApi.language ? userFromApi.language : 'en' );
         return newUser;
     }
 

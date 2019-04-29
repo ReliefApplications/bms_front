@@ -1,5 +1,5 @@
 <div class="modal-container" *ngIf="criteria">
-  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}">{{language.modal_add_title |titlecase }} {{criteria.title | titlecase}}</h4>
+  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">{{language.modal_add_title |titlecase }} {{criteria.title | titlecase}}</h4>
   <form [formGroup]="form">
     <table class="modal-table">
       <tr class="modal-row">

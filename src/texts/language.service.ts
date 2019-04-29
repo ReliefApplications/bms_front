@@ -63,5 +63,16 @@ export class LanguageService {
         }
     }
 
+    public setMargins() {
+        const element = document.getElementsByTagName('mat-sidenav-content') as HTMLCollectionOf<HTMLElement>;
+        if (this.selectedLanguage === this.arabic) {
+            document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+            element[0].style.margin = '0px 64px 0px 0px';
+        } else {
+            document.getElementsByTagName('html')[0].setAttribute('dir', '');
+            element[0].style.margin = '0px 0px 0px 64px';
+        }
+    }
+
 
 }

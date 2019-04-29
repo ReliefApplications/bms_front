@@ -168,6 +168,8 @@ export class BeneficiariesComponent implements OnInit {
                 success => {
                     this.snackbar.success(this.language.beneficiaries_added);
                     this.table.loadDataPage();
+                    this.selection = new SelectionModel<Households>(true, []);
+                    this.checkedElements = [];
                 }
             );
         }

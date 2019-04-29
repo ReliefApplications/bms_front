@@ -55,6 +55,7 @@ mat-table {
     mat-cell {
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
     }
 
     .scrollable-icons {

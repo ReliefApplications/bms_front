@@ -20,14 +20,14 @@ export class HouseholdFilters extends CustomModel {
             title: this.language.project,
             filterName: 'projects',
             bindField: 'name',
-            apiLabel: 'name',
+            apiLabel: 'id',
             isDisplayedInTable: true,
         }),
         vulnerabilities: new MultipleSelectModelField({
             title: this.language.model_vulnerabilities,
             filterName: 'vulnerabilities',
             bindField: 'name',
-            apiLabel: 'name',
+            apiLabel: 'id',
             isDisplayedInTable: true,
         }),
         location: new ObjectModelField<Location>({
@@ -39,7 +39,7 @@ export class HouseholdFilters extends CustomModel {
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm1',
-            apiLabel: 'name',
+            apiLabel: 'id',
             isTrigger: true,
             triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
@@ -56,7 +56,7 @@ export class HouseholdFilters extends CustomModel {
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm2',
-            apiLabel: 'name',
+            apiLabel: 'id',
             isTrigger: true,
             triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
@@ -72,7 +72,7 @@ export class HouseholdFilters extends CustomModel {
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm3',
-            apiLabel: 'name',
+            apiLabel: 'id',
             isTrigger: true,
             triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
@@ -87,7 +87,7 @@ export class HouseholdFilters extends CustomModel {
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm4',
-            apiLabel: 'name',
+            apiLabel: 'id',
             isDisplayedInTable: true,
         })
     };
@@ -95,6 +95,7 @@ export class HouseholdFilters extends CustomModel {
 export class HouseholdsDataSource implements CustomDataSource<Households> {
 
     dataSubject = new BehaviorSubject<Households[]>([]);
+    public data$ = this.dataSubject.asObservable();
 
     loadingSubject = new BehaviorSubject<boolean>(false);
     public loading$ = this.loadingSubject.asObservable();

@@ -228,7 +228,7 @@
 
                   <ng-container matColumnDef="dateOfBirth">
                     <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_getDateOfBirth |titlecase }} </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.controls.dateOfBirth.value | date: 'yyyy-MM-dd' }}
+                    <td mat-cell *matCellDef="let element"> {{ element.controls.dateOfBirth.value | date: 'dd-MM-yyyy' }}
                     </td>
                   </ng-container>
 

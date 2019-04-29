@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import * as CryptoJS from 'crypto-js';
 import { Beneficiary } from './beneficiary.new';
 import { CURRENCIES } from './currencies';
@@ -10,6 +11,7 @@ import { SingleSelectModelField } from './CustomModel/single-select-model-field'
 import { TextModelField } from './CustomModel/text-model-field';
 import { Distribution } from './distribution.new';
 import { Voucher } from './voucher.new';
+import { BooleanModelField } from './CustomModel/boolan-model-field';
 
 export class BookletStatus extends CustomModel {
 
@@ -69,20 +71,13 @@ export class Booklet extends CustomModel {
             isEditable: true,
             isSettable: true,
         }),
-        // individualToAll: new BooleanModelField({
-        //     title: this.language.model_individual_to_all,
-        //     value: false,
-        //     isDisplayedInModal: true,
-        //     isEditable: true,
-        //     handleCheckbox: null,
-        //     isSettable: true,
-        // }),
         individualValues: new TextModelField({
             title: this.language.model_individual_value,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isEditable: true,
             isSettable: true,
+            isRequired: true,
             hint: this.language.modal_values_format_error,
             pattern: /^([\d]+,?\s?,?\s?)+$/,
         }),
@@ -94,13 +89,7 @@ export class Booklet extends CustomModel {
             options: CURRENCIES.map(currency => new Currency(currency.id, currency.name)),
             isEditable: true,
             isSettable: true,
-        }),
-        password: new TextModelField({
-            title: this.language.model_password,
-            isDisplayedInModal: true,
-            isEditable: true,
-            isSettable: true,
-            isPassword: true,
+            isRequired: true,
         }),
         status: new SingleSelectModelField({
             title: this.language.model_state,
@@ -114,6 +103,27 @@ export class Booklet extends CustomModel {
             isDisplayedInModal: true,
             bindField: 'name',
             value: new BookletStatus('0', 'Unassigned'),
+        }),
+        definePassword: new BooleanModelField({
+            title: this.language.model_define_password,
+            isTrigger: true,
+            isDisplayedInModal: true,
+            isSettable: true,
+            isEditable: true,
+            value: true,
+            triggerFunction: (booklet: Booklet, value: boolean, form: FormGroup) => {
+                booklet.fields.password.isDisplayedInModal = value;
+                return booklet;
+            },
+        }),
+        password: new TextModelField({
+            title: this.language.model_password,
+            isDisplayedInModal: true,
+            isEditable: true,
+            isSettable: true,
+            isPassword: true,
+            pattern: /^(\d{4})/,
+            hint: this.language.model_booklet_password_pattern
         }),
         beneficiary: new ObjectModelField<Beneficiary>({
             title: this.language.beneficiary,
@@ -184,16 +194,21 @@ export class Booklet extends CustomModel {
             null);
 
         newBooklet.set('value', newBooklet.getTotalValue());
-        newBooklet.set('usedAt', newBooklet.getUsedAt());
+
+        // No need to format the date, it is a voucher's date so already formatted
+        newBooklet.set('usedAt',  newBooklet.getUsedAt());
 
         newBooklet.fields.beneficiary.displayTableFunction = (value: Beneficiary) => value ? value.get('fullName') : null;
         newBooklet.fields.beneficiary.displayModalFunction = (value: Beneficiary) => value ? value.get('fullName') : null;
         newBooklet.fields.distribution.displayTableFunction = (value: Distribution) => value ? value.get('name') : null;
         newBooklet.fields.distribution.displayModalFunction = (value: Distribution) => value ? value.get('name') : null;
-        // newBooklet.fields.individualToAll.handleCheckbox = (booklet: Booklet) => {
-        //     const individualToAll = booklet.get('individualToAll');
-        //     booklet.set('individualToAll', !individualToAll);
-        // };
+
+        if (bookletFromApi.password) {
+            newBooklet.fields.definePassword.title = newBooklet.language.model_update_password;
+            newBooklet.set('definePassword', false);
+            newBooklet.fields.password.isDisplayedInModal = false;
+        }
+
         return newBooklet;
     }
 

@@ -75,19 +75,26 @@ export class User extends CustomModel {
             isSettable: true,
             isTrigger: true,
             triggerFunction: (user: User, value: string, form: FormGroup) => {
-                if (value === 'ROLE_REGIONAL_MANAGER' ||
-                value === 'ROLE_COUNTRY_MANAGER') {
+                if (value === 'ROLE_REGIONAL_MANAGER' || value === 'ROLE_COUNTRY_MANAGER') {
                     form.controls.countries.enable();
                     form.controls.projects.disable();
+                    form.controls.projects.setValue([]);
+                    if (value === 'ROLE_COUNTRY_MANAGER') {
+                        user.fields.countries.maxSelectionLength = 1;
+                        form.controls.countries.setValue([]);
+                    } else {
+                        user.fields.countries.maxSelectionLength = null;
+                    }
 
-                } else if (value === 'ROLE_PROJECT_MANAGER' ||
-                value === 'ROLE_PROJECT_OFFICER' ||
-                value === 'ROLE_FIELD_OFFICER') {
+                } else if (value === 'ROLE_PROJECT_MANAGER' || value === 'ROLE_PROJECT_OFFICER' || value === 'ROLE_FIELD_OFFICER') {
                     form.controls.projects.enable();
                     form.controls.countries.disable();
+                    form.controls.countries.setValue([]);
                 } else {
                     form.controls.countries.disable();
                     form.controls.projects.disable();
+                    form.controls.countries.setValue([]);
+                    form.controls.projects.setValue([]);
                 }
                 return user;
             },
@@ -119,6 +126,17 @@ export class User extends CustomModel {
         newUser.set('rights', userFromApi.roles ?
             newUser.getOptions('rights').filter((role: Role) => role.get('id') === userFromApi.roles[0])[0] :
             null);
+        const rights = newUser.get('rights').get<string>('id');
+        if (rights === 'ROLE_REGIONAL_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
+            newUser.fields.countries.isEditable = true;
+
+            if (rights === 'ROLE_COUNTRY_MANAGER') {
+                newUser.fields.countries.maxSelectionLength = 1;
+            }
+        }
+        if (rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER' || rights === 'ROLE_FIELD_OFFICER') {
+            newUser.fields.projects.isEditable = true;
+        }
 
         // TO DO : make the cache and the back coherent by sending the same key that we receive
         const countries = userFromApi.countries ? userFromApi.countries : userFromApi.country;

@@ -2,7 +2,7 @@
   <p [hidden]="!hasDevices || !hasPermission">{{ language.voucher_scan_text }}</p>
 
   <div [hidden]="!hasDevices || !hasPermission">
-    <ng-select [(ngModel)]="selected" (selectionChange)="onDeviceSelectChange($event.value)" *ngIf="availableDevices.length > 1">
+    <ng-select [(ngModel)]="selected" (change)="onDeviceSelectChange($event)" *ngIf="availableDevices.length > 1">
       <ng-option value="default">No Device Selected</ng-option>
       <ng-option *ngFor="let device of availableDevices" [value]="device.deviceId">{{
         device.label }}</ng-option>

@@ -1,10 +1,10 @@
-import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
+import { Language } from 'src/texts/language';
 import { LanguageService } from 'src/texts/language.service';
 import { UserService } from './core/api/user.service';
 import { Country } from './model/country';
-import { Language } from 'src/texts/language';
 
 @Component({
     selector: 'app-root',
@@ -41,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.languageService.languageSubject.subscribe((language: Language) => {
             this.language = language;
         });
+        this.checkSize();
     }
 
     ngOnDestroy() {

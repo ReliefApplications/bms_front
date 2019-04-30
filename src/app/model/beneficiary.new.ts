@@ -303,8 +303,15 @@ export class Beneficiary extends CustomModel {
     public getIdentifyingName() {
         return this.get('givenName') + ' ' + this.get('familyName');
     }
+}
 
-
+export interface BeneficiaryOptions {
+    vulnerabilityList: Array<VulnerabilityCriteria>;
+    countryCodesList: Array<any>;
+    genderList: any;
+    nationalIdList: any;
+    residencyStatusList: any;
+    phoneList: any;
 }
 
 

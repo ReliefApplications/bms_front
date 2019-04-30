@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
         public router: Router,
         public dialog: MatDialog,
         public userService: UserService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     @HostListener('window:resize', ['$event'])

@@ -34,7 +34,7 @@ export class ImportedDataComponent implements OnInit {
         private _householdsService: HouseholdsService,
         private importService: ImportService,
         private router: Router,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     ngOnInit() {

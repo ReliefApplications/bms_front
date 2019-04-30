@@ -37,7 +37,7 @@ export class ModalService {
         public dialog: MatDialog,
         public authenticationService: AuthenticationService,
         public networkService: NetworkService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) {
 
     }

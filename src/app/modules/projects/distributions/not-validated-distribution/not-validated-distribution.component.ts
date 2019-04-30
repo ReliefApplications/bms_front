@@ -84,7 +84,7 @@ export class NotValidatedDistributionComponent implements OnInit {
       private networkService: NetworkService,
       protected modalService: ModalService,
       public userService: UserService,
-      private languageService: LanguageService,
+      public languageService: LanguageService,
   ) {
   }
   ngOnInit() {

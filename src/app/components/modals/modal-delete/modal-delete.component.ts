@@ -16,7 +16,7 @@ export class ModalDeleteComponent {
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         public modalReference: MatDialogRef<any>,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         ) {
     }
 

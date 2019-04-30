@@ -14,7 +14,7 @@ export class ModalLeaveComponent implements OnInit {
 
     constructor(
         private dialogs: MatDialogRef<ModalLeaveComponent>,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     ngOnInit() {

@@ -37,7 +37,7 @@ export class DistributionsComponent implements OnInit {
         private route: ActivatedRoute,
         private beneficiariesService: BeneficiariesService,
         public snackbar: SnackbarService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) {
     }
 

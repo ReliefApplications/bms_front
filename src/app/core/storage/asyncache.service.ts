@@ -53,7 +53,7 @@ export class AsyncacheService implements OnInit {
     readonly MSTIMEOUT = this.SECTIMEOUT * 1000;
 
     constructor(
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         private countriesService: CountriesService,
         protected localStorage: LocalStorage,
         protected http: HttpClient,

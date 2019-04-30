@@ -66,7 +66,7 @@ export class ValidatedDistributionComponent implements OnInit {
         public _cacheService: AsyncacheService,
         public _exportService: ExportService,
         public userService: UserService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     @HostListener('window:resize', ['$event'])

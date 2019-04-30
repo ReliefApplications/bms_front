@@ -34,7 +34,7 @@ export class ModalAddCriteriaComponent implements OnInit {
         public modalReference: MatDialogRef<any>,
         private snackbar: SnackbarService,
         public fieldService: FieldService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) {}
 
     ngOnInit() {

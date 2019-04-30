@@ -66,7 +66,7 @@ export class ImportDistributionComponent implements OnInit {
         public distributionService: DistributionService,
         public beneficiaryService: BeneficiariesService,
         public userService: UserService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     ngOnInit() {

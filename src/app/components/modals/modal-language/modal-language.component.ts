@@ -25,7 +25,7 @@ export class ModalLanguageComponent implements OnInit {
 
     constructor(
         public dialogRef: MatDialogRef<ModalLanguageComponent>,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         public userService: UserService,
         private snackbar: SnackbarService,
         private asyncacheService: AsyncacheService,

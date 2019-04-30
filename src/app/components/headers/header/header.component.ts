@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     constructor(
         private dialog: MatDialog,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         private asynCacheService: AsyncacheService,
         private countriesService: CountriesService,
         private router: Router,

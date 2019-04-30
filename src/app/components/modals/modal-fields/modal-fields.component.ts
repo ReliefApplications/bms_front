@@ -45,7 +45,7 @@ export class ModalFieldsComponent implements OnInit {
         public fieldService: FieldService,
         public uploadService: UploadService,
         public locationService: LocationService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) {}
 

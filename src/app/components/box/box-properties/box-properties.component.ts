@@ -25,7 +25,7 @@ export class BoxPropertiesComponent implements OnInit {
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor (
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) {}
 
     @HostListener('window:resize', ['$event'])

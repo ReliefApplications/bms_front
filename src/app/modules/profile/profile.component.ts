@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit {
         public wsseService: WsseService,
         public snackbar: SnackbarService,
         public formBuilder: FormBuilder,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         ) {
     }
 

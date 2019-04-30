@@ -91,7 +91,7 @@ export class SettingsComponent implements OnInit {
         public productService: ProductService,
         private vendorsService: VendorsService,
         private modalService: ModalService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     ngOnInit() {

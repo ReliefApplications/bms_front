@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
         public asyncacheService: AsyncacheService,
         public router: Router,
         public snackbar: SnackbarService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         ) { }
 
     ngOnInit() {

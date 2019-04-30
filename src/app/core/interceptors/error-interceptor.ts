@@ -17,7 +17,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(
         public snackbar: SnackbarService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         public router: Router
     ) { }
 

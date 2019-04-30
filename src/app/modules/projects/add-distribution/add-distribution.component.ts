@@ -75,7 +75,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         private snackbar: SnackbarService,
         private modalService: ModalService,
         private locationService: LocationService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     ngOnInit() {

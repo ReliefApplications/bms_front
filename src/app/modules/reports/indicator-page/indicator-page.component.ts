@@ -97,7 +97,7 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
         public distributionService: DistributionService,
         private snackBar: SnackbarService,
         private userService: UserService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) {
     }
 

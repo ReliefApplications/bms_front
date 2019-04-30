@@ -10,7 +10,7 @@ import { LanguageService } from 'src/texts/language.service';
 })
 export class HintErrorComponent implements OnInit {
 
-  constructor(private languageService: LanguageService) { }
+  constructor(public languageService: LanguageService) { }
 
   @Input() isMatField: boolean;
   @Input() form: FormGroup;

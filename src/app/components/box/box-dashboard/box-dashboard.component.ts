@@ -15,7 +15,7 @@ export class BoxDashboardComponent {
 
   constructor(
     private router: Router,
-    private languageService: LanguageService,
+    public languageService: LanguageService,
 
   ) { }
 

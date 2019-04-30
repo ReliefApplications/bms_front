@@ -21,7 +21,7 @@ export class PermissionsGuard implements CanActivate {
         private userService: UserService,
         private authenticationService: AuthenticationService,
         private snackbar: SnackbarService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         ) {
     }
 

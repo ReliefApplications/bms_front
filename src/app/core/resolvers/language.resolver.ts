@@ -14,7 +14,7 @@ import { AsyncacheService } from '../storage/asyncache.service';
 })
 export class LanguageResolver implements Resolve<Language | Observable<Language>> {
     private userService = AppInjector.get(UserService);
-    private languageService = AppInjector.get(LanguageService);
+    public languageService = AppInjector.get(LanguageService);
     private asyncCacheService = AppInjector.get(AsyncacheService);
     private router = AppInjector.get(Router);
 

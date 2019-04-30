@@ -15,6 +15,7 @@ import { HeaderComponent } from './components/headers/header/header.component';
 import { RequestDisplayComponent } from './components/headers/request-display/request-display.component';
 import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave.component';
 import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
+import { ModalComponent } from './components/modals/modal.component';
 import { UpdateService } from './core/api/update.service';
 import { httpInterceptorProviders } from './core/interceptors/index-interceptors';
 import { ProfileComponent } from './modules/profile/profile.component';
@@ -31,6 +32,7 @@ import { SharedModule } from './shared/shared.module';
         ModalLeaveComponent,
         RequestDisplayComponent,
         ModalRequestsComponent,
+        ModalComponent,
     ],
     imports: [
         // Modules

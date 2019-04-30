@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
         public _generalService: GeneralService,
         public modalService: ModalService,
         private userService: UserService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     ngOnInit() {

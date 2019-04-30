@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
-import { Beneficiary, Gender, ResidencyStatus } from 'src/app/model/beneficiary.new';
+import { Beneficiary, Gender, ResidencyStatus, BeneficiaryOptions } from 'src/app/model/beneficiary.new';
 import { CountrySpecificAnswer } from 'src/app/model/country-specific.new';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { Households, Livelihood } from 'src/app/model/households.new';
@@ -100,7 +100,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         public dialog: MatDialog,
         public snackbar: SnackbarService,
         public router: Router,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     ngOnInit() {
@@ -333,7 +333,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
     }
 
-    getBeneficiaryOptions(): Object {
+    getBeneficiaryOptions(): BeneficiaryOptions {
         return {
             vulnerabilityList: this.vulnerabilityList,
             countryCodesList: this.countryCodesList,

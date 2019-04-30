@@ -43,7 +43,7 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
         private dialogRef: MatDialogRef<ModalRequestsComponent>,
         private cacheService: AsyncacheService,
         private snackbar: SnackbarService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) { }
 

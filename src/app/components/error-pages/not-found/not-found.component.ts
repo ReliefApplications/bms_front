@@ -11,7 +11,7 @@ export class NotFoundComponent implements OnInit {
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
     constructor (
-    private languageService: LanguageService,
+    public languageService: LanguageService,
     ) {}
     ngOnInit() {}
 }

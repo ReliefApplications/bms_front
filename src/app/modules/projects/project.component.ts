@@ -60,7 +60,7 @@ export class ProjectComponent implements OnInit {
         public networkService: NetworkService,
         public modalService: ModalService,
         public userService: UserService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         ) { }
 
     ngOnInit() {

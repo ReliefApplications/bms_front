@@ -56,7 +56,7 @@ export class BeneficiariesComponent implements OnInit {
         public locationService: LocationService,
         public modalService: ModalService,
         public userService: UserService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     // For windows size

@@ -276,12 +276,12 @@ export class English implements Language {
     distribution_want_add = 'that you want to add to the '
 
     // Header
-    'header_add-beneficiaries': 'Add Beneficiaries'
-    'header_add-distribution': 'Add Distribution'
+    'header_add-beneficiaries' = 'Add Beneficiaries'
+    'header_add-distribution' = 'Add Distribution'
     header_beneficiaries = 'Beneficiaries'
     header_disconnect = 'log out'
-    'header_distributions': 'Distribution'
-    'header_data-validation': 'Data Validation'
+    'header_distributions' = 'Distribution'
+    'header_data-validation' = 'Data Validation'
     header_home = 'Home'
     header_import = 'Import beneficiary data'
     header_imported = 'Imported beneficiaries data'
@@ -290,7 +290,7 @@ export class English implements Language {
     header_projects = 'Projects'
     header_reports = 'Reports'
     header_settings = 'Settings'
-    'header_update-beneficiary': 'Update Beneficiaries'
+    'header_update-beneficiary' = 'Update Beneficiaries'
     header_vouchers = 'Vouchers'
 
     // Import

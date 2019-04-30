@@ -16,6 +16,8 @@ export class LanguageService {
 
     public readonly enabledLanguages: Array<Language> = [ this.english, this.arabic ];
 
+    public userLanguages: Array<Language>;
+
     // This default value's reference is not contained in enabledLanguages.
     public selectedLanguage: Language = new English();
 //

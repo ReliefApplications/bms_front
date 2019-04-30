@@ -7,6 +7,7 @@ import { Country } from 'src/app/model/country';
 import { FailedRequestInterface, StoredRequestInterface } from 'src/app/model/stored-request';
 import { User } from 'src/app/model/user.new';
 import { Language } from 'src/texts/language';
+import { CountriesService } from '../countries/countries.service';
 import { LanguageService } from './../../../texts/language.service';
 import { CachedItemInterface } from './cached-item.interface';
 
@@ -53,6 +54,7 @@ export class AsyncacheService implements OnInit {
 
     constructor(
         private languageService: LanguageService,
+        private countriesService: CountriesService,
         protected localStorage: LocalStorage,
         protected http: HttpClient,
     ) {
@@ -182,15 +184,16 @@ export class AsyncacheService implements OnInit {
 
     getCountry(): Observable<Country> {
         // countries are stored in user object TODO: don't
-        const countries = new User().get('countries').fields.options;
+        const countries: Array<Country> = this.countriesService.enabledCountries;
 
         return this.get(AsyncacheService.COUNTRY).pipe(
             map((countryId: string) => {
-                return countries.forEach((country: Country) => {
+               for (const country of countries) {
                     if (country.get<string>('id') === countryId) {
                         return country;
                     }
-                });
+                }
+                return undefined;
             })
         );
     }

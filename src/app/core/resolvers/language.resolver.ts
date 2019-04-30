@@ -67,13 +67,5 @@ export class LanguageResolver implements Resolve<Language | Observable<Language>
         );
 
 
-        // const userLanguage = this.languageService.stringToLanguage(this.userService.currentUser.get<string>('language'));
-        // // User has a default language
-        // if (userLanguage) {
-        //     console.log('incache');
-        //     return userLanguage;
-        // }
-
-
     }
 }

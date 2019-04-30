@@ -4,7 +4,7 @@
 
 <ng-template #isBoolean>
     <ng-container *ngIf="field.kindOfField === 'Boolean' ; else isObject">
-        Hello
+
     </ng-container>
 </ng-template>
 
@@ -23,7 +23,7 @@
                 <div class="multiple-items">
                     <span *ngFor="let value of field.displayTableFunction(field.value)">
                             <ng-container *ngIf="field.isImageInTable; else notImage">
-                                <app-icon-svg [imagePath]="value"></app-icon-svg>
+                                <app-icon-svg [imagePath]="value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
                             </ng-container>
                             <ng-template #notImage>
                                 {{value}}
@@ -39,7 +39,7 @@
         <div class="multiple-items">
             <span *ngFor="let value of field.value">
                 <ng-container *ngIf="field.isImageInTable; else notImage">
-                    <app-icon-svg [imagePath]="value.getImage()"></app-icon-svg>
+                    <app-icon-svg [imagePath]="value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
                 </ng-container>
                 <ng-template #notImage>
                         {{value.get(field.bindField) | titlecase }}
@@ -52,7 +52,7 @@
 <ng-template #isSingleSelect>
     <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isNotSelect">
             <ng-container *ngIf="field.isImageInTable; else singleNotImage">
-                <app-icon-svg [imagePath]="field.value.getImage()"></app-icon-svg>
+                <app-icon-svg [imagePath]="field.value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
             </ng-container>
             <ng-template #singleNotImage>
                 <ng-container *ngIf="field.value">{{field.value.get(field.bindField) | titlecase }}</ng-container>
@@ -62,7 +62,8 @@
 
 <ng-template #isNotSelect>
     <ng-container *ngIf="field.kindOfField === 'Date'; else isNotDate">
-        <ng-container *ngIf="field.value">{{ field.value }}</ng-container>
+        <ng-container *ngIf="field.value && !field.displayTime">{{ field.value | date: 'dd-MM-yyyy' }}</ng-container>
+        <ng-container *ngIf="field.value && field.displayTime">{{ field.value | date: 'dd-MM-yyyy HH:mm' }}</ng-container>
     </ng-container>
 </ng-template>
 <ng-template #isNotDate>

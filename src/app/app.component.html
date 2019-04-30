@@ -5,35 +5,35 @@
             <mat-list-item *ngIf="!smallScreenMode" routerLink="/">
                 <img src="assets/images/bms_logo.png" mat-list-icon>
             </mat-list-item>
-            <mat-list-item [ngClass]="{selected: router.url ==='/'}" routerLink="/">
-                <span class="full-width" *ngIf="isShowing">{{menu.home | titlecase}}</span>
+            <mat-list-item [ngClass]="{selected: matchUrl() === ''}" routerLink="/">
+                <span class="full-width" *ngIf="isShowing">{{language.home | titlecase}}</span>
                 <mat-icon mat-list-icon>home</mat-icon>
             </mat-list-item>
-            <mat-list-item [ngClass]="{selected: router.url ==='/projects'}" routerLink="/projects">
-                <span class="full-width" *ngIf="isShowing">{{menu.projects | titlecase}}</span>
+            <mat-list-item [ngClass]="{selected: matchUrl() === 'projects'}" routerLink="/projects">
+                <span class="full-width" *ngIf="isShowing">{{language.projects | titlecase}}</span>
                 <mat-icon mat-list-icon>assignment</mat-icon>
             </mat-list-item>
-            <mat-list-item [ngClass]="{selected: router.url ==='/beneficiaries'}" routerLink="/beneficiaries">
-                <span class="full-width" *ngIf="isShowing">{{menu.beneficiaries | titlecase}}</span>
+            <mat-list-item [ngClass]="{selected: matchUrl() === 'beneficiaries'}" routerLink="/beneficiaries">
+                <span class="full-width" *ngIf="isShowing">{{language.beneficiaries | titlecase}}</span>
                 <mat-icon mat-list-icon>supervisor_account</mat-icon>
             </mat-list-item>
-            <mat-list-item [ngClass]="{selected: router.url ==='/reports'}" routerLink="/reports">
-                <span class="full-width" *ngIf="isShowing">{{menu.reports | titlecase}}</span>
+            <mat-list-item [ngClass]="{selected: matchUrl() === 'reports'}" routerLink="/reports">
+                <span class="full-width" *ngIf="isShowing">{{language.reports | titlecase}}</span>
                 <mat-icon mat-list-icon>timeline</mat-icon>
             </mat-list-item>
-            <mat-list-item [ngClass]="{selected: router.url ==='/vouchers'}" routerLink="/vouchers">
-                <span class="full-width" *ngIf="isShowing">{{menu.voucher | titlecase}}</span>
+            <mat-list-item [ngClass]="{selected: matchUrl() === 'vouchers'}" routerLink="/vouchers">
+                <span class="full-width" *ngIf="isShowing">{{language.voucher | titlecase}}</span>
                 <mat-icon mat-list-icon>local_activity</mat-icon>
             </mat-list-item>
-            <mat-list-item *ngIf="userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS')" [ngClass]="{selected: router.url ==='/settings'}" routerLink="/settings">
-                <span class="full-width" *ngIf="isShowing">{{menu.settings | titlecase}}</span>
+            <mat-list-item *ngIf="userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS')" [ngClass]="{selected: matchUrl() === 'settings'}" routerLink="/settings">
+                <span class="full-width" *ngIf="isShowing">{{language.settings | titlecase}}</span>
                 <mat-icon mat-list-icon>settings</mat-icon>
             </mat-list-item>
         </mat-nav-list>
     </mat-sidenav>
 
 
-    <mat-sidenav-content  class="page-content-wrapper" [ngClass]="{noMargin: !smallScreenMode && router.url ==='/login'}">
+    <mat-sidenav-content class="page-content-wrapper" [ngClass]="{'no-margin': !smallScreenMode && router.url ==='/login'}">
         <mat-toolbar *ngIf="!smallScreenMode && router.url !=='/login'">
             <app-header *ngIf="userService.currentUser"></app-header>
         </mat-toolbar>

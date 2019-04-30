@@ -1,20 +1,20 @@
-import { Component, DoCheck, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
 import { LocationService } from 'src/app/core/api/location.service';
+import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Households } from 'src/app/model/households.new';
-import { GlobalText } from '../../../../texts/global';
+import { LanguageService } from 'src/texts/language.service';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { ImportService } from '../../../core/utils/beneficiaries-import.service';
 import { Project } from '../../../model/project.new';
-import { UserService } from 'src/app/core/api/user.service';
 
 
 export interface Api {
@@ -32,10 +32,8 @@ export interface ApiParameter {
     templateUrl: './beneficiaries-import.component.html',
     styleUrls: ['./beneficiaries-import.component.scss', '../../../components/modals/modal.component.scss']
 })
-export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy {
+export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     public nameComponent = 'beneficiaries_import_title';
-    public language = GlobalText.language;
-    public household = GlobalText.TEXTS;
     loadingExport = false;
 
 
@@ -96,6 +94,9 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
     public selectedApi: Api;
     apiSelectorSubscriber: Subscription;
 
+    // Language
+    public language = this.languageService.selectedLanguage;
+
     constructor(
         public _householdsService: HouseholdsService,
         public _importService: ImportService,
@@ -107,12 +108,13 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
         private dialog: MatDialog,
         private locationService: LocationService,
         private userService: UserService,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {
 
         if (!this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT')) {
-            this.snackbar.error(this.household.forbidden_message);
+            this.snackbar.error(this.language.forbidden_message);
             this.router.navigate(['']);
         } else {
             this.getProjects();
@@ -135,18 +137,6 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
                 }
             );
 
-    }
-
-
-    /**
-     * check if the langage has changed
-     */
-    ngDoCheck() {
-        if (this.household !== GlobalText.TEXTS) {
-            this.household = GlobalText.TEXTS;
-        } else if (this.language !== GlobalText.language) {
-            this.language = GlobalText.language;
-        }
     }
 
     ngOnDestroy(): void {
@@ -414,7 +404,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
 
     confirmImport() {
         if (!this.csv2 || this.saveLocation.adm1 === '') {
-            this.snackbar.error(this.household.beneficiaries_import_select_location);
+            this.snackbar.error(this.language.beneficiaries_import_select_location);
         }
 
         const data = new FormData();
@@ -446,13 +436,13 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
             }, (err) => {
                 this.dialog.closeAll();
                 this.csv2 = null;
-                this.snackbar.info(this.household.beneficiaries_import_response);
+                this.snackbar.info(this.language.beneficiaries_import_response);
             })
             .catch(
                 () => {
                     this.dialog.closeAll();
                     this.csv2 = null;
-                    this.snackbar.error(this.household.beneficiaries_import_error_importing);
+                    this.snackbar.error(this.language.beneficiaries_import_error_importing);
                 });
     }
 
@@ -557,7 +547,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
      */
     importHouseholdsFile() {
         if (!this.csv || !this.fileForm.controls['projects'].valid || this.load) {
-            this.snackbar.error(this.household.beneficiaries_import_select_project);
+            this.snackbar.error(this.language.beneficiaries_import_select_project);
         } else {
             this.load = true;
             this._importService.sendCsv(this.csv, this.email, this.fileForm.controls['projects'].value).subscribe((response: any) => {
@@ -576,7 +566,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
     importHousholdsApi() {
         this.load = true;
         if (!this.apiForm.valid) {
-            this.snackbar.error(this.household.beneficiaries_import_check_fields);
+            this.snackbar.error(this.language.beneficiaries_import_check_fields);
             return;
         }
         const params = {};
@@ -593,7 +583,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
         this._beneficiariesService.importApi(body, this.apiForm.controls['projects'].value)
             .subscribe(response => {
                 this.load = false;
-                this.snackbar.success(response.message + this.household.beneficiaries_import_beneficiaries_imported);
+                this.snackbar.success(response.message + this.language.beneficiaries_import_beneficiaries_imported);
                 this.newHouseholds = response.households;
                 this.importedHouseholds();
             }, error => {

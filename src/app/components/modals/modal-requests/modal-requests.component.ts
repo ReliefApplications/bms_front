@@ -1,12 +1,11 @@
-import { Component, OnInit, DoCheck, Inject } from '@angular/core';
-import { GlobalText } from 'src/texts/global';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { StoredRequestInterface } from 'src/app/model/stored-request';
+import { Component, DoCheck, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { timer } from 'rxjs';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { timer, of } from 'rxjs';
-import { switchMap, catchError, map } from 'rxjs/operators';
+import { StoredRequestInterface } from 'src/app/model/stored-request';
+import { LanguageService } from 'src/texts/language.service';
 
 @Component({
     selector: 'app-modal-requests',
@@ -21,9 +20,6 @@ import { switchMap, catchError, map } from 'rxjs/operators';
     ],
 })
 export class ModalRequestsComponent implements OnInit, DoCheck {
-
-    public modal = GlobalText.TEXTS;
-    public language = GlobalText.language;
 
     // Table constants.
     public columnsToDisplay = ['icon', 'method', 'target', 'date', 'actions'];
@@ -40,11 +36,15 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
     public progressCountFail = 0;
     public errors: Array<any>;
 
+    // Language
+    public language = this.languageService.selectedLanguage;
+
     constructor(
-        @Inject(MAT_DIALOG_DATA) public data: any,
         private dialogRef: MatDialogRef<ModalRequestsComponent>,
         private cacheService: AsyncacheService,
         private snackbar: SnackbarService,
+        private languageService: LanguageService,
+        @Inject(MAT_DIALOG_DATA) public data: any,
     ) { }
 
     ngOnInit() {

@@ -1,27 +1,26 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, DoCheck, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { TableServerComponent } from 'src/app/components/table/table-server/table-server.component';
 import { LocationService } from 'src/app/core/api/location.service';
+import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { GlobalText } from '../../../texts/global';
+import { LanguageService } from 'src/texts/language.service';
 import { HouseholdsService } from '../../core/api/households.service';
 import { ProjectService } from '../../core/api/project.service';
 import { HouseholdsDataSource } from '../../model/households-data-source';
 import { Households } from '../../model/households.new';
-import { UserService } from 'src/app/core/api/user.service';
 
 @Component({
     selector: 'app-beneficiaries',
     templateUrl: './beneficiaries.component.html',
     styleUrls: ['./beneficiaries.component.scss']
 })
-export class BeneficiariesComponent implements OnInit, DoCheck {
+export class BeneficiariesComponent implements OnInit {
 
-    public household = GlobalText.TEXTS;
     public nameComponent = 'beneficiaries';
     public loadingExport = false;
 
@@ -42,9 +41,11 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
 
     @ViewChild(TableServerComponent) table: TableServerComponent;
 
-
     canEdit     = false;
     canDelete   = false;
+
+    // Language
+    public language = this.languageService.selectedLanguage;
 
     constructor(
         private router: Router,
@@ -55,6 +56,7 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         public locationService: LocationService,
         public modalService: ModalService,
         public userService: UserService,
+        private languageService: LanguageService,
     ) { }
 
     // For windows size
@@ -65,7 +67,6 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
     public maxWidth = 750;
     public heightScreen;
     public widthScreen;
-    public language = GlobalText.language;
 
     // Add Beneficiaries To Project Dialog variables.
     projectForm = new FormControl();
@@ -80,19 +81,6 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         this.getProjects('updateSelection');
         this.canEdit    = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
         this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
-    }
-
-    /**
-     * check if the langage has changed
-     */
-    ngDoCheck() {
-        if (this.household !== GlobalText.TEXTS) {
-            this.household = GlobalText.TEXTS;
-        }
-
-        if (this.language !== GlobalText.language) {
-            this.language = GlobalText.language;
-        }
     }
 
     /**
@@ -178,8 +166,10 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
             });
             this.projectService.addBeneficiaries(this.selectedProject, benefForApi).subscribe(
                 success => {
-                    this.snackbar.success(this.household.beneficiaries_added);
+                    this.snackbar.success(this.language.beneficiaries_added);
                     this.table.loadDataPage();
+                    this.selection = new SelectionModel<Households>(true, []);
+                    this.checkedElements = [];
                 }
             );
         }

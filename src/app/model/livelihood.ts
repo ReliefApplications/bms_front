@@ -1,102 +1,102 @@
 export const LIVELIHOOD = [
     {
         id: '0',
-        name: 'Agriculture - Livestock'
+        language_key: 'livelihood_livestock'
     },
     {
         id: '1',
-        name: 'Agriculture - Crops'
+        language_key: 'livelihood_crops'
     },
     {
         id: '2',
-        name: 'Agriculture – Fishing'
+        language_key: 'livelihood_fishing'
     },
     {
         id: '3',
-        name: 'Agriculture – Other'
+        language_key: 'livelihood_agriculture_other'
     },
     {
         id: '4',
-        name: 'Mining'
+        language_key: 'livelihood_mining'
     },
     {
         id: '5',
-        name: 'Construction'
+        language_key: 'livelihood_construction'
     },
     {
         id: '6',
-        name: 'Manufacturing'
+        language_key: 'livelihood_manufacturing'
     },
     {
         id: '7',
-        name: 'Retail'
+        language_key: 'livelihood_retail'
     },
     {
         id: '8',
-        name: 'Transportation'
+        language_key: 'livelihood_transportation'
     },
     {
         id: '9',
-        name: 'Education'
+        language_key: 'livelihood_education'
     },
     {
         id: '10',
-        name: 'Health Care'
+        language_key: 'livelihood_health'
     },
     {
         id: '11',
-        name: 'Hospitality & Tourism'
+        language_key: 'livelihood_tourism'
     },
     {
         id: '12',
-        name: 'Legal Services'
+        language_key: 'livelihood_legal'
     },
     {
         id: '13',
-        name: 'Home Duties'
+        language_key: 'livelihood_home'
     },
     {
         id: '14',
-        name: 'Religious Service'
+        language_key: 'livelihood_religious'
     },
     {
         id: '15',
-        name: 'IT & Telecommunications'
+        language_key: 'livelihood_telecom'
     },
     {
         id: '16',
-        name: 'Finance & Insurance'
+        language_key: 'livelihood_finance'
     },
     {
         id: '17',
-        name: 'Manual Labour'
+        language_key: 'livelihood_manual'
     },
     {
         id: '18',
-        name: 'NGO & Not for Profit'
+        language_key: 'livelihood_ngo'
     },
     {
         id: '19',
-        name: 'Military or Police'
+        language_key: 'livelihood_military'
     },
     {
         id: '20',
-        name: 'Government & Public Enterprise'
+        language_key: 'livelihood_government'
     },
     {
         id: '21',
-        name: 'Garment Industry'
+        language_key: 'livelihood_garment'
     },
     {
         id: '22',
-        name: 'Security Industry'
+        language_key: 'livelihood_security'
     },
     {
         id: '23',
-        name: 'Service Industry & Other Professionals'
+        language_key: 'livelihood_service'
     },
     {
         id: '24',
-        name: 'Other'
+        language_key: 'livelihood_other'
     }
 ];

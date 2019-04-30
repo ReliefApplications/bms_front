@@ -5,10 +5,11 @@ import { UserService } from 'src/app/core/api/user.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Distribution } from 'src/app/model/distribution.new';
-import { GlobalText } from '../../../texts/global';
+import { LanguageService } from 'src/texts/language.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';
 import { LeafletService } from '../../core/external/leaflet.service';
+import { Language } from './../../../texts/language';
 
 @Component({
     selector: 'app-dashboard',
@@ -18,7 +19,6 @@ import { LeafletService } from '../../core/external/leaflet.service';
 export class DashboardComponent implements OnInit {
 
     distributionData: MatTableDataSource<Distribution>;
-    public dashboard = GlobalText.TEXTS;
     public nameComponent = 'dashboard_title';
     public actualCountry: string;
 
@@ -38,6 +38,10 @@ export class DashboardComponent implements OnInit {
 
     public summary = [];
 
+    // Language
+    public language: Language = this.languageService.selectedLanguage;
+
+
     constructor(
         private serviceMap: LeafletService,
         private _cacheService: AsyncacheService,
@@ -45,6 +49,7 @@ export class DashboardComponent implements OnInit {
         public _generalService: GeneralService,
         public modalService: ModalService,
         private userService: UserService,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {
@@ -60,19 +65,6 @@ export class DashboardComponent implements OnInit {
         this.deletable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
         this.editable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
     }
-
-    /**
-     * check if the langage has changed
-     */
-    // ngDoCheck() {
-    //     if (this.dashboard !== GlobalText.TEXTS) {
-    //         this.dashboard = GlobalText.TEXTS;
-    //     }
-
-    //     if (LeafletService.loading !== this.loadingMap) {
-    //         this.loadingMap = LeafletService.loading;
-    //     }
-    // }
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {

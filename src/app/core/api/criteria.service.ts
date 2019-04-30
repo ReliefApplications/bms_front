@@ -1,7 +1,8 @@
-import { Injectable                                 } from '@angular/core';
-import { HttpService                                } from './http.service';
-import { CustomModelService } from './custom-model.service';
+import { Injectable } from '@angular/core';
 import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/model/criteria.new';
+import { LanguageService } from 'src/texts/language.service';
+import { CustomModelService } from './custom-model.service';
+import { HttpService } from './http.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,9 +11,10 @@ export class CriteriaService extends CustomModelService {
 
     customModelPath = 'distributions/criteria';
     constructor(
-        protected http: HttpService
+        protected http: HttpService,
+        protected languageService: LanguageService,
     ) {
-        super(http);
+        super(http, languageService);
     }
 
     public getBeneficiariesNumber(distributionType: string, criteriaArray: Criteria[], threshold: number, project: string) {

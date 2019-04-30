@@ -516,8 +516,12 @@ mat-horizontal-stepper.disable-step mat-step-header.mat-horizontal-stepper-heade
           justify-self: flex-end;
       }
     }
-
   }
+
+// Remove padding from mat-menus
+.mat-menu-content {
+    padding: 0 !important;
+}
 
 // Snackbar
 snack-bar-container {
@@ -627,8 +631,8 @@ snack-bar-container {
   }
 
   app-icon-svg {
-        width: 7vh !important;
-        height: 7vh !important;
+        width: 5vh !important;
+        height: 5vh !important;
     }
 }
 
@@ -682,4 +686,8 @@ app-icon-svg {
 
 .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
     background-color: $bms_dark_grey;
+}
+
+.mat-calendar-next-button, .mat-calendar-previous-button {
+    transform: rotate(0deg) !important;
 }

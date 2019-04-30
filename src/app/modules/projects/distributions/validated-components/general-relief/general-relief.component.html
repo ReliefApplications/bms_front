@@ -2,17 +2,17 @@
     <div class="container-content box-primary">
         <div *ngIf="transactionData !== undefined" class="progression">
             <div class="commodities" *ngFor="let commodity of actualDistribution.get('commodities')">
-                <h4>{{ commodity.get('modalityType').get('name') }} {{ TEXT.transaction_progress }} {{ getPercentageValue(commodity) }} % </h4>
+                <h4>{{ commodity.get('modalityType').get('name') }} {{ language.transaction_progress }} {{ getPercentageValue(commodity) }} % </h4>
                 <mat-progress-bar mode="determinate" [value]="getPercentageValue(commodity)"></mat-progress-bar>
                 <div class="details">
                     <div class="info_1">
-                        <h5>{{TEXT.transaction_amount_total | titlecase}}</h5>
+                        <h5>{{language.transaction_amount_total | titlecase}}</h5>
                         {{ getTotalCommodityValue(commodity) }} {{commodity.get('unit')}}
                     </div>
 
                     <ng-container>
                         <div class="info_2">
-                            <h5>{{TEXT.transaction_amount_distributed | titlecase}}</h5>
+                            <h5>{{language.transaction_amount_distributed | titlecase}}</h5>
                             {{ getAmountSent(commodity) }} {{commodity.get('unit')}}
                         </div>
                     </ng-container>
@@ -23,14 +23,14 @@
 
         <div class="content-button">
             <div class="action-buttons">
-                <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
+                <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                     <button mat-raised-button class="button-background-primary" (click)="exportTransaction(extensionType, 'generalreliefDistribution')" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
-                        <span>{{TEXT.export | titlecase}}</span>
+                        <span>{{language.export | titlecase}}</span>
                     </button>
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension" *ngIf="!loadingExport">
-                        <div mat-button class="dropdown" [matMenuTriggerFor]="exportTypeTransaction" [ngClass]="{'arabic':language==='ar'}">
+                        <div mat-button class="dropdown" [matMenuTriggerFor]="exportTypeTransaction" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </div>
                         <mat-menu #exportTypeTransaction class="extMenu">
@@ -51,10 +51,10 @@
         </div>
 
         <div class="content-table" *ngIf="!loadingTransaction">
-            <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen >= maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" [selection]="selection"
+            <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen >= maxWidth" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" [selection]="selection"
                 rights="true" (selectChecked)="getChecked($event)" (openModal)="openDialog($event)" [selectable]="true">
             </app-table>
-            <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" rights="true" (openModal)="openDialog($event)">
+            <app-table-mobile *ngIf="widthScreen < maxWidth" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" rights="true" (openModal)="openDialog($event)">
             </app-table-mobile>
         </div>
 
@@ -64,16 +64,16 @@
                 <button mat-stroked-button [disabled]="distributionIsStored" *ngIf="!loaderCache" class="button-text-accent" (click)="storeBeneficiaries()">
                     <mat-icon>save</mat-icon>
                     <ng-container *ngIf="distributionIsStored; else distributionIsntStored">
-                        {{ TEXT.cache_stored_beneficiaries | titlecase }}
+                        {{ language.cache_stored_beneficiaries | titlecase }}
                     </ng-container>
                     <ng-template #distributionIsntStored>
-                        {{ TEXT.cache_store_beneficiaries | titlecase }}
+                        {{ language.cache_store_beneficiaries | titlecase }}
                     </ng-template>
                 </button>
 
                 <mat-spinner [diameter]="35" *ngIf="distributed && checkedLines.length > 0"></mat-spinner>
                 <button mat-raised-button *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR') && !distributed && checkedLines.length > 0" class="button-background-accent" (click)="distributeRelief()">
-                    <mat-icon>send</mat-icon> {{ TEXT.distribution_distribute | titlecase }}
+                    <mat-icon>send</mat-icon> {{ language.distribution_distribute | titlecase }}
                 </button>
             </div>
         </div>

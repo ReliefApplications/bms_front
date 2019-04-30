@@ -110,7 +110,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
         if (new Date() < distributionDate) {
             this.dialog.open(template);
         } else {
-            this.snackbar.error(this.TEXT.snackbar_invalid_transaction_date);
+            this.snackbar.error(this.language.snackbar_invalid_transaction_date);
         }
     }
 
@@ -268,7 +268,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
 
             });
         } else {
-            this.snackbar.error(this.TEXT.distribution_no_right_transaction);
+            this.snackbar.error(this.language.distribution_no_right_transaction);
         }
         this.chartAccepted = false;
     }

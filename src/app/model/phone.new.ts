@@ -1,9 +1,8 @@
-import { TextModelField } from './CustomModel/text-model-field';
-import { NumberModelField } from './CustomModel/number-model-field';
-import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { CustomModel } from './CustomModel/custom-model';
-import { GlobalText } from 'src/texts/global';
+import { NumberModelField } from './CustomModel/number-model-field';
+import { SingleSelectModelField } from './CustomModel/single-select-model-field';
+import { TextModelField } from './CustomModel/text-model-field';
 
 export class PhoneType extends CustomModel {
 
@@ -43,8 +42,11 @@ export class Phone extends CustomModel {
         ),
         type: new SingleSelectModelField(
             {
-                options: [new PhoneType('1', 'Landline'), new PhoneType('2', 'Mobile')],
-                apiLabel: 'name'
+                options: [
+                    new PhoneType('Landline', this.language.phone_type_landline),
+                    new PhoneType('Mobile', this.language.phone_type_mobile)
+                ],
+                apiLabel: 'id'
             }
         )
     };
@@ -55,7 +57,7 @@ export class Phone extends CustomModel {
         newPhone.set('number', phoneFromApi.number);
         newPhone.set('prefix', phoneFromApi.prefix);
         newPhone.set('proxy', phoneFromApi.proxy);
-        newPhone.set('type', newPhone.getOptions('type').filter((option: PhoneType) => option.get('name') === phoneFromApi.type)[0]);
+        newPhone.set('type', newPhone.getOptions('type').filter((option: PhoneType) => option.get('id') === phoneFromApi.type)[0]);
 
         return newPhone;
     }

@@ -24,6 +24,13 @@ export class MultipleSelectModelField extends SelectModelField<Array<CustomModel
      */
     isCheckbox = false;
 
+    /**
+     * Max selection length
+     * @type {number}
+     */
+    maxSelectionLength: number;
+
+
     formatForApi(): any {
         return this.value.map(option => {
             return option.get(this.apiLabel);

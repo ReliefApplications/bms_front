@@ -1,22 +1,17 @@
-import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
-import { Distribution } from 'src/app/model/distribution.new';
-import { Beneficiary } from 'src/app/model/beneficiary.new';
-import { MatTableDataSource, MatDialog, MatStepper } from '@angular/material';
-import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.new';
-import { GlobalText } from 'src/texts/global';
-import { FormControl } from '@angular/forms';
-import { User } from 'src/app/model/user.new';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { MatDialog, MatStepper, MatTableDataSource } from '@angular/material';
 import { DistributionService } from 'src/app/core/api/distribution.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { ActivatedRoute } from '@angular/router';
-import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
+import { NetworkService } from 'src/app/core/api/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { NetworkService } from 'src/app/core/api/network.service';
-import { Observable } from 'rxjs';
-import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
-import { finalize } from 'rxjs/operators';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
+import { Beneficiary } from 'src/app/model/beneficiary.new';
+import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.new';
+import { Distribution } from 'src/app/model/distribution.new';
+import { User } from 'src/app/model/user.new';
+import { LanguageService } from 'src/texts/language.service';
+import { BeneficiariesService } from './../../../../core/api/beneficiaries.service';
 
 @Component({
   selector: 'app-not-validated-distribution',
@@ -58,12 +53,10 @@ export class NotValidatedDistributionComponent implements OnInit {
   finalBeneficiaryData: MatTableDataSource<Beneficiary>;
 
   // Screen display variables.
-  public maxHeight = GlobalText.maxHeight;
-  public maxWidthMobile = GlobalText.maxWidthMobile;
+  public maxHeight = 600;
+  public maxWidth = 750;
   public heightScreen;
   public widthScreen;
-  TEXT = GlobalText.TEXTS;
-  public language = GlobalText.language;
 
   // AddBeneficiary Dialog variables.
   beneficiaryList = new Array<Beneficiary>();
@@ -78,6 +71,9 @@ export class NotValidatedDistributionComponent implements OnInit {
   progression: number;
   hideSnack = false;
 
+  // Language
+  public language = this.languageService.selectedLanguage;
+
   constructor(
       public distributionService: DistributionService,
       public cacheService: AsyncacheService,
@@ -88,6 +84,7 @@ export class NotValidatedDistributionComponent implements OnInit {
       private networkService: NetworkService,
       protected modalService: ModalService,
       public userService: UserService,
+      private languageService: LanguageService,
   ) {
   }
   ngOnInit() {
@@ -104,16 +101,6 @@ checkSize(): void {
     this.heightScreen = window.innerHeight;
     this.widthScreen = window.innerWidth;
 }
-
-//     /**
-//    * check if the langage has changed
-//    */
-//     ngDoCheck() {
-//         if (this.language !== GlobalText.language) {
-//             this.language = GlobalText.language;
-//         }
-//     }
-
 
 /**
  * Gets the Beneficiaries of the actual distribution to display the table
@@ -223,7 +210,7 @@ openDialog(template) {
     (currentDate.getFullYear() === distributionDate.getFullYear() &&
     currentDate.getMonth() === distributionDate.getMonth()) &&
     currentDate.getDate() > distributionDate.getDate()) {
-        this.snackbar.error(GlobalText.TEXTS.snackbar_invalid_transaction_date);
+        this.snackbar.error(this.language.snackbar_invalid_transaction_date);
     } else {
         this.dialog.open(template);
     }
@@ -256,12 +243,12 @@ confirmAdding() {
                                 }
                             }
                         );
-                    this.snackbar.success(this.TEXT.distribution_beneficiary_added);
+                    this.snackbar.success(this.language.distribution_beneficiary_added);
                     this.getDistributionBeneficiaries('final');
                 }
             },
             error => {
-                this.snackbar.error(error.error ? error.error : this.TEXT.distribution_beneficiary_not_added);
+                this.snackbar.error(error.error ? error.error : this.language.distribution_beneficiary_not_added);
             });
 }
 
@@ -277,7 +264,7 @@ confirmValidation() {
                 .subscribe(
                     success => {
                         this.actualDistribution.set('validated', true);
-                        this.snackbar.success(this.TEXT.distribution_validated);
+                        this.snackbar.success(this.language.distribution_validated);
                         this.cacheService.get(
                             AsyncacheService.DISTRIBUTIONS + '_' + this.actualDistribution.get('id') + '_beneficiaries')
                             .subscribe(
@@ -292,14 +279,14 @@ confirmValidation() {
                     },
                     error => {
                         this.actualDistribution.set('validated', false);
-                        this.snackbar.error(this.TEXT.distribution_not_validated);
+                        this.snackbar.error(this.language.distribution_not_validated);
                     }
                 );
         } else {
-            this.snackbar.error(this.TEXT.distribution_error_validate);
+            this.snackbar.error(this.language.distribution_error_validate);
         }
     } else {
-        this.snackbar.error(this.TEXT.distribution_no_right_validate);
+        this.snackbar.error(this.language.distribution_no_right_validate);
     }
 
     this.dialog.closeAll();

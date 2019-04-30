@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
+import { LanguageService } from 'src/texts/language.service';
 import { URL_BMS_API } from '../../../environments/environment';
 import { FinancialProvider } from './../../model/financial-provider.new';
 import { CustomModelService } from './custom-model.service';
@@ -13,8 +14,11 @@ export class FinancialProviderService extends CustomModelService {
     readonly api = URL_BMS_API;
     customModelPath = 'financial/provider';
 
-    constructor(protected http: HttpService) {
-        super(http);
+    constructor(
+        protected http: HttpService,
+        protected languageService: LanguageService,
+    ) {
+        super(http, languageService);
     }
 
     // Not expecting an Id here, as there is only one financial provider.

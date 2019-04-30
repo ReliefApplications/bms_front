@@ -26,11 +26,12 @@ import { ThousandsPipe } from 'src/app/core/utils/thousands.pipe';
 import { UppercaseFirstPipe } from 'src/app/core/utils/uppercase-first.pipe';
 import { BoxDashboardComponent } from '../components/box/box-dashboard/box-dashboard.component';
 import { BoxPropertiesComponent } from '../components/box/box-properties/box-properties.component';
-import { DisplayFieldComponent } from '../components/common/display-field/display-field.component';
 import { BoxSettingComponent } from '../components/box/box-setting/box-setting.component';
+import { DisplayFieldComponent } from '../components/common/display-field/display-field.component';
+import { HintErrorComponent } from '../components/hint-error/hint-error.component';
 import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
-import { ModalAddCriteriaComponent } from '../components/modals/modal-add-criteria/modal-add-criteria.component';
 import { ModalAddCommodityComponent } from '../components/modals/modal-add-commodity/modal-add-commodity.component';
+import { ModalAddCriteriaComponent } from '../components/modals/modal-add-criteria/modal-add-criteria.component';
 import { ModalAddComponent } from '../components/modals/modal-add/modal-add.component';
 import { ModalAssignComponent } from '../components/modals/modal-assign/modal-assign.component';
 import { ModalDeleteComponent } from '../components/modals/modal-delete/modal-delete.component';
@@ -45,26 +46,26 @@ import { PlaceholderPanelComponent } from '../components/placeholders/placeholde
 import { PlaceholderStepperComponent } from '../components/placeholders/placeholder-stepper/placeholder-stepper.component';
 import { PlaceholderSummaryComponent } from '../components/placeholders/placeholder-summary/placeholder-summary.component';
 import { PlaceholderTitleComponent } from '../components/placeholders/placeholder-title/placeholder-title.component';
-import { TableServerComponent } from '../components/table/table-server/table-server.component';
 import { TableMobileServerComponent } from '../components/table/table-mobile-server/table-mobile-server.component';
 import { TableMobileComponent } from '../components/table/table-mobile/table-mobile.component';
+import { TableServerComponent } from '../components/table/table-server/table-server.component';
 import { TableComponent } from '../components/table/table.component';
 import { BeneficiariesImportComponent } from '../modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
 import { ImportedDataComponent } from '../modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
 import { BeneficiariesComponent } from '../modules/beneficiary/beneficiaries.component';
 import { DataValidationComponent } from '../modules/beneficiary/data-validation/data-validation.component';
-import { UpdateBeneficiaryComponent } from '../modules/beneficiary/update-beneficiary/update-beneficiary.component';
 import { BeneficiaryFormComponent } from '../modules/beneficiary/update-beneficiary/beneficiary-form/beneficiary-form.component';
+import { UpdateBeneficiaryComponent } from '../modules/beneficiary/update-beneficiary/update-beneficiary.component';
 import { DashboardComponent } from '../modules/dashboard/dashboard.component';
 import { AddDistributionComponent } from '../modules/projects/add-distribution/add-distribution.component';
 import { DistributionsComponent } from '../modules/projects/distributions/distributions.component';
 import { ImportDistributionComponent } from '../modules/projects/distributions/import-distribution/import-distribution.component';
+// tslint:disable-next-line
+import { NotValidatedDistributionComponent } from '../modules/projects/distributions/not-validated-distribution/not-validated-distribution.component';
 import { GeneralReliefComponent } from '../modules/projects/distributions/validated-components/general-relief/general-relief.component';
 import { MobileMoneyComponent } from '../modules/projects/distributions/validated-components/mobile-money/mobile-money.component';
 import { QrVoucherComponent } from '../modules/projects/distributions/validated-components/qr-voucher/qr-voucher.component';
 import { ValidatedDistributionComponent } from '../modules/projects/distributions/validated-components/validated-distribution.component';
-// tslint:disable-next-line
-import { NotValidatedDistributionComponent } from '../modules/projects/distributions/not-validated-distribution/not-validated-distribution.component';
 import { ProjectComponent } from '../modules/projects/project.component';
 import { LoginComponent } from '../modules/public/login.component';
 import { SettingsComponent } from '../modules/settings/settings.component';
@@ -151,6 +152,7 @@ imports: [
         BoxSettingComponent,
         BoxPropertiesComponent,
         DisplayFieldComponent,
+        HintErrorComponent,
         DataValidationComponent,
         DistributionsComponent,
         MobileMoneyComponent,
@@ -201,6 +203,7 @@ imports: [
         BoxDashboardComponent,
         BoxPropertiesComponent,
         DisplayFieldComponent,
+        HintErrorComponent,
         TableComponent,
         TableMobileComponent,
         TableMobileServerComponent,

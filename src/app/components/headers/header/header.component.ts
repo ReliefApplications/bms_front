@@ -1,218 +1,117 @@
-import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
-import { User, Country } from 'src/app/model/user.new';
-import { Component, DoCheck, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { NavigationEnd, Router } from '@angular/router';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { Event, NavigationStart, Router, NavigationEnd } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { CountriesService } from 'src/app/core/countries/countries.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { GlobalText } from '../../../../texts/global';
-import { ModalLanguageComponent } from '../../../components/modals/modal-language/modal-language.component';
-import { UserService } from './../../../core/api/user.service';
+import { Country } from 'src/app/model/country';
+import { LanguageService } from 'src/texts/language.service';
+import { ModalLanguageComponent } from './../../modals/modal-language/modal-language.component';
 
-
+export interface Breadcrumb {
+    name: string;
+    route: string;
+}
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: [ './header.component.scss' ]
 })
-export class HeaderComponent implements OnInit, DoCheck {
-    public header = GlobalText.TEXTS;
-    public language = 'en';
+export class HeaderComponent implements OnInit, OnDestroy {
 
-    // User countries
-    requesting = false;
-    countries: string[] = [];
-    selectedCountry: string;
 
-    @Output() emitLogOut = new EventEmitter();
+    // Language
+    public language = this.languageService.selectedLanguage;
 
-    public currentRoute = '/';
-    public breadcrumb: Array<any> = [
-        {
-            route: '/',
-            name: this.header.home
-        }
-    ];
+    // Countries
+    public selectedCountry: Country;
+    public countries: Array<Country>;
+    private subscriptions: Array<Subscription>;
 
-    // Tooltip
-    public tooltip;
+    // Breadcrumbs
+    public breadcrumbs: Array<Breadcrumb>;
 
     constructor(
-        public dialog: MatDialog,
-        public router: Router,
-        private userService: UserService,
-        private asyncacheService: AsyncacheService,
-        private authenticationService: AuthenticationService,
-        private snackbar: SnackbarService,
+        private dialog: MatDialog,
+        private languageService: LanguageService,
+        private asynCacheService: AsyncacheService,
+        private countriesService: CountriesService,
+        private router: Router,
     ) {
-        router.events.subscribe((event) => {
+
+    }
+    ngOnInit(): void {
+        this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationEnd) {
-                this.currentRoute = event.url;
-                if (this.currentRoute.indexOf('?') > -1) {
-                    this.currentRoute = this.currentRoute.substring(0, this.currentRoute.indexOf('?'));
-                }
-                this.updateBreadcrumb();
-                this.updateTooltip();
+                this.updateBreadcrumbs(event.url);
             }
+        });
+
+        this.subscriptions = [
+                this.countriesService.selectedCountry.subscribe((country: Country) => {
+                    this.selectedCountry = country;
+                }),
+                this.countriesService.selectableCountries.subscribe((countries: Array<Country>) => {
+                    this.countries = countries;
+                }),
+        ];
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.forEach((subscription: Subscription) => {
+            subscription.unsubscribe();
         });
     }
 
-    ngOnInit() {
-        this.language = GlobalText.language;
-        this.getCorrectCountries();
-        this.updateTooltip();
 
-        if (this.breadcrumb.length === 1) {
-            this.currentRoute = this.router.url;
-            if (this.currentRoute.indexOf('?') > -1) {
-                this.currentRoute = this.currentRoute.substring(0, this.currentRoute.indexOf('?'));
-            }
-            this.updateBreadcrumb();
-        }
-    }
+//
+// ─── COUNTRIES MANAGEMENT ───────────────────────────────────────────────────────
+//
 
-    ngDoCheck() {
-        if (this.header !== GlobalText.TEXTS) {
-            this.header = GlobalText.TEXTS;
-            this.updateBreadcrumb();
-            this.updateTooltip();
-        }
-
-        if (this.language !== GlobalText.language) {
-            this.language = GlobalText.language;
-        }
-    }
-
-    getCorrectCountries() {
-        const user = this.userService.currentUser;
-        this.countries = [];
-        if (!user) {
-            return;
-        }
-        if (this.userService.hasRights('ROLE_SWITCH_COUNTRY')) {
-            this.userService.currentUser.getOptions('countries').forEach((country: Country) => {
-                this.countries.push(country.get('id'));
-            });
-        }
-        else {
-            this.userService.currentUser.get<Country[]>('countries').forEach((element) => {
-                this.countries.push(element.get('id'));
-            });
-        }
-
-        this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe((result) => {
-            if (result) {
-                this.selectCountry(result);
-            } else {
-                this.selectCountry(this.countries[0]);
-            }
-        });
-    }
-
-    selectCountry(c: string) {
-        if (c) {
-            if (!this.selectedCountry || !GlobalText.country) {
-                this.autoLanguage(c);
-            } else if (GlobalText.country && this.selectedCountry && c !== this.selectedCountry) {
-                this.preventSnack(c);
-            }
-
-            this.selectedCountry = c;
-            GlobalText.country = c;
-            this.asyncacheService.set(AsyncacheService.COUNTRY, this.selectedCountry);
-        }
-    }
-
-    autoLanguage(c: string) {
-        if (!this.userService.currentUser.get<string>('language')) {
-            if (c === 'SYR') {
-                GlobalText.changeLanguage('ar');
-            } else if (c === 'KHM') {
-                GlobalText.changeLanguage('en');
-            }
-        }
-    }
-
-    preventSnack(country: string) {
-        const snack = this.snackbar.info(
-            'Page is going to reload in 3 sec to switch to ' + country + ' country. ',
-            'Reload'
-        );
-
-        snack.onAction().subscribe(() => {
-            window.location.reload();
-        });
-
-        snack.afterDismissed().subscribe(() => {
+    public selectCountry(country: Country): void {
+        this.asynCacheService.setCountry(country).subscribe((_: any) => {
             window.location.reload();
         });
     }
 
-    /**
+//
+// ─── LANGUAGE ───────────────────────────────────────────────────────────────────
+//
+
+    openLanguageDialog() {
+        this.dialog.open(ModalLanguageComponent, {});
+    }
+
+//
+// ─── BREADCRUMBS ────────────────────────────────────────────────────────────────
+//
+
+/**
      * Update the breadcrumb according to the current route
      */
-    updateBreadcrumb() {
-        const parsedRoute = this.currentRoute.split('/');
+    updateBreadcrumbs(url: string) {
+        url = url.split('?')[0];
+        const parsedRoute = url.split('/');
 
-        this.breadcrumb = [
-            {
-                route: '/',
-                name: this.header.home
-            }
-        ];
+        this.breadcrumbs = [{
+            route: '/',
+            name: this.language.home
+        }];
 
         parsedRoute.forEach((item, index) => {
             if (index > 0 && item !== '') {
                 if (isNaN(+item)) {
                     const breadcrumbItem = {
-                        route: this.breadcrumb[index - 1].route + (index === 1 ? '' : '/') + item,
-                        name: this.header['header_' + item]
+                        route: this.breadcrumbs[index - 1].route + (index === 1 ? '' : '/') + item,
+                        name: this.language['header_' + item]
                     };
-                    this.breadcrumb.push(breadcrumbItem);
+                    this.breadcrumbs.push(breadcrumbItem);
                 } else {
-                    const length = this.breadcrumb.length;
-                    this.breadcrumb[length - 1].route = this.breadcrumb[length - 1].route + '/' + item;
+                    const length = this.breadcrumbs.length;
+                    this.breadcrumbs[length - 1].route = this.breadcrumbs[length - 1].route + '/' + item;
                 }
             }
         });
     }
-
-    /**
-     * Update the text of the tooltip
-     */
-    updateTooltip() {
-        const parsedRoute = this.currentRoute.split('/').filter((element) => isNaN(parseInt(element, 10)));
-        const page = parsedRoute[parsedRoute.length - 1];
-
-        if (page === '') {
-            this.tooltip = this.header['tooltip_dashboard'];
-        } else {
-            this.tooltip = this.header['tooltip_' + page.replace('-', '_')];
-        }
-    }
-
-    logOut(): void {
-        this.authenticationService.logout().subscribe(
-            _response => {
-                this.userService.currentUser = undefined;
-            }
-        );
-    }
-
-    /**
-    * open each modal dialog
-    */
-    openDialog(user_action): void {
-        let dialogRef;
-
-        if (user_action === 'language') {
-            dialogRef = this.dialog.open(ModalLanguageComponent, {});
-        }
-
-        dialogRef.afterClosed().subscribe((result) => {
-            this.language = GlobalText.language;
-        });
-    }
-
 }

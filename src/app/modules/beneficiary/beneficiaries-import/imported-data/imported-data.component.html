@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{household.header_imported | titlecase}}</h2>
+    <h2>{{language.header_imported | titlecase}}</h2>
   </div>
 
   <app-placeholder-panel *ngIf='loadingTable' class="container-table"></app-placeholder-panel>
@@ -20,11 +20,11 @@
         <div class="action-buttons">
           <button mat-raised-button class="button-background-primary project-button" (click)="goProject()">
             <mat-icon>assignment</mat-icon>
-            <span>{{ household.import_back_to_project }}</span>
+            <span>{{ language.import_back_to_project }}</span>
           </button>
           <button mat-raised-button class="button-background-primary" (click)="goBeneficiaries()">
             <mat-icon>supervisor_account</mat-icon>
-            <span>{{ household.import_back_to_beneficiaries }}</span>
+            <span>{{ language.import_back_to_beneficiaries }}</span>
           </button>
           </div>
       </div>

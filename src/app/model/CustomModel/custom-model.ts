@@ -1,4 +1,5 @@
-import { GlobalText } from 'src/texts/global';
+import { LanguageService } from './../../../texts/language.service';
+import { AppInjector } from './../../app-injector';
 
 export abstract class CustomModel {
 
@@ -8,6 +9,11 @@ export abstract class CustomModel {
 
     // TODO: create interface for typing purpose
     abstract fields: any;
+
+    protected languageService = AppInjector.get(LanguageService);
+
+    // Language
+    protected language = this.languageService.selectedLanguage;
 
     public fillWithOptions() {
     }
@@ -32,17 +38,18 @@ export abstract class CustomModel {
     }
 
     public getIdentifyingName() {
-        return GlobalText.TEXTS.this + ' ' + this.title;
+        return `${this.language.this} ${this.title}`;
     }
 
     public get<T = CustomModel>(field: string): T {
         return this.fields[field] ? this.fields[field].value : null;
     }
 
-    public set(field: string, value: any) {
+    public set(field: string, value: any): CustomModel {
         if (this.fields[field]) {
             this.fields[field].value = value;
         }
+        return this;
     }
 
     public getOptions(field: string) {

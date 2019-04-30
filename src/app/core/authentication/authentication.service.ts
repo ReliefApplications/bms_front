@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ErrorInterface, User } from '../../model/user.new';
 import { URL_BMS_API } from '../../../environments/environment';
 import { SaltInterface } from '../../model/salt';
+import { ErrorInterface, User } from '../../model/user.new';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { WsseService } from './wsse.service';
 
@@ -45,11 +45,12 @@ export class AuthenticationService {
         return this.http.get<any>(URL_BMS_API + '/check');
     }
 
-    login(user: User) {
+    login(username: string, password: string) {
         return new Promise<User | ErrorInterface | null>((resolve, reject) => {
-            this.requestSalt(user.get<string>('email')).subscribe(success => {
+            this.requestSalt(username).subscribe(success => {
                 const getSalt = success as SaltInterface;
-                user.set('password', this._wsseService.saltPassword(getSalt.salt, user.get<string>('password')));
+                const saltedPassword = this._wsseService.saltPassword(getSalt.salt, password);
+                const user = new User().set('email', username).set('password', saltedPassword);
                 this.logUser(user.modelToApi()).subscribe((userFromApi: object) => {
                     if (userFromApi) {
                         this.user = User.apiToModel(userFromApi);

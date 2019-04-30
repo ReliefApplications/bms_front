@@ -44,7 +44,7 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
 
     advancedResearch = false;
 
-    public keyupTimeout: NodeJS.Timer;
+    public keyupTimeout: any;
 
     @Input() selectable = false;
     @Input() selection: any;
@@ -136,10 +136,14 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         this.paginator.pageIndex = 0;
 
         // Wait until user has finished typing to send data
-        clearTimeout(this.keyupTimeout);
-        this.keyupTimeout = setTimeout(
-            this.loadDataPage.bind(this), 500
-        );
+        if (category === 'any') {
+            clearTimeout(this.keyupTimeout);
+            this.keyupTimeout = setTimeout(
+                this.loadDataPage.bind(this), 500
+            );
+        } else {
+            this.loadDataPage();
+        }
     }
 
     createForm() {

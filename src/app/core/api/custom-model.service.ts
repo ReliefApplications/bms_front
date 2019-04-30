@@ -1,16 +1,20 @@
-import { GlobalText } from 'src/texts/global';
-import { URL_BMS_API } from '../../../environments/environment';
-import { HttpService } from './http.service';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { URL_BMS_API } from '../../../environments/environment';
+import { LanguageService } from './../../../texts/language.service';
+import { HttpService } from './http.service';
 
 export abstract class CustomModelService {
     readonly apiBase = URL_BMS_API;
 
-    public texts = GlobalText.TEXTS;
+    // Language
+    public language = this.languageService.selectedLanguage;
 
     customModelPath: string;
 
-    constructor(protected http: HttpService) {
+    constructor(
+        protected http: HttpService,
+        protected languageService: LanguageService,
+        ) {
     }
 
     protected setCustomModelPath(path: string) {

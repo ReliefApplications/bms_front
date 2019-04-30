@@ -1,15 +1,14 @@
-import { GlobalText } from '../../texts/global';
 import { CustomModel } from './CustomModel/custom-model';
-import { NumberModelField } from './CustomModel/number-model-field';
-import { TextModelField } from './CustomModel/text-model-field';
 import { DateModelField } from './CustomModel/date-model-field';
-import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
-import { Phone } from './phone.new';
+import { NumberModelField } from './CustomModel/number-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
+import { SingleSelectModelField } from './CustomModel/single-select-model-field';
+import { TextModelField } from './CustomModel/text-model-field';
 import { NationalId } from './nationalId.new';
-import { VulnerabilityCriteria } from './vulnerability-criteria.new';
+import { Phone } from './phone.new';
 import { Profile } from './profile.new';
+import { VulnerabilityCriteria } from './vulnerability-criteria.new';
 
 export class Gender extends CustomModel {
 
@@ -55,7 +54,7 @@ export class BeneficiaryStatus extends CustomModel {
 }
 
 export class Beneficiary extends CustomModel {
-    title = GlobalText.TEXTS.beneficiary;
+    title = this.language.beneficiary;
     matSortActive = 'familyName';
     public fields = {
         id : new NumberModelField(
@@ -68,7 +67,7 @@ export class Beneficiary extends CustomModel {
         ),
         givenName: new TextModelField(
             {
-                title: GlobalText.TEXTS.model_firstName,
+                title: this.language.model_firstName,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -79,7 +78,7 @@ export class Beneficiary extends CustomModel {
         ),
         familyName: new TextModelField(
             {
-                title: GlobalText.TEXTS.model_familyName,
+                title: this.language.model_familyName,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -90,7 +89,7 @@ export class Beneficiary extends CustomModel {
         ),
         gender: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.gender,
+                title: this.language.gender,
                 placeholder: null,
                 isRequired: true,
                 isSettable: true,
@@ -98,8 +97,8 @@ export class Beneficiary extends CustomModel {
                 isDisplayedInTable: true,
                 isEditable: true,
                 options: [
-                    new Gender('0', GlobalText.TEXTS.add_distribution_female),
-                    new Gender('1', GlobalText.TEXTS.add_distribution_male)
+                    new Gender('0', this.language.add_distribution_female),
+                    new Gender('1', this.language.add_distribution_male)
                 ],
                 bindField: 'name',
                 apiLabel: 'id',
@@ -107,18 +106,17 @@ export class Beneficiary extends CustomModel {
             }
         ),
         dateOfBirth: new DateModelField({
-            title: GlobalText.TEXTS.model_dateofbirth,
+            title: this.language.model_dateofbirth,
             placeholder: null,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isRequired: true,
             isSettable: true,
             isEditable: true,
-
         }),
         residencyStatus: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.model_residencystatus,
+                title: this.language.model_residencystatus,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -126,23 +124,23 @@ export class Beneficiary extends CustomModel {
                 isSettable: true,
                 isLongText: false,
                 options: [
-                    new ResidencyStatus('0', 'refugee'),
-                    new ResidencyStatus('1', 'IDP'),
-                    new ResidencyStatus('2', 'resident')
+                    new ResidencyStatus('refugee', this.language.residency_refugee),
+                    new ResidencyStatus('IDP', this.language.residency_idp),
+                    new ResidencyStatus('resident', this.language.residency_resident)
                 ],
                 bindField: 'name',
-                apiLabel: 'name',
-                value: new ResidencyStatus('2', 'resident')
+                apiLabel: 'id',
+                value: new ResidencyStatus('resident', this.language.residency_resident)
             }
         ),
         beneficiaryStatus: new SingleSelectModelField(
             {
-                title: GlobalText.TEXTS.model_beneficiaries_status,
+                title: this.language.model_beneficiaries_status,
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
                 options: [
-                    new BeneficiaryStatus('0', GlobalText.TEXTS.beneficiaries_member),
-                    new BeneficiaryStatus('1', GlobalText.TEXTS.beneficiaries_head)
+                    new BeneficiaryStatus('0', this.language.beneficiaries_member),
+                    new BeneficiaryStatus('1', this.language.beneficiaries_head)
                 ],
                 isRequired: true,
                 isSettable: true,
@@ -153,7 +151,7 @@ export class Beneficiary extends CustomModel {
         ),
         nationalIds: new MultipleObjectsModelField<NationalId>(
             {
-                title: GlobalText.TEXTS.model_beneficiaries_nationalids,
+                title: this.language.model_beneficiaries_nationalids,
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
                 displayTableFunction: null,
@@ -163,18 +161,18 @@ export class Beneficiary extends CustomModel {
         ),
         phones: new MultipleObjectsModelField<Phone>(
             {
-                title: GlobalText.TEXTS.phone,
+                title: this.language.phone,
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
                 displayTableFunction: null,
                 displayModalFunction: null,
-                nullValue: 'none',
+                nullValue: this.language.null_none,
                 value: []
             }
         ),
         vulnerabilities: new MultipleObjectsModelField<VulnerabilityCriteria>(
             {
-                title: GlobalText.TEXTS.model_vulnerabilities,
+                title: this.language.model_vulnerabilities,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isImageInTable: true,
@@ -185,7 +183,7 @@ export class Beneficiary extends CustomModel {
         ),
         fullName: new TextModelField(
             {
-                title: GlobalText.TEXTS.model_donor_fullname,
+                title: this.language.model_donor_fullname,
                 placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
@@ -209,7 +207,7 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.set('id', beneficiaryFromApi.id);
         newBeneficiary.set('givenName', beneficiaryFromApi.given_name);
         newBeneficiary.set('familyName', beneficiaryFromApi.family_name);
-        newBeneficiary.set('dateOfBirth', beneficiaryFromApi.date_of_birth);
+        newBeneficiary.set('dateOfBirth', DateModelField.formatFromApi(beneficiaryFromApi.date_of_birth));
         const status = beneficiaryFromApi.status ? '1' : '0';
         newBeneficiary.set('beneficiaryStatus', newBeneficiary.getOptions('beneficiaryStatus')
                 .filter((option: BeneficiaryStatus) => option.get<string>('id') === status)[0]);
@@ -220,7 +218,7 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.set('residencyStatus',
             beneficiaryFromApi.residency_status ?
             newBeneficiary.getOptions('residencyStatus')
-                .filter((option: ResidencyStatus) => option.get('name') === beneficiaryFromApi.residency_status)[0] :
+                .filter((option: ResidencyStatus) => option.get('id') === beneficiaryFromApi.residency_status)[0] :
             newBeneficiary.get('residencyStatus'));
 
         newBeneficiary.set('gender',
@@ -250,7 +248,7 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.set('profile', beneficiaryFromApi.profile ? Profile.apiToModel(beneficiaryFromApi.profile) : new Profile());
 
 
-        newBeneficiary.fields.vulnerabilities.displayTableFunction = value => this.displayTableVulnerabilities(value);
+        newBeneficiary.fields.vulnerabilities.displayTableFunction = value => value;
         newBeneficiary.fields.vulnerabilities.displayModalFunction =
             value => value.map((vulnerability: VulnerabilityCriteria) => vulnerability.get('name'));
         newBeneficiary.fields.phones.displayTableFunction = value => value.map((phone: Phone) => phone.get('number'));
@@ -259,17 +257,6 @@ export class Beneficiary extends CustomModel {
 
         return newBeneficiary;
 
-    }
-
-    public static displayTableVulnerabilities(value) {
-        const images = [];
-        value.forEach((vulnerability: VulnerabilityCriteria) => {
-            const image = vulnerability.getImage();
-            if (!images.includes(image)) {
-                images.push(image);
-            }
-        });
-        return images;
     }
 
     public modelToApi(): Object {

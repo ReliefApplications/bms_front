@@ -1,41 +1,84 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalText } from '../../../../texts/global';
-import { ModalComponent } from '../modal.component';
-import { User } from './../../../model/user.new';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material';
+import { UserService } from 'src/app/core/api/user.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { Arabic } from 'src/texts/language-arabic';
+import { LanguageService } from 'src/texts/language.service';
+import { Language } from './../../../../texts/language';
 
 @Component({
     selector: 'app-modal-language',
     templateUrl: './modal-language.component.html',
     styleUrls: ['../modal.component.scss', './modal-language.component.scss']
 })
-export class ModalLanguageComponent extends ModalComponent implements OnInit {
-    public languages = GlobalText.languages;
-    public language = GlobalText.language;
+export class ModalLanguageComponent implements OnInit {
     public isCheckedDefault = false;
-    public actualUser: User;
     public default = false;
     public isArabic = false;
+    public languageForm: FormGroup;
 
-    ngOnInit() {
-        this._cacheService.getUser().subscribe((user: User) => {
-            this.actualUser = user;
-            this.default = user.get<string>('language') === this.language ? true : false;
-        });
-        this.isArabic = this.language === 'ar' ? true : false;
+    // Language
+    public language: Language = this.languageService.selectedLanguage;
+
+    constructor(
+        public dialogRef: MatDialogRef<ModalLanguageComponent>,
+        private languageService: LanguageService,
+        public userService: UserService,
+        private snackbar: SnackbarService,
+        private asyncacheService: AsyncacheService,
+        ) {
+
     }
 
-    choseLanguage() {
-        this.language !== this.actualUser.get<string>('language') ? this.default = false : this.default = true;
+    ngOnInit() {
+        this.makeControls();
+        this.isArabic = this.language instanceof Arabic;
+    }
+
+    makeControls() {
+
+        this.languageForm = new FormGroup(
+            {
+                languageControl: new FormControl(this.language, Validators.required),
+                defaultControl: new FormControl(this.languageIsDefault(this.language))
+            }
+            );
+    }
+
+    updateDefault() {
+        this.languageForm.patchValue(
+            {
+                defaultControl: this.languageIsDefault(this.languageForm.value.languageControl)
+            }
+        );
+    }
+
+    private languageIsDefault(language: Language) {
+
+        const defaultLanguage = this.languageService.stringToLanguage(
+            this.userService.currentUser.get<string>('language')
+            );
+        // TODO: language should be stored as a Language object and not a string in user
+        return defaultLanguage.LANGUAGE_ISO ===  language.LANGUAGE_ISO;
     }
 
     save() {
-        GlobalText.changeLanguage(this.language);
-        this.isArabic = this.language === 'ar' ? true : false;
-        if (this.isCheckedDefault) {
-            this.userService.setDefaultLanguage(this.actualUser.get('id'), this.language).subscribe(response => {
-                this.snackbar.success('Default Language Saved');
-            });
+        const newLanguage = this.languageForm.value.languageControl;
+        if (this.languageForm.value.defaultControl) {
+            this.userService.setDefaultLanguage(
+                this.userService.currentUser.get<number>('id'),
+                newLanguage
+                ).subscribe((_response: any) => {
+                    this.snackbar.success('Default Language Saved');
+                    this.asyncacheService.setLanguage(newLanguage);
+                    window.location.reload();
+                }
+            );
+        } else {
+            this.asyncacheService.setLanguage(newLanguage);
+            window.location.reload();
         }
-        this.closeDialog();
     }
 }

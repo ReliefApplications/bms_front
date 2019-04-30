@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { saveAs } from 'file-saver/FileSaver';
+import { AppInjector } from 'src/app/app-injector';
+import { HouseholdFilters } from 'src/app/model/households-data-source';
+import { VulnerabilityCriteria } from 'src/app/model/vulnerability-criteria.new';
 import { URL_BMS_API } from '../../../environments/environment';
+import { Households } from '../../model/households.new';
+import { Location } from '../../model/location.new';
+import { Project } from '../../model/project.new';
+import { LanguageService } from './../../../texts/language.service';
+import { CriteriaService } from './criteria.service';
+import { CustomModelService } from './custom-model.service';
 import { ExportService } from './export.service';
 import { HttpService } from './http.service';
-import { Households } from '../../model/households.new';
-import { Project } from '../../model/project.new';
-import { Location } from '../../model/location.new';
-import { CustomModelService } from './custom-model.service';
-import { Router } from '@angular/router';
-import { AppInjector } from 'src/app/app-injector';
-import { ProjectService } from './project.service';
-import { HouseholdFilters } from 'src/app/model/households-data-source';
-import { CriteriaService } from './criteria.service';
-import { VulnerabilityCriteria } from 'src/app/model/vulnerability-criteria.new';
 import { LocationService } from './location.service';
+import { ProjectService } from './project.service';
 
 @Injectable({
     providedIn: 'root'
@@ -27,8 +28,9 @@ export class HouseholdsService extends CustomModelService {
         protected http: HttpService,
         private exportService: ExportService,
         private router: Router,
+        protected languageService: LanguageService,
     ) {
-        super(http);
+        super(http, languageService);
     }
 
     /**

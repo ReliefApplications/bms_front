@@ -14,7 +14,7 @@ import { Commodity } from 'src/app/model/commodity.new';
 import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.new';
 import { Distribution } from 'src/app/model/distribution.new';
 import { User } from 'src/app/model/user.new';
-import { GlobalText } from 'src/texts/global';
+import { LanguageService } from './../../../../../texts/language.service';
 
 @Component({
     template: './validated-distribution.component.html',
@@ -22,15 +22,13 @@ import { GlobalText } from 'src/texts/global';
 })
 export class ValidatedDistributionComponent implements OnInit {
 
-    TEXT = GlobalText.TEXTS;
     entity: any;
     loadingExport = false;
     loadingTransaction = false;
     transacting = false;
     widthScreen: number;
     heightScreen: number;
-    maxWidthMobile = GlobalText.maxWidthMobile;
-    language = GlobalText.language;
+    public maxWidth = 750;
     selection: SelectionModel<any>;
     extensionType = 'xls';
     progression = 0;
@@ -54,6 +52,22 @@ export class ValidatedDistributionComponent implements OnInit {
 
     @Output() storeEmitter: EventEmitter<Distribution> = new EventEmitter();
     @Output() finishedEmitter: EventEmitter<any> = new EventEmitter();
+
+    // Language
+    public language = this.languageService.selectedLanguage;
+
+    constructor(
+        protected distributionService: DistributionService,
+        public snackbar: SnackbarService,
+        public dialog: MatDialog,
+        protected cacheService: AsyncacheService,
+        protected modalService: ModalService,
+        public beneficiariesService: BeneficiariesService,
+        public _cacheService: AsyncacheService,
+        public _exportService: ExportService,
+        public userService: UserService,
+        private languageService: LanguageService,
+    ) { }
 
     @HostListener('window:resize', ['$event'])
     onResize(event: any) {
@@ -131,18 +145,6 @@ export class ValidatedDistributionComponent implements OnInit {
         this.storeEmitter.emit(this.actualDistribution);
     }
 
-
-    constructor(
-        protected distributionService: DistributionService,
-        public snackbar: SnackbarService,
-        public dialog: MatDialog,
-        protected cacheService: AsyncacheService,
-        protected modalService: ModalService,
-        public beneficiariesService: BeneficiariesService,
-        public _cacheService: AsyncacheService,
-        public _exportService: ExportService,
-        public userService: UserService,
-    ) { }
 
     /**
      * Requests back-end a file containing informations about the transaction

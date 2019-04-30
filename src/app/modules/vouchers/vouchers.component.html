@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{voucher.voucher | titlecase}}</h2>
+    <h2>{{language.voucher | titlecase}}</h2>
   </div>
 
   <app-placeholder-panel class="container-table min-height" *ngIf="loadingBooklet"></app-placeholder-panel>
@@ -9,20 +9,20 @@
       <div class="content-button">
         <div class="action-buttons">
           <button mat-raised-button *ngIf="checkedElements.length > 0" class="button-background-primary" (click)="printMany()" [matBadge]="checkedElements.length">
-              {{voucher.voucher_print_selection | titlecase}}
+              {{language.voucher_print_selection | titlecase}}
           </button>
           <button mat-raised-button *ngIf="bookletData && !loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
-              <span>{{voucher.voucher_assign | titlecase }}</span>
+              <span>{{language.voucher_assign | titlecase }}</span>
           </button>
           <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
-          <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
+          <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
             <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
               <mat-icon>get_app</mat-icon>
-              <span>{{voucher.export | titlecase}}</span>
+              <span>{{language.export | titlecase}}</span>
             </button>
             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
             <div class="extension" *ngIf="!loadingExport">
-              <div mat-button class="dropdown" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':language==='ar'}">
+              <div mat-button class="dropdown" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                 <mat-icon>keyboard_arrow_down</mat-icon>
               </div>
               <mat-menu #exportType>
@@ -35,23 +35,46 @@
               </mat-menu>
             </div>
           </div>
+
+          <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+              <button mat-raised-button class="button-background-primary" (click)="exportCodes()" *ngIf="!loadingExportCodes">
+                <mat-icon>get_app</mat-icon>
+                <span>{{language.export_codes | titlecase}}</span>
+              </button>
+              <mat-spinner [diameter]='25' *ngIf="loadingExportCodes"></mat-spinner>
+              <div class="extension" *ngIf="!loadingExportCodes">
+                <div mat-button class="dropdown" [matMenuTriggerFor]="exportCodesType" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </div>
+                <mat-menu #exportCodesType>
+                  <button mat-menu-item (click)="setTypeCode('xls')"> .xls <mat-icon *ngIf="extensionTypeCode=='xls'">done</mat-icon>
+                  </button>
+                  <button mat-menu-item (click)="setTypeCode('csv')"> .csv <mat-icon *ngIf="extensionTypeCode=='csv'">done</mat-icon>
+                  </button>
+                  <button mat-menu-item (click)="setTypeCode('ods')"> .ods <mat-icon *ngIf="extensionTypeCode=='ods'">done</mat-icon>
+                  </button>
+                  <button mat-menu-item (click)="setTypeCode('pdf')"> .pdf <mat-icon *ngIf="extensionTypeCode=='pdf'">done</mat-icon>
+                  </button>
+                </mat-menu>
+              </div>
+            </div>
         </div>
 
-        <button mat-raised-button *ngIf="widthScreen > maxWidthMobile" (click)="openDialog({action: 'add'})" class="add-button-create">
+        <button mat-raised-button *ngIf="widthScreen > maxWidth" (click)="openDialog({action: 'add'})" class="add-button-create">
           <mat-icon>add</mat-icon>
-          {{voucher.add | titlecase}}
+          {{language.add | titlecase}}
         </button>
-        <button mat-fab *ngIf="widthScreen <= maxWidthMobile" (click)="openDialog({action: 'add'})" class="add-button"
-          [ngClass]="{'add-button-arabic': language == 'ar'}">
+        <button mat-fab *ngIf="widthScreen <= maxWidth" (click)="openDialog({action: 'add'})" class="add-button"
+          [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}">
           <mat-icon>add</mat-icon>
         </button>
       </div>
 
       <div class="content-table" *ngIf="!load && bookletData">
-        <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile" [entity]="bookletClass" [service]="bookletService"
+        <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidth" [entity]="bookletClass" [service]="bookletService"
           [data]="bookletData" [selection]="selection" (selectChecked)="getChecked($event)" [selectable]="true"
           [editable]="true" [deletable]="true" (openModal)="openDialog($event)" [printable]="true" (printOne)="print($event)"></app-table>
-        <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="bookletClass" [service]="bookletService"
+        <app-table-mobile *ngIf="widthScreen < maxWidth" [entity]="bookletClass" [service]="bookletService"
           [data]="bookletData" [editable]="true" [deletable]="true" (openModal)="openDialog($event)" [printable]="true" (printOne)="print($event)"></app-table-mobile>
       </div>
 
@@ -63,7 +86,7 @@
         <div class="loadingContent">
           <h4 class="no-data">
             <mat-icon>cloud_off</mat-icon>
-            <span> {{voucher.no_data}} </span>
+            <span> {{language.no_data}} </span>
           </h4>
         </div>
       </div>

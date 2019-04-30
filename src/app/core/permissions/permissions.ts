@@ -55,6 +55,8 @@ export const rightsHierarchy = {
     ],
     [Role.admin]: [
         // Not used, admin can do everything on the app
+        // Admin only roles below
+        // ROLE_ACCESS_ALL_COUNTRIES
     ]
 };
 

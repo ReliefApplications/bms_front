@@ -1,11 +1,11 @@
 <div class="page-container">
 
     <div class="container-title" *ngIf="actualDistribution && !actualDistribution.get('validated') && !loadingDistribution">
-        <h2>{{TEXT.distribution_edit | titlecase}}</h2>
+        <h2>{{language.distribution_edit | titlecase}}</h2>
     </div>
 
     <div class="container-title" *ngIf="actualDistribution && actualDistribution.get('validated') && !loadingDistribution">
-        <h2>{{ TEXT.distribution_validated_title | titlecase }}</h2>
+        <h2>{{ language.distribution_validated_title | titlecase }}</h2>
     </div>
 
     <div class="container-data" *ngIf="actualDistribution && !loadingDistribution">

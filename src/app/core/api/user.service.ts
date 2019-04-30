@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
-import { tap } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AppInjector } from 'src/app/app-injector';
 import { Project } from 'src/app/model/project.new';
-import { ErrorInterface, User } from '../../model/user.new';
-import { CustomModelService } from './custom-model.service';
-import { HttpService } from './http.service';
-import { ProjectService } from './project.service';
-import { URL_BMS_API } from '../../../environments/environment';
+import { Language } from 'src/texts/language';
+import { LanguageService } from 'src/texts/language.service';
 import { SaltInterface } from '../../model/salt';
+import { User } from '../../model/user.new';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { WsseService } from '../authentication/wsse.service';
 import { rightsHierarchy, Role } from '../permissions/permissions';
+import { AsyncacheService } from '../storage/asyncache.service';
+import { CustomModelService } from './custom-model.service';
+import { HttpService } from './http.service';
+import { ProjectService } from './project.service';
 
 
 @Injectable({
@@ -22,10 +25,12 @@ export class UserService extends CustomModelService {
 
     constructor(
         protected http: HttpService,
+        protected languageService: LanguageService,
         private wsseService: WsseService,
-        private authenticationService: AuthenticationService
+        private authenticationService: AuthenticationService,
+        private asyncCacheService: AsyncacheService,
     ) {
-        super(http);
+        super(http, languageService);
     }
 
     public create(body: any) {
@@ -37,6 +42,17 @@ export class UserService extends CustomModelService {
         return this.http.get(url);
     }
 
+    public getUserFromCache(): Observable<User> {
+        return this.authenticationService.getUser().pipe(map((userObject: any) => {
+            this.currentUser = User.apiToModel(userObject);
+            return this.currentUser;
+        }));
+    }
+
+    public resetCacheUser() {
+        this.currentUser = undefined;
+        this.authenticationService.resetUser();
+    }
 
     public update(id: number, body: any) {
         const url = this.apiBase + '/users/' + id;
@@ -84,17 +100,16 @@ export class UserService extends CustomModelService {
         return this.http.get(url);
     }
 
-    public setDefaultLanguage(id: number, body: string) {
+    public setDefaultLanguage(id: number, languageObject: Language): Observable<any[]> {
+        const language = this.languageService.languageToString(languageObject);
+        this.currentUser.set('language', language);
         const url = this.apiBase + '/users/' + id + '/language';
-        return this.http.post(url, {language: body})
-            .pipe(
-                tap(_ => {
-                    this.authenticationService.getUser().subscribe(user => {
-                        user.set('language', body);
-                        this.authenticationService.setUser(user);
-                    });
-                })
-            );
+        return forkJoin(
+            [
+                this.asyncCacheService.setUser(this.currentUser),
+                this.http.post(url, {language})
+            ]
+        );
     }
 
     public fillWithOptions(user: User) {
@@ -110,7 +125,7 @@ export class UserService extends CustomModelService {
     }
 
     public hasRights(action: string) {
-        // Logged out users have no righ;ts
+        // Logged out users have no rights
         if (!this.currentUser || !this.currentUser.get('id')) {
             return false;
         }

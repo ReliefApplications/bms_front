@@ -1,18 +1,14 @@
-import { GlobalText } from '../../texts/global';
-import { isNumber } from '@swimlane/ngx-charts/release/utils';
-import { isNull } from 'util';
-
-import { DistributionBeneficiary } from './distribution-beneficiary.new';
-import { ObjectModelField } from './CustomModel/object-model-field';
 import { Beneficiary } from './beneficiary.new';
-import { NumberModelField } from './CustomModel/number-model-field';
-import { TextModelField } from './CustomModel/text-model-field';
-import { DateModelField } from './CustomModel/date-model-field';
-import { SingleSelectModelField } from './CustomModel/single-select-model-field';
-import { CustomModel } from './CustomModel/custom-model';
-import { NestedFieldModelField } from './CustomModel/nested-field';
-import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
 import { ArrayInputField } from './CustomModel/array-input-field';
+import { CustomModel } from './CustomModel/custom-model';
+import { DateModelField } from './CustomModel/date-model-field';
+import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
+import { NestedFieldModelField } from './CustomModel/nested-field';
+import { NumberModelField } from './CustomModel/number-model-field';
+import { ObjectModelField } from './CustomModel/object-model-field';
+import { TextModelField } from './CustomModel/text-model-field';
+import { DistributionBeneficiary } from './distribution-beneficiary.new';
+
 
 export class GeneralRelief extends CustomModel {
     public fields = {
@@ -51,7 +47,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
 
         }),
         idTransaction: new NumberModelField({
-            title: GlobalText.TEXTS.transaction_id_transaction,
+            title: this.language.transaction_id_transaction,
             isDisplayedInTable: false,
             isDisplayedInModal: true,
 
@@ -60,14 +56,14 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
                 value: []
         }),
         givenName: new NestedFieldModelField({
-            title: GlobalText.TEXTS.model_firstName,
+            title: this.language.model_firstName,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'givenName'
         }),
         familyName: new NestedFieldModelField({
-            title: GlobalText.TEXTS.model_familyName,
+            title: this.language.model_familyName,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
@@ -77,21 +73,22 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
 
         }),
         distributedAt: new DateModelField({
-            title: GlobalText.TEXTS.model_distributed,
+            title: this.language.model_distributed,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
-            nullValue: 'Not distributed'
+            nullValue: this.language.null_not_distributed,
+            displayTime: true,
         }),
         // Can only be filled by the distribution, in Distribution.apiToModel()
         values: new TextModelField({
-            title: GlobalText.TEXTS.model_value,
+            title: this.language.model_value,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
 
         }),
         // Will be displayed in modal as an array of input field, but filled with a particular modal
         notes: new ArrayInputField<string>({
-            title: GlobalText.TEXTS.model_notes,
+            title: this.language.model_notes,
             numberOfInputs: null,
             isDisplayedInModal: true,
             isEditable: true,
@@ -102,7 +99,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
         const newGeneralRelief = new TransactionGeneralRelief();
         newGeneralRelief.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
         newGeneralRelief.set('distributedAt', distributionBeneficiaryFromApi.general_reliefs[0] ?
-            distributionBeneficiaryFromApi.general_reliefs[0].distributed_at :
+            DateModelField.formatDateTimeFromApi(distributionBeneficiaryFromApi.general_reliefs[0].distributed_at) :
             null);
         newGeneralRelief.set('notes', distributionBeneficiaryFromApi.general_reliefs.map((generalRelief: any) => generalRelief.notes));
         newGeneralRelief.set('generalReliefs',

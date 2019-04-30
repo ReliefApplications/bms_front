@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { HouseholdsService } from 'src/app/core/api/households.service';
 import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
 import { Households } from 'src/app/model/households.new';
-import { GlobalText } from 'src/texts/global';
+import { LanguageService } from './../../../../../texts/language.service';
 
 @Component({
     selector: 'app-imported-data',
@@ -13,7 +13,6 @@ import { GlobalText } from 'src/texts/global';
 })
 export class ImportedDataComponent implements OnInit {
 
-    public household = GlobalText.TEXTS;
     public data: MatTableDataSource<Households>;
     public referedClassToken = Households;
     public referedClassService = this._householdsService;
@@ -28,10 +27,14 @@ export class ImportedDataComponent implements OnInit {
     public heightScreen;
     public widthScreen;
 
+    // Language
+    public language = this.languageService.selectedLanguage;
+
     constructor(
         private _householdsService: HouseholdsService,
         private importService: ImportService,
         private router: Router,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {

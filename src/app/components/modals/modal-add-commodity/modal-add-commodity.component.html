@@ -1,5 +1,5 @@
 <div class="modal-container" *ngIf="commodity">
-    <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}">{{texts.modal_add_title |titlecase }} {{commodity.title | titlecase}}</h4>
+    <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">{{language.modal_add_title |titlecase }} {{commodity.title | titlecase}}</h4>
     <form [formGroup]="form">
       <table class="modal-table">
         <tr class="modal-row">
@@ -10,9 +10,10 @@
                     {{option.get('name') | titlecase}}
                 </ng-option>
             </ng-select>
+            <app-hint-error [form]="form" fieldName="modality" [field]="commodity.fields.modality" [isMatField]="false"></app-hint-error>
           </td>
         </tr>
-  
+
         <tr class="modal-row">
           <th class="table-title">{{ commodity.fields.modalityType.title }}</th>
           <td class="form-item">
@@ -21,6 +22,7 @@
                     {{option.get('name') | titlecase}}
                 </ng-option>
             </ng-select>
+            <app-hint-error [form]="form" fieldName="modalityType" [field]="commodity.fields.modalityType" [isMatField]="false"></app-hint-error>
           </td>
         </tr>
 
@@ -29,6 +31,7 @@
           <td class="form-item">
             <mat-form-field>
               <input matInput type="text" formControlName="unit" [placeholder]="getUnit()">
+              <app-hint-error [form]="form" fieldName="unit" [field]="commodity.fields.unit" [isMatField]="true"></app-hint-error>
             </mat-form-field>
           </td>
         </tr>
@@ -38,11 +41,12 @@
             <td class="form-item">
               <mat-form-field>
                 <input matInput type="text" formControlName="value" [placeholder]="commodity.fields.value.title">
+                <app-hint-error [form]="form" fieldName="value" [field]="commodity.fields.value" [isMatField]="true"></app-hint-error>
               </mat-form-field>
             </td>
           </tr>
-      
-      
+
+
       </table>
       <div class="modal-button action-buttons stickyFooter">
           <button mat-button (click)="onCancel()" class="button-text-accent">Cancel</button>
@@ -50,4 +54,3 @@
       </div>
     </form>
   </div>
-  

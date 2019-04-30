@@ -1,9 +1,8 @@
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { GlobalText } from 'src/texts/global';
 import { NumberModelField } from './CustomModel/number-model-field';
+import { ObjectModelField } from './CustomModel/object-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
-import { ObjectModelField } from './CustomModel/object-model-field';
 
 export class CountrySpecificType extends CustomModel {
 
@@ -22,7 +21,7 @@ export class CountrySpecific extends CustomModel {
 
     public static rights = ['ROLE_ADMIN', 'ROLE_COUNTRY_MANAGER', 'ROLE_PROJECT_MANAGER'];
 
-    title = GlobalText.TEXTS.model_country_specific;
+    title = this.language.model_country_specific;
     matSortActive = 'field';
 
     public fields = {
@@ -36,7 +35,7 @@ export class CountrySpecific extends CustomModel {
         ),
         field : new TextModelField(
             {
-                title: GlobalText.TEXTS.model_country_specific_field,
+                title: this.language.model_country_specific_field,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isEditable: true,
@@ -46,7 +45,7 @@ export class CountrySpecific extends CustomModel {
         ),
         type : new SingleSelectModelField<string>(
             {
-                title: GlobalText.TEXTS.model_type,
+                title: this.language.model_type,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,

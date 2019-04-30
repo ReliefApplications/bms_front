@@ -1,25 +1,25 @@
+import { DatePipe } from '@angular/common';
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DateAdapter, MatDialog, MAT_DATE_FORMATS, MatTableDataSource } from '@angular/material';
+import { DateAdapter, MatDialog, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
+import { TableComponent } from 'src/app/components/table/table.component';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
-import { GlobalText } from '../../../../texts/global';
+import { ModalService } from 'src/app/core/utils/modal.service';
+import { Distribution } from 'src/app/model/distribution.new';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { LocationService } from '../../../core/api/location.service';
 import { Commodity } from '../../../model/commodity.new';
-import { Location } from '../../../model/location.new';
 import { Criteria } from '../../../model/criteria.new';
-import { Distribution } from 'src/app/model/distribution.new';
-import { ModalService } from 'src/app/core/utils/modal.service';
-import { TableComponent } from 'src/app/components/table/table.component';
-import { DatePipe } from '@angular/common';
+import { Location } from '../../../model/location.new';
+import { LanguageService } from './../../../../texts/language.service';
 
 @Component({
     selector: 'app-add-distribution',
@@ -32,8 +32,6 @@ import { DatePipe } from '@angular/common';
 })
 export class AddDistributionComponent implements OnInit, DesactivationGuarded {
 
-    public texts =  GlobalText.TEXTS;
-    public language = GlobalText.language;
 
     public objectInstance: Distribution;
     public objectFields: string[];
@@ -46,11 +44,12 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     public criteriaNbBeneficiaries = 0;
     public commodityNb: number[] = [];
 
-    public maxHeight = GlobalText.maxHeight;
-    public maxWidthMobile = GlobalText.maxWidthMobile;
-    public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
-    public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
-    public maxWidth = GlobalText.maxWidth;
+    // TODO: make these constants
+    public maxHeight = 700;
+    public maxWidthMobile = 750;
+    public maxWidthFirstRow = 1000;
+    public maxWidthSecondRow = 800;
+    public maxWidth = 750;
     public heightScreen;
     public widthScreen;
 
@@ -63,6 +62,9 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     @ViewChild('criteriaTable') criteriaTable: TableComponent;
     @ViewChild('commodityTable') commodityTable: TableComponent;
 
+    // Language
+    public language = this.languageService.selectedLanguage;
+
     constructor(
         public dialog: MatDialog,
         private router: Router,
@@ -72,7 +74,8 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         private _projectService: ProjectService,
         private snackbar: SnackbarService,
         private modalService: ModalService,
-        private locationService: LocationService
+        private locationService: LocationService,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {
@@ -307,16 +310,16 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
 
             if (new Date(this.form.controls.date.value) < new Date(this.projectInfo.startDate) ||
             new Date(this.form.controls.date.value) > new Date(this.projectInfo.endDate)) {
-                this.snackbar.error(this.texts.add_distribution_date_inside_project);
+                this.snackbar.error(this.language.add_distribution_date_inside_project);
                 return;
             } else {
                 const distributionModality = this.commodityData.data[0].get('modality').get('name');
                 for (const commodity of this.commodityData.data) {
                     if (commodity.get<number>('value') <= 0) {
-                        this.snackbar.error(this.texts.add_distribution_zero);
+                        this.snackbar.error(this.language.add_distribution_zero);
                         return;
                     } else if (commodity.get('modality').get('name') !== distributionModality) {
-                        this.snackbar.error(this.texts.add_distribution_multiple_modalities);
+                        this.snackbar.error(this.language.add_distribution_multiple_modalities);
                         return;
                     }
                 }
@@ -360,27 +363,27 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
 
                 this._distributionService.create(newDistribution.modelToApi()).subscribe((response) => {
                     this.snackbar.success(
-                        this.texts.distribution + ' : ' + response.distribution.name + this.texts.add_distribution_created);
+                        this.language.distribution + ' : ' + response.distribution.name + this.language.add_distribution_created);
                     this.router.navigate(['projects/distributions/' + response.distribution.id]);
 
                 }, err => {
-                    this.snackbar.error(this.texts.add_distribution_error_creating);
+                    this.snackbar.error(this.language.add_distribution_error_creating);
                     this.loadingCreation = false;
                 });
             }
         } else if (this.criteriaData.data.length === 0) {
-            this.snackbar.error(this.texts.add_distribution_missing_selection_criteria);
+            this.snackbar.error(this.language.add_distribution_missing_selection_criteria);
 
         } else if (!this.commodityData.data[0]) {
-            this.snackbar.error(this.texts.add_distribution_missing_commodity);
+            this.snackbar.error(this.language.add_distribution_missing_commodity);
         } else if (!this.form.controls.date.value) {
-            this.snackbar.error(this.texts.add_distribution_missing_date);
+            this.snackbar.error(this.language.add_distribution_missing_date);
         } else if (this.form.controls.threshold.value <= 0) {
-            this.snackbar.error(this.texts.add_distribution_missing_threshold);
+            this.snackbar.error(this.language.add_distribution_missing_threshold);
         } else if (!this.form.controls.adm1) {
-            this.snackbar.error(this.texts.add_distribution_missing_location);
+            this.snackbar.error(this.language.add_distribution_missing_location);
         } else {
-            this.snackbar.error(this.texts.add_distribution_check_fields);
+            this.snackbar.error(this.language.add_distribution_check_fields);
         }
 
     }

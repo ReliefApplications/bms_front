@@ -1,5 +1,6 @@
 import { FormGroup } from '@angular/forms';
-import { GlobalText } from '../../texts/global';
+import { Language } from 'src/texts/language';
+import { Country } from './country';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { CustomModel } from './CustomModel/custom-model';
 import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
@@ -12,20 +13,6 @@ export class ErrorInterface {
     message: string;
 }
 
-export class Country extends CustomModel {
-
-    public fields = {
-        name: new TextModelField({}),
-        id: new TextModelField({})
-    };
-
-    constructor(id: string, name: string) {
-        super();
-        this.set('id', id);
-        this.set('name', name);
-    }
-}
-
 export class Role extends CustomModel {
 
     public fields = {
@@ -33,16 +20,18 @@ export class Role extends CustomModel {
         id: new TextModelField({})
     };
 
+    language: Language;
+
     constructor(id: string, name: string) {
         super();
-        this.set('id', id);
-        this.set('name', name);
+        this.set('id', id).set('name', name);
+
     }
 }
 export class User extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
-    title = GlobalText.TEXTS.model_user;
+    title = this.language.model_user;
     matSortActive = 'email';
 
     public fields = {
@@ -50,35 +39,37 @@ export class User extends CustomModel {
 
         }),
         username: new TextModelField({
-            title: GlobalText.TEXTS.login_username,
+            title: this.language.login_username,
         }),
         email: new TextModelField({
-            title: GlobalText.TEXTS.email,
+            title: this.language.email,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isRequired: true,
             pattern: /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/,
             isSettable: true,
+            patternError: this.language.modal_valid_email
         }),
         password: new TextModelField({
-            title: GlobalText.TEXTS.model_password,
+            title: this.language.model_password,
             isPassword: true,
             isRequired: true,
             pattern:  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
             isDisplayedInModal: true,
             isEditable: true,
             isSettable: true,
+            patternError: this.language.modal_not_enough_strong
         }),
         rights: new SingleSelectModelField({
-            title: GlobalText.TEXTS.rights,
+            title: this.language.rights,
             isDisplayedInTable: true,
             options: [
-                new Role('ROLE_ADMIN', GlobalText.TEXTS.role_user_admin),
-                new Role('ROLE_FIELD_OFFICER', GlobalText.TEXTS.role_user_field_officer),
-                new Role('ROLE_PROJECT_OFFICER', GlobalText.TEXTS.role_user_project_officer),
-                new Role('ROLE_PROJECT_MANAGER', GlobalText.TEXTS.role_user_project_manager),
-                new Role('ROLE_COUNTRY_MANAGER', GlobalText.TEXTS.role_user_country_manager),
-                new Role('ROLE_REGIONAL_MANAGER', GlobalText.TEXTS.role_user_regional_manager),
+                new Role('ROLE_ADMIN', this.language.role_user_admin),
+                new Role('ROLE_FIELD_OFFICER', this.language.role_user_field_officer),
+                new Role('ROLE_PROJECT_OFFICER', this.language.role_user_project_officer),
+                new Role('ROLE_PROJECT_MANAGER', this.language.role_user_project_manager),
+                new Role('ROLE_COUNTRY_MANAGER', this.language.role_user_country_manager),
+                new Role('ROLE_REGIONAL_MANAGER', this.language.role_user_regional_manager),
             ],
             bindField: 'name',
             isDisplayedInModal: true,
@@ -86,19 +77,30 @@ export class User extends CustomModel {
             isSettable: true,
             isTrigger: true,
             triggerFunction: (user: User, value: string, form: FormGroup) => {
-                if (value === 'ROLE_REGIONAL_MANAGER' ||
-                value === 'ROLE_COUNTRY_MANAGER') {
+                if (value === 'ROLE_REGIONAL_MANAGER' || value === 'ROLE_COUNTRY_MANAGER') {
                     form.controls.countries.enable();
                     form.controls.projects.disable();
+                    form.controls.projects.setValue([]);
+                    if (value === 'ROLE_COUNTRY_MANAGER') {
+                        user.fields.countries.maxSelectionLength = 1;
+                        user.fields.countries.hint = 'You can select only one country';
+                        form.controls.countries.setValue([]);
+                    } else {
+                        user.fields.countries.maxSelectionLength = null;
+                        user.fields.countries.hint = '';
+                    }
 
-                } else if (value === 'ROLE_PROJECT_MANAGER' ||
-                value === 'ROLE_PROJECT_OFFICER' ||
-                value === 'ROLE_FIELD_OFFICER') {
+                } else if (value === 'ROLE_PROJECT_MANAGER' || value === 'ROLE_PROJECT_OFFICER' || value === 'ROLE_FIELD_OFFICER') {
                     form.controls.projects.enable();
                     form.controls.countries.disable();
+                    user.fields.countries.hint = '';
+                    form.controls.countries.setValue([]);
                 } else {
                     form.controls.countries.disable();
                     form.controls.projects.disable();
+                    user.fields.countries.hint = '';
+                    form.controls.countries.setValue([]);
+                    form.controls.projects.setValue([]);
                 }
                 return user;
             },
@@ -107,14 +109,14 @@ export class User extends CustomModel {
             value: false,
         }),
         projects: new MultipleSelectModelField({
-            title: GlobalText.TEXTS.project,
+            title: this.language.project,
             isDisplayedInModal: true,
             bindField: 'name',
 
         }),
         countries: new MultipleSelectModelField({
-            title: GlobalText.TEXTS.model_countryIso3,
-            options: [new Country('KHM', 'Cambodia'), new Country('SYR', 'Syria')],
+            title: this.language.model_countryIso3,
+            options: [new Country('KHM', this.language.country_khm), new Country('SYR', this.language.country_syr)],
             isDisplayedInModal: true,
             bindField: 'name',
         }),
@@ -126,9 +128,22 @@ export class User extends CustomModel {
 
     public static apiToModel(userFromApi: any): User {
         const newUser = new User();
+
         newUser.set('rights', userFromApi.roles ?
             newUser.getOptions('rights').filter((role: Role) => role.get('id') === userFromApi.roles[0])[0] :
             null);
+        const rights = newUser.get('rights') ? newUser.get('rights').get<string>('id') : null;
+        if (rights === 'ROLE_REGIONAL_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
+            newUser.fields.countries.isEditable = true;
+
+            if (rights === 'ROLE_COUNTRY_MANAGER') {
+                newUser.fields.countries.maxSelectionLength = 1;
+                newUser.fields.countries.hint = 'You can select only one country';
+            }
+        }
+        if (rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER' || rights === 'ROLE_FIELD_OFFICER') {
+            newUser.fields.projects.isEditable = true;
+        }
 
         // TO DO : make the cache and the back coherent by sending the same key that we receive
         const countries = userFromApi.countries ? userFromApi.countries : userFromApi.country;
@@ -150,11 +165,13 @@ export class User extends CustomModel {
                 return Project.apiToModel(project.project);
             }) :
             null);
+
         newUser.set('password', userFromApi.password);
         newUser.set('email', userFromApi.email);
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);
         newUser.set('loggedIn', userFromApi.loggedIn);
+        newUser.set('language', userFromApi.language ? userFromApi.language : 'en' );
         return newUser;
     }
 
@@ -188,7 +205,8 @@ export class User extends CustomModel {
         }
         return userForApi;
     }
-    // // Todo: remove this (temporary fix)
+
+    // Todo: remove this (temporary fix)
     // public getAllCountries() {
     //     return [
     //         {
@@ -201,4 +219,8 @@ export class User extends CustomModel {
     //         }
     //     ];
     // }
+
+    public getIdentifyingName() {
+        return this.get<string>('username');
+    }
 }

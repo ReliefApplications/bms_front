@@ -21,12 +21,12 @@
                                         <label for="file"><mat-icon>cloud_upload</mat-icon></label>
                                         <input type="file" id="file" (change)="onFileChange(p, $event)" #fileInput>
                                         <p *ngIf="filename">{{ filename }}</p>
-                                        <p *ngIf="!filename">{{ texts.modal_no_file }}</p>
-                                    </div>                      
+                                        <p *ngIf="!filename">{{ language.modal_no_file }}</p>
+                                    </div>
                                 </ng-container>
                             </ng-template>
 
-                            
+
 
                             <ng-template #isArrayInputField>
                                 <ng-container *ngIf="field.kindOfField === 'ArrayInputField'; else isBoolean">
@@ -40,7 +40,7 @@
 
                             <ng-template #isBoolean>
                                 <ng-container *ngIf="field.kindOfField === 'Boolean' ; else isMultipleSelect">
-                                    <mat-checkbox [formControlName]="fieldName" (change)="field.handleCheckbox(objectInstance)" type="checkbox" color="primary" [checked]="default">
+                                    <mat-checkbox [formControlName]="fieldName" type="checkbox" color="primary" [checked]="default">
                                     </mat-checkbox>
                                 </ng-container>
                             </ng-template>
@@ -65,8 +65,13 @@
                                 </ng-container>
                             </ng-template>
 
+                            <!-- For the fields which are not mat field -->
+                            <ng-container *ngIf="field.kindOfField === 'SingleSelect' || field.kindOfField === 'MultipleSelect' || field.kindOfField === 'Boolean' || field.kindOfField === 'ArrayInputField' || field.kindOfField === 'File'">
+                                <app-hint-error *ngIf="modalType !== 'Details'" [form]="form" [fieldName]="fieldName" [field]="field" [isMatField]="false"></app-hint-error>
+                            </ng-container>
+
                             <ng-template #isMaterialField>
-                                <mat-form-field *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
+                                <mat-form-field [ngClass]="{date: field.kindOfField === 'Date' && !isDisabled(field)}" *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
                                     <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
                                         <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title"
                                             matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
@@ -85,9 +90,17 @@
 
                                     <ng-template #checkForDateField>
                                         <ng-container *ngIf="field.kindOfField === 'Date'; else checkForNumberField">
-                                            <input matInput [matDatepicker]="picker" [formControlName]="fieldName" [placeholder]="field.title">
-                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                            <mat-datepicker #picker></mat-datepicker>
+                                            <!-- If we don't do this, the date won't be formatted in the date picker when disabled -->
+                                            <ng-container *ngIf="isDisabled(field)">
+                                                <input matInput *ngIf="!field.value" disabled [placeholder]="field.title" [value]="field.nullValue">
+                                                <input matInput *ngIf="field.value && !field.displayTime" disabled value="{{ field.value | date: 'dd-MM-yyyy' }}" [placeholder]="field.title">
+                                                <input matInput *ngIf="field.value && field.displayTime" disabled value="{{ field.value | date: 'dd-MM-yyyy HH:mm' }}" [placeholder]="field.title">
+                                            </ng-container>
+                                            <ng-container *ngIf="!isDisabled(field)">
+                                                <input matInput [matDatepicker]="picker" [formControlName]="fieldName" [placeholder]="field.title">
+                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </ng-container>
                                         </ng-container>
                                     </ng-template>
 
@@ -96,13 +109,7 @@
                                             <input matInput type="number" [formControlName]="fieldName">
                                         </ng-container>
                                     </ng-template>
-                                    <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('required')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('required'))">
-                                        {{ field.title | titlecase}} is required
-                                    </mat-error>
-                                    <mat-error *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('pattern')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('pattern'))">
-                                        {{field.hint | titlecase}}
-                                    </mat-error>
-                                    <mat-hint align="start" *ngIf="field.hint && modalType !== 'Details'"><strong>{{field.hint | titlecase}}</strong> </mat-hint>
+                                    <app-hint-error *ngIf="modalType !== 'Details'" [form]="form" [fieldName]="fieldName" [field]="field" [isMatField]="true"></app-hint-error>
                                 </mat-form-field>
 
                                     <ng-template #isObject>

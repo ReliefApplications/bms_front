@@ -1,16 +1,17 @@
 <div class="page-container">
   <div class="container-fields">
     <div class="field-distribution">
-      <h2 class="distribution-title">{{texts.add_project_new_distribution | titlecase}}</h2>
-      <div [ngClass]="{'distribution-accordion': language!=='ar', 'distribution-accordion-ar': language==='ar'}">
+      <h2 class="distribution-title">{{language.add_project_new_distribution | titlecase}}</h2>
+      <div [ngClass]="{'distribution-accordion': language!=='ar', 'distribution-accordion-ar': languageService.languageToString(language)==='ar'}">
         <mat-card class="accordion-card">
           <form [formGroup]="form">
             <ng-container>
-                <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm1" (change)="loadDistrict($event)" [placeholder]="objectInstance.get('location').fields.adm1.title">
-                    <ng-option *ngFor="let option of objectInstance.get('location').getOptions('adm1')" [value]="option.get('id')">
-                        {{option.get('name') | titlecase}}
-                    </ng-option>
-                </ng-select>
+              <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm1" (change)="loadDistrict($event)" [placeholder]="objectInstance.get('location').fields.adm1.title" required>
+                  <ng-option *ngFor="let option of objectInstance.get('location').getOptions('adm1')" [value]="option.get('id')">
+                      {{option.get('name') | titlecase}}
+                  </ng-option>
+              </ng-select>
+              <app-hint-error [form]="form" fieldName="adm1" [field]="objectInstance.get('location').fields.adm1" [isMatField]="false"></app-hint-error>
             </ng-container>
 
             <ng-container>
@@ -19,6 +20,7 @@
                         {{option.get('name') | titlecase}}
                     </ng-option>
                 </ng-select>
+                <app-hint-error [form]="form" fieldName="adm2" [field]="objectInstance.get('location').fields.adm2" [isMatField]="false"></app-hint-error>
             </ng-container>
 
             <ng-container>
@@ -27,6 +29,7 @@
                         {{option.get('name') | titlecase}}
                     </ng-option>
                 </ng-select>
+                <app-hint-error [form]="form" fieldName="adm3" [field]="objectInstance.get('location').fields.adm3" [isMatField]="false"></app-hint-error>
             </ng-container>
 
             <ng-container>
@@ -35,11 +38,13 @@
                         {{option.get('name') | titlecase}}
                     </ng-option>
                 </ng-select>
+                <app-hint-error [form]="form" fieldName="adm4" [field]="objectInstance.get('location').fields.adm4" [isMatField]="false"></app-hint-error>
             </ng-container>
             <mat-form-field class="accordion-field">
-              <input matInput [matDatepicker]="dateDistribution" [placeholder]="objectInstance.fields.date.title" formControlName="date" [min]="projectInfo.startDate" [max]="projectInfo.endDate">
+              <input matInput [matDatepicker]="dateDistribution" [placeholder]="objectInstance.fields.date.title" formControlName="date" [min]="projectInfo.startDate" [max]="projectInfo.endDate" required>
               <mat-datepicker-toggle matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
               <mat-datepicker #dateDistribution></mat-datepicker>
+              <app-hint-error [form]="form" fieldName="date" [field]="objectInstance.fields.date" [isMatField]="true"></app-hint-error>
             </mat-form-field>
             <label>{{objectInstance.fields.type.title}}</label>
             <mat-radio-group formControlName="type" class="type-distribution" (change)="updateNbBeneficiary()">
@@ -55,9 +60,9 @@
     <div class="field-forms">
       <div class="forms-criteria">
         <div class="distribution-title">
-          <h2>{{texts.add_distribution_selection_criteria | titlecase}}</h2>
+          <h2>{{language.add_distribution_selection_criteria | titlecase}}</h2>
           <button mat-stroked-button class="button-text-accent distribution-add-button" (click)="openDialog('addCriteria')">
-            <span>{{ texts.add | titlecase }}</span>
+            <span>{{ language.add | titlecase }}</span>
           </button>
         </div>
 
@@ -69,7 +74,7 @@
 
           <div class="summary-container">
             <mat-form-field class="accordion-field" id="threshold">
-              <mat-label>{{ texts.add_distribution_threshold }}</mat-label>
+              <mat-label>{{ language.add_distribution_threshold }}</mat-label>
               <input class="field-input" matInput type="number" formControlName="threshold" (change)="updateNbBeneficiary()">
             </mat-form-field>
 
@@ -78,17 +83,17 @@
               <span *ngIf="load">
                 <mat-spinner [diameter]="25"></mat-spinner>
               </span>
-              {{texts.add_distribution_beneficiaries_reached | titlecase}}
+              {{language.add_distribution_beneficiaries_reached | titlecase}}
             </h3>
             <h3 class="summary-text" *ngIf="criteriaData.data.length != 0 && form.controls.type.value === 'Household'">
               <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span>
               <span *ngIf="load">
                 <mat-spinner [diameter]="25"></mat-spinner>
               </span>
-              {{texts.add_distribution_households_reached | titlecase}}
+              {{language.add_distribution_households_reached | titlecase}}
             </h3>
           </div>
-          <small id="text-explanation">{{ texts.add_distribution_text_explanation }}</small>
+          <small id="text-explanation">{{ language.add_distribution_text_explanation }}</small>
           <div class="form" *ngIf="widthScreen < maxWidthMobile">
             <app-table-mobile (openModal)="removeElement($event, 'criteria')" [entity]="criteriaClass" [data]="criteriaData" deletable="true" rights="true"></app-table-mobile>
           </div>
@@ -96,9 +101,9 @@
 
         <div class="forms-commodity">
           <div class="distribution-title">
-            <h2>{{texts.add_distribution_distributed_commodity | titlecase}}</h2>
+            <h2>{{language.add_distribution_distributed_commodity | titlecase}}</h2>
             <button mat-stroked-button class="button-text-accent distribution-add-button" (click)="openDialog('addCommodity')">
-              <span>{{ texts.add | titlecase }}</span>
+              <span>{{ language.add | titlecase }}</span>
             </button>
           </div>
           <div class="form" *ngIf="widthScreen > maxWidthMobile">
@@ -107,7 +112,7 @@
           <div class="summary-container" *ngIf="commodityData.data.length != 0">
             <h3 class="summary-text" *ngFor="let commodity of commodityData.data; let i = index;">
               <span>{{commodityNb[i]}}</span>{{commodity.get('unit')}}
-              {{texts.add_distribution_commodities_delivered | titlecase}}</h3>
+              {{language.add_distribution_commodities_delivered | titlecase}}</h3>
           </div>
           <div class="form" *ngIf="widthScreen < maxWidthMobile">
             <app-table-mobile (openModal)="removeElement($event, 'commodity')" [entity]="commodityClass" [data]="commodityData" deletable="true" rights="true"></app-table-mobile>
@@ -118,8 +123,8 @@
     </div>
   </div>
   <div class="action-buttons content-button content-button-footer">
-    <button mat-raised-button *ngIf="!loadingCreation" (click)="add()" class="button-background-primary">{{texts.create}}</button>
+    <button mat-raised-button *ngIf="!loadingCreation" (click)="add()" class="button-background-primary">{{language.create}}</button>
     <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
-    <button mat-button (click)="cancel()" class="button-text-primary">{{texts.cancel}}</button>
+    <button mat-button (click)="cancel()" class="button-text-primary">{{language.cancel}}</button>
   </div>
 </div>

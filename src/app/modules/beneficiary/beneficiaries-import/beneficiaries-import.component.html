@@ -1,11 +1,11 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{household.beneficiaries_import_title | titlecase}}</h2>
+    <h2>{{language.beneficiaries_import_title | titlecase}}</h2>
   </div>
 
   <div class="container-boxes">
-    <app-box-setting (click)="selectTitle('file import')" [isSelected]="selectedTitle === 'file import'" [info]='{icon: "folder", color: "green", title:household.beneficiaries_import_file, subtitle:"", ref:"file import"}'></app-box-setting>
-    <app-box-setting class="isLast" (click)="selectTitle('api import')" [isSelected]="selectedTitle === 'api import'" [info]='{icon: "settings/api", color: "red", title:household.beneficiaries_import_api, subtitle:"", ref:"api import"}'></app-box-setting>
+    <app-box-setting (click)="selectTitle('file import')" [isSelected]="selectedTitle === 'file import'" [info]='{icon: "folder", color: "green", title:language.beneficiaries_import_file, subtitle:"", ref:"file import"}'></app-box-setting>
+    <app-box-setting class="isLast" (click)="selectTitle('api import')" [isSelected]="selectedTitle === 'api import'" [info]='{icon: "settings/api", color: "red", title:language.beneficiaries_import_api, subtitle:"", ref:"api import"}'></app-box-setting>
   </div>
 
   <form [formGroup]="fileForm" class="container-table" *ngIf="selectedTitle == 'file import'">
@@ -16,15 +16,15 @@
           <mat-spinner [diameter]="25" class="spinner" *ngIf="loadLocations && country === 'SYR'"></mat-spinner>
           <button mat-stroked-button color="primary" class="template" *ngIf="!loadLocations && country === 'SYR'" (click)="loadProvince(mapFile)">
             <mat-icon>publish</mat-icon>
-            <span>{{household.beneficiaries_import_convert | titlecase }}</span>
+            <span>{{language.beneficiaries_import_convert | titlecase }}</span>
           </button>
 
-          <div class="button-with-extension" [ngClass]="{'arabic':language==='ar'}">
+          <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
             <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">
-              {{household.beneficiaries_import_csv | titlecase }}
+              {{language.beneficiaries_import_csv | titlecase }}
             </button>
             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-            <div class="extension" *ngIf="!loadingExport" [ngClass]="{'arabic':language==='ar'}">
+            <div class="extension" *ngIf="!loadingExport" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
               <div mat-button class="template pointer" [matMenuTriggerFor]="exportType">
                 <mat-icon>keyboard_arrow_down</mat-icon>
               </div>
@@ -48,7 +48,7 @@
             </div>
             <div class="select-file">
               <a href="javascript:void(0)" (click)="file.click()">
-                <button mat-stroked-button color="primary">{{household.beneficiaries_import_addFile
+                <button mat-stroked-button color="primary">{{language.beneficiaries_import_addFile
                   | titlecase}}</button>
               </a>
               <input type="file" #file (change)="fileChange($event, 'target')" style="display:none" />
@@ -69,7 +69,7 @@
               <img class='img-folder' src="assets/images/projects.png">
             </div>
             <div class="select-file project-input">
-              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder={{household.projects}} >
+              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder={{language.projects}} >
                 <ng-option *ngFor="let project of projectList" [value]="project">{{project.get('name')}}</ng-option>
               </ng-select>
             </div>
@@ -80,7 +80,7 @@
         <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
         <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="importHouseholdsFile()">
           <mat-icon>publish</mat-icon>
-          <span>{{household.import | titlecase }}</span>
+          <span>{{language.import | titlecase }}</span>
         </button>
       </div>
     </div>
@@ -95,7 +95,7 @@
             <div>
               <img class='img-folder' src="assets/images/settings/api.png">
             </div>
-            <h3>{{household.beneficiaries_select_api | titlecase}}</h3>
+            <h3>{{language.beneficiaries_select_api | titlecase}}</h3>
             <div class="content-select">
               <mat-radio-group formControlName="apiSelector" class="content-select" >
                 <mat-radio-button *ngFor="let api of apiList;" value="{{ api.name }}" color="primary">{{api.name}}</mat-radio-button>
@@ -126,7 +126,7 @@
               <img class='img-folder' src="assets/images/projects.png">
             </div>
             <div class="select-file project-input">
-              <ng-select formControlName="projects" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{household.projects}}>
+              <ng-select formControlName="projects" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{language.projects}}>
                 <ng-option *ngFor="let project of projectList" [value]="project">{{project.get('name')}}</ng-option>
               </ng-select>
             </div>
@@ -137,7 +137,7 @@
         <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
         <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="importHousholdsApi()">
           <mat-icon>publish</mat-icon>
-          <span>{{household.import | titlecase }}</span>
+          <span>{{language.import | titlecase }}</span>
         </button>
       </div>
     </div>
@@ -146,12 +146,12 @@
 
 <ng-template #mapFile>
   <mat-dialog-content class="modal-container">
-    <h4 class="modal-title underline-accent stickyHeader">{{household.import}}</h4>
+    <h4 class="modal-title underline-accent stickyHeader">{{language.import}}</h4>
     <div class="dialog-template">
       <div class="modal-body">
         <table class="modal-table">
           <tr class="modal-row">
-            <th class="table-title">{{ household.adm1 }}</th>
+            <th class="table-title">{{ language.adm1 }}</th>
             <th class="table-value">
               <form class="form">
                 <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
@@ -164,7 +164,7 @@
           </tr>
 
           <tr class="modal-row">
-            <th class="table-title">{{ household.adm2 }}</th>
+            <th class="table-title">{{ language.adm2 }}</th>
             <th class="table-value">
               <form class="form">
                 <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
@@ -176,7 +176,7 @@
           </tr>
 
           <tr class="modal-row">
-            <th class="table-title">{{ household.adm3 }}</th>
+            <th class="table-title">{{ language.adm3 }}</th>
             <th class="table-value">
               <form class="form">
                 <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
@@ -188,7 +188,7 @@
           </tr>
 
           <tr class="modal-row">
-            <th class="table-title">{{ household.adm4 }}</th>
+            <th class="table-title">{{ language.adm4 }}</th>
             <th class="table-value">
               <form class="form">
                 <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
@@ -206,7 +206,7 @@
           </div>
           <div class="select-file">
             <a href="javascript:void(0)" (click)="file.click()">
-              <button mat-stroked-button color="primary">{{household.beneficiaries_import_addModal
+              <button mat-stroked-button color="primary">{{language.beneficiaries_import_addModal
                 | titlecase}}</button>
             </a>
             <input type="file" #file [multiple] (change)="fileChange($event, 'target', 'csv2')" style="display:none" />
@@ -221,13 +221,13 @@
           </mat-list>
         </div>
         <div class="warning">
-          {{household.beneficiaries_import_warning}}
+          {{language.beneficiaries_import_warning}}
         </div>
       </div>
 
-      <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
-        <button mat-button class="button-text-accent" (click)="exit('Import canceled')">{{household.cancel}}</button>
-        <button mat-button class="button-background-accent" (click)="confirmImport()">{{household.transaction_confirm_button}}</button>
+      <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+        <button mat-button class="button-text-accent" (click)="exit('Import canceled')">{{language.cancel}}</button>
+        <button mat-button class="button-background-accent" (click)="confirmImport()">{{language.transaction_confirm_button}}</button>
       </div>
     </div>
   </mat-dialog-content>

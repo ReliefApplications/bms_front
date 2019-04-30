@@ -1,9 +1,9 @@
-import { Injectable                                 } from '@angular/core';
-import { HttpService                                } from './http.service';
+import { Injectable } from '@angular/core';
+import { Commodity, Modality, ModalityType } from 'src/app/model/commodity.new';
+import { LanguageService } from 'src/texts/language.service';
 import { CustomModelService } from './custom-model.service';
+import { HttpService } from './http.service';
 import { ModalitiesService } from './modalities.service';
-import { Commodity, ModalityType } from 'src/app/model/commodity.new';
-import { Modality } from 'src/app/model/commodity.new';
 
 @Injectable({
     providedIn: 'root'
@@ -12,9 +12,11 @@ export class CommodityService extends CustomModelService {
 
     customModelPath = '';
     constructor(
-        protected http: HttpService, private modalityService: ModalitiesService
+        protected http: HttpService,
+        private modalityService: ModalitiesService,
+        protected languageService: LanguageService,
     ) {
-        super(http);
+        super(http, languageService);
     }
 
     fillModalitiesOptions(commodity: Commodity) {

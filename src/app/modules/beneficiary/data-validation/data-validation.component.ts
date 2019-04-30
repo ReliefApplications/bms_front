@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { Households } from 'src/app/model/households.new';
-import { GlobalText } from 'src/texts/global';
+import { LanguageService } from 'src/texts/language.service';
 import { ImportService } from '../../../core/utils/beneficiaries-import.service';
 import { ModalLeaveComponent } from './../../../components/modals/modal-leave/modal-leave.component';
 
@@ -57,7 +57,6 @@ export class DataValidationComponent implements OnInit {
 
     public helpDisplayed = true;
 
-    public texts = GlobalText.TEXTS;
 
     public loading = false;
     public loadingStep = false;
@@ -65,11 +64,16 @@ export class DataValidationComponent implements OnInit {
 //
 // ─── INIT ───────────────────────────────────────────────────────────────────────
 //
+
+    // Language
+    public language = this.languageService.selectedLanguage;
+
     constructor(
         private importService: ImportService,
         private router: Router,
         private snackbar: SnackbarService,
         public dialog: MatDialog,
+        private languageService: LanguageService,
     ) {}
 
     public ngOnInit() {
@@ -80,7 +84,7 @@ export class DataValidationComponent implements OnInit {
             this.generateControls();
         // If the import context has not been set
         } catch (error) {
-            this.snackbar.error(this.texts.beneficiaries_import_error_importing);
+            this.snackbar.error(this.language.beneficiaries_import_error_importing);
             this.router.navigate(['beneficiaries/import']);
         }
     }
@@ -337,7 +341,7 @@ export class DataValidationComponent implements OnInit {
             return State.KeepNew;
         }
         else {
-            this.snackbar.error(this.texts.beneficiaries_import_error_selection);
+            this.snackbar.error(this.language.beneficiaries_import_error_selection);
         }
     }
 

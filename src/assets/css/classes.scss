@@ -687,3 +687,7 @@ app-icon-svg {
 .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
     background-color: $bms_dark_grey;
 }
+
+.mat-calendar-next-button, .mat-calendar-previous-button {
+    transform: rotate(0deg) !important;
+}

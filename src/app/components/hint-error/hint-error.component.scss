@@ -1,0 +1,23 @@
+
+.not-mat-form-field-error {
+    font-size: 12px;
+    margin-top: -1.25em;
+    color: red
+}
+
+.not-mat-form-field-hint {
+    font-size: 12px;
+    margin-top: -1.25em;
+    color: #424242;
+}
+
+mat-error, mat-hint {
+    position: absolute;
+    top: 40px;
+    font-size: 12px;
+}
+
+mat-hint {
+    width: 100%;
+    left: 0;
+}

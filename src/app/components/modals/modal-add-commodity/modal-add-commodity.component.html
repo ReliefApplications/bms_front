@@ -10,6 +10,7 @@
                     {{option.get('name') | titlecase}}
                 </ng-option>
             </ng-select>
+            <app-hint-error [form]="form" fieldName="modality" [field]="commodity.fields.modality" [isMatField]="false"></app-hint-error>
           </td>
         </tr>
 
@@ -21,6 +22,7 @@
                     {{option.get('name') | titlecase}}
                 </ng-option>
             </ng-select>
+            <app-hint-error [form]="form" fieldName="modalityType" [field]="commodity.fields.modalityType" [isMatField]="false"></app-hint-error>
           </td>
         </tr>
 
@@ -29,6 +31,7 @@
           <td class="form-item">
             <mat-form-field>
               <input matInput type="text" formControlName="unit" [placeholder]="getUnit()">
+              <app-hint-error [form]="form" fieldName="unit" [field]="commodity.fields.unit" [isMatField]="true"></app-hint-error>
             </mat-form-field>
           </td>
         </tr>
@@ -38,6 +41,7 @@
             <td class="form-item">
               <mat-form-field>
                 <input matInput type="text" formControlName="value" [placeholder]="commodity.fields.value.title">
+                <app-hint-error [form]="form" fieldName="value" [field]="commodity.fields.value" [isMatField]="true"></app-hint-error>
               </mat-form-field>
             </td>
           </tr>

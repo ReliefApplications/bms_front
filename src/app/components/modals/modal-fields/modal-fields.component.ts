@@ -114,7 +114,7 @@ export class ModalFieldsComponent implements OnInit {
                         if (childrenField && childrenField.fields[childrenFieldName].kindOfField === 'SingleSelect') {
                             value = childrenField.get(childrenFieldName) ? childrenField.get(childrenFieldName).get('id') : null;
                         } else {
-                            value =  childrenField.get(childrenFieldName);
+                            value =  childrenField ? childrenField.get(childrenFieldName) : null;
                         }
                     }
                 }

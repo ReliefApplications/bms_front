@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Subscription } from 'rxjs';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Country } from 'src/app/model/country';
@@ -13,7 +14,7 @@ import { ModalLanguageComponent } from './../../modals/modal-language/modal-lang
     templateUrl: './header.component.html',
     styleUrls: [ './header.component.scss' ]
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
 
     // Language
@@ -22,6 +23,7 @@ export class HeaderComponent implements OnInit {
     // Countries
     public selectedCountry: Country;
     public countries: Array<Country>;
+    private subscriptions: Array<Subscription>;
 
     constructor(
         private dialog: MatDialog,
@@ -32,13 +34,19 @@ export class HeaderComponent implements OnInit {
 
     }
     ngOnInit(): void {
+        this.subscriptions = [
+                this.countriesService.selectedCountry.subscribe((country: Country) => {
+                    this.selectedCountry = country;
+                }),
+                this.countriesService.selectableCountries.subscribe((countries: Array<Country>) => {
+                    this.countries = countries;
+                }),
+        ];
+    }
 
-        this.countriesService.selectedCountry.subscribe((country: Country) => {
-            this.selectedCountry = country;
-        });
-        this.countriesService.selectableCountries.subscribe((countries: Array<Country>) => {
-            this.countries = countries;
-
+    ngOnDestroy(): void {
+        this.subscriptions.forEach((subscription: Subscription) => {
+            subscription.unsubscribe();
         });
     }
 

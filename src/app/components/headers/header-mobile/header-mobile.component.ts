@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 
 
@@ -10,15 +10,10 @@ import { HeaderComponent } from '../header/header.component';
 })
 export class HeaderMobileComponent extends HeaderComponent implements OnInit {
 
-    // @Output() emitCurrentRoute = new EventEmitter<string>();
-    // @Output() emitToggle = new EventEmitter();
+    @Output() emitCurrentRoute = new EventEmitter<string>();
+    @Output() emitToggle = new EventEmitter();
 
-    // ngOnInit() {
-    //     this.getCorrectCountries();
-    //     this.updateTooltip();
-    // }
-
-    // toggle() {
-    //     this.emitToggle.emit();
-    // }
+    toggle() {
+        this.emitToggle.emit();
+    }
 }

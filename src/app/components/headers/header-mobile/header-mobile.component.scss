@@ -45,6 +45,10 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  &.selected {
+    background-color: $bms_dark_blue;
+    color: $bms_white;
+}
 
   img {
     width: 30px !important;

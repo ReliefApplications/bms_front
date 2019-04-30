@@ -172,7 +172,6 @@ export class AsyncacheService implements OnInit {
                 if (!languageString) {
                     return undefined;
                 }
-                this.remove(AsyncacheService.LANGUAGE);
                 return this.languageService.stringToLanguage(languageString);
             })
         );

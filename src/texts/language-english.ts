@@ -41,6 +41,7 @@ export class English implements Language {
     rights = 'Rights'
     save = 'Save'
     settings = 'Settings'
+    the = 'the'
     this = 'this'
     summary = 'Summary'
     update = 'Update'
@@ -135,6 +136,22 @@ export class English implements Language {
     add_project_title = 'new project'
     add_project_new_distribution = 'new distribution'
 
+    // Benficiary form errors
+    beneficiary_error_location = 'You must select a location'
+    beneficiairy_error_address_number = 'You must enter an address number'
+    beneficiary_error_address_postcode = 'You must enter an address postcode'
+    beneficiary_error_address_street = 'You must enter an address street'
+    beneficiairy_error_head = 'the head of household'
+    beneficiary_error_member = ' member'
+    beneficiary_error_family_name = 'You must enter a family name for '
+    beneficiary_error_given_name = 'You must enter a given name for '
+    beneficiairy_error_gender = 'You must select a gender for '
+    beneficiary_error_phone = 'Phone can only be composed of digits for '
+    beneficiary_error_existing_country_code = 'Please select an existing country code from the list for '
+    beneficiary_error_country_code = 'Please select a country code for the phone number for '
+    beneficiairy_error_birth_date = 'Please select a valid birth date for '
+    beneficiairy_error_project = 'You must select at least one project'
+
     // Beneficiaries
     beneficiaries_add_distribution = 'Add beneficiaries to this distribution'
     beneficiaries_add_list = 'Add this list to a project'
@@ -176,6 +193,21 @@ export class English implements Language {
     cache_store_beneficiaries = 'Offline Mode'
     cache_stored_beneficiaries = 'Saved For Offline Mode'
     cache_no_distribution = 'This distribution isn\'t stored in the cache, you can\'t access it offline'
+
+    // Commodities tooltips
+    commodity_cash = 'Mobile Money'
+    commodity_qr_voucher = 'QR Code Voucher'
+    commodity_paper_voucher = 'Paper Voucher'
+    commodity_bread = 'Bread'
+    commodity_loan = 'Loan'
+    commodity_food = 'Food'
+    commodity_wash = 'WASH Kit'
+    commodity_agriculture = 'Agricultural Kit'
+    commodity_rte = 'RTE Kit'
+
+    // Countries
+    country_khm = 'Cambodia'
+    country_syr = 'Syria'
 
     // Dashboard
     dashboard_distribution_map = 'distribution map'
@@ -322,6 +354,8 @@ export class English implements Language {
     modal_check_date = 'Invalid fields = Your start date cannot be older than the end date'
     modal_check_fields = 'Invalid fields = check you filled every field'
     modal_delete_sentence = 'You are about to delete '
+    modal_details_title = 'Details of this'
+    modal_edit_title = 'Edit this'
     modal_delete_sentence_2 = '. Are you sure? '
     modal_email_is = 'Email is'
     modal_failure = 'Failure'
@@ -411,10 +445,16 @@ export class English implements Language {
     model_vendor = 'Vendor'
     model_vulnerabilities = 'Vulnerabilities'
 
-     // Null values
-     null_none = 'none'
-     null_not_yet = 'not yet'
-     null_not_distributed = 'not distributed'
+    // Null values
+    null_none = 'none'
+    null_not_yet = 'not yet'
+    null_not_distributed = 'not distributed'
+
+    // Number suffixes
+    number_suffix_first = 'st'
+    number_suffix_second = 'nd'
+    number_suffix_third = 'rd'
+    number_suffix_other = 'th'
 
     // Phone
     phone_type_landline = 'Landline'
@@ -468,6 +508,18 @@ export class English implements Language {
     residency_refugee = 'Refugee'
     residency_idp = 'IDP'
 
+    // Sectors tooltips
+    sector_cccm = 'Camp coordination and management'
+    sector_recovery = 'Early recovery'
+    sector_education = 'Education'
+    sector_telecom = 'Emergency telecommunications'
+    sector_food = 'Food security'
+    sector_health = 'Health'
+    sector_logistics = 'Logistics'
+    sector_nutrition = 'Nutrition'
+    sector_protection = 'Protection'
+    sector_shelter = 'Shelter'
+    sector_water = 'Water sanitation'
 
     // Settings
     settings_country_specific_options = 'country specific options'
@@ -571,4 +623,11 @@ export class English implements Language {
     voucher_print_selection = 'Print selection'
     voucher_print_error = 'You can\'t print a booklet if it has no beneficiary'
     voucher_print_starting = 'Your voucher download is starting'
-};
+
+    // Vulnerability
+    vulnerability_pregnant = 'pregnant'
+    vulnerability_disabled = 'disabled'
+    vulnerability_lactating = 'lactating'
+    vulnerability_solo_parent = 'solo parent'
+    vulnerability_nutrional = 'nutritional issues'
+  };

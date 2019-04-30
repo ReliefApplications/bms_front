@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
@@ -101,17 +101,17 @@ export class SettingsComponent implements OnInit {
 
 
 
-    // @HostListener('window:resize', ['$event'])
-    // onResize(event) {
-    //     if ( window.innerWidth <= this.maxWidthMobile) {
-    //         this.mobileMode = true;
-    //         this.displayedTable = this.tableMobile;
-    //     }
-    //     else {
-    //         this.mobileMode = false;
-    //         this.displayedTable = this.table;
-    //     }
-    // }
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        if ( window.innerWidth <= this.maxWidth) {
+            this.mobileMode = true;
+            this.displayedTable = this.tableMobile;
+        }
+        else {
+            this.mobileMode = false;
+            this.displayedTable = this.table;
+        }
+    }
 
 
 

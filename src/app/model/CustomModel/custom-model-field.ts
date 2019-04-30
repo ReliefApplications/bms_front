@@ -132,7 +132,7 @@ export class CustomModelField<T> {
             isRequired:             false,
             isSettable:             false,
             isEditable:             false,
-            nullValue:              null,
+            nullValue:              'none',
             hint:                   null,
             pattern:                null,
             isTrigger:              false,

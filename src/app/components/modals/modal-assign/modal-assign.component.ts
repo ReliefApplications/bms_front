@@ -62,7 +62,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
      * get all distributions of a project
      */
     getDistributions() {
-        this.distributionService.getByProject(this.projectControl.value)
+        this.distributionService.getQrVoucherByProject(this.projectControl.value)
             .subscribe(
                 response => {
                     if (response || response === []) {

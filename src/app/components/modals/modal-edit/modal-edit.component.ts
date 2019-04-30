@@ -15,6 +15,7 @@ import { ModalFieldsComponent } from '../modal-fields/modal-fields.component';
 })
 export class ModalEditComponent extends ModalFieldsComponent implements OnInit {
     modalType = 'Edit';
+    modalTitle = this.language.modal_edit_title;
 
     isDisabled(field: CustomModelField<any>) {
         return !field.isEditable;

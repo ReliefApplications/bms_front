@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { LanguageService } from './../../../../texts/language.service';
 
 
 @Component({
@@ -9,7 +10,14 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class ModalDeleteComponent {
 
-    constructor(@Inject(MAT_DIALOG_DATA) public data: any, public modalReference: MatDialogRef<any>) {
+    // Language
+    public language = this.languageService.selectedLanguage;
+
+    constructor(
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        public modalReference: MatDialogRef<any>,
+        private languageService: LanguageService,
+        ) {
     }
 
     onDelete(): any {

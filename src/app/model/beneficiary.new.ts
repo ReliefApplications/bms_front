@@ -249,7 +249,7 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.set('profile', beneficiaryFromApi.profile ? Profile.apiToModel(beneficiaryFromApi.profile) : new Profile());
 
 
-        newBeneficiary.fields.vulnerabilities.displayTableFunction = value => this.displayTableVulnerabilities(value);
+        newBeneficiary.fields.vulnerabilities.displayTableFunction = value => value;
         newBeneficiary.fields.vulnerabilities.displayModalFunction =
             value => value.map((vulnerability: VulnerabilityCriteria) => vulnerability.get('name'));
         newBeneficiary.fields.phones.displayTableFunction = value => value.map((phone: Phone) => phone.get('number'));
@@ -258,17 +258,6 @@ export class Beneficiary extends CustomModel {
 
         return newBeneficiary;
 
-    }
-
-    public static displayTableVulnerabilities(value) {
-        const images = [];
-        value.forEach((vulnerability: VulnerabilityCriteria) => {
-            const image = vulnerability.getImage();
-            if (!images.includes(image)) {
-                images.push(image);
-            }
-        });
-        return images;
     }
 
     public modelToApi(): Object {

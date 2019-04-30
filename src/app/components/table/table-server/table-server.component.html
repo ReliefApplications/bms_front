@@ -101,7 +101,7 @@
     <div class="spinner-container" *ngIf="tableServerData.loading$ | async">
         <mat-spinner></mat-spinner>
     </div>
-    <mat-table class="server-table" [dataSource]="tableServerData" matSort>
+    <mat-table class="server-table" [dataSource]="tableServerData" matSort [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
         <ng-container *ngIf="selectable" matColumnDef="check">
             <mat-header-cell class="header-cell" *matHeaderCellDef>
                 <mat-checkbox (change)="$event ? masterToggle() : null"

@@ -59,6 +59,30 @@ export class Sector extends CustomModel {
         }
     }
 
+    // Map sector to sector image
+    public getTooltip(): string {
+
+        const sectorsTooltips: object = {
+            'camp coordination and management': this.language.sector_cccm,
+            'early recovery': this.language.sector_recovery,
+            'education': this.language.sector_education,
+            'emergency telecommunications': this.language.sector_telecom,
+            'food security': this.language.sector_food,
+            'health': this.language.sector_health,
+            'logistics': this.language.sector_logistics,
+            'nutrition': this.language.sector_nutrition,
+            'protection': this.language.sector_protection,
+            'shelter': this.language.sector_shelter,
+            'water sanitation': this.language.sector_water,
+        };
+        // Todo: Use global variable, fix typing in order to not do this if check
+        if (typeof this.get('name') === 'string') {
+            return sectorsTooltips[this.get<string>('name')];
+        } else {
+            return '';
+        }
+    }
+
     public getIdentifyingName() {
         return this.get<string>('name');
     }

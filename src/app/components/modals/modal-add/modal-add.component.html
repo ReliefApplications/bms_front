@@ -1,6 +1,6 @@
 <mat-dialog-content class="modal-container">
-  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}">{{modal.modal_add_title | titlecase }} {{entityDisplayedName | titlecase}}</h4>
-  <table class="modal-table" [ngClass]="{'arabic': language==='ar'}">
+  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">{{modal.modal_add_title | titlecase }} {{entityDisplayedName | titlecase}}</h4>
+  <table class="modal-table" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">
     <p *ngIf="this.data.entity.getAddDescription">{{this.data.entity.getAddDescription() | titlecase }}</p>
     <tr *ngFor="let p of properties" class="modal-row">
       <th class="table-title" *ngIf="propertiesTypes[p]!=='checkbox' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && mapperObject[p] !='Unit' && p != 'sectors_name' && p != 'donors_name'">{{mapperObject[p] | titlecase }}</th>
@@ -161,7 +161,7 @@
       </th>
     </tr>
   </table>
-  <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
+  <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.cancel}}</button>
     <button mat-raised-button *ngIf="!displayAdd" (click)="add()" class="button-background-accent">{{modal.create}}</button>
     <button mat-raised-button *ngIf="displayAdd" (click)="add()" class="button-background-accent">{{modal.add}}</button>

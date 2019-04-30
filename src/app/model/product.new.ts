@@ -66,5 +66,8 @@ export class Product extends CustomModel {
         };
     }
 
+    public getIdentifyingName() {
+        return this.get<string>('name');
+    }
 
 }

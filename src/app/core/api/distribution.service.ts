@@ -42,6 +42,11 @@ export class DistributionService extends CustomModelService {
         return this.http.get(url);
     }
 
+    public getQrVoucherByProject(idProject) {
+        const url = this.apiBase + '/distributions-qr-voucher/projects/' + idProject;
+        return this.http.get(url);
+    }
+
     public getBeneficiaries(id: number) {
         const url = this.apiBase + '/distributions/' + id + '/beneficiaries';
         return this.http.get(url);

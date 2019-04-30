@@ -10,6 +10,7 @@ import { ModalFieldsComponent } from '../modal-fields/modal-fields.component';
 export class ModalDetailsComponent extends ModalFieldsComponent {
 
     modalType = 'Details';
+    modalTitle = this.language.modal_details_title;
 
     isDisabled(field: CustomModelField<any>) {
         return true;

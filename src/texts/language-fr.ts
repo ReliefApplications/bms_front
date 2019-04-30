@@ -42,6 +42,7 @@ export class French implements Language {
     save = 'Enregistrer'
     settings = 'Paramètres'
     summary = 'Sommaire'
+    the = 'le'
     this = 'Ce'
     update = 'Modifier'
     voucher = 'Vouchers'
@@ -136,6 +137,22 @@ export class French implements Language {
     add_project_new_distribution = 'nouvelle distribution'
     add_project_title = 'nouveau projet'
 
+     // Benficiary form errors
+     beneficiary_error_location = 'Vous devez choisir une localisation'
+     beneficiairy_error_address_number = 'Vous devez entrer un numéro de voie'
+     beneficiary_error_address_postcode = 'Vous devez entrer un code postal'
+     beneficiary_error_address_street = 'Vous devez entrer un nom de voie'
+     beneficiairy_error_head = 'le chef de famille'
+     beneficiary_error_member = ' membre'
+     beneficiary_error_family_name = 'Vous devez entrer un nom de famille pour '
+     beneficiary_error_given_name = 'Vous devez entrer un prénom pour '
+     beneficiairy_error_gender = 'Vous devez sélectionner un genre pour '
+     beneficiary_error_phone = 'Le numéro de téléphone doit être uniquement composé de chiffres pour '
+     beneficiary_error_existing_country_code = 'Veuillez sélectionner un préfixe valide pour '
+     beneficiary_error_country_code = 'Veuillez sélectionner un préfixe de la liste pour '
+     beneficiairy_error_birth_date = 'Veuillez sélectionner une date de naissance valide pour '
+     beneficiairy_error_project = 'Veuillez sélectionner au moins un projet'
+
     // Beneficiaries
     beneficiaries_add_distribution = 'Ajouter les bénéficiaires à cette distribution'
     beneficiaries_add_list = 'Ajouter cette liste au projet'
@@ -177,6 +194,21 @@ export class French implements Language {
     cache_stored_beneficiaries = 'Sauvegardée Pour Le Mode Offline'
     cache_no_distribution = 'Cette distribution n\'est pas enregistrée dans le cache, vous ne pouvez pas y accéder hors-ligne'
 
+    // Commodities tooltips
+    commodity_cash = 'Cash'
+    commodity_qr_voucher = 'Coupon QR Code'
+    commodity_paper_voucher = 'Coupon papier'
+    commodity_bread = 'Pain'
+    commodity_loan = 'Prêt'
+    commodity_food = 'Nourriture'
+    commodity_wash = 'Kit d\'hygiène'
+    commodity_agriculture = 'Kit d\'agriculture'
+    commodity_rte = 'Kit RTE'
+
+    // Countries
+    country_khm = 'Cambodge'
+    country_syr = 'Syrie'
+  
     // Dashboard
     dashboard_distribution_map = 'répartition des distributions'
     dashboard_recent_distributions = 'distributions récentes'
@@ -322,6 +354,8 @@ export class French implements Language {
     modal_check_fields = 'Champs invalides = vérifiez que vous avez rempli tous les champs'
     modal_delete_sentence = 'Vous êtes sur le point de supprimer '
     modal_delete_sentence_2 = '. '
+    modal_details_title = 'Détails de ce'
+    modal_edit_title = 'Modifier ce'
     modal_email_is = 'Email '
     modal_language_actual = 'Langue actuelle :'
     modal_language_title = 'Langage'
@@ -414,6 +448,12 @@ export class French implements Language {
     null_none = 'aucun'
     null_not_yet = 'pas encore'
     null_not_distributed = 'pas distribué'
+
+    // Number suffixes
+    number_suffix_first = 'er'
+    number_suffix_second = 'ème'
+    number_suffix_third = 'ème'
+    number_suffix_other = 'ème'
   
     // Phone
     phone_type_landline = 'Fixe'
@@ -467,6 +507,19 @@ export class French implements Language {
     residency_resident = 'Resident'
     residency_refugee = 'Refugee'
     residency_idp = 'IDP'
+
+    // Sectors tooltips
+    sector_cccm = 'Management et organisation de camp'
+    sector_recovery = 'Relèvement précoce'
+    sector_education = 'Education'
+    sector_telecom = 'Urgence télécommunications'
+    sector_food = 'Sécurité alimentaire'
+    sector_health = 'Santé'
+    sector_logistics = 'Logistique'
+    sector_nutrition = 'Nutrition'
+    sector_protection = 'Protection'
+    sector_shelter = 'Hébergement'
+    sector_water = 'Assainissement de l\'eau'
 
     // Settings
     settings_country_specific_options = 'options par pays'
@@ -570,4 +623,11 @@ export class French implements Language {
     voucher_print_selection = 'Imprimer la sélection'
     voucher_print_error = 'Vous ne pouvez pas imprimer un booklet sans bénéficiaire'
     voucher_print_starting = 'Le téléchargement du coupon va démarrer'
-};
+
+    // Vulnerability
+    vulnerability_pregnant = 'grossesse'
+    vulnerability_disabled = 'handicap'
+    vulnerability_lactating = 'allaitement'
+    vulnerability_solo_parent = 'parent célibataire'
+    vulnerability_nutrional = 'malnutrition'
+  };

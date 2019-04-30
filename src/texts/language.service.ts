@@ -3,6 +3,7 @@ import { Country } from 'src/app/model/country';
 import { Language } from './language';
 import { Arabic } from './language-arabic';
 import { English } from './language-english';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -20,11 +21,19 @@ export class LanguageService {
 
     // This default value's reference is not contained in enabledLanguages.
     public selectedLanguage: Language = new English();
+    languageSubject = new BehaviorSubject<Language>(this.selectedLanguage);
 //
 // ─── HELPER FUNCTIONS ───────────────────────────────────────────────────────────
 //
     public clearLanguage(): Language {
         this.selectedLanguage = undefined;
+        this.languageSubject.next(this.selectedLanguage);
+        return this.selectedLanguage;
+    }
+
+    public setLanguage(language: Language): Language {
+        this.selectedLanguage = language;
+        this.languageSubject.next(this.selectedLanguage);
         return this.selectedLanguage;
     }
 //
@@ -62,6 +71,17 @@ export class LanguageService {
             case 'KHM':
             default:
                 return this.english;
+        }
+    }
+
+    public setMargins() {
+        const element = document.getElementsByTagName('mat-sidenav-content') as HTMLCollectionOf<HTMLElement>;
+        if (this.selectedLanguage === this.arabic) {
+            document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+            element[0].style.margin = '0px 64px 0px 0px';
+        } else {
+            document.getElementsByTagName('html')[0].setAttribute('dir', '');
+            element[0].style.margin = '0px 0px 0px 64px';
         }
     }
 

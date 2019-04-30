@@ -44,26 +44,26 @@ export class SnackbarService {
 
 
     public info(message: string, action?: string) {
-        return this.open('Info', message, this.infoConfig, action);
+        return this.open(message, this.infoConfig, action);
     }
 
     public log(message: string, action?: string) {
-        return this.open('Log', message, this.logConfig, action);
+        return this.open(message, this.logConfig, action);
     }
 
     public warning(message: string, action?: string) {
-        return this.open('Warning', message, this.warningConfig, action);
+        return this.open(message, this.warningConfig, action);
     }
 
     public error(message: string, action?: string) {
-        return this.open('Error', message, this.errorConfig, action);
+        return this.open(message, this.errorConfig, action);
     }
 
     public success(message: string, action?: string) {
-        return this.open('Success', message, this.successConfig, action);
+        return this.open(message, this.successConfig, action);
     }
 
-    private open(prefix: string, message: string, config: MatSnackBarConfig, action?: string) {
-        return this.snackbar.open([prefix, message].join(' - '), action, config);
+    private open(message: string, config: MatSnackBarConfig, action?: string) {
+        return this.snackbar.open(message, action, config);
     }
 }

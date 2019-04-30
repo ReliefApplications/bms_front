@@ -167,7 +167,7 @@ export class Distribution extends CustomModel {
         newDistribution.fields.location.displayTableFunction = value => value.getLocationName();
         newDistribution.fields.location.displayModalFunction = value => value.getLocationName();
         newDistribution.fields.distributionBeneficiaries.displayTableFunction = value => value.length;
-        newDistribution.fields.commodities.displayTableFunction = value => this.displayCommodities(value);
+        newDistribution.fields.commodities.displayTableFunction = value => value;
         newDistribution.fields.project.displayTableFunction = (value: Project) => value.get('name');
 
         newDistribution.set('commodities',
@@ -193,14 +193,6 @@ export class Distribution extends CustomModel {
         }
 
         return newDistribution;
-    }
-
-    public static displayCommodities(value) {
-        const images = [];
-        value.forEach(commodity => {
-            images.push(commodity.getImage());
-        });
-        return images;
     }
 
     public modelToApi(): Object {

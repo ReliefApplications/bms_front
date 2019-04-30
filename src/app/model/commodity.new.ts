@@ -144,6 +144,29 @@ export class Commodity extends CustomModel {
         }
     }
 
+    public getTooltip(): string {
+        const commoditiesTooltips: object = {
+            'Mobile Money': this.language.commodity_cash,
+            'QR Code Voucher': this.language.commodity_qr_voucher,
+            'Paper Voucher': this.language.commodity_paper_voucher,
+            'Bread': this.language.commodity_bread,
+            'Loan': this.language.commodity_loan,
+            'Food': this.language.commodity_food,
+            'WASH Kit': this.language.commodity_wash,
+            'Agricultural Kit': this.language.commodity_agriculture,
+            'RTE Kit': this.language.commodity_rte,
+        };
+        // Todo: Use global variable, fix typing in order to not do this if check
+
+        const modalityName = this.get('modalityType').get('name');
+
+        if (typeof modalityName === 'string') {
+            return commoditiesTooltips[modalityName];
+        } else {
+            return '';
+        }
+    }
+
     public getIdentifyingName() {
         return this.get('modality').get<string>('name');
     }

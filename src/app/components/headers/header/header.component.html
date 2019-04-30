@@ -1,8 +1,12 @@
 <div class="header-container">
     <div class="container-routes">
-        {{breadcrumbs}}
         <span *ngFor="let item of breadcrumbs">
-           {{item}}
+            <span *ngIf="item.route !== '/'">
+                >
+            </span>
+           <a routerLink={{item.route}}>	
+                {{item.name | titlecase}}	
+            </a>
         </span>
     </div>
     <div class="container-buttons">

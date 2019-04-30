@@ -276,12 +276,12 @@ export class English implements Language {
     distribution_want_add = 'that you want to add to the '
 
     // Header
-    'header_add-beneficiaries': 'Add Beneficiaries'
-    'header_add-distribution': 'Add Distribution'
+    'header_add-beneficiaries' = 'Add Beneficiaries'
+    'header_add-distribution' = 'Add Distribution'
     header_beneficiaries = 'Beneficiaries'
     header_disconnect = 'log out'
-    'header_distributions': 'Distribution'
-    'header_data-validation': 'Data Validation'
+    'header_distributions' = 'Distribution'
+    'header_data-validation' = 'Data Validation'
     header_home = 'Home'
     header_import = 'Import beneficiary data'
     header_imported = 'Imported beneficiaries data'
@@ -290,7 +290,7 @@ export class English implements Language {
     header_projects = 'Projects'
     header_reports = 'Reports'
     header_settings = 'Settings'
-    'header_update-beneficiary': 'Update Beneficiaries'
+    'header_update-beneficiary' = 'Update Beneficiaries'
     header_vouchers = 'Vouchers'
 
     // Import
@@ -374,7 +374,7 @@ export class English implements Language {
     modal_save_language_as_default = 'Set this as my default language'
     modal_success = 'Success'
     modal_valid_email = 'Please enter a valid email address'
-    modal_values_format_error: 'If you want to set individual values, type numeric values separated by commas (max 5)'
+    modal_values_format_error = 'If you want to set individual values, type numeric values separated by commas (max 5)'
     modal_warning_pending_requests_1 = 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.'
     modal_warning_pending_requests_2 = 'WARNING = Requests linked to an item you created offline will fail !'
     modal_no_file = 'No file chosen'

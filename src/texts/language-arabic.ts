@@ -187,7 +187,7 @@ export class Arabic implements Language {
     beneficiaries_residency_idp= 'IDP'
     beneficiaries_residency_resident= 'مقيم'
     beneficiaries_select_api= 'API اختر'
-    beneficiaries_selected_project: 'المستفيدين المختارين='
+    beneficiaries_selected_project = 'المستفيدين المختارين='
 
     // Cache
     cache_distribution_added = 'التوزيع والمستفيدين من المشروع تم  إضافتهم في ذاكرة التخزين المؤقت'
@@ -277,12 +277,12 @@ export class Arabic implements Language {
     distribution_want_add = 'التي تريد إضافتها إلى '
 
     // Header
-    'header_add-beneficiaries': 'إضافة المستفيد'
-    'header_add-distribution': 'إضافة توزيع'
+    'header_add-beneficiaries' = 'إضافة المستفيد'
+    'header_add-distribution' = 'إضافة توزيع'
     header_beneficiaries = 'المستفيدون'
-    'header_data-validation': 'التأكد من صحة البيانات'
+    'header_data-validation' = 'التأكد من صحة البيانات'
     header_disconnect =  'تسجيل الخروج من الحساب'
-    'header_distributions': 'التوزيع'
+    'header_distributions' = 'التوزيع'
     header_home = 'الصفحة الرئيسية'
     header_import =  'تحميل بيانات المستفيد'
     header_imported = 'إستيراد بيانات المستفيدين'
@@ -291,7 +291,7 @@ export class Arabic implements Language {
     header_projects = 'المشاريع'
     header_reports = 'التقارير'
     header_settings = 'الإعدادات'
-    'header_update-beneficiary': 'تحديث المستفيد'
+    'header_update-beneficiary' = 'تحديث المستفيد'
     header_vouchers = 'قسائم'
 
     // Import
@@ -374,7 +374,7 @@ export class Arabic implements Language {
     modal_success = 'نجاح'
     modal_required = 'مطلوب'
     modal_valid_email = 'من فضلك أدخل البريد الكتروني الصحيح'
-    modal_values_format_error: 'If you want to set individual values, type numeric values separated by commas (max 5)'
+    modal_values_format_error = 'If you want to set individual values, type numeric values separated by commas (max 5)'
     modal_warning_pending_requests_1 = 'ابحث عن الطلبات التي قمت بإنشائها خلال وقت عدم الاتصال الخاص بك أدناه ، يمكنك إرسال تلك التي تريد تطبيقها لتعديل قاعدة البيانات.'
     modal_warning_pending_requests_2 = 'تحذير: ستفشل الطلبات المرتبطة بعنصر أنشأته دون   اتصال بشبكة  الإنترنت !'
     modal_no_file = 'لم تقم باختيار ملف'
@@ -404,7 +404,7 @@ export class Arabic implements Language {
     model_deactivated = 'إبطال مفعولها'
     model_define_password = 'تحديد كلمة المرور'
     model_update_password = 'تحديث كلمة المرور'
-    model_distributed: 'وزعت'
+    model_distributed = 'وزعت'
     model_distribution_beneficiary = 'توزيع المستفيد'
     model_distribution_date = 'تاريخ التوزيع'
     model_distribution_name = 'الاسم'

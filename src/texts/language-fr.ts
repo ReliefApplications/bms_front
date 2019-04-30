@@ -2,7 +2,7 @@ import { Language } from 'src/texts/language';
 /* tslint:disable */
 export class French implements Language {
     // GENERAL VARIABLES
-    LANGUAGE_ISO:'french'
+    LANGUAGE_ISO = 'french'
     // Utils
     add = 'Ajouter'
     adm1 = 'Province'

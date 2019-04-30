@@ -42,7 +42,8 @@ export class Arabic implements Language {
     rights = 'الحقوق'
     save = 'حفظ'
     settings = 'الإعدادات'
-    this = 'this'
+    the = 'ال'
+    this = 'هذه'
     summary = 'ملخص'
     update = 'تحديث'
     voucher = 'قسائم'
@@ -136,6 +137,22 @@ export class Arabic implements Language {
     // Add project
     add_project_new_distribution = 'توزيعة جديدة'
     add_project_title = 'مشروع جديد'
+
+    // Benficiary form errors
+    beneficiary_error_location = 'يجب عليك تحديد موقع'
+    beneficiairy_error_address_number = 'يجب إدخال رقم العنوان'
+    beneficiary_error_address_postcode = 'يجب إدخال الرمز البريدي للعنوان'
+    beneficiary_error_address_street = 'يجب عليك إدخال شارع العنوان'
+    beneficiairy_error_head = 'رب الأسرة'
+    beneficiary_error_member = ' عضو'
+    beneficiary_error_family_name = ' يجب إدخال اسم العائلة ل'
+    beneficiary_error_given_name = ' يجب إدخال اسم معين لـ'
+    beneficiairy_error_gender = ' يجب عليك إدخال الجنس من أجل'
+    beneficiary_error_phone = ' يمكن أن يتكون الهاتف فقط من أرقام لـ'
+    beneficiary_error_existing_country_code = ' يرجى اختيار رمز البلد الحالي من القائمة ل'
+    beneficiary_error_country_code = ' يرجى اختيار رمز البلد لرقم الهاتف ل'
+    beneficiairy_error_birth_date = ' يرجى تحديد تاريخ ميلاد صالح لـ'
+    beneficiairy_error_project = 'يجب عليك اختيار مشروع واحد على الأقل'
 
     // Beneficiaries
     beneficiaries_add_distribution= 'إضافة المستفيدين لهذا التوزيع'
@@ -433,6 +450,12 @@ export class Arabic implements Language {
     null_none = 'لا شيء'
     null_not_yet = 'ليس بعد'
     null_not_distributed = 'غير موزعة'
+
+    // Number suffixes
+    number_suffix_first = ''
+    number_suffix_second = ''
+    number_suffix_third = ''
+    number_suffix_other = ''
 
     // Phone
     phone_type_landline= 'ارضي'

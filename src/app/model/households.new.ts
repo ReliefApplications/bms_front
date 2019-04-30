@@ -144,7 +144,7 @@ export class Households extends CustomModel {
         newHousehold.set('addressStreet', householdFromApi.address_street);
         newHousehold.set('notes', householdFromApi.notes);
         newHousehold.set('livelihood',
-            householdFromApi.livelihood ?
+            householdFromApi.livelihood !== null && householdFromApi.livelihood !== undefined ?
             newHousehold.getOptions('livelihood')
                 .filter((livelihood: Livelihood) => livelihood.get('id') === householdFromApi.livelihood.toString())[0] :
             null);

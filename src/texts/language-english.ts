@@ -41,6 +41,7 @@ export class English implements Language {
     rights = 'Rights'
     save = 'Save'
     settings = 'Settings'
+    the = 'the'
     this = 'this'
     summary = 'Summary'
     update = 'Update'
@@ -134,6 +135,22 @@ export class English implements Language {
     // Add project
     add_project_title = 'new project'
     add_project_new_distribution = 'new distribution'
+
+    // Benficiary form errors
+    beneficiary_error_location = 'You must select a location'
+    beneficiairy_error_address_number = 'You must enter an address number'
+    beneficiary_error_address_postcode = 'You must enter an address postcode'
+    beneficiary_error_address_street = 'You must enter an address street'
+    beneficiairy_error_head = 'the head of household'
+    beneficiary_error_member = ' member'
+    beneficiary_error_family_name = 'You must enter a family name for '
+    beneficiary_error_given_name = 'You must enter a given name for '
+    beneficiairy_error_gender = 'You must select a gender for '
+    beneficiary_error_phone = 'Phone can only be composed of digits for '
+    beneficiary_error_existing_country_code = 'Please select an existing country code from the list for '
+    beneficiary_error_country_code = 'Please select a country code for the phone number for '
+    beneficiairy_error_birth_date = 'Please select a valid birth date for '
+    beneficiairy_error_project = 'You must select at least one project'
 
     // Beneficiaries
     beneficiaries_add_distribution = 'Add beneficiaries to this distribution'
@@ -428,10 +445,16 @@ export class English implements Language {
     model_vendor = 'Vendor'
     model_vulnerabilities = 'Vulnerabilities'
 
-     // Null values
-     null_none = 'none'
-     null_not_yet = 'not yet'
-     null_not_distributed = 'not distributed'
+    // Null values
+    null_none = 'none'
+    null_not_yet = 'not yet'
+    null_not_distributed = 'not distributed'
+
+    // Number suffixes
+    number_suffix_first = 'st'
+    number_suffix_second = 'nd'
+    number_suffix_third = 'rd'
+    number_suffix_other = 'th'
 
     // Phone
     phone_type_landline = 'Landline'

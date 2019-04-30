@@ -42,6 +42,7 @@ export interface Language {
     settings: string
     summary: string
     this: string
+    the: string
     update: string
     voucher: string
 
@@ -121,6 +122,22 @@ export interface Language {
     // Add project
     add_project_title: string
     add_project_new_distribution: string
+
+    // Benficiary form errors
+    beneficiary_error_location: string
+    beneficiairy_error_address_number: string
+    beneficiary_error_address_postcode: string
+    beneficiary_error_address_street: string
+    beneficiairy_error_head: string
+    beneficiary_error_member: string
+    beneficiary_error_family_name: string
+    beneficiary_error_given_name: string
+    beneficiairy_error_gender: string
+    beneficiary_error_phone: string
+    beneficiary_error_existing_country_code: string
+    beneficiary_error_country_code: string
+    beneficiairy_error_birth_date: string
+    beneficiairy_error_project: string
 
     // Beneficiaries
     beneficiaries_add_distribution: string
@@ -417,6 +434,12 @@ export interface Language {
     null_none: string
     null_not_yet: string
     null_not_distributed: string
+
+    // Number suffixes
+    number_suffix_first: string
+    number_suffix_second: string
+    number_suffix_third: string
+    number_suffix_other: string
 
     // Phone
     phone_type_landline: string

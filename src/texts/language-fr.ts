@@ -42,6 +42,7 @@ export class French implements Language {
     save = 'Enregistrer'
     settings = 'Paramètres'
     summary = 'Sommaire'
+    the = 'le'
     this = 'Ce'
     update = 'Modifier'
     voucher = 'Vouchers'
@@ -135,6 +136,22 @@ export class French implements Language {
     // Add project
     add_project_new_distribution = 'nouvelle distribution'
     add_project_title = 'nouveau projet'
+
+     // Benficiary form errors
+     beneficiary_error_location = 'Vous devez choisir une localisation'
+     beneficiairy_error_address_number = 'Vous devez entrer un numéro de voie'
+     beneficiary_error_address_postcode = 'Vous devez entrer un code postal'
+     beneficiary_error_address_street = 'Vous devez entrer un nom de voie'
+     beneficiairy_error_head = 'le chef de famille'
+     beneficiary_error_member = ' membre'
+     beneficiary_error_family_name = 'Vous devez entrer un nom de famille pour '
+     beneficiary_error_given_name = 'Vous devez entrer un prénom pour '
+     beneficiairy_error_gender = 'Vous devez sélectionner un genre pour '
+     beneficiary_error_phone = 'Le numéro de téléphone doit être uniquement composé de chiffres pour '
+     beneficiary_error_existing_country_code = 'Veuillez sélectionner un préfixe valide pour '
+     beneficiary_error_country_code = 'Veuillez sélectionner un préfixe de la liste pour '
+     beneficiairy_error_birth_date = 'Veuillez sélectionner une date de naissance valide pour '
+     beneficiairy_error_project = 'Veuillez sélectionner au moins un projet'
 
     // Beneficiaries
     beneficiaries_add_distribution = 'Ajouter les bénéficiaires à cette distribution'
@@ -431,6 +448,12 @@ export class French implements Language {
     null_none = 'aucun'
     null_not_yet = 'pas encore'
     null_not_distributed = 'pas distribué'
+
+    // Number suffixes
+    number_suffix_first = 'er'
+    number_suffix_second = 'ème'
+    number_suffix_third = 'ème'
+    number_suffix_other = 'ème'
   
     // Phone
     phone_type_landline = 'Fixe'

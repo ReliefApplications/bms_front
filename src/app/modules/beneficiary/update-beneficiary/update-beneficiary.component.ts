@@ -355,7 +355,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      */
     submit() {
         if (this.mainForm.controls.projects.value.length < 1) {
-            this.snackbar.error('You must select at least one project');
+            this.snackbar.error(this.language.beneficiairy_error_project);
             return;
         }
 
@@ -504,15 +504,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         if (step === 1 || final) {
 
             if (!this.mainForm.controls.adm1.value) {
-                message = 'You must select a location';
+                message = this.language.beneficiary_error_location;
             } else if (!this.mainForm.controls.addressNumber.value) {
-                message = 'You must enter an address number';
+                message = this.language.beneficiairy_error_address_number;
             } else if (!this.mainForm.controls.addressPostcode.value) {
-                message = 'You must enter an address postcode';
+                message = this.language.beneficiary_error_address_postcode;
             } else if (!this.mainForm.controls.addressStreet.value) {
-                message = 'You must enter an address street';
-            } else if (!this.mainForm.controls.livelihood.value) {
-                message = 'Please select an existing livelihood from the list';
+                message = this.language.beneficiary_error_address_street;
             } else {
                 this.validStep1 = true;
                 if (step <= 1) { stepper.next(); }
@@ -567,49 +565,49 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         let message = '';
         const beneficiaryName =
             formIndex === 0 ?
-            'the head of household' :
-            'the ' + formIndex + this.getNumberSuffix(formIndex) + ' member';
+            this.language.beneficiairy_error_head :
+            this.language.the + ' ' + formIndex + this.getNumberSuffix(formIndex) + this.language.beneficiary_error_member;
 
         if (!beneficiary.familyName.value) {
-            message = 'You must enter a family name for ' + beneficiaryName;
+            message = this.language.beneficiary_error_family_name + beneficiaryName;
         } else if (!beneficiary.givenName.value) {
-            message = 'You must enter a given name for ' + beneficiaryName;
+            message = this.language.beneficiary_error_given_name + beneficiaryName;
         } else if (beneficiary.gender.value === null) {
-            message = 'You must select a gender for ' + beneficiaryName;
+            message = this.language.beneficiairy_error_gender + beneficiaryName;
         } else if (
             (beneficiary.phoneNumber0.value && isNaN(Number(beneficiary.phoneNumber0.value))) ||
             (beneficiary.phoneNumber1.value && isNaN(Number(beneficiary.phoneNumber1.value)))
         ) {
-            message = 'Phone can only be composed by digits for ' + beneficiaryName;
+            message = this.language.beneficiary_error_phone + beneficiaryName;
         } else if (
             (beneficiary.phoneNumber0.value && beneficiary.phonePrefix0.value &&
                 !this.countryCodesList.includes(beneficiary.phonePrefix0.value)) ||
             (beneficiary.phoneNumber1.value && beneficiary.phonePrefix1.value &&
                 !this.countryCodesList.includes(beneficiary.phonePrefix1.value))
         ) {
-            message = 'Please select an existing country code from the list for ' + beneficiaryName;
+            message = this.language.beneficiary_error_existing_country_code + beneficiaryName;
         } else if (
             (beneficiary.phoneNumber0.value && !beneficiary.phonePrefix0.value) ||
             (beneficiary.phoneNumber0.value && beneficiary.phonePrefix0.value === '') ||
             (beneficiary.phoneNumber1.value && !beneficiary.phonePrefix1.value) ||
             (beneficiary.phoneNumber1.value && beneficiary.phonePrefix1.value === '')
         ) {
-            message = 'Please select a country code for the phone number for ' + beneficiaryName;
+            message = this.language.beneficiary_error_country_code + beneficiaryName;
         } else if (beneficiary.dateOfBirth.value && beneficiary.dateOfBirth.value.getTime() > (new Date()).getTime()) {
-            message = 'Please select a valid birth date for ' + beneficiaryName;
+            message = this.language.beneficiairy_error_birth_date + beneficiaryName;
         }
         return message;
     }
 
     getNumberSuffix(number) {
         if (number === 1) {
-            return 'st';
+            return this.language.number_suffix_first;
         } else if (number === 2) {
-            return 'nd';
+            return this.language.number_suffix_second;
         } if (number === 3) {
-            return 'rd';
+            return this.language.number_suffix_third;
         } else {
-            return 'th';
+            return this.language.number_suffix_other;
         }
     }
 

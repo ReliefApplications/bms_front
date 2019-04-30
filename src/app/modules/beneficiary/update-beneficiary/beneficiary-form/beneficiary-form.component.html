@@ -69,7 +69,7 @@
   </div>
   <div class="lign-container">
     <mat-checkbox color='primary' *ngFor="let vulnerability of options.vulnerabilityList" [formControlName]="vulnerability.get('name')">
-      {{vulnerability.get('name') | titlecase }}
+      {{vulnerability.get('displayed') | titlecase }}
     </mat-checkbox>
   </div>
 </form>

@@ -67,6 +67,11 @@ export class CustomModelField<T> {
      */
     hint: string;
     /**
+     * What to display if there is a pattern error
+     * @type {string}
+     */
+    patternError: string;
+    /**
      * The pattern that must be respected by the field
      * @type {string}
      */
@@ -110,6 +115,7 @@ export class CustomModelField<T> {
         this.isEditable             = properties['isEditable'];
         this.nullValue              = properties['nullValue'];
         this.hint                   = properties['hint'];
+        this.patternError           = properties['patternError'];
         this.pattern                = properties['pattern'];
         this.isTrigger              = properties['isTrigger'];
         this.triggerFunction        = properties['triggerFunction'];
@@ -134,6 +140,7 @@ export class CustomModelField<T> {
             isEditable:             false,
             nullValue:              'none',
             hint:                   null,
+            patternError:                   null,
             pattern:                null,
             isTrigger:              false,
             filterName:             '',

@@ -21,11 +21,6 @@ import { ProfileComponent } from './modules/profile/profile.component';
 import { ReportsModule } from './modules/reports/reports.module';
 import { SharedModule } from './shared/shared.module';
 
-
-
-
-
-
 @NgModule({
     declarations: [
         AppComponent,

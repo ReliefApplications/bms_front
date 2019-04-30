@@ -617,4 +617,7 @@ export interface Language {
     vulnerability_solo_parent: string
     vulnerability_nutrional: string
 
+    // User
+    user_only_one_country: string
+
 }

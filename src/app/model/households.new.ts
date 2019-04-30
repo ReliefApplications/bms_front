@@ -90,6 +90,7 @@ export class Households extends CustomModel {
                 title: this.language.projects,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
+                isRequired: true,
                 bindField: 'name',
                 value: [],
                 apiLabel: 'id'
@@ -106,13 +107,13 @@ export class Households extends CustomModel {
             }
         ),
         addressNumber: new NumberModelField({
-
+            title: this.language.add_beneficiary_getAddressNumber,
         }),
         addressPostcode: new TextModelField({
-
+            title: this.language.add_beneficiary_getAddressPostcode,
         }),
         addressStreet: new TextModelField({
-
+            title: this.language.add_beneficiary_getAddressStreet,
         }),
         livelihood: new SingleSelectModelField(
             {

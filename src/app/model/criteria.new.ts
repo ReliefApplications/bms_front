@@ -73,6 +73,7 @@ export class Criteria extends CustomModel {
                 title: this.language.model_criteria,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
+                isRequired: true,
                 bindField: 'field',
             }
         ),
@@ -81,6 +82,7 @@ export class Criteria extends CustomModel {
                 title: this.language.model_criteria_operator,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
+                isRequired: true,
                 bindField: 'name',
             }
         ),

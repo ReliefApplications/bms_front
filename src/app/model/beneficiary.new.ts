@@ -113,7 +113,6 @@ export class Beneficiary extends CustomModel {
             isRequired: true,
             isSettable: true,
             isEditable: true,
-
         }),
         residencyStatus: new SingleSelectModelField(
             {

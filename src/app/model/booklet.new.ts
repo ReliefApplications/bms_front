@@ -79,6 +79,7 @@ export class Booklet extends CustomModel {
             isSettable: true,
             isRequired: true,
             hint: this.language.modal_values_format_error,
+            patternError: this.language.modal_values_format_error,
             pattern: /^([\d]+,?\s?,?\s?)+$/,
         }),
         currency: new SingleSelectModelField({

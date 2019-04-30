@@ -596,7 +596,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             (beneficiary.phoneNumber1.value && beneficiary.phonePrefix1.value === '')
         ) {
             message = this.language.beneficiary_error_country_code + beneficiaryName;
-        } else if (beneficiary.dateOfBirth.value && beneficiary.dateOfBirth.value.getTime() > (new Date()).getTime()) {
+        } else if (!beneficiary.dateOfBirth.value || beneficiary.dateOfBirth.value.getTime() > (new Date()).getTime()) {
             message = this.language.beneficiairy_error_birth_date + beneficiaryName;
         }
         return message;

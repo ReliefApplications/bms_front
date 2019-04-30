@@ -77,6 +77,7 @@ export class Commodity extends CustomModel {
                 title: this.language.model_commodity_unit,
                 placeholder: null,
                 isSettable: true,
+                isRequired: true,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isLongText: false,

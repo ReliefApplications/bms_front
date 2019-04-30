@@ -31,7 +31,8 @@ export class Location extends CustomModel {
         adm1: new SingleSelectModelField(
             {
                 title: this.language.adm1,
-                bindField: 'name'
+                bindField: 'name',
+                isRequired: true,
             }
         ),
         adm2: new SingleSelectModelField(

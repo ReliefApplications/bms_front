@@ -48,6 +48,7 @@ export class User extends CustomModel {
             isRequired: true,
             pattern: /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/,
             isSettable: true,
+            patternError: this.language.modal_valid_email
         }),
         password: new TextModelField({
             title: this.language.model_password,
@@ -57,6 +58,7 @@ export class User extends CustomModel {
             isDisplayedInModal: true,
             isEditable: true,
             isSettable: true,
+            patternError: this.language.modal_not_enough_strong
         }),
         rights: new SingleSelectModelField({
             title: this.language.rights,
@@ -81,18 +83,22 @@ export class User extends CustomModel {
                     form.controls.projects.setValue([]);
                     if (value === 'ROLE_COUNTRY_MANAGER') {
                         user.fields.countries.maxSelectionLength = 1;
+                        user.fields.countries.hint = 'You can select only one country';
                         form.controls.countries.setValue([]);
                     } else {
                         user.fields.countries.maxSelectionLength = null;
+                        user.fields.countries.hint = '';
                     }
 
                 } else if (value === 'ROLE_PROJECT_MANAGER' || value === 'ROLE_PROJECT_OFFICER' || value === 'ROLE_FIELD_OFFICER') {
                     form.controls.projects.enable();
                     form.controls.countries.disable();
+                    user.fields.countries.hint = '';
                     form.controls.countries.setValue([]);
                 } else {
                     form.controls.countries.disable();
                     form.controls.projects.disable();
+                    user.fields.countries.hint = '';
                     form.controls.countries.setValue([]);
                     form.controls.projects.setValue([]);
                 }
@@ -132,6 +138,7 @@ export class User extends CustomModel {
 
             if (rights === 'ROLE_COUNTRY_MANAGER') {
                 newUser.fields.countries.maxSelectionLength = 1;
+                newUser.fields.countries.hint = 'You can select only one country';
             }
         }
         if (rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER' || rights === 'ROLE_FIELD_OFFICER') {

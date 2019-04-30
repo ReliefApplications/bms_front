@@ -630,4 +630,7 @@ export class French implements Language {
     vulnerability_lactating = 'allaitement'
     vulnerability_solo_parent = 'parent célibataire'
     vulnerability_nutrional = 'malnutrition'
+
+    // User
+    user_only_one_country = 'Vous ne pouvez sélectionner qu\'un pays'
   };

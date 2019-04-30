@@ -28,6 +28,7 @@ import { BoxDashboardComponent } from '../components/box/box-dashboard/box-dashb
 import { BoxPropertiesComponent } from '../components/box/box-properties/box-properties.component';
 import { BoxSettingComponent } from '../components/box/box-setting/box-setting.component';
 import { DisplayFieldComponent } from '../components/common/display-field/display-field.component';
+import { HintErrorComponent } from '../components/hint-error/hint-error.component';
 import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
 import { ModalAddCommodityComponent } from '../components/modals/modal-add-commodity/modal-add-commodity.component';
 import { ModalAddCriteriaComponent } from '../components/modals/modal-add-criteria/modal-add-criteria.component';
@@ -151,6 +152,7 @@ imports: [
         BoxSettingComponent,
         BoxPropertiesComponent,
         DisplayFieldComponent,
+        HintErrorComponent,
         DataValidationComponent,
         DistributionsComponent,
         MobileMoneyComponent,
@@ -201,6 +203,7 @@ imports: [
         BoxDashboardComponent,
         BoxPropertiesComponent,
         DisplayFieldComponent,
+        HintErrorComponent,
         TableComponent,
         TableMobileComponent,
         TableMobileServerComponent,

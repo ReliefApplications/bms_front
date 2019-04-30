@@ -374,7 +374,7 @@ export class Arabic implements Language {
     modal_success = 'نجاح'
     modal_required = 'مطلوب'
     modal_valid_email = 'من فضلك أدخل البريد الكتروني الصحيح'
-    modal_values_format_error: 'If you want to set individual values, type numeric values separated by commas (max 5)'
+    modal_values_format_error = 'If you want to set individual values, type numeric values separated by commas (max 5)'
     modal_warning_pending_requests_1 = 'ابحث عن الطلبات التي قمت بإنشائها خلال وقت عدم الاتصال الخاص بك أدناه ، يمكنك إرسال تلك التي تريد تطبيقها لتعديل قاعدة البيانات.'
     modal_warning_pending_requests_2 = 'تحذير: ستفشل الطلبات المرتبطة بعنصر أنشأته دون   اتصال بشبكة  الإنترنت !'
     modal_no_file = 'لم تقم باختيار ملف'
@@ -632,4 +632,7 @@ export class Arabic implements Language {
     vulnerability_lactating = 'المرضعات'
     vulnerability_solo_parent = 'الوالد منفردا'
     vulnerability_nutrional = 'القضايا الغذائية'
+
+    // User
+    user_only_one_country = 'يمكنك اختيار دولة واحدة فقط'
 };

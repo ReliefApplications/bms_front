@@ -6,11 +6,12 @@
         <mat-card class="accordion-card">
           <form [formGroup]="form">
             <ng-container>
-                <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm1" (change)="loadDistrict($event)" [placeholder]="objectInstance.get('location').fields.adm1.title">
-                    <ng-option *ngFor="let option of objectInstance.get('location').getOptions('adm1')" [value]="option.get('id')">
-                        {{option.get('name') | titlecase}}
-                    </ng-option>
-                </ng-select>
+              <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm1" (change)="loadDistrict($event)" [placeholder]="objectInstance.get('location').fields.adm1.title" required>
+                  <ng-option *ngFor="let option of objectInstance.get('location').getOptions('adm1')" [value]="option.get('id')">
+                      {{option.get('name') | titlecase}}
+                  </ng-option>
+              </ng-select>
+              <app-hint-error [form]="form" fieldName="adm1" [field]="objectInstance.get('location').fields.adm1" [isMatField]="false"></app-hint-error>
             </ng-container>
 
             <ng-container>
@@ -19,6 +20,7 @@
                         {{option.get('name') | titlecase}}
                     </ng-option>
                 </ng-select>
+                <app-hint-error [form]="form" fieldName="adm2" [field]="objectInstance.get('location').fields.adm2" [isMatField]="false"></app-hint-error>
             </ng-container>
 
             <ng-container>
@@ -27,6 +29,7 @@
                         {{option.get('name') | titlecase}}
                     </ng-option>
                 </ng-select>
+                <app-hint-error [form]="form" fieldName="adm3" [field]="objectInstance.get('location').fields.adm3" [isMatField]="false"></app-hint-error>
             </ng-container>
 
             <ng-container>
@@ -35,11 +38,13 @@
                         {{option.get('name') | titlecase}}
                     </ng-option>
                 </ng-select>
+                <app-hint-error [form]="form" fieldName="adm4" [field]="objectInstance.get('location').fields.adm4" [isMatField]="false"></app-hint-error>
             </ng-container>
             <mat-form-field class="accordion-field">
-              <input matInput [matDatepicker]="dateDistribution" [placeholder]="objectInstance.fields.date.title" formControlName="date" [min]="projectInfo.startDate" [max]="projectInfo.endDate">
+              <input matInput [matDatepicker]="dateDistribution" [placeholder]="objectInstance.fields.date.title" formControlName="date" [min]="projectInfo.startDate" [max]="projectInfo.endDate" required>
               <mat-datepicker-toggle matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
               <mat-datepicker #dateDistribution></mat-datepicker>
+              <app-hint-error [form]="form" fieldName="date" [field]="objectInstance.fields.date" [isMatField]="true"></app-hint-error>
             </mat-form-field>
             <label>{{objectInstance.fields.type.title}}</label>
             <mat-radio-group formControlName="type" class="type-distribution" (change)="updateNbBeneficiary()">

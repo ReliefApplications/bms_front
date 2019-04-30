@@ -1,63 +1,64 @@
-import { Injectable                                 } from '@angular/core';
-import { URL_BMS_API                                } from '../../../environments/environment';
-import { HttpService                                } from './http.service';
-import { DistributionData                           } from '../../model/distribution-data';
-import { ExportService                              } from './export.service';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Distribution } from 'src/app/model/distribution.new';
+import { LanguageService } from 'src/texts/language.service';
+import { SnackbarService } from '../logging/snackbar.service';
+import { AsyncacheService } from '../storage/asyncache.service';
+import { CustomModelService } from './custom-model.service';
+import { ExportService } from './export.service';
+import { HttpService } from './http.service';
+import { NetworkService } from './network.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class DistributionService {
-    readonly api = URL_BMS_API;
+export class DistributionService extends CustomModelService {
+    customModelPath = 'distributions';
 
     constructor(
-        private http: HttpService,
-        private exportService: ExportService,
+        protected http: HttpService,
+        protected exportService: ExportService,
+        private snackbar: SnackbarService,
+        public networkService: NetworkService,
+        private _cacheService: AsyncacheService,
+        private router: Router,
+        protected languageService: LanguageService,
     ) {
+        super(http, languageService);
     }
 
-    public get() {
-        const url = this.api + '/distributions';
-        return this.http.get(url);
+    public delete(distributionId) {
+        const url = this.apiBase + '/distributions/archive/' + distributionId;
+        return this.http.post(url, '');
     }
 
     public getOne(id: number) {
-        const url = this.api + '/distributions/' + id;
+        const url = this.apiBase + '/distributions/' + id;
         return this.http.get(url);
     }
 
     public getByProject(idProject) {
-        const url = this.api + '/distributions/projects/' + idProject;
+        const url = this.apiBase + '/distributions/projects/' + idProject;
         return this.http.get(url);
     }
 
-    public update(id: number, distribution: DistributionData) {
-        const url = this.api + '/distributions/' + id;
-        return this.http.post(url, distribution);
-    }
-
-    public delete(distributionId) {
-        const url = this.api + '/distributions/archive/' + distributionId;
-        return this.http.post(url, '');
-    }
-
-    public add(body: any) {
-        const url = this.api + '/distributions';
-        return this.http.put(url, body);
+    public getQrVoucherByProject(idProject) {
+        const url = this.apiBase + '/distributions-qr-voucher/projects/' + idProject;
+        return this.http.get(url);
     }
 
     public getBeneficiaries(id: number) {
-        const url = this.api + '/distributions/' + id + '/beneficiaries';
+        const url = this.apiBase + '/distributions/' + id + '/beneficiaries';
         return this.http.get(url);
     }
 
     public getAssignableBeneficiaries(id: number) {
-        const url = this.api + '/distributions/' + id + '/assignable-beneficiaries';
+        const url = this.apiBase + '/distributions/' + id + '/assignable-beneficiaries';
         return this.http.get(url);
     }
 
     public setValidation(id: number) {
-        const url = this.api + '/distributions/' + id + '/validate';
+        const url = this.apiBase + '/distributions/' + id + '/validate';
         return this.http.get(url);
     }
 
@@ -71,11 +72,11 @@ export class DistributionService {
         }
     }
     public refreshPickup(id: number) {
-        const url = this.api + '/transaction/distribution/' + id + '/pickup';
+        const url = this.apiBase + '/transaction/distribution/' + id + '/pickup';
         return this.http.get(url);
     }
     public transaction(id: number, code: string) {
-        const url = this.api + '/transaction/distribution/' + id + '/send';
+        const url = this.apiBase + '/transaction/distribution/' + id + '/send';
         const body = {
             code : code
         };
@@ -83,12 +84,12 @@ export class DistributionService {
     }
 
     public logs(id: number) {
-        const url = this.api + '/distributions/' + id + '/logs';
+        const url = this.apiBase + '/distributions/' + id + '/logs';
         return this.http.get(url);
     }
 
     public sendCode(id: number) {
-        const url = this.api + '/transaction/distribution/' + id + '/email';
+        const url = this.apiBase + '/transaction/distribution/' + id + '/email';
         const body = {};
         return this.http.post(url, body);
     }
@@ -99,21 +100,42 @@ export class DistributionService {
     }
 
     public checkProgression(id: number) {
-        const url = this.api + '/transaction/distribution/' + id + '/progression';
+        const url = this.apiBase + '/transaction/distribution/' + id + '/progression';
         return this.http.get(url);
     }
 
-    public addNotes(generalReliefs: {id: number, notes: string}[]) {
-        const url  = `${this.api}/distributions/generalrelief/notes`;
+    public addNotes(generalReliefs: any[]) {
+        const url  = `${this.apiBase}/distributions/generalrelief/notes`;
         const body = { generalReliefs };
         return this.http.post(url, body);
     }
 
     public distributeGeneralReliefs(ids: number[]) {
-        const url = `${this.api}/distributions/generalrelief/distributed`;
+        const url = `${this.apiBase}/distributions/generalrelief/distributed`;
         const body = {
             ids: ids,
         };
         return this.http.post(url, body);
+    }
+
+    public fillWithOptions(distribution: Distribution, locationType: string) {
+    }
+
+
+    visit(id) {
+        if (!this.networkService.getStatus()) {
+            this._cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + id + '_beneficiaries')
+                .subscribe(
+                    result => {
+                        if (!result) {
+                            this.snackbar.error(this.language.cache_no_distribution);
+                        } else {
+                            this.router.navigate(['/projects/distributions/' + id]);
+                        }
+                    }
+                );
+        } else {
+            this.router.navigate(['/projects/distributions/' + id]);
+        }
     }
 }

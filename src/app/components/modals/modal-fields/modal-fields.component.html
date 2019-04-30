@@ -1,0 +1,144 @@
+<mat-dialog-content class="modal-container">
+    <h4 class="modal-title underline-accent stickyHeader">{{modalTitle | titlecase}} {{objectInstance.title | titlecase}}</h4>
+    <form [formGroup]="form">
+        <table class="modal-table">
+            <ng-container *ngFor="let fieldName of objectFields">
+                <ng-container *ngIf="objectInstance.fields[fieldName].isDisplayedInModal">
+                    <tr class="modal-row" *ngIf="display(objectInstance.fields[fieldName]); let field">
+                        <th class="table-title" *ngIf="modalType === 'Details' || (field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject')">
+                            {{ field.title | titlecase }}
+                        </th>
+                        <td class="form-item">
+                            <ng-container *ngIf="modalType === 'Details' && isEmpty(field); else isFile">
+                                <mat-form-field>
+                                        <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="field.nullValue">
+                                </mat-form-field>
+                            </ng-container>
+
+                            <ng-template #isFile>
+                                <ng-container *ngIf="field.kindOfField === 'File'; else isArrayInputField">
+                                    <div class="input-file">
+                                        <label for="file"><mat-icon>cloud_upload</mat-icon></label>
+                                        <input type="file" id="file" (change)="onFileChange(p, $event)" #fileInput>
+                                        <p *ngIf="filename">{{ filename }}</p>
+                                        <p *ngIf="!filename">{{ language.modal_no_file }}</p>
+                                    </div>
+                                </ng-container>
+                            </ng-template>
+
+
+
+                            <ng-template #isArrayInputField>
+                                <ng-container *ngIf="field.kindOfField === 'ArrayInputField'; else isBoolean">
+                                        <ng-container *ngFor="let value of field.value; let index=index">
+                                            <mat-form-field>
+                                                <input matInput type="text" [formControlName]="fieldName+index.toString()">
+                                            </mat-form-field>
+                                        </ng-container>
+                                </ng-container>
+                            </ng-template>
+
+                            <ng-template #isBoolean>
+                                <ng-container *ngIf="field.kindOfField === 'Boolean' ; else isMultipleSelect">
+                                    <mat-checkbox [formControlName]="fieldName" type="checkbox" color="primary" [checked]="default">
+                                    </mat-checkbox>
+                                </ng-container>
+                            </ng-template>
+
+                            <ng-template #isMultipleSelect>
+                                <ng-container *ngIf="field.kindOfField === 'MultipleSelect'; else isSingleSelect">
+                                        <ng-select [formControlName]="fieldName" [placeholder]="field.title" [multiple]="true" [closeOnSelect]="false">
+                                            <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
+                                                {{option.get(field.bindField) | titlecase}}
+                                            </ng-option>
+                                        </ng-select>
+                                </ng-container>
+                            </ng-template>
+
+                            <ng-template #isSingleSelect>
+                                <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isMaterialField">
+                                    <ng-select [formControlName]="fieldName" [placeholder]="field.title">
+                                        <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
+                                            {{option.get(field.bindField) | titlecase}}
+                                        </ng-option>
+                                    </ng-select>
+                                </ng-container>
+                            </ng-template>
+
+                            <!-- For the fields which are not mat field -->
+                            <ng-container *ngIf="field.kindOfField === 'SingleSelect' || field.kindOfField === 'MultipleSelect' || field.kindOfField === 'Boolean' || field.kindOfField === 'ArrayInputField' || field.kindOfField === 'File'">
+                                <app-hint-error *ngIf="modalType !== 'Details'" [form]="form" [fieldName]="fieldName" [field]="field" [isMatField]="false"></app-hint-error>
+                            </ng-container>
+
+                            <ng-template #isMaterialField>
+                                <mat-form-field [ngClass]="{date: field.kindOfField === 'Date' && !isDisabled(field)}" *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
+                                    <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
+                                        <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title"
+                                            matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
+
+                                        <ng-template #checkForTextArea>
+                                            <ng-container *ngIf="field.isLongText; else checkForTextInput">
+                                                <textarea matInput type="text" [formControlName]="fieldName" [placeholder]="field.title"></textarea>
+                                            </ng-container>
+                                        </ng-template>
+
+                                        <ng-template #checkForTextInput>
+                                            <input matInput type="text" [formControlName]="fieldName" [placeholder]="field.title">
+                                        </ng-template>
+                                    </ng-container>
+
+
+                                    <ng-template #checkForDateField>
+                                        <ng-container *ngIf="field.kindOfField === 'Date'; else checkForNumberField">
+                                            <!-- If we don't do this, the date won't be formatted in the date picker when disabled -->
+                                            <ng-container *ngIf="isDisabled(field)">
+                                                <input matInput *ngIf="!field.value" disabled [placeholder]="field.title" [value]="field.nullValue">
+                                                <input matInput *ngIf="field.value && !field.displayTime" disabled value="{{ field.value | date: 'dd-MM-yyyy' }}" [placeholder]="field.title">
+                                                <input matInput *ngIf="field.value && field.displayTime" disabled value="{{ field.value | date: 'dd-MM-yyyy HH:mm' }}" [placeholder]="field.title">
+                                            </ng-container>
+                                            <ng-container *ngIf="!isDisabled(field)">
+                                                <input matInput [matDatepicker]="picker" [formControlName]="fieldName" [placeholder]="field.title">
+                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-template>
+
+                                    <ng-template #checkForNumberField>
+                                        <ng-container *ngIf="field.kindOfField === 'Number'">
+                                            <input matInput type="number" [formControlName]="fieldName">
+                                        </ng-container>
+                                    </ng-template>
+                                    <app-hint-error *ngIf="modalType !== 'Details'" [form]="form" [fieldName]="fieldName" [field]="field" [isMatField]="true"></app-hint-error>
+                                </mat-form-field>
+
+                                    <ng-template #isObject>
+                                        <ng-container *ngIf="field.kindOfField === 'Object'; else isMultipleObject">
+                                            <mat-form-field *ngIf="modalType === 'Details'">
+                                                <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="field.displayModalFunction(field.value)">
+                                            </mat-form-field>
+                                        </ng-container>
+                                    </ng-template>
+
+                                    <ng-template #isMultipleObject>
+                                        <ng-container *ngIf="field.kindOfField === 'MultipleObject'">
+                                            <mat-form-field *ngIf="modalType === 'Details'">
+                                                <input matInput disabled="true" type="text" [placeholder]="field.title" [value]="field.displayModalFunction(field.value)">
+                                            </mat-form-field>
+                                        </ng-container>
+                                    </ng-template>
+                            </ng-template>
+                        </td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+        </table>
+        <div class="modal-button action-buttons stickyFooter" *ngIf="modalType !== 'Details'">
+            <button type="button" mat-button (click)="onCancel()" class="button-text-accent">Cancel</button>
+            <button mat-raised-button [disabled]="!form.valid" (click)="onSubmit()" class="button-background-accent">Save</button>
+        </div>
+        <div class="modal-button action-buttons stickyFooter" *ngIf="modalType === 'Details'">
+            <button mat-button (click)="onCancel()" class="button-background-accent">Close</button>
+        </div>
+    </form>
+</mat-dialog-content>

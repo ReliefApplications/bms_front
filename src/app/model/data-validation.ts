@@ -1,4 +1,4 @@
-import { Households } from './households';
+import { Households } from 'src/app/model/households.new';
 
 /**
  * Data contained in new and old object after treatment

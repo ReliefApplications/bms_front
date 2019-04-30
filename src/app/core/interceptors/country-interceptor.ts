@@ -1,25 +1,24 @@
+import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-    HttpEvent, HttpInterceptor, HttpHandler, HttpRequest
-} from '@angular/common/http';
-import { AsyncacheService } from '../storage/asyncache.service';
-import { concatMap } from 'rxjs/operators';
+import { URL_BMS_API } from 'src/environments/environment';
+import { CountriesService } from '../countries/countries.service';
 
 @Injectable()
 export class CountryInterceptor implements HttpInterceptor {
 
     constructor(
-        private asyncacheService: AsyncacheService,
-    ) { }
+        private countriesService: CountriesService,
+    ) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
-        return this.asyncacheService.get(AsyncacheService.COUNTRY).pipe(
-            concatMap(
-                (cacheResult: string) =>
-                    // Clone the request and add the country header.
-                    // Send cloned request with header to the next handler.
-                    next.handle( req.clone({ headers: req.headers.append('country', cacheResult )}))
-            )
-        );
+
+        if (req.url.match(URL_BMS_API) && this.countriesService.selectedCountry.value) {
+            return next.handle(
+                req.clone({
+                    headers: req.headers.append('country', this.countriesService.selectedCountry.value.get<string>('id')),
+                })
+            );
+        }
+        return next.handle(req);
     }
 }

@@ -1,19 +1,21 @@
-import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { TableMobileComponent } from 'src/app/components/table/table-mobile/table-mobile.component';
+import { TableComponent } from 'src/app/components/table/table.component';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { ProductService } from 'src/app/core/api/product-service';
 import { VendorsService } from 'src/app/core/api/vendors.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { FinancialProvider } from 'src/app/model/financial-provider';
-import { Product } from 'src/app/model/product';
-import { Vendors } from 'src/app/model/vendors';
-import { GlobalText } from '../../../texts/global';
-import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
+import { ModalService } from 'src/app/core/utils/modal.service';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { FinancialProvider } from 'src/app/model/financial-provider.new';
+import { Product } from 'src/app/model/product.new';
+import { Vendor } from 'src/app/model/vendor.new';
 import { CountrySpecificService } from '../../core/api/country-specific.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { DonorService } from '../../core/api/donor.service';
@@ -21,14 +23,11 @@ import { ProjectService } from '../../core/api/project.service';
 import { SettingsService } from '../../core/api/settings.service';
 import { UserService } from '../../core/api/user.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { Mapper } from '../../core/utils/mapper.service';
-import { CountrySpecific } from '../../model/country-specific';
-import { Donor } from '../../model/donor';
-import { Project } from '../../model/project';
-import { User } from '../../model/user';
-
-
-
+import { CountrySpecific } from '../../model/country-specific.new';
+import { Donor } from '../../model/donor.new';
+import { Project } from '../../model/project.new';
+import { User } from '../../model/user.new';
+import { LanguageService } from './../../../texts/language.service';
 
 
 @Component({
@@ -36,19 +35,17 @@ import { User } from '../../model/user';
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit, DoCheck {
-
+export class SettingsComponent implements OnInit {
     public nameComponent = 'settings';
-    public settings = GlobalText.TEXTS;
     loadingExport = false;
 
     selectedTitle = '';
-    isBoxClicked = false;
     loadingData = true;
 
     public referedClassService;
     referedClassToken;
-    data: MatTableDataSource<any>;
+    referedClassInstance: any;
+    data: MatTableDataSource<CustomModel>;
     public user_action = '';
     public extensionType;
 
@@ -56,22 +53,30 @@ export class SettingsComponent implements OnInit, DoCheck {
     userLogForm = new FormControl();
     private selectedUserId: number = null;
 
-    public maxHeight = GlobalText.maxHeight;
-    public maxWidthMobile = GlobalText.maxWidthMobile;
-    public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
-    public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
-    public maxWidth = GlobalText.maxWidth;
-    public language = GlobalText.language;
+    public maxHeight = 600;
+    public maxWidth = 750;
+    // public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
+    // public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
+    // public maxWidth = GlobalText.maxWidth;
     public heightScreen;
     public widthScreen;
     public deletable = false;
     public printable = false;
+    public loggable = false;
     public editable  = false;
     public httpSubscriber: Subscription;
 
+    @ViewChild(TableComponent) table: TableComponent;
+    @ViewChild(TableMobileComponent) tableMobile: TableMobileComponent;
+
+    public mobileMode = false;
+    public displayedTable = this.table;
+
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
     constructor(
         public dialog: MatDialog,
-        public mapperService: Mapper,
         public authenticationService: AuthenticationService,
         public distributionService: DistributionService,
         public donorService: DonorService,
@@ -85,40 +90,36 @@ export class SettingsComponent implements OnInit, DoCheck {
         private snackbar: SnackbarService,
         public productService: ProductService,
         private vendorsService: VendorsService,
+        private modalService: ModalService,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {
-        this.checkSize();
         this.selectTitle('users');
         this.extensionType = 'xls';
     }
 
-    /**
-   * check if the langage has changed
-   */
-  ngDoCheck() {
-    if (this.language !== GlobalText.language) {
-      this.language = GlobalText.language;
-      this.settings = GlobalText.TEXTS;
+
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        if ( window.innerWidth <= this.maxWidth) {
+            this.mobileMode = true;
+            this.displayedTable = this.tableMobile;
+        }
+        else {
+            this.mobileMode = false;
+            this.displayedTable = this.table;
+        }
     }
-  }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.checkSize();
-  }
 
-  checkSize(): void {
-    this.heightScreen = window.innerHeight;
-    this.widthScreen = window.innerWidth;
-  }
 
   selectTitle(title): void {
     if (this.httpSubscriber) {
       this.httpSubscriber.unsubscribe();
     }
     this.getData(title);
-    this.isBoxClicked = true;
     this.selectedTitle = title;
   }
 
@@ -147,8 +148,11 @@ export class SettingsComponent implements OnInit, DoCheck {
       case 'financialProvider':
         category = 'financialProvider';
         break;
-      case 'products':
-        category = 'product';
+      case 'product':
+        category = 'products';
+        break;
+      case 'vendors':
+        category = 'vendors';
         break;
       default:
         break;
@@ -183,6 +187,7 @@ export class SettingsComponent implements OnInit, DoCheck {
       case 'users':
         this.referedClassToken = User;
         this.referedClassService = this.userService;
+        this.loggable = true;
         this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable  = false;
@@ -193,7 +198,7 @@ export class SettingsComponent implements OnInit, DoCheck {
         this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = false;
-
+        this.loggable = false;
         break;
       case 'projects':
         this.referedClassToken = Project;
@@ -201,6 +206,7 @@ export class SettingsComponent implements OnInit, DoCheck {
         this.editable   = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
         this.deletable  = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
         this.printable = false;
+        this.loggable = false;
         break;
       case 'country specific options':
         this.referedClassToken = CountrySpecific;
@@ -208,6 +214,7 @@ export class SettingsComponent implements OnInit, DoCheck {
         this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = false;
+        this.loggable = false;
         break;
       case 'financialProvider':
         this.referedClassToken = FinancialProvider;
@@ -215,6 +222,7 @@ export class SettingsComponent implements OnInit, DoCheck {
         this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.deletable = false;
         this.printable = false;
+        this.loggable = false;
         break;
       case 'product':
         this.referedClassToken = Product;
@@ -222,21 +230,25 @@ export class SettingsComponent implements OnInit, DoCheck {
         this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = false;
+        this.loggable = false;
         break;
       case 'vendors':
-        this.referedClassToken = Vendors;
+        this.referedClassToken = Vendor;
         this.referedClassService = this.vendorsService;
         this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = true;
+        this.loggable = false;
         break;
       default: break;
     }
-    this.load(title);
+    this.load();
   }
 
   // TO DO : get from cache
-    load(title): void {
+    load(): void {
+        this.data = new MatTableDataSource();
+
         this.httpSubscriber = this.referedClassService.get().
             pipe(
                 finalize(
@@ -244,30 +256,16 @@ export class SettingsComponent implements OnInit, DoCheck {
                         this.loadingData = false;
                     }
                 )
-            ).subscribe(response => {
-                if (response) {
-                    this.loadingData = false;
-                    if (response && response[0] && response[0].email && response[0].username && response[0].roles) {
-                        response.forEach(element => {
-                            element.projects = new Array<number>();
-                            element.country = '';
-
-                            for (let i = 0; i < element.user_projects.length; i++) {
-                                if (element.user_projects[i].project) {
-                                    element.projects[i] = element.user_projects[i].project.name;
-                                }
-                            }
-                            for (let i = 0; i < element.countries.length; i++) {
-                                element.country = element.countries[i].iso3;
-                            }
-                        });
+            ).subscribe( (response: any) => {
+                const instances = [];
+                if (response && response.length !== 0) {
+                    for (const item of response ) {
+                        instances.push(this.referedClassToken.apiToModel(item));
                     }
-
-                    response = this.referedClassToken.formatArray(response);
-                    this.data = new MatTableDataSource(response);
-                } else {
-                    this.data = new MatTableDataSource(null);
-                    this.loadingData = false;
+                    this.data = new MatTableDataSource(instances);
+                    if (this.table) {
+                    this.table.setDataTableProperties();
+                    }
                 }
             });
     }
@@ -284,7 +282,7 @@ export class SettingsComponent implements OnInit, DoCheck {
                 return this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
             case (FinancialProvider):
                 return this.userService.hasRights('ROLE_FINANCIAL_PROVIDER_MANAGEMENT');
-            case (Vendors):
+            case (Vendor):
                 return this.userService.hasRights('ROLE_VENDORS_MANAGEMENT');
             case (Product):
                 return this.userService.hasRights('ROLE_PRODUCT_MANAGEMENT');
@@ -296,76 +294,15 @@ export class SettingsComponent implements OnInit, DoCheck {
     /**
 	* open each modal dialog
 	*/
-    openDialog(user_action): void {
-        let dialogRef;
-
-        if (user_action === 'add') {
-            dialogRef = this.dialog.open(ModalAddComponent, {
-                data: { data: [], entity: this.referedClassToken, service: this.referedClassService, mapper: this.mapperService }
-            });
-        }
-        const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
-            if (this.referedClassToken.__classname__ === 'Project') {
-                let exists = false;
-
-                this.data.data.forEach(element => {
-                    if (element.name.toLowerCase() === data.name.toLowerCase()) {
-                        this.snackbar.error(this.settings.settings_project_exists);
-                        exists = true;
-                        return;
-                    }
-                });
-
-                if (exists === false) {
-                    this.createElement(data);
-                }
-            } else {
-                this.createElement(data);
-            }
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-            create.unsubscribe();
+    openDialog(dialogDetails: any): void {
+        this.modalService.openDialog(this.referedClassToken, this.referedClassService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+            this.load();
         });
     }
 
-    createElement(createElement: Object) {
-        createElement = this.referedClassToken.formatForApi(createElement);
-        if (this.referedClassToken.__classname__ !== 'User' && this.referedClassToken.__classname__ !== 'Vendors') {
-            this.referedClassService.create(createElement['id'], createElement).subscribe(
-                response => {
-                    this.selectTitle(this.selectedTitle);
-                });
-        } else {
-            // for users, there are two step (one to get the salt and one to create the user)
-            this.authenticationService.initializeUser(createElement['username']).subscribe(response => {
-                if (response) {
-                  if (this.referedClassToken.__classname__ === 'Vendors') {
-                    this.authenticationService.createVendor(createElement, response).subscribe(
-                      () => {
-                        this.selectTitle(this.selectedTitle);
-                      });
-                  } else {
-                    if (createElement['rights'] === 'ROLE_PROJECT_MANAGER'
-                        || createElement['rights'] === 'ROLE_PROJECT_OFFICER'
-                        || createElement['rights'] === 'ROLE_FIELD_OFFICER') {
-                        delete createElement['country'];
-                    } else if (createElement['rights'] === 'ROLE_REGIONAL_MANAGER'
-                        || createElement['rights'] === 'ROLE_COUNTRY_MANAGER'
-                        || createElement['rights'] === 'ROLE_READ_ONLY') {
-                        delete createElement['projects'];
-                    } else {
-                        delete createElement['country'];
-                        delete createElement['projects'];
-                    }
-
-                    this.authenticationService.createUser(createElement, response).subscribe(
-                        () => {
-                            this.selectTitle(this.selectedTitle);
-                        });
-                  }
-                }
-            });
-        }
-    }
+    print(event: CustomModel) {
+      this.snackbar.info(this.language.voucher_print_starting);
+      return this.referedClassService.print(event);
+  }
 }

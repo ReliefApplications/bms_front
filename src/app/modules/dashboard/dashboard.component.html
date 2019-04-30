@@ -2,35 +2,35 @@
     <div class="container-boxes">
         <div class="boxes-map">
             <div class="container-title">
-                <h1 >{{dashboard.dashboard_distribution_map | titlecase}}</h1>
+                <h1 >{{language.dashboard_distribution_map | titlecase}}</h1>
             </div>
             <div class="map-content">
                 <div id="map"></div>
             </div>
         </div>
         <div *ngIf="widthScreen > maxWidthMobile" class="boxes-summary">
-            <h1 class="dashboard-title">{{dashboard.dashboard_summary | titlecase}}</h1>
+            <h1 class="dashboard-title">{{language.dashboard_summary | titlecase}}</h1>
             <app-placeholder-summary *ngIf="loadingSummary" class="summary-content"></app-placeholder-summary>
             <div class="summary-content" *ngIf="!loadingSummary">
                 <div class="lign-container">
-                    <app-box-dashboard [info]='{icon: "home", color: "green", title:dashboard.dashboard_summary_1, subtitle:summary[0], ref:""}'></app-box-dashboard>
-                    <app-box-dashboard [info]='{icon: "project", color: "green", title:dashboard.dashboard_summary_2, subtitle:summary[1], undersubtitle:"",ref:""}'></app-box-dashboard>
+                    <app-box-dashboard [info]='{icon: "home", color: "green", title:language.dashboard_summary_1, subtitle:summary[0], ref:""}'></app-box-dashboard>
+                    <app-box-dashboard [info]='{icon: "project", color: "green", title:language.dashboard_summary_2, subtitle:summary[1], undersubtitle:"",ref:""}'></app-box-dashboard>
                 </div>
                 <div class="lign-container">
-                    <app-box-dashboard [info]='{icon: "enrol", color: "blue", title:dashboard.dashboard_summary_3, subtitle:summary[2], undersubtitle:"",ref:""}'></app-box-dashboard>
-                    <app-box-dashboard [info]='{icon: "dollar", color: "blue", title:dashboard.dashboard_summary_4, subtitle:summary[3], undersubtitle:"",ref:""}'></app-box-dashboard>
+                    <app-box-dashboard [info]='{icon: "enrol", color: "blue", title:language.dashboard_summary_3, subtitle:summary[2], undersubtitle:"",ref:""}'></app-box-dashboard>
+                    <app-box-dashboard [info]='{icon: "dollar", color: "blue", title:language.dashboard_summary_4, subtitle:summary[3], undersubtitle:"",ref:""}'></app-box-dashboard>
                 </div>
             </div>
         </div>
     </div>
     <div class="container-distribution">
-        <h1 class="dashboard-title">{{dashboard.dashboard_recent_distributions | titlecase}}</h1>
+        <h1 class="dashboard-title">{{language.dashboard_recent_distributions | titlecase}}</h1>
         <app-placeholder-panel *ngIf='loadingTable' class="distribution-content-placeholder"></app-placeholder-panel>
         <div class="distribution-content" *ngIf='!loadingTable'>
-            <app-table-dashboard *ngIf="widthScreen > maxWidthMobile"
-                [entity]="referedClassToken" [service]="_distributionService" [deletable]="deletable" [editable]="editable" [data]="distributions"></app-table-dashboard>
-            <app-table-mobile-dashboard *ngIf="widthScreen < maxWidthMobile"
-                [entity]="referedClassToken" [service]="_distributionService" [deletable]="deletable" [editable]="editable" [data]="distributions"></app-table-mobile-dashboard>
+        <app-table *ngIf="widthScreen > maxWidthMobile" [deletable]="deletable" [editable]="editable"
+            [entity]="distributionClass" [service]="_distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table>
+        <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [deletable]="deletable" [editable]="editable"
+            [entity]="distributionClass" [service]="_distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table-mobile>
         </div>
     </div>
 </div>

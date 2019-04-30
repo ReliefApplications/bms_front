@@ -1,22 +1,36 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { saveAs } from 'file-saver/FileSaver';
+import { AppInjector } from 'src/app/app-injector';
+import { HouseholdFilters } from 'src/app/model/households-data-source';
+import { VulnerabilityCriteria } from 'src/app/model/vulnerability-criteria.new';
 import { URL_BMS_API } from '../../../environments/environment';
+import { Households } from '../../model/households.new';
+import { Location } from '../../model/location.new';
+import { Project } from '../../model/project.new';
+import { LanguageService } from './../../../texts/language.service';
+import { CriteriaService } from './criteria.service';
+import { CustomModelService } from './custom-model.service';
 import { ExportService } from './export.service';
 import { HttpService } from './http.service';
-
-
-
+import { LocationService } from './location.service';
+import { ProjectService } from './project.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class HouseholdsService {
+export class HouseholdsService extends CustomModelService {
     readonly api = URL_BMS_API;
+    customModelPath = 'households';
+
 
     constructor(
-        private http: HttpService,
-        private exportService: ExportService
+        protected http: HttpService,
+        private exportService: ExportService,
+        private router: Router,
+        protected languageService: LanguageService,
     ) {
+        super(http, languageService);
     }
 
     /**
@@ -136,5 +150,50 @@ export class HouseholdsService {
             .then((response) => {
                 saveAs(response, 'templateSyria.xls');
             });
+    }
+
+    public fillWithOptions(household: Households) {
+
+        const appInjector = AppInjector;
+        appInjector.get(ProjectService).get().subscribe((projects: any) => {
+
+            const projectOptions = projects.map(project => {
+                return Project.apiToModel(project);
+            });
+
+            household.setOptions('projects', projectOptions);
+        });
+    }
+
+    public fillFiltersWithOptions(filters: HouseholdFilters) {
+        const appInjector = AppInjector;
+
+        // Get Projects
+        appInjector.get(ProjectService).get().subscribe((projects: any) => {
+
+            const projectOptions = projects.map(project => {
+                return Project.apiToModel(project);
+            });
+
+            filters.setOptions('projects', projectOptions);
+        });
+
+        // Get vulnerabilities
+        appInjector.get(CriteriaService).getVulnerabilityCriteria().subscribe((vulnerabilities: any) => {
+
+            const vulnerabilityOptions = vulnerabilities.map(vulnerability => {
+                return VulnerabilityCriteria.apiToModel(vulnerability);
+            });
+
+            filters.setOptions('vulnerabilities', vulnerabilityOptions);
+        });
+
+        // Get adm1
+        filters.set('location', new Location());
+        appInjector.get(LocationService).fillAdm1Options(filters).subscribe();
+    }
+
+    public visit(householdId) {
+        this.router.navigate(['/beneficiaries/update-beneficiary', householdId]);
     }
 }

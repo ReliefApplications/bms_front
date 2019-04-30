@@ -1,14 +1,16 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { from } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { Country } from 'src/app/model/country';
 import { environment } from 'src/environments/environment';
-import { GlobalText } from '../../../texts/global';
+import { LanguageService } from 'src/texts/language.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { ErrorInterface, User } from '../../model/user';
+import { ErrorInterface, User } from '../../model/user.new';
 
 
 
@@ -17,16 +19,15 @@ import { ErrorInterface, User } from '../../model/user';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, DoCheck {
+export class LoginComponent implements OnInit {
 
-    public nameComponent = GlobalText.TEXTS.login_title;
-    public login = GlobalText.TEXTS;
-
-    public user: User;
     public forgotMessage = false;
     public loader = false;
     public loginCaptcha = false;
     public form: FormGroup;
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
 
     constructor(
         public _authService: AuthenticationService,
@@ -34,39 +35,32 @@ export class LoginComponent implements OnInit, DoCheck {
         public asyncacheService: AsyncacheService,
         public router: Router,
         public snackbar: SnackbarService,
-    ) { }
+        private languageService: LanguageService,
+        ) { }
 
     ngOnInit() {
-        GlobalText.resetMenuMargin();
-        this.initCountry('KHM');
-        this.blankUser();
+        // TODO: enable this
+        // GlobalText.resetMenuMargin();
+        this.userService.resetCacheUser();
+        // this.asyncacheService.reset;
         this.makeForm();
     }
 
-    initCountry(country: string) {
-        this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe(
-            (result: any) => {
-                if (!result) {
+    initCountry(country: string, getFromCache: boolean) {
+        return this.asyncacheService.get(AsyncacheService.COUNTRY).pipe(
+            map((result: any) => {
+                if (!result || !getFromCache) {
                     this.asyncacheService.set(AsyncacheService.COUNTRY, country);
                 }
-            }
+            })
         );
     }
 
-    /**
-     * Reset the user to empty.
-     */
-    blankUser() {
-        this.user = new User();
-        this.userService.currentUser = this.user;
-        this.user.username = '';
-        this.user.password = '';
-    }
+    makeForm() {
 
-    makeForm = () => {
         this.form = new FormGroup( {
-            username  : new FormControl(this.user.username, [Validators.required]),
-            password : new FormControl(this.user.password, [Validators.required]),
+            username  : new FormControl('', [Validators.required]),
+            password : new FormControl('', [Validators.required]),
         });
 
         if (this.prod()) {
@@ -76,23 +70,13 @@ export class LoginComponent implements OnInit, DoCheck {
         }
     }
 
-    onSubmit = () => {
+    onSubmit() {
         // Prevent captcha bypass by setting button to enabled in production mode
         if (this.prod() && !this.form.controls['captcha'].value) {
-            this.snackbar.error(GlobalText.TEXTS.login_captcha_invalid);
+            this.snackbar.error(this.language.login_captcha_invalid);
             return;
         }
-        this.user.username = this.form.controls['username'].value;
-        this.user.password = this.form.controls['password'].value;
         this.loginAction();
-    }
-    /**
-   	* check if the langage has changed
-   	*/
-    ngDoCheck() {
-        if (this.login !== GlobalText.TEXTS) {
-            this.login = GlobalText.TEXTS;
-        }
     }
 
 
@@ -101,21 +85,29 @@ export class LoginComponent implements OnInit, DoCheck {
      */
     private loginAction(): void {
         this.loader = true;
-        const subscription = from(this._authService.login(this.user));
+        const subscription = from(this._authService.login(
+            this.form.controls['username'].value,
+            this.form.controls['password'].value
+        ));
         subscription.subscribe(
             (user: User) => {
-                // Replace user in cache
                 this.userService.currentUser = user;
-                if (user.country && user.country.length === 0 && user.rights === 'ROLE_ADMIN') {
-                    this.initCountry('KHM');
+                if (user.get('countries') &&
+                    user.get<Array<Country>>('countries').length === 0 &&
+                    this.userService.hasRights('ROLE_SWITCH_COUNTRY')) {
+                    this.initCountry('KHM', true).subscribe(success => {
+                        this.goToHomePage(user);
+                    });
                 } else {
-                    this.initCountry(user.country[0]);
+                    this.initCountry(user.get<Array<Country>>('countries')[0].get<string>('id'), false).subscribe(success => {
+                        this.goToHomePage(user);
+                    });
                 }
                 this.router.navigate(['/']);
-                if (user.language) {
-                    GlobalText.changeLanguage(user.language);
+                if (user.get<string>('language')) {
+                    this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
                 } else {
-                    GlobalText.changeLanguage();
+                    this.languageService.selectedLanguage = this.languageService.stringToLanguage('en');
                 }
 
                 this.loader = false;
@@ -126,11 +118,23 @@ export class LoginComponent implements OnInit, DoCheck {
             });
     }
 
+    goToHomePage(user: User) {
+        if (user.get<string>('language')) {
+            this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
+        } else {
+            // TODO: load default language
+            this.languageService.selectedLanguage = this.languageService.enabledLanguages[0];
+
+        }
+        this.router.navigate(['/']);
+    }
+
     onScriptError() {
-        this.snackbar.error(GlobalText.TEXTS.login_captcha_invalid);
+        this.snackbar.error(this.language.login_captcha_invalid);
     }
 
     prod() {
         return environment.production;
     }
 }
+

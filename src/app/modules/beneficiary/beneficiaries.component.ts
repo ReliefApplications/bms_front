@@ -1,25 +1,26 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
+import { TableServerComponent } from 'src/app/components/table/table-server/table-server.component';
 import { LocationService } from 'src/app/core/api/location.service';
+import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { GlobalText } from '../../../texts/global';
+import { ModalService } from 'src/app/core/utils/modal.service';
+import { LanguageService } from 'src/texts/language.service';
 import { HouseholdsService } from '../../core/api/households.service';
 import { ProjectService } from '../../core/api/project.service';
-import { UserService } from '../../core/api/user.service';
-import { Households } from '../../model/households';
 import { HouseholdsDataSource } from '../../model/households-data-source';
+import { Households } from '../../model/households.new';
 
 @Component({
     selector: 'app-beneficiaries',
     templateUrl: './beneficiaries.component.html',
     styleUrls: ['./beneficiaries.component.scss']
 })
-export class BeneficiariesComponent implements OnInit, DoCheck {
+export class BeneficiariesComponent implements OnInit {
 
-    public household = GlobalText.TEXTS;
     public nameComponent = 'beneficiaries';
     public loadingExport = false;
 
@@ -37,8 +38,14 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
     // addButtons
     addToggled = false;
 
+
+    @ViewChild(TableServerComponent) table: TableServerComponent;
+
     canEdit     = false;
     canDelete   = false;
+
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         private router: Router,
@@ -47,7 +54,9 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         public projectService: ProjectService,
         public dialog: MatDialog,
         public locationService: LocationService,
-        public userService: UserService
+        public modalService: ModalService,
+        public userService: UserService,
+        private languageService: LanguageService,
     ) { }
 
     // For windows size
@@ -58,7 +67,6 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
     public maxWidth = 750;
     public heightScreen;
     public widthScreen;
-    public language = GlobalText.language;
 
     // Add Beneficiaries To Project Dialog variables.
     projectForm = new FormControl();
@@ -69,24 +77,10 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         this.checkSize();
         this.extensionType = 'xls';
         this.dataSource = new HouseholdsDataSource(this.householdsService);
-        this.dataSource.vulnerabilities.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
+        // this.dataSource.vulnerabilities.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
         this.getProjects('updateSelection');
-        this.loadProvince();
         this.canEdit    = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
         this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
-    }
-
-    /**
-     * check if the langage has changed
-     */
-    ngDoCheck() {
-        if (this.household !== GlobalText.TEXTS) {
-            this.household = GlobalText.TEXTS;
-        }
-
-        if (this.language !== GlobalText.language) {
-            this.language = GlobalText.language;
-        }
     }
 
     /**
@@ -111,9 +105,9 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
         this.router.navigate(['/beneficiaries/add-beneficiaries']);
     }
 
-    updateBeneficiary(event) {
-        this.router.navigate(['/beneficiaries/update-beneficiary', event]);
-    }
+    // updateBeneficiary(event) {
+    //     this.router.navigate(['/beneficiaries/update-beneficiary', event]);
+    // }
 
     setType(choice: string) {
         this.extensionType = choice;
@@ -155,7 +149,7 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
                             tmpProjects.push(project.name);
                         });
 
-                        this.dataSource.projects.next(tmpProjects);
+                        // this.dataSource.projects.next(tmpProjects);
                     }
                 },
                 error => {
@@ -167,79 +161,30 @@ export class BeneficiariesComponent implements OnInit, DoCheck {
 
     confirmAdding() {
         if (this.projectsList && this.dataSource) {
-            this.projectService.addBeneficiaries(this.selectedProject, this.checkedElements).subscribe(
+            const benefForApi = this.checkedElements.map((household: Households) => {
+                return {id: household.get('id')};
+            });
+            this.projectService.addBeneficiaries(this.selectedProject, benefForApi).subscribe(
                 success => {
-                    this.snackbar.success(this.household.beneficiaries_added);
+                    this.snackbar.success(this.language.beneficiaries_added);
+                    this.table.loadDataPage();
+                    this.selection = new SelectionModel<Households>(true, []);
+                    this.checkedElements = [];
                 }
             );
         }
         this.dialog.closeAll();
     }
 
-    /**
-     * Check which adm is selected to load the list of adm link to it
-     * fro example : if adm1 (province) selected load adm2
-     * @param index
-     */
-    selected(index) {
-        const newObject = index.object;
-        index = index.index;
-
-        if (index === 'adm1') {
-            const body = {};
-            body['adm1'] = newObject.adm1.id;
-            this.loadDistrict(body);
-        } else if (index === 'adm2') {
-            const body = {};
-            body['adm2'] = newObject.adm2.id;
-            this.loadCommunity(body);
-        } else if (index === 'adm3') {
-            const body = {};
-            body['adm3'] = newObject.adm3.id;
-            this.loadVillage(body);
-        }
-    }
-
-    /**
-     * Get adm1 from the back or from the cache service with the key ADM1
-     */
-    loadProvince() {
-        this.locationService.getAdm1().subscribe(response => {
-            this.dataSource.adm1.next(response);
-        });
-    }
-
-    /**
-     *  Get adm2 from the back or from the cache service with the key ADM2
-     * @param adm1
-     */
-    loadDistrict(adm1) {
-        this.locationService.getAdm2(adm1).subscribe(response => {
-            this.dataSource.adm2.next(response);
-        });
-    }
-
-    /**
-     * Get adm3 from the back or from the cahce service with the key ADM3
-     * @param adm2
-     */
-    loadCommunity(adm2) {
-        this.locationService.getAdm3(adm2).subscribe(response => {
-            this.dataSource.adm3.next(response);
-        });
-    }
-
-    /**
-     *  Get adm4 from the back or from the cahce service with the key ADM4
-     * @param adm3
-     */
-    loadVillage(adm3) {
-        this.locationService.getAdm4(adm3).subscribe(response => {
-            this.dataSource.adm4.next(response);
-        });
-    }
-
     getChecked(event)  {
         this.checkedElements = event;
+    }
+
+    openDialog(event): void {
+
+        this.modalService.openDialog(Households, this.householdsService, event);
+        this.modalService.isCompleted.subscribe(() => {
+            this.table.loadDataPage();
+        });
     }
 }

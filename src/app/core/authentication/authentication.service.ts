@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { URL_BMS_API } from '../../../environments/environment';
 import { SaltInterface } from '../../model/salt';
-import { ErrorInterface, User } from '../../model/user';
+import { ErrorInterface, User } from '../../model/user.new';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { WsseService } from './wsse.service';
 
@@ -26,14 +26,14 @@ export class AuthenticationService {
     ) { }
 
     // Request to the API to get the salt corresponding to a username
-    requestSalt(username) {
+    requestSalt(username: string) {
       this._wsseService.setUsername(username);
       return this.http.get(URL_BMS_API + '/salt/' + username);
     }
 
-    initializeUser(username) {
+    initializeUser(username: string) {
       this._wsseService.setUsername(username);
-      return this.http.get(URL_BMS_API + '/initialize/' + username);
+      return this.http.get<string>(URL_BMS_API + '/initialize/' + username);
     }
 
     logUser(user) {
@@ -45,26 +45,25 @@ export class AuthenticationService {
         return this.http.get<any>(URL_BMS_API + '/check');
     }
 
-    login(user: User) {
+    login(username: string, password: string) {
         return new Promise<User | ErrorInterface | null>((resolve, reject) => {
-            this.requestSalt(user.username).subscribe(success => {
+            this.requestSalt(username).subscribe(success => {
                 const getSalt = success as SaltInterface;
-                user.salted_password = this._wsseService.saltPassword(getSalt.salt, user.password);
-                delete user.password;
-                this.logUser(user).subscribe(data => {
-                    if (data) {
-                        this.user = data as User;
-                        this.user.loggedIn = true;
-                        this.user = User.formatFromApi(this.user);
+                const saltedPassword = this._wsseService.saltPassword(getSalt.salt, password);
+                const user = new User().set('email', username).set('password', saltedPassword);
+                this.logUser(user.modelToApi()).subscribe((userFromApi: object) => {
+                    if (userFromApi) {
+                        this.user = User.apiToModel(userFromApi);
+                        this.user.set('loggedIn', true);
                         this.setUser(this.user);
                         resolve(this.user);
                     } else {
                         reject({ message: 'Bad credentials' });
                     }
-                }, error => {
+                }, _error => {
                     reject({ message: 'Bad credentials' });
                 });
-            }, error => {
+            }, _error => {
                 reject({ message: 'User not found' });
             });
         });
@@ -72,7 +71,7 @@ export class AuthenticationService {
 
     logout(): Observable<User> {
         this.resetUser();
-        this.user.loggedIn = false;
+        this.user.set('loggedIn', false);
         return this._cacheService.clear(false, [AsyncacheService.COUNTRY]).pipe(
             map(
                 () => this.user
@@ -85,12 +84,11 @@ export class AuthenticationService {
     }
 
     setUser(user: User) {
-        this.user = user;
-        this._cacheService.set(AsyncacheService.USER, user);
+        this._cacheService.set(AsyncacheService.USER, user.modelToApi());
     }
 
     setSaltedPassword(user: User, saltedPassword: string) {
-        user.salted_password = saltedPassword;
+        user.set('password', saltedPassword);
     }
 
     resetUser() {
@@ -98,14 +96,32 @@ export class AuthenticationService {
         this._cacheService.remove(AsyncacheService.USER);
     }
 
-    public createUser(body: any, salt: any) {
-        body = this.createSaltedPassword(body, salt);
-        return this.http.put(URL_BMS_API + '/users', body);
+    public updateUser(body: any, url: string) {
+        return this.requestSalt(body.username).pipe(
+            map((salt: string) => {
+                body = this.createSaltedPassword(body, salt);
+                return this.http.post(url, body).subscribe();
+            }));
     }
 
-    public createVendor(body: any, salt: any) {
-        body = this.createSaltedPassword(body, salt);
-        return this.http.put(URL_BMS_API + '/vendors', body);
+    public createUser(body: any) {
+        return this.initializeUser(body.username)
+            .pipe(
+                switchMap((salt: string) => {
+                    body = this.createSaltedPassword(body, salt);
+                    return this.http.put(URL_BMS_API + '/users', body);
+                })
+            );
+    }
+
+    public createVendor(body: any) {
+        return this.initializeUser(body.username)
+            .pipe(
+                switchMap((salt: string) => {
+                    body = this.createSaltedPassword(body, salt);
+                    return this.http.put(URL_BMS_API + '/vendors', body);
+                })
+            );
     }
 
     public createSaltedPassword(body: any, salt: any) {
@@ -120,6 +136,6 @@ export class AuthenticationService {
         if (!this.user) {
             return false;
         }
-        return this.user.loggedIn;
+        return this.user.get('loggedIn');
     }
 }

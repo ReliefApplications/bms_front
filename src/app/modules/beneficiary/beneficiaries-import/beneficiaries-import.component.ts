@@ -1,20 +1,20 @@
-import { Component, DoCheck, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
 import { LocationService } from 'src/app/core/api/location.service';
+import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
-import { Households } from 'src/app/model/households';
-import { GlobalText } from '../../../../texts/global';
+import { Households } from 'src/app/model/households.new';
+import { LanguageService } from 'src/texts/language.service';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { ImportService } from '../../../core/utils/beneficiaries-import.service';
-import { Project } from '../../../model/project';
+import { Project } from '../../../model/project.new';
 
 
 export interface Api {
@@ -32,10 +32,8 @@ export interface ApiParameter {
     templateUrl: './beneficiaries-import.component.html',
     styleUrls: ['./beneficiaries-import.component.scss', '../../../components/modals/modal.component.scss']
 })
-export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy {
+export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     public nameComponent = 'beneficiaries_import_title';
-    public language = GlobalText.language;
-    public household = GlobalText.TEXTS;
     loadingExport = false;
 
 
@@ -96,6 +94,9 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
     public selectedApi: Api;
     apiSelectorSubscriber: Subscription;
 
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
     constructor(
         public _householdsService: HouseholdsService,
         public _importService: ImportService,
@@ -104,27 +105,22 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
         private router: Router,
         public snackbar: SnackbarService,
         private _cacheService: AsyncacheService,
-        private importedDataService: ImportedDataService,
         private dialog: MatDialog,
         private locationService: LocationService,
+        private userService: UserService,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {
-        let rights;
 
-        this._cacheService.get('user').subscribe(
-            result => {
-                rights = result.rights;
-                if (rights !== 'ROLE_ADMIN' && rights !== 'ROLE_PROJECT_MANAGER' && rights !== 'ROLE_PROJECT_OFFICER') {
-                    this.snackbar.error(this.household.forbidden_message);
-                    this.router.navigate(['']);
-                } else {
-                    this.getProjects();
-                    this.getAPINames();
-                    this.extensionType = 'xls';
-                }
-            }
-        );
+        if (!this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT')) {
+            this.snackbar.error(this.language.forbidden_message);
+            this.router.navigate(['']);
+        } else {
+            this.getProjects();
+            this.getAPINames();
+            this.extensionType = 'xls';
+        }
 
         this._cacheService.get('country')
             .subscribe(
@@ -136,23 +132,11 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
         this._cacheService.getUser()
             .subscribe(
                 response => {
-                    this.email = response.username;
+                    this.email = response.get('username');
                     this.email = this.email.replace('@', '');
                 }
             );
 
-    }
-
-
-    /**
-     * check if the langage has changed
-     */
-    ngDoCheck() {
-        if (this.household !== GlobalText.TEXTS) {
-            this.household = GlobalText.TEXTS;
-        } else if (this.language !== GlobalText.language) {
-            this.language = GlobalText.language;
-        }
     }
 
     ngOnDestroy(): void {
@@ -164,7 +148,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
      */
     getProjects() {
         this._projectService.get().subscribe((response: any) => {
-            this.projectList = Project.formatArray(response);
+            this.projectList = response.map((project: any) => Project.apiToModel(project));
             // this.form.controls['projects'].reset(this.projectList[0]);
         });
     }
@@ -420,7 +404,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
 
     confirmImport() {
         if (!this.csv2 || this.saveLocation.adm1 === '') {
-            this.snackbar.error(this.household.beneficiaries_import_select_location);
+            this.snackbar.error(this.language.beneficiaries_import_select_location);
         }
 
         const data = new FormData();
@@ -452,13 +436,13 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
             }, (err) => {
                 this.dialog.closeAll();
                 this.csv2 = null;
-                this.snackbar.info(this.household.beneficiaries_import_response);
+                this.snackbar.info(this.language.beneficiaries_import_response);
             })
             .catch(
                 () => {
                     this.dialog.closeAll();
                     this.csv2 = null;
-                    this.snackbar.error(this.household.beneficiaries_import_error_importing);
+                    this.snackbar.error(this.language.beneficiaries_import_error_importing);
                 });
     }
 
@@ -563,11 +547,10 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
      */
     importHouseholdsFile() {
         if (!this.csv || !this.fileForm.controls['projects'].valid || this.load) {
-            this.snackbar.error(this.household.beneficiaries_import_select_project);
+            this.snackbar.error(this.language.beneficiaries_import_select_project);
         } else {
             this.load = true;
-            this._importService.setImportContext(this.email, this.fileForm.controls['projects'].value, this.csv);
-            this._importService.sendCsv().subscribe((response: any) => {
+            this._importService.sendCsv(this.csv, this.email, this.fileForm.controls['projects'].value).subscribe((response: any) => {
                 this._importService.setResponse(response);
                 this.load = false;
                 this.router.navigate(['/beneficiaries/import/data-validation']);
@@ -581,8 +564,9 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
      * Check if all fields are set, and import all the beneficiaries
      */
     importHousholdsApi() {
+        this.load = true;
         if (!this.apiForm.valid) {
-            this.snackbar.error(this.household.beneficiaries_import_check_fields);
+            this.snackbar.error(this.language.beneficiaries_import_check_fields);
             return;
         }
         const params = {};
@@ -599,7 +583,7 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
         this._beneficiariesService.importApi(body, this.apiForm.controls['projects'].value)
             .subscribe(response => {
                 this.load = false;
-                this.snackbar.success(response.message + this.household.beneficiaries_import_beneficiaries_imported);
+                this.snackbar.success(response.message + this.language.beneficiaries_import_beneficiaries_imported);
                 this.newHouseholds = response.households;
                 this.importedHouseholds();
             }, error => {
@@ -615,9 +599,8 @@ export class BeneficiariesImportComponent implements OnInit, DoCheck, OnDestroy 
         this._householdsService.getImported(this.newHouseholds)
             .subscribe(
                 response => {
-                    this.newHouseholds = response;
-                    this.newHouseholds = Households.formatArray(this.newHouseholds);
-                    this.importedDataService.data = this.newHouseholds;
+                    this.newHouseholds = response.map((household: Households) => Households.apiToModel(household));
+                    this._importService.importedHouseholds = this.newHouseholds;
                     this.router.navigate(['/beneficiaries/imported']);
                 }
             );

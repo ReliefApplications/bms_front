@@ -1,7 +1,6 @@
-import { Component, OnInit, Output } from '@angular/core';
-import { GlobalText } from '../../../../texts/global';
-import { EventEmitter } from 'protractor';
+import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
+import { LanguageService } from 'src/texts/language.service';
 
 @Component({
     selector: 'app-modal-leave',
@@ -10,13 +9,12 @@ import { MatDialogRef } from '@angular/material';
 })
 export class ModalLeaveComponent implements OnInit {
 
-    // @Output() choice = new EventEmitter();
-
-    public modal = GlobalText.TEXTS;
-    public language = GlobalText.language;
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
-        private dialogs: MatDialogRef<ModalLeaveComponent>
+        private dialogs: MatDialogRef<ModalLeaveComponent>,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {

@@ -13,7 +13,12 @@ export class FormatCamelCasePipe implements PipeTransform {
         const values = value.split(/(?=[A-Z])/);
         values.forEach(part => {
             const word = part[0].toUpperCase() + part.slice(1);
-            response += word + ' ';
+            if (part.length > 1) {
+                response += word + ' ';
+            } else {
+                // If it is only one capital letter it means it's initials
+                response += word;
+            }
         });
         return response;
     }

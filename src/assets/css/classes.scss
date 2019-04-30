@@ -241,6 +241,10 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 .button-background-accent {
   background-color: $bms_red !important;
   color: $bms_grey !important;
+  &:disabled {
+    background-color: $bms_dark_grey !important;
+    color: $bms_white !important;
+}
 }
 
 .no-data {
@@ -512,8 +516,12 @@ mat-horizontal-stepper.disable-step mat-step-header.mat-horizontal-stepper-heade
           justify-self: flex-end;
       }
     }
-
   }
+
+// Remove padding from mat-menus
+.mat-menu-content {
+    padding: 0 !important;
+}
 
 // Snackbar
 snack-bar-container {
@@ -574,6 +582,7 @@ snack-bar-container {
         position: fixed;
         bottom: 2em;
         right: 2em;
+        z-index: 1000;
 
         &:disabled {
             background-color: $bms_slate;
@@ -620,6 +629,11 @@ snack-bar-container {
   .next {
       padding-left: 0 !important;
   }
+
+  app-icon-svg {
+        width: 5vh !important;
+        height: 5vh !important;
+    }
 }
 
 .single-select, .multiple-select {
@@ -651,4 +665,29 @@ snack-bar-container {
 .ng-select.multiple-select .ng-select-container .ng-value-container .ng-value {
     background-color: #424242 !important;
     white-space: pre-wrap !important;
+}
+
+app-icon-svg {
+    display: inline-flex;
+    width: 3vh;
+    height: 3vh;
+}
+
+.multiple-items {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+    background-color: $bms_dark_grey;
+}
+
+.mat-calendar-next-button, .mat-calendar-previous-button {
+    transform: rotate(0deg) !important;
 }

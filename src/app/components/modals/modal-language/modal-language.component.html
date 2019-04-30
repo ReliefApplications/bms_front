@@ -1,25 +1,23 @@
-<mat-dialog-content class="modal-container">
-  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': isArabic === true}">{{modal.modal_language_title}}</h4>
-  <div class="modal-table" [ngClass]="{'arabic': isArabic === true}" cdkFocusRegionstart>
+<mat-dialog-content *ngIf="languageForm" class="modal-container">
+  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': isArabic === true}">{{language.modal_language_title}}</h4>
+  <form [formGroup]="languageForm" class="modal-table" [ngClass]="{'arabic': isArabic === true}" cdkFocusRegionstart>
     <div class="select-container">
-      <span class="language-text">{{modal.modal_language_actual}}</span>
-
-      <ng-select [clearable]="false" class="single-select" [(ngModel)]="language" [multiple]="false" placeholder="{{ modal.header_language | titlecase }}"
-        [closeOnSelect]="true" [searchable]="true" [ngModelOptions]="{standalone: true}" (close)="choseLanguage()">
-        <ng-option *ngFor="let l of languages" [value]="l">
-          {{l | titlecase}}
+      <span class="language-text">{{language.modal_language_actual}}</span>
+      <ng-select (change)="updateDefault()" formControlName="languageControl" [clearable]="false" class="single-select" [multiple]="false" placeholder="{{ language.header_language | titlecase }}" [closeOnSelect]="true" [searchable]="true" bindLabel="LANGUAGE_ISO">
+        <ng-option *ngFor="let language of languageService.enabledLanguages" [value]="language">
+          {{language.LANGUAGE_ISO | titlecase}}
         </ng-option>
       </ng-select>
 
     </div>
 
     <div class="align-items">
-      <mat-checkbox color="primary" [checked]="default" [(ngModel)]="isCheckedDefault"></mat-checkbox>
-      <span class="spacement">{{ modal.modal_save_language_as_default }}</span>
+      <mat-checkbox formControlName="defaultControl" color="primary" [checked]="default" ></mat-checkbox>
+      <span class="spacement">{{ language.modal_save_language_as_default }}</span>
     </div>
-  </div>
+    </form>
   <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':isArabic === true}">
-    <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.close}}</button>
-    <button mat-raised-button (click)="save()" class="button-background-accent">{{modal.save}}</button>
+    <button mat-button (click)="dialogRef.close()" class="button-text-accent">{{language.close}}</button>
+    <button mat-raised-button (click)="save()" class="button-background-accent">{{language.save}}</button>
   </div>
 </mat-dialog-content>

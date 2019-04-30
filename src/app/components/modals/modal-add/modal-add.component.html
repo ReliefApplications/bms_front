@@ -1,6 +1,6 @@
 <mat-dialog-content class="modal-container">
-  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': language==='ar'}">{{modal.modal_add_title | titlecase }} {{entityDisplayedName | titlecase}}</h4>
-  <table class="modal-table" [ngClass]="{'arabic': language==='ar'}">
+  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">{{modal.modal_add_title | titlecase }} {{entityDisplayedName | titlecase}}</h4>
+  <table class="modal-table" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">
     <p *ngIf="this.data.entity.getAddDescription">{{this.data.entity.getAddDescription() | titlecase }}</p>
     <tr *ngFor="let p of properties" class="modal-row">
       <th class="table-title" *ngIf="propertiesTypes[p]!=='checkbox' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && mapperObject[p] !='Unit' && p != 'sectors_name' && p != 'donors_name'">{{mapperObject[p] | titlecase }}</th>
@@ -12,7 +12,7 @@
       <th class="table-title checkbox-line" *ngIf="propertiesTypes[p]==='checkbox'">{{mapperObject[p] | titlecase }}</th>
       <th class="table-value">
                 <form class="form" [formGroup]="form" ngNoForm>
-                    <mat-form-field class="general" *ngIf="propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
+                    <mat-form-field class="general" *ngIf="propertiesTypes[p]!=='currency' && propertiesTypes[p]!=='location' && propertiesTypes[p]!=='document' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='email' && propertiesTypes[p]!='password' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='select' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectProjects' && propertiesTypes[p] !='selectSingle'"
                         class="full-width">
 
             <input matInput [maxlength]="this.maxLength" *ngIf="propertiesTypes[p]=='text'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
@@ -21,12 +21,12 @@
             <mat-hint align="end" *ngIf="newObject[p] && p=='name' && data.entity.__classname__ !== 'Product' && data.entity.__classname__ !== 'Vendors'"> {{newObject[p].length}} /
               {{this.maxLength}} </mat-hint>
 
-            <input matInput *ngIf="propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='positive-number' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'selectCountry' && propertiesTypes[p]!='text'"
+            <input matInput *ngIf="propertiesTypes[p]!=='currency' && propertiesTypes[p]!=='individual_value' && propertiesTypes[p]!=='individual_values' && propertiesTypes[p]!='checkbox' && propertiesTypes[p]!='select' && propertiesTypes[p]!='number' && propertiesTypes[p]!='positive-number' && propertiesTypes[p]!='selectCountry' && propertiesTypes[p]!='selectDonor' && propertiesTypes[p]!='selectSingle' && propertiesTypes[p] != 'date' && propertiesTypes[p] != 'selectProjects' && propertiesTypes[p] != 'selectCountry' && propertiesTypes[p]!='text'"
                 [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [type]="propertiesTypes[p]">
 
             <input matInput *ngIf="propertiesTypes[p]=='number'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="0">
             <input matInput *ngIf="propertiesTypes[p]=='positive-number' && p !== 'number_vouchers'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1">
-            <input matInput *ngIf="p === 'number_vouchers'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1" (change)="handleChangeNumberVouchers()">
+            <input matInput *ngIf="p === 'number_vouchers'" [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" type="number" min="1">
 
                         <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
                             matInput [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
@@ -38,6 +38,10 @@
                     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
                         *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
                         (change)="selected(newObject[p])" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" bindLabel="name" bindValue="id">
+                    </ng-select>
+                    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                        *ngIf="propertiesTypes[p]=='currency'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
+                        [ngModelOptions]="{standalone: true}" [items]="loadedData[p]">
                     </ng-select>
 
                     <ng-select *ngIf="propertiesTypes[p]=='select'" class="multiple-select" [(ngModel)]="newObject[p]"
@@ -111,12 +115,16 @@
             <input [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" matInput type="number" min="1">
           </mat-form-field>
 
-          <mat-form-field class="values" *ngIf="propertiesTypes[p]==='individual_values' && newObject.individual_to_all === true" class="full-width">
-            <div class="array">
-              <span *ngFor="let value of newObject.individual_values; let i=index; trackBy: trackByFn" >
-                <input [(ngModel)]="newObject[p][i]" [ngModelOptions]="{standalone: true}" matInput type="number" min="1">
-              </span>
-            </div>
+          <mat-form-field class="general" class="full-width" *ngIf="propertiesTypes[p]==='individual_values' && newObject.individual_to_all === true" class="full-width">
+            <input [(ngModel)]="newObject[p]" matInput type="text"
+              formControlName="individualValuesFormControl" [errorStateMatcher]="matcher" >
+            <mat-hint align="start"><strong>{{modal.modal_values_format_error}}</strong></mat-hint>
+            <mat-error *ngIf="individualValuesFormControl.hasError('pattern') && !individualValuesFormControl.hasError('required')">
+              {{modal.modal_values_format_error}}
+            </mat-error>
+            <mat-error *ngIf="individualValuesFormControl.hasError('required')">
+              {{modal.modal_values_required | titlecase}}
+            </mat-error>
           </mat-form-field>
 
           <div *ngIf="propertiesTypes[p]=='document'" class="input-file">
@@ -126,11 +134,34 @@
               <p *ngIf="!filename">{{ modal.modal_no_file }}</p>
           </div>
 
+          <div *ngIf="propertiesTypes[p]=='location' && newObject.location">
+            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder={{modal.adm1}} [(ngModel)]="newObject.location.adm1" [ngModelOptions]="{standalone: true}" (change)='getDistrict($event)' required>
+              <ng-option *ngFor="let province of provinceList" [value]="province.name" >
+                {{province.name}}
+              </ng-option>
+            </ng-select>
+            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{modal.adm2}} [(ngModel)]="newObject.location.adm2" [ngModelOptions]="{standalone: true}"  (change)='getCommunity($event)'>
+              <ng-option *ngFor="let district of districtList" [value]="district.name">
+                {{district.name}}
+              </ng-option>
+            </ng-select>
+            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{modal.adm3}} [(ngModel)]="newObject.location.adm3" [ngModelOptions]="{standalone: true}"  (change)='getVillage($event)'>
+              <ng-option *ngFor="let commune of communeList" [value]="commune.name">
+                {{commune.name}}
+              </ng-option>
+            </ng-select>
+            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{modal.adm4}} [(ngModel)]="newObject.location.adm4" [ngModelOptions]="{standalone: true}" >
+              <ng-option *ngFor="let village of villageList" [value]="village.name">
+                {{village.name}}
+              </ng-option>
+            </ng-select>
+          </div>
+
         </form>
       </th>
     </tr>
   </table>
-  <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':language==='ar'}">
+  <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
     <button mat-button (click)="closeDialog()" class="button-text-accent">{{modal.cancel}}</button>
     <button mat-raised-button *ngIf="!displayAdd" (click)="add()" class="button-background-accent">{{modal.create}}</button>
     <button mat-raised-button *ngIf="displayAdd" (click)="add()" class="button-background-accent">{{modal.add}}</button>

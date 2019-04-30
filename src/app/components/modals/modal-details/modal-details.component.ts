@@ -1,17 +1,18 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ModalComponent } from '../modal.component';
+import { Component } from '@angular/core';
+import { CustomModelField } from '../../../model/CustomModel/custom-model-field';
+import { ModalFieldsComponent } from '../modal-fields/modal-fields.component';
 
 @Component({
     selector: 'app-modal-details',
-    templateUrl: './modal-details.component.html',
-    styleUrls: ['../modal.component.scss', './modal-details.component.scss']
+    templateUrl: '../modal-fields/modal-fields.component.html',
+    styleUrls: ['../modal-fields/modal-fields.component.scss']
 })
-export class ModalDetailsComponent extends ModalComponent implements OnInit {
+export class ModalDetailsComponent extends ModalFieldsComponent {
 
-    @Input() data: any;
+    modalType = 'Details';
+    modalTitle = this.language.modal_details_title;
 
-    ngOnInit() {
-        this.entityInstance = this.data.mapper.instantiate(this.data.entity);
-        this.properties = Object.getOwnPropertyNames(this.entityInstance.getMapperDetails(this.entityInstance));
+    isDisabled(field: CustomModelField<any>) {
+        return true;
     }
 }

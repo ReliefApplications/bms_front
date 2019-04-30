@@ -1,19 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { LanguageService } from './../../../../texts/language.service';
 
-import { GlobalText } from '../../../../texts/global';
 
 @Component({
-  selector: 'app-not-found',
-  templateUrl: './not-found.component.html',
-  styleUrls: ['./not-found.component.scss']
+    selector: 'app-not-found',
+    templateUrl: './not-found.component.html',
+    styleUrls: [ './not-found.component.scss' ]
 })
 export class NotFoundComponent implements OnInit {
-
-  public error = GlobalText.TEXTS;
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    constructor (
+    private languageService: LanguageService,
+    ) {}
+    ngOnInit() {}
 }

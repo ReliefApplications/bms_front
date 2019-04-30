@@ -1,22 +1,20 @@
-import { Injectable                                 } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { LanguageService } from 'src/texts/language.service';
+import { CustomModelService } from './custom-model.service';
+import { HttpService } from './http.service';
 
-import { URL_BMS_API                                } from '../../../environments/environment';
-
-import { HttpService                                } from './http.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class SectorService {
-    readonly api = URL_BMS_API;
+export class SectorService extends CustomModelService {
+
+    customModelPath = 'sectors';
 
     constructor(
-        private http: HttpService
+        protected http: HttpService,
+        protected languageService: LanguageService,
     ) {
-    }
-
-    public get() {
-        const url = this.api + '/sectors';
-        return this.http.get(url);
+        super(http, languageService);
     }
 }

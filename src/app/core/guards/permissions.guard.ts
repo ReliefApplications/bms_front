@@ -3,21 +3,25 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlSe
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
-import { User } from 'src/app/model/user';
-import { GlobalText } from '../../../texts/global';
+import { User } from 'src/app/model/user.new';
 import { UserService } from '../api/user.service';
 import { SnackbarService } from '../logging/snackbar.service';
+import { LanguageService } from './../../../texts/language.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class PermissionsGuard implements CanActivate {
 
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
     constructor (
         private router: Router,
         private userService: UserService,
         private authenticationService: AuthenticationService,
         private snackbar: SnackbarService,
+        private languageService: LanguageService,
         ) {
     }
 
@@ -44,7 +48,7 @@ export class PermissionsGuard implements CanActivate {
         const permissionGranted = this.checkPermissions(route, this.userService.currentUser);
 
         if (!permissionGranted) {
-            this.snackbar.error(GlobalText.TEXTS.forbidden_message);
+            this.snackbar.error(this.language.forbidden_message);
             this.router.navigateByUrl('');
         }
 

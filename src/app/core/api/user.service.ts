@@ -1,63 +1,87 @@
 import { Injectable } from '@angular/core';
-import { tap } from 'rxjs/operators';
-import { URL_BMS_API } from '../../../environments/environment';
+import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AppInjector } from 'src/app/app-injector';
+import { Project } from 'src/app/model/project.new';
+import { Language } from 'src/texts/language';
+import { LanguageService } from 'src/texts/language.service';
 import { SaltInterface } from '../../model/salt';
-import { User } from '../../model/user';
+import { User } from '../../model/user.new';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { WsseService } from '../authentication/wsse.service';
 import { rightsHierarchy, Role } from '../permissions/permissions';
+import { AsyncacheService } from '../storage/asyncache.service';
+import { CustomModelService } from './custom-model.service';
 import { HttpService } from './http.service';
+import { ProjectService } from './project.service';
 
 
 @Injectable({
     providedIn: 'root'
 })
-export class UserService {
-    readonly api = URL_BMS_API;
+export class UserService extends CustomModelService {
 
     public currentUser: User;
 
     constructor(
-        private http: HttpService,
+        protected http: HttpService,
+        protected languageService: LanguageService,
         private wsseService: WsseService,
         private authenticationService: AuthenticationService,
-    ) { }
+        private asyncCacheService: AsyncacheService,
+    ) {
+        super(http, languageService);
+    }
 
+    public create(body: any) {
+        return this.authenticationService.createUser(body);
+    }
 
     public get() {
-        const url = this.api + '/web-users';
+        const url = this.apiBase + '/web-users';
         return this.http.get(url);
     }
 
+    public getUserFromCache(): Observable<User> {
+        return this.authenticationService.getUser().pipe(map((userObject: any) => {
+            this.currentUser = User.apiToModel(userObject);
+            return this.currentUser;
+        }));
+    }
+
+    public resetCacheUser() {
+        this.currentUser = undefined;
+        this.authenticationService.resetUser();
+    }
 
     public update(id: number, body: any) {
-        const url = this.api + '/users/' + id;
-        return this.http.post(url, body);
+        const url = this.apiBase + '/users/' + id;
+        return this.authenticationService.updateUser(body, url);
     }
 
     public delete(id: number, body: any) {
-        const url = this.api + '/users/' + id;
+        const url = this.apiBase + '/users/' + id;
         return this.http.delete(url, body);
     }
 
     public requestPasswordChange(id: number, body: any) {
-        const url = this.api + '/users/' + id + '/password';
+        const url = this.apiBase + '/users/' + id + '/password';
         return this.http.post(url, body);
     }
 
     public requestLogs(id: number) {
-        const url = this.api + '/users/' + id + '/logs';
+        const url = this.apiBase + '/users/' + id + '/logs';
         return this.http.get(url);
     }
 
-    public updatePassword(user: any, oldPassword: any, newPassword: any) {
+    public updatePassword(user: User, oldPassword: any, newPassword: any) {
 
         return new Promise<void>((resolve, reject) => {
-            this.authenticationService.requestSalt(user.username).subscribe(success => {
+            this.authenticationService.requestSalt(user.get<string>('username')).subscribe(success => {
                 const getSalt = success as SaltInterface;
                 const saltedOldPassword = this.wsseService.saltPassword(getSalt.salt, oldPassword);
                 const saltedNewPassword = this.wsseService.saltPassword(getSalt.salt, newPassword);
-                this.requestPasswordChange(parseInt(user.id, 10), { oldPassword: saltedOldPassword, newPassword: saltedNewPassword })
+                this.requestPasswordChange(parseInt(user.get('id'), 10), { oldPassword: saltedOldPassword, newPassword: saltedNewPassword })
                     .subscribe(data => {
                         this.authenticationService.setSaltedPassword(user, data.password);
                         this.authenticationService.setUser(user);
@@ -72,33 +96,44 @@ export class UserService {
     }
 
     public getProjectUser(id: number) {
-        const url = this.api + '/users/' + id + '/projects';
+        const url = this.apiBase + '/users/' + id + '/projects';
         return this.http.get(url);
     }
 
-    public setDefaultLanguage(id: number, body: string) {
-        const url = this.api + '/users/' + id + '/language';
-        return this.http.post(url, {language: body})
-            .pipe(
-                tap(_ => {
-                    this.authenticationService.getUser().subscribe(user => {
-                        user.language = body;
-                        this.authenticationService.setUser(user);
-                    });
-                })
-            );
+    public setDefaultLanguage(id: number, languageObject: Language): Observable<any[]> {
+        const language = this.languageService.languageToString(languageObject);
+        this.currentUser.set('language', language);
+        const url = this.apiBase + '/users/' + id + '/language';
+        return forkJoin(
+            [
+                this.asyncCacheService.setUser(this.currentUser),
+                this.http.post(url, {language})
+            ]
+        );
+    }
+
+    public fillWithOptions(user: User) {
+        const appInjector = AppInjector;
+        appInjector.get(ProjectService).get().subscribe((projects: any) => {
+
+            const projectOptions = projects.map(project => {
+                return Project.apiToModel(project);
+            });
+
+            user.setOptions('projects', projectOptions);
+        });
     }
 
     public hasRights(action: string) {
-        // Logged out users have no righ;ts
-        if (!this.currentUser || !this.currentUser.id) {
+        // Logged out users have no rights
+        if (!this.currentUser || !this.currentUser.get('id')) {
             return false;
         }
         // Admins have every rights
-        if (this.currentUser.rights === Role.admin) {
+        if (this.currentUser.get('rights').get<string>('id') === Role.admin) {
             return true;
         }
-        const userRights = rightsHierarchy[this.currentUser.rights];
+        const userRights = rightsHierarchy[this.currentUser.get('rights').get<string>('id')];
         return userRights.includes(action);
     }
 }

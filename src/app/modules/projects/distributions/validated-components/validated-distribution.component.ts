@@ -1,29 +1,34 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, DoCheck, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatTableDataSource } from '@angular/material';
+import { Observable } from 'rxjs';
+import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
+import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
+import { ExportService } from 'src/app/core/api/export.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { DistributionData } from 'src/app/model/distribution-data';
-import { User } from 'src/app/model/user';
-import { GlobalText } from 'src/texts/global';
+import { ModalService } from 'src/app/core/utils/modal.service';
+import { Commodity } from 'src/app/model/commodity.new';
+import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.new';
+import { Distribution } from 'src/app/model/distribution.new';
+import { User } from 'src/app/model/user.new';
+import { LanguageService } from './../../../../../texts/language.service';
 
 @Component({
     template: './validated-distribution.component.html',
     styleUrls: ['./validated-distribution.component.scss']
 })
-export class ValidatedDistributionComponent implements OnInit, DoCheck {
+export class ValidatedDistributionComponent implements OnInit {
 
-    TEXT = GlobalText.TEXTS;
     entity: any;
     loadingExport = false;
     loadingTransaction = false;
     transacting = false;
     widthScreen: number;
     heightScreen: number;
-    maxWidthMobile = GlobalText.maxWidthMobile;
-    language = GlobalText.language;
+    public maxWidth = 750;
     selection: SelectionModel<any>;
     extensionType = 'xls';
     progression = 0;
@@ -37,15 +42,32 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     enteredCode = '';
     chartAccepted = false;
 
-    distributionIsStored = false;
+    // distributionIsStored = false;
+    distributionId: number;
 
-    @Input() actualDistribution: DistributionData;
-    @Input() transactionData: MatTableDataSource<any>;
-    @Input() distributionId: number;
+    @Input() actualDistribution: Distribution;
+    transactionData: MatTableDataSource<any>;
     @Input() loaderCache = false;
+    @Input() distributionIsStored: boolean;
 
-    @Output() storeEmitter: EventEmitter<any> = new EventEmitter();
+    @Output() storeEmitter: EventEmitter<Distribution> = new EventEmitter();
+    @Output() finishedEmitter: EventEmitter<any> = new EventEmitter();
 
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
+    constructor(
+        protected distributionService: DistributionService,
+        public snackbar: SnackbarService,
+        public dialog: MatDialog,
+        protected cacheService: AsyncacheService,
+        protected modalService: ModalService,
+        public beneficiariesService: BeneficiariesService,
+        public _cacheService: AsyncacheService,
+        public _exportService: ExportService,
+        public userService: UserService,
+        private languageService: LanguageService,
+    ) { }
 
     @HostListener('window:resize', ['$event'])
     onResize(event: any) {
@@ -53,26 +75,76 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     }
 
     ngOnInit() {
+        this.distributionId = this.actualDistribution.get<number>('id');
         this.checkSize();
-        this.loadingTransaction = false;
-        this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
-            (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
-        );
+        this.getDistributionBeneficiaries();
+
+
+        // this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
+        //     (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
+        // );
     }
 
-    ngDoCheck(): void {
-        if (this.language !== GlobalText.language) {
-            this.language = GlobalText.language;
+    /**
+     * Verify if modifications have been made to prevent the user from leaving and display dialog to confirm we wiwhes to delete them
+     */
+    @HostListener('window:beforeunload')
+    canDeactivate(): Observable<boolean> | boolean {
+        if (this.transacting) {
+            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+
+            return dialogRef.afterClosed();
+        } else {
+            return (true);
         }
     }
 
-    constructor(
-        protected distributionService: DistributionService,
-        public snackbar: SnackbarService,
-        public dialog: MatDialog,
-        protected cacheService: AsyncacheService,
-        public userService: UserService,
-    ) { }
+        /**
+     * Gets the Beneficiaries of the actual distribution to display the table
+     */
+    getDistributionBeneficiaries() {
+        this.loadingTransaction = true;
+        this.distributionService.getBeneficiaries(this.actualDistribution.get('id'))
+            .subscribe(distributionBeneficiaries => {
+                if (!distributionBeneficiaries) {
+                    this.getDistributionBeneficiariesFromCache();
+
+                } else {
+                    this.setDistributionBeneficiaries(distributionBeneficiaries);
+                    this.formatTransactionTable();
+                }
+            });
+    }
+
+    formatTransactionTable() {
+        throw new Error('Abstract Method');
+    }
+
+    setDistributionBeneficiaries(distributionBeneficiaries: any) {
+        throw new Error('Abstract Method');
+    }
+
+    getDistributionBeneficiariesFromCache() {
+        this.cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + this.actualDistribution.get('id') + '_beneficiaries')
+            .subscribe((distribution) => {
+                if (distribution) {
+                    this.setDistributionBeneficiaries(distribution.distribution_beneficiaries);
+                    this.formatTransactionTable();
+                }
+            });
+    }
+
+    /**
+     * To be used everytime transactionData changes
+     */
+    verifiyIsFinished() {
+        throw new Error('Abstract Method');
+    }
+
+    storeBeneficiaries() {
+        this.storeEmitter.emit(this.actualDistribution);
+    }
+
 
     /**
      * Requests back-end a file containing informations about the transaction
@@ -81,7 +153,7 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
 
         this.dialog.closeAll();
         this.loadingExport = true;
-        this.distributionService.export(distributionType, fileType, this.distributionId).then(
+        this.distributionService.export(distributionType, fileType, this.actualDistribution.get('id')).then(
             () => {
                 this.loadingExport = false;
             }
@@ -91,50 +163,50 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         );
     }
 
-    getTotalCommodityValue(commodity: any): number {
-        return this.transactionData.data.length * commodity.value;
-    }
 
-    getReceivedValue(commodity: any): number {
+    getReceivedValue(commodity: Commodity): number {
         let amountReceived = 0;
-        for (const beneficiary of this.transactionData.data) {
-            amountReceived += this.getCommodityReceivedAmountFromBeneficiary(commodity, beneficiary);
+        for (const distributionBeneficiary of this.transactionData.data) {
+            amountReceived += this.getCommodityReceivedAmountFromBeneficiary(commodity, distributionBeneficiary);
         }
         return amountReceived;
     }
 
-    getPercentageValue(commodity: any): number {
+    getPercentageValue(commodity: Commodity): number {
         const percentage = (this.getAmountSent(commodity) / this.getTotalCommodityValue(commodity) * 100);
         return Math.round(percentage * 100) / 100;
     }
 
-    getAmountSent(commodity: any): number {
+    getAmountSent(commodity: Commodity): number {
         let amountSent = 0;
-        for (const beneficiary of this.transactionData.data) {
-            amountSent += this.getCommoditySentAmountFromBeneficiary(commodity, beneficiary);
+        for (const distributionBeneficiary of this.transactionData.data) {
+            amountSent += this.getCommoditySentAmountFromBeneficiary(commodity, distributionBeneficiary);
         }
         return amountSent;
     }
 
+    getTotalCommodityValue(commodity: Commodity): number {
+        return this.transactionData.data.length * commodity.get<number>('value');
+    }
+
     // Abstract
-    getCommoditySentAmountFromBeneficiary(commodity: any, beneficiary: any): number {
+    getCommoditySentAmountFromBeneficiary(commodity: Commodity, beneficiary: DistributionBeneficiary): number {
         throw new Error('Abstract Method');
     }
 
     // Abstract
-    getCommodityReceivedAmountFromBeneficiary(commodity: any, beneficiary: any): number {
+    getCommodityReceivedAmountFromBeneficiary(commodity: Commodity, beneficiary: DistributionBeneficiary): number {
         throw new Error('Abstract Method');
     }
 
-    setTransactionMessage(beneficiary, i) {
+    // Here actualBeneficiary is of one of the children types of DistributionBeneficiary
+    setTransactionMessage(beneficiaryFromApi: any, actualBeneficiary: any) {
 
-        this.transactionData.data[i].message = beneficiary.transactions[beneficiary.transactions.length - 1].message ?
-            beneficiary.transactions[beneficiary.transactions.length - 1].message : '';
-    }
-
-    storeBeneficiaries() {
-        this.storeEmitter.emit();
-        this.distributionIsStored = true;
+        actualBeneficiary.set('message',
+            beneficiaryFromApi.transactions[beneficiaryFromApi.transactions.length - 1].message ?
+            beneficiaryFromApi.transactions[beneficiaryFromApi.transactions.length - 1].message :
+            '');
+        return actualBeneficiary;
     }
 
     exit(message: string) {
@@ -142,8 +214,8 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         this.dialog.closeAll();
     }
 
-    private checkSize(): void {
-        this.heightScreen = window.innerHeight;
-        this.widthScreen = window.innerWidth;
-    }
+   private checkSize(): void {
+       this.heightScreen = window.innerHeight;
+       this.widthScreen = window.innerWidth;
+   }
 }

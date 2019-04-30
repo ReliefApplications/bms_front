@@ -1,0 +1,86 @@
+<form [formGroup]="form">
+  <div class="column-container">
+    <mat-form-field>
+      <input matInput type="text" placeholder={{language.add_beneficiary_getFamilyName}} formControlName="familyName" required>
+      <app-hint-error [form]="form" fieldName="familyName" [field]="beneficiaryFields.familyName" [isMatField]="true"></app-hint-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder={{language.add_beneficiary_getGivenName}} formControlName="givenName" required>
+      <app-hint-error [form]="form" fieldName="givenName" [field]="beneficiaryFields.givenName" [isMatField]="true"></app-hint-error>
+    </mat-form-field>
+  </div>
+  <div class="column-container">
+    <ng-select class="single-select gender" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+      placeholder={{language.gender}} formControlName="gender" required>
+      <ng-option *ngFor="let option of options.genderList" [value]="option.get('id')">
+        {{option.get('name') | titlecase}}
+      </ng-option>
+    </ng-select>
+    <app-hint-error [form]="form" fieldName="gender" [field]="beneficiaryFields.gender" [isMatField]="false"></app-hint-error>
+    <mat-form-field class="datepicker-computer" required>
+      <input #DateOfBirthHead matInput [matDatepicker]="birthHeadComputer" placeholder={{language.add_beneficiary_getDateOfBirth}}
+        formControlName="dateOfBirth" required>
+      <mat-datepicker-toggle matSuffix [for]="birthHeadComputer"></mat-datepicker-toggle>
+      <mat-datepicker #birthHeadComputer></mat-datepicker>
+      <app-hint-error [form]="form" fieldName="dateOfBirth" [field]="beneficiaryFields.dateOfBirth" [isMatField]="true"></app-hint-error>
+    </mat-form-field>
+    <mat-form-field class="datepicker-mobile" required>
+      <input #DateOfBirthHead matInput [matDatepicker]="birthHeadMobile" placeholder={{language.add_beneficiary_getDateOfBirth}}
+      formControlName="dateOfBirth">
+      <mat-datepicker-toggle matSuffix [for]="birthHeadMobile"></mat-datepicker-toggle>
+      <mat-datepicker touchUi #birthHeadMobile></mat-datepicker>
+      <app-hint-error [form]="form" fieldName="dateOfBirth" [field]="beneficiaryFields.dateOfBirth" [isMatField]="true"></app-hint-error>
+    </mat-form-field>
+  </div>
+  <div class="column-container">
+    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+      placeholder={{language.add_beneficiary_getTypeNationalId}} formControlName="IDType">
+      <ng-option *ngFor="let option of options.nationalIdList" [value]="option.get('id')">
+        {{option.get('name')}}
+      </ng-option>
+    </ng-select>
+    <app-hint-error [form]="form" fieldName="IDType" [field]="nationalIdFields.type" [isMatField]="true"></app-hint-error>
+    <mat-form-field>
+      <input matInput type="text" placeholder={{language.add_beneficiary_getNationalID}} formControlName="IDNumber">
+      <app-hint-error [form]="form" fieldName="IDNumber" [field]="nationalIdFields.number" [isMatField]="true"></app-hint-error>
+    </mat-form-field>
+  </div>
+  <div class="column-container">
+    <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+      placeholder={{language.model_residencystatus}} formControlName="residencyStatus">
+      <ng-option *ngFor="let option of options.residencyStatusList" [value]="option.get('id')">
+        {{option.get('name') | titlecase }}
+      </ng-option>
+    </ng-select>
+    <app-hint-error [form]="form" fieldName="residencyStatus" [field]="beneficiaryFields.residencyStatus" [isMatField]="false"></app-hint-error>
+  </div>
+  <div *ngFor="let index of [0, 1]" class="column-container columns-phones">
+    <div class="items-line">
+      <ng-select class="single-select phone-type" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+        placeholder={{language.add_beneficiary_getTypePhone}} [formControlName]="'phoneType'+index">
+        <ng-option *ngFor="let option of options.phoneList" [value]="option.get('id')">
+          {{ option.get('name') }}
+        </ng-option>
+      </ng-select>
+      <app-hint-error [form]="form" [fieldName]="'phoneType'+index" [field]="phoneFields.type" [isMatField]="false"></app-hint-error>
+      <mat-checkbox color="primary" [formControlName]="'phoneProxy'+index">{{language.beneficiaries_proxy}}</mat-checkbox>
+    </div>
+
+    <div class="items-line">
+      <ng-select class="single-select country-code" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+      [formControlName]="'phonePrefix'+index" placeholder="{{language.add_beneficiary_code}}">
+        <ng-option *ngFor="let country of options.countryCodesList" [value]="country">{{country}}</ng-option>
+      </ng-select>
+      <app-hint-error [form]="form" [fieldName]="'phonePrefix'+index" [field]="phoneFields.prefix" [isMatField]="false"></app-hint-error>
+      <mat-form-field class="phone-number">
+        <input matInput type="tel" placeholder={{language.model_beneficiaries_phones|titlecase}} [formControlName]="'phoneNumber'+index">
+        <app-hint-error [form]="form" [fieldName]="'phoneNumber'+index" [field]="phoneFields.number" [isMatField]="false"></app-hint-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="lign-container">
+    <mat-checkbox color='primary' *ngFor="let vulnerability of options.vulnerabilityList" [formControlName]="vulnerability.get('name')">
+      {{vulnerability.get('displayed') | titlecase }}
+    </mat-checkbox>
+  </div>
+</form>

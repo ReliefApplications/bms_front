@@ -1,67 +1,51 @@
-import { Component, HostListener, OnInit, DoCheck, Input } from '@angular/core';
-import { GlobalText } from '../../../../texts/global';
-import { FieldMapper } from '../../../model/field-mapper';
-import { CountoModule } from 'angular2-counto';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { Location } from 'src/app/model/location.new';
+import { LanguageService } from 'src/texts/language.service';
 
 @Component({
     selector: 'app-box-properties',
     templateUrl: './box-properties.component.html',
     styleUrls: ['./box-properties.component.scss']
 })
-export class BoxPropertiesComponent implements OnInit, DoCheck {
-    public box = GlobalText.TEXTS;
-    mapper: FieldMapper = new FieldMapper();
-    mapperObject = null;
+export class BoxPropertiesComponent implements OnInit {
+
     elementObject = null;
 
-    @Input() componentDisplayed;
-    @Input() mapperService;
-    @Input() entity;
-    @Input() data;
+    @Input() displayedInstance: CustomModel;
+
     private oldComponentDisplayed = null;
-    public properties: any;
+    public displayedPropertyNames: any;
     public numColumns = 0;
     public displayLength: number;
 
     readonly MAX_PROP_LENGTH = 20;
 
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
+    constructor (
+        private languageService: LanguageService,
+    ) {}
+
     @HostListener('window:resize', ['$event'])
     onResize(event) {
-        this.numberOfColumns();
+        this.getNumberOfColumns();
     }
+
 
     ngOnInit() {
-        const entityInstance = Object.create(this.entity.prototype);
-        entityInstance.constructor.apply(entityInstance);
-        this.mapperObject = this.mapperService.findMapperObject(this.entity);
-        this.elementObject = entityInstance.getMapperBox(this.componentDisplayed);
-        this.properties = Object.getOwnPropertyNames(this.elementObject);
-        this.numberOfColumns();
-    }
-
-    ngDoCheck() {
-        if (this.box !== GlobalText.TEXTS) {
-            this.box = GlobalText.TEXTS;
-            this.mapperObject = this.mapperService.findMapperObject(this.entity);
-            this.oldComponentDisplayed = null;
-        }
-        if (this.componentDisplayed !== this.oldComponentDisplayed) {
-            const entityInstance = Object.create(this.entity.prototype);
-            entityInstance.constructor.apply(entityInstance);
-            this.elementObject = entityInstance.getMapperBox(this.componentDisplayed);
-            this.oldComponentDisplayed = this.componentDisplayed;
-        }
-
-        if (this.data && this.elementObject.number_beneficiaries !== this.data.length) {
-            this.elementObject.number_beneficiaries = this.data.length;
-            this.componentDisplayed.distribution_beneficiaries = this.data;
-        }
+        const allPropertyNames = Object.keys(this.displayedInstance.fields);
+        this.displayedPropertyNames = allPropertyNames.filter(property => {
+            return this.displayedInstance.fields[property].isDisplayedInSummary === true;
+        });
+        this.getNumberOfColumns();
     }
 
     cleanUsefullProperties() {
         const cleaned = new Array();
 
-        this.properties.forEach(
+        this.displayedPropertyNames.forEach(
             element => {
                 if (element && this.elementObject[element] !== ''
                 && this.elementObject[element] !== {} && this.elementObject[element] !== undefined) {
@@ -70,7 +54,7 @@ export class BoxPropertiesComponent implements OnInit, DoCheck {
             }
         );
 
-        this.properties = cleaned;
+        this.displayedPropertyNames = cleaned;
     }
 
     isArray(obj: any) {
@@ -81,8 +65,38 @@ export class BoxPropertiesComponent implements OnInit, DoCheck {
         return (typeof (obj) === 'number');
     }
 
-    numberOfColumns(): void {
-        const length = Object.keys(this.properties).length;
+    isString(obj: any) {
+        return (typeof (obj) === 'string');
+    }
+
+    isLocation(obj: any) {
+        return (obj instanceof Location);
+    }
+
+    getLocationTitle(location: Location) {
+        const adm = this.getMorePreciseAdm(location);
+        return this.language[adm];
+    }
+
+    getLocationValue(location: Location) {
+        const adm = this.getMorePreciseAdm(location);
+        return location.get(adm).get('name');
+    }
+
+    getMorePreciseAdm(location: Location) {
+        if (location.get('adm4') && location.get('adm4').get('name')) {
+            return 'adm4';
+        } else  if (location.get('adm3') && location.get('adm3').get('name')) {
+            return 'adm3';
+        } else  if (location.get('adm2') && location.get('adm2').get('name')) {
+            return 'adm2';
+        } else {
+            return 'adm1';
+        }
+    }
+
+    getNumberOfColumns(): void {
+        const length = Object.keys(this.displayedPropertyNames).length;
         if (window.innerWidth > 700) {
             this.numColumns = length;
         } else if (window.innerWidth > 400 && window.innerWidth < 700) {

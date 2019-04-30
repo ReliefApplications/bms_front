@@ -24,6 +24,7 @@ export class ExportService {
      * @return               file to export
      */
     public export(key: string, value: any, extensionType: string, body = null) {
+
         const params = {};
         params['type'] = extensionType;
         params[key] = value;

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { Project } from 'src/app/model/project';
+import { Project } from 'src/app/model/project.new';
 import { HouseholdsService } from '../api/households.service';
+import { Households } from 'src/app/model/households.new';
 
 
 @Injectable({
@@ -13,33 +14,31 @@ export class ImportService {
     // Token stored on file upload and reused for future steps
     private token: string;
     // Current project ( Todo: store it as Project object )
-    private project: Project;
+    public project: Project;
 
     private csvFile: File;
 
     private response: any;
 
+    public importedHouseholds: Households[];
+
     constructor(
         private householdsService: HouseholdsService,
     ) {}
 
-    setImportContext(email: string, project: Project, csvFile: File ) {
-        this.email = email;
-        this.project = project;
-        this.csvFile = csvFile;
-    }
-
     // Sends CSV to server and sets variables needed for the rest of the import session
-    sendCsv() {
+    sendCsv(csvFile: any, email: string, project: Project) {
+        this.project = project;
+
         this.token = undefined;
         const body = new FormData();
-        body.append('file', this.csvFile);
+        body.append('file', csvFile);
 
         return this.sendStepUserData(body);
     }
 
     sendStepUserData(data: any) {
-        return this.householdsService.sendDataToValidation(this.email, data, this.project.id, this.token).pipe(
+        return this.householdsService.sendDataToValidation(this.email, data, this.project.get('id'), this.token).pipe(
             map((response: Response) => {
                 this.token = response['token'];
                 delete response['token'];

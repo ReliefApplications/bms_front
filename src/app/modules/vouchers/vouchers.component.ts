@@ -1,63 +1,67 @@
-import { Component, OnInit, HostListener, ViewChild, DoCheck } from '@angular/core';
-import { GlobalText } from '../../../texts/global';
-import { MatTableDataSource, MatDialog } from '@angular/material';
-import { finalize } from 'rxjs/operators';
-import { Booklet } from 'src/app/model/booklet';
-import { BookletService } from 'src/app/core/api/booklet.service';
-import { ModalAddComponent } from 'src/app/components/modals/modal-add/modal-add.component';
-import { Mapper } from 'src/app/core/utils/mapper.service';
-import { ProjectService } from 'src/app/core/api/project.service';
-import { Project } from 'src/app/model/project';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Voucher } from '../../model/voucher';
-import { ExportService } from '../../core/api/export.service';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { TableVouchersComponent } from 'src/app/components/table/table-vouchers/table-vouchers.component';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatTableDataSource } from '@angular/material';
+import { finalize } from 'rxjs/operators';
 import { ModalAssignComponent } from 'src/app/components/modals/modal-assign/modal-assign.component';
+import { TableComponent } from 'src/app/components/table/table.component';
+import { BookletService } from 'src/app/core/api/booklet.service';
+import { ProjectService } from 'src/app/core/api/project.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { ModalService } from 'src/app/core/utils/modal.service';
+import { Booklet } from 'src/app/model/booklet.new';
+import { Project } from 'src/app/model/project.new';
+import { LanguageService } from 'src/texts/language.service';
+import { ExportService } from '../../core/api/export.service';
+import { Voucher } from '../../model/voucher.new';
 @Component({
     selector: 'app-vouchers',
     templateUrl: './vouchers.component.html',
     styleUrls: ['./vouchers.component.scss']
 })
-export class VouchersComponent implements OnInit, DoCheck {
+export class VouchersComponent implements OnInit {
 
-    public maxHeight = GlobalText.maxHeight;
-    public maxWidthMobile = GlobalText.maxWidthMobile;
-    public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
-    public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
-    public maxWidth = GlobalText.maxWidth;
+    public maxHeight = 600;
+    public maxWidth = 750;
+    // public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
+    // public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
+    // public maxWidth = GlobalText.maxWidth;
     public heightScreen;
     public widthScreen;
 
     public nameComponent = 'vouchers';
-    public voucher = GlobalText.TEXTS;
-    public language = GlobalText.language;
 
     public loadingAssign = false;
     public loadingBooklet = true;
     public loadingExport = false;
+    public loadingExportCodes = false;
     public load = false;
 
     public bookletClass = Booklet;
     public booklets: Booklet[];
     public bookletData: MatTableDataSource<Booklet>;
     public extensionType: string;
+    public extensionTypeCode: string;
     public projectClass = Project;
 
     public projects = [];
 
     public selection = new SelectionModel<Voucher>(true, []);
-    public checkedElements: any = [];
+    public checkedElements: Booklet[] = [];
 
-    @ViewChild(TableVouchersComponent) tableVoucher: TableVouchersComponent;
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
+
+    @ViewChild(TableComponent) tableVoucher: TableComponent;
 
     constructor(
         public bookletService: BookletService,
         public dialog: MatDialog,
-        public mapperService: Mapper,
         public projectService: ProjectService,
         public _exportService: ExportService,
-        public snackbar: SnackbarService
+        public snackbar: SnackbarService,
+        private modalService: ModalService,
+        protected languageService: LanguageService
     ) { }
 
 
@@ -67,13 +71,6 @@ export class VouchersComponent implements OnInit, DoCheck {
         this.extensionType = 'xls';
 
         this.getBooklets();
-    }
-
-    ngDoCheck() {
-        if (this.voucher !== GlobalText.TEXTS) {
-            this.language = GlobalText.language;
-            this.voucher = GlobalText.TEXTS;
-        }
     }
 
 
@@ -92,6 +89,10 @@ export class VouchersComponent implements OnInit, DoCheck {
         this.extensionType = choice;
     }
 
+    setTypeCode(choice: string) {
+        this.extensionTypeCode = choice;
+    }
+
     getBooklets() {
         this.bookletService.get().pipe(
             finalize(
@@ -102,7 +103,7 @@ export class VouchersComponent implements OnInit, DoCheck {
         ).subscribe(
             response => {
                 if (response && response.length > 0) {
-                    this.booklets = this.bookletClass.formatArray(response).reverse();
+                    this.booklets = response.reverse().map((booklet: any) => Booklet.apiToModel(booklet));
                     this.bookletData = new MatTableDataSource(this.booklets);
                 } else if (response === null) {
                     this.booklets = null;
@@ -111,33 +112,14 @@ export class VouchersComponent implements OnInit, DoCheck {
         );
     }
 
-
-    openDialog(user_action): void {
-        if (this.dialog.openDialogs.length === 0) {
-            let dialogRef;
-
-            if (typeof user_action === 'string') {
-                if (user_action === 'create') {
-                    dialogRef = this.dialog.open(ModalAddComponent, {
-                        data: { entity: this.bookletClass, service: this.bookletService, mapper: this.mapperService }
-                    });
-                }
-
-                let createElement = null;
-                if (dialogRef.componentInstance.onCreate) {
-                    createElement = dialogRef.componentInstance.onCreate.subscribe();
-                }
-
-                const create = dialogRef.componentInstance.onCreate.subscribe((data) => {
-                    this.createElement(data);
-                });
-
-                dialogRef.afterClosed().subscribe((test) => {
-                    create.unsubscribe();
-                });
-
-            }
-        }
+    /**
+	* open each modal dialog
+	*/
+    openDialog(dialogDetails: any): void {
+        this.modalService.openDialog(this.bookletClass, this.bookletService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+            this.getBooklets();
+        });
     }
 
     openAssignDialog() {
@@ -147,7 +129,8 @@ export class VouchersComponent implements OnInit, DoCheck {
                 response => {
                     this.loadingAssign = false;
                     if (response && response.length > 0) {
-                        this.projects = this.projectClass.formatArray(response).reverse();
+                        this.projects = response.reverse().map((project: any) => Project.apiToModel(project));
+                        // this.projects = this.projectClass.formatArray(response).reverse();
                     } else if (response === null) {
                         this.projects = [];
                     }
@@ -158,37 +141,29 @@ export class VouchersComponent implements OnInit, DoCheck {
                         }
                     });
                     dialogRef.afterClosed().subscribe((test) => {
-                        this.tableVoucher.updateData();
+                        this.getBooklets();
+                        // this.tableVoucher.checkData();
                     });
                 }
             );
     }
 
-    /**
-       * To cancel on a dialog
-       */
-    exit(message: string) {
-        this.snackbar.info(message);
-        this.dialog.closeAll();
-    }
+    print(event: Booklet) {
+        this.snackbar.info(this.language.voucher_print_starting);
 
-    createElement(createElement: Object) {
-        this.bookletService.create(createElement).subscribe(
-            () => {
-                this.snackbar.success(this.voucher.voucher_created);
-                this.getBooklets();
-            });
+        return this._exportService.printVoucher(event.get('id'));
     }
 
     getChecked(event) {
         this.checkedElements = event;
     }
 
+
     printMany() {
         const bookletIds = [];
         const error = false;
-        this.checkedElements.forEach(element => {
-            bookletIds.push(element.id);
+        this.checkedElements.forEach((booklet: Booklet) => {
+            bookletIds.push(booklet.get('id'));
         });
         return !error ? this._exportService.printManyVouchers(bookletIds) : null;
     }
@@ -201,4 +176,13 @@ export class VouchersComponent implements OnInit, DoCheck {
             () => { this.loadingExport = false; }
         );
       }
+
+    exportCodes() {
+        this.loadingExportCodes = true;
+        this._exportService.export('bookletCodes', true, this.extensionTypeCode).then(
+            () => { this.loadingExportCodes = false; }
+        ).catch(
+            () => { this.loadingExportCodes = false; }
+        );
+    }
 }

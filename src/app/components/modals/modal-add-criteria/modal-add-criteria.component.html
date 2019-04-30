@@ -1,0 +1,82 @@
+<div class="modal-container" *ngIf="criteria">
+  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">{{language.modal_add_title |titlecase }} {{criteria.title | titlecase}}</h4>
+  <form [formGroup]="form">
+    <table class="modal-table">
+      <tr class="modal-row">
+        <th class="table-title">{{ criteria.fields.field.title }}</th>
+        <td class="form-item">
+          <ng-select formControlName="field" [placeholder]="criteria.fields.field.title" (change)="loadConditions($event)">
+              <ng-option *ngFor="let option of criteria.getOptions('field')" [value]="option.get('field')">
+                  {{option.get('field') | formatCamelCase }}
+              </ng-option>
+          </ng-select>
+          <app-hint-error [form]="form" fieldName="field" [field]="criteria.fields.field" [isMatField]="false"></app-hint-error>
+        </td>
+      </tr>
+
+      <tr class="modal-row" *ngIf="form.controls.field.value !== 'IDPoor' || form.controls.field.value !== 'equityCardNo'">
+        <th class="table-title">{{ criteria.fields.condition.title }}</th>
+        <td class="form-item">
+          <mat-form-field class="full-width">
+            <mat-select formControlName="condition" [placeholder]="criteria.fields.condition.title">
+                <mat-option *ngFor="let option of criteria.getOptions('condition')" [value]="option.get('name')">
+                    {{option.get('name') | titlecase}}
+                </mat-option>
+            </mat-select>
+            <app-hint-error [form]="form" fieldName="condition" [field]="criteria.fields.condition" [isMatField]="true"></app-hint-error>
+          </mat-form-field>
+        </td>
+      </tr>
+
+      <tr class="modal-row" *ngIf="form.controls.field.value === 'gender' || form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'IDPoor' || form.controls.field.value === 'equityCardNo'">
+        <th class="table-title">{{ criteria.fields.value.title }}</th>
+        <td class="form-item">
+          <ng-select *ngIf="form.controls.field.value === 'gender'" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
+            <ng-option [value]="language.add_distribution_female">{{language.add_distribution_female}}</ng-option>
+            <ng-option [value]="language.add_distribution_male">{{language.add_distribution_male}}</ng-option>
+          </ng-select>
+          <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value" [isMatField]="false"></app-hint-error>
+
+          <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'dateOfBirth'">
+              <input formControlName="value" matInput [matDatepicker]="date">
+              <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+              <mat-datepicker #date></mat-datepicker>
+              <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value" [isMatField]="true"></app-hint-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'IDPoor' || form.controls.field.value === 'equityCardNo'">
+              <input formControlName="value" matInput type="text">
+              <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value" [isMatField]="true"></app-hint-error>
+          </mat-form-field>
+
+        </td>
+      </tr>
+      <tr>
+          <div class="modal-row">
+              <th class="table-title"></th>
+              <th class="table-value advanced-icon-wrapper">
+                  <div class="advanced-icon">
+                      <button mat-button class="button-text-accent" (click)="changeDisplay()">
+                          <span>{{ language.add_distribution_advanced_option | titlecase}}</span>
+                          <mat-icon>{{ iconAdvanced }}</mat-icon>
+                      </button>
+                  </div>
+              </th>
+          </div>
+      </tr>
+      <tr *ngIf="displayWeight" class="modal-row">
+          <th class="table-title">{{criteria.fields.weight.title}}</th>
+
+          <th class="table-value">
+                  <mat-form-field class="full-width">
+                      <input matInput formControlName="weight" type="number" min="0">
+                  </mat-form-field>
+          </th>
+      </tr>
+    </table>
+    <div class="modal-button action-buttons stickyFooter">
+        <button mat-button (click)="onCancel()" class="button-text-accent">Cancel</button>
+        <button mat-raised-button [disabled]="!form.valid" (click)="onSubmit()" class="button-background-accent">Save</button>
+    </div>
+  </form>
+</div>

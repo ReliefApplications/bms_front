@@ -1,35 +1,33 @@
-import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { NetworkService } from 'src/app/core/api/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { GlobalText } from '../../../texts/global';
-import { ModalAddComponent } from '../../components/modals/modal-add/modal-add.component';
+import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
+import { ModalService } from 'src/app/core/utils/modal.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ProjectService } from '../../core/api/project.service';
-import { ImportedDataService } from '../../core/utils/imported-data.service';
-import { Mapper } from '../../core/utils/mapper.service';
-import { DistributionData } from '../../model/distribution-data';
-import { Project } from '../../model/project';
+import { Distribution } from '../../model/distribution.new';
+import { Project as NewProject } from '../../model/project.new';
+import { LanguageService } from './../../../texts/language.service';
 
 @Component({
     selector: 'app-project',
     templateUrl: './project.component.html',
     styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent implements OnInit, DoCheck {
+export class ProjectComponent implements OnInit {
     public nameComponent = 'projects';
-    public distribution = GlobalText.TEXTS;
-    public language = GlobalText.language;
+
     loadingExport = false;
 
-    projects: Project[];
-    distributionData: MatTableDataSource<any>;
-    distributionClass = DistributionData;
-    projectClass = Project;
+    projects: NewProject[];
+    distributionData: MatTableDataSource<Distribution>;
+    distributionClass = Distribution;
+    public httpSubscriber: Subscription;
 
     // loading
     loadingDistributions = true;
@@ -39,39 +37,38 @@ export class ProjectComponent implements OnInit, DoCheck {
     selectedTitle = '';
     selectedProject = null;
     selectedProjectId = null;
-    isBoxClicked = false;
     extensionType: string;
 
-    public maxHeight = GlobalText.maxHeight;
-    public maxWidthMobile = GlobalText.maxWidthMobile;
-    public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
-    public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
-    public maxWidth = GlobalText.maxWidth;
+    public maxHeight = 600;
+    public maxWidth = 750;
+    // public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
+    // public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
+    // public maxWidth = GlobalText.maxWidth;
     public heightScreen;
     public widthScreen;
 
-    public httpSubscriber: Subscription;
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public projectService: ProjectService,
         public distributionService: DistributionService,
-        public mapperService: Mapper,
         private router: Router,
-        private _cacheService: AsyncacheService,
         public snackbar: SnackbarService,
         public dialog: MatDialog,
-        public importedDataService: ImportedDataService,
+        public importService: ImportService,
+        public networkService: NetworkService,
+        public modalService: ModalService,
         public userService: UserService,
-    ) { }
+        private languageService: LanguageService,
+        ) { }
 
     ngOnInit() {
-        if (this.importedDataService.emittedProject) {
-            this.selectedProjectId = parseInt(this.importedDataService.project, 10);
-            this.getProjects();
-
-        } else {
-            this.getProjects();
+        if (this.importService.project) {
+            this.selectProject(this.importService.project);
+            this.importService.project = null;
         }
+        this.getProjects();
         this.checkSize();
         this.extensionType = 'xls';
     }
@@ -87,41 +84,16 @@ export class ProjectComponent implements OnInit, DoCheck {
     }
 
     /**
-     * check if the langage has changed
-     */
-    ngDoCheck() {
-        if (this.distribution !== GlobalText.TEXTS) {
-            this.distribution = GlobalText.TEXTS;
-            this.nameComponent = GlobalText.TEXTS.distributions;
-        }
-
-        if (this.language !== GlobalText.language) {
-            this.language = GlobalText.language;
-        }
-    }
-    /**
      * update current project and its distributions when a other project box is clicked
-     * @param title
      * @param project
      */
-    selectTitle(title, project): void {
+    selectProject(project: NewProject): void {
         if (this.httpSubscriber) {
             this.httpSubscriber.unsubscribe();
         }
-        this.isBoxClicked = true;
-        this.selectedTitle = title;
         this.selectedProject = project;
         this.loadingDistributions = true;
-        this.getDistributionsByProject(project.id);
-    }
-
-    autoProjectSelect(input: string) {
-        const selector = parseInt(input, 10);
-        this.projects.forEach(e => {
-            if (e.id === selector) {
-                this.selectTitle(e.name, e);
-            }
-        });
+        this.getDistributionsByProject(project.get('id'));
     }
 
     setType(choice: string) {
@@ -142,16 +114,22 @@ export class ProjectComponent implements OnInit, DoCheck {
         ).subscribe(
             response => {
                 if (response && response.length > 0) {
-                    const formattedResponse = this.projectClass.formatArray(response).reverse();
-                    this.projects = formattedResponse;
-                    if (!this.projects || formattedResponse.length !== this.projects.length) {
-                        this.loadingProjects = false;
+                    // Transform response into array of projects
+                    this.projects = response.map((projectFromApi: object) => {
+                        return NewProject.apiToModel(projectFromApi);
+                    }).reverse();
+                    // Check for empty projects array
+                    if (!this.projects.length) {
+                        return;
                     }
-                    if (this.selectedProjectId) {
-                        this.autoProjectSelect(this.selectedProjectId);
-                    } else {
-                        this.selectTitle(this.projects[0].name, this.projects[0]);
+                    // Auto select latest project if no project is selected
+                    if (
+                        !this.selectedProject ||
+                        this.projects.filter((project: NewProject) => this.selectedProject.get('id') === project.get('id')).length === 0
+                    ) {
+                        this.selectProject(this.projects[0]);
                     }
+
                 } else if (response === null) {
                     this.loadingProjects = false;
                 }
@@ -173,14 +151,17 @@ export class ProjectComponent implements OnInit, DoCheck {
                 )
             ).subscribe(
                 response => {
+                    this.distributionData = new MatTableDataSource();
+
+                    const instances = [];
                     if (response || response === []) {
                         this.noNetworkData = false;
-                        const distribution = DistributionData.formatArray(response);
+                        for (const item of response ) {
+                            instances.push(Distribution.apiToModel(item));
+                        }
+                        this.distributionData = new MatTableDataSource(instances);
                         this.loadingDistributions = false;
-
-                        this.distributionData = new MatTableDataSource(distribution);
                     } else {
-                        this.distributionData = null;
                         this.loadingDistributions = false;
                         this.noNetworkData = true;
                     }
@@ -189,7 +170,7 @@ export class ProjectComponent implements OnInit, DoCheck {
     }
 
     addDistribution() {
-        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.id } });
+        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.get('id') } });
     }
 
     /**
@@ -197,7 +178,7 @@ export class ProjectComponent implements OnInit, DoCheck {
      */
     export() {
         this.loadingExport = true;
-        this.distributionService.export('project', this.extensionType, this.selectedProject.id).then(
+        this.distributionService.export('project', this.extensionType, this.selectedProject.get('id')).then(
             () => { this.loadingExport = false; }
         ).catch(
             () => { this.loadingExport = false; }
@@ -205,41 +186,18 @@ export class ProjectComponent implements OnInit, DoCheck {
     }
 
     openNewProjectDialog() {
-        const dialogRef = this.dialog.open(
-            ModalAddComponent, {
-                data: {
-                    data: [],
-                    entity: Project,
-                    service: this.projectService,
-                    mapper: this.mapperService
-                }
-            }
-        );
-        const create = dialogRef.componentInstance.onCreate.subscribe(
-            (data) => {
-                let exists = false;
-                if (this.projects) {
-                    this.projects.forEach(element => {
-                        if (element.name.toLowerCase() === data.name.toLowerCase()) {
-                            this.snackbar.error(this.distribution.settings_project_exists);
-                            exists = true;
-                            return;
-                        }
-                    });
-                }
 
-                if (! exists) {
-                    this.createElement(data);
-                }
-            }
-        );
+        this.modalService.openDialog(NewProject, this.projectService, {action: 'add'});
+        this.modalService.isCompleted.subscribe(() => {
+            this.getProjects();
+        });
     }
 
-    createElement(createElement: Object) {
-        createElement = Project.formatForApi(createElement);
-        this.projectService.create(createElement['id'], createElement).subscribe(response => {
-            this.snackbar.success('Project ' + this.distribution.settings_created);
-            this.getProjects();
+    openDialog(dialogDetails: any): void {
+
+        this.modalService.openDialog(Distribution, this.distributionService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+            this.getDistributionsByProject(this.selectedProject.get('id'));
         });
     }
 }

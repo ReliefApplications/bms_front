@@ -6,11 +6,11 @@
 
 <!-- it is posible to add a legend title with the property legendTitle -->
 <div *ngIf="!loader && (!noData)">
-  <ngx-charts-bar-vertical 
+  <ngx-charts-bar-vertical
   [view]             = "view"
   [scheme]           = "scheme"
   [results]          = "data"
-  [legend]           = "false"     
+  [legend]           = "false"
   [xAxis]            = "axis.showXAxis"
   [yAxis]            = "axis.showYAxis"
   [showXAxisLabel]   = "axis.showXAxisLabel"
@@ -22,7 +22,7 @@
 </div>
 
 <div *ngIf="!loader && noData" class="no-data">
-  <h1>{{ Text.no_data | titlecase }}</h1>
+  <h1>{{ language.no_data | titlecase }}</h1>
 </div>
 
 <div *ngIf="loader" class="boxLoader">

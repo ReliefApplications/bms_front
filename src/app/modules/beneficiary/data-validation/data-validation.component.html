@@ -1,15 +1,15 @@
 <div class="page-container">
     <div class="container-title">
-        <h2>{{texts.data_verification_title | titlecase}}</h2>
+        <h2>{{language.data_verification_title | titlecase}}</h2>
     </div>
     <mat-horizontal-stepper class="disable-step" #stepper>
         <mat-step>
             <ng-template matStepLabel>
-                {{texts.data_verification_step_typos | titlecase}}
+                {{language.data_verification_step_typos | titlecase}}
             </ng-template>
             <div class="container-table">
 
-            <ng-container *ngTemplateOutlet="stepInfo; context: {title: texts.data_verification_step_typos, description: texts.data_verification_description_typos}"></ng-container>
+            <ng-container *ngTemplateOutlet="stepInfo; context: {title: language.data_verification_step_typos, description: language.data_verification_description_typos}"></ng-container>
 
 
                 <div class="container-content box-primary">
@@ -20,14 +20,14 @@
                                 [checked]="getStatusCheckboxState('old')===checkboxState.Checked"
                                 [indeterminate]="getStatusCheckboxState('old')===checkboxState.Indeterminate"
                                 (change)="setAllOldCheckboxesValues(oldCheckBox)">
-                                {{texts.import_select_old| titlecase}}
+                                {{language.import_select_old| titlecase}}
                             </mat-checkbox>
 
                             <mat-checkbox class="new" color="primary" #newCheckBox
                                 [checked]="getStatusCheckboxState('new')===checkboxState.Checked"
                                 [indeterminate]="getStatusCheckboxState('new')===checkboxState.Indeterminate"
                                 (change)="setAllNewCheckboxesValues(newCheckBox)">
-                                {{texts.import_select_new| titlecase}}
+                                {{language.import_select_new| titlecase}}
                             </mat-checkbox>
                         </div>
                         <form *ngIf="form" [formGroup]="form">
@@ -36,20 +36,20 @@
                                     <mat-checkbox [formControl]="form.controls[i].controls.old" color="primary">
                                         <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
                                         <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
-                                        <p>{{texts.data_verification_last_updated| titlecase}}: {{error.old.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
+                                        <p>{{language.data_verification_last_updated| titlecase}}: {{error.old.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
                                     </mat-checkbox>
                                     <mat-chip-list>
-                                        <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
+                                        <mat-chip>{{language.data_verification_chip_existing | titlecase}}</mat-chip>
                                     </mat-chip-list>
                                 </div>
                                 <div class="beneficiary new">
                                     <mat-checkbox [formControl]="form.controls[i].controls.new" color="primary">
                                         <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
                                         <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
-                                        <p>{{texts.data_verification_last_updated| titlecase}}: {{texts.data_verification_just_now| titlecase}}</p>
+                                        <p>{{language.data_verification_last_updated| titlecase}}: {{language.data_verification_just_now| titlecase}}</p>
                                     </mat-checkbox>
                                     <mat-chip-list>
-                                        <mat-chip>{{texts.data_verification_chip_add| titlecase}}</mat-chip>
+                                        <mat-chip>{{language.data_verification_chip_add| titlecase}}</mat-chip>
                                     </mat-chip-list>
                                 </div>
                             </div>
@@ -63,11 +63,11 @@
 
         <mat-step>
             <ng-template matStepLabel>
-                {{texts.data_verification_step_more | titlecase}}
+                {{language.data_verification_step_more | titlecase}}
             </ng-template>
             <div class="container-table">
 
-                <ng-container *ngTemplateOutlet="stepInfo; context: {title: texts.data_verification_step_more, description: texts.data_verification_description_more}"></ng-container>
+                <ng-container *ngTemplateOutlet="stepInfo; context: {title: language.data_verification_step_more, description: language.data_verification_description_more}"></ng-container>
 
                 <div class="container-content box-primary">
                     <div class="content-table" *ngIf="currentStep === step.More">
@@ -76,7 +76,7 @@
                                     [checked]="getGlobalCheckboxState()===checkboxState.Checked"
                                     [indeterminate]="getGlobalCheckboxState()===checkboxState.Indeterminate"
                                     (change)="setAllCheckboxesValues(checkBox)">
-                                    {{texts.import_select_new| titlecase}}
+                                    {{language.import_select_new| titlecase}}
                                 </mat-checkbox>
                             </div>
                         <form class="errors" *ngIf="form" [formGroup]="form">
@@ -86,10 +86,10 @@
                                         <div class="head-info">
                                             <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
                                             <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
-                                            <p>{{texts.data_verification_last_updated| titlecase}}: {{error.old.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
+                                            <p>{{language.data_verification_last_updated| titlecase}}: {{error.old.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
                                         </div>
                                         <mat-chip-list>
-                                            <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
+                                            <mat-chip>{{language.data_verification_chip_existing | titlecase}}</mat-chip>
                                         </mat-chip-list>
                                     </div>
                                     <div class="members">
@@ -105,10 +105,10 @@
                                         <div class="head-info">
                                             <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
                                             <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
-                                            <p>{{texts.data_verification_last_updated| titlecase}}: {{texts.data_verification_just_now| titlecase}}</p>
+                                            <p>{{language.data_verification_last_updated| titlecase}}: {{language.data_verification_just_now| titlecase}}</p>
                                         </div>
                                         <mat-chip-list>
-                                            <mat-chip>{{texts.data_verification_chip_add| titlecase}}</mat-chip>
+                                            <mat-chip>{{language.data_verification_chip_add| titlecase}}</mat-chip>
                                         </mat-chip-list>
                                     </div>
                                     <div class="members">
@@ -132,11 +132,11 @@
 
         <mat-step>
             <ng-template matStepLabel>
-                {{texts.data_verification_step_less | titlecase}}
+                {{language.data_verification_step_less | titlecase}}
             </ng-template>
             <div class="container-table">
 
-                <ng-container *ngTemplateOutlet="stepInfo; context: {title: texts.data_verification_step_less, description: texts.data_verification_description_less}"></ng-container>
+                <ng-container *ngTemplateOutlet="stepInfo; context: {title: language.data_verification_step_less, description: language.data_verification_description_less}"></ng-container>
 
                 <div class="container-content box-primary">
                     <div class="content-table" *ngIf="currentStep === step.Less">
@@ -145,7 +145,7 @@
                                 [checked]="getGlobalCheckboxState()===checkboxState.Checked"
                                 [indeterminate]="getGlobalCheckboxState()===checkboxState.Indeterminate"
                                 (change)="setAllCheckboxesValues(checkBox)">
-                                {{texts.import_select_old| titlecase}}
+                                {{language.import_select_old| titlecase}}
                             </mat-checkbox>
                         </div>
                         <form class="errors" *ngIf="form" [formGroup]="form">
@@ -155,10 +155,10 @@
                                         <div class="head-info">
                                             <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
                                             <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
-                                            <p>{{texts.data_verification_last_updated| titlecase}}: {{error.old.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
+                                            <p>{{language.data_verification_last_updated| titlecase}}: {{error.old.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
                                         </div>
                                         <mat-chip-list>
-                                            <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
+                                            <mat-chip>{{language.data_verification_chip_existing | titlecase}}</mat-chip>
                                         </mat-chip-list>
                                     </div>
                                     <div class="members">
@@ -176,11 +176,11 @@
                                         <div class="head-info">
                                             <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
                                             <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
-                                            <p>{{texts.data_verification_last_updated| titlecase}}: {{texts.data_verification_just_now| titlecase}}</p>
+                                            <p>{{language.data_verification_last_updated| titlecase}}: {{language.data_verification_just_now| titlecase}}</p>
 
                                         </div>
                                         <mat-chip-list>
-                                            <mat-chip>{{texts.data_verification_chip_add| titlecase}}</mat-chip>
+                                            <mat-chip>{{language.data_verification_chip_add| titlecase}}</mat-chip>
                                         </mat-chip-list>
                                     </div>
                                     <div class="members">
@@ -208,11 +208,11 @@
 
         <mat-step>
             <ng-template matStepLabel>
-                {{texts.data_verification_step_duplicates | titlecase}}
+                {{language.data_verification_step_duplicates | titlecase}}
             </ng-template>
             <div class="container-table">
 
-                <ng-container *ngTemplateOutlet="stepInfo; context: {title: texts.data_verification_step_duplicates, description: texts.data_verification_description_duplicates}"></ng-container>
+                <ng-container *ngTemplateOutlet="stepInfo; context: {title: language.data_verification_step_duplicates, description: language.data_verification_description_duplicates}"></ng-container>
 
                 <div class="container-content box-primary">
                     <div class="content-table" *ngIf="currentStep === step.Duplicates">
@@ -221,14 +221,14 @@
                                 [checked]="getStatusCheckboxState('old')===checkboxState.Checked"
                                 [indeterminate]="getStatusCheckboxState('old')===checkboxState.Indeterminate"
                                 (change)="setAllOldCheckboxesValues(oldCheckBox)">
-                                {{texts.import_select_old| titlecase}}
+                                {{language.import_select_old| titlecase}}
                             </mat-checkbox>
 
                             <mat-checkbox class="new" color="primary" #newCheckBox
                                 [checked]="getStatusCheckboxState('new')===checkboxState.Checked"
                                 [indeterminate]="getStatusCheckboxState('new')===checkboxState.Indeterminate"
                                 (change)="setAllNewCheckboxesValues(newCheckBox)">
-                                {{texts.import_select_new| titlecase}}
+                                {{language.import_select_new| titlecase}}
                             </mat-checkbox>
                         </div>
                         <form class="errors" *ngIf="form" [formGroup]="form">
@@ -238,10 +238,10 @@
                                         <div class="head-info">
                                             <h4>{{error.old_household.beneficiaries[0].given_name}} {{error.old_household.beneficiaries[0].family_name}}</h4>
                                             <p>{{error.old_household.address_number}} {{error.old_household.address_street}} {{error.old_household.address_postcode}}</p>
-                                            <p>{{texts.data_verification_last_updated| titlecase}}: {{error.old_household.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
+                                            <p>{{language.data_verification_last_updated| titlecase}}: {{error.old_household.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
                                         </div>
                                         <mat-chip-list>
-                                            <mat-chip>{{texts.data_verification_chip_existing | titlecase}}</mat-chip>
+                                            <mat-chip>{{language.data_verification_chip_existing | titlecase}}</mat-chip>
                                         </mat-chip-list>
                                     </div>
                                     <div class="members step-duplicates">
@@ -262,10 +262,10 @@
                                         <div class="head-info">
                                             <h4>{{error.new_household.beneficiaries[0].given_name}} {{error.new_household.beneficiaries[0].family_name}}</h4>
                                             <p>{{error.new_household.address_number}} {{error.new_household.address_street}} {{error.new_household.address_postcode}}</p>
-                                            <p>{{texts.data_verification_last_updated| titlecase}}: {{texts.data_verification_just_now| titlecase}}</p>
+                                            <p>{{language.data_verification_last_updated| titlecase}}: {{language.data_verification_just_now| titlecase}}</p>
                                         </div>
                                         <mat-chip-list>
-                                            <mat-chip>{{texts.data_verification_chip_add| titlecase}}</mat-chip>
+                                            <mat-chip>{{language.data_verification_chip_add| titlecase}}</mat-chip>
                                         </mat-chip-list>
                                     </div>
                                     <div class="members step-duplicates">
@@ -291,14 +291,14 @@
 
         <mat-step>
             <ng-template matStepLabel>
-                {{texts.done | titlecase}}
+                {{language.done | titlecase}}
             </ng-template>
             <div class="container-table">
                 <div class="container-content box-primary">
                     <div class="content-table centered" *ngIf="currentStep === step.Update">
                         <div class="centered">
-                            <h3 class="step-title">{{texts.data_verification_done | titlecase}}</h3>
-                            <button *ngIf="!loading" class="button-background-primary" mat-raised-button (click)="finishImport()">{{texts.update | titlecase}}</button>
+                            <h3 class="step-title">{{language.data_verification_done | titlecase}}</h3>
+                            <button *ngIf="!loading" class="button-background-primary" mat-raised-button (click)="finishImport()">{{language.done | titlecase}}</button>
                             <mat-spinner [diameter]="35" *ngIf="loading"></mat-spinner>
                         </div>
                     </div>
@@ -306,13 +306,12 @@
             </div>
         </mat-step>
     </mat-horizontal-stepper>
-
 </div>
 
 
 <ng-template #validateButton>
     <div class="action-buttons">
-        <button *ngIf="!loadingStep" [disabled]="!form.valid" class="button-background-primary" mat-raised-button (click)="validateStep()">{{texts.next | titlecase}}</button>
+        <button *ngIf="!loadingStep" [disabled]="!form.valid" class="button-background-primary" mat-raised-button (click)="validateStep()">{{language.next | titlecase}}</button>
         <mat-spinner [diameter]="35" *ngIf="loadingStep"></mat-spinner>
     </div>
 </ng-template>
@@ -320,9 +319,9 @@
 <ng-template #stepInfo let-title="title" let-description="description">
     <div class="step-info" [ngClass]="{'displayed': helpDisplayed}">
         <mat-icon (click)="helpDisplayed = false">close</mat-icon>
-        <h3> {{title|titlecase}} {{texts.data_verification_step_info|titlecase}}</h3>
+        <h3> {{title|titlecase}} {{language.data_verification_step_info|titlecase}}</h3>
         <p>{{description}}</p>
-        <p>{{texts.data_verification_description_end}}</p>
+        <p>{{language.data_verification_description_end}}</p>
     </div>
 </ng-template>
 

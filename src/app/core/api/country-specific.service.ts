@@ -1,37 +1,27 @@
-import { Injectable                                 } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { LanguageService } from 'src/texts/language.service';
+import { CountrySpecific } from '../../model/country-specific.new';
+import { CustomModelService } from './custom-model.service';
+import { HttpService } from './http.service';
 
-import { URL_BMS_API                                } from '../../../environments/environment';
 
-import { HttpService                                } from './http.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class CountrySpecificService {
-    readonly api = URL_BMS_API;
+export class CountrySpecificService extends CustomModelService {
+
+    customModelPath = 'country_specifics';
+
 
     constructor(
-        private http: HttpService
+        protected http: HttpService,
+        protected languageService: LanguageService,
     ) {
+        super(http, languageService);
     }
 
-    public get() {
-        const url = this.api + '/country_specifics';
-        return this.http.get(url);
-    }
-
-    public update(id: number, body: any) {
-        const url = this.api + '/country_specifics/' + id;
-        return this.http.post(url, body);
-    }
-
-    public create(id: number, body: any) {
-        const url = this.api + '/country_specifics';
-        return this.http.put(url, body);
-    }
-
-    public delete(id: number, body: any) {
-        const url = this.api + '/country_specifics/' + id;
-        return this.http.delete(url, body);
+    fillWithOptions(countrySpecific: CountrySpecific) {
+        // Do nothing as the types are not fetched from backend
     }
 }

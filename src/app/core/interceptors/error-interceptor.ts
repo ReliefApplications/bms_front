@@ -1,20 +1,24 @@
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-    HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpEventType, HttpErrorResponse
-} from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { URL_BMS_API } from '../../../environments/environment';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { GlobalText } from '../../../texts/global';
+import { URL_BMS_API } from '../../../environments/environment';
+import { LanguageService } from './../../../texts/language.service';
+import { Router } from '@angular/router';
 
 const api = URL_BMS_API;
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
     constructor(
         public snackbar: SnackbarService,
+        private languageService: LanguageService,
+        public router: Router
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
@@ -24,6 +28,9 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(
             catchError(
                 (error: any, caught: Observable<HttpEvent<any>>) => {
+                    if (error.status === 403 && error.error === 'You are not authenticated') {
+                        this.router.navigate(['/login']);
+                    }
                     this.snackErrors(error);
                     return throwError(error);
                 }
@@ -45,7 +52,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 this.showSnackbar(response.message);
             }
         } else {
-            this.showSnackbar(GlobalText.TEXTS.error_interceptor_msg);
+            this.showSnackbar(this.language.error_interceptor_msg);
         }
     }
 

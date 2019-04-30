@@ -2,10 +2,9 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { HouseholdsService } from 'src/app/core/api/households.service';
-import { ImportService } from 'src/app/core/utils/distribution-import.service';
-import { ImportedDataService } from 'src/app/core/utils/imported-data.service';
-import { Households } from 'src/app/model/households';
-import { GlobalText } from 'src/texts/global';
+import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
+import { Households } from 'src/app/model/households.new';
+import { LanguageService } from './../../../../../texts/language.service';
 
 @Component({
     selector: 'app-imported-data',
@@ -14,9 +13,7 @@ import { GlobalText } from 'src/texts/global';
 })
 export class ImportedDataComponent implements OnInit {
 
-    public household = GlobalText.TEXTS;
-    public newHouseholds: any;
-    public data: any;
+    public data: MatTableDataSource<Households>;
     public referedClassToken = Households;
     public referedClassService = this._householdsService;
     public loadingTable = true;
@@ -30,18 +27,20 @@ export class ImportedDataComponent implements OnInit {
     public heightScreen;
     public widthScreen;
 
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
     constructor(
         private _householdsService: HouseholdsService,
-        private importedDataService: ImportedDataService,
         private importService: ImportService,
         private router: Router,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {
         this.checkSize();
-
-        this.newHouseholds = this.importedDataService.data;
-        this.data = new MatTableDataSource(this.newHouseholds);
+        const newHouseholds = this.importService.importedHouseholds;
+        this.data = new MatTableDataSource(newHouseholds);
         this.loadingTable = false;
     }
 
@@ -65,8 +64,6 @@ export class ImportedDataComponent implements OnInit {
     }
 
     goProject() {
-        this.router.navigate(['/projects']).then(() => {
-            this.importedDataService.redirectToProject(this.importService.getProject());
-        });
+        this.router.navigate(['/projects']);
     }
 }

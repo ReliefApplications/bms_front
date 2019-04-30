@@ -1,19 +1,18 @@
-import { Component, OnInit, DoCheck, ViewChild, Input, EventEmitter, Output } from '@angular/core';
-import { ModalComponent } from '../modal.component';
-import { DistributionData } from 'src/app/model/distribution-data';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Project } from 'src/app/model/project';
-import { Beneficiaries } from 'src/app/model/beneficiary';
-import { GlobalText } from '../../../../texts/global';
-import { finalize } from 'rxjs/operators';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { Beneficiary } from 'src/app/model/beneficiary.new';
+import { Distribution } from 'src/app/model/distribution.new';
+import { Project } from 'src/app/model/project.new';
+import { ModalComponent } from '../modal.component';
 
 @Component({
     selector: 'app-modal-assign',
     templateUrl: './modal-assign.component.html',
     styleUrls: ['../modal.component.scss', './modal-assign.component.scss'],
 })
-export class ModalAssignComponent extends ModalComponent implements OnInit, DoCheck {
+export class ModalAssignComponent extends ModalComponent implements OnInit {
 
     @Input() data: any;
     public step = 1;
@@ -27,17 +26,16 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
         beneficiaryControl: this.beneficiaryControl,
     });
     public voucherPasswordControl = new FormControl('', [Validators.required, Validators.pattern(/\d{4}/)]);
-    public distributions = [];
-    public beneficiaries = [];
-    public projects = [];
+    public distributions: Distribution[] = [];
+    public beneficiaries: Beneficiary[] = [];
+    public projects: Project[] = [];
     public projectClass = Project;
-    public distributionClass = DistributionData;
-    public beneficiariesClass = Beneficiaries;
+    // public distributionClass = DistributionData;
+    // public beneficiariesClass = Beneficiaries;
     public distributionName = '';
     public beneficiaryName = '';
     public bookletQRCode;
     public password = '';
-    public voucher = GlobalText.TEXTS;
     public loadingPassword = false;
     public displayPassword = false;
     public loadingAssignation = false;
@@ -46,12 +44,12 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
     ngOnInit() {
 
         if (this.data.project && this.data.distribution) {
-            this.projectControl.setValue(this.data.project.id);
-            this.distributionControl.setValue(this.data.distribution.id);
-            this.distributionName = this.data.distribution.name;
+            this.projectControl.setValue(this.data.project.get('id'));
+            this.distributionControl.setValue(this.data.distribution.get('id'));
+            this.distributionName = this.data.distribution.get('name');
             if (this.data.beneficiary) {
-                this.beneficiaryControl.setValue(this.data.beneficiary.beneficiaryId);
-                this.beneficiaryName = this.data.beneficiary.givenName + ' ' + this.data.beneficiary.familyName;
+                this.beneficiaryControl.setValue(this.data.beneficiary.get('id'));
+                this.beneficiaryName = this.data.beneficiary.get('fullName');
             } else if (this.data.beneficiaries) {
                 this.beneficiaries = this.data.beneficiaries;
             }
@@ -64,11 +62,14 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
      * get all distributions of a project
      */
     getDistributions() {
-        this.distributionService.getByProject(this.projectControl.value)
+        this.distributionService.getQrVoucherByProject(this.projectControl.value)
             .subscribe(
                 response => {
                     if (response || response === []) {
-                        this.distributions = this.distributionClass.formatArray(response);
+                        // this.distributions = this.distributionClass.formatArray(response);
+                        this.distributions = response.map((distribution: any) => Distribution.apiToModel(distribution));
+                        this.distributionControl.setValue(null);
+                        this.beneficiaryControl.setValue(null);
                     } else {
                         this.distributions = [];
                     }
@@ -85,7 +86,10 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
                 response => {
 
                     if (response || response === []) {
-                        this.beneficiaries = this.beneficiariesClass.formatArray(response);
+                        // this.beneficiaries = this.beneficiariesClass.formatArray(response);
+                        this.beneficiaries = response
+                            .map((distributionBeneficiary: any) => Beneficiary.apiToModel(distributionBeneficiary.beneficiary));
+                        this.beneficiaryControl.setValue(null);
                     } else {
                         this.beneficiaries = [];
                     }
@@ -96,16 +100,18 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
     nextStep() {
         if (this.step === 1) {
             if (this.projectControl.value === 0) {
-                this.snackbar.error(this.voucher.voucher_select_project);
+                this.snackbar.error(this.language.voucher_select_project);
             } else if (this.distributionControl.value === 0) {
-                this.snackbar.error(this.voucher.voucher_select_distribution);
+                this.snackbar.error(this.language.voucher_select_distribution);
             } else if (this.beneficiaryControl.value === 0) {
-                this.snackbar.error(this.voucher.voucher_select_beneficiary);
+                this.snackbar.error(this.language.voucher_select_beneficiary);
             } else {
                 if (!this.data.distribution || !this.data.project) {
-                    this.distributionName = this.distributions.filter(element => element.id === this.distributionControl.value)[0].name;
+                    this.distributionName = this.distributions.filter(
+                        (distribution: Distribution) => distribution.get('id') === this.distributionControl.value)[0].get('name');
                 } if (!this.data.beneficiary) {
-                    this.beneficiaryName = this.beneficiaries.filter(element => element.id === this.beneficiaryControl.value)[0].full_name;
+                    this.beneficiaryName = this.beneficiaries.filter(
+                        (beneficiary: Beneficiary) => beneficiary.get('id') === this.beneficiaryControl.value)[0].get('fullName');
                 }
                 this.step = 2;
             }
@@ -115,7 +121,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
             this.step = 4;
         } else if (this.step === 4) {
             if (this.voucherPasswordControl.hasError('pattern')) {
-                this.snackbar.error(this.voucher.voucher_only_digits);
+                this.snackbar.error(this.language.voucher_only_digits);
             } else {
                 this.loadingPassword = true;
 
@@ -153,7 +159,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
                     );
                 forkJoin(assignObservable, passwordObservable).subscribe((res: any) => {
                     this.snackbar.success(
-                    this.voucher.voucher_assigned_success + this.beneficiaryName);
+                    this.language.voucher_assigned_success + this.beneficiaryName);
                     this.dialog.closeAll();
                 }, err => {
                     this.snackbar.error(err.error);
@@ -161,7 +167,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit, DoCh
             } else {
                 assignObservable.subscribe((res: any) => {
                     this.snackbar.success(
-                    this.voucher.voucher_assigned_success + this.beneficiaryName);
+                    this.language.voucher_assigned_success + this.beneficiaryName);
                     this.dialog.closeAll();
                 }, err => {
                     this.snackbar.error(err.error);

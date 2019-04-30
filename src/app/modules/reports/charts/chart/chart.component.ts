@@ -1,18 +1,12 @@
-import {
-  Component, OnInit, Input, Output, EventEmitter, AfterViewChecked,
-  SimpleChanges, KeyValueDiffers, ViewChild, ElementRef, OnChanges
-} from '@angular/core';
-import { ChartDataLoaderService } from '../../services/chart-data-loader.service';
-import {
-  ChartInterface, ChartSchemeClass, ChartTitleClass,
-  ChartAxisClass, ChartLegendClass, ChartIndicatorConfigClass
-} from './chart.interface';
-import { FilterInterface } from '../../../../model/filter';
-import { timeout } from 'q';
-import { FilterService } from '../../services/filter.service';
-import { ChartRegistration, RegisteredItem } from '../../services/chart-registration.service';
+// tslint:disable-next-line: max-line-length
+import { AfterViewChecked, Component, ElementRef, EventEmitter, Input, KeyValueDiffers, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { GlobalText } from 'src/texts/global';
+import { FilterInterface } from '../../../../model/filter';
+import { ChartDataLoaderService } from '../../services/chart-data-loader.service';
+import { ChartRegistration, RegisteredItem } from '../../services/chart-registration.service';
+import { LanguageService } from './../../../../../texts/language.service';
+// tslint:disable-next-line: max-line-length
+import { ChartAxisClass, ChartIndicatorConfigClass, ChartInterface, ChartLegendClass, ChartSchemeClass, ChartTitleClass } from './chart.interface';
 
 @Component({
     selector: 'app-chart',
@@ -60,10 +54,14 @@ export class ChartComponent implements OnInit, ChartInterface, OnChanges, AfterV
     public loaded = false;
     @Input() public noData = true;
 
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
     constructor(
         protected differs: KeyValueDiffers,
         public _cacheService: AsyncacheService,
         protected chartRegistrationService: ChartRegistration,
+        protected languageService: LanguageService,
         protected _chartDataLoaderService?: ChartDataLoaderService,
     ) {
         this.data = [];
@@ -174,7 +172,7 @@ export class ChartComponent implements OnInit, ChartInterface, OnChanges, AfterV
                                 const dateParts = res.name.split('-');
                                 const month = parseInt(dateParts[1], 10) - 1;
                                 const year = dateParts[0];
-                                res.name = GlobalText.TEXTS.months_short[month] + ' ' + year;
+                                res.name = this.language.months_short[month] + ' ' + year;
                             }
                         }
                     }

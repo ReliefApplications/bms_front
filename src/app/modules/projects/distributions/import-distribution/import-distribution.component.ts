@@ -1,16 +1,14 @@
-import { Component, DoCheck, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { finalize } from 'rxjs/operators';
+import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { GlobalText } from '../../../../../texts/global';
+import { Distribution } from 'src/app/model/distribution.new';
+import { LanguageService } from 'src/texts/language.service';
 import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
 import { DistributionService } from '../../../../core/api/distribution.service';
 import { HouseholdsService } from '../../../../core/api/households.service';
-import { ImportService } from '../../../../core/utils/distribution-import.service';
-import { Beneficiaries } from '../../../../model/beneficiary';
-import { DistributionData } from '../../../../model/distribution-data';
-import { ImportedBeneficiary } from '../../../../model/imported-beneficiary';
-import { UserService } from 'src/app/core/api/user.service';
+import { ImportedBeneficiary } from '../../../../model/imported-beneficiary.new';
 
 const IMPORT_COMPARE = 1;
 const IMPORT_UPDATE = 2;
@@ -20,10 +18,9 @@ const IMPORT_UPDATE = 2;
     templateUrl: './import-distribution.component.html',
     styleUrls: ['./import-distribution.component.scss']
 })
-export class ImportDistributionComponent implements OnInit, DoCheck {
+export class ImportDistributionComponent implements OnInit {
 
-    @Input() distribution: DistributionData;
-    @Input() rights: DistributionData;
+    @Input() distribution: Distribution;
 
     @Output() success = new EventEmitter<boolean>();
     @Output() selected = new EventEmitter<boolean>();
@@ -35,17 +32,15 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     comparing: boolean;
 
     // indicators
-    referedClassToken = DistributionData;
-    beneficiaryEntity = Beneficiaries;
     importedBeneficiaryEntity = ImportedBeneficiary;
     public loadFile = false;
     public loadUpdate = false;
 
     // data
-    addingData: MatTableDataSource<any>;
-    removingData: MatTableDataSource<any>;
-    createData: MatTableDataSource<any>;
-    updateData: MatTableDataSource<any>;
+    addingData: MatTableDataSource<ImportedBeneficiary>;
+    removingData: MatTableDataSource<ImportedBeneficiary>;
+    createData: MatTableDataSource<ImportedBeneficiary>;
+    updateData: MatTableDataSource<ImportedBeneficiary>;
 
     // data info
     numberAdded = 0;
@@ -56,19 +51,22 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
 
     // Screen display variables.
     dragAreaClass = 'dragarea';
-    public maxHeight = GlobalText.maxHeight;
-    public maxWidthMobile = GlobalText.maxWidthMobile;
+    public maxHeight = 600;
+    public maxWidth = 750;
     public heightScreen;
     public widthScreen;
-    TEXT = GlobalText.TEXTS;
+
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
 
     constructor(
         public _householdsService: HouseholdsService,
         public snackbar: SnackbarService,
-        public _importService: ImportService,
         public distributionService: DistributionService,
         public beneficiaryService: BeneficiariesService,
         public userService: UserService,
+        private languageService: LanguageService,
     ) { }
 
     ngOnInit() {
@@ -84,15 +82,6 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
     checkSize(): void {
         this.heightScreen = window.innerHeight;
         this.widthScreen = window.innerWidth;
-    }
-
-    /**
-     * check if the langage has changed
-     */
-    ngDoCheck() {
-        if (this.TEXT !== GlobalText.TEXTS) {
-            this.TEXT = GlobalText.TEXTS;
-        }
     }
 
     /**
@@ -125,16 +114,16 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
 
             if (this.csv && step === IMPORT_COMPARE) {
                 this.loadFile = true;
-                this.beneficiaryService.import(this.distribution.id, data, IMPORT_COMPARE).subscribe(
+                this.beneficiaryService.import(this.distribution.get('id'), data, IMPORT_COMPARE).subscribe(
                     result => {
                         this.comparing = true;
                         this.loadFile = false;
                         this.importedData = result;
 
-                        const createList = ImportedBeneficiary.formatArray(this.importedData.created);
-                        const addList = ImportedBeneficiary.formatArray(this.importedData.added);
-                        const removeList = ImportedBeneficiary.formatArray(this.importedData.deleted);
-                        const updateList = ImportedBeneficiary.formatArray(this.importedData.updated);
+                        const createList = this.importedData.created.map((beneficiary: any) => ImportedBeneficiary.apiToModel(beneficiary));
+                        const addList = this.importedData.added.map((beneficiary: any) => ImportedBeneficiary.apiToModel(beneficiary));
+                        const removeList = this.importedData.deleted.map((beneficiary: any) => ImportedBeneficiary.apiToModel(beneficiary));
+                        const updateList = this.importedData.updated.map((beneficiary: any) => ImportedBeneficiary.apiToModel(beneficiary));
 
                         this.numberCreated = createList ? createList.length : 0;
                         this.numberAdded = addList ? addList.length : 0;
@@ -156,13 +145,13 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                 );
             } else if (this.importedData && step === IMPORT_UPDATE) {
                 this.loadUpdate = true;
-                this.beneficiaryService.import(this.distribution.id, { data: this.importedData }, IMPORT_UPDATE).pipe(
+                this.beneficiaryService.import(this.distribution.get('id'), { data: this.importedData }, IMPORT_UPDATE).pipe(
                     finalize(() => {
                         this.loadUpdate = false;
                     })
                 ).subscribe(
                     success => {
-                        this.snackbar.success(this.TEXT.import_distribution_updated);
+                        this.snackbar.success(this.language.import_distribution_updated);
                         this.success.emit(true);
                         this.loadUpdate = false;
                         this.importedData = null;
@@ -175,7 +164,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
                 );
             }
         } else {
-            this.snackbar.error(this.TEXT.import_distribution_no_right_update);
+            this.snackbar.error(this.language.import_distribution_no_right_update);
         }
     }
 

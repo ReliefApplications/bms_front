@@ -41,6 +41,7 @@ import { ModalFieldsComponent } from '../components/modals/modal-fields/modal-fi
 import { ModalLanguageComponent } from '../components/modals/modal-language/modal-language.component';
 import { ModalLeaveComponent } from '../components/modals/modal-leave/modal-leave.component';
 import { ModalRequestsComponent } from '../components/modals/modal-requests/modal-requests.component';
+import { ModalComponent } from '../components/modals/modal.component';
 import { PlaceholderBoxlineComponent } from '../components/placeholders/placeholder-boxline/placeholder-boxline.component';
 import { PlaceholderPanelComponent } from '../components/placeholders/placeholder-panel/placeholder-panel.component';
 import { PlaceholderStepperComponent } from '../components/placeholders/placeholder-stepper/placeholder-stepper.component';
@@ -189,6 +190,7 @@ imports: [
         ModalAssignComponent,
         ModalLeaveComponent,
         ModalRequestsComponent,
+        ModalComponent,
     ],
     exports: [
         // Shared Components

@@ -8,12 +8,12 @@
 
   <app-placeholder-panel *ngIf="loader"></app-placeholder-panel>
 
-  <mat-horizontal-stepper #stepper *ngIf="!loader && (mode == 'create' || (mode == 'update' && updatedHousehold.beneficiaries[0]))">
+  <mat-horizontal-stepper [linear]="true" #stepper *ngIf="!loader && (mode == 'create' || (mode == 'update' && updatedHousehold.beneficiaries[0]))">
     <ng-template matStepperIcon="done">
       <mat-icon>done</mat-icon>
     </ng-template>
 
-    <mat-step>
+    <mat-step [completed]="false">
       <ng-template class="step" matStepLabel>{{Text.add_beneficiary_step1}} </ng-template>
       <div class="container-table">
         <div class="stepInMobile">
@@ -100,7 +100,7 @@
       </div>
     </mat-step>
 
-    <mat-step>
+    <mat-step [completed]="false">
       <ng-template class="step" matStepLabel>{{Text.add_beneficiary_step2}}</ng-template>
       <div class="container-table">
         <div class="stepInMobile">
@@ -227,7 +227,7 @@
       </div>
     </mat-step>
 
-    <mat-step>
+    <mat-step [completed]="false">
       <ng-template class="step" matStepLabel>{{Text.add_beneficiary_step3}}</ng-template>
       <div class="container-table">
         <div class="stepInMobile">
@@ -376,7 +376,7 @@
       </div>
     </mat-step>
 
-    <mat-step [editable]="true">
+    <mat-step [completed]="false">
       <ng-template matStepLabel>{{Text.summary}}</ng-template>
       <div class="container-table">
         <div class="stepInMobile">

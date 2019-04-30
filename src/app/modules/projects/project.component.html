@@ -4,7 +4,7 @@
   </div>
   <app-placeholder-boxline *ngIf="loadingProjects && projects != undefined" class="container-boxes"></app-placeholder-boxline>
   <div class="container-boxes" *ngIf="!loadingProjects">
-    <button class="button-add-project" *ngIf="!loadingProjects && hasRights" (click)="openNewProjectDialog()">
+    <button class="button-add-project" *ngIf="!loadingProjects && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="openNewProjectDialog()">
       <mat-icon>add</mat-icon>
       <h3>{{distribution.new | titlecase}}</h3>
     </button>
@@ -54,11 +54,11 @@
           </div>
         </div>
         <h3 *ngIf="distributionData && distributionData.data.length > 0">{{ distribution.distributions }}</h3>
-        <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button-create">
+        <button mat-raised-button *ngIf="widthScreen > maxWidthMobile && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button-create">
           <mat-icon>add</mat-icon>
           {{distribution.add | titlecase}}
         </button>
-        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && hasRights" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}">
+        <button mat-fab *ngIf="widthScreen <= maxWidthMobile && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': language == 'ar'}">
           <mat-icon>add</mat-icon>
         </button>
       </div>
@@ -83,8 +83,8 @@
         </i>
       </div>
       <div class="content-table" *ngIf="(distributionData && distributionData.data.length>0) && !noNetworkData">
-        <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
-        <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile" [rights]='hasRights' [rightsEdit]='hasRightsEdit' [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-mobile-distribution>
+        <app-table-distribution *ngIf="widthScreen > maxWidthMobile" [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-distribution>
+        <app-table-mobile-distribution *ngIf="widthScreen < maxWidthMobile" [entity]="distributionClass" [service]="distributionService" [data]="distributionData"></app-table-mobile-distribution>
       </div>
       <div>
         <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>

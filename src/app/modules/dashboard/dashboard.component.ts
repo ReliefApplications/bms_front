@@ -1,12 +1,13 @@
-import { Component, OnInit, HostListener, DoCheck } from '@angular/core';
+import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
-import { LeafletService } from '../../core/external/leaflet.service';
+import { finalize } from 'rxjs/operators';
+import { UserService } from 'src/app/core/api/user.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { GlobalText } from '../../../texts/global';
 import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';
+import { LeafletService } from '../../core/external/leaflet.service';
 import { DistributionData } from '../../model/distribution-data';
-import { GlobalText } from '../../../texts/global';
-import { finalize } from 'rxjs/operators';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -30,17 +31,17 @@ export class DashboardComponent implements OnInit, DoCheck {
     public heightScreen;
     public widthScreen;
 
-    public summary = [];
+    public deletable = false;
+    public editable = false;
 
-    hasRights = false;
-    hasRightsEdit = false;
+    public summary = [];
 
     constructor(
         private serviceMap: LeafletService,
         private _cacheService: AsyncacheService,
         public _distributionService: DistributionService,
         public _generalService: GeneralService,
-
+        private userService: UserService,
     ) { }
 
     ngOnInit() {
@@ -51,9 +52,10 @@ export class DashboardComponent implements OnInit, DoCheck {
                 this.getSummary();
                 this.checkDistributions();
                 this.checkSize();
-                this.checkPermission(result);
             }
         });
+        this.deletable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
+        this.editable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
     }
 
     /**
@@ -128,20 +130,5 @@ export class DashboardComponent implements OnInit, DoCheck {
                     this.summary = null;
                 }
             );
-    }
-
-    checkPermission(result) {
-        this.userData = result;
-
-        if (result && result.rights) {
-            const rights = result.rights;
-            if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER') {
-                this.hasRights = true;
-            }
-
-            if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER') {
-                this.hasRightsEdit = true;
-            }
-        }
     }
 }

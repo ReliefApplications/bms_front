@@ -1,15 +1,13 @@
-import { Component, ViewChild, OnInit, Input, Output, EventEmitter, HostListener, DoCheck } from '@angular/core';
-import { DistributionData } from 'src/app/model/distribution-data';
-import { GlobalText } from 'src/texts/global';
-import { MatDialog, MatTableDataSource } from '@angular/material';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
-import { DistributionService } from 'src/app/core/api/distribution.service';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Component, DoCheck, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { MatDialog, MatTableDataSource } from '@angular/material';
+import { DistributionService } from 'src/app/core/api/distribution.service';
+import { UserService } from 'src/app/core/api/user.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { DistributionData } from 'src/app/model/distribution-data';
 import { User } from 'src/app/model/user';
-import { finalize, distinct } from 'rxjs/operators';
-import { State } from 'src/app/model/transaction-beneficiary';
+import { GlobalText } from 'src/texts/global';
 
 @Component({
     template: './validated-distribution.component.html',
@@ -44,8 +42,6 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
     @Input() actualDistribution: DistributionData;
     @Input() transactionData: MatTableDataSource<any>;
     @Input() distributionId: number;
-    @Input() hasRights = false;
-    @Input() hasRightsTransaction = false;
     @Input() loaderCache = false;
 
     @Output() storeEmitter: EventEmitter<any> = new EventEmitter();
@@ -75,6 +71,7 @@ export class ValidatedDistributionComponent implements OnInit, DoCheck {
         public snackbar: SnackbarService,
         public dialog: MatDialog,
         protected cacheService: AsyncacheService,
+        public userService: UserService,
     ) { }
 
     /**

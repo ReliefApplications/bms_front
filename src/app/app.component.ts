@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { GlobalText } from '../texts/global';
 import { ModalLanguageComponent } from './components/modals/modal-language/modal-language.component';
-import { UpdateService } from './core/api/update.service';
+import { UserService } from './core/api/user.service';
 import { AuthenticationService } from './core/authentication/authentication.service';
 import { User } from './model/user';
 
@@ -15,12 +15,6 @@ import { User } from './model/user';
 })
 export class AppComponent implements OnInit, DoCheck {
 
-    user: User = new User();
-
-    public currentRoute = '';
-    public currentComponent;
-    public menuHover = false;
-    public openTopMenu = false;
     public smallScreenMode = false;
     public maxHeight = 600;
     public maxWidth = 750;
@@ -28,20 +22,19 @@ export class AppComponent implements OnInit, DoCheck {
     public isShowing = false;
     public menu = GlobalText.TEXTS;
 
-    hasRights = false;
-
     constructor(
         private _authenticationService: AuthenticationService,
-        private updateService: UpdateService,
-        private router: Router,
-        public dialog: MatDialog
+        public router: Router,
+        public dialog: MatDialog,
+        public userService: UserService,
     ) { }
 
     ngOnInit() {
         this.checkSize();
         this._authenticationService.getUser()
-            .subscribe(user => {
-                GlobalText.changeLanguage(user.language);
+            .subscribe((user: User) => {
+                this.userService.currentUser = user;
+                    GlobalText.changeLanguage(user.language);
             });
     }
 
@@ -62,7 +55,7 @@ export class AppComponent implements OnInit, DoCheck {
         }
     }
 
-    /**
+    /**LogOut
     * open each modal dialog
     */
     openDialog(user_action): void {
@@ -89,97 +82,9 @@ export class AppComponent implements OnInit, DoCheck {
         }
     }
 
-    hoverMenu(): void {
-        this.menuHover = true;
-    }
-
-    outMenu(): void {
-        this.menuHover = false;
-    }
-
-    setCurrentRoute(currentRoute): void {
-        this.currentRoute = currentRoute;
-    }
-
-    toggle(sideNavId) {
+    toggle(sidenav) {
         if (this.smallScreenMode) {
-            sideNavId.toggle();
-        }
-    }
-
-    onLogOut(e): void {
-        this._authenticationService.logout().subscribe(
-            disconnectedUser => {
-                this.user = disconnectedUser;
-            }
-        );
-    }
-
-    clickOnTopMenu(e): void {
-        this.openTopMenu = !this.openTopMenu;
-    }
-
-    /**
-     * get the name of the current page component (if it exists)
-     * @param e
-     */
-    onActivate(event) {
-        // Update the new component name.
-        this.refreshCurrentComponent(event);
-        // Verify the user.
-        this._authenticationService.getUser().subscribe(
-            user => {
-                this.user = user;
-                this.checkPermission(user);
-            }
-        );
-    }
-
-    /**
-     * Changes the name of the new component to actualize menu etc.
-     */
-    refreshCurrentComponent(e) {
-        if (e.nameComponent === 'projects' ||
-            e.nameComponent === 'beneficiaries' ||
-            e.nameComponent === 'reports' ||
-            e.nameComponent === 'settings' ||
-            e.nameComponent === 'login' ||
-            e.nameComponent === 'vouchers') {
-            this.currentComponent = e.nameComponent;
-        } else if (e.nameComponent === 'dashboard_title') {
-            this.currentComponent = null;
-        } else {
-            if (!this.hasRights && e.nameComponent !== 'profile_title' && e.nameComponent !== 'distributions') {
-                this.router.navigate(['']);
-                e.nameComponent = '';
-            }
-
-            if (e.nameComponent === 'distributions') {
-                this.currentComponent = 'projects';
-            }
-        }
-
-        if (!this.hasRights && e.nameComponent === 'settings') {
-            this.router.navigate(['']);
-            e.nameComponent = '';
-        }
-    }
-
-
-    /**
-     *  Check again Permissions on each page navigation.
-     * @param cachedUser
-     */
-    checkPermission(cachedUser) {
-        if (cachedUser && cachedUser.rights) {
-            const rights = cachedUser.rights;
-            if (rights === 'ROLE_ADMIN' || rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
-                this.hasRights = true;
-            } else {
-                this.hasRights = false;
-            }
-        } else {
-            this.hasRights = false;
+            sidenav.toggle();
         }
     }
 }

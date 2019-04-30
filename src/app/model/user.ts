@@ -1,5 +1,4 @@
 import { GlobalText } from '../../texts/global';
-import { Project } from './project';
 
 export class ErrorInterface {
     message: string;
@@ -349,7 +348,7 @@ export class User {
         ];
     }
 
-    public getAllCountries() {
+    public getAllCountries(): object[] {
         return [
             {
                 'id': 'KHM',

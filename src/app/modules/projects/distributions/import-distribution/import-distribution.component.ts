@@ -1,17 +1,16 @@
-import { Component, OnInit, HostListener, DoCheck, Input, Output, EventEmitter } from '@angular/core';
-import { HouseholdsService } from '../../../../core/api/households.service';
+import { Component, DoCheck, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { saveAs } from 'file-saver/FileSaver';
-import { ImportService } from '../../../../core/utils/import.service';
-import { FormControl } from '@angular/forms';
-import { DistributionData } from '../../../../model/distribution-data';
-import { GlobalText } from '../../../../../texts/global';
-import { DistributionService } from '../../../../core/api/distribution.service';
-import { Beneficiaries } from '../../../../model/beneficiary';
-import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
-import { ImportedBeneficiary } from '../../../../model/imported-beneficiary';
 import { finalize } from 'rxjs/operators';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { GlobalText } from '../../../../../texts/global';
+import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
+import { DistributionService } from '../../../../core/api/distribution.service';
+import { HouseholdsService } from '../../../../core/api/households.service';
+import { ImportService } from '../../../../core/utils/distribution-import.service';
+import { Beneficiaries } from '../../../../model/beneficiary';
+import { DistributionData } from '../../../../model/distribution-data';
+import { ImportedBeneficiary } from '../../../../model/imported-beneficiary';
+import { UserService } from 'src/app/core/api/user.service';
 
 const IMPORT_COMPARE = 1;
 const IMPORT_UPDATE = 2;
@@ -69,6 +68,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
         public _importService: ImportService,
         public distributionService: DistributionService,
         public beneficiaryService: BeneficiariesService,
+        public userService: UserService,
     ) { }
 
     ngOnInit() {
@@ -118,7 +118,7 @@ export class ImportDistributionComponent implements OnInit, DoCheck {
      * Upload csv and import the new distribution (list of beneficiaries)
      */
     updateDistribution(step: number) {
-        if (this.rights) {
+        if (this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')) {
 
             const data = new FormData();
             data.append('file', this.csv);

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Country } from 'src/app/model/country';
 import { Language } from './language';
 import { Arabic } from './language-arabic';
 import { English } from './language-english';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -16,6 +16,8 @@ export class LanguageService {
     public arabic = new Arabic();
 
     public readonly enabledLanguages: Array<Language> = [ this.english, this.arabic ];
+
+    public userLanguages: Array<Language>;
 
     // This default value's reference is not contained in enabledLanguages.
     public selectedLanguage: Language = new English();
@@ -32,7 +34,8 @@ export class LanguageService {
     public setLanguage(language: Language): Language {
         this.selectedLanguage = language;
         this.languageSubject.next(this.selectedLanguage);
-        return this.selectedLanguage;
+        this.setMargins();
+        return language;
     }
 //
 // ─── TYPE CONVERSION ────────────────────────────────────────────────────────────

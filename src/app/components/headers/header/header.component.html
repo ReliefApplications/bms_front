@@ -10,7 +10,7 @@
         </span>
     </div>
     <div class="container-buttons">
-        <div class="buttons">
+        <div *ngIf="selectedCountry" class="buttons">
             <app-request-display></app-request-display>
             <button mat-icon-button color=primary [matTooltip]="tooltip">
                 <mat-icon>help_outline</mat-icon>

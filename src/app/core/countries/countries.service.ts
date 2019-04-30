@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Country } from 'src/app/model/country';
 
 
@@ -14,33 +15,58 @@ export class CountriesService {
 
     public readonly enabledCountries: Array<Country> = [this.khm, this.syr];
 
-    public selectableCountries: Array<Country>;
+    public selectableCountries: BehaviorSubject<Array<Country>> = new BehaviorSubject([]);
 
-    public currentCountry: Country;
-
-
+    public selectedCountry:  BehaviorSubject<Country> = new BehaviorSubject(undefined);
 
     public fillWithAllExistingCountries() {
-        this.selectableCountries = this.enabledCountries;
+        this.selectableCountries.next(this.enabledCountries);
     }
 
     public fillWithCountries(countries: Array<Country>) {
-        this.selectableCountries = this.enabledCountries.filter((storedCountry: Country) => {
+        this.selectableCountries.next(this.enabledCountries.filter((storedCountry: Country) => {
             return countries.forEach((userCountry: Country) => {
                 if (storedCountry.get<string>('id') === userCountry.get<string>('id')) {
                     return storedCountry;
                 }
             });
-        });
+        }));
     }
-
+//
+// ─── SETTER ─────────────────────────────────────────────────────────────────────
+//
+    public setCountry(country: Country) {
+        if (this.selectedCountry.value !== country) {
+            this.selectedCountry.next(country);
+        }
+        return country;
+    }
 
 //
 // ─── HELPER FUNCTIONS ───────────────────────────────────────────────────────────
 //
-    public clearCountries(): Country {
-        this.currentCountry = undefined;
-        return this.currentCountry;
+    public clearCountries(): void {
+        this.selectedCountry.next(undefined);
+    }
+//
+// ─── CONVERSION ─────────────────────────────────────────────────────────────────
+//
+    public stringToCountry(country: string): Country {
+        switch (country) {
+            case 'KHM':
+                return this.khm;
+            case 'SYR':
+                return this.syr;
+        }
+    }
+
+    public countryToString(country: Country): string {
+        switch (country) {
+            case this.khm:
+                return 'KHM';
+            case this.syr:
+                return 'SYR';
+        }
     }
 }
 

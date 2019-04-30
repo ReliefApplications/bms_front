@@ -11,20 +11,21 @@
 </button>
 
 <span class="spacer"></span>
-
-<button class="round-button" *ngIf="countries.length === 1">
-  <mat-icon>language</mat-icon>
-  <span>{{selectedCountry}}</span>
-</button>
-<button class="round-button" [matMenuTriggerFor]="country" *ngIf="countries.length > 1">
-  <mat-icon>language</mat-icon>
-  <span>{{selectedCountry}}</span>
-</button>
+<ng-container *ngIf="selectedCountry">
+    <button class="round-button" *ngIf="countries.length === 1">
+        <mat-icon>language</mat-icon>
+        <span>{{selectedCountry.get('id')}}</span>
+    </button>
+    <button class="round-button" [matMenuTriggerFor]="country" *ngIf="countries.length > 1">
+        <mat-icon>language</mat-icon>
+        <span>{{selectedCountry.get('id')}}</span>
+    </button>
+</ng-container>
 
 <mat-menu #country="matMenu" overlapTrigger=false>
-  <button class="flag-button" *ngFor="let c of countries" mat-menu-item (click)="selectCountry(c)">
+  <button [ngClass]="{'selected': country === selectedCountry}" class="flag-button" *ngFor="let country of countries" mat-menu-item (click)="selectCountry(country)">
     <mat-icon>language</mat-icon>
-    <span>{{c}}</span>
+    <span>{{country.get('id')}}</span>
   </button>
 </mat-menu>
 

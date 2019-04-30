@@ -97,7 +97,7 @@ export const routes: Routes = [
     {
         path: 'vouchers',
         component: VouchersComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard, PermissionsGuard],
     },
 
     // home route protected by auth guard

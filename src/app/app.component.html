@@ -21,7 +21,7 @@
                 <span class="full-width" *ngIf="isShowing">{{menu.reports | titlecase}}</span>
                 <mat-icon mat-list-icon>timeline</mat-icon>
             </mat-list-item>
-            <mat-list-item [ngClass]="{selected: currentComponent==='vouchers'}" routerLink="/vouchers" (click)="setCurrentRoute('vouchers'); toggle(sidenav)">
+            <mat-list-item [ngClass]="{selected: router.url ==='/vouchers'}" routerLink="/vouchers">
                 <span class="full-width" *ngIf="isShowing">{{menu.voucher | titlecase}}</span>
                 <mat-icon mat-list-icon>local_activity</mat-icon>
             </mat-list-item>

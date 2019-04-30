@@ -23,7 +23,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
     // Language
-    public language: Language = this.languageService.selectedLanguage;
+    public language: Language = this.languageService.selectedLanguage ?
+        this.languageService.selectedLanguage : this.languageService.english;
 
     // Countries
     public selectedCountry: Country;
@@ -49,17 +50,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.languageService.languageSubject.subscribe((language: Language) => {
-            this.language = language;
-        });
-
         this.subscriptions = [
-                this.countriesService.selectedCountry.subscribe((country: Country) => {
-                    this.selectedCountry = country;
-                }),
-                this.countriesService.selectableCountries.subscribe((countries: Array<Country>) => {
-                    this.countries = countries;
-                }),
+            this.languageService.languageSubject.subscribe((language: Language) => {
+                this.language = language;
+            }),
+            this.countriesService.selectedCountry.subscribe((country: Country) => {
+                this.selectedCountry = country;
+            }),
+            this.countriesService.selectableCountries.subscribe((countries: Array<Country>) => {
+                this.countries = countries;
+            }),
         ];
     }
 
@@ -67,7 +67,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.subscriptions.forEach((subscription: Subscription) => {
             subscription.unsubscribe();
         });
-        this.languageService.languageSubject.unsubscribe();
     }
 
 

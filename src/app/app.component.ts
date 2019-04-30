@@ -1,17 +1,17 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { LanguageService } from 'src/texts/language.service';
 import { UserService } from './core/api/user.service';
 import { Country } from './model/country';
-
+import { Language } from 'src/texts/language';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
 
     public smallScreenMode = false;
     public maxHeight = 600;
@@ -35,6 +35,16 @@ export class AppComponent {
     @HostListener('window:resize', ['$event'])
     onResize(event) {
         this.checkSize();
+    }
+
+    ngOnInit() {
+        this.languageService.languageSubject.subscribe((language: Language) => {
+            this.language = language;
+        });
+    }
+
+    ngOnDestroy() {
+        this.languageService.languageSubject.unsubscribe();
     }
 
     change() {
@@ -61,5 +71,11 @@ export class AppComponent {
         if (this.smallScreenMode) {
             sidenav.toggle();
         }
+    }
+
+    matchUrl(): string {
+        const match = this.router.url.split('/');
+        match.shift();
+        return match[0];
     }
 }

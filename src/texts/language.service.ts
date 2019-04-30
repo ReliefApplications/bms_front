@@ -3,6 +3,7 @@ import { Country } from 'src/app/model/country';
 import { Language } from './language';
 import { Arabic } from './language-arabic';
 import { English } from './language-english';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -18,11 +19,19 @@ export class LanguageService {
 
     // This default value's reference is not contained in enabledLanguages.
     public selectedLanguage: Language = new English();
+    languageSubject = new BehaviorSubject<Language>(this.selectedLanguage);
 //
 // ─── HELPER FUNCTIONS ───────────────────────────────────────────────────────────
 //
     public clearLanguage(): Language {
         this.selectedLanguage = undefined;
+        this.languageSubject.next(this.selectedLanguage);
+        return this.selectedLanguage;
+    }
+
+    public setLanguage(language: Language): Language {
+        this.selectedLanguage = language;
+        this.languageSubject.next(this.selectedLanguage);
         return this.selectedLanguage;
     }
 //

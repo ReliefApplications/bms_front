@@ -64,7 +64,7 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
     public widthScreen;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     // Data Button Declaration
     public dataFilter1: Array<ButtonFilterData> = [

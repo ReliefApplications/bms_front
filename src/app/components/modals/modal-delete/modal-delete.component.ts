@@ -11,7 +11,7 @@ import { LanguageService } from './../../../../texts/language.service';
 export class ModalDeleteComponent {
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,

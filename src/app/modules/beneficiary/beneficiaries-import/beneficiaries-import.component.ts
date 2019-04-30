@@ -95,7 +95,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     apiSelectorSubscriber: Subscription;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public _householdsService: HouseholdsService,

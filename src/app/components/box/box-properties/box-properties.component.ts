@@ -22,7 +22,7 @@ export class BoxPropertiesComponent implements OnInit {
     readonly MAX_PROP_LENGTH = 20;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor (
         private languageService: LanguageService,

@@ -21,7 +21,7 @@ export class ScannerComponent extends VouchersComponent implements OnInit {
     public selected = 'default';
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     ngOnInit(): void {
         this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {

@@ -7,6 +7,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Country } from 'src/app/model/country';
 import { LanguageService } from 'src/texts/language.service';
 import { ModalLanguageComponent } from './../../modals/modal-language/modal-language.component';
+import { Language } from 'src/texts/language';
 
 export interface Breadcrumb {
     name: string;
@@ -22,7 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language: Language = this.languageService.selectedLanguage;
 
     // Countries
     public selectedCountry: Country;
@@ -48,6 +49,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
             }
         });
 
+        this.languageService.languageSubject.subscribe((language: Language) => {
+            this.language = language;
+        });
+
         this.subscriptions = [
                 this.countriesService.selectedCountry.subscribe((country: Country) => {
                     this.selectedCountry = country;
@@ -62,6 +67,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.subscriptions.forEach((subscription: Subscription) => {
             subscription.unsubscribe();
         });
+        this.languageService.languageSubject.unsubscribe();
     }
 
 

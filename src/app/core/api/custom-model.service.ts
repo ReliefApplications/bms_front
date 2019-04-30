@@ -7,7 +7,7 @@ export abstract class CustomModelService {
     readonly apiBase = URL_BMS_API;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     customModelPath: string;
 

@@ -73,7 +73,7 @@ export class SettingsComponent implements OnInit {
     public displayedTable = this.table;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public dialog: MatDialog,

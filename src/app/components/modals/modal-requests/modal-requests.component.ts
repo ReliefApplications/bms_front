@@ -37,7 +37,7 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
     public errors: Array<any>;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         private dialogRef: MatDialogRef<ModalRequestsComponent>,

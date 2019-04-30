@@ -9,7 +9,7 @@ import { LanguageService } from './../../../../texts/language.service';
 })
 export class NotFoundComponent implements OnInit {
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
     constructor (
     private languageService: LanguageService,
     ) {}

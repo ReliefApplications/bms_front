@@ -85,7 +85,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     @ViewChild(MatStepper) stepper: MatStepper;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public route: ActivatedRoute,

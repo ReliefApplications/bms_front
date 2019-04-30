@@ -49,7 +49,7 @@ export class VouchersComponent implements OnInit {
     public checkedElements: Booklet[] = [];
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
 
     @ViewChild(TableComponent) tableVoucher: TableComponent;

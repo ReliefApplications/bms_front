@@ -10,7 +10,7 @@ import { LanguageService } from 'src/texts/language.service';
 export class ModalLeaveComponent implements OnInit {
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         private dialogs: MatDialogRef<ModalLeaveComponent>,

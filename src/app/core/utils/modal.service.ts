@@ -30,7 +30,7 @@ export class ModalService {
     isCompleted = new Subject;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         private snackbar: SnackbarService,

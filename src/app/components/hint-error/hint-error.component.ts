@@ -17,7 +17,7 @@ export class HintErrorComponent implements OnInit {
   @Input() fieldName: string;
   @Input() field: CustomModelField<any>;
 
-  public language = this.languageService.selectedLanguage;
+  public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
 
   ngOnInit() {

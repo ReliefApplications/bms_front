@@ -63,7 +63,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     @ViewChild('commodityTable') commodityTable: TableComponent;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public dialog: MatDialog,

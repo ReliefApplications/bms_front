@@ -20,7 +20,7 @@ export class BeneficiaryFormComponent implements OnInit {
     public phoneFields = new Phone().fields;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor (
     private languageService: LanguageService,

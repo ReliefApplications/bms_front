@@ -13,7 +13,7 @@ const api = URL_BMS_API;
 export class ErrorInterceptor implements HttpInterceptor {
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public snackbar: SnackbarService,

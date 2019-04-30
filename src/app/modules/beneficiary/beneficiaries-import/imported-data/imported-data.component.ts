@@ -28,7 +28,7 @@ export class ImportedDataComponent implements OnInit {
     public widthScreen;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         private _householdsService: HouseholdsService,

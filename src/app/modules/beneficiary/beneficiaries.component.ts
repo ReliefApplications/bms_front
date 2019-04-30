@@ -45,7 +45,7 @@ export class BeneficiariesComponent implements OnInit {
     canDelete   = false;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         private router: Router,

@@ -39,7 +39,8 @@ export class DashboardComponent implements OnInit {
     public summary = [];
 
     // Language
-    public language: Language = this.languageService.selectedLanguage;
+    public language: Language = this.languageService.selectedLanguage ?
+        this.languageService.selectedLanguage : this.languageService.english;
 
 
     constructor(

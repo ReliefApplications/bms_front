@@ -55,16 +55,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 // ─── COUNTRIES MANAGEMENT ───────────────────────────────────────────────────────
 //
 
-
-
-    // private getAllExistingCountries(): Array<Country> {
-    //     return this.userService.currentUser.fields.countries.options;
-    // }
-
-    // private getUserCountries(): Array<Country> {
-    //     return this.userService.currentUser.get('country');
-    // }
-
     public selectCountry(country: Country): void {
         this.asynCacheService.setCountry(country).subscribe((_: any) => {
             window.location.reload();

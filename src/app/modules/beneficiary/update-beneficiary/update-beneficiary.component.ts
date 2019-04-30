@@ -494,7 +494,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Verify the needed forms before going next step : Blocks if any error (empty/bad type/format).
      */
-    nextValidation(step: number, stepper: MatStepper, final?: boolean): boolean {
+    nextValidation(step: number, final?: boolean): boolean {
         let validSteps = 0;
         let message = '';
         if (!final) {
@@ -513,7 +513,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 message = this.language.beneficiary_error_address_street;
             } else {
                 this.validStep1 = true;
-                if (step <= 1) { stepper.next(); }
+                this.stepper.selected.completed = true;
+                if (step <= 1) { this.stepper.next(); }
                 if (final) { validSteps++; }
             }
         }
@@ -522,7 +523,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
             if (messageHeadValidation === '') {
                 this.validStep2 = true;
-                if (step <= 2) { stepper.next(); }
+                this.stepper.selected.completed = true;
+                if (step <= 2) { this.stepper.next(); }
                 if (final) { validSteps++; }
             } else {
                 message = messageHeadValidation;
@@ -545,7 +547,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 }
             }
             if (counter === this.beneficiariesForm.length) {
-                if (step <= 3) { stepper.next(); }
+                this.stepper.selected.completed = true;
+                if (step <= 3) { this.stepper.next(); }
                 if (final) { validSteps++; }
                 this.validStep3 = true;
             }

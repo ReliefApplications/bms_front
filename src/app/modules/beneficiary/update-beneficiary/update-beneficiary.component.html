@@ -80,10 +80,10 @@
                   <div class="content-button-footer">
                     <div class="action-buttons">
                       <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
-                      <button mat-raised-button class="button-background-primary" (click)="nextValidation(1, stepper)">
+                      <button mat-raised-button class="button-background-primary" (click)="nextValidation(1)">
                         {{language.next}}
                       </button>
-                      <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="submit(); nextValidation(1, stepper, true)">{{language.update}}</button>
+                      <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="submit(); nextValidation(1, true)">{{language.update}}</button>
                     </div>
                   </div>
                 </div>
@@ -112,11 +112,11 @@
                   <button mat-button class="button-text-primary" (click)="stepper.previous()">
                     {{language.back}}
                   </button>
-                  <button mat-raised-button class="button-background-primary" (click)='nextValidation(2, stepper)'>
+                  <button mat-raised-button class="button-background-primary" (click)='nextValidation(2)'>
                     {{language.next}}
                   </button>
                   <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
-                    (click)="submit(); nextValidation(2, stepper, true)">{{language.update}}</button>
+                    (click)="submit(); nextValidation(2, true)">{{language.update}}</button>
                 </div>
               </div>
             </div>
@@ -157,11 +157,11 @@
                   <button mat-button class="button-text-primary" (click)="stepper.previous()">
                     {{language.back}}
                   </button>
-                  <button mat-raised-button class="button-background-primary" (click)="passHousehold(); nextValidation(3, stepper)">
+                  <button mat-raised-button class="button-background-primary" (click)="passHousehold(); nextValidation(3)">
                     {{language.next}}
                   </button>
                   <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
-                    (click)="submit(); nextValidation(3, stepper, true)">
+                    (click)="submit(); nextValidation(3, true)">
                     {{language.update}}
                   </button>
                 </div>

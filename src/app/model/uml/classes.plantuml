@@ -1,0 +1,83 @@
+@startuml classes
+ Gender "1" *-- "1" Beneficiary
+ ResidencyStatus "1" *-- "1" Beneficiary
+ BeneficiaryStatus "1" *-- "1" Beneficiary
+ NationalId "1" *-- "1" Beneficiary
+ Phone "2" *-- "1" Beneficiary
+ VulnerabilityCriteria "0-*" *-- "1" Beneficiary
+ Profile "1" *-- "1" Beneficiary
+ Phone "2" *-- "1" Beneficiary
+
+
+ BookletStatus "1" *-- "1" Booklet
+ Currency "1" *-- "1" Booklet
+ Beneficiary "1" o-- "0-*" Booklet
+ Distribution "1" o-- "0-*" Booklet
+ Voucher "0-*" *-- "1" Booklet
+ 
+ Modality "1" *-- "1" Commodity
+ ModalityType "1" *-- "1" Commodity
+ 
+ CountrySpecificType "1" *-- "1" CountrySpecific
+ CountrySpecific "1" *-- "1" CountrySpecificAnswer
+ 
+ CriteriaField "1" *-- "1" Criteria
+ CriteriaCondition "1" *-- "1" Criteria
+ CriteriaType "1" *-- "1" Criteria
+
+ Beneficiary "1" *-- "0-*" DistributionBeneficiary
+ Distribution "1" *-- "0-*" DistributionBeneficiary
+ 
+ DistributionType "1" *-- "1" Distribution
+ Location "1" *-- "1" Distribution
+ Project "1" o-- "1" Distribution
+ Criteria "0-*" *-- "1" Distribution
+ Commodity "0-*" *-- "1" Distribution
+ 
+ 
+ Livelihood "1" *-- "1" Household
+ Location "1" *-- "1" Household
+ VulnerabilityCriteria "0-*" *-- "1" Household
+ Project "1-*" o-- "0-*" Household
+ Beneficiary "1-*" *-- "0-*" Household
+ CountrySpecificAnswer "0-*" *-- "1" Household
+ 
+ Project "0-*" *-- "1" HouseholdFilters
+ VulnerabilityCriteria "0-*" *-- "1" HouseholdFilters
+ Location "0-*" *-- "1" HouseholdFilters
+ 
+ Beneficiary "1" *-- "1" ImportedBeneficiary
+ 
+ Adm "0-4" *-- "1" Location
+ 
+ NationalIdType "1" *-- "1" NationalId
+ 
+ PhoneType "1" *-- "1" Phone
+ 
+ Sector "0-*" *-- "1" Project
+ Donor "0-*" *-- "1" Project
+ 
+ Beneficiary "1" *-- "1" TransactionGeneralRelief
+ GeneralRelief "0-*" *-- "1" TransactionGeneralRelief
+ 
+ Beneficiary "1" *-- "1" TransactionMobileMoney
+ State "1" *-- "1" TransactionMobileMoney
+ 
+ Beneficiary "1" *-- "1" TransactionQRVoucher
+ Booklet "1" *-- "1" TransactionQRVoucher
+ 
+ Role "1-*" *-- "1" User
+ Project "0-*" *-- "0-*" User
+ Countries "0-2" *-- "0-*" User
+ 
+ User "1" *-- "1" Vendor
+ Location "1" *-- "1" Vendor
+ 
+ Vendor "1" o-- "0-*" Voucher
+ 
+
+ DistributionBeneficiary <|-- TransactionGeneralRelief
+ DistributionBeneficiary <|-- TransactionMobileMoney
+ DistributionBeneficiary <|-- TransactionQRVoucher
+
+@enduml

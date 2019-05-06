@@ -21,7 +21,7 @@ export class DateModelField extends CustomModelField<Date> {
         this.displayTime              = properties['displayTime'];
     }
 
-    public static formatFromApi(date) {
+    public static formatFromApi(date): Date {
         if (!date) {
             return null;
         }
@@ -33,7 +33,7 @@ export class DateModelField extends CustomModelField<Date> {
         return formattedDate;
     }
 
-    public static formatDateTimeFromApi(date) {
+    public static formatDateTimeFromApi(date): Date {
         if (!date) {
             return null;
         }

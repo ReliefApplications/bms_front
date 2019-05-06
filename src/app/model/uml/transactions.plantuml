@@ -1,0 +1,67 @@
+@startuml customModelFields
+
+class TransactionGeneralRelief {
+    - id
+    - idTransaction
+    - beneficiary
+    - givenName
+    - familyName
+    - generalReliefs
+    - distributedAt
+    - values
+    - notes
+}
+
+class GeneralRelief {
+    - id
+    - notes
+    - distributedAt
+}
+
+class TransactionMobileMoney {
+    - idTransaction
+    - beneficiary
+    - givenName
+    - familyName
+    - phones
+    - state
+    - values
+    - pickupDate
+    - message
+}
+
+class State {
+    - id
+    - name
+}
+
+class TransactionQRVoucher {
+    - beneficiary
+    - booklet
+    - givenName
+    - familyName
+    - bookletCode
+    - status
+    - usedAt
+    - value
+}
+
+
+
+ Beneficiary "1" o-- "0-*" Booklet
+ 
+ Beneficiary "1" *-- "0-*" DistributionBeneficiary
+ Distribution "1" *-- "0-*" DistributionBeneficiary
+ 
+ TransactionGeneralRelief "1" *-- "0-*" GeneralRelief
+ 
+ 
+ TransactionMobileMoney "1" --* "1" State
+ 
+ Booklet "1" *-- "1" TransactionQRVoucher
+ 
+
+ DistributionBeneficiary <|-- TransactionGeneralRelief
+ DistributionBeneficiary <|-- TransactionMobileMoney
+ DistributionBeneficiary <|-- TransactionQRVoucher
+@enduml

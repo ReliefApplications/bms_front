@@ -45,13 +45,13 @@
             <div class="content-select-period" *ngIf="period == true">
                 <mat-card>
                     <mat-form-field>
-                        <input matInput [matDatepicker]="pickerFrom" placeholder="{{language.report_from}}"
+                        <input matInput [matDatepicker]="pickerFrom" placeholder="{{language.report_from | titlecase}}"
                             [formControl]="from" #inputFrom required>
                         <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
                         <mat-datepicker #pickerFrom></mat-datepicker>
                     </mat-form-field>
                     <mat-form-field>
-                        <input matInput [matDatepicker]="pickerTo" placeholder="{{language.report_to}}" [formControl]="to"
+                        <input matInput [matDatepicker]="pickerTo" placeholder="{{language.report_to | titlecase}}" [formControl]="to"
                             #inputTo required>
                         <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
                         <mat-datepicker #pickerTo></mat-datepicker>
@@ -65,7 +65,7 @@
             <div class="content-select" *ngIf="type == 'Project'">
                 <mat-card>
                     <ng-select class="multiple-select" [(ngModel)]="selectedBeneficiaries" bindLabel="name" [items]="projectList"
-                        [multiple]="true" placeholder="{{language.projects}}" [closeOnSelect]="false" [searchable]="true"
+                        [multiple]="true" placeholder="{{language.projects | titlecase}}" [closeOnSelect]="false" [searchable]="true"
                         [ngModelOptions]="{standalone: true}" (change)="getProjectSelected($event)" required>
                     </ng-select>
                 </mat-card>
@@ -75,12 +75,12 @@
             <div class="content-select" *ngIf="type == 'Distribution'">
                 <mat-card>
 
-                    <ng-select class="project-report-bar single-select"  placeholder="Projects" [items]=projectList [bindLabel]=project [bindValue]=project
+                    <ng-select class="project-report-bar single-select"  placeholder="{{language.projects | titlecase}}" [items]=projectList [bindLabel]=project [bindValue]=project
                     (change)="getProjectSelected($event)">
                     </ng-select>
 
                     <ng-select class="multiple-select" *ngIf="type == 'Distribution'" bindLabel="name" [items]="distributionList"
-                        [multiple]="true" placeholder="{{language.distributions}}" [closeOnSelect]="false"
+                        [multiple]="true" placeholder="{{language.distributions} | titlecase}" [closeOnSelect]="false"
                         [searchable]="true" (change)="getDistributionSelected($event)" #selectorDistribution
                         required>
                     </ng-select>
@@ -106,12 +106,12 @@
                             <div class="content-select-period-mobile" *ngIf="period == true">
                                 <div class="datepicker">
                                     <mat-form-field>
-                                        <input matInput [matDatepicker]="pickerFrom" placeholder="{{language.report_from}}">
+                                        <input matInput [matDatepicker]="pickerFrom" placeholder="{{language.report_from | titlecase}}">
                                         <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
                                         <mat-datepicker touchUi #pickerFrom></mat-datepicker>
                                     </mat-form-field>
                                     <mat-form-field>
-                                        <input matInput [matDatepicker]="pickerTo" placeholder="{{language.report_to}}">
+                                        <input matInput [matDatepicker]="pickerTo" placeholder="{{language.report_to | titlecase}}">
                                         <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
                                         <mat-datepicker touchUi #pickerTo></mat-datepicker>
                                     </mat-form-field>

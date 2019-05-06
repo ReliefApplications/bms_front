@@ -69,7 +69,7 @@
               <img class='img-folder' src="assets/images/projects.png">
             </div>
             <div class="select-file project-input">
-              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder={{language.projects}} >
+              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder="{{language.projects | titlecase}}">
                 <ng-option *ngFor="let project of projectList" [value]="project">{{project.get('name')}}</ng-option>
               </ng-select>
             </div>
@@ -112,8 +112,8 @@
             <div>
               <div class="content-select" *ngIf="apiForm.value['apiSelector']" formGroupName='parameters'>
                 <mat-form-field *ngFor="let parameter of selectedApi.parameters">
-                  <input matInput *ngIf="parameter.paramType == 'string'" type="text" formControlName="{{parameter.paramName}}" placeholder="{{ parameter.paramName }} *">
-                  <input matInput *ngIf="parameter.paramType == 'int'" type="number" formControlName="{{parameter.paramName}}" placeholder="{{ parameter.paramName }} *">
+                  <input matInput *ngIf="parameter.paramType == 'string'" type="text" formControlName="{{parameter.paramName}}" placeholder="{{ parameter.paramName | titlecase}} *">
+                  <input matInput *ngIf="parameter.paramType == 'int'" type="number" formControlName="{{parameter.paramName}}" placeholder="{{ parameter.paramName | titlecase}} *">
                 </mat-form-field>
               </div>
             </div>
@@ -126,7 +126,7 @@
               <img class='img-folder' src="assets/images/projects.png">
             </div>
             <div class="select-file project-input">
-              <ng-select formControlName="projects" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{language.projects}}>
+              <ng-select formControlName="projects" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.projects | titlecase}}">
                 <ng-option *ngFor="let project of projectList" [value]="project">{{project.get('name')}}</ng-option>
               </ng-select>
             </div>

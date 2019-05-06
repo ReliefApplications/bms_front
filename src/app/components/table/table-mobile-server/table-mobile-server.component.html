@@ -9,7 +9,7 @@
     <div class="container-header" *ngIf="tableServerData">
         <mat-form-field>
             <input matInput (keyup)="applySpecificFilter($event.target.value, 'any')"
-                placeholder="{{language.table_filter}}">
+                placeholder="{{language.table_filter | titlecase}}">
         </mat-form-field>
     </div>
 
@@ -18,7 +18,7 @@
             <ng-container *ngFor="let fieldName of filterFields">
                 <div *ngIf="display(filters.fields[fieldName]); let field" class="filter-fields">
                     <ng-container *ngIf="field.kindOfField === 'MultipleSelect'; else isSingleSelect">
-                        <ng-select [formControlName]="fieldName" [placeholder]="field.title" [multiple]="true"
+                        <ng-select [formControlName]="fieldName" [placeholder]="field.title | titlecase" [multiple]="true"
                             [closeOnSelect]="false">
                             <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
                                 {{option.get(field.bindField) | titlecase}}
@@ -28,7 +28,7 @@
 
                     <ng-template #isSingleSelect>
                         <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isMaterialField">
-                            <ng-select [formControlName]="fieldName" [placeholder]="field.title">
+                            <ng-select [formControlName]="fieldName" [placeholder]="field.title | titlecase">
                                 <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
                                     {{option.get(field.bindField) | titlecase}}
                                 </ng-option>
@@ -40,19 +40,19 @@
                         <mat-form-field
                             *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
                             <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
-                                <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title"
+                                <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title | titlecase"
                                     matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
 
                                 <ng-template #checkForTextArea>
                                     <ng-container *ngIf="field.isLongText; else checkForTextInput">
                                         <textarea matInput type="text" [formControlName]="fieldName"
-                                            [placeholder]="field.title"></textarea>
+                                            [placeholder]="field.title | titlecase"></textarea>
                                     </ng-container>
                                 </ng-template>
 
                                 <ng-template #checkForTextInput>
                                     <input matInput type="text" [formControlName]="fieldName"
-                                        [placeholder]="field.title">
+                                        [placeholder]="field.title | titlecase">
                                 </ng-template>
                             </ng-container>
 
@@ -60,7 +60,7 @@
                             <ng-template #checkForDateField>
                                 <ng-container *ngIf="field.kindOfField === 'Date'; else checkForNumberField">
                                     <input matInput [matDatepicker]="picker" [formControlName]="fieldName"
-                                        [placeholder]="field.title">
+                                        [placeholder]="field.title | titlecase">
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
                                 </ng-container>

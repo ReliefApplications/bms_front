@@ -204,7 +204,7 @@
                     {{language.distribution_want_add}} <strong> {{actualDistribution.get('name')}} </strong>
                     {{language.distribution | lowercase}}.</p>
                 <div class="selectBeneficiaries">
-                    <ng-select class="multiple-select" [(ngModel)]="selectedBeneficiaries" [multiple]="true" placeholder="{{language.beneficiaries}}" [closeOnSelect]="false" [searchable]="true" required>
+                    <ng-select class="multiple-select" [(ngModel)]="selectedBeneficiaries" [multiple]="true" placeholder="{{language.beneficiaries | titlecase}}" [closeOnSelect]="false" [searchable]="true" required>
                         <ng-option *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">
                             {{beneficiary.get('fullName') | titlecase}}
                         </ng-option>

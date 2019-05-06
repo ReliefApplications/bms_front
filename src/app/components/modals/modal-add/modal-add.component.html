@@ -30,17 +30,17 @@
 
                         <input *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"
                             matInput [(ngModel)]="newObject[p]" [ngModelOptions]="{standalone: true}" [matDatepicker]="dateDistribution"
-                            placeholder="{{data.mapper.mapTitle(p)}}">
+                            placeholder="{{data.mapper.mapTitle(p) | titlecase}}">
                         <mat-datepicker-toggle matSuffix [for]="dateDistribution" *ngIf="data.mapper.mapTitle(p) == 'Start Date' || data.mapper.mapTitle(p) == 'End Date' || propertiesTypes[p]=='date'"></mat-datepicker-toggle>
                         <mat-datepicker #dateDistribution></mat-datepicker>
                     </mat-form-field>
 
                     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-                        *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
+                        *ngIf="propertiesTypes[p]=='selectSingle'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p] | titlecase}}"
                         (change)="selected(newObject[p])" [ngModelOptions]="{standalone: true}" [items]="loadedData[p]" bindLabel="name" bindValue="id">
                     </ng-select>
                     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-                        *ngIf="propertiesTypes[p]=='currency'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p]}}"
+                        *ngIf="propertiesTypes[p]=='currency'" [(ngModel)]="newObject[p]" placeholder="{{mapperObject[p] | titlecase}}"
                         [ngModelOptions]="{standalone: true}" [items]="loadedData[p]">
                     </ng-select>
 
@@ -63,7 +63,7 @@
                         bindLabel="name"
                         [items]="loadedData[p]"
                         [multiple]="newObject['rights'] == 'ROLE_PROJECT_MANAGER'"
-                        placeholder="{{mapperObject[p]}}"
+                        placeholder="{{mapperObject[p] | titlecase}}"
                         [closeOnSelect]="newObject['rights'] != 'ROLE_PROJECT_MANAGER'"
                         [searchable]="true"
                         formControlName="projectsControl">
@@ -75,14 +75,14 @@
                         bindLabel="id"
                         [items]="loadedData[p]"
                         [multiple]="newObject['rights'] == 'ROLE_REGIONAL_MANAGER'"
-                        placeholder="{{mapperObject[p]}}"
+                        placeholder="{{mapperObject[p] | titlecase}}"
                         [closeOnSelect]="newObject['rights'] != 'ROLE_REGIONAL_MANAGER'"
                         [searchable]="true"
                         formControlName="countryControl">
                     </ng-select>
 
           <mat-form-field *ngIf="propertiesTypes[p]=='email'" class="full-width">
-            <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.email}}" formControlName="emailFormControl" [errorStateMatcher]="matcher">
+            <input matInput [(ngModel)]="newObject[p]" placeholder="{{modal.email | titlecase}}" formControlName="emailFormControl" [errorStateMatcher]="matcher">
             <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
               {{modal.modal_valid_email | titlecase }}
             </mat-error>
@@ -93,7 +93,7 @@
           </mat-form-field>
 
           <mat-form-field *ngIf="propertiesTypes[p]=='password' && modal !== undefined" class="full-width">
-            <input [(ngModel)]="newObject[p]" matInput placeholder="{{modal.model_user_password}}" formControlName="passwordFormControl"
+            <input [(ngModel)]="newObject[p]" matInput placeholder="{{modal.model_user_password | titlecase}}" formControlName="passwordFormControl"
               [errorStateMatcher]="matcher" type="password">
             <mat-error *ngIf="passwordFormControl.hasError('pattern') && !passwordFormControl.hasError('required')">
               {{modal.modal_not_enough_strong}}
@@ -135,22 +135,22 @@
           </div>
 
           <div *ngIf="propertiesTypes[p]=='location' && newObject.location">
-            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder={{modal.adm1}} [(ngModel)]="newObject.location.adm1" [ngModelOptions]="{standalone: true}" (change)='getDistrict($event)' required>
+            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{modal.adm1 | titlecase}}" [(ngModel)]="newObject.location.adm1" [ngModelOptions]="{standalone: true}" (change)='getDistrict($event)' required>
               <ng-option *ngFor="let province of provinceList" [value]="province.name" >
                 {{province.name}}
               </ng-option>
             </ng-select>
-            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{modal.adm2}} [(ngModel)]="newObject.location.adm2" [ngModelOptions]="{standalone: true}"  (change)='getCommunity($event)'>
+            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{modal.adm2 | titlecase}}" [(ngModel)]="newObject.location.adm2" [ngModelOptions]="{standalone: true}"  (change)='getCommunity($event)'>
               <ng-option *ngFor="let district of districtList" [value]="district.name">
                 {{district.name}}
               </ng-option>
             </ng-select>
-            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{modal.adm3}} [(ngModel)]="newObject.location.adm3" [ngModelOptions]="{standalone: true}"  (change)='getVillage($event)'>
+            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{modal.adm3 | titlecase}}" [(ngModel)]="newObject.location.adm3" [ngModelOptions]="{standalone: true}"  (change)='getVillage($event)'>
               <ng-option *ngFor="let commune of communeList" [value]="commune.name">
                 {{commune.name}}
               </ng-option>
             </ng-select>
-            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder={{modal.adm4}} [(ngModel)]="newObject.location.adm4" [ngModelOptions]="{standalone: true}" >
+            <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{modal.adm4 | titlecase}}" [(ngModel)]="newObject.location.adm4" [ngModelOptions]="{standalone: true}" >
               <ng-option *ngFor="let village of villageList" [value]="village.name">
                 {{village.name}}
               </ng-option>

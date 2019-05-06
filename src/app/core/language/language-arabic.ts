@@ -1,4 +1,4 @@
-import { Language } from 'src/texts/language';
+import { Language } from './language';
 
 /* tslint:disable */
 export class Arabic implements Language {
@@ -205,7 +205,7 @@ export class Arabic implements Language {
     commodity_wash = 'غسل عدة'
     commodity_agriculture = 'مجموعة الزراعية'
     commodity_rte = 'RTE عدة'
-    
+
     // Countries
     country_khm = 'كمبوديا'
     country_syr = 'سوريا'

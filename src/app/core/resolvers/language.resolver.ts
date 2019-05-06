@@ -3,10 +3,10 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { User } from 'src/app/model/user';
-import { Language } from 'src/texts/language';
-import { LanguageService } from '../../../texts/language.service';
 import { AppInjector } from '../../app-injector';
+import { Language } from '../language/language';
 import { AsyncacheService } from '../storage/asyncache.service';
 
 @Injectable({

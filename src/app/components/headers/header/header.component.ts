@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Event, NavigationStart, Router, NavigationEnd } from '@angular/router';
+import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CountriesService } from 'src/app/core/countries/countries.service';
+import { Language } from 'src/app/core/language/language';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Country } from 'src/app/model/country';
-import { LanguageService } from 'src/texts/language.service';
 import { ModalLanguageComponent } from './../../modals/modal-language/modal-language.component';
-import { Language } from 'src/texts/language';
 
 export interface Breadcrumb {
     name: string;

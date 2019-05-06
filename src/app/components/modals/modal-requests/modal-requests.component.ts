@@ -2,10 +2,10 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, DoCheck, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { timer } from 'rxjs';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { StoredRequestInterface } from 'src/app/model/stored-request';
-import { LanguageService } from 'src/texts/language.service';
 
 @Component({
     selector: 'app-modal-requests',

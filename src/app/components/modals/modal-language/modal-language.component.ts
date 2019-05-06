@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { UserService } from 'src/app/core/api/user.service';
+import { Language } from 'src/app/core/language/language';
+import { Arabic } from 'src/app/core/language/language-arabic';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Arabic } from 'src/texts/language-arabic';
-import { LanguageService } from 'src/texts/language.service';
-import { Language } from './../../../../texts/language';
-
 @Component({
     selector: 'app-modal-language',
     templateUrl: './modal-language.component.html',

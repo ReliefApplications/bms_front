@@ -1,13 +1,13 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialogRef, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { DateAdapter, MatDialogRef, MAT_DATE_FORMATS } from '@angular/material';
 import { CriteriaService } from 'src/app/core/api/criteria.service';
 import { FieldService } from 'src/app/core/api/field.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
 import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/model/criteria';
-import { LanguageService } from './../../../../texts/language.service';
-import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 
 
 @Component({

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/model/criteria';
-import { LanguageService } from 'src/texts/language.service';
 import { CustomModelService } from './custom-model.service';
 import { HttpService } from './http.service';
 

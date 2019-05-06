@@ -1,10 +1,10 @@
 // tslint:disable-next-line: max-line-length
 import { AfterViewChecked, Component, ElementRef, EventEmitter, Input, KeyValueDiffers, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { FilterInterface } from '../../../../model/filter';
 import { ChartDataLoaderService } from '../../services/chart-data-loader.service';
 import { ChartRegistration, RegisteredItem } from '../../services/chart-registration.service';
-import { LanguageService } from './../../../../../texts/language.service';
 // tslint:disable-next-line: max-line-length
 import { ChartAxisClass, ChartIndicatorConfigClass, ChartInterface, ChartLegendClass, ChartSchemeClass, ChartTitleClass } from './chart.interface';
 

@@ -691,3 +691,14 @@ app-icon-svg {
 .mat-calendar-next-button, .mat-calendar-previous-button {
     transform: rotate(0deg) !important;
 }
+
+.ng-select.multiple ::ng-deep .ng-select-container .ng-value-container .ng-value {
+    background-color: #424242;
+  }
+
+.ng-select-focused ::ng-deep {
+.ng-select-container::after {
+    border-color: #424242;
+    border-width: 2px;
+}
+}

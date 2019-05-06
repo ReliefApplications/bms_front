@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { NetworkService } from 'src/app/core/api/network.service';
 import { UserService } from 'src/app/core/api/user.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
@@ -12,7 +13,6 @@ import { DistributionService } from '../../core/api/distribution.service';
 import { ProjectService } from '../../core/api/project.service';
 import { Distribution } from '../../model/distribution';
 import { Project as NewProject } from '../../model/project';
-import { LanguageService } from './../../../texts/language.service';
 
 @Component({
     selector: 'app-project',

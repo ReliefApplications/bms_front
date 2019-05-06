@@ -1,9 +1,9 @@
 import { Component, KeyValueDiffers, OnInit } from '@angular/core';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ChartDataLoaderService } from '../../services/chart-data-loader.service';
 import { ChartRegistration } from '../../services/chart-registration.service';
 import { ChartComponent } from '../chart/chart.component';
-import { LanguageService } from './../../../../../texts/language.service';
 
 
 @Component({

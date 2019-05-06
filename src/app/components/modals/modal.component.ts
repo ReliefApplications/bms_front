@@ -6,6 +6,7 @@ import { BookletService } from 'src/app/core/api/booklet.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { VoucherService } from 'src/app/core/api/voucher.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { CriteriaService } from '../../core/api/criteria.service';
@@ -16,7 +17,6 @@ import { SectorService } from '../../core/api/sector.service';
 import { UploadService } from '../../core/api/upload.service';
 import { UserService } from '../../core/api/user.service';
 import { User } from '../../model/user';
-import { LanguageService } from './../../../texts/language.service';
 
 
 

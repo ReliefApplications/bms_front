@@ -2,14 +2,14 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
+import { Language } from 'src/app/core/language/language';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Distribution } from 'src/app/model/distribution';
-import { LanguageService } from 'src/texts/language.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';
 import { LeafletService } from '../../core/external/leaflet.service';
-import { Language } from './../../../texts/language';
 
 @Component({
     selector: 'app-dashboard',

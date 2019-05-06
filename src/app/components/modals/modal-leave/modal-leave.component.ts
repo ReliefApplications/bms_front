@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { LanguageService } from 'src/texts/language.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 
 @Component({
     selector: 'app-modal-leave',

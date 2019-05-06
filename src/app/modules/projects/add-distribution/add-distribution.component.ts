@@ -9,17 +9,17 @@ import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal
 import { TableComponent } from 'src/app/components/table/table.component';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
 import { ModalService } from 'src/app/core/utils/modal.service';
+import { Commodity } from 'src/app/model/commodity';
+import { Criteria } from 'src/app/model/criteria';
 import { Distribution } from 'src/app/model/distribution';
+import { Location } from 'src/app/model/location';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { LocationService } from '../../../core/api/location.service';
-import { Commodity } from '../../../model/commodity';
-import { Criteria } from '../../../model/criteria';
-import { Location } from '../../../model/location';
-import { LanguageService } from './../../../../texts/language.service';
 
 @Component({
     selector: 'app-add-distribution',

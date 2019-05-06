@@ -3,9 +3,9 @@ import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/for
 import { MatCheckbox, MatDialog, MatStepper } from '@angular/material';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { Household } from 'src/app/model/household';
-import { LanguageService } from 'src/texts/language.service';
 import { ImportService } from '../../../core/utils/beneficiaries-import.service';
 import { ModalLeaveComponent } from './../../../components/modals/modal-leave/modal-leave.component';
 

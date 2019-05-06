@@ -7,14 +7,14 @@ import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { ExportService } from 'src/app/core/api/export.service';
 import { UserService } from 'src/app/core/api/user.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Commodity } from 'src/app/model/commodity';
-import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary';
 import { Distribution } from 'src/app/model/distribution';
+import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary';
 import { User } from 'src/app/model/user';
-import { LanguageService } from './../../../../../texts/language.service';
 
 @Component({
     template: './validated-distribution.component.html',

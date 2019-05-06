@@ -1,9 +1,9 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { Language } from 'src/texts/language';
-import { LanguageService } from 'src/texts/language.service';
 import { UserService } from './core/api/user.service';
+import { Language } from './core/language/language';
+import { LanguageService } from './core/language/language.service';
 import { Country } from './model/country';
 
 @Component({

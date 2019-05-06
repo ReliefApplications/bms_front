@@ -2,9 +2,9 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { HouseholdsService } from 'src/app/core/api/households.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
 import { Household } from 'src/app/model/household';
-import { LanguageService } from './../../../../../texts/language.service';
 
 @Component({
     selector: 'app-imported-data',

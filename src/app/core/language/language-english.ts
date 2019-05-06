@@ -1,4 +1,4 @@
-import { Language } from 'src/texts/language';
+import { Language } from './language';
 /* tslint:disable */
 export class English implements Language {
     // GENERAL VARIABLES

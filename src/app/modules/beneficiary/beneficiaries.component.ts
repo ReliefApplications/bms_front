@@ -6,13 +6,14 @@ import { Router } from '@angular/router';
 import { TableServerComponent } from 'src/app/components/table/table-server/table-server.component';
 import { LocationService } from 'src/app/core/api/location.service';
 import { UserService } from 'src/app/core/api/user.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { LanguageService } from 'src/texts/language.service';
+import { Household } from 'src/app/model/household';
 import { HouseholdsService } from '../../core/api/households.service';
 import { ProjectService } from '../../core/api/project.service';
 import { HouseholdsDataSource } from '../../model/households-data-source';
-import { Household } from '../../model/household';
+
 
 @Component({
     selector: 'app-beneficiaries',

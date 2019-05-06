@@ -1,46 +1,66 @@
-<mat-sidenav-container class="app-component" disableClose="!smallScreenMode" [hasBackdrop]="false">
-    <mat-sidenav #sidenav class="page-menu-wrapper" [ngClass]="{show: isShowing}" [opened]="!smallScreenMode && router.url !=='/login'"
-        (mouseenter)="change()" (mouseleave)="change()" mode="over" [style.marginTop.px]="smallScreenMode ? 56 : 0" [disableClose]="true">
-        <mat-nav-list>
-            <mat-list-item *ngIf="!smallScreenMode" routerLink="/">
-                <img src="assets/images/bms_logo.png" mat-list-icon>
-            </mat-list-item>
-            <mat-list-item [ngClass]="{selected: matchUrl() === ''}" routerLink="/">
-                <span class="full-width" *ngIf="isShowing">{{language.home | titlecase}}</span>
-                <mat-icon mat-list-icon>home</mat-icon>
-            </mat-list-item>
-            <mat-list-item [ngClass]="{selected: matchUrl() === 'projects'}" routerLink="/projects">
-                <span class="full-width" *ngIf="isShowing">{{language.projects | titlecase}}</span>
-                <mat-icon mat-list-icon>assignment</mat-icon>
-            </mat-list-item>
-            <mat-list-item [ngClass]="{selected: matchUrl() === 'beneficiaries'}" routerLink="/beneficiaries">
-                <span class="full-width" *ngIf="isShowing">{{language.beneficiaries | titlecase}}</span>
-                <mat-icon mat-list-icon>supervisor_account</mat-icon>
-            </mat-list-item>
-            <mat-list-item [ngClass]="{selected: matchUrl() === 'reports'}" routerLink="/reports">
-                <span class="full-width" *ngIf="isShowing">{{language.reports | titlecase}}</span>
-                <mat-icon mat-list-icon>timeline</mat-icon>
-            </mat-list-item>
-            <mat-list-item [ngClass]="{selected: matchUrl() === 'vouchers'}" routerLink="/vouchers">
-                <span class="full-width" *ngIf="isShowing">{{language.voucher | titlecase}}</span>
-                <mat-icon mat-list-icon>local_activity</mat-icon>
-            </mat-list-item>
-            <mat-list-item *ngIf="userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS')" [ngClass]="{selected: matchUrl() === 'settings'}" routerLink="/settings">
-                <span class="full-width" *ngIf="isShowing">{{language.settings | titlecase}}</span>
-                <mat-icon mat-list-icon>settings</mat-icon>
-            </mat-list-item>
-        </mat-nav-list>
+<mat-sidenav-container class="app-component" disableClose="true" [hasBackdrop]="false">
+
+
+    <mat-sidenav *ngIf="currentDisplayType.type === 'other'; else mobileSidenav" class="page-menu-wrapper" [ngClass]="{show: extendedSideNav}" [opened]="router.url !=='/login'"
+        (mouseenter)="extendedSideNav = true" (mouseleave)="extendedSideNav = false" (click)="extendedSideNav = false" mode="over" [disableClose]="true">
+        <ng-container *ngTemplateOutlet="sidenav"></ng-container>
     </mat-sidenav>
+
+    <ng-template #mobileSidenav>
+        <mat-sidenav class="page-menu-wrapper mobile-side-nav" [opened]="router.url !=='/login' && extendedSideNav"
+            mode="over" [disableClose]="false" [ngClass]="{show: extendedSideNav}" (click)="extendedSideNav = false">
+            <ng-container *ngTemplateOutlet="sidenav"></ng-container>
+        </mat-sidenav>
+    </ng-template>
+
 
 
     <mat-sidenav-content class="page-content-wrapper" [ngClass]="{'no-margin': !smallScreenMode && router.url ==='/login'}">
-        <mat-toolbar *ngIf="!smallScreenMode && router.url !=='/login'">
-            <app-header *ngIf="userService.currentUser"></app-header>
-        </mat-toolbar>
-        <mat-toolbar *ngIf="smallScreenMode && router.url !=='/login'" class="mobile">
-            <app-header-mobile *ngIf="userService.currentUser" (emitToggle)="toggle(sidenav)"></app-header-mobile>
-        </mat-toolbar>
+        <ng-container *ngIf="router.url !=='/login'">
+            <mat-toolbar *ngIf="currentDisplayType.type === 'other'; else mobileHeader">
+                <app-header *ngIf="userService.currentUser"></app-header>
+            </mat-toolbar>
+            <ng-template #mobileHeader>
+                <mat-toolbar class="mobile">
+                    <app-header-mobile *ngIf="userService.currentUser" (toggle)="extendedSideNav = !extendedSideNav"></app-header-mobile>
+                </mat-toolbar>
+            </ng-template>
+        </ng-container>
+
+
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 
 </mat-sidenav-container>
+
+<ng-template #sidenav>
+    <mat-nav-list *ngIf="language">
+        <mat-list-item *ngIf="currentDisplayType !== 'mobile'" routerLink="/">
+            <img src="assets/images/bms_logo.png" mat-list-icon>
+        </mat-list-item>
+        <mat-list-item [ngClass]="{selected: matchUrl() === ''}" routerLink="/">
+            <span class="full-width" >{{language.beneficiaries | titlecase}}</span>
+            <mat-icon mat-list-icon>home</mat-icon>
+        </mat-list-item>
+        <mat-list-item [ngClass]="{selected: matchUrl() === 'projects'}" routerLink="/projects">
+            <span class="full-width" >{{language.projects | titlecase}}</span>
+            <mat-icon mat-list-icon>assignment</mat-icon>
+        </mat-list-item>
+        <mat-list-item [ngClass]="{selected: matchUrl() === 'beneficiaries'}" routerLink="/beneficiaries">
+            <span class="full-width" >{{language.beneficiaries | titlecase}}</span>
+            <mat-icon mat-list-icon>supervisor_account</mat-icon>
+        </mat-list-item>
+        <mat-list-item [ngClass]="{selected: matchUrl() === 'reports'}" routerLink="/reports">
+            <span class="full-width" >{{language.reports | titlecase}}</span>
+            <mat-icon mat-list-icon>timeline</mat-icon>
+        </mat-list-item>
+        <mat-list-item [ngClass]="{selected: matchUrl() === 'vouchers'}" routerLink="/vouchers">
+            <span class="full-width">{{language.voucher | titlecase}}</span>
+            <mat-icon mat-list-icon>local_activity</mat-icon>
+        </mat-list-item>
+        <mat-list-item *ngIf="userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS')" [ngClass]="{selected: matchUrl() === 'settings'}" routerLink="/settings">
+            <span class="full-width">{{language.reports | titlecase}}</span>
+            <mat-icon mat-list-icon>settings</mat-icon>
+        </mat-list-item>
+    </mat-nav-list>
+</ng-template>

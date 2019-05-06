@@ -1,4 +1,4 @@
-<div class="header-container">
+<div class="header-container" *ngIf="currentDisplayType.type === 'other'; else mobileHeader">
     <div class="container-routes">
         <span *ngFor="let item of breadcrumbs">
             <span *ngIf="item.route !== '/'">

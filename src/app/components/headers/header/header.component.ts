@@ -5,8 +5,10 @@ import { Subscription } from 'rxjs';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { Language } from 'src/app/core/language/language';
 import { LanguageService } from 'src/app/core/language/language.service';
+import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Country } from 'src/app/model/country';
+import { DisplayType } from 'src/constants/screen-sizes';
 import { ModalLanguageComponent } from './../../modals/modal-language/modal-language.component';
 
 export interface Breadcrumb {
@@ -21,6 +23,9 @@ export interface Breadcrumb {
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
+    // Screen size
+    private screenSizeSubscription: Subscription;
+    public currentDisplayType: DisplayType;
 
     // Language
     public language: Language = this.languageService.selectedLanguage ?
@@ -40,9 +45,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
         private asynCacheService: AsyncacheService,
         private countriesService: CountriesService,
         private router: Router,
+        private screenSizeService: ScreenSizeService,
     ) {
 
     }
+
     ngOnInit(): void {
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationEnd) {
@@ -59,6 +66,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
             }),
             this.countriesService.selectableCountries.subscribe((countries: Array<Country>) => {
                 this.countries = countries;
+            }),
+            this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+                this.currentDisplayType = displayType;
             }),
         ];
     }

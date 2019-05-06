@@ -1,9 +1,12 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { DisplayType } from 'src/constants/screen-sizes';
 import { UserService } from './core/api/user.service';
 import { Language } from './core/language/language';
 import { LanguageService } from './core/language/language.service';
+import { ScreenSizeService } from './core/screen-size/screen-size.service';
 import { Country } from './model/country';
 
 @Component({
@@ -22,6 +25,10 @@ export class AppComponent implements OnInit, OnDestroy {
     public countries: Array<Country>;
 
 
+    // Screen size
+    public currentDisplayType: DisplayType;
+    private screenSizeSubscription: Subscription;
+
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
@@ -30,48 +37,27 @@ export class AppComponent implements OnInit, OnDestroy {
         public dialog: MatDialog,
         public userService: UserService,
         public languageService: LanguageService,
+        private screenSizeService: ScreenSizeService,
     ) { }
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.checkSize();
+    @HostListener('window:resize')
+    onResize() {
+        this.screenSizeService.onScreenSizeChange();
     }
 
     ngOnInit() {
         this.languageService.languageSubject.subscribe((language: Language) => {
             this.language = language;
         });
-        this.checkSize();
+
+        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+            this.currentDisplayType = displayType;
+        });
     }
 
     ngOnDestroy() {
         this.languageService.languageSubject.unsubscribe();
-    }
-
-    change() {
-        if (!this.smallScreenMode) {
-            this.isShowing = !this.isShowing;
-        }
-    }
-
-    checkSize(): void {
-        if (this.smallScreenMode === false && ((window.innerHeight < this.maxHeight) || (window.innerWidth < this.maxWidth))) {
-            this.smallScreenMode = true;
-            this.isShowing = true;
-            // TODO: REDO MARGINS
-            // GlobalText.resetMenuMargin();
-        } else if (this.smallScreenMode === true && (window.innerHeight > this.maxHeight) && (window.innerWidth > this.maxWidth)) {
-            this.smallScreenMode = false;
-        }
-        if ((window.innerHeight > this.maxHeight) && (window.innerWidth > this.maxWidth)) {
-            this.isShowing = false;
-        }
-    }
-
-    toggle(sidenav) {
-        if (this.smallScreenMode) {
-            sidenav.toggle();
-        }
+        this.screenSizeSubscription.unsubscribe();
     }
 
     matchUrl(): string {

@@ -18,10 +18,8 @@ export class Project extends CustomModel {
     public fields = {
         id : new NumberModelField(
             {
-                title: null,
-                placeholder: null,
-                isDisplayedInTable: false,
-                isDisplayedInModal: false,
+                title: this.language.id,
+                isDisplayedInTable: true,
             },
         ),
         name : new TextModelField(

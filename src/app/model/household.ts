@@ -33,7 +33,8 @@ export class Household extends CustomModel {
     public fields = {
         id: new NumberModelField(
             {
-                // Not displayed anywhere
+                title: this.language.id,
+                isDisplayedInTable: true,
             }
         ),
         familyName: new TextModelField(

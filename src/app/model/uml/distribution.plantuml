@@ -1,0 +1,93 @@
+@startuml customModelFields
+ 
+ class Distribution {
+    - id
+    - name
+    - location
+    - distributionBeneficiaries
+    - date
+    - project
+    - projectId
+    - selectionCriteria
+    - type
+    - commodities
+    - validated
+    - threshold
+    - finished
+ }
+ 
+ class DistributionType {
+    - id
+    - name
+}
+
+ 
+ class Commodity {
+    - id
+    - modality
+    - modalityType
+    - unit
+    - value
+ }
+ 
+ class Modality {
+    - id
+    - name
+}
+
+class ModalityType {
+    - id
+    - name
+}
+
+class Criteria {
+    - kindOfBeneficiary
+    - tableString
+    - field
+    - condition
+    - type
+    - value
+    - weight
+}
+
+
+class CriteriaField {
+    - id
+    - name
+}
+
+
+class CriteriaType {
+    - id
+    - name
+}
+
+
+class CriteriaCondition {
+    - id
+    - name
+}
+
+ 
+ Distribution "1" o-- "0-*" Booklet
+ 
+ Modality "1" *-- "1" Commodity
+ ModalityType "1" *-- "1" Commodity
+ 
+ 
+ CriteriaField "1" *-- "1" Criteria
+ CriteriaCondition "1" *-- "1" Criteria
+ CriteriaType "1" *-- "1" Criteria
+
+ Beneficiary "1" *-- "0-*" DistributionBeneficiary
+ Distribution "1" *-- "0-*" DistributionBeneficiary
+ 
+ DistributionType "1" *-- "1" Distribution
+ Location "1" *-- "1" Distribution
+ Project "1" o-- "1" Distribution
+ Criteria "0-*" *-- "1" Distribution
+ Commodity "0-*" *-- "1" Distribution
+ 
+ Adm "0-4" *-- "1" Location
+ 
+@enduml

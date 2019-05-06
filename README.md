@@ -109,3 +109,7 @@ If it's the first time, please run
 ```bash
 sudo ./docker-build.sh bms/front
 ```
+
+## Models
+
+The code follows the specifications explained [here](src/app/model/README.md)

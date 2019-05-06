@@ -1,0 +1,73 @@
+@startuml household
+
+class Household {
+    - id
+    - familyName
+    - firstName
+    - location
+    - dependents
+    - vulnerabilities
+    - projects
+    - beneficiaries
+    - countrySpecificAnswers
+    - addressNumber
+    - addressStreet
+    - addressPostcode
+    - livelihood
+    - notes
+}
+
+class Livelihood {
+    - id
+    - name
+}
+
+class CountrySpecificAnswer {
+    - countrySpecific
+    - answer
+}
+
+class CountrySpecific {
+    - id
+    - field
+    - type
+    - answer
+    - countryIso3
+    - name
+}
+
+class CountrySpecificType {
+    - id
+    - name
+}
+
+class Location {
+    - id
+    - adm1
+    - adm2
+    - adm3
+    - adm4
+    - countryIso3
+}
+
+class Adm {
+    - id
+    - name
+}
+ 
+ CountrySpecificType "1" *-- "1" CountrySpecific
+ CountrySpecific "1" *-- "1" CountrySpecificAnswer
+ 
+ Livelihood "1" *-- "1" Household
+ Location "1" *-- "1" Household
+ VulnerabilityCriteria "0-*" *-- "1" Household
+ Project "1-*" o-- "0-*" Household
+ Beneficiary "1-*" *-- "0-*" Household
+ CountrySpecificAnswer "0-*" *-- "1" Household
+ 
+ Project "0-*" *-- "1" HouseholdFilters
+ VulnerabilityCriteria "0-*" *-- "1" HouseholdFilters
+ Location "0-*" *-- "1" HouseholdFilters
+ 
+ Adm "0-4" *-- "1" Location
+@enduml

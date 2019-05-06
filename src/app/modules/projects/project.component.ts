@@ -11,7 +11,7 @@ import { ModalService } from 'src/app/core/utils/modal.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ProjectService } from '../../core/api/project.service';
 import { Distribution } from '../../model/distribution.new';
-import { Project as NewProject } from '../../model/project.new';
+import { Project } from '../../model/project.new';
 import { LanguageService } from './../../../texts/language.service';
 
 @Component({
@@ -24,7 +24,7 @@ export class ProjectComponent implements OnInit {
 
     loadingExport = false;
 
-    projects: NewProject[];
+    projects: Project[];
     distributionData: MatTableDataSource<Distribution>;
     distributionClass = Distribution;
     public httpSubscriber: Subscription;
@@ -87,7 +87,10 @@ export class ProjectComponent implements OnInit {
      * update current project and its distributions when a other project box is clicked
      * @param project
      */
-    selectProject(project: NewProject): void {
+    selectProject(project: Project): void {
+
+
+        // Cancel the previous project request
         if (this.httpSubscriber) {
             this.httpSubscriber.unsubscribe();
         }
@@ -116,26 +119,23 @@ export class ProjectComponent implements OnInit {
                 if (response && response.length > 0) {
                     // Transform response into array of projects
                     this.projects = response.map((projectFromApi: object) => {
-                        return NewProject.apiToModel(projectFromApi);
+                        return Project.apiToModel(projectFromApi);
                     }).reverse();
-                    // Check for empty projects array
-                    if (!this.projects.length) {
-                        return;
-                    }
                     // Auto select latest project if no project is selected
                     if (
                         !this.selectedProject ||
-                        this.projects.filter((project: NewProject) => this.selectedProject.get('id') === project.get('id')).length === 0
+                        this.projects.filter((project: Project) => this.selectedProject.get('id') === project.get('id')).length === 0
                     ) {
                         this.selectProject(this.projects[0]);
                     }
-
-                } else if (response === null) {
-                    this.loadingProjects = false;
+                }
+                else {
+                    this.loadingDistributions = false;
                 }
             }
         );
     }
+
 
     /**
      * get all distributions of a project
@@ -187,7 +187,7 @@ export class ProjectComponent implements OnInit {
 
     openNewProjectDialog() {
 
-        this.modalService.openDialog(NewProject, this.projectService, {action: 'add'});
+        this.modalService.openDialog(Project, this.projectService, {action: 'add'});
         this.modalService.isCompleted.subscribe(() => {
             this.getProjects();
         });

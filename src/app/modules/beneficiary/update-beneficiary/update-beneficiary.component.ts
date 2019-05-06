@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
-import { Beneficiary, Gender, ResidencyStatus } from 'src/app/model/beneficiary';
+import { Beneficiary, Gender, ResidencyStatus, BeneficiaryOptions } from 'src/app/model/beneficiary';
 import { CountrySpecificAnswer } from 'src/app/model/country-specific';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { Household, Livelihood } from 'src/app/model/household';

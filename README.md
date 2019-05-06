@@ -112,4 +112,4 @@ sudo ./docker-build.sh bms/front
 
 ## Technical specifications
 
-The code follows the specifications explained [here](src/app/model/README.md)
+The code follows the specifications explained [here](src/app/model/README.md).

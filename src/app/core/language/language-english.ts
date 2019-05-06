@@ -382,7 +382,8 @@ export class English implements Language {
     // Model
     model_beneficiaries_dependents = 'Members'
     model_beneficiaries_nationalids = 'ID Number'
-    model_beneficiaries_phones = 'Phones (no country code)'
+    model_beneficiaries_phones = ' (no country code)'
+    model_beneficiaries_phone_no = 'Phone No. '
     model_beneficiaries_status = 'Satus'
     model_booklet = 'Booklet'
     model_booklet_password_pattern = 'The password must be four digits'
@@ -573,7 +574,7 @@ export class English implements Language {
     transaction_state_sending_failed = 'Sending failed'
     transaction_state_sent = 'Sent'
     transaction_state_already_sent = 'Already sent'
-    transaction_state_picked_up = 'Picked up'
+    transaction_state_picked_up = 'Picked Up'
     transaction_transaction = 'Start transaction'
     transaction_validate_distribution = 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.'
     transaction_validation = 'Confirm the validation'

@@ -381,7 +381,8 @@ export class French implements Language {
     // Model
     model_beneficiaries_dependents = 'Membres'
     model_beneficiaries_nationalids = 'Numéro d\'identification'
-    model_beneficiaries_phones = 'Téléphones (sans le code pays)'
+    model_beneficiaries_phones = ' (sans le code pays)'
+    model_beneficiaries_phone_no = 'Téléphone No. '
     model_beneficiaries_status = 'Satut'
     model_booklet = 'Brochure'
     model_booklet_password_pattern = 'Le mot de passe doit se composer de 4 chiffres'

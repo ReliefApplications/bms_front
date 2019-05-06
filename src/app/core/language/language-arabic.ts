@@ -382,7 +382,8 @@ export class Arabic implements Language {
     // Model
     model_beneficiaries_dependents = 'عضو'
     model_beneficiaries_nationalids = 'رقم الهوية'
-    model_beneficiaries_phones = 'الهاتف'
+    model_beneficiaries_phones = '(بدون رمز البلد) '
+    model_beneficiaries_phone_no = 'رقم الهاتف'
     model_beneficiaries_status = 'الرتبة في الأسرة'
     model_booklet = 'كتيب'
     model_booklet_password_pattern = 'يجب أن تتكون كلمة المرور من 4 أرقام'

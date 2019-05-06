@@ -44,7 +44,7 @@ export class Distribution extends CustomModel {
                 title: this.language.id,
                 isDisplayedInTable: true,
             }
-            ),
+        ),
         name: new TextModelField(
             {
                 title: this.language.model_distribution_name,

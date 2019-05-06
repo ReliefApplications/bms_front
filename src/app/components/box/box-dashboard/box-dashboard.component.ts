@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { LanguageService } from 'src/texts/language.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 
 @Component({
   selector: 'app-box-dashboard',

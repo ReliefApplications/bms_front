@@ -3,10 +3,10 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlSe
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { User } from 'src/app/model/user';
 import { UserService } from '../api/user.service';
 import { SnackbarService } from '../logging/snackbar.service';
-import { LanguageService } from './../../../texts/language.service';
 
 @Injectable({
     providedIn: 'root'

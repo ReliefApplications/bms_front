@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LanguageService } from './../../../../texts/language.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 
 
 @Component({

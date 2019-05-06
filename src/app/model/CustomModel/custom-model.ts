@@ -1,4 +1,4 @@
-import { LanguageService } from './../../../texts/language.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { AppInjector } from './../../app-injector';
 
 export abstract class CustomModel {

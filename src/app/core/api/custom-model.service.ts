@@ -1,6 +1,6 @@
+import { LanguageService } from 'src/app/core/language/language.service';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { URL_BMS_API } from '../../../environments/environment';
-import { LanguageService } from './../../../texts/language.service';
 import { HttpService } from './http.service';
 
 export abstract class CustomModelService {

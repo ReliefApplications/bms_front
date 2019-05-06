@@ -1,5 +1,5 @@
 import { AppInjector } from 'src/app/app-injector';
-import { LanguageService } from 'src/texts/language.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 
 export class CustomModelField<T> {
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { FinancialProviderService } from 'src/app/core/api/financial-provider.se
 import { LocationService } from 'src/app/core/api/location.service';
 import { ProductService } from 'src/app/core/api/product-service';
 import { VendorsService } from 'src/app/core/api/vendors.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
@@ -27,7 +28,6 @@ import { CountrySpecific } from '../../model/country-specific';
 import { Donor } from '../../model/donor';
 import { Project } from '../../model/project';
 import { User } from '../../model/user';
-import { LanguageService } from './../../../texts/language.service';
 
 
 @Component({

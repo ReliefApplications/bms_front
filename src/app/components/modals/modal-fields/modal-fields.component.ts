@@ -6,11 +6,11 @@ import { tap } from 'rxjs/operators';
 import { FieldService } from 'src/app/core/api/field.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { UploadService } from 'src/app/core/api/upload.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 import { CustomModel as CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { TextModelField } from 'src/app/model/CustomModel/text-model-field';
 import { CustomDateAdapter } from '../../../core/utils/date.adapter';
-import { LanguageService } from './../../../../texts/language.service';
 
 @Component({
     selector: 'app-project',

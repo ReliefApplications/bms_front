@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { Booklet } from 'src/app/model/booklet';
-import { LanguageService } from 'src/texts/language.service';
 import { URL_BMS_API } from '../../../environments/environment';
 import { CustomModelService } from './custom-model.service';
 import { HttpService } from './http.service';

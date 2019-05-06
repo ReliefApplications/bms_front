@@ -2,13 +2,13 @@ import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@a
 import { MatTableDataSource } from '@angular/material';
 import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { Distribution } from 'src/app/model/distribution';
-import { LanguageService } from 'src/texts/language.service';
+import { ImportedBeneficiary } from 'src/app/model/imported-beneficiary';
 import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
 import { DistributionService } from '../../../../core/api/distribution.service';
 import { HouseholdsService } from '../../../../core/api/households.service';
-import { ImportedBeneficiary } from '../../../../model/imported-beneficiary';
 
 const IMPORT_COMPARE = 1;
 const IMPORT_UPDATE = 2;

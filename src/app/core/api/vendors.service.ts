@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AppInjector } from 'src/app/app-injector';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { User } from 'src/app/model/user';
 import { Vendor } from 'src/app/model/vendor';
-import { LanguageService } from 'src/texts/language.service';
 import { URL_BMS_API } from '../../../environments/environment';
 import { ExportService } from '../../core/api/export.service';
 import { Location } from '../../model/location';

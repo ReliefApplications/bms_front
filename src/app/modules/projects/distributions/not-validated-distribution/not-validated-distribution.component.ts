@@ -3,14 +3,14 @@ import { MatDialog, MatStepper, MatTableDataSource } from '@angular/material';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { NetworkService } from 'src/app/core/api/network.service';
 import { UserService } from 'src/app/core/api/user.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Beneficiary } from 'src/app/model/beneficiary';
-import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary';
 import { Distribution } from 'src/app/model/distribution';
+import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary';
 import { User } from 'src/app/model/user';
-import { LanguageService } from 'src/texts/language.service';
 import { BeneficiariesService } from './../../../../core/api/beneficiaries.service';
 
 @Component({

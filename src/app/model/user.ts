@@ -1,5 +1,5 @@
 import { FormGroup } from '@angular/forms';
-import { Language } from 'src/texts/language';
+import { Language } from '../core/language/language';
 import { Country } from './country';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { CustomModel } from './CustomModel/custom-model';

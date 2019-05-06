@@ -1,4 +1,4 @@
-import { Language } from 'src/texts/language';
+import { Language } from './language';
 /* tslint:disable */
 export class French implements Language {
     // GENERAL VARIABLES
@@ -208,7 +208,7 @@ export class French implements Language {
     // Countries
     country_khm = 'Cambodge'
     country_syr = 'Syrie'
-  
+
     // Dashboard
     dashboard_distribution_map = 'répartition des distributions'
     dashboard_recent_distributions = 'distributions récentes'
@@ -454,7 +454,7 @@ export class French implements Language {
     number_suffix_second = 'ème'
     number_suffix_third = 'ème'
     number_suffix_other = 'ème'
-  
+
     // Phone
     phone_type_landline = 'Fixe'
     phone_type_mobile = 'Portable'

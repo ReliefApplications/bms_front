@@ -1,6 +1,6 @@
-# Models
+## Models
 
-## General
+### General
 
 In this project, models are all extending the same class "CustomModel". A custom model contains functions to translate data from the Api to the Front and vice versa, and fields which can be displayed/edited in the tables, modals etc. A CustomModel also contains a title to be displayed in its tab, a matSortActive to pre-select the ordered column, and rights, to know who will be able to modify it.
 
@@ -21,11 +21,11 @@ Thanks to this principle (every model extending the exact same class), it become
 
 ![Fields](./uml/fields.svg)
 
-## CustomModelFields
+### CustomModelFields
 
 Every custom model field will have the general properties of the abstract class and its own particular properties.
 
-### General properties
+#### General properties
 
 __value__: The value of the field, to be displayed in the table/modal
 
@@ -55,7 +55,7 @@ __triggerFunction__: The function triggered on input change
 
 __filterName__: If used as a filter for the backend, the filterName is the key sent to the api
 
-### Specific properties
+#### Specific properties
 
 __maxSelectionLength__: For a multipleSelect, specify the maximum number of items that can be selected
 
@@ -86,15 +86,15 @@ __isPassword__: Whether or not it is a password and therefore must be hidden whe
 __isLongText__: Whether the input must be a textarea or a simple input type="text"
 
 
-# Relationships between models
+## Relationships between models
 
-## At the center of the structure: project
+### At the center of the structure: project
 
 The project is the biggest entity possible in the code. It contains distributions and can be assigned to users. The "value" field now is used to give the number of targeted beneficiaries by the project.
 
 ![Project](./uml/project.svg)
 
-## Sharing resources fairly: distribution
+### Sharing resources fairly: distribution
 
 A Distribution is a way to share commodities (Food, cash, vouchers etc.) in a certain place at a certain time, according to some vulnerability criteria. A distribution contains beneficiaries, targetting them individually or as members of a household (precised by the "type" field, as a DistributionType). The threshold corresponds to the minimum selection score a beneficiary must reach to be a part of the distribution. This score is calculated with the weight of each selection criteria.
 
@@ -102,7 +102,7 @@ A criteria contains a field (eg: "Date of Birth"), a condition (eg: ">") and a v
 
 ![Distribution](./uml/distribution.svg)
 
-## Beneficiaries in the same family: household
+### Beneficiaries in the same family: household
 
 A household is a group of beneficiaries, and contains some usefull common information as an address, location, livelihood, number of dependents or the answers to some country specific questions. The vulnerabilities of the household is the sum of the vulnerabilities of its members. A householdFilters model was also created to be able to filter the very large list of households in the table.
 
@@ -110,13 +110,13 @@ Note that a location contains until four different administrations, from the les
 
 ![Household](./uml/household.svg)
 
-## Individual information: beneficiary
+### Individual information: beneficiary
 
 A household member can have its own personnal information, different from the other members (the first name, date of birth, phone, ID etc.). The beneficiaryStatus defines whether or not the beneficiary is the head of the household. The residencyStatus precises whether the beneficiary is a refugee, a resident or an IDP. Note that the field NationalIds can contains many IDs but for the moment it always contains only one.
 
 ![Beneficiary](./uml/beneficiary.svg)
 
-## A specific way of distributing: booklet
+### A specific way of distributing: booklet
 
 A booklet is a group of vouchers, to be used in shops in order to buy food, hygienic products etc. The booklet is identified by a code, which will be converted to a QR Code later on. The same principle applies to the vouchers. The booklet's vouchers can have different values but they have the same currency, and the booklet's date of use is either null if one voucher is still unused, either equal to the date of use of the last used voucher. The booklet's value is the sum of the vouchers' values.
 
@@ -124,7 +124,7 @@ Note that the booklet's password is optional, and the boolean field 'define pass
 
 ![Booklet](./uml/booklet.svg)
 
-## Distributing IRL: transaction
+### Distributing IRL: transaction
 
 On the field, the distributions will be executed by transactions. There are three types of transactions:
 
@@ -136,7 +136,7 @@ Every transaction will be familiarly associated with its beneficiary, that's why
 
 ![Transaction](./uml/transactions.svg)
 
-## Managing the platform: user
+### Managing the platform: user
 
 There are two types of users in the platform: the vendors, who will use the app to sell goods in exchange for vouchers, and the "web users", the users who take care of the organisation on the web application.
 
@@ -149,7 +149,7 @@ Note that a user can have a preferred language, used automatically when they log
 ![User](./uml/user.svg)
 
 
-# An abstract service to rule them all: CustomModelService
+## An abstract service to rule them all: CustomModelService
 
 While every class extends the CustomModel, every service extends the CustomModelService, which provides the commonly used functions (get, create, update, delete).
 The __makeUrl()__ function will be used to concatenate the base of the api url and the specific path used for each service and called "CustomModelPath" (eg: "distributions").

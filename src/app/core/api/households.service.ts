@@ -6,7 +6,7 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { HouseholdFilters } from 'src/app/model/households-data-source';
 import { VulnerabilityCriteria } from 'src/app/model/vulnerability-criteria';
 import { URL_BMS_API } from '../../../environments/environment';
-import { Household } from '../../model/household';
+import { Household, Livelihood } from '../../model/household';
 import { Location } from '../../model/location';
 import { Project } from '../../model/project';
 import { CriteriaService } from './criteria.service';
@@ -15,6 +15,8 @@ import { ExportService } from './export.service';
 import { HttpService } from './http.service';
 import { LocationService } from './location.service';
 import { ProjectService } from './project.service';
+import { Gender, ResidencyStatus } from 'src/app/model/beneficiary';
+import { LIVELIHOOD } from 'src/app/model/livelihood';
 
 @Injectable({
     providedIn: 'root'
@@ -188,9 +190,30 @@ export class HouseholdsService extends CustomModelService {
             filters.setOptions('vulnerabilities', vulnerabilityOptions);
         });
 
+        // Get gender
+        const genderOptions = [
+            new Gender('0', this.language.add_distribution_female),
+            new Gender('1', this.language.add_distribution_male)
+        ];
+        filters.setOptions('gender', genderOptions);
+
+        // Get residency status
+        const residencyOptions = [
+            new ResidencyStatus('refugee', this.language.residency_refugee),
+            new ResidencyStatus('IDP', this.language.residency_idp),
+            new ResidencyStatus('resident', this.language.residency_resident)
+        ];
+        filters.setOptions('residency', residencyOptions);
+
+        // Get livelihood
+        const livelihoodOptions = LIVELIHOOD.map(livelihood => new Livelihood(livelihood.id, this.language[livelihood.language_key]));
+        filters.setOptions('livelihood', livelihoodOptions);
+
         // Get adm1
         filters.set('location', new Location());
         appInjector.get(LocationService).fillAdm1Options(filters).subscribe();
+
+
     }
 
     public visit(householdId) {

@@ -12,9 +12,9 @@ import { ObjectModelField } from './CustomModel/object-model-field';
 import { CustomDataSource } from './data-source/custom-data-source.interface';
 import { Household } from './household';
 import { Location } from './location';
+import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 
 export class HouseholdFilters extends CustomModel {
-    // TODO: Change apiLabels to get id for API (backend)
     public fields = {
         projects: new MultipleSelectModelField({
             title: this.language.project,
@@ -29,6 +29,27 @@ export class HouseholdFilters extends CustomModel {
             bindField: 'name',
             apiLabel: 'id',
             isDisplayedInTable: true,
+        }),
+        gender: new SingleSelectModelField({
+            title: this.language.gender,
+            filterName: 'gender',
+            bindField: 'name',
+            apiLabel: 'id',
+            isDisplayedInTable: true,
+        }),
+        residency: new MultipleSelectModelField({
+            title: this.language.model_residencystatus,
+            filterName: 'residency',
+            isDisplayedInTable: true,
+            bindField: 'name',
+            apiLabel: 'id',
+        }),
+        livelihood: new MultipleSelectModelField({
+            title: this.language.add_beneficiary_getOccupation,
+            filterName: 'livelihood',
+            isDisplayedInTable: true,
+            bindField: 'name',
+            apiLabel: 'id',
         }),
         location: new ObjectModelField<Location>({
             title: this.language.location,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Commodity, Modality, ModalityType } from 'src/app/model/commodity.new';
+import { Commodity, Modality, ModalityType } from 'src/app/model/commodity';
 import { LanguageService } from 'src/texts/language.service';
 import { CustomModelService } from './custom-model.service';
 import { HttpService } from './http.service';

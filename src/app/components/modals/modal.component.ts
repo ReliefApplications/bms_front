@@ -15,7 +15,7 @@ import { ProjectService } from '../../core/api/project.service';
 import { SectorService } from '../../core/api/sector.service';
 import { UploadService } from '../../core/api/upload.service';
 import { UserService } from '../../core/api/user.service';
-import { User } from '../../model/user.new';
+import { User } from '../../model/user';
 import { LanguageService } from './../../../texts/language.service';
 
 

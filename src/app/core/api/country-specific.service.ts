@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LanguageService } from 'src/texts/language.service';
-import { CountrySpecific } from '../../model/country-specific.new';
+import { CountrySpecific } from '../../model/country-specific';
 import { CustomModelService } from './custom-model.service';
 import { HttpService } from './http.service';
 

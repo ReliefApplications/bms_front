@@ -1,5 +1,5 @@
 import { CustomModel } from './CustomModel/custom-model';
-import { Beneficiary } from './beneficiary.new';
+import { Beneficiary } from './beneficiary';
 import { ObjectModelField } from './CustomModel/object-model-field';
 
 export class DistributionBeneficiary extends CustomModel {

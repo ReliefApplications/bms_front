@@ -10,7 +10,7 @@ import { Country } from 'src/app/model/country';
 import { environment } from 'src/environments/environment';
 import { LanguageService } from 'src/texts/language.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { ErrorInterface, User } from '../../model/user.new';
+import { ErrorInterface, User } from '../../model/user';
 
 
 

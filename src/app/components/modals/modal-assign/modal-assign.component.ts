@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { Beneficiary } from 'src/app/model/beneficiary.new';
-import { Distribution } from 'src/app/model/distribution.new';
-import { Project } from 'src/app/model/project.new';
+import { Beneficiary } from 'src/app/model/beneficiary';
+import { Distribution } from 'src/app/model/distribution';
+import { Project } from 'src/app/model/project';
 import { ModalComponent } from '../modal.component';
 
 @Component({

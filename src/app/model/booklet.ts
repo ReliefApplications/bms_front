@@ -1,6 +1,6 @@
 import { FormGroup } from '@angular/forms';
 import * as CryptoJS from 'crypto-js';
-import { Beneficiary } from './beneficiary.new';
+import { Beneficiary } from './beneficiary';
 import { CURRENCIES } from './currencies';
 import { CustomModel } from './CustomModel/custom-model';
 import { DateModelField } from './CustomModel/date-model-field';
@@ -9,8 +9,8 @@ import { NumberModelField } from './CustomModel/number-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
-import { Distribution } from './distribution.new';
-import { Voucher } from './voucher.new';
+import { Distribution } from './distribution';
+import { Voucher } from './voucher';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 
 export class BookletStatus extends CustomModel {

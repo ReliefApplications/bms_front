@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { CommodityService } from 'src/app/core/api/commodity.service';
 import { FieldService } from 'src/app/core/api/field.service';
-import { Commodity } from 'src/app/model/commodity.new';
+import { Commodity } from 'src/app/model/commodity';
 import { LanguageService } from 'src/texts/language.service';
 
 

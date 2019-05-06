@@ -5,7 +5,7 @@ import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Distribution } from 'src/app/model/distribution.new';
+import { Distribution } from 'src/app/model/distribution';
 import { LanguageService } from 'src/texts/language.service';
 
 

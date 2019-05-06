@@ -1,6 +1,6 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { Location } from 'src/app/model/location.new';
+import { Location } from 'src/app/model/location';
 import { LanguageService } from 'src/texts/language.service';
 
 @Component({

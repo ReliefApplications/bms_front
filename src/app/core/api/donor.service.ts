@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LanguageService } from 'src/texts/language.service';
-import { Donor } from '../../model/donor.new';
+import { Donor } from '../../model/donor';
 import { CustomModelService } from './custom-model.service';
 import { HttpService } from './http.service';
 

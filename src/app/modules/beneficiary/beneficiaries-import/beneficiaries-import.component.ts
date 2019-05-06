@@ -8,13 +8,13 @@ import { LocationService } from 'src/app/core/api/location.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Households } from 'src/app/model/households.new';
+import { Household } from 'src/app/model/household';
 import { LanguageService } from 'src/texts/language.service';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { ImportService } from '../../../core/utils/beneficiaries-import.service';
-import { Project } from '../../../model/project.new';
+import { Project } from '../../../model/project';
 
 
 export interface Api {
@@ -599,7 +599,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         this._householdsService.getImported(this.newHouseholds)
             .subscribe(
                 response => {
-                    this.newHouseholds = response.map((household: Households) => Households.apiToModel(household));
+                    this.newHouseholds = response.map((household: Household) => Household.apiToModel(household));
                     this._importService.importedHouseholds = this.newHouseholds;
                     this.router.navigate(['/beneficiaries/imported']);
                 }

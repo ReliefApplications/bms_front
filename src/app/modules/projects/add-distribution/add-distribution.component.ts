@@ -12,13 +12,13 @@ import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { Distribution } from 'src/app/model/distribution.new';
+import { Distribution } from 'src/app/model/distribution';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { LocationService } from '../../../core/api/location.service';
-import { Commodity } from '../../../model/commodity.new';
-import { Criteria } from '../../../model/criteria.new';
-import { Location } from '../../../model/location.new';
+import { Commodity } from '../../../model/commodity';
+import { Criteria } from '../../../model/criteria';
+import { Location } from '../../../model/location';
 import { LanguageService } from './../../../../texts/language.service';
 
 @Component({

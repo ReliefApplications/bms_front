@@ -1,4 +1,4 @@
-import { Households } from 'src/app/model/households.new';
+import { Household } from 'src/app/model/household';
 
 /**
  * Data contained in new and old object after treatment
@@ -12,9 +12,9 @@ export class Data {
     nameHead?: string;
     /**
      * All Households
-     * @type {Households}
+     * @type {Household}
      */
-    households: Households = new Households;
+    households: Household = new Household;
     /**
      * to know if beneficiaries is the head of household
      * @type {boolean}
@@ -201,9 +201,9 @@ export class FormatDuplicatesData {
     data: Array<any> = [];
     /**
      * new_household to return to back without modification
-     * @type {Households}
+     * @type {Household}
      */
-    new_household: Households = new Households;
+    new_household: Household = new Household;
     /**
      * id uses by the back
      * @type {number}

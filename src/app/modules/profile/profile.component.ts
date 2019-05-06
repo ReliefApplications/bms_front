@@ -5,7 +5,7 @@ import { Constants } from 'src/app/core/utils/constants';
 import { UserService } from '../../core/api/user.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
-import { User } from '../../model/user.new';
+import { User } from '../../model/user';
 import { LanguageService } from './../../../texts/language.service';
 
 @Component({

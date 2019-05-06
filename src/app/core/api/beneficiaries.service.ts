@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Project } from 'src/app/model/project.new';
+import { Project } from 'src/app/model/project';
 import { URL_BMS_API } from '../../../environments/environment';
 import { LanguageService } from './../../../texts/language.service';
 import { CustomModelService } from './custom-model.service';

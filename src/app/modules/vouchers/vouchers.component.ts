@@ -8,11 +8,11 @@ import { BookletService } from 'src/app/core/api/booklet.service';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { Booklet } from 'src/app/model/booklet.new';
-import { Project } from 'src/app/model/project.new';
+import { Booklet } from 'src/app/model/booklet';
+import { Project } from 'src/app/model/project';
 import { LanguageService } from 'src/texts/language.service';
 import { ExportService } from '../../core/api/export.service';
-import { Voucher } from '../../model/voucher.new';
+import { Voucher } from '../../model/voucher';
 @Component({
     selector: 'app-vouchers',
     templateUrl: './vouchers.component.html',
@@ -69,7 +69,7 @@ export class VouchersComponent implements OnInit {
     ngOnInit() {
         this.checkSize();
         this.extensionType = 'xls';
-
+        this.extensionTypeCode = 'xls';
         this.getBooklets();
     }
 

@@ -13,9 +13,9 @@ import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { FinancialProvider } from 'src/app/model/financial-provider.new';
-import { Product } from 'src/app/model/product.new';
-import { Vendor } from 'src/app/model/vendor.new';
+import { FinancialProvider } from 'src/app/model/financial-provider';
+import { Product } from 'src/app/model/product';
+import { Vendor } from 'src/app/model/vendor';
 import { CountrySpecificService } from '../../core/api/country-specific.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { DonorService } from '../../core/api/donor.service';
@@ -23,10 +23,10 @@ import { ProjectService } from '../../core/api/project.service';
 import { SettingsService } from '../../core/api/settings.service';
 import { UserService } from '../../core/api/user.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { CountrySpecific } from '../../model/country-specific.new';
-import { Donor } from '../../model/donor.new';
-import { Project } from '../../model/project.new';
-import { User } from '../../model/user.new';
+import { CountrySpecific } from '../../model/country-specific';
+import { Donor } from '../../model/donor';
+import { Project } from '../../model/project';
+import { User } from '../../model/user';
 import { LanguageService } from './../../../texts/language.service';
 
 

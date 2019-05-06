@@ -25,6 +25,10 @@ $box-content: 80px;
         &:hover {
             cursor: pointer;
         }
+
+        &:focus {
+            outline: none;
+        }
     }
 }
 

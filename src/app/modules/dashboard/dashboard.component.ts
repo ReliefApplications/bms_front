@@ -4,7 +4,7 @@ import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { Distribution } from 'src/app/model/distribution.new';
+import { Distribution } from 'src/app/model/distribution';
 import { LanguageService } from 'src/texts/language.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';

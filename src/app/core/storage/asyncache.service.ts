@@ -5,7 +5,7 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, concat, map, switchMap, tap } from 'rxjs/operators';
 import { Country } from 'src/app/model/country';
 import { FailedRequestInterface, StoredRequestInterface } from 'src/app/model/stored-request';
-import { User } from 'src/app/model/user.new';
+import { User } from 'src/app/model/user';
 import { Language } from 'src/texts/language';
 import { CountriesService } from '../countries/countries.service';
 import { LanguageService } from './../../../texts/language.service';

@@ -3,8 +3,8 @@ import { DateModelField } from './CustomModel/date-model-field';
 import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
-import { Donor } from './donor.new';
-import { Sector } from './sector.new';
+import { Donor } from './donor';
+import { Sector } from './sector';
 
 
 export class Project extends CustomModel {

@@ -7,9 +7,9 @@ import { ModalAddComponent } from 'src/app/components/modals/modal-add/modal-add
 import { ModalDeleteComponent } from 'src/app/components/modals/modal-delete/modal-delete.component';
 import { ModalDetailsComponent } from 'src/app/components/modals/modal-details/modal-details.component';
 import { ModalEditComponent } from 'src/app/components/modals/modal-edit/modal-edit.component';
-import { Beneficiary } from 'src/app/model/beneficiary.new';
-import { Commodity } from 'src/app/model/commodity.new';
-import { Criteria } from 'src/app/model/criteria.new';
+import { Beneficiary } from 'src/app/model/beneficiary';
+import { Commodity } from 'src/app/model/commodity';
+import { Criteria } from 'src/app/model/criteria';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { LanguageService } from 'src/texts/language.service';
 import { CommodityService } from '../api/commodity.service';

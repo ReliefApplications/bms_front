@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Distribution } from 'src/app/model/distribution.new';
+import { Distribution } from 'src/app/model/distribution';
 import { LanguageService } from 'src/texts/language.service';
 import { SnackbarService } from '../logging/snackbar.service';
 import { AsyncacheService } from '../storage/asyncache.service';

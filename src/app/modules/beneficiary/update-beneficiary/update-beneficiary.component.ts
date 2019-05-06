@@ -9,14 +9,14 @@ import { map } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
-import { Beneficiary, Gender, ResidencyStatus } from 'src/app/model/beneficiary.new';
-import { CountrySpecificAnswer } from 'src/app/model/country-specific.new';
+import { Beneficiary, Gender, ResidencyStatus } from 'src/app/model/beneficiary';
+import { CountrySpecificAnswer } from 'src/app/model/country-specific';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { Households, Livelihood } from 'src/app/model/households.new';
-import { NationalId, NationalIdType } from 'src/app/model/nationalId.new';
-import { Phone, PhoneType } from 'src/app/model/phone.new';
-import { Profile } from 'src/app/model/profile.new';
-import { VulnerabilityCriteria } from 'src/app/model/vulnerability-criteria.new';
+import { Household, Livelihood } from 'src/app/model/household';
+import { NationalId, NationalIdType } from 'src/app/model/nationalId';
+import { Phone, PhoneType } from 'src/app/model/phone';
+import { Profile } from 'src/app/model/profile';
+import { VulnerabilityCriteria } from 'src/app/model/vulnerability-criteria';
 import { LanguageService } from 'src/texts/language.service';
 import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
@@ -26,9 +26,9 @@ import { HouseholdsService } from '../../../core/api/households.service';
 import { LocationService } from '../../../core/api/location.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
-import { CountrySpecific } from '../../../model/country-specific.new';
-import { Adm, Location } from '../../../model/location.new';
-import { Project } from '../../../model/project.new';
+import { CountrySpecific } from '../../../model/country-specific';
+import { Adm, Location } from '../../../model/location';
+import { Project } from '../../../model/project';
 
 @Component({
     selector: 'app-update-beneficiary',
@@ -45,7 +45,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public mode: string;
     public validationLoading = false;
 
-    public household: Households;
+    public household: Household;
     public mainFields: string[];
     public mainForm: FormGroup;
 
@@ -153,7 +153,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                             this.countryISO3 = 'KHM';
                         }
                         this.getCountryPhoneCodes();
-                        this.household = new Households();
+                        this.household = new Household();
                         this.household.set('location', new Location());
                         this.household.set('beneficiaries', [this.createNewBeneficiary()]);
                         this.getCountrySpecifics().subscribe(() => {
@@ -173,7 +173,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                             this._householdsService.getOne(result['id']).subscribe(
                                 household => {
                                     this.getCountryPhoneCodes();
-                                    this.household = Households.apiToModel(household);
+                                    this.household = Household.apiToModel(household);
                                     resolve();
                                 }
                             );

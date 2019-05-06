@@ -1,0 +1,54 @@
+@startuml customModelFields
+
+class User {
+    - id
+    - username
+    - email
+    - password
+    - rights
+    - loggedIn
+    - projects
+    - countries
+    - language
+}
+
+class Vendor {
+    - id
+    - user
+    - username
+    - password
+    - shopName
+    - shopType
+    - addressStreet
+    - addressNumber
+    - addressPostcode
+    - location
+    - adm1
+    - adm2
+    - adm3
+    - adm4
+}
+
+class Role {
+    - id
+    - name
+}
+
+class Country {
+    - id
+    - name
+}
+
+ Adm "0-4" *-- "1" Location
+
+ 
+ Role "1-*" *-- "1" User
+ Country "0-2" *-- "0-*" User
+ Project "0-*" *-- "0-*" User
+ 
+ User "1" *-- "1" Vendor
+ Location "1" *-- "1" Vendor
+ 
+ Vendor "1" o-- "0-*" Voucher
+ 
+@enduml

@@ -13,18 +13,6 @@ export class MultipleSelectModelField extends SelectModelField<Array<CustomModel
     kindOfField = 'MultipleSelect';
 
     /**
-     * Label to format for api
-     * @type {string}
-     */
-    apiLabel: string;
-
-    /**
-     * Is displayed as a series of checkboxes ?
-     * @type {boolean}
-     */
-    isCheckbox = false;
-
-    /**
      * Max selection length
      * @type {number}
      */

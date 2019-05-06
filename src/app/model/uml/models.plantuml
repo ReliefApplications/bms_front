@@ -1,27 +1,47 @@
 @startuml updatedModel
-abstract class appObject {
-    + {abstract} requiredFields: String[]
-    + {abstract} editableFields: Object
-    + {abstract} tableFields: Object
+abstract class CustomModel {
+    + {abstract} fields: CustomModelField[]
+    + rights: string[]
+    + title: string
+    + matSortActive: string
 
-
-    + {abstract} frontToApi()
-    + {abstract} apiToFront()
-    + {abstract} getdisplayName(): Object
+    + {static} apiToModel(objectFromApi: any): CustomModel
+    + modelToApi(): Object
+    + getDateOffset(year: number, month: number, day: number): Date
+    + getIdentifyingName(): string
+    + get<T = CustomModel>(field: string): T
+    + set(field: string, value: any): CustomModel
+    + getOptions(field: string): CustomModel[]
+    + setOptions(field: string, value: any[])
+    + add(field: string, value: any)
+    + isPrintable(): boolean
+    + isAssignable(): boolean
+    + isCheckable(): boolean
+    
 }
 
-class project {
-    id: number
-    [...]
-    fields: appObjectField[]
+class CustomModelField<T> {
+    + value: T
+    + title: string
+    + kindOfField: string
+    + isDisplayedInSummary: boolean
+    + isDisplayedInModal: boolean
+    + isDisplayedInTable: boolean
+    + isImageInTable: boolean
+    + isRequired: boolean
+    + isSettable: boolean
+    + isEditable: boolean
+    + nullValue: string
+    + hint: string
+    + patternError: string
+    + pattern: string
+    + isTrigger: boolean
+    + triggerFunction: Function
+    + filterName: string
+    
+    + {static} fillWithDefault(properties: Object)
+    + formatForApi()
 }
 
-class appObjectField {
-    + required: boolean
-    + editable: boolean
-    + displayedInTable: boolean
-}
-
-appObject <|-- project
-project *- "0-*" appObjectField
+CustomModelField *-- "0-*" CustomModel
 @enduml

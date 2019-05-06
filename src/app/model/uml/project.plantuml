@@ -1,0 +1,49 @@
+@startuml customModelFields
+
+class Sector {
+    - id
+    - name
+}
+
+class Donor {
+    - id
+    - fullname
+    - shortname
+    - notes
+}
+
+class Project {
+    - id
+    - name
+    - sectors
+    - startDate
+    - endDate
+    - numberOfHouseholds
+    - donors
+    - iso3
+    - value
+    - reachedBeneficiaries
+    - notes
+}
+
+ Distribution "1" o-- "0-*" Booklet
+ 
+ Booklet "0-*" --o "1" Beneficiary
+
+ Distribution "1" *-- "0-*" DistributionBeneficiary
+ 
+ DistributionBeneficiary "0-*" --* "1" Beneficiary
+ 
+ Project "1" o-- "1" Distribution
+ 
+
+ Project "1-*" o-- "0-*" Household
+ Beneficiary "1-*" *-- "0-*" Household
+
+ 
+ Sector "0-*" *-- "1" Project
+ Donor "0-*" *-- "1" Project
+
+ Project "0-*" *-- "0-*" User
+ 
+@enduml

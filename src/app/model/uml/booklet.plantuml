@@ -1,0 +1,51 @@
+@startuml customModelFields
+
+class Booklet {
+    - id
+    - code
+    - numberOfBooklets
+    - numberOfVouchers
+    - individualValues
+    - currency
+    - status
+    - definePassword
+    - password
+    - beneficiary
+    - distribution
+    - vouchers
+    - value
+    - usedAt
+}
+
+class Voucher {
+    - id
+    - code
+    - vendor
+    - value
+    - usedAt
+}
+
+class BookletStatus {
+    - id
+    - name
+}
+
+class Currency {
+    - id
+    - name
+}
+ 
+ BookletStatus "1" *-- "1" Booklet
+ Currency "1" *-- "1" Booklet
+ Beneficiary "1" o-- "0-*" Booklet
+ Distribution "1" o-- "0-*" Booklet
+ Voucher "0-*" *-- "1" Booklet
+ 
+ Beneficiary "1" *-- "1" TransactionQRVoucher
+ Booklet "1" *-- "1" TransactionQRVoucher
+ 
+ Vendor "1" o-- "0-*" Voucher
+ 
+ DistributionBeneficiary <|-- TransactionQRVoucher
+
+@enduml

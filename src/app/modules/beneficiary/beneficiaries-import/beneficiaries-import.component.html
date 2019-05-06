@@ -5,7 +5,7 @@
 
   <div class="container-boxes">
     <app-box-setting (click)="selectTitle('file import')" [isSelected]="selectedTitle === 'file import'" [info]='{icon: "folder", color: "green", title:language.beneficiaries_import_file, subtitle:"", ref:"file import"}'></app-box-setting>
-    <app-box-setting class="isLast" (click)="selectTitle('api import')" [isSelected]="selectedTitle === 'api import'" [info]='{icon: "settings/api", color: "red", title:language.beneficiaries_import_api, subtitle:"", ref:"api import"}'></app-box-setting>
+    <app-box-setting *ngIf="apiList.length" class="isLast" (click)="selectTitle('api import')" [isSelected]="selectedTitle === 'api import'" [info]='{icon: "settings/api", color: "red", title:language.beneficiaries_import_api, subtitle:"", ref:"api import"}'></app-box-setting>
   </div>
 
   <form [formGroup]="fileForm" class="container-table" *ngIf="selectedTitle == 'file import'">
@@ -86,7 +86,7 @@
     </div>
 </form>
 
-  <form [formGroup]="apiForm" class="container-table" *ngIf="selectedTitle == 'api import'">
+  <form [formGroup]="apiForm" class="container-table" *ngIf="selectedTitle == 'api import' && apiList && apiList.length">
     <div class="container-content box-primary">
       <div class="content-table">
 

@@ -350,6 +350,7 @@ export class French implements Language {
     modal_add_no_right = 'Vous devez définir un droit'
     modal_add_no_value = 'Vous devez entrer une valeur'
     modal_add_title = 'Ajouter un nouveau'
+    modal_add_multiple_title = 'Ajouter de nouveaux'
     modal_check_date = 'Champs invalides = La date de début ne peut pas être plus ancienne que la date de fin et vice versa'
     modal_check_fields = 'Champs invalides = vérifiez que vous avez rempli tous les champs'
     modal_delete_sentence = 'Vous êtes sur le point de supprimer '

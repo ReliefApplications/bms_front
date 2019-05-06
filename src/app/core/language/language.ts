@@ -336,6 +336,7 @@ export interface Language {
     modal_add_no_right: string
     modal_add_no_value: string
     modal_add_title: string
+    modal_add_multiple_title: string
     modal_check_date: string
     modal_check_fields: string
     modal_delete_sentence: string

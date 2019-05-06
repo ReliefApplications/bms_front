@@ -351,6 +351,7 @@ export class Arabic implements Language {
     modal_add_no_right = 'عليك بتحديد الحق'
     modal_add_no_value = 'عليك بادخال قيمة عددية'
     modal_add_title = 'إضافة جديد'
+    modal_add_multiple_title = 'خلق جديد إبداع جديد'
     modal_check_date = 'الحقول غير الصالح: لا يمكن أن يكون تاريخ الانتهاء  أقدم من تاريخ البدء'
     modal_check_fields = 'تحقق جيدا انك أدخلت جميع المعطيات'
     modal_delete_sentence = 'أنت على وشك الحذف'

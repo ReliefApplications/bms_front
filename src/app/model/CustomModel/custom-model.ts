@@ -6,6 +6,7 @@ export abstract class CustomModel {
     static rights: Array<string>;
     title: string;
     matSortActive: string;
+    createMultiple = false;
 
     // TODO: create interface for typing purpose
     abstract fields: any;

@@ -1,0 +1,96 @@
+@startuml customModelFields
+
+class Beneficiary {
+    - id
+    - givenName
+    - familyName
+    - gender
+    - dateOfBirth
+    - residencyStatus
+    - beneficiaryStatus
+    - nationalIds
+    - phones
+    - vulnerabilities
+    - fullName
+    - profile
+    - distributionId
+}
+
+class Gender {
+    - id
+    - name
+}
+
+class ResidencyStatus {
+    - id
+    - name
+}
+
+class BeneficiaryStatus {
+    - id
+    - name
+}
+
+class NationalId {
+    - type
+    - number
+}
+
+class NationalIdType {
+    - id
+    - name
+}
+
+class Phone {
+    - id
+    - number
+    - prefix
+    - proxy
+    - type
+}
+
+class PhoneType {
+    - id
+    - name
+}
+
+class VulnerabilityCriteria {
+    - id
+    - name
+    - displayed
+}
+
+class Profile {
+    - photo
+}
+
+
+ Gender "1" *-- "1" Beneficiary
+ ResidencyStatus "1" *-- "1" Beneficiary
+ BeneficiaryStatus "1" *-- "1" Beneficiary
+ NationalId "1" *-- "1" Beneficiary
+ Phone "2" *-- "1" Beneficiary
+ VulnerabilityCriteria "0-*" *-- "1" Beneficiary
+ Profile "1" *-- "1" Beneficiary
+ Phone "2" *-- "1" Beneficiary
+
+
+ Beneficiary "1" o-- "0-*" Booklet
+
+ Beneficiary "1" *-- "0-*" DistributionBeneficiary
+ 
+ Beneficiary "1-*" *-- "0-*" Household
+
+ Beneficiary "1" *-- "1" ImportedBeneficiary
+ 
+ NationalIdType "1" *-- "1" NationalId
+ 
+ PhoneType "1" *-- "1" Phone
+ 
+ Beneficiary "1" *-- "1" TransactionGeneralRelief
+
+ Beneficiary "1" *-- "1" TransactionMobileMoney
+
+ Beneficiary "1" *-- "1" TransactionQRVoucher
+ 
+@enduml

@@ -1,0 +1,88 @@
+@startuml customModelFields
+
+class CustomModelField<T> {
+
+}
+
+class ArrayInputField<T> {
+    + value: T[]
+    + numberOfInputs: number
+}
+
+class BooleanModelField {
+    + value: Boolean
+}
+
+class DateModelField {
+    + value: Date
+    + displayTime: boolean;
+    
+    + {static} formatFromApi(date): Date
+    + {static} formatDateTimeFromApi(date): Date
+}
+
+class FileModelField {
+    + value: string
+    + uploadPath: string
+    + fileUrlField: string
+}
+
+class MultipleObjectsModelField<CustomModel> {
+    + value: CustomModel[]
+    + displayTableFunction: Function
+    + displayModalFunction: Function
+}
+
+class MutlipleSelectModelField {
+    + value: CustomModel[]
+    + maxSelectionLength: number
+}
+
+class NestedFieldModelField {
+    + value: any
+    + childrenObject: string
+    + childrenFieldName: string
+    + isPassword: boolean
+    + apiLabel: string
+}
+
+class NumberModelField {
+    + value: number
+}
+
+class ObjectModelField<CustomModel> {
+    + value: CustomModel
+    + displayTableFunction: Function
+    + displayModalFunction: Function
+}
+
+class SelectModelField {
+    + bindField: string
+    + options: CustomModel[]
+    + apiLabel: string
+}
+
+class SingleSelectModelField<CustomModel> {
+    + value: CustomModel
+}
+
+class TextModelField {
+    + value: string
+    + isLongText: boolean
+    + isPassword: boolean
+}
+
+CustomModelField <|-left- ArrayInputField
+CustomModelField <|-left- BooleanModelField
+CustomModelField <|-right- DateModelField
+CustomModelField <|-right- FileModelField
+CustomModelField <|-up- NestedFieldModelField
+CustomModelField <|-up- NumberModelField
+CustomModelField <|-down- ObjectModelField
+CustomModelField <|-down- MultipleObjectsModelField
+CustomModelField <|-up- SelectModelField
+CustomModelField <|-down- TextModelField
+SelectModelField <|-up- SingleSelectModelField
+SelectModelField <|-up- MutlipleSelectModelField
+
+@enduml

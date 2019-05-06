@@ -76,7 +76,7 @@
       <p>{{ language.voucher_ask_code }}</p>
       <div class="dialog-template">
         <mat-form-field class="full-width">
-          <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl" placeholder={{language.model_password}} />
+          <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl" placeholder={{language.model_password | titlecase}} />
           <mat-error *ngIf=""></mat-error>
         </mat-form-field>
       </div>

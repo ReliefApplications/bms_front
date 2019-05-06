@@ -68,7 +68,7 @@
         <p> {{language.beneficiaries_add_project}} {{ checkedElements.length }}
           {{language.beneficiaries_selected_project}}</p>
         <div class="selectBeneficiaries">
-          <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="Projects" [(ngModel)]="selectedProject">
+          <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.projects | titlecase}}" [(ngModel)]="selectedProject">
             <ng-option class="options" *ngFor="let project of projectsList" [value]="project.id">
               {{project.name}}
             </ng-option>

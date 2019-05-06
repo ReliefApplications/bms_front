@@ -16,7 +16,8 @@ export abstract class CustomModel {
     // Language
     protected language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
-    public fillWithOptions() {
+    public static apiToModel(objectFromApi: any, otherInfo?: any): CustomModel {
+        throw new Error('This is an abstract function, write your own');
     }
 
     public modelToApi(): object {
@@ -30,7 +31,7 @@ export abstract class CustomModel {
         return mappedValues;
     }
 
-    public getDateOffset(year: number, month: number, day: number) {
+    public getDateOffset(year: number, month: number, day: number): Date {
         const date = new Date();
         date.setFullYear(date.getFullYear() + year);
         date.setMonth(date.getMonth() + month);
@@ -38,7 +39,7 @@ export abstract class CustomModel {
         return date;
     }
 
-    public getIdentifyingName() {
+    public getIdentifyingName(): string {
         return `${this.language.this} ${this.title}`;
     }
 
@@ -53,7 +54,7 @@ export abstract class CustomModel {
         return this;
     }
 
-    public getOptions(field: string) {
+    public getOptions(field: string): CustomModel[] {
         return this.fields[field] ? this.fields[field].options : null;
     }
 
@@ -67,15 +68,15 @@ export abstract class CustomModel {
         this.fields[field].value.push(value);
     }
 
-    public isPrintable() {
+    public isPrintable(): boolean {
         return false;
     }
 
-    public isAssignable() {
+    public isAssignable(): boolean {
         return false;
     }
 
-    public isCheckable() {
+    public isCheckable(): boolean {
         return true;
     }
 }

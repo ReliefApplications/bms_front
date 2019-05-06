@@ -5,7 +5,7 @@
         <tr class="modal-row">
           <th class="table-title">{{ commodity.fields.modality.title }}</th>
           <td class="form-item">
-            <ng-select formControlName="modality" [placeholder]="commodity.fields.modality.title" (change)="loadTypes($event)">
+            <ng-select formControlName="modality" [placeholder]="commodity.fields.modality.title | titlecase" (change)="loadTypes($event)">
                 <ng-option *ngFor="let option of commodity.getOptions('modality')" [value]="option.get('id')">
                     {{option.get('name') | titlecase}}
                 </ng-option>
@@ -17,7 +17,7 @@
         <tr class="modal-row">
           <th class="table-title">{{ commodity.fields.modalityType.title }}</th>
           <td class="form-item">
-            <ng-select formControlName="modalityType" [placeholder]="commodity.fields.modalityType.title">
+            <ng-select formControlName="modalityType" [placeholder]="commodity.fields.modalityType.title | titlecase">
                 <ng-option *ngFor="let option of commodity.getOptions('modalityType')" [value]="option.get('id')">
                     {{option.get('name') | titlecase}}
                 </ng-option>
@@ -30,7 +30,7 @@
           <th class="table-title">{{ getUnit() }}</th>
           <td class="form-item">
             <mat-form-field>
-              <input matInput type="text" formControlName="unit" [placeholder]="getUnit()">
+              <input matInput type="text" formControlName="unit" [placeholder]="getUnit() | titlecase">
               <app-hint-error [form]="form" fieldName="unit" [field]="commodity.fields.unit" [isMatField]="true"></app-hint-error>
             </mat-form-field>
           </td>
@@ -40,7 +40,7 @@
             <th class="table-title">{{ commodity.fields.value.title }}</th>
             <td class="form-item">
               <mat-form-field>
-                <input matInput type="text" formControlName="value" [placeholder]="commodity.fields.value.title">
+                <input matInput type="text" formControlName="value" [placeholder]="commodity.fields.value.title | titlecase">
                 <app-hint-error [form]="form" fieldName="value" [field]="commodity.fields.value" [isMatField]="true"></app-hint-error>
               </mat-form-field>
             </td>

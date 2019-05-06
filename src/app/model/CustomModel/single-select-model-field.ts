@@ -9,13 +9,6 @@ export class SingleSelectModelField<CustomModel> extends SelectModelField<Custom
      */
     value: any;
 
-    /**
-     * Label to format for api
-     * @type {string}
-     */
-    apiLabel: string;
-
-
     kindOfField = 'SingleSelect';
 
     formatForApi(): any {

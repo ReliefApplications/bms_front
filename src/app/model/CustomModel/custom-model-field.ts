@@ -18,9 +18,9 @@ export class CustomModelField<T> {
     title: string;
      /**
      * Field's type
-     * @type {string}
+     * @kindOfField {string}
      */
-    type: string;
+    kindOfField: string;
     /**
      * Is the field displayed in summaries?
      * @type {boolean}

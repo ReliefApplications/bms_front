@@ -110,6 +110,6 @@ If it's the first time, please run
 sudo ./docker-build.sh bms/front
 ```
 
-## Models
+## Technical specifications
 
 The code follows the specifications explained [here](src/app/model/README.md)

@@ -2,13 +2,13 @@
 
 ## General
 
-In this project, models are all extending the same class "CustomModel". A custom model contains functions to translate data from the Api to the Front and vice versa, and fields which can be displayed/edited in the tables, modals etc. A customModel also contains a title to be displayed in its tab, a matSortActive to pre-select the ordered column, and rights, to know who will be able to modify it.
+In this project, models are all extending the same class "CustomModel". A custom model contains functions to translate data from the Api to the Front and vice versa, and fields which can be displayed/edited in the tables, modals etc. A CustomModel also contains a title to be displayed in its tab, a matSortActive to pre-select the ordered column, and rights, to know who will be able to modify it.
 
 The different information about the fields (the values, the dropdown options etc), can be fetched/set with the getters and setters defined in the Model.
 
 The function getDateOffset will be used to initialize a value at a certain Date.
 
-The identifyingName will be used to complete sentences in the modals. Its default value is the name of the class. For example, in the modal to delete an distribution :
+The identifyingName will be used to complete sentences in the modals. Its default value is the name of the class. For example, in the modal to delete a distribution :
 * Code : "You are about to delete _identifyingName_. Are you sure ?"
 * Default : "You are about to delete this distribution. Are you sure ?"
 * Distribution's name : "You are about to delete Battambang-19-05-2020. Are you sure ?"
@@ -17,7 +17,7 @@ The identifyingName will be used to complete sentences in the modals. Its defaul
 ![Models](./uml/models.svg)
 
 
-Thanks to this principle (every model extending the exact same class), it becomes possible to generalize the displaying of tables and modals for every possible entity. However, every field in a class has its own way of being displayed or modified, this is why we created mutliple types of CustomModelFields to manage inputs, selects, checkboxes etc.
+Thanks to this principle (every model extending the exact same class), it becomes possible to generalize the displaying of tables and modals for every possible entity. However, each field in a class has its own way of being displayed or modified, this is why we created mutliple types of CustomModelFields to manage inputs, selects, checkboxes etc.
 
 ![Fields](./uml/fields.svg)
 
@@ -61,7 +61,7 @@ __maxSelectionLength__ : For a multipleSelect, specify the maximum number of ite
 
 __bindField__ : For a select, the field to display in the dropdown (usually the name of the entity)
 
-__apiLabel__ : For a select or the nestedField, the field sent back to the api (usually the id) to identify the item selected
+__apiLabel__ : For a select or a nestedField, the field sent back to the api (usually the id of the entity) to identify the item selected
 
 __options__ : For a select, the list of options in the dropdown
 
@@ -95,15 +95,15 @@ The project is the biggest entity possible in the code. It contains distribution
 
 ## Sharing resources fairly : The Distribution
 
-A Distribution is a way to share commodities (Food, cash, vouchers etc.) in a certain place at a certain time, according to some vulnerability criteria. A distribution contains beneficiaries, targetting them individually or as members of a household (precised by the type field, as a DistributionType). The threshold corresponds to the minimum selection score a beneficiary must reach to be a part of the distribution. This score is calculated with the weight of each selection criteria.
+A Distribution is a way to share commodities (Food, cash, vouchers etc.) in a certain place at a certain time, according to some vulnerability criteria. A distribution contains beneficiaries, targetting them individually or as members of a household (precised by the "type" field, as a DistributionType). The threshold corresponds to the minimum selection score a beneficiary must reach to be a part of the distribution. This score is calculated with the weight of each selection criteria.
 
-A criteria contains a field (ex: "Date of Birth"), a condition (ex: ">") and a value (ex: 12-03-1996), and it applies to a kindOfBeneficiary (individual or household).
+A criteria contains a field (eg: "Date of Birth"), a condition (eg: ">") and a value (eg: 12-03-1996), and it applies to a kindOfBeneficiary (individual or household).
 
 ![Distribution](./uml/distribution.svg)
 
 ## Beneficiaries in the same family : The household
 
-A household is a group of beneficiaries, and contains some usefull information as an address, location, livelihood, number of dependents or the answers to some country specific questions. The vulnerabilities of the household is the sum of the vulnerabilities of its members. A householdFilters model was also created to be able to filter the very large list of household in the table.
+A household is a group of beneficiaries, and contains some usefull common information as an address, location, livelihood, number of dependents or the answers to some country specific questions. The vulnerabilities of the household is the sum of the vulnerabilities of its members. A householdFilters model was also created to be able to filter the very large list of households in the table.
 
 Note that a location contains until four different administrations, from the less precise to the more precise. For example, adm1 can be a province and adm4 a village in this province.
 
@@ -111,14 +111,14 @@ Note that a location contains until four different administrations, from the les
 
 ## Individual information : The beneficiary
 
-A household's member can have its own personnal information, different from the other members (the first name, date of birth, phone, ID etc.). The beneficiaryStatus precises whether or not the beneficiary is the head of the household. The residencyStatus precises whether the beneficiary is a refugee, a resident or an IDP. Note that the field NationalIds can contains many IDs but for the moment it contains only one.
+A household's member can have its own personnal information, different from the other members (the first name, date of birth, phone, ID etc.). The beneficiaryStatus precises whether or not the beneficiary is the head of the household. The residencyStatus precises whether the beneficiary is a refugee, a resident or an IDP. Note that the field NationalIds can contains many IDs but for the moment it always contains only one.
 
 ![Beneficiary](./uml/beneficiary.svg)
 
 
 ## A specific way of distributing: The booklets
 
-A booklet is a group of vouchers, to be used in shops in order to by food, hygienic products etc. The booklet is identified by a code, which will be converted to a QR Code later on. The same principle applies to the vouchers. The booklet's vouchers can have different values but they have the same currency, and the booklet's date of use is either null if one voucher is still unused, either equal to the date of use of the last used voucher. The booklet's value is the sum of the vouchers' values.
+A booklet is a group of vouchers, to be used in shops in order to buy food, hygienic products etc. The booklet is identified by a code, which will be converted to a QR Code later on. The same principle applies to the vouchers. The booklet's vouchers can have different values but they have the same currency, and the booklet's date of use is either null if one voucher is still unused, either equal to the date of use of the last used voucher. The booklet's value is the sum of the vouchers' values.
 
 Note that the booklet's password is optional, and the boolean field 'define password' allows the user to chose whether or not to define one.
 
@@ -148,3 +148,9 @@ A user will have a role (admin, project manager, country manager) and depending 
 Note that a user can have a preferred language, used automatically when they log in, but can also change the language manually on the platform.
 
 ![User](./uml/user.svg)
+
+
+# An abstract service to rule them all : the CustomModelService
+
+While every class extends the CustomModel, every service extends the CustomModelService, which provides the usually used functions (get, create, update, delete).
+The __makeUrl()__ function will be used to concatenate the base of the api url and the specific path used for each service and called 'CustomModelPath' (eg: 'distributions').

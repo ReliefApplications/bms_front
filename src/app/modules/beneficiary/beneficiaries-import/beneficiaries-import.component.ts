@@ -92,7 +92,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
     public apiList: Array<Api> = [];
     public selectedApi: Api;
-    apiSelectorSubscriber: Subscription;
+    private apiSelectorSubscriber: Subscription;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -486,8 +486,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     getAPINames() {
         this._beneficiariesService.listApi()
             .subscribe((response: object) => {
-                if (!response) {
-                    this.snackbar.warning('NO API FOUND');
+                if (!response['listAPI'].length) {
                     return;
                 }
                 response['listAPI'].map((apiInfo: any) => {

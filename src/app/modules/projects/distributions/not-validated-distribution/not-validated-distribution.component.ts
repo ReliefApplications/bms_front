@@ -6,10 +6,10 @@ import { UserService } from 'src/app/core/api/user.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { Beneficiary } from 'src/app/model/beneficiary.new';
-import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary.new';
-import { Distribution } from 'src/app/model/distribution.new';
-import { User } from 'src/app/model/user.new';
+import { Beneficiary } from 'src/app/model/beneficiary';
+import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary';
+import { Distribution } from 'src/app/model/distribution';
+import { User } from 'src/app/model/user';
 import { LanguageService } from 'src/texts/language.service';
 import { BeneficiariesService } from './../../../../core/api/beneficiaries.service';
 

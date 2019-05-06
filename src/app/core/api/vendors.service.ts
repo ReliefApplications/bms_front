@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AppInjector } from 'src/app/app-injector';
-import { User } from 'src/app/model/user.new';
-import { Vendor } from 'src/app/model/vendor.new';
+import { User } from 'src/app/model/user';
+import { Vendor } from 'src/app/model/vendor';
 import { LanguageService } from 'src/texts/language.service';
 import { URL_BMS_API } from '../../../environments/environment';
 import { ExportService } from '../../core/api/export.service';
-import { Location } from '../../model/location.new';
+import { Location } from '../../model/location';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { CustomModelService } from './custom-model.service';
 import { HttpService } from './http.service';

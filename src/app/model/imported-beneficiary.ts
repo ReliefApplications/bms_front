@@ -1,4 +1,4 @@
-import { Beneficiary } from './beneficiary.new';
+import { Beneficiary } from './beneficiary';
 import { CustomModel } from './CustomModel/custom-model';
 import { NestedFieldModelField } from './CustomModel/nested-field';
 import { ObjectModelField } from './CustomModel/object-model-field';

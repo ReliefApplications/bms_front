@@ -3,7 +3,7 @@ import { DateModelField } from './CustomModel/date-model-field';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
-import { Vendor } from './vendor.new';
+import { Vendor } from './vendor';
 
 export class Voucher extends CustomModel {
 

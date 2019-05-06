@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { User } from 'src/app/model/user.new';
+import { User } from 'src/app/model/user';
 import { UserService } from '../api/user.service';
 import { LanguageService } from './../../../texts/language.service';
 

@@ -12,7 +12,7 @@ import { LanguageService } from 'src/texts/language.service';
 import { HouseholdsService } from '../../core/api/households.service';
 import { ProjectService } from '../../core/api/project.service';
 import { HouseholdsDataSource } from '../../model/households-data-source';
-import { Households } from '../../model/households.new';
+import { Household } from '../../model/household';
 
 @Component({
     selector: 'app-beneficiaries',
@@ -25,9 +25,9 @@ export class BeneficiariesComponent implements OnInit {
     public loadingExport = false;
 
     public referedClassService;
-    referedClassToken = Households;
-    households: MatTableDataSource<Households>;
-    selection = new SelectionModel<Households>(true, []);
+    referedClassToken = Household;
+    households: MatTableDataSource<Household>;
+    selection = new SelectionModel<Household>(true, []);
     checkedElements: any = [];
 
     length: number;
@@ -161,14 +161,14 @@ export class BeneficiariesComponent implements OnInit {
 
     confirmAdding() {
         if (this.projectsList && this.dataSource) {
-            const benefForApi = this.checkedElements.map((household: Households) => {
+            const benefForApi = this.checkedElements.map((household: Household) => {
                 return {id: household.get('id')};
             });
             this.projectService.addBeneficiaries(this.selectedProject, benefForApi).subscribe(
                 success => {
                     this.snackbar.success(this.language.beneficiaries_added);
                     this.table.loadDataPage();
-                    this.selection = new SelectionModel<Households>(true, []);
+                    this.selection = new SelectionModel<Household>(true, []);
                     this.checkedElements = [];
                 }
             );
@@ -182,7 +182,7 @@ export class BeneficiariesComponent implements OnInit {
 
     openDialog(event): void {
 
-        this.modalService.openDialog(Households, this.householdsService, event);
+        this.modalService.openDialog(Household, this.householdsService, event);
         this.modalService.isCompleted.subscribe(() => {
             this.table.loadDataPage();
         });

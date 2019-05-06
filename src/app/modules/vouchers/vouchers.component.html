@@ -9,7 +9,7 @@
       <div class="content-button">
         <div class="action-buttons">
           <button mat-raised-button *ngIf="checkedElements.length > 0" class="button-background-primary" (click)="printMany()" [matBadge]="checkedElements.length">
-              {{language.voucher_print_selection | titlecase}}
+              <span>{{language.voucher_print_selection | titlecase}}</span>
           </button>
           <button mat-raised-button *ngIf="bookletData && !loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
               <span>{{language.voucher_assign | titlecase }}</span>

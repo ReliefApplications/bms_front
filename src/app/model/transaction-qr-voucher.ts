@@ -1,8 +1,8 @@
-import { Beneficiary } from './beneficiary.new';
-import { Booklet } from './booklet.new';
+import { Beneficiary } from './beneficiary';
+import { Booklet } from './booklet';
 import { NestedFieldModelField } from './CustomModel/nested-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
-import { DistributionBeneficiary } from './distribution-beneficiary.new';
+import { DistributionBeneficiary } from './distribution-beneficiary';
 
 export class TransactionQRVoucher extends DistributionBeneficiary {
 

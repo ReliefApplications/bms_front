@@ -1,5 +1,5 @@
-import { Beneficiary } from './beneficiary.new';
-import { CountrySpecificAnswer } from './country-specific.new';
+import { Beneficiary } from './beneficiary';
+import { CountrySpecificAnswer } from './country-specific';
 import { CustomModel } from './CustomModel/custom-model';
 import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
 import { MultipleSelectModelField } from './CustomModel/multiple-select-model-field';
@@ -8,9 +8,9 @@ import { ObjectModelField } from './CustomModel/object-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
 import { LIVELIHOOD } from './livelihood';
-import { Location } from './location.new';
-import { Project } from './project.new';
-import { VulnerabilityCriteria } from './vulnerability-criteria.new';
+import { Location } from './location';
+import { Project } from './project';
+import { VulnerabilityCriteria } from './vulnerability-criteria';
 
 export class Livelihood extends CustomModel {
 
@@ -25,7 +25,7 @@ export class Livelihood extends CustomModel {
         this.set('name', name);
     }
 }
-export class Households extends CustomModel {
+export class Household extends CustomModel {
 
     title = this.language.households;
     matSortActive = 'familyName';
@@ -136,8 +136,8 @@ export class Households extends CustomModel {
 
     };
 
-    public static apiToModel(householdFromApi: any): Households {
-        const newHousehold = new Households();
+    public static apiToModel(householdFromApi: any): Household {
+        const newHousehold = new Household();
 
         newHousehold.set('id', householdFromApi.id);
         newHousehold.set('addressNumber', householdFromApi.address_number);

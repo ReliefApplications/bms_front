@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { LanguageService } from './../../../../../texts/language.service';
-import { Beneficiary, BeneficiaryOptions } from 'src/app/model/beneficiary.new';
-import { NationalId } from 'src/app/model/nationalId.new';
-import { Phone } from 'src/app/model/phone.new';
+import { Beneficiary, BeneficiaryOptions } from 'src/app/model/beneficiary';
+import { NationalId } from 'src/app/model/nationalId';
+import { Phone } from 'src/app/model/phone';
 
 @Component({
     selector: 'app-beneficiary-form',

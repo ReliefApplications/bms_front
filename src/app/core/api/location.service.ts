@@ -6,7 +6,7 @@ import { URL_BMS_API } from '../../../environments/environment';
 import { HttpService } from './http.service';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { map } from 'rxjs/operators';
-import { Adm } from 'src/app/model/location.new';
+import { Adm } from 'src/app/model/location';
 
 
 @Injectable({

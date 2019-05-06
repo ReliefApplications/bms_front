@@ -1,4 +1,4 @@
-import { Beneficiary } from './beneficiary.new';
+import { Beneficiary } from './beneficiary';
 import { ArrayInputField } from './CustomModel/array-input-field';
 import { CustomModel } from './CustomModel/custom-model';
 import { DateModelField } from './CustomModel/date-model-field';
@@ -7,7 +7,7 @@ import { NestedFieldModelField } from './CustomModel/nested-field';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
-import { DistributionBeneficiary } from './distribution-beneficiary.new';
+import { DistributionBeneficiary } from './distribution-beneficiary';
 
 
 export class GeneralRelief extends CustomModel {

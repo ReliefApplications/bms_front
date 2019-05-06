@@ -1,7 +1,7 @@
 
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { Commodity } from './commodity.new';
-import { Criteria } from './criteria.new';
+import { Commodity } from './commodity';
+import { Criteria } from './criteria';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
 import { DateModelField } from './CustomModel/date-model-field';
 import { MultipleObjectsModelField } from './CustomModel/multiple-object-model-field';
@@ -9,9 +9,9 @@ import { NumberModelField } from './CustomModel/number-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
-import { DistributionBeneficiary } from './distribution-beneficiary.new';
-import { Location } from './location.new';
-import { Project } from './project.new';
+import { DistributionBeneficiary } from './distribution-beneficiary';
+import { Location } from './location';
+import { Project } from './project';
 export class DistributionType extends CustomModel {
 
     public fields = {

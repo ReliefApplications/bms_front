@@ -7,7 +7,7 @@ import { MultipleSelectModelField } from './CustomModel/multiple-select-model-fi
 import { NumberModelField } from './CustomModel/number-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
-import { Project } from './project.new';
+import { Project } from './project';
 
 export class ErrorInterface {
     message: string;

@@ -4,7 +4,7 @@ import { MatCheckbox, MatDialog, MatStepper } from '@angular/material';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { Households } from 'src/app/model/households.new';
+import { Household } from 'src/app/model/household';
 import { LanguageService } from 'src/texts/language.service';
 import { ImportService } from '../../../core/utils/beneficiaries-import.service';
 import { ModalLeaveComponent } from './../../../components/modals/modal-leave/modal-leave.component';
@@ -119,7 +119,7 @@ export class DataValidationComponent implements OnInit {
                 // No further interaction with the backend after this
                 this.currentStep = Step.Completed;
 
-                this.importService.importedHouseholds = response.map((household: Households) => Households.apiToModel(household));
+                this.importService.importedHouseholds = response.map((household: Household) => Household.apiToModel(household));
 
                 this.router.navigate(['/beneficiaries/imported']);
             },

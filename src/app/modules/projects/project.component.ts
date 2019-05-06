@@ -10,8 +10,8 @@ import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ProjectService } from '../../core/api/project.service';
-import { Distribution } from '../../model/distribution.new';
-import { Project as NewProject } from '../../model/project.new';
+import { Distribution } from '../../model/distribution';
+import { Project as NewProject } from '../../model/project';
 import { LanguageService } from './../../../texts/language.service';
 
 @Component({

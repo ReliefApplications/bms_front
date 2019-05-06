@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { finalize } from 'rxjs/operators';
-import { Commodity } from 'src/app/model/commodity.new';
-import { State, TransactionMobileMoney } from 'src/app/model/transaction-mobile-money.new';
+import { Commodity } from 'src/app/model/commodity';
+import { State, TransactionMobileMoney } from 'src/app/model/transaction-mobile-money';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
 
 @Component({

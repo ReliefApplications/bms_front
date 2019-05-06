@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { HouseholdsService } from 'src/app/core/api/households.service';
 import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
-import { Households } from 'src/app/model/households.new';
+import { Household } from 'src/app/model/household';
 import { LanguageService } from './../../../../../texts/language.service';
 
 @Component({
@@ -13,8 +13,8 @@ import { LanguageService } from './../../../../../texts/language.service';
 })
 export class ImportedDataComponent implements OnInit {
 
-    public data: MatTableDataSource<Households>;
-    public referedClassToken = Households;
+    public data: MatTableDataSource<Household>;
+    public referedClassToken = Household;
     public referedClassService = this._householdsService;
     public loadingTable = true;
 

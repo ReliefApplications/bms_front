@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { Project } from 'src/app/model/project.new';
+import { Project } from 'src/app/model/project';
 import { HouseholdsService } from '../api/households.service';
-import { Households } from 'src/app/model/households.new';
+import { Household } from 'src/app/model/household';
 
 
 @Injectable({
@@ -20,7 +20,7 @@ export class ImportService {
 
     private response: any;
 
-    public importedHouseholds: Households[];
+    public importedHouseholds: Household[];
 
     constructor(
         private householdsService: HouseholdsService,

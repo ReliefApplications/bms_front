@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { SectorService } from 'src/app/core/api/sector.service';
-import { Donor } from 'src/app/model/donor.new';
-import { Project } from 'src/app/model/project.new';
-import { Sector } from 'src/app/model/sector.new';
+import { Donor } from 'src/app/model/donor';
+import { Project } from 'src/app/model/project';
+import { Sector } from 'src/app/model/sector';
 import { LanguageService } from 'src/texts/language.service';
 import { AppInjector } from '../../app-injector';
 import { CustomModelService } from './custom-model.service';

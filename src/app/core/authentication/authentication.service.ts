@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { URL_BMS_API } from '../../../environments/environment';
 import { SaltInterface } from '../../model/salt';
-import { ErrorInterface, User } from '../../model/user.new';
+import { ErrorInterface, User } from '../../model/user';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { WsseService } from './wsse.service';
 

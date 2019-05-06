@@ -6,8 +6,8 @@ import { NestedFieldModelField } from './CustomModel/nested-field';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
-import { Location } from './location.new';
-import { User } from './user.new';
+import { Location } from './location';
+import { User } from './user';
 
 export class ErrorInterface {
     message: string;

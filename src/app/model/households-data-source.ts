@@ -10,8 +10,8 @@ import { MultipleSelectModelField } from './CustomModel/multiple-select-model-fi
 import { NestedFieldModelField } from './CustomModel/nested-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
 import { CustomDataSource } from './data-source/custom-data-source.interface';
-import { Households } from './households.new';
-import { Location } from './location.new';
+import { Household } from './household';
+import { Location } from './location';
 
 export class HouseholdFilters extends CustomModel {
     // TODO: Change apiLabels to get id for API (backend)
@@ -92,9 +92,9 @@ export class HouseholdFilters extends CustomModel {
         })
     };
 }
-export class HouseholdsDataSource implements CustomDataSource<Households> {
+export class HouseholdsDataSource implements CustomDataSource<Household> {
 
-    dataSubject = new BehaviorSubject<Households[]>([]);
+    dataSubject = new BehaviorSubject<Household[]>([]);
     public data$ = this.dataSubject.asObservable();
 
     loadingSubject = new BehaviorSubject<boolean>(false);
@@ -106,7 +106,7 @@ export class HouseholdsDataSource implements CustomDataSource<Households> {
     constructor(private householdsService: HouseholdsService) {
     }
 
-    connect(_collectionViewer: CollectionViewer): Observable<Households[]> {
+    connect(_collectionViewer: CollectionViewer): Observable<Household[]> {
         return this.dataSubject.asObservable();
     }
 
@@ -129,10 +129,10 @@ export class HouseholdsDataSource implements CustomDataSource<Households> {
                 this.loadingSubject.next(false);
             })
         ).subscribe(response => {
-            let households: Array<Households> = [];
+            let households: Array<Household> = [];
             if (response) {
                 households = response[1].map(household => {
-                    return Households.apiToModel(household);
+                    return Household.apiToModel(household);
                 });
                 this.dataSubject.next(households);
                 this.lengthSubject.next(response[0]);

@@ -13,6 +13,10 @@
   justify-content: flex-end;
   border: 0;
 
+  &:focus {
+    outline: none;
+  }
+
   mat-icon {
     color: $bms_green;
   }

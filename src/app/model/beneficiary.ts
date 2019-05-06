@@ -5,10 +5,10 @@ import { NumberModelField } from './CustomModel/number-model-field';
 import { ObjectModelField } from './CustomModel/object-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
-import { NationalId } from './nationalId.new';
-import { Phone } from './phone.new';
-import { Profile } from './profile.new';
-import { VulnerabilityCriteria } from './vulnerability-criteria.new';
+import { NationalId } from './nationalId';
+import { Phone } from './phone';
+import { Profile } from './profile';
+import { VulnerabilityCriteria } from './vulnerability-criteria';
 
 export class Gender extends CustomModel {
 

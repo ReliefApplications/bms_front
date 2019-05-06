@@ -5,7 +5,7 @@ import { MatDialogRef, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { CriteriaService } from 'src/app/core/api/criteria.service';
 import { FieldService } from 'src/app/core/api/field.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/model/criteria.new';
+import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/model/criteria';
 import { LanguageService } from './../../../../texts/language.service';
 import { CustomDateAdapter, APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
 

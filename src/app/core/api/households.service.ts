@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { saveAs } from 'file-saver/FileSaver';
 import { AppInjector } from 'src/app/app-injector';
 import { HouseholdFilters } from 'src/app/model/households-data-source';
-import { VulnerabilityCriteria } from 'src/app/model/vulnerability-criteria.new';
+import { VulnerabilityCriteria } from 'src/app/model/vulnerability-criteria';
 import { URL_BMS_API } from '../../../environments/environment';
-import { Households } from '../../model/households.new';
-import { Location } from '../../model/location.new';
-import { Project } from '../../model/project.new';
+import { Household } from '../../model/household';
+import { Location } from '../../model/location';
+import { Project } from '../../model/project';
 import { LanguageService } from './../../../texts/language.service';
 import { CriteriaService } from './criteria.service';
 import { CustomModelService } from './custom-model.service';
@@ -152,7 +152,7 @@ export class HouseholdsService extends CustomModelService {
             });
     }
 
-    public fillWithOptions(household: Households) {
+    public fillWithOptions(household: Household) {
 
         const appInjector = AppInjector;
         appInjector.get(ProjectService).get().subscribe((projects: any) => {

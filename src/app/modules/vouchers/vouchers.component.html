@@ -7,11 +7,11 @@
   <div class="container-table" *ngIf="!loadingBooklet">
     <div class="container-content box-primary">
       <div class="content-button">
-        <div class="action-buttons">
+        <div class="action-buttons" *ngIf="bookletData">
           <button mat-raised-button *ngIf="checkedElements.length > 0" class="button-background-primary" (click)="printMany()" [matBadge]="checkedElements.length">
               <span>{{language.voucher_print_selection | titlecase}}</span>
           </button>
-          <button mat-raised-button *ngIf="bookletData && !loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
+          <button mat-raised-button *ngIf="!loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
               <span>{{language.voucher_assign | titlecase }}</span>
           </button>
           <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>

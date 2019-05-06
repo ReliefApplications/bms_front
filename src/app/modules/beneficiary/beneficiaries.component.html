@@ -5,7 +5,7 @@
   <div class="container-table">
     <div class="container-content box-primary">
       <div class="content-button">
-        <div class="action-buttons">
+        <div class="action-buttons" *ngIf="dataSource">
           <button mat-raised-button *ngIf="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT') && checkedElements.length > 0" class="button-background-primary" (click)="addToProject(addBeneficiaries)" [matBadge]="checkedElements.length">
             {{language.beneficiaries_add_list}}
           </button>

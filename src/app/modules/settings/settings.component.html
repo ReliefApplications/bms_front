@@ -15,7 +15,7 @@
   <div class="container-table" *ngIf="!loadingData">
     <div class="container-content box-primary">
       <div class="content-button">
-        <div class="action-buttons">
+        <div class="action-buttons" *ngIf="data.data && data.data.length>0">
           <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
             <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
               <mat-icon>get_app</mat-icon>

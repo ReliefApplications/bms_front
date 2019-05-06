@@ -48,7 +48,7 @@ export class ProjectComponent implements OnInit {
     public widthScreen;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public projectService: ProjectService,
@@ -60,7 +60,7 @@ export class ProjectComponent implements OnInit {
         public networkService: NetworkService,
         public modalService: ModalService,
         public userService: UserService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         ) { }
 
     ngOnInit() {

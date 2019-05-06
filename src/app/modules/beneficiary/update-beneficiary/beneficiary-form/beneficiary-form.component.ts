@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { LanguageService } from './../../../../../texts/language.service';
-import { Beneficiary } from 'src/app/model/beneficiary';
+import { Beneficiary, BeneficiaryOptions } from 'src/app/model/beneficiary';
 import { NationalId } from 'src/app/model/nationalId';
 import { Phone } from 'src/app/model/phone';
 
@@ -12,7 +12,7 @@ import { Phone } from 'src/app/model/phone';
 })
 export class BeneficiaryFormComponent implements OnInit {
     @Input() form: FormGroup;
-    @Input() options: Object;
+    @Input() options: BeneficiaryOptions;
 
     // To have access to the fields of the Beneficiary, NationalId and Phone classes
     public beneficiaryFields = new Beneficiary().fields;
@@ -20,10 +20,10 @@ export class BeneficiaryFormComponent implements OnInit {
     public phoneFields = new Phone().fields;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor (
-    private languageService: LanguageService,
+    public languageService: LanguageService,
     ) {}
 
     ngOnInit() {}

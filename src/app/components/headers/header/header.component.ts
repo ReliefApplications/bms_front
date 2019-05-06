@@ -7,6 +7,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Country } from 'src/app/model/country';
 import { LanguageService } from 'src/texts/language.service';
 import { ModalLanguageComponent } from './../../modals/modal-language/modal-language.component';
+import { Language } from 'src/texts/language';
 
 export interface Breadcrumb {
     name: string;
@@ -22,7 +23,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language: Language = this.languageService.selectedLanguage ?
+        this.languageService.selectedLanguage : this.languageService.english;
 
     // Countries
     public selectedCountry: Country;
@@ -34,7 +36,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     constructor(
         private dialog: MatDialog,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         private asynCacheService: AsyncacheService,
         private countriesService: CountriesService,
         private router: Router,
@@ -49,12 +51,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         });
 
         this.subscriptions = [
-                this.countriesService.selectedCountry.subscribe((country: Country) => {
-                    this.selectedCountry = country;
-                }),
-                this.countriesService.selectableCountries.subscribe((countries: Array<Country>) => {
-                    this.countries = countries;
-                }),
+            this.languageService.languageSubject.subscribe((language: Language) => {
+                this.language = language;
+            }),
+            this.countriesService.selectedCountry.subscribe((country: Country) => {
+                this.selectedCountry = country;
+            }),
+            this.countriesService.selectableCountries.subscribe((countries: Array<Country>) => {
+                this.countries = countries;
+            }),
         ];
     }
 

@@ -20,7 +20,7 @@ export class ModalAddCommodityComponent implements OnInit {
     public iconAdvanced = 'arrow_drop_down';
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         private commodityService: CommodityService,

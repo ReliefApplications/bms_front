@@ -27,14 +27,14 @@ export class ProfileComponent implements OnInit {
     });
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(public userService: UserService,
         public authenticationService: AuthenticationService,
         public wsseService: WsseService,
         public snackbar: SnackbarService,
         public formBuilder: FormBuilder,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         ) {
     }
 

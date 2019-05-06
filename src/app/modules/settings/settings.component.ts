@@ -73,7 +73,7 @@ export class SettingsComponent implements OnInit {
     public displayedTable = this.table;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public dialog: MatDialog,
@@ -91,7 +91,7 @@ export class SettingsComponent implements OnInit {
         public productService: ProductService,
         private vendorsService: VendorsService,
         private modalService: ModalService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     ngOnInit() {

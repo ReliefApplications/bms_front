@@ -85,7 +85,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     @ViewChild(MatStepper) stepper: MatStepper;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public route: ActivatedRoute,
@@ -100,7 +100,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         public dialog: MatDialog,
         public snackbar: SnackbarService,
         public router: Router,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     ngOnInit() {
@@ -333,7 +333,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
     }
 
-    getBeneficiaryOptions(): Object {
+    getBeneficiaryOptions(): BeneficiaryOptions {
         return {
             vulnerabilityList: this.vulnerabilityList,
             countryCodesList: this.countryCodesList,

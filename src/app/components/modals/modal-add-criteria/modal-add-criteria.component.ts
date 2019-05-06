@@ -27,14 +27,14 @@ export class ModalAddCriteriaComponent implements OnInit {
     public iconAdvanced = 'arrow_drop_down';
 
    // Language
-   public language = this.languageService.selectedLanguage;
+   public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         private criteriaService: CriteriaService,
         public modalReference: MatDialogRef<any>,
         private snackbar: SnackbarService,
         public fieldService: FieldService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) {}
 
     ngOnInit() {

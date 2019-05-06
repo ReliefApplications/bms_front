@@ -10,14 +10,14 @@ import { LanguageService } from 'src/texts/language.service';
 })
 export class HintErrorComponent implements OnInit {
 
-  constructor(private languageService: LanguageService) { }
+  constructor(public languageService: LanguageService) { }
 
   @Input() isMatField: boolean;
   @Input() form: FormGroup;
   @Input() fieldName: string;
   @Input() field: CustomModelField<any>;
 
-  public language = this.languageService.selectedLanguage;
+  public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
 
   ngOnInit() {

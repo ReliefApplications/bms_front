@@ -63,7 +63,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     @ViewChild('commodityTable') commodityTable: TableComponent;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public dialog: MatDialog,
@@ -75,7 +75,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         private snackbar: SnackbarService,
         private modalService: ModalService,
         private locationService: LocationService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     ngOnInit() {

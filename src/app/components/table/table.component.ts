@@ -111,7 +111,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
     public user_action = '';
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public dialog: MatDialog,
@@ -127,7 +127,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
         public router: Router,
         public _exportService: ExportService,
         public userService: UserService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     ngOnInit(): void {

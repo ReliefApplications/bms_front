@@ -57,7 +57,7 @@ export class ImportDistributionComponent implements OnInit {
     public widthScreen;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
 
     constructor(
@@ -66,7 +66,7 @@ export class ImportDistributionComponent implements OnInit {
         public distributionService: DistributionService,
         public beneficiaryService: BeneficiariesService,
         public userService: UserService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     ngOnInit() {

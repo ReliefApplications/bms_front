@@ -20,7 +20,7 @@ export class LanguageService {
     public userLanguages: Array<Language>;
 
     // This default value's reference is not contained in enabledLanguages.
-    public selectedLanguage: Language = new English();
+    public selectedLanguage: Language = undefined;
     languageSubject = new BehaviorSubject<Language>(this.selectedLanguage);
 //
 // ─── HELPER FUNCTIONS ───────────────────────────────────────────────────────────

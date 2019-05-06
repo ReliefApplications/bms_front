@@ -20,11 +20,12 @@ export class ModalLanguageComponent implements OnInit {
     public languageForm: FormGroup;
 
     // Language
-    public language: Language = this.languageService.selectedLanguage;
+    public language: Language = this.languageService.selectedLanguage ?
+        this.languageService.selectedLanguage : this.languageService.english;
 
     constructor(
         public dialogRef: MatDialogRef<ModalLanguageComponent>,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         public userService: UserService,
         private snackbar: SnackbarService,
         private asyncacheService: AsyncacheService,

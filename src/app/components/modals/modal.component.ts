@@ -77,7 +77,7 @@ export class ModalComponent {
     });
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     public allCriteria = [];
 

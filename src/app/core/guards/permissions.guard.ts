@@ -14,14 +14,14 @@ import { LanguageService } from './../../../texts/language.service';
 export class PermissionsGuard implements CanActivate {
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor (
         private router: Router,
         private userService: UserService,
         private authenticationService: AuthenticationService,
         private snackbar: SnackbarService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         ) {
     }
 

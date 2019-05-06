@@ -13,7 +13,7 @@ export abstract class CustomModel {
     protected languageService = AppInjector.get(LanguageService);
 
     // Language
-    protected language = this.languageService.selectedLanguage;
+    protected language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     public fillWithOptions() {
     }

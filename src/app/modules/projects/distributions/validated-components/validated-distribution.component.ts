@@ -54,7 +54,7 @@ export class ValidatedDistributionComponent implements OnInit {
     @Output() finishedEmitter: EventEmitter<any> = new EventEmitter();
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         protected distributionService: DistributionService,
@@ -66,7 +66,7 @@ export class ValidatedDistributionComponent implements OnInit {
         public _cacheService: AsyncacheService,
         public _exportService: ExportService,
         public userService: UserService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     @HostListener('window:resize', ['$event'])

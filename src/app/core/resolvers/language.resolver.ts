@@ -14,12 +14,12 @@ import { AsyncacheService } from '../storage/asyncache.service';
 })
 export class LanguageResolver implements Resolve<Language | Observable<Language>> {
     private userService = AppInjector.get(UserService);
-    private languageService = AppInjector.get(LanguageService);
+    public languageService = AppInjector.get(LanguageService);
     private asyncCacheService = AppInjector.get(AsyncacheService);
     private router = AppInjector.get(Router);
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Language | Observable<Language> {
-        // Check if language is set in service and is not initial  language
+        // Check if language is set in service and is not initial language
         if (this.languageService.enabledLanguages.includes(this.languageService.selectedLanguage)) {
             return this.languageService.languageSubject.value;
         }

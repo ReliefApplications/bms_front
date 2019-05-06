@@ -38,14 +38,14 @@ export class ModalFieldsComponent implements OnInit {
     modalTitle = 'Default Modal Text';
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public modalReference: MatDialogRef<any>,
         public fieldService: FieldService,
         public uploadService: UploadService,
         public locationService: LocationService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) {}
 

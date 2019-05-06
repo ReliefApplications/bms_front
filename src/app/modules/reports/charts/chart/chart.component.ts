@@ -55,7 +55,7 @@ export class ChartComponent implements OnInit, ChartInterface, OnChanges, AfterV
     @Input() public noData = true;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         protected differs: KeyValueDiffers,

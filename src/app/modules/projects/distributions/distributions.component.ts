@@ -28,7 +28,7 @@ export class DistributionsComponent implements OnInit {
     distributionIsStored = false;
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public distributionService: DistributionService,
@@ -37,7 +37,7 @@ export class DistributionsComponent implements OnInit {
         private route: ActivatedRoute,
         private beneficiariesService: BeneficiariesService,
         public snackbar: SnackbarService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) {
     }
 

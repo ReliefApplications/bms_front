@@ -23,13 +23,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public router: Router,
         public dialog: MatDialog,
         public userService: UserService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     @HostListener('window:resize', ['$event'])

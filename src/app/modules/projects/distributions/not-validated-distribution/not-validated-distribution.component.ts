@@ -72,7 +72,7 @@ export class NotValidatedDistributionComponent implements OnInit {
   hideSnack = false;
 
   // Language
-  public language = this.languageService.selectedLanguage;
+  public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
   constructor(
       public distributionService: DistributionService,
@@ -84,7 +84,7 @@ export class NotValidatedDistributionComponent implements OnInit {
       private networkService: NetworkService,
       protected modalService: ModalService,
       public userService: UserService,
-      private languageService: LanguageService,
+      public languageService: LanguageService,
   ) {
   }
   ngOnInit() {

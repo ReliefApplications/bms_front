@@ -39,7 +39,8 @@ export class DashboardComponent implements OnInit {
     public summary = [];
 
     // Language
-    public language: Language = this.languageService.selectedLanguage;
+    public language: Language = this.languageService.selectedLanguage ?
+        this.languageService.selectedLanguage : this.languageService.english;
 
 
     constructor(
@@ -49,7 +50,7 @@ export class DashboardComponent implements OnInit {
         public _generalService: GeneralService,
         public modalService: ModalService,
         private userService: UserService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) { }
 
     ngOnInit() {

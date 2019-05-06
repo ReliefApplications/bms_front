@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     public loginCaptcha = false;
     public form: FormGroup;
     // Language
-    public language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
 
     constructor(
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
         public asyncacheService: AsyncacheService,
         public router: Router,
         public snackbar: SnackbarService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         ) { }
 
     ngOnInit() {

@@ -10,12 +10,12 @@ import { LanguageService } from 'src/texts/language.service';
 export class BoxDashboardComponent {
   @Input() info: any;
 
-  public language = this.languageService.selectedLanguage;
+  public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
 
   constructor(
     private router: Router,
-    private languageService: LanguageService,
+    public languageService: LanguageService,
 
   ) { }
 

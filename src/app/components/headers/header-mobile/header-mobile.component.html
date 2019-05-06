@@ -34,7 +34,7 @@
 </button>
 
 <mat-menu #menu="matMenu" overlapTrigger=false>
-  <button mat-menu-item (click)="openDialog('language')">
+  <button mat-menu-item (click)="openLanguageDialog()">
     <mat-icon>language</mat-icon>
     <span>{{language.header_language | titlecase}}</span>
   </button>
@@ -42,7 +42,7 @@
     <mat-icon>person_outline</mat-icon>
     <span>{{language.header_profile | titlecase}}</span>
   </button>
-  <button mat-menu-item (click)="logOut()" routerLink="/login">
+  <button mat-menu-item routerLink="/login">
     <mat-icon>exit_to_app</mat-icon>
     <span>{{language.header_disconnect | titlecase}}</span>
   </button>

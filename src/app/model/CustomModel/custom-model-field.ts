@@ -4,7 +4,7 @@ import { LanguageService } from 'src/texts/language.service';
 export class CustomModelField<T> {
 
     protected languageService = AppInjector.get(LanguageService);
-    protected language = this.languageService.selectedLanguage;
+    protected language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     /**
      * Described field

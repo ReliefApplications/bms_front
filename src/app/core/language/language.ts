@@ -524,6 +524,7 @@ export interface Language {
     snackbar_change_password_fail: string
     snackbar_change_password_not_possible: string
     snackbar_invalid_transaction_date: string
+    snackbar_pickup_error: string
 
     // Table
     table_actions: string

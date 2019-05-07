@@ -541,6 +541,7 @@ export class Arabic implements Language {
     snackbar_change_password_fail = '...لا يمكن تغيير كلمة المرور'
     snackbar_change_password_not_possible = 'يجب أن تكون كلمة المرور أطول من حرف واحد وتتطابق مع الشروط'
     snackbar_invalid_transaction_date = 'انتهت مهلة المعاملة.'
+    snackbar_pickup_error = 'من المستحيل حاليًا التحقق من حالة الالتقاط'
 
     // Table
     table_actions = 'اجراءات'

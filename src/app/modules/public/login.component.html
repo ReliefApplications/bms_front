@@ -4,7 +4,7 @@
             <div class="login-logo">
                 <img class="logo-image" src="../../../assets/images/bms_logo.png" />
             </div>
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <form [formGroup]="form">
                 <div class="login-title">
                     <h1 class="title-text">{{language.login_bms | titlecase}}</h1>
                 </div>
@@ -16,7 +16,7 @@
                     <recaptcha formControlName="captcha" *ngIf="prod()" (scriptError)="onScriptError()"> </recaptcha>
                 </div>
                 <div class="login-button">
-                    <button type="submit" mat-raised-button *ngIf="!loader" [disabled]="form.invalid" class="button-background-primary">{{language.login_title | titlecase}}</button>
+                    <button (click)="onSubmit()" mat-raised-button *ngIf="!loader" [disabled]="form.invalid" class="button-background-primary">{{language.login_title | titlecase}}</button>
                     <mat-spinner [diameter]="35" *ngIf="loader"></mat-spinner>
                 </div>
             </form>

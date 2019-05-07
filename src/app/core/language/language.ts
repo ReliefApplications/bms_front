@@ -336,6 +336,7 @@ export interface Language {
     modal_add_no_right: string
     modal_add_no_value: string
     modal_add_title: string
+    modal_add_multiple_title: string
     modal_check_date: string
     modal_check_fields: string
     modal_delete_sentence: string
@@ -367,6 +368,7 @@ export interface Language {
     model_beneficiaries_dependents: string
     model_beneficiaries_nationalids: string
     model_beneficiaries_phones: string
+    model_beneficiaries_phone_no: string
     model_beneficiaries_status: string
     model_booklet: string
     model_booklet_password_pattern: string

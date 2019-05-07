@@ -17,13 +17,13 @@
       <div class="content-button">
         <div class="action-buttons">
           <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-            <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
+            <button mat-raised-button [disabled]="!(data.data && data.data.length>0)" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
               <mat-icon>get_app</mat-icon>
               <span>{{language.export | titlecase}}</span>
             </button>
             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
             <div class="extension">
-              <div mat-button class="dropdown" *ngIf="!loadingExport" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+              <div mat-button class="dropdown" *ngIf="!loadingExport && data.data && data.data.length>0" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                 <mat-icon>keyboard_arrow_down</mat-icon>
               </div>
               <mat-menu #exportType>

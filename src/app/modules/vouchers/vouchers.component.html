@@ -11,17 +11,17 @@
           <button mat-raised-button *ngIf="checkedElements.length > 0" class="button-background-primary" (click)="printMany()" [matBadge]="checkedElements.length">
               <span>{{language.voucher_print_selection | titlecase}}</span>
           </button>
-          <button mat-raised-button *ngIf="bookletData && !loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
+          <button mat-raised-button [disabled]="!bookletData" *ngIf="!loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
               <span>{{language.voucher_assign | titlecase }}</span>
           </button>
           <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
           <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-            <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
+            <button mat-raised-button [disabled]="!bookletData" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
               <mat-icon>get_app</mat-icon>
               <span>{{language.export | titlecase}}</span>
             </button>
             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-            <div class="extension" *ngIf="!loadingExport">
+            <div class="extension" *ngIf="!loadingExport && bookletData">
               <div mat-button class="dropdown" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                 <mat-icon>keyboard_arrow_down</mat-icon>
               </div>
@@ -37,12 +37,12 @@
           </div>
 
           <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-              <button mat-raised-button class="button-background-primary" (click)="exportCodes()" *ngIf="!loadingExportCodes">
+              <button mat-raised-button [disabled]="!bookletData" class="button-background-primary" (click)="exportCodes()" *ngIf="!loadingExportCodes">
                 <mat-icon>get_app</mat-icon>
                 <span>{{language.export_codes | titlecase}}</span>
               </button>
               <mat-spinner [diameter]='25' *ngIf="loadingExportCodes"></mat-spinner>
-              <div class="extension" *ngIf="!loadingExportCodes">
+              <div class="extension" *ngIf="!loadingExportCodes && bookletData">
                 <div mat-button class="dropdown" [matMenuTriggerFor]="exportCodesType" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                   <mat-icon>keyboard_arrow_down</mat-icon>
                 </div>

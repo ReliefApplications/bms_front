@@ -17,6 +17,7 @@ import { ModalFieldsComponent } from '../modal-fields/modal-fields.component';
 })
 export class ModalAddComponent extends ModalFieldsComponent implements OnInit {
     modalTitle = this.language.modal_add_title;
+    modalTitleMultiple = this.language.modal_add_multiple_title;
     modalType = 'Add';
 
     isDisabled(field: CustomModelField<any>) {

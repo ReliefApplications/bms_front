@@ -1,0 +1,5 @@
+@import '../../../../../../assets/css/variable.scss';
+
+.log-button:disabled {
+    background-color: $bms_neutral_grey;
+}

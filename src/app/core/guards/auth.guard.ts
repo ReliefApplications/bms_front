@@ -41,7 +41,6 @@ export class AuthGuard implements CanActivate {
         const accessGranted = this.checkLogin(this.userService.currentUser);
 
         if (!accessGranted) {
-            this.snackbar.error(this.language.login_prompt);
             this.router.navigateByUrl('/login');
         }
 

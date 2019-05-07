@@ -51,10 +51,10 @@
         </div>
 
         <div class="content-table" *ngIf="!loadingTransaction">
-            <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen >= maxWidth" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" [selection]="selection"
+            <app-table [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" [selection]="selection"
                 rights="true" (selectChecked)="getChecked($event)" (openModal)="openDialog($event)" [selectable]="true">
             </app-table>
-            <app-table-mobile *ngIf="widthScreen < maxWidth" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" rights="true" (openModal)="openDialog($event)">
+            <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" rights="true" (openModal)="openDialog($event)">
             </app-table-mobile>
         </div>
 

@@ -1,17 +1,20 @@
 import { TitleCasePipe } from '@angular/common';
 // tslint:disable-next-line
-import { AfterViewInit, Component, DoCheck, EventEmitter, HostListener, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, DoCheck, EventEmitter, OnDestroy, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material';
 import { saveAs } from 'file-saver';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Distribution } from 'src/app/model/distribution';
 import { Project } from 'src/app/model/project';
+import { DisplayType } from 'src/constants/screen-sizes';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { UserService } from '../../../core/api/user.service';
@@ -27,7 +30,7 @@ import { IndicatorService } from '../services/indicator.service';
     templateUrl: './indicator-page.component.html',
     styleUrls: ['./indicator-page.component.scss']
 })
-export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
+export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
     from = new FormControl('', [Validators.required]);
     to = new FormControl('', [Validators.required]);
 
@@ -54,14 +57,9 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
     public allMatOption;
     public isDownloading = false;
 
-    // for responsive design
-    public maxHeight = 700;
-    public maxWidthMobile = 750;
-    public maxWidthFirstRow = 1000;
-    public maxWidthSecondRow = 800;
-    public maxWidth = 750;
-    public heightScreen;
-    public widthScreen;
+    // Screen size
+    public currentDisplayType: DisplayType;
+    private screenSizeSubscription: Subscription;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -98,12 +96,16 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
         private snackBar: SnackbarService,
         private userService: UserService,
         public languageService: LanguageService,
+        private screenSizeService: ScreenSizeService,
     ) {
     }
 
     ngOnInit() {
 
-        this.checkSize();
+        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+            this.currentDisplayType = displayType;
+        });
+
         this.getProjects();
 
         if (!this.indicatorsLoading) {
@@ -127,6 +129,10 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
         }
         this.generateReportsCards();
 
+    }
+
+    ngOnDestroy() {
+        this.screenSizeSubscription.unsubscribe();
     }
 
     toTitleCase(filtreType: string) {
@@ -236,23 +242,6 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck {
             return this.updateFilters(filters);
         }
         return filters;
-    }
-
-    /**
-     * For responsive design
-     * @param event
-     */
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.checkSize();
-    }
-
-    /**
-     * For responsive design
-     */
-    checkSize(): void {
-        this.heightScreen = window.innerHeight;
-        this.widthScreen = window.innerWidth;
     }
 
     updateFiltersWithLanguage() {

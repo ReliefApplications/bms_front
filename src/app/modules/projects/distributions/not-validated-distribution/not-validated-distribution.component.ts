@@ -1,16 +1,19 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog, MatStepper, MatTableDataSource } from '@angular/material';
+import { Subscription } from 'rxjs';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { NetworkService } from 'src/app/core/api/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Beneficiary } from 'src/app/model/beneficiary';
 import { Distribution } from 'src/app/model/distribution';
 import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary';
 import { User } from 'src/app/model/user';
+import { DisplayType } from 'src/constants/screen-sizes';
 import { BeneficiariesService } from './../../../../core/api/beneficiaries.service';
 
 @Component({
@@ -18,7 +21,7 @@ import { BeneficiariesService } from './../../../../core/api/beneficiaries.servi
   templateUrl: './not-validated-distribution.component.html',
   styleUrls: ['./not-validated-distribution.component.scss', '../distributions.component.scss']
 })
-export class NotValidatedDistributionComponent implements OnInit {
+export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
 
   @Input() actualDistribution: Distribution;
   @Input() loaderCache: boolean;
@@ -52,11 +55,7 @@ export class NotValidatedDistributionComponent implements OnInit {
   randomSampleData: MatTableDataSource<Beneficiary>;
   finalBeneficiaryData: MatTableDataSource<Beneficiary>;
 
-  // Screen display variables.
-  public maxHeight = 600;
-  public maxWidth = 750;
-  public heightScreen;
-  public widthScreen;
+
 
   // AddBeneficiary Dialog variables.
   beneficiaryList = new Array<Beneficiary>();
@@ -71,13 +70,17 @@ export class NotValidatedDistributionComponent implements OnInit {
   progression: number;
   hideSnack = false;
 
+  // Screen size
+  public currentDisplayType: DisplayType;
+  private screenSizeSubscription: Subscription;
+
+
   // Language
   public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
   constructor(
       public distributionService: DistributionService,
       public cacheService: AsyncacheService,
-      // private formBuilder: FormBuilder,
       private beneficiariesService: BeneficiariesService,
       public snackbar: SnackbarService,
       private dialog: MatDialog,
@@ -85,22 +88,19 @@ export class NotValidatedDistributionComponent implements OnInit {
       protected modalService: ModalService,
       public userService: UserService,
       public languageService: LanguageService,
+      private screenSizeService: ScreenSizeService,
   ) {
   }
   ngOnInit() {
-    this.checkSize();
+    this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+        this.currentDisplayType = displayType;
+    });
     this.getDistributionBeneficiaries('initial');
-}
+    }
 
-@HostListener('window:resize', ['$event'])
-onResize(event) {
-    this.checkSize();
-}
-
-checkSize(): void {
-    this.heightScreen = window.innerHeight;
-    this.widthScreen = window.innerWidth;
-}
+    ngOnDestroy() {
+        this.screenSizeSubscription.unsubscribe();
+    }
 
 /**
  * Gets the Beneficiaries of the actual distribution to display the table

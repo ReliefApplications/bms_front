@@ -1,31 +1,29 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { HouseholdsService } from 'src/app/core/api/households.service';
 import { LanguageService } from 'src/app/core/language/language.service';
+import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
 import { Household } from 'src/app/model/household';
+import { DisplayType } from 'src/constants/screen-sizes';
 
 @Component({
     selector: 'app-imported-data',
     templateUrl: './imported-data.component.html',
     styleUrls: ['./imported-data.component.scss']
 })
-export class ImportedDataComponent implements OnInit {
+export class ImportedDataComponent implements OnInit, OnDestroy {
 
     public data: MatTableDataSource<Household>;
     public referedClassToken = Household;
     public referedClassService = this._householdsService;
     public loadingTable = true;
 
-    // For windows size
-    public maxHeight = 700;
-    public maxWidthMobile = 750;
-    public maxWidthFirstRow = 1000;
-    public maxWidthSecondRow = 800;
-    public maxWidth = 750;
-    public heightScreen;
-    public widthScreen;
+    // Screen size
+    public currentDisplayType: DisplayType;
+    private screenSizeSubscription: Subscription;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -35,28 +33,20 @@ export class ImportedDataComponent implements OnInit {
         private importService: ImportService,
         private router: Router,
         public languageService: LanguageService,
+        private screenSizeService: ScreenSizeService,
     ) { }
 
     ngOnInit() {
-        this.checkSize();
+        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+            this.currentDisplayType = displayType;
+        });
         const newHouseholds = this.importService.importedHouseholds;
         this.data = new MatTableDataSource(newHouseholds);
         this.loadingTable = false;
     }
 
-
-    /**
-  	 * Listener and function use in case where windows is resize
-  	 * @param event
-  	 */
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.checkSize();
-    }
-
-    checkSize(): void {
-        this.heightScreen = window.innerHeight;
-        this.widthScreen = window.innerWidth;
+    ngOnDestroy() {
+        this.screenSizeSubscription.unsubscribe();
     }
 
     goBeneficiaries()  {

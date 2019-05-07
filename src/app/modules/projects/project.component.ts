@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -7,8 +7,10 @@ import { NetworkService } from 'src/app/core/api/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
+import { DisplayType } from 'src/constants/screen-sizes';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ProjectService } from '../../core/api/project.service';
 import { Distribution } from '../../model/distribution';
@@ -20,7 +22,7 @@ import { Project } from '../../model/project';
     templateUrl: './project.component.html',
     styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent implements OnInit {
+export class ProjectComponent implements OnInit, OnDestroy {
     public nameComponent = 'projects';
 
     loadingExport = false;
@@ -40,13 +42,9 @@ export class ProjectComponent implements OnInit {
     selectedProjectId = null;
     extensionType: string;
 
-    public maxHeight = 600;
-    public maxWidth = 750;
-    // public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
-    // public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
-    // public maxWidth = GlobalText.maxWidth;
-    public heightScreen;
-    public widthScreen;
+    // Screen size
+    public currentDisplayType: DisplayType;
+    private screenSizeSubscription: Subscription;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -62,26 +60,23 @@ export class ProjectComponent implements OnInit {
         public modalService: ModalService,
         public userService: UserService,
         public languageService: LanguageService,
+        private screenSizeService: ScreenSizeService,
         ) { }
 
     ngOnInit() {
+        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+            this.currentDisplayType = displayType;
+        });
         if (this.importService.project) {
             this.selectProject(this.importService.project);
             this.importService.project = null;
         }
         this.getProjects();
-        this.checkSize();
         this.extensionType = 'xls';
     }
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.checkSize();
-    }
-
-    checkSize(): void {
-        this.heightScreen = window.innerHeight;
-        this.widthScreen = window.innerWidth;
+    ngOnDestroy() {
+        this.screenSizeSubscription.unsubscribe();
     }
 
     /**

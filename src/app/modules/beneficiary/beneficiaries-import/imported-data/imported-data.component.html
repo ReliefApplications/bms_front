@@ -8,12 +8,15 @@
   <div class="container-table" *ngIf="!loadingTable">
     <div class="container-content box-primary">
       <div class="content-table">
-        <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen > maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
+        <app-table [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'; else mobile" [entity]="referedClassToken" [service]="referedClassService"
           [data]="data">
         </app-table>
-        <app-table-mobile *ngIf="widthScreen < maxWidthMobile" [entity]="referedClassToken" [service]="referedClassService"
-          [data]="data">
-        </app-table-mobile>
+
+        <ng-template #mobile>
+            <app-table-mobile [entity]="referedClassToken" [service]="referedClassService"
+                [data]="data">
+            </app-table-mobile>
+        </ng-template>
       </div>
 
       <div class="content-button content-button-footer">

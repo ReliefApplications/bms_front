@@ -31,7 +31,7 @@
           </div>
         </div>
 
-        <div class="add-buttons" [ngClass]="{'add-buttons-arabic': languageService.languageToString(language)==='ar', 'add-buttons-mobile': widthScreen <= maxWidth}" (mouseenter)="widthScreen > maxWidth && this.addToggled = true" (mouseleave)="widthScreen > maxWidth && this.addToggled = false">
+        <div class="add-buttons" [ngClass]="{'add-buttons-arabic': languageService.languageToString(language)==='ar', 'add-buttons-mobile': currentDisplayType.type === 'mobile'}" (mouseenter)="currentDisplayType.type !== 'mobile' && this.addToggled = true" (mouseleave)="currentDisplayType.type !== 'mobile' && this.addToggled = false">
           <div class="toggled-buttons" [ngClass]="{'toggled': addToggled}">
             <button mat-raised-button class="button-background-accent" routerLink="/beneficiaries/import">
               <mat-icon>publish</mat-icon>
@@ -43,18 +43,18 @@
             </button>
           </div>
         </div>
-        <button *ngIf="widthScreen > maxWidth && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_READ')" mat-raised-button class="add-button-create" (click)="toggleAddButtons()">
+        <button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_READ')" mat-raised-button class="add-button-create" (click)="toggleAddButtons()">
           <mat-icon>add</mat-icon>
           {{language.create | titlecase}}
         </button>
-        <button mat-fab *ngIf="widthScreen <= maxWidth && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_READ')" class="add-button" [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}" (click)="toggleAddButtons()">
+        <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_READ')" class="add-button" [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}" (click)="toggleAddButtons()">
           <mat-icon>add</mat-icon>
         </button>
       </div>
 
       <div class="content-table">
-          <app-table-server *ngIf="widthScreen > maxWidth" selectable="true" [selection]="selection" (selectChecked)="getChecked($event)" [deletable]='canDelete' [entity]="referedClassToken" [service]="householdsService" [data]="dataSource" [updatable]="canEdit" (openModal)="openDialog($event)"></app-table-server>
-          <app-table-mobile-server *ngIf="widthScreen < maxWidth" [deletable]='canDelete' [entity]="referedClassToken" [service]="householdsService" [data]="dataSource" [updatable]="canEdit" (openModal)="openDialog($event)"></app-table-mobile-server>
+          <app-table-server *ngIf="currentDisplayType.type !== 'mobile'" selectable="true" [selection]="selection" (selectChecked)="getChecked($event)" [deletable]='canDelete' [entity]="referedClassToken" [service]="householdsService" [data]="dataSource" [updatable]="canEdit" (openModal)="openDialog($event)"></app-table-server>
+          <app-table-mobile-server *ngIf="currentDisplayType.type === 'mobile'" [deletable]='canDelete' [entity]="referedClassToken" [service]="householdsService" [data]="dataSource" [updatable]="canEdit" (openModal)="openDialog($event)"></app-table-mobile-server>
       </div>
     </div>
   </div>

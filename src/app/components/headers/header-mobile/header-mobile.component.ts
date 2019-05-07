@@ -9,11 +9,12 @@ import { HeaderComponent } from '../header/header.component';
     styleUrls: [ './header-mobile.component.scss' ]
 })
 export class HeaderMobileComponent extends HeaderComponent implements OnInit {
+    // Toggle mobile sidenav
+    @Output() toggleSideNav = new EventEmitter();
 
-    @Output() emitCurrentRoute = new EventEmitter<string>();
-    @Output() emitToggle = new EventEmitter();
-
-    toggle() {
-        this.emitToggle.emit();
+    toggle(event: Event) {
+        event.stopPropagation();
+        this.toggleSideNav.emit();
     }
+
 }

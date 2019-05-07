@@ -56,10 +56,10 @@
         </div>
 
         <div class="content-table" *ngIf="!loadingTransaction">
-            <app-table [searchable]="true" [paginable]="true" *ngIf="widthScreen >= maxWidth" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true"
+            <app-table [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true"
                 [assignable]="true" (openModal)="openModal($event)" (printOne)="print($event)" (assignOne)="assign($event)">
             </app-table>
-            <app-table-mobile *ngIf="widthScreen < maxWidth" (openModal)="openModal($event)" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true" [assignable]="true" (printOne)="print($event)" (assignOne)="assign($event)">
+            <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" (openModal)="openModal($event)" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true" [assignable]="true" (printOne)="print($event)" (assignOne)="assign($event)">
             </app-table-mobile>
         </div>
 

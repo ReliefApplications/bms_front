@@ -97,6 +97,8 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                         });
                     }
                 );
+            }, error => {
+                this.snackbar.error(this.language.snackbar_pickup_error);
             }
         );
     }

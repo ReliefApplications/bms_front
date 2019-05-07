@@ -539,7 +539,7 @@ export class French implements Language {
     snackbar_change_password_fail = 'Le mot de passe n\'a pas pu être changé...'
     snackbar_change_password_not_possible = 'Mot de passe pas assez long ou différent de la vérification'
     snackbar_invalid_transaction_date = 'La date valide de transaction est dépassée.'
-
+    snackbar_pickup_error = 'Il est impossile de vérifier le statut de la récupération pour le moment'
     // Table
     table_actions = 'Actions'
     table_element_deleted = ' supprimé(e)'

@@ -14,7 +14,7 @@ import { Beneficiary, BeneficiaryOptions, Gender, ResidencyStatus } from 'src/ap
 import { CountrySpecific, CountrySpecificAnswer } from 'src/app/model/country-specific';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { Household, Livelihood } from 'src/app/model/household';
-import { Location, Adm } from 'src/app/model/location';
+import { Adm, Location } from 'src/app/model/location';
 import { NationalId, NationalIdType } from 'src/app/model/nationalId';
 import { Phone, PhoneType } from 'src/app/model/phone';
 import { Profile } from 'src/app/model/profile';

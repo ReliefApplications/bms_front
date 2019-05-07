@@ -36,7 +36,7 @@
                             <mat-icon>refresh</mat-icon>
                             <span class="text-button">{{language.transaction_refresh}}</span>
                         </button>
-                        <button mat-menu-item *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (click)="requestLogs()">
+                        <button class="log-button" [disabled]="getAmountSent(commodity) === 0" mat-menu-item *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (click)="requestLogs()">
                             <mat-icon>history</mat-icon>
                             <span class="text-button">{{language.distribution_request_logs}}</span>
                         </button>

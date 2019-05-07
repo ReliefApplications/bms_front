@@ -319,8 +319,12 @@ generateRandom() {
                     });
                     this.randomSampleData = new MatTableDataSource(data);
                     this.loadingThirdStep = false;
+                }, error => {
+                    this.loadingThirdStep = false;
                 }
             );
+    } else {
+        this.loadingThirdStep = false;
     }
 }
 

@@ -50,15 +50,15 @@
 
                 <ng-template #distribution>
                     <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
-                        <div class="action-buttons" *ngIf="distributionData && distributionData.data.length>0">
+                        <div class="action-buttons">
                         <div class="button-with-extension">
-                            <button mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
+                            <button [disabled]="!(distributionData &&  distributionData.data.length > 0)" mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
                             <mat-icon>get_app</mat-icon>
                             <span>{{language.export | titlecase}}</span>
                             </button>
                             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                             <div class="extension" *ngIf="!loadingExport">
-                            <div mat-button class="dropdown" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                            <div mat-button class="dropdown" *ngIf="distributionData &&  distributionData.data.length > 0" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                                 <mat-icon>keyboard_arrow_down</mat-icon>
                             </div>
                             <mat-menu #exportType>

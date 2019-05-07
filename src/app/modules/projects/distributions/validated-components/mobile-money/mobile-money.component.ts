@@ -8,7 +8,7 @@ import { ValidatedDistributionComponent } from '../validated-distribution.compon
 @Component({
     selector: 'app-mobile-money',
     templateUrl: './mobile-money.component.html',
-    styleUrls: ['../validated-distribution.component.scss']
+    styleUrls: ['../validated-distribution.component.scss', './mobile-money.component.scss']
 })
 export class MobileMoneyComponent extends ValidatedDistributionComponent implements OnInit {
 

@@ -104,14 +104,7 @@
         <h4 *ngIf="!correctCode" class="modal-title underline-accent stickyHeader">{{language.transaction_confirm}}</h4>
         <h4 *ngIf="correctCode" class="modal-title underline-accent stickyHeader">{{language.transaction_inProgress}}</h4>
         <div class="dialog-template">
-            <div class="modal-body" *ngIf="!chartAccepted && !correctCode">
-                <p> {{language.transaction_prevention}}</p>
-                <div class="lign-container">
-                    <mat-checkbox color="primary" [(ngModel)]="chartAccepted" (change)="codeVerif();"></mat-checkbox>
-                    <span> {{language.transaction_accept_prevention}} </span>
-                </div>
-            </div>
-            <div class="modal-body" *ngIf="chartAccepted && !correctCode">
+            <div class="modal-body" *ngIf="!correctCode">
                 <p> {{language.transaction_email_code}} <br /> {{actualUser.email | titlecase}}. </p>
                 <p> {{language.transaction_paste_code}}</p>
                 <br />
@@ -130,7 +123,7 @@
             </div>
             <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                 <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')" *ngIf="!correctCode">{{language.cancel}}</button>
-                <button mat-raised-button class="button-background-accent confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()" *ngIf="chartAccepted && !correctCode">{{language.transaction_confirm_button}}</button>
+                <button mat-raised-button class="button-background-accent confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()" *ngIf="!correctCode">{{language.transaction_confirm_button}}</button>
             </div>
         </div>
     </mat-dialog-content>

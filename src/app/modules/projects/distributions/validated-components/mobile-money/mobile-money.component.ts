@@ -192,7 +192,6 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                         finalize(
                             () => {
                                 this.transacting = false;
-                                this.chartAccepted = false;
                                 this.correctCode = false;
                                 this.enteredCode = '';
                                 this.dialog.closeAll();
@@ -272,7 +271,6 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
         } else {
             this.snackbar.error(this.language.distribution_no_right_transaction);
         }
-        this.chartAccepted = false;
     }
 
     /**

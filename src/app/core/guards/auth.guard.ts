@@ -3,7 +3,6 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { User } from 'src/app/model/user';
 import { UserService } from '../api/user.service';
 
@@ -19,7 +18,6 @@ export class AuthGuard implements CanActivate {
         private router: Router,
         private userService: UserService,
         private authenticationService: AuthenticationService,
-        private snackbar: SnackbarService,
         public languageService: LanguageService,
     ) { }
 

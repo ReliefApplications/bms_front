@@ -1,9 +1,9 @@
 import { DatePipe } from '@angular/common';
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialog, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
 import { TableComponent } from 'src/app/components/table/table.component';
@@ -11,12 +11,14 @@ import { ProjectService } from 'src/app/core/api/project.service';
 import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Commodity } from 'src/app/model/commodity';
 import { Criteria } from 'src/app/model/criteria';
 import { Distribution } from 'src/app/model/distribution';
 import { Location } from 'src/app/model/location';
+import { DisplayType } from 'src/constants/screen-sizes';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { LocationService } from '../../../core/api/location.service';
@@ -30,7 +32,7 @@ import { LocationService } from '../../../core/api/location.service';
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
-export class AddDistributionComponent implements OnInit, DesactivationGuarded {
+export class AddDistributionComponent implements OnInit, DesactivationGuarded, OnDestroy {
 
 
     public objectInstance: Distribution;
@@ -44,15 +46,6 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
     public criteriaNbBeneficiaries = 0;
     public commodityNb: number[] = [];
 
-    // TODO: make these constants
-    public maxHeight = 700;
-    public maxWidthMobile = 750;
-    public maxWidthFirstRow = 1000;
-    public maxWidthSecondRow = 800;
-    public maxWidth = 750;
-    public heightScreen;
-    public widthScreen;
-
     public queryParams;
     public load = false;
     public loadingCreation: boolean;
@@ -61,6 +54,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
 
     @ViewChild('criteriaTable') criteriaTable: TableComponent;
     @ViewChild('commodityTable') commodityTable: TableComponent;
+
+    // Screen size
+    public currentDisplayType: DisplayType;
+    private screenSizeSubscription: Subscription;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -76,20 +73,26 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         private modalService: ModalService,
         private locationService: LocationService,
         public languageService: LanguageService,
+        private screenSizeService: ScreenSizeService,
     ) { }
 
     ngOnInit() {
+        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+            this.currentDisplayType = displayType;
+        });
         this.loadingCreation = false;
         this.objectInstance = new Distribution();
         this.objectInstance.set('location', new Location());
         this.objectFields = ['adm1', 'adm2', 'adm3', 'adm4', 'date', 'type', 'threshold'];
         this.makeForm();
-        this.checkSize();
         this.getQueryParameter();
         this.loadProvince();
         this.getProjectDates();
     }
 
+    ngOnDestroy() {
+        this.screenSizeSubscription.unsubscribe();
+    }
 
     makeForm() {
         const formControls = {};
@@ -116,15 +119,6 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded {
         }
     }
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.checkSize();
-    }
-
-    checkSize(): void {
-        this.heightScreen = window.innerHeight;
-        this.widthScreen = window.innerWidth;
-    }
 
     /**
      * get the parameter in the route

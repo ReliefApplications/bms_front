@@ -1,7 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog, MatTableDataSource } from '@angular/material';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
 import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
@@ -9,26 +9,25 @@ import { ExportService } from 'src/app/core/api/export.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Commodity } from 'src/app/model/commodity';
 import { Distribution } from 'src/app/model/distribution';
 import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary';
 import { User } from 'src/app/model/user';
+import { DisplayType } from 'src/constants/screen-sizes';
 
 @Component({
     template: './validated-distribution.component.html',
     styleUrls: ['./validated-distribution.component.scss']
 })
-export class ValidatedDistributionComponent implements OnInit {
+export class ValidatedDistributionComponent implements OnInit, OnDestroy {
 
     entity: any;
     loadingExport = false;
     loadingTransaction = false;
     transacting = false;
-    widthScreen: number;
-    heightScreen: number;
-    public maxWidth = 750;
     selection: SelectionModel<any>;
     extensionType = 'xls';
     progression = 0;
@@ -53,6 +52,10 @@ export class ValidatedDistributionComponent implements OnInit {
     @Output() storeEmitter: EventEmitter<Distribution> = new EventEmitter();
     @Output() finishedEmitter: EventEmitter<any> = new EventEmitter();
 
+    // Screen size
+    public currentDisplayType: DisplayType;
+    private screenSizeSubscription: Subscription;
+
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
@@ -67,22 +70,24 @@ export class ValidatedDistributionComponent implements OnInit {
         public _exportService: ExportService,
         public userService: UserService,
         public languageService: LanguageService,
+        private screenSizeService: ScreenSizeService,
     ) { }
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event: any) {
-        this.checkSize();
-    }
-
     ngOnInit() {
+        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+            this.currentDisplayType = displayType;
+        });
         this.distributionId = this.actualDistribution.get<number>('id');
-        this.checkSize();
         this.getDistributionBeneficiaries();
 
 
         // this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
         //     (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
         // );
+    }
+
+    ngOnDestroy() {
+        this.screenSizeSubscription.unsubscribe();
     }
 
     /**
@@ -214,8 +219,4 @@ export class ValidatedDistributionComponent implements OnInit {
         this.dialog.closeAll();
     }
 
-   private checkSize(): void {
-       this.heightScreen = window.innerHeight;
-       this.widthScreen = window.innerWidth;
-   }
 }

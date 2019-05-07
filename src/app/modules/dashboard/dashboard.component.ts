@@ -1,12 +1,15 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
+import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
 import { Language } from 'src/app/core/language/language';
 import { LanguageService } from 'src/app/core/language/language.service';
+import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Distribution } from 'src/app/model/distribution';
+import { DisplayType } from 'src/constants/screen-sizes';
 import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';
 import { LeafletService } from '../../core/external/leaflet.service';
@@ -16,7 +19,7 @@ import { LeafletService } from '../../core/external/leaflet.service';
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
     distributionData: MatTableDataSource<Distribution>;
     public nameComponent = 'dashboard_title';
@@ -29,14 +32,14 @@ export class DashboardComponent implements OnInit {
     loadingSummary = true;
     loadingMap = true;
 
-    public maxWidthMobile = 750;
-    public heightScreen;
-    public widthScreen;
-
     public deletable = false;
     public editable = false;
 
     public summary = [];
+
+    // Screen size
+    public currentDisplayType: DisplayType;
+    private screenSizeSubscription: Subscription;
 
     // Language
     public language: Language = this.languageService.selectedLanguage ?
@@ -51,30 +54,27 @@ export class DashboardComponent implements OnInit {
         public modalService: ModalService,
         private userService: UserService,
         public languageService: LanguageService,
+        private screenSizeService: ScreenSizeService,
     ) { }
 
     ngOnInit() {
+        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+            this.currentDisplayType = displayType;
+        });
         this._cacheService.getUser().subscribe(result => {
             if (result.get('loggedIn')) {
                 this.serviceMap.createMap('map');
 
                 this.getSummary();
                 this.checkDistributions();
-                this.checkSize();
             }
         });
         this.deletable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
         this.editable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
     }
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.checkSize();
-    }
-
-    checkSize(): void {
-        this.heightScreen = window.innerHeight;
-        this.widthScreen = window.innerWidth;
+    ngOnDestroy() {
+        this.screenSizeSubscription.unsubscribe();
     }
 
     /**

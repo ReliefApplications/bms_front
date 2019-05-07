@@ -1,6 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatTableDataSource } from '@angular/material';
+import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { ModalAssignComponent } from 'src/app/components/modals/modal-assign/modal-assign.component';
 import { TableComponent } from 'src/app/components/table/table.component';
@@ -8,25 +9,19 @@ import { BookletService } from 'src/app/core/api/booklet.service';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Booklet } from 'src/app/model/booklet';
 import { Project } from 'src/app/model/project';
 import { Voucher } from 'src/app/model/voucher';
+import { DisplayType } from 'src/constants/screen-sizes';
 import { ExportService } from '../../core/api/export.service';
 @Component({
     selector: 'app-vouchers',
     templateUrl: './vouchers.component.html',
     styleUrls: ['./vouchers.component.scss']
 })
-export class VouchersComponent implements OnInit {
-
-    public maxHeight = 600;
-    public maxWidth = 750;
-    // public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
-    // public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
-    // public maxWidth = GlobalText.maxWidth;
-    public heightScreen;
-    public widthScreen;
+export class VouchersComponent implements OnInit, OnDestroy {
 
     public nameComponent = 'vouchers';
 
@@ -48,6 +43,10 @@ export class VouchersComponent implements OnInit {
     public selection = new SelectionModel<Voucher>(true, []);
     public checkedElements: Booklet[] = [];
 
+    // Screen size
+    public currentDisplayType: DisplayType;
+    private screenSizeSubscription: Subscription;
+
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
@@ -62,27 +61,22 @@ export class VouchersComponent implements OnInit {
         public snackbar: SnackbarService,
         private modalService: ModalService,
         protected languageService: LanguageService,
+        private screenSizeService: ScreenSizeService,
     ) { }
 
 
 
     ngOnInit() {
-        this.checkSize();
+        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+            this.currentDisplayType = displayType;
+        });
         this.extensionType = 'xls';
         this.extensionTypeCode = 'xls';
         this.getBooklets();
     }
 
-
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.checkSize();
-    }
-
-
-    checkSize(): void {
-        this.heightScreen = window.innerHeight;
-        this.widthScreen = window.innerWidth;
+    ngOnDestroy() {
+        this.screenSizeSubscription.unsubscribe();
     }
 
     setType(choice: string) {

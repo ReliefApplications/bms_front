@@ -68,7 +68,7 @@
 
         <form [formGroup]="form">
 
-          <div class="form" *ngIf="widthScreen > maxWidthMobile">
+          <div class="form" *ngIf="currentDisplayType.type !== 'mobile'">
             <app-table class="mat-elevation-z8" (openModal)="removeElement($event, 'criteria')" [entity]="criteriaClass" [data]="criteriaData" deletable="true" rights="true" #criteriaTable></app-table>
           </div>
 
@@ -94,7 +94,7 @@
             </h3>
           </div>
           <small id="text-explanation">{{ language.add_distribution_text_explanation }}</small>
-          <div class="form" *ngIf="widthScreen < maxWidthMobile">
+          <div class="form" *ngIf="currentDisplayType.type === 'mobile'">
             <app-table-mobile (openModal)="removeElement($event, 'criteria')" [entity]="criteriaClass" [data]="criteriaData" deletable="true" rights="true"></app-table-mobile>
           </div>
         </form>
@@ -106,7 +106,7 @@
               <span>{{ language.add | titlecase }}</span>
             </button>
           </div>
-          <div class="form" *ngIf="widthScreen > maxWidthMobile">
+          <div class="form" *ngIf="currentDisplayType.type !== 'mobile'">
             <app-table class="mat-elevation-z8" (openModal)="removeElement($event, 'commodity')" [entity]="commodityClass" [data]="commodityData" deletable="true" rights="true" #commodityTable></app-table>
           </div>
           <div class="summary-container" *ngIf="commodityData.data.length != 0">
@@ -114,7 +114,7 @@
               <span>{{commodityNb[i]}}</span>{{commodity.get('unit')}}
               {{language.add_distribution_commodities_delivered | titlecase}}</h3>
           </div>
-          <div class="form" *ngIf="widthScreen < maxWidthMobile">
+          <div class="form" *ngIf="currentDisplayType.type === 'mobile'">
             <app-table-mobile (openModal)="removeElement($event, 'commodity')" [entity]="commodityClass" [data]="commodityData" deletable="true" rights="true"></app-table-mobile>
           </div>
         </div>

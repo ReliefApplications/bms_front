@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
@@ -11,12 +11,13 @@ import { ProductService } from 'src/app/core/api/product-service';
 import { VendorsService } from 'src/app/core/api/vendors.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { CustomModel } from 'src/app/model/CustomModel/custom-model';
 import { FinancialProvider } from 'src/app/model/financial-provider';
 import { Product } from 'src/app/model/product';
 import { Vendor } from 'src/app/model/vendor';
+import { DisplayType } from 'src/constants/screen-sizes';
 import { CountrySpecificService } from '../../core/api/country-specific.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { DonorService } from '../../core/api/donor.service';
@@ -35,7 +36,7 @@ import { User } from '../../model/user';
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
     public nameComponent = 'settings';
     loadingExport = false;
 
@@ -53,13 +54,6 @@ export class SettingsComponent implements OnInit {
     userLogForm = new FormControl();
     private selectedUserId: number = null;
 
-    public maxHeight = 600;
-    public maxWidth = 750;
-    // public maxWidthFirstRow = GlobalText.maxWidthFirstRow;
-    // public maxWidthSecondRow = GlobalText.maxWidthSecondRow;
-    // public maxWidth = GlobalText.maxWidth;
-    public heightScreen;
-    public widthScreen;
     public deletable = false;
     public printable = false;
     public loggable = false;
@@ -69,8 +63,11 @@ export class SettingsComponent implements OnInit {
     @ViewChild(TableComponent) table: TableComponent;
     @ViewChild(TableMobileComponent) tableMobile: TableMobileComponent;
 
-    public mobileMode = false;
     public displayedTable = this.table;
+
+    // Screen size
+    public currentDisplayType: DisplayType;
+    private screenSizeSubscription: Subscription;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -84,7 +81,6 @@ export class SettingsComponent implements OnInit {
         public userService: UserService,
         public countrySpecificService: CountrySpecificService,
         public financialProviderService: FinancialProviderService,
-        private _cacheService: AsyncacheService,
         private locationService: LocationService,
         private _settingsService: SettingsService,
         private snackbar: SnackbarService,
@@ -92,28 +88,26 @@ export class SettingsComponent implements OnInit {
         private vendorsService: VendorsService,
         private modalService: ModalService,
         public languageService: LanguageService,
+        private screenSizeService: ScreenSizeService,
     ) { }
 
     ngOnInit() {
+        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+            this.currentDisplayType = displayType;
+            if (this.currentDisplayType.type === 'mobile') {
+                this.displayedTable = this.tableMobile;
+            }
+            else {
+                this.displayedTable = this.table;
+            }
+        });
         this.selectTitle('users');
         this.extensionType = 'xls';
     }
 
-
-
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        if ( window.innerWidth <= this.maxWidth) {
-            this.mobileMode = true;
-            this.displayedTable = this.tableMobile;
-        }
-        else {
-            this.mobileMode = false;
-            this.displayedTable = this.table;
-        }
+    ngOnDestroy() {
+        this.screenSizeSubscription.unsubscribe();
     }
-
-
 
   selectTitle(title): void {
     if (this.httpSubscriber) {

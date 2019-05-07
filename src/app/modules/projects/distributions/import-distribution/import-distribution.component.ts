@@ -1,11 +1,14 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
+import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { Distribution } from 'src/app/model/distribution';
 import { ImportedBeneficiary } from 'src/app/model/imported-beneficiary';
+import { DisplayType } from 'src/constants/screen-sizes';
 import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
 import { DistributionService } from '../../../../core/api/distribution.service';
 import { HouseholdsService } from '../../../../core/api/households.service';
@@ -18,7 +21,7 @@ const IMPORT_UPDATE = 2;
     templateUrl: './import-distribution.component.html',
     styleUrls: ['./import-distribution.component.scss']
 })
-export class ImportDistributionComponent implements OnInit {
+export class ImportDistributionComponent implements OnInit, OnDestroy {
 
     @Input() distribution: Distribution;
 
@@ -51,10 +54,10 @@ export class ImportDistributionComponent implements OnInit {
 
     // Screen display variables.
     dragAreaClass = 'dragarea';
-    public maxHeight = 600;
-    public maxWidth = 750;
-    public heightScreen;
-    public widthScreen;
+
+    // Screen size
+    public currentDisplayType: DisplayType;
+    private screenSizeSubscription: Subscription;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -67,21 +70,18 @@ export class ImportDistributionComponent implements OnInit {
         public beneficiaryService: BeneficiariesService,
         public userService: UserService,
         public languageService: LanguageService,
+        private screenSizeService: ScreenSizeService,
     ) { }
 
     ngOnInit() {
+        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+            this.currentDisplayType = displayType;
+        });
         this.comparing = false;
-        this.checkSize();
     }
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.checkSize();
-    }
-
-    checkSize(): void {
-        this.heightScreen = window.innerHeight;
-        this.widthScreen = window.innerWidth;
+    ngOnDestroy() {
+        this.screenSizeSubscription.unsubscribe();
     }
 
     /**

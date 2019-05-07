@@ -16,12 +16,6 @@ import { Country } from './model/country';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-    public smallScreenMode = false;
-    public maxHeight = 600;
-    public maxWidth = 750;
-
-    public isShowing = false;
-
     public countries: Array<Country>;
 
 

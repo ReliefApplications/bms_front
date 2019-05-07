@@ -15,7 +15,7 @@
 
 
 
-    <mat-sidenav-content class="page-content-wrapper" [ngClass]="{'no-margin': !smallScreenMode && router.url ==='/login'}">
+    <mat-sidenav-content class="page-content-wrapper" [ngClass]="{'no-margin': router.url ==='/login'}">
         <ng-container *ngIf="router.url !=='/login'">
             <mat-toolbar *ngIf="currentDisplayType.type === 'other'; else mobileHeader">
                 <app-header *ngIf="userService.currentUser"></app-header>

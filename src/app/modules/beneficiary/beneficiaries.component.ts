@@ -1,15 +1,18 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { TableServerComponent } from 'src/app/components/table/table-server/table-server.component';
 import { LocationService } from 'src/app/core/api/location.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Household } from 'src/app/model/household';
+import { DisplayType } from 'src/constants/screen-sizes';
 import { HouseholdsService } from '../../core/api/households.service';
 import { ProjectService } from '../../core/api/project.service';
 import { HouseholdsDataSource } from '../../model/households-data-source';
@@ -20,7 +23,7 @@ import { HouseholdsDataSource } from '../../model/households-data-source';
     templateUrl: './beneficiaries.component.html',
     styleUrls: ['./beneficiaries.component.scss']
 })
-export class BeneficiariesComponent implements OnInit {
+export class BeneficiariesComponent implements OnInit, OnDestroy {
 
     public nameComponent = 'beneficiaries';
     public loadingExport = false;
@@ -48,6 +51,10 @@ export class BeneficiariesComponent implements OnInit {
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
+    // Screen size
+    public currentDisplayType: DisplayType;
+    private screenSizeSubscription: Subscription;
+
     constructor(
         private router: Router,
         public householdsService: HouseholdsService,
@@ -58,16 +65,8 @@ export class BeneficiariesComponent implements OnInit {
         public modalService: ModalService,
         public userService: UserService,
         public languageService: LanguageService,
+        private screenSizeService: ScreenSizeService,
     ) { }
-
-    // For windows size
-    public maxHeight = 700;
-    public maxWidthMobile = 750;
-    public maxWidthFirstRow = 1000;
-    public maxWidthSecondRow = 800;
-    public maxWidth = 750;
-    public heightScreen;
-    public widthScreen;
 
     // Add Beneficiaries To Project Dialog variables.
     projectForm = new FormControl();
@@ -75,7 +74,9 @@ export class BeneficiariesComponent implements OnInit {
     selectedProject;
 
     ngOnInit() {
-        this.checkSize();
+        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+            this.currentDisplayType = displayType;
+        });
         this.extensionType = 'xls';
         this.dataSource = new HouseholdsDataSource(this.householdsService);
         // this.dataSource.vulnerabilities.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
@@ -84,23 +85,14 @@ export class BeneficiariesComponent implements OnInit {
         this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
     }
 
-    /**
-     * Listener and function use in case where windows is resize
-     * @param event
-     */
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.checkSize();
+    ngOnDestroy() {
+        this.screenSizeSubscription.unsubscribe();
     }
 
     toggleAddButtons() {
         this.addToggled = !this.addToggled;
     }
 
-    checkSize(): void {
-        this.heightScreen = window.innerHeight;
-        this.widthScreen = window.innerWidth;
-    }
 
     addOneHousehold() {
         this.router.navigate(['/beneficiaries/add-beneficiaries']);

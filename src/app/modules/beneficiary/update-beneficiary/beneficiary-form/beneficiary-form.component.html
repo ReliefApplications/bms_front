@@ -73,7 +73,7 @@
       </ng-select>
       <app-hint-error [form]="form" [fieldName]="'phonePrefix'+index" [field]="phoneFields.prefix" [isMatField]="false"></app-hint-error>
       <mat-form-field class="phone-number">
-        <input matInput type="tel" placeholder="{{language.model_beneficiaries_phones | titlecase}}" [formControlName]="'phoneNumber'+index">
+        <input matInput type="tel" placeholder="{{language.model_beneficiaries_phone_no+(index+1)+language.model_beneficiaries_phones|titlecase}}" [formControlName]="'phoneNumber'+index">
         <app-hint-error [form]="form" [fieldName]="'phoneNumber'+index" [field]="phoneFields.number" [isMatField]="false"></app-hint-error>
       </mat-form-field>
     </div>

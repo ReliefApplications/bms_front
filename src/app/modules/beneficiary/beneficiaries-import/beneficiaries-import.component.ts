@@ -140,7 +140,9 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.apiSelectorSubscriber.unsubscribe();
+        if (this.apiSelectorSubscriber) {
+            this.apiSelectorSubscriber.unsubscribe();
+        }
     }
 
     /**

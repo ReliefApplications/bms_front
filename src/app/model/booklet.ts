@@ -45,6 +45,7 @@ export class Booklet extends CustomModel {
 
     title = this.language.model_booklet;
     matSortActive = 'code';
+    createMultiple = true;
 
     public fields = {
         id: new NumberModelField(

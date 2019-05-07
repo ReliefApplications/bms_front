@@ -201,16 +201,15 @@ export class TableComponent implements OnInit,  AfterViewInit {
                             element.get(field.childrenObject).fields[field.childrenFieldName] :
                             new TextModelField({});
                     }
-                    const value = typeof(this.getFieldStringValues(field)) === 'string' ?
-                        this.getFieldStringValues(field) :
-                        this.getFieldStringValues(field).toString();
+                    const stringValue = this.getFieldStringValues(field);
+                    const value = typeof(stringValue) === 'string' || !stringValue ? stringValue : stringValue.toString();
                     fieldStringValues.push(value);
                 });
 
                 let containsFilter = false;
 
                 fieldStringValues.forEach((value: string) => {
-                    if (value.toLowerCase().includes(filter)) {
+                    if (value && value.toLowerCase().includes(filter)) {
                         containsFilter = true;
                     }
                 });

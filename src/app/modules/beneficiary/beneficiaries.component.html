@@ -10,12 +10,12 @@
             {{language.beneficiaries_add_list}}
           </button>
           <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-            <button mat-raised-button *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport" class="button-background-primary" (click)="export()">
+            <button mat-raised-button [disabled]="!(dataSource.length$.source._value > 0)" *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport" class="button-background-primary" (click)="export()">
               <mat-icon>get_app</mat-icon>
               <span>{{language.export | titlecase}}</span>
             </button>
             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-            <div class="extension" *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport">
+            <div class="extension" *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport && dataSource.length$.source._value > 0">
               <div mat-button class="dropdown" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" [matMenuTriggerFor]="exportType">
                 <mat-icon>keyboard_arrow_down</mat-icon>
               </div>

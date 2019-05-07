@@ -16,8 +16,9 @@ import { Country } from './model/country';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-    public countries: Array<Country>;
+    public extendedSideNav = false;
 
+    public countries: Array<Country>;
 
     // Screen size
     public currentDisplayType: DisplayType;
@@ -52,6 +53,12 @@ export class AppComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.languageService.languageSubject.unsubscribe();
         this.screenSizeSubscription.unsubscribe();
+    }
+
+    closeSideNav() {
+        if (this.extendedSideNav) {
+            this.extendedSideNav = false;
+        }
     }
 
     matchUrl(): string {

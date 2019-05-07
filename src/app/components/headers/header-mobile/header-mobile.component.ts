@@ -10,6 +10,11 @@ import { HeaderComponent } from '../header/header.component';
 })
 export class HeaderMobileComponent extends HeaderComponent implements OnInit {
     // Toggle mobile sidenav
-    @Output() toggle = new EventEmitter();
+    @Output() toggleSideNav = new EventEmitter();
+
+    toggle(event: Event) {
+        event.stopPropagation();
+        this.toggleSideNav.emit();
+    }
 
 }

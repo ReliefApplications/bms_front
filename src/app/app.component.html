@@ -1,7 +1,7 @@
 <mat-sidenav-container class="app-component" disableClose="true" [hasBackdrop]="false">
 
 
-    <mat-sidenav *ngIf="currentDisplayType.type === 'other'; else mobileSidenav" class="page-menu-wrapper" [ngClass]="{show: extendedSideNav}" [opened]="router.url !=='/login'"
+    <mat-sidenav *ngIf="currentDisplayType.type !== 'mobile'; else mobileSidenav" class="page-menu-wrapper" [ngClass]="{show: extendedSideNav}" [opened]="router.url !=='/login'"
         (mouseenter)="extendedSideNav = true" (mouseleave)="extendedSideNav = false" (click)="extendedSideNav = false" mode="over" [disableClose]="true">
         <ng-container *ngTemplateOutlet="sidenav"></ng-container>
     </mat-sidenav>
@@ -15,14 +15,14 @@
 
 
 
-    <mat-sidenav-content class="page-content-wrapper" [ngClass]="{'no-margin': router.url ==='/login'}">
+    <mat-sidenav-content (scroll)="extendedSideNav = false" (click)="extendedSideNav = false" class="page-content-wrapper" [ngClass]="{'no-margin': router.url ==='/login'}">
         <ng-container *ngIf="router.url !=='/login'">
-            <mat-toolbar *ngIf="currentDisplayType.type === 'other'; else mobileHeader">
+            <mat-toolbar *ngIf="currentDisplayType.type !== 'mobile'; else mobileHeader">
                 <app-header *ngIf="userService.currentUser"></app-header>
             </mat-toolbar>
             <ng-template #mobileHeader>
                 <mat-toolbar class="mobile">
-                    <app-header-mobile *ngIf="userService.currentUser" (toggle)="extendedSideNav = !extendedSideNav"></app-header-mobile>
+                    <app-header-mobile *ngIf="userService.currentUser" (toggleSideNav)="extendedSideNav = !extendedSideNav"></app-header-mobile>
                 </mat-toolbar>
             </ng-template>
         </ng-container>
@@ -35,11 +35,11 @@
 
 <ng-template #sidenav>
     <mat-nav-list *ngIf="language">
-        <mat-list-item *ngIf="currentDisplayType !== 'mobile'" routerLink="/">
+        <mat-list-item *ngIf="currentDisplayType.type !== 'mobile'" routerLink="/">
             <img src="assets/images/bms_logo.png" mat-list-icon>
         </mat-list-item>
         <mat-list-item [ngClass]="{selected: matchUrl() === ''}" routerLink="/">
-            <span class="full-width" >{{language.beneficiaries | titlecase}}</span>
+            <span class="full-width" >{{language.home | titlecase}}</span>
             <mat-icon mat-list-icon>home</mat-icon>
         </mat-list-item>
         <mat-list-item [ngClass]="{selected: matchUrl() === 'projects'}" routerLink="/projects">
@@ -59,7 +59,7 @@
             <mat-icon mat-list-icon>local_activity</mat-icon>
         </mat-list-item>
         <mat-list-item *ngIf="userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS')" [ngClass]="{selected: matchUrl() === 'settings'}" routerLink="/settings">
-            <span class="full-width">{{language.reports | titlecase}}</span>
+            <span class="full-width">{{language.settings | titlecase}}</span>
             <mat-icon mat-list-icon>settings</mat-icon>
         </mat-list-item>
     </mat-nav-list>

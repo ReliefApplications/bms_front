@@ -112,7 +112,7 @@ export class Booklet extends CustomModel {
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
-            value: true,
+            value: false,
             triggerFunction: (booklet: Booklet, value: boolean, form: FormGroup) => {
                 booklet.fields.password.isDisplayedInModal = value;
                 return booklet;
@@ -120,11 +120,12 @@ export class Booklet extends CustomModel {
         }),
         password: new TextModelField({
             title: this.language.model_password,
-            isDisplayedInModal: true,
+            isDisplayedInModal: false,
             isEditable: true,
             isSettable: true,
             isPassword: true,
-            pattern: /^(\d{4})/,
+            pattern: /^(\d{4})$/,
+            patternError: this.language.model_booklet_password_pattern,
             hint: this.language.model_booklet_password_pattern
         }),
         beneficiary: new ObjectModelField<Beneficiary>({
@@ -207,8 +208,6 @@ export class Booklet extends CustomModel {
 
         if (bookletFromApi.password) {
             newBooklet.fields.definePassword.title = newBooklet.language.model_update_password;
-            newBooklet.set('definePassword', false);
-            newBooklet.fields.password.isDisplayedInModal = false;
         }
 
         return newBooklet;

@@ -32,8 +32,13 @@
             margin: 0 auto;
 
             .img-folder {
-                height: 11vh;
+                height: 8vh;
                 padding: 5%;
+                margin-bottom: 20%;
+            }
+
+            .mat-stroked-button {
+                border: 1px dotted currentColor;
             }
         }
     }

@@ -68,7 +68,7 @@
         <p> {{language.beneficiaries_add_project}} {{ checkedElements.length }}
           {{language.beneficiaries_selected_project}}</p>
         <div class="selectBeneficiaries">
-          <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.projects | titlecase}}" [(ngModel)]="selectedProject">
+          <ng-select [formControl]="projectAddControl" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.projects | titlecase}}">
             <ng-option class="options" *ngFor="let project of projectsList" [value]="project.id">
               {{project.name}}
             </ng-option>
@@ -77,7 +77,7 @@
       </div>
       <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
         <button mat-button class="cancel" (click)="dialog.closeAll()">{{language.cancel}}</button>
-        <button mat-raised-button class="button-background-accent" (click)="confirmAdding()">{{language.transaction_confirm_button}}</button>
+        <button mat-raised-button class="button-background-accent" [disabled]="!projectAddControl.valid" (click)="confirmAdding()">{{language.transaction_confirm_button}}</button>
       </div>
     </div>
   </mat-dialog-content>

@@ -59,10 +59,8 @@ export class Beneficiary extends CustomModel {
     public fields = {
         id : new NumberModelField(
             {
-                title: null,
-                placeholder: null,
-                isDisplayedInTable: false,
-                isDisplayedInModal: false,
+                title: this.language.id,
+                isDisplayedInTable: true,
             },
         ),
         givenName: new TextModelField(

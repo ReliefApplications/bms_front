@@ -28,6 +28,7 @@ export class Arabic implements Language {
     gender = 'الجنس'
     home = 'الصفحة الرئيسية'
     households = 'الأسرة'
+    id = 'دخول'
     import = 'تحميل'
     individual = 'فرد '
     is_required = 'مطلوب'

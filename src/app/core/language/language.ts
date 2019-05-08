@@ -26,6 +26,7 @@ export interface Language {
     gender: string
     home: string
     households: string
+    id: string
     import: string
     individual: string
     is_required: string

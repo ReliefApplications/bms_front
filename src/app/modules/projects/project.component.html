@@ -51,24 +51,24 @@
                 <ng-template #distribution>
                     <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
                         <div class="action-buttons">
-                        <div class="button-with-extension">
-                            <button [disabled]="!(distributionData &&  distributionData.data.length > 0)" mat-raised-button class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
+                        <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                            <button mat-raised-button [disabled]="!(distributionData && distributionData.data.length > 0)" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
                             <mat-icon>get_app</mat-icon>
                             <span>{{language.export | titlecase}}</span>
                             </button>
                             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                             <div class="extension" *ngIf="!loadingExport">
-                            <div mat-button class="dropdown" *ngIf="distributionData &&  distributionData.data.length > 0" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-                                <mat-icon>keyboard_arrow_down</mat-icon>
-                            </div>
-                            <mat-menu #exportType>
-                                <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
+                                <button mat-raised-button class="dropdown button-background-primary" [disabled]="!(distributionData && distributionData.data.length > 0)">
+                                    <mat-icon>keyboard_arrow_down</mat-icon>
                                 </button>
-                                <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
-                                </button>
-                                <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
-                                </button>
-                            </mat-menu>
+                                <mat-menu #exportType>
+                                    <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
+                                    </button>
+                                    <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
+                                    </button>
+                                    <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
+                                    </button>
+                                </mat-menu>
                             </div>
                         </div>
                         </div>

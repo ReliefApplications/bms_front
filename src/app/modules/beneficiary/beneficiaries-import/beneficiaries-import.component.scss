@@ -5,11 +5,19 @@
         .spinner {
             margin-bottom: 0px !important;
         }
+
         .button-background-primary {
             height: 100% !important;
         }
     }
+
+    .template {
+        mat-icon {
+            color: unset;
+        }
+    }
 }
+
 .content-table {
     display: flex;
     justify-content: space-between;
@@ -45,29 +53,12 @@
 }
 
 .greyed-out {
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4);
     z-index: 2,
 }
 
 .importedFile {
     padding: 0 !important;
-}
-
-.extension {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    border: 1px solid black;
-    border-left: none;
-
-    &.arabic {
-        transform: rotate(180deg);
-        mat-icon {
-            transform: rotate(180deg);
-        }
-    }
 }
 
 .api-information {
@@ -119,6 +110,7 @@
     margin-left: auto;
     margin-right: auto;
 }
+
 .ng-select-focused ::ng-deep {
     .ng-select-container::after {
         border-color: #424242;
@@ -139,9 +131,9 @@
 }
 
 @media only screen and (min-width: 750px) {
-  mat-dialog-content {
-    width: 60vw !important;
-  }
+    mat-dialog-content {
+        width: 60vw !important;
+    }
 }
 
 
@@ -152,7 +144,7 @@
     }
 
     .template {
-      margin-bottom: 20px;
+        margin-bottom: 20px;
     }
 
     .api-information {
@@ -172,6 +164,7 @@
         display: flex;
         width: 100% !important;
         margin-top: 5% !important;
+
         .mat-card {
             margin-bottom: 20px;
         }
@@ -185,6 +178,6 @@
 
 }
 
-.select-file.project-input{
-    width:100%;
+.select-file.project-input {
+    width: 100%;
 }

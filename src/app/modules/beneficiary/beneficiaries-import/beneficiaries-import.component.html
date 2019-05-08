@@ -24,10 +24,10 @@
               {{language.beneficiaries_import_csv | titlecase }}
             </button>
             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-            <div class="extension" *ngIf="!loadingExport" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-              <div mat-button class="template pointer" [matMenuTriggerFor]="exportType">
+            <div class="extension" *ngIf="!loadingExport">
+              <button mat-stroked-button color="primary" class="dropdown template" [matMenuTriggerFor]="exportType">
                 <mat-icon>keyboard_arrow_down</mat-icon>
-              </div>
+              </button>
               <mat-menu #exportType>
                 <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
                 </button>

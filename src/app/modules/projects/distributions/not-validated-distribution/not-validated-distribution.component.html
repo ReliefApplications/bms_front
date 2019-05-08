@@ -11,10 +11,10 @@
                                 <span>{{language.export | titlecase}}</span>
                             </button>
                             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-                            <div class="extension" *ngIf="!loadingExport && initialBeneficiaryData && initialBeneficiaryData.data.length >0">
-                                <div mat-button class="dropdown" [matMenuTriggerFor]="exportType1" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                            <div class="extension" *ngIf="!loadingExport">
+                                <button mat-raised-button class="dropdown button-background-primary" [matMenuTriggerFor]="exportType1" [disabled]="!(initialBeneficiaryData && initialBeneficiaryData.data.length >0)">
                                     <mat-icon>keyboard_arrow_down</mat-icon>
-                                </div>
+                                </button>
                                 <mat-menu #exportType1 class="extMenu">
                                     <button mat-menu-item (click)="setType(1, 'xls')"> .xls <mat-icon *ngIf="extensionTypeStep1=='xls'">done</mat-icon>
                                     </button>
@@ -87,9 +87,9 @@
                             </button>
                             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                             <div class="extension">
-                                <div mat-button class="dropdown" *ngIf="!loadingExport && randomSampleData && randomSampleData.data.length >0" [matMenuTriggerFor]="exportType3" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                                <button mat-raised-button class="dropdown button-background-primary" *ngIf="!loadingExport" [disabled]="!(randomSampleData && randomSampleData.data.length >0)" [matMenuTriggerFor]="exportType3">
                                     <mat-icon>keyboard_arrow_down</mat-icon>
-                                </div>
+                                </button>
                                 <mat-menu #exportType3>
                                     <button mat-menu-item (click)="setType(3, 'xls')"> .xls <mat-icon *ngIf="extensionTypeStep3=='xls'">done</mat-icon>
                                     </button>

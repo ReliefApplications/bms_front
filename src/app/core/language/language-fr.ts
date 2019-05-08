@@ -27,6 +27,7 @@ export class French implements Language {
     gender = 'Sexe'
     home = 'Accueil'
     households = 'Ménage'
+    id = 'ID'
     import = 'Import'
     individual = 'Individual'
     is_required = 'est un champ obligatoire'

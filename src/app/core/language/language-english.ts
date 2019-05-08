@@ -27,6 +27,7 @@ export class English implements Language {
     gender = 'Gender'
     home = 'Home'
     households = 'Household'
+    id = 'ID'
     import = 'Import'
     individual = 'Individual'
     is_required = 'is required'

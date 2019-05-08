@@ -385,7 +385,7 @@ export class English implements Language {
     model_beneficiaries_nationalids = 'ID Number'
     model_beneficiaries_phones = ' (no country code)'
     model_beneficiaries_phone_no = 'Phone No. '
-    model_beneficiaries_status = 'Satus'
+    model_beneficiaries_status = 'Status'
     model_booklet = 'Booklet'
     model_booklet_password_pattern = 'The password must be four digits'
     model_code = 'Code'

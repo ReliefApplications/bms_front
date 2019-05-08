@@ -3,7 +3,7 @@
         {{modalTitle | uppercaseFirst}} {{objectInstance.title | uppercaseFirst}}
     </h4>
     <h4 *ngIf="objectInstance.createMultiple && modalType === 'Add'" class="modal-title underline-accent stickyHeader" [ngClass]="{'underline-accent': modalType === 'Add', 'underline-primary': modalType !== 'Add'}">
-        {{modalTitleMultiple | uppercaseFirst}} {{objectInstance.title | uppercaseFirst}}s
+        {{modalTitleMultiple | uppercaseFirst}} {{objectInstance.title | uppercaseFirst}}
     </h4>
     <form [formGroup]="form">
         <table class="modal-table">

@@ -34,6 +34,7 @@ app-placeholder-panel {
   flex-direction: row;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  padding-bottom: 10px;
 
   .column-container {
     min-width: 270px;
@@ -56,10 +57,6 @@ app-placeholder-panel {
         margin-right: 10px;
       }
     }
-  }
-
-  .summary {
-    margin: 10px;
   }
 
   .specifics {
@@ -130,6 +127,7 @@ app-placeholder-panel {
     flex-direction: column;
     flex-grow: 1;
     padding: 0 !important;
+    width: 100%;
 
     tr {
       display: flex;

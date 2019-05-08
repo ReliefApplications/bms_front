@@ -72,12 +72,6 @@
       display: flex;
       flex-direction: column;
 
-      .distribution-title {
-        .distribution-add-button {
-          margin: 0 10px;
-        }
-      }
-
       .form {
         display: flex;
         flex-grow: 1;
@@ -153,6 +147,7 @@
 
     .distribution-accordion {
       min-height: 200px !important;
+      padding-right: 0;
     }
   }
 }

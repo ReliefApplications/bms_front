@@ -50,7 +50,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             title: this.language.transaction_id_transaction,
             isDisplayedInTable: false,
             isDisplayedInModal: true,
-
+            nullValue: this.language.null_not_yet_defined,
         }),
         beneficiary: new ObjectModelField<Beneficiary>({
                 value: []

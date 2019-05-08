@@ -451,6 +451,7 @@ export class English implements Language {
     null_none = 'none'
     null_not_yet = 'not yet'
     null_not_distributed = 'not distributed'
+    null_not_yet_defined = 'not yet defined'
 
     // Number suffixes
     number_suffix_first = 'st'

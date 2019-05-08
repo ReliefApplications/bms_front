@@ -39,6 +39,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // Breadcrumbs
     public breadcrumbs: Array<Breadcrumb>;
 
+    // Tooltip
+    public tooltip: string;
+
     constructor(
         private dialog: MatDialog,
         public languageService: LanguageService,
@@ -54,6 +57,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationEnd) {
                 this.updateBreadcrumbs(event.url);
+                this.updateTooltip(event.url);
             }
         });
 
@@ -79,10 +83,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
         });
     }
 
-
-//
-// ─── COUNTRIES MANAGEMENT ───────────────────────────────────────────────────────
-//
+    //
+    // ─── COUNTRIES MANAGEMENT ───────────────────────────────────────────────────────
+    //
 
     public selectCountry(country: Country): void {
         this.asynCacheService.setCountry(country).subscribe((_: any) => {
@@ -90,19 +93,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
         });
     }
 
-//
-// ─── LANGUAGE ───────────────────────────────────────────────────────────────────
-//
+    //
+    // ─── LANGUAGE ───────────────────────────────────────────────────────────────────
+    //
 
     openLanguageDialog() {
         this.dialog.open(ModalLanguageComponent, {});
     }
 
-//
-// ─── BREADCRUMBS ────────────────────────────────────────────────────────────────
-//
+    //
+    // ─── BREADCRUMBS ────────────────────────────────────────────────────────────────
+    //
 
-/**
+    /**
      * Update the breadcrumb according to the current route
      */
     updateBreadcrumbs(url: string) {
@@ -128,5 +131,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 }
             }
         });
+    }
+
+    //
+    // ─── TOOLTIP ────────────────────────────────────────────────────────────────
+    //
+
+    /**
+     * Update the breadcrumb according to the current route
+     */
+    updateTooltip(url: string) {
+        const currentRoute = url.split('?')[0].split('/');
+
+        // Get the current page, by the last element of the route that isn't a number
+        let page = currentRoute.pop();
+        if (page !== '' && +page === NaN) {
+            page = currentRoute.pop();
+        }
+
+        this.tooltip = (page === '') ? this.language['tooltip_dashboard'] : this.language['tooltip_' + page.replace('-', '_')];
     }
 }

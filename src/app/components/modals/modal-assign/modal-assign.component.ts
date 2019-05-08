@@ -26,6 +26,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
         beneficiaryControl: this.beneficiaryControl,
     });
     public voucherPasswordControl = new FormControl('', [Validators.required, Validators.pattern(/\d{4}/)]);
+    public displayPasswordControl = new FormControl(false);
     public distributions: Distribution[] = [];
     public beneficiaries: Beneficiary[] = [];
     public projects: Project[] = [];
@@ -37,7 +38,6 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
     public bookletQRCode;
     public password = '';
     public loadingPassword = false;
-    public displayPassword = false;
     public loadingAssignation = false;
 
 
@@ -125,7 +125,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
             } else {
                 this.loadingPassword = true;
 
-                if (!this.displayPassword) {
+                if (!this.displayPasswordControl.value) {
                     this.password = null;
                 }
 

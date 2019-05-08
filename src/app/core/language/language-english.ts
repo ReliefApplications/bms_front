@@ -567,7 +567,7 @@ export class English implements Language {
     transaction_id_transaction = 'ID Transaction'
     transaction_info_export = 'If the distribution doesn\'t have any transactions, no file will be exported'
     transaction_inProgress = 'Transaction in progress...'
-    transaction_paste_code = 'Please paste the code here and click on \'Confirm\' to proceed with the transaction = '
+    transaction_paste_code = 'Please paste the code here and click on \'Confirm\' to proceed with the transaction '
     transaction_prevention = 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.'
     transaction_progress = 'commodity distribution progress:'
     transaction_refresh = 'Check pickup status'

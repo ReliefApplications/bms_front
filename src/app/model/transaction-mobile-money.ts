@@ -35,6 +35,7 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
             title: this.language.transaction_id_transaction,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
+            nullValue: this.language.null_not_yet_defined,
         }),
         beneficiary: new ObjectModelField<Beneficiary>(
             {

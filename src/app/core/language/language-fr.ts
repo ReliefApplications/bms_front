@@ -450,6 +450,7 @@ export class French implements Language {
     null_none = 'aucun'
     null_not_yet = 'pas encore'
     null_not_distributed = 'pas distribué'
+    null_not_yet_defined = 'pas encore défini'
 
     // Number suffixes
     number_suffix_first = 'er'

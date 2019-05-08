@@ -452,6 +452,7 @@ export class Arabic implements Language {
     null_none = 'لا شيء'
     null_not_yet = 'ليس بعد'
     null_not_distributed = 'غير موزعة'
+    null_not_yet_defined = 'لم يحدد بعد'
 
     // Number suffixes
     number_suffix_first = ''

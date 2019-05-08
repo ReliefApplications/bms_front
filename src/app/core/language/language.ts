@@ -436,6 +436,7 @@ export interface Language {
     null_none: string
     null_not_yet: string
     null_not_distributed: string
+    null_not_yet_defined: string
 
     // Number suffixes
     number_suffix_first: string

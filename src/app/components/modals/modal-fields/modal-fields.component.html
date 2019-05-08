@@ -16,7 +16,7 @@
                         <td class="form-item">
                             <ng-container *ngIf="modalType === 'Details' && isEmpty(field); else isFile">
                                 <mat-form-field>
-                                        <input matInput disabled="true" type="text" [placeholder]="field.title | titlecase" [value]="field.nullValue">
+                                        <input matInput disabled="true" type="text" [placeholder]="field.title | titlecase" [value]="field.nullValue | titlecase">
                                 </mat-form-field>
                             </ng-container>
 

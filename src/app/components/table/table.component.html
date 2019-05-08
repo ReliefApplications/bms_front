@@ -8,8 +8,9 @@
 
     <ng-template #dataInTable>
         <div class="container-header" *ngIf="searchable">
-            <mat-form-field>
+            <mat-form-field class="search-input">
                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{language.table_filter | titlecase}}">
+                <mat-icon matPrefix>search</mat-icon>
             </mat-form-field>
         </div>
 

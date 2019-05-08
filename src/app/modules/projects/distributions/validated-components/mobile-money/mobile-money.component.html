@@ -105,7 +105,7 @@
         <h4 *ngIf="correctCode" class="modal-title underline-accent stickyHeader">{{language.transaction_inProgress}}</h4>
         <div class="dialog-template">
             <div class="modal-body" *ngIf="!correctCode">
-                <p> {{language.transaction_email_code}} <br /> {{actualUser.email | titlecase}}. </p>
+                <p> {{language.transaction_email_code}} <br /> {{actualUser.get('email') | titlecase}}. </p>
                 <p> {{language.transaction_paste_code}}</p>
                 <br />
                 <div class="lign-container">

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Country } from 'src/app/model/country';
@@ -16,6 +16,7 @@ export class CountryResolver implements Resolve<Observable<Country> | Country> {
     private asyncCacheService = AppInjector.get(AsyncacheService);
     private countriesService = AppInjector.get(CountriesService);
     private userService = AppInjector.get(UserService);
+    private router = AppInjector.get(Router);
 
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Country> | Country {
@@ -33,6 +34,12 @@ export class CountryResolver implements Resolve<Observable<Country> | Country> {
 
         return this.asyncCacheService.getCountry().pipe(
             map((country: Country) => {
+                // Navigate to one-depth url if the url is more than one-depth
+                if (route.url.length >= 2) {
+                    this.router.navigate(route.url.slice(0, 1).map((urlSegment: UrlSegment) => {
+                        return urlSegment.path;
+                    }));
+                }
                 if (country !== undefined && this.countriesService.selectableCountries.value.includes(country)) {
                     return this.countriesService.setCountry(country);
                 } else {

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatStepper, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { DistributionService } from 'src/app/core/api/distribution.service';
@@ -38,9 +39,14 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
   loadingFirstStep = false;
   loadingThirdStep = false;
   loadingFinalStep = false;
-  sampleSize = 10;
   extensionTypeStep1 = 'xls';
   extensionTypeStep3 = 'xls';
+
+    public sampleSizeControl = new FormControl(10, [
+        Validators.max(100),
+        Validators.min(0),
+        Validators.required,
+    ]);
 
   loadingAdd: boolean;
 
@@ -332,17 +338,12 @@ generateRandom() {
  * Defines the number of beneficiaries corresponding of the sampleSize percentage
  */
 defineSampleSize(): number {
-    if (this.sampleSize <= 0) {
-        this.sampleSize = 0;
-    } else if (this.sampleSize >= 100) {
-        this.sampleSize = 100;
-    }
 
     if (this.finalBeneficiaryData) {
-        return Math.ceil((this.sampleSize / 100) * this.finalBeneficiaryData.data.length);
+        return Math.ceil((this.sampleSizeControl.value / 100) * this.finalBeneficiaryData.data.length);
     } else {
         if (this.initialBeneficiaryData) {
-            return Math.ceil((this.sampleSize / 100) * this.initialBeneficiaryData.data.length);
+            return Math.ceil((this.sampleSizeControl.value / 100) * this.initialBeneficiaryData.data.length);
         } else {
             return (1);
         }

@@ -102,12 +102,12 @@
                         </div>
                     </div>
                     <div class="sample-size-input">
-                        <button mat-fab class="button-background-accent" (click)="generateRandom()">
+                        <button [disabled]="!sampleSizeControl.valid" mat-fab class="button-background-accent" (click)="generateRandom()">
                             <mat-icon>shuffle</mat-icon>
                         </button>
                         <mat-form-field>
                             {{language.distribution_details_sample_size | titlecase}} :
-                            <input matInput [(ngModel)]="this.sampleSize" [ngModelOptions]="{standalone: true}" min="0" max="100" type="number">
+                            <input matInput [formControl]="sampleSizeControl" min="0" max="100" type="number">
                             %
                         </mat-form-field>
                     </div>

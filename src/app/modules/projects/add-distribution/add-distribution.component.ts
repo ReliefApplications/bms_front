@@ -97,9 +97,15 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     makeForm() {
         const formControls = {};
         this.objectFields.forEach((fieldName: string) => {
-            formControls[fieldName] = new FormControl(
-                this.objectInstance.fields[fieldName] ? this.objectInstance.get(fieldName) : null,
-            );
+            if (fieldName === 'type') {
+                formControls[fieldName] = new FormControl(
+                    this.objectInstance.get('type') ? this.objectInstance.get('type').get('name') : null
+                );
+            } else {
+                formControls[fieldName] = new FormControl(
+                    this.objectInstance.fields[fieldName] ? this.objectInstance.get(fieldName) : null,
+                );
+            }
         });
         this.form = new FormGroup(formControls);
     }
@@ -348,7 +354,9 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
                 const datePipe = new DatePipe('en-US');
                 newDistribution.set('name', admName + '-' + datePipe.transform(this.form.controls.date.value, 'dd-MM-yyyy'));
 
-                newDistribution.set('type', this.form.controls.type.value);
+                newDistribution.set('type', this.objectInstance.getOptions('type').filter(option => {
+                    return option.get('name') === this.form.controls.type.value;
+                })[0]);
                 newDistribution.set('threshold', this.form.controls.threshold.value);
                 newDistribution.set('projectId', this.queryParams.project);
                 newDistribution.set('selectionCriteria', this.criteriaData.data);
